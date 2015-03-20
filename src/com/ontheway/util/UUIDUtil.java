@@ -1,0 +1,13 @@
+package com.ontheway.util;
+
+import java.util.UUID;
+
+
+public class UUIDUtil{
+	
+	/**
+	 * ¿ÕUUID£º00000000-0000-0000-0000-000000000000
+	 */
+	public final static UUID Empty = UUID.fromString("00000000-0000-0000-0000-000000000000");
+	
+}
