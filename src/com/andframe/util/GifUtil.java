@@ -1,0 +1,33 @@
+package com.andframe.util;
+
+import java.io.InputStream;
+
+import com.andframe.helper.android.AfGifHelper;
+import com.andframe.helper.android.AfGifHelper.GifFrame;
+
+public class GifUtil
+{
+    /**
+     * 解码GIF图片
+     * 
+     * @param is
+     * @return
+     */
+    public static GifFrame[] getGif(InputStream is) {
+        AfGifHelper gifHelper = new AfGifHelper();
+        if (AfGifHelper.STATUS_OK == gifHelper.read(is)) {
+            return gifHelper.getFrames();
+        }
+        return null;
+    }
+    /**
+     * 判断图片是否为GIF格式
+     * @param is
+     * @return
+     */
+    public static boolean isGif(InputStream is) {
+        AfGifHelper gifHelper = new AfGifHelper();
+        return gifHelper.isGif(is);
+    }
+
+}

@@ -1,0 +1,12 @@
+package com.andframe.view.treeview;
+
+/***
+ * AfTreeEstablishable 树形转换器
+ * @author SCWANG
+ *	适用于 将 list 转为 tree
+ * @param <T>
+ */
+public interface AfTreeEstablishable<T>{
+	boolean isTopNode(T model);
+	boolean isChildOf(T child,T parent);
+}

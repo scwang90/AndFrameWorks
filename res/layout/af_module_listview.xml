@@ -1,0 +1,22 @@
+<?xml version="1.0" encoding="utf-8"?>
+<FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:id="@+id/modulelistview_contentframe"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="@color/transparent" >
+
+    <ListView
+        android:id="@+id/modulelistview_listview"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:divider="#d9d9d9"
+        android:dividerHeight="0.5dp"
+        android:fadingEdge="none"
+        android:listSelector="@drawable/af_selected_listitem_bg"
+        android:visibility="visible" />
+
+    <include layout="@layout/af_module_progress" />
+
+    <include layout="@layout/af_module_nodata" />
+
+</FrameLayout>

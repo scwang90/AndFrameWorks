@@ -1,0 +1,65 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:id="@+id/titlebar_other_layout"
+    android:layout_width="match_parent"
+    android:layout_height="45dip"
+    android:background="#222222" >
+
+    <ImageView
+        android:id="@+id/titlebar_other_goback"
+        android:layout_width="70dip"
+        android:layout_height="match_parent"
+        android:layout_alignParentLeft="true"
+        android:layout_centerVertical="true"
+        android:contentDescription="@string/app_name"
+        android:background="@drawable/af_selector_background"
+        android:scaleType="centerInside"
+        android:src="@drawable/af_icon_goback" />
+
+    <TextView
+        android:id="@+id/titlebar_other_title"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_centerInParent="true"
+        android:text="@string/app_name"
+        android:singleLine="true"
+        android:textColor="#FFFFFFFF"
+        android:textSize="22sp" />
+
+    <ImageView
+        android:id="@+id/titlebar_other_add"
+        android:layout_width="70dip"
+        android:layout_height="match_parent"
+        android:layout_alignParentRight="true"
+        android:layout_centerVertical="true"
+        android:contentDescription="@string/app_name"
+        android:background="@drawable/af_selector_background"
+        android:scaleType="centerInside"
+        android:visibility="gone"
+        android:src="@drawable/af_icon_add" />
+    
+    <ImageView
+        android:id="@+id/titlebar_other_ok"
+        android:layout_width="70dip"
+        android:layout_height="match_parent"
+        android:layout_alignParentRight="true"
+        android:layout_centerVertical="true"
+        android:contentDescription="@string/app_name"
+        android:background="@drawable/af_selector_background"
+        android:scaleType="centerInside"
+        android:visibility="gone"
+        android:src="@drawable/af_icon_ok" />
+    
+    <ImageView
+        android:id="@+id/titlebar_other_meun"
+        android:layout_width="70dip"
+        android:layout_height="match_parent"
+        android:layout_alignParentRight="true"
+        android:layout_centerVertical="true"
+        android:contentDescription="@string/app_name"
+        android:background="@drawable/af_selector_background"
+        android:scaleType="centerInside"
+        android:visibility="gone"
+        android:src="@drawable/af_icon_menu" />
+    
+</RelativeLayout>
