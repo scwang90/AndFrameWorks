@@ -23,7 +23,7 @@ public class SatelliteAnimationCreator {
                 Animation.RELATIVE_TO_SELF, 0.5f,
                 Animation.RELATIVE_TO_SELF, 0.5f);
         
-        rotate.setInterpolator(context, R.anim.sat_item_in_rotate_interpolator);
+        rotate.setInterpolator(context, R.anim.satellitemenu_item_in_rotate_interpolator);
         rotate.setDuration(expandDuration);
         
         TranslateAnimation translate = new TranslateAnimation(x, 0, y, 0);
@@ -42,7 +42,7 @@ public class SatelliteAnimationCreator {
         translate.setDuration(duration);
         translate.setStartOffset(delay);        
         
-        translate.setInterpolator(context, R.anim.sat_item_anticipate_interpolator);
+        translate.setInterpolator(context, R.anim.satellitemenu_item_anticipate_interpolator);
         
         AlphaAnimation alphaAnimation = new AlphaAnimation(1f, 0f);
         long alphaDuration = 10;
@@ -83,13 +83,13 @@ public class SatelliteAnimationCreator {
          
         translate.setStartOffset(0);
         translate.setDuration(expandDuration);        
-        translate.setInterpolator(context, R.anim.sat_item_overshoot_interpolator);
+        translate.setInterpolator(context, R.anim.satellitemenu_item_overshoot_interpolator);
         
         RotateAnimation rotate = new RotateAnimation(0f, 360f, 
                 Animation.RELATIVE_TO_SELF, 0.5f,
                 Animation.RELATIVE_TO_SELF, 0.5f);
         
-        rotate.setInterpolator(context, R.anim.sat_item_out_rotate_interpolator);
+        rotate.setInterpolator(context, R.anim.satellitemenu_item_out_rotate_interpolator);
         
         long duration = 100;
         if(expandDuration <= 150){
@@ -114,15 +114,15 @@ public class SatelliteAnimationCreator {
     }
     
     public static Animation createMainButtonAnimation(Context context){
-    	return AnimationUtils.loadAnimation(context, R.anim.sat_main_rotate_left);
+    	return AnimationUtils.loadAnimation(context, R.anim.satellitemenu_main_rotate_left);
     }
     
     public static Animation createMainButtonInverseAnimation(Context context){
-    	return AnimationUtils.loadAnimation(context, R.anim.sat_main_rotate_right);
+    	return AnimationUtils.loadAnimation(context, R.anim.satellitemenu_main_rotate_right);
     }
     
     public static Animation createItemClickAnimation(Context context){
-    	return AnimationUtils.loadAnimation(context, R.anim.sat_item_anim_click);
+    	return AnimationUtils.loadAnimation(context, R.anim.satellitemenu_item_anim_click);
     }
 
     

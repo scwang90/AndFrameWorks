@@ -4,7 +4,7 @@
     android:id="@+id/sat_item"
     android:layout_width="wrap_content"
     android:layout_height="wrap_content"
-    android:src="@drawable/sat_item" 
+    android:src="@drawable/satellitemenu_item" 
     android:visibility="gone"
     android:layout_gravity="bottom|left"    
     android:contentDescription="@string/empty"/>

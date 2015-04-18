@@ -79,7 +79,7 @@ public class SatelliteMenu extends FrameLayout {
 	}
 
 	private void init(Context context, AttributeSet attrs, int defStyle) {
-		LayoutInflater.from(context).inflate(R.layout.sat_main, this, true);		
+		LayoutInflater.from(context).inflate(R.layout.satellitemenu_main, this, true);		
 		imgMain = (ImageView) findViewById(R.id.sat_main);
 
 		if(attrs != null){			
@@ -181,9 +181,9 @@ public class SatelliteMenu extends FrameLayout {
 					degrees[index], satelliteDistance);
 
 			ImageView itemView = (ImageView) LayoutInflater.from(getContext())
-					.inflate(R.layout.sat_item_cr, this, false);
+					.inflate(R.layout.satellitemenu_item_cr, this, false);
 			ImageView cloneView = (ImageView) LayoutInflater.from(getContext())
-					.inflate(R.layout.sat_item_cr, this, false);
+					.inflate(R.layout.satellitemenu_item_cr, this, false);
 			itemView.setTag(menuItem.getId());
 			cloneView.setVisibility(View.GONE);
 			itemView.setVisibility(View.GONE);
