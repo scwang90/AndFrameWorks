@@ -35,6 +35,6 @@ public class AfModuleNodataImpl extends AfModuleNodata {
 	@Override
 	protected TextView findDescription(AfViewable view) {
 		// TODO Auto-generated method stub
-		return view.findTextViewById(R.id.module_nodata_description);
+		return view.findViewByID(R.id.module_nodata_description);
 	}
 }

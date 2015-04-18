@@ -10,7 +10,6 @@ import android.content.DialogInterface.OnClickListener;
 import android.content.Intent;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
-import android.support.v4.view.ViewPager;
 import android.text.InputType;
 import android.util.TypedValue;
 import android.view.KeyEvent;
@@ -19,26 +18,8 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.view.ViewGroup.LayoutParams;
 import android.view.Window;
-import android.webkit.WebView;
-import android.widget.Button;
-import android.widget.CheckBox;
-import android.widget.DatePicker;
 import android.widget.EditText;
-import android.widget.ExpandableListView;
-import android.widget.FrameLayout;
-import android.widget.GridView;
-import android.widget.HorizontalScrollView;
-import android.widget.ImageView;
-import android.widget.LinearLayout;
-import android.widget.ListView;
-import android.widget.ProgressBar;
-import android.widget.RadioButton;
-import android.widget.RadioGroup;
-import android.widget.RatingBar;
-import android.widget.RelativeLayout;
-import android.widget.ScrollView;
 import android.widget.TextView;
-import android.widget.TimePicker;
 import android.widget.Toast;
 
 import com.andframe.activity.AfActivity;
@@ -398,210 +379,24 @@ public abstract class AfFragment extends Fragment implements AfPageable {
 	}
 
 	@Override
-	public final TextView findTextViewById(int id) {
-		View view = findViewById(id);
-		if (view instanceof TextView) {
-			return (TextView) view;
-		}
-		return null;
-	}
-
-	@Override
-	public final ImageView findImageViewById(int id) {
-		View view = findViewById(id);
-		if (view instanceof ImageView) {
-			return (ImageView) view;
-		}
-		return null;
-	}
-
-	@Override
-	public final Button findButtonById(int id) {
-		View view = findViewById(id);
-		if (view instanceof Button) {
-			return (Button) view;
-		}
-		return null;
-	}
-
-	@Override
-	public final EditText findEditTextById(int id) {
-		View view = findViewById(id);
-		if (view instanceof EditText) {
-			return (EditText) view;
-		}
-		return null;
-	}
-
-	@Override
-	public final CheckBox findCheckBoxById(int id) {
-		View view = findViewById(id);
-		if (view instanceof CheckBox) {
-			return (CheckBox) view;
-		}
-		return null;
-	}
-
-	@Override
-	public final RadioButton findRadioButtonById(int id) {
-		View view = findViewById(id);
-		if (view instanceof RadioButton) {
-			return (RadioButton) view;
-		}
-		return null;
-	}
-
-	@Override
-	public final ListView findListViewById(int id) {
-		View view = findViewById(id);
-		if (view instanceof ListView) {
-			return (ListView) view;
-		}
-		return null;
-	}
-
-	@Override
-	public GridView findGridViewById(int id) {
-		// TODO Auto-generated method stub
-		View view = findViewById(id);
-		if (view instanceof GridView) {
-			return (GridView) view;
-		}
-		return null;
-	}
-
-	@Override
-	public final LinearLayout findLinearLayoutById(int id) {
-		View view = findViewById(id);
-		if (view instanceof LinearLayout) {
-			return (LinearLayout) view;
-		}
-		return null;
-	}
-
-	@Override
-	public final FrameLayout findFrameLayoutById(int id) {
-		View view = findViewById(id);
-		if (view instanceof FrameLayout) {
-			return (FrameLayout) view;
-		}
-		return null;
-	}
-
-	@Override
-	public final RelativeLayout findRelativeLayoutById(int id) {
-		View view = findViewById(id);
-		if (view instanceof RelativeLayout) {
-			return (RelativeLayout) view;
-		}
-		return null;
-	}
-
-	@Override
-	public final ScrollView findScrollViewById(int id) {
-		View view = findViewById(id);
-		if (view instanceof ScrollView) {
-			return (ScrollView) view;
-		}
-		return null;
-	}
-
-	@Override
-	public ViewPager findViewPagerById(int id) {
-		// TODO Auto-generated method stub
-		View view = findViewById(id);
-		if (view instanceof ViewPager) {
-			return (ViewPager) view;
-		}
-		return null;
-	}
-
-	@Override
-	public WebView findWebViewById(int id) {
-		// TODO Auto-generated method stub
-		View view = findViewById(id);
-		if (view instanceof WebView) {
-			return (WebView) view;
-		}
-		return null;
-	}
-	
-	@Override
-	public ProgressBar findProgressBarById(int id) {
-		// TODO Auto-generated method stub
-		View view = findViewById(id);
-		if (view instanceof ProgressBar) {
-			return (ProgressBar) view;
-		}
-		return null;
-	}
-
-	@Override
-	public RatingBar findRatingBarById(int id) {
-		// TODO Auto-generated method stub
-		View view = findViewById(id);
-		if (view instanceof RatingBar) {
-			return (RatingBar) view;
-		}
-		return null;
-	}
-
-	@Override
-	public ExpandableListView findExpandableListViewById(int id) {
-		// TODO Auto-generated method stub
-		View view = findViewById(id);
-		if (view instanceof ExpandableListView) {
-			return (ExpandableListView) view;
-		}
-		return null;
-	}
-
-	@Override
-	public HorizontalScrollView findHorizontalScrollViewById(int id) {
-		// TODO Auto-generated method stub
-		View view = findViewById(id);
-		if (view instanceof HorizontalScrollView) {
-			return (HorizontalScrollView) view;
-		}
-		return null;
-	}
-
-	@Override
-	public DatePicker findDatePickerById(int id) {
-		// TODO Auto-generated method stub
-		View view = findViewById(id);
-		if (view instanceof DatePicker) {
-			return (DatePicker) view;
-		}
-		return null;
-	}
-
-	@Override
-	public TimePicker findTimePickerById(int id) {
-		// TODO Auto-generated method stub
-		View view = findViewById(id);
-		if (view instanceof TimePicker) {
-			return (TimePicker) view;
-		}
-		return null;
-	}
-	
-	@Override
-	public RadioGroup findRadioGroupById(int id) {
-		// TODO Auto-generated method stub
-		View view = findViewById(id);
-		if (view instanceof RadioGroup) {
-			return (RadioGroup) view;
-		}
-		return null;
-	}
-
-	@Override
-	public <T> T findViewById(int id, Class<T> clazz) {
+	public <T extends View> T findViewById(int id, Class<T> clazz) {
 		// TODO Auto-generated method stub
 		View view = findViewById(id);
 		if (clazz.isInstance(view)) {
 			return clazz.cast(view);
+		}
+		return null;
+	}
+	
+	@Override
+	@SuppressWarnings("unchecked")
+	public <T extends View> T findViewByID(int id) {
+		// TODO Auto-generated method stub
+		try {
+			return (T)findViewById(id);
+		} catch (Exception e) {
+			// TODO: handle exception
+			AfExceptionHandler.handler(e, TAG("findViewByID"));
 		}
 		return null;
 	}

@@ -15,6 +15,7 @@ import android.content.ComponentName;
 import android.content.Context;
 import android.content.Intent;
 import android.content.SharedPreferences.Editor;
+import android.content.pm.ApplicationInfo;
 import android.content.pm.PackageInfo;
 import android.content.pm.PackageManager;
 import android.content.pm.Signature;
@@ -379,8 +380,24 @@ public abstract class AfApplication extends Application {
 	}
 
 	/**
+	 * 获取在Application 中定义的 meta-data
+	 * @param key
+	 * @return
+	 */
+	public String getMetaData(String key) {
+		try {
+			String name = this.getPackageName();
+			int type = PackageManager.GET_META_DATA;
+			PackageManager manager = this.getPackageManager();
+			ApplicationInfo info = manager.getApplicationInfo(name, type);
+			return info.metaData.getString(key);
+		} catch (Exception e) {
+			// TODO: handle exception
+			return null;
+		}
+	}
+	/**
 	 * 获取服务器最新版本
-	 * 
 	 * @return
 	 */
 	public String getServerVersion() {

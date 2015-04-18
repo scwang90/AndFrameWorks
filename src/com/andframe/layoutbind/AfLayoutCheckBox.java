@@ -25,7 +25,7 @@ public class AfLayoutCheckBox extends AfLayoutModule implements OnClickListener{
 	public AfLayoutCheckBox(AfViewable view, int id) {
 		super(view);
 		// TODO Auto-generated constructor stub
-		mCheckBox = view.findCheckBoxById(id);
+		mCheckBox = view.findViewByID(id);
 		mLayout = findLayout(view);
 		mIsValid = mLayout != null;
 		if(isValid()){

@@ -47,7 +47,7 @@ public abstract class AfListViewFramentImpl<T> extends AfListViewFrament<T> {
 	@Override
 	protected ListView findListView(AfPageable pageable) {
 		// TODO Auto-generated method stub
-		return pageable.findListViewById(R.id.modulelistview_listview);
+		return pageable.findViewByID(R.id.modulelistview_listview);
 	}
 
 	@Override

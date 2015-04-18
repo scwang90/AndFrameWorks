@@ -17,7 +17,7 @@ public class AfFrameSelector extends AfLayoutModule {
 	public AfFrameSelector(AfViewable view, int id) {
 		super(view);
 		// TODO Auto-generated constructor stub
-		mFrameLayout = view.findFrameLayoutById(id);
+		mFrameLayout = view.findViewByID(id);
 		mLayout = findLayout(view);
 		mIsValid = mLayout != null;
 	}

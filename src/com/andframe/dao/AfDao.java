@@ -128,12 +128,14 @@ public abstract class AfDao<T> {
 			return Interpreter.getColumnName(field) + "='" + value.replace("'", "") + "'";
 		}
 	}
-	
+	/**
+	 * 关闭之后会出现各种问题
+	 */
 	public final void close() {
 		// TODO Auto-generated method stub
 		synchronized(mHelper){
-			mDbReadable.close();
-			mDbWriteable.close();
+//			mDbReadable.close();
+//			mDbWriteable.close();
 //			mHelper.close();
 		}
 	}

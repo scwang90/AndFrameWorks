@@ -18,3 +18,17 @@
 #-keepclassmembers class fqcn.of.javascript.interface.for.webview {
 #   public *;
 #}
+
+#常用混淆标记
+-ignorewarnings
+-keepattributes Signature
+-keepclasseswithmembernames class * {
+    native <methods>;
+}
+
+#andframe混淆标记
+-keep class com.andframe.entity.** {<fields>;}
+-keep class com.andframe.model.** {<fields>;}
+-keep class com.andframe.bean.** {<fields>;}
+-keep public class org.xmlpull.** {*;}
+

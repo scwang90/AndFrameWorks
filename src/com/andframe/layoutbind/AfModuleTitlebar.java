@@ -53,7 +53,7 @@ public class AfModuleTitlebar extends AfLayoutModule implements OnClickListener 
 			mBtGoBack = page.findViewById(R.id.titlebar_other_goback);
 			mBtOK = page.findViewById(R.id.titlebar_other_ok);
 			mBtMenu = page.findViewById(R.id.titlebar_other_meun);
-			mTvTitle = page.findTextViewById(R.id.titlebar_other_title);
+			mTvTitle = page.findViewByID(R.id.titlebar_other_title);
 			mWeakRefActivity = new WeakReference<Activity>(page.getActivity());
 			mMeuns = new HashMap<String, Integer>();
 			mBtMenu.setOnClickListener(this);
