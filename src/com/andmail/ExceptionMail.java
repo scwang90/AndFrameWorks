@@ -15,7 +15,7 @@ public class ExceptionMail extends AppinfoMail{
 	public ExceptionMail(Exceptional ex) {
 		super(title(ex), "");
 		// TODO Auto-generated constructor stub
-		appinfo = "Òì³£²¶×½";
+		mailtype = "Òì³£²¶×½";
 		mExceptional = ex;
 		md5 = AfMD5.getMD5(ex.Name+ex.Message+ex.Stack);
 	}
