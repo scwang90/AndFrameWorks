@@ -20,7 +20,8 @@ public class AfReflecter {
 	 * @param index 要获取参数的序列 一般用0
 	 * @return null 查找失败 否则返回参数类型Class<?>
 	 */
-	public static Class<?> getActualTypeArgument(Object subobj,Class<?> supclass,int index){
+	@SuppressWarnings("unchecked")
+	public static <T> Class<T> getActualTypeArgument(Object subobj,Class<?> supclass,int index){
 		Class<?> subclass = subobj.getClass();
 		List<ParameterizedType> ptypes = new ArrayList<ParameterizedType>();
 		ParameterizedType ptype = null;
@@ -46,7 +47,7 @@ public class AfReflecter {
 			type = ptypes.get(ptypes.size()-1).getActualTypeArguments()[index];
 			ptypes.remove(ptypes.size()-1);
 		}while(!(type instanceof Class) && ptypes.size() > 0);
-		return (Class<?>)type;
+		return (Class<T>)type;
 	}
 
 	/**
