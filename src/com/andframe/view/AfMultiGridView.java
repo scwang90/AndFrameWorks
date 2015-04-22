@@ -5,6 +5,7 @@ import android.util.AttributeSet;
 import android.view.ViewGroup;
 import android.widget.GridView;
 
+import com.andframe.activity.framework.AfPageable;
 import com.andframe.view.multichoice.AfMultiChoiceGridView;
 import com.andframe.view.pulltorefresh.PullRefreshFooterImpl;
 import com.andframe.view.pulltorefresh.PullRefreshHeaderImpl;
@@ -22,6 +23,13 @@ public class AfMultiGridView extends AfMultiChoiceGridView{
 		// TODO Auto-generated constructor stub
 		setPullFooterLayout(new PullRefreshFooterImpl(listView.getContext()));
 		setPullHeaderLayout(new PullRefreshHeaderImpl(listView.getContext()));
+	}
+	
+	public AfMultiGridView(AfPageable viewable,int res) {
+		super((mGridView=viewable.findViewByID(res)).getContext());
+		// TODO Auto-generated constructor stub
+		setPullFooterLayout(new PullRefreshFooterImpl(viewable.getContext()));
+		setPullHeaderLayout(new PullRefreshHeaderImpl(viewable.getContext()));
 	}
 	
 	public AfMultiGridView(Context context) {
