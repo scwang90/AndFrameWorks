@@ -5,7 +5,9 @@ import java.io.File;
 import java.security.cert.CertificateFactory;
 import java.security.cert.X509Certificate;
 import java.util.Date;
+import java.util.LinkedHashMap;
 import java.util.List;
+import java.util.Map;
 import java.util.Random;
 
 import android.app.ActivityManager;
@@ -222,6 +224,9 @@ public abstract class AfApplication extends Application {
 	protected Date mStateTime = new Date();
 	protected AfSharedPreference mRunningState = null;
 	private PackageInfo mPackageInfo;
+	
+	//全局单例模式MAP
+	protected Map<String,Object> mSingletonMap = new LinkedHashMap<String,Object>(); 
 
 	public AfApplication() {
 		// TODO Auto-generated constructor stub
@@ -284,7 +289,7 @@ public abstract class AfApplication extends Application {
 		} catch (Throwable e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();// handled
-			AfExceptionHandler.handler(e, "AfApplication，onCreate 初始化失败");
+			AfExceptionHandler.handler(e, "AfApplication.onCreate");
 		}
 	}
 	
@@ -316,7 +321,7 @@ public abstract class AfApplication extends Application {
 				mIsInitialized = true;
 			} catch (Throwable e) {
 				// TODO: handle exception
-				AfExceptionHandler.handler(e, "AfApplication，initialize 初始化失败");
+				AfExceptionHandler.handler(e, "AfApplication.initialize");
 			}
 		}
 	}
@@ -436,6 +441,30 @@ public abstract class AfApplication extends Application {
 	}
 
 	/**
+	 * 获取全局单例实例
+	 * @param key
+	 * @param value
+	 */
+	@SuppressWarnings("unchecked")
+	public synchronized <T> T getSingleton(String key){
+		T singleton = null;
+		try {
+			singleton = (T) mSingletonMap.get(key);
+		} catch (Exception e) {
+			// TODO: handle exception
+			AfExceptionHandler.handler(e, "AfApplication.getSingleton");
+		}
+		return singleton;
+	}
+	/**
+	 * 设置全局单例实例
+	 * @param key
+	 * @param value
+	 */
+	public synchronized void setSingleton(String key,Object value){
+		mSingletonMap.put(key, value);
+	}
+	/**
 	 * 获取CurActivity
 	 * 
 	 * @return
@@ -461,7 +490,7 @@ public abstract class AfApplication extends Application {
 	 * @param activity
 	 *            主页面
 	 */
-	public void setMainActivity(AfMainActivity activity) {
+	public synchronized void setMainActivity(AfMainActivity activity) {
 		// TODO Auto-generated method stub
 		mMainActivity = activity;
 		mIsForegroundRunning = true;
@@ -592,7 +621,7 @@ public abstract class AfApplication extends Application {
 			} catch (Throwable e) {
 				// TODO: handle exception
 				e.printStackTrace();// handled
-				AfExceptionHandler.handler(e, "AfApplication，通知需要更新时抛出异常");
+				AfExceptionHandler.handler(e, "AfApplication.notifyUpdate");
 			}
 		}
 	}
@@ -614,7 +643,7 @@ public abstract class AfApplication extends Application {
 			} catch (Throwable e) {
 				// TODO: handle exception
 				e.printStackTrace();// handled
-				AfExceptionHandler.handler(e, "AfApplication，通知需要更新时抛出异常");
+				AfExceptionHandler.handler(e, "AfApplication.notifyNeedUpdate");
 			}
 		}
 	}
@@ -636,7 +665,7 @@ public abstract class AfApplication extends Application {
 			} catch (Throwable e) {
 				// TODO: handle exception
 				e.printStackTrace();// handled
-				AfExceptionHandler.handler(e, "AfApplication，通知网络状态改变时抛出异常");
+				AfExceptionHandler.handler(e, "AfApplication.notifyNetworkStatus");
 			}
 		}
 	}
