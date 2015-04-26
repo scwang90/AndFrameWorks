@@ -817,7 +817,21 @@ public abstract class AfApplication extends Application {
 		// TODO Auto-generated method stub
 		return AfMD5.getMD5(password);
 	}
-
+	/**
+	 * 处理触发事件
+	 * @param eventId
+	 * @param tag
+	 */
+	public void onEvent(String eventId, String tag) {
+		
+	}
+	/**
+	 * 更新App相关信息 接口事件
+	 * (各个框架组件中会调用触发)
+	 */
+	public void onUpdateAppinfo(){
+		
+	}
 	/**
 	 * 当APP被临时销毁时保存App 状态 在AfActivity 中调用
 	 */
