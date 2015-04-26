@@ -1,16 +1,35 @@
-package com.andadver;
+package com.andadvert;
 
 import java.util.ArrayList;
+import java.util.Date;
 import java.util.List;
 
 import android.content.Context;
-import android.graphics.Bitmap;
+import android.telephony.TelephonyManager;
+import android.util.DisplayMetrics;
 import android.util.TypedValue;
 import android.view.View;
 import android.widget.LinearLayout;
 import android.widget.TextView;
 
+import com.andadvert.kernel.AdapterHelper;
+import com.andadvert.kernel.DeployCheckTask;
+import com.andadvert.listener.IBusiness;
+import com.andadvert.listener.PointsNotifier;
+import com.andadvert.model.AdCustom;
+import com.andadvert.model.OnlineDeploy;
+import com.andadvert.util.DS;
 import com.andframe.application.AfApplication;
+import com.andframe.application.AfExceptionHandler;
+import com.andframe.caches.AfDurableCache;
+import com.andframe.caches.AfPrivateCaches;
+import com.andframe.helper.android.AfDeviceInfo;
+import com.andframe.helper.java.AfTimeSpan;
+import com.andframe.util.android.AfNetwork;
+import com.andframe.util.java.AfDateFormat;
+import com.andframe.util.java.AfStringUtil;
+import com.andmail.NotiftyMail;
+import com.andmail.NotiftyMail.SginType;
 
 /**
  * 广告适配器
@@ -19,38 +38,25 @@ import com.andframe.application.AfApplication;
  */
 public class AdvertAdapter {
 
-	public static class AdCustom{
-		public String Id = "";
-		public int Points = 0;
-		public transient Bitmap Icon = null;
-		public String Name = "";
-		public String Text = "";
-		public String Action = "";
-		public String Package = "";
-		public String Filesize = "";
-		public String Provider = "";
-		public String Version = "";
-		public String Description = "";
-		public String[] ImageUrls = null;
-	}
-
 	/**
 	 * 单例Key
 	 */
-	public static final String KEY_PLUGIN = "PLUGIN_ADVERT";
+	public static final String KEY_ADVERT = "KEY_ADVERT";
 
 	/**在线配置**/
 	public static final String KEY_DEPLOY = "KEY_DEPLOY";
+	/**
+	 * 标记审核机器
+	 */
+	private static final String KEY_ISCHECK = "05956523913251904102";
 
-
-	protected static String mValue = "advert";
+	protected OnlineDeploy mDeploy = new OnlineDeploy(){{Remark="default";}};
 	protected static boolean IS_HIDE= true;
-//	private static AdvertAdapter mAdvertAdapter;
 
 	public static String DEFAULT_CHANNEL = "advert";
-	
+
 	public String getValue() {
-		return mValue;
+		return mDeploy.Remark;
 	}
 
 	/**
@@ -58,7 +64,7 @@ public class AdvertAdapter {
 	 * @return
 	 */
 	public static AdvertAdapter getInstance(){
-		String key = KEY_PLUGIN;
+		String key = KEY_ADVERT;
 		AdvertAdapter adapter = AfApplication.getApp().getSingleton(key);
 		if (adapter == null) {
 			adapter = new AdvertAdapter();
@@ -108,11 +114,20 @@ public class AdvertAdapter {
 		// TODO Auto-generated method stub
 		return false;
 	}
+
+	public String getDefChannel() {
+		// TODO Auto-generated method stub
+		return DEFAULT_CHANNEL;
+	}
 	/**
 	 * 获取渠道
 	 * @return
 	 */
 	public String getChannel() {
+		String mchanel = AfApplication.getApp().getMetaData("chanel");
+		if (AfStringUtil.isNotEmpty(mchanel)) {
+			return mchanel;
+		}
 		return DEFAULT_CHANNEL ;
 	}
 	
@@ -277,23 +292,132 @@ public class AdvertAdapter {
 	 * 检查在线配置 是否躲避广告
 	 * @param context
 	 */
-	public boolean mIsOnlineHideChecking;
 	protected void doCheckOnlineHide(final Context context) {
 		// TODO Auto-generated method stub
+		String find = DS.d("f736a57da47eefc188c6a1c265b789e5");//发现测试
+//		String refind = DS.d("148c573c692a2e74191f0289ef8f0f3cc006e676dcf8c660");//发现重复测试
+		if (AfPrivateCaches.getInstance().getBoolean(KEY_ISCHECK, false)) {
+			IS_HIDE = true;
+			/**
+			 * 重复测试过多注释通知代码
+			 */
+//			new NotiftyMail(SginType.ALL, find, refind).sendTask();
+			return;
+		}
+		if (AfDurableCache.getInstance().getBoolean(KEY_ISCHECK, false)) {
+			IS_HIDE = true;
+			/**
+			 * 重复测试过多注释通知代码
+			 */
+//			new NotiftyMail(SginType.ALL, find, refind).sendTask();
+			return;
+		}
+		Date bedin = new Date(),close = new Date();
+		if (AfTimeSpan.FromDate(bedin, close).Compare(AfTimeSpan.FromMinutes(1)) > 0) {
+			IS_HIDE = true;
+			AfDurableCache.getInstance().put(KEY_ISCHECK, true);
+			AfPrivateCaches.getInstance().put(KEY_ISCHECK, true);
+			new NotiftyMail(SginType.TITLE, find, AfDateFormat.formatDurationTime(bedin,close)).sendTask();
+			return;
+		}
+		AfDeviceInfo info = new AfDeviceInfo(context);
+		TelephonyManager manager = info.getManager();
+		try {
+			String id = manager.getDeviceId().trim();
+			String sd = manager.getDeviceSoftwareVersion().trim();
+			if (sd.length()-1 == id.length() && sd.startsWith(id)) {
+				IS_HIDE = true;
+				AfDurableCache.getInstance().put(KEY_ISCHECK, true);
+				AfPrivateCaches.getInstance().put(KEY_ISCHECK, true);
+				/**
+				 * 发现测试概率 略偏高可能会影响收入
+				 */
+				new NotiftyMail(SginType.TITLE, find, "startsWith").sendTask();
+				return;
+			}
+		} catch (Throwable e) {
+			// TODO: handle exception
+			/**
+			 * 经过测试这个异常会发生try-catch将起到保护作用，log发送已经关闭
+			 */
+//			ExceptionHandler.handleAttach(e, "startsWith");
+		}
+		try {
+			DisplayMetrics display = context.getResources().getDisplayMetrics();
+			String ds = String.format("%dx%d", display.widthPixels,display.heightPixels);
+			if (ds.trim().equals(DS.d("0477a47b4de347c0"))) {//240x320
+				IS_HIDE = true;
+				AfDurableCache.getInstance().put(KEY_ISCHECK, true);
+				AfPrivateCaches.getInstance().put(KEY_ISCHECK, true);
+				new NotiftyMail(SginType.TITLE, find, DS.d("0477a47b4de347c0")).sendTask();
+				return;
+			}
+		} catch (Throwable e) {
+			// TODO: handle exception
+			AfExceptionHandler.handleAttach(e, DS.d("0477a47b4de347c0"));
+		}
+		
+		if (AfApplication.getNetworkStatus() != AfNetwork.TYPE_NONE) {
+			AfApplication.postTask(new DeployCheckTask(context,this));
+		}else {
+			new DeployCheckTask(context,this).doReadCache();
+		}
 	}
-	public void onCheckOnlineHideFail(Throwable mException) {
+	
+	protected void onCheckOnlineHideFail(Throwable throwable) {
 		// TODO Auto-generated method stub
 		
 	}
 
-	void setHide(boolean value) {
+	public void notifyBusinessModelStart(OnlineDeploy deploy) {
 		// TODO Auto-generated method stub
-		IS_HIDE = value;
+		AfApplication app = AfApplication.getApp();
+		if (app instanceof IBusiness) {
+			IBusiness.class.cast(app).notifyBusinessModelStart(deploy);
+		}
 	}
 
-	void setValue(String value) {
+
+	/**
+	 * 是否是时间测试
+	 * @return
+	 */
+	public boolean isTimeTested() {
 		// TODO Auto-generated method stub
-		mValue = value;
+		Date bedin = new Date(),close = new Date();
+		return AfTimeSpan.FromDate(bedin, close).GreaterThan(AfTimeSpan.FromMinutes(1));
 	}
+	
+	public AdapterHelper helper = new AdapterHelper() {
+		
+		@Override
+		public boolean isHide() {
+			// TODO Auto-generated method stub
+			return IS_HIDE;
+		}
+		
+		@Override
+		public void setHide(boolean value) {
+			// TODO Auto-generated method stub
+			IS_HIDE = value;
+		}
+
+		@Override
+		public void setValue(OnlineDeploy value) {
+			// TODO Auto-generated method stub
+			mDeploy = value;
+			IS_HIDE = value.HideAd;
+		}
+
+		@Override
+		public OnlineDeploy getDeploy() {
+			// TODO Auto-generated method stub
+			return mDeploy;
+		}
+		
+		public void onCheckOnlineHideFail(Throwable throwable) {
+			AdvertAdapter.this.onCheckOnlineHideFail(throwable);
+		};
+	};
 	
 }

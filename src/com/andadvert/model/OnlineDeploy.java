@@ -1,11 +1,8 @@
-package com.andadver;
-
-import java.io.Serializable;
+package com.andadvert.model;
 
 import com.google.gson.Gson;
 
-public class OnlineDeploy implements Serializable{
-	private static final long serialVersionUID = -3444358992372197247L;
+public class OnlineDeploy {
 	public int Verson = 0;
 	public String Name = "";
 	public String Version = "";

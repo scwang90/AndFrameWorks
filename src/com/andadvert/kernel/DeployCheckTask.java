@@ -1,13 +1,14 @@
-package com.andadver;
+package com.andadvert.kernel;
 
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
 
-import android.app.Application;
 import android.content.Context;
 import android.os.Message;
 
+import com.andadvert.AdvertAdapter;
+import com.andadvert.model.OnlineDeploy;
 import com.andframe.application.AfApplication;
 import com.andframe.application.AfExceptionHandler;
 import com.andframe.caches.AfPrivateCaches;
@@ -28,26 +29,32 @@ public class DeployCheckTask extends AfHandlerTask{
 	 * 是否隐藏广告缓存标记
 	 */
 	public static final String KEY_CONFIG = "25791220347152804102";
-	/**
-	 * 标记审核机器
-	 */
-	private static final String KEY_ISCHECK = "05956523913251904102";
 
 	protected Date bedin = new Date();
 	protected Date end = new Date();
 	protected Context mContext;
 	private AdvertAdapter mAdapter;
+	private static boolean mIsOnlineHideChecking = false;
 	
 	public DeployCheckTask(Context context,AdvertAdapter adapter) {
 		// TODO Auto-generated constructor stub
 		mContext = context;
 		mAdapter = adapter;
 	}
+	
+	@Override
+	public boolean onPrepare() {
+		// TODO Auto-generated method stub
+		if (mIsOnlineHideChecking) {
+			return false;
+		}
+		mIsOnlineHideChecking  = true;
+		return super.onPrepare();
+	}
+	
 	@Override
 	protected void onWorking(Message msg) throws Exception {
 		// TODO Auto-generated method stub
-		mAdapter.mIsOnlineHideChecking = true;
-		
 		bedin = new Date();
 		AfTimeSpan span = AfTimeSpan.FromMinutes(5);
 		
@@ -57,7 +64,7 @@ public class DeployCheckTask extends AfHandlerTask{
 			if (AfTimeSpan.FromDate(bedin, new Date()).Compare(span) > 0) {
 				AfPrivateCaches caches = AfPrivateCaches.getInstance();
 				if (!caches.getBoolean(KEY_ISHIDEAD, true)) {
-					mAdapter.setHide(false);
+					mAdapter.helper.setHide(false);
 					return;
 				}
 				//一下异常 会发生 但是概率很低 1%
@@ -87,7 +94,7 @@ public class DeployCheckTask extends AfHandlerTask{
 				configs.add(config);
 			}
 		}
-		this.doConfig(configs,"poetry");
+		this.doConfig(configs,mAdapter.getDefChannel());
 		this.doConfig(configs,mAdapter.getChannel());
 	}
 
@@ -96,8 +103,7 @@ public class DeployCheckTask extends AfHandlerTask{
 		for (OnlineDeploy config : configs) {
 			if (config.Name.equals(channel)) {
 				if (config.Verson == 0 || config.Verson == AfApplication.getVersionCode()) {
-					mAdapter.setHide(config.HideAd);
-					mAdapter.setValue(config.Remark);
+					mAdapter.helper.setValue(config);
 					break;
 				}
 			}
@@ -108,7 +114,7 @@ public class DeployCheckTask extends AfHandlerTask{
 		// TODO Auto-generated method stub
 		AfPrivateCaches caches = AfPrivateCaches.getInstance();
 		if (!caches.getBoolean(KEY_ISHIDEAD, true)) {
-			mAdapter.setHide(false);
+			mAdapter.helper.setHide(false);
 			return;
 		}
 	}
@@ -117,28 +123,28 @@ public class DeployCheckTask extends AfHandlerTask{
 	protected void onCancel() {
 		// TODO Auto-generated method stub
 		super.onCancel();
-		mAdapter.mIsOnlineHideChecking = false;
+		mIsOnlineHideChecking = false;
 	}
 
 	@Override
 	protected boolean onHandle(Message msg) {
 		// TODO Auto-generated method stub
-		mAdapter.mIsOnlineHideChecking = false;
+		mIsOnlineHideChecking = false;
 		if (isFail()) {
 			//AfToastException异常 会发生 但是概率很低 1% 关闭通知
 			if (!(mException instanceof AfToastException)) {
 				AfExceptionHandler.handler(mException, "WapsCheckDeploy error");
 			}
-			mAdapter.onCheckOnlineHideFail(mException);
+			mAdapter.helper.onCheckOnlineHideFail(mException);
 		}else if(AfApplication.getApp().isDebug()){
 			String tip = "Waps耗时" + (1.0f*(end.getTime()-bedin.getTime())/1000)+"秒";
 			AfApplication.getApp().getCurActivity().makeToastLong(tip);
 		}
 		if(isFinish()){
 			AfPrivateCaches caches = AfPrivateCaches.getInstance();
-			caches.put(KEY_ISHIDEAD, mAdapter.isHide());
-			if (!mAdapter.isHide()) {
-				Application.getApp().notifyBusinessModelStart(mValue);
+			caches.put(KEY_ISHIDEAD, mAdapter.helper.isHide());
+			if (!mAdapter.helper.isHide()) {
+				mAdapter.notifyBusinessModelStart(mAdapter.helper.getDeploy());
 			}
 		}
 		return false;

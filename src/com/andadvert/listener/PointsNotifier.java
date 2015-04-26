@@ -1,4 +1,4 @@
-package com.andadver;
+package com.andadvert.listener;
 /**
  * 点数监听接口
  * @author Administrator
