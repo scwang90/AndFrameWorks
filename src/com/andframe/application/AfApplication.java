@@ -395,11 +395,18 @@ public abstract class AfApplication extends Application {
 			int type = PackageManager.GET_META_DATA;
 			PackageManager manager = this.getPackageManager();
 			ApplicationInfo info = manager.getApplicationInfo(name, type);
-			return info.metaData.getString(key);
-		} catch (Exception e) {
+			Object data = info.metaData.get(key);
+			if (data == null) {
+				throw new Exception("getMetaData null");
+			}
+			key = String.valueOf(data);
+//			key = info.metaData.getString(key);
+			return key;
+		} catch (Throwable e) {
 			// TODO: handle exception
-			return null;
+			AfExceptionHandler.handler(e, "AfApplication.getMetaData");
 		}
+		return null;
 	}
 	/**
 	 * 获取服务器最新版本
