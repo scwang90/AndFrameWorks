@@ -34,8 +34,6 @@ public class AndCloud {
 		}
 	}
 	
-
-	
 	public static void initializeUmeng(Context context,String appkey,String channel) {
 		try {
 			boolean isDebug = AfApplication.getApp().isDebug();
