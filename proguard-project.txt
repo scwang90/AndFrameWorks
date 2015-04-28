@@ -19,4 +19,6 @@
 #   public *;
 #}
 
--keep com.andadvert.model.** {<fields>;}
+#andadvert»ìÏı±ê¼Ç
+-keep class com.andadvert.model.** {<fields>;}
+
