@@ -377,6 +377,13 @@ public class AdvertAdapter {
 		}
 	}
 
+	public void notifyBusinessModelClose() {
+		// TODO Auto-generated method stub
+		AfApplication app = AfApplication.getApp();
+		if (app instanceof IBusiness) {
+			IBusiness.class.cast(app).notifyBusinessModelClose();
+		}
+	}
 
 	/**
 	 * 是否是时间测试

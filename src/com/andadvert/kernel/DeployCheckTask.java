@@ -145,6 +145,8 @@ public class DeployCheckTask extends AfHandlerTask{
 			caches.put(KEY_ISHIDEAD, mAdapter.helper.isHide());
 			if (!mAdapter.helper.isHide()) {
 				mAdapter.notifyBusinessModelStart(mAdapter.helper.getDeploy());
+			}else {
+				mAdapter.notifyBusinessModelClose();
 			}
 		}
 		return false;
