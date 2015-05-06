@@ -9,12 +9,31 @@
 
     <application
         android:allowBackup="true"
-        android:label="@string/app_name"
-        android:theme="@style/AppTheme" >
+        android:label="@string/app_name">
         <!-- avoscloud 意见反馈 -->
         <activity android:name="com.andcloud.activity.ThreadActivity" 
             android:screenOrientation="portrait">
         </activity>
+        
+        <!-- QQ第三方登陆 意见反馈 -->
+        <activity
+            android:name="com.tencent.tauth.AuthActivity"
+            android:launchMode="singleTask"
+            android:noHistory="true" >
+            <intent-filter>
+                <action android:name="android.intent.action.VIEW" />
+                <category android:name="android.intent.category.DEFAULT" />
+                <category android:name="android.intent.category.BROWSABLE" />
+                <data android:scheme="tencent1101813947" />
+ 				<!-- 100380359 100381104 222222 -->
+            </intent-filter>
+        </activity>
+        <activity
+			android:name="com.tencent.connect.common.AssistActivity"
+			android:configChanges="orientation|keyboardHidden|screenSize"
+			android:screenOrientation="portrait"
+			android:theme="@android:style/Theme.Translucent.NoTitleBar" />
+        
     </application>
 
 </manifest>

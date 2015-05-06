@@ -52,6 +52,7 @@ public class AbActivity extends AfActivity {
 
 	public static void event(Context context,String eventId) {
 		try {
+			eventId = eventId.replace('.', '_');
 			AVAnalytics.onEvent(context, eventId);
 		} catch (Exception e) {
 			// TODO: handle exception
@@ -68,6 +69,7 @@ public class AbActivity extends AfActivity {
 	public static void event(Context context, String eventId, String tag) {
 		// TODO Auto-generated method stub
 		try {
+			eventId = eventId.replace('.', '_');
 			AVAnalytics.onEvent(context, eventId,tag);
 		} catch (Exception e) {
 			// TODO: handle exception
