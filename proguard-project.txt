@@ -18,3 +18,8 @@
 #-keepclassmembers class fqcn.of.javascript.interface.for.webview {
 #   public *;
 #}
+
+#andwidget»ìÏý±ê¼Ç
+-keep class com.andwidget.floatingactionbutton.** {*;}
+
+
