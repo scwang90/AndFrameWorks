@@ -6,6 +6,8 @@ import android.view.View;
 import android.view.View.OnClickListener;
 import android.widget.AbsListView;
 
+import com.andframe.activity.framework.AfView;
+import com.andframe.activity.framework.AfViewable;
 import com.andframe.annotation.view.BindView;
 import com.andframe.annotation.view.Select;
 import com.andframe.application.AfExceptionHandler;
@@ -30,7 +32,17 @@ public class AfViewBinder {
 		return "AfViewBinder("+mHandler.getClass().getName()+")."+tag;
 	}
 	
+	public void doBind() {
+		if (mHandler instanceof AfViewable) {
+			this.doBind((AfViewable)(mHandler));
+		}
+	}
+	
 	public void doBind(View root) {
+		this.doBind(new AfView(root));
+	}
+	
+	public void doBind(AfViewable root) {
 		// TODO Auto-generated method stub
 		for (Field field : AfReflecter.getFieldAnnotation(mHandler.getClass(),BindView.class)) {
             try {
@@ -53,7 +65,7 @@ public class AfViewBinder {
 					setViewSelectListener(view,select.selected(),select.noSelected());
 				}
 				field.setAccessible(true);
-                field.set(this, view);
+                field.set(mHandler, view);
             } catch (Exception e) {
                AfExceptionHandler.handler(e,TAG("initBindView.")+ field.getName());
             }
