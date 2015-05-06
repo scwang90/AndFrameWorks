@@ -6,6 +6,7 @@ import org.jsoup.Jsoup;
 import org.jsoup.nodes.Document;
 import org.jsoup.nodes.Element;
 
+import com.andframe.application.AfApplication;
 import com.andframe.helper.android.AfDesHelper;
 import com.andframe.util.java.AfMD5;
 
@@ -32,6 +33,7 @@ public class AddressKernel {
 			public void run() {
 				try {
 					work();
+					AfApplication.getApp().onUpdateAppinfo();
 //					AppinfoMail.updateAppinfo();
 				} catch (Exception e) {
 					// TODO: handle exception
