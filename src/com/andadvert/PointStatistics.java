@@ -101,12 +101,23 @@ public class PointStatistics {
 			if (last < point) {
 				String local = last+"+"+(point-last)+"="+point+"\r\n";
 				notes += local;
-				AfApplication.getApp().onUpdateAppinfo();
+				AfApplication app = AfApplication.getApp();
+				AdvertAdapter adapter = AdvertAdapter.getInstance();
+				app.onUpdateAppinfo();
 				if (last > 0 && (point-last) >= 50) {
-					AdvertAdapter adapter = AdvertAdapter.getInstance();
-					new NotiftyMail(adapter.getCurrency()+"点数增加", local).sendTask();
-					cache.put(KEY_PONTCHANGE, 1+cache.getInt(KEY_PONTCHANGE, 0));
-					AfApplication.getApp().onEvent("pointIncrease.poetry",local);
+					if ((point-last) > 1000) {
+						AfApplication.getApp().onEvent("pointIncrease.cheat",currency+"-"+local);
+						NotiftyMail.sendNotifty(currency+"点数作弊", local);
+						adapter.spendPoints(AfApplication.getApp(), point-last, new PointsNotifier() {
+							public void getPointsFailed(String error) {}
+							public void getPoints(String currency, int point) {}
+						});
+						return;
+					}else {
+						new NotiftyMail(adapter.getCurrency()+"点数增加", local).sendTask();
+						cache.put(KEY_PONTCHANGE, 1+cache.getInt(KEY_PONTCHANGE, 0));
+						AfApplication.getApp().onEvent("pointIncrease.poetry",local);
+					}
 				}
 				if (last > 0 && point > last) {
 				}
