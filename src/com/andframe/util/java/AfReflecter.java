@@ -44,6 +44,9 @@ public class AfReflecter {
 		}
 		Type type = null;
 		do{
+			if (ptypes.size() == 0) {
+				throw new Error("Don't use [new Templete<T>();]! please use new Templete<T>(){};");
+			}
 			type = ptypes.get(ptypes.size()-1).getActualTypeArguments()[index];
 			ptypes.remove(ptypes.size()-1);
 		}while(!(type instanceof Class) && ptypes.size() > 0);
@@ -93,8 +96,9 @@ public class AfReflecter {
 	 * @param type
 	 * @param field 不支持‘.’路径
 	 * @return field or null
+	 * @throws NoSuchFieldException 
 	 */
-	public static Field getField(Class<?> type, String field) {
+	public static Field getField(Class<?> type, String field) throws NoSuchFieldException {
 		// TODO Auto-generated method stub
 		while (!type.equals(Object.class)) {
 			try {
@@ -105,6 +109,27 @@ public class AfReflecter {
 			} catch (SecurityException e) {
 				// TODO Auto-generated catch block
 				e.printStackTrace();
+			}
+			type = type.getSuperclass();
+		}
+		throw new NoSuchFieldException(field);
+	}
+
+	/**
+	 * 利用反射设置 获取type的field(包括父类)
+	 * @param type
+	 * @param field 不支持‘.’路径
+	 * @return field or null
+	 */
+	public static Field getFieldNoException(Class<?> type, String field) {
+		// TODO Auto-generated method stub
+		while (!type.equals(Object.class)) {
+			try {
+				return type.getDeclaredField(field);
+			} catch (NoSuchFieldException e) {
+				// TODO Auto-generated catch block
+			} catch (SecurityException e) {
+				// TODO Auto-generated catch block
 			}
 			type = type.getSuperclass();
 		}

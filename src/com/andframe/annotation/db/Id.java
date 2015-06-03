@@ -29,7 +29,6 @@ import java.lang.annotation.Target;
 public @interface Id {
 	/**
 	 * ÁĞÃû.
-	 * @return the string
 	 */
-	public String column() default "";
+	public String value() default "";
 }

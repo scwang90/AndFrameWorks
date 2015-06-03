@@ -13,7 +13,7 @@ import android.content.Context;
 import android.database.sqlite.SQLiteDatabase;
 import android.database.sqlite.SQLiteOpenHelper;
 
-import com.andframe.annotation.db.Interpreter;
+import com.andframe.annotation.db.interpreter.Interpreter;
 import com.andframe.application.AfExceptionHandler;
 import com.andframe.entity.VersionEntity;
 import com.andframe.util.java.AfReflecter;

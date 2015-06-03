@@ -28,11 +28,10 @@ import java.lang.annotation.Target;
 @Target( { ElementType.TYPE })
 @Retention(RetentionPolicy.RUNTIME)
 public @interface Table {
-	
 	/**
 	 * ±íÃû.
 	 *
 	 * @return the string
 	 */
-	public String name() default "";
+	public String value() default "";
 }

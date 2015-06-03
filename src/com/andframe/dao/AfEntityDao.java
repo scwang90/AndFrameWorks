@@ -8,7 +8,7 @@ import java.util.UUID;
 
 import android.content.Context;
 
-import com.andframe.annotation.db.Interpreter;
+import com.andframe.annotation.db.interpreter.Interpreter;
 import com.andframe.application.AfExceptionHandler;
 import com.andframe.util.java.AfReflecter;
 

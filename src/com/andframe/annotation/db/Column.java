@@ -38,7 +38,7 @@ public @interface Column {
 	 *
 	 * @return the string
 	 */
-	public String name() default "";
+	public String value() default "";
 
 	/**
 	 * ¡–¿‡–Õ.

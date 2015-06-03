@@ -11,7 +11,7 @@ import android.content.Context;
 import android.database.Cursor;
 import android.database.sqlite.SQLiteDatabase;
 
-import com.andframe.annotation.db.Interpreter;
+import com.andframe.annotation.db.interpreter.Interpreter;
 import com.andframe.application.AfExceptionHandler;
 import com.andframe.database.AfDbOpenHelper;
 import com.andframe.helper.java.AfSQLHelper;
