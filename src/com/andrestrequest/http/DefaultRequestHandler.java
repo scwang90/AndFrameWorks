@@ -6,7 +6,6 @@ import java.io.IOException;
 import java.io.UnsupportedEncodingException;
 import java.net.URI;
 import java.net.URISyntaxException;
-import java.net.URLEncoder;
 import java.util.Locale;
 import java.util.Map;
 import java.util.Map.Entry;
@@ -26,6 +25,7 @@ import org.json.JSONObject;
 
 import com.andrestrequest.AndRestConfig;
 import com.andrestrequest.AndRestConfig.AcceptedMediaType;
+import com.andrestrequest.http.apache.URIBuilder;
 import com.andrestrequest.util.GsonUtil;
 import com.andrestrequest.util.StringUtil;
 
@@ -164,8 +164,8 @@ public class DefaultRequestHandler {
 
 		try {
 			if (!path.toLowerCase(Locale.ENGLISH).startsWith("http")) {
-				String url = buildUri(method, path, params,mediaType);
-				request.setURI(new URI(url));
+				URIBuilder builder = buildUri(method, path, params,mediaType);
+				request.setURI(builder.build());
 			}else {
 				request.setURI(new URI(path));
 			}
@@ -197,21 +197,19 @@ public class DefaultRequestHandler {
 		return request;
 	}
 
-	private String buildUri(HttpMethod method, String path,
+	private URIBuilder buildUri(HttpMethod method, String path,
 			Map<String, Object> params, AcceptedMediaType mediaType) throws UnsupportedEncodingException {
-		String uriBuilder = "http://";
+		URIBuilder uriBuilder = new URIBuilder();
 //		if (HttpMethod.GET == method) {
 //			path = path.concat(".").concat(mediaType.name());
 //		}
-		uriBuilder = uriBuilder + ""+AndRestConfig.getBaseURI()+"/"+AndRestConfig.getVersion()+path;
-		if (params != null && params.size() > 0) {
-			uriBuilder = uriBuilder + "?";
+		uriBuilder.setScheme("http").setHost(AndRestConfig.getBaseURI()).setPath("/"+AndRestConfig.getVersion()+path);
+		if (params != null && !params.isEmpty()) {
 			for (Entry<String, Object> param : params.entrySet()) {
-				uriBuilder = uriBuilder + param.getKey() + "="+StringUtil.toString(param.getValue())+"&";
+				uriBuilder.addParameter(param.getKey(),
+						StringUtil.toString(param.getValue()));
 			}
-			uriBuilder = uriBuilder.substring(0, uriBuilder.length() - 1);
 		}
-		uriBuilder = URLEncoder.encode(uriBuilder,"UTF-8");
 		return uriBuilder;
 	}
 

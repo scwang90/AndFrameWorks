@@ -29,11 +29,13 @@ import com.andrestrequest.util.exception.ParseToObjectException;
 public class DefaultResponseHandler implements ResponseHandler<Response> {
 
 	public static String STATUS = null;
-	public static String STATUS_OK = null;
+	public static Object STATUS_OK = null;
 	public static String RESULT = null;
 	public static int SUCCESSCODE = 200;
 	
 	public static boolean JSONFRAMEWORK = true;
+	
+	public static Class<? extends ErrorMessage> ErrorMessageClass = null;
 
 	public static boolean DEBUG = false;  
 
@@ -92,7 +94,7 @@ public class DefaultResponseHandler implements ResponseHandler<Response> {
 			} else {
 				String errormessage = object.get(RESULT).toString();
 				try {
-					ErrorMessage message = GsonUtil.toObject(errormessage, ErrorMessage.class);
+					ErrorMessage message = GsonUtil.toObject(errormessage, ErrorMessageClass);
 					throw new ServerCodeException(message);
 				} catch (ParseException e) {
 					// TODO: handle exception
