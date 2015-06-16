@@ -5,6 +5,7 @@ import java.util.Timer;
 
 import android.content.Context;
 
+import com.andadvert.event.AdvertEvent;
 import com.andadvert.listener.PointsNotifier;
 import com.andframe.activity.AfActivity;
 import com.andframe.application.AfApplication;
@@ -13,7 +14,6 @@ import com.andframe.caches.AfDurableCache;
 import com.andframe.caches.AfPrivateCaches;
 import com.andframe.thread.AfTimerTask;
 import com.andframe.util.java.AfDateFormat;
-import com.andmail.NotiftyMail;
 
 public class PointStatistics {
 
@@ -73,7 +73,11 @@ public class PointStatistics {
 	public static void start(){
 		if (mTimer == null) {
 			mTimer = new Timer();
-			mTimer.schedule(mTimerTask, TIME_PERIOD, TIME_PERIOD);
+			try{
+				mTimer.schedule(mTimerTask, TIME_PERIOD, TIME_PERIOD);
+			}catch(Throwable e){
+				AfExceptionHandler.handler(e, "PointStatistics.start.schedule");
+			}
 		}
 	}
 
@@ -106,17 +110,19 @@ public class PointStatistics {
 				app.onUpdateAppinfo();
 				if (last > 0 && (point-last) >= 50) {
 					if ((point-last) > 1000) {
-						AfApplication.getApp().onEvent("pointIncrease.cheat",currency+"-"+local);
-						NotiftyMail.sendNotifty(currency+"点数作弊", local);
+						AfApplication.getApp().onEvent(AdvertEvent.ADVERT_POINT_INCREASE_CHEAT,currency+"-"+local);
+						//NotiftyMail.sendNotifty(currency+"点数作弊", local);
 						adapter.spendPoints(AfApplication.getApp(), point-last, new PointsNotifier() {
 							public void getPointsFailed(String error) {}
 							public void getPoints(String currency, int point) {}
 						});
 						return;
 					}else {
-						new NotiftyMail(adapter.getCurrency()+"点数增加", local).sendTask();
+
+						//new NotiftyMail(adapter.getCurrency()+"点数增加", local).sendTask();
 						cache.put(KEY_PONTCHANGE, 1+cache.getInt(KEY_PONTCHANGE, 0));
-						AfApplication.getApp().onEvent("pointIncrease.poetry",local);
+						AfApplication.getApp().onEvent(AdvertEvent.ADVERT_POINT_INCREASE,local);
+//						AfApplication.getApp().onEvent("pointIncrease.poetry",local);
 					}
 				}
 				if (last > 0 && point > last) {

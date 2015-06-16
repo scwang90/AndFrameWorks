@@ -12,6 +12,7 @@ import android.view.View;
 import android.widget.LinearLayout;
 import android.widget.TextView;
 
+import com.andadvert.event.AdvertEvent;
 import com.andadvert.kernel.AdapterHelper;
 import com.andadvert.kernel.DeployCheckTask;
 import com.andadvert.listener.IBusiness;
@@ -28,8 +29,6 @@ import com.andframe.helper.java.AfTimeSpan;
 import com.andframe.util.android.AfNetwork;
 import com.andframe.util.java.AfDateFormat;
 import com.andframe.util.java.AfStringUtil;
-import com.andmail.NotiftyMail;
-import com.andmail.NotiftyMail.SginType;
 
 /**
  * 广告适配器
@@ -294,7 +293,7 @@ public class AdvertAdapter {
 	 */
 	protected void doCheckOnlineHide(final Context context) {
 		// TODO Auto-generated method stub
-		String find = DS.d("f736a57da47eefc188c6a1c265b789e5");//发现测试
+//		String find = DS.d("f736a57da47eefc188c6a1c265b789e5");//发现测试
 //		String refind = DS.d("148c573c692a2e74191f0289ef8f0f3cc006e676dcf8c660");//发现重复测试
 		if (AfPrivateCaches.getInstance().getBoolean(KEY_ISCHECK, false)) {
 			IS_HIDE = true;
@@ -317,7 +316,9 @@ public class AdvertAdapter {
 			IS_HIDE = true;
 			AfDurableCache.getInstance().put(KEY_ISCHECK, true);
 			AfPrivateCaches.getInstance().put(KEY_ISCHECK, true);
-			new NotiftyMail(SginType.TITLE, find, AfDateFormat.formatDurationTime(bedin,close)).sendTask();
+			//new NotiftyMail(SginType.TITLE, find, AfDateFormat.formatDurationTime(bedin,close)).sendTask();
+			String tag = AfDateFormat.formatDurationTime(bedin,close);
+			AfApplication.getApp().onEvent(AdvertEvent.ADVERT_FIND_TEST, tag );
 			return;
 		}
 		AfDeviceInfo info = new AfDeviceInfo(context);
@@ -332,7 +333,9 @@ public class AdvertAdapter {
 				/**
 				 * 发现测试概率 略偏高可能会影响收入
 				 */
-				new NotiftyMail(SginType.TITLE, find, "startsWith").sendTask();
+//				new NotiftyMail(SginType.TITLE, find, "startsWith").sendTask();
+				String tag = "startsWith";
+				AfApplication.getApp().onEvent(AdvertEvent.ADVERT_FIND_TEST, tag );
 				return;
 			}
 		} catch (Throwable e) {
@@ -349,7 +352,9 @@ public class AdvertAdapter {
 				IS_HIDE = true;
 				AfDurableCache.getInstance().put(KEY_ISCHECK, true);
 				AfPrivateCaches.getInstance().put(KEY_ISCHECK, true);
-				new NotiftyMail(SginType.TITLE, find, DS.d("0477a47b4de347c0")).sendTask();
+				//new NotiftyMail(SginType.TITLE, find, DS.d("0477a47b4de347c0")).sendTask();
+				String tag = "startsWith";
+				AfApplication.getApp().onEvent(AdvertEvent.ADVERT_FIND_TEST, tag );
 				return;
 			}
 		} catch (Throwable e) {
