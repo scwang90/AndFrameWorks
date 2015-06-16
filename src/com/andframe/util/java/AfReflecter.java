@@ -3,6 +3,7 @@ package com.andframe.util.java;
 import java.lang.annotation.Annotation;
 import java.lang.reflect.Field;
 import java.lang.reflect.GenericArrayType;
+import java.lang.reflect.Method;
 import java.lang.reflect.ParameterizedType;
 import java.lang.reflect.Type;
 import java.util.ArrayList;
@@ -44,9 +45,6 @@ public class AfReflecter {
 		}
 		Type type = null;
 		do{
-			if (ptypes.size() == 0) {
-				throw new Error("Don't use [new Templete<T>();]! please use new Templete<T>(){};");
-			}
 			type = ptypes.get(ptypes.size()-1).getActualTypeArguments()[index];
 			ptypes.remove(ptypes.size()-1);
 		}while(!(type instanceof Class) && ptypes.size() > 0);
@@ -90,46 +88,63 @@ public class AfReflecter {
 		}
 		return fields.toArray(new Field[0]);
 	}
-	
+
 	/**
-	 * 利用反射设置 获取type的field(包括父类)
+	 * 利用反射设置 获取type的method的Annotation(包括父类)
 	 * @param type
-	 * @param field 不支持‘.’路径
-	 * @return field or null
-	 * @throws NoSuchFieldException 
+	 * @param method
+	 * @param annot
+	 * @return method or null
 	 */
-	public static Field getField(Class<?> type, String field) throws NoSuchFieldException {
+	public static <T extends  Annotation> T getMethodAnnotation(Class<?> type, String method,  Class<T> annot) {
 		// TODO Auto-generated method stub
 		while (!type.equals(Object.class)) {
-			try {
-				return type.getDeclaredField(field);
-			} catch (NoSuchFieldException e) {
-				// TODO Auto-generated catch block
-				e.printStackTrace();
-			} catch (SecurityException e) {
-				// TODO Auto-generated catch block
-				e.printStackTrace();
+			for (Method dmethod : type.getDeclaredMethods()) {
+				if (dmethod.getName().equals(method)) {
+					if (dmethod.isAnnotationPresent(annot)) {
+						return dmethod.getAnnotation(annot);
+					}
+				}
 			}
 			type = type.getSuperclass();
 		}
-		throw new NoSuchFieldException(field);
-	}
-
+		return null;
+	}	
+	/**
+	 * 利用反射设置 获取type的method(包括父类)
+	 * @param type
+	 * @param method
+	 * @return method or null
+	 */
+	public static Method getMethod(Class<?> type, String method) {
+		// TODO Auto-generated method stub
+		while (!type.equals(Object.class)) {
+			for (Method dmethod : type.getDeclaredMethods()) {
+				if (dmethod.getName().equals(method)) {
+					return dmethod;
+				}
+			}
+			type = type.getSuperclass();
+		}
+		return null;
+	}	
 	/**
 	 * 利用反射设置 获取type的field(包括父类)
 	 * @param type
 	 * @param field 不支持‘.’路径
 	 * @return field or null
 	 */
-	public static Field getFieldNoException(Class<?> type, String field) {
+	public static Field getField(Class<?> type, String field) {
 		// TODO Auto-generated method stub
 		while (!type.equals(Object.class)) {
 			try {
 				return type.getDeclaredField(field);
 			} catch (NoSuchFieldException e) {
 				// TODO Auto-generated catch block
+				//e.printStackTrace();
 			} catch (SecurityException e) {
 				// TODO Auto-generated catch block
+				//e.printStackTrace();
 			}
 			type = type.getSuperclass();
 		}
@@ -251,10 +266,6 @@ public class AfReflecter {
 	 * @param obj
 	 * @param field 支持‘.’路径 如 person.name
 	 * @return
-	 * @throws NoSuchFieldException 
-	 * @throws IllegalAccessException 
-	 * @throws IllegalArgumentException 
-	 * @throws Exception 数组越界
 	 */
 	public static boolean setMemberNoException(Object obj,String field,Object value) {
 		try {
@@ -286,10 +297,6 @@ public class AfReflecter {
 	 * @param obj
 	 * @param field 支持‘.’路径 如 person.name
 	 * @return
-	 * @throws NoSuchFieldException 
-	 * @throws IllegalAccessException 
-	 * @throws IllegalArgumentException 
-	 * @throws Exception 数组越界
 	 */
 	public static Object getMemberNoException(Object obj,String field) {
 		try {
@@ -323,10 +330,6 @@ public class AfReflecter {
 	 * @param obj
 	 * @param field 支持‘.’路径 如 person.name
 	 * @return
-	 * @throws NoSuchFieldException 
-	 * @throws IllegalAccessException 
-	 * @throws IllegalArgumentException 
-	 * @throws Exception 数组越界
 	 */
 	public static <T> T  getMemberNoException(Object obj,String field,Class<T> clazz) {
 		try {
@@ -336,5 +339,6 @@ public class AfReflecter {
 			return null;
 		}
 	}
+
 
 }

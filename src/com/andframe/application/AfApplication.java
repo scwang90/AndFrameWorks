@@ -216,7 +216,7 @@ public abstract class AfApplication extends Application {
 	protected AfThreadWorker mWorker = null;
 
 	protected boolean mIsExiting = false;
-	protected boolean mIsGoingHome = false;
+//	protected boolean mIsGoingHome = false;
 	protected boolean mIsInitialized = false;
 	// 标记前台是否在运行
 	protected boolean mIsForegroundRunning = false;
@@ -518,7 +518,7 @@ public abstract class AfApplication extends Application {
 			// mMainActivity = (AfMainActivity)activity;
 			// mIsForegroundRunning = true;
 			// }
-			if (mIsGoingHome || mIsExiting) {
+			if (/*mIsGoingHome || */mIsExiting) {
 				// 如果已经到达主页面
 				if (activity instanceof AfMainActivity) {
 					// 关闭返回主页面功能
@@ -526,7 +526,7 @@ public abstract class AfApplication extends Application {
 						activity.finish();
 					}
 					mIsExiting = false;
-					mIsGoingHome = false;
+//					mIsGoingHome = false;
 				} else {
 					// 关不当前页面回到主页面
 					activity.finish();

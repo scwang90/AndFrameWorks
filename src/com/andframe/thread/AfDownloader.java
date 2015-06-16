@@ -117,7 +117,11 @@ public class AfDownloader {
 	 */
 	public static boolean isDownloading(String url) {
 		// TODO Auto-generated method stub
-		for (DownloadTask task : DownloadTask.mltDownloading) {
+//		for (DownloadTask task : DownloadTask.mltDownloading) {
+			for (int i = 0; i < DownloadTask.mltDownloading.size(); i++) {
+				DownloadTask task = DownloadTask.mltDownloading.get(i);
+				
+//			}
 			if (AfStringUtil.equals(task.mEndityUrl, url)) {
 				return true;
 			}
@@ -131,7 +135,11 @@ public class AfDownloader {
 	 */
 	public static boolean isDownloading(Object tag) {
 		// TODO Auto-generated method stub
-		for (DownloadTask task : DownloadTask.mltDownloading) {
+//		for (DownloadTask task : DownloadTask.mltDownloading) {
+			for (int i = 0; i < DownloadTask.mltDownloading.size(); i++) {
+				DownloadTask task = DownloadTask.mltDownloading.get(i);
+				
+//			}
 			if (task.mEndity.tag == tag) {
 				return true;
 			}
@@ -160,7 +168,11 @@ public class AfDownloader {
 	 */
 	public static DownloadListener setListener(String url, DownloadListener listener) {
 		// TODO Auto-generated method stub
-		for (DownloadTask task : DownloadTask.mltDownloading) {
+//		for (DownloadTask task : DownloadTask.mltDownloading) {
+			for (int i = 0; i < DownloadTask.mltDownloading.size(); i++) {
+				DownloadTask task = DownloadTask.mltDownloading.get(i);
+				
+//			}
 			if (listener != null && AfStringUtil.equals(task.mEndityUrl, url)) {
 				DownloadListener cListener = task.setDownloadListener(listener);
 				if (cListener != listener && cListener instanceof DownloadManagerListener
