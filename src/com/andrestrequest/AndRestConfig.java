@@ -1,6 +1,5 @@
 package com.andrestrequest;
 
-import java.io.IOException;
 import java.io.InputStream;
 import java.util.Properties;
 
@@ -80,7 +79,7 @@ public class AndRestConfig {
 			charset = properties.getProperty("andrest.charset");
 			socketTimeout = Integer.valueOf(properties.getProperty("andrest.http.socketTimeout"));
 			connectionTimeout = Integer.valueOf(properties.getProperty("andrest.http.connectionTimeout"));
-		} catch (IOException e) {
+		} catch (Throwable e) {
 			e.printStackTrace();
 			// 忽略异常
 		}
