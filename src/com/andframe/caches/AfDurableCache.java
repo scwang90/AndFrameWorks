@@ -36,7 +36,7 @@ public class AfDurableCache extends AfJsonCache
 		return mInstance;
 	}
 
-	private static String getPath() {
+	public static String getPath() {
 		// TODO Auto-generated method stub
 		return AfApplication.getApp().getCachesPath("Durable");
 	}

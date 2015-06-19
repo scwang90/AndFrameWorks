@@ -1,5 +1,6 @@
 package com.andframe.application;
 
+import java.io.FileWriter;
 import java.lang.Thread.UncaughtExceptionHandler;
 import java.util.Date;
 import java.util.HashMap;
@@ -100,10 +101,16 @@ public class AfExceptionHandler implements UncaughtExceptionHandler{
 			AfDurableCache dc = AfDurableCache.getInstance("attach");
 			dc.put(AfDateGuid.NewID(), msg);
 			
+			
 			AfActivity activity = AfApplication.getApp().getCurActivity();
 			if (activity != null && mIsShowDialog) {
 				doShowDialog(activity,"Òì³£²¶×½",msg,handlerid);
 			}
+			
+			String path = AfDurableCache.getPath();
+			FileWriter writer = new FileWriter(path+"/attach-"+AfDateFormat.FULL.format(new Date()));
+			writer.write(msg);
+			writer.close();
 		} catch (Throwable e) {
 			// TODO: handle exception
 		}
@@ -125,6 +132,11 @@ public class AfExceptionHandler implements UncaughtExceptionHandler{
 			if (activity != null && mIsShowDialog) {
 				doShowDialog(activity,"Òì³£²¶×½",msg,handlerid);
 			}
+			
+			String path = AfDurableCache.getPath();
+			FileWriter writer = new FileWriter(path+"/handler-"+AfDateFormat.FULL.format(new Date()));
+			writer.write(msg);
+			writer.close();
 		} catch (Throwable e) {
 			// TODO: handle exception
 		}
@@ -156,6 +168,10 @@ public class AfExceptionHandler implements UncaughtExceptionHandler{
 			}else{
 				mDefaultHandler.uncaughtException(thread, ex);
 			}
+			String path = AfDurableCache.getPath();
+			FileWriter writer = new FileWriter(path+"/error-"+AfDateFormat.FULL.format(new Date()));
+			writer.write(msg);
+			writer.close();
 			return;
 		} catch (Throwable e) {
 			// TODO: handle exception
