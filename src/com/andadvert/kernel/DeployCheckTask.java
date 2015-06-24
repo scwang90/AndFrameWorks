@@ -14,10 +14,10 @@ import com.andframe.application.AfExceptionHandler;
 import com.andframe.caches.AfPrivateCaches;
 import com.andframe.exception.AfToastException;
 import com.andframe.helper.java.AfTimeSpan;
-import com.andframe.network.AfSoapService;
 import com.andframe.thread.AfHandlerTask;
 import com.andframe.util.java.AfStringUtil;
 import com.andframe.util.java.AfVersion;
+import com.google.gson.Gson;
 
 public class DeployCheckTask extends AfHandlerTask{
 
@@ -85,11 +85,12 @@ public class DeployCheckTask extends AfHandlerTask{
 
 	public void doAnalysisDeploy(String onlinekey) throws Exception {
 		// TODO Auto-generated method stub
+		Gson gson = new Gson();
 		String[] keys = onlinekey.split("\\|");
 		List<OnlineDeploy> configs = new ArrayList<OnlineDeploy>();
 		for (String json : keys) {
 			if (AfStringUtil.isNotEmpty(json)) {
-				OnlineDeploy config = AfSoapService.modelFromJsonSafed(json, OnlineDeploy.class);
+				OnlineDeploy config = gson.fromJson(json, OnlineDeploy.class);
 				config.Verson = AfVersion.transformVersion(config.Version);
 				configs.add(config);
 			}
