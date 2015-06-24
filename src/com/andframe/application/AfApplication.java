@@ -34,8 +34,6 @@ import com.andframe.fragment.AfFragment;
 import com.andframe.helper.android.AfDeviceInfo;
 import com.andframe.network.AfFileService;
 import com.andframe.network.AfImageService;
-import com.andframe.network.AfSoapService;
-import com.andframe.network.AfSoapServiceOld;
 import com.andframe.thread.AfDispatch;
 import com.andframe.thread.AfTask;
 import com.andframe.thread.AfThreadWorker;
@@ -234,10 +232,10 @@ public abstract class AfApplication extends Application {
 		mLooper = Looper.myLooper();
 		AfExceptionHandler.register();
 		AfFileService.setServer("/FileService", "/FileServlet");
-		AfSoapService.setServer("http://tempuri.org/", "MobileService.svc",
-				"IMobileService/");
-		AfSoapServiceOld.setServer("http://tempuri.org/", "MobileService.svc",
-				"IMobileService/");
+//		AfSoapService.setServer("http://tempuri.org/", "MobileService.svc",
+//				"IMobileService/");
+//		AfSoapServiceOld.setServer("http://tempuri.org/", "MobileService.svc",
+//				"IMobileService/");
 	}
 
 	/**
@@ -277,8 +275,8 @@ public abstract class AfApplication extends Application {
 			AfAppSettings set = AfAppSettings.getInstance();
 			AfFileService.setServer(set.getFileServerIP(),
 					set.getFileServerPort());
-			AfSoapService.setServer(set.getDataServerIP(),
-					set.getDataServerPort());
+//			AfSoapService.setServer(set.getDataServerIP(),
+//					set.getDataServerPort());
 			mDebugMode = set.getDebugMode();
 			// 初始化通知中心
 			AfNotifyCenter.initailize(getAppContext());
