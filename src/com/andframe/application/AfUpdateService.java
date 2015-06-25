@@ -26,7 +26,7 @@ import android.os.Handler.Callback;
 import android.os.Message;
 import android.support.v4.app.NotificationCompat.Builder;
 
-import com.andframe.activity.AfActivity;
+import com.andframe.activity.framework.AfActivity;
 import com.andframe.exception.AfException;
 import com.andframe.feature.AfIntent;
 import com.andframe.thread.AfHandlerTask;

@@ -15,7 +15,7 @@ import android.os.Handler.Callback;
 import android.os.Looper;
 import android.os.Message;
 
-import com.andframe.activity.AfActivity;
+import com.andframe.activity.framework.AfActivity;
 import com.andframe.caches.AfDurableCache;
 import com.andframe.helper.android.AfDeviceInfo;
 import com.andframe.model.Exceptional;

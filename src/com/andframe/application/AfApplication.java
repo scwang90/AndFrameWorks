@@ -25,7 +25,7 @@ import android.os.Environment;
 import android.os.Looper;
 
 import com.andframe.BuildConfig;
-import com.andframe.activity.AfActivity;
+import com.andframe.activity.framework.AfActivity;
 import com.andframe.activity.AfMainActivity;
 import com.andframe.broadcast.ConnectionChangeReceiver;
 import com.andframe.caches.AfImageCaches;

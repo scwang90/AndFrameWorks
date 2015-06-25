@@ -9,7 +9,7 @@ import android.text.InputType;
 import android.view.View;
 import android.widget.EditText;
 
-import com.andframe.activity.AfActivity;
+import com.andframe.activity.framework.AfActivity;
 import com.andframe.thread.AfTask;
 /**
  * ¿ò¼ÜÒ³Ãæ½Ó¿Ú AfPageable

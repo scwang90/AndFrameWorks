@@ -7,7 +7,7 @@ import java.util.List;
 import android.os.Handler;
 import android.os.Message;
 
-import com.andframe.activity.AfActivity;
+import com.andframe.activity.framework.AfActivity;
 import com.andframe.adapter.AfListAdapter;
 import com.andframe.application.AfApplication;
 import com.andframe.bean.Page;

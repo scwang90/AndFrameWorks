@@ -1,6 +1,6 @@
 package com.andframe.broadcast;
 
-import com.andframe.activity.AfActivity;
+import com.andframe.activity.framework.AfActivity;
 import com.andframe.application.AfApplication;
 import com.andframe.util.android.AfNetwork;
 
