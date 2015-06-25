@@ -7,7 +7,7 @@ import android.content.Context;
 
 import com.andadvert.event.AdvertEvent;
 import com.andadvert.listener.PointsNotifier;
-import com.andframe.activity.AfActivity;
+import com.andframe.activity.framework.AfActivity;
 import com.andframe.application.AfApplication;
 import com.andframe.application.AfExceptionHandler;
 import com.andframe.caches.AfDurableCache;
