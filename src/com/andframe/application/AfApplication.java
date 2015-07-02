@@ -939,6 +939,7 @@ public abstract class AfApplication extends Application {
 	 * 需要额外权限 android.permission.GET_TASKS 
 	 * @return
 	 */
+	@SuppressWarnings("deprecation")
 	public boolean isBackground() {
 		ActivityManager am = (ActivityManager) getSystemService(Context.ACTIVITY_SERVICE);
 		try {

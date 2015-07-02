@@ -24,6 +24,7 @@ import android.widget.Toast;
 import com.andframe.activity.albumn.AfAlbumViewPager;
 import com.andframe.feature.AfDensity;
 
+@SuppressWarnings("deprecation")
 public class AfAlbumView extends ImageView implements OnClickListener {
 
 	private float MAX_SCALE = 2.0f;
