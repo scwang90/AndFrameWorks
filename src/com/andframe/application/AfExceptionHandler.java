@@ -175,6 +175,7 @@ public class AfExceptionHandler implements UncaughtExceptionHandler{
 			return;
 		} catch (Throwable e) {
 			// TODO: handle exception
+			e.printStackTrace();
 		}
 		
 		if(mDefaultHandler != null){

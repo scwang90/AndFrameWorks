@@ -230,7 +230,6 @@ public abstract class AfApplication extends Application {
 		// TODO Auto-generated constructor stub
 		mApp = this;
 		mLooper = Looper.myLooper();
-		AfExceptionHandler.register();
 		AfFileService.setServer("/FileService", "/FileServlet");
 //		AfSoapService.setServer("http://tempuri.org/", "MobileService.svc",
 //				"IMobileService/");
@@ -254,6 +253,8 @@ public abstract class AfApplication extends Application {
 		// TODO Auto-generated method stub
 		super.onCreate();
 		try {
+			AfExceptionHandler.register();
+			
 			mRunningState = new AfSharedPreference(this, STATE_RUNNING);
 			// 初始化设备信息
 			AfDeviceInfo.initialize(getAppContext());

@@ -10,11 +10,11 @@ import android.widget.CheckBox;
 import android.widget.LinearLayout;
 import android.widget.LinearLayout.LayoutParams;
 
-import com.andframe.adapter.AfListAdapter.IAfLayoutItem;
 import com.andframe.feature.AfDensity;
+import com.andframe.layoutbind.AfLisItem;
 
 
-public abstract class AfMultiChoiceItem<T> implements IAfLayoutItem<T>, OnClickListener{
+public abstract class AfMultiChoiceItem<T> extends AfLisItem<T> implements OnClickListener{
 
 	public enum SelectStatus{
 		NONE,UNSELECT,SELECTED
@@ -33,6 +33,15 @@ public abstract class AfMultiChoiceItem<T> implements IAfLayoutItem<T>, OnClickL
 
 	protected int mSelectDisplay = SD_BACKGROUNG;
 	
+	public AfMultiChoiceItem() {
+		// TODO Auto-generated constructor stub
+	}
+
+	public AfMultiChoiceItem(int layoutId) {
+		super(layoutId);
+		// TODO Auto-generated constructor stub
+	}
+
 	@Override
 	public void onBinding(T model,int index) {
 		// TODO Auto-generated method stub

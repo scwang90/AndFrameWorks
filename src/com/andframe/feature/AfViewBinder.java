@@ -47,7 +47,7 @@ public class AfViewBinder {
 		for (Field field : AfReflecter.getFieldAnnotation(mHandler.getClass(),BindView.class)) {
             try {
             	BindView bind = field.getAnnotation(BindView.class);
-            	int viewId = bind.id();
+            	int viewId = bind.value();
             	boolean clickLis = bind.click();
                 View view = root.findViewById(viewId);
                 
