@@ -26,6 +26,7 @@ import com.andrestrequest.util.exception.ParseToObjectException;
  * @param <T>
  * 
  */
+@SuppressWarnings("deprecation")
 public class DefaultResponseHandler implements ResponseHandler<Response> {
 
 	public static String STATUS = null;

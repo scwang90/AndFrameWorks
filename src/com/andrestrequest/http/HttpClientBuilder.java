@@ -17,6 +17,7 @@ import com.andrestrequest.AndRestConfig;
  * 
  * @author s0pau
  */
+@SuppressWarnings("deprecation")
 public class HttpClientBuilder
 {
 	private static final int DEFAULT_CONNECTION_TIMEOUT_IN_MS = 3000;

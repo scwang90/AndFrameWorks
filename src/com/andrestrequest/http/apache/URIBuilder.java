@@ -43,6 +43,7 @@ import org.apache.http.message.BasicNameValuePair;
  * @since 4.2
  */
 @NotThreadSafe
+@SuppressWarnings("deprecation")
 public class URIBuilder {
 
     private String scheme;

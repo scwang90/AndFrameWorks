@@ -35,6 +35,7 @@ import com.andrestrequest.util.StringUtil;
  * 
  * @author s0pau
  */
+@SuppressWarnings("deprecation")
 public class DefaultRequestHandler {
 	
 	public static boolean DEBUG = false;

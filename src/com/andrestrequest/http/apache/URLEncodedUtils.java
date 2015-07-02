@@ -52,6 +52,7 @@ import org.apache.http.util.CharArrayBuffer;
  * @since 4.0
  */
 @Immutable
+@SuppressWarnings("deprecation")
 public class URLEncodedUtils {
 
     public static final String CONTENT_TYPE = "application/x-www-form-urlencoded";
