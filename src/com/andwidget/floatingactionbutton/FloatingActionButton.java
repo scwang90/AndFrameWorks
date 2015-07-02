@@ -33,6 +33,7 @@ import android.widget.TextView;
 
 import com.andwidget.R;
 
+@SuppressWarnings("deprecation")
 public class FloatingActionButton extends ImageButton {
 
   public static final int SIZE_NORMAL = 0;
@@ -408,7 +409,6 @@ public class FloatingActionButton extends ImageButton {
     return shapeDrawable;
   }
 
-  @SuppressWarnings("deprecation")
   @SuppressLint("NewApi")
   private void setBackgroundCompat(Drawable drawable) {
     if (Build.VERSION.SDK_INT >= 16) {
