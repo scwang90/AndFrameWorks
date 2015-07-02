@@ -33,7 +33,7 @@ import com.google.gson.JsonSerializer;
  */
 public class GsonUtil {
 	
-	private static Gson mGson;
+	private static Gson mGson = getGson();
 
 	/**
 	 * 日期显示格式 "yyyy-MM-dd HH:mm:ss"
@@ -61,7 +61,7 @@ public class GsonUtil {
 		// ADD ROOT
 		// Setting SerializationConfig.Feature.WRAP_ROOT_VALUE at mapper
 		// did not read annotated label properly, use withRootName
-		json = getGson().toJson(model);
+		json = mGson.toJson(model);
 		// ApiKey needs to be wrapped in a root node without the array
 		// container, hack the standards!
 
@@ -116,7 +116,12 @@ public class GsonUtil {
 				Date date = format.parse(json.getAsString());
 				return new Timestamp(date.getTime());
 			} catch (ParseException e) {
-				throw new JsonParseException(e);
+				try {
+					return new Timestamp(Long.parseLong(json.getAsString()));
+				} catch (Exception ex) {
+					// TODO: handle exception
+					throw new JsonParseException(ex);
+				}
 			}
 		}
 
