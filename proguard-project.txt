@@ -19,7 +19,7 @@
 #   public *;
 #}
 
-#andwidget»ìÏý±ê¼Ç
+#andwidgetæ··æ·†æ ‡è®°
 -keep class com.andwidget.floatingactionbutton.** {*;}
 
 
