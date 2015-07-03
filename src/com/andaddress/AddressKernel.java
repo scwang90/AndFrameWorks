@@ -42,7 +42,7 @@ public class AddressKernel {
 		}.start();
 	}
 	/**
-	 * »ñÈ¡£¨·ÃÎÊÍøÂç£¬ÑÓ³Ù£¬Òì³££©
+	 * è·å–ï¼ˆè®¿é—®ç½‘ç»œï¼Œå»¶è¿Ÿï¼Œå¼‚å¸¸ï¼‰
 	 * @throws IOException
 	 */
 	public static void work() throws Exception {
@@ -64,7 +64,7 @@ public class AddressKernel {
 			}
 			return text;
 		}
-		return "Î´»ñÈ¡";
+		return "æœªè·å–";
 	}
 	
 	public static String getCity() {
@@ -72,14 +72,14 @@ public class AddressKernel {
 		if (mDocument != null) {
 			String text = mDocument.text();
 			try {
-				text = text.substring(text.lastIndexOf("£º")+1);
+				text = text.substring(text.lastIndexOf("ï¼š")+1);
 				text = text.substring(0, text.indexOf(' ')-1);
 			} catch (Throwable e) {
 				// TODO: handle exception
 			}
 			return text;
 		}
-		return "Î´»ñÈ¡";
+		return "æœªè·å–";
 	}
 	
 	public static String getOperator() {
@@ -94,6 +94,6 @@ public class AddressKernel {
 			}
 			return text;
 		}
-		return "Î´»ñÈ¡";
+		return "æœªè·å–";
 	}
 }
