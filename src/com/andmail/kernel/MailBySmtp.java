@@ -13,7 +13,9 @@ import javax.mail.internet.InternetAddress;
 import javax.mail.internet.MimeMessage;
 
 import com.andframe.exception.AfToastException;
-
+/**
+ * 基于SMTP的邮件
+ */
 public class MailBySmtp {
 	
 	private String host;// smtp服务器
@@ -52,7 +54,6 @@ public class MailBySmtp {
 
 	/**
 	 * 设定邮件信息
-	 * 
 	 * @param from
 	 *            ,to,subject
 	 * @throws MessagingException
