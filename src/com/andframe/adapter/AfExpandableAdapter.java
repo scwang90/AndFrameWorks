@@ -138,7 +138,7 @@ public abstract class AfExpandableAdapter<G, C> extends
 	public View getChildView(int group, int child, boolean isLastChild,
 			View view, ViewGroup parent) {
 		// TODO Auto-generated method stub
-		// ÁĞ±íÊÓÍ¼»ñÈ¡±ØĞë¼ì²é view ÊÇ·ñÎª¿Õ ²»ÄÜÃ¿´Î¶¼ inflate ·ñÔòÊÖ»úÄÚ´æ¸ºÔØ²»Æğ
+		// åˆ—è¡¨è§†å›¾è·å–å¿…é¡»æ£€æŸ¥ view æ˜¯å¦ä¸ºç©º ä¸èƒ½æ¯æ¬¡éƒ½ inflate å¦åˆ™æ‰‹æœºå†…å­˜è´Ÿè½½ä¸èµ·
 		IAfChildItem<C> item = null;
 		try {
 			if (view == null) {
@@ -151,7 +151,7 @@ public abstract class AfExpandableAdapter<G, C> extends
 			bindingItem(item, group, child);
 		} catch (Throwable e) {
 			// TODO: handle exception
-			String remark = "AfListAdapter.getView ³öÏÖÒì³£\r\n";
+			String remark = "AfListAdapter.getView å‡ºç°å¼‚å¸¸\r\n";
 			remark += "class = " + getClass().toString();
 			remark.toString();
 			AfExceptionHandler.handler(e, remark);
@@ -195,7 +195,7 @@ public abstract class AfExpandableAdapter<G, C> extends
 	public View getGroupView(int group, boolean isExpanded, View view,
 			ViewGroup parent) {
 		// TODO Auto-generated method stub
-		// ÁĞ±íÊÓÍ¼»ñÈ¡±ØĞë¼ì²é view ÊÇ·ñÎª¿Õ ²»ÄÜÃ¿´Î¶¼ inflate ·ñÔòÊÖ»úÄÚ´æ¸ºÔØ²»Æğ
+		// åˆ—è¡¨è§†å›¾è·å–å¿…é¡»æ£€æŸ¥ view æ˜¯å¦ä¸ºç©º ä¸èƒ½æ¯æ¬¡éƒ½ inflate å¦åˆ™æ‰‹æœºå†…å­˜è´Ÿè½½ä¸èµ·
 		IAfGroupItem<G> item = null;
 		try {
 			if (view == null) {
@@ -208,7 +208,7 @@ public abstract class AfExpandableAdapter<G, C> extends
 			bindingItem(item, group, isExpanded);
 		} catch (Throwable e) {
 			// TODO: handle exception
-			String remark = "AfListAdapter.getView ³öÏÖÒì³£\r\n";
+			String remark = "AfListAdapter.getView å‡ºç°å¼‚å¸¸\r\n";
 			remark += "class = " + getClass().toString();
 			remark.toString();
 			AfExceptionHandler.handler(e, remark);

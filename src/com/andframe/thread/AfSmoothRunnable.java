@@ -25,7 +25,7 @@ public class AfSmoothRunnable implements Runnable
     {
     	public void onStart(int from, int to);
     	public void onFinish(int from, int to);
-    	//·µ»Øfalse±íÊ¾ÖĞÍ¾Í£Ö¹ true ±íÊ¾¼ÌĞø
+    	//è¿”å›falseè¡¨ç¤ºä¸­é€”åœæ­¢ true è¡¨ç¤ºç»§ç»­
         public boolean onSmooth(int value,float percent, int from, int to);
     }
 
@@ -62,7 +62,7 @@ public class AfSmoothRunnable implements Runnable
         this.interpolator = new AccelerateDecelerateInterpolator();
     }
     /**
-     * ÉèÖÃ¼ÓËÙÆ÷
+     * è®¾ç½®åŠ é€Ÿå™¨
      * @param interpolator
      */
     public void setInterpolator(Interpolator interpolator){

@@ -9,7 +9,7 @@ import java.util.Stack;
 public class AfFileUtil {
 
 	/**
-	 * µİ¹éÉ¾³ıÎÄ¼ş file
+	 * é€’å½’åˆ é™¤æ–‡ä»¶ file
 	 * @param file
 	 * @return
 	 */
@@ -41,10 +41,10 @@ public class AfFileUtil {
 
 
 	/**
-	 * @Description: µ¥ÎÄ¼ş¸´ÖÆ
+	 * @Description: å•æ–‡ä»¶å¤åˆ¶
 	 * @param fileFrom
 	 * @param fileTo
-	 * @return false ¸´ÖÆÊ§°Ü
+	 * @return false å¤åˆ¶å¤±è´¥
 	 */
 	public static boolean copyFile(String fileFrom, String fileTo) {  
         try {  
@@ -63,10 +63,10 @@ public class AfFileUtil {
         }  
     } 
 	/**
-	 * µİ¹éÒÆ¶¯ÎÄ¼şfileµ½ Ä¿Â¼path
-	 * @param file ÒªÒÆ¶¯µÄÎÄ¼ş£¨¿ÉÒÔÊÇÄ¿Â¼£¬»áµİ¹éÒÆ¶¯×ÓÄ¿Â¼ºÍÎÄ¼ş£©
-	 * @param path Ö¸¶¨µ½µÄÄ¿Â¼ £¨²»´æÔÚ×Ô¶¯´´½¨£©
-	 * @return false ÒÆ¶¯Ê§°Ü
+	 * é€’å½’ç§»åŠ¨æ–‡ä»¶fileåˆ° ç›®å½•path
+	 * @param file è¦ç§»åŠ¨çš„æ–‡ä»¶ï¼ˆå¯ä»¥æ˜¯ç›®å½•ï¼Œä¼šé€’å½’ç§»åŠ¨å­ç›®å½•å’Œæ–‡ä»¶ï¼‰
+	 * @param path æŒ‡å®šåˆ°çš„ç›®å½• ï¼ˆä¸å­˜åœ¨è‡ªåŠ¨åˆ›å»ºï¼‰
+	 * @return false ç§»åŠ¨å¤±è´¥
 	 */
 	public static boolean moveFile(File file,File path){
 		if (!file.exists() || (path.exists() && path.isFile())) {
@@ -96,10 +96,10 @@ public class AfFileUtil {
 		}
 	}
 	/**
-	 * @Description: ×ª»»ÎÄ¼ş´óĞ¡µ½StringÏÔÊ¾ÃèÊö Èç 648KB,5MB ÕûÊı
+	 * @Description: è½¬æ¢æ–‡ä»¶å¤§å°åˆ°Stringæ˜¾ç¤ºæè¿° å¦‚ 648KB,5MB æ•´æ•°
 	 * @Author: scwang
-	 * @Version: V1.0, 2015-4-3 ÏÂÎç3:28:55
-	 * @Modified: ³õ´Î´´½¨getFileSize·½·¨
+	 * @Version: V1.0, 2015-4-3 ä¸‹åˆ3:28:55
+	 * @Modified: åˆæ¬¡åˆ›å»ºgetFileSizeæ–¹æ³•
 	 * @param size
 	 * @return
 	 */

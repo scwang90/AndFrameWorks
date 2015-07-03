@@ -1,9 +1,9 @@
 package com.andframe.view.treeview;
 
 /***
- * AfTreeEstablishable Ê÷ĞÎ×ª»»Æ÷
+ * AfTreeEstablishable æ ‘å½¢è½¬æ¢å™¨
  * @author SCWANG
- *	ÊÊÓÃÓÚ ½« list ×ªÎª tree
+ *	é€‚ç”¨äº å°† list è½¬ä¸º tree
  * @param <T>
  */
 public interface AfTreeEstablishable<T>{

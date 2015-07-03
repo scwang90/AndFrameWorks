@@ -26,40 +26,40 @@ public class AfDailog {
 	}
 
 	/**
-	 * ÏÔÊ¾¶Ô»°¿ò ²¢Ìí¼ÓÄ¬ÈÏ°´Å¥ "ÎÒÖªµÀÁË"
-	 * @param title ÏÔÊ¾±êÌâ
-	 * @param message ÏÔÊ¾ÄÚÈİ
+	 * æ˜¾ç¤ºå¯¹è¯æ¡† å¹¶æ·»åŠ é»˜è®¤æŒ‰é’® "æˆ‘çŸ¥é“äº†"
+	 * @param title æ˜¾ç¤ºæ ‡é¢˜
+	 * @param message æ˜¾ç¤ºå†…å®¹
 	 */
 	public void doShowDialog(String title, String message) {
-		doShowDialog(0,title,message,"ÎÒÖªµÀÁË", null, "", null);
+		doShowDialog(0,title,message,"æˆ‘çŸ¥é“äº†", null, "", null);
 	}
 	/**
-	 * ÏÔÊ¾¶Ô»°¿ò ²¢Ìí¼ÓÄ¬ÈÏ°´Å¥ "ÎÒÖªµÀÁË"
-	 * @param title ÏÔÊ¾±êÌâ
-	 * @param message ÏÔÊ¾ÄÚÈİ
-	 * @param lpositive µã»÷  "ÎÒÖªµÀÁË" ÏìÓ¦ÊÂ¼ş
+	 * æ˜¾ç¤ºå¯¹è¯æ¡† å¹¶æ·»åŠ é»˜è®¤æŒ‰é’® "æˆ‘çŸ¥é“äº†"
+	 * @param title æ˜¾ç¤ºæ ‡é¢˜
+	 * @param message æ˜¾ç¤ºå†…å®¹
+	 * @param lpositive ç‚¹å‡»  "æˆ‘çŸ¥é“äº†" å“åº”äº‹ä»¶
 	 */
 	public void doShowDialog(String title, String message,OnClickListener lpositive) {
-		doShowDialog(0,title,message,"ÎÒÖªµÀÁË", lpositive, "", null);
+		doShowDialog(0,title,message,"æˆ‘çŸ¥é“äº†", lpositive, "", null);
 	}
 	/**
-	 * ÏÔÊ¾¶Ô»°¿ò 
-	 * @param title ÏÔÊ¾±êÌâ
-	 * @param message ÏÔÊ¾ÄÚÈİ
-	 * @param positive È·ÈÏ °´Å¥ÏÔÊ¾ĞÅÏ¢
-	 * @param lpositive µã»÷  È·ÈÏ °´Å¥ ÏìÓ¦ÊÂ¼ş
+	 * æ˜¾ç¤ºå¯¹è¯æ¡† 
+	 * @param title æ˜¾ç¤ºæ ‡é¢˜
+	 * @param message æ˜¾ç¤ºå†…å®¹
+	 * @param positive ç¡®è®¤ æŒ‰é’®æ˜¾ç¤ºä¿¡æ¯
+	 * @param lpositive ç‚¹å‡»  ç¡®è®¤ æŒ‰é’® å“åº”äº‹ä»¶
 	 */
 	public void doShowDialog(String title, String message,String positive,OnClickListener lpositive) {
 		doShowDialog(0,title,message,positive, lpositive, "", null);
 	}
 	/**
-	 * ÏÔÊ¾¶Ô»°¿ò 
-	 * @param title ÏÔÊ¾±êÌâ
-	 * @param message ÏÔÊ¾ÄÚÈİ
-	 * @param positive È·ÈÏ °´Å¥ÏÔÊ¾ĞÅÏ¢
-	 * @param lpositive µã»÷  È·ÈÏ °´Å¥ ÏìÓ¦ÊÂ¼ş
-	 * @param negative °´Å¥ÏÔÊ¾ĞÅÏ¢
-	 * @param lnegative µã»÷  ¾Ü¾ø °´Å¥ ÏìÓ¦ÊÂ¼ş
+	 * æ˜¾ç¤ºå¯¹è¯æ¡† 
+	 * @param title æ˜¾ç¤ºæ ‡é¢˜
+	 * @param message æ˜¾ç¤ºå†…å®¹
+	 * @param positive ç¡®è®¤ æŒ‰é’®æ˜¾ç¤ºä¿¡æ¯
+	 * @param lpositive ç‚¹å‡»  ç¡®è®¤ æŒ‰é’® å“åº”äº‹ä»¶
+	 * @param negative æŒ‰é’®æ˜¾ç¤ºä¿¡æ¯
+	 * @param lnegative ç‚¹å‡»  æ‹’ç» æŒ‰é’® å“åº”äº‹ä»¶
 	 */
 	public void doShowDialog(String title, String message,
 			String positive, OnClickListener lpositive, String negative,
@@ -67,15 +67,15 @@ public class AfDailog {
 		doShowDialog(0,title,message,positive, lpositive,negative,lnegative);
 	}
 	/**
-	 * ÏÔÊ¾¶Ô»°¿ò 
-	 * @param title ÏÔÊ¾±êÌâ
-	 * @param message ÏÔÊ¾ÄÚÈİ
-	 * @param positive È·ÈÏ °´Å¥ÏÔÊ¾ĞÅÏ¢
-	 * @param lpositive µã»÷  È·ÈÏ °´Å¥ ÏìÓ¦ÊÂ¼ş
-	 * @param neutral ÏêÏ¸ °´Å¥ÏÔÊ¾ĞÅÏ¢
-	 * @param lneutral µã»÷  ÏêÏ¸ °´Å¥ ÏìÓ¦ÊÂ¼ş
-	 * @param negative °´Å¥ÏÔÊ¾ĞÅÏ¢
-	 * @param lnegative µã»÷  ¾Ü¾ø °´Å¥ ÏìÓ¦ÊÂ¼ş
+	 * æ˜¾ç¤ºå¯¹è¯æ¡† 
+	 * @param title æ˜¾ç¤ºæ ‡é¢˜
+	 * @param message æ˜¾ç¤ºå†…å®¹
+	 * @param positive ç¡®è®¤ æŒ‰é’®æ˜¾ç¤ºä¿¡æ¯
+	 * @param lpositive ç‚¹å‡»  ç¡®è®¤ æŒ‰é’® å“åº”äº‹ä»¶
+	 * @param neutral è¯¦ç»† æŒ‰é’®æ˜¾ç¤ºä¿¡æ¯
+	 * @param lneutral ç‚¹å‡»  è¯¦ç»† æŒ‰é’® å“åº”äº‹ä»¶
+	 * @param negative æŒ‰é’®æ˜¾ç¤ºä¿¡æ¯
+	 * @param lnegative ç‚¹å‡»  æ‹’ç» æŒ‰é’® å“åº”äº‹ä»¶
 	 */
 	public void doShowDialog(String title, String message,
 			String positive, OnClickListener lpositive, 
@@ -85,14 +85,14 @@ public class AfDailog {
 	}
 	
 	/**
-	 * ÏÔÊ¾¶Ô»°¿ò 
-	 * @param iconres ¶Ô»°¿òÍ¼±ê
-	 * @param title ÏÔÊ¾±êÌâ
-	 * @param message ÏÔÊ¾ÄÚÈİ
-	 * @param positive È·ÈÏ °´Å¥ÏÔÊ¾ĞÅÏ¢
-	 * @param lpositive µã»÷  È·ÈÏ °´Å¥ ÏìÓ¦ÊÂ¼ş
-	 * @param negative °´Å¥ÏÔÊ¾ĞÅÏ¢
-	 * @param lnegative µã»÷  ¾Ü¾ø °´Å¥ ÏìÓ¦ÊÂ¼ş
+	 * æ˜¾ç¤ºå¯¹è¯æ¡† 
+	 * @param iconres å¯¹è¯æ¡†å›¾æ ‡
+	 * @param title æ˜¾ç¤ºæ ‡é¢˜
+	 * @param message æ˜¾ç¤ºå†…å®¹
+	 * @param positive ç¡®è®¤ æŒ‰é’®æ˜¾ç¤ºä¿¡æ¯
+	 * @param lpositive ç‚¹å‡»  ç¡®è®¤ æŒ‰é’® å“åº”äº‹ä»¶
+	 * @param negative æŒ‰é’®æ˜¾ç¤ºä¿¡æ¯
+	 * @param lnegative ç‚¹å‡»  æ‹’ç» æŒ‰é’® å“åº”äº‹ä»¶
 	 */
 	public void doShowDialog(int iconres, String title, String message,
 			String positive, OnClickListener lpositive, String negative,
@@ -101,16 +101,16 @@ public class AfDailog {
 	}
 
 	/**
-	 * ÏÔÊ¾¶Ô»°¿ò 
-	 * @param iconres ¶Ô»°¿òÍ¼±ê
-	 * @param title ÏÔÊ¾±êÌâ
-	 * @param message ÏÔÊ¾ÄÚÈİ
-	 * @param positive È·ÈÏ °´Å¥ÏÔÊ¾ĞÅÏ¢
-	 * @param lpositive µã»÷  È·ÈÏ °´Å¥ ÏìÓ¦ÊÂ¼ş
-	 * @param neutral ÏêÏ¸ °´Å¥ÏÔÊ¾ĞÅÏ¢
-	 * @param lneutral µã»÷  ÏêÏ¸ °´Å¥ ÏìÓ¦ÊÂ¼ş
-	 * @param negative °´Å¥ÏÔÊ¾ĞÅÏ¢
-	 * @param lnegative µã»÷  ¾Ü¾ø °´Å¥ ÏìÓ¦ÊÂ¼ş
+	 * æ˜¾ç¤ºå¯¹è¯æ¡† 
+	 * @param iconres å¯¹è¯æ¡†å›¾æ ‡
+	 * @param title æ˜¾ç¤ºæ ‡é¢˜
+	 * @param message æ˜¾ç¤ºå†…å®¹
+	 * @param positive ç¡®è®¤ æŒ‰é’®æ˜¾ç¤ºä¿¡æ¯
+	 * @param lpositive ç‚¹å‡»  ç¡®è®¤ æŒ‰é’® å“åº”äº‹ä»¶
+	 * @param neutral è¯¦ç»† æŒ‰é’®æ˜¾ç¤ºä¿¡æ¯
+	 * @param lneutral ç‚¹å‡»  è¯¦ç»† æŒ‰é’® å“åº”äº‹ä»¶
+	 * @param negative æŒ‰é’®æ˜¾ç¤ºä¿¡æ¯
+	 * @param lnegative ç‚¹å‡»  æ‹’ç» æŒ‰é’® å“åº”äº‹ä»¶
 	 */
 	public void doShowDialog(int iconres, String title, String message,
 			String positive, OnClickListener lpositive, 
@@ -121,17 +121,17 @@ public class AfDailog {
 	}
 
 	/**
-	 * ÏÔÊ¾ÊÓÍ¼¶Ô»°¿ò 
-	 * @param theme Ö÷Ìâ
-	 * @param iconres ¶Ô»°¿òÍ¼±ê
-	 * @param title ÏÔÊ¾±êÌâ
-	 * @param message ÏÔÊ¾ÄÚÈİ
-	 * @param positive È·ÈÏ °´Å¥ÏÔÊ¾ĞÅÏ¢
-	 * @param lpositive µã»÷  È·ÈÏ °´Å¥ ÏìÓ¦ÊÂ¼ş
-	 * @param neutral ÏêÏ¸ °´Å¥ÏÔÊ¾ĞÅÏ¢
-	 * @param lneutral µã»÷  ÏêÏ¸ °´Å¥ ÏìÓ¦ÊÂ¼ş
-	 * @param negative °´Å¥ÏÔÊ¾ĞÅÏ¢
-	 * @param lnegative µã»÷  ¾Ü¾ø °´Å¥ ÏìÓ¦ÊÂ¼ş
+	 * æ˜¾ç¤ºè§†å›¾å¯¹è¯æ¡† 
+	 * @param theme ä¸»é¢˜
+	 * @param iconres å¯¹è¯æ¡†å›¾æ ‡
+	 * @param title æ˜¾ç¤ºæ ‡é¢˜
+	 * @param message æ˜¾ç¤ºå†…å®¹
+	 * @param positive ç¡®è®¤ æŒ‰é’®æ˜¾ç¤ºä¿¡æ¯
+	 * @param lpositive ç‚¹å‡»  ç¡®è®¤ æŒ‰é’® å“åº”äº‹ä»¶
+	 * @param neutral è¯¦ç»† æŒ‰é’®æ˜¾ç¤ºä¿¡æ¯
+	 * @param lneutral ç‚¹å‡»  è¯¦ç»† æŒ‰é’® å“åº”äº‹ä»¶
+	 * @param negative æŒ‰é’®æ˜¾ç¤ºä¿¡æ¯
+	 * @param lnegative ç‚¹å‡»  æ‹’ç» æŒ‰é’® å“åº”äº‹ä»¶
 	 */
 	@SuppressLint("NewApi")
 	public void doShowDialog(int theme, int iconres, 
@@ -174,11 +174,11 @@ public class AfDailog {
 		builder.show();
 	}
 	/**
-	 * ÏÔÊ¾ÊÓÍ¼¶Ô»°¿ò 
-	 * @param title ÏÔÊ¾±êÌâ
-	 * @param view ÏÔÊ¾ÄÚÈİ
-	 * @param positive È·ÈÏ °´Å¥ÏÔÊ¾ĞÅÏ¢
-	 * @param lpositive µã»÷  È·ÈÏ °´Å¥ ÏìÓ¦ÊÂ¼ş
+	 * æ˜¾ç¤ºè§†å›¾å¯¹è¯æ¡† 
+	 * @param title æ˜¾ç¤ºæ ‡é¢˜
+	 * @param view æ˜¾ç¤ºå†…å®¹
+	 * @param positive ç¡®è®¤ æŒ‰é’®æ˜¾ç¤ºä¿¡æ¯
+	 * @param lpositive ç‚¹å‡»  ç¡®è®¤ æŒ‰é’® å“åº”äº‹ä»¶
 	 */
 	public void doShowViewDialog(String title, View view, String positive,
 			OnClickListener lpositive) {
@@ -187,13 +187,13 @@ public class AfDailog {
 	}
 
 	/**
-	 * ÏÔÊ¾ÊÓÍ¼¶Ô»°¿ò 
-	 * @param title ÏÔÊ¾±êÌâ
-	 * @param view ÏÔÊ¾ÄÚÈİ
-	 * @param positive È·ÈÏ °´Å¥ÏÔÊ¾ĞÅÏ¢
-	 * @param lpositive µã»÷  È·ÈÏ °´Å¥ ÏìÓ¦ÊÂ¼ş
-	 * @param negative °´Å¥ÏÔÊ¾ĞÅÏ¢
-	 * @param lnegative µã»÷  ¾Ü¾ø °´Å¥ ÏìÓ¦ÊÂ¼ş
+	 * æ˜¾ç¤ºè§†å›¾å¯¹è¯æ¡† 
+	 * @param title æ˜¾ç¤ºæ ‡é¢˜
+	 * @param view æ˜¾ç¤ºå†…å®¹
+	 * @param positive ç¡®è®¤ æŒ‰é’®æ˜¾ç¤ºä¿¡æ¯
+	 * @param lpositive ç‚¹å‡»  ç¡®è®¤ æŒ‰é’® å“åº”äº‹ä»¶
+	 * @param negative æŒ‰é’®æ˜¾ç¤ºä¿¡æ¯
+	 * @param lnegative ç‚¹å‡»  æ‹’ç» æŒ‰é’® å“åº”äº‹ä»¶
 	 */
 	public void doShowViewDialog(String title, View view, String positive,
 			OnClickListener lpositive, String negative,
@@ -202,15 +202,15 @@ public class AfDailog {
 		doShowViewDialog(0,title,view,positive, lpositive,negative,lnegative);
 	}
 	/**
-	 * ÏÔÊ¾ÊÓÍ¼¶Ô»°¿ò 
-	 * @param title ÏÔÊ¾±êÌâ
-	 * @param view ÏÔÊ¾ÄÚÈİ
-	 * @param positive È·ÈÏ °´Å¥ÏÔÊ¾ĞÅÏ¢
-	 * @param lpositive µã»÷  È·ÈÏ °´Å¥ ÏìÓ¦ÊÂ¼ş
-	 * @param neutral ÏêÏ¸ °´Å¥ÏÔÊ¾ĞÅÏ¢
-	 * @param lneutral µã»÷  ÏêÏ¸ °´Å¥ ÏìÓ¦ÊÂ¼ş
-	 * @param negative °´Å¥ÏÔÊ¾ĞÅÏ¢
-	 * @param lnegative µã»÷  ¾Ü¾ø °´Å¥ ÏìÓ¦ÊÂ¼ş
+	 * æ˜¾ç¤ºè§†å›¾å¯¹è¯æ¡† 
+	 * @param title æ˜¾ç¤ºæ ‡é¢˜
+	 * @param view æ˜¾ç¤ºå†…å®¹
+	 * @param positive ç¡®è®¤ æŒ‰é’®æ˜¾ç¤ºä¿¡æ¯
+	 * @param lpositive ç‚¹å‡»  ç¡®è®¤ æŒ‰é’® å“åº”äº‹ä»¶
+	 * @param neutral è¯¦ç»† æŒ‰é’®æ˜¾ç¤ºä¿¡æ¯
+	 * @param lneutral ç‚¹å‡»  è¯¦ç»† æŒ‰é’® å“åº”äº‹ä»¶
+	 * @param negative æŒ‰é’®æ˜¾ç¤ºä¿¡æ¯
+	 * @param lnegative ç‚¹å‡»  æ‹’ç» æŒ‰é’® å“åº”äº‹ä»¶
 	 */
 	public void doShowViewDialog(String title, View view,
 			String positive, OnClickListener lpositive, 
@@ -219,14 +219,14 @@ public class AfDailog {
 		doShowViewDialog(0,title,view,positive, lpositive,neutral,lneutral,negative,lnegative);
 	}
 	/**
-	 * ÏÔÊ¾ÊÓÍ¼¶Ô»°¿ò 
-	 * @param iconres ¶Ô»°¿òÍ¼±ê
-	 * @param title ÏÔÊ¾±êÌâ
-	 * @param view ÏÔÊ¾ÄÚÈİ
-	 * @param positive È·ÈÏ °´Å¥ÏÔÊ¾ĞÅÏ¢
-	 * @param lpositive µã»÷  È·ÈÏ °´Å¥ ÏìÓ¦ÊÂ¼ş
-	 * @param negative °´Å¥ÏÔÊ¾ĞÅÏ¢
-	 * @param lnegative µã»÷  ¾Ü¾ø °´Å¥ ÏìÓ¦ÊÂ¼ş
+	 * æ˜¾ç¤ºè§†å›¾å¯¹è¯æ¡† 
+	 * @param iconres å¯¹è¯æ¡†å›¾æ ‡
+	 * @param title æ˜¾ç¤ºæ ‡é¢˜
+	 * @param view æ˜¾ç¤ºå†…å®¹
+	 * @param positive ç¡®è®¤ æŒ‰é’®æ˜¾ç¤ºä¿¡æ¯
+	 * @param lpositive ç‚¹å‡»  ç¡®è®¤ æŒ‰é’® å“åº”äº‹ä»¶
+	 * @param negative æŒ‰é’®æ˜¾ç¤ºä¿¡æ¯
+	 * @param lnegative ç‚¹å‡»  æ‹’ç» æŒ‰é’® å“åº”äº‹ä»¶
 	 */
 	public void doShowViewDialog(int iconres, String title, View view,
 			String positive, OnClickListener lpositive, 
@@ -234,16 +234,16 @@ public class AfDailog {
 		doShowViewDialog(0,title,view,positive, lpositive,"",null,negative,lnegative);
 	}
 	/**
-	 * ÏÔÊ¾ÊÓÍ¼¶Ô»°¿ò 
-	 * @param iconres ¶Ô»°¿òÍ¼±ê
-	 * @param title ÏÔÊ¾±êÌâ
-	 * @param view ÏÔÊ¾ÄÚÈİ
-	 * @param positive È·ÈÏ °´Å¥ÏÔÊ¾ĞÅÏ¢
-	 * @param lpositive µã»÷  È·ÈÏ °´Å¥ ÏìÓ¦ÊÂ¼ş
-	 * @param neutral ÏêÏ¸ °´Å¥ÏÔÊ¾ĞÅÏ¢
-	 * @param lneutral µã»÷  ÏêÏ¸ °´Å¥ ÏìÓ¦ÊÂ¼ş
-	 * @param negative °´Å¥ÏÔÊ¾ĞÅÏ¢
-	 * @param lnegative µã»÷  ¾Ü¾ø °´Å¥ ÏìÓ¦ÊÂ¼ş
+	 * æ˜¾ç¤ºè§†å›¾å¯¹è¯æ¡† 
+	 * @param iconres å¯¹è¯æ¡†å›¾æ ‡
+	 * @param title æ˜¾ç¤ºæ ‡é¢˜
+	 * @param view æ˜¾ç¤ºå†…å®¹
+	 * @param positive ç¡®è®¤ æŒ‰é’®æ˜¾ç¤ºä¿¡æ¯
+	 * @param lpositive ç‚¹å‡»  ç¡®è®¤ æŒ‰é’® å“åº”äº‹ä»¶
+	 * @param neutral è¯¦ç»† æŒ‰é’®æ˜¾ç¤ºä¿¡æ¯
+	 * @param lneutral ç‚¹å‡»  è¯¦ç»† æŒ‰é’® å“åº”äº‹ä»¶
+	 * @param negative æŒ‰é’®æ˜¾ç¤ºä¿¡æ¯
+	 * @param lnegative ç‚¹å‡»  æ‹’ç» æŒ‰é’® å“åº”äº‹ä»¶
 	 */
 	public void doShowViewDialog(int iconres, String title, View view,
 			String positive, OnClickListener lpositive, 
@@ -254,17 +254,17 @@ public class AfDailog {
 	}
 
 	/**
-	 * ÏÔÊ¾ÊÓÍ¼¶Ô»°¿ò 
-	 * @param theme Ö÷Ìâ
-	 * @param iconres ¶Ô»°¿òÍ¼±ê
-	 * @param title ÏÔÊ¾±êÌâ
-	 * @param view ÏÔÊ¾ÄÚÈİ
-	 * @param positive È·ÈÏ °´Å¥ÏÔÊ¾ĞÅÏ¢
-	 * @param lpositive µã»÷  È·ÈÏ °´Å¥ ÏìÓ¦ÊÂ¼ş
-	 * @param neutral ÏêÏ¸ °´Å¥ÏÔÊ¾ĞÅÏ¢
-	 * @param lneutral µã»÷  ÏêÏ¸ °´Å¥ ÏìÓ¦ÊÂ¼ş
-	 * @param negative °´Å¥ÏÔÊ¾ĞÅÏ¢
-	 * @param lnegative µã»÷  ¾Ü¾ø °´Å¥ ÏìÓ¦ÊÂ¼ş
+	 * æ˜¾ç¤ºè§†å›¾å¯¹è¯æ¡† 
+	 * @param theme ä¸»é¢˜
+	 * @param iconres å¯¹è¯æ¡†å›¾æ ‡
+	 * @param title æ˜¾ç¤ºæ ‡é¢˜
+	 * @param view æ˜¾ç¤ºå†…å®¹
+	 * @param positive ç¡®è®¤ æŒ‰é’®æ˜¾ç¤ºä¿¡æ¯
+	 * @param lpositive ç‚¹å‡»  ç¡®è®¤ æŒ‰é’® å“åº”äº‹ä»¶
+	 * @param neutral è¯¦ç»† æŒ‰é’®æ˜¾ç¤ºä¿¡æ¯
+	 * @param lneutral ç‚¹å‡»  è¯¦ç»† æŒ‰é’® å“åº”äº‹ä»¶
+	 * @param negative æŒ‰é’®æ˜¾ç¤ºä¿¡æ¯
+	 * @param lnegative ç‚¹å‡»  æ‹’ç» æŒ‰é’® å“åº”äº‹ä»¶
 	 */
 	@SuppressLint("NewApi")
 	public void doShowViewDialog(int theme, 
@@ -312,11 +312,11 @@ public class AfDailog {
 		builder.show();
 	}
 	/**
-	 * ÏÔÊ¾Ò»¸öµ¥Ñ¡¶Ô»°¿ò £¨ÉèÖÃ¿ÉÈ¡Ïû£©
-	 * @param title ¶Ô»°¿ò±êÌâ
-	 * @param items Ñ¡Ôñ²Ëµ¥Ïî
-	 * @param listener Ñ¡Ôñ¼àÌıÆ÷
-	 * @param cancel È¡ÏûÑ¡Ôñ¼àÌıÆ÷
+	 * æ˜¾ç¤ºä¸€ä¸ªå•é€‰å¯¹è¯æ¡† ï¼ˆè®¾ç½®å¯å–æ¶ˆï¼‰
+	 * @param title å¯¹è¯æ¡†æ ‡é¢˜
+	 * @param items é€‰æ‹©èœå•é¡¹
+	 * @param listener é€‰æ‹©ç›‘å¬å™¨
+	 * @param cancel å–æ¶ˆé€‰æ‹©ç›‘å¬å™¨
 	 */
 	public void doSelectItem(String title,String[] items,OnClickListener listener,
 			boolean cancel){
@@ -326,7 +326,7 @@ public class AfDailog {
 			dialog.setTitle(title);
 			dialog.setCancelable(false);
 			if(cancel){
-				dialog.setNegativeButton("È¡Ïû", null);
+				dialog.setNegativeButton("å–æ¶ˆ", null);
 			}
 		}else{
 			dialog.setCancelable(cancel);
@@ -335,11 +335,11 @@ public class AfDailog {
 	}
 
 	/**
-	 * ÏÔÊ¾Ò»¸öµ¥Ñ¡¶Ô»°¿ò 
-	 * @param title ¶Ô»°¿ò±êÌâ
-	 * @param items Ñ¡Ôñ²Ëµ¥Ïî
-	 * @param listener Ñ¡Ôñ¼àÌıÆ÷
-	 * @param oncancel È¡ÏûÑ¡Ôñ¼àÌıÆ÷
+	 * æ˜¾ç¤ºä¸€ä¸ªå•é€‰å¯¹è¯æ¡† 
+	 * @param title å¯¹è¯æ¡†æ ‡é¢˜
+	 * @param items é€‰æ‹©èœå•é¡¹
+	 * @param listener é€‰æ‹©ç›‘å¬å™¨
+	 * @param oncancel å–æ¶ˆé€‰æ‹©ç›‘å¬å™¨
 	 */
 	public void doSelectItem(String title,String[] items,OnClickListener listener,
 			final OnClickListener oncancel) {
@@ -348,7 +348,7 @@ public class AfDailog {
 		if(title != null){
 			dialog.setTitle(title);
 			dialog.setCancelable(false);
-			dialog.setNegativeButton("È¡Ïû", oncancel);
+			dialog.setNegativeButton("å–æ¶ˆ", oncancel);
 		}else if(oncancel != null){
 			dialog.setCancelable(true);
 			dialog.setOnCancelListener(new OnCancelListener() {
@@ -364,10 +364,10 @@ public class AfDailog {
 	}
 
 	/**
-	 * ÏÔÊ¾Ò»¸öµ¥Ñ¡¶Ô»°¿ò £¨Ä¬ÈÏ¿ÉÈ¡Ïû£©
-	 * @param title ¶Ô»°¿ò±êÌâ
-	 * @param items Ñ¡Ôñ²Ëµ¥Ïî
-	 * @param listener Ñ¡Ôñ¼àÌıÆ÷
+	 * æ˜¾ç¤ºä¸€ä¸ªå•é€‰å¯¹è¯æ¡† ï¼ˆé»˜è®¤å¯å–æ¶ˆï¼‰
+	 * @param title å¯¹è¯æ¡†æ ‡é¢˜
+	 * @param items é€‰æ‹©èœå•é¡¹
+	 * @param listener é€‰æ‹©ç›‘å¬å™¨
 	 */
 	public void doSelectItem(String title,String[] items,OnClickListener listener) {
 		// TODO Auto-generated method stub
@@ -375,30 +375,30 @@ public class AfDailog {
 	}
 
 	/**
-	 * µ¯³öÒ»¸öÎÄ±¾ÊäÈë¿ò
-	 * @param title ±êÌâ
-	 * @param listener ¼àÌıÆ÷
+	 * å¼¹å‡ºä¸€ä¸ªæ–‡æœ¬è¾“å…¥æ¡†
+	 * @param title æ ‡é¢˜
+	 * @param listener ç›‘å¬å™¨
 	 */
 	public void doInputText(String title,InputTextListener listener) {
 		doInputText(title, "", InputType.TYPE_CLASS_TEXT, listener);
 	}
 
 	/**
-	 * µ¯³öÒ»¸öÎÄ±¾ÊäÈë¿ò
-	 * @param title ±êÌâ
+	 * å¼¹å‡ºä¸€ä¸ªæ–‡æœ¬è¾“å…¥æ¡†
+	 * @param title æ ‡é¢˜
 	 * @param type android.text.InputType
-	 * @param listener ¼àÌıÆ÷
+	 * @param listener ç›‘å¬å™¨
 	 */
 	public void doInputText(String title,int type,InputTextListener listener) {
 		doInputText(title, "", type, listener);
 	}
 
 	/**
-	 * µ¯³öÒ»¸öÎÄ±¾ÊäÈë¿ò
-	 * @param title ±êÌâ
-	 * @param defaul Ä¬ÈÏÖµ
+	 * å¼¹å‡ºä¸€ä¸ªæ–‡æœ¬è¾“å…¥æ¡†
+	 * @param title æ ‡é¢˜
+	 * @param defaul é»˜è®¤å€¼
 	 * @param type android.text.InputType
-	 * @param listener ¼àÌıÆ÷
+	 * @param listener ç›‘å¬å™¨
 	 */
 	public void doInputText(String title,String defaul,int type,InputTextListener listener) {
 		final EditText input = new EditText(mContext);
@@ -411,7 +411,7 @@ public class AfDailog {
 		builder.setView(input);
 		builder.setCancelable(false);
 		builder.setTitle(title);
-		builder.setPositiveButton("È·¶¨", new DialogInterface.OnClickListener() {
+		builder.setPositiveButton("ç¡®å®š", new DialogInterface.OnClickListener() {
 			@Override
 			public void onClick(DialogInterface dialog, int which) {
 				// TODO Auto-generated method stub
@@ -420,7 +420,7 @@ public class AfDailog {
 				flistener.onInputTextComfirm(input);
 			}
 		});
-		builder.setNegativeButton("È¡Ïû", new DialogInterface.OnClickListener() {
+		builder.setNegativeButton("å–æ¶ˆ", new DialogInterface.OnClickListener() {
 			@Override
 			public void onClick(DialogInterface dialog, int which) {
 				// TODO Auto-generated method stub

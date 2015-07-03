@@ -82,7 +82,7 @@ public class AfTable{
 	 * 
 	 * @param context
 	 * @param columns
-	 * @param offset	ÆÁÄ»¿í¶ÈÆ«²î
+	 * @param offset	å±å¹•å®½åº¦åå·®
 	 * @return
 	 */
 	public static AfTable buildTable(Context context,AfColumn[] columns,int offset){

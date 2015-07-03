@@ -5,10 +5,10 @@ import java.util.HashMap;
 import com.andframe.application.AfApplication;
 
 /**
- * AfDurableCache ³Ö¾Ã»º´æ
+ * AfDurableCache æŒä¹…ç¼“å­˜
  * @author SCWANG
- *			¼Ì³ĞAfJsonCache Ö÷Òª³Ö¾Ã»¯»º´æ
- *			½«»º´æÂ·¾¶¹Ì¶¨µ½<¹¤³ÌÂ·¾¶/Caches/DurableCache>  ÖĞ
+ *			ç»§æ‰¿AfJsonCache ä¸»è¦æŒä¹…åŒ–ç¼“å­˜
+ *			å°†ç¼“å­˜è·¯å¾„å›ºå®šåˆ°<å·¥ç¨‹è·¯å¾„/Caches/DurableCache>  ä¸­
  */
 public class AfDurableCache extends AfJsonCache
 {
@@ -21,7 +21,7 @@ public class AfDurableCache extends AfJsonCache
 		// TODO Auto-generated constructor stub
 	}
 	/**
-	 * SD¿¨±»Õ¼ÓÃÊ±»á·µ»Ønull
+	 * SDå¡è¢«å ç”¨æ—¶ä¼šè¿”å›null
 	 * @return
 	 */
 	public static AfDurableCache getInstance() {
@@ -30,7 +30,7 @@ public class AfDurableCache extends AfJsonCache
 				mInstance = new AfDurableCache();
 			} catch (Throwable e) {
 				// TODO: handle exception
-//				AfExceptionHandler.handler(e, "»ñÈ¡³Ö¾Ã»º´æÊ§°Ü");
+//				AfExceptionHandler.handler(e, "è·å–æŒä¹…ç¼“å­˜å¤±è´¥");
 			}
 		}
 		return mInstance;

@@ -142,7 +142,7 @@ public class AfTableRow extends LinearLayout implements OnClickListener {
 					String[] formats = column.Format.split(",");
 					if (formats.length == 2) {
 						textview.setText(formats[value.equals(false) ? 0 : 1]);
-						return;// "¡Á,¡Ì"
+						return;// "Ã—,âˆš"
 					}
 				} else if (value instanceof Double || value instanceof Float
 						|| value instanceof Long || value instanceof Integer) {
@@ -156,7 +156,7 @@ public class AfTableRow extends LinearLayout implements OnClickListener {
 	}
 
 	// / <summary>
-	// / ÀûÓÃ·´ÉäÉèÖÃ ¶ÔÏóobjµÄÊôĞÔpathÎª value
+	// / åˆ©ç”¨åå°„è®¾ç½® å¯¹è±¡objçš„å±æ€§pathä¸º value
 	// / </summary>
 	private Object InvokeMember(AfColumn[] columns,int col, Class<?> type, String[] path,
 			Object obj, int index) throws Exception {

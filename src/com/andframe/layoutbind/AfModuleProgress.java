@@ -5,7 +5,7 @@ import android.widget.TextView;
 import com.andframe.activity.framework.AfViewable;
 import com.andframe.layoutbind.AfLayoutModule;
 /**
- * 框架加载组件
+ * 妗嗘灦鍔犺浇缁勪欢
  * @author Administrator
  *
  */
@@ -18,12 +18,12 @@ public abstract class AfModuleProgress extends AfLayoutModule{
 		// TODO Auto-generated constructor stub
 		if(isValid()){
 			mTvDescription = findDescription(view);
-			mTvDescription.setText("正在加载...");
+			mTvDescription.setText("姝ｅ湪鍔犺浇...");
 		}
 	}
 	
 	/**
-	 * 获取信息提示 TextView
+	 * 鑾峰彇淇℃伅鎻愮ず TextView
 	 * @param view
 	 * @return
 	 */

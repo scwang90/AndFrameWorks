@@ -1,10 +1,10 @@
 package com.andframe.util.java;
 
 /**
- * @Description: Í¨ÓÃ°æ±¾×ª»»Àà
+ * @Description: é€šç”¨ç‰ˆæœ¬è½¬æ¢ç±»
  * @Author: scwang
- * @Version: V1.0, 2015-3-13 ÏÂÎç5:04:21
- * @Modified: ³õ´Î´´½¨AfVersionÀà
+ * @Version: V1.0, 2015-3-13 ä¸‹åˆ5:04:21
+ * @Modified: åˆæ¬¡åˆ›å»ºAfVersionç±»
  */
 public class AfVersion {
 	

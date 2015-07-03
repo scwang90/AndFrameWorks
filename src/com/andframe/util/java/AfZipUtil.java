@@ -16,14 +16,14 @@ import java.util.zip.ZipOutputStream;
 public class AfZipUtil {
 
 	/**
-	 * Ñ¹Ëõ
+	 * åŽ‹ç¼©
 	 * 
 	 * @param zipFileName
-	 *            Ñ¹Ëõ²úÉúµÄzip°üÎÄ¼þÃû--´øÂ·¾¶,Èç¹ûÎªnull»ò¿ÕÔòÄ¬ÈÏ°´ÎÄ¼þÃûÉú²úÑ¹ËõÎÄ¼þÃû
+	 *            åŽ‹ç¼©äº§ç”Ÿçš„zipåŒ…æ–‡ä»¶å--å¸¦è·¯å¾„,å¦‚æžœä¸ºnullæˆ–ç©ºåˆ™é»˜è®¤æŒ‰æ–‡ä»¶åç”Ÿäº§åŽ‹ç¼©æ–‡ä»¶å
 	 * @param relativePath
-	 *            Ïà¶ÔÂ·¾¶£¬Ä¬ÈÏÎª¿Õ
+	 *            ç›¸å¯¹è·¯å¾„ï¼Œé»˜è®¤ä¸ºç©º
 	 * @param directory
-	 *            ÎÄ¼þ»òÄ¿Â¼µÄ¾ø¶ÔÂ·¾¶
+	 *            æ–‡ä»¶æˆ–ç›®å½•çš„ç»å¯¹è·¯å¾„
 	 * @throws FileNotFoundException
 	 * @throws IOException
 	 * @author yayagepei
@@ -61,14 +61,14 @@ public class AfZipUtil {
 
 	/** */
 	/**
-	 * Ñ¹Ëõ
+	 * åŽ‹ç¼©
 	 * 
 	 * @param zos
-	 *            Ñ¹ËõÊä³öÁ÷
+	 *            åŽ‹ç¼©è¾“å‡ºæµ
 	 * @param relativePath
-	 *            Ïà¶ÔÂ·¾¶
+	 *            ç›¸å¯¹è·¯å¾„
 	 * @param absolutPath
-	 *            ÎÄ¼þ»òÎÄ¼þ¼Ð¾ø¶ÔÂ·¾¶
+	 *            æ–‡ä»¶æˆ–æ–‡ä»¶å¤¹ç»å¯¹è·¯å¾„
 	 * @throws IOException
 	 * @author yayagepei
 	 * @date 2008-8-26
@@ -96,14 +96,14 @@ public class AfZipUtil {
 
 	/** */
 	/**
-	 * Ñ¹ËõÎÄ¼þ
+	 * åŽ‹ç¼©æ–‡ä»¶
 	 * 
 	 * @param zos
-	 *            Ñ¹ËõÊä³öÁ÷
+	 *            åŽ‹ç¼©è¾“å‡ºæµ
 	 * @param file
-	 *            ÎÄ¼þ¶ÔÏó
+	 *            æ–‡ä»¶å¯¹è±¡
 	 * @param relativePath
-	 *            Ïà¶ÔÂ·¾¶
+	 *            ç›¸å¯¹è·¯å¾„
 	 * @throws IOException
 	 * @author yayagepei
 	 * @date 2008-8-26
@@ -134,12 +134,12 @@ public class AfZipUtil {
 
 	/** */
 	/**
-	 * ´´½¨Ä¿Â¼
+	 * åˆ›å»ºç›®å½•
 	 * 
 	 * @param zos
-	 *            zipÊä³öÁ÷
+	 *            zipè¾“å‡ºæµ
 	 * @param relativePath
-	 *            Ïà¶ÔÂ·¾¶
+	 *            ç›¸å¯¹è·¯å¾„
 	 * @throws IOException
 	 * @author yayagepei
 	 * @date 2008-8-26
@@ -153,12 +153,12 @@ public class AfZipUtil {
 
 	/** */
 	/**
-	 * ½âÑ¹Ëõzip°ü
+	 * è§£åŽ‹ç¼©zipåŒ…
 	 * 
 	 * @param zipFilePath
-	 *            zipÎÄ¼þÂ·¾¶
+	 *            zipæ–‡ä»¶è·¯å¾„
 	 * @param targetPath
-	 *            ½âÑ¹Ëõµ½µÄÎ»ÖÃ£¬Èç¹ûÎªnull»ò¿Õ×Ö·û´®ÔòÄ¬ÈÏ½âÑ¹Ëõµ½¸úzip°üÍ¬Ä¿Â¼¸úzip°üÍ¬ÃûµÄÎÄ¼þ¼ÐÏÂ
+	 *            è§£åŽ‹ç¼©åˆ°çš„ä½ç½®ï¼Œå¦‚æžœä¸ºnullæˆ–ç©ºå­—ç¬¦ä¸²åˆ™é»˜è®¤è§£åŽ‹ç¼©åˆ°è·ŸzipåŒ…åŒç›®å½•è·ŸzipåŒ…åŒåçš„æ–‡ä»¶å¤¹ä¸‹
 	 * @throws IOException
 	 * @author yayagepei
 	 * @date 2008-9-28
@@ -191,7 +191,7 @@ public class AfZipUtil {
 						continue;
 					}
 					if (zipEntry.getSize() > 0) {
-						// ÎÄ¼þ
+						// æ–‡ä»¶
 						File targetFile = buildFile(directoryPath
 								+ File.separator + zipEntry.getName(), false);
 						os = new BufferedOutputStream(new FileOutputStream(
@@ -206,7 +206,7 @@ public class AfZipUtil {
 						os.flush();
 						os.close();
 					} else {
-						// ¿ÕÄ¿Â¼
+						// ç©ºç›®å½•
 						buildFile(directoryPath + File.separator
 								+ zipEntry.getName(), true);
 					}

@@ -3,121 +3,121 @@ package com.andframe.util.java;
 import java.io.UnsupportedEncodingException;
 
 /**
- * ×ª»»×Ö·û´®µÄ±àÂë
+ * è½¬æ¢å­—ç¬¦ä¸²çš„ç¼–ç 
  */
 public class AfCharset {
 	
 	public static final String Unicode = "Unicode";
 	
-	/** 7Î»ASCII×Ö·û£¬Ò²½Ğ×÷ISO646-US¡¢Unicode×Ö·û¼¯µÄ»ù±¾À­¶¡¿é */
+	/** 7ä½ASCIIå­—ç¬¦ï¼Œä¹Ÿå«ä½œISO646-USã€Unicodeå­—ç¬¦é›†çš„åŸºæœ¬æ‹‰ä¸å— */
 	public static final String US_ASCII = "US-ASCII";
 
-	/** ISO À­¶¡×ÖÄ¸±í No.1£¬Ò²½Ğ×÷ ISO-LATIN-1 */
+	/** ISO æ‹‰ä¸å­—æ¯è¡¨ No.1ï¼Œä¹Ÿå«ä½œ ISO-LATIN-1 */
 	public static final String ISO_8859_1 = "ISO-8859-1";
 
-	/** 8 Î» UCS ×ª»»¸ñÊ½ */
+	/** 8 ä½ UCS è½¬æ¢æ ¼å¼ */
 	public static final String UTF_8 = "UTF-8";
 
-	/** 16 Î» UCS ×ª»»¸ñÊ½£¬Big Endian£¨×îµÍµØÖ·´æ·Å¸ßÎ»×Ö½Ú£©×Ö½ÚË³Ğò */
+	/** 16 ä½ UCS è½¬æ¢æ ¼å¼ï¼ŒBig Endianï¼ˆæœ€ä½åœ°å€å­˜æ”¾é«˜ä½å­—èŠ‚ï¼‰å­—èŠ‚é¡ºåº */
 	public static final String UTF_16BE = "UTF-16BE";
 
-	/** 16 Î» UCS ×ª»»¸ñÊ½£¬Little-endian£¨×î¸ßµØÖ·´æ·ÅµÍÎ»×Ö½Ú£©×Ö½ÚË³Ğò */
+	/** 16 ä½ UCS è½¬æ¢æ ¼å¼ï¼ŒLittle-endianï¼ˆæœ€é«˜åœ°å€å­˜æ”¾ä½ä½å­—èŠ‚ï¼‰å­—èŠ‚é¡ºåº */
 	public static final String UTF_16LE = "UTF-16LE";
 
-	/** 16 Î» UCS ×ª»»¸ñÊ½£¬×Ö½ÚË³ĞòÓÉ¿ÉÑ¡µÄ×Ö½ÚË³Ğò±ê¼ÇÀ´±êÊ¶ */
+	/** 16 ä½ UCS è½¬æ¢æ ¼å¼ï¼Œå­—èŠ‚é¡ºåºç”±å¯é€‰çš„å­—èŠ‚é¡ºåºæ ‡è®°æ¥æ ‡è¯† */
 	public static final String UTF_16 = "UTF-16";
 
-	/** ÖĞÎÄ³¬´ó×Ö·û¼¯ */
+	/** ä¸­æ–‡è¶…å¤§å­—ç¬¦é›† */
 	public static final String GBK = "GBK";
 
 	/**
-	 * ½«×Ö·û±àÂë×ª»»³ÉUS-ASCIIÂë
+	 * å°†å­—ç¬¦ç¼–ç è½¬æ¢æˆUS-ASCIIç 
 	 */
 	public String toASCII(String str) throws UnsupportedEncodingException {
 		return this.changeCharset(str, US_ASCII);
 	}
 
 	/**
-	 * ½«×Ö·û±àÂë×ª»»³ÉISO-8859-1Âë
+	 * å°†å­—ç¬¦ç¼–ç è½¬æ¢æˆISO-8859-1ç 
 	 */
 	public String toISO_8859_1(String str) throws UnsupportedEncodingException {
 		return this.changeCharset(str, ISO_8859_1);
 	}
 
 	/**
-	 * ½«×Ö·û±àÂë×ª»»³ÉUTF-8Âë
+	 * å°†å­—ç¬¦ç¼–ç è½¬æ¢æˆUTF-8ç 
 	 */
 	public String toUTF_8(String str) throws UnsupportedEncodingException {
 		return this.changeCharset(str, UTF_8);
 	}
 
 	/**
-	 * ½«×Ö·û±àÂë×ª»»³ÉUTF-16BEÂë
+	 * å°†å­—ç¬¦ç¼–ç è½¬æ¢æˆUTF-16BEç 
 	 */
 	public String toUTF_16BE(String str) throws UnsupportedEncodingException {
 		return this.changeCharset(str, UTF_16BE);
 	}
 
 	/**
-	 * ½«×Ö·û±àÂë×ª»»³ÉUTF-16LEÂë
+	 * å°†å­—ç¬¦ç¼–ç è½¬æ¢æˆUTF-16LEç 
 	 */
 	public String toUTF_16LE(String str) throws UnsupportedEncodingException {
 		return this.changeCharset(str, UTF_16LE);
 	}
 
 	/**
-	 * ½«×Ö·û±àÂë×ª»»³ÉUTF-16Âë
+	 * å°†å­—ç¬¦ç¼–ç è½¬æ¢æˆUTF-16ç 
 	 */
 	public String toUTF_16(String str) throws UnsupportedEncodingException {
 		return this.changeCharset(str, UTF_16);
 	}
 
 	/**
-	 * ½«×Ö·û±àÂë×ª»»³ÉGBKÂë
+	 * å°†å­—ç¬¦ç¼–ç è½¬æ¢æˆGBKç 
 	 */
 	public String toGBK(String str) throws UnsupportedEncodingException {
 		return this.changeCharset(str, GBK);
 	}
 
 	/**
-	 * ×Ö·û´®±àÂë×ª»»µÄÊµÏÖ·½·¨
+	 * å­—ç¬¦ä¸²ç¼–ç è½¬æ¢çš„å®ç°æ–¹æ³•
 	 * 
 	 * @param str
-	 *            ´ı×ª»»±àÂëµÄ×Ö·û´®
+	 *            å¾…è½¬æ¢ç¼–ç çš„å­—ç¬¦ä¸²
 	 * @param newCharset
-	 *            Ä¿±ê±àÂë
+	 *            ç›®æ ‡ç¼–ç 
 	 * @return
 	 * @throws UnsupportedEncodingException
 	 */
 	public String changeCharset(String str, String newCharset)
 			throws UnsupportedEncodingException {
 		if (str != null) {
-			// ÓÃÄ¬ÈÏ×Ö·û±àÂë½âÂë×Ö·û´®¡£
+			// ç”¨é»˜è®¤å­—ç¬¦ç¼–ç è§£ç å­—ç¬¦ä¸²ã€‚
 			byte[] bs = str.getBytes();
-			// ÓÃĞÂµÄ×Ö·û±àÂëÉú³É×Ö·û´®
+			// ç”¨æ–°çš„å­—ç¬¦ç¼–ç ç”Ÿæˆå­—ç¬¦ä¸²
 			return new String(bs, newCharset);
 		}
 		return null;
 	}
 
 	/**
-	 * ×Ö·û´®±àÂë×ª»»µÄÊµÏÖ·½·¨
+	 * å­—ç¬¦ä¸²ç¼–ç è½¬æ¢çš„å®ç°æ–¹æ³•
 	 * 
 	 * @param str
-	 *            ´ı×ª»»±àÂëµÄ×Ö·û´®
+	 *            å¾…è½¬æ¢ç¼–ç çš„å­—ç¬¦ä¸²
 	 * @param oldCharset
-	 *            Ô­±àÂë
+	 *            åŸç¼–ç 
 	 * @param newCharset
-	 *            Ä¿±ê±àÂë
+	 *            ç›®æ ‡ç¼–ç 
 	 * @return
 	 * @throws UnsupportedEncodingException
 	 */
 	public String changeCharset(String str, String oldCharset, String newCharset)
 			throws UnsupportedEncodingException {
 		if (str != null) {
-			// ÓÃ¾ÉµÄ×Ö·û±àÂë½âÂë×Ö·û´®¡£½âÂë¿ÉÄÜ»á³öÏÖÒì³£¡£
+			// ç”¨æ—§çš„å­—ç¬¦ç¼–ç è§£ç å­—ç¬¦ä¸²ã€‚è§£ç å¯èƒ½ä¼šå‡ºç°å¼‚å¸¸ã€‚
 			byte[] bs = str.getBytes(oldCharset);
-			// ÓÃĞÂµÄ×Ö·û±àÂëÉú³É×Ö·û´®
+			// ç”¨æ–°çš„å­—ç¬¦ç¼–ç ç”Ÿæˆå­—ç¬¦ä¸²
 			return new String(bs, newCharset);
 		}
 		return null;
@@ -125,47 +125,47 @@ public class AfCharset {
 
 //	public static void main(String[] args) throws UnsupportedEncodingException {
 //		AfCharset test = new AfCharset();
-//		String str = "This is a ÖĞÎÄµÄ String!";
+//		String str = "This is a ä¸­æ–‡çš„ String!";
 //		System.out.println("str: " + str);
 //		String gbk = test.toGBK(str);
-//		System.out.println("×ª»»³ÉGBKÂë: " + gbk);
+//		System.out.println("è½¬æ¢æˆGBKç : " + gbk);
 //		System.out.println();
 //		String ascii = test.toASCII(str);
-//		System.out.println("×ª»»³ÉUS-ASCIIÂë: " + ascii);
+//		System.out.println("è½¬æ¢æˆUS-ASCIIç : " + ascii);
 //		gbk = test.changeCharset(ascii, AfCharset.US_ASCII, AfCharset.GBK);
-//		System.out.println("ÔÙ°ÑASCIIÂëµÄ×Ö·û´®×ª»»³ÉGBKÂë: " + gbk);
+//		System.out.println("å†æŠŠASCIIç çš„å­—ç¬¦ä¸²è½¬æ¢æˆGBKç : " + gbk);
 //		System.out.println();
 //		String iso88591 = test.toISO_8859_1(str);
-//		System.out.println("×ª»»³ÉISO-8859-1Âë: " + iso88591);
+//		System.out.println("è½¬æ¢æˆISO-8859-1ç : " + iso88591);
 //		gbk = test.changeCharset(iso88591, AfCharset.ISO_8859_1, AfCharset.GBK);
-//		System.out.println("ÔÙ°ÑISO-8859-1ÂëµÄ×Ö·û´®×ª»»³ÉGBKÂë: " + gbk);
+//		System.out.println("å†æŠŠISO-8859-1ç çš„å­—ç¬¦ä¸²è½¬æ¢æˆGBKç : " + gbk);
 //		System.out.println();
 //		String utf8 = test.toUTF_8(str);
-//		System.out.println("×ª»»³ÉUTF-8Âë: " + utf8);
+//		System.out.println("è½¬æ¢æˆUTF-8ç : " + utf8);
 //		gbk = test.changeCharset(utf8, AfCharset.UTF_8, AfCharset.GBK);
-//		System.out.println("ÔÙ°ÑUTF-8ÂëµÄ×Ö·û´®×ª»»³ÉGBKÂë: " + gbk);
+//		System.out.println("å†æŠŠUTF-8ç çš„å­—ç¬¦ä¸²è½¬æ¢æˆGBKç : " + gbk);
 //		System.out.println();
 //		String utf16be = test.toUTF_16BE(str);
-//		System.out.println("×ª»»³ÉUTF-16BEÂë:" + utf16be);
+//		System.out.println("è½¬æ¢æˆUTF-16BEç :" + utf16be);
 //		gbk = test.changeCharset(utf16be, AfCharset.UTF_16BE, AfCharset.GBK);
-//		System.out.println("ÔÙ°ÑUTF-16BEÂëµÄ×Ö·û´®×ª»»³ÉGBKÂë: " + gbk);
+//		System.out.println("å†æŠŠUTF-16BEç çš„å­—ç¬¦ä¸²è½¬æ¢æˆGBKç : " + gbk);
 //		System.out.println();
 //		String utf16le = test.toUTF_16LE(str);
-//		System.out.println("×ª»»³ÉUTF-16LEÂë:" + utf16le);
+//		System.out.println("è½¬æ¢æˆUTF-16LEç :" + utf16le);
 //		gbk = test.changeCharset(utf16le, AfCharset.UTF_16LE, AfCharset.GBK);
-//		System.out.println("ÔÙ°ÑUTF-16LEÂëµÄ×Ö·û´®×ª»»³ÉGBKÂë: " + gbk);
+//		System.out.println("å†æŠŠUTF-16LEç çš„å­—ç¬¦ä¸²è½¬æ¢æˆGBKç : " + gbk);
 //		System.out.println();
 //		String utf16 = test.toUTF_16(str);
-//		System.out.println("×ª»»³ÉUTF-16Âë:" + utf16);
+//		System.out.println("è½¬æ¢æˆUTF-16ç :" + utf16);
 //		gbk = test.changeCharset(utf16, AfCharset.UTF_16LE, AfCharset.GBK);
-//		System.out.println("ÔÙ°ÑUTF-16ÂëµÄ×Ö·û´®×ª»»³ÉGBKÂë: " + gbk);
-//		String s = new String("ÖĞÎÄ".getBytes("UTF-8"), "UTF-8");
+//		System.out.println("å†æŠŠUTF-16ç çš„å­—ç¬¦ä¸²è½¬æ¢æˆGBKç : " + gbk);
+//		String s = new String("ä¸­æ–‡".getBytes("UTF-8"), "UTF-8");
 //		System.out.println(s);
 //	}
 	
 	
 	/**
-	 * »ìÏı
+	 * æ··æ·†
 	 * @param bytes
 	 */
 	public static void mixup(byte[] bytes) {
@@ -176,7 +176,7 @@ public class AfCharset {
 	}
 
 	/**
-	 * ·¹»ìÏı
+	 * é¥­æ··æ·†
 	 * @param bytes
 	 */
 	public static void mixdown(byte[] bytes) {

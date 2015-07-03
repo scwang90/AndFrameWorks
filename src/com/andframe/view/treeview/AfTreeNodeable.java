@@ -3,9 +3,9 @@ package com.andframe.view.treeview;
 import java.util.Collection;
 
 /***
- * AfTreeNodeable 树形构造器
+ * AfTreeNodeable 鏍戝舰鏋勯�犲櫒
  * @author SCWANG
- *		适用与已有的树形结构转换
+ *		閫傜敤涓庡凡鏈夌殑鏍戝舰缁撴瀯杞崲
  * @param <T>
  */
 public interface AfTreeNodeable<T>{

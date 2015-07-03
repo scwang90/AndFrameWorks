@@ -13,8 +13,8 @@ import android.view.View.OnTouchListener;
 import com.andframe.application.AfExceptionHandler;
 
 /**
- * AfAlbumActivity ×¨ÓÃÊÊÅäÆ÷
- * @author SCWANG Ïà²áµÄÊÊÅäÆ÷
+ * AfAlbumActivity ä¸“ç”¨é€‚é…å™¨
+ * @author SCWANG ç›¸å†Œçš„é€‚é…å™¨
  */
 public abstract class AfPagerAdapter<T> extends PagerAdapter {
 	
@@ -41,7 +41,7 @@ public abstract class AfPagerAdapter<T> extends PagerAdapter {
 	}
 
 	/**
-	 * ÊÊÅäÆ÷ĞÂÔö µã»÷¸ü¶à Êı¾İ×·¼Ó½Ó¿Ú
+	 * é€‚é…å™¨æ–°å¢ ç‚¹å‡»æ›´å¤š æ•°æ®è¿½åŠ æ¥å£
 	 * 
 	 * @param ltNews
 	 */
@@ -52,7 +52,7 @@ public abstract class AfPagerAdapter<T> extends PagerAdapter {
 	}
 
 	/**
-	 * ÊÊÅäÆ÷ĞÂÔö Êı¾İË¢ĞÂ ½Ó¿Ú
+	 * é€‚é…å™¨æ–°å¢ æ•°æ®åˆ·æ–° æ¥å£
 	 * 
 	 * @param ltNews
 	 */
@@ -62,7 +62,7 @@ public abstract class AfPagerAdapter<T> extends PagerAdapter {
 		notifyDataSetChanged();
 	}
 
-	// ÕâÀï½øĞĞ»ØÊÕ£¬µ±ÎÒÃÇ×óÓÒ»¬¶¯µÄÊ±ºò£¬»á°ÑÔçÆÚµÄÍ¼Æ¬»ØÊÕµô.
+	// è¿™é‡Œè¿›è¡Œå›æ”¶ï¼Œå½“æˆ‘ä»¬å·¦å³æ»‘åŠ¨çš„æ—¶å€™ï¼Œä¼šæŠŠæ—©æœŸçš„å›¾ç‰‡å›æ”¶æ‰.
 	@Override
 	public void destroyItem(View container, int position, Object object) {
 		// TODO Auto-generated constructor stub
@@ -77,15 +77,15 @@ public abstract class AfPagerAdapter<T> extends PagerAdapter {
 
 	}
 
-	// ÕâÀï·µ»ØÏà²áÓĞ¶àÉÙÌõ,ºÍBaseAdapterÒ»Ñù.
+	// è¿™é‡Œè¿”å›ç›¸å†Œæœ‰å¤šå°‘æ¡,å’ŒBaseAdapterä¸€æ ·.
 	@Override
 	public int getCount() {
 		// TODO Auto-generated constructor stub
 		return mltData.size();
 	}
 
-	// ÕâÀï¾ÍÊÇ³õÊ¼»¯ViewPagerItemView.Èç¹ûViewPagerItemViewÒÑ¾­´æÔÚ,
-	// ÖØĞÂreload£¬²»´æÔÚnewÒ»¸ö²¢ÇÒÌî³äÊı¾İ.
+	// è¿™é‡Œå°±æ˜¯åˆå§‹åŒ–ViewPagerItemView.å¦‚æœViewPagerItemViewå·²ç»å­˜åœ¨,
+	// é‡æ–°reloadï¼Œä¸å­˜åœ¨newä¸€ä¸ªå¹¶ä¸”å¡«å……æ•°æ®.
 	@Override
 	public Object instantiateItem(View container, int position) {
 		// TODO Auto-generated constructor stub
@@ -136,7 +136,7 @@ public abstract class AfPagerAdapter<T> extends PagerAdapter {
 		public View mLayout = null;
 
 		/**
-		 * ½«Êı¾İ°ó¶¨µ½¿Ø¼şÏÔÊ¾
+		 * å°†æ•°æ®ç»‘å®šåˆ°æ§ä»¶æ˜¾ç¤º
 		 * @param review
 		 */
 		public abstract void onBinding(IT model, int position);

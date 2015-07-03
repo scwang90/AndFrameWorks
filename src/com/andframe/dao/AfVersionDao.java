@@ -19,7 +19,7 @@ public class AfVersionDao extends AfDao<VersionEntity> {
 		if (models.size() > 0) {
 			return getEntityFromModel(models.get(0));
 		} else {
-			// Êı¾İ¿âÃ»ÓĞÊı¾İ ËµÃ÷¸Õ¸Õ´´½¨ Ìí¼Ó°æ±¾ĞÅÏ¢
+			// æ•°æ®åº“æ²¡æœ‰æ•°æ® è¯´æ˜åˆšåˆšåˆ›å»º æ·»åŠ ç‰ˆæœ¬ä¿¡æ¯
 			VersionEntity tEntity = new VersionEntity();
 			add(tEntity);
 			return tEntity;
@@ -27,7 +27,7 @@ public class AfVersionDao extends AfDao<VersionEntity> {
 	}
 
 	/**
-	 * ´ÓCursorÖĞ¹¹ÔìËùÒÔ×Ö¶Î ·µ»Ø Entity
+	 * ä»Cursorä¸­æ„é€ æ‰€ä»¥å­—æ®µ è¿”å› Entity
 	 * @param model
 	 * @return
 	 */

@@ -12,11 +12,11 @@ import android.provider.MediaStore;
 import android.provider.MediaStore.Images.Media;
 import android.widget.Toast;
 /**
- * µ÷ÓÃÏµÍ³ÎÄ¼şÑ¡Ôñ»òÕßÕÕÆ¬Ñ¡Ôñ
+ * è°ƒç”¨ç³»ç»Ÿæ–‡ä»¶é€‰æ‹©æˆ–è€…ç…§ç‰‡é€‰æ‹©
  * @Description: AfFileSelector
  * @Author: scwang
- * @Version: V1.0, 2015-4-3 ÏÂÎç3:46:13
- * @Modified: ³õ´Î´´½¨AfFileSelectorÀà
+ * @Version: V1.0, 2015-4-3 ä¸‹åˆ3:46:13
+ * @Modified: åˆæ¬¡åˆ›å»ºAfFileSelectorç±»
  */
 public class AfFileSelector {
 
@@ -24,8 +24,8 @@ public class AfFileSelector {
 	private static File mOutputpath;
 
 	/**
-	 * showPhotograph ·½·¨¶ÔÓ¦½ÓÊÜº¯Êı
-	 * Èç¹ûÊ§°Ü½«·µ»Ø null
+	 * showPhotograph æ–¹æ³•å¯¹åº”æ¥å—å‡½æ•°
+	 * å¦‚æœå¤±è´¥å°†è¿”å› null
 	 */
 	public static File onActivityPhotographResult(Activity activity,int resultCode, Intent data) {
 		if (resultCode == Activity.RESULT_OK) {
@@ -35,8 +35,8 @@ public class AfFileSelector {
 	}
 	
 	/**
-	 * showFileChooser·½·¨¶ÔÓ¦½ÓÊÜº¯Êı
-	 * Èç¹ûÊ§°Ü½«·µ»Ø ""(¿Õ´®)
+	 * showFileChooseræ–¹æ³•å¯¹åº”æ¥å—å‡½æ•°
+	 * å¦‚æœå¤±è´¥å°†è¿”å› ""(ç©ºä¸²)
 	 */
 	public static String onActivityFileResult(Activity activity,int resultCode, Intent data) {
 		if (resultCode == Activity.RESULT_OK && null != data) {
@@ -46,8 +46,8 @@ public class AfFileSelector {
 	}
 
 	/**
-	 * showImageChooser·½·¨¶ÔÓ¦½ÓÊÜº¯Êı
-	 * Èç¹ûÊ§°Ü½«·µ»Ø ""(¿Õ´®)
+	 * showImageChooseræ–¹æ³•å¯¹åº”æ¥å—å‡½æ•°
+	 * å¦‚æœå¤±è´¥å°†è¿”å› ""(ç©ºä¸²)
 	 */
 	public static String onActivityImageResult(Activity activity,int resultCode, Intent data) {
 		if (resultCode == Activity.RESULT_OK && null != data) {
@@ -66,10 +66,10 @@ public class AfFileSelector {
 		return "";
 	}
 	/**
-	 * µ÷ÓÃÏà²á£¨Í¼Æ¬ä¯ÀÀÆ÷£©Ñ¡ÔñÍ¼Æ¬
-	 * @param outputpath ÅÄÕÕºóÔÚÊÖ»úµÄ´¢´æÂ·¾¶
-	 * @param request startActivityForResult µÄÇëÇó request 
-	 * ÓÃÓÚ onActivityResult ÖĞ¼ì²â
+	 * è°ƒç”¨ç›¸å†Œï¼ˆå›¾ç‰‡æµè§ˆå™¨ï¼‰é€‰æ‹©å›¾ç‰‡
+	 * @param outputpath æ‹ç…§ååœ¨æ‰‹æœºçš„å‚¨å­˜è·¯å¾„
+	 * @param request startActivityForResult çš„è¯·æ±‚ request 
+	 * ç”¨äº onActivityResult ä¸­æ£€æµ‹
 	 */
 	public static void showPhotograph(Activity activity,File outputpath, int request) {
 		// TODO Auto-generated method stub
@@ -81,14 +81,14 @@ public class AfFileSelector {
 			activity.startActivityForResult(intent, request);//or TAKE_SMALL_PICTURE 
 		} catch (Exception e) {
 			// TODO: handle exception
-			Toast.makeText(activity, "Ã»ÓĞÕÒµ½ÏµÍ³Ïà»ú³ÌĞòà¸~", Toast.LENGTH_SHORT)
+			Toast.makeText(activity, "æ²¡æœ‰æ‰¾åˆ°ç³»ç»Ÿç›¸æœºç¨‹åºå–”~", Toast.LENGTH_SHORT)
 			.show();
 		}
 	}
 	/**
-	 * µ÷ÓÃÏà²á£¨Í¼Æ¬ä¯ÀÀÆ÷£©Ñ¡ÔñÍ¼Æ¬
-	 * @param request startActivityForResult µÄÇëÇó request 
-	 * ÓÃÓÚ	onActivityResult ÖĞ¼ì²â
+	 * è°ƒç”¨ç›¸å†Œï¼ˆå›¾ç‰‡æµè§ˆå™¨ï¼‰é€‰æ‹©å›¾ç‰‡
+	 * @param request startActivityForResult çš„è¯·æ±‚ request 
+	 * ç”¨äº	onActivityResult ä¸­æ£€æµ‹
 	 */
 	public static void showImageChooser(Activity activity, int request) {
 		// TODO Auto-generated method stub
@@ -96,15 +96,15 @@ public class AfFileSelector {
 		try {
 			activity.startActivityForResult(i, request);
 		} catch (ActivityNotFoundException ex) {
-			Toast.makeText(activity, "ÊÖ»úÉÏ»¹Ã»ÓĞ°²×°Í¼Æ¬ä¯ÀÀÆ÷.", Toast.LENGTH_SHORT)
+			Toast.makeText(activity, "æ‰‹æœºä¸Šè¿˜æ²¡æœ‰å®‰è£…å›¾ç‰‡æµè§ˆå™¨.", Toast.LENGTH_SHORT)
 					.show();
 		}
 	}
 
 	/**
-	 * µ÷ÓÃÎÄ¼şä¯ÀÀÆ÷Ñ¡ÔñÎÄ¼ş
-	 * @param request startActivityForResult µÄÇëÇó request 
-	 * ÓÃÓÚ	onActivityResult ÖĞ¼ì²â
+	 * è°ƒç”¨æ–‡ä»¶æµè§ˆå™¨é€‰æ‹©æ–‡ä»¶
+	 * @param request startActivityForResult çš„è¯·æ±‚ request 
+	 * ç”¨äº	onActivityResult ä¸­æ£€æµ‹
 	 */
 	public static void showFileChooser(Activity activity, int request) {
 		Intent intent = new Intent(Intent.ACTION_GET_CONTENT);
@@ -112,10 +112,10 @@ public class AfFileSelector {
 		intent.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
 		// intent.addCategory(Intent.CATEGORY_OPENABLE);
 		try {
-			intent = Intent.createChooser(intent, "Ñ¡ÔñÒªÉÏ´«µÄÎÄ¼ş");
+			intent = Intent.createChooser(intent, "é€‰æ‹©è¦ä¸Šä¼ çš„æ–‡ä»¶");
 			activity.startActivityForResult(intent, request);
 		} catch (ActivityNotFoundException ex) {
-			Toast.makeText(activity, "ÊÖ»úÉÏ»¹Ã»ÓĞ°²×°ÎÄ¼ş¹ÜÀíÆ÷.", Toast.LENGTH_SHORT)
+			Toast.makeText(activity, "æ‰‹æœºä¸Šè¿˜æ²¡æœ‰å®‰è£…æ–‡ä»¶ç®¡ç†å™¨.", Toast.LENGTH_SHORT)
 					.show();
 		}
 	}
@@ -148,10 +148,10 @@ public class AfFileSelector {
 	}
 
 	/**
-	 * µ÷ÓÃÎÄ¼şä¯ÀÀÆ÷Ñ¡ÔñÎÄ¼ş
-	 * @param title ×Ô¶¨ÒåÑ¡ÔñÒ³Ãæ±êÌâ
-	 * @param request startActivityForResult µÄÇëÇó request 
-	 * ÓÃÓÚ	onActivityResult ÖĞ¼ì²â
+	 * è°ƒç”¨æ–‡ä»¶æµè§ˆå™¨é€‰æ‹©æ–‡ä»¶
+	 * @param title è‡ªå®šä¹‰é€‰æ‹©é¡µé¢æ ‡é¢˜
+	 * @param request startActivityForResult çš„è¯·æ±‚ request 
+	 * ç”¨äº	onActivityResult ä¸­æ£€æµ‹
 	 */
 	public static void showFileChooser(Activity activity,String title,int request) {
 		Intent intent = new Intent(Intent.ACTION_GET_CONTENT);
@@ -162,7 +162,7 @@ public class AfFileSelector {
 			intent = Intent.createChooser(intent, title);
 			activity.startActivityForResult(intent, request);
 		} catch (ActivityNotFoundException ex) {
-			Toast.makeText(activity, "ÊÖ»úÉÏ»¹Ã»ÓĞ°²×°ÎÄ¼ş¹ÜÀíÆ÷.",
+			Toast.makeText(activity, "æ‰‹æœºä¸Šè¿˜æ²¡æœ‰å®‰è£…æ–‡ä»¶ç®¡ç†å™¨.",
 					Toast.LENGTH_SHORT).show();
 		}
 	}

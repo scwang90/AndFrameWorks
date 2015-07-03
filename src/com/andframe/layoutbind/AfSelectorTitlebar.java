@@ -24,7 +24,7 @@ public abstract class AfSelectorTitlebar extends AfLayoutAlpha
 	private static final int ID_INVERT = -2;
 	private static final int ID_UNSELECT = -3;
 
-	protected String TEXT_FORMAT="ѡ����   %d/%d";
+	protected String TEXT_FORMAT="选择项   %d/%d";
 	
 	protected View mBtFinish = null;
 	protected View mOperate = null;
@@ -108,9 +108,9 @@ public abstract class AfSelectorTitlebar extends AfLayoutAlpha
 			if (!pm.isValid()) {
 				return;
 			}
-			pm.getMenu().add(0,ID_SELECTALL,0,"ȫѡ");
-			pm.getMenu().add(0,ID_INVERT,1,"��ѡ");
-			pm.getMenu().add(0,ID_UNSELECT,2,"ȫ��ѡ");
+			pm.getMenu().add(0,ID_SELECTALL,0,"全选");
+			pm.getMenu().add(0,ID_INVERT,1,"反选");
+			pm.getMenu().add(0,ID_UNSELECT,2,"全不选");
 			
 			Iterator<Entry<String, Integer>> iter = mMeuns.entrySet().iterator();  
 			while (iter.hasNext()) {  

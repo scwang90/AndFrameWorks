@@ -14,36 +14,36 @@ import android.util.Log;
 import com.andframe.application.AfExceptionHandler;
 import com.andframe.util.java.AfMD5;
 /**
- * AfImageCaches Í¼Æ¬»º´æ
+ * AfImageCaches å›¾ç‰‡ç¼“å­˜
  * @author SCWANG
- *		1.ÄÚ´æ»º´æ £¨ÓÃÓÚ¼ÓËÙÍ¼Æ¬µÄ¶ÁÈ¡£¬Ã»ÓĞµÄÊ±ºòÓÃÎÄ¼ş»º´æ£©
- *		2.ÎÄ¼ş»º´æ £¨ÎÄ¼ş»º´æ>=ÄÚ´æ»º´æ£©
+ *		1.å†…å­˜ç¼“å­˜ ï¼ˆç”¨äºåŠ é€Ÿå›¾ç‰‡çš„è¯»å–ï¼Œæ²¡æœ‰çš„æ—¶å€™ç”¨æ–‡ä»¶ç¼“å­˜ï¼‰
+ *		2.æ–‡ä»¶ç¼“å­˜ ï¼ˆæ–‡ä»¶ç¼“å­˜>=å†…å­˜ç¼“å­˜ï¼‰
  *		
- *		a.ÇëÔÚ Application ³õÊ¼»¯µÄÊ±ºò µ÷ÓÃ initialize ³õÊ¼»¯ path ÊÇÎÄ¼ş»º´æÂ·¾¶
+ *		a.è¯·åœ¨ Application åˆå§‹åŒ–çš„æ—¶å€™ è°ƒç”¨ initialize åˆå§‹åŒ– path æ˜¯æ–‡ä»¶ç¼“å­˜è·¯å¾„
  *			public static synchronized void initialize(Context context, String path) 
- *		b.Ê¹ÓÃ·½·¨Îªµ¥ÀıÄ£Ê½£¬µ÷ÓÃgetInstance»ñÈ¡»º´æÊµÀı
+ *		b.ä½¿ç”¨æ–¹æ³•ä¸ºå•ä¾‹æ¨¡å¼ï¼Œè°ƒç”¨getInstanceè·å–ç¼“å­˜å®ä¾‹
  *			public static synchronized AfImageCaches getInstance()
- *		c.ÏêÏ¸Ê¹ÓÃ
-				 * »ñÈ¡»º´æ BitmapDrawable 
+ *		c.è¯¦ç»†ä½¿ç”¨
+				 * è·å–ç¼“å­˜ BitmapDrawable 
 				public BitmapDrawable get(Context context, String url) 
-				 * »ñÈ¡»º´æ Bitmap 
+				 * è·å–ç¼“å­˜ Bitmap 
 				public Bitmap get(String url) 
-				 * Ìí¼Ó»º´æ 
+				 * æ·»åŠ ç¼“å­˜ 
 				public void put(String url, Bitmap bitmap) 
-				 * Ìí¼Ó»º´æ 
+				 * æ·»åŠ ç¼“å­˜ 
 				public void put(String url, BitmapDrawable bitmap) 
-				 * Çå³ıËùÓĞ»º´æ
+				 * æ¸…é™¤æ‰€æœ‰ç¼“å­˜
 				public void clear() 
-				 * »ñÈ¡»º´æ´óĞ¡
+				 * è·å–ç¼“å­˜å¤§å°
 				public int getCachesSize() 
-				 * »ñÈ¡»º´æÂ·¾¢ÎÄ¼ş
+				 * è·å–ç¼“å­˜è·¯åŠ²æ–‡ä»¶
 				public File getCachePath() 
-				 * É¾³ıÖ¸¶¨µÄ Í¼Æ¬»º´æ
+				 * åˆ é™¤æŒ‡å®šçš„ å›¾ç‰‡ç¼“å­˜
 				 * @param key
 				public void remove(String url) 
  */
 public class AfImageCaches {
-	// Ê¹ÓÃ 12.5% µÄÄÚ´æ×÷ÎªÄÚ´æ´æ´¢
+	// ä½¿ç”¨ 12.5% çš„å†…å­˜ä½œä¸ºå†…å­˜å­˜å‚¨
 	private int mMemorySize = 10 * 1024 * 1024;// (int)(Runtime.getRuntime().maxMemory()/8);
 	private static File mCacheDirFile = null;
 	private static AfImageCaches mInstance = null;
@@ -98,10 +98,10 @@ public class AfImageCaches {
 	}
 
 	/**
-	 * »ñÈ¡»º´æ BitmapDrawable 
+	 * è·å–ç¼“å­˜ BitmapDrawable 
 	 * @param context 
-	 * @param url Í¼Æ¬µÄURl
-	 * @return BitmapDrawable ·ñÔò null
+	 * @param url å›¾ç‰‡çš„URl
+	 * @return BitmapDrawable å¦åˆ™ null
 	 */
 	public BitmapDrawable get(Context context, String url) {
 		// TODO Auto-generated method stub
@@ -112,15 +112,15 @@ public class AfImageCaches {
 		return new BitmapDrawable(context.getResources(), bitmap);
 	}
 	/**
-	 * »ñÈ¡»º´æ Bitmap 
-	 * @param url Í¼Æ¬µÄURl
-	 * @return Bitmap ·ñÔò null
+	 * è·å–ç¼“å­˜ Bitmap 
+	 * @param url å›¾ç‰‡çš„URl
+	 * @return Bitmap å¦åˆ™ null
 	 */
 	public Bitmap get(String url) {
 		Log.e("BitmapCaches", url);
 
 		String key = AfMD5.getMD5(url.getBytes());
-		// ´ÓÄÚ´æÖĞÈ¡
+		// ä»å†…å­˜ä¸­å–
 		synchronized (mMemoryCache) {
 			Bitmap bitmap = mMemoryCache.get(key);
 			if (bitmap != null) {
@@ -131,7 +131,7 @@ public class AfImageCaches {
 				return bitmap;
 			}
 		}
-		// ´ÓÎÄ¼şÖĞÈ¡
+		// ä»æ–‡ä»¶ä¸­å–
 		try {
 			String Path = mCacheDirFile.getAbsolutePath() + File.separator
 					+ key;
@@ -148,15 +148,15 @@ public class AfImageCaches {
 			return bitmap;
 		} catch (Throwable e) {
 			e.printStackTrace();// handled
-//			AfExceptionHandler.handler(e, "Í¼Æ¬»º´æ£¬get ³öÏÖÒì³£");
+//			AfExceptionHandler.handler(e, "å›¾ç‰‡ç¼“å­˜ï¼Œget å‡ºç°å¼‚å¸¸");
 		}
 		return null;
 	}
 
 	/**
-	 * Ìí¼Ó»º´æ 
-	 * @param url Í¼Æ¬µÄURl
-	 * @param bitmap »º´æÍ¼Æ¬
+	 * æ·»åŠ ç¼“å­˜ 
+	 * @param url å›¾ç‰‡çš„URl
+	 * @param bitmap ç¼“å­˜å›¾ç‰‡
 	 */
 	public void put(String url, Bitmap bitmap) {
 		String key = AfMD5.getMD5(url.getBytes());
@@ -164,23 +164,23 @@ public class AfImageCaches {
 			synchronized (mMemoryCache) {
 //				Log.w("Bitmpa Cache", "add cache: " + key);
 				mMemoryCache.put(key, bitmap);
-				// ÒÆµ½ÎÄ¼ş»º´æ
+				// ç§»åˆ°æ–‡ä»¶ç¼“å­˜
 				this.putToFile(key, bitmap);
 			}
 		}
 	}
 
 	/**
-	 * Ìí¼Ó»º´æ 
-	 * @param url Í¼Æ¬µÄURl
-	 * @param bitmap »º´æÍ¼Æ¬
+	 * æ·»åŠ ç¼“å­˜ 
+	 * @param url å›¾ç‰‡çš„URl
+	 * @param bitmap ç¼“å­˜å›¾ç‰‡
 	 */
 	public void put(String url, BitmapDrawable bitmap) {
 		// TODO Auto-generated method stub
 		put(url, bitmap.getBitmap());
 	}
 	/**
-	 * Çå³ıËùÓĞ»º´æ
+	 * æ¸…é™¤æ‰€æœ‰ç¼“å­˜
 	 */
 	public void clear() {
 		if (mMemoryCache != null) {
@@ -197,7 +197,7 @@ public class AfImageCaches {
 	}
 
 	/**
-	 * »ñÈ¡»º´æ´óĞ¡
+	 * è·å–ç¼“å­˜å¤§å°
 	 */
 	public int getCachesSize() {
 		int size = 0;
@@ -211,7 +211,7 @@ public class AfImageCaches {
 	}
 
 	/**
-	 * »ñÈ¡»º´æÂ·¾¢ÎÄ¼ş
+	 * è·å–ç¼“å­˜è·¯åŠ²æ–‡ä»¶
 	 * @return
 	 */
 	public File getCachePath() {
@@ -220,7 +220,7 @@ public class AfImageCaches {
 	}
 
 	/**
-	 * É¾³ıÖ¸¶¨µÄ Í¼Æ¬»º´æ
+	 * åˆ é™¤æŒ‡å®šçš„ å›¾ç‰‡ç¼“å­˜
 	 * @param key
 	 */
 	public void remove(String url) {
@@ -264,11 +264,11 @@ public class AfImageCaches {
 			tFileOutputStream.close();
 		} catch (Throwable e) {
 			e.printStackTrace();// handled
-//			AfExceptionHandler.handler(e, "Í¼Æ¬»º´æ£¬putToFile ³öÏÖÒì³£");
+//			AfExceptionHandler.handler(e, "å›¾ç‰‡ç¼“å­˜ï¼ŒputToFile å‡ºç°å¼‚å¸¸");
 		}
 	}
 	/**
-	 * Ó³ÉäÒ»¸öurlµ½±¾µØ»º´æÂ·¾¶µ½
+	 * æ˜ å°„ä¸€ä¸ªurlåˆ°æœ¬åœ°ç¼“å­˜è·¯å¾„åˆ°
 	 * @param mLinkUrl
 	 * @return
 	 */

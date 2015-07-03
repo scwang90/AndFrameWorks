@@ -7,7 +7,7 @@ import java.lang.annotation.Target;
 
 
 /**
- * ע��ʽ�󶨿ؼ�<br>
+ * 注解式绑定控件<br>
  */
 @Target(ElementType.FIELD)
 @Retention(RetentionPolicy.RUNTIME)

@@ -20,7 +20,7 @@ public abstract class AfListViewFramentImpl<T> extends AfListViewFrament<T> {
 		// TODO Auto-generated constructor stub
 	}
 	/**
-	 * Ê¹ÓÃ»º´æ±ØĞëµ÷ÓÃÕâ¸ö¹¹Ôìº¯Êı
+	 * ä½¿ç”¨ç¼“å­˜å¿…é¡»è°ƒç”¨è¿™ä¸ªæ„é€ å‡½æ•°
 	 * @param clazz
 	 */
 	public AfListViewFramentImpl(Class<T> clazz) {
@@ -28,8 +28,8 @@ public abstract class AfListViewFramentImpl<T> extends AfListViewFrament<T> {
 		// TODO Auto-generated constructor stub
 	}
 	/**
-	 * Ê¹ÓÃ»º´æ±ØĞëµ÷ÓÃÕâ¸ö¹¹Ôìº¯Êı
-	 * 	¿ÉÒÔ×Ô¶¨Òå»º´æ±êÊ¶
+	 * ä½¿ç”¨ç¼“å­˜å¿…é¡»è°ƒç”¨è¿™ä¸ªæ„é€ å‡½æ•°
+	 * 	å¯ä»¥è‡ªå®šä¹‰ç¼“å­˜æ ‡è¯†
 	 * @param clazz
 	 */
 	public AfListViewFramentImpl(Class<T> clazz, String KEY_CACHELIST) {

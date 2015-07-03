@@ -3,7 +3,7 @@ package com.andframe.model;
 import com.andframe.model.framework.AfModel;
 
 /**
- * Ïà²á
+ * ç›¸å†Œ
  */
 public class Photo extends AfModel {
 	

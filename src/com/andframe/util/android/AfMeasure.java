@@ -6,16 +6,16 @@ import android.view.ViewGroup;
 import android.view.View.MeasureSpec;
 import android.widget.LinearLayout.LayoutParams;
 /**
- * ÊÓÍ¼²âÁ¿¹¤¾ß
+ * è§†å›¾æµ‹é‡å·¥å…·
  * @author SCWANG
- *	ÔÚÉèÖÃViewµÄÄÚÈİÖ®ºó ¶ÔViewµÄ´óÑ§½øĞĞ²âÁ¿
+ *	åœ¨è®¾ç½®Viewçš„å†…å®¹ä¹‹å å¯¹Viewçš„å¤§å­¦è¿›è¡Œæµ‹é‡
  */
 public class AfMeasure {
 
 	/**
-	 * ¶Ôview½øĞĞ²âÁ¿
+	 * å¯¹viewè¿›è¡Œæµ‹é‡
 	 * @param view
-	 * @return ·µ»Ø Point x ¿í¶È y ¸ß¶È
+	 * @return è¿”å› Point x å®½åº¦ y é«˜åº¦
 	 */
     @SuppressWarnings("deprecation")
     public static Point measureView(View view) {

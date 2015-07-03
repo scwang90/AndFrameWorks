@@ -2,22 +2,22 @@ package com.andframe.activity.framework;
 
 
 /**
- * ¿ò¼ÜÒ³Ãæ¼àÌı½Ó¿Ú AfPageListener
+ * æ¡†æ¶é¡µé¢ç›‘å¬æ¥å£ AfPageListener
  * @author SCWANG
- * 	Ö÷Òª¼àÌı¼üÅÌÏÔÊ¾ºÍÒş²Ø
- * 	Ò³ÃæĞèÒª²éÑ¯Êı¾İ±ä¶¯
+ * 	ä¸»è¦ç›‘å¬é”®ç›˜æ˜¾ç¤ºå’Œéšè—
+ * 	é¡µé¢éœ€è¦æŸ¥è¯¢æ•°æ®å˜åŠ¨
  */
 public interface AfPageListener{
 	/**
-	 * µ±Èí¼üÅÌÏÔÊ¾
+	 * å½“è½¯é”®ç›˜æ˜¾ç¤º
 	 */
 	public void onSoftInputShown();
 	/**
-	 * µ±ÃæÈí¼üÅÌÊÕÆğ
+	 * å½“é¢è½¯é”®ç›˜æ”¶èµ·
 	 */
 	public void onSoftInputHiden();
 	/**
-	 * ²éÑ¯ÏµÍ³Êı¾İ±ä¶¯
+	 * æŸ¥è¯¢ç³»ç»Ÿæ•°æ®å˜åŠ¨
 	 */
 	public void onQueryChanged();
 }

@@ -15,16 +15,16 @@ import com.andframe.caches.AfImageCaches;
 import com.andframe.feature.AfDensity;
 import com.andframe.thread.AfHandlerTask;
 /**
- * @Description: Í¼Æ¬Ñ¹Ëõ´¦ÀíÀà
+ * @Description: å›¾ç‰‡å‹ç¼©å¤„ç†ç±»
  * @Author: scwang
- * @Version: V1.0, 2015-3-13 ÏÂÎç4:54:23
+ * @Version: V1.0, 2015-3-13 ä¸‹åˆ4:54:23
  */
 public class AfImageThumb {
 
 	/**
-	 * @Description: °ó¶¨ image µ½ ImageView
-	 * 	Ê¹ÓÃÎÄ¼ş»º´æ£¬ºÍ¶àÏß³Ì£¬Ìá¸ß°ó¶¨Êı¾İÊé¼Ç¶Å
-	 *  Í¼Æ¬´óĞ¡ÊÊÅäÆÁÄ»£¬·ÀÖ¹ÄÚ´æÒì³£
+	 * @Description: ç»‘å®š image åˆ° ImageView
+	 * 	ä½¿ç”¨æ–‡ä»¶ç¼“å­˜ï¼Œå’Œå¤šçº¿ç¨‹ï¼Œæé«˜ç»‘å®šæ•°æ®ä¹¦è®°æœ
+	 *  å›¾ç‰‡å¤§å°é€‚é…å±å¹•ï¼Œé˜²æ­¢å†…å­˜å¼‚å¸¸
 	 * @Author: scwang
 	 * @param iv
 	 * @param image
@@ -59,10 +59,10 @@ public class AfImageThumb {
 
 	/**
 	 * @Description: 
-	 * ´ÓÎÄ¼ş¼ÓÔØÒ»ÕÅ²»´óÓÚ ÆÁÄ»/3 µÄÍ¼Æ¬
-	 * Èç¹û´óÓÚ½«°´ËõĞ¡µ½²» ´óÓÚÆÁÄ»/3 (2µÄ±¶ÊıËõĞ¡£¬Ô­±ÈÀı)
+	 * ä»æ–‡ä»¶åŠ è½½ä¸€å¼ ä¸å¤§äº å±å¹•/3 çš„å›¾ç‰‡
+	 * å¦‚æœå¤§äºå°†æŒ‰ç¼©å°åˆ°ä¸ å¤§äºå±å¹•/3 (2çš„å€æ•°ç¼©å°ï¼ŒåŸæ¯”ä¾‹)
 	 * @Author: scwang
-	 * @param path ÎÄ¼şÂ·¾¶
+	 * @param path æ–‡ä»¶è·¯å¾„
 	 * @return
 	 * @throws IOException
 	 */
@@ -75,11 +75,11 @@ public class AfImageThumb {
 
 	/**
 	 * @Description: 
-	 * ´ÓÎÄ¼ş¼ÓÔØÒ»ÕÅ²»´óÓÚ screenscale µÄÍ¼Æ¬
-	 * Èç¹û´óÓÚ½«°´ËõĞ¡µ½²»´óÓÚscreenscale (2µÄ±¶ÊıËõĞ¡£¬Ô­±ÈÀı)
+	 * ä»æ–‡ä»¶åŠ è½½ä¸€å¼ ä¸å¤§äº screenscale çš„å›¾ç‰‡
+	 * å¦‚æœå¤§äºå°†æŒ‰ç¼©å°åˆ°ä¸å¤§äºscreenscale (2çš„å€æ•°ç¼©å°ï¼ŒåŸæ¯”ä¾‹)
 	 * @Author: scwang
-	 * @param path ÎÄ¼şÂ·¾¶
-	 * @param screenscale ×î´ó¿í¶È£¨Ïà¶ÔÊÖ»úÆÁÄ»£¬Èç0.3±¶ÆÁÄ»£©
+	 * @param path æ–‡ä»¶è·¯å¾„
+	 * @param screenscale æœ€å¤§å®½åº¦ï¼ˆç›¸å¯¹æ‰‹æœºå±å¹•ï¼Œå¦‚0.3å€å±å¹•ï¼‰
 	 * @return
 	 * @throws IOException
 	 */
@@ -92,12 +92,12 @@ public class AfImageThumb {
 
 	/**
 	 * @Description: 
-	 * ´ÓÎÄ¼ş¼ÓÔØÒ»ÕÅ²»´óÓÚ maxw maxh µÄÍ¼Æ¬
-	 * Èç¹û´óÓÚ½«°´ËõĞ¡µ½²»´óÓÚmaxw maxh (2µÄ±¶ÊıËõĞ¡£¬Ô­±ÈÀı)
+	 * ä»æ–‡ä»¶åŠ è½½ä¸€å¼ ä¸å¤§äº maxw maxh çš„å›¾ç‰‡
+	 * å¦‚æœå¤§äºå°†æŒ‰ç¼©å°åˆ°ä¸å¤§äºmaxw maxh (2çš„å€æ•°ç¼©å°ï¼ŒåŸæ¯”ä¾‹)
 	 * @Author: scwang
-	 * @param path ÎÄ¼şÂ·¾¶
-	 * @param maxw ×î´ó¿í¶È
-	 * @param maxh ×î´ó¸ß¶È
+	 * @param path æ–‡ä»¶è·¯å¾„
+	 * @param maxw æœ€å¤§å®½åº¦
+	 * @param maxh æœ€å¤§é«˜åº¦
 	 * @return
 	 * @throws IOException
 	 */
@@ -120,25 +120,25 @@ public class AfImageThumb {
 
 
 	/**
-	 * @Description: ¿ÉÓÃÓÚÉú³ÉËõÂÔÍ¼¡££¨Ä¬ÈÏ»ØÊÕÔ­Í¼£©
+	 * @Description: å¯ç”¨äºç”Ÿæˆç¼©ç•¥å›¾ã€‚ï¼ˆé»˜è®¤å›æ”¶åŸå›¾ï¼‰
 	 * @Author: scwang
-	 * @param source Ô­Í¼
-	 * @param width ¼ô²Ã´óĞ¡
-	 * @param height ¼ô²Ã´óĞ¡
-	 * @return ËõÂÔÍ¼
+	 * @param source åŸå›¾
+	 * @param width å‰ªè£å¤§å°
+	 * @param height å‰ªè£å¤§å°
+	 * @return ç¼©ç•¥å›¾
 	 */
 	public static Bitmap extractMiniThumb(Bitmap source, int width, int height) {
 		return extractMiniThumb(source, width, height, true);
 	}
 
 	/**
-	 * @Description: ¿ÉÓÃÓÚÉú³ÉËõÂÔÍ¼¡£
+	 * @Description: å¯ç”¨äºç”Ÿæˆç¼©ç•¥å›¾ã€‚
 	 * @Author: scwang
-	 * @param source Ô­Í¼
-	 * @param width ¼ô²Ã´óĞ¡
-	 * @param height ¼ô²Ã´óĞ¡
-	 * @param recycle ÊÇ·ñ»ØÊÕÔ­Í¼
-	 * @return ËõÂÔÍ¼
+	 * @param source åŸå›¾
+	 * @param width å‰ªè£å¤§å°
+	 * @param height å‰ªè£å¤§å°
+	 * @param recycle æ˜¯å¦å›æ”¶åŸå›¾
+	 * @return ç¼©ç•¥å›¾
 	 */
 	public static Bitmap extractMiniThumb(Bitmap source, int width, int height,
 			boolean recycle) {

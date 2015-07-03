@@ -23,32 +23,32 @@ import java.lang.annotation.Target;
 // TODO: Auto-generated Javadoc
 /**
  * The Interface Column.
- * ±íÊ¾ÁĞ
+ * è¡¨ç¤ºåˆ—
  */
 @Target( { ElementType.FIELD })
 @Retention(RetentionPolicy.RUNTIME)
 public @interface Column {
 	/**
-	 * ÊÇ·ñÊÇÖ÷¼üID
+	 * æ˜¯å¦æ˜¯ä¸»é”®ID
 	 * @return the boolean
 	 */
 	public abstract boolean id() default false;
 	/**
-	 * ÁĞÃû.
+	 * åˆ—å.
 	 *
 	 * @return the string
 	 */
 	public String value() default "";
 
 	/**
-	 * ÁĞÀàĞÍ.
+	 * åˆ—ç±»å‹.
 	 *
 	 * @return the string
 	 */
 	public abstract String type() default "";
 
 	/**
-	 * ³¤¶È.
+	 * é•¿åº¦.
 	 *
 	 * @return the int
 	 */

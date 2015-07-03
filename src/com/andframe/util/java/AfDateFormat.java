@@ -9,14 +9,14 @@ import java.util.Locale;
 public class AfDateFormat {
 	
 	public static Locale LOCALE = Locale.ENGLISH;
-	public static DateFormat DAY = new SimpleDateFormat("MÔÂdÈÕ",LOCALE);
+	public static DateFormat DAY = new SimpleDateFormat("Mæœˆdæ—¥",LOCALE);
 	/**
-	 * ÈÕÆÚĞÎÊ½¸ñÊ½»¯
+	 * æ—¥æœŸå½¢å¼æ ¼å¼åŒ–
 	 * @see y-M-d
 	 */
 	public static DateFormat DATE = new SimpleDateFormat("y-M-d",LOCALE);
 	public static DateFormat TIME = new SimpleDateFormat("HH:mm:ss",LOCALE);
-	public static DateFormat SIMPLE = new SimpleDateFormat("MÔÂdÈÕ HH:mm",LOCALE);
+	public static DateFormat SIMPLE = new SimpleDateFormat("Mæœˆdæ—¥ HH:mm",LOCALE);
 	public static DateFormat FULL = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss",LOCALE);
 
 	public static String format(String format, Object date) {
@@ -49,32 +49,32 @@ public class AfDateFormat {
 		int datemonth = calender.get(Calendar.MONTH);
 		int dateyear = calender.get(Calendar.YEAR);
 		if (date.before(now)) {
-			if (dateyear < thisyear) {// ½ñÄêÒÔÇ°
+			if (dateyear < thisyear) {// ä»Šå¹´ä»¥å‰
 				return DATE.format(date);
-			} else if (datemonth < thismonth) {// Õâ¸öÔÂÒÔÇ°
+			} else if (datemonth < thismonth) {// è¿™ä¸ªæœˆä»¥å‰
 				return SIMPLE.format(date);
-			} else if (dateday < thisday - 2) {// Ç°ÌìÖ®Ç°
-				return format("dºÅ HH:mm", date);
-			} else if (dateday < thisday - 1) {// ×òÌìÖ®Ç°
-				return format("Ç°Ìì HH:mm", date);
-			} else if (dateday < thisday) {// ½ñÌìÖ®Ç°
-				return format("×òÌì HH:mm", date);
+			} else if (dateday < thisday - 2) {// å‰å¤©ä¹‹å‰
+				return format("då· HH:mm", date);
+			} else if (dateday < thisday - 1) {// æ˜¨å¤©ä¹‹å‰
+				return format("å‰å¤© HH:mm", date);
+			} else if (dateday < thisday) {// ä»Šå¤©ä¹‹å‰
+				return format("æ˜¨å¤© HH:mm", date);
 			} else {
-				return format("½ñÌì HH:mm", date);
+				return format("ä»Šå¤© HH:mm", date);
 			}
 		} else {
-			if (dateyear > thisyear) { // Ã÷ÄêÒÔºó
+			if (dateyear > thisyear) { // æ˜å¹´ä»¥å
 				return DATE.format(date);
-			} else if (datemonth > thismonth) {// ÏÂ¸öÔÂÒÔºó
+			} else if (datemonth > thismonth) {// ä¸‹ä¸ªæœˆä»¥å
 				return SIMPLE.format(date);
-			} else if (dateday > thisday + 2) {// ºóÌìÒÔºó
-				return format("dºÅ HH:mm", date);
-			} else if (dateday > thisday + 1) {// Ã÷ÌìÒÔºó
-				return format("ºóÌì HH:mm", date);
-			} else if (dateday > thisday) {// ½ñÌìÒÔºó
-				return format("Ã÷Ìì HH:mm", date);
+			} else if (dateday > thisday + 2) {// åå¤©ä»¥å
+				return format("då· HH:mm", date);
+			} else if (dateday > thisday + 1) {// æ˜å¤©ä»¥å
+				return format("åå¤© HH:mm", date);
+			} else if (dateday > thisday) {// ä»Šå¤©ä»¥å
+				return format("æ˜å¤© HH:mm", date);
 			} else {
-				return format("½ñÌì HH:mm", date);
+				return format("ä»Šå¤© HH:mm", date);
 			}
 		}
 	}

@@ -22,20 +22,20 @@ public abstract class AfModuleNodata extends AfLayoutModule implements IAfLayout
 			mTvDescription = findDescription(view);
 			if (mButton instanceof TextView) {
 				mTvButton = TextView.class.cast(mButton);
-				setButtonText("µã»÷Ë¢ĞÂ");
+				setButtonText("ç‚¹å‡»åˆ·æ–°");
 			}
 //			mTvButton.setVisibility(View.GONE);
 		}
 	}
 
 	/**
-	 * »ñÈ¡Ë¢ĞÂ°´Å¥ ½¨ÒéÊÇ TextView
+	 * è·å–åˆ·æ–°æŒ‰é’® å»ºè®®æ˜¯ TextView
 	 * @param view
 	 * @return
 	 */
 	protected abstract View findRefreshButton(AfViewable view);
 	/**
-	 * »ñÈ¡ĞÅÏ¢ÌáÊ¾ TextView
+	 * è·å–ä¿¡æ¯æç¤º TextView
 	 * @param view
 	 * @return
 	 */

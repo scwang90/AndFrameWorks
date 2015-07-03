@@ -9,10 +9,10 @@ import java.util.Locale;
 import java.util.Map;
 
 /**
- * @Description: MD5 ¼ÆËã
+ * @Description: MD5 è®¡ç®—
  * @Author: scwang
- * @Version: V1.0, 2015-4-3 ÏÂÎç3:17:51
- * @Modified: ³õ´Î´´½¨AfMD5Àà
+ * @Version: V1.0, 2015-4-3 ä¸‹åˆ3:17:51
+ * @Modified: åˆæ¬¡åˆ›å»ºAfMD5ç±»
  */
 public class AfMD5 {
 	
@@ -55,7 +55,7 @@ public class AfMD5 {
 	}
 
 	/**
-	 * »ñÈ¡µ¥¸öÎÄ¼şµÄMD5Öµ£¡
+	 * è·å–å•ä¸ªæ–‡ä»¶çš„MD5å€¼ï¼
 	 * @param file
 	 * @return
 	 */
@@ -83,11 +83,11 @@ public class AfMD5 {
 	}
 
 	/**
-	 * »ñÈ¡ÎÄ¼ş¼ĞÖĞÎÄ¼şµÄMD5Öµ
+	 * è·å–æ–‡ä»¶å¤¹ä¸­æ–‡ä»¶çš„MD5å€¼
 	 * 
 	 * @param file
 	 * @param listChild
-	 *            ;trueµİ¹é×ÓÄ¿Â¼ÖĞµÄÎÄ¼ş
+	 *            ;trueé€’å½’å­ç›®å½•ä¸­çš„æ–‡ä»¶
 	 * @return
 	 */
 	public static Map<String, String> getDirMD5(File file, boolean listChild) {

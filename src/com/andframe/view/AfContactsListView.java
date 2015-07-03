@@ -60,12 +60,12 @@ public class AfContactsListView extends ExpandableListView implements
 	}
 
 	/**
-	 * ÓÃÓÚÔÚÁĞ±íÍ·ÏÔÊ¾µÄ View,mHeaderViewVisible Îª true ²Å¿É¼û
+	 * ç”¨äºåœ¨åˆ—è¡¨å¤´æ˜¾ç¤ºçš„ View,mHeaderViewVisible ä¸º true æ‰å¯è§
 	 */
 	private View mHeaderView;
 
 	/**
-	 * ÁĞ±íÍ·ÊÇ·ñ¿É¼û
+	 * åˆ—è¡¨å¤´æ˜¯å¦å¯è§
 	 */
 	private boolean mHeaderViewVisible;
 
@@ -93,7 +93,7 @@ public class AfContactsListView extends ExpandableListView implements
 	}
 
 	/**
-	 * µã»÷ HeaderView ´¥·¢µÄÊÂ¼ş
+	 * ç‚¹å‡» HeaderView è§¦å‘çš„äº‹ä»¶
 	 */
 	private void headerViewClick() {
 		long packed = getExpandableListPosition(this.getFirstVisiblePosition());
@@ -115,8 +115,8 @@ public class AfContactsListView extends ExpandableListView implements
 	private float mDownY;
 
 	/**
-	 * Èç¹û HeaderView ÊÇ¿É¼ûµÄ , ´Ëº¯ÊıÓÃÓÚÅĞ¶ÏÊÇ·ñµã»÷ÁË HeaderView, ²¢¶Ô×öÏàÓ¦µÄ´¦Àí , ÒòÎª HeaderView
-	 * ÊÇ»­ÉÏÈ¥µÄ , ËùÒÔÉèÖÃÊÂ¼ş¼àÌıÊÇÎŞĞ§µÄ , Ö»ÓĞ×ÔĞĞ¿ØÖÆ .
+	 * å¦‚æœ HeaderView æ˜¯å¯è§çš„ , æ­¤å‡½æ•°ç”¨äºåˆ¤æ–­æ˜¯å¦ç‚¹å‡»äº† HeaderView, å¹¶å¯¹åšç›¸åº”çš„å¤„ç† , å› ä¸º HeaderView
+	 * æ˜¯ç”»ä¸Šå»çš„ , æ‰€ä»¥è®¾ç½®äº‹ä»¶ç›‘å¬æ˜¯æ— æ•ˆçš„ , åªæœ‰è‡ªè¡Œæ§åˆ¶ .
 	 */
 	@Override
 	public boolean onTouchEvent(MotionEvent ev) {
@@ -134,7 +134,7 @@ public class AfContactsListView extends ExpandableListView implements
 				float y = ev.getY();
 				float offsetX = Math.abs(x - mDownX);
 				float offsetY = Math.abs(y - mDownY);
-				// Èç¹û HeaderView ÊÇ¿É¼ûµÄ , µã»÷ÔÚ HeaderView ÄÚ , ÄÇÃ´´¥·¢ headerClick()
+				// å¦‚æœ HeaderView æ˜¯å¯è§çš„ , ç‚¹å‡»åœ¨ HeaderView å†… , é‚£ä¹ˆè§¦å‘ headerClick()
 				if (x <= mHeaderViewWidth && y <= mHeaderViewHeight
 						&& offsetX <= mHeaderViewWidth
 						&& offsetY <= mHeaderViewHeight) {
@@ -160,7 +160,7 @@ public class AfContactsListView extends ExpandableListView implements
 	@Override
 	public void setAdapter(ExpandableListAdapter adapter) {
 		super.setAdapter(adapter);
-		throw new NullPointerException("ÇëÊ¹ÓÃ setAdapter(AfContactsAdapter adapter)");
+		throw new NullPointerException("è¯·ä½¿ç”¨ setAdapter(AfContactsAdapter adapter)");
 	}
 
 	/**
@@ -170,7 +170,7 @@ public class AfContactsListView extends ExpandableListView implements
 	public void setAdapter(ListAdapter adapter) {
 		// TODO Auto-generated method stub
 		super.setAdapter(adapter);
-		throw new NullPointerException("ÇëÊ¹ÓÃ setAdapter(AfContactsAdapter adapter)");
+		throw new NullPointerException("è¯·ä½¿ç”¨ setAdapter(AfContactsAdapter adapter)");
 	}
 
 
@@ -185,7 +185,7 @@ public class AfContactsListView extends ExpandableListView implements
 	
 	/**
 	 * 
-	 * µã»÷ÁË Group ´¥·¢µÄÊÂ¼ş , Òª¸ù¾İ¸ù¾İµ±Ç°µã»÷ Group µÄ×´Ì¬À´
+	 * ç‚¹å‡»äº† Group è§¦å‘çš„äº‹ä»¶ , è¦æ ¹æ®æ ¹æ®å½“å‰ç‚¹å‡» Group çš„çŠ¶æ€æ¥
 	 */
 	@Override
 	public boolean onGroupClick(ExpandableListView parent, View v, int group,
@@ -199,7 +199,7 @@ public class AfContactsListView extends ExpandableListView implements
 			parent.collapseGroup(group);
 		}
 
-		// ·µ»Ø true ²Å¿ÉÒÔµ¯»ØµÚÒ»ĞĞ , ²»ÖªµÀÎªÊ²Ã´
+		// è¿”å› true æ‰å¯ä»¥å¼¹å›ç¬¬ä¸€è¡Œ , ä¸çŸ¥é“ä¸ºä»€ä¹ˆ
 		return true;
 
 	}
@@ -309,12 +309,12 @@ public class AfContactsListView extends ExpandableListView implements
 
 	@Override
 	/**
-	 * ÁĞ±í½çÃæ¸üĞÂÊ±µ÷ÓÃ¸Ã·½·¨(Èç¹ö¶¯Ê±)
+	 * åˆ—è¡¨ç•Œé¢æ›´æ–°æ—¶è°ƒç”¨è¯¥æ–¹æ³•(å¦‚æ»šåŠ¨æ—¶)
 	 */
 	protected void dispatchDraw(Canvas canvas) {
 		super.dispatchDraw(canvas);
 		if (mHeaderViewVisible) {
-			// ·Ö×éÀ¸ÊÇÖ±½Ó»æÖÆµ½½çÃæÖĞ£¬¶ø²»ÊÇ¼ÓÈëµ½ViewGroupÖĞ
+			// åˆ†ç»„æ æ˜¯ç›´æ¥ç»˜åˆ¶åˆ°ç•Œé¢ä¸­ï¼Œè€Œä¸æ˜¯åŠ å…¥åˆ°ViewGroupä¸­
 			drawChild(canvas, mHeaderView, getDrawingTime());
 		}
 	}

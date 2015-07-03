@@ -13,10 +13,10 @@ import com.andframe.layoutbind.AfModuleProgress;
 import com.andframe.layoutbind.AfModuleProgressImpl;
 import com.andframe.layoutbind.AfModuleTitlebar;
 /**
- * @Description: Êı¾İÁĞ±í¿ò¼Ü Activity
+ * @Description: æ•°æ®åˆ—è¡¨æ¡†æ¶ Activity
  * @Author: scwang
- * @Version: V1.0, 2015-2-27 ÉÏÎç10:27:22
- * @param <T> ÁĞ±íÊı¾İÊµÌåÀà
+ * @Version: V1.0, 2015-2-27 ä¸Šåˆ10:27:22
+ * @param <T> åˆ—è¡¨æ•°æ®å®ä½“ç±»
  */
 public abstract class AfListViewActivityImpl<T> extends AfListViewActivity<T>{
 	
@@ -26,7 +26,7 @@ public abstract class AfListViewActivityImpl<T> extends AfListViewActivity<T>{
 		// TODO Auto-generated constructor stub
 	}
 	/**
-	 * Ê¹ÓÃ»º´æ±ØĞëµ÷ÓÃÕâ¸ö¹¹Ôìº¯Êı
+	 * ä½¿ç”¨ç¼“å­˜å¿…é¡»è°ƒç”¨è¿™ä¸ªæ„é€ å‡½æ•°
 	 * @param clazz
 	 */
 	public AfListViewActivityImpl(Class<T> clazz) {
@@ -34,8 +34,8 @@ public abstract class AfListViewActivityImpl<T> extends AfListViewActivity<T>{
 		// TODO Auto-generated constructor stub
 	}
 	/**
-	 * Ê¹ÓÃ»º´æ±ØĞëµ÷ÓÃÕâ¸ö¹¹Ôìº¯Êı
-	 * 	¿ÉÒÔ×Ô¶¨Òå»º´æ±êÊ¶
+	 * ä½¿ç”¨ç¼“å­˜å¿…é¡»è°ƒç”¨è¿™ä¸ªæ„é€ å‡½æ•°
+	 * 	å¯ä»¥è‡ªå®šä¹‰ç¼“å­˜æ ‡è¯†
 	 * @param clazz
 	 */
 	public AfListViewActivityImpl(Class<T> clazz, String KEY_CACHELIST) {

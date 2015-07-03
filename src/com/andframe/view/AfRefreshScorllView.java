@@ -29,7 +29,7 @@ public class AfRefreshScorllView extends AfPullToRefreshBase<ScrollView>
         // TODO Auto-generated method stub
     	ScrollView scrollview = new ScrollView(context, attrs);
 //        ScrollBarUtil.bindScrollBar(scrollview, R.drawable.shape_scrollbar);
-        //解决scrollview的上边和下边有黑色的阴影
+        //瑙ｅ喅scrollview鐨勪笂杈瑰拰涓嬭竟鏈夐粦鑹茬殑闃村奖
     	scrollview.setFadingEdgeLength(0);
         return scrollview;
     }

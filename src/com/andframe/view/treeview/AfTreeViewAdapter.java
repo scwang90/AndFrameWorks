@@ -36,9 +36,9 @@ public abstract class AfTreeViewAdapter<T> extends AfMultiChoiceAdapter<T> {
 		mltOriginData = ltdata;
 		mEstablisher = establisher;
 		mDefaultExpanded = isExpanded;
-		//¹¹ÔìÊ÷ĞÎ
+		//æ„é€ æ ‘å½¢
 		mRootNode = mEstablisher.establish(ltdata,isExpanded);
-		//½«Ê÷ĞÎÏÔÊ¾µ½ÁĞ±í
+		//å°†æ ‘å½¢æ˜¾ç¤ºåˆ°åˆ—è¡¨
 		establishNodeListToShow(mltArray,mNodeShow,mRootNode);
 	}
 	
@@ -157,7 +157,7 @@ public abstract class AfTreeViewAdapter<T> extends AfMultiChoiceAdapter<T> {
 		}
 	}
 
-	// ¹¹ÔìÒªÕ¹Ê¾ÔÚlistviewµÄnodeListToShow
+	// æ„é€ è¦å±•ç¤ºåœ¨listviewçš„nodeListToShow
 	public void establishNodeListToShow(List<T> values,List<AfTreeNode<T>> nodes,AfTreeNode<T> node) {
 		if (node.isExpanded && node.children != null) {
 			for (AfTreeNode<T> child : node.children) {
@@ -184,11 +184,11 @@ public abstract class AfTreeViewAdapter<T> extends AfMultiChoiceAdapter<T> {
 		for (AfTreeNode<T> node : nodes) {
 			if(root == node){
 				remain.remove(node);
-				break;//ÕÒµ½ÏàÍ¬µÄ ËµÃ÷Ã»ÓĞ¸Ä¶¯ Ö±½Ó½áÊøÑ­»·
+				break;//æ‰¾åˆ°ç›¸åŒçš„ è¯´æ˜æ²¡æœ‰æ”¹åŠ¨ ç›´æ¥ç»“æŸå¾ªç¯
 			}else if(node.value.equals(root.value)){
 				remain.remove(node);
 				root.isExpanded = node.isExpanded;
-				break;//ÖµÏàµÈËµÃ÷ÒªÌæ»»
+				break;//å€¼ç›¸ç­‰è¯´æ˜è¦æ›¿æ¢
 			}
 		}
 		if(root.children != null && root.children.size() > 0){

@@ -14,7 +14,7 @@ public abstract class AfLayoutModule implements IAfLayoutModule {
 		InitializeComponent(view);
 	}
 	/**
-	 * ×ÓÀà¹¹Ôìº¯ÊıÖĞ±ØĞëµ÷ÓÃÕâ¸öº¯Êı
+	 * å­ç±»æ„é€ å‡½æ•°ä¸­å¿…é¡»è°ƒç”¨è¿™ä¸ªå‡½æ•°
 	 * @param view
 	 */
 	protected void InitializeComponent(AfViewable view){
@@ -22,9 +22,9 @@ public abstract class AfLayoutModule implements IAfLayoutModule {
 		mIsValid = mLayout != null;
 	}
 	/**
-	 * ÔÚ AfViewable ÕÒµ½ÏàÓ¦µÄ ²¼¾ÖLayout
+	 * åœ¨ AfViewable æ‰¾åˆ°ç›¸åº”çš„ å¸ƒå±€Layout
 	 * @param view
-	 * @return ·µ»Ø Layout ÓĞĞ§×îÍâ²ã
+	 * @return è¿”å› Layout æœ‰æ•ˆæœ€å¤–å±‚
 	 */
 	protected abstract View findLayout(AfViewable view);
 

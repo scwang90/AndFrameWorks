@@ -26,32 +26,32 @@ public class AfDeviceInfo {
 			return mPhoneManager.getDeviceId();
 		} catch (Throwable e) {
 			// TODO: handle exception
-			return ("»ñÈ¡Ê§°Ü£¬ÇëÌí¼Ó android.permission.READ_PHONE_STATE È¨ÏŞ£¡");
+			return ("è·å–å¤±è´¥ï¼Œè¯·æ·»åŠ  android.permission.READ_PHONE_STATE æƒé™ï¼");
 		}
 	}
 
 	public String getDeviceMessage() {
 		// TODO Auto-generated method stub
 		StringBuffer sb = new StringBuffer();
-		sb.append("Éè±¸ĞÍºÅ£º ");
+		sb.append("è®¾å¤‡å‹å·ï¼š ");
 		sb.append(android.os.Build.MODEL);
-		sb.append("\r\nÏµÍ³°æ±¾£º ");
+		sb.append("\r\nç³»ç»Ÿç‰ˆæœ¬ï¼š ");
 		sb.append(android.os.Build.VERSION.RELEASE);
 		if(mDisplay != null){
-			sb.append("\r\nÏñËØ³ß´ç£º ");
+			sb.append("\r\nåƒç´ å°ºå¯¸ï¼š ");
 			sb.append(String.format("%dx%d", mDisplay.widthPixels,mDisplay.heightPixels));
 		}
-		sb.append("\r\nÉè±¸±àºÅ£º ");
+		sb.append("\r\nè®¾å¤‡ç¼–å·ï¼š ");
 		try {
 			sb.append(mPhoneManager.getDeviceId());
-			sb.append("\r\nÈí¼ş°æ±¾£º ");
+			sb.append("\r\nè½¯ä»¶ç‰ˆæœ¬ï¼š ");
 			sb.append(mPhoneManager.getDeviceSoftwareVersion());
-			sb.append("\r\n·şÎñÃû³Æ£º ");
+			sb.append("\r\næœåŠ¡åç§°ï¼š ");
 			sb.append(mPhoneManager.getSimOperatorName());
 			sb.append("\r\n");
 		} catch (Throwable e) {
 			// TODO: handle exception
-			sb.append("»ñÈ¡Ê§°Ü£¬ÇëÌí¼Ó android.permission.READ_PHONE_STATE È¨ÏŞ£¡");
+			sb.append("è·å–å¤±è´¥ï¼Œè¯·æ·»åŠ  android.permission.READ_PHONE_STATE æƒé™ï¼");
 		}
 		return sb.toString();
 	}

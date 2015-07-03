@@ -46,19 +46,19 @@ import com.andframe.thread.AfTask;
 import com.andframe.thread.AfThreadWorker;
 import com.andframe.util.java.AfStackTrace;
 /**
- * ¿ò¼Ü Activity
+ * æ¡†æ¶ Activity
  * @author SCWANG
  *
- *	ÒÔÏÂÊÇ Activity Ïñ×ÓÀàÌá¹©µÄ ¹¦ÄÜ·½·¨
+ *	ä»¥ä¸‹æ˜¯ Activity åƒå­ç±»æä¾›çš„ åŠŸèƒ½æ–¹æ³•
  *
 	protected void buildThreadWorker()
-	 * Îª±¾Ò³Ãæ¿ªÆôÒ»¸ö¶ÀÁ¢ºóÌ¨Ïß³Ì ¹© postTask µÄ ÈÎÎñ(AfTask)ÔËĞĞ ×¢Òâ£º¿ªÆôÏß³ÌÖ®ºó postTask
-	 * ÈÎºÎÈÎÎñ¶¼»áÔÚ¸ÃÏß³ÌÖĞÔËĞĞ¡£ Èç¹û postTask Ç°Ò»¸öÈÎÎñÎ´Íê³É£¬ºóÒ»¸öÈÎÎñ½«µÈ´ı
+	 * ä¸ºæœ¬é¡µé¢å¼€å¯ä¸€ä¸ªç‹¬ç«‹åå°çº¿ç¨‹ ä¾› postTask çš„ ä»»åŠ¡(AfTask)è¿è¡Œ æ³¨æ„ï¼šå¼€å¯çº¿ç¨‹ä¹‹å postTask
+	 * ä»»ä½•ä»»åŠ¡éƒ½ä¼šåœ¨è¯¥çº¿ç¨‹ä¸­è¿è¡Œã€‚ å¦‚æœ postTask å‰ä¸€ä¸ªä»»åŠ¡æœªå®Œæˆï¼Œåä¸€ä¸ªä»»åŠ¡å°†ç­‰å¾…
 	 * 
 	protected AfTask postTask(AfTask task)
-	 * Å×ËÍÈÎÎñµ½WorkerÖ´ĞĞ
+	 * æŠ›é€ä»»åŠ¡åˆ°Workeræ‰§è¡Œ
 
-	AfPageable ½Ó¿ÚÖĞµÄ·½·¨
+	AfPageable æ¥å£ä¸­çš„æ–¹æ³•
 	public Activity getActivity();
 	public void makeToastLong(String tip);
 	public void makeToastShort(String tip);
@@ -98,7 +98,7 @@ import com.andframe.util.java.AfStackTrace;
 	public void doInputText(String title,int type,InputTextListener listener);
 	public void doInputText(String title,String defaul,int type,InputTextListener listener);
 	
-	AfPageListener ½Ó¿ÚÖĞµÄ·½·¨
+	AfPageListener æ¥å£ä¸­çš„æ–¹æ³•
 	public void onSoftInputShown();
 	public void onSoftInputHiden();
 	public void onQueryChanged();
@@ -120,12 +120,12 @@ public abstract class AfActivity extends FragmentActivity implements AfPageable,
 	protected boolean mIsRecycled = false;
 
 	/**
-	 * @Description: »ñÈ¡LOGÈÕÖ¾ TAG ÊÇ AfActivity µÄ·½·¨
-	 * ÓÃ»§Ò²¿ÉÒÔÖØĞ´×Ô¶¨ÒåTAG,Õâ¸öÖµAfActivityÔÚÈÕÖ¾¼ÇÂ¼Ê±ºò»áÊ¹ÓÃ
-	 * ×ÓÀàÊµÏÖÒ²¿ÉÒÔÊ¹ÓÃ
+	 * @Description: è·å–LOGæ—¥å¿— TAG æ˜¯ AfActivity çš„æ–¹æ³•
+	 * ç”¨æˆ·ä¹Ÿå¯ä»¥é‡å†™è‡ªå®šä¹‰TAG,è¿™ä¸ªå€¼AfActivityåœ¨æ—¥å¿—è®°å½•æ—¶å€™ä¼šä½¿ç”¨
+	 * å­ç±»å®ç°ä¹Ÿå¯ä»¥ä½¿ç”¨
 	 * @Author: scwang
-	 * @Version: V1.0, 2015-2-14 ÉÏÎç10:58:00
-	 * @Modified: ³õ´Î´´½¨TAG·½·¨
+	 * @Version: V1.0, 2015-2-14 ä¸Šåˆ10:58:00
+	 * @Modified: åˆæ¬¡åˆ›å»ºTAGæ–¹æ³•
 	 * @return
 	 */
 	protected String TAG() {
@@ -163,8 +163,8 @@ public abstract class AfActivity extends FragmentActivity implements AfPageable,
 		}
 	}
 	/**
-	 * »ñÈ¡ Application µÄ AfApplicationÊµÀı
-	 * @return Èç¹û Application ²»ÊÇ AfApplication ·µ»Ø null 
+	 * è·å– Application çš„ AfApplicationå®ä¾‹
+	 * @return å¦‚æœ Application ä¸æ˜¯ AfApplication è¿”å› null 
 	 */
 	public AfApplication getAfApplication(){
 		Application app = getApplication();
@@ -175,8 +175,8 @@ public abstract class AfActivity extends FragmentActivity implements AfPageable,
 	}
 	
 	/**
-	 * ÅĞ¶ÏÊÇ·ñ±»»ØÊÕ
-	 * @return true ÒÑ¾­±»»ØÊÕ
+	 * åˆ¤æ–­æ˜¯å¦è¢«å›æ”¶
+	 * @return true å·²ç»è¢«å›æ”¶
 	 */
 	@Override
 	public boolean isRecycled() {
@@ -185,10 +185,10 @@ public abstract class AfActivity extends FragmentActivity implements AfPageable,
 	}
 
 	/**
-	 * ÎªÁËÊµÏÖ¶ÔÈí¼üÅÌÊäÈë·¨ÏÔÊ¾ºÍÒş²Ø µÄ¼àÌıÖØĞ´ÁË setContentView
-	 * 	×ÓÀàÔÚ¶Ô setContentView ÖØĞ´µÄÊ±ºòÇëµ÷ÓÃ 
+	 * ä¸ºäº†å®ç°å¯¹è½¯é”®ç›˜è¾“å…¥æ³•æ˜¾ç¤ºå’Œéšè— çš„ç›‘å¬é‡å†™äº† setContentView
+	 * 	å­ç±»åœ¨å¯¹ setContentView é‡å†™çš„æ—¶å€™è¯·è°ƒç”¨ 
 	 * 		super.setContentView(res);
-	 * 	·ñÔò²»ÄÜ¶ÔÈí¼üÅÌ½øĞĞ¼àÌı
+	 * 	å¦åˆ™ä¸èƒ½å¯¹è½¯é”®ç›˜è¿›è¡Œç›‘å¬
 	 */
 	@Override
 	public void setContentView(int res) {
@@ -197,10 +197,10 @@ public abstract class AfActivity extends FragmentActivity implements AfPageable,
 	}
 
 	/**
-	 * ÎªÁËÊµÏÖ¶ÔÈí¼üÅÌÊäÈë·¨ÏÔÊ¾ºÍÒş²Ø µÄ¼àÌıÖØĞ´ÁË setContentView
-	 * 	×ÓÀàÔÚ¶Ô setContentView ÖØĞ´µÄÊ±ºòÇëµ÷ÓÃ 
+	 * ä¸ºäº†å®ç°å¯¹è½¯é”®ç›˜è¾“å…¥æ³•æ˜¾ç¤ºå’Œéšè— çš„ç›‘å¬é‡å†™äº† setContentView
+	 * 	å­ç±»åœ¨å¯¹ setContentView é‡å†™çš„æ—¶å€™è¯·è°ƒç”¨ 
 	 * 		super.setContentView(view);
-	 * 	·ñÔò²»ÄÜ¶ÔÈí¼üÅÌ½øĞĞ¼àÌı
+	 * 	å¦åˆ™ä¸èƒ½å¯¹è½¯é”®ç›˜è¿›è¡Œç›‘å¬
 	 */
 	@Override
 	public void setContentView(View view) {
@@ -209,10 +209,10 @@ public abstract class AfActivity extends FragmentActivity implements AfPageable,
 	}
 
 	/**
-	 * ÎªÁËÊµÏÖ¶ÔÈí¼üÅÌÊäÈë·¨ÏÔÊ¾ºÍÒş²Ø µÄ¼àÌıÖØĞ´ÁË setContentView
-	 * 	×ÓÀàÔÚ¶Ô setContentView ÖØĞ´µÄÊ±ºòÇëµ÷ÓÃ 
+	 * ä¸ºäº†å®ç°å¯¹è½¯é”®ç›˜è¾“å…¥æ³•æ˜¾ç¤ºå’Œéšè— çš„ç›‘å¬é‡å†™äº† setContentView
+	 * 	å­ç±»åœ¨å¯¹ setContentView é‡å†™çš„æ—¶å€™è¯·è°ƒç”¨ 
 	 * 		super.setContentView(view,params);
-	 * 	·ñÔò²»ÄÜ¶ÔÈí¼üÅÌ½øĞĞ¼àÌı
+	 * 	å¦åˆ™ä¸èƒ½å¯¹è½¯é”®ç›˜è¿›è¡Œç›‘å¬
 	 */
 	@Override
 	public void setContentView(View view, LayoutParams params) {
@@ -227,8 +227,8 @@ public abstract class AfActivity extends FragmentActivity implements AfPageable,
 	}
 
 	/**
-	 * onGlobalLayout ¶ÔÈí¼üÅÌµÄ½¢Í§½á¹û
-	 * µ±Èí¼üÅÌÏÔÊ¾
+	 * onGlobalLayout å¯¹è½¯é”®ç›˜çš„èˆ°è‰‡ç»“æœ
+	 * å½“è½¯é”®ç›˜æ˜¾ç¤º
 	 */
 	public void onSoftInputShown() {
 		// TODO Auto-generated method stub
@@ -236,8 +236,8 @@ public abstract class AfActivity extends FragmentActivity implements AfPageable,
 	}
 
 	/**
-	 * onGlobalLayout ¶ÔÈí¼üÅÌµÄ½¢Í§½á¹û
-	 * µ±ÃæÈí¼üÅÌÊÕÆğ
+	 * onGlobalLayout å¯¹è½¯é”®ç›˜çš„èˆ°è‰‡ç»“æœ
+	 * å½“é¢è½¯é”®ç›˜æ”¶èµ·
 	 */
 	public void onSoftInputHiden() {
 		// TODO Auto-generated method stub
@@ -263,15 +263,15 @@ public abstract class AfActivity extends FragmentActivity implements AfPageable,
 	}
 
 	/**
-	 * ²éÑ¯ÏµÍ³Êı¾İ±ä¶¯
+	 * æŸ¥è¯¢ç³»ç»Ÿæ•°æ®å˜åŠ¨
 	 */
 	public void onQueryChanged() {
 		// TODO Auto-generated method stub
 	}
 
 	/**
-	 * Îª±¾Ò³Ãæ¿ªÆôÒ»¸ö¶ÀÁ¢ºóÌ¨Ïß³Ì ¹© postTask µÄ ÈÎÎñ(AfTask)ÔËĞĞ ×¢Òâ£º¿ªÆôÏß³ÌÖ®ºó postTask
-	 * ÈÎºÎÈÎÎñ¶¼»áÔÚ¸ÃÏß³ÌÖĞÔËĞĞ¡£ Èç¹û postTask Ç°Ò»¸öÈÎÎñÎ´Íê³É£¬ºóÒ»¸öÈÎÎñ½«µÈ´ı
+	 * ä¸ºæœ¬é¡µé¢å¼€å¯ä¸€ä¸ªç‹¬ç«‹åå°çº¿ç¨‹ ä¾› postTask çš„ ä»»åŠ¡(AfTask)è¿è¡Œ æ³¨æ„ï¼šå¼€å¯çº¿ç¨‹ä¹‹å postTask
+	 * ä»»ä½•ä»»åŠ¡éƒ½ä¼šåœ¨è¯¥çº¿ç¨‹ä¸­è¿è¡Œã€‚ å¦‚æœ postTask å‰ä¸€ä¸ªä»»åŠ¡æœªå®Œæˆï¼Œåä¸€ä¸ªä»»åŠ¡å°†ç­‰å¾…
 	 */
 	protected void buildThreadWorker() {
 		// TODO Auto-generated method stub
@@ -377,7 +377,7 @@ public abstract class AfActivity extends FragmentActivity implements AfPageable,
 		return null;
 	}
 	/**
-	 * Å×ËÍÈÎÎñµ½WorkerÖ´ĞĞ
+	 * æŠ›é€ä»»åŠ¡åˆ°Workeræ‰§è¡Œ
 	 * @param task
 	 */
 	public AfTask postTask(AfTask task) {
@@ -389,8 +389,8 @@ public abstract class AfActivity extends FragmentActivity implements AfPageable,
 	}
 
 	/**
-	 * ÏÔÊ¾ ½ø¶È¶Ô»°¿ò
-	 * @param message ÏûÏ¢
+	 * æ˜¾ç¤º è¿›åº¦å¯¹è¯æ¡†
+	 * @param message æ¶ˆæ¯
 	 */
 	public void showProgressDialog(String message) {
 		// TODO Auto-generated method stub
@@ -398,9 +398,9 @@ public abstract class AfActivity extends FragmentActivity implements AfPageable,
 	}
 
 	/**
-	 * ÏÔÊ¾ ½ø¶È¶Ô»°¿ò
-	 * @param message ÏûÏ¢
-	 * @param cancel ÊÇ·ñ¿ÉÈ¡Ïû
+	 * æ˜¾ç¤º è¿›åº¦å¯¹è¯æ¡†
+	 * @param message æ¶ˆæ¯
+	 * @param cancel æ˜¯å¦å¯å–æ¶ˆ
 	 */
 	public void showProgressDialog(String message, boolean cancel) {
 		// TODO Auto-generated method stub
@@ -408,10 +408,10 @@ public abstract class AfActivity extends FragmentActivity implements AfPageable,
 	}
 
 	/**
-	 * ÏÔÊ¾ ½ø¶È¶Ô»°¿ò
-	 * @param message ÏûÏ¢
-	 * @param cancel ÊÇ·ñ¿ÉÈ¡Ïû
-	 * @param textsize ×ÖÌå´óĞ¡
+	 * æ˜¾ç¤º è¿›åº¦å¯¹è¯æ¡†
+	 * @param message æ¶ˆæ¯
+	 * @param cancel æ˜¯å¦å¯å–æ¶ˆ
+	 * @param textsize å­—ä½“å¤§å°
 	 */
 	public void showProgressDialog(String message, boolean cancel,
 			int textsize) {
@@ -426,16 +426,16 @@ public abstract class AfActivity extends FragmentActivity implements AfPageable,
 			setDialogFontSize(mProgress, textsize);
 		} catch (Exception e) {
 			// TODO: handle exception
-			//½ø¹ıÈÕÖ¾ÑéÖ¤£¬Õâ¸öÒì³£»á·¢ËÍ£¬µ«ÊÇ¸ÅÂÊ·Ç³£Ğ¡£¬×¢ÊÍµôÒì³£Í¨Öª
+			//è¿›è¿‡æ—¥å¿—éªŒè¯ï¼Œè¿™ä¸ªå¼‚å¸¸ä¼šå‘é€ï¼Œä½†æ˜¯æ¦‚ç‡éå¸¸å°ï¼Œæ³¨é‡Šæ‰å¼‚å¸¸é€šçŸ¥
 //			AfExceptionHandler.handler(e, "AfActivity.showProgressDialog");
 		}
 	}
 
 	/**
-	 * ÏÔÊ¾ ½ø¶È¶Ô»°¿ò
-	 * @param message ÏûÏ¢
-	 * @param cancel ÊÇ·ñ¿ÉÈ¡Ïû
-	 * @param textsize ×ÖÌå´óĞ¡
+	 * æ˜¾ç¤º è¿›åº¦å¯¹è¯æ¡†
+	 * @param message æ¶ˆæ¯
+	 * @param cancel æ˜¯å¦å¯å–æ¶ˆ
+	 * @param textsize å­—ä½“å¤§å°
 	 */
 	public void showProgressDialog(String message,
 			OnCancelListener listener) {
@@ -450,16 +450,16 @@ public abstract class AfActivity extends FragmentActivity implements AfPageable,
 			setDialogFontSize(mProgress, 25);
 		} catch (Exception e) {
 			// TODO: handle exception
-			//½ø¹ıÈÕÖ¾ÑéÖ¤£¬Õâ¸öÒì³£»á·¢ËÍ£¬µ«ÊÇ¸ÅÂÊ·Ç³£Ğ¡£¬×¢ÊÍµôÒì³£Í¨Öª
+			//è¿›è¿‡æ—¥å¿—éªŒè¯ï¼Œè¿™ä¸ªå¼‚å¸¸ä¼šå‘é€ï¼Œä½†æ˜¯æ¦‚ç‡éå¸¸å°ï¼Œæ³¨é‡Šæ‰å¼‚å¸¸é€šçŸ¥
 //			AfExceptionHandler.handler(e, "AfActivity.showProgressDialog");
 		}
 	}
 
 	/**
-	 * ÏÔÊ¾ ½ø¶È¶Ô»°¿ò
-	 * @param message ÏûÏ¢
-	 * @param cancel ÊÇ·ñ¿ÉÈ¡Ïû
-	 * @param textsize ×ÖÌå´óĞ¡
+	 * æ˜¾ç¤º è¿›åº¦å¯¹è¯æ¡†
+	 * @param message æ¶ˆæ¯
+	 * @param cancel æ˜¯å¦å¯å–æ¶ˆ
+	 * @param textsize å­—ä½“å¤§å°
 	 */
 	public void showProgressDialog(String message,
 			OnCancelListener listener, int textsize) {
@@ -474,13 +474,13 @@ public abstract class AfActivity extends FragmentActivity implements AfPageable,
 			setDialogFontSize(mProgress, textsize);
 		} catch (Exception e) {
 			// TODO: handle exception
-			//½ø¹ıÈÕÖ¾ÑéÖ¤£¬Õâ¸öÒì³£»á·¢ËÍ£¬µ«ÊÇ¸ÅÂÊ·Ç³£Ğ¡£¬×¢ÊÍµôÒì³£Í¨Öª
+			//è¿›è¿‡æ—¥å¿—éªŒè¯ï¼Œè¿™ä¸ªå¼‚å¸¸ä¼šå‘é€ï¼Œä½†æ˜¯æ¦‚ç‡éå¸¸å°ï¼Œæ³¨é‡Šæ‰å¼‚å¸¸é€šçŸ¥
 //			AfExceptionHandler.handler(e, "AfActivity.showProgressDialog");
 		}
 	}
 
 	/**
-	 * Òş²Ø ½ø¶È¶Ô»°¿ò
+	 * éšè— è¿›åº¦å¯¹è¯æ¡†
 	 */
 	public void hideProgressDialog() {
 		// TODO Auto-generated method stub
@@ -496,40 +496,40 @@ public abstract class AfActivity extends FragmentActivity implements AfPageable,
 	}
 
 	/**
-	 * ÏÔÊ¾¶Ô»°¿ò ²¢Ìí¼ÓÄ¬ÈÏ°´Å¥ "ÎÒÖªµÀÁË"
-	 * @param title ÏÔÊ¾±êÌâ
-	 * @param message ÏÔÊ¾ÄÚÈİ
+	 * æ˜¾ç¤ºå¯¹è¯æ¡† å¹¶æ·»åŠ é»˜è®¤æŒ‰é’® "æˆ‘çŸ¥é“äº†"
+	 * @param title æ˜¾ç¤ºæ ‡é¢˜
+	 * @param message æ˜¾ç¤ºå†…å®¹
 	 */
 	public void doShowDialog(String title, String message) {
-		doShowDialog(0,title,message,"ÎÒÖªµÀÁË", null, "", null);
+		doShowDialog(0,title,message,"æˆ‘çŸ¥é“äº†", null, "", null);
 	}
 	/**
-	 * ÏÔÊ¾¶Ô»°¿ò ²¢Ìí¼ÓÄ¬ÈÏ°´Å¥ "ÎÒÖªµÀÁË"
-	 * @param title ÏÔÊ¾±êÌâ
-	 * @param message ÏÔÊ¾ÄÚÈİ
-	 * @param lpositive µã»÷  "ÎÒÖªµÀÁË" ÏìÓ¦ÊÂ¼ş
+	 * æ˜¾ç¤ºå¯¹è¯æ¡† å¹¶æ·»åŠ é»˜è®¤æŒ‰é’® "æˆ‘çŸ¥é“äº†"
+	 * @param title æ˜¾ç¤ºæ ‡é¢˜
+	 * @param message æ˜¾ç¤ºå†…å®¹
+	 * @param lpositive ç‚¹å‡»  "æˆ‘çŸ¥é“äº†" å“åº”äº‹ä»¶
 	 */
 	public void doShowDialog(String title, String message,OnClickListener lpositive) {
-		doShowDialog(0,title,message,"ÎÒÖªµÀÁË", lpositive, "", null);
+		doShowDialog(0,title,message,"æˆ‘çŸ¥é“äº†", lpositive, "", null);
 	}
 	/**
-	 * ÏÔÊ¾¶Ô»°¿ò 
-	 * @param title ÏÔÊ¾±êÌâ
-	 * @param message ÏÔÊ¾ÄÚÈİ
-	 * @param positive È·ÈÏ °´Å¥ÏÔÊ¾ĞÅÏ¢
-	 * @param lpositive µã»÷  È·ÈÏ °´Å¥ ÏìÓ¦ÊÂ¼ş
+	 * æ˜¾ç¤ºå¯¹è¯æ¡† 
+	 * @param title æ˜¾ç¤ºæ ‡é¢˜
+	 * @param message æ˜¾ç¤ºå†…å®¹
+	 * @param positive ç¡®è®¤ æŒ‰é’®æ˜¾ç¤ºä¿¡æ¯
+	 * @param lpositive ç‚¹å‡»  ç¡®è®¤ æŒ‰é’® å“åº”äº‹ä»¶
 	 */
 	public void doShowDialog(String title, String message,String positive,OnClickListener lpositive) {
 		doShowDialog(0,title,message,positive, lpositive, "", null);
 	}
 	/**
-	 * ÏÔÊ¾¶Ô»°¿ò 
-	 * @param title ÏÔÊ¾±êÌâ
-	 * @param message ÏÔÊ¾ÄÚÈİ
-	 * @param positive È·ÈÏ °´Å¥ÏÔÊ¾ĞÅÏ¢
-	 * @param lpositive µã»÷  È·ÈÏ °´Å¥ ÏìÓ¦ÊÂ¼ş
-	 * @param negative °´Å¥ÏÔÊ¾ĞÅÏ¢
-	 * @param lnegative µã»÷  ¾Ü¾ø °´Å¥ ÏìÓ¦ÊÂ¼ş
+	 * æ˜¾ç¤ºå¯¹è¯æ¡† 
+	 * @param title æ˜¾ç¤ºæ ‡é¢˜
+	 * @param message æ˜¾ç¤ºå†…å®¹
+	 * @param positive ç¡®è®¤ æŒ‰é’®æ˜¾ç¤ºä¿¡æ¯
+	 * @param lpositive ç‚¹å‡»  ç¡®è®¤ æŒ‰é’® å“åº”äº‹ä»¶
+	 * @param negative æŒ‰é’®æ˜¾ç¤ºä¿¡æ¯
+	 * @param lnegative ç‚¹å‡»  æ‹’ç» æŒ‰é’® å“åº”äº‹ä»¶
 	 */
 	public void doShowDialog(String title, String message,
 			String positive, OnClickListener lpositive, String negative,
@@ -537,15 +537,15 @@ public abstract class AfActivity extends FragmentActivity implements AfPageable,
 		doShowDialog(0,title,message,positive, lpositive,negative,lnegative);
 	}
 	/**
-	 * ÏÔÊ¾¶Ô»°¿ò 
-	 * @param title ÏÔÊ¾±êÌâ
-	 * @param message ÏÔÊ¾ÄÚÈİ
-	 * @param positive È·ÈÏ °´Å¥ÏÔÊ¾ĞÅÏ¢
-	 * @param lpositive µã»÷  È·ÈÏ °´Å¥ ÏìÓ¦ÊÂ¼ş
-	 * @param neutral ÏêÏ¸ °´Å¥ÏÔÊ¾ĞÅÏ¢
-	 * @param lneutral µã»÷  ÏêÏ¸ °´Å¥ ÏìÓ¦ÊÂ¼ş
-	 * @param negative °´Å¥ÏÔÊ¾ĞÅÏ¢
-	 * @param lnegative µã»÷  ¾Ü¾ø °´Å¥ ÏìÓ¦ÊÂ¼ş
+	 * æ˜¾ç¤ºå¯¹è¯æ¡† 
+	 * @param title æ˜¾ç¤ºæ ‡é¢˜
+	 * @param message æ˜¾ç¤ºå†…å®¹
+	 * @param positive ç¡®è®¤ æŒ‰é’®æ˜¾ç¤ºä¿¡æ¯
+	 * @param lpositive ç‚¹å‡»  ç¡®è®¤ æŒ‰é’® å“åº”äº‹ä»¶
+	 * @param neutral è¯¦ç»† æŒ‰é’®æ˜¾ç¤ºä¿¡æ¯
+	 * @param lneutral ç‚¹å‡»  è¯¦ç»† æŒ‰é’® å“åº”äº‹ä»¶
+	 * @param negative æŒ‰é’®æ˜¾ç¤ºä¿¡æ¯
+	 * @param lnegative ç‚¹å‡»  æ‹’ç» æŒ‰é’® å“åº”äº‹ä»¶
 	 */
 	@Override
 	public void doShowDialog(String title, String message,
@@ -556,14 +556,14 @@ public abstract class AfActivity extends FragmentActivity implements AfPageable,
 	}
 	
 	/**
-	 * ÏÔÊ¾¶Ô»°¿ò 
-	 * @param iconres ¶Ô»°¿òÍ¼±ê
-	 * @param title ÏÔÊ¾±êÌâ
-	 * @param message ÏÔÊ¾ÄÚÈİ
-	 * @param positive È·ÈÏ °´Å¥ÏÔÊ¾ĞÅÏ¢
-	 * @param lpositive µã»÷  È·ÈÏ °´Å¥ ÏìÓ¦ÊÂ¼ş
-	 * @param negative °´Å¥ÏÔÊ¾ĞÅÏ¢
-	 * @param lnegative µã»÷  ¾Ü¾ø °´Å¥ ÏìÓ¦ÊÂ¼ş
+	 * æ˜¾ç¤ºå¯¹è¯æ¡† 
+	 * @param iconres å¯¹è¯æ¡†å›¾æ ‡
+	 * @param title æ˜¾ç¤ºæ ‡é¢˜
+	 * @param message æ˜¾ç¤ºå†…å®¹
+	 * @param positive ç¡®è®¤ æŒ‰é’®æ˜¾ç¤ºä¿¡æ¯
+	 * @param lpositive ç‚¹å‡»  ç¡®è®¤ æŒ‰é’® å“åº”äº‹ä»¶
+	 * @param negative æŒ‰é’®æ˜¾ç¤ºä¿¡æ¯
+	 * @param lnegative ç‚¹å‡»  æ‹’ç» æŒ‰é’® å“åº”äº‹ä»¶
 	 */
 	public void doShowDialog(int iconres, String title, String message,
 			String positive, OnClickListener lpositive, String negative,
@@ -572,16 +572,16 @@ public abstract class AfActivity extends FragmentActivity implements AfPageable,
 	}
 
 	/**
-	 * ÏÔÊ¾¶Ô»°¿ò 
-	 * @param iconres ¶Ô»°¿òÍ¼±ê
-	 * @param title ÏÔÊ¾±êÌâ
-	 * @param message ÏÔÊ¾ÄÚÈİ
-	 * @param positive È·ÈÏ °´Å¥ÏÔÊ¾ĞÅÏ¢
-	 * @param lpositive µã»÷  È·ÈÏ °´Å¥ ÏìÓ¦ÊÂ¼ş
-	 * @param neutral ÏêÏ¸ °´Å¥ÏÔÊ¾ĞÅÏ¢
-	 * @param lneutral µã»÷  ÏêÏ¸ °´Å¥ ÏìÓ¦ÊÂ¼ş
-	 * @param negative °´Å¥ÏÔÊ¾ĞÅÏ¢
-	 * @param lnegative µã»÷  ¾Ü¾ø °´Å¥ ÏìÓ¦ÊÂ¼ş
+	 * æ˜¾ç¤ºå¯¹è¯æ¡† 
+	 * @param iconres å¯¹è¯æ¡†å›¾æ ‡
+	 * @param title æ˜¾ç¤ºæ ‡é¢˜
+	 * @param message æ˜¾ç¤ºå†…å®¹
+	 * @param positive ç¡®è®¤ æŒ‰é’®æ˜¾ç¤ºä¿¡æ¯
+	 * @param lpositive ç‚¹å‡»  ç¡®è®¤ æŒ‰é’® å“åº”äº‹ä»¶
+	 * @param neutral è¯¦ç»† æŒ‰é’®æ˜¾ç¤ºä¿¡æ¯
+	 * @param lneutral ç‚¹å‡»  è¯¦ç»† æŒ‰é’® å“åº”äº‹ä»¶
+	 * @param negative æŒ‰é’®æ˜¾ç¤ºä¿¡æ¯
+	 * @param lnegative ç‚¹å‡»  æ‹’ç» æŒ‰é’® å“åº”äº‹ä»¶
 	 */
 	public void doShowDialog(int iconres, String title, String message,
 			String positive, OnClickListener lpositive, 
@@ -592,17 +592,17 @@ public abstract class AfActivity extends FragmentActivity implements AfPageable,
 	}
 
 	/**
-	 * ÏÔÊ¾ÊÓÍ¼¶Ô»°¿ò 
-	 * @param theme Ö÷Ìâ
-	 * @param iconres ¶Ô»°¿òÍ¼±ê
-	 * @param title ÏÔÊ¾±êÌâ
-	 * @param message ÏÔÊ¾ÄÚÈİ
-	 * @param positive È·ÈÏ °´Å¥ÏÔÊ¾ĞÅÏ¢
-	 * @param lpositive µã»÷  È·ÈÏ °´Å¥ ÏìÓ¦ÊÂ¼ş
-	 * @param neutral ÏêÏ¸ °´Å¥ÏÔÊ¾ĞÅÏ¢
-	 * @param lneutral µã»÷  ÏêÏ¸ °´Å¥ ÏìÓ¦ÊÂ¼ş
-	 * @param negative °´Å¥ÏÔÊ¾ĞÅÏ¢
-	 * @param lnegative µã»÷  ¾Ü¾ø °´Å¥ ÏìÓ¦ÊÂ¼ş
+	 * æ˜¾ç¤ºè§†å›¾å¯¹è¯æ¡† 
+	 * @param theme ä¸»é¢˜
+	 * @param iconres å¯¹è¯æ¡†å›¾æ ‡
+	 * @param title æ˜¾ç¤ºæ ‡é¢˜
+	 * @param message æ˜¾ç¤ºå†…å®¹
+	 * @param positive ç¡®è®¤ æŒ‰é’®æ˜¾ç¤ºä¿¡æ¯
+	 * @param lpositive ç‚¹å‡»  ç¡®è®¤ æŒ‰é’® å“åº”äº‹ä»¶
+	 * @param neutral è¯¦ç»† æŒ‰é’®æ˜¾ç¤ºä¿¡æ¯
+	 * @param lneutral ç‚¹å‡»  è¯¦ç»† æŒ‰é’® å“åº”äº‹ä»¶
+	 * @param negative æŒ‰é’®æ˜¾ç¤ºä¿¡æ¯
+	 * @param lnegative ç‚¹å‡»  æ‹’ç» æŒ‰é’® å“åº”äº‹ä»¶
 	 */
 	@Override
 	@SuppressLint("NewApi")
@@ -615,11 +615,11 @@ public abstract class AfActivity extends FragmentActivity implements AfPageable,
 		new AfDailog(this).doShowDialog(theme, iconres, title, message, positive, lpositive, neutral, lneutral, negative, lnegative);
 	}
 	/**
-	 * ÏÔÊ¾ÊÓÍ¼¶Ô»°¿ò 
-	 * @param title ÏÔÊ¾±êÌâ
-	 * @param view ÏÔÊ¾ÄÚÈİ
-	 * @param positive È·ÈÏ °´Å¥ÏÔÊ¾ĞÅÏ¢
-	 * @param lpositive µã»÷  È·ÈÏ °´Å¥ ÏìÓ¦ÊÂ¼ş
+	 * æ˜¾ç¤ºè§†å›¾å¯¹è¯æ¡† 
+	 * @param title æ˜¾ç¤ºæ ‡é¢˜
+	 * @param view æ˜¾ç¤ºå†…å®¹
+	 * @param positive ç¡®è®¤ æŒ‰é’®æ˜¾ç¤ºä¿¡æ¯
+	 * @param lpositive ç‚¹å‡»  ç¡®è®¤ æŒ‰é’® å“åº”äº‹ä»¶
 	 */
 	@Override
 	public void doShowViewDialog(String title, View view, String positive,
@@ -629,13 +629,13 @@ public abstract class AfActivity extends FragmentActivity implements AfPageable,
 	}
 
 	/**
-	 * ÏÔÊ¾ÊÓÍ¼¶Ô»°¿ò 
-	 * @param title ÏÔÊ¾±êÌâ
-	 * @param view ÏÔÊ¾ÄÚÈİ
-	 * @param positive È·ÈÏ °´Å¥ÏÔÊ¾ĞÅÏ¢
-	 * @param lpositive µã»÷  È·ÈÏ °´Å¥ ÏìÓ¦ÊÂ¼ş
-	 * @param negative °´Å¥ÏÔÊ¾ĞÅÏ¢
-	 * @param lnegative µã»÷  ¾Ü¾ø °´Å¥ ÏìÓ¦ÊÂ¼ş
+	 * æ˜¾ç¤ºè§†å›¾å¯¹è¯æ¡† 
+	 * @param title æ˜¾ç¤ºæ ‡é¢˜
+	 * @param view æ˜¾ç¤ºå†…å®¹
+	 * @param positive ç¡®è®¤ æŒ‰é’®æ˜¾ç¤ºä¿¡æ¯
+	 * @param lpositive ç‚¹å‡»  ç¡®è®¤ æŒ‰é’® å“åº”äº‹ä»¶
+	 * @param negative æŒ‰é’®æ˜¾ç¤ºä¿¡æ¯
+	 * @param lnegative ç‚¹å‡»  æ‹’ç» æŒ‰é’® å“åº”äº‹ä»¶
 	 */
 	@Override
 	public void doShowViewDialog(String title, View view, String positive,
@@ -645,15 +645,15 @@ public abstract class AfActivity extends FragmentActivity implements AfPageable,
 		doShowViewDialog(0,title,view,positive, lpositive,negative,lnegative);
 	}
 	/**
-	 * ÏÔÊ¾ÊÓÍ¼¶Ô»°¿ò 
-	 * @param title ÏÔÊ¾±êÌâ
-	 * @param view ÏÔÊ¾ÄÚÈİ
-	 * @param positive È·ÈÏ °´Å¥ÏÔÊ¾ĞÅÏ¢
-	 * @param lpositive µã»÷  È·ÈÏ °´Å¥ ÏìÓ¦ÊÂ¼ş
-	 * @param neutral ÏêÏ¸ °´Å¥ÏÔÊ¾ĞÅÏ¢
-	 * @param lneutral µã»÷  ÏêÏ¸ °´Å¥ ÏìÓ¦ÊÂ¼ş
-	 * @param negative °´Å¥ÏÔÊ¾ĞÅÏ¢
-	 * @param lnegative µã»÷  ¾Ü¾ø °´Å¥ ÏìÓ¦ÊÂ¼ş
+	 * æ˜¾ç¤ºè§†å›¾å¯¹è¯æ¡† 
+	 * @param title æ˜¾ç¤ºæ ‡é¢˜
+	 * @param view æ˜¾ç¤ºå†…å®¹
+	 * @param positive ç¡®è®¤ æŒ‰é’®æ˜¾ç¤ºä¿¡æ¯
+	 * @param lpositive ç‚¹å‡»  ç¡®è®¤ æŒ‰é’® å“åº”äº‹ä»¶
+	 * @param neutral è¯¦ç»† æŒ‰é’®æ˜¾ç¤ºä¿¡æ¯
+	 * @param lneutral ç‚¹å‡»  è¯¦ç»† æŒ‰é’® å“åº”äº‹ä»¶
+	 * @param negative æŒ‰é’®æ˜¾ç¤ºä¿¡æ¯
+	 * @param lnegative ç‚¹å‡»  æ‹’ç» æŒ‰é’® å“åº”äº‹ä»¶
 	 */
 	@Override
 	public void doShowViewDialog(String title, View view,
@@ -663,14 +663,14 @@ public abstract class AfActivity extends FragmentActivity implements AfPageable,
 		doShowViewDialog(0,title,view,positive, lpositive,neutral,lneutral,negative,lnegative);
 	}
 	/**
-	 * ÏÔÊ¾ÊÓÍ¼¶Ô»°¿ò 
-	 * @param iconres ¶Ô»°¿òÍ¼±ê
-	 * @param title ÏÔÊ¾±êÌâ
-	 * @param view ÏÔÊ¾ÄÚÈİ
-	 * @param positive È·ÈÏ °´Å¥ÏÔÊ¾ĞÅÏ¢
-	 * @param lpositive µã»÷  È·ÈÏ °´Å¥ ÏìÓ¦ÊÂ¼ş
-	 * @param negative °´Å¥ÏÔÊ¾ĞÅÏ¢
-	 * @param lnegative µã»÷  ¾Ü¾ø °´Å¥ ÏìÓ¦ÊÂ¼ş
+	 * æ˜¾ç¤ºè§†å›¾å¯¹è¯æ¡† 
+	 * @param iconres å¯¹è¯æ¡†å›¾æ ‡
+	 * @param title æ˜¾ç¤ºæ ‡é¢˜
+	 * @param view æ˜¾ç¤ºå†…å®¹
+	 * @param positive ç¡®è®¤ æŒ‰é’®æ˜¾ç¤ºä¿¡æ¯
+	 * @param lpositive ç‚¹å‡»  ç¡®è®¤ æŒ‰é’® å“åº”äº‹ä»¶
+	 * @param negative æŒ‰é’®æ˜¾ç¤ºä¿¡æ¯
+	 * @param lnegative ç‚¹å‡»  æ‹’ç» æŒ‰é’® å“åº”äº‹ä»¶
 	 */
 	@Override
 	public void doShowViewDialog(int iconres, String title, View view,
@@ -679,16 +679,16 @@ public abstract class AfActivity extends FragmentActivity implements AfPageable,
 		doShowViewDialog(0,title,view,positive, lpositive,"",null,negative,lnegative);
 	}
 	/**
-	 * ÏÔÊ¾ÊÓÍ¼¶Ô»°¿ò 
-	 * @param iconres ¶Ô»°¿òÍ¼±ê
-	 * @param title ÏÔÊ¾±êÌâ
-	 * @param view ÏÔÊ¾ÄÚÈİ
-	 * @param positive È·ÈÏ °´Å¥ÏÔÊ¾ĞÅÏ¢
-	 * @param lpositive µã»÷  È·ÈÏ °´Å¥ ÏìÓ¦ÊÂ¼ş
-	 * @param neutral ÏêÏ¸ °´Å¥ÏÔÊ¾ĞÅÏ¢
-	 * @param lneutral µã»÷  ÏêÏ¸ °´Å¥ ÏìÓ¦ÊÂ¼ş
-	 * @param negative °´Å¥ÏÔÊ¾ĞÅÏ¢
-	 * @param lnegative µã»÷  ¾Ü¾ø °´Å¥ ÏìÓ¦ÊÂ¼ş
+	 * æ˜¾ç¤ºè§†å›¾å¯¹è¯æ¡† 
+	 * @param iconres å¯¹è¯æ¡†å›¾æ ‡
+	 * @param title æ˜¾ç¤ºæ ‡é¢˜
+	 * @param view æ˜¾ç¤ºå†…å®¹
+	 * @param positive ç¡®è®¤ æŒ‰é’®æ˜¾ç¤ºä¿¡æ¯
+	 * @param lpositive ç‚¹å‡»  ç¡®è®¤ æŒ‰é’® å“åº”äº‹ä»¶
+	 * @param neutral è¯¦ç»† æŒ‰é’®æ˜¾ç¤ºä¿¡æ¯
+	 * @param lneutral ç‚¹å‡»  è¯¦ç»† æŒ‰é’® å“åº”äº‹ä»¶
+	 * @param negative æŒ‰é’®æ˜¾ç¤ºä¿¡æ¯
+	 * @param lnegative ç‚¹å‡»  æ‹’ç» æŒ‰é’® å“åº”äº‹ä»¶
 	 */
 	@Override
 	public void doShowViewDialog(int iconres, String title, View view,
@@ -700,17 +700,17 @@ public abstract class AfActivity extends FragmentActivity implements AfPageable,
 	}
 
 	/**
-	 * ÏÔÊ¾ÊÓÍ¼¶Ô»°¿ò 
-	 * @param theme Ö÷Ìâ
-	 * @param iconres ¶Ô»°¿òÍ¼±ê
-	 * @param title ÏÔÊ¾±êÌâ
-	 * @param view ÏÔÊ¾ÄÚÈİ
-	 * @param positive È·ÈÏ °´Å¥ÏÔÊ¾ĞÅÏ¢
-	 * @param lpositive µã»÷  È·ÈÏ °´Å¥ ÏìÓ¦ÊÂ¼ş
-	 * @param neutral ÏêÏ¸ °´Å¥ÏÔÊ¾ĞÅÏ¢
-	 * @param lneutral µã»÷  ÏêÏ¸ °´Å¥ ÏìÓ¦ÊÂ¼ş
-	 * @param negative °´Å¥ÏÔÊ¾ĞÅÏ¢
-	 * @param lnegative µã»÷  ¾Ü¾ø °´Å¥ ÏìÓ¦ÊÂ¼ş
+	 * æ˜¾ç¤ºè§†å›¾å¯¹è¯æ¡† 
+	 * @param theme ä¸»é¢˜
+	 * @param iconres å¯¹è¯æ¡†å›¾æ ‡
+	 * @param title æ˜¾ç¤ºæ ‡é¢˜
+	 * @param view æ˜¾ç¤ºå†…å®¹
+	 * @param positive ç¡®è®¤ æŒ‰é’®æ˜¾ç¤ºä¿¡æ¯
+	 * @param lpositive ç‚¹å‡»  ç¡®è®¤ æŒ‰é’® å“åº”äº‹ä»¶
+	 * @param neutral è¯¦ç»† æŒ‰é’®æ˜¾ç¤ºä¿¡æ¯
+	 * @param lneutral ç‚¹å‡»  è¯¦ç»† æŒ‰é’® å“åº”äº‹ä»¶
+	 * @param negative æŒ‰é’®æ˜¾ç¤ºä¿¡æ¯
+	 * @param lnegative ç‚¹å‡»  æ‹’ç» æŒ‰é’® å“åº”äº‹ä»¶
 	 */
 	@SuppressLint("NewApi")
 	@Override
@@ -723,11 +723,11 @@ public abstract class AfActivity extends FragmentActivity implements AfPageable,
 		new AfDailog(this).doShowViewDialog(theme, iconres, title, view, positive, lpositive, neutral, lneutral, negative, lnegative);
 	}
 	/**
-	 * ÏÔÊ¾Ò»¸öµ¥Ñ¡¶Ô»°¿ò £¨ÉèÖÃ¿ÉÈ¡Ïû£©
-	 * @param title ¶Ô»°¿ò±êÌâ
-	 * @param items Ñ¡Ôñ²Ëµ¥Ïî
-	 * @param listener Ñ¡Ôñ¼àÌıÆ÷
-	 * @param cancel È¡ÏûÑ¡Ôñ¼àÌıÆ÷
+	 * æ˜¾ç¤ºä¸€ä¸ªå•é€‰å¯¹è¯æ¡† ï¼ˆè®¾ç½®å¯å–æ¶ˆï¼‰
+	 * @param title å¯¹è¯æ¡†æ ‡é¢˜
+	 * @param items é€‰æ‹©èœå•é¡¹
+	 * @param listener é€‰æ‹©ç›‘å¬å™¨
+	 * @param cancel å–æ¶ˆé€‰æ‹©ç›‘å¬å™¨
 	 */
 	public void doSelectItem(String title,String[] items,OnClickListener listener,
 			boolean cancel){
@@ -735,11 +735,11 @@ public abstract class AfActivity extends FragmentActivity implements AfPageable,
 	}
 
 	/**
-	 * ÏÔÊ¾Ò»¸öµ¥Ñ¡¶Ô»°¿ò 
-	 * @param title ¶Ô»°¿ò±êÌâ
-	 * @param items Ñ¡Ôñ²Ëµ¥Ïî
-	 * @param listener Ñ¡Ôñ¼àÌıÆ÷
-	 * @param oncancel È¡ÏûÑ¡Ôñ¼àÌıÆ÷
+	 * æ˜¾ç¤ºä¸€ä¸ªå•é€‰å¯¹è¯æ¡† 
+	 * @param title å¯¹è¯æ¡†æ ‡é¢˜
+	 * @param items é€‰æ‹©èœå•é¡¹
+	 * @param listener é€‰æ‹©ç›‘å¬å™¨
+	 * @param oncancel å–æ¶ˆé€‰æ‹©ç›‘å¬å™¨
 	 */
 	public void doSelectItem(String title,String[] items,OnClickListener listener,
 			final OnClickListener oncancel) {
@@ -748,10 +748,10 @@ public abstract class AfActivity extends FragmentActivity implements AfPageable,
 	}
 
 	/**
-	 * ÏÔÊ¾Ò»¸öµ¥Ñ¡¶Ô»°¿ò £¨Ä¬ÈÏ¿ÉÈ¡Ïû£©
-	 * @param title ¶Ô»°¿ò±êÌâ
-	 * @param items Ñ¡Ôñ²Ëµ¥Ïî
-	 * @param listener Ñ¡Ôñ¼àÌıÆ÷
+	 * æ˜¾ç¤ºä¸€ä¸ªå•é€‰å¯¹è¯æ¡† ï¼ˆé»˜è®¤å¯å–æ¶ˆï¼‰
+	 * @param title å¯¹è¯æ¡†æ ‡é¢˜
+	 * @param items é€‰æ‹©èœå•é¡¹
+	 * @param listener é€‰æ‹©ç›‘å¬å™¨
 	 */
 	public void doSelectItem(String title,String[] items,OnClickListener listener) {
 		// TODO Auto-generated method stub
@@ -759,30 +759,30 @@ public abstract class AfActivity extends FragmentActivity implements AfPageable,
 	}
 
 	/**
-	 * µ¯³öÒ»¸öÎÄ±¾ÊäÈë¿ò
-	 * @param title ±êÌâ
-	 * @param listener ¼àÌıÆ÷
+	 * å¼¹å‡ºä¸€ä¸ªæ–‡æœ¬è¾“å…¥æ¡†
+	 * @param title æ ‡é¢˜
+	 * @param listener ç›‘å¬å™¨
 	 */
 	public void doInputText(String title,InputTextListener listener) {
 		doInputText(title, "", InputType.TYPE_CLASS_TEXT, listener);
 	}
 
 	/**
-	 * µ¯³öÒ»¸öÎÄ±¾ÊäÈë¿ò
-	 * @param title ±êÌâ
+	 * å¼¹å‡ºä¸€ä¸ªæ–‡æœ¬è¾“å…¥æ¡†
+	 * @param title æ ‡é¢˜
 	 * @param type android.text.InputType
-	 * @param listener ¼àÌıÆ÷
+	 * @param listener ç›‘å¬å™¨
 	 */
 	public void doInputText(String title,int type,InputTextListener listener) {
 		doInputText(title, "", type, listener);
 	}
 
 	/**
-	 * µ¯³öÒ»¸öÎÄ±¾ÊäÈë¿ò
-	 * @param title ±êÌâ
-	 * @param defaul Ä¬ÈÏÖµ
+	 * å¼¹å‡ºä¸€ä¸ªæ–‡æœ¬è¾“å…¥æ¡†
+	 * @param title æ ‡é¢˜
+	 * @param defaul é»˜è®¤å€¼
 	 * @param type android.text.InputType
-	 * @param listener ¼àÌıÆ÷
+	 * @param listener ç›‘å¬å™¨
 	 */
 	public void doInputText(String title,String defaul,int type,InputTextListener listener) {
 		new AfDailog(this).doInputText(title, defaul, type, listener);
@@ -828,7 +828,7 @@ public abstract class AfActivity extends FragmentActivity implements AfPageable,
 	}
 
 	/**
-	 * ×ª·¢ onKeyLongPress ÊÂ¼ş¸ø AfFragment
+	 * è½¬å‘ onKeyLongPress äº‹ä»¶ç»™ AfFragment
 	 */
 	@Override
 	public boolean onKeyLongPress(int keyCode, KeyEvent event) {
@@ -849,7 +849,7 @@ public abstract class AfActivity extends FragmentActivity implements AfPageable,
 	}
 
 	/**
-	 * ×ª·¢ onKeyShortcut ÊÂ¼ş¸ø AfFragment
+	 * è½¬å‘ onKeyShortcut äº‹ä»¶ç»™ AfFragment
 	 */
 	@Override
 	@SuppressLint("NewApi")
@@ -870,7 +870,7 @@ public abstract class AfActivity extends FragmentActivity implements AfPageable,
 		return super.onKeyShortcut(keyCode, event);
 	}
 	/**
-	 * ×ª·¢ onKeyMultiple ÊÂ¼ş¸ø AfFragment
+	 * è½¬å‘ onKeyMultiple äº‹ä»¶ç»™ AfFragment
 	 */
 	@Override
 	public boolean onKeyMultiple(int keyCode, int repeatCount, KeyEvent event) {
@@ -891,7 +891,7 @@ public abstract class AfActivity extends FragmentActivity implements AfPageable,
 	}
 
 	/**
-	 * ×ª·¢ onKeyUp ÊÂ¼ş¸ø AfFragment
+	 * è½¬å‘ onKeyUp äº‹ä»¶ç»™ AfFragment
 	 */
 	@Override
 	@SuppressLint("NewApi")
@@ -913,7 +913,7 @@ public abstract class AfActivity extends FragmentActivity implements AfPageable,
 	}
 
 	/**
-	 * ×ª·¢ onKeyDown ÊÂ¼ş¸ø AfFragment
+	 * è½¬å‘ onKeyDown äº‹ä»¶ç»™ AfFragment
 	 */
 	@Override
 	public boolean onKeyDown(int keyCode, KeyEvent event) {
@@ -934,15 +934,15 @@ public abstract class AfActivity extends FragmentActivity implements AfPageable,
 	}
 
 	/**
-	 * final Ô­Ê¼ onCreate(Bundle bundle)
-	 * ×ÓÀàÖ»ÄÜÖØĞ´ onCreate(Bundle bundle,AfIntent intent)
+	 * final åŸå§‹ onCreate(Bundle bundle)
+	 * å­ç±»åªèƒ½é‡å†™ onCreate(Bundle bundle,AfIntent intent)
 	 */
 	@Override
 	protected void onCreate(Bundle bundle) {
 		// TODO Auto-generated method stub
 		try {
 			if (AfStackTrace.isLoopCall()) {
-				//System.out.println("µİ¹é¼ì²â");
+				//System.out.println("é€’å½’æ£€æµ‹");
 				super.onCreate(bundle);
 				return;
 			}
@@ -951,9 +951,9 @@ public abstract class AfActivity extends FragmentActivity implements AfPageable,
 			this.onCreate(bundle, new AfIntent(getIntent()));
 		} catch (final Throwable e) {
 			// TODO: handle exception
-			//handler ¿ÉÄÜ»á¸ù¾İ Activity µ¯´°ÌáÊ¾´íÎóĞÅÏ¢
-			//µ±Ç° Activity ¼´½«¹Ø±Õ£¬ÌáÊ¾´°¿ÚÒ²»á¹Ø±Õ
-			//ÓÃ¶¨Ê±Æ÷ µÈµ½Ô­Ê¼ Activity ÔÙÌáÊ¾µ¯´°
+			//handler å¯èƒ½ä¼šæ ¹æ® Activity å¼¹çª—æç¤ºé”™è¯¯ä¿¡æ¯
+			//å½“å‰ Activity å³å°†å…³é—­ï¼Œæç¤ºçª—å£ä¹Ÿä¼šå…³é—­
+			//ç”¨å®šæ—¶å™¨ ç­‰åˆ°åŸå§‹ Activity å†æç¤ºå¼¹çª—
 			if (!(e instanceof AfToastException)) {
 				new Timer().schedule(new TimerTask() {
 					@Override
@@ -963,17 +963,17 @@ public abstract class AfActivity extends FragmentActivity implements AfPageable,
 					}
 				},500);
 			}
-			makeToastLong("Ò³ÃæÆô¶¯Ê§°Ü",e);
+			makeToastLong("é¡µé¢å¯åŠ¨å¤±è´¥",e);
 			this.finish();
 		}
 	}
 
 	/**
-	 * ĞÂµÄ onCreate ÊµÏÖ
+	 * æ–°çš„ onCreate å®ç°
 	 * @param bundle
 	 * @param intent 
-	 * @throws Exception °²È«Òì³£
-	 * 	ÖØĞ´µÄ Ê±ºò Ò»°ãÇé¿öÏÂÇë µ÷ÓÃ
+	 * @throws Exception å®‰å…¨å¼‚å¸¸
+	 * 	é‡å†™çš„ æ—¶å€™ ä¸€èˆ¬æƒ…å†µä¸‹è¯· è°ƒç”¨
 	 * 		super.onCreate(bundle,intent);
 	 */
 	protected void onCreate(Bundle bundle,AfIntent intent) throws Exception{
@@ -986,7 +986,7 @@ public abstract class AfActivity extends FragmentActivity implements AfPageable,
 	/**
 	 * (non-Javadoc)
 	 * @see android.support.v4.app.FragmentActivity#onActivityResult(int, int, android.content.Intent)
-	 * final ÖØĞ´ onActivityResult Ê¹ÓÃ try-catch µ÷ÓÃ 
+	 * final é‡å†™ onActivityResult ä½¿ç”¨ try-catch è°ƒç”¨ 
 	 * 		onActivityResult(AfIntent intent, int questcode,int resultcode)
 	 * @see AfActivity#onActivityResult(AfIntent intent, int questcode,int resultcode)
 	 * {@link AfActivity#onActivityResult(AfIntent intent, int questcode,int resultcode)}
@@ -996,7 +996,7 @@ public abstract class AfActivity extends FragmentActivity implements AfPageable,
 		// TODO Auto-generated method stub
 		try {
 			if (AfStackTrace.isLoopCall()) {
-				//System.out.println("µİ¹é¼ì²â");
+				//System.out.println("é€’å½’æ£€æµ‹");
 				return;
 			}
 			onActivityResult(new AfIntent(data), questcode, resultcode);
@@ -1005,14 +1005,14 @@ public abstract class AfActivity extends FragmentActivity implements AfPageable,
 			if (!(e instanceof AfToastException)) {
 				AfExceptionHandler.handler(e, TAG()+".onActivityResult");
 			}
-			makeToastLong("·´À¡ĞÅÏ¢¶ÁÈ¡´íÎó£¡",e);
+			makeToastLong("åé¦ˆä¿¡æ¯è¯»å–é”™è¯¯ï¼",e);
 		}
 	}
 	
 	/**
-	 * @Description: final °ü×° onItemClick ÊÂ¼ş´¦Àí ·ÀÖ¹Å×³öÒì³£±ÀÀ£
+	 * @Description: final åŒ…è£… onItemClick äº‹ä»¶å¤„ç† é˜²æ­¢æŠ›å‡ºå¼‚å¸¸å´©æºƒ
 	 * @Author: scwang
-	 * @Version: V1.0, 2015-2-14 ÉÏÎç10:34:56
+	 * @Version: V1.0, 2015-2-14 ä¸Šåˆ10:34:56
 	 * @param parent
 	 * @param view
 	 * @param position
@@ -1024,7 +1024,7 @@ public abstract class AfActivity extends FragmentActivity implements AfPageable,
 		// TODO Auto-generated method stub
 		try {
 			if (AfStackTrace.isLoopCall()) {
-				//System.out.println("µİ¹é¼ì²â");
+				//System.out.println("é€’å½’æ£€æµ‹");
 				return;
 			}
 			this.onItemClick(parent,view,id,position);
@@ -1036,10 +1036,10 @@ public abstract class AfActivity extends FragmentActivity implements AfPageable,
 
 	/**
 	 * @Description: 
-	 * °²È«onItemClick¿ò¼Ü»á²¶×½Òì³£·ÀÖ¹±ÀÀ£
+	 * å®‰å…¨onItemClickæ¡†æ¶ä¼šæ•æ‰å¼‚å¸¸é˜²æ­¢å´©æºƒ
 	 * @Author: scwang
-	 * @Version: V1.0, 2015-2-14 ÉÏÎç10:38:56
-	 * @Modified: ³õ´Î´´½¨onItemClick·½·¨
+	 * @Version: V1.0, 2015-2-14 ä¸Šåˆ10:38:56
+	 * @Modified: åˆæ¬¡åˆ›å»ºonItemClickæ–¹æ³•
 	 * @param parent
 	 * @param item
 	 * @param id
@@ -1051,9 +1051,9 @@ public abstract class AfActivity extends FragmentActivity implements AfPageable,
 	}
 
 	/**
-	 * °²È« onActivityResult(AfIntent intent, int questcode,int resultcode) 
-	 * ÔÚonActivityResult(int questCode, int resultCode, Intent data) ÖĞµ÷ÓÃ
-	 * ²¢Ê¹ÓÃ try-catch Ìá¸ß°²È«ĞÔ£¬×ÓÀàÇëÖØĞ´Õâ¸ö·½·¨ 
+	 * å®‰å…¨ onActivityResult(AfIntent intent, int questcode,int resultcode) 
+	 * åœ¨onActivityResult(int questCode, int resultCode, Intent data) ä¸­è°ƒç”¨
+	 * å¹¶ä½¿ç”¨ try-catch æé«˜å®‰å…¨æ€§ï¼Œå­ç±»è¯·é‡å†™è¿™ä¸ªæ–¹æ³• 
 	 * @see AfActivity#onActivityResult(int, int, android.content.Intent)
 	 * {@link AfActivity#onActivityResult(int, int, android.content.Intent)}
 	 * @param intent
@@ -1066,7 +1066,7 @@ public abstract class AfActivity extends FragmentActivity implements AfPageable,
 	}
 
 	/**
-	 * ×ª·¢ onBackPressed ÊÂ¼ş¸ø AfFragment
+	 * è½¬å‘ onBackPressed äº‹ä»¶ç»™ AfFragment
 	 */
 	@Override
 	public void onBackPressed() {
@@ -1082,7 +1082,7 @@ public abstract class AfActivity extends FragmentActivity implements AfPageable,
 	}
 
 	/**
-	 * ×ª·¢ onBackPressed ÊÂ¼ş¸ø AfFragment
+	 * è½¬å‘ onBackPressed äº‹ä»¶ç»™ AfFragment
 	 */
 	protected boolean onBackKeyPressed() {
 		// TODO Auto-generated method stub

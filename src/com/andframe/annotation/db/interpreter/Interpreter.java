@@ -12,13 +12,13 @@ import com.andframe.annotation.db.Id;
 import com.andframe.annotation.db.Table;
 import com.andframe.util.java.AfStringUtil;
 /**
- * db.annotation ½âÊÍÆ÷
+ * db.annotation è§£é‡Šå™¨
  * @author scwang
  */
 public class Interpreter {
 	
 	/**
-	 * »ñÈ¡fieldÊÇ·ñÊÇÊı¾İ¿âÁĞ
+	 * è·å–fieldæ˜¯å¦æ˜¯æ•°æ®åº“åˆ—
 	 * @param field
 	 * @return
 	 */
@@ -30,7 +30,7 @@ public class Interpreter {
 				&& !field.isAnnotationPresent(DbIgnore.class);
 	}
 	/**
-	 * »ñÈ¡fieldµÄÁĞÃû³Æ
+	 * è·å–fieldçš„åˆ—åç§°
 	 * @param field
 	 * @return
 	 */
@@ -51,7 +51,7 @@ public class Interpreter {
 		return field.getName();
 	}
 	/**
-	 * »ñÈ¡clazzÊı¾İ±íÃû³Æ
+	 * è·å–clazzæ•°æ®è¡¨åç§°
 	 * @param clazz
 	 * @return
 	 */
@@ -66,7 +66,7 @@ public class Interpreter {
 		return clazz.getSimpleName();
 	}
 	/**
-	 * »ñÈ¡clazzµÄÖ÷¼üIDÃû³Æ
+	 * è·å–clazzçš„ä¸»é”®IDåç§°
 	 * @param clazz
 	 * @return
 	 */
@@ -84,7 +84,7 @@ public class Interpreter {
 	}
 
 	/**
-	 * »ñÈ¡clazzµÄÖ÷¼üIDÃû³Æ
+	 * è·å–clazzçš„ä¸»é”®IDåç§°
 	 * @param clazz
 	 * @return
 	 */
@@ -116,7 +116,7 @@ public class Interpreter {
 	}
 
 	/**
-	 * ÅĞ¶Ï Field ÊÇ·ñÎª ID×Ö¶Î
+	 * åˆ¤æ–­ Field æ˜¯å¦ä¸º IDå­—æ®µ
 	 * @param field
 	 * @return
 	 */

@@ -32,7 +32,6 @@ import com.andframe.feature.AfIntent;
 import com.andframe.thread.AfHandlerTask;
 import com.andframe.thread.AfTask;
 
-@SuppressWarnings("deprecation")
 public class AfUpdateService implements Callback {
 	
 	protected Builder mBuilder;
@@ -57,13 +56,13 @@ public class AfUpdateService implements Callback {
 	public AfUpdateService(Context context) {
 		// TODO Auto-generated constructor stub
 		mContext = context;
-		// ÉèÖÃÈÎÎñÀ¸ÖĞÏÂÔØ½ø³ÌÏÔÊ¾µÄviews
+		// è®¾ç½®ä»»åŠ¡æ ä¸­ä¸‹è½½è¿›ç¨‹æ˜¾ç¤ºçš„views
 		AfApplication app = AfApplication.getApp();
 
 		mBuilder = new Builder(context);
 		mBuilder.setSmallIcon(android.R.drawable.stat_sys_download);
-		mBuilder.setContentTitle(app.getAppName()+"¸üĞÂ");
-		mBuilder.setTicker(app.getAppName()+"ÕıÔÚ¸üĞÂ...");
+		mBuilder.setContentTitle(app.getAppName()+"æ›´æ–°");
+		mBuilder.setTicker(app.getAppName()+"æ­£åœ¨æ›´æ–°...");
 		mBuilder.setAutoCancel(false);
 		mBuilder.setOngoing(true);
 
@@ -82,13 +81,13 @@ public class AfUpdateService implements Callback {
 
 		String server = Context.NOTIFICATION_SERVICE;
 		mManager = (NotificationManager) context.getSystemService(server);
-		mBuilder.setProgress(0, 0, true);// ÉèÖÃÎªtrue£¬±íÊ¾Á÷¶¯
-		mBuilder.setContentText("ÒÑÏÂÔØ 0% ");
+		mBuilder.setProgress(0, 0, true);// è®¾ç½®ä¸ºtrueï¼Œè¡¨ç¤ºæµåŠ¨
+		mBuilder.setContentText("å·²ä¸‹è½½ 0% ");
 		mBuilder.setSmallIcon(android.R.drawable.stat_sys_download);
 		mManager.notify(notificationId, mBuilder.build());
 	}
 
-	// °²×°ÏÂÔØºóµÄapkÎÄ¼ş
+	// å®‰è£…ä¸‹è½½åçš„apkæ–‡ä»¶
 	protected static void Instanll(File file, Context context) {
 		try {
 			Intent intent = new Intent(Intent.ACTION_VIEW);
@@ -100,7 +99,7 @@ public class AfUpdateService implements Callback {
 		} catch (Throwable e) {
 			// TODO: handle exception
 			e.printStackTrace();// handled
-			AfExceptionHandler.handler(e, "¸üĞÂ·şÎñ£¬Instanll µ÷ÓÃ°²×°Ê§°Ü");
+			AfExceptionHandler.handler(e, "æ›´æ–°æœåŠ¡ï¼ŒInstanll è°ƒç”¨å®‰è£…å¤±è´¥");
 		}
 	}
 
@@ -110,9 +109,9 @@ public class AfUpdateService implements Callback {
 		DownloadTask task = (DownloadTask) msg.obj;
 		if (task.mResult == AfTask.RESULT_FINISH) {
 			if (task.mTask == DownloadTask.TASK_UPDATEPROGRESS) {
-				// ¸üĞÂ×´Ì¬À¸ÉÏµÄÏÂÔØ½ø¶ÈĞÅÏ¢
-				mBuilder.setProgress(100, task.mPrecent, false);// ÉèÖÃÎªfalse£¬±íÊ¾¿Ì¶È
-				mBuilder.setContentText("ÒÑÏÂÔØ "+task.mPrecent+"% ");
+				// æ›´æ–°çŠ¶æ€æ ä¸Šçš„ä¸‹è½½è¿›åº¦ä¿¡æ¯
+				mBuilder.setProgress(100, task.mPrecent, false);// è®¾ç½®ä¸ºfalseï¼Œè¡¨ç¤ºåˆ»åº¦
+				mBuilder.setContentText("å·²ä¸‹è½½ "+task.mPrecent+"% ");
 				mManager.notify(notificationId, mBuilder.build());
 			} else if (task.mTask == DownloadTask.TASK_DOWNLOADFINISH) {
 				mManager.cancel(notificationId);
@@ -184,7 +183,7 @@ public class AfUpdateService implements Callback {
 			}
 			AfActivity activity = app.getCurActivity();
 			if (ndFeedback && !app.isNeedUpdate() && activity!=null) {
-				activity.makeToastShort("¹§Ï²Äã£¬Ä¿Ç°ÒÑ¾­ÊÇ×îĞÂ°æ±¾£¡");
+				activity.makeToastShort("æ­å–œä½ ï¼Œç›®å‰å·²ç»æ˜¯æœ€æ–°ç‰ˆæœ¬ï¼");
 			}
 			return false;
 		}
@@ -211,7 +210,7 @@ public class AfUpdateService implements Callback {
 			AfApplication app = AfApplication.getApp();
 			AfActivity activity = app.getCurActivity();
 			if (activity != null) {
-				activity.makeToastShort(AfException.handle(e, "ÏÂÔØ¸üĞÂ³ö´í"));
+				activity.makeToastShort(AfException.handle(e, "ä¸‹è½½æ›´æ–°å‡ºé”™"));
 			}
 			return;
 		}
@@ -223,10 +222,10 @@ public class AfUpdateService implements Callback {
 	}
 
 	/**
-	 * ÃèÊö£º»ñÈ¡ÍøÂçÎÄ¼şµÄ´óĞ¡.
+	 * æè¿°ï¼šè·å–ç½‘ç»œæ–‡ä»¶çš„å¤§å°.
 	 *
-	 * @param Url Í¼Æ¬µÄÍøÂçÂ·¾¶
-	 * @return int ÍøÂçÎÄ¼şµÄ´óĞ¡
+	 * @param Url å›¾ç‰‡çš„ç½‘ç»œè·¯å¾„
+	 * @return int ç½‘ç»œæ–‡ä»¶çš„å¤§å°
 	 */
 	public static int getContentLengthFormUrl(String Url){
 		int mContentLength = 0;
@@ -243,7 +242,7 @@ public class AfUpdateService implements Callback {
 			 mHttpURLConnection.setRequestProperty("Connection", "Keep-Alive");
 			 mHttpURLConnection.connect();
 			 if (mHttpURLConnection.getResponseCode() == 200){
-				 // ¸ù¾İÏìÓ¦»ñÈ¡ÎÄ¼ş´óĞ¡
+				 // æ ¹æ®å“åº”è·å–æ–‡ä»¶å¤§å°
 				 mContentLength = mHttpURLConnection.getContentLength();
 			 }
 	    } catch (Throwable e) {
@@ -292,11 +291,11 @@ public class AfUpdateService implements Callback {
 			}
 			mTempFile.createNewFile();
 
-			// ´´½¨Ò»¸öĞÂµÄĞ´ÈëÁ÷£¬½²¶ÁÈ¡µ½µÄÍ¼ÏñÊı¾İĞ´Èëµ½ÎÄ¼şÖĞ
+			// åˆ›å»ºä¸€ä¸ªæ–°çš„å†™å…¥æµï¼Œè®²è¯»å–åˆ°çš„å›¾åƒæ•°æ®å†™å…¥åˆ°æ–‡ä»¶ä¸­
 			FileOutputStream fos = new FileOutputStream(mTempFile);
-			// ÒÑ¶Á³öÁ÷×÷Îª²ÎÊı´´½¨Ò»¸ö´øÓĞ»º³åµÄÊä³öÁ÷
+			// å·²è¯»å‡ºæµä½œä¸ºå‚æ•°åˆ›å»ºä¸€ä¸ªå¸¦æœ‰ç¼“å†²çš„è¾“å‡ºæµ
 			BufferedInputStream bis = new BufferedInputStream(is);
-			// ÒÑĞ´ÈëÁ÷×÷Îª²ÎÊı´´½¨Ò»¸ö´øÓĞ»º³åµÄĞ´ÈëÁ÷
+			// å·²å†™å…¥æµä½œä¸ºå‚æ•°åˆ›å»ºä¸€ä¸ªå¸¦æœ‰ç¼“å†²çš„å†™å…¥æµ
 			BufferedOutputStream bos = new BufferedOutputStream(fos);
 
 			int read = 0, precent = 0;
@@ -307,7 +306,7 @@ public class AfUpdateService implements Callback {
 				bos.write(buffer, 0, read);
 				precent = (int) (((double) count / length) * 100);
 
-				// Ã¿ÏÂÔØÍê³É5%¾ÍÍ¨ÖªÈÎÎñÀ¸½øĞĞĞŞ¸ÄÏÂÔØ½ø¶È
+				// æ¯ä¸‹è½½å®Œæˆ5%å°±é€šçŸ¥ä»»åŠ¡æ è¿›è¡Œä¿®æ”¹ä¸‹è½½è¿›åº¦
 				if (precent - mPrecent >= 5) {
 					mPrecent = precent;
 					mHandler.sendMessage(mHandler.obtainMessage(mResult, this));

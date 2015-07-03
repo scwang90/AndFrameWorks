@@ -15,7 +15,7 @@ public abstract class AfTimerTask extends TimerTask{
 			this.onTimer();
 		} catch (Throwable e) {
 			// TODO Auto-generated catch block
-			String remark = "AfTimerTask.run.onTimer ≥ˆœ÷“Ï≥££°\r\n";
+			String remark = "AfTimerTask.run.onTimer Âá∫Áé∞ÂºÇÂ∏∏ÔºÅ\r\n";
 			remark += "class = " + getClass().toString();
 			AfExceptionHandler.handler(e, remark);
 		}

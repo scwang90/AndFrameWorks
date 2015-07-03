@@ -17,8 +17,8 @@ public class DatabaseUtil
 {
     private File file;
     private Context context;
-    public static String dbName = AfDbOpenHelper.DBNAME;// Êý¾Ý¿âµÄÃû×Ö
-    public static String DATABASE_PATH;// Êý¾Ý¿âÔÚÊÖ»úÀïµÄÂ·¾¶
+    public static String dbName = AfDbOpenHelper.DBNAME;// æ•°æ®åº“çš„åå­—
+    public static String DATABASE_PATH;// æ•°æ®åº“åœ¨æ‰‹æœºé‡Œçš„è·¯å¾„
 
     public DatabaseUtil(Context context) {
         this.context = context;
@@ -29,7 +29,7 @@ public class DatabaseUtil
     }
 
     /**
-     * É¾³ýÊý¾Ý¿â
+     * åˆ é™¤æ•°æ®åº“
      * @param file
      */
     @SuppressLint("NewApi")
@@ -42,8 +42,8 @@ public class DatabaseUtil
         }
     }
     /**
-     * ¼ì²éÊý¾Ý¿â°æ±¾
-     *  Èç¹û°æ±¾¹ý¾É»òÕß²»´æÔÚ É¾³ýÔÙÌí¼Ó
+     * æ£€æŸ¥æ•°æ®åº“ç‰ˆæœ¬
+     *  å¦‚æžœç‰ˆæœ¬è¿‡æ—§æˆ–è€…ä¸å­˜åœ¨ åˆ é™¤å†æ·»åŠ 
      */
     public void checkDataBaseVersion() {
     	checkDataBaseVersion(0);
@@ -62,14 +62,14 @@ public class DatabaseUtil
                 if (index == 0) {
                     checkDataBaseVersion(1);
 				}
-                //String msg = "³É¹¦¸üÐÂÊý¾Ý¿â£û"+version.Version+"->"+DatabaseOpenHelper.DATABASE_VERSION+"£ý";
+                //String msg = "æˆåŠŸæ›´æ–°æ•°æ®åº“ï½›"+version.Version+"->"+DatabaseOpenHelper.DATABASE_VERSION+"ï½";
                 //Toast.makeText(context, msg, Toast.LENGTH_LONG).show();
             }
         }
-        catch (Throwable e)//°æ±¾¹ý¾ÉÎÞ·¨¶ÁÈ¡
+        catch (Throwable e)//ç‰ˆæœ¬è¿‡æ—§æ— æ³•è¯»å–
         {
             // TODO: handle exception
-//        	AfExceptionHandler.handleAttach(e, "Êý¾Ý¿â°æ±¾¹ý¾ÉÎÞ·¨¶ÁÈ¡");
+//        	AfExceptionHandler.handleAttach(e, "æ•°æ®åº“ç‰ˆæœ¬è¿‡æ—§æ— æ³•è¯»å–");
         	if (file != null && file.exists()) {
         		file.delete();
                 if (index == 0) {
@@ -84,7 +84,7 @@ public class DatabaseUtil
 
     }
     /**
-     * ÅÐ¶ÏÊý¾Ý¿âÊÇ·ñ´æÔÚ
+     * åˆ¤æ–­æ•°æ®åº“æ˜¯å¦å­˜åœ¨
      * 
      * @return false or true
      */
@@ -103,18 +103,18 @@ public class DatabaseUtil
     }
 
     /**
-     * ¸´ÖÆÊý¾Ý¿âµ½ÊÖ»úÖ¸¶¨ÎÄ¼þ¼ÐÏÂ
+     * å¤åˆ¶æ•°æ®åº“åˆ°æ‰‹æœºæŒ‡å®šæ–‡ä»¶å¤¹ä¸‹
      * 
      * @throws IOException
      */
     public void copyDataBase() throws IOException {
 //        File dir = new File(DATABASE_PATH);
 //        if (!dir.getParentFile().exists()){
-//            // ÅÐ¶ÏÎÄ¼þ¼ÐÊÇ·ñ´æÔÚ£¬²»´æÔÚ¾ÍÐÂ½¨Ò»¸ö
+//            // åˆ¤æ–­æ–‡ä»¶å¤¹æ˜¯å¦å­˜åœ¨ï¼Œä¸å­˜åœ¨å°±æ–°å»ºä¸€ä¸ª
 //            dir.getParentFile().mkdir();
 //        }
-//        FileOutputStream os = new FileOutputStream(DATABASE_PATH);// µÃµ½Êý¾Ý¿âÎÄ¼þµÄÐ´ÈëÁ÷
-//        InputStream is = context.getResources().openRawResource(R.raw.data);// µÃµ½Êý¾Ý¿âÎÄ¼þµÄÊý¾ÝÁ÷
+//        FileOutputStream os = new FileOutputStream(DATABASE_PATH);// å¾—åˆ°æ•°æ®åº“æ–‡ä»¶çš„å†™å…¥æµ
+//        InputStream is = context.getResources().openRawResource(R.raw.data);// å¾—åˆ°æ•°æ®åº“æ–‡ä»¶çš„æ•°æ®æµ
 //        byte[] buffer = new byte[8192];
 //        int count = 0;
 //        while ((count = is.read(buffer)) > 0) {

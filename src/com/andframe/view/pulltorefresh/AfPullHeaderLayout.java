@@ -153,7 +153,7 @@ public abstract class AfPullHeaderLayout extends FrameLayout
         mHeaderText.setText(text);
     }
     /**
-     * Í¨Öª ListView ÉèÖÃ×îºóË¢ĞÂÊ±¼ä
+     * é€šçŸ¥ ListView è®¾ç½®æœ€ååˆ·æ–°æ—¶é—´
      */
     public void setLastUpdateTime(Date tDate)
     {

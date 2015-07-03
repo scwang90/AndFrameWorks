@@ -12,11 +12,11 @@ import com.google.gson.Gson;
 /**
  * AfJsonCache
  * @author SCWANG
- *		°ü×° AfSharedPreference Ö÷ÒªÊµÏÖ
- *			1.¶ÔÈÎÒâ¶ÔÏó Object µÄÖ§³Ö
+ *		åŒ…è£… AfSharedPreference ä¸»è¦å®ç°
+ *			1.å¯¹ä»»æ„å¯¹è±¡ Object çš„æ”¯æŒ
  *					public void put(String key, Object value) 
  *					public void put(String key, Object value,Class<?> clazz)
- *			2.¶ÔÈÎÒâ List µÄÖ§³Ö
+ *			2.å¯¹ä»»æ„ List çš„æ”¯æŒ
  *					putList(String key, List<T> values,Class<?> clazz)
  *					public<T> List<T> getList(String key,Class<T> clazz) 
  */
@@ -52,8 +52,8 @@ public class AfJsonCache
     	mShared.putString(key, mJson.toJson(value, clazz));
 	}
     /**
-     * ±£´æÁĞ±íÊı¾İ
-     * £¨ĞÂµÄÁĞ±í»á¸²¸ÇÔ­À´µÄËùÓĞÄÚÈİ£©
+     * ä¿å­˜åˆ—è¡¨æ•°æ®
+     * ï¼ˆæ–°çš„åˆ—è¡¨ä¼šè¦†ç›–åŸæ¥çš„æ‰€æœ‰å†…å®¹ï¼‰
      * @param key
      * @param values
      * @param clazz
@@ -67,8 +67,8 @@ public class AfJsonCache
     	mShared.putStringList(key, set);
 	}
     /**
-     * ×·¼ÓÁĞ±íÊı¾İ 
-     * £¨ĞÂµÄÄÚÈİ»áºÍÀÏµÄÄÚÈİÒ»Æğ±£´æ£©
+     * è¿½åŠ åˆ—è¡¨æ•°æ® 
+     * ï¼ˆæ–°çš„å†…å®¹ä¼šå’Œè€çš„å†…å®¹ä¸€èµ·ä¿å­˜ï¼‰
      * @param key
      * @param values
      * @param clazz
@@ -97,10 +97,10 @@ public class AfJsonCache
 		return value == null ? defaul : value;
 	}
     /**
-     * »ñÈ¡ÁĞ±í»º´æ
+     * è·å–åˆ—è¡¨ç¼“å­˜
      * @param key
      * @param clazz
-     * @return ¼´Ê¹»º´æ²»´æÔÚ Ò²²»»á·µ»Ønull ¶øÊÇ¿ÕÁĞ±í
+     * @return å³ä½¿ç¼“å­˜ä¸å­˜åœ¨ ä¹Ÿä¸ä¼šè¿”å›null è€Œæ˜¯ç©ºåˆ—è¡¨
      */
     public<T> List<T> getList(String key,Class<T> clazz) {
     	List<T> list = new ArrayList<T>();

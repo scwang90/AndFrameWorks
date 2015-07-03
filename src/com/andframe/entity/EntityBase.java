@@ -4,7 +4,7 @@ package com.andframe.entity;
 public interface EntityBase<Model>
 {
     /**
-     * »ñÈ¡Model
+     * è·å–Model
      * @return
      */
     public Model getModel();

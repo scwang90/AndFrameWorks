@@ -13,7 +13,7 @@ public class AfVibratorConsole {
 	}
 	
 	public static void vibrator(){
-		long[] pattern = {100,200,100,200};// Í£Ö¹ ¿ªÆô Í£Ö¹ ¿ªÆô   
-		mVibrator.vibrate(pattern,-1);     //ÖØ¸´Á½´ÎÉÏÃæµÄpattern Èç¹ûÖ»ÏëÕğ¶¯Ò»´Î£¬indexÉèÎª-1
+		long[] pattern = {100,200,100,200};// åœæ­¢ å¼€å¯ åœæ­¢ å¼€å¯   
+		mVibrator.vibrate(pattern,-1);     //é‡å¤ä¸¤æ¬¡ä¸Šé¢çš„pattern å¦‚æœåªæƒ³éœ‡åŠ¨ä¸€æ¬¡ï¼Œindexè®¾ä¸º-1
 	}
 }

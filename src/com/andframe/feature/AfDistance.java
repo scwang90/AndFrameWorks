@@ -5,15 +5,15 @@ import android.location.Location;
 import com.andframe.model.Address;
 
 /**
- * ÓÃÓÚ¼ÆËãÐËÈ¤µãµÄ¾àÀë
+ * ç”¨äºŽè®¡ç®—å…´è¶£ç‚¹çš„è·ç¦»
  */
 public class AfDistance {
 	
 	private static final double DEF_PI = 3.14159265359; // PI
 	private static final double DEF_2PI = 6.28318530712; // 2*PI
 	private static final double DEF_PI180 = 0.01745329252; // PI/180.0
-	private static final double DEF_R = 6370693.5; // µØÇò°ë¾¶ µ¥Î»Ã×
-	private static final double DEF_LATITUDE_M = 111189.6;// Î³¶È1¶ÈµÄÊµ¼Ê³¤¶È µ¥Î» Ã×
+	private static final double DEF_R = 6370693.5; // åœ°çƒåŠå¾„ å•ä½ç±³
+	private static final double DEF_LATITUDE_M = 111189.6;// çº¬åº¦1åº¦çš„å®žé™…é•¿åº¦ å•ä½ ç±³
 
 	public static class LocationRadius {
 		public double Latitude = 0;
@@ -21,7 +21,7 @@ public class AfDistance {
 	}
 
 	/**
-	 * ¼ÆËãÐËÈ¤µãµÄ¾àÀë
+	 * è®¡ç®—å…´è¶£ç‚¹çš„è·ç¦»
 	 * 
 	 * @param lon1
 	 * @param lat1
@@ -34,29 +34,29 @@ public class AfDistance {
 		double ew1, ns1, ew2, ns2;
 		double dx, dy, dew;
 		double distance;
-		// ½Ç¶È×ª»»Îª»¡¶È
+		// è§’åº¦è½¬æ¢ä¸ºå¼§åº¦
 		ew1 = lon1 * DEF_PI180;
 		ns1 = lat1 * DEF_PI180;
 		ew2 = lon2 * DEF_PI180;
 		ns2 = lat2 * DEF_PI180;
-		// ¾­¶È²î
+		// ç»åº¦å·®
 		dew = ew1 - ew2;
-		// Èô¿ç¶«¾­ºÍÎ÷¾­180 ¶È£¬½øÐÐµ÷Õû
+		// è‹¥è·¨ä¸œç»å’Œè¥¿ç»180 åº¦ï¼Œè¿›è¡Œè°ƒæ•´
 		if (dew > DEF_PI)
 			dew = DEF_2PI - dew;
 		else if (dew < -DEF_PI)
 			dew = DEF_2PI + dew;
 		dx = DEF_R * Math.cos(ns1) * dew;
-		// ¶«Î÷·½Ïò³¤¶È(ÔÚÎ³¶ÈÈ¦ÉÏµÄÍ¶Ó°³¤¶È)
+		// ä¸œè¥¿æ–¹å‘é•¿åº¦(åœ¨çº¬åº¦åœˆä¸Šçš„æŠ•å½±é•¿åº¦)
 		dy = DEF_R * (ns1 - ns2);
-		// ÄÏ±±·½Ïò³¤¶È(ÔÚ¾­¶ÈÈ¦ÉÏµÄÍ¶Ó°³¤¶È)
-		// ¹´¹É¶¨ÀíÇóÐ±±ß³¤
+		// å—åŒ—æ–¹å‘é•¿åº¦(åœ¨ç»åº¦åœˆä¸Šçš„æŠ•å½±é•¿åº¦)
+		// å‹¾è‚¡å®šç†æ±‚æ–œè¾¹é•¿
 		distance = Math.sqrt(dx * dx + dy * dy);
 		return distance;
 	}
 
 	/**
-	 * ¼ÆËãÐËÈ¤µãµÄ¾àÀë
+	 * è®¡ç®—å…´è¶£ç‚¹çš„è·ç¦»
 	 * 
 	 * @param lon1
 	 * @param lat1
@@ -68,32 +68,32 @@ public class AfDistance {
 			double lat2) {
 		double ew1, ns1, ew2, ns2;
 		double distance;
-		// ½Ç¶È×ª»»Îª»¡¶È
+		// è§’åº¦è½¬æ¢ä¸ºå¼§åº¦
 		ew1 = lon1 * DEF_PI180;
 		ns1 = lat1 * DEF_PI180;
 		ew2 = lon2 * DEF_PI180;
 		ns2 = lat2 * DEF_PI180;
-		// Çó´óÔ²ÁÓ»¡ÓëÇòÐÄËù¼ÐµÄ½Ç(»¡¶È)
+		// æ±‚å¤§åœ†åŠ£å¼§ä¸Žçƒå¿ƒæ‰€å¤¹çš„è§’(å¼§åº¦)
 		distance = Math.sin(ns1) * Math.sin(ns2) + Math.cos(ns1)
 				* Math.cos(ns2) * Math.cos(ew1 - ew2);
-		// µ÷Õûµ½[-1..1]·¶Î§ÄÚ£¬±ÜÃâÒç³ö
+		// è°ƒæ•´åˆ°[-1..1]èŒƒå›´å†…ï¼Œé¿å…æº¢å‡º
 		if (distance > 1.0)
 			distance = 1.0;
 		else if (distance < -1.0)
 			distance = -1.0;
-		// Çó´óÔ²ÁÓ»¡³¤¶È
+		// æ±‚å¤§åœ†åŠ£å¼§é•¿åº¦
 		distance = DEF_R * Math.acos(distance);
 		return distance;
 	}
 
 	/**
-	 * ¼ÆËã ÐËÈ¤µã Address ºÍ ¶¨Î» LocationµÄ¾àÀë
+	 * è®¡ç®— å…´è¶£ç‚¹ Address å’Œ å®šä½ Locationçš„è·ç¦»
 	 * 
 	 * @param location
-	 *            ¶¨Î»
+	 *            å®šä½
 	 * @param address
-	 *            ÐËÈ¤µã
-	 * @return ¾àÀë £¨µ¥Î»Ã×£©
+	 *            å…´è¶£ç‚¹
+	 * @return è·ç¦» ï¼ˆå•ä½ç±³ï¼‰
 	 */
 	public static long getDistance(Location location, Address address) {
 		// TODO Auto-generated method stub
@@ -105,13 +105,13 @@ public class AfDistance {
 	}
 
 	/**
-	 * ¸ù¾Ý¶¨Î» Location ×ª»» ÖÜÎ§°ë¾¶ radius
+	 * æ ¹æ®å®šä½ Location è½¬æ¢ å‘¨å›´åŠå¾„ radius
 	 * 
 	 * @param location
-	 *            ¶¨Î»
+	 *            å®šä½
 	 * @param radius
-	 *            °ë¾¶£¨µ¥Î»Ã×£©
-	 * @return ¾­Î³¶È°ë¾¶
+	 *            åŠå¾„ï¼ˆå•ä½ç±³ï¼‰
+	 * @return ç»çº¬åº¦åŠå¾„
 	 */
 	public static LocationRadius tranformRadius(Location location, int radius) {
 		LocationRadius tRadius = new LocationRadius();
@@ -121,18 +121,18 @@ public class AfDistance {
 	}
 
 	/**
-	 * ¸ù¾Ý¶¨Î» Location »ñÈ¡µ±Ç°Î³¶ÈÏÂ£¬¶«Î÷·½Ïò1KM¶ÔÓ¦µÄ¾­¶ÈÆ«ÒÆÁ¿
+	 * æ ¹æ®å®šä½ Location èŽ·å–å½“å‰çº¬åº¦ä¸‹ï¼Œä¸œè¥¿æ–¹å‘1KMå¯¹åº”çš„ç»åº¦åç§»é‡
 	 * 
 	 * @param location
-	 *            ¶¨Î»
-	 * @return ¾­¶È1¶È¶ÔÓ¦µÄÊµ¼Ê¾àÀë£¬µ¥Î»Ã×
+	 *            å®šä½
+	 * @return ç»åº¦1åº¦å¯¹åº”çš„å®žé™…è·ç¦»ï¼Œå•ä½ç±³
 	 */
 	public static double getLongitudeShift(Location location) {
-		// »ñµÃÎ³¶È
+		// èŽ·å¾—çº¬åº¦
 		double lat = location.getLatitude();
-		// ×ª»»Îª»¡¶È
+		// è½¬æ¢ä¸ºå¼§åº¦
 		double ns = lat * DEF_PI180;
-		// ¾­¶È1¶È¶ÔÓ¦µÄÊµ¼Ê¾àÀë£¬µ¥Î»Ã×¡££¨Î³¶È1¶È¶ÔÓ¦µÄ¾àÀë*Î³¶ÈµÄÓàÏÒ£©
+		// ç»åº¦1åº¦å¯¹åº”çš„å®žé™…è·ç¦»ï¼Œå•ä½ç±³ã€‚ï¼ˆçº¬åº¦1åº¦å¯¹åº”çš„è·ç¦»*çº¬åº¦çš„ä½™å¼¦ï¼‰
 		return DEF_LATITUDE_M * Math.cos(ns);
 	}
 }

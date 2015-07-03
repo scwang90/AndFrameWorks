@@ -16,55 +16,55 @@ import com.andframe.exception.AfToastException;
 import com.andframe.helper.java.AfTimeSpan;
 
 public abstract class AfListTask<T> extends AfHandlerTask {
-	// ¼ÓÔØµ¥Ò³ÌõÊı
+	// åŠ è½½å•é¡µæ¡æ•°
 	public static int PAGE_SIZE = 15;
-	//»º´æÓĞĞ§Ê±¼ä£¨5·ÖÖÓ£©
+	//ç¼“å­˜æœ‰æ•ˆæ—¶é—´ï¼ˆ5åˆ†é’Ÿï¼‰
 	public static AfTimeSpan CACHETIMEOUTSECOND = AfTimeSpan.FromMinutes(5);
-	// Ã¶¾ÙÈÎÎñÀàĞÍ
-	public static final int TASK_REFRESH = 100; // ÏÂÀ­Ë¢ĞÂ
-	public static final int TASK_MORE = 101; // µã»÷¸ü¶à
-	public static final int TASK_SORT = 102; // ÅÅĞò
-	public static final int TASK_CACHES = 103; // ±¾µØÊı¾İ¿â»º´æ
-	public static final int TASK_CACHESADD = 104; // ±¾µØÊı¾İ¿â»º´æ×·¼Ó
+	// æšä¸¾ä»»åŠ¡ç±»å‹
+	public static final int TASK_REFRESH = 100; // ä¸‹æ‹‰åˆ·æ–°
+	public static final int TASK_MORE = 101; // ç‚¹å‡»æ›´å¤š
+	public static final int TASK_SORT = 102; // æ’åº
+	public static final int TASK_CACHES = 103; // æœ¬åœ°æ•°æ®åº“ç¼“å­˜
+	public static final int TASK_CACHESADD = 104; // æœ¬åœ°æ•°æ®åº“ç¼“å­˜è¿½åŠ 
 
 	public int mFirstResult = 0;
 	public int mPageSize = AfListTask.PAGE_SIZE;
 	public List<T> mltData = new ArrayList<T>();
 
 	/**
-	 * »º´æÊ¹ÓÃµÄ class ¶ÔÏó£¨jsonÒªÓÃµ½£©
-	 * ÉèÖÃ ²¢ÇÒÈÎÎñÎª TASK_LOAD AfListTask ½«×Ô¶¯Ê¹ÓÃ»º´æ¹¦ÄÜ
+	 * ç¼“å­˜ä½¿ç”¨çš„ class å¯¹è±¡ï¼ˆjsonè¦ç”¨åˆ°ï¼‰
+	 * è®¾ç½® å¹¶ä¸”ä»»åŠ¡ä¸º TASK_LOAD AfListTask å°†è‡ªåŠ¨ä½¿ç”¨ç¼“å­˜åŠŸèƒ½
 	 */
 	public Class<T> mCacheClazz = null;
 	/** 
-	 *  »º´æÊ¹ÓÃµÄ KEY_CACHELIST = this.getClass().getName()
-	 * 		KEY_CACHELIST Îª»º´æµÄ±êÊ¶
+	 *  ç¼“å­˜ä½¿ç”¨çš„ KEY_CACHELIST = this.getClass().getName()
+	 * 		KEY_CACHELIST ä¸ºç¼“å­˜çš„æ ‡è¯†
 	 */
 	public String KEY_CACHELIST = this.getClass().getName();
 	public String KEY_CACHETIME = "KEY_CACHETIME";
-	//»º´æÓĞĞ§Ê±¼ä
+	//ç¼“å­˜æœ‰æ•ˆæ—¶é—´
 	public AfTimeSpan mCacheSpan = AfListTask.CACHETIMEOUTSECOND;
 	/**
-	 * µ÷ÓÃÕâ¸ö¹¹Ôìº¯Êı¿ÉÒÔ´¥·¢ TASK_LOAD ÈÎÎñ
-	 * ¼ÓÔØÉÏ´Î»º´æÊı¾İ£¬Èç¹û¹ıÆÚ½«´¥·¢ TASK_REFRESH ¼ÓÔØĞÂÊı¾İ
-	 * »º´æÊ¹ÓÃµÄ KEY_CACHELIST = this.getClass().getName()
-	 * 		KEY_CACHELIST Îª»º´æµÄ±êÊ¶
-	 * »º´æµÄ¹ıÆÚ ¼ä¸ôÎª AfListTask.CACHETIMEOUTSECOND
-	 * 		Õâ¸öÊ±¼ä¼ä¸ô¿ÉÒÔÔÚApp³õÊ¼»¯Ê±ºò¸ü¸Ä
-	 * @param clazz Êı¾İModelµÄÀà¶ÔÏó £¨jsonÒªÓÃµ½£©
+	 * è°ƒç”¨è¿™ä¸ªæ„é€ å‡½æ•°å¯ä»¥è§¦å‘ TASK_LOAD ä»»åŠ¡
+	 * åŠ è½½ä¸Šæ¬¡ç¼“å­˜æ•°æ®ï¼Œå¦‚æœè¿‡æœŸå°†è§¦å‘ TASK_REFRESH åŠ è½½æ–°æ•°æ®
+	 * ç¼“å­˜ä½¿ç”¨çš„ KEY_CACHELIST = this.getClass().getName()
+	 * 		KEY_CACHELIST ä¸ºç¼“å­˜çš„æ ‡è¯†
+	 * ç¼“å­˜çš„è¿‡æœŸ é—´éš”ä¸º AfListTask.CACHETIMEOUTSECOND
+	 * 		è¿™ä¸ªæ—¶é—´é—´éš”å¯ä»¥åœ¨Appåˆå§‹åŒ–æ—¶å€™æ›´æ”¹
+	 * @param clazz æ•°æ®Modelçš„ç±»å¯¹è±¡ ï¼ˆjsonè¦ç”¨åˆ°ï¼‰
 	 */
 	public AfListTask(Class<T> clazz){
 		super(TASK_LOAD);
 		this.mCacheClazz = clazz;
 	}
 	/**
-	 * µ÷ÓÃÕâ¸ö¹¹Ôìº¯Êı¿ÉÒÔ´¥·¢ TASK_LOAD ÈÎÎñ
-	 * ¼ÓÔØÉÏ´Î»º´æÊı¾İ£¬Èç¹û¹ıÆÚ½«´¥·¢ TASK_REFRESH ¼ÓÔØĞÂÊı¾İ
-	 * »º´æÊ¹ÓÃµÄ KEY_CACHELIST ¿ÉÒÔ×Ô¶¨Òå
-	 * »º´æµÄ¹ıÆÚ ¼ä¸ôÎª AfListTask.CACHETIMEOUTSECOND
-	 * 		Õâ¸öÊ±¼ä¼ä¸ô¿ÉÒÔÔÚApp³õÊ¼»¯Ê±ºò¸ü¸Ä
-	 * @param clazz Êı¾İModelµÄÀà¶ÔÏó £¨jsonÒªÓÃµ½£©
-	 * @param KEY_CACHELIST »º´æµÄKEY±êÊ¶
+	 * è°ƒç”¨è¿™ä¸ªæ„é€ å‡½æ•°å¯ä»¥è§¦å‘ TASK_LOAD ä»»åŠ¡
+	 * åŠ è½½ä¸Šæ¬¡ç¼“å­˜æ•°æ®ï¼Œå¦‚æœè¿‡æœŸå°†è§¦å‘ TASK_REFRESH åŠ è½½æ–°æ•°æ®
+	 * ç¼“å­˜ä½¿ç”¨çš„ KEY_CACHELIST å¯ä»¥è‡ªå®šä¹‰
+	 * ç¼“å­˜çš„è¿‡æœŸ é—´éš”ä¸º AfListTask.CACHETIMEOUTSECOND
+	 * 		è¿™ä¸ªæ—¶é—´é—´éš”å¯ä»¥åœ¨Appåˆå§‹åŒ–æ—¶å€™æ›´æ”¹
+	 * @param clazz æ•°æ®Modelçš„ç±»å¯¹è±¡ ï¼ˆjsonè¦ç”¨åˆ°ï¼‰
+	 * @param KEY_CACHELIST ç¼“å­˜çš„KEYæ ‡è¯†
 	 */
 	public AfListTask(Class<T> clazz,String KEY_CACHELIST){
 		super(TASK_LOAD);
@@ -95,7 +95,7 @@ public abstract class AfListTask<T> extends AfHandlerTask {
 			mFirstResult = list.size();
 		}
 	}
-	//¼ÓÔØ¸ü¶à×¨ÓÃ
+	//åŠ è½½æ›´å¤šä¸“ç”¨
 	public AfListTask(AfListAdapter<T> adapter) {
 		super(adapter!=null?TASK_MORE:TASK_LOAD);
 		// TODO Auto-generated constructor stub
@@ -104,7 +104,7 @@ public abstract class AfListTask<T> extends AfHandlerTask {
 		}
 	}
 	/**
-	 * »ñÈ¡»º´æÊ±¼ä Èç¹ûÃ»ÓĞ»º´æ ·µ»Ø null
+	 * è·å–ç¼“å­˜æ—¶é—´ å¦‚æœæ²¡æœ‰ç¼“å­˜ è¿”å› null
 	 * @return
 	 */
 	public Date getCacheTime(){
@@ -112,8 +112,8 @@ public abstract class AfListTask<T> extends AfHandlerTask {
 	}
 
 	/**
-	 * »ñÈ¡»º´æÊÇ·ñ¹ıÆÚ 
-	 * mCacheTimeOutSecond ¾ö¶¨»º´æÓĞĞ§Ê±¼ä
+	 * è·å–ç¼“å­˜æ˜¯å¦è¿‡æœŸ 
+	 * mCacheTimeOutSecond å†³å®šç¼“å­˜æœ‰æ•ˆæ—¶é—´
 	 * @return
 	 */
 	protected boolean isCacheTimeout() {
@@ -123,8 +123,8 @@ public abstract class AfListTask<T> extends AfHandlerTask {
 	}
 	
 	/**
-	 * ¼ÓÔØ»º´æ
-	 * @param ischecktimeout ÊÇ·ñ¼ì²â»º´æ¹ıÆÚ£¨Ë¢ĞÂÊ§°ÜÊ±ºò¿ÉÒÔ¼ÓÔØ»º´æ£©
+	 * åŠ è½½ç¼“å­˜
+	 * @param ischecktimeout æ˜¯å¦æ£€æµ‹ç¼“å­˜è¿‡æœŸï¼ˆåˆ·æ–°å¤±è´¥æ—¶å€™å¯ä»¥åŠ è½½ç¼“å­˜ï¼‰
 	 * @return
 	 */
 	protected List<T> onLoad(){
@@ -149,10 +149,10 @@ public abstract class AfListTask<T> extends AfHandlerTask {
 		switch (mTask) {
 		case AfListTask.TASK_LOAD:
 			/**
-			 * ÎªÁË°²È«¿¼ÂÇ£¬ÏµÍ³¿ò¼Ü¹æ¶¨ onLoad ²»ÄÜÅ×³öÒì³£
-			 * 	onLoad Ö÷ÒªÓÃÓÚ ±¾µØÊı¾İ¿â¼ÓÔØ»º´æ£¬¾ÍËã±¾µØÃ»ÓĞÊı¾İ
-			 * 	Ò²¿É·µ»Ø¿ÕList 
-			 * 		ÒÔ·ÀÍòÒ»Ê¹ÓÃtry catch ×èÖ¹Òì³£
+			 * ä¸ºäº†å®‰å…¨è€ƒè™‘ï¼Œç³»ç»Ÿæ¡†æ¶è§„å®š onLoad ä¸èƒ½æŠ›å‡ºå¼‚å¸¸
+			 * 	onLoad ä¸»è¦ç”¨äº æœ¬åœ°æ•°æ®åº“åŠ è½½ç¼“å­˜ï¼Œå°±ç®—æœ¬åœ°æ²¡æœ‰æ•°æ®
+			 * 	ä¹Ÿå¯è¿”å›ç©ºList 
+			 * 		ä»¥é˜²ä¸‡ä¸€ä½¿ç”¨try catch é˜»æ­¢å¼‚å¸¸
 			 */
 			if (isCacheTimeout() || (mltData = onLoad()) == null || mltData.size() == 0) {
 				try {
@@ -167,7 +167,7 @@ public abstract class AfListTask<T> extends AfHandlerTask {
 					mTask = TASK_LOAD;
 					e.printStackTrace();
 					mltData = onLoad();
-					//Èç¹ûµ÷ÊÔ½×¶Î Å×³öÒì³£
+					//å¦‚æœè°ƒè¯•é˜¶æ®µ æŠ›å‡ºå¼‚å¸¸
 					if (AfApplication.getApp().isDebug()) {
 						if (mltData==null||mltData.size()==0) {
 							mTask = TASK_REFRESH;
@@ -197,7 +197,7 @@ public abstract class AfListTask<T> extends AfHandlerTask {
 //		} catch (Throwable e) {
 //			// TODO: handle exception
 //			e.printStackTrace();//handled
-//			String remark = "AfListViewTask.onWorking.sort Å×³öÒì³£\r\n";
+//			String remark = "AfListViewTask.onWorking.sort æŠ›å‡ºå¼‚å¸¸\r\n";
 //			remark += "task = " + mTask;
 //			remark += "class = " + getClass().toString();
 //			AfExceptionHandler.handler(e, remark);
@@ -215,7 +215,7 @@ public abstract class AfListTask<T> extends AfHandlerTask {
 		// TODO Auto-generated method stub
 		if (AfApplication.getNetworkStatus() == AfNetworkEnum.TYPE_NONE
 				&& mTask != AfTask.TASK_LOAD) {
-			mErrors = "µ±Ç°ÍøÂç²»¿ÉÓÃ£¡";
+			mErrors = "å½“å‰ç½‘ç»œä¸å¯ç”¨ï¼";
 			mException = new AfToastException(mErrors);
 		}
 	}

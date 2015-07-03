@@ -8,14 +8,14 @@ import android.widget.AdapterView.OnItemClickListener;
 
 import com.andframe.feature.AfIntent;
 /**
- * ¿ò¼Ü Activity
+ * æ¡†æ¶ Activity
  * @author SCWANG
  */
 public abstract class AfActivity extends com.andframe.activity.framework.AfActivity implements OnItemClickListener {
 
 	/**
-	 * final Ô­Ê¼ onCreate(Bundle bundle)
-	 * ×ÓÀàÖ»ÄÜÖØĞ´ onCreate(Bundle bundle,AfIntent intent)
+	 * final åŸå§‹ onCreate(Bundle bundle)
+	 * å­ç±»åªèƒ½é‡å†™ onCreate(Bundle bundle,AfIntent intent)
 	 */
 	@Override
 	protected final void onCreate(Bundle bundle) {
@@ -26,7 +26,7 @@ public abstract class AfActivity extends com.andframe.activity.framework.AfActiv
 	/**
 	 * (non-Javadoc)
 	 * @see android.support.v4.app.FragmentActivity#onActivityResult(int, int, android.content.Intent)
-	 * final ÖØĞ´ onActivityResult Ê¹ÓÃ try-catch µ÷ÓÃ 
+	 * final é‡å†™ onActivityResult ä½¿ç”¨ try-catch è°ƒç”¨ 
 	 * 		onActivityResult(AfIntent intent, int questcode,int resultcode)
 	 * @see AfActivity#onActivityResult(AfIntent intent, int questcode,int resultcode)
 	 * {@link AfActivity#onActivityResult(AfIntent intent, int questcode,int resultcode)}
@@ -37,9 +37,9 @@ public abstract class AfActivity extends com.andframe.activity.framework.AfActiv
 		super.onActivityResult(questcode, resultcode, data);
 	}
 	/**
-	 * @Description: final °ü×° onItemClick ÊÂ¼ş´¦Àí ·ÀÖ¹Å×³öÒì³£±ÀÀ£
+	 * @Description: final åŒ…è£… onItemClick äº‹ä»¶å¤„ç† é˜²æ­¢æŠ›å‡ºå¼‚å¸¸å´©æºƒ
 	 * @Author: scwang
-	 * @Version: V1.0, 2015-2-14 ÉÏÎç10:34:56
+	 * @Version: V1.0, 2015-2-14 ä¸Šåˆ10:34:56
 	 * @param parent
 	 * @param view
 	 * @param position
@@ -53,7 +53,7 @@ public abstract class AfActivity extends com.andframe.activity.framework.AfActiv
 	}
 
 	/**
-	 * ×ª·¢ onBackPressed ÊÂ¼ş¸ø AfFragment
+	 * è½¬å‘ onBackPressed äº‹ä»¶ç»™ AfFragment
 	 */
 	@Override
 	public final void onBackPressed() {

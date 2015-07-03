@@ -1,8 +1,8 @@
 package com.andframe.bean;
 
 /**
- * ·ÖÒ³²éÑ¯Àà 
- * ·ÖÒ³²éÑ¯¿ªÊ¼Ë÷Òı¡¢¿ªÊ¼·ÖÒ³µÈ´Ó 0 ¿ªÊ¼Ë÷Òı
+ * åˆ†é¡µæŸ¥è¯¢ç±» 
+ * åˆ†é¡µæŸ¥è¯¢å¼€å§‹ç´¢å¼•ã€å¼€å§‹åˆ†é¡µç­‰ä» 0 å¼€å§‹ç´¢å¼•
  * @author Administrator
  *
  */
@@ -18,11 +18,11 @@ public class Page {
     public Page(){}
 
     /**
-     * ¹¹ÔìÒ»¸öĞÂµÄ·ÖÒ³²éÑ¯Ê¾ÀıË÷ÒıÊÇ´Ó0¿ªÊ¼
+     * æ„é€ ä¸€ä¸ªæ–°çš„åˆ†é¡µæŸ¥è¯¢ç¤ºä¾‹ç´¢å¼•æ˜¯ä»0å¼€å§‹
      * 
-     * @param sizeOrmax ·ÖÒ³´óĞ¡ »ò ×·¼Ó²éÑ¯´óĞ¡
-     * @param curOrbegin ·ÖÒ³ÆğÊ¼Ò³ »ò ×·¼ÓÆğÊ¼Ò³
-     * Ä¬ÈÏ ×·¼Ó£ºPAGEMODE_ADDITIAONAL 
+     * @param sizeOrmax åˆ†é¡µå¤§å° æˆ– è¿½åŠ æŸ¥è¯¢å¤§å°
+     * @param curOrbegin åˆ†é¡µèµ·å§‹é¡µ æˆ– è¿½åŠ èµ·å§‹é¡µ
+     * é»˜è®¤ è¿½åŠ ï¼šPAGEMODE_ADDITIAONAL 
      */
     public Page(int max,int begin)
     {
@@ -30,12 +30,12 @@ public class Page {
         this.MaxResult = max;
     }
     /**
-     * ¹¹ÔìÒ»¸öĞÂµÄ·ÖÒ³²éÑ¯Ê¾ÀıË÷ÒıÊÇ´Ó0¿ªÊ¼
+     * æ„é€ ä¸€ä¸ªæ–°çš„åˆ†é¡µæŸ¥è¯¢ç¤ºä¾‹ç´¢å¼•æ˜¯ä»0å¼€å§‹
      * 
-     * @param sizeOrmax ·ÖÒ³´óĞ¡ »ò ×·¼Ó²éÑ¯´óĞ¡
-     * @param curOrbegin ·ÖÒ³ÆğÊ¼Ò³ »ò ×·¼ÓÆğÊ¼Ò³
-     * @param order ÅÅĞòÁĞ
-     * Ä¬ÈÏ ×·¼Ó£ºPAGEMODE_ADDITIAONAL 
+     * @param sizeOrmax åˆ†é¡µå¤§å° æˆ– è¿½åŠ æŸ¥è¯¢å¤§å°
+     * @param curOrbegin åˆ†é¡µèµ·å§‹é¡µ æˆ– è¿½åŠ èµ·å§‹é¡µ
+     * @param order æ’åºåˆ—
+     * é»˜è®¤ è¿½åŠ ï¼šPAGEMODE_ADDITIAONAL 
      */
     public Page(int max,int begin,String order)
     {
@@ -44,11 +44,11 @@ public class Page {
         this.MaxResult = max;
     }
     /**
-     * ¹¹ÔìÒ»¸öĞÂµÄ·ÖÒ³²éÑ¯Ê¾Àı
-     * @param sizeOrmax ·ÖÒ³´óĞ¡ »ò ×·¼Ó²éÑ¯´óĞ¡
-     * @param curOrbegin ·ÖÒ³ÆğÊ¼Ò³ »ò ×·¼ÓÆğÊ¼Ò³
-     * @param order ÅÅĞòÁĞ
-     * @param isAsc ÊÇ·ñÉıĞò
+     * æ„é€ ä¸€ä¸ªæ–°çš„åˆ†é¡µæŸ¥è¯¢ç¤ºä¾‹
+     * @param sizeOrmax åˆ†é¡µå¤§å° æˆ– è¿½åŠ æŸ¥è¯¢å¤§å°
+     * @param curOrbegin åˆ†é¡µèµ·å§‹é¡µ æˆ– è¿½åŠ èµ·å§‹é¡µ
+     * @param order æ’åºåˆ—
+     * @param isAsc æ˜¯å¦å‡åº
      */
     public Page(int max,int begin,String order,boolean isAsc)
     {
@@ -58,10 +58,10 @@ public class Page {
     	this.IsASC = isAsc;
     }
     /**
-     * ¹¹ÔìÒ»¸öĞÂµÄ·ÖÒ³²éÑ¯Ê¾Àı
+     * æ„é€ ä¸€ä¸ªæ–°çš„åˆ†é¡µæŸ¥è¯¢ç¤ºä¾‹
      * 
-     * @param order ÅÅĞòÁĞ
-     * @param isAsc ÊÇ·ñÉıĞò
+     * @param order æ’åºåˆ—
+     * @param isAsc æ˜¯å¦å‡åº
      */
     public Page(String order,String asc)
     {
@@ -73,17 +73,17 @@ public class Page {
 
     /**
      * 
-     * @Description: ×ª»»³Éµ¥Ò³ÌõÊı
-     * @Version: V1.0, 2015-2-2 ÏÂÎç5:02:53
+     * @Description: è½¬æ¢æˆå•é¡µæ¡æ•°
+     * @Version: V1.0, 2015-2-2 ä¸‹åˆ5:02:53
      * @return
      */
     public int getPageSize(){
     	return MaxResult;
     }
     /**
-     * @Description: ×ª»»³Éµ±Ç°Ò³Âë
-     * @Version: V1.0, 2015-2-2 ÏÂÎç5:02:17
-     * @return £¨´Ó0¿ªÊ¼£©
+     * @Description: è½¬æ¢æˆå½“å‰é¡µç 
+     * @Version: V1.0, 2015-2-2 ä¸‹åˆ5:02:17
+     * @return ï¼ˆä»0å¼€å§‹ï¼‰
      */
     public int getcurrentPage(){
     	return FirstResult / MaxResult;

@@ -20,14 +20,14 @@ import com.andframe.constant.AfNetworkEnum;
 import com.andframe.feature.AfIntent;
 import com.andframe.util.java.AfVersion;
 /**
- * ¿ò¼ÜAppÖ÷Ò³Ãæ 
+ * æ¡†æ¶Appä¸»é¡µé¢ 
  * @author SCWANG
- *	ÊµÏÖ ¸üĞÂÍ¨Öª£¬ÍøÂç¸Ä±äÍ¨Öª½Ó¿Ú
- *		Ö÷ÒªÊµÏÖÁË¸üĞÂÌáÊ¾£¬ÍøÂçÎŞĞ§ÌáÊ¾
- *		onCreate Ïò App ×¢²áÖ÷Ò³Ãæ
- *		onDestroy Ïò App ½â³ıÖ÷Ò³Ãæ
+ *	å®ç° æ›´æ–°é€šçŸ¥ï¼Œç½‘ç»œæ”¹å˜é€šçŸ¥æ¥å£
+ *		ä¸»è¦å®ç°äº†æ›´æ–°æç¤ºï¼Œç½‘ç»œæ— æ•ˆæç¤º
+ *		onCreate å‘ App æ³¨å†Œä¸»é¡µé¢
+ *		onDestroy å‘ App è§£é™¤ä¸»é¡µé¢
  *
- *		·µ»Ø°´¼ü ÌáÊ¾ "ÔÙ°´Ò»´ÎÍË³ö³ÌĞò"
+ *		è¿”å›æŒ‰é”® æç¤º "å†æŒ‰ä¸€æ¬¡é€€å‡ºç¨‹åº"
  */
 public abstract class AfMainActivity extends AfActivity
 	implements INotifyNeedUpdate,INotifyUpdate,INotifyNetworkStatus,OnClickListener{
@@ -49,7 +49,7 @@ public abstract class AfMainActivity extends AfActivity
 //		if(!app.isInitialize()){
 //			app.initialize(this);
 //			if(onRestoreApp()){
-//				makeToastShort("³ÌĞòÒÑĞŞ¸´");
+//				makeToastShort("ç¨‹åºå·²ä¿®å¤");
 //			}else{
 //				this.finish();
 //				return;
@@ -58,19 +58,19 @@ public abstract class AfMainActivity extends AfActivity
 		
 		onActivityCreate(bundle);
 		if (AfApplication.getNetworkStatus() == AfNetworkEnum.TYPE_NONE) {
-			// ÏÔÊ¾ÍøÂç²»¿ÉÓÃ¶Ô»°¿ò
+			// æ˜¾ç¤ºç½‘ç»œä¸å¯ç”¨å¯¹è¯æ¡†
 			if(mNotifyNetInvaild)showNetworkInAvailable();
 //		}else if(app.isNeedUpdate()){
-//			// ÏÔÊ¾È¥Òª¸üĞÂ¶Ô»°¿ò
+//			// æ˜¾ç¤ºå»è¦æ›´æ–°å¯¹è¯æ¡†
 //			showNeedUpdate();
 		}else if (AfAppSettings.getInstance().isAutoUpdate()) {
-			//×Ô¶¯¸üĞÂ
+			//è‡ªåŠ¨æ›´æ–°
 			AfUpdateService.checkUpdate();
 		}
 	}
 
 	/**
-	 * @deprecated ÒÑ¾­ÆúÓÃ
+	 * @deprecated å·²ç»å¼ƒç”¨
 	 * @return
 	 */
 	protected boolean onRestoreApp() {
@@ -79,13 +79,13 @@ public abstract class AfMainActivity extends AfActivity
 	}
 
 	/**
-	 * Í¨ÖªAPP Ç°Ì¨ÒÑ¾­¹Ø±Õ
+	 * é€šçŸ¥APP å‰å°å·²ç»å…³é—­
 	 */
 	@Override
 	protected void onDestroy() {
 		// TODO Auto-generated method stub
 		AfApplication app = AfApplication.getApp();
-		// Í¨ÖªAPP ½çÃæÒÑ¾­ÍË³ö
+		// é€šçŸ¥APP ç•Œé¢å·²ç»é€€å‡º
 		app.notifyForegroundClosed(this);
 		super.onDestroy();
 	}
@@ -96,7 +96,7 @@ public abstract class AfMainActivity extends AfActivity
 //		if (event.getKeyCode() == KeyEvent.KEYCODE_BACK
 //				&& event.getAction() == KeyEvent.ACTION_DOWN) {
 //			if ((System.currentTimeMillis() - mExitTime) > mExitInterval) {
-//				makeToastShort("ÔÙ°´Ò»´ÎÍË³ö³ÌĞò");
+//				makeToastShort("å†æŒ‰ä¸€æ¬¡é€€å‡ºç¨‹åº");
 //				mExitTime = System.currentTimeMillis();
 //			} else {
 //				this.finish();
@@ -113,7 +113,7 @@ public abstract class AfMainActivity extends AfActivity
 		if (!isHandled) {
 			isHandled = true;
 			if ((System.currentTimeMillis() - mExitTime) > mExitInterval) {
-				makeToastShort("ÔÙ°´Ò»´ÎÍË³ö³ÌĞò");
+				makeToastShort("å†æŒ‰ä¸€æ¬¡é€€å‡ºç¨‹åº");
 				mExitTime = System.currentTimeMillis();
 			} else {
 				this.finish();
@@ -125,7 +125,7 @@ public abstract class AfMainActivity extends AfActivity
 	@Override
 	public void onNotifyUpdate(String curver, String server, String describe) {
 		// TODO Auto-generated method stub
-		// ÏÔÊ¾È¥Òª¸üĞÂ¶Ô»°¿ò
+		// æ˜¾ç¤ºå»è¦æ›´æ–°å¯¹è¯æ¡†
 		AfApplication app = AfApplication.getApp();
 		if (app.isForegroundRunning() && app.getCurActivity() == this) {
 			showNeedUpdate();
@@ -135,7 +135,7 @@ public abstract class AfMainActivity extends AfActivity
 	@Override
 	public void onNotifyNeedUpdate(String curver, String server) {
 		// TODO Auto-generated method stub
-		// ÏÔÊ¾È¥Òª¸üĞÂ¶Ô»°¿ò
+		// æ˜¾ç¤ºå»è¦æ›´æ–°å¯¹è¯æ¡†
 		AfApplication app = AfApplication.getApp();
 		if (app.isForegroundRunning() && app.getCurActivity() == this) {
 			showNeedUpdate();
@@ -154,23 +154,23 @@ public abstract class AfMainActivity extends AfActivity
 
 
 	/**
-	 * ÏÔÊ¾ÍøÂç²»¿ÉÓÃ¶Ô»°¿ò
+	 * æ˜¾ç¤ºç½‘ç»œä¸å¯ç”¨å¯¹è¯æ¡†
 	 */
 	protected void showNetworkInAvailable() {
 		AlertDialog.Builder builder = new AlertDialog.Builder(this);
 //		builder.setIcon(android.R.drawable.ic_dialog_info);
-		builder.setTitle("µ±Ç°ÍøÂç²»¿ÉÓÃ");
-		builder.setMessage("Äã¿ÉÒÔä¯ÀÀÀëÏßĞÅÏ¢»òÕßÉèÖÃÍøÂçÁ¬½Ó¡£");
-		builder.setNegativeButton("ÉèÖÃÍøÂç",
+		builder.setTitle("å½“å‰ç½‘ç»œä¸å¯ç”¨");
+		builder.setMessage("ä½ å¯ä»¥æµè§ˆç¦»çº¿ä¿¡æ¯æˆ–è€…è®¾ç½®ç½‘ç»œè¿æ¥ã€‚");
+		builder.setNegativeButton("è®¾ç½®ç½‘ç»œ",
 				new DialogInterface.OnClickListener() {
 					@Override
 					public void onClick(DialogInterface dialog, int which) {
 						// TODO Auto-generated method stub
-						// Èç¹ûÃ»ÓĞÍøÂçÁ¬½Ó£¬Ôò½øÈëÍøÂçÉèÖÃ½çÃæ
+						// å¦‚æœæ²¡æœ‰ç½‘ç»œè¿æ¥ï¼Œåˆ™è¿›å…¥ç½‘ç»œè®¾ç½®ç•Œé¢
 						startActivity(new Intent(Settings.ACTION_WIFI_SETTINGS));
 					}
 				});
-		builder.setPositiveButton("ä¯ÀÀÀëÏßĞÅÏ¢",null);
+		builder.setPositiveButton("æµè§ˆç¦»çº¿ä¿¡æ¯",null);
 		builder.create();
 		builder.show();
 	}
@@ -189,15 +189,15 @@ public abstract class AfMainActivity extends AfActivity
 		if (curver < server) {
 			Builder builder = new Builder(this);
 //			builder.setIcon(android.R.drawable.ic_dialog_info);
-			builder.setTitle("¿ÉÓÃ¸üĞÂ");
+			builder.setTitle("å¯ç”¨æ›´æ–°");
 			if(sedescribe == null || sedescribe.length() == 0){
-				builder.setMessage("ÏµÍ³¼ì²éµ½¿ÉÓÃ¸üĞÂ\r\n    ¸üĞÂ°æ±¾£º"
-						+ serversion + "\r\n    µ±Ç°°æ±¾£º" + curversion);
+				builder.setMessage("ç³»ç»Ÿæ£€æŸ¥åˆ°å¯ç”¨æ›´æ–°\r\n    æ›´æ–°ç‰ˆæœ¬ï¼š"
+						+ serversion + "\r\n    å½“å‰ç‰ˆæœ¬ï¼š" + curversion);
 			}else{
-				builder.setMessage("ÏµÍ³¼ì²éµ½¿ÉÓÃ¸üĞÂ\r\n    "
+				builder.setMessage("ç³»ç»Ÿæ£€æŸ¥åˆ°å¯ç”¨æ›´æ–°\r\n    "
 						+ curversion  + " -> " + serversion+ "\r\n\r\n" +sedescribe);
 			}
-			builder.setPositiveButton("ÏÂÔØ¸üĞÂ", new DialogInterface.OnClickListener() {
+			builder.setPositiveButton("ä¸‹è½½æ›´æ–°", new DialogInterface.OnClickListener() {
 				@Override
 				public void onClick(DialogInterface dialog, int which) {
 					// TODO Auto-generated method stub
@@ -206,7 +206,7 @@ public abstract class AfMainActivity extends AfActivity
 					AfUpdateService.startDownLoadUpate(getContext(), url, serversion);
 				}
 			});
-			builder.setNeutralButton("ºöÂÔ´Ë°æ±¾",new DialogInterface.OnClickListener() {
+			builder.setNeutralButton("å¿½ç•¥æ­¤ç‰ˆæœ¬",new DialogInterface.OnClickListener() {
 				@Override
 				public void onClick(DialogInterface dialog, int which) {
 					// TODO Auto-generated method stub
@@ -215,7 +215,7 @@ public abstract class AfMainActivity extends AfActivity
 					caches.put(KEY_IGNORE, serversion);
 				}
 			});
-			builder.setNegativeButton("Ôİ²»¸üĞÂ",null);
+			builder.setNegativeButton("æš‚ä¸æ›´æ–°",null);
 			builder.create();
 			builder.show();
 		}

@@ -28,14 +28,14 @@ public abstract class AfListAdapter<T> extends BaseAdapter {
 		mInflater = LayoutInflater.from(context);
 	}
 	/**
-	 * »ñÈ¡Êı¾İÁĞ±í
+	 * è·å–æ•°æ®åˆ—è¡¨
 	 * @return
 	 */
 	public List<T> getList(){
 		return mltArray;
 	}
 	/**
-	 * ÊÊÅäÆ÷ĞÂÔö µã»÷¸ü¶à Êı¾İ×·¼Ó½Ó¿Ú
+	 * é€‚é…å™¨æ–°å¢ ç‚¹å‡»æ›´å¤š æ•°æ®è¿½åŠ æ¥å£
 	 * 
 	 * @param ltdata
 	 */
@@ -45,7 +45,7 @@ public abstract class AfListAdapter<T> extends BaseAdapter {
 		notifyDataSetChanged();
 	}
 	/**
-	 * ÊÊÅäÆ÷ĞÂÔö µã»÷¸ü¶à Êı¾İ×·¼Ó½Ó¿Ú
+	 * é€‚é…å™¨æ–°å¢ ç‚¹å‡»æ›´å¤š æ•°æ®è¿½åŠ æ¥å£
 	 * 
 	 * @param ltdata
 	 */
@@ -56,7 +56,7 @@ public abstract class AfListAdapter<T> extends BaseAdapter {
 	}
 
 	/**
-	 * ÊÊÅäÆ÷ĞÂÔö Êı¾İË¢ĞÂ ½Ó¿Ú
+	 * é€‚é…å™¨æ–°å¢ æ•°æ®åˆ·æ–° æ¥å£
 	 * 
 	 * @param ltdata
 	 */
@@ -67,7 +67,7 @@ public abstract class AfListAdapter<T> extends BaseAdapter {
 	}
 
 	/**
-	 * ÊÊÅäÆ÷ĞÂÔö µ¥¸öÊı¾İË¢ĞÂ ½Ó¿Ú
+	 * é€‚é…å™¨æ–°å¢ å•ä¸ªæ•°æ®åˆ·æ–° æ¥å£
 	 * 
 	 * @param index
 	 * @param obj
@@ -81,7 +81,7 @@ public abstract class AfListAdapter<T> extends BaseAdapter {
 	}
 
 	/**
-	 * ÊÊÅäÆ÷ĞÂÔö Êı¾İÉ¾³ı ½Ó¿Ú
+	 * é€‚é…å™¨æ–°å¢ æ•°æ®åˆ é™¤ æ¥å£
 	 * 
 	 * @param ltdata
 	 */
@@ -94,7 +94,7 @@ public abstract class AfListAdapter<T> extends BaseAdapter {
 	}
 
 	/**
-	 * ÊÊÅäÆ÷ĞÂÔö Êı¾İ²åÈë ½Ó¿Ú
+	 * é€‚é…å™¨æ–°å¢ æ•°æ®æ’å…¥ æ¥å£
 	 * 
 	 * @param ltdata
 	 */
@@ -133,7 +133,7 @@ public abstract class AfListAdapter<T> extends BaseAdapter {
 	@SuppressWarnings("unchecked")
 	public View getView(int position, View view, ViewGroup parent) {
 		// TODO Auto-generated method stub
-		// ÁĞ±íÊÓÍ¼»ñÈ¡±ØĞë¼ì²é view ÊÇ·ñÎª¿Õ ²»ÄÜÃ¿´Î¶¼ inflate ·ñÔòÊÖ»úÄÚ´æ¸ºÔØ²»Æğ
+		// åˆ—è¡¨è§†å›¾è·å–å¿…é¡»æ£€æŸ¥ view æ˜¯å¦ä¸ºç©º ä¸èƒ½æ¯æ¬¡éƒ½ inflate å¦åˆ™æ‰‹æœºå†…å­˜è´Ÿè½½ä¸èµ·
 		IAfLayoutItem<T> item = null;
 		try {
 			if (view == null) {
@@ -146,7 +146,7 @@ public abstract class AfListAdapter<T> extends BaseAdapter {
 			bindingItem(item, position);
 		} catch (Throwable e) {
 			// TODO: handle exception
-			String remark = "AfListAdapter.getView ³öÏÖÒì³£\r\n";
+			String remark = "AfListAdapter.getView å‡ºç°å¼‚å¸¸\r\n";
 			remark += "class = " + getClass().toString();
 			AfExceptionHandler.handler(e, remark);
 		}
@@ -169,17 +169,17 @@ public abstract class AfListAdapter<T> extends BaseAdapter {
 
 	public static interface IAfLayoutItem<T> {
 		/**
-		 * ´ÓÊÓÍ¼ÖĞÈ¡³ö¿Ø¼ş
+		 * ä»è§†å›¾ä¸­å–å‡ºæ§ä»¶
 		 * @param view
 		 */
 		public abstract void onHandle(AfView view);
 		/**
-		 * ½«Êı¾İ°ó¶¨µ½¿Ø¼şÏÔÊ¾
+		 * å°†æ•°æ®ç»‘å®šåˆ°æ§ä»¶æ˜¾ç¤º
 		 * @param model
 		 */
 		public abstract void onBinding(T model,int index);
 		/**
-		 * »ñÈ¡ Item ¹ØÁªµÄ Layout ID
+		 * è·å– Item å…³è”çš„ Layout ID
 		 * @return
 		 */
 		public abstract int getLayoutId();

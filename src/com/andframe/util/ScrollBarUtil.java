@@ -5,7 +5,6 @@ import java.lang.reflect.Field;
 import android.graphics.drawable.Drawable;
 import android.widget.AbsListView;
 
-@SuppressWarnings("deprecation")
 public class ScrollBarUtil {
 
 	public static void bindScrollBar(AbsListView listview, int resid) {

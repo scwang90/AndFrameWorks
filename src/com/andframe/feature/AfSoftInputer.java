@@ -10,7 +10,7 @@ import android.widget.EditText;
 
 import com.andframe.activity.framework.AfPageListener;
 /**
- * Èí¼üÅÌÊäÈëÀà
+ * è½¯é”®ç›˜è¾“å…¥ç±»
  * @author SCWANG
  */
 public class AfSoftInputer implements OnGlobalLayoutListener {
@@ -33,11 +33,11 @@ public class AfSoftInputer implements OnGlobalLayoutListener {
 		}
 	}
 	/**
-	 * ÊµÏÖ onGlobalLayout 
-	 * 	ÓÃÓÚ¼ÆËã Èí¼üÅÌµÄµ¯³öºÍÒş²Ø
-	 * 	×ÓÀàÔÚ¶Ô onGlobalLayout ÖØĞ´µÄÊ±ºòÇëµ÷ÓÃ 
+	 * å®ç° onGlobalLayout 
+	 * 	ç”¨äºè®¡ç®— è½¯é”®ç›˜çš„å¼¹å‡ºå’Œéšè—
+	 * 	å­ç±»åœ¨å¯¹ onGlobalLayout é‡å†™çš„æ—¶å€™è¯·è°ƒç”¨ 
 	 * 		super.onGlobalLayout();
-	 * 	·ñÔò²»ÄÜ¶ÔÈí¼üÅÌ½øĞĞ¼àÌı
+	 * 	å¦åˆ™ä¸èƒ½å¯¹è½¯é”®ç›˜è¿›è¡Œç›‘å¬
 	 */
 	private int lastdiff = -1;
 	@Override
@@ -55,10 +55,10 @@ public class AfSoftInputer implements OnGlobalLayoutListener {
 			lastdiff = diff;	
 		}
 //		if (diff > 100) {
-//			// ´óĞ¡³¬¹ı100Ê±£¬Ò»°ãÎªÏÔÊ¾ĞéÄâ¼üÅÌÊÂ¼ş
+//			// å¤§å°è¶…è¿‡100æ—¶ï¼Œä¸€èˆ¬ä¸ºæ˜¾ç¤ºè™šæ‹Ÿé”®ç›˜äº‹ä»¶
 //			this.onSoftInputShown();
 //		} else {
-//			// ´óĞ¡Ğ¡ÓÚ100Ê±£¬Îª²»ÏÔÊ¾ĞéÄâ¼üÅÌ»òĞéÄâ¼üÅÌÒş²Ø
+//			// å¤§å°å°äº100æ—¶ï¼Œä¸ºä¸æ˜¾ç¤ºè™šæ‹Ÿé”®ç›˜æˆ–è™šæ‹Ÿé”®ç›˜éšè—
 //			this.onSoftInputHiden();
 //		}
 
@@ -66,8 +66,8 @@ public class AfSoftInputer implements OnGlobalLayoutListener {
 	
 
 	/**
-	 * »ñÈ¡Èí¼üÅÌ´ó´ò¿ª×´Ì¬
-	 * @return true ´ò¿ª false ¹Ø±Õ
+	 * è·å–è½¯é”®ç›˜å¤§æ‰“å¼€çŠ¶æ€
+	 * @return true æ‰“å¼€ false å…³é—­
 	 */
 	public boolean getSoftInputStatus() {
 		// TODO Auto-generated method stub
@@ -78,9 +78,9 @@ public class AfSoftInputer implements OnGlobalLayoutListener {
 	}
 
 	/**
-	 * »ñÈ¡Èí¼üÅÌ´ó´ò¿ª×´Ì¬
-	 * @param view ¹ØÁªview
-	 * @return true ´ò¿ª false ¹Ø±Õ
+	 * è·å–è½¯é”®ç›˜å¤§æ‰“å¼€çŠ¶æ€
+	 * @param view å…³è”view
+	 * @return true æ‰“å¼€ false å…³é—­
 	 */
 	public boolean getSoftInputStatus(View view) {
 		// TODO Auto-generated method stub

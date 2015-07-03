@@ -23,13 +23,13 @@ import java.lang.annotation.Target;
 // TODO: Auto-generated Javadoc
 /**
  * The Interface Table.
- * ±Ì æ±Ì
+ * Ë°®Á§∫Ë°®
  */
 @Target( { ElementType.TYPE })
 @Retention(RetentionPolicy.RUNTIME)
 public @interface Table {
 	/**
-	 * ±Ì√˚.
+	 * Ë°®Âêç.
 	 *
 	 * @return the string
 	 */

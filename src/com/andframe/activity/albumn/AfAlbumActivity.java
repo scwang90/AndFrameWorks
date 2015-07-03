@@ -27,44 +27,44 @@ import com.andframe.util.UUIDUtil;
 import com.andframe.util.java.AfStringUtil;
 
 /**
- * ¿ò¼ÜÏà²áä¯ÀÀÒ³Ãæ
+ * æ¡†æ¶ç›¸å†Œæµè§ˆé¡µé¢
  * @author SCWANG
- *	Ö§³Ö 	µ¥ÕÅÕÕÆ¬ä¯ÀÀ
- *		¶àÕÅä¯ÀÀ
- *		¶¯Ì¬¼ÓÔØÏà²áä¯ÀÀ
+ *	æ”¯æŒ 	å•å¼ ç…§ç‰‡æµè§ˆ
+ *		å¤šå¼ æµè§ˆ
+ *		åŠ¨æ€åŠ è½½ç›¸å†Œæµè§ˆ
  *
- *	¼Ì³ĞÖ®ºóÖ÷ÒªÊµÏÖ
+ *	ç»§æ‰¿ä¹‹åä¸»è¦å®ç°
  *		
-	 * 	»ñÈ¡Ïà²áµÄ×Ü²¼¾Ö
+	 * 	è·å–ç›¸å†Œçš„æ€»å¸ƒå±€
 	protected abstract int getAlbumLayoutId();
-	 * »ñÈ¡ ÏÔÊ¾Ïà²áÃû³Æ TextView
+	 * è·å– æ˜¾ç¤ºç›¸å†Œåç§° TextView
 	protected abstract TextView getTextViewName(AfViewable view);
-	 * »ñÈ¡ ÏÔÊ¾Ïà²á×ÜÁ¿ºÍµ±Ç°Á¿ TextView
+	 * è·å– æ˜¾ç¤ºç›¸å†Œæ€»é‡å’Œå½“å‰é‡ TextView
 	protected abstract TextView getTextViewSize(AfViewable view);
-	 * »ñÈ¡ ÏÔÊ¾Ïà²áÕÕÆ¬ÏêÏ¸ĞÅÏ¢ TextView
+	 * è·å– æ˜¾ç¤ºç›¸å†Œç…§ç‰‡è¯¦ç»†ä¿¡æ¯ TextView
 	protected abstract TextView getTextViewDetail(AfViewable view);
-	 * »ñÈ¡Ïà²á»¬¶¯ ViewPager
+	 * è·å–ç›¸å†Œæ»‘åŠ¨ ViewPager
 	protected abstract ViewPager getViewPager(AfViewable view);
 	
 	
-	 * ÖØĞ´ Õâ¸öº¯Êı ¿ÉÒÔÊµÏÖ¼ÓÔØÍøÂçÏà²á
+	 * é‡å†™ è¿™ä¸ªå‡½æ•° å¯ä»¥å®ç°åŠ è½½ç½‘ç»œç›¸å†Œ
 	public List<Photo> onRequestAlbum(UUID albumID, Page page)
  */
 public abstract class AfAlbumActivity extends AfActivity 
 		implements OnPageChangeListener, OnTouchListener {
 
-	// Í¨ÓÃĞÅÏ¢
+	// é€šç”¨ä¿¡æ¯
 	public static final String EXTRA_STRING_NAME = "EXTRA_NAME";
 	public static final String EXTRA_STRING_DESCRIBE = "EXTRA_DESCRIBE";
 	
-	// ·¢ËÍÒ»¸öÒÑ´æÔÚµÄÏà²áÁĞ±í£¨²»»áÔÙÍøÂç¼ÓÔØÁĞ±í£©
-	public static final String EXTRA_PHOTO_LIST = "EXTRA_LIST"; // ÁĞ±í
-	public static final String EXTRA_INT_INDEX = "EXTRA_INDEX";// Ä¬ÈÏ²é¿´
-	// ·¢ËÍÒ»¸öÏà²áµÄ·âÃæ£¨ÍøÂç¼ÓÔØÏà²áÄÚÈİ£©
+	// å‘é€ä¸€ä¸ªå·²å­˜åœ¨çš„ç›¸å†Œåˆ—è¡¨ï¼ˆä¸ä¼šå†ç½‘ç»œåŠ è½½åˆ—è¡¨ï¼‰
+	public static final String EXTRA_PHOTO_LIST = "EXTRA_LIST"; // åˆ—è¡¨
+	public static final String EXTRA_INT_INDEX = "EXTRA_INDEX";// é»˜è®¤æŸ¥çœ‹
+	// å‘é€ä¸€ä¸ªç›¸å†Œçš„å°é¢ï¼ˆç½‘ç»œåŠ è½½ç›¸å†Œå†…å®¹ï¼‰
 	public static final String EXTRA_UUID_ALBUMID = "EXTRA_ALBUMID";
 	public static final String EXTRA_HEADURL = "EXTRA_HEADURL";
-	// ·¢ËÍÒ»ÕÅµ¥¶ÀµÄÍ¼Æ¬£¨ÍøÂç¼ÓÔØ¸ßÇåÍ¼£©
-	// Í¼Æ¬URL£¨ÓÃÓÚ¼ÓÔØ¸ßÇåÍ¼£©
+	// å‘é€ä¸€å¼ å•ç‹¬çš„å›¾ç‰‡ï¼ˆç½‘ç»œåŠ è½½é«˜æ¸…å›¾ï¼‰
+	// å›¾ç‰‡URLï¼ˆç”¨äºåŠ è½½é«˜æ¸…å›¾ï¼‰
 	public static final String EXTRA_PHOTO_HEAD = "EXTRA_SINGLE_URL";
 
 	public TextView mTvDetail = null;
@@ -76,8 +76,8 @@ public abstract class AfAlbumActivity extends AfActivity
 	private ViewPager mViewPager;
 
 	private UUID AlbumID = null;
-	private String mPhotoName = "Ïà²áÃû³Æ";
-	private String mDescribe = "Ïà²áµÄ»ù±¾ÃèÊöĞÅÏ¢ºÍÏà¹Ø×ÊÁÏ";
+	private String mPhotoName = "ç›¸å†Œåç§°";
+	private String mDescribe = "ç›¸å†Œçš„åŸºæœ¬æè¿°ä¿¡æ¯å’Œç›¸å…³èµ„æ–™";
 	private String mHeadUrl = "";
 
 	private Photo mHeader = null;
@@ -86,32 +86,32 @@ public abstract class AfAlbumActivity extends AfActivity
 	private AfAlbumPagerAdapter mAdapter = null;
 
 	/**
-	 * ÒÔÏÂÊÇ Ïà²á±Ø±¸µÄ View
-	 * 	»ñÈ¡Ïà²áµÄ×Ü²¼¾Ö
+	 * ä»¥ä¸‹æ˜¯ ç›¸å†Œå¿…å¤‡çš„ View
+	 * 	è·å–ç›¸å†Œçš„æ€»å¸ƒå±€
 	 * @param layoutInflater 
 	 */
 	
 	protected abstract int getAlbumLayoutId();
 	/**
-	 * »ñÈ¡ ÏÔÊ¾Ïà²áÃû³Æ TextView
+	 * è·å– æ˜¾ç¤ºç›¸å†Œåç§° TextView
 	 * @param afViewable
 	 * @return
 	 */
 	protected abstract TextView getTextViewName(AfViewable view);
 	/**
-	 * »ñÈ¡ ÏÔÊ¾Ïà²á×ÜÁ¿ºÍµ±Ç°Á¿ TextView
+	 * è·å– æ˜¾ç¤ºç›¸å†Œæ€»é‡å’Œå½“å‰é‡ TextView
 	 * @param afViewable
 	 * @return
 	 */
 	protected abstract TextView getTextViewSize(AfViewable view);
 	/**
-	 * »ñÈ¡ ÏÔÊ¾Ïà²áÕÕÆ¬ÏêÏ¸ĞÅÏ¢ TextView
+	 * è·å– æ˜¾ç¤ºç›¸å†Œç…§ç‰‡è¯¦ç»†ä¿¡æ¯ TextView
 	 * @param afViewable
 	 * @return
 	 */
 	protected abstract TextView getTextViewDetail(AfViewable view);
 	/**
-	 * »ñÈ¡Ïà²á»¬¶¯ ViewPager
+	 * è·å–ç›¸å†Œæ»‘åŠ¨ ViewPager
 	 * @param afViewable
 	 * @return
 	 */
@@ -138,7 +138,7 @@ public abstract class AfAlbumActivity extends AfActivity
 		mPhotoName = intent.getString(EXTRA_STRING_NAME, "");
 		mHeadUrl = intent.getString(EXTRA_HEADURL, "");
 		List<Photo> list = intent.getList(EXTRA_PHOTO_LIST, Photo.class);
-		//µ¥ÕÅÏà²á»òÕß·âÃæ
+		//å•å¼ ç›¸å†Œæˆ–è€…å°é¢
 		if(mHeader != null){
 			mltPhoto.add(mHeader);
 			if(mDescribe.equals("")){
@@ -154,20 +154,20 @@ public abstract class AfAlbumActivity extends AfActivity
 			mHeader = new Photo(mPhotoName, mHeadUrl, mDescribe);
 			mltPhoto.add(mHeader);
 		}
-		//Ô¤¼ÓÔØÏà²áÄÚÈİ
+		//é¢„åŠ è½½ç›¸å†Œå†…å®¹
 		if(list != null && list.size() > 0){
 			index = intent.getInt(EXTRA_INT_INDEX, 0);
 			index = index >= list.size()?0:(index+mltPhoto.size());
 			mltPhoto.addAll(list);
 		}
 		if(mltPhoto.size() == 0 && UUIDUtil.Empty.equals(AlbumID)){
-			throw new AfToastException("Ïà²áÁĞ±íÎª¿Õ!");
+			throw new AfToastException("ç›¸å†Œåˆ—è¡¨ä¸ºç©º!");
 		}
 		if(!AlbumID.equals(UUIDUtil.Empty)){
 			postTask(new LoadAlbumTask());
 		} 
 		
-		onPageSelected(0);//ÓÃµÚÁã¸öÔªËØ³õÊ¼»¯½çÃæ
+		onPageSelected(0);//ç”¨ç¬¬é›¶ä¸ªå…ƒç´ åˆå§‹åŒ–ç•Œé¢
 		mAdapter = new AfAlbumPagerAdapter(this, mltPhoto);
 		mAdapter.setOnTouchListener(this);
 		mViewPager.setAdapter(mAdapter);
@@ -176,7 +176,7 @@ public abstract class AfAlbumActivity extends AfActivity
 	}
 
 	/**
-	 * onTouchEvent ÊµÏÖË«»÷·µ»Ø ÉÏÒ»´Îµã»÷µÄÊ±¼ä
+	 * onTouchEvent å®ç°åŒå‡»è¿”å› ä¸Šä¸€æ¬¡ç‚¹å‡»çš„æ—¶é—´
 	 */
 	private long mLastTouch = 0;
 	private float mLastPosX = 0;
@@ -248,16 +248,16 @@ public abstract class AfAlbumActivity extends AfActivity
 				mAdapter.AddData(mphotos);
 				onPageSelected(mViewPager.getCurrentItem());
 			}else{
-				makeToastShort(makeErrorToast("Ïà²á¼ÓÔØÊ§°Ü"));
+				makeToastShort(makeErrorToast("ç›¸å†ŒåŠ è½½å¤±è´¥"));
 			}
 			return true;
 		}
 
 	}
 	/**
-	 * ÖØĞ´ Õâ¸öº¯Êı ¿ÉÒÔÊµÏÖ¼ÓÔØÍøÂçÏà²á
-	 * @param albumID	Ïà²áID
-	 * @param page ·ÖÒ³¶ÔÏó
+	 * é‡å†™ è¿™ä¸ªå‡½æ•° å¯ä»¥å®ç°åŠ è½½ç½‘ç»œç›¸å†Œ
+	 * @param albumID	ç›¸å†ŒID
+	 * @param page åˆ†é¡µå¯¹è±¡
 	 * @return
 	 */
 	public List<Photo> onRequestAlbum(UUID albumID, Page page) throws Exception{
@@ -265,9 +265,9 @@ public abstract class AfAlbumActivity extends AfActivity
 		return new ArrayList<Photo>();
 	}
 
-	// arg0==1µÄÊ±ºò±íÊ¾ÕıÔÚ»¬¶¯£¬
-	// arg0==2µÄÊ±ºò±íÊ¾»¬¶¯Íê±ÏÁË£¬
-	// arg0==0µÄÊ±ºò±íÊ¾Ê²Ã´¶¼Ã»×ö£¬¾ÍÊÇÍ£ÔÚÄÇ¡£
+	// arg0==1çš„æ—¶å€™è¡¨ç¤ºæ­£åœ¨æ»‘åŠ¨ï¼Œ
+	// arg0==2çš„æ—¶å€™è¡¨ç¤ºæ»‘åŠ¨å®Œæ¯•äº†ï¼Œ
+	// arg0==0çš„æ—¶å€™è¡¨ç¤ºä»€ä¹ˆéƒ½æ²¡åšï¼Œå°±æ˜¯åœåœ¨é‚£ã€‚
 	@Override
 	public void onPageScrollStateChanged(int arg0) {
 		// TODO Auto-generated method stub
@@ -275,14 +275,14 @@ public abstract class AfAlbumActivity extends AfActivity
 	}
 
 	
-	// Ä¬Ê¾ÔÚÇ°Ò»¸öÒ³Ãæ»¬¶¯µ½ºóÒ»¸öÒ³ÃæµÄÊ±³½£¬ÔÚÇ°Ò»¸öÒ³Ãæ»¬¶¯Ç°µ÷ÓÃµÄ°ì·¨¡£
+	// é»˜ç¤ºåœ¨å‰ä¸€ä¸ªé¡µé¢æ»‘åŠ¨åˆ°åä¸€ä¸ªé¡µé¢çš„æ—¶è¾°ï¼Œåœ¨å‰ä¸€ä¸ªé¡µé¢æ»‘åŠ¨å‰è°ƒç”¨çš„åŠæ³•ã€‚
 	@Override
 	public void onPageScrolled(int arg0, float arg1, int arg2) {
 		// TODO Auto-generated method stub
 
 	}
 
-	// currPageÊÇÄ¬Ê¾Äãµ±Ç°Ñ¡ÖĞµÄÒ³Ãæ£¬ÕâÊÂÎñÊÇÔÚÄãÒ³ÃæÌø×ªÍê±ÏµÄÊ±³½µ÷ÓÃµÄ¡£
+	// currPageæ˜¯é»˜ç¤ºä½ å½“å‰é€‰ä¸­çš„é¡µé¢ï¼Œè¿™äº‹åŠ¡æ˜¯åœ¨ä½ é¡µé¢è·³è½¬å®Œæ¯•çš„æ—¶è¾°è°ƒç”¨çš„ã€‚
 	@Override
 	public void onPageSelected(int currPage) {
 		// TODO Auto-generated method stub

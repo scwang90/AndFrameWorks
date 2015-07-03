@@ -2,10 +2,10 @@ package com.andframe.helper.java;
 
 import java.util.Date;
 /**
- * @Description: java Ê±¼ä¿ç¶È¼ÆËã
+ * @Description: java æ—¶é—´è·¨åº¦è®¡ç®—
  * @Author: scwang
- * @Version: V1.0, 2015-3-13 ÏÂÎç5:01:05
- * @Modified: ³õ´Î´´½¨AfTimeSpanÀà
+ * @Version: V1.0, 2015-3-13 ä¸‹åˆ5:01:05
+ * @Modified: åˆæ¬¡åˆ›å»ºAfTimeSpanç±»
  */
 public class AfTimeSpan
 {
@@ -21,34 +21,34 @@ public class AfTimeSpan
 //    private static double TIME_RECIPROCAL_HOUR = 1/(TIME_HOUR);
 //    private static double TIME_RECIPROCAL_DAY = 1/(TIME_DAY);
     //
-    // ÕªÒª:
-    //     ½«ĞÂµÄ System.TimeSpan ³õÊ¼»¯ÎªÖ¸¶¨µÄ¿Ì¶ÈÊı¡£
+    // æ‘˜è¦:
+    //     å°†æ–°çš„ System.TimeSpan åˆå§‹åŒ–ä¸ºæŒ‡å®šçš„åˆ»åº¦æ•°ã€‚
     //
-    // ²ÎÊı:
+    // å‚æ•°:
     //   ticks:
-    //     ÒÔ 1 ºÁÃëÎªµ¥Î»±íÊ¾µÄÊ±¼ä¶Î¡£
+    //     ä»¥ 1 æ¯«ç§’ä¸ºå•ä½è¡¨ç¤ºçš„æ—¶é—´æ®µã€‚
     public AfTimeSpan(long ticks)
     {
         time = ticks;
     }
     //
-    // ÕªÒª:
-    //     ½«ĞÂµÄ System.TimeSpan ³õÊ¼»¯ÎªÖ¸¶¨µÄĞ¡Ê±Êı¡¢·ÖÖÓÊıºÍÃëÊı¡£
+    // æ‘˜è¦:
+    //     å°†æ–°çš„ System.TimeSpan åˆå§‹åŒ–ä¸ºæŒ‡å®šçš„å°æ—¶æ•°ã€åˆ†é’Ÿæ•°å’Œç§’æ•°ã€‚
     //
-    // ²ÎÊı:
+    // å‚æ•°:
     //   hours:
-    //     Ğ¡Ê±Êı¡£
+    //     å°æ—¶æ•°ã€‚
     //
     //   minutes:
-    //     ·ÖÖÓÊı¡£
+    //     åˆ†é’Ÿæ•°ã€‚
     //
     //   seconds:
-    //     ÃëÊı¡£
+    //     ç§’æ•°ã€‚
     //
-    // Òì³£:
+    // å¼‚å¸¸:
     //   System.ArgumentOutOfRangeException:
-    //     ¸Ã²ÎÊıÖ¸¶¨Ò»¸öĞ¡ÓÚ System.TimeSpan.MinValue »ò´óÓÚ System.TimeSpan.MaxValue µÄ System.TimeSpan
-    //     Öµ¡£
+    //     è¯¥å‚æ•°æŒ‡å®šä¸€ä¸ªå°äº System.TimeSpan.MinValue æˆ–å¤§äº System.TimeSpan.MaxValue çš„ System.TimeSpan
+    //     å€¼ã€‚
     public AfTimeSpan(int hours, int minutes, int seconds)
     {
         time = 0;
@@ -57,26 +57,26 @@ public class AfTimeSpan
         time += hours*TIME_HOUR;
     }
     //
-    // ÕªÒª:
-    //     ½«ĞÂµÄ System.TimeSpan ³õÊ¼»¯ÎªÖ¸¶¨µÄÌìÊı¡¢Ğ¡Ê±Êı¡¢·ÖÖÓÊıºÍÃëÊı¡£
+    // æ‘˜è¦:
+    //     å°†æ–°çš„ System.TimeSpan åˆå§‹åŒ–ä¸ºæŒ‡å®šçš„å¤©æ•°ã€å°æ—¶æ•°ã€åˆ†é’Ÿæ•°å’Œç§’æ•°ã€‚
     //
-    // ²ÎÊı:
+    // å‚æ•°:
     //   days:
-    //     ÌìÊı¡£
+    //     å¤©æ•°ã€‚
     //
     //   hours:
-    //     Ğ¡Ê±Êı¡£
+    //     å°æ—¶æ•°ã€‚
     //
     //   minutes:
-    //     ·ÖÖÓÊı¡£
+    //     åˆ†é’Ÿæ•°ã€‚
     //
     //   seconds:
-    //     ÃëÊı¡£
+    //     ç§’æ•°ã€‚
     //
-    // Òì³£:
+    // å¼‚å¸¸:
     //   System.ArgumentOutOfRangeException:
-    //     ¸Ã²ÎÊıÖ¸¶¨Ò»¸öĞ¡ÓÚ System.TimeSpan.MinValue »ò´óÓÚ System.TimeSpan.MaxValue µÄ System.TimeSpan
-    //     Öµ¡£
+    //     è¯¥å‚æ•°æŒ‡å®šä¸€ä¸ªå°äº System.TimeSpan.MinValue æˆ–å¤§äº System.TimeSpan.MaxValue çš„ System.TimeSpan
+    //     å€¼ã€‚
     public AfTimeSpan(int days, int hours, int minutes, int seconds)
     {
         time = 0;
@@ -86,29 +86,29 @@ public class AfTimeSpan
         time += days*TIME_DAY;
     }
     //
-    // ÕªÒª:
-    //     ½«ĞÂµÄ System.TimeSpan ³õÊ¼»¯ÎªÖ¸¶¨µÄÌìÊı¡¢Ğ¡Ê±Êı¡¢·ÖÖÓÊı¡¢ÃëÊıºÍºÁÃëÊı¡£
+    // æ‘˜è¦:
+    //     å°†æ–°çš„ System.TimeSpan åˆå§‹åŒ–ä¸ºæŒ‡å®šçš„å¤©æ•°ã€å°æ—¶æ•°ã€åˆ†é’Ÿæ•°ã€ç§’æ•°å’Œæ¯«ç§’æ•°ã€‚
     //
-    // ²ÎÊı:
+    // å‚æ•°:
     //   days:
-    //     ÌìÊı¡£
+    //     å¤©æ•°ã€‚
     //
     //   hours:
-    //     Ğ¡Ê±Êı¡£
+    //     å°æ—¶æ•°ã€‚
     //
     //   minutes:
-    //     ·ÖÖÓÊı¡£
+    //     åˆ†é’Ÿæ•°ã€‚
     //
     //   seconds:
-    //     ÃëÊı¡£
+    //     ç§’æ•°ã€‚
     //
     //   milliseconds:
-    //     ºÁÃëÊı¡£
+    //     æ¯«ç§’æ•°ã€‚
     //
-    // Òì³£:
+    // å¼‚å¸¸:
     //   System.ArgumentOutOfRangeException:
-    //     ¸Ã²ÎÊıÖ¸¶¨Ò»¸öĞ¡ÓÚ System.TimeSpan.MinValue »ò´óÓÚ System.TimeSpan.MaxValue µÄ System.TimeSpan
-    //     Öµ¡£
+    //     è¯¥å‚æ•°æŒ‡å®šä¸€ä¸ªå°äº System.TimeSpan.MinValue æˆ–å¤§äº System.TimeSpan.MaxValue çš„ System.TimeSpan
+    //     å€¼ã€‚
     public AfTimeSpan(int days, int hours, int minutes, int seconds, int milliseconds)
     {
         time = milliseconds;
@@ -118,207 +118,207 @@ public class AfTimeSpan
         time += days*TIME_DAY;
     }
 
-    // ÕªÒª:
-    //     »ñÈ¡µ±Ç° System.TimeSpan ½á¹¹Ëù±íÊ¾µÄÊ±¼ä¼ä¸ôµÄÌìÊı²¿·Ö¡£
+    // æ‘˜è¦:
+    //     è·å–å½“å‰ System.TimeSpan ç»“æ„æ‰€è¡¨ç¤ºçš„æ—¶é—´é—´éš”çš„å¤©æ•°éƒ¨åˆ†ã€‚
     //
-    // ·µ»Ø½á¹û:
-    //     ´ËÊµÀıµÄÌìÊı²¿·Ö¡£·µ»ØÖµ¿ÉÒÔÊÇÕıÊıÒ²¿ÉÒÔÊÇ¸ºÊı¡£
+    // è¿”å›ç»“æœ:
+    //     æ­¤å®ä¾‹çš„å¤©æ•°éƒ¨åˆ†ã€‚è¿”å›å€¼å¯ä»¥æ˜¯æ­£æ•°ä¹Ÿå¯ä»¥æ˜¯è´Ÿæ•°ã€‚
     public int getDays() { 
         return (int)(time/TIME_DAY);
     }
     //
-    // ÕªÒª:
-    //     »ñÈ¡µ±Ç° System.TimeSpan ½á¹¹Ëù±íÊ¾µÄÊ±¼ä¼ä¸ôµÄĞ¡Ê±Êı²¿·Ö¡£
+    // æ‘˜è¦:
+    //     è·å–å½“å‰ System.TimeSpan ç»“æ„æ‰€è¡¨ç¤ºçš„æ—¶é—´é—´éš”çš„å°æ—¶æ•°éƒ¨åˆ†ã€‚
     //
-    // ·µ»Ø½á¹û:
-    //     µ±Ç° System.TimeSpan ½á¹¹µÄĞ¡Ê±·ÖÁ¿¡£·µ»ØÖµµÄ·¶Î§Îª -23 µ½ 23¡£
+    // è¿”å›ç»“æœ:
+    //     å½“å‰ System.TimeSpan ç»“æ„çš„å°æ—¶åˆ†é‡ã€‚è¿”å›å€¼çš„èŒƒå›´ä¸º -23 åˆ° 23ã€‚
     public int getHours() { 
         return (int)(time/TIME_HOUR)%24;
     }
     //
-    // ÕªÒª:
-    //     »ñÈ¡µ±Ç° System.TimeSpan ½á¹¹Ëù±íÊ¾µÄÊ±¼ä¼ä¸ôµÄ·ÖÖÓÊı²¿·Ö¡£
+    // æ‘˜è¦:
+    //     è·å–å½“å‰ System.TimeSpan ç»“æ„æ‰€è¡¨ç¤ºçš„æ—¶é—´é—´éš”çš„åˆ†é’Ÿæ•°éƒ¨åˆ†ã€‚
     //
-    // ·µ»Ø½á¹û:
-    //     µ±Ç° System.TimeSpan ½á¹¹µÄ·ÖÖÓ·ÖÁ¿¡£·µ»ØÖµµÄ·¶Î§Îª -59 µ½ 59¡£
+    // è¿”å›ç»“æœ:
+    //     å½“å‰ System.TimeSpan ç»“æ„çš„åˆ†é’Ÿåˆ†é‡ã€‚è¿”å›å€¼çš„èŒƒå›´ä¸º -59 åˆ° 59ã€‚
     public int getMinutes() { 
         return (int)(time/TIME_MINUTE)%60;
     }
     //
-    // ÕªÒª:
-    //     »ñÈ¡µ±Ç° System.TimeSpan ½á¹¹Ëù±íÊ¾µÄÊ±¼ä¼ä¸ôµÄÃëÊı²¿·Ö¡£
+    // æ‘˜è¦:
+    //     è·å–å½“å‰ System.TimeSpan ç»“æ„æ‰€è¡¨ç¤ºçš„æ—¶é—´é—´éš”çš„ç§’æ•°éƒ¨åˆ†ã€‚
     //
-    // ·µ»Ø½á¹û:
-    //     µ±Ç° System.TimeSpan ½á¹¹µÄÃë·ÖÁ¿¡£·µ»ØÖµµÄ·¶Î§Îª -59 µ½ 59¡£
+    // è¿”å›ç»“æœ:
+    //     å½“å‰ System.TimeSpan ç»“æ„çš„ç§’åˆ†é‡ã€‚è¿”å›å€¼çš„èŒƒå›´ä¸º -59 åˆ° 59ã€‚
     public int getSeconds() { 
         return (int)(time/TIME_SECOND)%60;
     }
     //
-    // ÕªÒª:
-    //     »ñÈ¡µ±Ç° System.TimeSpan ½á¹¹Ëù±íÊ¾µÄÊ±¼ä¼ä¸ôµÄºÁÃëÊı²¿·Ö¡£
+    // æ‘˜è¦:
+    //     è·å–å½“å‰ System.TimeSpan ç»“æ„æ‰€è¡¨ç¤ºçš„æ—¶é—´é—´éš”çš„æ¯«ç§’æ•°éƒ¨åˆ†ã€‚
     //
-    // ·µ»Ø½á¹û:
-    //     µ±Ç° System.TimeSpan ½á¹¹µÄºÁÃë·ÖÁ¿¡£·µ»ØÖµµÄ·¶Î§Îª -999 µ½ 999¡£
+    // è¿”å›ç»“æœ:
+    //     å½“å‰ System.TimeSpan ç»“æ„çš„æ¯«ç§’åˆ†é‡ã€‚è¿”å›å€¼çš„èŒƒå›´ä¸º -999 åˆ° 999ã€‚
     public int getMilliseconds() { 
         return (int)(time%TIME_SECOND);
     }
     //
-    // ÕªÒª:
-    //     »ñÈ¡±íÊ¾µ±Ç° System.TimeSpan ½á¹¹µÄÖµµÄ¿Ì¶ÈÊı¡£
+    // æ‘˜è¦:
+    //     è·å–è¡¨ç¤ºå½“å‰ System.TimeSpan ç»“æ„çš„å€¼çš„åˆ»åº¦æ•°ã€‚
     //
-    // ·µ»Ø½á¹û:
-    //     ´ËÊµÀı°üº¬µÄ¿Ì¶ÈÊı¡£
+    // è¿”å›ç»“æœ:
+    //     æ­¤å®ä¾‹åŒ…å«çš„åˆ»åº¦æ•°ã€‚
     public long getTicks() { 
         return time;
     }
     //
-    // ÕªÒª:
-    //     »ñÈ¡ÒÔÕûÌìÊıºÍÌìµÄĞ¡Êı²¿·Ö±íÊ¾µÄµ±Ç° System.TimeSpan ½á¹¹µÄÖµ¡£
+    // æ‘˜è¦:
+    //     è·å–ä»¥æ•´å¤©æ•°å’Œå¤©çš„å°æ•°éƒ¨åˆ†è¡¨ç¤ºçš„å½“å‰ System.TimeSpan ç»“æ„çš„å€¼ã€‚
     //
-    // ·µ»Ø½á¹û:
-    //     ´ËÊµÀı±íÊ¾µÄ×ÜÌìÊı¡£
+    // è¿”å›ç»“æœ:
+    //     æ­¤å®ä¾‹è¡¨ç¤ºçš„æ€»å¤©æ•°ã€‚
     public double getTotalDays() { 
         return 1.0*time/TIME_DAY;
     }
     //
-    // ÕªÒª:
-    //     »ñÈ¡ÒÔÕûÌìÊıºÍÌìµÄĞ¡Êı²¿·Ö±íÊ¾µÄµ±Ç° System.TimeSpan ½á¹¹µÄÖµ¡£
+    // æ‘˜è¦:
+    //     è·å–ä»¥æ•´å¤©æ•°å’Œå¤©çš„å°æ•°éƒ¨åˆ†è¡¨ç¤ºçš„å½“å‰ System.TimeSpan ç»“æ„çš„å€¼ã€‚
     //
-    // ·µ»Ø½á¹û:
-    //     ´ËÊµÀı±íÊ¾µÄ×ÜÌìÊı¡£
+    // è¿”å›ç»“æœ:
+    //     æ­¤å®ä¾‹è¡¨ç¤ºçš„æ€»å¤©æ•°ã€‚
     public double getUnSignedTotalDays() { 
         return Math.abs(1.0*time/TIME_DAY);
     }
     //
-    // ÕªÒª:
-    //     »ñÈ¡ÒÔÕûÌìÊıºÍÌìµÄĞ¡Êı²¿·Ö±íÊ¾µÄµ±Ç° System.TimeSpan ½á¹¹µÄÖµ¡£
+    // æ‘˜è¦:
+    //     è·å–ä»¥æ•´å¤©æ•°å’Œå¤©çš„å°æ•°éƒ¨åˆ†è¡¨ç¤ºçš„å½“å‰ System.TimeSpan ç»“æ„çš„å€¼ã€‚
     //
-    // ·µ»Ø½á¹û:
-    //     ´ËÊµÀı±íÊ¾µÄ×ÜÌìÊı¡£
+    // è¿”å›ç»“æœ:
+    //     æ­¤å®ä¾‹è¡¨ç¤ºçš„æ€»å¤©æ•°ã€‚
     public long getUnSignedIntegerTotalDays() { 
         return Math.abs(time/TIME_DAY);
     }
     //
-    // ÕªÒª:
-    //     »ñÈ¡ÒÔÕûĞ¡Ê±ÊıºÍĞ¡Ê±µÄĞ¡Êı²¿·Ö±íÊ¾µÄµ±Ç° System.TimeSpan ½á¹¹µÄÖµ¡£
+    // æ‘˜è¦:
+    //     è·å–ä»¥æ•´å°æ—¶æ•°å’Œå°æ—¶çš„å°æ•°éƒ¨åˆ†è¡¨ç¤ºçš„å½“å‰ System.TimeSpan ç»“æ„çš„å€¼ã€‚
     //
-    // ·µ»Ø½á¹û:
-    //     ´ËÊµÀı±íÊ¾µÄ×ÜĞ¡Ê±Êı¡£
+    // è¿”å›ç»“æœ:
+    //     æ­¤å®ä¾‹è¡¨ç¤ºçš„æ€»å°æ—¶æ•°ã€‚
     public double getTotalHours() { 
         return 1.0*time/TIME_HOUR;
     }
     //
-    // ÕªÒª:
-    //     »ñÈ¡ÒÔÕûĞ¡Ê±ÊıºÍĞ¡Ê±µÄĞ¡Êı²¿·Ö±íÊ¾µÄµ±Ç° System.TimeSpan ½á¹¹µÄÖµ¡£
+    // æ‘˜è¦:
+    //     è·å–ä»¥æ•´å°æ—¶æ•°å’Œå°æ—¶çš„å°æ•°éƒ¨åˆ†è¡¨ç¤ºçš„å½“å‰ System.TimeSpan ç»“æ„çš„å€¼ã€‚
     //
-    // ·µ»Ø½á¹û:
-    //     ´ËÊµÀı±íÊ¾µÄ×ÜĞ¡Ê±Êı¡£
+    // è¿”å›ç»“æœ:
+    //     æ­¤å®ä¾‹è¡¨ç¤ºçš„æ€»å°æ—¶æ•°ã€‚
     public double getUnSignedTotalHours() { 
         return Math.abs(1.0*time/TIME_HOUR);
     }
     //
-    // ÕªÒª:
-    //     »ñÈ¡ÒÔÕûĞ¡Ê±ÊıºÍĞ¡Ê±µÄĞ¡Êı²¿·Ö±íÊ¾µÄµ±Ç° System.TimeSpan ½á¹¹µÄÖµ¡£
+    // æ‘˜è¦:
+    //     è·å–ä»¥æ•´å°æ—¶æ•°å’Œå°æ—¶çš„å°æ•°éƒ¨åˆ†è¡¨ç¤ºçš„å½“å‰ System.TimeSpan ç»“æ„çš„å€¼ã€‚
     //
-    // ·µ»Ø½á¹û:
-    //     ´ËÊµÀı±íÊ¾µÄ×ÜĞ¡Ê±Êı¡£
+    // è¿”å›ç»“æœ:
+    //     æ­¤å®ä¾‹è¡¨ç¤ºçš„æ€»å°æ—¶æ•°ã€‚
     public long getUnSignedIntegerTotalHours() { 
         return Math.abs(time/TIME_HOUR);
     }
     //
-    // ÕªÒª:
-    //     »ñÈ¡ÒÔÕû·ÖÖÓÊıºÍ·ÖÖÓµÄĞ¡Êı²¿·Ö±íÊ¾µÄµ±Ç° System.TimeSpan ½á¹¹µÄÖµ¡£
+    // æ‘˜è¦:
+    //     è·å–ä»¥æ•´åˆ†é’Ÿæ•°å’Œåˆ†é’Ÿçš„å°æ•°éƒ¨åˆ†è¡¨ç¤ºçš„å½“å‰ System.TimeSpan ç»“æ„çš„å€¼ã€‚
     //
-    // ·µ»Ø½á¹û:
-    //     ´ËÊµÀı±íÊ¾µÄ×Ü·ÖÖÓÊı¡£
+    // è¿”å›ç»“æœ:
+    //     æ­¤å®ä¾‹è¡¨ç¤ºçš„æ€»åˆ†é’Ÿæ•°ã€‚
     public double getTotalMinutes() {
         return 1.0*time/TIME_MINUTE;
     }
     //
-    // ÕªÒª:
-    //     »ñÈ¡ÒÔÕû·ÖÖÓÊıºÍ·ÖÖÓµÄĞ¡Êı²¿·Ö±íÊ¾µÄµ±Ç° System.TimeSpan ½á¹¹µÄÖµ¡£
+    // æ‘˜è¦:
+    //     è·å–ä»¥æ•´åˆ†é’Ÿæ•°å’Œåˆ†é’Ÿçš„å°æ•°éƒ¨åˆ†è¡¨ç¤ºçš„å½“å‰ System.TimeSpan ç»“æ„çš„å€¼ã€‚
     //
-    // ·µ»Ø½á¹û:
-    //     ´ËÊµÀı±íÊ¾µÄ×Ü·ÖÖÓÊı¡£
+    // è¿”å›ç»“æœ:
+    //     æ­¤å®ä¾‹è¡¨ç¤ºçš„æ€»åˆ†é’Ÿæ•°ã€‚
     public double getUnSignedTotalMinutes() {
         return Math.abs(1.0*time/TIME_MINUTE);
     }
     //
-    // ÕªÒª:
-    //     »ñÈ¡ÒÔÕû·ÖÖÓÊıºÍ·ÖÖÓµÄĞ¡Êı²¿·Ö±íÊ¾µÄµ±Ç° System.TimeSpan ½á¹¹µÄÖµ¡£
+    // æ‘˜è¦:
+    //     è·å–ä»¥æ•´åˆ†é’Ÿæ•°å’Œåˆ†é’Ÿçš„å°æ•°éƒ¨åˆ†è¡¨ç¤ºçš„å½“å‰ System.TimeSpan ç»“æ„çš„å€¼ã€‚
     //
-    // ·µ»Ø½á¹û:
-    //     ´ËÊµÀı±íÊ¾µÄ×Ü·ÖÖÓÊı¡£
+    // è¿”å›ç»“æœ:
+    //     æ­¤å®ä¾‹è¡¨ç¤ºçš„æ€»åˆ†é’Ÿæ•°ã€‚
     public long getUnSignedIntegerTotalMinutes() {
         return Math.abs(time/TIME_MINUTE);
     }
     //
-    // ÕªÒª:
-    //     »ñÈ¡ÒÔÕûÃëÊıºÍÃëµÄĞ¡Êı²¿·Ö±íÊ¾µÄµ±Ç° System.TimeSpan ½á¹¹µÄÖµ¡£
+    // æ‘˜è¦:
+    //     è·å–ä»¥æ•´ç§’æ•°å’Œç§’çš„å°æ•°éƒ¨åˆ†è¡¨ç¤ºçš„å½“å‰ System.TimeSpan ç»“æ„çš„å€¼ã€‚
     //
-    // ·µ»Ø½á¹û:
-    //     ´ËÊµÀı±íÊ¾µÄ×ÜÃëÊı¡£
+    // è¿”å›ç»“æœ:
+    //     æ­¤å®ä¾‹è¡¨ç¤ºçš„æ€»ç§’æ•°ã€‚
     public double getTotalSeconds(){
         return 1.0*time/TIME_SECOND;
     }
     //
-    // ÕªÒª:
-    //     »ñÈ¡ÒÔÕûºÁÃëÊıºÍºÁÃëµÄĞ¡Êı²¿·Ö±íÊ¾µÄµ±Ç° System.TimeSpan ½á¹¹µÄÖµ¡£
+    // æ‘˜è¦:
+    //     è·å–ä»¥æ•´æ¯«ç§’æ•°å’Œæ¯«ç§’çš„å°æ•°éƒ¨åˆ†è¡¨ç¤ºçš„å½“å‰ System.TimeSpan ç»“æ„çš„å€¼ã€‚
     //
-    // ·µ»Ø½á¹û:
-    //     ´ËÊµÀı±íÊ¾µÄ×ÜºÁÃëÊı¡£
+    // è¿”å›ç»“æœ:
+    //     æ­¤å®ä¾‹è¡¨ç¤ºçš„æ€»æ¯«ç§’æ•°ã€‚
     public long getTotalMilliseconds(){
         return this.time;
     }
 
-    // ÕªÒª:
-    //     ½«Ö¸¶¨µÄ System.TimeSpan Ìí¼Óµ½´ËÊµÀıÖĞ¡£
+    // æ‘˜è¦:
+    //     å°†æŒ‡å®šçš„ System.TimeSpan æ·»åŠ åˆ°æ­¤å®ä¾‹ä¸­ã€‚
     //
-    // ²ÎÊı:
+    // å‚æ•°:
     //   ts:
-    //     Òª¼ÓÉÏµÄÊ±¼ä¼ä¸ô¡£
+    //     è¦åŠ ä¸Šçš„æ—¶é—´é—´éš”ã€‚
     //
-    // ·µ»Ø½á¹û:
-    //     Ò»¸ö¶ÔÏó£¬±íÊ¾´ËÊµÀıµÄÖµ¼Ó ts µÄÖµ¡£
+    // è¿”å›ç»“æœ:
+    //     ä¸€ä¸ªå¯¹è±¡ï¼Œè¡¨ç¤ºæ­¤å®ä¾‹çš„å€¼åŠ  ts çš„å€¼ã€‚
     //
-    // Òì³£:
+    // å¼‚å¸¸:
     //   System.OverflowException:
-    //     ËùÉú³ÉµÄ System.TimeSpan Ğ¡ÓÚ System.TimeSpan.MinValue »ò´óÓÚ System.TimeSpan.MaxValue¡£
+    //     æ‰€ç”Ÿæˆçš„ System.TimeSpan å°äº System.TimeSpan.MinValue æˆ–å¤§äº System.TimeSpan.MaxValueã€‚
     public AfTimeSpan Add(AfTimeSpan ts)
     {
         return new AfTimeSpan(this.time+ts.time);
     }
 
-    // ÕªÒª:
-    //     ½«Ö¸¶¨µÄ System.TimeSpan Ìí¼Óµ½´ËÊµÀıÖĞ¡£
+    // æ‘˜è¦:
+    //     å°†æŒ‡å®šçš„ System.TimeSpan æ·»åŠ åˆ°æ­¤å®ä¾‹ä¸­ã€‚
     //
-    // ²ÎÊı:
+    // å‚æ•°:
     //   ts:
-    //     Òª¼õÈ¥µÄÊ±¼ä¼ä¸ô¡£
+    //     è¦å‡å»çš„æ—¶é—´é—´éš”ã€‚
     //
-    // ·µ»Ø½á¹û:
-    //     Ò»¸ö¶ÔÏó£¬±íÊ¾´ËÊµÀıµÄÖµ¼õ ts µÄÖµ¡£
+    // è¿”å›ç»“æœ:
+    //     ä¸€ä¸ªå¯¹è±¡ï¼Œè¡¨ç¤ºæ­¤å®ä¾‹çš„å€¼å‡ ts çš„å€¼ã€‚
     //
-    // Òì³£:
+    // å¼‚å¸¸:
     //   System.OverflowException:
-    //     ËùÉú³ÉµÄ System.TimeSpan Ğ¡ÓÚ System.TimeSpan.MinValue »ò´óÓÚ System.TimeSpan.MaxValue¡£
+    //     æ‰€ç”Ÿæˆçš„ System.TimeSpan å°äº System.TimeSpan.MinValue æˆ–å¤§äº System.TimeSpan.MaxValueã€‚
     public AfTimeSpan Minus(AfTimeSpan ts)
     {
         return new AfTimeSpan(this.time-ts.time);
     }
     //
-    // ÕªÒª:
-    //     ±È½ÏÁ½¸ö System.TimeSpan Öµ£¬²¢·µ»ØÒ»¸öÕûÊı£¬¸ÃÕûÊıÖ¸Ê¾µÚÒ»¸öÖµÊÇ¶ÌÓÚ¡¢µÈÓÚ»¹ÊÇ³¤ÓÚµÚ¶ş¸öÖµ¡£
+    // æ‘˜è¦:
+    //     æ¯”è¾ƒä¸¤ä¸ª System.TimeSpan å€¼ï¼Œå¹¶è¿”å›ä¸€ä¸ªæ•´æ•°ï¼Œè¯¥æ•´æ•°æŒ‡ç¤ºç¬¬ä¸€ä¸ªå€¼æ˜¯çŸ­äºã€ç­‰äºè¿˜æ˜¯é•¿äºç¬¬äºŒä¸ªå€¼ã€‚
     //
-    // ²ÎÊı:
+    // å‚æ•°:
     //   t1:
-    //     Òª±È½ÏµÄµÚÒ»¸öÊ±¼ä¼ä¸ô¡£
+    //     è¦æ¯”è¾ƒçš„ç¬¬ä¸€ä¸ªæ—¶é—´é—´éš”ã€‚
     //
     //   t2:
-    //     Òª±È½ÏµÄµÚ¶ş¸öÊ±¼ä¼ä¸ô¡£
+    //     è¦æ¯”è¾ƒçš„ç¬¬äºŒä¸ªæ—¶é—´é—´éš”ã€‚
     //
-    // ·µ»Ø½á¹û:
-    //     ÒÔÏÂÖµÖ®Ò»¡£ÖµËµÃ÷-1 t1 ¶ÌÓÚ t2¡£0t1 µÈÓÚ t2¡£1t1 ³¤ÓÚ t2¡£
+    // è¿”å›ç»“æœ:
+    //     ä»¥ä¸‹å€¼ä¹‹ä¸€ã€‚å€¼è¯´æ˜-1 t1 çŸ­äº t2ã€‚0t1 ç­‰äº t2ã€‚1t1 é•¿äº t2ã€‚
     public static int Compare(AfTimeSpan t1, AfTimeSpan t2)
     {
         if(t1.time<t2.time) return -1;
@@ -326,45 +326,45 @@ public class AfTimeSpan
         return 0;
     }
     //
-    // ÕªÒª:
-    //     ±È½ÏÊÇ·ñĞ¡ÓÚ AfTimeSpan t 
+    // æ‘˜è¦:
+    //     æ¯”è¾ƒæ˜¯å¦å°äº AfTimeSpan t 
     //
-    // ²ÎÊı:
-    //   t: Òª±È½ÏµÄµÚÊ±¼ä¼ä¸ô¡£
+    // å‚æ•°:
+    //   t: è¦æ¯”è¾ƒçš„ç¬¬æ—¶é—´é—´éš”ã€‚
     //
-    // ·µ»Ø½á¹û:
-    //     ÒÔÏÂÖµÖ®Ò»¡£true Ğ¡ÓÚ t  : false ´óÓÚµÈÓÚ t
+    // è¿”å›ç»“æœ:
+    //     ä»¥ä¸‹å€¼ä¹‹ä¸€ã€‚true å°äº t  : false å¤§äºç­‰äº t
     public boolean LessThan(AfTimeSpan t)
     {
         return this.time < t.time;
     }
     //
-    // ÕªÒª:
-    //     ±È½ÏÊÇ·ñ´óÓÚ AfTimeSpan t 
+    // æ‘˜è¦:
+    //     æ¯”è¾ƒæ˜¯å¦å¤§äº AfTimeSpan t 
     //
-    // ²ÎÊı:
-    //   t: Òª±È½ÏµÄµÚÊ±¼ä¼ä¸ô¡£
+    // å‚æ•°:
+    //   t: è¦æ¯”è¾ƒçš„ç¬¬æ—¶é—´é—´éš”ã€‚
     //
-    // ·µ»Ø½á¹û:
-    //     ÒÔÏÂÖµÖ®Ò»¡£true ´óÓÚ t  : false Ğ¡ÓÚµÈÓÚ t
+    // è¿”å›ç»“æœ:
+    //     ä»¥ä¸‹å€¼ä¹‹ä¸€ã€‚true å¤§äº t  : false å°äºç­‰äº t
     public boolean GreaterThan(AfTimeSpan t)
     {
         return this.time > t.time;
     }
     //
-    // ÕªÒª:
-    //     ½«´ËÊµÀıÓëÖ¸¶¨¶ÔÏó½øĞĞ±È½Ï£¬²¢·µ»ØÒ»¸öÕûÊı£¬¸ÃÕûÊıÖ¸Ê¾´ËÊµÀıÊÇ¶ÌÓÚ¡¢µÈÓÚ»¹ÊÇ³¤ÓÚÖ¸¶¨¶ÔÏó¡£
+    // æ‘˜è¦:
+    //     å°†æ­¤å®ä¾‹ä¸æŒ‡å®šå¯¹è±¡è¿›è¡Œæ¯”è¾ƒï¼Œå¹¶è¿”å›ä¸€ä¸ªæ•´æ•°ï¼Œè¯¥æ•´æ•°æŒ‡ç¤ºæ­¤å®ä¾‹æ˜¯çŸ­äºã€ç­‰äºè¿˜æ˜¯é•¿äºæŒ‡å®šå¯¹è±¡ã€‚
     //
-    // ²ÎÊı:
+    // å‚æ•°:
     //   value:
-    //     Òª±È½ÏµÄ¶ÔÏó£¬»òÎª null¡£
+    //     è¦æ¯”è¾ƒçš„å¯¹è±¡ï¼Œæˆ–ä¸º nullã€‚
     //
-    // ·µ»Ø½á¹û:
-    //     ÒÔÏÂÖµÖ®Ò»¡£ÖµËµÃ÷-1´ËÊµÀı¶ÌÓÚ value¡£0´ËÊµÀıµÈÓÚ value¡£1´ËÊµÀı³¤ÓÚ value¡£- »ò -value Îª null¡£
+    // è¿”å›ç»“æœ:
+    //     ä»¥ä¸‹å€¼ä¹‹ä¸€ã€‚å€¼è¯´æ˜-1æ­¤å®ä¾‹çŸ­äº valueã€‚0æ­¤å®ä¾‹ç­‰äº valueã€‚1æ­¤å®ä¾‹é•¿äº valueã€‚- æˆ– -value ä¸º nullã€‚
     //
-    // Òì³£:
+    // å¼‚å¸¸:
     //   System.ArgumentException:
-    //     value ²»ÊÇ System.TimeSpan¡£
+    //     value ä¸æ˜¯ System.TimeSpanã€‚
     public int CompareTo(Object value)
     {
         if (value == null)
@@ -391,16 +391,16 @@ public class AfTimeSpan
 
     }
     //
-    // ÕªÒª:
-    //     ½«´ËÊµÀıÓëÖ¸¶¨µÄ System.TimeSpan ¶ÔÏó½øĞĞ±È½Ï£¬²¢·µ»ØÒ»¸öÕûÊı£¬¸ÃÕûÊıÖ¸Ê¾´ËÊµÀıÊÇ¶ÌÓÚ¡¢µÈÓÚ»¹ÊÇ³¤ÓÚ System.TimeSpan
-    //     ¶ÔÏó¡£
+    // æ‘˜è¦:
+    //     å°†æ­¤å®ä¾‹ä¸æŒ‡å®šçš„ System.TimeSpan å¯¹è±¡è¿›è¡Œæ¯”è¾ƒï¼Œå¹¶è¿”å›ä¸€ä¸ªæ•´æ•°ï¼Œè¯¥æ•´æ•°æŒ‡ç¤ºæ­¤å®ä¾‹æ˜¯çŸ­äºã€ç­‰äºè¿˜æ˜¯é•¿äº System.TimeSpan
+    //     å¯¹è±¡ã€‚
     //
-    // ²ÎÊı:
+    // å‚æ•°:
     //   value:
-    //     ÒªÓë´ËÊµÀı½øĞĞ±È½ÏµÄ¶ÔÏó¡£
+    //     è¦ä¸æ­¤å®ä¾‹è¿›è¡Œæ¯”è¾ƒçš„å¯¹è±¡ã€‚
     //
-    // ·µ»Ø½á¹û:
-    //     Ò»¸öÓĞ·ûºÅÊı×Ö£¬¸ÃÊı×ÖÖ¸Ê¾´ËÊµÀıÓë value µÄÏà¶ÔÖµ¡£ÖµËµÃ÷¸ºÕûÊı´ËÊµÀı¶ÌÓÚ value¡£Áã´ËÊµÀıµÈÓÚ value¡£ÕıÕûÊı´ËÊµÀı³¤ÓÚ value¡£
+    // è¿”å›ç»“æœ:
+    //     ä¸€ä¸ªæœ‰ç¬¦å·æ•°å­—ï¼Œè¯¥æ•°å­—æŒ‡ç¤ºæ­¤å®ä¾‹ä¸ value çš„ç›¸å¯¹å€¼ã€‚å€¼è¯´æ˜è´Ÿæ•´æ•°æ­¤å®ä¾‹çŸ­äº valueã€‚é›¶æ­¤å®ä¾‹ç­‰äº valueã€‚æ­£æ•´æ•°æ­¤å®ä¾‹é•¿äº valueã€‚
     public int Compare(AfTimeSpan value)
     {
         long num = value.time;
@@ -416,30 +416,30 @@ public class AfTimeSpan
 
     }
     //
-    // ÕªÒª:
-    //     ·µ»ØĞÂµÄ System.TimeSpan ¶ÔÏó£¬ÆäÖµÊÇµ±Ç° System.TimeSpan ¶ÔÏóµÄ¾ø¶ÔÖµ¡£
+    // æ‘˜è¦:
+    //     è¿”å›æ–°çš„ System.TimeSpan å¯¹è±¡ï¼Œå…¶å€¼æ˜¯å½“å‰ System.TimeSpan å¯¹è±¡çš„ç»å¯¹å€¼ã€‚
     //
-    // ·µ»Ø½á¹û:
-    //     Ò»¸öĞÂ¶ÔÏó£¬ÆäÖµÊÇµ±Ç° System.TimeSpan ¶ÔÏóµÄ¾ø¶ÔÖµ¡£
+    // è¿”å›ç»“æœ:
+    //     ä¸€ä¸ªæ–°å¯¹è±¡ï¼Œå…¶å€¼æ˜¯å½“å‰ System.TimeSpan å¯¹è±¡çš„ç»å¯¹å€¼ã€‚
     //
-    // Òì³£:
+    // å¼‚å¸¸:
     //   System.OverflowException:
-    //     ´ËÊµÀıµÄÖµÎª System.TimeSpan.MinValue¡£
+    //     æ­¤å®ä¾‹çš„å€¼ä¸º System.TimeSpan.MinValueã€‚
     public AfTimeSpan Duration()
     {
         return new AfTimeSpan((this.time >= 0L) ? this.time : -this.time);
     }
     //
-    // ÕªÒª:
-    //     ·µ»ØÒ»¸öÖµ£¬¸ÃÖµÖ¸Ê¾´ËÊµÀıÊÇ·ñÓëÖ¸¶¨µÄ¶ÔÏóÏàµÈ¡£
+    // æ‘˜è¦:
+    //     è¿”å›ä¸€ä¸ªå€¼ï¼Œè¯¥å€¼æŒ‡ç¤ºæ­¤å®ä¾‹æ˜¯å¦ä¸æŒ‡å®šçš„å¯¹è±¡ç›¸ç­‰ã€‚
     //
-    // ²ÎÊı:
+    // å‚æ•°:
     //   value:
-    //     Óë´ËÊµÀı½øĞĞ±È½ÏµÄ¶ÔÏó¡£
+    //     ä¸æ­¤å®ä¾‹è¿›è¡Œæ¯”è¾ƒçš„å¯¹è±¡ã€‚
     //
-    // ·µ»Ø½á¹û:
-    //     Èç¹û value ÊÇ±íÊ¾Óëµ±Ç° System.TimeSpan ½á¹¹¾ßÓĞÏàÍ¬Ê±¼ä¼ä¸ôµÄ System.TimeSpan ¶ÔÏó£¬ÔòÎª true£»·ñÔòÎª
-    //     false¡£
+    // è¿”å›ç»“æœ:
+    //     å¦‚æœ value æ˜¯è¡¨ç¤ºä¸å½“å‰ System.TimeSpan ç»“æ„å…·æœ‰ç›¸åŒæ—¶é—´é—´éš”çš„ System.TimeSpan å¯¹è±¡ï¼Œåˆ™ä¸º trueï¼›å¦åˆ™ä¸º
+    //     falseã€‚
     public boolean Equals(Object value)
     {
     	if (value instanceof AfTimeSpan) {
@@ -448,181 +448,181 @@ public class AfTimeSpan
        return false;
     }
     //
-    // ÕªÒª:
-    //     ·µ»ØÒ»¸öÖµ£¬¸ÃÖµÖ¸Ê¾´ËÊµÀıÊÇ·ñÓëÖ¸¶¨µÄ System.TimeSpan ¶ÔÏóÏàµÈ¡£
+    // æ‘˜è¦:
+    //     è¿”å›ä¸€ä¸ªå€¼ï¼Œè¯¥å€¼æŒ‡ç¤ºæ­¤å®ä¾‹æ˜¯å¦ä¸æŒ‡å®šçš„ System.TimeSpan å¯¹è±¡ç›¸ç­‰ã€‚
     //
-    // ²ÎÊı:
+    // å‚æ•°:
     //   obj:
-    //     Óë´ËÊµÀı½øĞĞ±È½ÏµÄ¶ÔÏó¡£
+    //     ä¸æ­¤å®ä¾‹è¿›è¡Œæ¯”è¾ƒçš„å¯¹è±¡ã€‚
     //
-    // ·µ»Ø½á¹û:
-    //     Èç¹û obj ±íÊ¾µÄÊ±¼ä¼ä¸ôÓë´ËÊµÀıÏàÍ¬£¬ÔòÎª true£»·ñÔòÎª false¡£
+    // è¿”å›ç»“æœ:
+    //     å¦‚æœ obj è¡¨ç¤ºçš„æ—¶é—´é—´éš”ä¸æ­¤å®ä¾‹ç›¸åŒï¼Œåˆ™ä¸º trueï¼›å¦åˆ™ä¸º falseã€‚
     public boolean Equals(AfTimeSpan obj)
     {
         return obj.time == this.time;
     }
     //
-    // ÕªÒª:
-    //     ·µ»ØÒ»¸öÖµ£¬¸ÃÖµÖ¸Ê¾ System.TimeSpan µÄÁ½¸öÖ¸¶¨ÊµÀıÊÇ·ñÏàµÈ¡£
+    // æ‘˜è¦:
+    //     è¿”å›ä¸€ä¸ªå€¼ï¼Œè¯¥å€¼æŒ‡ç¤º System.TimeSpan çš„ä¸¤ä¸ªæŒ‡å®šå®ä¾‹æ˜¯å¦ç›¸ç­‰ã€‚
     //
-    // ²ÎÊı:
+    // å‚æ•°:
     //   t1:
-    //     Òª±È½ÏµÄµÚÒ»¸öÊ±¼ä¼ä¸ô¡£
+    //     è¦æ¯”è¾ƒçš„ç¬¬ä¸€ä¸ªæ—¶é—´é—´éš”ã€‚
     //
     //   t2:
-    //     Òª±È½ÏµÄµÚ¶ş¸öÊ±¼ä¼ä¸ô¡£
+    //     è¦æ¯”è¾ƒçš„ç¬¬äºŒä¸ªæ—¶é—´é—´éš”ã€‚
     //
-    // ·µ»Ø½á¹û:
-    //     Èç¹û t1 ºÍ t2 µÄÖµÏàµÈ£¬ÔòÎª true£»·ñÔòÎª false¡£
+    // è¿”å›ç»“æœ:
+    //     å¦‚æœ t1 å’Œ t2 çš„å€¼ç›¸ç­‰ï¼Œåˆ™ä¸º trueï¼›å¦åˆ™ä¸º falseã€‚
     public static boolean Equals(AfTimeSpan t1, AfTimeSpan t2)
     {
         return t1.time == t2.time;
     }
     //
-    // ÕªÒª:
-    //     ·µ»Ø±íÊ¾Ö¸¶¨ÌìÊıµÄ System.TimeSpan£¬ÆäÖĞ¶ÔÌìÊıµÄÖ¸¶¨¾«È·µ½×î½Ó½üµÄºÁÃë¡£
+    // æ‘˜è¦:
+    //     è¿”å›è¡¨ç¤ºæŒ‡å®šå¤©æ•°çš„ System.TimeSpanï¼Œå…¶ä¸­å¯¹å¤©æ•°çš„æŒ‡å®šç²¾ç¡®åˆ°æœ€æ¥è¿‘çš„æ¯«ç§’ã€‚
     //
-    // ²ÎÊı:
+    // å‚æ•°:
     //   value:
-    //     ÌìÊı£¬¾«È·µ½×î½Ó½üµÄºÁÃë¡£
+    //     å¤©æ•°ï¼Œç²¾ç¡®åˆ°æœ€æ¥è¿‘çš„æ¯«ç§’ã€‚
     //
-    // ·µ»Ø½á¹û:
-    //     ±íÊ¾ value µÄ¶ÔÏó¡£
+    // è¿”å›ç»“æœ:
+    //     è¡¨ç¤º value çš„å¯¹è±¡ã€‚
     //
-    // Òì³£:
+    // å¼‚å¸¸:
     //   System.OverflowException:
-    //     value Ğ¡ÓÚ System.TimeSpan.MinValue »ò´óÓÚ System.TimeSpan.MaxValue¡£- »ò -value
-    //     Îª System.Double.PositiveInfinity¡£- »ò -value Îª System.Double.NegativeInfinity¡£
+    //     value å°äº System.TimeSpan.MinValue æˆ–å¤§äº System.TimeSpan.MaxValueã€‚- æˆ– -value
+    //     ä¸º System.Double.PositiveInfinityã€‚- æˆ– -value ä¸º System.Double.NegativeInfinityã€‚
     //
     //   System.ArgumentException:
-    //     value µÈÓÚ System.Double.NaN¡£
+    //     value ç­‰äº System.Double.NaNã€‚
     public static AfTimeSpan FromDays(double value){
         return Interval(value, 0x5265c00); 
     }
     //
-    // ÕªÒª:
-    //     ·µ»Ø±íÊ¾Ö¸¶¨Ğ¡Ê±ÊıµÄ System.TimeSpan£¬ÆäÖĞ¶ÔĞ¡Ê±ÊıµÄÖ¸¶¨¾«È·µ½×î½Ó½üµÄºÁÃë¡£
+    // æ‘˜è¦:
+    //     è¿”å›è¡¨ç¤ºæŒ‡å®šå°æ—¶æ•°çš„ System.TimeSpanï¼Œå…¶ä¸­å¯¹å°æ—¶æ•°çš„æŒ‡å®šç²¾ç¡®åˆ°æœ€æ¥è¿‘çš„æ¯«ç§’ã€‚
     //
-    // ²ÎÊı:
+    // å‚æ•°:
     //   value:
-    //     ¾«È·µ½×î½Ó½üµÄºÁÃëµÄĞ¡Ê±Êı¡£
+    //     ç²¾ç¡®åˆ°æœ€æ¥è¿‘çš„æ¯«ç§’çš„å°æ—¶æ•°ã€‚
     //
-    // ·µ»Ø½á¹û:
-    //     ±íÊ¾ value µÄ¶ÔÏó¡£
+    // è¿”å›ç»“æœ:
+    //     è¡¨ç¤º value çš„å¯¹è±¡ã€‚
     //
-    // Òì³£:
+    // å¼‚å¸¸:
     //   System.OverflowException:
-    //     value Ğ¡ÓÚ System.TimeSpan.MinValue »ò´óÓÚ System.TimeSpan.MaxValue¡£- »ò -value
-    //     Îª System.Double.PositiveInfinity¡£- »ò -value Îª System.Double.NegativeInfinity¡£
+    //     value å°äº System.TimeSpan.MinValue æˆ–å¤§äº System.TimeSpan.MaxValueã€‚- æˆ– -value
+    //     ä¸º System.Double.PositiveInfinityã€‚- æˆ– -value ä¸º System.Double.NegativeInfinityã€‚
     //
     //   System.ArgumentException:
-    //     value µÈÓÚ System.Double.NaN¡£
+    //     value ç­‰äº System.Double.NaNã€‚
     public static AfTimeSpan FromHours(double value)
     {
         return Interval(value, 0x36ee80);
     }
     //
-    // ÕªÒª:
-    //     ·µ»Ø±íÊ¾Ö¸¶¨ºÁÃëÊıµÄ System.TimeSpan¡£
+    // æ‘˜è¦:
+    //     è¿”å›è¡¨ç¤ºæŒ‡å®šæ¯«ç§’æ•°çš„ System.TimeSpanã€‚
     //
-    // ²ÎÊı:
+    // å‚æ•°:
     //   value:
-    //     ºÁÃëÊı¡£
+    //     æ¯«ç§’æ•°ã€‚
     //
-    // ·µ»Ø½á¹û:
-    //     ±íÊ¾ value µÄ¶ÔÏó¡£
+    // è¿”å›ç»“æœ:
+    //     è¡¨ç¤º value çš„å¯¹è±¡ã€‚
     //
-    // Òì³£:
+    // å¼‚å¸¸:
     //   System.OverflowException:
-    //     value Ğ¡ÓÚ System.TimeSpan.MinValue »ò´óÓÚ System.TimeSpan.MaxValue¡£- »ò -value
-    //     Îª System.Double.PositiveInfinity¡£- »ò -value Îª System.Double.NegativeInfinity¡£
+    //     value å°äº System.TimeSpan.MinValue æˆ–å¤§äº System.TimeSpan.MaxValueã€‚- æˆ– -value
+    //     ä¸º System.Double.PositiveInfinityã€‚- æˆ– -value ä¸º System.Double.NegativeInfinityã€‚
     //
     //   System.ArgumentException:
-    //     value µÈÓÚ System.Double.NaN¡£
+    //     value ç­‰äº System.Double.NaNã€‚
     public static AfTimeSpan FromMilliseconds(double value)
     {
         return Interval(value, 1);
     }
     //
-    // ÕªÒª:
-    //     ·µ»Ø±íÊ¾Ö¸¶¨·ÖÖÓÊıµÄ System.TimeSpan£¬ÆäÖĞ¶Ô·ÖÖÓÊıµÄÖ¸¶¨¾«È·µ½×î½Ó½üµÄºÁÃë¡£
+    // æ‘˜è¦:
+    //     è¿”å›è¡¨ç¤ºæŒ‡å®šåˆ†é’Ÿæ•°çš„ System.TimeSpanï¼Œå…¶ä¸­å¯¹åˆ†é’Ÿæ•°çš„æŒ‡å®šç²¾ç¡®åˆ°æœ€æ¥è¿‘çš„æ¯«ç§’ã€‚
     //
-    // ²ÎÊı:
+    // å‚æ•°:
     //   value:
-    //     ·ÖÖÓÊı£¬¾«È·µ½×î½Ó½üµÄºÁÃë¡£
+    //     åˆ†é’Ÿæ•°ï¼Œç²¾ç¡®åˆ°æœ€æ¥è¿‘çš„æ¯«ç§’ã€‚
     //
-    // ·µ»Ø½á¹û:
-    //     ±íÊ¾ value µÄ¶ÔÏó¡£
+    // è¿”å›ç»“æœ:
+    //     è¡¨ç¤º value çš„å¯¹è±¡ã€‚
     //
-    // Òì³£:
+    // å¼‚å¸¸:
     //   System.OverflowException:
-    //     value Ğ¡ÓÚ System.TimeSpan.MinValue »ò´óÓÚ System.TimeSpan.MaxValue¡£- »ò -value
-    //     Îª System.Double.PositiveInfinity¡£- »ò -value Îª System.Double.NegativeInfinity¡£
+    //     value å°äº System.TimeSpan.MinValue æˆ–å¤§äº System.TimeSpan.MaxValueã€‚- æˆ– -value
+    //     ä¸º System.Double.PositiveInfinityã€‚- æˆ– -value ä¸º System.Double.NegativeInfinityã€‚
     //
     //   System.ArgumentException:
-    //     value µÈÓÚ System.Double.NaN¡£
+    //     value ç­‰äº System.Double.NaNã€‚
     public static AfTimeSpan FromMinutes(double value)
     {
         return Interval(value, 0xea60);
     }
     //
-    // ÕªÒª:
-    //     ·µ»Ø±íÊ¾Ö¸¶¨ÃëÊıµÄ System.TimeSpan£¬ÆäÖĞ¶ÔÃëÊıµÄÖ¸¶¨¾«È·µ½×î½Ó½üµÄºÁÃë¡£
+    // æ‘˜è¦:
+    //     è¿”å›è¡¨ç¤ºæŒ‡å®šç§’æ•°çš„ System.TimeSpanï¼Œå…¶ä¸­å¯¹ç§’æ•°çš„æŒ‡å®šç²¾ç¡®åˆ°æœ€æ¥è¿‘çš„æ¯«ç§’ã€‚
     //
-    // ²ÎÊı:
+    // å‚æ•°:
     //   value:
-    //     ÃëÊı£¬¾«È·µ½×î½Ó½üµÄºÁÃë¡£
+    //     ç§’æ•°ï¼Œç²¾ç¡®åˆ°æœ€æ¥è¿‘çš„æ¯«ç§’ã€‚
     //
-    // ·µ»Ø½á¹û:
-    //     ±íÊ¾ value µÄ¶ÔÏó¡£
+    // è¿”å›ç»“æœ:
+    //     è¡¨ç¤º value çš„å¯¹è±¡ã€‚
     //
-    // Òì³£:
+    // å¼‚å¸¸:
     //   System.OverflowException:
-    //     value Ğ¡ÓÚ System.TimeSpan.MinValue »ò´óÓÚ System.TimeSpan.MaxValue¡£- »ò -value
-    //     Îª System.Double.PositiveInfinity¡£- »ò -value Îª System.Double.NegativeInfinity¡£
+    //     value å°äº System.TimeSpan.MinValue æˆ–å¤§äº System.TimeSpan.MaxValueã€‚- æˆ– -value
+    //     ä¸º System.Double.PositiveInfinityã€‚- æˆ– -value ä¸º System.Double.NegativeInfinityã€‚
     //
     //   System.ArgumentException:
-    //     value µÈÓÚ System.Double.NaN¡£
+    //     value ç­‰äº System.Double.NaNã€‚
     public static AfTimeSpan FromSeconds(double value)
     {
         return Interval(value, 0x3e8);
     }
     //
-    // ÕªÒª:
-    //     ·µ»Ø±íÊ¾Ö¸¶¨Ê±¼äµÄ System.TimeSpan£¬ÆäÖĞ¶ÔÊ±¼äµÄÖ¸¶¨ÒÔ¿Ì¶ÈÎªµ¥Î»¡£
+    // æ‘˜è¦:
+    //     è¿”å›è¡¨ç¤ºæŒ‡å®šæ—¶é—´çš„ System.TimeSpanï¼Œå…¶ä¸­å¯¹æ—¶é—´çš„æŒ‡å®šä»¥åˆ»åº¦ä¸ºå•ä½ã€‚
     //
-    // ²ÎÊı:
+    // å‚æ•°:
     //   value:
-    //     ±íÊ¾Ê±¼äµÄ¿Ì¶ÈÊı¡£
+    //     è¡¨ç¤ºæ—¶é—´çš„åˆ»åº¦æ•°ã€‚
     //
-    // ·µ»Ø½á¹û:
-    //     ±íÊ¾ value µÄ¶ÔÏó¡£
+    // è¿”å›ç»“æœ:
+    //     è¡¨ç¤º value çš„å¯¹è±¡ã€‚
     public static AfTimeSpan FromTicks(long value){
         return new AfTimeSpan(value);
     }
     //
-    // ÕªÒª:
-    //     ·µ»Ø±íÊ¾Ö¸¶¨Ê±¼äµÄ System.TimeSpan£¬ÆäÖĞ¶ÔÊ±¼äµÄÖ¸¶¨ÒÔ¿Ì¶ÈÎªµ¥Î»¡£
+    // æ‘˜è¦:
+    //     è¿”å›è¡¨ç¤ºæŒ‡å®šæ—¶é—´çš„ System.TimeSpanï¼Œå…¶ä¸­å¯¹æ—¶é—´çš„æŒ‡å®šä»¥åˆ»åº¦ä¸ºå•ä½ã€‚
     //
-    // ²ÎÊı:
+    // å‚æ•°:
     //   t1 t2:
-    //     Ò»Ç°Ò»ºóµÄÊ±¼ä¡£
+    //     ä¸€å‰ä¸€åçš„æ—¶é—´ã€‚
     //
-    // ·µ»Ø½á¹û:
-    //     ±íÊ¾ t2 - t1 µÄÊ±¼ä²î¡£
+    // è¿”å›ç»“æœ:
+    //     è¡¨ç¤º t2 - t1 çš„æ—¶é—´å·®ã€‚
     public static AfTimeSpan FromDate(Date t1,Date t2){
         return new AfTimeSpan(t2.getTime() - t1.getTime());
     }
     //
-    // ÕªÒª:
-    //     ·µ»Ø±íÊ¾Ö¸¶¨Ê±¼äµÄ System.TimeSpan£¬ÆäÖĞ¶ÔÊ±¼äµÄÖ¸¶¨ÒÔ¿Ì¶ÈÎªµ¥Î»¡£
+    // æ‘˜è¦:
+    //     è¿”å›è¡¨ç¤ºæŒ‡å®šæ—¶é—´çš„ System.TimeSpanï¼Œå…¶ä¸­å¯¹æ—¶é—´çš„æŒ‡å®šä»¥åˆ»åº¦ä¸ºå•ä½ã€‚
     //
-    // ²ÎÊı:
+    // å‚æ•°:
     //   last:
-    //     ÉÏÒ»´ÎÊ±¼ä¡£
+    //     ä¸Šä¸€æ¬¡æ—¶é—´ã€‚
     //
-    // ·µ»Ø½á¹û:
-    //     ±íÊ¾ last - now£¨ÏÖÔÚ£© µÄÊ±¼ä²î¡£
+    // è¿”å›ç»“æœ:
+    //     è¡¨ç¤º last - nowï¼ˆç°åœ¨ï¼‰ çš„æ—¶é—´å·®ã€‚
     public static AfTimeSpan FromLast(Date last){
         return new AfTimeSpan(new Date().getTime() - last.getTime());
     }

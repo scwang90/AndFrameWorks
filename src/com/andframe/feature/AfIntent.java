@@ -11,11 +11,11 @@ import android.net.Uri;
 import com.google.gson.Gson;
 
 /**
- * Ê¹ÓÃGsonÊµÏÖ¶àÔªÊı¾İ´«µİ
+ * ä½¿ç”¨Gsonå®ç°å¤šå…ƒæ•°æ®ä¼ é€’
  * @Description: AfIntent
  * @Author: scwang
- * @Version: V1.0, 2015-4-3 ÏÂÎç3:26:29
- * @Modified: ³õ´Î´´½¨AfIntentÀà
+ * @Version: V1.0, 2015-4-3 ä¸‹åˆ3:26:29
+ * @Modified: åˆæ¬¡åˆ›å»ºAfIntentç±»
  */
 public class AfIntent extends Intent{
 
@@ -89,21 +89,21 @@ public class AfIntent extends Intent{
 		return value == null ? defaul : value;
 	}
 	/**
-	 * »ñÈ¡List<T>
+	 * è·å–List<T>
 	 * @param _key
 	 * @param clazz
-	 * @return Èç¹ûÕÒ²»µ½·µ»Ø null£¬ list ÓĞ¿ÉÄÜÎª 0 ¸öÔªËØ
+	 * @return å¦‚æœæ‰¾ä¸åˆ°è¿”å› nullï¼Œ list æœ‰å¯èƒ½ä¸º 0 ä¸ªå…ƒç´ 
 	 */
 	public <T> List<T> getList(String _key,Class<T> clazz) {
 		return getList(_key,null,clazz);
 	}
 	/**
 	/**
-	 * »ñÈ¡List<T>
+	 * è·å–List<T>
 	 * @param _key
-	 * @param defaul Èç¹ûÕÒ²»µ½·µ»Ø defaul
+	 * @param defaul å¦‚æœæ‰¾ä¸åˆ°è¿”å› defaul
 	 * @param clazz
-	 * @return Èç¹ûÕÒ²»µ½·µ»Ø null£¬ list ÓĞ¿ÉÄÜÎª 0 ¸öÔªËØ
+	 * @return å¦‚æœæ‰¾ä¸åˆ°è¿”å› nullï¼Œ list æœ‰å¯èƒ½ä¸º 0 ä¸ªå…ƒç´ 
 	 */
 	public <T> List<T> getList(String _key,List<T> defaul,Class<T> clazz) {
 		List<T> value = null;

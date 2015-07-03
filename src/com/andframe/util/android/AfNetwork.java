@@ -10,7 +10,7 @@ import android.net.ConnectivityManager;
 import android.net.NetworkInfo;
 
 /**
- * @Description: ÍøÂçÅäÖÃ
+ * @Description: ç½‘ç»œé…ç½®
  * @Author: scwang
  */
 public class AfNetwork
@@ -21,18 +21,18 @@ public class AfNetwork
 
     public static int getNetworkState(Context context)
     {
-        //»ñµÃÊÖ»úËùÓĞÁ¬½Ó¹ÜÀí¶ÔÏó£¨°üÀ¨¶Ôwi-fiµÈÁ¬½ÓµÄ¹ÜÀí£©
+        //è·å¾—æ‰‹æœºæ‰€æœ‰è¿æ¥ç®¡ç†å¯¹è±¡ï¼ˆåŒ…æ‹¬å¯¹wi-fiç­‰è¿æ¥çš„ç®¡ç†ï¼‰
         try
         {
             ConnectivityManager connectivity = (ConnectivityManager) context
                     .getSystemService(Context.CONNECTIVITY_SERVICE);
             if (connectivity != null)
             {
-                //»ñµÃÍøÂçÁ¬½Ó¹ÜÀíµÄ¶ÔÏó
+                //è·å¾—ç½‘ç»œè¿æ¥ç®¡ç†çš„å¯¹è±¡
                 NetworkInfo info = connectivity.getActiveNetworkInfo();
                 if (info != null && info.isConnected())
                 {
-                    //ÅĞ¶Ïµ±Ç°ÍøÂçÊÇ·ñÒÑÁ¬½Ó
+                    //åˆ¤æ–­å½“å‰ç½‘ç»œæ˜¯å¦å·²è¿æ¥
                     if (info.getState() == NetworkInfo.State.CONNECTED)
                         ;
                     return info.getType();
@@ -50,9 +50,9 @@ public class AfNetwork
     {
         AlertDialog.Builder builder = new AlertDialog.Builder(context);
         builder.setIcon(android.R.drawable.ic_dialog_alert);
-        builder.setTitle("µ±Ç°ÍøÂç²»¿ÉÓÃ");
-        builder.setMessage("Äã¿ÉÒÔä¯ÀÀÀëÏßĞÅÏ¢»òÕßÉèÖÃÍøÂçÁ¬½Ó¡£");
-        builder.setPositiveButton("ÉèÖÃÍøÂç", new DialogInterface.OnClickListener()
+        builder.setTitle("å½“å‰ç½‘ç»œä¸å¯ç”¨");
+        builder.setMessage("ä½ å¯ä»¥æµè§ˆç¦»çº¿ä¿¡æ¯æˆ–è€…è®¾ç½®ç½‘ç»œè¿æ¥ã€‚");
+        builder.setPositiveButton("è®¾ç½®ç½‘ç»œ", new DialogInterface.OnClickListener()
         {
 
             @Override
@@ -67,7 +67,7 @@ public class AfNetwork
                 context.startActivity(mIntent);
             }
         });
-        builder.setNegativeButton("ä¯ÀÀÀëÏßĞÅÏ¢",
+        builder.setNegativeButton("æµè§ˆç¦»çº¿ä¿¡æ¯",
                 new DialogInterface.OnClickListener()
                 {
 

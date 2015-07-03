@@ -22,19 +22,19 @@ public class PullRefreshFooterImpl extends AfPullFooterLayout{
 		// TODO Auto-generated method stub
 		if(string == EnumFooterString.footer_loading)
 		{
-			return "正在加载";
+			return "姝ｅ湪鍔犺浇";
 		}
 		else if(string == EnumFooterString.footer_release)
 		{
-			return "释放获取更多";
+			return "閲婃斁鑾峰彇鏇村";
 		}
 		else if(string == EnumFooterString.footer_updatetime)
 		{
-			return "上次更新";
+			return "涓婃鏇存柊";
 		}
 		else if(string == EnumFooterString.footer_pullup)
 		{
-			return "上拉获取更多";
+			return "涓婃媺鑾峰彇鏇村";
 		}
 		return "";
 	}

@@ -20,23 +20,23 @@ public class AfLunar {
 	private boolean leap;
 
 	private final static String[] Gan = new String[] { 
-		"¼×", "ÒÒ", "±û", "¶¡", "Îì", "¼º", "¸ı","ĞÁ", "ÈÉ", "¹ï" 
+		"ç”²", "ä¹™", "ä¸™", "ä¸", "æˆŠ", "å·±", "åºš","è¾›", "å£¬", "ç™¸" 
 	};
 	
 	private final static String[] Zhi = new String[] { 
-		"×Ó", "³ó", "Òú", "Ã®", "³½", "ËÈ", "Îç","Î´", "Éê", "ÓÏ", "Ğç", "º¥" 
+		"å­", "ä¸‘", "å¯…", "å¯", "è¾°", "å·³", "åˆ","æœª", "ç”³", "é…‰", "æˆŒ", "äº¥" 
 	};
 	
 	private final static String chineseNumber[] = {
-		"Ò»", "¶ş", "Èı", "ËÄ", "Îå", "Áù", "Æß","°Ë", "¾Å", "Ê®", "Ê®Ò»", "Ê®¶ş" 
+		"ä¸€", "äºŒ", "ä¸‰", "å››", "äº”", "å…­", "ä¸ƒ","å…«", "ä¹", "å", "åä¸€", "åäºŒ" 
 	};
 
 	private final static String[] Animals = new String[] {
-		"Êó", "Å£", "»¢", "ÍÃ", "Áú", "Éß","Âí", "Ñò", "ºï", "¼¦", "¹·", "Öí" 
+		"é¼ ", "ç‰›", "è™", "å…”", "é¾™", "è›‡","é©¬", "ç¾Š", "çŒ´", "é¸¡", "ç‹—", "çŒª" 
 	};
 
 	private final static String[] weekDays = { 
-		"ĞÇÆÚÈÕ", "ĞÇÆÚÒ»", "ĞÇÆÚ¶ş", "ĞÇÆÚÈı", "ĞÇÆÚËÄ", "ĞÇÆÚÎå", "ĞÇÆÚÁù" 
+		"æ˜ŸæœŸæ—¥", "æ˜ŸæœŸä¸€", "æ˜ŸæœŸäºŒ", "æ˜ŸæœŸä¸‰", "æ˜ŸæœŸå››", "æ˜ŸæœŸäº”", "æ˜ŸæœŸå…­" 
 	};
 	
 	private static DateFormat FORMAT = new SimpleDateFormat("yyyy-MM-dd",Locale.ENGLISH);
@@ -65,7 +65,7 @@ public class AfLunar {
 			0x049b0, 0x0a577, 0x0a4b0, 0x0aa50, 0x1b255, 0x06d20, 0x0ada0 
 	};
 
-	// ====== ´«»ØÅ©Àú yÄêµÄ×ÜÌìÊı
+	// ====== ä¼ å›å†œå† yå¹´çš„æ€»å¤©æ•°
 	final private static int yearDays(int y) {
 		int i, sum = 348;
 		for (i = 0x8000; i > 0x8; i >>= 1) {
@@ -75,7 +75,7 @@ public class AfLunar {
 		return (sum + leapDays(y));
 	}
 
-	// ====== ´«»ØÅ©Àú yÄêÈòÔÂµÄÌìÊı
+	// ====== ä¼ å›å†œå† yå¹´é—°æœˆçš„å¤©æ•°
 	final private static int leapDays(int y) {
 		if (leapMonth(y) != 0) {
 			if ((lunarInfo[y - 1900] & 0x10000) != 0)
@@ -86,12 +86,12 @@ public class AfLunar {
 			return 0;
 	}
 
-	// ====== ´«»ØÅ©Àú yÄêÈòÄÄ¸öÔÂ 1-12 , Ã»Èò´«»Ø 0
+	// ====== ä¼ å›å†œå† yå¹´é—°å“ªä¸ªæœˆ 1-12 , æ²¡é—°ä¼ å› 0
 	final private static int leapMonth(int y) {
 		return (int) (lunarInfo[y - 1900] & 0xf);
 	}
 
-	// ====== ´«»ØÅ©Àú yÄêmÔÂµÄ×ÜÌìÊı
+	// ====== ä¼ å›å†œå† yå¹´mæœˆçš„æ€»å¤©æ•°
 	final private static int monthDays(int y, int m) {
 		if ((lunarInfo[y - 1900] & (0x10000 >> m)) == 0)
 			return 29;
@@ -99,28 +99,28 @@ public class AfLunar {
 			return 30;
 	}
 
-	// ====== ´«»ØÅ©Àú yÄêµÄÉúĞ¤
+	// ====== ä¼ å›å†œå† yå¹´çš„ç”Ÿè‚–
 	final public String animalsYear() {
 		return Animals[(year - 4) % 12];
 	}
 
-	// ====== ´«Èë ÔÂÈÕµÄoffset ´«»Ø¸ÉÖ§, 0=¼××Ó
+	// ====== ä¼ å…¥ æœˆæ—¥çš„offset ä¼ å›å¹²æ”¯, 0=ç”²å­
 	private final static String cyclicalm(int num) {
 		return (Gan[num % 10] + Zhi[num % 12]);
 	}
 
 	public final static String getChinaDayString(int day) {
-		String chineseTen[] = { "³õ", "Ê®", "Ø¥", "Èı" };
+		String chineseTen[] = { "åˆ", "å", "å»¿", "ä¸‰" };
 		int n = day % 10 == 0 ? 9 : day % 10 - 1;
 		if (day > 30)
 			return "";
 		if (day == 10)
-			return "³õÊ®";
+			return "åˆå";
 		else
 			return chineseTen[day / 10] + chineseNumber[n];
 	}
 
-	// ====== ´«Èë offset ´«»Ø¸ÉÖ§, 0=¼××Ó
+	// ====== ä¼ å…¥ offset ä¼ å›å¹²æ”¯, 0=ç”²å­
 	public final String cyclical() {
 		int num = year - 1900 + 36;
 		return (cyclicalm(num));
@@ -168,15 +168,15 @@ public class AfLunar {
 		this.curDate = cal.getTime();
 		this.mCalendar = cal;
 
-		// Çó³öºÍ1900Äê1ÔÂ31ÈÕÏà²îµÄÌìÊı
+		// æ±‚å‡ºå’Œ1900å¹´1æœˆ31æ—¥ç›¸å·®çš„å¤©æ•°
 		int offset = (int) ((curDate.getTime() - baseDate.getTime()) / 86400000L);
 		dayCyl = offset + 40;
 		monCyl = 14;
 
-		// ÓÃoffset¼õÈ¥Ã¿Å©ÀúÄêµÄÌìÊı
-		// ¼ÆËãµ±ÌìÊÇÅ©ÀúµÚ¼¸Ìì
-		// i×îÖÕ½á¹ûÊÇÅ©ÀúµÄÄê·İ
-		// offsetÊÇµ±ÄêµÄµÚ¼¸Ìì
+		// ç”¨offsetå‡å»æ¯å†œå†å¹´çš„å¤©æ•°
+		// è®¡ç®—å½“å¤©æ˜¯å†œå†ç¬¬å‡ å¤©
+		// iæœ€ç»ˆç»“æœæ˜¯å†œå†çš„å¹´ä»½
+		// offsetæ˜¯å½“å¹´çš„ç¬¬å‡ å¤©
 		int iYear, daysOfYear = 0;
 		for (iYear = 1900; iYear < 2050 && offset > 0; iYear++) {
 			daysOfYear = yearDays(iYear);
@@ -188,17 +188,17 @@ public class AfLunar {
 			iYear--;
 			monCyl -= 12;
 		}
-		// Å©ÀúÄê·İ
+		// å†œå†å¹´ä»½
 		year = iYear;
 
 		yearCyl = iYear - 1864;
-		leapMonth = leapMonth(iYear); // ÈòÄÄ¸öÔÂ,1-12
+		leapMonth = leapMonth(iYear); // é—°å“ªä¸ªæœˆ,1-12
 		leap = false;
 
-		// ÓÃµ±ÄêµÄÌìÊıoffset,Öğ¸ö¼õÈ¥Ã¿ÔÂ£¨Å©Àú£©µÄÌìÊı£¬Çó³öµ±ÌìÊÇ±¾ÔÂµÄµÚ¼¸Ìì
+		// ç”¨å½“å¹´çš„å¤©æ•°offset,é€ä¸ªå‡å»æ¯æœˆï¼ˆå†œå†ï¼‰çš„å¤©æ•°ï¼Œæ±‚å‡ºå½“å¤©æ˜¯æœ¬æœˆçš„ç¬¬å‡ å¤©
 		int iMonth, daysOfMonth = 0;
 		for (iMonth = 1; iMonth < 13 && offset > 0; iMonth++) {
-			// ÈòÔÂ
+			// é—°æœˆ
 			if (leapMonth > 0 && iMonth == (leapMonth + 1) && !leap) {
 				--iMonth;
 				leap = true;
@@ -207,13 +207,13 @@ public class AfLunar {
 				daysOfMonth = monthDays(year, iMonth);
 
 			offset -= daysOfMonth;
-			// ½â³ıÈòÔÂ
+			// è§£é™¤é—°æœˆ
 			if (leap && iMonth == (leapMonth + 1))
 				leap = false;
 			if (!leap)
 				monCyl++;
 		}
-		// offsetÎª0Ê±£¬²¢ÇÒ¸Õ²Å¼ÆËãµÄÔÂ·İÊÇÈòÔÂ£¬ÒªĞ£Õı
+		// offsetä¸º0æ—¶ï¼Œå¹¶ä¸”åˆšæ‰è®¡ç®—çš„æœˆä»½æ˜¯é—°æœˆï¼Œè¦æ ¡æ­£
 		if (offset == 0 && leapMonth > 0 && iMonth == leapMonth + 1) {
 			if (leap) {
 				leap = false;
@@ -223,7 +223,7 @@ public class AfLunar {
 				--monCyl;
 			}
 		}
-		// offsetĞ¡ÓÚ0Ê±£¬Ò²ÒªĞ£Õı
+		// offsetå°äº0æ—¶ï¼Œä¹Ÿè¦æ ¡æ­£
 		if (offset < 0) {
 			offset += daysOfMonth;
 			--iMonth;
@@ -235,12 +235,12 @@ public class AfLunar {
 
 
 	public String toString() {
-		return year + "Äê" + (leap ? "Èò" : "") + chineseNumber[month - 1] + "ÔÂ"
+		return year + "å¹´" + (leap ? "é—°" : "") + chineseNumber[month - 1] + "æœˆ"
 				+ getChinaDayString(day);
 	}
 	
 	public String GetLunarDateString() {
-		return cyclical() + animalsYear() + "Äê" + (leap ? "Èò" : "") + chineseNumber[month - 1] + "ÔÂ";
+		return cyclical() + animalsYear() + "å¹´" + (leap ? "é—°" : "") + chineseNumber[month - 1] + "æœˆ";
 	}
 	
 	public String getWeekOfDate() {

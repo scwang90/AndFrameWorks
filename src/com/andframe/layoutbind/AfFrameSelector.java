@@ -36,7 +36,7 @@ public class AfFrameSelector extends AfLayoutModule {
 		return mFrameLayout;
 	}
 	/**
-	 * ÔÚ FrameLayout ÖĞÑ¡Ôñ view µÄ²¼¾Ö Òş²ØÆäËûµÄ²¼¾Ö
+	 * åœ¨ FrameLayout ä¸­é€‰æ‹© view çš„å¸ƒå±€ éšè—å…¶ä»–çš„å¸ƒå±€
 	 * 
 	 * @param id
 	 * @return
@@ -69,7 +69,7 @@ public class AfFrameSelector extends AfLayoutModule {
 	}
 
 	/**
-	 * ÔÚ FrameLayout ÖĞÑ¡Ôñ id µÄ²¼¾Ö Òş²ØÆäËûµÄ²¼¾Ö
+	 * åœ¨ FrameLayout ä¸­é€‰æ‹© id çš„å¸ƒå±€ éšè—å…¶ä»–çš„å¸ƒå±€
 	 * 
 	 * @param id
 	 * @return

@@ -6,7 +6,7 @@ import java.util.UUID;
 public class UUIDUtil{
 	
 	/**
-	 * ¿ÕUUID£º00000000-0000-0000-0000-000000000000
+	 * ç©ºUUIDï¼š00000000-0000-0000-0000-000000000000
 	 */
 	public final static UUID Empty = UUID.fromString("00000000-0000-0000-0000-000000000000");
 	

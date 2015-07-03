@@ -11,7 +11,7 @@ import com.andframe.view.pulltorefresh.PullRefreshFooterImpl;
 import com.andframe.view.pulltorefresh.PullRefreshHeaderImpl;
 
 /**
- * ¿ÉÏÂÀ­Ë¢ĞÂµÄ ÉÏÀ²¸ü¶àµÄ listview 
+ * å¯ä¸‹æ‹‰åˆ·æ–°çš„ ä¸Šå•¦æ›´å¤šçš„ listview 
  * @author SCWANG
  */
 public class AfMultiGridView extends AfMultiChoiceGridView{
@@ -74,10 +74,10 @@ public class AfMultiGridView extends AfMultiChoiceGridView{
 	protected GridView onCreateRefreshableView(Context context, AttributeSet attrs) {
 		// TODO Auto-generated method stub
 		mGridView = onCreateGridView(context,attrs);//new ListView(context)
-		// ½â¾ölistviewÔÚÍÏ¶¯µÄÊ±ºò±³¾°Í¼Æ¬ÏûÊ§±ä³ÉºÚÉ«±³¾°
+		// è§£å†³listviewåœ¨æ‹–åŠ¨çš„æ—¶å€™èƒŒæ™¯å›¾ç‰‡æ¶ˆå¤±å˜æˆé»‘è‰²èƒŒæ™¯
 		mGridView.setCacheColorHint(0);
 		mGridView.setScrollingCacheEnabled(false);
-		// ½â¾ölistviewµÄÉÏ±ßºÍÏÂ±ßÓĞºÚÉ«µÄÒõÓ°
+		// è§£å†³listviewçš„ä¸Šè¾¹å’Œä¸‹è¾¹æœ‰é»‘è‰²çš„é˜´å½±
 		mGridView.setFadingEdgeLength(0);
 		return mGridView;
 	}

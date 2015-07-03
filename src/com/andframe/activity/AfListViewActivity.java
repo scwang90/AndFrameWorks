@@ -25,10 +25,10 @@ import com.andframe.util.java.AfCollections;
 import com.andframe.view.AfListView;
 import com.andframe.view.pulltorefresh.AfPullToRefreshBase.OnRefreshListener;
 /**
- * @Description: Êı¾İÁĞ±í¿ò¼Ü Activity
+ * @Description: æ•°æ®åˆ—è¡¨æ¡†æ¶ Activity
  * @Author: scwang
- * @Version: V1.0, 2015-2-27 ÉÏÎç10:27:22
- * @param <T> ÁĞ±íÊı¾İÊµÌåÀà
+ * @Version: V1.0, 2015-2-27 ä¸Šåˆ10:27:22
+ * @param <T> åˆ—è¡¨æ•°æ®å®ä½“ç±»
  */
 public abstract class AfListViewActivity<T> extends AfActivity implements OnRefreshListener, OnItemClickListener, OnClickListener{
 
@@ -42,13 +42,13 @@ public abstract class AfListViewActivity<T> extends AfActivity implements OnRefr
 	protected AfListAdapter<T> mAdapter;
 
 	/**
-	 * »º´æÊ¹ÓÃµÄ class ¶ÔÏó£¨jsonÒªÓÃµ½£©
-	 * ÉèÖÃ ²¢ÇÒÈÎÎñÎª TASK_LOAD AfListTask ½«×Ô¶¯Ê¹ÓÃ»º´æ¹¦ÄÜ
+	 * ç¼“å­˜ä½¿ç”¨çš„ class å¯¹è±¡ï¼ˆjsonè¦ç”¨åˆ°ï¼‰
+	 * è®¾ç½® å¹¶ä¸”ä»»åŠ¡ä¸º TASK_LOAD AfListTask å°†è‡ªåŠ¨ä½¿ç”¨ç¼“å­˜åŠŸèƒ½
 	 */
 	public Class<T> mCacheClazz = null;
 	/** 
-	 *  »º´æÊ¹ÓÃµÄ KEY_CACHELIST = this.getClass().getName()
-	 * 		KEY_CACHELIST Îª»º´æµÄ±êÊ¶
+	 *  ç¼“å­˜ä½¿ç”¨çš„ KEY_CACHELIST = this.getClass().getName()
+	 * 		KEY_CACHELIST ä¸ºç¼“å­˜çš„æ ‡è¯†
 	 */
 	public String KEY_CACHELIST = this.getClass().getName();
 	
@@ -57,7 +57,7 @@ public abstract class AfListViewActivity<T> extends AfActivity implements OnRefr
 		
 	}
 	/**
-	 * Ê¹ÓÃ»º´æ±ØĞëµ÷ÓÃÕâ¸ö¹¹Ôìº¯Êı
+	 * ä½¿ç”¨ç¼“å­˜å¿…é¡»è°ƒç”¨è¿™ä¸ªæ„é€ å‡½æ•°
 	 * @param clazz
 	 */
 	public AfListViewActivity(Class<T> clazz) {
@@ -65,8 +65,8 @@ public abstract class AfListViewActivity<T> extends AfActivity implements OnRefr
 		this.mCacheClazz = clazz;
 	}
 	/**
-	 * Ê¹ÓÃ»º´æ±ØĞëµ÷ÓÃÕâ¸ö¹¹Ôìº¯Êı
-	 * 	¿ÉÒÔ×Ô¶¨Òå»º´æ±êÊ¶
+	 * ä½¿ç”¨ç¼“å­˜å¿…é¡»è°ƒç”¨è¿™ä¸ªæ„é€ å‡½æ•°
+	 * 	å¯ä»¥è‡ªå®šä¹‰ç¼“å­˜æ ‡è¯†
 	 * @param clazz
 	 */
 	public AfListViewActivity(Class<T> clazz, String KEY_CACHELIST) {
@@ -75,9 +75,9 @@ public abstract class AfListViewActivity<T> extends AfActivity implements OnRefr
 		this.KEY_CACHELIST = KEY_CACHELIST;
 	}
 	/**
-	 * @Description: ´´½¨·½·¨
+	 * @Description: åˆ›å»ºæ–¹æ³•
 	 * @Author: scwang
-	 * @Version: V1.0, 2015-2-27 ÉÏÎç10:28:01
+	 * @Version: V1.0, 2015-2-27 ä¸Šåˆ10:28:01
 	 * @Modified:
 	 * @param bundle
 	 * @param intent
@@ -97,37 +97,37 @@ public abstract class AfListViewActivity<T> extends AfActivity implements OnRefr
 		mListView.setOnRefreshListener(this);
 		mListView.setOnItemClickListener(this);
 		
-		// ÉèÖÃbanner³ß´ç
+		// è®¾ç½®bannerå°ºå¯¸
 		setLoading();
 		postTask(new AbListViewTask(mCacheClazz,KEY_CACHELIST));
 	}
 	/**
-	 * @Description: »ñÈ¡setContentViewµÄid
+	 * @Description: è·å–setContentViewçš„id
 	 * @Author: scwang
 	 * @return id
 	 */
 	protected abstract int getLayoutId();
 	/**
-	 * »ñÈ¡ÁĞ±í¿Ø¼ş
+	 * è·å–åˆ—è¡¨æ§ä»¶
 	 * @param pageable
 	 * @return pageable.findListViewById(id)
 	 */
 	protected abstract ListView findListView(AfPageable pageable);
 
 	/**
-	 * ĞÂ½¨Ò³ÃæÑ¡ÔñÆ÷
+	 * æ–°å»ºé¡µé¢é€‰æ‹©å™¨
 	 * @param pageable
 	 * @return
 	 */
 	protected abstract AfFrameSelector newAfFrameSelector(AfPageable pageable);
 	/**
-	 * ĞÂ½¨¼ÓÔØÒ³Ãæ
+	 * æ–°å»ºåŠ è½½é¡µé¢
 	 * @param pageable
 	 * @return
 	 */
 	protected abstract AfModuleProgress newModuleProgress(AfPageable pageable);
 	/**
-	 * ĞÂ½¨¿ÕÊı¾İÒ³Ãæ
+	 * æ–°å»ºç©ºæ•°æ®é¡µé¢
 	 * @param pageable
 	 * @return
 	 */
@@ -135,9 +135,9 @@ public abstract class AfListViewActivity<T> extends AfActivity implements OnRefr
 
 
 	/**
-	 * @Description: ÏÔÊ¾Êı¾İÒ³Ãæ
+	 * @Description: æ˜¾ç¤ºæ•°æ®é¡µé¢
 	 * @Author: scwang
-	 * @Version: V1.0, 2015-2-27 ÉÏÎç10:18:26
+	 * @Version: V1.0, 2015-2-27 ä¸Šåˆ10:18:26
 	 * @param adapter
 	 */
 	public void setData(AfListAdapter<T> adapter) {
@@ -147,20 +147,20 @@ public abstract class AfListViewActivity<T> extends AfActivity implements OnRefr
 	}
 
 	/**
-	 * @Description: ÕıÔÚ¼ÓÔØÊı¾İÌáÊ¾
+	 * @Description: æ­£åœ¨åŠ è½½æ•°æ®æç¤º
 	 * @Author: scwang
-	 * @Version: V1.0, 2015-2-27 ÉÏÎç10:18:05
+	 * @Version: V1.0, 2015-2-27 ä¸Šåˆ10:18:05
 	 */
 	public void setLoading() {
 		// TODO Auto-generated method stub
-		mProgress.setDescription("ÕıÔÚ¼ÓÔØ...");
+		mProgress.setDescription("æ­£åœ¨åŠ è½½...");
 		mSelector.SelectFrame(mProgress);
 	}
 	
 	/**
-	 * ¿ÕÊı¾İÒ³ÃæË¢ĞÂ¼àÌıÆ÷
-	 * ×ÓÀàĞèÒªÖØĞ´¼àÌıÆ÷µÄ»°¿ÉÒÔ¶Ô 
-	 * mNodataRefreshListener ÖØĞÂ¸³Öµ
+	 * ç©ºæ•°æ®é¡µé¢åˆ·æ–°ç›‘å¬å™¨
+	 * å­ç±»éœ€è¦é‡å†™ç›‘å¬å™¨çš„è¯å¯ä»¥å¯¹ 
+	 * mNodataRefreshListener é‡æ–°èµ‹å€¼
 	 */
 	private OnClickListener mNodataRefreshListener = new OnClickListener() {
 		@Override
@@ -172,35 +172,35 @@ public abstract class AfListViewActivity<T> extends AfActivity implements OnRefr
 	};
 
 	/**
-	 * @Description: ´¦Àí¿ÕÊı¾İ
+	 * @Description: å¤„ç†ç©ºæ•°æ®
 	 * @Author: scwang
-	 * @Version: V1.0, 2015-2-27 ÉÏÎç10:16:46
-	 * @Modified: ³õ´Î´´½¨setNodata·½·¨
+	 * @Version: V1.0, 2015-2-27 ä¸Šåˆ10:16:46
+	 * @Modified: åˆæ¬¡åˆ›å»ºsetNodataæ–¹æ³•
 	 */
 	public void setNodata() {
 		// TODO Auto-generated method stub
-		mNodata.setDescription("±§Ç¸£¬ÔİÎŞÊı¾İ");
+		mNodata.setDescription("æŠ±æ­‰ï¼Œæš‚æ— æ•°æ®");
 		mSelector.SelectFrame(mNodata);
 		mNodata.setOnRefreshListener(mNodataRefreshListener);
 	}
 
 	/**
-	 * @Description: ´íÎóĞÅÏ¢´¦Àí
+	 * @Description: é”™è¯¯ä¿¡æ¯å¤„ç†
 	 * @Author: scwang
-	 * @Version: V1.0, 2015-2-27 ÉÏÎç10:16:26
+	 * @Version: V1.0, 2015-2-27 ä¸Šåˆ10:16:26
 	 * @param ex
 	 */
 	public void setLoadError(Throwable ex) {
 		// TODO Auto-generated method stub
-		mNodata.setDescription(AfException.handle(ex, "Êı¾İ¼ÓÔØ³öÏÖÒì³£"));
+		mNodata.setDescription(AfException.handle(ex, "æ•°æ®åŠ è½½å‡ºç°å¼‚å¸¸"));
 		mNodata.setOnRefreshListener(mNodataRefreshListener);
 		mSelector.SelectFrame(mNodata);
 	}
 
 	/**
-	 * @Description: ÓÃ»§¼ÓÔØ·ÖÒ³Í¨ÖªÊÂ¼ş
+	 * @Description: ç”¨æˆ·åŠ è½½åˆ†é¡µé€šçŸ¥äº‹ä»¶
 	 * @Author: scwang
-	 * @Version: V1.0, 2015-2-27 ÉÏÎç10:15:54
+	 * @Version: V1.0, 2015-2-27 ä¸Šåˆ10:15:54
 	 * @return
 	 */
 	@Override
@@ -211,9 +211,9 @@ public abstract class AfListViewActivity<T> extends AfActivity implements OnRefr
 	}
 
 	/**
-	 * @Description: ÓÃ»§Ë¢ĞÂÊı¾İÍ¨ÖªÊÂ¼ş
+	 * @Description: ç”¨æˆ·åˆ·æ–°æ•°æ®é€šçŸ¥äº‹ä»¶
 	 * @Author: scwang
-	 * @Version: V1.0, 2015-2-27 ÉÏÎç10:14:52
+	 * @Version: V1.0, 2015-2-27 ä¸Šåˆ10:14:52
 	 * @return
 	 */
 	@Override
@@ -224,9 +224,9 @@ public abstract class AfListViewActivity<T> extends AfActivity implements OnRefr
 	}
 
 	/**
-	 * @Description: Êı¾İÁĞ±íµã»÷ÊÂ¼ş
+	 * @Description: æ•°æ®åˆ—è¡¨ç‚¹å‡»äº‹ä»¶
 	 * @Author: scwang
-	 * @Version: V1.0, 2015-2-27 ÉÏÎç10:25:18
+	 * @Version: V1.0, 2015-2-27 ä¸Šåˆ10:25:18
 	 * @param parent
 	 * @param view
 	 * @param index
@@ -240,9 +240,9 @@ public abstract class AfListViewActivity<T> extends AfActivity implements OnRefr
 	}
 
 	/**
-	 * @Description: onItemClick ÊÂ¼şµÄ °ü×° Ò»°ãÇé¿öÏÂ×ÓÀà¿ÉÒÔÖØĞ´Õâ¸ö·½·¨
+	 * @Description: onItemClick äº‹ä»¶çš„ åŒ…è£… ä¸€èˆ¬æƒ…å†µä¸‹å­ç±»å¯ä»¥é‡å†™è¿™ä¸ªæ–¹æ³•
 	 * @Author: scwang
-	 * @Version: V1.0, 2015-2-27 ÉÏÎç10:20:05
+	 * @Version: V1.0, 2015-2-27 ä¸Šåˆ10:20:05
 	 * @param model
 	 * @param index
 	 */
@@ -261,13 +261,13 @@ public abstract class AfListViewActivity<T> extends AfActivity implements OnRefr
 	}
 
 	/**
-	 * Êı¾İ¼ÓÔØÄÚ²¿ÈÎÎñÀà£¨Êı¾İ¼ÓÔØÊÂ¼şÒÑ¾­×ª·¢£¬ÎŞÊµ¼Ê´¦Àí´úÂë£©
+	 * æ•°æ®åŠ è½½å†…éƒ¨ä»»åŠ¡ç±»ï¼ˆæ•°æ®åŠ è½½äº‹ä»¶å·²ç»è½¬å‘ï¼Œæ— å®é™…å¤„ç†ä»£ç ï¼‰
 	 * @author scwang
 	 */
 	protected class AbListViewTask extends AfListViewTask<T> {
 
 		/**
-		 * ¿ÉÒÔ´¥·¢¼ÓÔØ»º´æÈÎÎñ£¨¿ò¼Ü»º´æ¼ÓÔØÊ§°Ü»á¸Ä±ä³ÉË¢ĞÂÈÎÎñ£©
+		 * å¯ä»¥è§¦å‘åŠ è½½ç¼“å­˜ä»»åŠ¡ï¼ˆæ¡†æ¶ç¼“å­˜åŠ è½½å¤±è´¥ä¼šæ”¹å˜æˆåˆ·æ–°ä»»åŠ¡ï¼‰
 		 * @param clazz
 		 * @param KEY_CACHELIST
 		 */
@@ -277,8 +277,8 @@ public abstract class AfListViewActivity<T> extends AfActivity implements OnRefr
 		}
 
 		/**
-		 * ¿ÉÒÔ´¥·¢¼ÓÔØ¸ü¶à£¨·ÖÒ³£©ÈÎÎñ £¨´«¿Õnull¿ÉÒÔ´¥·¢Ë¢ĞÂÈÎÎñ£©
-		 * @param adapter ÊÊÅäÆ÷£¬ÓÃÓÚÍ³¼Æµ±Ç°ÌõÊı¼ÆËã·ÖÒ³£¨´«¿Õnull¿ÉÒÔ´¥·¢Ë¢ĞÂÈÎÎñ£©
+		 * å¯ä»¥è§¦å‘åŠ è½½æ›´å¤šï¼ˆåˆ†é¡µï¼‰ä»»åŠ¡ ï¼ˆä¼ ç©ºnullå¯ä»¥è§¦å‘åˆ·æ–°ä»»åŠ¡ï¼‰
+		 * @param adapter é€‚é…å™¨ï¼Œç”¨äºç»Ÿè®¡å½“å‰æ¡æ•°è®¡ç®—åˆ†é¡µï¼ˆä¼ ç©ºnullå¯ä»¥è§¦å‘åˆ·æ–°ä»»åŠ¡ï¼‰
 		 */
 		public AbListViewTask(AfListAdapter<T> adapter) {
 			super(adapter);
@@ -295,27 +295,27 @@ public abstract class AfListViewActivity<T> extends AfActivity implements OnRefr
 			return super.onLoad();
 		}
 
-		//ÊÂ¼ş×ª·¢ ²Î¿¼ AfListViewFrament.onListByPage
+		//äº‹ä»¶è½¬å‘ å‚è€ƒ AfListViewFrament.onListByPage
 		@Override
 		protected List<T> onListByPage(Page page, int task) throws Exception {
 			// TODO Auto-generated method stub
 			return AfListViewActivity.this.onTaskListByPage(page,task);
 		}
 
-		//ÊÂ¼ş×ª·¢ ²Î¿¼ AfListViewFrament.onLoaded
+		//äº‹ä»¶è½¬å‘ å‚è€ƒ AfListViewFrament.onLoaded
 		@Override
 		protected boolean onLoaded(boolean isfinish, List<T> ltdata,Date cachetime) {
 			// TODO Auto-generated method stub
 			return AfListViewActivity.this.onLoaded(this,isfinish, ltdata,cachetime);
 		}
 
-		//ÊÂ¼ş×ª·¢ ²Î¿¼ AfListViewFrament.onRefreshed
+		//äº‹ä»¶è½¬å‘ å‚è€ƒ AfListViewFrament.onRefreshed
 		@Override
 		protected boolean onRefreshed(boolean isfinish, List<T> ltdata) {
 			// TODO Auto-generated method stub
 			return AfListViewActivity.this.onRefreshed(this,isfinish, ltdata);
 		}
-		//ÊÂ¼ş×ª·¢ ²Î¿¼ AfListViewFrament.onMored
+		//äº‹ä»¶è½¬å‘ å‚è€ƒ AfListViewFrament.onMored
 		@Override
 		protected boolean onMored(boolean isfinish, List<T> ltdata,
 				boolean ended) {
@@ -327,13 +327,13 @@ public abstract class AfListViewActivity<T> extends AfActivity implements OnRefr
 	
 
 	/**
-	 * @Description: »º´æ¼ÓÔØ½áÊø´¦ÀíÊ±¼ä£¨¿ò¼ÜÄ¬ÈÏµ÷ÓÃonRefreshedÊÂ¼ş´¦Àí£©
+	 * @Description: ç¼“å­˜åŠ è½½ç»“æŸå¤„ç†æ—¶é—´ï¼ˆæ¡†æ¶é»˜è®¤è°ƒç”¨onRefreshedäº‹ä»¶å¤„ç†ï¼‰
 	 * @Author: scwang
-	 * @Version: V1.0, 2015-1-22 ÏÂÎç9:19:02
+	 * @Version: V1.0, 2015-1-22 ä¸‹åˆ9:19:02
 	 * @param task 
 	 * @param isfinish
 	 * @param ltdata
-	 * @param cachetime »º´æÊ±¼ä
+	 * @param cachetime ç¼“å­˜æ—¶é—´
 	 * @return
 	 */
 	protected boolean onLoaded(AbListViewTask task, boolean isfinish,
@@ -341,25 +341,25 @@ public abstract class AfListViewActivity<T> extends AfActivity implements OnRefr
 		// TODO Auto-generated method stub
 		boolean deal = onRefreshed(task,isfinish,ltdata);
 		if (isfinish && !AfCollections.isEmpty(ltdata)) {
-			//ÉèÖÃÉÏ´ÎË¢ĞÂ»º´æÊ±¼ä
+			//è®¾ç½®ä¸Šæ¬¡åˆ·æ–°ç¼“å­˜æ—¶é—´
 			mListView.setLastUpdateTime(cachetime);
 		}
 		return deal;
 	}
 	/**
 	 * @param task 
-	 * @Description: ÈÎÎñË¢ĞÂ½áÊø´¦ÀíÊÂ¼ş
+	 * @Description: ä»»åŠ¡åˆ·æ–°ç»“æŸå¤„ç†äº‹ä»¶
 	 * @Author: scwang
-	 * @Version: V1.0, 2015-1-20 ÉÏÎç11:29:09
-	 * @param isfinish ÊÇ·ñ³É¹¦Ö´ĞĞ
+	 * @Version: V1.0, 2015-1-20 ä¸Šåˆ11:29:09
+	 * @param isfinish æ˜¯å¦æˆåŠŸæ‰§è¡Œ
 	 * @param ltdata
-	 * @return ·µ»Øtrue ÒÑ¾­×öºÃ´íÎóÒ³ÃæÏÔÊ¾ ·µ»Øfalse ¿ò¼Ü»á×öºÃÄ¬ÈÏ´íÎó·´À¡
+	 * @return è¿”å›true å·²ç»åšå¥½é”™è¯¯é¡µé¢æ˜¾ç¤º è¿”å›false æ¡†æ¶ä¼šåšå¥½é»˜è®¤é”™è¯¯åé¦ˆ
 	 */
 	@SuppressWarnings("static-access")
 	protected boolean onRefreshed(AbListViewTask task, boolean isfinish, List<T> ltdata) {
 		// TODO Auto-generated method stub
 		if (isfinish) {
-			//Í¨ÖªÁĞ±íË¢ĞÂÍê³É
+			//é€šçŸ¥åˆ—è¡¨åˆ·æ–°å®Œæˆ
 			mListView.finishRefresh();
 			if (!AfCollections.isEmpty(ltdata)) {
 				mAdapter = newAdapter(getActivity(), ltdata);
@@ -373,12 +373,12 @@ public abstract class AfListViewActivity<T> extends AfActivity implements OnRefr
 				setNodata();
 			}
 		} else {
-			//Í¨ÖªÁĞ±íË¢ĞÂÊ§°Ü
+			//é€šçŸ¥åˆ—è¡¨åˆ·æ–°å¤±è´¥
 			mListView.finishRefreshFail();
 			if (mAdapter != null && mAdapter.getCount() > 0) {
 				mListView.setAdapter(mAdapter);
 				mSelector.SelectFrame(mListView);
-				makeToastLong(task.makeErrorToast("¼ÓÔØÊ§°Ü"));
+				makeToastLong(task.makeErrorToast("åŠ è½½å¤±è´¥"));
 			} else {
 				setLoadError(task.mException);
 			}
@@ -386,71 +386,71 @@ public abstract class AfListViewActivity<T> extends AfActivity implements OnRefr
 		return true;
 	}
 	/**
-	 * @Description: ÈÎÎñ¼ÓÔØ¸ü¶à½áÊø´¦ÀíÊÂ¼ş
+	 * @Description: ä»»åŠ¡åŠ è½½æ›´å¤šç»“æŸå¤„ç†äº‹ä»¶
 	 * @Author: scwang
-	 * @Version: V1.0, 2015-1-20 ÉÏÎç11:34:04
+	 * @Version: V1.0, 2015-1-20 ä¸Šåˆ11:34:04
 	 * @param loadListTask
 	 * @param isfinish
 	 * @param ltdata
-	 * @return ·µ»Øtrue ÒÑ¾­×öºÃ´íÎóÒ³ÃæÏÔÊ¾ ·µ»Øfalse ¿ò¼Ü»á×öºÃÄ¬ÈÏ´íÎó·´À¡
+	 * @return è¿”å›true å·²ç»åšå¥½é”™è¯¯é¡µé¢æ˜¾ç¤º è¿”å›false æ¡†æ¶ä¼šåšå¥½é»˜è®¤é”™è¯¯åé¦ˆ
 	 */
 	@SuppressWarnings("static-access")
 	protected boolean onMored(AbListViewTask task, boolean isfinish,
 			List<T> ltdata) {
 		// TODO Auto-generated method stub
-		// Í¨ÖªÁĞ±íË¢ĞÂÍê³É
+		// é€šçŸ¥åˆ—è¡¨åˆ·æ–°å®Œæˆ
 		mListView.finishLoadMore();
 		if (isfinish) {
 			if (!AfCollections.isEmpty(ltdata)) {
 				final int count = mAdapter.getCount();
-				// ¸üĞÂÁĞ±í
+				// æ›´æ–°åˆ—è¡¨
 				mAdapter.addData(ltdata);
 				mListView.smoothScrollToPosition(count+1);
 			}
 			if (ltdata.size() < task.PAGE_SIZE) {
-				// ¹Ø±Õ¸ü¶àÑ¡Ïî
-				makeToastShort("Êı¾İÈ«²¿¼ÓÔØÍê±Ï£¡");
+				// å…³é—­æ›´å¤šé€‰é¡¹
+				makeToastShort("æ•°æ®å…¨éƒ¨åŠ è½½å®Œæ¯•ï¼");
 				mListView.removeMoreView();
 			}
 		} else {
-			makeToastLong(task.makeErrorToast("»ñÈ¡¸ü¶àÊ§°Ü£¡"));
+			makeToastLong(task.makeErrorToast("è·å–æ›´å¤šå¤±è´¥ï¼"));
 		}
 		return true;
 	}
 	/**
-	 * »ñÈ¡ÁĞ±íÏî²¼¾ÖItem
-	 * Èç¹ûÖØĞ´ newAdapter Ö®ºó£¬±¾·½·¨½«ÎŞĞ§
-	 * @param data ¶ÔÓ¦µÄÊı¾İ
-	 * @return ÊµÏÖ ²¼¾Ö½Ó¿Ú IAfLayoutItem µÄItem¶ÒÏÖ
+	 * è·å–åˆ—è¡¨é¡¹å¸ƒå±€Item
+	 * å¦‚æœé‡å†™ newAdapter ä¹‹åï¼Œæœ¬æ–¹æ³•å°†æ— æ•ˆ
+	 * @param data å¯¹åº”çš„æ•°æ®
+	 * @return å®ç° å¸ƒå±€æ¥å£ IAfLayoutItem çš„Itemå…‘ç°
 	 * 	new LayoutItem implements IAfLayoutItem<T>(){}
 	 */
 	protected abstract IAfLayoutItem<T> getItemLayout(T data);
 
 	/**
-	 * @Description: ¼ÓÔØ»º´æÁĞ±í£¨²»·ÖÒ³£¬ÔÚÒì²½Ïß³ÌÖĞÖ´ĞĞ£¬²»¿ÉÒÔ¸ü¸ÄÒ³Ãæ²Ù×÷£©
+	 * @Description: åŠ è½½ç¼“å­˜åˆ—è¡¨ï¼ˆä¸åˆ†é¡µï¼Œåœ¨å¼‚æ­¥çº¿ç¨‹ä¸­æ‰§è¡Œï¼Œä¸å¯ä»¥æ›´æ”¹é¡µé¢æ“ä½œï¼‰
 	 * @Author: scwang
-	 * @Version: V1.0, 2015-1-22 ÏÂÎç9:27:48
-	 * @Modified: ³õ´Î´´½¨onLoad·½·¨
-	 * @return ·µ»Ø null ¿ÉÒÔÊ¹ÓÃ¿ò¼ÜÄÚÖÃ»º´æ
+	 * @Version: V1.0, 2015-1-22 ä¸‹åˆ9:27:48
+	 * @Modified: åˆæ¬¡åˆ›å»ºonLoadæ–¹æ³•
+	 * @return è¿”å› null å¯ä»¥ä½¿ç”¨æ¡†æ¶å†…ç½®ç¼“å­˜
 	 */
 	protected List<T> onTaskLoad() {
 		// TODO Auto-generated method stub
 		return null;
 	}
 	/**
-	 * Êı¾İ·ÖÒ³¼ÓÔØ£¨ÔÚÒì²½Ïß³ÌÖĞÖ´ĞĞ£¬²»¿ÉÒÔ¸ü¸ÄÒ³Ãæ²Ù×÷£©
-	 * @param page ·ÖÒ³¶ÔÏó
-	 * @param task ÈÎÎñid
-	 * @return ¼ÓÔØµ½µÄÊı¾İÁĞ±í
+	 * æ•°æ®åˆ†é¡µåŠ è½½ï¼ˆåœ¨å¼‚æ­¥çº¿ç¨‹ä¸­æ‰§è¡Œï¼Œä¸å¯ä»¥æ›´æ”¹é¡µé¢æ“ä½œï¼‰
+	 * @param page åˆ†é¡µå¯¹è±¡
+	 * @param task ä»»åŠ¡id
+	 * @return åŠ è½½åˆ°çš„æ•°æ®åˆ—è¡¨
 	 * @throws Exception
 	 */
 	protected abstract List<T> onTaskListByPage(Page page, int task) throws Exception;
 
 	/**
-	 * @Description: ¸ù¾İÊı¾İltdataĞÂ½¨Ò»¸ö ÊÊÅäÆ÷ ÖØĞ´Õâ¸ö·½·¨Ö®ºógetItemLayout·½·¨½«Ê§Ğ§
+	 * @Description: æ ¹æ®æ•°æ®ltdataæ–°å»ºä¸€ä¸ª é€‚é…å™¨ é‡å†™è¿™ä¸ªæ–¹æ³•ä¹‹ågetItemLayoutæ–¹æ³•å°†å¤±æ•ˆ
 	 * @Author: scwang
-	 * @Version: V1.0, 2015-1-20 ÏÂÎç4:46:34
-	 * @Modified: ³õ´Î´´½¨newAdapter·½·¨
+	 * @Version: V1.0, 2015-1-20 ä¸‹åˆ4:46:34
+	 * @Modified: åˆæ¬¡åˆ›å»ºnewAdapteræ–¹æ³•
 	 * @param context
 	 * @param ltdata
 	 * @return
@@ -461,9 +461,9 @@ public abstract class AfListViewActivity<T> extends AfActivity implements OnRefr
 	}
 
 	/**
-	 * @Description: ListViewÊı¾İÊÊÅäÆ÷£¨ÊÂ¼şÒÑ¾­×ª·¢getItemLayout£¬ÎŞÊµ¼Ê´¦Àí´úÂë£©
+	 * @Description: ListViewæ•°æ®é€‚é…å™¨ï¼ˆäº‹ä»¶å·²ç»è½¬å‘getItemLayoutï¼Œæ— å®é™…å¤„ç†ä»£ç ï¼‰
 	 * @Author: scwang
-	 * @Version: V1.0, 2015-2-27 ÉÏÎç10:21:27
+	 * @Version: V1.0, 2015-2-27 ä¸Šåˆ10:21:27
 	 */
 	protected class AbListViewAdapter extends AfListAdapter<T>{
 
@@ -472,7 +472,7 @@ public abstract class AfListViewActivity<T> extends AfActivity implements OnRefr
 			// TODO Auto-generated constructor stub
 		}
 		/**
-		 * @Description: ×ª·¢ÊÂ¼şµ½ AfListViewActivity.this.getItemLayout(data);
+		 * @Description: è½¬å‘äº‹ä»¶åˆ° AfListViewActivity.this.getItemLayout(data);
 		 * @Author: scwang
 		 * @param data
 		 * @return 

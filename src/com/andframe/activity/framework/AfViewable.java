@@ -4,9 +4,9 @@ import android.content.Context;
 import android.content.res.Resources;
 import android.view.View;
 /**
- * AfViewable ¿ò¼ÜÊÓÍ¼½Ó¿Ú
+ * AfViewable æ¡†æ¶è§†å›¾æ¥å£
  * @author SCWANG
- *	Ö÷ÒªÓÃÓÚ ÓÅ»¯ ´«Í³µÄ findViewById ·½·¨
+ *	ä¸»è¦ç”¨äº ä¼˜åŒ– ä¼ ç»Ÿçš„ findViewById æ–¹æ³•
  */
 public interface AfViewable {
 

@@ -8,31 +8,31 @@ public class AfAppSettings {
 
 	protected static final String  EM_SHARENAME = "AppSettings";
 
-	//ÌáÊ¾ÉùÒô
+	//æç¤ºå£°éŸ³
 	public static final String KEY_BL_ISNOTIFYSOUND = "KEY_BL_NOTIFYSOUND";	
-	//2G/3GÍøÂçÎŞÍ¼Ä£Ê½
+	//2G/3Gç½‘ç»œæ— å›¾æ¨¡å¼
 	public static final String KEY_BL_ISNOIMAGEMODE = "KEY_BL_NOIMAGEMODE";		
-	//ÊÇ·ñ¿ªÆô×Ô¶¯¸üĞÂ
+	//æ˜¯å¦å¼€å¯è‡ªåŠ¨æ›´æ–°
 	public static final String KEY_BL_ISAUTOUPDATE = "KEY_BL_ISAUTOUPDATE";	
-	//ÊÇ·ñ¿ªÆô×Ô¶¯µÇÂ¼
+	//æ˜¯å¦å¼€å¯è‡ªåŠ¨ç™»å½•
 	public static final String KEY_BL_ISAUTOLOGIN = "KEY_BL_ISAUTOLOGIN";	
-	//µÇÂ¼ÕË»§
+	//ç™»å½•è´¦æˆ·
 	public static final String KEY_ST_LOGINACCOUNT = "KEY_ST_LOGINACCOUNT";	
-	//µÇÂ¼ÃÜÂë
+	//ç™»å½•å¯†ç 
 	public static final String KEY_ST_LOGINPASSWORD = "KEY_ST_LOGINPASSWORD";	
-	//Ê¹ÓÃGPS¶¨Î»
+	//ä½¿ç”¨GPSå®šä½
 	public static final String KEY_BL_ISUSEPGSFIXED = "KEY_BL_USEPGSFIXED";
-	//¶¨Î»Ê±¼ä¼ä¸ô
+	//å®šä½æ—¶é—´é—´éš”
 	public static final String KEY_LG_FIXEDDURATION = "KEY_IT_FIXEDDURATION";	
-	//Êı¾İ·şÎñÆ÷ÓòÃû»òIP
+	//æ•°æ®æœåŠ¡å™¨åŸŸåæˆ–IP
 	public static final String KEY_ST_DATASERVERIP = "KEY_ST_DATESERVERIP";	
-	//Êı¾İ·şÎñÆ÷¶Ë¿Ú
+	//æ•°æ®æœåŠ¡å™¨ç«¯å£
 	public static final String KEY_IT_DATASERVERPORT = "KEY_IT_DATESERVERPORT";	
-	//ÎÄ¼ş·şÎñÆ÷ÓòÃû»òIP
+	//æ–‡ä»¶æœåŠ¡å™¨åŸŸåæˆ–IP
 	public static final String KEY_ST_FILESERVERIP = "KEY_ST_FILESERVERIP";	
-	//ÎÄ¼ş·şÎñÆ÷¶Ë¿Ú
+	//æ–‡ä»¶æœåŠ¡å™¨ç«¯å£
 	public static final String KEY_IT_FILESERVERPORT = "KEY_IT_FILESERVERPORT";	
-	//ÎÄ¼ş·şÎñÆ÷¶Ë¿Ú
+	//æ–‡ä»¶æœåŠ¡å™¨ç«¯å£
 	public static final String KEY_IT_APPDEBUGMODE = "KEY_IT_APPDEBUGMODE";	
 
 	protected AfJsonCache mShared = null;

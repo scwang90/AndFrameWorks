@@ -23,19 +23,19 @@ public class PullRefreshHeaderImpl extends AfPullHeaderLayout{
 		// TODO Auto-generated method stub
 		if(string == EnumString.header_loading)
 		{
-			return "正在加载";
+			return "姝ｅ湪鍔犺浇";
 		}
 		else if(string == EnumString.header_release)
 		{
-			return "释放刷新";
+			return "閲婃斁鍒锋柊";
 		}
 		else if(string == EnumString.header_updatetime)
 		{
-			return "上次更新";
+			return "涓婃鏇存柊";
 		}
 		else if(string == EnumString.header_pulldown)
 		{
-			return "下拉刷新";
+			return "涓嬫媺鍒锋柊";
 		}
 		return "";
 	}

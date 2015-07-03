@@ -16,9 +16,9 @@ public abstract class AfServiceNotify<T> {
 	
 	public static interface INotify<T>{
 		/**
-		 * Í¨ÖªÊÂ¼ş
-		 * @param list Í¨ÖªÊı¾İÁĞ±í
-		 * @return ·µ»ØÊÇ·ñÊÜÀí£¨ÒÑÊÜÀíµÄ»°Ôò²»½øĞĞÏµÍ³Í¨Öª£©
+		 * é€šçŸ¥äº‹ä»¶
+		 * @param list é€šçŸ¥æ•°æ®åˆ—è¡¨
+		 * @return è¿”å›æ˜¯å¦å—ç†ï¼ˆå·²å—ç†çš„è¯åˆ™ä¸è¿›è¡Œç³»ç»Ÿé€šçŸ¥ï¼‰
 		 */
 		boolean onNotify(Collection<T> list);
 	}
@@ -57,9 +57,9 @@ public abstract class AfServiceNotify<T> {
 		return clazz.cast(instance);
 	}
 	/**
-	 * Æô¶¯·şÎñ
+	 * å¯åŠ¨æœåŠ¡
 	 * @param id
-	 *            µ±Ç°µÄ ¹ØÁªID Èç µÇÂ¼ÓÃ»§ ID
+	 *            å½“å‰çš„ å…³è”ID å¦‚ ç™»å½•ç”¨æˆ· ID
 	 */
 	public void start(UUID id){
 		if(!id.equals(mServiceID)){
@@ -121,7 +121,7 @@ public abstract class AfServiceNotify<T> {
 	}
 	
 	/**
-	 * Ïò¼àÌı½Ó¿ÚÍ¨Öª Êı¾İ¸Ä±ä
+	 * å‘ç›‘å¬æ¥å£é€šçŸ¥ æ•°æ®æ”¹å˜
 	 * @param list
 	 */
 	public void notify(List<T> list,boolean notify){
@@ -202,7 +202,7 @@ public abstract class AfServiceNotify<T> {
 //
 //	protected Notification getNotification(T item) {
 //		// TODO Auto-generated method stub
-//		return AfNotifyCenter.getNotification("ÄúÓĞĞÂµÄÏûÏ¢", null);
+//		return AfNotifyCenter.getNotification("æ‚¨æœ‰æ–°çš„æ¶ˆæ¯", null);
 //	}
 
 	public void onReceiveFromService(List<T> list) {
@@ -214,12 +214,12 @@ public abstract class AfServiceNotify<T> {
 
 	protected Notification getNotification(List<T> list) {
 		// TODO Auto-generated method stub
-		return AfNotifyCenter.getNotification("ÄúÓĞĞÂµÄÏûÏ¢", null);
+		return AfNotifyCenter.getNotification("æ‚¨æœ‰æ–°çš„æ¶ˆæ¯", null);
 	}
 
 	protected Notification getNotification(T t) {
 		// TODO Auto-generated method stub
-		return AfNotifyCenter.getNotification("ÄúÓĞĞÂµÄÏûÏ¢", null);
+		return AfNotifyCenter.getNotification("æ‚¨æœ‰æ–°çš„æ¶ˆæ¯", null);
 	}
 
 

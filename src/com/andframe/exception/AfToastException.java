@@ -2,9 +2,9 @@ package com.andframe.exception;
 
 /**
  * ToastException 
- * 1.ÓÃÓÚÔÚÔ¤¼ÆÖ®ÄÚ»áµ¼ÖÂµÄÒì³£¶øÏñÓÃ»§ÌáÐÑÄÚÈÝ
- * 2.Ö±½ÓÌáÐÑÓÃ»§¿ÉÀí½âµÄMessage²»¼ÐÔÓÆäËû¼¼Êõ´íÎóÄÚÈÝ
- * 3.²»»á¼ÆÈëÒì³£Í¨Öª£¬ToastException ´ú±íµÄÊÇÒÑÖªÒì³££¬»òÕß¿É½ÓÊÜÒì³£
+ * 1.ç”¨äºŽåœ¨é¢„è®¡ä¹‹å†…ä¼šå¯¼è‡´çš„å¼‚å¸¸è€Œåƒç”¨æˆ·æé†’å†…å®¹
+ * 2.ç›´æŽ¥æé†’ç”¨æˆ·å¯ç†è§£çš„Messageä¸å¤¹æ‚å…¶ä»–æŠ€æœ¯é”™è¯¯å†…å®¹
+ * 3.ä¸ä¼šè®¡å…¥å¼‚å¸¸é€šçŸ¥ï¼ŒToastException ä»£è¡¨çš„æ˜¯å·²çŸ¥å¼‚å¸¸ï¼Œæˆ–è€…å¯æŽ¥å—å¼‚å¸¸
  * @author SCWANG
  */
 public class AfToastException extends AfException{

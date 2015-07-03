@@ -12,10 +12,10 @@ import android.view.View.OnTouchListener;
 import android.widget.RelativeLayout;
 /**
  * @Description: 
- * ³éÌë²¼¾Ö
+ * æŠ½å±‰å¸ƒå±€
  * @Author: scwang
- * @Version: V1.0, 2015-1-27 ÏÂÎç2:22:48
- * @Modified: ³õ´Î´´½¨AfDragLayoutÀà
+ * @Version: V1.0, 2015-1-27 ä¸‹åˆ2:22:48
+ * @Modified: åˆæ¬¡åˆ›å»ºAfDragLayoutç±»
  */
 public class AfDragLayout  extends RelativeLayout implements OnTouchListener,OnClickListener,Runnable{
 
@@ -71,7 +71,7 @@ public class AfDragLayout  extends RelativeLayout implements OnTouchListener,OnC
 		// TODO Auto-generated method stub
         switch (event.getAction()) {
         case MotionEvent.ACTION_DOWN:
-        	mLastValue = (int) event.getRawY();// »ñÈ¡´¥ÃşÊÂ¼ş´¥ÃşÎ»ÖÃµÄÔ­Ê¼Y×ø±ê
+        	mLastValue = (int) event.getRawY();// è·å–è§¦æ‘¸äº‹ä»¶è§¦æ‘¸ä½ç½®çš„åŸå§‹Yåæ ‡
         	mLastDevalue = mCurDragValue;
         	mContentHeight = mContent.getHeight();
         	mSummaryHeight = mSummary.getHeight();

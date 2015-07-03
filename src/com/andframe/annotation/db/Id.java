@@ -22,13 +22,13 @@ import java.lang.annotation.Target;
 
 /**
  * The Interface Id.
- * Ö÷¼ü
+ * ä¸»é”®
  */
 @Target( { ElementType.FIELD })
 @Retention(RetentionPolicy.RUNTIME)
 public @interface Id {
 	/**
-	 * ÁĞÃû.
+	 * åˆ—å.
 	 */
 	public String value() default "";
 }

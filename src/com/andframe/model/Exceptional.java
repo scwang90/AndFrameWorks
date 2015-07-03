@@ -7,10 +7,10 @@ import com.andframe.util.UUIDUtil;
 
 public class Exceptional extends AfModel{
 	
-	//ĞÂµÄ´íÎó
-	//ÒÑ¾­²éÊÕ£¨ÕıÔÚ´¦Àí£©
-	//´¦ÀíÍê±Ï²¢Ìá½»
-	//È·ÈÏÎÊÌâÒÑ¾­½â¾ö
+	//æ–°çš„é”™è¯¯
+	//å·²ç»æŸ¥æ”¶ï¼ˆæ­£åœ¨å¤„ç†ï¼‰
+	//å¤„ç†å®Œæ¯•å¹¶æäº¤
+	//ç¡®è®¤é—®é¢˜å·²ç»è§£å†³
 	public static final int STATUS_NEW = 0;		
 	public static final int STATUS_RECEIVE = 1;
 	public static final int STATUS_SUBMIT = 2;

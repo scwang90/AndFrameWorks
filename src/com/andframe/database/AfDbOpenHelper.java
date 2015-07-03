@@ -20,11 +20,11 @@ import com.andframe.util.java.AfReflecter;
 
 public class AfDbOpenHelper extends SQLiteOpenHelper {
 
-	// ÏµÍ³SQLite°æ±¾
+	// ç³»ç»ŸSQLiteç‰ˆæœ¬
 	public static final int VERSION = 3;
-	// ×Ô¶¨ÒåÊı¾İ¿â¹ØÏµ°æ±¾
+	// è‡ªå®šä¹‰æ•°æ®åº“å…³ç³»ç‰ˆæœ¬
 	public static int DATABASE_VERSION = 0;
-	// Êı¾İ¿âÎÄ¼şÃû
+	// æ•°æ®åº“æ–‡ä»¶å
 	public static String DBNAME = "data.db";
 
 	private static AfDbOpenHelper mHelper = null;
@@ -146,7 +146,7 @@ public class AfDbOpenHelper extends SQLiteOpenHelper {
 	}
 	
 	/**
-     * ÔÚSD¿¨µÄÖ¸¶¨Ä¿Â¼ÉÏ´´½¨ÎÄ¼ş ·ñÔòÔÚÊÖ»ú´´½¨
+     * åœ¨SDå¡çš„æŒ‡å®šç›®å½•ä¸Šåˆ›å»ºæ–‡ä»¶ å¦åˆ™åœ¨æ‰‹æœºåˆ›å»º
      * @param path
      * @param dbname
      * @return

@@ -31,18 +31,18 @@ public class Area {
 	}
 	
 	/**
-	 * Ö±Ï½ÊĞ
-	 * 0 : ±±¾©ÊĞ
-	 * 1 : Ìì½òÊĞ
-	 * 2 : ÉÏº£ÊĞ
-	 * 3 : ÖØÇìÊĞ
+	 * ç›´è¾–å¸‚
+	 * 0 : åŒ—äº¬å¸‚
+	 * 1 : å¤©æ´¥å¸‚
+	 * 2 : ä¸Šæµ·å¸‚
+	 * 3 : é‡åº†å¸‚
 	 */
 	public static final List<Area> Municipalities = new ArrayList<Area>();
 
 	static {
-		Municipalities.add(new Area(1, "±±¾©ÊĞ", 1, 0));
-		Municipalities.add(new Area(2, "Ìì½òÊĞ", 1, 0));
-		Municipalities.add(new Area(9, "ÉÏº£ÊĞ", 1, 0));
-		Municipalities.add(new Area(22, "ÖØÇìÊĞ", 1, 0));
+		Municipalities.add(new Area(1, "åŒ—äº¬å¸‚", 1, 0));
+		Municipalities.add(new Area(2, "å¤©æ´¥å¸‚", 1, 0));
+		Municipalities.add(new Area(9, "ä¸Šæµ·å¸‚", 1, 0));
+		Municipalities.add(new Area(22, "é‡åº†å¸‚", 1, 0));
 	}
 }

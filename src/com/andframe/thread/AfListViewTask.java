@@ -14,16 +14,16 @@ import com.andframe.bean.Page;
 
 public abstract class AfListViewTask<T> extends AfListTask<T>
 {
-    //Ã¶¾ÙÈÎÎñÀàĞÍ
-    public static final int TASK_NULL = 1000;    //ÏÂÀ­Ë¢ĞÂ
+    //æšä¸¾ä»»åŠ¡ç±»å‹
+    public static final int TASK_NULL = 1000;    //ä¸‹æ‹‰åˆ·æ–°
 	/**
-	 * µ÷ÓÃÕâ¸ö¹¹Ôìº¯Êı¿ÉÒÔ´¥·¢ TASK_LOAD ÈÎÎñ
-	 * ¼ÓÔØÉÏ´Î»º´æÊı¾İ£¬Èç¹û¹ıÆÚ½«´¥·¢ TASK_REFRESH ¼ÓÔØĞÂÊı¾İ
-	 * »º´æÊ¹ÓÃµÄ KEY_CACHELIST = this.getClass().getName()
-	 * 		KEY_CACHELIST Îª»º´æµÄ±êÊ¶
-	 * »º´æµÄ¹ıÆÚ ¼ä¸ôÎª AfListTask.CACHETIMEOUTSECOND
-	 * 		Õâ¸öÊ±¼ä¼ä¸ô¿ÉÒÔÔÚApp³õÊ¼»¯Ê±ºò¸ü¸Ä
-	 * @param clazz Êı¾İModelµÄÀà¶ÔÏó£¨jsonÒªÓÃµ½£©
+	 * è°ƒç”¨è¿™ä¸ªæ„é€ å‡½æ•°å¯ä»¥è§¦å‘ TASK_LOAD ä»»åŠ¡
+	 * åŠ è½½ä¸Šæ¬¡ç¼“å­˜æ•°æ®ï¼Œå¦‚æœè¿‡æœŸå°†è§¦å‘ TASK_REFRESH åŠ è½½æ–°æ•°æ®
+	 * ç¼“å­˜ä½¿ç”¨çš„ KEY_CACHELIST = this.getClass().getName()
+	 * 		KEY_CACHELIST ä¸ºç¼“å­˜çš„æ ‡è¯†
+	 * ç¼“å­˜çš„è¿‡æœŸ é—´éš”ä¸º AfListTask.CACHETIMEOUTSECOND
+	 * 		è¿™ä¸ªæ—¶é—´é—´éš”å¯ä»¥åœ¨Appåˆå§‹åŒ–æ—¶å€™æ›´æ”¹
+	 * @param clazz æ•°æ®Modelçš„ç±»å¯¹è±¡ï¼ˆjsonè¦ç”¨åˆ°ï¼‰
 	 */
 	public AfListViewTask(Class<T> clazz) {
 		super(clazz);
@@ -31,13 +31,13 @@ public abstract class AfListViewTask<T> extends AfListTask<T>
 	}
 
 	/**
-	 * µ÷ÓÃÕâ¸ö¹¹Ôìº¯Êı¿ÉÒÔ´¥·¢ TASK_LOAD ÈÎÎñ
-	 * ¼ÓÔØÉÏ´Î»º´æÊı¾İ£¬Èç¹û¹ıÆÚ½«´¥·¢ TASK_REFRESH ¼ÓÔØĞÂÊı¾İ
-	 * »º´æÊ¹ÓÃµÄ KEY_CACHELIST ¿ÉÒÔ×Ô¶¨Òå
-	 * »º´æµÄ¹ıÆÚ ¼ä¸ôÎª AfListTask.CACHETIMEOUTSECOND
-	 * 		Õâ¸öÊ±¼ä¼ä¸ô¿ÉÒÔÔÚApp³õÊ¼»¯Ê±ºò¸ü¸Ä
-	 * @param clazz Êı¾İModelµÄÀà¶ÔÏó£¨jsonÒªÓÃµ½£©
-	 * @param KEY_CACHELIST »º´æµÄKEY±êÊ¶
+	 * è°ƒç”¨è¿™ä¸ªæ„é€ å‡½æ•°å¯ä»¥è§¦å‘ TASK_LOAD ä»»åŠ¡
+	 * åŠ è½½ä¸Šæ¬¡ç¼“å­˜æ•°æ®ï¼Œå¦‚æœè¿‡æœŸå°†è§¦å‘ TASK_REFRESH åŠ è½½æ–°æ•°æ®
+	 * ç¼“å­˜ä½¿ç”¨çš„ KEY_CACHELIST å¯ä»¥è‡ªå®šä¹‰
+	 * ç¼“å­˜çš„è¿‡æœŸ é—´éš”ä¸º AfListTask.CACHETIMEOUTSECOND
+	 * 		è¿™ä¸ªæ—¶é—´é—´éš”å¯ä»¥åœ¨Appåˆå§‹åŒ–æ—¶å€™æ›´æ”¹
+	 * @param clazz æ•°æ®Modelçš„ç±»å¯¹è±¡ï¼ˆjsonè¦ç”¨åˆ°ï¼‰
+	 * @param KEY_CACHELIST ç¼“å­˜çš„KEYæ ‡è¯†
 	 */
 	public AfListViewTask(Class<T> clazz, String KEY_CACHELIST) {
 		super(clazz, KEY_CACHELIST);
@@ -71,10 +71,10 @@ public abstract class AfListViewTask<T> extends AfListTask<T>
 		// TODO Auto-generated constructor stub
 	}
 	/**
-	 * Êı¾İ·ÖÒ³¼ÓÔØ£¨ÔÚÒì²½Ïß³ÌÖĞÖ´ĞĞ£¬²»¿ÉÒÔ¸ü¸ÄÒ³Ãæ²Ù×÷£©
-	 * @param page ·ÖÒ³¶ÔÏó
-	 * @param task ÈÎÎñid
-	 * @return ¼ÓÔØµ½µÄÊı¾İÁĞ±í
+	 * æ•°æ®åˆ†é¡µåŠ è½½ï¼ˆåœ¨å¼‚æ­¥çº¿ç¨‹ä¸­æ‰§è¡Œï¼Œä¸å¯ä»¥æ›´æ”¹é¡µé¢æ“ä½œï¼‰
+	 * @param page åˆ†é¡µå¯¹è±¡
+	 * @param task ä»»åŠ¡id
+	 * @return åŠ è½½åˆ°çš„æ•°æ®åˆ—è¡¨
 	 * @throws Exception
 	 */
 	protected abstract List<T> onListByPage(Page page, int task) throws Exception ;
@@ -109,9 +109,9 @@ public abstract class AfListViewTask<T> extends AfListTask<T>
 		return false;
 	}
 	/**
-	 * ÈÎÎñÖ´ĞĞ³ö´í Ö®ºóÍ³Ò»£¨¸÷ÖÖÈÎÎñ£©´¦Àí´íÎóÌáÊ¾
-	 * 	Èç¹ûÔÚ onRefreshed¡¢onMored¡¢onWorked¡¢onLoaded ·µ»Øtrue ±íÊ¾ÒÑ¾­´íÎó´¦ÀíÌáÊ¾
-	 * ¿ó¾®°¦½«²»ÔÚµ÷ÓÃ onDealError 
+	 * ä»»åŠ¡æ‰§è¡Œå‡ºé”™ ä¹‹åç»Ÿä¸€ï¼ˆå„ç§ä»»åŠ¡ï¼‰å¤„ç†é”™è¯¯æç¤º
+	 * 	å¦‚æœåœ¨ onRefreshedã€onMoredã€onWorkedã€onLoaded è¿”å›true è¡¨ç¤ºå·²ç»é”™è¯¯å¤„ç†æç¤º
+	 * çŸ¿äº•å”‰å°†ä¸åœ¨è°ƒç”¨ onDealError 
 	 * @param task
 	 * @param rrrors
 	 * @param exception
@@ -121,35 +121,35 @@ public abstract class AfListViewTask<T> extends AfListTask<T>
 		AfActivity activity = AfApplication.getApp().getCurActivity();
 		if (activity != null && !activity.isRecycled()) {
 			if (exception instanceof IOException) {
-				activity.makeToastLong("ÍøÂç³öÏÖÒì³£");
+				activity.makeToastLong("ç½‘ç»œå‡ºç°å¼‚å¸¸");
 			}else {
 				activity.makeToastLong(rrrors);
 			}
 		}
 	}
 	/**
-	 * Ë¢ĞÂÈÎÎñÖ´ĞĞ½áÊø ºóÒ³Ãæ´¦Àí¹¤×÷
-	 * @param isfinish true ³É¹¦Ö´ĞĞÊı¾İË¢ĞÂ false Ê§°Ü
-	 * @param ltdata Ë¢ĞÂµÄÊı¾İ
-	 * @return ·µ»Ø true ±íÊ¾ isfinish=false Ê±ºò ÒÑ¾­×öÁËÊ§°ÜÌáÊ¾´¦Àí ½«²»ÔÚµ÷ÓÃ onDealError
+	 * åˆ·æ–°ä»»åŠ¡æ‰§è¡Œç»“æŸ åé¡µé¢å¤„ç†å·¥ä½œ
+	 * @param isfinish true æˆåŠŸæ‰§è¡Œæ•°æ®åˆ·æ–° false å¤±è´¥
+	 * @param ltdata åˆ·æ–°çš„æ•°æ®
+	 * @return è¿”å› true è¡¨ç¤º isfinish=false æ—¶å€™ å·²ç»åšäº†å¤±è´¥æç¤ºå¤„ç† å°†ä¸åœ¨è°ƒç”¨ onDealError
 	 */
 	protected abstract boolean onRefreshed(boolean isfinish, List<T> ltdata);
 
 	/**
-	 * ¼ÓÔØ¸ü¶àÈÎÎñÖ´ĞĞ½áÊø ºóÒ³Ãæ´¦Àí¹¤×÷
-	 * @param isfinish true ³É¹¦Ö´ĞĞÊı¾İË¢ĞÂ false Ê§°Ü
-	 * @param ltdata Ë¢ĞÂµÄÊı¾İ
-	 * @param ended true ±íÊ¾ÊÇ·ñÒÑ¾­¼ÓÔØÍê±Ï ÓÃÓÚ¿ØÖÆ¸ü¶à°´Å¥µÄÏÔÊ¾
-	 * @return ·µ»Ø true ±íÊ¾ isfinish=false Ê±ºò ÒÑ¾­×öÁËÊ§°ÜÌáÊ¾´¦Àí ½«²»ÔÚµ÷ÓÃ onDealError
+	 * åŠ è½½æ›´å¤šä»»åŠ¡æ‰§è¡Œç»“æŸ åé¡µé¢å¤„ç†å·¥ä½œ
+	 * @param isfinish true æˆåŠŸæ‰§è¡Œæ•°æ®åˆ·æ–° false å¤±è´¥
+	 * @param ltdata åˆ·æ–°çš„æ•°æ®
+	 * @param ended true è¡¨ç¤ºæ˜¯å¦å·²ç»åŠ è½½å®Œæ¯• ç”¨äºæ§åˆ¶æ›´å¤šæŒ‰é’®çš„æ˜¾ç¤º
+	 * @return è¿”å› true è¡¨ç¤º isfinish=false æ—¶å€™ å·²ç»åšäº†å¤±è´¥æç¤ºå¤„ç† å°†ä¸åœ¨è°ƒç”¨ onDealError
 	 */
 	protected abstract boolean onMored(boolean isfinish, List<T> ltdata,boolean ended);
 
 	/**
-	 * ÆäËûÈÎÎñÖ´ĞĞ½áÊø ºóÒ³Ãæ´¦Àí¹¤×÷
-	 * @param task ÈÎÎñ±êÊ¶
-	 * @param isfinish true ³É¹¦Ö´ĞĞÊı¾İË¢ĞÂ false Ê§°Ü
-	 * @param ltdata Ë¢ĞÂµÄÊı¾İ
-	 * @return ·µ»Ø true ±íÊ¾ isfinish=false Ê±ºò ÒÑ¾­×öÁËÊ§°ÜÌáÊ¾´¦Àí ½«²»ÔÚµ÷ÓÃ onDealError
+	 * å…¶ä»–ä»»åŠ¡æ‰§è¡Œç»“æŸ åé¡µé¢å¤„ç†å·¥ä½œ
+	 * @param task ä»»åŠ¡æ ‡è¯†
+	 * @param isfinish true æˆåŠŸæ‰§è¡Œæ•°æ®åˆ·æ–° false å¤±è´¥
+	 * @param ltdata åˆ·æ–°çš„æ•°æ®
+	 * @return è¿”å› true è¡¨ç¤º isfinish=false æ—¶å€™ å·²ç»åšäº†å¤±è´¥æç¤ºå¤„ç† å°†ä¸åœ¨è°ƒç”¨ onDealError
 	 */
 	protected boolean onWorked(int task, boolean isfinish, List<T> ltdata) {
 		// TODO Auto-generated method stub
@@ -157,10 +157,10 @@ public abstract class AfListViewTask<T> extends AfListTask<T>
 	}
 
 	/**
-	 * ¼ÓÔØ»º´æ½áÊø ºóÒ³Ãæ´¦Àí¹¤×÷
-	 * @param isfinish true ³É¹¦Ö´ĞĞÊı¾İË¢ĞÂ false Ê§°Ü
-	 * @param ltdata Ë¢ĞÂµÄÊı¾İ
-	 * @return ·µ»Ø true ±íÊ¾ isfinish=false Ê±ºò ÒÑ¾­×öÁËÊ§°ÜÌáÊ¾´¦Àí ½«²»ÔÚµ÷ÓÃ onDealError
+	 * åŠ è½½ç¼“å­˜ç»“æŸ åé¡µé¢å¤„ç†å·¥ä½œ
+	 * @param isfinish true æˆåŠŸæ‰§è¡Œæ•°æ®åˆ·æ–° false å¤±è´¥
+	 * @param ltdata åˆ·æ–°çš„æ•°æ®
+	 * @return è¿”å› true è¡¨ç¤º isfinish=false æ—¶å€™ å·²ç»åšäº†å¤±è´¥æç¤ºå¤„ç† å°†ä¸åœ¨è°ƒç”¨ onDealError
 	 */
 	protected boolean onLoaded(boolean isfinish, List<T> ltdata,Date cachetime) {
 		// TODO Auto-generated method stub

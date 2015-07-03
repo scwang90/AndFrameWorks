@@ -43,39 +43,39 @@ import com.andframe.util.java.AfMD5;
 import com.andframe.util.java.AfVersion;
 
 /**
- * AfApplication ³éÏóÀà £¨¼Ì³ĞÊ¹ÓÃ±ØĞë¼Ì³Ğ²¢Ê¹ÓÃ£¬ÆäËû¿ò¼Ü¹¦ÄÜÒÀÀµÓÚ AfApplication£©
+ * AfApplication æŠ½è±¡ç±» ï¼ˆç»§æ‰¿ä½¿ç”¨å¿…é¡»ç»§æ‰¿å¹¶ä½¿ç”¨ï¼Œå…¶ä»–æ¡†æ¶åŠŸèƒ½ä¾èµ–äº AfApplicationï¼‰
  * 
- * @author SCWANG ¸ºÔğ È«¾ÖÊı¾İµÄ´æ´¢ ºÍ ÊÂ¼şÍ¨Öª
+ * @author SCWANG è´Ÿè´£ å…¨å±€æ•°æ®çš„å­˜å‚¨ å’Œ äº‹ä»¶é€šçŸ¥
  * 
- *         ±ØĞëÊµÏÖ Ö¸¶¨¹¤³ÌÖĞ µÄÖ÷Ò³Ãæ µÄÀà getForegroundClass
+ *         å¿…é¡»å®ç° æŒ‡å®šå·¥ç¨‹ä¸­ çš„ä¸»é¡µé¢ çš„ç±» getForegroundClass
  * 
- *         Ìá¹©¾²Ì¬È«¾Ö½Ó¿Ú public static getApp() »ñÈ¡È«¾ÖApp public static getAppContext()
- *         »ñÈ¡App public static getLooper() »ñÈ¡È«¾ÖÏûÏ¢Ñ­»·¶ÔÏó£¨ÓÃÓÚ¹¹ÔìUI Handler£© public
- *         static postTask(AfTask task) Å×ËÍÈ«¾ÖÈÎÎñ£¨AfTask£© public static
- *         postHandle(AfUIHandle handle) Å×ËÍUIHandleÈÎÎñ£¨AfUIHandle£© public static
- *         getNetworkStatus() »ñÈ¡ÍøÂç×´Ì¬ ÖµÀàĞÍÔÚAfNetworkEnumÖĞ public static
- *         getDebugMode() »ñÈ¡µ±Ç°µ÷ÊÔÄ£Ê½ public static setDebugMode(int mode) ÉèÖÃµ÷ÊÔÄ£Ê½
- *         public static getVersion() »ñÈ¡µ±Ç°App°æ±¾ public static getVersionCode()
- *         »ñÈ¡µ±Ç°App°æ±¾Code
+ *         æä¾›é™æ€å…¨å±€æ¥å£ public static getApp() è·å–å…¨å±€App public static getAppContext()
+ *         è·å–App public static getLooper() è·å–å…¨å±€æ¶ˆæ¯å¾ªç¯å¯¹è±¡ï¼ˆç”¨äºæ„é€ UI Handlerï¼‰ public
+ *         static postTask(AfTask task) æŠ›é€å…¨å±€ä»»åŠ¡ï¼ˆAfTaskï¼‰ public static
+ *         postHandle(AfUIHandle handle) æŠ›é€UIHandleä»»åŠ¡ï¼ˆAfUIHandleï¼‰ public static
+ *         getNetworkStatus() è·å–ç½‘ç»œçŠ¶æ€ å€¼ç±»å‹åœ¨AfNetworkEnumä¸­ public static
+ *         getDebugMode() è·å–å½“å‰è°ƒè¯•æ¨¡å¼ public static setDebugMode(int mode) è®¾ç½®è°ƒè¯•æ¨¡å¼
+ *         public static getVersion() è·å–å½“å‰Appç‰ˆæœ¬ public static getVersionCode()
+ *         è·å–å½“å‰Appç‰ˆæœ¬Code
  * 
- *         ·Ç¾²Ì¬½Ó¿Ú public exitForeground(Object power) ÍË³öÇ°Ì¨ public
- *         startForeground(Activity activity) Æô¶¯Ç°Ì¨ public getCachesPath(String
- *         type) »ñÈ¡²¢´´½¨»º´æÂ·¾¢ public getWorkspacePath(String type) »ñÈ¡²¢´´½¨¹¤×÷Â·¾¢
+ *         éé™æ€æ¥å£ public exitForeground(Object power) é€€å‡ºå‰å° public
+ *         startForeground(Activity activity) å¯åŠ¨å‰å° public getCachesPath(String
+ *         type) è·å–å¹¶åˆ›å»ºç¼“å­˜è·¯åŠ² public getWorkspacePath(String type) è·å–å¹¶åˆ›å»ºå·¥ä½œè·¯åŠ²
  * 
- *         ¼Ì³ĞÖ®ºó¸ù¾İĞèÒªµÄ¹¦ÄÜ ÖØĞ´ ÏàÓ¦µÄº¯Êı public getExceptionHandler() //È«¾ÖÒì³£´¦Àí public
- *         getAppSetting() //È«¾ÖÉèÖÃ public getImageService() //Í¼Æ¬·şÎñ public
- *         getFileService() //ÎÄ¼ş·şÎñ public getUpdateService() //¸üĞÂ·şÎñ public
- *         getLogoId() //App Logo£¨¸üĞÂµÈ¹¦ÄÜ»áÓÃµ½£© public getAppName() //App Ãû³Æ
+ *         ç»§æ‰¿ä¹‹åæ ¹æ®éœ€è¦çš„åŠŸèƒ½ é‡å†™ ç›¸åº”çš„å‡½æ•° public getExceptionHandler() //å…¨å±€å¼‚å¸¸å¤„ç† public
+ *         getAppSetting() //å…¨å±€è®¾ç½® public getImageService() //å›¾ç‰‡æœåŠ¡ public
+ *         getFileService() //æ–‡ä»¶æœåŠ¡ public getUpdateService() //æ›´æ–°æœåŠ¡ public
+ *         getLogoId() //App Logoï¼ˆæ›´æ–°ç­‰åŠŸèƒ½ä¼šç”¨åˆ°ï¼‰ public getAppName() //App åç§°
  *         
- * 			public boolean isBackground() //ÅĞ¶ÏÊÇ·ñÔÚºóÌ¨ÔÊĞí£¨°´HOMEÖ®ºó£©
- * 			public Random getRandom()//»ñÈ¡Í³Ò»Ëæ»úÊı
+ * 			public boolean isBackground() //åˆ¤æ–­æ˜¯å¦åœ¨åå°å…è®¸ï¼ˆæŒ‰HOMEä¹‹åï¼‰
+ * 			public Random getRandom()//è·å–ç»Ÿä¸€éšæœºæ•°
  */
 public abstract class AfApplication extends Application {
 
 	/**
 	 * interface INotifyNeedUpdate
 	 * 
-	 * @author SCWANG ĞèÒª¸üĞÂÍ¨Öª½Ó¿Ú
+	 * @author SCWANG éœ€è¦æ›´æ–°é€šçŸ¥æ¥å£
 	 */
 	public interface INotifyNeedUpdate {
 		void onNotifyNeedUpdate(String curver, String server);
@@ -84,7 +84,7 @@ public abstract class AfApplication extends Application {
 	/**
 	 * interface INotifyUpdate
 	 * 
-	 * @author SCWANG ĞèÒª¸üĞÂÍ¨Öª½Ó¿Ú
+	 * @author SCWANG éœ€è¦æ›´æ–°é€šçŸ¥æ¥å£
 	 */
 	public interface INotifyUpdate {
 		void onNotifyUpdate(String curver, String server, String describe);
@@ -93,7 +93,7 @@ public abstract class AfApplication extends Application {
 	/**
 	 * interface INotifyNetworkStatus
 	 * 
-	 * @author SCWANG ÍøÂç×´Ì¬¸Ä±äÍ¨Öª½Ó¿Ú
+	 * @author SCWANG ç½‘ç»œçŠ¶æ€æ”¹å˜é€šçŸ¥æ¥å£
 	 */
 	public static interface INotifyNetworkStatus {
 		void onNetworkStatusChanged(int networkStatus);
@@ -162,7 +162,7 @@ public abstract class AfApplication extends Application {
 	}
 
 	/**
-	 * »ñÈ¡ÄÚ²¿°æ±¾
+	 * è·å–å†…éƒ¨ç‰ˆæœ¬
 	 * 
 	 * @return
 	 */
@@ -172,7 +172,7 @@ public abstract class AfApplication extends Application {
 	}
 
 	/**
-	 * »ñÈ¡ÄÚ²¿°æ±¾´úÂë
+	 * è·å–å†…éƒ¨ç‰ˆæœ¬ä»£ç 
 	 * 
 	 * @return
 	 */
@@ -182,7 +182,7 @@ public abstract class AfApplication extends Application {
 	}
 
 	/**
-	 * »ñÈ¡ activity Ö÷Ò³Ãæ Àà
+	 * è·å– activity ä¸»é¡µé¢ ç±»
 	 * 
 	 * @param fragment
 	 * @return
@@ -191,24 +191,24 @@ public abstract class AfApplication extends Application {
 
 	// Debug Mode
 	protected int mDebugMode = DEBUG_NONE;
-	// µ±Ç°ÍøÂçÁ¬½ÓÀàĞÍ Ä¬ÈÏÎª Î´Á¬½Ó
+	// å½“å‰ç½‘ç»œè¿æ¥ç±»å‹ é»˜è®¤ä¸º æœªè¿æ¥
 	protected int mNetworkStatus = AfNetwork.TYPE_NONE;
-	// µ±Ç°Ö÷Ò³Ãæ
+	// å½“å‰ä¸»é¡µé¢
 	protected AfActivity mCurActivity = null;
-	// µ±Ç°Ö÷Ò³Ãæ
+	// å½“å‰ä¸»é¡µé¢
 	protected AfFragment mCurFragment = null;
-	// Ö÷Ò³Ãæ
+	// ä¸»é¡µé¢
 	protected AfMainActivity mMainActivity = null;
-	// µ±Ç°°æ±¾
+	// å½“å‰ç‰ˆæœ¬
 	protected String mVersion = "0.0.0.0";
-	// ×îĞÂ°æ±¾
+	// æœ€æ–°ç‰ˆæœ¬
 	protected String mServerVersion = "0.0.0.0";
-	// ×îĞÂ°æ±¾ÃèÊö
+	// æœ€æ–°ç‰ˆæœ¬æè¿°
 	protected String mUpdateDescribe = "";
-	//Ëæ»úÊıÉú³ÉÆ÷
+	//éšæœºæ•°ç”Ÿæˆå™¨
 	protected Random mRandom = new Random();
 
-	// Ö÷³ÌĞòµÄÏß³ÌWorker
+	// ä¸»ç¨‹åºçš„çº¿ç¨‹Worker
 	protected Looper mLooper = null;
 
 	protected AfThreadWorker mWorker = null;
@@ -216,14 +216,14 @@ public abstract class AfApplication extends Application {
 	protected boolean mIsExiting = false;
 //	protected boolean mIsGoingHome = false;
 	protected boolean mIsInitialized = false;
-	// ±ê¼ÇÇ°Ì¨ÊÇ·ñÔÚÔËĞĞ
+	// æ ‡è®°å‰å°æ˜¯å¦åœ¨è¿è¡Œ
 	protected boolean mIsForegroundRunning = false;
-	// ±£´æÊı¾İ
+	// ä¿å­˜æ•°æ®
 	protected Date mStateTime = new Date();
 	protected AfSharedPreference mRunningState = null;
 	private PackageInfo mPackageInfo;
 	
-	//È«¾Öµ¥ÀıÄ£Ê½MAP
+	//å…¨å±€å•ä¾‹æ¨¡å¼MAP
 	protected Map<String,Object> mSingletonMap = new LinkedHashMap<String,Object>(); 
 
 	public AfApplication() {
@@ -238,8 +238,8 @@ public abstract class AfApplication extends Application {
 	}
 
 	/**
-	 * Îª±¾Ò³Ãæ¿ªÆôÒ»¸ö¶ÀÁ¢ºóÌ¨Ïß³Ì ¹© postTask µÄ ÈÎÎñ(AfTask)ÔËĞĞ ×¢Òâ£º¿ªÆôÏß³ÌÖ®ºó postTask
-	 * ÈÎºÎÈÎÎñ¶¼»áÔÚ¸ÃÏß³ÌÖĞÔËĞĞ¡£ Èç¹û postTask Ç°Ò»¸öÈÎÎñÎ´Íê³É£¬ºóÒ»¸öÈÎÎñ½«µÈ´ı
+	 * ä¸ºæœ¬é¡µé¢å¼€å¯ä¸€ä¸ªç‹¬ç«‹åå°çº¿ç¨‹ ä¾› postTask çš„ ä»»åŠ¡(AfTask)è¿è¡Œ æ³¨æ„ï¼šå¼€å¯çº¿ç¨‹ä¹‹å postTask
+	 * ä»»ä½•ä»»åŠ¡éƒ½ä¼šåœ¨è¯¥çº¿ç¨‹ä¸­è¿è¡Œã€‚ å¦‚æœ postTask å‰ä¸€ä¸ªä»»åŠ¡æœªå®Œæˆï¼Œåä¸€ä¸ªä»»åŠ¡å°†ç­‰å¾…
 	 */
 	protected void buildThreadWorker() {
 		// TODO Auto-generated method stub
@@ -256,34 +256,34 @@ public abstract class AfApplication extends Application {
 			AfExceptionHandler.register();
 			
 			mRunningState = new AfSharedPreference(this, STATE_RUNNING);
-			// ³õÊ¼»¯Éè±¸ĞÅÏ¢
+			// åˆå§‹åŒ–è®¾å¤‡ä¿¡æ¯
 			AfDeviceInfo.initialize(getAppContext());
-			// ³õÊ¼»¯Õğ¶¯¿ØÖÆÌ¨
+			// åˆå§‹åŒ–éœ‡åŠ¨æ§åˆ¶å°
 			AfVibratorConsole.initialize(getAppContext());
-			// ³õÊ¼»¯AppSettings
+			// åˆå§‹åŒ–AppSettings
 			AfAppSettings.initialize(getAppContext());
-			// ÉèÖÃÍ¼Æ¬»º´æÂ·¾¶
+			// è®¾ç½®å›¾ç‰‡ç¼“å­˜è·¯å¾„
 			AfImageCaches.initialize(this, getCachesPath("image"));
-			// ³õÊ¼»¯ Í¼Æ¬·şÎñ
+			// åˆå§‹åŒ– å›¾ç‰‡æœåŠ¡
 			AfImageService.initialize(getAppContext());
-			// ³õÊ¼»¯ ÎÄ¼ş·şÎñ
+			// åˆå§‹åŒ– æ–‡ä»¶æœåŠ¡
 			AfFileService.initialize(getAppContext());
-			// ³õÊ¼»¯ ¸üĞÂ·şÎñ
+			// åˆå§‹åŒ– æ›´æ–°æœåŠ¡
 			AfUpdateService.initialize(getAppContext());
-			// App Æô¶¯µÄÊ±ºò ¼ì²éÍøÂçÏà¹ØÉèÖÃ
+			// App å¯åŠ¨çš„æ—¶å€™ æ£€æŸ¥ç½‘ç»œç›¸å…³è®¾ç½®
 			mNetworkStatus = AfNetwork.getNetworkState(this);
-			// ÉèÖÃ·şÎñÆ÷
+			// è®¾ç½®æœåŠ¡å™¨
 			AfAppSettings set = AfAppSettings.getInstance();
 			AfFileService.setServer(set.getFileServerIP(),
 					set.getFileServerPort());
 //			AfSoapService.setServer(set.getDataServerIP(),
 //					set.getDataServerPort());
 			mDebugMode = set.getDebugMode();
-			// ³õÊ¼»¯Í¨ÖªÖĞĞÄ
+			// åˆå§‹åŒ–é€šçŸ¥ä¸­å¿ƒ
 			AfNotifyCenter.initailize(getAppContext());
-			// ³õÊ¼»¯°æ±¾ºÅ
+			// åˆå§‹åŒ–ç‰ˆæœ¬å·
 			getPackageVersion();
-			// ¼ì²éÊı¾İ¿â
+			// æ£€æŸ¥æ•°æ®åº“
 			new DatabaseUtil(getAppContext()).checkDataBaseVersion();
 		} catch (Throwable e) {
 			// TODO Auto-generated catch block
@@ -307,16 +307,16 @@ public abstract class AfApplication extends Application {
 	}
 
 	/**
-	 * ÔÚÃ¿´Î³ÌĞòÆô¶¯µÄÊ±ºò³õÊ¼»¯Ò»±é
+	 * åœ¨æ¯æ¬¡ç¨‹åºå¯åŠ¨çš„æ—¶å€™åˆå§‹åŒ–ä¸€é
 	 * 
-	 * @deprecated ÒÑ¾­ÆúÓÃ
+	 * @deprecated å·²ç»å¼ƒç”¨
 	 * @param power
-	 *            ÓÃÓÚÈ¨ÏŞÑéÖ¤
+	 *            ç”¨äºæƒé™éªŒè¯
 	 */
 	public synchronized void initialize(AfActivity power) {
 		if (power instanceof AfActivity && !mIsInitialized) {
 			try {
-				// ±êÊ¶³õÊ¼»¯Íê³É
+				// æ ‡è¯†åˆå§‹åŒ–å®Œæˆ
 				mIsInitialized = true;
 			} catch (Throwable e) {
 				// TODO: handle exception
@@ -326,7 +326,7 @@ public abstract class AfApplication extends Application {
 	}
 
 	/**
-	 * »ñÈ¡App¹¤×÷Ä¿Â¼
+	 * è·å–Appå·¥ä½œç›®å½•
 	 * 
 	 * @param type
 	 */
@@ -339,7 +339,7 @@ public abstract class AfApplication extends Application {
 	}
 
 	/**
-	 * »ñÈ¡App¹¤×÷Ä¿Â¼
+	 * è·å–Appå·¥ä½œç›®å½•
 	 * 
 	 * @param type
 	 */
@@ -360,7 +360,7 @@ public abstract class AfApplication extends Application {
 	}
 
 	/**
-	 * »ñÈ¡cachesÄ¿Â¼
+	 * è·å–cachesç›®å½•
 	 * 
 	 * @param type
 	 */
@@ -375,7 +375,7 @@ public abstract class AfApplication extends Application {
 	}
 
 	/**
-	 * »ñÈ¡°üĞÅÏ¢
+	 * è·å–åŒ…ä¿¡æ¯
 	 * 
 	 * @return
 	 */
@@ -384,7 +384,7 @@ public abstract class AfApplication extends Application {
 	}
 
 	/**
-	 * »ñÈ¡ÔÚApplication ÖĞ¶¨ÒåµÄ meta-data
+	 * è·å–åœ¨Application ä¸­å®šä¹‰çš„ meta-data
 	 * @param key
 	 * @return
 	 */
@@ -408,7 +408,7 @@ public abstract class AfApplication extends Application {
 		return null;
 	}
 	/**
-	 * »ñÈ¡·şÎñÆ÷×îĞÂ°æ±¾
+	 * è·å–æœåŠ¡å™¨æœ€æ–°ç‰ˆæœ¬
 	 * @return
 	 */
 	public String getServerVersion() {
@@ -416,7 +416,7 @@ public abstract class AfApplication extends Application {
 	}
 
 	/**
-	 * »ñÈ¡·şÎñÆ÷×îĞÂ°æ±¾¸üĞÂÃèÊö
+	 * è·å–æœåŠ¡å™¨æœ€æ–°ç‰ˆæœ¬æ›´æ–°æè¿°
 	 * 
 	 * @return
 	 */
@@ -425,7 +425,7 @@ public abstract class AfApplication extends Application {
 	}
 
 	/**
-	 * »ñÈ¡AppÊÇ·ñ ĞèÒª¸üĞÂ
+	 * è·å–Appæ˜¯å¦ éœ€è¦æ›´æ–°
 	 * 
 	 * @return
 	 */
@@ -437,9 +437,9 @@ public abstract class AfApplication extends Application {
 	}
 
 	/**
-	 * »ñÈ¡AppÊÇ·ñ Ö´ĞĞ¹ı initialize
+	 * è·å–Appæ˜¯å¦ æ‰§è¡Œè¿‡ initialize
 	 * 
-	 * @deprecated ÒÑ¾­ÆúÓÃ
+	 * @deprecated å·²ç»å¼ƒç”¨
 	 * @return
 	 */
 	public synchronized boolean isInitialize() {
@@ -447,7 +447,7 @@ public abstract class AfApplication extends Application {
 	}
 
 	/**
-	 * »ñÈ¡È«¾Öµ¥ÀıÊµÀı
+	 * è·å–å…¨å±€å•ä¾‹å®ä¾‹
 	 * @param key
 	 * @param value
 	 */
@@ -463,7 +463,7 @@ public abstract class AfApplication extends Application {
 		return singleton;
 	}
 	/**
-	 * ÉèÖÃÈ«¾Öµ¥ÀıÊµÀı
+	 * è®¾ç½®å…¨å±€å•ä¾‹å®ä¾‹
 	 * @param key
 	 * @param value
 	 */
@@ -471,7 +471,7 @@ public abstract class AfApplication extends Application {
 		mSingletonMap.put(key, value);
 	}
 	/**
-	 * »ñÈ¡CurActivity
+	 * è·å–CurActivity
 	 * 
 	 * @return
 	 */
@@ -481,7 +481,7 @@ public abstract class AfApplication extends Application {
 	}
 
 	/**
-	 * »ñÈ¡AfMainActivity
+	 * è·å–AfMainActivity
 	 * 
 	 * @return
 	 */
@@ -491,10 +491,10 @@ public abstract class AfApplication extends Application {
 	}
 
 	/**
-	 * ÉèÖÃÖ÷Ò³Ãæ
+	 * è®¾ç½®ä¸»é¡µé¢
 	 * 
 	 * @param activity
-	 *            Ö÷Ò³Ãæ
+	 *            ä¸»é¡µé¢
 	 */
 	public synchronized void setMainActivity(AfMainActivity activity) {
 		// TODO Auto-generated method stub
@@ -503,31 +503,31 @@ public abstract class AfApplication extends Application {
 	}
 
 	/**
-	 * ÉèÖÃµ±Ç°µÄÒ³Ãæ
+	 * è®¾ç½®å½“å‰çš„é¡µé¢
 	 * 
 	 * @param type
-	 *            ÓÃÓÚÈ¨ÏŞÑéÖ¤
+	 *            ç”¨äºæƒé™éªŒè¯
 	 * @param activity
-	 *            µ±Ç°µÄ Activity
+	 *            å½“å‰çš„ Activity
 	 */
 	public synchronized void setCurActivity(Object power, AfActivity activity) {
 		if (power instanceof AfActivity || power instanceof AfActivity) {
-			// Èç¹ûÕıÔÚ·µ»ØÖ÷Ò³Ãæ
+			// å¦‚æœæ­£åœ¨è¿”å›ä¸»é¡µé¢
 			// if(activity instanceof AfMainActivity){
 			// mMainActivity = (AfMainActivity)activity;
 			// mIsForegroundRunning = true;
 			// }
 			if (/*mIsGoingHome || */mIsExiting) {
-				// Èç¹ûÒÑ¾­µ½´ïÖ÷Ò³Ãæ
+				// å¦‚æœå·²ç»åˆ°è¾¾ä¸»é¡µé¢
 				if (activity instanceof AfMainActivity) {
-					// ¹Ø±Õ·µ»ØÖ÷Ò³Ãæ¹¦ÄÜ
+					// å…³é—­è¿”å›ä¸»é¡µé¢åŠŸèƒ½
 					if (mIsExiting) {
 						activity.finish();
 					}
 					mIsExiting = false;
 //					mIsGoingHome = false;
 				} else {
-					// ¹Ø²»µ±Ç°Ò³Ãæ»Øµ½Ö÷Ò³Ãæ
+					// å…³ä¸å½“å‰é¡µé¢å›åˆ°ä¸»é¡µé¢
 					activity.finish();
 					return;
 				}
@@ -537,12 +537,12 @@ public abstract class AfApplication extends Application {
 	}
 
 	/**
-	 * ÉèÖÃµ±Ç°µÄÒ³Ãæ
+	 * è®¾ç½®å½“å‰çš„é¡µé¢
 	 * 
 	 * @param type
-	 *            ÓÃÓÚÈ¨ÏŞÑéÖ¤
+	 *            ç”¨äºæƒé™éªŒè¯
 	 * @param fragment
-	 *            µ±Ç°µÄ Fragment
+	 *            å½“å‰çš„ Fragment
 	 */
 	public synchronized void setCurFragment(Object power, AfFragment fragment) {
 		if (power instanceof AfFragment) {
@@ -551,12 +551,12 @@ public abstract class AfApplication extends Application {
 	}
 
 	/**
-	 * ÉèÖÃAppÍøÂç×´Ì¬
+	 * è®¾ç½®Appç½‘ç»œçŠ¶æ€
 	 * 
 	 * @param power
-	 *            ´«ÈëthisÖ¸Õë ÓÃÓÚÑéÖ¤È¨ÏŞ
+	 *            ä¼ å…¥thisæŒ‡é’ˆ ç”¨äºéªŒè¯æƒé™
 	 * @param networkState
-	 *            Ö¸¶¨µÄÍøÂç×´Ì¬
+	 *            æŒ‡å®šçš„ç½‘ç»œçŠ¶æ€
 	 */
 	public synchronized void setNetworkStatus(Object power, int networkState) {
 		// TODO Auto-generated method stub
@@ -566,20 +566,20 @@ public abstract class AfApplication extends Application {
 			notifyNetworkStatus(mCurActivity, networkState);
 			notifyNetworkStatus(mCurFragment, networkState);
 
-			// Èç¹ûÍøÂçÁ¬½ÓÉÏ
+			// å¦‚æœç½‘ç»œè¿æ¥ä¸Š
 			if (mNetworkStatus != AfNetwork.TYPE_NONE) {
-				// Èç¹û»¹Ã»ÓĞ³É¹¦¶¨Î»
+				// å¦‚æœè¿˜æ²¡æœ‰æˆåŠŸå®šä½
 			}
 		}
 	}
 
 	/**
-	 * ÉèÖÃ ·şÎñÆ÷ App °æ±¾
+	 * è®¾ç½® æœåŠ¡å™¨ App ç‰ˆæœ¬
 	 * 
 	 * @param power
-	 *            ´«ÈëthisÖ¸Õë ÓÃÓÚÑéÖ¤È¨ÏŞ
+	 *            ä¼ å…¥thisæŒ‡é’ˆ ç”¨äºéªŒè¯æƒé™
 	 * @param version
-	 *            ·şÎñÆ÷°æ±¾
+	 *            æœåŠ¡å™¨ç‰ˆæœ¬
 	 */
 	public synchronized void setServerVersion(Object power, String version) {
 		// TODO Auto-generated method stub
@@ -591,12 +591,12 @@ public abstract class AfApplication extends Application {
 	}
 
 	/**
-	 * ÉèÖÃ ·şÎñÆ÷ App °æ±¾ ¸üĞÂÃèÊö
+	 * è®¾ç½® æœåŠ¡å™¨ App ç‰ˆæœ¬ æ›´æ–°æè¿°
 	 * 
 	 * @param power
-	 *            ´«ÈëthisÖ¸Õë ÓÃÓÚÑéÖ¤È¨ÏŞ
+	 *            ä¼ å…¥thisæŒ‡é’ˆ ç”¨äºéªŒè¯æƒé™
 	 * @param describe
-	 *            ·şÎñÆ÷°æ±¾
+	 *            æœåŠ¡å™¨ç‰ˆæœ¬
 	 */
 	public synchronized void setServerVersion(Object power, String version,
 			String describe) {
@@ -610,12 +610,12 @@ public abstract class AfApplication extends Application {
 	}
 
 	/**
-	 * Ïò power ·¢ËÍ ĞèÒª¸üĞÂÍ¨Öª
+	 * å‘ power å‘é€ éœ€è¦æ›´æ–°é€šçŸ¥
 	 * 
 	 * @param power
-	 *            Í¨ÖªµÄ¶ÔÏó ±ØĞëÊµÏÖ INotifyNeedUpdate ½Ó¿Ú
+	 *            é€šçŸ¥çš„å¯¹è±¡ å¿…é¡»å®ç° INotifyNeedUpdate æ¥å£
 	 * @param networkState
-	 *            µ±Ç°ÍøÂç×´Ì¬
+	 *            å½“å‰ç½‘ç»œçŠ¶æ€
 	 */
 	private void notifyUpdate(Object power, String curver, String server,
 			String describe) {
@@ -633,12 +633,12 @@ public abstract class AfApplication extends Application {
 	}
 
 	/**
-	 * Ïò power ·¢ËÍ ĞèÒª¸üĞÂÍ¨Öª
+	 * å‘ power å‘é€ éœ€è¦æ›´æ–°é€šçŸ¥
 	 * 
 	 * @param power
-	 *            Í¨ÖªµÄ¶ÔÏó ±ØĞëÊµÏÖ INotifyNeedUpdate ½Ó¿Ú
+	 *            é€šçŸ¥çš„å¯¹è±¡ å¿…é¡»å®ç° INotifyNeedUpdate æ¥å£
 	 * @param networkState
-	 *            µ±Ç°ÍøÂç×´Ì¬
+	 *            å½“å‰ç½‘ç»œçŠ¶æ€
 	 */
 	private void notifyNeedUpdate(Object power, String curver, String server) {
 		// TODO Auto-generated method stub
@@ -655,12 +655,12 @@ public abstract class AfApplication extends Application {
 	}
 
 	/**
-	 * Ïò power ·¢ËÍ ÍøÂç×´Ì¬¸Ä±äÍ¨Öª
+	 * å‘ power å‘é€ ç½‘ç»œçŠ¶æ€æ”¹å˜é€šçŸ¥
 	 * 
 	 * @param power
-	 *            Í¨ÖªµÄ¶ÔÏó ±ØĞëÊµÏÖ INotifyNetworkStatus ½Ó¿Ú
+	 *            é€šçŸ¥çš„å¯¹è±¡ å¿…é¡»å®ç° INotifyNetworkStatus æ¥å£
 	 * @param networkState
-	 *            µ±Ç°ÍøÂç×´Ì¬
+	 *            å½“å‰ç½‘ç»œçŠ¶æ€
 	 */
 	private synchronized void notifyNetworkStatus(Object power, int networkState) {
 		// TODO Auto-generated method stub
@@ -677,7 +677,7 @@ public abstract class AfApplication extends Application {
 	}
 
 	/**
-	 * Í¨ÖªAPP Æô¶¯ÌìÌ¨Ò³Ãæ
+	 * é€šçŸ¥APP å¯åŠ¨å¤©å°é¡µé¢
 	 * 
 	 * @param fragment
 	 */
@@ -694,7 +694,7 @@ public abstract class AfApplication extends Application {
 
 	public synchronized void exitForeground(Object power) {
 		// TODO Auto-generated method stub
-		/** (2014-7-30 ×¢ÊÍ Ö»ÓĞµ±notifyForegroundClosedÊ±²ÅÉèÎªfalse) **/
+		/** (2014-7-30 æ³¨é‡Š åªæœ‰å½“notifyForegroundClosedæ—¶æ‰è®¾ä¸ºfalse) **/
 		// mIsForegroundRunning = false;
 		if (mCurActivity != null) {
 			if (mCurActivity instanceof AfMainActivity) {
@@ -707,7 +707,7 @@ public abstract class AfApplication extends Application {
 	}
 
 	/**
-	 * »ñÈ¡ Ç°Ì¨Ò³ÃæÊÇ·ñÔÚÔËĞĞ
+	 * è·å– å‰å°é¡µé¢æ˜¯å¦åœ¨è¿è¡Œ
 	 * 
 	 * @return
 	 */
@@ -717,15 +717,15 @@ public abstract class AfApplication extends Application {
 	}
 
 	/**
-	 * Í¨ÖªAPP Ç°Ì¨ÒÑ¾­¹Ø±Õ
+	 * é€šçŸ¥APP å‰å°å·²ç»å…³é—­
 	 * 
 	 * @param activity
-	 *            È¨ÏŞ¶ÔÏó ´«Èëthis
+	 *            æƒé™å¯¹è±¡ ä¼ å…¥this
 	 */
 	public synchronized void notifyForegroundClosed(AfMainActivity activity) {
 		// TODO Auto-generated method stub
 		if (activity instanceof AfMainActivity && mIsForegroundRunning) {
-			// Çå¿ÕÏà¹ØĞÅÏ¢
+			// æ¸…ç©ºç›¸å…³ä¿¡æ¯
 			mCurActivity = null;
 			mMainActivity = null;
 			mCurFragment = null;
@@ -736,7 +736,7 @@ public abstract class AfApplication extends Application {
 	}
 
 	/**
-	 * »ñÈ¡ ExceptionHandler
+	 * è·å– ExceptionHandler
 	 * 
 	 * @return
 	 */
@@ -746,7 +746,7 @@ public abstract class AfApplication extends Application {
 	}
 
 	/**
-	 * »ñÈ¡ AfAppSettings
+	 * è·å– AfAppSettings
 	 * 
 	 * @return
 	 */
@@ -756,7 +756,7 @@ public abstract class AfApplication extends Application {
 	}
 
 	/**
-	 * »ñÈ¡ AfImageService
+	 * è·å– AfImageService
 	 * 
 	 * @return
 	 */
@@ -766,7 +766,7 @@ public abstract class AfApplication extends Application {
 	}
 
 	/**
-	 * »ñÈ¡ AfFileService
+	 * è·å– AfFileService
 	 * 
 	 * @return
 	 */
@@ -776,7 +776,7 @@ public abstract class AfApplication extends Application {
 	}
 
 	/**
-	 * »ñÈ¡ AfUpdateService
+	 * è·å– AfUpdateService
 	 * 
 	 * @return
 	 */
@@ -786,9 +786,9 @@ public abstract class AfApplication extends Application {
 	}
 
 	/**
-	 * »ñÈ¡APPÍ¼±êID,×ÓÀà¿ÉÒÔ¼Ì³Ğ·µ»ØR.drawable.app_logo
+	 * è·å–APPå›¾æ ‡ID,å­ç±»å¯ä»¥ç»§æ‰¿è¿”å›R.drawable.app_logo
 	 * 
-	 * @return APPÍ¼±êID
+	 * @return APPå›¾æ ‡ID
 	 */
 	public int getLogoId() {
 		// TODO Auto-generated method stub
@@ -796,16 +796,16 @@ public abstract class AfApplication extends Application {
 	}
 
 	/**
-	 * »ñÈ¡APPÃû³Æ,×ÓÀà¿ÉÒÔ¼Ì³Ğ·µ»ØgetString(R.string.app_name);
+	 * è·å–APPåç§°,å­ç±»å¯ä»¥ç»§æ‰¿è¿”å›getString(R.string.app_name);
 	 * 
-	 * @return APPÃû³Æ
+	 * @return APPåç§°
 	 */
 	public String getAppName() {
 		// TODO Auto-generated method stub
 		return "AndFrame";
 	}
 	/**
-	 * »ñÈ¡ DesÄ¬ÈÏ¼ÓÃÜÃÜÔ¿
+	 * è·å– Desé»˜è®¤åŠ å¯†å¯†é’¥
 	 * @return
 	 */
 	public String getDesKey() {
@@ -813,18 +813,18 @@ public abstract class AfApplication extends Application {
 		return AfMD5.getMD5("");
 	}
 	/**
-	 * ÃÜÂë¼ÓÃÜ
+	 * å¯†ç åŠ å¯†
 	 * 
 	 * @param password
-	 *            ÃÜÂëÃ÷ÎÄ
-	 * @return ¼ÓÃÜµÄÃÜÎÄ ×ÓÀà¿ÉÖØĞ´Õâ¸ö·½·¨¸ü¸Ä¼ÓÃÜËã·¨£¨Ä¬ÈÏ MD5£©
+	 *            å¯†ç æ˜æ–‡
+	 * @return åŠ å¯†çš„å¯†æ–‡ å­ç±»å¯é‡å†™è¿™ä¸ªæ–¹æ³•æ›´æ”¹åŠ å¯†ç®—æ³•ï¼ˆé»˜è®¤ MD5ï¼‰
 	 */
 	public String encryptionPassword(String password) {
 		// TODO Auto-generated method stub
 		return AfMD5.getMD5(password);
 	}
 	/**
-	 * ´¦Àí´¥·¢ÊÂ¼ş
+	 * å¤„ç†è§¦å‘äº‹ä»¶
 	 * @param eventId
 	 * @param tag
 	 */
@@ -832,14 +832,14 @@ public abstract class AfApplication extends Application {
 		
 	}
 	/**
-	 * ¸üĞÂAppÏà¹ØĞÅÏ¢ ½Ó¿ÚÊÂ¼ş
-	 * (¸÷¸ö¿ò¼Ü×é¼şÖĞ»áµ÷ÓÃ´¥·¢)
+	 * æ›´æ–°Appç›¸å…³ä¿¡æ¯ æ¥å£äº‹ä»¶
+	 * (å„ä¸ªæ¡†æ¶ç»„ä»¶ä¸­ä¼šè°ƒç”¨è§¦å‘)
 	 */
 	public void onUpdateAppinfo(){
 		
 	}
 	/**
-	 * µ±APP±»ÁÙÊ±Ïú»ÙÊ±±£´æApp ×´Ì¬ ÔÚAfActivity ÖĞµ÷ÓÃ
+	 * å½“APPè¢«ä¸´æ—¶é”€æ¯æ—¶ä¿å­˜App çŠ¶æ€ åœ¨AfActivity ä¸­è°ƒç”¨
 	 */
 	public final void onRestoreInstanceState() {
 		// TODO Auto-generated method stub
@@ -851,7 +851,7 @@ public abstract class AfApplication extends Application {
 	}
 
 	/**
-	 * µ±APP±»ÁÙÊ±Ïú»ÙÊ±±£´æApp ×´Ì¬ ÔÚonRestoreInstanceState() ÖĞµ÷ÓÃ
+	 * å½“APPè¢«ä¸´æ—¶é”€æ¯æ—¶ä¿å­˜App çŠ¶æ€ åœ¨onRestoreInstanceState() ä¸­è°ƒç”¨
 	 * 
 	 * @param state
 	 */
@@ -867,7 +867,7 @@ public abstract class AfApplication extends Application {
 	}
 
 	/**
-	 * ¸üĞÂ±£´æ×ªÌ¨Ê±¼ä£¬Èç¹ûÒÑ¾­±£´æÏÂ´ÎÒ²¿ÉÖ´ĞĞ onSaveInstanceState
+	 * æ›´æ–°ä¿å­˜è½¬å°æ—¶é—´ï¼Œå¦‚æœå·²ç»ä¿å­˜ä¸‹æ¬¡ä¹Ÿå¯æ‰§è¡Œ onSaveInstanceState
 	 */
 	public void updateStateTime() {
 		// TODO Auto-generated method stub
@@ -875,11 +875,11 @@ public abstract class AfApplication extends Application {
 	}
 
 	/**
-	 * µ±APP±»»¹Ô­Ê±ºò»¹Ô­Ô­À´×´Ì¬ ÔÚAfActivity ÖĞµ÷ÓÃ
+	 * å½“APPè¢«è¿˜åŸæ—¶å€™è¿˜åŸåŸæ¥çŠ¶æ€ åœ¨AfActivity ä¸­è°ƒç”¨
 	 */
 	public final void onSaveInstanceState() {
 		// TODO Auto-generated method stub
-		// Èç¹û±£´æÊ±¼ä±ê¼ÇÒ»Ö±£¬Ôò²»ÓÃ±£´æ
+		// å¦‚æœä¿å­˜æ—¶é—´æ ‡è®°ä¸€ç›´ï¼Œåˆ™ä¸ç”¨ä¿å­˜
 		Date date = mRunningState.getDate(STATE_TIME);
 		if (date != null && date.equals(mStateTime)) {
 			return;
@@ -889,7 +889,7 @@ public abstract class AfApplication extends Application {
 	}
 
 	/**
-	 * µ±APP±»»¹Ô­Ê±ºò»¹Ô­Ô­À´×´Ì¬ ÔÚAfActivity ÖĞµ÷ÓÃ
+	 * å½“APPè¢«è¿˜åŸæ—¶å€™è¿˜åŸåŸæ¥çŠ¶æ€ åœ¨AfActivity ä¸­è°ƒç”¨
 	 */
 	protected void onSaveInstanceState(AfSharedPreference state) {
 		// TODO Auto-generated method stub
@@ -904,10 +904,10 @@ public abstract class AfApplication extends Application {
 	}
 
 	/**
-	 * »ñÈ¡Ç©ÖµĞÅÏ¢
+	 * è·å–ç­¾å€¼ä¿¡æ¯
 	 * 
 	 * @author allen
-	 * @version 2013-8-27 ÏÂÎç4:15:04
+	 * @version 2013-8-27 ä¸‹åˆ4:15:04
 	 * @return
 	 */
 	public X509Certificate getSignInfo() {
@@ -935,11 +935,10 @@ public abstract class AfApplication extends Application {
 	}
 
 	/**
-	 * ÅĞ¶ÏÊÇ·ñÔÚºóÌ¨ÔËĞĞ£¨°´HOMEÖ®ºó£©
-	 * ĞèÒª¶îÍâÈ¨ÏŞ android.permission.GET_TASKS 
+	 * åˆ¤æ–­æ˜¯å¦åœ¨åå°è¿è¡Œï¼ˆæŒ‰HOMEä¹‹åï¼‰
+	 * éœ€è¦é¢å¤–æƒé™ android.permission.GET_TASKS 
 	 * @return
 	 */
-	@SuppressWarnings("deprecation")
 	public boolean isBackground() {
 		ActivityManager am = (ActivityManager) getSystemService(Context.ACTIVITY_SERVICE);
 		try {
@@ -956,7 +955,7 @@ public abstract class AfApplication extends Application {
 		return false;
 	}
 	/**
-	 * »ñÈ¡Í³Ò»Ëæ»úÊı
+	 * è·å–ç»Ÿä¸€éšæœºæ•°
 	 * @return
 	 */
 	public Random getRandom(){
