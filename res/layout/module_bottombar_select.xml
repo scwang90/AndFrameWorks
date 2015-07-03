@@ -1,0 +1,29 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:id="@+id/bottombar_select_layout"
+    android:layout_width="match_parent"
+    android:layout_height="@dimen/bottombar_height"
+    android:orientation="vertical"
+    android:background="@color/theme_titlebar_selcet_dg" >
+    
+    <View 
+        android:layout_width="match_parent"
+        android:layout_height="2dip"
+        android:background="@color/theme_titlebar_selcet"/>
+    
+    <LinearLayout 
+        android:id="@+id/bottombar_select_contain"
+	    android:layout_width="match_parent"
+	    android:layout_height="match_parent">
+	    <ImageView
+	        android:id="@+id/bottombar_select_more"
+	        android:layout_width="0dp"
+	        android:layout_height="match_parent"
+	        android:layout_weight="1"
+	        android:background="@drawable/selector_background"
+	        android:contentDescription="@string/app_name"
+	        android:gravity="center_horizontal"
+	        android:scaleType="center"
+	        android:src="@drawable/icon_menu" />
+    </LinearLayout>
+</LinearLayout>

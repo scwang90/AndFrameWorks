@@ -1,0 +1,118 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:id="@+id/listitem_common_layout"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:orientation="horizontal"
+    android:padding="@dimen/layout_padding_mini" >
+
+    <ImageView
+        android:id="@+id/listitem_common_headimg"
+        android:layout_width="55dip"
+        android:layout_height="55dip"
+        android:layout_marginLeft="2dip"
+        android:layout_marginRight="@dimen/layout_padding_mini"
+        android:layout_marginTop="2dip"
+        android:contentDescription="@string/app_name"
+        android:maxHeight="60dip"
+        android:maxWidth="60dip"
+        android:minHeight="35dip"
+        android:minWidth="35dip"
+        android:visibility="gone" />
+
+    <RelativeLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:baselineAligned="false" >
+
+        <LinearLayout
+            android:id="@+id/listitem_common_titlelayout"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:orientation="horizontal"
+            android:gravity="center_horizontal">
+
+            <TextView
+                android:id="@+id/listitem_common_titleleft"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:textColor="@android:color/white"
+                android:contentDescription="@string/app_name"
+                android:visibility="gone" />
+            
+            <TextView
+                android:id="@+id/listitem_common_title"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:singleLine="true"
+            	android:text="@string/app_name"
+                android:textColor="@color/theme_textcolor_text"
+                android:textSize="@dimen/textsize_title" />
+
+            <TextView
+                android:id="@+id/listitem_common_signednew"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:background="@drawable/trends_notify"
+                android:gravity="center"
+                android:text="@string/vaule_new"
+                android:textColor="@android:color/white"
+                android:textSize="@dimen/textsize_small"
+                android:visibility="gone" />
+        </LinearLayout>
+
+        <TextView
+            android:id="@+id/listitem_common_date"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignParentRight="true"
+            android:layout_alignParentTop="true"
+            android:gravity="center"
+            android:text="@string/app_name"
+            android:textColor="@color/gray_dark"
+            android:textSize="@dimen/textsize_small" />
+
+        <TextView
+            android:id="@+id/listitem_common_left1"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_below="@+id/listitem_common_titlelayout"
+            android:singleLine="true"
+            android:text="@string/app_name"
+            android:textColor="@color/gray_dark"
+            android:textSize="@dimen/textsize_content" />
+
+        <TextView
+            android:id="@+id/listitem_common_left2"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_below="@+id/listitem_common_left1"
+            android:singleLine="true"
+            android:text="@string/app_name"
+            android:textColor="@color/gray_dark"
+            android:textSize="@dimen/textsize_content" />
+
+        <TextView
+            android:id="@+id/listitem_common_right1"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignParentRight="true"
+            android:layout_below="@+id/listitem_common_titlelayout"
+            android:singleLine="true"
+            android:text="@string/app_name"
+            android:textColor="@color/gray_dark"
+            android:textSize="@dimen/textsize_content" />
+
+        <TextView
+            android:id="@+id/listitem_common_right2"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignParentRight="true"
+            android:layout_below="@+id/listitem_common_right1"
+            android:singleLine="true"
+            android:text="@string/app_name"
+            android:textColor="@color/gray_dark"
+            android:textSize="@dimen/textsize_content" />
+    </RelativeLayout>
+
+</LinearLayout>

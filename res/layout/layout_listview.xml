@@ -1,0 +1,33 @@
+<FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="@color/theme_background" >
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:orientation="vertical" 
+    	android:background="@color/theme_background" >
+        <FrameLayout 
+            android:id="@+id/listview_topframe"
+	        android:layout_width="match_parent"
+	        android:layout_height="wrap_content">
+	        <include layout="@layout/module_titlebar_other" />
+	        <include layout="@layout/module_titlebar_main" android:visibility="gone" />
+	        <include layout="@layout/module_titlebar_select" android:visibility="gone" />
+	        <include layout="@layout/module_titlebar_search" android:visibility="gone" />
+        </FrameLayout>
+        <include layout="@layout/module_listview"
+            android:layout_width="match_parent"
+            android:layout_height="0dp"
+            android:layout_weight="1"/>
+        <FrameLayout 
+            android:id="@+id/listview_botframe"
+	        android:layout_width="match_parent"
+	        android:layout_height="wrap_content">
+        	<include layout="@layout/module_bottombar" android:visibility="gone"/>
+        	<include layout="@layout/module_bottombar_select" android:visibility="gone"/>
+        </FrameLayout>
+    </LinearLayout>
+    
+</FrameLayout>

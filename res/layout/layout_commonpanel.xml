@@ -1,0 +1,142 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="@color/gray_white"
+    android:orientation="vertical" >
+
+    <include layout="@layout/module_titlebar_other" />
+
+    <ScrollView
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:fadingEdge="none"
+        android:overScrollMode="ifContentScrolls"
+        android:orientation="vertical" >
+
+        <LinearLayout
+            android:id="@+id/commonpanel_layout"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="vertical"
+            android:padding="@dimen/layout_padding_normal" >
+
+            <TextView
+        		android:id="@+id/commonpanel_projectname"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="10dp"
+                android:layout_marginLeft="10dp"
+                android:layout_marginRight="10dp"
+                android:hint="@string/app_name"
+                android:textColor="@color/gray"
+                android:textSize="18sp" />
+            
+            <LinearLayout
+                android:id="@+id/commonpanel_project"
+                android:layout_width="fill_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="10dp"
+                android:background="@drawable/frame_selectbar"
+                android:orientation="vertical" >
+
+                <RelativeLayout
+                	android:id="@+id/commonpanel_item"
+                    android:layout_width="fill_parent"
+                    android:layout_height="@dimen/selectbar_height"
+                    android:orientation="vertical" >
+
+                    <TextView
+                		android:id="@+id/commonpanel_itemname"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_centerVertical="true"
+                        android:layout_marginLeft="10dp"
+                        android:hint="@string/app_name"
+                        android:textColor="@color/gray"
+                        android:textSize="18sp" />
+
+                    <TextView
+                		android:id="@+id/commonpanel_itemvalue"
+                        android:layout_width="fill_parent"
+                        android:layout_height="match_parent"
+                        android:layout_centerVertical="true"
+                        android:background="@android:color/transparent"
+                        android:clickable="true"
+                        android:gravity="center_vertical|right"
+                        android:paddingRight="10dip"
+                        android:singleLine="true"
+                        android:textColor="@color/theme_textcolor_text"
+                        android:textSize="18sp" />
+                </RelativeLayout>
+
+                <include 
+               		android:id="@+id/commonpanel_divider"
+               		layout="@layout/module_divider_selectbar"/>
+
+                <RelativeLayout
+                    android:layout_width="fill_parent"
+                    android:layout_height="@dimen/selectbar_height"
+                    android:background="@drawable/selector_background"
+                    android:orientation="vertical" >
+
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_centerVertical="true"
+                        android:layout_marginLeft="10dp"
+                        android:hint="@string/app_name"
+                        android:textColor="@color/gray"
+                        android:textSize="18sp" />
+
+                    <CheckBox
+                        android:id="@+id/commonpanel_itemcheckbox"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_alignParentRight="true"
+                        android:layout_centerVertical="true"
+                        android:layout_marginRight="10dp"
+                        android:background="@drawable/selector_checkbox"
+                        android:button="@null"/>
+                </RelativeLayout>
+
+            </LinearLayout>
+
+            <EditText
+                android:id="@+id/commonpanel_edit_singleline"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="10dip"
+                android:background="@drawable/frame_little_black"
+                android:ems="10"
+                android:hint="@string/app_name"
+                android:padding="7dip"
+                android:singleLine="true" />
+
+            <EditText
+                android:id="@+id/commonpanel_edit_multiline"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="10dip"
+                android:minHeight="120dip"
+                android:background="@drawable/frame_little_black"
+                android:ems="10"
+                android:gravity="top"
+                android:hint="@string/app_name"
+                android:padding="7dip"
+                android:singleLine="false" />
+
+            <Button
+                android:id="@+id/button_finish"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="10dip"
+                android:background="@drawable/selector_button_finish"
+                android:onClick="onClick"
+                android:hint="@string/app_name"
+                android:textColor="@color/theme_textcolor_button"
+                android:textSize="@dimen/textsize_button" />
+        </LinearLayout>
+    </ScrollView>
+
+</LinearLayout>

@@ -12,9 +12,8 @@ import com.andframe.layoutbind.AfModuleProgress;
 import com.andframe.layoutbind.AfModuleProgressImpl;
 import com.andframe.layoutbind.AfModuleTitlebar;
 /**
- * @Description: 数据列表框架 Activity
- * @Author: scwang
- * @Version: V1.0, 2015-2-27 上午10:27:22
+ * 数据列表框架 Activity
+ * @author 树朾
  * @param <T> 列表数据实体类
  */
 public abstract class AoListViewActivityImpl<T> extends AoListViewActivity<T>{
@@ -24,6 +23,7 @@ public abstract class AoListViewActivityImpl<T> extends AoListViewActivity<T>{
 	public AoListViewActivityImpl() {
 		// TODO Auto-generated constructor stub
 	}
+
 	/**
 	 * 使用缓存必须调用这个构造函数
 	 * @param clazz
@@ -32,6 +32,7 @@ public abstract class AoListViewActivityImpl<T> extends AoListViewActivity<T>{
 		super(clazz);
 		// TODO Auto-generated constructor stub
 	}
+
 	/**
 	 * 使用缓存必须调用这个构造函数
 	 * 	可以自定义缓存标识

@@ -1,0 +1,31 @@
+<resources>
+
+    <!-- Default screen margins, per the Android Design guidelines. -->
+    <dimen name="activity_horizontal_margin">16dp</dimen>
+    <dimen name="activity_vertical_margin">16dp</dimen>
+
+    <dimen name="titlebar_height">45dip</dimen>
+    <dimen name="titlebar_textsize">22sp</dimen>
+    
+    <dimen name="selectbar_textsize">16sp</dimen>
+    <dimen name="selectbar_height">45dip</dimen>
+    <dimen name="selectbar_imagesize">35dip</dimen>
+    
+    <dimen name="textsize_small">12sp</dimen>
+    <dimen name="textsize_content">14sp</dimen>
+    <dimen name="textsize_titlesmall">16sp</dimen>
+    <dimen name="textsize_title">18sp</dimen>
+    <dimen name="textsize_titlelarge">20sp</dimen>
+    <dimen name="textsize_button">20sp</dimen>
+    
+    <dimen name="layout_padding_large">15dip</dimen>
+    <dimen name="layout_padding_normal">10dip</dimen>
+    <dimen name="layout_padding_mini">5dip</dimen>
+    
+    <dimen name="bottombar_height">50dip</dimen>
+    
+    <dimen name="button_textsize">18sp</dimen>
+    <dimen name="button_padding_vertical">5dip</dimen>
+    <dimen name="button_padding_horizontal">15dip</dimen>
+    <dimen name="button_height">55dip</dimen>
+</resources>

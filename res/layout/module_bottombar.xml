@@ -1,0 +1,75 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:id="@+id/bottombar_layout"
+    android:layout_width="match_parent"
+    android:layout_height="@dimen/bottombar_height"
+    android:orientation="horizontal"
+    android:background="@color/gray_dark" >
+
+    <ImageView
+        android:id="@+id/bottombar_select"
+        android:layout_width="0dp"
+        android:layout_height="match_parent"
+        android:layout_weight="1"
+        android:background="@drawable/selector_background"
+        android:contentDescription="@string/bottombar_select"
+        android:gravity="center_horizontal"
+        android:scaleType="center"
+        android:src="@drawable/bottom_select" />
+
+    <ImageView
+        android:id="@+id/bottombar_add"
+        android:layout_width="0dp"
+        android:layout_height="match_parent"
+        android:layout_weight="1"
+        android:background="@drawable/selector_background"
+        android:contentDescription="@string/bottombar_select"
+        android:gravity="center_horizontal"
+        android:scaleType="center"
+        android:src="@drawable/bottom_toadd" />
+
+    <ImageView
+        android:id="@+id/bottombar_search"
+        android:layout_width="0dp"
+        android:layout_height="match_parent"
+        android:layout_weight="1"
+        android:background="@drawable/selector_background"
+        android:contentDescription="@string/bottombar_search"
+        android:gravity="center_horizontal"
+        android:scaleType="center"
+        android:src="@drawable/bottom_search" />
+
+    <ImageView
+        android:id="@+id/bottombar_table"
+        android:layout_width="0dp"
+        android:layout_height="match_parent"
+        android:layout_weight="1"
+        android:background="@drawable/selector_background"
+        android:contentDescription="@string/bottombar_table"
+        android:gravity="center_horizontal"
+        android:scaleType="center"
+        android:src="@drawable/bottom_table" />
+
+    <ImageView
+        android:id="@+id/bottombar_ok"
+        android:layout_width="0dp"
+        android:layout_height="match_parent"
+        android:layout_weight="1"
+        android:background="@drawable/selector_background"
+        android:contentDescription="@string/bottombar_table"
+        android:gravity="center_horizontal"
+        android:scaleType="center"
+        android:src="@drawable/icon_ok" />
+    
+    <ImageView
+        android:id="@+id/bottombar_more"
+        android:layout_width="0dp"
+        android:layout_height="match_parent"
+        android:layout_weight="1"
+        android:background="@drawable/selector_background"
+        android:contentDescription="@string/bottombar_table"
+        android:gravity="center_horizontal"
+        android:scaleType="center"
+        android:src="@drawable/icon_menu" />
+
+</LinearLayout>

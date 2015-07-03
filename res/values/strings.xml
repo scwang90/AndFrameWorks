@@ -2,4 +2,28 @@
 
     <string name="app_name">AndOffice</string>
 
+	<string name="sex_male">男</string>
+    <string name="sex_female">女</string>
+    
+    <string name="vaule_bl_have">有</string>
+    <string name="vaule_new">new</string>
+    
+    <string name="button_minus">—</string>
+    <string name="button_plus">+</string>
+    <string name="button_delete">x</string>
+    <string name="button_finish">完成</string>
+    
+    <string name="edittext_hint">在此输入内容</string>
+    
+    <string name="bottombar_select">选择</string>
+    <string name="bottombar_search">搜索</string>
+    <string name="bottombar_table">表单</string>
+    
+    <string name="module_nodata_to_refresh">点击刷新</string>
+    <string name="module_nodata_to_add">点击添加</string>
+    <string name="module_nodata_nofavorite">您的收藏列表为空</string>
+    <string name="module_nodata_norecord">您的还没有添加任何记录</string>
+    <string name="module_nodata_description">暂无相关数据记录</string>
+    <string name="module_nodata_nofixed">定位失败，无法获取身边信息！</string>
+    
 </resources>

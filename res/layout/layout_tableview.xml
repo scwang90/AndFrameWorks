@@ -1,0 +1,21 @@
+<?xml version="1.0" encoding="utf-8"?>
+<FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="fill_parent"
+    android:layout_height="fill_parent"
+    android:background="@color/theme_background"
+    android:orientation="vertical" >
+    <include layout="@layout/module_titlebar_other" android:visibility="gone"/>
+    <com.andframe.view.tableview.AfTableView
+        android:id="@+id/tableview_horview"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent" >
+    </com.andframe.view.tableview.AfTableView>
+    <ImageView
+        android:id="@+id/tableview_goback"
+        android:layout_width="70dip"
+        android:layout_height="45dp"
+        android:contentDescription="@string/app_name"
+        android:background="@drawable/selector_button_back"
+        android:scaleType="centerInside"
+        android:src="@drawable/icon_goback" />
+</FrameLayout>

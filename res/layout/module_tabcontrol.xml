@@ -1,0 +1,59 @@
+<FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:background="@color/theme_gray_dark"
+    android:paddingBottom="3dip" >
+
+    <HorizontalScrollView
+        android:id="@+id/tabcontrol_hscrollview"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:background="@android:color/white"
+        android:scrollbars="none" >
+
+        <RadioGroup
+            android:id="@+id/tabcontrol_radiogroup"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:orientation="horizontal" >
+
+            <RadioButton
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:background="@color/theme_gray_dark"
+                android:button="@null"
+                android:gravity="center"
+                android:paddingLeft="15dip"
+                android:paddingRight="15dip"
+                android:paddingTop="5dip"
+                android:paddingBottom="5dip"
+                android:textColor="@color/black"
+                android:textSize="@dimen/textsize_content" />
+
+            <RadioButton
+                android:layout_width="wrap_content"
+                android:layout_height="match_parent"
+                android:button="@null"
+                android:gravity="center"
+                android:paddingLeft="15dip"
+                android:paddingRight="15dip"
+                android:paddingTop="5dip"
+                android:paddingBottom="5dip"
+                android:textColor="@color/black"
+                android:textSize="@dimen/textsize_content" />
+
+            <RadioButton
+                android:layout_width="wrap_content"
+                android:layout_height="match_parent"
+                android:button="@null"
+                android:gravity="center"
+                android:paddingLeft="15dip"
+                android:paddingRight="15dip"
+                android:paddingTop="5dip"
+                android:paddingBottom="5dip"
+                android:textColor="@color/black"
+                android:textSize="@dimen/textsize_content" />
+        </RadioGroup>
+    </HorizontalScrollView>
+
+</FrameLayout>

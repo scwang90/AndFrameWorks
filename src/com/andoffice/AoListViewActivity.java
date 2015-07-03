@@ -26,9 +26,8 @@ import com.andframe.util.java.AfCollections;
 import com.andframe.view.AfListView;
 import com.andframe.view.pulltorefresh.AfPullToRefreshBase.OnRefreshListener;
 /**
- * @Description: 数据列表框架 Activity
- * @Author: scwang
- * @Version: V1.0, 2015-2-27 上午10:27:22
+ * 数据列表框架 Activity
+ * @author 树朾
  * @param <T> 列表数据实体类
  */
 public abstract class AoListViewActivity<T> extends AfActivity implements OnRefreshListener, OnItemClickListener, OnClickListener{
@@ -49,9 +48,8 @@ public abstract class AoListViewActivity<T> extends AfActivity implements OnRefr
 	 * 设置 并且任务为 TASK_LOAD AfListTask 将自动使用缓存功能
 	 */
 	public Class<T> mCacheClazz = null;
-	/** 
-	 *  缓存使用的 KEY_CACHELIST = this.getClass().getName()
-	 * 		KEY_CACHELIST 为缓存的标识
+	/**
+	 * 缓存使用的 KEY_CACHELIST = this.getClass().getName() KEY_CACHELIST 为缓存的标识
 	 */
 	public String KEY_CACHELIST = this.getClass().getName();
 	
@@ -59,6 +57,7 @@ public abstract class AoListViewActivity<T> extends AfActivity implements OnRefr
 		// TODO Auto-generated constructor stub
 		
 	}
+
 	/**
 	 * 使用缓存必须调用这个构造函数
 	 * @param clazz
@@ -67,6 +66,7 @@ public abstract class AoListViewActivity<T> extends AfActivity implements OnRefr
 		// TODO Auto-generated constructor stub
 		this.mCacheClazz = clazz;
 	}
+
 	/**
 	 * 使用缓存必须调用这个构造函数
 	 * 	可以自定义缓存标识
@@ -77,10 +77,10 @@ public abstract class AoListViewActivity<T> extends AfActivity implements OnRefr
 		this.mCacheClazz = clazz;
 		this.KEY_CACHELIST = KEY_CACHELIST;
 	}
+
 	/**
-	 * @Description: 创建方法
-	 * @Author: scwang
-	 * @Version: V1.0, 2015-2-27 上午10:28:01
+	 * 创建方法
+	 * @author 树朾
 	 * @Modified:
 	 * @param bundle
 	 * @param intent
@@ -103,9 +103,10 @@ public abstract class AoListViewActivity<T> extends AfActivity implements OnRefr
 		setLoading();
 		postTask(new AbListViewTask(mCacheClazz,KEY_CACHELIST));
 	}
+
 	/**
-	 * @Description: 获取setContentView的id
-	 * @Author: scwang
+	 * 获取setContentView的id
+	 * @author 树朾
 	 * @return id
 	 */
 	protected abstract int getLayoutId();
@@ -137,9 +138,8 @@ public abstract class AoListViewActivity<T> extends AfActivity implements OnRefr
 
 
 	/**
-	 * @Description: 显示数据页面
-	 * @Author: scwang
-	 * @Version: V1.0, 2015-2-27 上午10:18:26
+	 * 显示数据页面
+	 * @author 树朾
 	 * @param adapter
 	 */
 	public void setData(AfListAdapter<T> adapter) {
@@ -149,9 +149,8 @@ public abstract class AoListViewActivity<T> extends AfActivity implements OnRefr
 	}
 
 	/**
-	 * @Description: 正在加载数据提示
-	 * @Author: scwang
-	 * @Version: V1.0, 2015-2-27 上午10:18:05
+	 * 正在加载数据提示
+	 * @author 树朾
 	 */
 	public void setLoading() {
 		// TODO Auto-generated method stub
@@ -174,10 +173,8 @@ public abstract class AoListViewActivity<T> extends AfActivity implements OnRefr
 	};
 
 	/**
-	 * @Description: 处理空数据
-	 * @Author: scwang
-	 * @Version: V1.0, 2015-2-27 上午10:16:46
-	 * @Modified: 初次创建setNodata方法
+	 * 处理空数据
+	 * @author 树朾
 	 */
 	public void setNodata() {
 		// TODO Auto-generated method stub
@@ -187,9 +184,8 @@ public abstract class AoListViewActivity<T> extends AfActivity implements OnRefr
 	}
 
 	/**
-	 * @Description: 错误信息处理
-	 * @Author: scwang
-	 * @Version: V1.0, 2015-2-27 上午10:16:26
+	 * 错误信息处理
+	 * @author 树朾
 	 * @param ex
 	 */
 	public void setLoadError(Throwable ex) {
@@ -200,9 +196,8 @@ public abstract class AoListViewActivity<T> extends AfActivity implements OnRefr
 	}
 
 	/**
-	 * @Description: 用户加载分页通知事件
-	 * @Author: scwang
-	 * @Version: V1.0, 2015-2-27 上午10:15:54
+	 * 用户加载分页通知事件
+	 * @author 树朾
 	 * @return
 	 */
 	@Override
@@ -213,9 +208,8 @@ public abstract class AoListViewActivity<T> extends AfActivity implements OnRefr
 	}
 
 	/**
-	 * @Description: 用户刷新数据通知事件
-	 * @Author: scwang
-	 * @Version: V1.0, 2015-2-27 上午10:14:52
+	 * 用户刷新数据通知事件
+	 * @author 树朾
 	 * @return
 	 */
 	@Override
@@ -226,9 +220,8 @@ public abstract class AoListViewActivity<T> extends AfActivity implements OnRefr
 	}
 
 	/**
-	 * @Description: 数据列表点击事件
-	 * @Author: scwang
-	 * @Version: V1.0, 2015-2-27 上午10:25:18
+	 * 数据列表点击事件
+	 * @author 树朾
 	 * @param parent
 	 * @param view
 	 * @param index
@@ -242,9 +235,8 @@ public abstract class AoListViewActivity<T> extends AfActivity implements OnRefr
 	}
 
 	/**
-	 * @Description: onItemClick 事件的 包装 一般情况下子类可以重写这个方法
-	 * @Author: scwang
-	 * @Version: V1.0, 2015-2-27 上午10:20:05
+	 * onItemClick 事件的 包装 一般情况下子类可以重写这个方法
+	 * @author 树朾
 	 * @param model
 	 * @param index
 	 */
@@ -264,7 +256,7 @@ public abstract class AoListViewActivity<T> extends AfActivity implements OnRefr
 
 	/**
 	 * 数据加载内部任务类（数据加载事件已经转发，无实际处理代码）
-	 * @author scwang
+	 * @author 树朾
 	 */
 	protected class AbListViewTask extends AfListViewTask<T> {
 
@@ -329,9 +321,8 @@ public abstract class AoListViewActivity<T> extends AfActivity implements OnRefr
 	
 
 	/**
-	 * @Description: 缓存加载结束处理时间（框架默认调用onRefreshed事件处理）
-	 * @Author: scwang
-	 * @Version: V1.0, 2015-1-22 下午9:19:02
+	 * 缓存加载结束处理时间（框架默认调用onRefreshed事件处理）
+	 * @author 树朾
 	 * @param task 
 	 * @param isfinish
 	 * @param ltdata
@@ -348,11 +339,11 @@ public abstract class AoListViewActivity<T> extends AfActivity implements OnRefr
 		}
 		return deal;
 	}
+
 	/**
 	 * @param task 
-	 * @Description: 任务刷新结束处理事件
-	 * @Author: scwang
-	 * @Version: V1.0, 2015-1-20 上午11:29:09
+	 * 任务刷新结束处理事件
+	 * @author 树朾
 	 * @param isfinish 是否成功执行
 	 * @param ltdata
 	 * @return 返回true 已经做好错误页面显示 返回false 框架会做好默认错误反馈
@@ -387,10 +378,10 @@ public abstract class AoListViewActivity<T> extends AfActivity implements OnRefr
 		}
 		return true;
 	}
+
 	/**
-	 * @Description: 任务加载更多结束处理事件
-	 * @Author: scwang
-	 * @Version: V1.0, 2015-1-20 上午11:34:04
+	 * 任务加载更多结束处理事件
+	 * @author 树朾
 	 * @param loadListTask
 	 * @param isfinish
 	 * @param ltdata
@@ -419,6 +410,7 @@ public abstract class AoListViewActivity<T> extends AfActivity implements OnRefr
 		}
 		return true;
 	}
+
 	/**
 	 * 获取列表项布局Item
 	 * 如果重写 newAdapter 之后，本方法将无效
@@ -429,16 +421,15 @@ public abstract class AoListViewActivity<T> extends AfActivity implements OnRefr
 	protected abstract IAfLayoutItem<T> getItemLayout(T data);
 
 	/**
-	 * @Description: 加载缓存列表（不分页，在异步线程中执行，不可以更改页面操作）
-	 * @Author: scwang
-	 * @Version: V1.0, 2015-1-22 下午9:27:48
-	 * @Modified: 初次创建onLoad方法
+	 * 加载缓存列表（不分页，在异步线程中执行，不可以更改页面操作）
+	 * @author 树朾
 	 * @return 返回 null 可以使用框架内置缓存
 	 */
 	protected List<T> onTaskLoad() {
 		// TODO Auto-generated method stub
 		return null;
 	}
+
 	/**
 	 * 数据分页加载（在异步线程中执行，不可以更改页面操作）
 	 * @param page 分页对象
@@ -449,10 +440,8 @@ public abstract class AoListViewActivity<T> extends AfActivity implements OnRefr
 	protected abstract List<T> onTaskListByPage(Page page, int task) throws Exception;
 
 	/**
-	 * @Description: 根据数据ltdata新建一个 适配器 重写这个方法之后getItemLayout方法将失效
-	 * @Author: scwang
-	 * @Version: V1.0, 2015-1-20 下午4:46:34
-	 * @Modified: 初次创建newAdapter方法
+	 * 根据数据ltdata新建一个 适配器 重写这个方法之后getItemLayout方法将失效
+	 * @author 树朾
 	 * @param context
 	 * @param ltdata
 	 * @return
@@ -463,9 +452,8 @@ public abstract class AoListViewActivity<T> extends AfActivity implements OnRefr
 	}
 
 	/**
-	 * @Description: ListView数据适配器（事件已经转发getItemLayout，无实际处理代码）
-	 * @Author: scwang
-	 * @Version: V1.0, 2015-2-27 上午10:21:27
+	 * ListView数据适配器（事件已经转发getItemLayout，无实际处理代码）
+	 * @author 树朾
 	 */
 	protected class AbListViewAdapter extends AfListAdapter<T>{
 
@@ -474,8 +462,8 @@ public abstract class AoListViewActivity<T> extends AfActivity implements OnRefr
 			// TODO Auto-generated constructor stub
 		}
 		/**
-		 * @Description: 转发事件到 AoListViewActivity.this.getItemLayout(data);
-		 * @Author: scwang
+		 * 转发事件到 AoListViewActivity.this.getItemLayout(data);
+		 * @author 树朾
 		 * @param data
 		 * @return 
 		 */
