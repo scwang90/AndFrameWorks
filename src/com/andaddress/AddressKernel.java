@@ -41,6 +41,7 @@ public class AddressKernel {
 			};
 		}.start();
 	}
+
 	/**
 	 * 获取（访问网络，延迟，异常）
 	 * @throws IOException
