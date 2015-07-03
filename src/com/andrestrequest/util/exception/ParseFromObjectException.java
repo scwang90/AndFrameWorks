@@ -6,9 +6,7 @@ import com.andrestrequest.AndRestException;
 
 /**
  * Exception condition when parsing from {@link DomainObject}
- * 
  * @author s0pau
- * 
  */
 public class ParseFromObjectException extends AndRestException
 {

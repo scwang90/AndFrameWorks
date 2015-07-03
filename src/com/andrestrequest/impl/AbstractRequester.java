@@ -6,10 +6,8 @@ import java.util.Map;
 import com.andrestrequest.http.DefaultRequestHandler;
 
 /**
- * @Description: Http请求 抽象类
- * @Author: scwang
- * @Version: V1.0, 2015-3-6 下午7:36:01
- * @Modified: 初次创建AbstractRequester类
+ * Http请求 抽象类
+ * @author 树朾
  */
 public abstract class AbstractRequester {
 

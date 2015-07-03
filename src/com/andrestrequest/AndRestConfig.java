@@ -4,45 +4,29 @@ import java.io.InputStream;
 import java.util.Properties;
 
 /**
- * @Description: 服务器配置类
- * @Author: scwang
- * @Version: V1.0, 2015-3-4 下午6:58:51
+ * 服务器配置类
+ * @author 树朾
  */
 public class AndRestConfig {
 
-	/**
-	 * 编码
-	 */
+	/** 编码 */
 	private static String charset = "UTF-8";
-	/**
-	 * 服务器接口版本
-	 */
+	/** 服务器接口版本 */
 	private static String version = "V1.0.0.0";
-	/**
-	 * 服务器IP
-	 */
+	/** 服务器IP */
 	private static String ip = "127.0.0.1";
-	/**
-	 * 服务器端口
-	 */
+	/** 服务器端口 */
 	private static String port = "1234";
-	/**
-	 * 链接超时
-	 */
+	/** 链接超时 */
 	private static Integer socketTimeout = 3000;
-	/**
-	 * 链接超时
-	 */
+	/** 链接超时 */
 	private static Integer connectionTimeout = 3000;
-	/**
-	 * 接收类型
-	 */
+	/** 接收类型 */
 	private static AcceptedMediaType responseMediaType = AcceptedMediaType.json;
 	
 	/**
-	 * @Description: 接收类型
-	 * @Author: scwang
-	 * @Version: V1.0, 2015-3-6 下午8:24:58
+	 * 接收类型
+	 * @author 树朾
 	 */
 	public enum AcceptedMediaType {
 		json("application/json"), xml("application/xml"), csv("text/html");
@@ -64,9 +48,8 @@ public class AndRestConfig {
 //	public static void main(String[] args) {
 //		System.out.println(new URIBuilder().setScheme("http").setHost("www.baidu.com:8888").setPath("/123/444"));
 //	}
-	/**
-	 * 静态加载配置文件信息
-	 */
+
+	/** 静态加载配置文件信息 */
 	static {
 		String path = "config.properties";
 		InputStream inputStream = AndRestConfig.class.getResourceAsStream(path);

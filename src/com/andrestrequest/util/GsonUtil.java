@@ -28,7 +28,6 @@ import com.google.gson.JsonSerializer;
 
 /**
  * Helper class for parsing to and from json for API calls
- * 
  * @author s0pau
  */
 public class GsonUtil {

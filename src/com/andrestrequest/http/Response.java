@@ -13,9 +13,7 @@ import com.andrestrequest.util.exception.ParseToObjectException;
 
 /**
  * Wrapper to decouple response implementation from the rest of the library
- * 
  * @author s0pau
- * 
  */
 public class Response {
 	
@@ -52,7 +50,6 @@ public class Response {
 
 	/**
 	 * Shallow cope the collection of headers
-	 * 
 	 * @param headers
 	 */
 	public void setHeaders(Map<String, String> headers) {

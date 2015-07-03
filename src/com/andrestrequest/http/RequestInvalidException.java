@@ -6,9 +6,7 @@ import com.andrestrequest.AndRestException;
 
 /**
  * Exception condition when constructing requests
- * 
  * @author s0pau
- * 
  */
 public class RequestInvalidException extends AndRestException
 {

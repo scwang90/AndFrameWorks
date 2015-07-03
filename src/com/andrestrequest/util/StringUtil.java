@@ -8,9 +8,7 @@ import com.andrestrequest.AndRestException;
 
 /**
  * Utility class for String
- * 
  * @author s0pau
- * 
  */
 public class StringUtil {
 	/**
@@ -56,7 +54,6 @@ public class StringUtil {
 	}
 
 	/**
-	 * 
 	 * @param o
 	 * @return string of the object
 	 * @exception UnsupportedOperationException

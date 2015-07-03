@@ -32,7 +32,6 @@ import com.andrestrequest.util.StringUtil;
 /**
  * Handler for building and making requests, uses {@link DefaultResponseHandler}
  * to process the response
- * 
  * @author s0pau
  */
 @SuppressWarnings("deprecation")
@@ -85,9 +84,7 @@ public class DefaultRequestHandler {
 
 	/**
 	 * * Make the request to Xively API and return the response string
-	 * 
 	 * @param <T extends ConnectedObject>
-	 * 
 	 * @param method
 	 *            http request methods
 	 * @param path

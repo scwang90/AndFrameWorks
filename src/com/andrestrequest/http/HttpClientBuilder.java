@@ -14,7 +14,6 @@ import com.andrestrequest.AndRestConfig;
  * configure HTTP client behaviours such as retry and timeouts, abstracted from
  * underlying implementation.
  * 
- * 
  * @author s0pau
  */
 @SuppressWarnings("deprecation")

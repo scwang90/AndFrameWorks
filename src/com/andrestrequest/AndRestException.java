@@ -4,9 +4,7 @@ package com.andrestrequest;
 
 /**
  * Parent exception from which all exception classes in this library extends.
- * 
  * @author s0pau
- * 
  */
 public class AndRestException extends RuntimeException
 {

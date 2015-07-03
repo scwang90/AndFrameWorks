@@ -24,7 +24,6 @@ import com.andrestrequest.util.exception.ParseToObjectException;
  * Class for handling the http response
  * @author s0pau
  * @param <T>
- * 
  */
 @SuppressWarnings("deprecation")
 public class DefaultResponseHandler implements ResponseHandler<Response> {

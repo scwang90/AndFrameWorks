@@ -6,9 +6,7 @@ import com.andrestrequest.AndRestException;
 
 /**
  * Exception condition when executing HTTP requests to API
- * 
  * @author s0pau
- * 
  */
 public class HttpException extends AndRestException {
 	
