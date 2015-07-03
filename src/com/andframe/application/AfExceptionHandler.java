@@ -52,7 +52,7 @@ public class AfExceptionHandler implements UncaughtExceptionHandler{
 	
 	public static Exceptional getHandler(Thread thread,Throwable ex,String remark) {
 		Exceptional ehandler = new Exceptional();
-		ehandler.Thread = "“Ï≥£œﬂ≥Ã£∫" + thread;
+		ehandler.Thread = "ÂºÇÂ∏∏Á∫øÁ®ãÔºö" + thread;
 		
 		ehandler.Remark = remark;
 		ehandler.Name = getExceptionName(ex);
@@ -92,19 +92,19 @@ public class AfExceptionHandler implements UncaughtExceptionHandler{
 	protected void onHandlerAttachException(Throwable ex, String remark,String handlerid) {
 		// TODO Auto-generated method stub
 		try {
-			String msg = " ±º‰:" + AfDateFormat.FULL.format(new Date()) +
-					"\r\n\r\n±∏◊¢:\r\n" + "Attach-"+remark +
-					"\r\n\r\n“Ï≥£:\r\n" + getExceptionName(ex) + 
-					"\r\n\r\n–≈œ¢:\r\n" + getExceptionMessage(ex) + 
-					"\r\n\r\nøÏΩ›:\r\n" + getPackageStackTraceInfo(ex) + 
-					"\r\n\r\n∂—’ª:\r\n" + getStackTraceInfo(ex);
+			String msg = "Êó∂Èó¥:" + AfDateFormat.FULL.format(new Date()) +
+					"\r\n\r\nÂ§áÊ≥®:\r\n" + "Attach-"+remark +
+					"\r\n\r\nÂºÇÂ∏∏:\r\n" + getExceptionName(ex) + 
+					"\r\n\r\n‰ø°ÊÅØ:\r\n" + getExceptionMessage(ex) + 
+					"\r\n\r\nÂø´Êç∑:\r\n" + getPackageStackTraceInfo(ex) + 
+					"\r\n\r\nÂ†ÜÊ†à:\r\n" + getStackTraceInfo(ex);
 			AfDurableCache dc = AfDurableCache.getInstance("attach");
 			dc.put(AfDateGuid.NewID(), msg);
 			
 			
 			AfActivity activity = AfApplication.getApp().getCurActivity();
 			if (activity != null && mIsShowDialog) {
-				doShowDialog(activity,"“Ï≥£≤∂◊Ω",msg,handlerid);
+				doShowDialog(activity,"ÂºÇÂ∏∏ÊçïÊçâ",msg,handlerid);
 			}
 			
 			String path = AfDurableCache.getPath();
@@ -119,18 +119,18 @@ public class AfExceptionHandler implements UncaughtExceptionHandler{
 	protected void onHandlerException(Throwable ex, String remark, String handlerid) {
 		// TODO Auto-generated method stub
 		try {
-			String msg = " ±º‰:" + AfDateFormat.FULL.format(new Date()) +
-					"\r\n\r\n±∏◊¢:\r\n" + remark +
-					"\r\n\r\n“Ï≥£:\r\n" + getExceptionName(ex) + 
-					"\r\n\r\n–≈œ¢:\r\n" + getExceptionMessage(ex) + 
-					"\r\n\r\nøÏΩ›:\r\n" + getPackageStackTraceInfo(ex) + 
-					"\r\n\r\n∂—’ª:\r\n" + getStackTraceInfo(ex);
+			String msg = "Êó∂Èó¥:" + AfDateFormat.FULL.format(new Date()) +
+					"\r\n\r\nÂ§áÊ≥®:\r\n" + remark +
+					"\r\n\r\nÂºÇÂ∏∏:\r\n" + getExceptionName(ex) + 
+					"\r\n\r\n‰ø°ÊÅØ:\r\n" + getExceptionMessage(ex) + 
+					"\r\n\r\nÂø´Êç∑:\r\n" + getPackageStackTraceInfo(ex) + 
+					"\r\n\r\nÂ†ÜÊ†à:\r\n" + getStackTraceInfo(ex);
 			AfDurableCache dc = AfDurableCache.getInstance("handler");
 			dc.put(AfDateGuid.NewID(), msg);
 			
 			AfActivity activity = AfApplication.getApp().getCurActivity();
 			if (activity != null && mIsShowDialog) {
-				doShowDialog(activity,"“Ï≥£≤∂◊Ω",msg,handlerid);
+				doShowDialog(activity,"ÂºÇÂ∏∏ÊçïÊçâ",msg,handlerid);
 			}
 			
 			String path = AfDurableCache.getPath();
@@ -146,18 +146,18 @@ public class AfExceptionHandler implements UncaughtExceptionHandler{
 	public void uncaughtException(final Thread thread, final Throwable ex) {
 		try {
 			ex.printStackTrace();
-			String msg = "»’∆⁄:" +AfDateFormat.FULL.format(new Date()) + 
-					"\r\n\r\n±∏◊¢:\r\n" + "≥Ã–Ú±¿¿£" +
-					"\r\n\r\n“Ï≥£:\r\n" + getExceptionName(ex) + 
-					"\r\n\r\n–≈œ¢:\r\n" + getExceptionMessage(ex) + 
-					"\r\n\r\nøÏΩ›:\r\n" + getPackageStackTraceInfo(ex) + 
-					"\r\n\r\n∂—’ª:\r\n" + getStackTraceInfo(ex);
+			String msg = "Êó•Êúü:" +AfDateFormat.FULL.format(new Date()) + 
+					"\r\n\r\nÂ§áÊ≥®:\r\n" + "Á®ãÂ∫èÂ¥©Ê∫É" +
+					"\r\n\r\nÂºÇÂ∏∏:\r\n" + getExceptionName(ex) + 
+					"\r\n\r\n‰ø°ÊÅØ:\r\n" + getExceptionMessage(ex) + 
+					"\r\n\r\nÂø´Êç∑:\r\n" + getPackageStackTraceInfo(ex) + 
+					"\r\n\r\nÂ†ÜÊ†à:\r\n" + getStackTraceInfo(ex);
 			AfDurableCache dc = AfDurableCache.getInstance("error");
 			dc.put(AfDateGuid.NewID(), msg);
 			
 			AfActivity activity = AfApplication.getApp().getCurActivity();
 			if (activity != null && mIsShowDialog) {
-				doShowDialog(activity, "≥Ã–Ú±¿¿£¡À", msg,new Handler.Callback() {
+				doShowDialog(activity, "Á®ãÂ∫èÂ¥©Ê∫É‰∫Ü", msg,new Handler.Callback() {
 					@Override
 					public boolean handleMessage(Message msg) {
 						// TODO Auto-generated method stub
@@ -188,9 +188,9 @@ public class AfExceptionHandler implements UncaughtExceptionHandler{
 	public static String getAllStackTraceInfo(Throwable ex) {
 		// TODO Auto-generated method stub
 		StringBuilder sb = new StringBuilder();
-		sb.append("±æµÿÕ∆’ª:\r\n");
+		sb.append("Êú¨Âú∞Êé®Ê†à:\r\n");
 		sb.append(getPackageStackTraceInfo(ex));
-		sb.append("\r\n»´≤ø∂—’ª:\r\n");
+		sb.append("\r\nÂÖ®ÈÉ®Â†ÜÊ†à:\r\n");
 		sb.append(getStackTraceInfo(ex));
 		return sb.toString();
 	}
@@ -275,7 +275,7 @@ public class AfExceptionHandler implements UncaughtExceptionHandler{
 					dialog.setTitle(ttitle);
 					dialog.setCancelable(false);
 					dialog.setMessage(tmsg);
-					dialog.setNeutralButton("Œ“÷™µ¿¡À", 
+					dialog.setNeutralButton("ÊàëÁü•ÈÅì‰∫Ü", 
 						new OnClickListener() {
 							@Override
 							@SuppressLint("HandlerLeak")

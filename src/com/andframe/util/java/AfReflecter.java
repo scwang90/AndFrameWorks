@@ -9,17 +9,17 @@ import java.lang.reflect.Type;
 import java.util.ArrayList;
 import java.util.List;
 /**
- * java ·´Éä¹¤¾ßÀà
+ * java åå°„å·¥å…·ç±»
  * @author SCWANG
  */
 public class AfReflecter {
 
 	/**
-	 * @Description: »ñÈ¡ subobj Ïà¶Ô ¸¸Àà supclass µÄ µÚindex¸ö·ºĞÍ²ÎÊı
-	 * @param subobj ¶ÔÏó Ò»°ãÓÃthis Èç class Type<E> ¿É´«Èë Type.this 
-	 * @param supclass ¸¸Àà(Ä£°åÀà) Èç class Type<E> ¿É´«Èë Type.class 
-	 * @param index Òª»ñÈ¡²ÎÊıµÄĞòÁĞ Ò»°ãÓÃ0
-	 * @return null ²éÕÒÊ§°Ü ·ñÔò·µ»Ø²ÎÊıÀàĞÍClass<?>
+	 * @Description: è·å– subobj ç›¸å¯¹ çˆ¶ç±» supclass çš„ ç¬¬indexä¸ªæ³›å‹å‚æ•°
+	 * @param subobj å¯¹è±¡ ä¸€èˆ¬ç”¨this å¦‚ class Type<E> å¯ä¼ å…¥ Type.this 
+	 * @param supclass çˆ¶ç±»(æ¨¡æ¿ç±») å¦‚ class Type<E> å¯ä¼ å…¥ Type.class 
+	 * @param index è¦è·å–å‚æ•°çš„åºåˆ— ä¸€èˆ¬ç”¨0
+	 * @return null æŸ¥æ‰¾å¤±è´¥ å¦åˆ™è¿”å›å‚æ•°ç±»å‹Class<?>
 	 */
 	@SuppressWarnings("unchecked")
 	public static <T> Class<T> getActualTypeArgument(Object subobj,Class<?> supclass,int index){
@@ -52,7 +52,7 @@ public class AfReflecter {
 	}
 
 	/**
-	 * ÔÚclazzÖĞ»ñÈ¡ËùÓĞField(°üÀ¨¸¸Àà)
+	 * åœ¨clazzä¸­è·å–æ‰€æœ‰Field(åŒ…æ‹¬çˆ¶ç±»)
 	 * @param clazz
 	 * @param annot
 	 * @return Field[]
@@ -70,7 +70,7 @@ public class AfReflecter {
 	}
 	
 	/**
-	 * ÔÚclazzÖĞ»ñÈ¡ËùÓĞ±ê¼ÇannotµÄField(°üÀ¨¸¸Àà)
+	 * åœ¨clazzä¸­è·å–æ‰€æœ‰æ ‡è®°annotçš„Field(åŒ…æ‹¬çˆ¶ç±»)
 	 * @param clazz
 	 * @param annot
 	 * @return Field[]
@@ -90,7 +90,7 @@ public class AfReflecter {
 	}
 
 	/**
-	 * ÀûÓÃ·´ÉäÉèÖÃ »ñÈ¡typeµÄmethodµÄAnnotation(°üÀ¨¸¸Àà)
+	 * åˆ©ç”¨åå°„è®¾ç½® è·å–typeçš„methodçš„Annotation(åŒ…æ‹¬çˆ¶ç±»)
 	 * @param type
 	 * @param method
 	 * @param annot
@@ -111,7 +111,7 @@ public class AfReflecter {
 		return null;
 	}	
 	/**
-	 * ÀûÓÃ·´ÉäÉèÖÃ »ñÈ¡typeµÄmethod(°üÀ¨¸¸Àà)
+	 * åˆ©ç”¨åå°„è®¾ç½® è·å–typeçš„method(åŒ…æ‹¬çˆ¶ç±»)
 	 * @param type
 	 * @param method
 	 * @return method or null
@@ -129,9 +129,9 @@ public class AfReflecter {
 		return null;
 	}	
 	/**
-	 * ÀûÓÃ·´ÉäÉèÖÃ »ñÈ¡typeµÄfield(°üÀ¨¸¸Àà)
+	 * åˆ©ç”¨åå°„è®¾ç½® è·å–typeçš„field(åŒ…æ‹¬çˆ¶ç±»)
 	 * @param type
-	 * @param field ²»Ö§³Ö¡®.¡¯Â·¾¶
+	 * @param field ä¸æ”¯æŒâ€˜.â€™è·¯å¾„
 	 * @return field or null
 	 */
 	public static Field getField(Class<?> type, String field) {
@@ -152,14 +152,14 @@ public class AfReflecter {
 	}
 	
 	/**
-	 * ÀûÓÃ·´ÉäÉèÖÃ Éî²ã»ñÈ¡ÀàĞÍtypeµÄÊôĞÔpathµÄField(°üÀ¨¸¸Àà)
+	 * åˆ©ç”¨åå°„è®¾ç½® æ·±å±‚è·å–ç±»å‹typeçš„å±æ€§pathçš„Field(åŒ…æ‹¬çˆ¶ç±»)
 	 * @param obj
 	 * @param type
 	 * @param path
 	 * @param index
 	 * @return
 	 * @throws NoSuchFieldException 
-	 * @throws Exception Êı×éÔ½½ç
+	 * @throws Exception æ•°ç»„è¶Šç•Œ
 	 */
 	private static Field getField(Class<?> type, String[] path,int index) throws Exception{
 		Field field = getField(type,path[index]);
@@ -172,9 +172,9 @@ public class AfReflecter {
 	}
 
 	/**
-	 * »ñÈ¡×Ö¶Î Field(°üÀ¨¸¸Àà)
+	 * è·å–å­—æ®µ Field(åŒ…æ‹¬çˆ¶ç±»)
 	 * @param model 
-	 * @param field Ö§³Ö¡®.¡¯Â·¾¶ Èç person.name
+	 * @param field æ”¯æŒâ€˜.â€™è·¯å¾„ å¦‚ person.name
 	 * @return
 	 * @throws Exception
 	 */
@@ -184,9 +184,9 @@ public class AfReflecter {
 	}
 
 	/**
-	 * »ñÈ¡×Ö¶Î Field(°üÀ¨¸¸Àà)
+	 * è·å–å­—æ®µ Field(åŒ…æ‹¬çˆ¶ç±»)
 	 * @param model
-	 * @param field Ö§³Ö¡®.¡¯Â·¾¶ Èç person.name
+	 * @param field æ”¯æŒâ€˜.â€™è·¯å¾„ å¦‚ person.name
 	 * @return
 	 */
 	public static Field getFieldNoException(Object model, String field) {
@@ -200,12 +200,12 @@ public class AfReflecter {
 	}
 	
 	/**
-	 * ÀûÓÃ·´ÉäÉèÖÃ ¶ÔÏóobjµÄÊôĞÔpathÎª value
+	 * åˆ©ç”¨åå°„è®¾ç½® å¯¹è±¡objçš„å±æ€§pathä¸º value
 	 * @param type
 	 * @param path
 	 * @param obj
 	 * @param value
-	 * @param index ±ØĞëÖ¸¶¨Îª 0
+	 * @param index å¿…é¡»æŒ‡å®šä¸º 0
 	 * @throws NoSuchFieldException
 	 * @throws IllegalAccessException 
 	 * @throws IllegalArgumentException 
@@ -223,7 +223,7 @@ public class AfReflecter {
 	}
 
 	/**
-	 * ÀûÓÃ·´ÉäÉèÖÃ »ñÈ¡¶ÔÏóobjµÄÊôĞÔpathµÄvalue
+	 * åˆ©ç”¨åå°„è®¾ç½® è·å–å¯¹è±¡objçš„å±æ€§pathçš„value
 	 * @param obj
 	 * @param type
 	 * @param path
@@ -232,7 +232,7 @@ public class AfReflecter {
 	 * @throws NoSuchFieldException 
 	 * @throws IllegalAccessException 
 	 * @throws IllegalArgumentException 
-	 * @throws Exception Êı×éÔ½½ç
+	 * @throws Exception æ•°ç»„è¶Šç•Œ
 	 */
 	private static Object invokeMember(Class<?> type, String[] path,Object obj, 
 			int index) throws Exception  {
@@ -248,23 +248,23 @@ public class AfReflecter {
 	}
 
 	/**
-	 * »ñÈ¡ obj ÊôĞÔ field µÄÖµ
+	 * è·å– obj å±æ€§ field çš„å€¼
 	 * @param obj
-	 * @param field Ö§³Ö¡®.¡¯Â·¾¶ Èç person.name
+	 * @param field æ”¯æŒâ€˜.â€™è·¯å¾„ å¦‚ person.name
 	 * @return
 	 * @throws NoSuchFieldException 
 	 * @throws IllegalAccessException 
 	 * @throws IllegalArgumentException 
-	 * @throws Exception Êı×éÔ½½ç
+	 * @throws Exception æ•°ç»„è¶Šç•Œ
 	 */
 	public static void setMember(Object obj,String field,Object value) throws Exception {
 		invokeMember(obj.getClass(), field.split("\\."), obj,value, 0);
 	}
 
 	/**
-	 * »ñÈ¡ obj ÊôĞÔ field µÄÖµ
+	 * è·å– obj å±æ€§ field çš„å€¼
 	 * @param obj
-	 * @param field Ö§³Ö¡®.¡¯Â·¾¶ Èç person.name
+	 * @param field æ”¯æŒâ€˜.â€™è·¯å¾„ å¦‚ person.name
 	 * @return
 	 */
 	public static boolean setMemberNoException(Object obj,String field,Object value) {
@@ -279,23 +279,23 @@ public class AfReflecter {
 
 
 	/**
-	 * »ñÈ¡ obj ÊôĞÔ field µÄÖµ
+	 * è·å– obj å±æ€§ field çš„å€¼
 	 * @param obj
-	 * @param field Ö§³Ö¡®.¡¯Â·¾¶ Èç person.name
+	 * @param field æ”¯æŒâ€˜.â€™è·¯å¾„ å¦‚ person.name
 	 * @return
 	 * @throws NoSuchFieldException 
 	 * @throws IllegalAccessException 
 	 * @throws IllegalArgumentException 
-	 * @throws Exception Êı×éÔ½½ç
+	 * @throws Exception æ•°ç»„è¶Šç•Œ
 	 */
 	public static Object getMember(Object obj,String field) throws Exception {
 		return invokeMember(obj.getClass(), field.split("\\."), obj, 0);
 	}
 
 	/**
-	 * »ñÈ¡ obj ÊôĞÔ field µÄÖµ
+	 * è·å– obj å±æ€§ field çš„å€¼
 	 * @param obj
-	 * @param field Ö§³Ö¡®.¡¯Â·¾¶ Èç person.name
+	 * @param field æ”¯æŒâ€˜.â€™è·¯å¾„ å¦‚ person.name
 	 * @return
 	 */
 	public static Object getMemberNoException(Object obj,String field) {
@@ -308,14 +308,14 @@ public class AfReflecter {
 	}
 
 	/**
-	 * »ñÈ¡ obj ÊôĞÔ field µÄÖµ
+	 * è·å– obj å±æ€§ field çš„å€¼
 	 * @param obj
-	 * @param field Ö§³Ö¡®.¡¯Â·¾¶ Èç person.name
+	 * @param field æ”¯æŒâ€˜.â€™è·¯å¾„ å¦‚ person.name
 	 * @return
 	 * @throws NoSuchFieldException 
 	 * @throws IllegalAccessException 
 	 * @throws IllegalArgumentException 
-	 * @throws Exception Êı×éÔ½½ç
+	 * @throws Exception æ•°ç»„è¶Šç•Œ
 	 */
 	public static <T> T getMember(Object obj,String field,Class<T> clazz) throws Exception {
 		obj = invokeMember(obj.getClass(), field.split("\\."), obj, 0);
@@ -326,9 +326,9 @@ public class AfReflecter {
 	}
 
 	/**
-	 * »ñÈ¡ obj ÊôĞÔ field µÄÖµ
+	 * è·å– obj å±æ€§ field çš„å€¼
 	 * @param obj
-	 * @param field Ö§³Ö¡®.¡¯Â·¾¶ Èç person.name
+	 * @param field æ”¯æŒâ€˜.â€™è·¯å¾„ å¦‚ person.name
 	 * @return
 	 */
 	public static <T> T  getMemberNoException(Object obj,String field,Class<T> clazz) {

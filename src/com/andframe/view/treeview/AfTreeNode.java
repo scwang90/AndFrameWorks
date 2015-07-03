@@ -6,9 +6,9 @@ import java.util.List;
 
 
 public class AfTreeNode<T> {
-	public T value = null;// �ýڵ��ֵ
-	public int level = 0;// �ýڵ��ֵ
-	public boolean isExpanded = false;// �ýڵ��Ƿ�չ��
+	public T value = null;// 该节点的值
+	public int level = 0;// 该节点的值
+	public boolean isExpanded = false;// 该节点是否展开
 	public List<AfTreeNode<T>> children = null;
 	
 	protected AfTreeNode(T model) {

@@ -44,23 +44,23 @@ public abstract class AfTreeViewItem<T> extends AfMultiChoiceItem<T>{
 	@SuppressWarnings("deprecation")
 	public View inflateLayout(View view,AfTreeViewAdapter<T> adapter) {
 		// TODO Auto-generated method stub
-		//ÉèÖÃÊÊÅäÆ÷
+		//è®¾ç½®é€‚é…å™¨
 		mTreeViewAdapter = adapter;
-		//´´½¨²¼¾Ö
+		//åˆ›å»ºå¸ƒå±€
 		mTreeViewContent = view;
 		mTreeViewContent.setFocusable(false);
 		mTreeViewLayout = new LinearLayout(view.getContext());
 		mTreeViewLayout.setOrientation(LinearLayout.HORIZONTAL);
 		mTreeViewLayout.setGravity(Gravity.CENTER_VERTICAL);
 //		mTreeViewLayout.setOnClickListener(this);
-		//ÉèÖÃ±³¾°
+		//è®¾ç½®èƒŒæ™¯
 		if(VERSION.SDK_INT < 16){
 			mTreeViewLayout.setBackgroundDrawable(view.getBackground());
 		}else{
 			mTreeViewLayout.setBackground(view.getBackground());
 		}
 		view.setBackgroundResource(android.R.color.transparent);
-		//°ü×°View
+		//åŒ…è£…View
 		LayoutParams lpView = new LayoutParams(LP_MP,LP_MP);
 		mTreeViewLayout.addView(view,lpView);
 		
@@ -83,10 +83,10 @@ public abstract class AfTreeViewItem<T> extends AfMultiChoiceItem<T>{
 
 	/**
 	 * @param value
-	 * @param level ËùÔÚÊ÷µÄ²ãÊı£¨Ê÷¸ùÎª0£©
-	 * @param isExpanded Ê÷½ÚµãÊÇ·ñÕÅ¿ª
-	 * @param status Ñ¡Ôñ×´Ì¬{NONE,UNSELECT,SELECTED}
-	 * @return »æÖÆ Ñ¡Ôñ×´Ì¬ ·µ»Ø TRUE ·ñÔò FALSE
+	 * @param level æ‰€åœ¨æ ‘çš„å±‚æ•°ï¼ˆæ ‘æ ¹ä¸º0ï¼‰
+	 * @param isExpanded æ ‘èŠ‚ç‚¹æ˜¯å¦å¼ å¼€
+	 * @param status é€‰æ‹©çŠ¶æ€{NONE,UNSELECT,SELECTED}
+	 * @return ç»˜åˆ¶ é€‰æ‹©çŠ¶æ€ è¿”å› TRUE å¦åˆ™ FALSE
 	 */
 	protected abstract boolean onBinding(T model,int level,boolean isExpanded,
 			SelectStatus status);

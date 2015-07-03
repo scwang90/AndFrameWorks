@@ -21,15 +21,15 @@ public abstract class AfPullToRefreshBase<Target extends View> extends
 	// Constants
 	// ===========================================================
 
-	// Ä¦²ÁÁ¦
+	// æ‘©æ“¦åŠ›
 	private static final float FRICTION = 2.0f;
 
-	// ×´Ì¬
+	// çŠ¶æ€
 	private static final int PULL_TO_REFRESH = 0x0;
 	private static final int RELEASE_TO_REFRESH = 0x1;
 	private static final int REFRESHING = 0x2;
 	private static final int MANUAL_REFRESHING = 0x3;
-	// Ä£Ê½
+	// æ¨¡å¼
 	public static final int MODE_NONE = 0x0;
 	public static final int MODE_PULL_DOWN = 0x1;
 	public static final int MODE_PULL_UP = 0x2;
@@ -227,7 +227,7 @@ public abstract class AfPullToRefreshBase<Target extends View> extends
 	// ===========================================================
 
 	/**
-	 * Ìá½»Ë¢ĞÂÍê³É ¸üĞÂÊ±¼ä
+	 * æäº¤åˆ·æ–°å®Œæˆ æ›´æ–°æ—¶é—´
 	 */
 	public final void finishRefresh() {
 		// TODO Auto-generated method stub
@@ -236,7 +236,7 @@ public abstract class AfPullToRefreshBase<Target extends View> extends
 	}
 
 	/**
-	 * Ìá½»Ë¢ĞÂÍê³É µ«ÊÇÊ§°Ü ²»¸üĞÂÊ±¼ä
+	 * æäº¤åˆ·æ–°å®Œæˆ ä½†æ˜¯å¤±è´¥ ä¸æ›´æ–°æ—¶é—´
 	 */
 	public final void finishRefreshFail() {
 		// TODO Auto-generated method stub

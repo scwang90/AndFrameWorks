@@ -5,7 +5,7 @@ import java.util.Collection;
 import java.util.List;
 
 /**
- * ¼¯ºÏ¹¤¾ßÀà
+ * é›†åˆå·¥å…·ç±»
  * @Description: AfCollections
  * @Author: scwang
  */
@@ -31,21 +31,21 @@ public class AfCollections {
 
 	/**
 	 * 
-	 * »ñÈ¡ÔÚ left ÖĞ right ²»´æÔÚµÄÔªËØ
-	 * @param left£¨´«Èë²ÎÊı£¬²»»á¸Ä±ä£©
-	 * @param right£¨´«Èë²ÎÊı£¬²»»á¸Ä±ä£©
-	 * @return Óë left right ¶ÀÁ¢µÄ list
+	 * è·å–åœ¨ left ä¸­ right ä¸å­˜åœ¨çš„å…ƒç´ 
+	 * @param leftï¼ˆä¼ å…¥å‚æ•°ï¼Œä¸ä¼šæ”¹å˜ï¼‰
+	 * @param rightï¼ˆä¼ å…¥å‚æ•°ï¼Œä¸ä¼šæ”¹å˜ï¼‰
+	 * @return ä¸ left right ç‹¬ç«‹çš„ list
 	 */
 	public static <T> List<T> redundance(List<T> left, List<T> right) {
 		return redundance(left, right, new ComparableImpl<T>());
 	}
 	/**
 	 * 
-	 * »ñÈ¡ÔÚ left ÖĞ right ²»´æÔÚµÄÔªËØ
-	 * @param left£¨´«Èë²ÎÊı£¬²»»á¸Ä±ä£©
-	 * @param right£¨´«Èë²ÎÊı£¬²»»á¸Ä±ä£©
-	 * @param comparable ±È½ÏÆ÷
-	 * @return Óë left right ¶ÀÁ¢µÄ list
+	 * è·å–åœ¨ left ä¸­ right ä¸å­˜åœ¨çš„å…ƒç´ 
+	 * @param leftï¼ˆä¼ å…¥å‚æ•°ï¼Œä¸ä¼šæ”¹å˜ï¼‰
+	 * @param rightï¼ˆä¼ å…¥å‚æ•°ï¼Œä¸ä¼šæ”¹å˜ï¼‰
+	 * @param comparable æ¯”è¾ƒå™¨
+	 * @return ä¸ left right ç‹¬ç«‹çš„ list
 	 */
 	public static <T> List<T> redundance(List<T> left, List<T> right,Comparable<T> comparable) {
 		// TODO Auto-generated method stub
@@ -68,10 +68,10 @@ public class AfCollections {
 	}
 	
 	/**
-	 * ÔÚ left ÖĞÌí¼Ó right ÖĞµÄËùÓĞÔªËØ£¨²¢ÅÅ³ıÖØ¸´£©
-	 * @param left £¨´«Èë²ÎÊı£¬É¾³ı³É¹¦ÔªËØ½«»áÔö¶à£©
-	 * @param right£¨´«Èë²ÎÊı£¬²»»á¸Ä±ä£©
-	 * @param comparable ±È½ÏÆ÷
+	 * åœ¨ left ä¸­æ·»åŠ  right ä¸­çš„æ‰€æœ‰å…ƒç´ ï¼ˆå¹¶æ’é™¤é‡å¤ï¼‰
+	 * @param left ï¼ˆä¼ å…¥å‚æ•°ï¼Œåˆ é™¤æˆåŠŸå…ƒç´ å°†ä¼šå¢å¤šï¼‰
+	 * @param rightï¼ˆä¼ å…¥å‚æ•°ï¼Œä¸ä¼šæ”¹å˜ï¼‰
+	 * @param comparable æ¯”è¾ƒå™¨
 	 */
 	public static <T> void addall(List<T> left, List<T> right) {
 		// TODO Auto-generated method stub
@@ -79,10 +79,10 @@ public class AfCollections {
 	}
 	
 	/**
-	 * ÔÚ left ÖĞÌí¼Ó right ÖĞµÄËùÓĞÔªËØ£¨²¢ÅÅ³ıÖØ¸´£©
-	 * @param left £¨´«Èë²ÎÊı£¬É¾³ı³É¹¦ÔªËØ½«»áÔö¶à£©
-	 * @param right£¨´«Èë²ÎÊı£¬²»»á¸Ä±ä£©
-	 * @param comparable ±È½ÏÆ÷
+	 * åœ¨ left ä¸­æ·»åŠ  right ä¸­çš„æ‰€æœ‰å…ƒç´ ï¼ˆå¹¶æ’é™¤é‡å¤ï¼‰
+	 * @param left ï¼ˆä¼ å…¥å‚æ•°ï¼Œåˆ é™¤æˆåŠŸå…ƒç´ å°†ä¼šå¢å¤šï¼‰
+	 * @param rightï¼ˆä¼ å…¥å‚æ•°ï¼Œä¸ä¼šæ”¹å˜ï¼‰
+	 * @param comparable æ¯”è¾ƒå™¨
 	 */
 	public static <T> void addall(List<T> left, List<T> right, Comparable<T> comparable) {
 		List<T> redundance = redundance(right, left,comparable);
@@ -90,18 +90,18 @@ public class AfCollections {
 	}
 	
 	/**
-	 * ÔÚ left ÖĞÉ¾³ı right ÖĞµÄËùÓĞÔªËØ
-	 * @param left £¨´«Èë²ÎÊı£¬É¾³ı³É¹¦ÔªËØ½«»á¼õÉÙ£©
-	 * @param right£¨´«Èë²ÎÊı£¬²»»á¸Ä±ä£©
+	 * åœ¨ left ä¸­åˆ é™¤ right ä¸­çš„æ‰€æœ‰å…ƒç´ 
+	 * @param left ï¼ˆä¼ å…¥å‚æ•°ï¼Œåˆ é™¤æˆåŠŸå…ƒç´ å°†ä¼šå‡å°‘ï¼‰
+	 * @param rightï¼ˆä¼ å…¥å‚æ•°ï¼Œä¸ä¼šæ”¹å˜ï¼‰
 	 */
 	public static <T> void remove(List<T> left, List<T> right) {
 		// TODO Auto-generated method stub
 		remove(left, right, new ComparableImpl<T>());
 	}
 	/**
-	 * ÔÚ left ÖĞÉ¾³ı right ÖĞµÄËùÓĞÔªËØ
-	 * @param left £¨´«Èë²ÎÊı£¬É¾³ı³É¹¦ÔªËØ½«»á¼õÉÙ£©
-	 * @param right£¨´«Èë²ÎÊı£¬²»»á¸Ä±ä£©
+	 * åœ¨ left ä¸­åˆ é™¤ right ä¸­çš„æ‰€æœ‰å…ƒç´ 
+	 * @param left ï¼ˆä¼ å…¥å‚æ•°ï¼Œåˆ é™¤æˆåŠŸå…ƒç´ å°†ä¼šå‡å°‘ï¼‰
+	 * @param rightï¼ˆä¼ å…¥å‚æ•°ï¼Œä¸ä¼šæ”¹å˜ï¼‰
 	 * @param comparable 
 	 */
 	public static <T> void remove(List<T> left, List<T> right, Comparable<T> comparable) {
@@ -115,7 +115,7 @@ public class AfCollections {
 		}
 	}
 	/**
-	 * ÅĞ¶Ï¼¯ºÏ collects ÊÇ·ñÎª¿Õ
+	 * åˆ¤æ–­é›†åˆ collects æ˜¯å¦ä¸ºç©º
 	 * @param collects
 	 * @return collects == null || collects.size() == 0
 	 */
@@ -124,7 +124,7 @@ public class AfCollections {
 		return collects == null || collects.size() == 0;
 	}
 	/**
-	 * ÅĞ¶Ï¼¯ºÏ collects ÊÇ·ñ²»Îª¿Õ
+	 * åˆ¤æ–­é›†åˆ collects æ˜¯å¦ä¸ä¸ºç©º
 	 * @param collects
 	 * @return collects == null || collects.size() == 0
 	 */
@@ -134,10 +134,10 @@ public class AfCollections {
 	}
 	
 	/**
-	 * ±È½Ï left right ÖĞµÄÔªËØÊÇ·ñÏàµÈ °üÀ¨ Ë³Ğò
-	 * @param left£¨´«Èë²ÎÊı£¬²»»á¸Ä±ä£©
-	 * @param right£¨´«Èë²ÎÊı£¬²»»á¸Ä±ä£©
-	 * @return ÏàµÈ true ·ñÔò false
+	 * æ¯”è¾ƒ left right ä¸­çš„å…ƒç´ æ˜¯å¦ç›¸ç­‰ åŒ…æ‹¬ é¡ºåº
+	 * @param leftï¼ˆä¼ å…¥å‚æ•°ï¼Œä¸ä¼šæ”¹å˜ï¼‰
+	 * @param rightï¼ˆä¼ å…¥å‚æ•°ï¼Œä¸ä¼šæ”¹å˜ï¼‰
+	 * @return ç›¸ç­‰ true å¦åˆ™ false
 	 */
 	public static <T> boolean equals(List<T> left,List<T> right) {
 		// TODO Auto-generated method stub
@@ -145,11 +145,11 @@ public class AfCollections {
 	}
 
 	/**
-	 * ±È½Ï left right ÖĞµÄÔªËØÊÇ·ñÏàµÈ °üÀ¨ Ë³Ğò
-	 * @param left£¨´«Èë²ÎÊı£¬²»»á¸Ä±ä£©
-	 * @param right£¨´«Èë²ÎÊı£¬²»»á¸Ä±ä£©
-	 * @param comparable ±È½ÏÆ÷
-	 * @return ÏàµÈ true ·ñÔò false
+	 * æ¯”è¾ƒ left right ä¸­çš„å…ƒç´ æ˜¯å¦ç›¸ç­‰ åŒ…æ‹¬ é¡ºåº
+	 * @param leftï¼ˆä¼ å…¥å‚æ•°ï¼Œä¸ä¼šæ”¹å˜ï¼‰
+	 * @param rightï¼ˆä¼ å…¥å‚æ•°ï¼Œä¸ä¼šæ”¹å˜ï¼‰
+	 * @param comparable æ¯”è¾ƒå™¨
+	 * @return ç›¸ç­‰ true å¦åˆ™ false
 	 */
 	public static <T> boolean equals(List<T> left,List<T> right, Comparable<T> comparable) {
 		if (left != right) {

@@ -30,7 +30,7 @@ public class AfEntityDao<T> extends AfDao<T>{
 	}
 
 	/**
-	 * »ñÈ¡È«²¿
+	 * è·å–å…¨éƒ¨
 	 * @return
 	 */
 	public List<T> getAll(){
@@ -38,7 +38,7 @@ public class AfEntityDao<T> extends AfDao<T>{
 	}
 
 	/**
-	 * »ñÈ¡È«²¿
+	 * è·å–å…¨éƒ¨
 	 * 
 	 * @param order
 	 * @return
@@ -48,7 +48,7 @@ public class AfEntityDao<T> extends AfDao<T>{
 	}
 	
 	/**
-	 * ·ÖÒ³²éÑ¯
+	 * åˆ†é¡µæŸ¥è¯¢
 	 * @param num
 	 * @param offset
 	 * @return
@@ -58,7 +58,7 @@ public class AfEntityDao<T> extends AfDao<T>{
 	}
 
 	/**
-	 * ·ÖÒ³²éÑ¯ ´øÅÅĞò
+	 * åˆ†é¡µæŸ¥è¯¢ å¸¦æ’åº
 	 * @param order
 	 * @param num
 	 * @param offset
@@ -69,7 +69,7 @@ public class AfEntityDao<T> extends AfDao<T>{
 	}
 
 	/**
-	 * ·ÖÒ³²éÑ¯ ´øÅÅĞò Ìõ¼ş
+	 * åˆ†é¡µæŸ¥è¯¢ å¸¦æ’åº æ¡ä»¶
 	 * 
 	 * @param where
 	 * @param order
@@ -83,7 +83,7 @@ public class AfEntityDao<T> extends AfDao<T>{
 	}
 
 	/**
-	 * ·ÖÒ³²éÑ¯ ´øÅÅĞò Ìõ¼ş
+	 * åˆ†é¡µæŸ¥è¯¢ å¸¦æ’åº æ¡ä»¶
 	 * 
 	 * @param where
 	 * @param order
@@ -93,7 +93,7 @@ public class AfEntityDao<T> extends AfDao<T>{
 		return getListEntity(super.getModelsWhere("*",where,order));
 	}
 	/**
-	 * Ìõ¼ş²éÑ¯ ´ø·ÖÒ³
+	 * æ¡ä»¶æŸ¥è¯¢ å¸¦åˆ†é¡µ
 	 * 
 	 * @param column
 	 * @param where
@@ -106,7 +106,7 @@ public class AfEntityDao<T> extends AfDao<T>{
 	}
 
 	/**
-	 * Ìõ¼ş²éÑ¯
+	 * æ¡ä»¶æŸ¥è¯¢
 	 * 
 	 * @param where
 	 * @return

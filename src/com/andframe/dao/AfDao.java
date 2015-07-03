@@ -129,7 +129,7 @@ public abstract class AfDao<T> {
 		}
 	}
 	/**
-	 * ¹Ø±ÕÖ®ºó»á³öÏÖ¸÷ÖÖÎÊÌâ
+	 * å…³é—­ä¹‹åä¼šå‡ºç°å„ç§é—®é¢˜
 	 */
 	public final void close() {
 		// TODO Auto-generated method stub
@@ -141,7 +141,7 @@ public abstract class AfDao<T> {
 	}
 
 	/**
-	 * Ìí¼ÓÒ»Ìõ¼ÇÂ¼
+	 * æ·»åŠ ä¸€æ¡è®°å½•
 	 * 
 	 * @param obj
 	 * @return
@@ -180,7 +180,7 @@ public abstract class AfDao<T> {
 	}
 
 	/**
-	 * ¸üĞÂÒ»Ìõ¼ÇÂ¼
+	 * æ›´æ–°ä¸€æ¡è®°å½•
 	 * 
 	 * @param obj
 	 * @return
@@ -198,7 +198,7 @@ public abstract class AfDao<T> {
 				return true;
 			} catch (Throwable e) {
 				// TODO Auto-generated catch block
-				String remark = "AfDao£¬update("+obj+","+where+") ³öÏÖÒì³£\r\n";
+				String remark = "AfDaoï¼Œupdate("+obj+","+where+") å‡ºç°å¼‚å¸¸\r\n";
 				remark += "class = " + getClass().toString();
 				AfExceptionHandler.handler(e, remark);
 			}
@@ -207,7 +207,7 @@ public abstract class AfDao<T> {
 	}
 
 	/**
-	 * Í³¼Æ È«²¿ Êı¾İÌõÊı
+	 * ç»Ÿè®¡ å…¨éƒ¨ æ•°æ®æ¡æ•°
 	 * @return
 	 */
 	public int getCount() {
@@ -228,7 +228,7 @@ public abstract class AfDao<T> {
 	}
 
 	/**
-	 * Í³¼ÆÌõ¼ş·ûºÏwhere µÄ Êı¾İÌõÊı
+	 * ç»Ÿè®¡æ¡ä»¶ç¬¦åˆwhere çš„ æ•°æ®æ¡æ•°
 	 * 
 	 * @param column
 	 * @return
@@ -253,7 +253,7 @@ public abstract class AfDao<T> {
 	}
 
 	/**
-	 * É¾³ıËùÓĞ
+	 * åˆ é™¤æ‰€æœ‰
 	 */
 	public final void delAll() {
 		// TODO Auto-generated method stub
@@ -263,7 +263,7 @@ public abstract class AfDao<T> {
 	}
 
 	/**
-	 * É¾³ı·ûºÏWhereÌõ¼şµÄÊı¾İ
+	 * åˆ é™¤ç¬¦åˆWhereæ¡ä»¶çš„æ•°æ®
 	 * 
 	 * @param where
 	 */
@@ -275,7 +275,7 @@ public abstract class AfDao<T> {
 	}
 
 	/**
-	 * ·ÖÒ³²éÑ¯
+	 * åˆ†é¡µæŸ¥è¯¢
 	 * 
 	 * @param column
 	 * @param num
@@ -298,7 +298,7 @@ public abstract class AfDao<T> {
 	}
 
 	/**
-	 * ·ÖÒ³²éÑ¯ ´øÅÅĞò
+	 * åˆ†é¡µæŸ¥è¯¢ å¸¦æ’åº
 	 * 
 	 * @param column
 	 * @param order
@@ -325,7 +325,7 @@ public abstract class AfDao<T> {
 	}
 
 	/**
-	 * ·ÖÒ³²éÑ¯ ´øÅÅĞò Ìõ¼ş
+	 * åˆ†é¡µæŸ¥è¯¢ å¸¦æ’åº æ¡ä»¶
 	 * 
 	 * @param column
 	 * @param where
@@ -355,7 +355,7 @@ public abstract class AfDao<T> {
 	}
 
 	/**
-	 * ·ÖÒ³²éÑ¯ ´øÅÅĞò Ìõ¼ş
+	 * åˆ†é¡µæŸ¥è¯¢ å¸¦æ’åº æ¡ä»¶
 	 * 
 	 * @param column
 	 * @param where
@@ -377,7 +377,7 @@ public abstract class AfDao<T> {
 		}
 	}
 	/**
-	 * Ìõ¼ş²éÑ¯ ´ø·ÖÒ³
+	 * æ¡ä»¶æŸ¥è¯¢ å¸¦åˆ†é¡µ
 	 * 
 	 * @param column
 	 * @param where
@@ -404,7 +404,7 @@ public abstract class AfDao<T> {
 	}
 
 	/**
-	 * Ìõ¼ş²éÑ¯
+	 * æ¡ä»¶æŸ¥è¯¢
 	 * 
 	 * @param column
 	 * @param where
@@ -426,7 +426,7 @@ public abstract class AfDao<T> {
 	}
 
 	/**
-	 * »ñÈ¡È«²¿
+	 * è·å–å…¨éƒ¨
 	 * 
 	 * @param column
 	 * @return
@@ -439,7 +439,7 @@ public abstract class AfDao<T> {
 	}
 
 	/**
-	 * »ñÈ¡È«²¿
+	 * è·å–å…¨éƒ¨
 	 * 
 	 * @param column
 	 * @return

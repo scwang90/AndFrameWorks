@@ -4,18 +4,18 @@ import java.lang.annotation.Annotation;
 import java.lang.reflect.Method;
 
 /**
- * @Description: java¶ÑÕ»¹¤¾ßÀà 1.¿ÉÒÔ²é¿´µ±Ç°º¯ÊıÃû³Æ 2.¿ÉÒÔÅĞ¶Ïµ±Ç°º¯ÊıÊÇ·ñÒÑ¾­µİ¹éµ÷ÓÃ
+ * @Description: javaå †æ ˆå·¥å…·ç±» 1.å¯ä»¥æŸ¥çœ‹å½“å‰å‡½æ•°åç§° 2.å¯ä»¥åˆ¤æ–­å½“å‰å‡½æ•°æ˜¯å¦å·²ç»é€’å½’è°ƒç”¨
  * @Author: scwang
- * @Version: V1.0, 2015-3-13 ÏÂÎç4:58:20
- * @Modified: ³õ´Î´´½¨AfStackTraceÀà
+ * @Version: V1.0, 2015-3-13 ä¸‹åˆ4:58:20
+ * @Modified: åˆæ¬¡åˆ›å»ºAfStackTraceç±»
  */
 public class AfStackTrace {
 
 	/**
-	 * @Description: »ñÈ¡µ÷ÓÃ getCurrentStatck µÄ Statck
+	 * @Description: è·å–è°ƒç”¨ getCurrentStatck çš„ Statck
 	 * @Author: scwang
-	 * @Version: V1.0, 2015-2-26 ÏÂÎç4:21:59
-	 * @return µ÷ÓÃgetCurrentStatckµÄStatck
+	 * @Version: V1.0, 2015-2-26 ä¸‹åˆ4:21:59
+	 * @return è°ƒç”¨getCurrentStatckçš„Statck
 	 */
 	public static StackTraceElement getCurrentStatck() {
 		int index = 1;
@@ -37,11 +37,11 @@ public class AfStackTrace {
 	}
 
 	/**
-	 * @Description: »ñÈ¡µ÷ÓÃ getCurrentStatck µÄ Method
-	 * ÔİÊ±²»Ö§³ÖÖØÔØ·½·¨
+	 * @Description: è·å–è°ƒç”¨ getCurrentStatck çš„ Method
+	 * æš‚æ—¶ä¸æ”¯æŒé‡è½½æ–¹æ³•
 	 * @Author: scwang
-	 * @Version: V1.0, 2015-2-26 ÏÂÎç4:21:59
-	 * @return µ÷ÓÃgetCurrentStatckµÄStatck
+	 * @Version: V1.0, 2015-2-26 ä¸‹åˆ4:21:59
+	 * @return è°ƒç”¨getCurrentStatckçš„Statck
 	 */
 	public static Method getCurrentMethod() {
 		try {
@@ -60,11 +60,11 @@ public class AfStackTrace {
 	}
 
 	/**
-	 * @Description: »ñÈ¡µ÷ÓÃ getCurrentStatck µÄ Method
-	 * ÔİÊ±²»Ö§³ÖÖØÔØ·½·¨
+	 * @Description: è·å–è°ƒç”¨ getCurrentStatck çš„ Method
+	 * æš‚æ—¶ä¸æ”¯æŒé‡è½½æ–¹æ³•
 	 * @Author: scwang
-	 * @Version: V1.0, 2015-2-26 ÏÂÎç4:21:59
-	 * @return µ÷ÓÃgetCurrentStatckµÄStatck
+	 * @Version: V1.0, 2015-2-26 ä¸‹åˆ4:21:59
+	 * @return è°ƒç”¨getCurrentStatckçš„Statck
 	 */
 	public static <T extends Annotation> T getCurrentMethodAnnotation(Class<T> annotation) {
 		try {
@@ -83,10 +83,10 @@ public class AfStackTrace {
 	}
 	
 	/**
-	 * @Description: ÅĞ¶Ïµ÷ÓÃisLoopCall µÄ·½·¨ÊÇ·ñÒÑ¾­±»Ñ­»·µİ¹éµ÷ÓÃ
+	 * @Description: åˆ¤æ–­è°ƒç”¨isLoopCall çš„æ–¹æ³•æ˜¯å¦å·²ç»è¢«å¾ªç¯é€’å½’è°ƒç”¨
 	 * @Author: scwang
-	 * @Version: V1.0, 2015-2-26 ÏÂÎç4:18:47
-	 * @return true ÒÑ¾­µİ¹é false Ã»ÓĞµİ¹é
+	 * @Version: V1.0, 2015-2-26 ä¸‹åˆ4:18:47
+	 * @return true å·²ç»é€’å½’ false æ²¡æœ‰é€’å½’
 	 */
 	public static boolean isLoopCall() {
 		int index = 1;
@@ -108,7 +108,7 @@ public class AfStackTrace {
 			StackTraceElement element = stacks[i];
 			if (element.getClassName().equals(stack.getClassName())
 					&& element.getMethodName().equals(stack.getMethodName())) {
-				// System.out.println("µİ¹é¼ì²â");
+				// System.out.println("é€’å½’æ£€æµ‹");
 				return true;
 			}
 		}

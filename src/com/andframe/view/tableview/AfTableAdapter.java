@@ -36,8 +36,8 @@ public class AfTableAdapter extends AfListAdapter<Object> {
 
 	@Override
 	public View getView(int position, View view, ViewGroup parent) {
-		// TODO Auto-generated method stub // ÁĞ±íÊÓÍ¼»ñÈ¡±ØĞë¼ì²é view ÊÇ·ñÎª¿Õ ²»ÄÜÃ¿´Î¶¼ inflate
-		// ·ñÔòÊÖ»úÄÚ´æ¸ºÔØ²»Æğ
+		// TODO Auto-generated method stub // åˆ—è¡¨è§†å›¾è·å–å¿…é¡»æ£€æŸ¥ view æ˜¯å¦ä¸ºç©º ä¸èƒ½æ¯æ¬¡éƒ½ inflate
+		// å¦åˆ™æ‰‹æœºå†…å­˜è´Ÿè½½ä¸èµ·
 		AfTableRow row = null;
 		try {
 			if (view == null) {
@@ -49,7 +49,7 @@ public class AfTableAdapter extends AfListAdapter<Object> {
 			row.Binding(mTable, mltArray, position);
 		} catch (Throwable e) {
 			// TODO: handle exception
-			String remark = "AfTableAdapter.getView ³öÏÖÒì³£\r\n";
+			String remark = "AfTableAdapter.getView å‡ºç°å¼‚å¸¸\r\n";
 			remark += "class = " + getClass().toString();
 			AfExceptionHandler.handler(e, remark);
 		}

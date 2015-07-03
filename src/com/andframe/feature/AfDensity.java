@@ -6,7 +6,7 @@ import android.util.DisplayMetrics;
 public class AfDensity {
 
 	/**
-	 * dip ×ª»»³É ÏñËØ£¨px£©
+	 * dip è½¬æ¢æˆ åƒç´ ï¼ˆpxï¼‰
 	 * @param dipValue
 	 * @return
 	 */
@@ -16,7 +16,7 @@ public class AfDensity {
 	}
 
 	/**
-	 * ÏñËØ£¨px£©×ª»»³Édip
+	 * åƒç´ ï¼ˆpxï¼‰è½¬æ¢æˆdip
 	 * @param pxValue
 	 * @return
 	 */
@@ -37,7 +37,7 @@ public class AfDensity {
 		mDisplayMetrics = metrics;
 	}
 	/**
-	 * dip ×ª»»³É ÏñËØ£¨px£©
+	 * dip è½¬æ¢æˆ åƒç´ ï¼ˆpxï¼‰
 	 * @param dipValue
 	 * @return
 	 */
@@ -47,7 +47,7 @@ public class AfDensity {
 	}
 
 	/**
-	 * ÏñËØ£¨px£©×ª»»³Édip
+	 * åƒç´ ï¼ˆpxï¼‰è½¬æ¢æˆdip
 	 * @param pxValue
 	 * @return
 	 */
@@ -57,7 +57,7 @@ public class AfDensity {
 	}
 
 	/**
-	 * »ñÈ¡ÆÁÄ»ÏñËØ¿í¶ÈµÄ ratio °Ù·Ö±È
+	 * è·å–å±å¹•åƒç´ å®½åº¦çš„ ratio ç™¾åˆ†æ¯”
 	 * @param ratio
 	 * @return
 	 */
@@ -70,10 +70,10 @@ public class AfDensity {
 	}
 
 	/**
-	 * »ñÈ¡ÆÁÄ»ÏñËØ¿í¶ÈµÄ ratio °Ù·Ö±È£¨offset ÆÁÄ»ÏñËØÆ«ÒÆÁ¿£©
+	 * è·å–å±å¹•åƒç´ å®½åº¦çš„ ratio ç™¾åˆ†æ¯”ï¼ˆoffset å±å¹•åƒç´ åç§»é‡ï¼‰
 	 * @param ratio
-	 * @param offset ÓÃÓÚ²¼¾ÖÃ»ÓĞÕ¼ÂúÆÁÄ»£¨´ø±ß¿ò£©£¬
-	 * 		ÄÇÃ´ offset = 0 - ±ß¿ò
+	 * @param offset ç”¨äºå¸ƒå±€æ²¡æœ‰å æ»¡å±å¹•ï¼ˆå¸¦è¾¹æ¡†ï¼‰ï¼Œ
+	 * 		é‚£ä¹ˆ offset = 0 - è¾¹æ¡†
 	 * @return
 	 */
 	public int proportion(float ratio,int offset) {
@@ -85,14 +85,14 @@ public class AfDensity {
 	}
 
 	/**
-	 * »ñÈ¡ÆÁÄ»ÏñËØ¿í¶È
+	 * è·å–å±å¹•åƒç´ å®½åº¦
 	 * @return
 	 */
 	public int getWidthPixels(){
 		return mDisplayMetrics.widthPixels;
 	}
 	/**
-	 * »ñÈ¡ÆÁÄ»ÏñËØ¸ß¶È
+	 * è·å–å±å¹•åƒç´ é«˜åº¦
 	 * @return
 	 */
 	public int getHeightPixels(){

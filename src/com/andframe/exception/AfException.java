@@ -39,10 +39,10 @@ public class AfException extends Exception{
 		String message = e.getMessage();
 		boolean debug = AfApplication.getApp().isDebug();
 		if (debug) {
-			message = "内容:" + message;
-			message = String.format("异常:%s\r\n%s",e.getClass().getName(),message);
+			message = "鍐呭:" + message;
+			message = String.format("寮傚父:%s\r\n%s",e.getClass().getName(),message);
 			if(tip != null && !tip.equals("")){
-				return String.format("消息:%s\r\n%s",tip,message);
+				return String.format("娑堟伅:%s\r\n%s",tip,message);
 			}
 		}else {
 			if(message == null || message.trim().equals("")){

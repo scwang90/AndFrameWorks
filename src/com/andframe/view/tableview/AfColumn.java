@@ -14,10 +14,10 @@ public class AfColumn {
 	public String Binding = "";
 	public String Format = "";
 	public int Type = STRING;
-	public int Width = 0;//ÁĞµÄ¿í¶È£¨ÏñËØ£¬ÄÚ²¿¼ÆËãµÃµ½£©
-	public int dWidth = 0;//Ö¸¶¨ÁĞ¿í£¨dip £©
-	public int mWidth = 0;//Ö¸¶¨×îĞ¡ÁĞ¿í£¨dip £©
-	public float fWidth = 0f;//Ö¸¶¨ÁĞ¿í£¨ºÍÆÁÄ»±ÈÀı £©
+	public int Width = 0;//åˆ—çš„å®½åº¦ï¼ˆåƒç´ ï¼Œå†…éƒ¨è®¡ç®—å¾—åˆ°ï¼‰
+	public int dWidth = 0;//æŒ‡å®šåˆ—å®½ï¼ˆdip ï¼‰
+	public int mWidth = 0;//æŒ‡å®šæœ€å°åˆ—å®½ï¼ˆdip ï¼‰
+	public float fWidth = 0f;//æŒ‡å®šåˆ—å®½ï¼ˆå’Œå±å¹•æ¯”ä¾‹ ï¼‰
 	public ValueBinder Binder = null;
 
 	public AfColumn(String title, String bind, float fw) {

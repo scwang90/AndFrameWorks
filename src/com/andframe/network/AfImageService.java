@@ -28,9 +28,9 @@ import com.andframe.util.android.AfNetwork;
 public class AfImageService {
 	
 	public interface LoadImageListener{
-		/**Í¼Æ¬³É¹¦¼ÓÔØÍê³É**/
+		/**å›¾ç‰‡æˆåŠŸåŠ è½½å®Œæˆ**/
 		boolean onImageLoaded(ImageView view,Drawable drawable);
-		/**Í¼Æ¬¼ÓÔØÊ§°Ü**/
+		/**å›¾ç‰‡åŠ è½½å¤±è´¥**/
 		boolean onImageFailed(ImageView view,String error,Throwable ex);
 	}
 
@@ -38,20 +38,20 @@ public class AfImageService {
 	public static final int EFFECT_GRAY = 0x01;
 	public static final int EFFECT_ROUND = 0x02;
 	public static final int EFFECT_ROUNDCORNER = 0x04;
-	public static final int EFFECT_SELFADAPTION = 0x08;//×ÔÊÊÓ¦²ÎÊı
+	public static final int EFFECT_SELFADAPTION = 0x08;//è‡ªé€‚åº”å‚æ•°
 	
 	public enum Effect{
-		/*** ÎŞĞ§¹û*/
+		/*** æ— æ•ˆæœ*/
 		NONE(EFFECT_NONE),	
-		/** * ºÚ°× */
+		/** * é»‘ç™½ */
 		GRAY(EFFECT_GRAY),	
-		/*** Ô²ĞÎĞ§¹û*/
+		/*** åœ†å½¢æ•ˆæœ*/
 		ROUND(EFFECT_ROUND),
-		/*** Ô²½ÇĞ§¹û*/
+		/*** åœ†è§’æ•ˆæœ*/
 		ROUNDCORNER(EFFECT_ROUNDCORNER),//
-		/*** Í¼Æ¬×ÔÊÊÓ¦´óĞ¡*/
+		/*** å›¾ç‰‡è‡ªé€‚åº”å¤§å°*/
 		SELFADAPTION(EFFECT_SELFADAPTION),//
-		//ÒÔÏÂÊÇ×éºÏ 
+		//ä»¥ä¸‹æ˜¯ç»„åˆ 
 		GRAY_ROUND(EFFECT_GRAY|EFFECT_ROUND),
 		GRAY_ROUNDCORNER(EFFECT_GRAY|EFFECT_ROUNDCORNER),
 		GRAY_SELFADAPTION(EFFECT_GRAY|EFFECT_SELFADAPTION);
@@ -95,7 +95,7 @@ public class AfImageService {
 		this.mBitmapNotFind = mBitmapNotFind;
 	}
 	/**
-	 * ÔÚÃ»ÓĞ¼ÓÔØÍ¼Æ¬Ö®Ç° ¿ÉÒÔÊ¹ÓÃÄ¬ÈÏÍ¼Æ¬
+	 * åœ¨æ²¡æœ‰åŠ è½½å›¾ç‰‡ä¹‹å‰ å¯ä»¥ä½¿ç”¨é»˜è®¤å›¾ç‰‡
 	 * @return
 	 */
 	public BitmapDrawable getImageLoading() {
@@ -103,7 +103,7 @@ public class AfImageService {
 	}
 
 	/**
-	 * ÔÚÃ»ÓĞ¼ÓÔØÍ¼Æ¬Ö®Ç° ¿ÉÒÔÊ¹ÓÃÄ¬ÈÏÍ¼Æ¬
+	 * åœ¨æ²¡æœ‰åŠ è½½å›¾ç‰‡ä¹‹å‰ å¯ä»¥ä½¿ç”¨é»˜è®¤å›¾ç‰‡
 	 * @return
 	 */
 	public BitmapDrawable getImageGetFail() {
@@ -111,7 +111,7 @@ public class AfImageService {
 	}
 
 	/**
-	 * ÔÚÃ»ÓĞ¼ÓÔØÍ¼Æ¬Ö®Ç° ¿ÉÒÔÊ¹ÓÃÄ¬ÈÏÍ¼Æ¬
+	 * åœ¨æ²¡æœ‰åŠ è½½å›¾ç‰‡ä¹‹å‰ å¯ä»¥ä½¿ç”¨é»˜è®¤å›¾ç‰‡
 	 * @return
 	 */
 	public BitmapDrawable getImageNotFind() {
@@ -119,8 +119,8 @@ public class AfImageService {
 	}
 
 	/**
-	 * ½«Í¼Æ¬URL°ó¶¨µ½¿Ø¼şImageView
-	 * @param url Í¼Æ¬Á¬½Ó http:// ¸ñÊ½
+	 * å°†å›¾ç‰‡URLç»‘å®šåˆ°æ§ä»¶ImageView
+	 * @param url å›¾ç‰‡è¿æ¥ http:// æ ¼å¼
 	 * @param view
 	 */
 	public static void bindImage(String url, ImageView view) {
@@ -128,38 +128,38 @@ public class AfImageService {
 	}
 	
 	/**
-	 * ½«Í¼Æ¬URL°ó¶¨µ½¿Ø¼şImageView
-	 * @param url Í¼Æ¬Á¬½Ó http:// ¸ñÊ½
+	 * å°†å›¾ç‰‡URLç»‘å®šåˆ°æ§ä»¶ImageView
+	 * @param url å›¾ç‰‡è¿æ¥ http:// æ ¼å¼
 	 * @param view
-	 * @param enable ÊÇ·ñÊ¹ÓÃ»º´æ
+	 * @param enable æ˜¯å¦ä½¿ç”¨ç¼“å­˜
 	 */
 	public static void bindImage(String url, ImageView view, boolean enable) {
 		bindImage(url, view, 0, enable);
 	}
 
 	/**
-	 * ½«Í¼Æ¬URL°ó¶¨µ½¿Ø¼şImageView
-	 * @param url Í¼Æ¬Á¬½Ó http:// ¸ñÊ½
+	 * å°†å›¾ç‰‡URLç»‘å®šåˆ°æ§ä»¶ImageView
+	 * @param url å›¾ç‰‡è¿æ¥ http:// æ ¼å¼
 	 * @param view
-	 * @param idefault Ä¬ÈÏÍ¼Æ¬ »º´æÁ¬½Ó
+	 * @param idefault é»˜è®¤å›¾ç‰‡ ç¼“å­˜è¿æ¥
 	 */
 	public static void bindImage(String url, ImageView view, String idefault) {
 		bindImage(url, view, idefault,true) ;
 	}
 	/**
-	 * ½«Í¼Æ¬URL°ó¶¨µ½¿Ø¼şImageView
-	 * @param url Í¼Æ¬Á¬½Ó http:// ¸ñÊ½
+	 * å°†å›¾ç‰‡URLç»‘å®šåˆ°æ§ä»¶ImageView
+	 * @param url å›¾ç‰‡è¿æ¥ http:// æ ¼å¼
 	 * @param view
-	 * @param idefault Ä¬ÈÏÍ¼Æ¬µÄ×ÊÔ´ID
+	 * @param idefault é»˜è®¤å›¾ç‰‡çš„èµ„æºID
 	 */
 	public static void bindImage(String url, ImageView view, int idefault) {
 		bindImage(url, view, idefault,true) ;
 	}
 
 	/**
-	 * ½«Í¼Æ¬URL°ó¶¨µ½¿Ø¼şImageView
-	 * @param url Í¼Æ¬Á¬½Ó http:// ¸ñÊ½
-	 * @param effect Í¼Æ¬´¦ÀíĞ§¹û
+	 * å°†å›¾ç‰‡URLç»‘å®šåˆ°æ§ä»¶ImageView
+	 * @param url å›¾ç‰‡è¿æ¥ http:// æ ¼å¼
+	 * @param effect å›¾ç‰‡å¤„ç†æ•ˆæœ
 	 * @param view
 	 */
 	public static void bindImage(String url, ImageView view, Effect effect) {
@@ -168,11 +168,11 @@ public class AfImageService {
 		}
 	}
 	/**
-	 * ½«Í¼Æ¬URL°ó¶¨µ½¿Ø¼şImageView
-	 * @param url Í¼Æ¬Á¬½Ó http:// ¸ñÊ½
-	 * @param effect Í¼Æ¬´¦ÀíĞ§¹û
+	 * å°†å›¾ç‰‡URLç»‘å®šåˆ°æ§ä»¶ImageView
+	 * @param url å›¾ç‰‡è¿æ¥ http:// æ ¼å¼
+	 * @param effect å›¾ç‰‡å¤„ç†æ•ˆæœ
 	 * @param view
-	 * @param idefault Ä¬ÈÏÍ¼Æ¬ »º´æÁ¬½Ó
+	 * @param idefault é»˜è®¤å›¾ç‰‡ ç¼“å­˜è¿æ¥
 	 */
 	public static void bindImage(String url, ImageView view, Effect effect, String idefault) {
 		if(mInstance != null){
@@ -180,11 +180,11 @@ public class AfImageService {
 		}
 	}
 	/**
-	 * ½«Í¼Æ¬URL°ó¶¨µ½¿Ø¼şImageView
-	 * @param url Í¼Æ¬Á¬½Ó http:// ¸ñÊ½
-	 * @param effect Í¼Æ¬´¦ÀíĞ§¹û
+	 * å°†å›¾ç‰‡URLç»‘å®šåˆ°æ§ä»¶ImageView
+	 * @param url å›¾ç‰‡è¿æ¥ http:// æ ¼å¼
+	 * @param effect å›¾ç‰‡å¤„ç†æ•ˆæœ
 	 * @param view
-	 * @param idefault Ä¬ÈÏÍ¼Æ¬µÄ×ÊÔ´ID
+	 * @param idefault é»˜è®¤å›¾ç‰‡çš„èµ„æºID
 	 */
 	public static void bindImage(String url, ImageView view, Effect effect, int idefault) {
 		if(mInstance != null){
@@ -192,10 +192,10 @@ public class AfImageService {
 		}
 	}
 	/**
-	 * ½«Í¼Æ¬URL°ó¶¨µ½¿Ø¼şImageView
-	 * @param url Í¼Æ¬Á¬½Ó http:// ¸ñÊ½
+	 * å°†å›¾ç‰‡URLç»‘å®šåˆ°æ§ä»¶ImageView
+	 * @param url å›¾ç‰‡è¿æ¥ http:// æ ¼å¼
 	 * @param view
-	 * @param idefault Ä¬ÈÏÍ¼Æ¬ »º´æÁ¬½Ó
+	 * @param idefault é»˜è®¤å›¾ç‰‡ ç¼“å­˜è¿æ¥
 	 */
 	public static void bindImage(String url, ImageView view, String sdefault, boolean enable) {
 		// TODO Auto-generated method stub
@@ -205,11 +205,11 @@ public class AfImageService {
 	}
 
 	/**
-	 * ½«Í¼Æ¬URL°ó¶¨µ½¿Ø¼şImageView
-	 * @param url Í¼Æ¬Á¬½Ó http:// ¸ñÊ½
+	 * å°†å›¾ç‰‡URLç»‘å®šåˆ°æ§ä»¶ImageView
+	 * @param url å›¾ç‰‡è¿æ¥ http:// æ ¼å¼
 	 * @param view
-	 * @param idefault Ä¬ÈÏÍ¼Æ¬µÄ×ÊÔ´ID
-	 * @param enable ÊÇ·ñÊ¹ÓÃ»º´æ
+	 * @param idefault é»˜è®¤å›¾ç‰‡çš„èµ„æºID
+	 * @param enable æ˜¯å¦ä½¿ç”¨ç¼“å­˜
 	 */
 	public static void bindImage(String url, ImageView view, int idefault, boolean enable) {
 		// TODO Auto-generated method stub
@@ -219,12 +219,12 @@ public class AfImageService {
 	}
 
 	/**
-	 * ½«Í¼Æ¬URL°ó¶¨µ½¿Ø¼şImageView
-	 * @param url Í¼Æ¬Á¬½Ó http:// ¸ñÊ½
+	 * å°†å›¾ç‰‡URLç»‘å®šåˆ°æ§ä»¶ImageView
+	 * @param url å›¾ç‰‡è¿æ¥ http:// æ ¼å¼
 	 * @param view
-	 * @param effect Í¼Æ¬´¦ÀíĞ§¹û
-	 * @param idefault Ä¬ÈÏÍ¼Æ¬µÄ×ÊÔ´ID
-	 * @param enable ÊÇ·ñÊ¹ÓÃ»º´æ
+	 * @param effect å›¾ç‰‡å¤„ç†æ•ˆæœ
+	 * @param idefault é»˜è®¤å›¾ç‰‡çš„èµ„æºID
+	 * @param enable æ˜¯å¦ä½¿ç”¨ç¼“å­˜
 	 */
 	public static void bindImage(String url, ImageView view,Effect effect, int idefault, boolean enable) {
 		// TODO Auto-generated method stub
@@ -233,12 +233,12 @@ public class AfImageService {
 		}
 	}
 	/**
-	 * ½«Í¼Æ¬URL°ó¶¨µ½¿Ø¼şImageView
-	 * @param url Í¼Æ¬Á¬½Ó http:// ¸ñÊ½
+	 * å°†å›¾ç‰‡URLç»‘å®šåˆ°æ§ä»¶ImageView
+	 * @param url å›¾ç‰‡è¿æ¥ http:// æ ¼å¼
 	 * @param view
-	 * @param effect Í¼Æ¬´¦ÀíĞ§¹û
-	 * @param idefault Ä¬ÈÏÍ¼Æ¬µÄ×ÊÔ´ID
-	 * @param enable ÊÇ·ñÊ¹ÓÃ»º´æ
+	 * @param effect å›¾ç‰‡å¤„ç†æ•ˆæœ
+	 * @param idefault é»˜è®¤å›¾ç‰‡çš„èµ„æºID
+	 * @param enable æ˜¯å¦ä½¿ç”¨ç¼“å­˜
 	 */
 	public static void bindImage(String url, LoadImageListener listener) {
 		// TODO Auto-generated method stub
@@ -247,12 +247,12 @@ public class AfImageService {
 		}
 	}
 	/**
-	 * ½«Í¼Æ¬URL°ó¶¨µ½¿Ø¼şImageView
-	 * @param url Í¼Æ¬Á¬½Ó http:// ¸ñÊ½
+	 * å°†å›¾ç‰‡URLç»‘å®šåˆ°æ§ä»¶ImageView
+	 * @param url å›¾ç‰‡è¿æ¥ http:// æ ¼å¼
 	 * @param view
-	 * @param effect Í¼Æ¬´¦ÀíĞ§¹û
-	 * @param idefault Ä¬ÈÏÍ¼Æ¬µÄ×ÊÔ´ID
-	 * @param enable ÊÇ·ñÊ¹ÓÃ»º´æ
+	 * @param effect å›¾ç‰‡å¤„ç†æ•ˆæœ
+	 * @param idefault é»˜è®¤å›¾ç‰‡çš„èµ„æºID
+	 * @param enable æ˜¯å¦ä½¿ç”¨ç¼“å­˜
 	 */
 	public static void bindImage(String url, LoadImageListener listener,Effect effect, String sdefault, boolean enable) {
 		// TODO Auto-generated method stub
@@ -261,17 +261,17 @@ public class AfImageService {
 		}
 	}
 	/**
-	 * ½«Í¼Æ¬URL°ó¶¨µ½¿Ø¼şImageView
-	 * @param url Í¼Æ¬Á¬½Ó http:// ¸ñÊ½
+	 * å°†å›¾ç‰‡URLç»‘å®šåˆ°æ§ä»¶ImageView
+	 * @param url å›¾ç‰‡è¿æ¥ http:// æ ¼å¼
 	 * @param view
-	 * @param idefault Ä¬ÈÏÍ¼Æ¬ »º´æÁ¬½Ó
+	 * @param idefault é»˜è®¤å›¾ç‰‡ ç¼“å­˜è¿æ¥
 	 */
 	protected void doBind(String url, ImageView view, String sdefault,int effect, boolean enable) {
 		if (bindNoImage(view,null, sdefault,effect)) {
 			if (url != null && url.length() > 0) {
-				// ÏÈ´ÓÍ¼Æ¬»º³åÖĞ¶ÁÈ¡Í¼Æ¬
+				// å…ˆä»å›¾ç‰‡ç¼“å†²ä¸­è¯»å–å›¾ç‰‡
 				if (!bindCaches(url,view,null,enable,effect)) {
-					// Èç¹ûÊ§°Ü´ÓÍøÂçÉÏ¼ÓÔØÊı¾İ
+					// å¦‚æœå¤±è´¥ä»ç½‘ç»œä¸ŠåŠ è½½æ•°æ®
 					bindDefault(view,null, sdefault, getImageLoading(),effect);
 					postTask(new ImageTask(url, view,null, sdefault,effect));
 				} 
@@ -281,17 +281,17 @@ public class AfImageService {
 		}
 	}
 	/**
-	 * ½«Í¼Æ¬URL°ó¶¨µ½¿Ø¼şImageView
-	 * @param url Í¼Æ¬Á¬½Ó http:// ¸ñÊ½
+	 * å°†å›¾ç‰‡URLç»‘å®šåˆ°æ§ä»¶ImageView
+	 * @param url å›¾ç‰‡è¿æ¥ http:// æ ¼å¼
 	 * @param view
-	 * @param idefault Ä¬ÈÏÍ¼Æ¬ »º´æÁ¬½Ó
+	 * @param idefault é»˜è®¤å›¾ç‰‡ ç¼“å­˜è¿æ¥
 	 */
 	protected void doBind(String url, ImageView view,LoadImageListener listener, String sdefault,int effect, boolean enable) {
 		if (bindNoImage(view,listener, sdefault,effect)) {
 			if (url != null && url.length() > 0) {
-				// ÏÈ´ÓÍ¼Æ¬»º³åÖĞ¶ÁÈ¡Í¼Æ¬
+				// å…ˆä»å›¾ç‰‡ç¼“å†²ä¸­è¯»å–å›¾ç‰‡
 				if (!bindCaches(url,view,listener,enable,effect)) {
-					// Èç¹ûÊ§°Ü´ÓÍøÂçÉÏ¼ÓÔØÊı¾İ
+					// å¦‚æœå¤±è´¥ä»ç½‘ç»œä¸ŠåŠ è½½æ•°æ®
 					bindDefault(view,null, sdefault, getImageLoading(),effect);
 					postTask(new ImageTask(url, view,listener, sdefault,effect));
 				}
@@ -301,18 +301,18 @@ public class AfImageService {
 		}
 	}
 	/**
-	 * ½«Í¼Æ¬URL°ó¶¨µ½¿Ø¼şImageView
-	 * @param url Í¼Æ¬Á¬½Ó http:// ¸ñÊ½
+	 * å°†å›¾ç‰‡URLç»‘å®šåˆ°æ§ä»¶ImageView
+	 * @param url å›¾ç‰‡è¿æ¥ http:// æ ¼å¼
 	 * @param view
-	 * @param idefault Ä¬ÈÏÍ¼Æ¬µÄ×ÊÔ´ID
-	 * @param enable ÊÇ·ñÊ¹ÓÃ»º´æ
+	 * @param idefault é»˜è®¤å›¾ç‰‡çš„èµ„æºID
+	 * @param enable æ˜¯å¦ä½¿ç”¨ç¼“å­˜
 	 */
 	protected void doBind(String url, ImageView view, int idefault,int effect, boolean enable){
 		if (bindNoImage(view,null, idefault,effect)) {
 			if (url != null && url.length() > 0) {
-				// ÏÈ´ÓÍ¼Æ¬»º³åÖĞ¶ÁÈ¡Í¼Æ¬
+				// å…ˆä»å›¾ç‰‡ç¼“å†²ä¸­è¯»å–å›¾ç‰‡
 				if (!bindCaches(url,view,null,enable,effect)) {
-					// Èç¹ûÊ§°Ü´ÓÍøÂçÉÏ¼ÓÔØÊı¾İ
+					// å¦‚æœå¤±è´¥ä»ç½‘ç»œä¸ŠåŠ è½½æ•°æ®
 					bindDefault(view,null, idefault, getImageLoading(),effect);
 					postTask(new ImageTask(url, view,null, idefault,effect));
 				}
@@ -425,7 +425,7 @@ public class AfImageService {
 
 	protected void bindDefault(ImageView view,LoadImageListener listener, int idefault, BitmapDrawable image,int effect) {
 		// TODO Auto-generated method stub
-		// Èç¹ûÊ§°Ü´ÓÍøÂçÉÏ¼ÓÔØÊı¾İ
+		// å¦‚æœå¤±è´¥ä»ç½‘ç»œä¸ŠåŠ è½½æ•°æ®
 		if (idefault == 0 && image != null) {
 			bindImageBitmap(view,listener,image,effect);
 		} else if(idefault > 0){
@@ -435,7 +435,7 @@ public class AfImageService {
 
 	protected void bindDefault(ImageView view,LoadImageListener listener, String idefault,BitmapDrawable image,int effect) {
 		// TODO Auto-generated method stub
-		// Èç¹ûÊ§°Ü´ÓÍøÂçÉÏ¼ÓÔØÊı¾İ
+		// å¦‚æœå¤±è´¥ä»ç½‘ç»œä¸ŠåŠ è½½æ•°æ®
 		if (idefault == null && image != null) {
 			bindImageBitmap(view,listener,image,effect);
 		} else if(idefault != null){
@@ -451,20 +451,20 @@ public class AfImageService {
 	}
 
 	/**
-	 * °ÑÈÎÎñpostµ½AppµÄWorkerÖ´ĞĞ
+	 * æŠŠä»»åŠ¡poståˆ°Appçš„Workeræ‰§è¡Œ
 	 */
 	private void postTask(ImageTask task) {
 		// TODO Auto-generated method stub
-		// Èç¹ûÔÚÕıÔÚ¼ÓÔØÁĞ±íÖĞÒÑ¾­´æÔÚµ±Ç°Url
+		// å¦‚æœåœ¨æ­£åœ¨åŠ è½½åˆ—è¡¨ä¸­å·²ç»å­˜åœ¨å½“å‰Url
 		ImageTask tTask = mLoadingTask.get(task.mLinkUrl);
 		if (tTask == null) {
-			// °Ñµ±Ç°Url´ÓÌí¼Óµ½ÕıÔÚ¼ÓÔØÁĞ±í
+			// æŠŠå½“å‰Urlä»æ·»åŠ åˆ°æ­£åœ¨åŠ è½½åˆ—è¡¨
 			mLoadingTask.put(task.mLinkUrl, task);
-			// °ÑÈÎÎñ·¢ËÍµ½AppÏß³ÌÖĞÈ¥Ö´ĞĞ
+			// æŠŠä»»åŠ¡å‘é€åˆ°Appçº¿ç¨‹ä¸­å»æ‰§è¡Œ
 			//AfApplication.postTask(task);
 			AfDaemonThread.postTask(task);
 		} else {
-			//ÈÃÒÑ¾­´æÔÚµÄ task °ïÖú ÏÂÔØ
+			//è®©å·²ç»å­˜åœ¨çš„ task å¸®åŠ© ä¸‹è½½
 			tTask.incidentallyTake(task);
 		}
 	}
@@ -481,7 +481,7 @@ public class AfImageService {
 		public ImageView mImageView;
 		public List<ImageTask> mltIncidentallyTask = new ArrayList<ImageTask>();
 
-		// ±êÊ¶ÊÇ·ñ¿ÉÒÔ²»ÓÃÏÂÔØÖ±½Ó¶ÁÈ¡»º´æ
+		// æ ‡è¯†æ˜¯å¦å¯ä»¥ä¸ç”¨ä¸‹è½½ç›´æ¥è¯»å–ç¼“å­˜
 		private Boolean mIsCanReadCaches = false;
 		private LoadImageListener mListener;
 
@@ -509,7 +509,7 @@ public class AfImageService {
 		@Override
 		protected boolean onHandle(Message msg) {
 			// TODO Auto-generated method stub
-			// Èç¹ûÈÎÎñ³É¹¦Ö´ĞĞÍê³É
+			// å¦‚æœä»»åŠ¡æˆåŠŸæ‰§è¡Œå®Œæˆ
 			if (msg.what == ImageTask.RESULT_FINISH) {
 				for (ImageTask task : mltIncidentallyTask) {
 					task.mBitmap = mBitmap;
@@ -519,13 +519,13 @@ public class AfImageService {
 //					}
 				}
 			}
-			// Èç¹ûÈÎÎñÖ´ĞĞÊ§°Ü
+			// å¦‚æœä»»åŠ¡æ‰§è¡Œå¤±è´¥
 			else {
 				for (ImageTask task : mltIncidentallyTask) {
 					task.onFailed();
 				}
 			}
-			// °Ñµ±Ç°Url´ÓÕıÔÚ¼ÓÔØÁĞ±íÖĞÒÆ³ı
+			// æŠŠå½“å‰Urlä»æ­£åœ¨åŠ è½½åˆ—è¡¨ä¸­ç§»é™¤
 			mLoadingTask.remove(mLinkUrl);
 			return true;
 		}
@@ -578,23 +578,23 @@ public class AfImageService {
 				if (mBitmap != null) {
 					return;
 				}else {
-					throw new AfException("Î´ÖªÒì³££¬ÕÒ²»µ½ÎÄ¼ş");
+					throw new AfException("æœªçŸ¥å¼‚å¸¸ï¼Œæ‰¾ä¸åˆ°æ–‡ä»¶");
 				}
 			}else {
 				Bitmap bitmap = BitmapFactory.decodeFile(mLinkUrl);
 				mBitmap = new BitmapDrawable(app.getResources(), bitmap);
-				bitmap.toString();//ÓÃÓÚµ±bitmap=nullÊ±Å×³öÒì³£
+				bitmap.toString();//ç”¨äºå½“bitmap=nullæ—¶æŠ›å‡ºå¼‚å¸¸
 			}
 			try {
 				AfImageCaches.getInstance().put(mLinkUrl, mBitmap);
 			} catch (Throwable e) {
 				// TODO: handle exception
-				AfExceptionHandler.handler(e, "Í¼Æ¬·şÎñ»º´æµ½±¾µØÊ§°Ü");
+				AfExceptionHandler.handler(e, "å›¾ç‰‡æœåŠ¡ç¼“å­˜åˆ°æœ¬åœ°å¤±è´¥");
 			}
 		}
 
 		/**
-		 * Á½¸öTaskµÄÈÎÎñÏàÍ¬Çé¿öÏÂ£¬ÈÃÇ°Ò»¸öË³±ã°ïºóÒ»¸ö´¦Àí È¡ÏûºóÒ»¸öTask
+		 * ä¸¤ä¸ªTaskçš„ä»»åŠ¡ç›¸åŒæƒ…å†µä¸‹ï¼Œè®©å‰ä¸€ä¸ªé¡ºä¾¿å¸®åä¸€ä¸ªå¤„ç† å–æ¶ˆåä¸€ä¸ªTask
 		 * @param imageTask
 		 */
 		private void incidentallyTake(ImageTask imageTask) {

@@ -1,113 +1,113 @@
 package com.andframe.bean;
 
+import java.io.Serializable;
+
 /**
- * ·ÖÒ³²éÑ¯Àà 
- * ·ÖÒ³²éÑ¯¿ªÊ¼Ë÷Òı¡¢¿ªÊ¼·ÖÒ³µÈ´Ó 0 ¿ªÊ¼Ë÷Òı
+ * åˆ†é¡µæŸ¥è¯¢ç±»
+ * åˆ†é¡µæŸ¥è¯¢å¼€å§‹ç´¢å¼•ã€å¼€å§‹åˆ†é¡µç­‰ä» 0 å¼€å§‹ç´¢å¼•
  * @author Administrator
- *
  */
-public class Page {
+@SuppressWarnings("serial")
+public class Page implements Serializable{
     public boolean IsASC = true;
     public String Order = "";
     public int FirstResult = 0;
     public int MaxResult = 0;
     public static final int PAGEMODE_PAGING = 1;
     public static final int PAGEMODE_ADDITIAONAL = 2;
-    
 
-    public Page(){}
-
-    /**
-     * ¹¹ÔìÒ»¸öĞÂµÄ·ÖÒ³²éÑ¯Ê¾ÀıË÷ÒıÊÇ´Ó0¿ªÊ¼
-     * 
-     * @param sizeOrmax ·ÖÒ³´óĞ¡ »ò ×·¼Ó²éÑ¯´óĞ¡
-     * @param curOrbegin ·ÖÒ³ÆğÊ¼Ò³ »ò ×·¼ÓÆğÊ¼Ò³
-     * Ä¬ÈÏ ×·¼Ó£ºPAGEMODE_ADDITIAONAL 
-     */
-    public Page(int max,int begin)
-    {
-        this.FirstResult = begin;
-        this.MaxResult = max;
-    }
-    /**
-     * ¹¹ÔìÒ»¸öĞÂµÄ·ÖÒ³²éÑ¯Ê¾ÀıË÷ÒıÊÇ´Ó0¿ªÊ¼
-     * 
-     * @param sizeOrmax ·ÖÒ³´óĞ¡ »ò ×·¼Ó²éÑ¯´óĞ¡
-     * @param curOrbegin ·ÖÒ³ÆğÊ¼Ò³ »ò ×·¼ÓÆğÊ¼Ò³
-     * @param order ÅÅĞòÁĞ
-     * Ä¬ÈÏ ×·¼Ó£ºPAGEMODE_ADDITIAONAL 
-     */
-    public Page(int max,int begin,String order)
-    {
-    	this.Order = order;
-        this.FirstResult = begin;
-        this.MaxResult = max;
-    }
-    /**
-     * ¹¹ÔìÒ»¸öĞÂµÄ·ÖÒ³²éÑ¯Ê¾Àı
-     * @param sizeOrmax ·ÖÒ³´óĞ¡ »ò ×·¼Ó²éÑ¯´óĞ¡
-     * @param curOrbegin ·ÖÒ³ÆğÊ¼Ò³ »ò ×·¼ÓÆğÊ¼Ò³
-     * @param order ÅÅĞòÁĞ
-     * @param isAsc ÊÇ·ñÉıĞò
-     */
-    public Page(int max,int begin,String order,boolean isAsc)
-    {
-    	this.Order = order;
-        this.FirstResult = begin;
-        this.MaxResult = max;
-    	this.IsASC = isAsc;
-    }
-    /**
-     * ¹¹ÔìÒ»¸öĞÂµÄ·ÖÒ³²éÑ¯Ê¾Àı
-     * 
-     * @param order ÅÅĞòÁĞ
-     * @param isAsc ÊÇ·ñÉıĞò
-     */
-    public Page(String order,String asc)
-    {
-    	if(order != null && !order.equals("")){
-        	this.Order = order;
-        	this.IsASC = "asc".equals(asc)||"ASC".equals(asc);
-    	}
+    public Page() {
     }
 
     /**
-     * 
-     * @Description: ×ª»»³Éµ¥Ò³ÌõÊı
-     * @Version: V1.0, 2015-2-2 ÏÂÎç5:02:53
-     * @return
+     * æ„é€ ä¸€ä¸ªæ–°çš„åˆ†é¡µæŸ¥è¯¢ç¤ºä¾‹ç´¢å¼•æ˜¯ä»0å¼€å§‹
+     *
+     * @param max  åˆ†é¡µå¤§å° æˆ– è¿½åŠ æŸ¥è¯¢å¤§å°
+     * @param begin åˆ†é¡µèµ·å§‹é¡µ æˆ– è¿½åŠ èµ·å§‹é¡µ
+     *                   é»˜è®¤ è¿½åŠ ï¼šPAGEMODE_ADDITIAONAL
      */
-    public int getPageSize(){
-    	return MaxResult;
+    public Page(int max, int begin) {
+        this.FirstResult = begin;
+        this.MaxResult = max;
     }
+
     /**
-     * @Description: ×ª»»³Éµ±Ç°Ò³Âë
-     * @Version: V1.0, 2015-2-2 ÏÂÎç5:02:17
-     * @return £¨´Ó0¿ªÊ¼£©
+     * æ„é€ ä¸€ä¸ªæ–°çš„åˆ†é¡µæŸ¥è¯¢ç¤ºä¾‹ç´¢å¼•æ˜¯ä»0å¼€å§‹
+     *
+     * @param max  åˆ†é¡µå¤§å° æˆ– è¿½åŠ æŸ¥è¯¢å¤§å°
+     * @param begin åˆ†é¡µèµ·å§‹é¡µ æˆ– è¿½åŠ èµ·å§‹é¡µ
+     * @param order      æ’åºåˆ—
+     *                   é»˜è®¤ è¿½åŠ ï¼šPAGEMODE_ADDITIAONAL
      */
-    public int getcurrentPage(){
-    	return FirstResult / MaxResult;
+    public Page(int max, int begin, String order) {
+        this.Order = order;
+        this.FirstResult = begin;
+        this.MaxResult = max;
+    }
+
+    /**
+     * æ„é€ ä¸€ä¸ªæ–°çš„åˆ†é¡µæŸ¥è¯¢ç¤ºä¾‹
+     *
+     * @param max  åˆ†é¡µå¤§å° æˆ– è¿½åŠ æŸ¥è¯¢å¤§å°
+     * @param begin åˆ†é¡µèµ·å§‹é¡µ æˆ– è¿½åŠ èµ·å§‹é¡µ
+     * @param order      æ’åºåˆ—
+     * @param isAsc      æ˜¯å¦å‡åº
+     */
+    public Page(int max, int begin, String order, boolean isAsc) {
+        this.Order = order;
+        this.FirstResult = begin;
+        this.MaxResult = max;
+        this.IsASC = isAsc;
+    }
+
+    /**
+     * æ„é€ ä¸€ä¸ªæ–°çš„åˆ†é¡µæŸ¥è¯¢ç¤ºä¾‹
+     *
+     * @param order æ’åºåˆ—
+     * @param asc æ˜¯å¦å‡åº
+     */
+    public Page(String order, String asc) {
+        if (order != null && !order.equals("")) {
+            this.Order = order;
+            this.IsASC = "asc".equals(asc) || "ASC".equals(asc);
+        }
+    }
+
+    /**
+     * è½¬æ¢æˆå•é¡µæ¡æ•°
+     * @return è¿”å›å•é¡µæ¡æ•°
+     */
+    public int getPageSize() {
+        return MaxResult;
+    }
+
+    /**
+     * è½¬æ¢æˆå½“å‰é¡µç 
+     * @return ï¼ˆä»0å¼€å§‹ï¼‰
+     */
+    public int getcurrentPage() {
+        return FirstResult / MaxResult;
     }
 
     public String getOrder() {
-    	if(Order == null){
-    		return "";
-    	}
-		return Order;
-	}
-    
-    public String getAsc(){
-    	if(Order == null || Order.equals("")){
-    		return "";
-    	}
-		return IsASC?"asc":"desc";
+        if (Order == null) {
+            return "";
+        }
+        return Order;
     }
 
-	public String toOrderString() {
-		// TODO Auto-generated method stub
-    	if(Order == null || Order.equals("")){
-    		return "";
-    	}
-		return " order by " + Order + (IsASC?" asc":" desc");
-	}
+    public String getAsc() {
+        if (Order == null || Order.equals("")) {
+            return "";
+        }
+        return IsASC ? "asc" : "desc";
+    }
+
+    public String toOrderString() {
+        // TODO Auto-generated method stub
+        if (Order == null || Order.equals("")) {
+            return "";
+        }
+        return " order by " + Order + (IsASC ? " asc" : " desc");
+    }
 }

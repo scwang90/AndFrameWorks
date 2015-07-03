@@ -10,7 +10,7 @@ import com.google.gson.Gson;
 /**
  * AfBundle 
  * @author SCWANG
- *		包装 Android Bundle 支持任意对象传输
+ *		鍖呰 Android Bundle 鏀寔浠绘剰瀵硅薄浼犺緭
  */
 public class AfBundle {
 

@@ -36,10 +36,10 @@ public class AfTableView extends HorizontalScrollView {
 		mLayout.setOrientation(LinearLayout.VERTICAL);
 		mListView = new ListView(context);
 		mListView.setDividerHeight(0);
-		// ½â¾ölistviewÔÚÍÏ¶¯µÄÊ±ºò±³¾°Í¼Æ¬ÏûÊ§±ä³ÉºÚÉ«±³¾°
+		// è§£å†³listviewåœ¨æ‹–åŠ¨çš„æ—¶å€™èƒŒæ™¯å›¾ç‰‡æ¶ˆå¤±å˜æˆé»‘è‰²èƒŒæ™¯
 		mListView.setCacheColorHint(0);
 		mListView.setScrollingCacheEnabled(false);
-		// ½â¾ölistviewµÄÉÏ±ßºÍÏÂ±ßÓĞºÚÉ«µÄÒõÓ°
+		// è§£å†³listviewçš„ä¸Šè¾¹å’Œä¸‹è¾¹æœ‰é»‘è‰²çš„é˜´å½±
 		mListView.setFadingEdgeLength(0);
 
 		mLayout.addView(mListView);

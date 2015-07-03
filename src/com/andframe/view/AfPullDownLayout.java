@@ -17,32 +17,32 @@ import android.widget.ScrollView;
 
 import com.andframe.feature.AfDensity;
 /**
- * @Description: ÊÖÊÆÍÏ¶¯²¼¾Ö
+ * @Description: æ‰‹åŠ¿æ‹–åŠ¨å¸ƒå±€
  * @Author: scwang
- * @Version: V1.0, 2015-1-27 ÏÂÎç3:08:02
- * @Modified: ³õ´Î´´½¨AfPullDownLayoutÀà
+ * @Version: V1.0, 2015-1-27 ä¸‹åˆ3:08:02
+ * @Modified: åˆæ¬¡åˆ›å»ºAfPullDownLayoutç±»
  */
 public class AfPullDownLayout extends LinearLayout {
 
 	/**
-	 * @Description: ÊÖÊÆ¼àÌıÆ÷
+	 * @Description: æ‰‹åŠ¿ç›‘å¬å™¨
 	 * @Author: scwang
-	 * @Version: V1.0, 2015-1-27 ÏÂÎç3:07:59
-	 * @Modified: ³õ´Î´´½¨OnPullDownListenerÀà
+	 * @Version: V1.0, 2015-1-27 ä¸‹åˆ3:07:59
+	 * @Modified: åˆæ¬¡åˆ›å»ºOnPullDownListenerç±»
 	 */
 	public static interface OnPullDownListener {
 		/**
-		 * @Description: ÊÖÊÆ²Ù×÷½øĞĞÊ±¼àÌı
-		 * @param value °Ù·Ö±È
-		 * @param height ¸ß¶È²î
-		 * @return ÔİÎŞ¶¨Òå
+		 * @Description: æ‰‹åŠ¿æ“ä½œè¿›è¡Œæ—¶ç›‘å¬
+		 * @param value ç™¾åˆ†æ¯”
+		 * @param height é«˜åº¦å·®
+		 * @return æš‚æ— å®šä¹‰
 		 */
 		public boolean onPulling(float value,int height,int max);
 		/**
-		 * @Description: ÊÖÊÆ²Ù×÷ÊÍ·ÅÊ±¼àÌı
-		 * @param value °Ù·Ö±È
-		 * @param height ¸ß¶È²î
-		 * @return ÔİÎŞ¶¨Òå
+		 * @Description: æ‰‹åŠ¿æ“ä½œé‡Šæ”¾æ—¶ç›‘å¬
+		 * @param value ç™¾åˆ†æ¯”
+		 * @param height é«˜åº¦å·®
+		 * @return æš‚æ— å®šä¹‰
 		 */
 		public boolean onRelease(float value,int height,int max);
 	}
@@ -50,11 +50,11 @@ public class AfPullDownLayout extends LinearLayout {
 	// Constants
 	// ===========================================================
 
-	// ¹«Ê½1 y = H-A/(x+A/H)
-	// ¹«Ê½2 y = H-H*H/(x+H)
+	// å…¬å¼1 y = H-A/(x+A/H)
+	// å…¬å¼2 y = H-H*H/(x+H)
 	private double H = 100; 
 
-	// ×´Ì¬
+	// çŠ¶æ€
 	private static final int PULL_TO_DOWN = 0x0;
 	private static final int RELEASE_TO_UP = 0x1;
 
@@ -117,7 +117,7 @@ public class AfPullDownLayout extends LinearLayout {
 		return isPullToRefreshEnabled;
 	}
 	/**
-	 * ÉèÖÃ¼ÓËÙÆ÷
+	 * è®¾ç½®åŠ é€Ÿå™¨
 	 * @param interpolator
 	 */
 	public void setInterpolator(Interpolator interpolator) {
@@ -127,7 +127,7 @@ public class AfPullDownLayout extends LinearLayout {
 	}
 
 	/**
-	 * ÉèÖÃÊÍ·Å¼àÌıÆ÷
+	 * è®¾ç½®é‡Šæ”¾ç›‘å¬å™¨
 	 * @param onPullDownRelease
 	 */
 	public void setOnPullDownListener(OnPullDownListener onOnPullDownListener) {
@@ -171,7 +171,7 @@ public class AfPullDownLayout extends LinearLayout {
 				private int getLastPositionDistanceGuess(AbsListView listview) {
 					// TODO Auto-generated method stub
 					Field field;
-					// »ñÈ¡ContextWrapper¶ÔÏóÖĞµÄmBase±äÁ¿¡£¸Ã±äÁ¿±£´æÁËContextImpl¶ÔÏó
+					// è·å–ContextWrapperå¯¹è±¡ä¸­çš„mBaseå˜é‡ã€‚è¯¥å˜é‡ä¿å­˜äº†ContextImplå¯¹è±¡
 					try {
 						field = AbsListView.class
 								.getDeclaredField("mFirstPositionDistanceGuess");
@@ -297,7 +297,7 @@ public class AfPullDownLayout extends LinearLayout {
 		int oldHeight = this.getScrollY();
 		int newHeight = Math.round(Math.max(lastMotionY - initMotionY, 0));
 
-		// ¹«Ê½2 y = H-H*H/(x+H)
+		// å…¬å¼2 y = H-H*H/(x+H)
 		int x = newHeight;
 		int y = (int)(H-H*H/(x+H));
 

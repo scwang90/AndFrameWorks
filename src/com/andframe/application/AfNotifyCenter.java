@@ -30,7 +30,7 @@ public class AfNotifyCenter {
 		AfApplication app = AfApplication.getApp();
 		
 		Builder nBuilder = new Builder(app);
-		nBuilder.setTicker(ticker);// 第一次提示消息的时候显示在通知栏上
+		nBuilder.setTicker(ticker);// 绗竴娆℃彁绀烘秷鎭殑鏃跺�欐樉绀哄湪閫氱煡鏍忎笂
 		nBuilder.setContentTitle(title);
 		nBuilder.setContentText(content);
 		nBuilder.setSmallIcon(sicon);
@@ -58,19 +58,19 @@ public class AfNotifyCenter {
 
 	public static Notification getNotification(String content, Intent intent) {
 		AfApplication app = AfApplication.getApp();
-		int sicon = app.getLogoId(); // 显示图标
+		int sicon = app.getLogoId(); // 鏄剧ず鍥炬爣
 		String title = app.getAppName();
 		return getNotification(sicon, null,content, title, content, intent);
 	}
 
 	public static Notification getNotification(String title,String content, Intent intent) {
 		AfApplication app = AfApplication.getApp();
-		int sicon = app.getLogoId(); // 显示图标
+		int sicon = app.getLogoId(); // 鏄剧ず鍥炬爣
 		return getNotification(sicon, null, title+":"+content, title, content, intent);
 	}
 
 	public static void notify(Notification notify, int id) {
-		notify.when = System.currentTimeMillis(); // 显示时间
+		notify.when = System.currentTimeMillis(); // 鏄剧ず鏃堕棿
 		mManager.notify(id, notify);
 	}
 

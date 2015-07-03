@@ -4,9 +4,9 @@ import android.support.v4.view.PagerAdapter;
 import android.support.v4.view.ViewPager;
 import android.support.v4.view.ViewPager.OnPageChangeListener;
 /**
- * ViewPager ¿ò¼ÜÖ÷Ò³Ãæ
+ * ViewPager æ¡†æ¶ä¸»é¡µé¢
  * @author SCWANG
- *	Èç¹ûApp Ö÷Ò³ÊÇÒ»¸ö ViewPager µÄ»°£¬¿ÉÒÔ¼Ì³Ğ 
+ *	å¦‚æœApp ä¸»é¡µæ˜¯ä¸€ä¸ª ViewPager çš„è¯ï¼Œå¯ä»¥ç»§æ‰¿ 
  *		AfMainViewPagerActivity
  */
 public abstract class AfMainViewPagerActivity extends AfMainActivity

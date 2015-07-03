@@ -1,25 +1,31 @@
 package com.andframe.bean;
 
+import java.io.Serializable;
 import java.util.Date;
 import java.util.UUID;
 
 import com.andframe.util.UUIDUtil;
 
-public class Version {
+/**
+ * ç‰ˆæœ¬æ ‡è¯†
+ * ç”¨äºæ›´æ–°æœåŠ¡ä½¿ç”¨
+ */
+@SuppressWarnings("serial")
+public class Version implements Serializable{
 
 	private UUID ID = UUIDUtil.Empty;
 
-	// °æ±¾ÃèÊö×Ö·û´®
+	// ç‰ˆæœ¬æè¿°å­—ç¬¦ä¸²
 	public String Version = "";
-	// °æ±¾¸üĞÂÊ±¼ä
+	// ç‰ˆæœ¬æ›´æ–°æ—¶é—´
 	public Date UpdateTime = new Date();
-	// ĞÂ°æ±¾¸üĞÂÏÂÔØµØÖ·
+	// æ–°ç‰ˆæœ¬æ›´æ–°ä¸‹è½½åœ°å€
 	public String DownloadURL = "";
-	// ¸üĞÂÃèÊöĞÅÏ¢
+	// æ›´æ–°æè¿°ä¿¡æ¯
 	public String DisplayMessage = "";
-	// °æ±¾ºÅ
+	// ç‰ˆæœ¬å·
 	public int VersionCode = 0;
-	// apkÃû³Æ
+	// apkåç§°
 	public String ApkName = "";
 
 	public Version() {

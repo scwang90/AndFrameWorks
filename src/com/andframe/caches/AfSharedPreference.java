@@ -19,10 +19,10 @@ import android.os.Build.VERSION;
 /**
  * AfSharedPreference
  * 
- * @author SCWANG °ü×° android SharedPreferences Ö÷ÒªÊµÏÖ 1.¶¯Ì¬»º´æÂ·¾¶ path ¿ÉÒÔÖ¸¶¨±£´æµ½SD¿¨ÖĞ
- *         public AfSharedPreference(Context context,String path,String name)£»
- *         2.Ìí¼ÓÈÕÆÚ¸ñÊ½Ö§³Ö public Date getDate(String key, long value) public Date
- *         getDate(String key, Date value) 3.µÍ°æ±¾¼æÈİ public Set<String>
+ * @author SCWANG åŒ…è£… android SharedPreferences ä¸»è¦å®ç° 1.åŠ¨æ€ç¼“å­˜è·¯å¾„ path å¯ä»¥æŒ‡å®šä¿å­˜åˆ°SDå¡ä¸­
+ *         public AfSharedPreference(Context context,String path,String name)ï¼›
+ *         2.æ·»åŠ æ—¥æœŸæ ¼å¼æ”¯æŒ public Date getDate(String key, long value) public Date
+ *         getDate(String key, Date value) 3.ä½ç‰ˆæœ¬å…¼å®¹ public Set<String>
  *         getStringSet(String key, Set<String> value) public void
  *         putStringSet(String key, Set<String> value)
  */
@@ -38,14 +38,14 @@ public class AfSharedPreference {
 	}
 
 	/**
-	 * 1.¶¯Ì¬»º´æÂ·¾¶ path ¿ÉÒÔÖ¸¶¨±£´æµ½SD¿¨ÖĞ
+	 * 1.åŠ¨æ€ç¼“å­˜è·¯å¾„ path å¯ä»¥æŒ‡å®šä¿å­˜åˆ°SDå¡ä¸­
 	 * 
 	 * @param context
 	 * @param path
-	 *            ±£´æÂ·¾¢
+	 *            ä¿å­˜è·¯åŠ²
 	 * @param name
 	 * @throws Exception
-	 *             ×ª»»Â·¾¶Ê§°ÜÒì³££¨SD¿¨±»Õ¼ÓÃ£©
+	 *             è½¬æ¢è·¯å¾„å¤±è´¥å¼‚å¸¸ï¼ˆSDå¡è¢«å ç”¨ï¼‰
 	 */
 	public AfSharedPreference(Context context, String path, String name)
 			throws Exception {
@@ -55,7 +55,7 @@ public class AfSharedPreference {
 			setPreferencesPath(context, file);
 		} catch (Throwable e) {
 			// TODO: handle exception
-			AfException.handle(e, "»º´æ×ª»»Â·¾¶³ö´í mShared="
+			AfException.handle(e, "ç¼“å­˜è½¬æ¢è·¯å¾„å‡ºé”™ mShared="
 					+ (mShared == null ? "null" : mShared.toString()));
 			throw new Exception(e);
 		}
@@ -66,16 +66,16 @@ public class AfSharedPreference {
 		File oldfile = file;
 		try {
 			Field field;
-			// »ñÈ¡ContextWrapper¶ÔÏóÖĞµÄmBase±äÁ¿¡£¸Ã±äÁ¿±£´æÁËContextImpl¶ÔÏó
+			// è·å–ContextWrapperå¯¹è±¡ä¸­çš„mBaseå˜é‡ã€‚è¯¥å˜é‡ä¿å­˜äº†ContextImplå¯¹è±¡
 			field = ContextWrapper.class.getDeclaredField("mBase");
 			field.setAccessible(true);
-			// »ñÈ¡mBase±äÁ¿
+			// è·å–mBaseå˜é‡
 			Object obj = field.get(context);
-			// »ñÈ¡ContextImpl.mPreferencesDir±äÁ¿£¬¸Ã±äÁ¿±£´æÁËÊı¾İÎÄ¼şµÄ±£´æÂ·¾¶
+			// è·å–ContextImpl.mPreferencesDirå˜é‡ï¼Œè¯¥å˜é‡ä¿å­˜äº†æ•°æ®æ–‡ä»¶çš„ä¿å­˜è·¯å¾„
 			field = obj.getClass().getDeclaredField("mPreferencesDir");
 			field.setAccessible(true);
-			// ´´½¨×Ô¶¨ÒåÂ·¾¶
-			// ĞŞ¸ÄmPreferencesDir±äÁ¿µÄÖµ
+			// åˆ›å»ºè‡ªå®šä¹‰è·¯å¾„
+			// ä¿®æ”¹mPreferencesDirå˜é‡çš„å€¼
 			oldfile = (File) field.get(obj);
 			field.set(obj, file);
 		} catch (Throwable e) {

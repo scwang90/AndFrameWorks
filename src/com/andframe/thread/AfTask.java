@@ -9,11 +9,11 @@ import android.os.Message;
 
 public abstract class AfTask implements Runnable, OnCancelListener {
 
-	// Task Ö´ĞĞ×´Ì¬Ã¶¾Ù
+	// Task æ‰§è¡ŒçŠ¶æ€æšä¸¾
 	public static final int RESULT_FAIL = 0;
 	public static final int RESULT_FINISH = 1;
-	// Task Ö´ĞĞÀàĞÍÃ¶¾Ù
-	public static final int TASK_LOAD = 0; // µÚÒ»´Î¼ÓÔØÊı¾İ
+	// Task æ‰§è¡Œç±»å‹æšä¸¾
+	public static final int TASK_LOAD = 0; // ç¬¬ä¸€æ¬¡åŠ è½½æ•°æ®
 
 	public int mTask = -1;
 	public int mResult = -1;
@@ -85,8 +85,8 @@ public abstract class AfTask implements Runnable, OnCancelListener {
 	}
 
 	/**
-	 * TaskÈÎÎñÖ´ĞĞ¹ı³ÌÖĞ²¶×½µ½µÄÒì³££¬²¢¶ÔÒì³£ĞÅÏ¢×ö´¦Àí
-	 * 	Ö®ºó isFinish() ½«»á·µ»Ø false
+	 * Taskä»»åŠ¡æ‰§è¡Œè¿‡ç¨‹ä¸­æ•æ‰åˆ°çš„å¼‚å¸¸ï¼Œå¹¶å¯¹å¼‚å¸¸ä¿¡æ¯åšå¤„ç†
+	 * 	ä¹‹å isFinish() å°†ä¼šè¿”å› false
 	 * @param e
 	 */
 	protected void onException(Throwable e) {
@@ -94,16 +94,16 @@ public abstract class AfTask implements Runnable, OnCancelListener {
 	}
 
 	/**
-	 * TaskÈÎÎñ±»È¡Ïû ½«²»»á±»µ÷ÓÃ mHandler
-	 * 	Õâ¸ö·½·¨¿ÉÄÜÔÚÒì²½Ïß³ÌÖĞÖ´ĞĞ
+	 * Taskä»»åŠ¡è¢«å–æ¶ˆ å°†ä¸ä¼šè¢«è°ƒç”¨ mHandler
+	 * 	è¿™ä¸ªæ–¹æ³•å¯èƒ½åœ¨å¼‚æ­¥çº¿ç¨‹ä¸­æ‰§è¡Œ
 	 */
 	protected void onCancel() {
 		// TODO Auto-generated method stub
 	}
 
 	/**
-	 * ÈÎÎñ×¼±¸¿ªÊ¼ £¨ÔÚUIÏß³ÌÖĞ£©
-	 * @return ·µ»Øtrue ±íÊ¾×¼±¸Íê±Ï ·ñÔò false ÈÎÎñ½«±»È¡Ïû
+	 * ä»»åŠ¡å‡†å¤‡å¼€å§‹ ï¼ˆåœ¨UIçº¿ç¨‹ä¸­ï¼‰
+	 * @return è¿”å›true è¡¨ç¤ºå‡†å¤‡å®Œæ¯• å¦åˆ™ false ä»»åŠ¡å°†è¢«å–æ¶ˆ
 	 */
 	public boolean onPrepare() {
 		// TODO Auto-generated method stub

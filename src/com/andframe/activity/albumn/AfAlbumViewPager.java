@@ -40,7 +40,7 @@ public class AfAlbumViewPager extends ViewPager{
 			return super.onInterceptTouchEvent(arg0);
 		} catch (Throwable e) {
 			// TODO: handle exception
-			AfException.handle(e, "AfAlbumViewPager.onInterceptTouchEvent ≤∂◊Ω“Ï≥££°");
+			AfException.handle(e, "AfAlbumViewPager.onInterceptTouchEvent ÊçïÊçâÂºÇÂ∏∏ÔºÅ");
 			return false;
 		}
 	}

@@ -15,13 +15,13 @@ import android.graphics.RectF;
 import android.graphics.drawable.BitmapDrawable;
 import android.graphics.drawable.Drawable;
 /**
- * @Description: Í¼Æ¬´¦Àí
+ * @Description: å›¾ç‰‡å¤„ç†
  * @Author: scwang
  */
 public class AfImageHelper {
 
 	/**
-	 * @Description: Drawable ×ª»» Bitmap
+	 * @Description: Drawable è½¬æ¢ Bitmap
 	 * @param drawable
 	 * @return
 	 */
@@ -40,10 +40,10 @@ public class AfImageHelper {
 		return bitmap;
 	}
 	/**
-	 * ×ª»»Í¼Æ¬»ÒÉ«
+	 * è½¬æ¢å›¾ç‰‡ç°è‰²
 	 * @param context
-	 * @param bitmap ´«ÈëBitmapDrawable¶ÔÏó
-	 * @return Ö±½Ó·µ»ØÔ­ÓĞ BitmapDrawable ²»»á¸´ÖÆĞÂµÄ BitmapDrawable
+	 * @param bitmap ä¼ å…¥BitmapDrawableå¯¹è±¡
+	 * @return ç›´æ¥è¿”å›åŸæœ‰ BitmapDrawable ä¸ä¼šå¤åˆ¶æ–°çš„ BitmapDrawable
 	 */
 	public BitmapDrawable toGrayBitmap(Context context,
 			BitmapDrawable bitmap) {
@@ -56,10 +56,10 @@ public class AfImageHelper {
 	}
 
 	/**
-	 * ×ª»»Í¼Æ¬³ÉÔ²ĞÎ
-	 * @param bitmap  ´«ÈëBitmap¶ÔÏó
-	 * @param recycle ÊÇ·ñÊÍ·Åbitmap¶ÔÏó
-	 * @return ·µ»ØĞÂµÄbitmap
+	 * è½¬æ¢å›¾ç‰‡æˆåœ†å½¢
+	 * @param bitmap  ä¼ å…¥Bitmapå¯¹è±¡
+	 * @param recycle æ˜¯å¦é‡Šæ”¾bitmapå¯¹è±¡
+	 * @return è¿”å›æ–°çš„bitmap
 	 */
 	public Bitmap toRoundBitmap(Bitmap bitmap,boolean recycle) {
 		int width = bitmap.getWidth();
@@ -117,10 +117,10 @@ public class AfImageHelper {
 	}
 
 	/**
-	 * ×ª»»Í¼Æ¬³ÉÔ²½ÇĞÎ
-	 * @param bitmap ´«ÈëBitmap¶ÔÏó
-	 * @param recycle ÊÇ·ñÊÍ·Åbitmap¶ÔÏó
-	 * @return ·µ»ØĞÂµÄbitmap
+	 * è½¬æ¢å›¾ç‰‡æˆåœ†è§’å½¢
+	 * @param bitmap ä¼ å…¥Bitmapå¯¹è±¡
+	 * @param recycle æ˜¯å¦é‡Šæ”¾bitmapå¯¹è±¡
+	 * @return è¿”å›æ–°çš„bitmap
 	 */
 	public Bitmap toRoundCornerBitmap(Bitmap bitmap,boolean recycle) {
 		int width = bitmap.getWidth();
@@ -189,10 +189,10 @@ public class AfImageHelper {
 		return new BitmapDrawable(context.getResources(), toRoundCornerBitmap(bitmap.getBitmap(),recycle));
 	}
 	/**
-	 * ¸ßË¹Ä£ºı
+	 * é«˜æ–¯æ¨¡ç³Š
 	 * @param sentBitmap
 	 * @param radius
-	 * @param canReuseInBitmap ½ÚÊ¡ÄÚ´æÇëÓÃtrue
+	 * @param canReuseInBitmap èŠ‚çœå†…å­˜è¯·ç”¨true
 	 * @return
 	 */
     public Bitmap doBlur(Bitmap sentBitmap, int radius, boolean canReuseInBitmap) {

@@ -13,15 +13,15 @@ public class AfDesHelper {
 
 	public static String byteArr2HexStr(byte[] arrB) throws Exception {
 		int iLen = arrB.length;
-		// Ã¿¸öbyteÓÃÁ½¸ö×Ö·û²ÅÄÜ±íÊ¾£¬ËùÒÔ×Ö·û´®µÄ³¤¶ÈÊÇÊı×é³¤¶ÈµÄÁ½±¶
+		// æ¯ä¸ªbyteç”¨ä¸¤ä¸ªå­—ç¬¦æ‰èƒ½è¡¨ç¤ºï¼Œæ‰€ä»¥å­—ç¬¦ä¸²çš„é•¿åº¦æ˜¯æ•°ç»„é•¿åº¦çš„ä¸¤å€
 		StringBuffer sb = new StringBuffer(iLen * 2);
 		for (int i = 0; i < iLen; i++) {
 			int intTmp = arrB[i];
-			// °Ñ¸ºÊı×ª»»ÎªÕıÊı
+			// æŠŠè´Ÿæ•°è½¬æ¢ä¸ºæ­£æ•°
 			while (intTmp < 0) {
 				intTmp = intTmp + 256;
 			}
-			// Ğ¡ÓÚ0FµÄÊıĞèÒªÔÚÇ°Ãæ²¹0
+			// å°äº0Fçš„æ•°éœ€è¦åœ¨å‰é¢è¡¥0
 			if (intTmp < 16) {
 				sb.append("0");
 			}
@@ -33,7 +33,7 @@ public class AfDesHelper {
 	public static byte[] hexStr2ByteArr(String strIn) throws Exception {
 		byte[] arrB = strIn.getBytes();
 		int iLen = arrB.length;
-		// Á½¸ö×Ö·û±íÊ¾Ò»¸ö×Ö½Ú£¬ËùÒÔ×Ö½ÚÊı×é³¤¶ÈÊÇ×Ö·û´®³¤¶È³ıÒÔ2
+		// ä¸¤ä¸ªå­—ç¬¦è¡¨ç¤ºä¸€ä¸ªå­—èŠ‚ï¼Œæ‰€ä»¥å­—èŠ‚æ•°ç»„é•¿åº¦æ˜¯å­—ç¬¦ä¸²é•¿åº¦é™¤ä»¥2
 		byte[] arrOut = new byte[iLen / 2];
 		for (int i = 0; i < iLen; i = i + 2) {
 			String strTmp = new String(arrB, i, 2);
@@ -71,7 +71,7 @@ public class AfDesHelper {
 	}
 
 	/**
-	 * ¶Ô arrB ¼ÓÃÜ
+	 * å¯¹ arrB åŠ å¯†
 	 * @param arrB
 	 * @return
 	 * @throws Exception
@@ -81,9 +81,9 @@ public class AfDesHelper {
 	}
 
 	/**
-	 * ¶Ô strIn ½âÃÜ Ê§°Ü·µ»Ø ¡°¡±
+	 * å¯¹ strIn è§£å¯† å¤±è´¥è¿”å› â€œâ€
 	 * @param strIn
-	 * @return ½âÃÜÖµ
+	 * @return è§£å¯†å€¼
 	 */
 	public String decryptNoException(String strIn) {
 		// TODO Auto-generated method stub
@@ -95,18 +95,18 @@ public class AfDesHelper {
 		return "";
 	}
 	/**
-	 * ¶Ô strIn ½âÃÜ
+	 * å¯¹ strIn è§£å¯†
 	 * @param strIn
-	 * @return ½âÃÜÖµ
+	 * @return è§£å¯†å€¼
 	 * @throws Exception
 	 */
 	public String decrypt(String strIn) throws Exception {
 		return new String(decrypt(hexStr2ByteArr(strIn)),"UTF-8");
 	}
 	/**
-	 * ¶Ô strIn ½âÃÜ Ê§°Ü·µ»Ø ¡°¡±
+	 * å¯¹ strIn è§£å¯† å¤±è´¥è¿”å› â€œâ€
 	 * @param strIn
-	 * @return ½âÃÜÖµ
+	 * @return è§£å¯†å€¼
 	 */
 	public String decryptSafe(String strIn){
 		try {
@@ -118,13 +118,13 @@ public class AfDesHelper {
 	}
 
 	private Key getKey(byte[] arrBTmp) throws Exception {
-		// ´´½¨Ò»¸ö¿ÕµÄ8Î»×Ö½ÚÊı×é£¨Ä¬ÈÏÖµÎª0£©
+		// åˆ›å»ºä¸€ä¸ªç©ºçš„8ä½å­—èŠ‚æ•°ç»„ï¼ˆé»˜è®¤å€¼ä¸º0ï¼‰
 		byte[] arrB = new byte[8];
-		// ½«Ô­Ê¼×Ö½ÚÊı×é×ª»»Îª8Î»
+		// å°†åŸå§‹å­—èŠ‚æ•°ç»„è½¬æ¢ä¸º8ä½
 		for (int i = 0; i < arrBTmp.length && i < arrB.length; i++) {
 			arrB[i] = arrBTmp[i];
 		}
-		// Éú³ÉÃÜÔ¿
+		// ç”Ÿæˆå¯†é’¥
 		Key key = new javax.crypto.spec.SecretKeySpec(arrB, "DES");
 		return key;
 	}

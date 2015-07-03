@@ -32,22 +32,23 @@ import com.andframe.util.java.AfFileUtil;
 import com.andframe.util.java.AfStringUtil;
 
 /**
- * @Description: ÏÂÔØÆ÷Àà
+ * @Description: ä¸‹è½½å™¨ç±»
  * @Author: scwang
- * @Version: V1.0, 2015-3-13 ÏÂÎç5:27:48
- * @Modified: ³õ´Î´´½¨AfDownloaderÀà
+ * @Version: V1.0, 2015-3-13 ä¸‹åˆ5:27:48
+ * @Modified: åˆæ¬¡åˆ›å»ºAfDownloaderç±»
  */
+@SuppressWarnings("deprecation")
 public class AfDownloader {
 	/**
-	 * ¹ã²¥½ÓÊÕ
+	 * å¹¿æ’­æ¥æ”¶
 	 */
 	public static final String FILE_NOTIFICATION = "FILE_NOTIFICATION";
 
 	/**
-	 * @Description: Òì²½ÏÂÔØ url µ½ path ÎÄ¼şÃûÎª name
-	 * @param url ÏÂÔØÁ´½Ó
-	 * @param path ÏÂÔØÄ¿Â¼
-	 * @param name ÏÂÔØÎÄ¼şÃû
+	 * @Description: å¼‚æ­¥ä¸‹è½½ url åˆ° path æ–‡ä»¶åä¸º name
+	 * @param url ä¸‹è½½é“¾æ¥
+	 * @param path ä¸‹è½½ç›®å½•
+	 * @param name ä¸‹è½½æ–‡ä»¶å
 	 */
 	public static void download(String url,String path,String name) {
 		// TODO Auto-generated method stub
@@ -59,9 +60,9 @@ public class AfDownloader {
 	}
 
 	/**
-	 * @Description: Òì²½ÏÂÔØ url µ½ path
-	 * @param url ÏÂÔØÁ´½Ó
-	 * @param path ÏÂÔØÂ·¾¶
+	 * @Description: å¼‚æ­¥ä¸‹è½½ url åˆ° path
+	 * @param url ä¸‹è½½é“¾æ¥
+	 * @param path ä¸‹è½½è·¯å¾„
 	 */
 	public static void download(String url,String path) {
 		// TODO Auto-generated method stub
@@ -72,9 +73,9 @@ public class AfDownloader {
 	}
 
 	/**
-	 * @Description: Òì²½ÏÂÔØ url µ½ path
-	 * @param url ÏÂÔØÁ´½Ó
-	 * @param path ÏÂÔØÂ·¾¶
+	 * @Description: å¼‚æ­¥ä¸‹è½½ url åˆ° path
+	 * @param url ä¸‹è½½é“¾æ¥
+	 * @param path ä¸‹è½½è·¯å¾„
 	 */
 	public static void download(String url,String path,DownloadListener listener) {
 		// TODO Auto-generated method stub
@@ -84,8 +85,8 @@ public class AfDownloader {
 		AfApplication.postTask(new DownloadTask(entity,listener));
 	}
 	/**
-	 * @Description: Òì²½ÏÂÔØ
-	 * @param entity ÏÂÔØÅäÖÃÊµÌå
+	 * @Description: å¼‚æ­¥ä¸‹è½½
+	 * @param entity ä¸‹è½½é…ç½®å®ä½“
 	 */
 	public static void download(DownloadEntity entity) {
 		// TODO Auto-generated method stub
@@ -93,27 +94,27 @@ public class AfDownloader {
 	}
 
 	/**
-	 * @Description: Òì²½ÏÂÔØ
-	 * @param entity ÏÂÔØÅäÖÃÊµÌå
-	 * @param listener ¼ÓÔØ½ø¶È¼àÌıÆ÷
+	 * @Description: å¼‚æ­¥ä¸‹è½½
+	 * @param entity ä¸‹è½½é…ç½®å®ä½“
+	 * @param listener åŠ è½½è¿›åº¦ç›‘å¬å™¨
 	 */
 	public static void download(DownloadEntity entity,DownloadListener listener) {
 		// TODO Auto-generated method stub
 		AfApplication.postTask(new DownloadTask(entity,listener));
 	}
 	/**
-	 * @Description: ÅĞ¶Ï urlÊÇ·ñÕıÔÚÏÂÔØ
+	 * @Description: åˆ¤æ–­ urlæ˜¯å¦æ­£åœ¨ä¸‹è½½
 	 * @param url
-	 * @return true ÕıÔÚÏÂÔØ false Ã»ÓĞÔÚÏÂÔØ
+	 * @return true æ­£åœ¨ä¸‹è½½ false æ²¡æœ‰åœ¨ä¸‹è½½
 	 */
 	public static boolean isDownloading(DownloadEntity entity) {
 		// TODO Auto-generated method stub
 		return isDownloading(entity.DownloadUrl);
 	}
 	/**
-	 * @Description: ÅĞ¶Ï urlÊÇ·ñÕıÔÚÏÂÔØ
+	 * @Description: åˆ¤æ–­ urlæ˜¯å¦æ­£åœ¨ä¸‹è½½
 	 * @param url
-	 * @return true ÕıÔÚÏÂÔØ false Ã»ÓĞÔÚÏÂÔØ
+	 * @return true æ­£åœ¨ä¸‹è½½ false æ²¡æœ‰åœ¨ä¸‹è½½
 	 */
 	public static boolean isDownloading(String url) {
 		// TODO Auto-generated method stub
@@ -129,9 +130,9 @@ public class AfDownloader {
 		return false;
 	}
 	/**
-	 * @Description: ÅĞ¶Ï urlÊÇ·ñÕıÔÚÏÂÔØ
+	 * @Description: åˆ¤æ–­ urlæ˜¯å¦æ­£åœ¨ä¸‹è½½
 	 * @param tag 
-	 * @return true ÕıÔÚÏÂÔØ false Ã»ÓĞÔÚÏÂÔØ
+	 * @return true æ­£åœ¨ä¸‹è½½ false æ²¡æœ‰åœ¨ä¸‹è½½
 	 */
 	public static boolean isDownloading(Object tag) {
 		// TODO Auto-generated method stub
@@ -147,24 +148,24 @@ public class AfDownloader {
 		return false;
 	}
 	/**
-	 * @Description: ĞÂµÄ°ó¶¨½ø¶È¼àÌıÆ÷
-	 * @param entity ÏÂÔØÅäÖÃÊµÌå
-	 * @param listener ¼ÓÔØ½ø¶È¼àÌıÆ÷
-	 * @return ·µ»Ø×îĞÂµÄ¼àÌıÆ÷ 
-	 * Èç¹ûµÈÓÚ ´«ÈëµÄ¼àÌıÆ÷ °ó¶¨³É¹¦ ·ñÔò ÉÏÒ»¸ö¼àÌıÆ÷¾Ü¾øĞÂµÄ°ó¶¨
-	 * Èç¹ûnull Æ¥Åä²»µ½ÏÂÔØÈÎÎñ
+	 * @Description: æ–°çš„ç»‘å®šè¿›åº¦ç›‘å¬å™¨
+	 * @param entity ä¸‹è½½é…ç½®å®ä½“
+	 * @param listener åŠ è½½è¿›åº¦ç›‘å¬å™¨
+	 * @return è¿”å›æœ€æ–°çš„ç›‘å¬å™¨ 
+	 * å¦‚æœç­‰äº ä¼ å…¥çš„ç›‘å¬å™¨ ç»‘å®šæˆåŠŸ å¦åˆ™ ä¸Šä¸€ä¸ªç›‘å¬å™¨æ‹’ç»æ–°çš„ç»‘å®š
+	 * å¦‚æœnull åŒ¹é…ä¸åˆ°ä¸‹è½½ä»»åŠ¡
 	 */
 	public static DownloadListener setListener(DownloadEntity entity, DownloadListener listener) {
 		// TODO Auto-generated method stub
 		return setListener(entity.DownloadUrl, listener);
 	}
 	/**
-	 * @Description: ĞÂµÄ°ó¶¨½ø¶È¼àÌıÆ÷
-	 * @param url ÏÂÔØÂ·¾¢
-	 * @param listener ¼ÓÔØ½ø¶È¼àÌıÆ÷
-	 * @return ·µ»Ø×îĞÂµÄ¼àÌıÆ÷ 
-	 * Èç¹ûµÈÓÚ ´«ÈëµÄ¼àÌıÆ÷ °ó¶¨³É¹¦ ·ñÔò ÉÏÒ»¸ö¼àÌıÆ÷¾Ü¾øĞÂµÄ°ó¶¨
-	 * Èç¹ûnull Æ¥Åä²»µ½ÏÂÔØÈÎÎñ
+	 * @Description: æ–°çš„ç»‘å®šè¿›åº¦ç›‘å¬å™¨
+	 * @param url ä¸‹è½½è·¯åŠ²
+	 * @param listener åŠ è½½è¿›åº¦ç›‘å¬å™¨
+	 * @return è¿”å›æœ€æ–°çš„ç›‘å¬å™¨ 
+	 * å¦‚æœç­‰äº ä¼ å…¥çš„ç›‘å¬å™¨ ç»‘å®šæˆåŠŸ å¦åˆ™ ä¸Šä¸€ä¸ªç›‘å¬å™¨æ‹’ç»æ–°çš„ç»‘å®š
+	 * å¦‚æœnull åŒ¹é…ä¸åˆ°ä¸‹è½½ä»»åŠ¡
 	 */
 	public static DownloadListener setListener(String url, DownloadListener listener) {
 		// TODO Auto-generated method stub
@@ -189,7 +190,7 @@ public class AfDownloader {
 		return null;
 	}
 	/**
-	 * @Description: ÈÎÎñÀ¸ÅäÖÃ
+	 * @Description: ä»»åŠ¡æ é…ç½®
 	 */
 	public static class NotifyEntity{
 
@@ -197,32 +198,32 @@ public class AfDownloader {
 		public String FinishText;
 		private String FailText;
 		/**
-		 * @return "¸½¼şÏÂÔØXXXX"
+		 * @return "é™„ä»¶ä¸‹è½½XXXX"
 		 */
 		public String getContentTitle() {
 			// TODO Auto-generated method stub
 			if (ContentTitle == null) {
-				return "ÎÄ¼şÏÂÔØ";
+				return "æ–‡ä»¶ä¸‹è½½";
 			}
 			return ContentTitle;
 		}
 		/**
-		 * @return "ÎÄ¼şXXXXXÏÂÔØÍê³É,´óĞ¡XXXX"
+		 * @return "æ–‡ä»¶XXXXXä¸‹è½½å®Œæˆ,å¤§å°XXXX"
 		 */
 		public String getFinishText() {
 			// TODO Auto-generated method stub
 			if (FinishText == null) {
-				return "ÎÄ¼şÏÂÔØÍê³É";
+				return "æ–‡ä»¶ä¸‹è½½å®Œæˆ";
 			}
 			return FinishText;
 		}
 		/**
-		 * @return "ÎÄ¼şXXXXXÏÂÔØÊ§°Ü"
+		 * @return "æ–‡ä»¶XXXXXä¸‹è½½å¤±è´¥"
 		 */
 		public String getFailText() {
 			// TODO Auto-generated method stub
 			if (FinishText == null) {
-				return "ÎÄ¼şÏÂÔØÊ§°Ü";
+				return "æ–‡ä»¶ä¸‹è½½å¤±è´¥";
 			}
 			return FailText;
 		}
@@ -231,21 +232,21 @@ public class AfDownloader {
 	
 	public static class DownloadEntity{
 		/**
-		 * ÏÂÔØºóµÄÎÄ¼şÃû£¬Ó°Ïì DownloadPathµÄÒâÒå
+		 * ä¸‹è½½åçš„æ–‡ä»¶åï¼Œå½±å“ DownloadPathçš„æ„ä¹‰
 		 */
 		public String Name = "";
 		public String Size = "";
 		public String DownloadUrl = "";
 		/**
-		 * µ± Name ÓĞÖµÊ±ºò ±íÊ¾Ä¿Â¼,·ñÔòÈ«Â·¾¶ 
+		 * å½“ Name æœ‰å€¼æ—¶å€™ è¡¨ç¤ºç›®å½•,å¦åˆ™å…¨è·¯å¾„ 
 		 */
 		public String DownloadPath = "";
 		/**
-		 * ÈÎÎñÀ¸ÏÂÔØÍ¨ÖªÅäÖÃ
+		 * ä»»åŠ¡æ ä¸‹è½½é€šçŸ¥é…ç½®
 		 */
 		public NotifyEntity Notify;
 		/**
-		 * ¶îÍâ°ó¶¨Ïî
+		 * é¢å¤–ç»‘å®šé¡¹
 		 */
 		public Object tag;
 		
@@ -264,25 +265,25 @@ public class AfDownloader {
 			isDownloaded = true;
 		}
 		/**
-		 * ÅĞ¶ÏÊÇ·ñÏÂÔØÊ§°Ü
+		 * åˆ¤æ–­æ˜¯å¦ä¸‹è½½å¤±è´¥
 		 */
 		public boolean isDownloadFail(){
 			return Excption != null;
 		}
 		/**
-		 * »ñÈ¡´íÎóĞÅÏ¢
+		 * è·å–é”™è¯¯ä¿¡æ¯
 		 */
 		public String getError() {
 			return Error;
 		}
 		/**
-		 * »ñÈ¡Òì³£ĞÅÏ¢
+		 * è·å–å¼‚å¸¸ä¿¡æ¯
 		 */
 		public Throwable getExcption() {
 			return Excption;
 		}
 		/**
-		 * »ñÈ¡ÏÂÔØÄ¿Â¼
+		 * è·å–ä¸‹è½½ç›®å½•
 		 */
 		public String getDir(){
 			if (AfStringUtil.isNotEmpty(Name)) {
@@ -292,7 +293,7 @@ public class AfDownloader {
 			}
 		}
 		/**
-		 * »ñÈ¡ÏÂÔØÈ«Â·¾¶
+		 * è·å–ä¸‹è½½å…¨è·¯å¾„
 		 */
 		public String getFullPath(){
 			if (AfStringUtil.isNotEmpty(Name)) {
@@ -305,41 +306,41 @@ public class AfDownloader {
 	
 	public interface DownloadListener{
 		/**
-		 * @Description ÏÂÔØ¿ªÊ¼
+		 * @Description ä¸‹è½½å¼€å§‹
 		 */
 		void onDownloadStart();
 		/**
-		 * @Description ½Ó¿ÚÍÑÀë
-		 * @return false ¾Ü¾øÍÑÀë true Í¬ÒâÍÑÀë
+		 * @Description æ¥å£è„±ç¦»
+		 * @return false æ‹’ç»è„±ç¦» true åŒæ„è„±ç¦»
 		 */
 		boolean onBreakAway();
 		/**
-		 * @Description: ÏÂÔØ½ø¶È
-		 * @param rate °Ù·Ö±È
-		 * @param loaded ÒÑÏÂÔØ³¤¶È
-		 * @param total ÎÄ¼ş×Ü´óĞ¡
+		 * @Description: ä¸‹è½½è¿›åº¦
+		 * @param rate ç™¾åˆ†æ¯”
+		 * @param loaded å·²ä¸‹è½½é•¿åº¦
+		 * @param total æ–‡ä»¶æ€»å¤§å°
 		 */
 		void onDownloadProgress(float rate, long loaded, long total);
 		/**
-		 * @Description: Í¨ÖªÀ¸µã»÷ÊÂ¼ş
-		 * @param endity ÏÂÔØÊµÌåÃèÊö
+		 * @Description: é€šçŸ¥æ ç‚¹å‡»äº‹ä»¶
+		 * @param endity ä¸‹è½½å®ä½“æè¿°
 		 */
 		void notifyClick(DownloadEntity endity);
 		/**
-		 * @Description: ÏÂÔØÍê³É
-		 * @return true ÒÑ¾­´¦Àí false Ã»ÓĞ´¦Àí£¨Ó°Ïìµ½notifyClick£©
+		 * @Description: ä¸‹è½½å®Œæˆ
+		 * @return true å·²ç»å¤„ç† false æ²¡æœ‰å¤„ç†ï¼ˆå½±å“åˆ°notifyClickï¼‰
 		 */
 		boolean onDownloadFinish();
 		/**
-		 * @Description: ÏÂÔØÊ§°Ü
-		 * @param error ´íÎóĞÅÏ¢
-		 * @param e ´íÎóÒì³£
-		 * @return true ÒÑ¾­´¦Àí false Ã»ÓĞ´¦Àí£¨Ó°Ïìµ½notifyClick£©
+		 * @Description: ä¸‹è½½å¤±è´¥
+		 * @param error é”™è¯¯ä¿¡æ¯
+		 * @param e é”™è¯¯å¼‚å¸¸
+		 * @return true å·²ç»å¤„ç† false æ²¡æœ‰å¤„ç†ï¼ˆå½±å“åˆ°notifyClickï¼‰
 		 */
 		boolean onDownloadFail(String error, Throwable e);
 	}
 	/**
-	 * @Description: ³£ÓÃ¼àÌı½Ó¿Ú
+	 * @Description: å¸¸ç”¨ç›‘å¬æ¥å£
 	 */
 	public static abstract class DownloadViewerListener implements DownloadListener{
 
@@ -352,7 +353,7 @@ public class AfDownloader {
 		@Override
 		public boolean onBreakAway() {
 			// TODO Auto-generated method stub
-			return true;//Í¬ÒâÍÑÀë
+			return true;//åŒæ„è„±ç¦»
 		}
 
 		@Override
@@ -375,7 +376,7 @@ public class AfDownloader {
 		
 	}
 	/**
-	 * ÏÂÔØ¹ÜÀí¼àÌı½Ó¿Ú
+	 * ä¸‹è½½ç®¡ç†ç›‘å¬æ¥å£
 	 */
 	public static abstract class DownloadManagerListener implements DownloadListener{
 
@@ -401,7 +402,7 @@ public class AfDownloader {
 		@Override
 		public boolean onBreakAway() {
 			// TODO Auto-generated method stub
-			return false;//Í¬ÒâÍÑÀë
+			return false;//åŒæ„è„±ç¦»
 		}
 
 		@Override
@@ -430,8 +431,8 @@ public class AfDownloader {
 			return false;
 		}
 		/**
-		 * °ó¶¨ĞÂµÄ¼àÌıÆ÷
-		 * @return true °ó¶¨³É¹¦ false ÉÏÒ»¸ö¼àÌıÆ÷ ¾Ü¾ø
+		 * ç»‘å®šæ–°çš„ç›‘å¬å™¨
+		 * @return true ç»‘å®šæˆåŠŸ false ä¸Šä¸€ä¸ªç›‘å¬å™¨ æ‹’ç»
 		 */
 		public boolean setDownloadListener(DownloadViewerListener listener) {
 			// TODO Auto-generated method stub
@@ -466,15 +467,15 @@ public class AfDownloader {
 				mBuilder.setContentIntent(pintent);
 //			}
 
-			// ¹¹Ôì Manager
+			// æ„é€  Manager
 			String server = Context.NOTIFICATION_SERVICE;
 			mManager = (NotificationManager) context.getSystemService(server);
 		}
 
 		public void notifyProgress(int max, int precent, boolean indeterminate) {
 			// TODO Auto-generated method stub
-			mBuilder.setProgress(max, precent, false);// ÉèÖÃÎªfalse£¬±íÊ¾¿Ì¶È
-			mBuilder.setContentText("ÒÑÏÂÔØ "+precent+"% ");
+			mBuilder.setProgress(max, precent, false);// è®¾ç½®ä¸ºfalseï¼Œè¡¨ç¤ºåˆ»åº¦
+			mBuilder.setContentText("å·²ä¸‹è½½ "+precent+"% ");
 			mManager.notify(notifyid, mBuilder.build());
 		}
 
@@ -482,7 +483,7 @@ public class AfDownloader {
 			// TODO Auto-generated method stub
 			mBuilder.setContentTitle(mEotify.getContentTitle());
 			mBuilder.setTicker(mEotify.getContentTitle());
-//			mBuilder.setTicker("ÕıÔÚÏÂÔØ...");
+//			mBuilder.setTicker("æ­£åœ¨ä¸‹è½½...");
 			mBuilder.setAutoCancel(false);
 			mBuilder.setOngoing(true);
 			mManager.notify(notifyid, mBuilder.build());
@@ -490,12 +491,12 @@ public class AfDownloader {
 
 		public void notifyFinish() {
 			// TODO Auto-generated method stub
-			mBuilder.setProgress(100, 100, false);// ÉèÖÃÎªfalse£¬±íÊ¾¿Ì¶È
+			mBuilder.setProgress(100, 100, false);// è®¾ç½®ä¸ºfalseï¼Œè¡¨ç¤ºåˆ»åº¦
 			mBuilder.setSmallIcon(android.R.drawable.stat_sys_download_done);
 			mBuilder.setTicker(mEotify.getFinishText());
 			mBuilder.setContentText(mEotify.getFinishText());
-//			mBuilder.setContentText("ÎÄ¼şÏÂÔØÍê³É£¬´óĞ¡"+mBack.Size);
-//			mBuilder.setTicker("±³¾°ÏÂÔØÍê³É£¬µã»÷ÉèÖÃ");
+//			mBuilder.setContentText("æ–‡ä»¶ä¸‹è½½å®Œæˆï¼Œå¤§å°"+mBack.Size);
+//			mBuilder.setTicker("èƒŒæ™¯ä¸‹è½½å®Œæˆï¼Œç‚¹å‡»è®¾ç½®");
 			mBuilder.setAutoCancel(true);
 			mBuilder.setOngoing(false);
 			
@@ -535,11 +536,11 @@ public class AfDownloader {
 		private long mCount = 0;
 		private long mTotal = 0;
 		/**
-		 * ÕıÔÚÏÂÔØÈÎÎñÁĞ±í
+		 * æ­£åœ¨ä¸‹è½½ä»»åŠ¡åˆ—è¡¨
 		 */
 		private static List<DownloadTask> mltDownloading = new ArrayList<DownloadTask>();
 		/**
-		 * ³É¹¦»òÕßÊ§°Ü Í¨ÖªÀ¸ÈÎÎñÁĞ±í
+		 * æˆåŠŸæˆ–è€…å¤±è´¥ é€šçŸ¥æ ä»»åŠ¡åˆ—è¡¨
 		 */
 		private static Map<String,DownloadTask> mNotifyMap = new HashMap<String, DownloadTask>();
 
@@ -551,10 +552,10 @@ public class AfDownloader {
 			mDownloadPath = endity.getFullPath();
 		}
 		/**
-		 * @Description: ÖØĞÂ°ó¶¨¼àÌıÆ÷
-		 * @param listener ĞÂµÄ¼àÌıÆ÷
-		 * @return ·µ»Ø×îĞÂµÄ¼àÌıÆ÷ 
-		 * Èç¹ûµÈÓÚ ´«ÈëµÄ¼àÌıÆ÷ °ó¶¨³É¹¦ ·ñÔò ÉÏÒ»¸ö¼àÌıÆ÷¾Ü¾øĞÂµÄ°ó¶¨
+		 * @Description: é‡æ–°ç»‘å®šç›‘å¬å™¨
+		 * @param listener æ–°çš„ç›‘å¬å™¨
+		 * @return è¿”å›æœ€æ–°çš„ç›‘å¬å™¨ 
+		 * å¦‚æœç­‰äº ä¼ å…¥çš„ç›‘å¬å™¨ ç»‘å®šæˆåŠŸ å¦åˆ™ ä¸Šä¸€ä¸ªç›‘å¬å™¨æ‹’ç»æ–°çš„ç»‘å®š
 		 */
 		public DownloadListener setDownloadListener(DownloadListener listener) {
 			// TODO Auto-generated method stub
@@ -571,7 +572,7 @@ public class AfDownloader {
 		public boolean onPrepare() {
 			// TODO Auto-generated method stub
 			mltDownloading.add(this);
-			// ¹¹Ôì Í¨Öª
+			// æ„é€  é€šçŸ¥
 			if (mEndity.Notify != null) {
 				mNotifier = new Notifier(AfApplication.getApp(),mEndity);
 				mNotifier.notifyStart();
@@ -592,7 +593,7 @@ public class AfDownloader {
 				HttpEntity entity = response.getEntity();
 				InputStream is = entity.getContent();
 
-				//´´½¨ÎÄ¼ş²¢¿ªÊ¼ÏÂÔØ
+				//åˆ›å»ºæ–‡ä»¶å¹¶å¼€å§‹ä¸‹è½½
 				mTempFile = new File(mDownloadPath);
 				if(mTempFile.exists()){
 					mTempFile.delete();
@@ -607,11 +608,11 @@ public class AfDownloader {
 				}
 				mTempFile.createNewFile();
 				
-				// ´´½¨Ò»¸öĞÂµÄĞ´ÈëÁ÷£¬½²¶ÁÈ¡µ½µÄÍ¼ÏñÊı¾İĞ´Èëµ½ÎÄ¼şÖĞ
+				// åˆ›å»ºä¸€ä¸ªæ–°çš„å†™å…¥æµï¼Œè®²è¯»å–åˆ°çš„å›¾åƒæ•°æ®å†™å…¥åˆ°æ–‡ä»¶ä¸­
 				FileOutputStream fos = new FileOutputStream(mTempFile);
-				// ÒÑ¶Á³öÁ÷×÷Îª²ÎÊı´´½¨Ò»¸ö´øÓĞ»º³åµÄÊä³öÁ÷
+				// å·²è¯»å‡ºæµä½œä¸ºå‚æ•°åˆ›å»ºä¸€ä¸ªå¸¦æœ‰ç¼“å†²çš„è¾“å‡ºæµ
 				BufferedInputStream bis = new BufferedInputStream(is);
-				// ÒÑĞ´ÈëÁ÷×÷Îª²ÎÊı´´½¨Ò»¸ö´øÓĞ»º³åµÄĞ´ÈëÁ÷
+				// å·²å†™å…¥æµä½œä¸ºå‚æ•°åˆ›å»ºä¸€ä¸ªå¸¦æœ‰ç¼“å†²çš„å†™å…¥æµ
 				BufferedOutputStream bos = new BufferedOutputStream(fos);
 
 				int read = 0, precent = 0;
@@ -626,7 +627,7 @@ public class AfDownloader {
 					count += read;
 					bos.write(buffer, 0, read);
 					precent = (int) (((double) count / length) * 100);
-					// Ã¿ÏÂÔØÍê³É3%¾ÍÍ¨ÖªÈÎÎñÀ¸½øĞĞĞŞ¸ÄÏÂÔØ½ø¶È
+					// æ¯ä¸‹è½½å®Œæˆ3%å°±é€šçŸ¥ä»»åŠ¡æ è¿›è¡Œä¿®æ”¹ä¸‹è½½è¿›åº¦
 					now = System.currentTimeMillis();
 					if (precent - mPrecent >= 3 || now - last > 500) {
 						last = now;
@@ -659,7 +660,7 @@ public class AfDownloader {
 			// TODO Auto-generated method stub
 			if (mResult == AfTask.RESULT_FINISH) {
 				if (msg.what == DOWNLOAD_PROGRESS) {
-					// ¸üĞÂ×´Ì¬À¸ÉÏµÄÏÂÔØ½ø¶ÈĞÅÏ¢
+					// æ›´æ–°çŠ¶æ€æ ä¸Šçš„ä¸‹è½½è¿›åº¦ä¿¡æ¯
 					if (mNotifier != null) {
 						mNotifier.notifyProgress(100, mPrecent, false);
 					}
@@ -713,10 +714,10 @@ public class AfDownloader {
 
 	protected static class DownloadBroadcast extends BroadcastReceiver {
 		
-		// ¸Ã·½·¨ÓÃÓÚÊµÏÖ½ÓÊÕµ½¹ã²¥µÄ¾ßÌå´¦Àí£¬ÆäÖĞ²ÎÊıintent£ºÎª½ÓÊÜµ½µÄintent
+		// è¯¥æ–¹æ³•ç”¨äºå®ç°æ¥æ”¶åˆ°å¹¿æ’­çš„å…·ä½“å¤„ç†ï¼Œå…¶ä¸­å‚æ•°intentï¼šä¸ºæ¥å—åˆ°çš„intent
 		@Override
 		public void onReceive(Context context, Intent intent) {
-			// »ñÈ¡ÒâÍ¼µÄ¶¯×÷
+			// è·å–æ„å›¾çš„åŠ¨ä½œ
 			try {
 				if (FILE_NOTIFICATION.equals(intent.getAction())) {
 					String Url = new AfIntent(intent).getString(FILE_NOTIFICATION, null);

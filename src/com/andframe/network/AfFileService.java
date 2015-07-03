@@ -21,12 +21,12 @@ public class AfFileService {
 
     public class OPFileType
     {
-        public final static int DELETE = 0;//É¾³ı²Ù×÷
-        public final static int COPY = 1;//¸´ÖÆ²Ù×÷
-        public final static int MOVETO = 2;//ÒÆ¶¯²Ù×÷
-        public final static int REPLACE = 3;//Ìæ»»²Ù×÷
-        public final static int EXIST = 4;//¼ì²é´æÔÚ²Ù×÷
-        public final static int UPLOAD = 5;//ÉÏ´«²Ù×÷
+        public final static int DELETE = 0;//åˆ é™¤æ“ä½œ
+        public final static int COPY = 1;//å¤åˆ¶æ“ä½œ
+        public final static int MOVETO = 2;//ç§»åŠ¨æ“ä½œ
+        public final static int REPLACE = 3;//æ›¿æ¢æ“ä½œ
+        public final static int EXIST = 4;//æ£€æŸ¥å­˜åœ¨æ“ä½œ
+        public final static int UPLOAD = 5;//ä¸Šä¼ æ“ä½œ
     }
     
 	protected static boolean debug = true;
@@ -59,8 +59,8 @@ public class AfFileService {
 	
 	/***
 	 * 
-	 * @param serivce ĞÎÈç "/FileService"
-	 * @param servlet ĞÎÈç "/FileServlet"
+	 * @param serivce å½¢å¦‚ "/FileService"
+	 * @param servlet å½¢å¦‚ "/FileServlet"
 	 */
 	public static void setServer(String serivce,String servlet){
 		ServletPath = servlet;
@@ -106,7 +106,7 @@ public class AfFileService {
 		return url.toString();
 	}
 
-	/* ÉÏ´«ÎÄ¼şÖÁServerµÄ·½·¨ */
+	/* ä¸Šä¼ æ–‡ä»¶è‡³Serverçš„æ–¹æ³• */
 	protected static boolean uploadFile(String Url, String srcPath)
 			throws Exception {
 		String end = "\r\n";
@@ -159,7 +159,7 @@ public class AfFileService {
 		}
 	}
 
-	/* ÉÏ´«ÎÄ¼şÖÁServerµÄ·½·¨ */
+	/* ä¸Šä¼ æ–‡ä»¶è‡³Serverçš„æ–¹æ³• */
 	protected static boolean uploadFile(String Url, InputStream fis) throws Exception {
 		String end = "\r\n";
 		String twoHyphens = "--";
@@ -207,10 +207,10 @@ public class AfFileService {
 		}
 	}
 	/**
-	 * ¸ù¾İURLÏÂÍ¼Æ¬ ×¢Òâ£¬´Ë·½·¨½ö¹©ÓÃÓÚAndroid³ÌĞò
+	 * æ ¹æ®URLä¸‹å›¾ç‰‡ æ³¨æ„ï¼Œæ­¤æ–¹æ³•ä»…ä¾›ç”¨äºAndroidç¨‹åº
 	 * @param strUrl
-	 *            Í¼Æ¬ÍøÂçµØÖ·
-	 * @return Èç¹û³É¹¦£¬·µ»ØBitmap¶ÔÏó
+	 *            å›¾ç‰‡ç½‘ç»œåœ°å€
+	 * @return å¦‚æœæˆåŠŸï¼Œè¿”å›Bitmapå¯¹è±¡
 	 * @throws Exception
 	 */
 	public static BitmapDrawable downloadDrawable(Context context, String turl)
@@ -218,39 +218,39 @@ public class AfFileService {
 		BitmapDrawable bd = null;
 		//turl = URLEncoder.encode(turl, "UTF-8").replace("%2F","/").replace("%3A",":");
 		URL url = new URL(turl);
-		// ´´½¨Á¬½Ó
+		// åˆ›å»ºè¿æ¥
 		HttpURLConnection hc = (HttpURLConnection) url.openConnection();
-		// »ñÈ¡Êı¾İ
+		// è·å–æ•°æ®
 		bd = new BitmapDrawable(context.getResources(), hc.getInputStream());
-		// ¹Ø±ÕÁ¬½Ó
+		// å…³é—­è¿æ¥
 		hc.disconnect();
 		if(bd.getBitmap() == null){
-			throw new Exception("ÏÂÔØÍ¼Æ¬Ê§°Ü");
+			throw new Exception("ä¸‹è½½å›¾ç‰‡å¤±è´¥");
 		}
 		return bd;
 	}
 
 	/**
-	 * ¸ù¾İURLÏÂÍ¼Æ¬ ×¢Òâ£¬´Ë·½·¨½ö¹©ÓÃÓÚAndroid³ÌĞò
+	 * æ ¹æ®URLä¸‹å›¾ç‰‡ æ³¨æ„ï¼Œæ­¤æ–¹æ³•ä»…ä¾›ç”¨äºAndroidç¨‹åº
 	 * 
 	 * @param strUrl
-	 *            Í¼Æ¬ÍøÂçµØÖ·
-	 * @return Èç¹û³É¹¦£¬·µ»ØBitmap¶ÔÏó
+	 *            å›¾ç‰‡ç½‘ç»œåœ°å€
+	 * @return å¦‚æœæˆåŠŸï¼Œè¿”å›Bitmapå¯¹è±¡
 	 * @throws Exception
 	 */
 	public static Bitmap downloadBitmap(String strUrl) throws Exception {
 		Bitmap bm = null;
-		// ÊµÀı»¯url
+		// å®ä¾‹åŒ–url
 		URL url = new URL(strUrl);
-		// 1.Ê¹ÓÃURL»ñµÃÊäÈëÁ÷
+		// 1.ä½¿ç”¨URLè·å¾—è¾“å…¥æµ
 		InputStream in = url.openStream();
-		// Í¨¹ıBitmapFactory»ñµÃÊµÀı
+		// é€šè¿‡BitmapFactoryè·å¾—å®ä¾‹
 		bm = BitmapFactory.decodeStream(in);
 		return bm;
 	}
 
 	/**
-	 * ´Ó·şÎñÆ÷ÏÂÔØÎÄ¼ş
+	 * ä»æœåŠ¡å™¨ä¸‹è½½æ–‡ä»¶
 	 * 
 	 * @param Url
 	 * @param outpath

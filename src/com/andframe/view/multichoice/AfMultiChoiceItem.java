@@ -142,9 +142,9 @@ public abstract class AfMultiChoiceItem<T> extends AfLisItem<T> implements OnCli
 	}
 
 	/**
-	 * @param model ²¼¾Ö°ó¶¨µÄ Êı¾İ model
-	 * @param status Ñ¡Ôñ×´Ì¬{NONE,UNSELECT,SELECTED}
-	 * @return »æÖÆÑ¡Ôñ×´Ì¬ ·µ»Ø TRUE ·ñÔò FALSE
+	 * @param model å¸ƒå±€ç»‘å®šçš„ æ•°æ® model
+	 * @param status é€‰æ‹©çŠ¶æ€{NONE,UNSELECT,SELECTED}
+	 * @return ç»˜åˆ¶é€‰æ‹©çŠ¶æ€ è¿”å› TRUE å¦åˆ™ FALSE
 	 */
 	protected abstract boolean onBinding(T model,int index,SelectStatus status);
 }

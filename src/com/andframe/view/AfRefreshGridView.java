@@ -64,7 +64,7 @@ public abstract class AfRefreshGridView extends AfPullToRefreshBase<GridView> {
 
 	int getFirstPositionDistanceGuess(AbsListView view) {
 		Field field;
-		// 获取ContextWrapper对象中的mBase变量。该变量保存了ContextImpl对象
+		// 鑾峰彇ContextWrapper瀵硅薄涓殑mBase鍙橀噺銆傝鍙橀噺淇濆瓨浜咰ontextImpl瀵硅薄
 		try {
 			field = AbsListView.class
 					.getDeclaredField("mFirstPositionDistanceGuess");
@@ -79,7 +79,7 @@ public abstract class AfRefreshGridView extends AfPullToRefreshBase<GridView> {
 
 	int getLastPositionDistanceGuess(AbsListView view) {
 		Field field;
-		// 获取ContextWrapper对象中的mBase变量。该变量保存了ContextImpl对象
+		// 鑾峰彇ContextWrapper瀵硅薄涓殑mBase鍙橀噺銆傝鍙橀噺淇濆瓨浜咰ontextImpl瀵硅薄
 		try {
 			field = AbsListView.class
 					.getDeclaredField("mLastPositionDistanceGuess");

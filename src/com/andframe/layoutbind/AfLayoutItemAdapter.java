@@ -3,16 +3,16 @@ package com.andframe.layoutbind;
 import com.andframe.activity.framework.AfView;
 import com.andframe.adapter.AfListAdapter.IAfLayoutItem;
 /**
- * ÏàËÆÁĞ±í²¼¾ÖÊÊÅäÆ÷
+ * ç›¸ä¼¼åˆ—è¡¨å¸ƒå±€é€‚é…å™¨
  * @author scwang
- * @param <T> Êµ¼ÊĞèÒª²¼¾ÖÄ£°å
- * @param <TT> ¿ÉÒÔÊÊÅäµÄÄ£°å
+ * @param <T> å®é™…éœ€è¦å¸ƒå±€æ¨¡æ¿
+ * @param <TT> å¯ä»¥é€‚é…çš„æ¨¡æ¿
  */
 public abstract class AfLayoutItemAdapter <T,TT> implements IAfLayoutItem<T>{
 	
 	private IAfLayoutItem<TT> item;
 	/**
-	 * Ò»¸ö¿ÉÒÔÊÊÅäÒ³ÃæµÄ²¼¾Ö
+	 * ä¸€ä¸ªå¯ä»¥é€‚é…é¡µé¢çš„å¸ƒå±€
 	 * @param item
 	 */
 	public AfLayoutItemAdapter(IAfLayoutItem<TT> item) {
@@ -38,7 +38,7 @@ public abstract class AfLayoutItemAdapter <T,TT> implements IAfLayoutItem<T>{
 		return item.getLayoutId();
 	}
 	/**
-	 * °ÑÄ£°åÊı¾İ T ×ª³É TT
+	 * æŠŠæ¨¡æ¿æ•°æ® T è½¬æˆ TT
 	 * @param model
 	 * @return
 	 */

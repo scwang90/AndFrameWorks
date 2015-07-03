@@ -17,11 +17,11 @@ public class AfScrollLayout extends ViewGroup {
 
 	private static final String TAG = "ScrollLayout";
 
-	private VelocityTracker mVelocityTracker; // 用于判断甩动手势
+	private VelocityTracker mVelocityTracker; // 鐢ㄤ簬鍒ゆ柇鐢╁姩鎵嬪娍
 
 	private static final int SNAP_VELOCITY = 600;
 
-	private Scroller mScroller; // 滑动控制??
+	private Scroller mScroller; // 婊戝姩鎺у埗??
 
 	private int mCurScreen;
 

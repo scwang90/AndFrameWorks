@@ -95,10 +95,10 @@ public abstract class AfRefreshListView<T extends ListView> extends AfPullToRefr
 					getDrawingCache()));
 		}
 		
-		// ½â¾ölistviewÔÚÍÏ¶¯µÄÊ±ºò±³¾°Í¼Æ¬ÏûÊ§±ä³ÉºÚÉ«±³¾°
+		// è§£å†³listviewåœ¨æ‹–åŠ¨çš„æ—¶å€™èƒŒæ™¯å›¾ç‰‡æ¶ˆå¤±å˜æˆé»‘è‰²èƒŒæ™¯
 		mListView.setCacheColorHint(0);
 		mListView.setScrollingCacheEnabled(false);
-		// ½â¾ölistviewµÄÉÏ±ßºÍÏÂ±ßÓĞºÚÉ«µÄÒõÓ°
+		// è§£å†³listviewçš„ä¸Šè¾¹å’Œä¸‹è¾¹æœ‰é»‘è‰²çš„é˜´å½±
 		mListView.setFadingEdgeLength(0);
 		// TODO Auto-generated method stub
 		// TypedArray array =
@@ -151,7 +151,7 @@ public abstract class AfRefreshListView<T extends ListView> extends AfPullToRefr
 
 	int getFirstPositionDistanceGuess(AbsListView view) {
 		Field field;
-		// »ñÈ¡ContextWrapper¶ÔÏóÖĞµÄmBase±äÁ¿¡£¸Ã±äÁ¿±£´æÁËContextImpl¶ÔÏó
+		// è·å–ContextWrapperå¯¹è±¡ä¸­çš„mBaseå˜é‡ã€‚è¯¥å˜é‡ä¿å­˜äº†ContextImplå¯¹è±¡
 		try {
 			field = AbsListView.class
 					.getDeclaredField("mFirstPositionDistanceGuess");
@@ -166,7 +166,7 @@ public abstract class AfRefreshListView<T extends ListView> extends AfPullToRefr
 
 	int getLastPositionDistanceGuess(AbsListView view) {
 		Field field;
-		// »ñÈ¡ContextWrapper¶ÔÏóÖĞµÄmBase±äÁ¿¡£¸Ã±äÁ¿±£´æÁËContextImpl¶ÔÏó
+		// è·å–ContextWrapperå¯¹è±¡ä¸­çš„mBaseå˜é‡ã€‚è¯¥å˜é‡ä¿å­˜äº†ContextImplå¯¹è±¡
 		try {
 			field = AbsListView.class
 					.getDeclaredField("mLastPositionDistanceGuess");
@@ -203,7 +203,7 @@ public abstract class AfRefreshListView<T extends ListView> extends AfPullToRefr
 	}
 
 	/**
-	 * »ñÈ¡ OnItemClick ÖĞµÄindex ¶ÔÓ¦ListView ÖĞµÄindex °üº¬ HeaderView
+	 * è·å– OnItemClick ä¸­çš„index å¯¹åº”ListView ä¸­çš„index åŒ…å« HeaderView
 	 * 
 	 * @param index
 	 * @return
@@ -214,7 +214,7 @@ public abstract class AfRefreshListView<T extends ListView> extends AfPullToRefr
 	}
 
 	/**
-	 * »ñÈ¡ OnItemClick ÖĞµÄindex ¶ÔÓ¦Adapter ÖĞµÄindex
+	 * è·å– OnItemClick ä¸­çš„index å¯¹åº”Adapter ä¸­çš„index
 	 * 
 	 * @param index
 	 * @return

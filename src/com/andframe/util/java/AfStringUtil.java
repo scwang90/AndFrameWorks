@@ -3,10 +3,10 @@ package com.andframe.util.java;
 import java.util.regex.Pattern;
 
 /**
- * @Description: ×Ö·û´®³£ÓÃ¹¤¾ßÀà
+ * @Description: å­—ç¬¦ä¸²å¸¸ç”¨å·¥å…·ç±»
  * @Author: scwang
- * @Version: V1.0, 2015-1-26 ÏÂÎç12:23:15
- * @Modified: ³õ´Î´´½¨AfStringUtilÀà
+ * @Version: V1.0, 2015-1-26 ä¸‹åˆ12:23:15
+ * @Modified: åˆæ¬¡åˆ›å»ºAfStringUtilç±»
  */
 public class AfStringUtil {
 
@@ -31,10 +31,10 @@ public class AfStringUtil {
 	}
 
 	/**
-	 * ÑéÖ¤ÊäÈëµÄÓÊÏä¸ñÊ½ÊÇ·ñ·ûºÏ
+	 * éªŒè¯è¾“å…¥çš„é‚®ç®±æ ¼å¼æ˜¯å¦ç¬¦åˆ
 	 * 
 	 * @param email
-	 * @return ÊÇ·ñºÏ·¨
+	 * @return æ˜¯å¦åˆæ³•
 	 */
 	public static boolean emailFormat(String email) {
 		String pattern = "^([a-z0-9A-Z]+[-|\\.]?)+[a-z0-9A-Z]@([a-z0-9A-Z]+(-[a-z0-9A-Z]+)?\\.)+[a-zA-Z]{2,}$";

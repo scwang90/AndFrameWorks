@@ -36,50 +36,50 @@ public class AfLocation
     private static Location mLocation = null;
 
     /**
-     * ¶¨Î»»ñÈ¡ Location
+     * å®šä½è·å– Location
      * @param context
      * @return Location
-     * @throws WaitException µÈ´ıÍ¨Öª
-     * @throws Exception ´íÎóÌáÊ¾
+     * @throws WaitException ç­‰å¾…é€šçŸ¥
+     * @throws Exception é”™è¯¯æç¤º
      */
     public static Location getLocation(Context context) throws WaitException, Exception
     {
-        //ÊµÀı»¯Ò»¸öLocationManager¶ÔÏó  
+        //å®ä¾‹åŒ–ä¸€ä¸ªLocationManagerå¯¹è±¡  
         if(mManager==null){
             mManager = (LocationManager)context.getSystemService(Context.LOCATION_SERVICE);
         }
         
-        //ProviderµÄÀàĞÍ  
+        //Providerçš„ç±»å‹  
         if(mProvider == null){
-            //Ê¹ÓÃ±ê×¼¼¯ºÏ£¬ÈÃÏµÍ³×Ô¶¯Ñ¡Ôñ¿ÉÓÃµÄ×î¼ÑÎ»ÖÃÌá¹©Æ÷£¬Ìá¹©Î»ÖÃ
+            //ä½¿ç”¨æ ‡å‡†é›†åˆï¼Œè®©ç³»ç»Ÿè‡ªåŠ¨é€‰æ‹©å¯ç”¨çš„æœ€ä½³ä½ç½®æä¾›å™¨ï¼Œæä¾›ä½ç½®
             Criteria tCriteria = new Criteria();
-            tCriteria.setAccuracy(Criteria.ACCURACY_FINE);   //¸ß¾«¶È  
-            tCriteria.setAltitudeRequired(false);    //²»ÒªÇóº£°Î  
-            tCriteria.setBearingRequired(false); //²»ÒªÇó·½Î»  
-            tCriteria.setCostAllowed(false); //²»ÔÊĞíÓĞ»°·Ñ  
-            tCriteria.setPowerRequirement(Criteria.POWER_LOW);   //µÍ¹¦ºÄ 
+            tCriteria.setAccuracy(Criteria.ACCURACY_FINE);   //é«˜ç²¾åº¦  
+            tCriteria.setAltitudeRequired(false);    //ä¸è¦æ±‚æµ·æ‹”  
+            tCriteria.setBearingRequired(false); //ä¸è¦æ±‚æ–¹ä½  
+            tCriteria.setCostAllowed(false); //ä¸å…è®¸æœ‰è¯è´¹  
+            tCriteria.setPowerRequirement(Criteria.POWER_LOW);   //ä½åŠŸè€— 
             
             mProvider = mManager.getBestProvider(tCriteria,true);
             mProvider = mProvider == null?LocationManager.NETWORK_PROVIDER:mProvider;
         }
         /* 
-         * µÚ¶ş¸ö²ÎÊı±íÊ¾¸üĞÂµÄÖÜÆÚ£¬µ¥Î»ÎªºÁÃë£»µÚÈı¸ö²ÎÊıµÄº¬Òå±íÊ¾×îĞ¡¾àÀë¼ä¸ô£¬µ¥Î»ÊÇÃ× 
-         * Éè¶¨Ã¿30Ãë½øĞĞÒ»´Î×Ô¶¯¶¨Î» 
+         * ç¬¬äºŒä¸ªå‚æ•°è¡¨ç¤ºæ›´æ–°çš„å‘¨æœŸï¼Œå•ä½ä¸ºæ¯«ç§’ï¼›ç¬¬ä¸‰ä¸ªå‚æ•°çš„å«ä¹‰è¡¨ç¤ºæœ€å°è·ç¦»é—´éš”ï¼Œå•ä½æ˜¯ç±³ 
+         * è®¾å®šæ¯30ç§’è¿›è¡Œä¸€æ¬¡è‡ªåŠ¨å®šä½ 
          */
         mManager.requestLocationUpdates(mProvider, 30000, 50,mListener);
 
-        //Í¨¹ı×îºóÒ»´ÎµÄµØÀíÎ»ÖÃÀ´»ñµÃLocation¶ÔÏó  
+        //é€šè¿‡æœ€åä¸€æ¬¡çš„åœ°ç†ä½ç½®æ¥è·å¾—Locationå¯¹è±¡  
         mLocation = mManager.getLastKnownLocation(mProvider);
         if(mLocation == null){
             if(ltDisableProvider.size() >= 2){
-                throw new AfToastException("¶¨Î»²»¿ÉÓÃ£¬ÇëÉèÖÃGPS£¬»òÕß²é¿´ÊÇ·ñ±»¹ÜÀíÈí¼şÏŞÖÆ¶¨Î»¡£");
+                throw new AfToastException("å®šä½ä¸å¯ç”¨ï¼Œè¯·è®¾ç½®GPSï¼Œæˆ–è€…æŸ¥çœ‹æ˜¯å¦è¢«ç®¡ç†è½¯ä»¶é™åˆ¶å®šä½ã€‚");
             }
-            throw new WaitException("µÈ´ıÒ»ÏÂÔÙÊÔ");
+            throw new WaitException("ç­‰å¾…ä¸€ä¸‹å†è¯•");
         }else{
             if(AfTimeSpan.FromDate(mlastdate, new Date()).getTotalMinutes() > 30){
                 mLocation = null;
                 mlastdate = new Date(0);
-                throw new WaitException("µÈ´ıÒ»ÏÂÔÙÊÔ");
+                throw new WaitException("ç­‰å¾…ä¸€ä¸‹å†è¯•");
             }
         }
         
@@ -87,36 +87,36 @@ public class AfLocation
     }
 
     /**
-     * ¸ù¾İ Location »ñÈ¡ µØÖ·ĞÅÏ¢
+     * æ ¹æ® Location è·å– åœ°å€ä¿¡æ¯
      * @param location
      * @param context
-     * @return Address ÁĞ±í
-     * @throws IOException ÍøÂçÒì³£
+     * @return Address åˆ—è¡¨
+     * @throws IOException ç½‘ç»œå¼‚å¸¸
      */
     public static List<Address> getAddressByLocation(Location location,Context context) throws IOException
     {
-        //»ñÈ¡¾­Î³¶È
+        //è·å–ç»çº¬åº¦
         double lat = location.getLatitude();
         double lng = location.getLongitude();
         
-        //´Ë¶ÔÏóÄÜÍ¨¹ı¾­Î³¶ÈÀ´»ñÈ¡ÏàÓ¦µÄ³ÇÊĞµÈĞÅÏ¢  
+        //æ­¤å¯¹è±¡èƒ½é€šè¿‡ç»çº¬åº¦æ¥è·å–ç›¸åº”çš„åŸå¸‚ç­‰ä¿¡æ¯  
         Geocoder tGeocoder = new Geocoder(context,Locale.CHINA);
 
-        //½âÎö¾­Î³¶È 
+        //è§£æç»çº¬åº¦ 
         List<Address> ltAdress = tGeocoder.getFromLocation(lat, lng, 1); 
         
         return ltAdress;
     }
 
     /**
-     * ¸ù¾İ Adress »ñÈ¡ ³ÇÊĞÃû³ÆĞÅÏ¢
-     * @param ltAdress AdressÁĞ±í
+     * æ ¹æ® Adress è·å– åŸå¸‚åç§°ä¿¡æ¯
+     * @param ltAdress Adressåˆ—è¡¨
      */
     public static String getCityNameByAddress(List<Address> ltAdress)
     {
         String tCityName = "";
 
-        //´Ë¶ÔÏóÄÜÍ¨¹ı¾­Î³¶ÈÀ´»ñÈ¡ÏàÓ¦µÄ³ÇÊĞµÈĞÅÏ¢  
+        //æ­¤å¯¹è±¡èƒ½é€šè¿‡ç»çº¬åº¦æ¥è·å–ç›¸åº”çš„åŸå¸‚ç­‰ä¿¡æ¯  
         if (ltAdress != null && ltAdress.size() > 0)
         {
             for (Address address : ltAdress)
@@ -127,18 +127,18 @@ public class AfLocation
         return tCityName;
     }
     /**
-     * Í¨¹ı¾­Î³¶È»ñÈ¡µØÖ·ĞÅÏ¢µÄÁíÒ»ÖÖ·½·¨
+     * é€šè¿‡ç»çº¬åº¦è·å–åœ°å€ä¿¡æ¯çš„å¦ä¸€ç§æ–¹æ³•
      * @param latitude
      * @param longitude
-     * @return ³ÇÊĞÃû
+     * @return åŸå¸‚å
      */
     public static String GetCityNameByTude(Location location)
     {
         String addr = "";
         /* 
-         * Ò²¿ÉÒÔÊÇhttp://maps.google.cn/maps/geo?output=csv&key=abcdef&q=%s,%s£¬²»¹ı½âÎö³öÀ´µÄÊÇÓ¢ÎÄµØÖ· 
-         * ÃÜÔ¿¿ÉÒÔËæ±ãĞ´Ò»¸ökey=abc 
-         * output=csv,Ò²¿ÉÒÔÊÇxml»òjson£¬²»¹ıÊ¹ÓÃcsv·µ»ØµÄÊı¾İ×î¼ò½à·½±ã½âÎö     
+         * ä¹Ÿå¯ä»¥æ˜¯http://maps.google.cn/maps/geo?output=csv&key=abcdef&q=%s,%sï¼Œä¸è¿‡è§£æå‡ºæ¥çš„æ˜¯è‹±æ–‡åœ°å€ 
+         * å¯†é’¥å¯ä»¥éšä¾¿å†™ä¸€ä¸ªkey=abc 
+         * output=csv,ä¹Ÿå¯ä»¥æ˜¯xmlæˆ–jsonï¼Œä¸è¿‡ä½¿ç”¨csvè¿”å›çš„æ•°æ®æœ€ç®€æ´æ–¹ä¾¿è§£æ     
          */
         String url = String.format(
                 "http://ditu.google.cn/maps/geo?output=csv&key=abcdef&q=%s,%s",
@@ -193,7 +193,7 @@ public class AfLocation
     }
 
     /**
-     * ·½Î»¸Ä±äÊ±´¥·¢£¬½øĞĞµ÷ÓÃ
+     * æ–¹ä½æ”¹å˜æ—¶è§¦å‘ï¼Œè¿›è¡Œè°ƒç”¨
      */
     private final static LocationListener mListener = new LocationListener()
     {
@@ -201,7 +201,7 @@ public class AfLocation
         {
             mLocation = location;
             mlastdate = new Date();
-            //ÒÆ³ı¼àÌıÆ÷£¬ÔÚÖ»ÓĞÒ»¸öwidgetµÄÊ±ºò£¬Õâ¸ö»¹ÊÇÊÊÓÃµÄ  
+            //ç§»é™¤ç›‘å¬å™¨ï¼Œåœ¨åªæœ‰ä¸€ä¸ªwidgetçš„æ—¶å€™ï¼Œè¿™ä¸ªè¿˜æ˜¯é€‚ç”¨çš„  
             mManager.removeUpdates(mListener);
         }
 
@@ -270,9 +270,9 @@ public class AfLocation
     };
 
     /**
-     * ÇëÇóµÈ´ı Òì³£
+     * è¯·æ±‚ç­‰å¾… å¼‚å¸¸
      * @author SCWANG
-     *  Èç¹û½ÓÊÕµ½Òì³£ ´¦Àí·½·¨ÊÇ ÉÔµÈÆ¬¿ÌÔÙµ÷ÓÃÒ»´Î½Ó¿Ú
+     *  å¦‚æœæ¥æ”¶åˆ°å¼‚å¸¸ å¤„ç†æ–¹æ³•æ˜¯ ç¨ç­‰ç‰‡åˆ»å†è°ƒç”¨ä¸€æ¬¡æ¥å£
      */
     public static class WaitException extends Throwable{
 

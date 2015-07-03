@@ -24,15 +24,16 @@ import android.widget.Toast;
 import com.andframe.activity.albumn.AfAlbumViewPager;
 import com.andframe.feature.AfDensity;
 
+@SuppressWarnings("deprecation")
 public class AfAlbumView extends ImageView implements OnClickListener {
 
 	private float MAX_SCALE = 2.0f;
 
-	private static final int MODE_NONE = 0;// ³õÊ¼×´Ì¬
-	private static final int MODE_DRAG = 1;// ÍÏ¶¯
-	private static final int MODE_ZOOM = 2;// Ëõ·Å
-	private static final int MODE_ROTATE = 3;// Ğı×ª
-	private static final int ZOOM_OR_ROTATE = 4; // Ëõ·Å»òĞı×ª
+	private static final int MODE_NONE = 0;// åˆå§‹çŠ¶æ€
+	private static final int MODE_DRAG = 1;// æ‹–åŠ¨
+	private static final int MODE_ZOOM = 2;// ç¼©æ”¾
+	private static final int MODE_ROTATE = 3;// æ—‹è½¬
+	private static final int ZOOM_OR_ROTATE = 4; // ç¼©æ”¾æˆ–æ—‹è½¬
 
 	private int mode = MODE_NONE;
 
@@ -45,11 +46,11 @@ public class AfAlbumView extends ImageView implements OnClickListener {
 	private Matrix matrix = new Matrix();
 	private Matrix savedMatrix = new Matrix();
 
-	private PointF pMain = new PointF(); // Ö÷µã°´ÏÂ×ø±ê
-	private PointF pDeputy = new PointF(); // ¸±µã°´ÏÂ×ø±ê
-	private PointF pMiddle = new PointF(); // ¼ÆËãÖĞ¼äµã
-	private PointF pLast = new PointF(); // ÉÏÒ»µã
-	private long lastClickTime = 0; // ÉÏÒ»µãÊ±¼ä
+	private PointF pMain = new PointF(); // ä¸»ç‚¹æŒ‰ä¸‹åæ ‡
+	private PointF pDeputy = new PointF(); // å‰¯ç‚¹æŒ‰ä¸‹åæ ‡
+	private PointF pMiddle = new PointF(); // è®¡ç®—ä¸­é—´ç‚¹
+	private PointF pLast = new PointF(); // ä¸Šä¸€ç‚¹
+	private long lastClickTime = 0; // ä¸Šä¸€ç‚¹æ—¶é—´
 	private double rotation = 0.0;
 	private float dist = 1f;
 
@@ -84,7 +85,7 @@ public class AfAlbumView extends ImageView implements OnClickListener {
 	@Override
 	public void onClick(View v) {
 		// TODO Auto-generated method stub
-		Toast.makeText(getContext(), "µã»÷ÊÂ¼ş", Toast.LENGTH_SHORT).show();
+		Toast.makeText(getContext(), "ç‚¹å‡»äº‹ä»¶", Toast.LENGTH_SHORT).show();
 	}
 
 	@Override
@@ -109,7 +110,7 @@ public class AfAlbumView extends ImageView implements OnClickListener {
 	}
 
 	/**
-	 * »ñÈ¡Í¼Æ¬Ô­³ß´ç
+	 * è·å–å›¾ç‰‡åŸå°ºå¯¸
 	 */
 	private void setImageWidthHeight() {
 		Drawable drawable = getDrawable();
@@ -143,7 +144,7 @@ public class AfAlbumView extends ImageView implements OnClickListener {
 	}
 
 	/**
-	 * »Ö¸´Ô­Ê¼±ÈÀı£¬Ô­Ê¼×´Ì¬
+	 * æ¢å¤åŸå§‹æ¯”ä¾‹ï¼ŒåŸå§‹çŠ¶æ€
 	 */
 	private void initImage() {
 		if (viewW <= 0 || viewH <= 0 || imageW <= 0 || imageH <= 0) {
@@ -157,10 +158,10 @@ public class AfAlbumView extends ImageView implements OnClickListener {
 	}
 
 	/**
-	 * ×ÔÊÊÓ¦±ÈÀı
+	 * è‡ªé€‚åº”æ¯”ä¾‹
 	 */
 	private void fixScale() {
-		// 3*3 ¾ØÕó
+		// 3*3 çŸ©é˜µ
 		float p[] = new float[9];
 		matrix.getValues(p);
 		float curScale = Math.abs(p[0]) + Math.abs(p[1]);
@@ -184,7 +185,7 @@ public class AfAlbumView extends ImageView implements OnClickListener {
 	}
 
 	/**
-	 * ¼ÆËã×î´ó±ÈÀı
+	 * è®¡ç®—æœ€å¤§æ¯”ä¾‹
 	 * 
 	 * @return
 	 */
@@ -200,7 +201,7 @@ public class AfAlbumView extends ImageView implements OnClickListener {
 	}
 
 	/**
-	 * ×ÔÊÊÓ¦Î»ÒÆ×ª»»
+	 * è‡ªé€‚åº”ä½ç§»è½¬æ¢
 	 */
 	private void fixTranslation() {
 		RectF rect = new RectF(0, 0, imageW, imageH);
@@ -237,20 +238,20 @@ public class AfAlbumView extends ImageView implements OnClickListener {
 		}
 
 		switch (event.getAction() & MotionEvent.ACTION_MASK) {
-		// Ö÷µã°´ÏÂ
+		// ä¸»ç‚¹æŒ‰ä¸‹
 		case MotionEvent.ACTION_DOWN:
 			savedMatrix.set(matrix);
 			pMain.set(event.getX(), event.getY());
 			pDeputy.set(event.getX(), event.getY());
 			mode = MODE_DRAG;
 			break;
-		// ¸±µã°´ÏÂ
+		// å‰¯ç‚¹æŒ‰ä¸‹
 		case MotionEvent.ACTION_POINTER_DOWN:
 			if (VERSION.SDK_INT < 8 || event.getActionIndex() > 1)
 				break;
 			dist = distance(event.getX(0), event.getY(0), event.getX(1),
 					event.getY(1));
-			// Èç¹ûÁ¬ĞøÁ½µã¾àÀë´óÓÚ10£¬ÔòÅĞ¶¨Îª¶àµãÄ£Ê½
+			// å¦‚æœè¿ç»­ä¸¤ç‚¹è·ç¦»å¤§äº10ï¼Œåˆ™åˆ¤å®šä¸ºå¤šç‚¹æ¨¡å¼
 			if (dist > 10f) {
 				savedMatrix.set(matrix);
 				pMain.set(event.getX(0), event.getY(0));
@@ -372,7 +373,7 @@ public class AfAlbumView extends ImageView implements OnClickListener {
 	
 
 	/**
-	 * Á½µãµÄ¾àÀë
+	 * ä¸¤ç‚¹çš„è·ç¦»
 	 */
 	private float distance(float x1, float y1, float x2, float y2) {
 		float x = x1 - x2;
@@ -388,12 +389,12 @@ public class AfAlbumView extends ImageView implements OnClickListener {
 		float minScale = Math.min((float) viewW / (float) rotatedImageW,
 				(float) viewH / (float) rotatedImageH);
 		float toScale = curScale;
-		if (curScale <= minScale + 0.01) { // ·Å´ó
+		if (curScale <= minScale + 0.01) { // æ”¾å¤§
 			toScale = Math.max(minScale, MAX_SCALE) / curScale;
 			// matrix.postScale(toScale, toScale, x, y);
 			this.mHasScale = true;
 			this.notifyFocusables();
-		} else { // ËõĞ¡
+		} else { // ç¼©å°
 			toScale = minScale / curScale;
 			this.mHasScale = false;
 			this.notifyFocusables();

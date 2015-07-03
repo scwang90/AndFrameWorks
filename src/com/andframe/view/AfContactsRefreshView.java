@@ -39,7 +39,7 @@ public class AfContactsRefreshView extends AfRefreshListView<AfContactsListView>
 	public void setAdapter(ListAdapter adapter) {
 		// TODO Auto-generated method stub
 		super.setAdapter(adapter);
-		throw new NullPointerException("ÇëÊ¹ÓÃ setAdapter(AfContactsAdapter adapter)");
+		throw new NullPointerException("è¯·ä½¿ç”¨ setAdapter(AfContactsAdapter adapter)");
 	}
 
 	@SuppressWarnings("rawtypes")

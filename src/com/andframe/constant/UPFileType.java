@@ -19,7 +19,7 @@ public class UPFileType {
 	}
 	
 	/**
-	 * 上传或下载文件类型为apk类型
+	 * 涓婁紶鎴栦笅杞芥枃浠剁被鍨嬩负apk绫诲瀷
 	 */
 	public static final int TYPE_APK = 0;
 }

@@ -8,9 +8,9 @@ import android.view.ViewParent;
 
 import com.andframe.application.AfExceptionHandler;
 /**
- * AfView ¿ò¼ÜÊÓÍ¼Àà
+ * AfView æ¡†æ¶è§†å›¾ç±»
  * @author SCWANG
- *	ÊµÏÖÁË AfViewable ½Ó¿Ú ÓÅ»¯ findViewById ·½·¨
+ *	å®ç°äº† AfViewable æ¥å£ ä¼˜åŒ– findViewById æ–¹æ³•
  */
 public class AfView implements AfViewable {
 
@@ -21,9 +21,9 @@ public class AfView implements AfViewable {
 		mRootView = view;
 	}
 	/**
-	 * Ê¹AfView ³ĞÔØµÄ view ´Ó¸¸ÊÓÍ¼ÖĞÍÑÀë³öÀ´³ÉÎª¶ÀÁ¢µÄ view 
-	 * 	Ö÷ÒªÓÃÓÚÓÃÓÚview µÄ×ªÒÆ
-	 * ·µ»Ø null ±êÊ¶ ×ªÒÆÊ§°Ü ·ñÔò·µ»ØÍÑÀë¶ÀÁ¢µÄ view
+	 * ä½¿AfView æ‰¿è½½çš„ view ä»çˆ¶è§†å›¾ä¸­è„±ç¦»å‡ºæ¥æˆä¸ºç‹¬ç«‹çš„ view 
+	 * 	ä¸»è¦ç”¨äºç”¨äºview çš„è½¬ç§»
+	 * è¿”å› null æ ‡è¯† è½¬ç§»å¤±è´¥ å¦åˆ™è¿”å›è„±ç¦»ç‹¬ç«‹çš„ view
 	 */
 	public View breakaway() {
 		if (mRootView != null) {

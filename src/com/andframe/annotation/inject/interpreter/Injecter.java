@@ -9,7 +9,7 @@ import com.andframe.annotation.inject.Inject;
 import com.andframe.application.AfExceptionHandler;
 import com.andframe.util.java.AfReflecter;
 /**
- * annotation.inject ½âÊÍÆ÷
+ * annotation.inject è§£é‡Šå™¨
  * @author scwang
  */
 public class Injecter {

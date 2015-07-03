@@ -3,8 +3,9 @@ package com.andframe.model;
 import com.andframe.model.framework.AfModel;
 
 /**
- * Ïà²á
+ * ç›¸å†Œ
  */
+@SuppressWarnings("serial")
 public class Photo extends AfModel {
 	
 	public String Url = "";

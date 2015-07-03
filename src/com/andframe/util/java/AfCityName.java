@@ -1,38 +1,38 @@
 package com.andframe.util.java;
 /**
- * @Description: ÇøÓòÃû³Æ¼ò»¯¹¤¾ß
+ * @Description: åŒºåŸŸåç§°ç®€åŒ–å·¥å…·
  * @Author: scwang
  */
 public class AfCityName {
 	
-	private static String[] minorities = new String[] { "ÃÉ¹Å×å", "»Ø×å", "²Ø×å",
-			"Î¬Îá¶û×å", "Ãç×å", "ÒÍ×å", "×³×å", "²¼ÒÀ×å", "³¯ÏÊ×å", "Âú×å", "¶±×å", "Ñþ×å", "°××å",
-			"ÍÁ¼Ò×å", "¹þÄá×å", "¹þÈø¿Ë×å", "´ö×å", "Àè×å", "ÀüËÛ×å", "Øô×å", "î´×å", "¸ßÉ½×å", "À­ìï×å",
-			"Ë®×å", "¶«Ïç×å", "ÄÉÎ÷×å", "¾°ÆÄ×å", "¿Â¶û¿Ë×Î×å", "ÍÁ×å", "´ïÎÓ¶û×å", "ØïÀÐ×å", "Ç¼×å",
-			"²¼ÀÊ×å", "ÈöÀ­×å", "Ã«ÄÏ×å", "ØîÀÐ×å", "Îý²®×å", "°¢²ý×å", "ÆÕÃ××å", "Ëþ¼ª¿Ë×å", "Å­×å",
-			"ÎÚ×Î±ð¿Ë×å", "¶íÂÞË¹×å", "¶õÎÂ¿Ë×å", "µÂ°º×å", "±£°²×å", "Ô£¹Ì×å", "¾©×å", "ËþËþ¶û×å", "¶ÀÁú×å",
-			"¶õÂ×´º×å", "ºÕÕÜ×å", "ÃÅ°Í×å", "çó°Í×å", "»ùÅµ×å" };
+	private static String[] minorities = new String[] { "è’™å¤æ—", "å›žæ—", "è—æ—",
+			"ç»´å¾å°”æ—", "è‹—æ—", "å½æ—", "å£®æ—", "å¸ƒä¾æ—", "æœé²œæ—", "æ»¡æ—", "ä¾—æ—", "ç‘¶æ—", "ç™½æ—",
+			"åœŸå®¶æ—", "å“ˆå°¼æ—", "å“ˆè¨å…‹æ—", "å‚£æ—", "é»Žæ—", "å‚ˆåƒ³æ—", "ä½¤æ—", "ç•²æ—", "é«˜å±±æ—", "æ‹‰ç¥œæ—",
+			"æ°´æ—", "ä¸œä¹¡æ—", "çº³è¥¿æ—", "æ™¯é¢‡æ—", "æŸ¯å°”å…‹å­œæ—", "åœŸæ—", "è¾¾æ–¡å°”æ—", "ä»«ä½¬æ—", "ç¾Œæ—",
+			"å¸ƒæœ—æ—", "æ’’æ‹‰æ—", "æ¯›å—æ—", "ä»¡ä½¬æ—", "é”¡ä¼¯æ—", "é˜¿æ˜Œæ—", "æ™®ç±³æ—", "å¡”å‰å…‹æ—", "æ€’æ—",
+			"ä¹Œå­œåˆ«å…‹æ—", "ä¿„ç½—æ–¯æ—", "é„‚æ¸©å…‹æ—", "å¾·æ˜‚æ—", "ä¿å®‰æ—", "è£•å›ºæ—", "äº¬æ—", "å¡”å¡”å°”æ—", "ç‹¬é¾™æ—",
+			"é„‚ä¼¦æ˜¥æ—", "èµ«å“²æ—", "é—¨å·´æ—", "çžå·´æ—", "åŸºè¯ºæ—" };
 
-//	private static String[] simpleminorities = new String[] { "ÃÉ¹Å", "»Ø", "²Ø",
-//			"Î¬Îá¶û", "Ãç", "ÒÍ", "×³", "²¼ÒÀ", "³¯ÏÊ", "Âú", "¶±", "Ñþ", "°×", "ÍÁ¼Ò", "¹þÄá",
-//			"¹þÈø¿Ë", "´ö", "Àè", "ÀüËÛ", "Øô", "î´", "¸ßÉ½", "À­ìï", "Ë®", "¶«Ïç", "ÄÉÎ÷", "¾°ÆÄ",
-//			"¿Â¶û¿Ë×Î", "ÍÁ", "´ïÎÓ¶û", "ØïÀÐ", "Ç¼", "²¼ÀÊ", "ÈöÀ­", "Ã«ÄÏ", "ØîÀÐ", "Îý²®", "°¢²ý",
-//			"ÆÕÃ×", "Ëþ¼ª¿Ë", "Å­", "ÎÚ×Î±ð¿Ë", "¶íÂÞË¹", "¶õÎÂ¿Ë", "µÂ°º", "±£°²", "Ô£¹Ì", "¾©",
-//			"ËþËþ¶û", "¶ÀÁú", "¶õÂ×´º", "ºÕÕÜ", "ÃÅ°Í", "çó°Í", "»ùÅµ" };
+//	private static String[] simpleminorities = new String[] { "è’™å¤", "å›ž", "è—",
+//			"ç»´å¾å°”", "è‹—", "å½", "å£®", "å¸ƒä¾", "æœé²œ", "æ»¡", "ä¾—", "ç‘¶", "ç™½", "åœŸå®¶", "å“ˆå°¼",
+//			"å“ˆè¨å…‹", "å‚£", "é»Ž", "å‚ˆåƒ³", "ä½¤", "ç•²", "é«˜å±±", "æ‹‰ç¥œ", "æ°´", "ä¸œä¹¡", "çº³è¥¿", "æ™¯é¢‡",
+//			"æŸ¯å°”å…‹å­œ", "åœŸ", "è¾¾æ–¡å°”", "ä»«ä½¬", "ç¾Œ", "å¸ƒæœ—", "æ’’æ‹‰", "æ¯›å—", "ä»¡ä½¬", "é”¡ä¼¯", "é˜¿æ˜Œ",
+//			"æ™®ç±³", "å¡”å‰å…‹", "æ€’", "ä¹Œå­œåˆ«å…‹", "ä¿„ç½—æ–¯", "é„‚æ¸©å…‹", "å¾·æ˜‚", "ä¿å®‰", "è£•å›º", "äº¬",
+//			"å¡”å¡”å°”", "ç‹¬é¾™", "é„‚ä¼¦æ˜¥", "èµ«å“²", "é—¨å·´", "çžå·´", "åŸºè¯º" };
 
 	/**
-	 * È¥³ýÃñ×åµØÇø
+	 * åŽ»é™¤æ°‘æ—åœ°åŒº
 	 * 
 	 * @param tCityName
-	 *            µØÃû
-	 * @return ¼ò»¯ºóµÄµØÃû
+	 *            åœ°å
+	 * @return ç®€åŒ–åŽçš„åœ°å
 	 */
 	public static String removeNationArea(String tCityName) {
 		// TODO Auto-generated method stub
 		int length = tCityName.length();
 		String minority = minorities[0];
-		if (tCityName.endsWith("×ÔÖÎÖÝ") || tCityName.endsWith("×ÔÖÎÏØ")
-				|| tCityName.endsWith("×ÔÖÎÇø")) {
+		if (tCityName.endsWith("è‡ªæ²»å·ž") || tCityName.endsWith("è‡ªæ²»åŽ¿")
+				|| tCityName.endsWith("è‡ªæ²»åŒº")) {
 			tCityName = tCityName.substring(0, (length = length - 3));
 			for (int i = 0; length > 3 && i < minorities.length; i++) {
 				minority = minorities[i];
@@ -48,16 +48,16 @@ public class AfCityName {
 	}
 
 	/**
-	 * ¼ò»¯µØÃû
+	 * ç®€åŒ–åœ°å
 	 * 
 	 * @param tCityName
-	 *            µØÃû
-	 * @return ¼ò»¯ºóµÄµØÃû
+	 *            åœ°å
+	 * @return ç®€åŒ–åŽçš„åœ°å
 	 */
 	public static String SimplifyCityName(String tCityName) {
 		// TODO Auto-generated method stub
-		if (tCityName.endsWith("×ÔÖÎÖÝ") || tCityName.endsWith("×ÔÖÎÏØ")
-				|| tCityName.endsWith("×ÔÖÎÇø")) {
+		if (tCityName.endsWith("è‡ªæ²»å·ž") || tCityName.endsWith("è‡ªæ²»åŽ¿")
+				|| tCityName.endsWith("è‡ªæ²»åŒº")) {
 			tCityName = tCityName.substring(0, tCityName.length() - 3);
 			for (int i = 0; tCityName.length() > 3 && i < minorities.length; i++) {
 				if (tCityName.endsWith(minorities[i])) {
@@ -75,9 +75,9 @@ public class AfCityName {
 				// continue;
 				// }
 			}
-		} else if (tCityName.endsWith("ÊÐ") || tCityName.endsWith("ÏØ")) {
+		} else if (tCityName.endsWith("å¸‚") || tCityName.endsWith("åŽ¿")) {
 			tCityName = tCityName.substring(0, tCityName.length() - 1);
-		} else if (tCityName.endsWith("µØÇø")) {
+		} else if (tCityName.endsWith("åœ°åŒº")) {
 			tCityName = tCityName.substring(0, tCityName.length() - 2);
 		}
 

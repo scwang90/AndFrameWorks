@@ -15,7 +15,7 @@ import com.andframe.feature.framework.EventListener;
 import com.andframe.util.java.AfReflecter;
 import com.andframe.util.java.AfStringUtil;
 /**
- * ¿Ø¼þ°ó¶¨Æ÷
+ * æŽ§ä»¶ç»‘å®šå™¨
  * @author SCWANG
  */
 public class AfViewBinder {

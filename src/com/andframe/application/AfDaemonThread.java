@@ -10,27 +10,27 @@ import com.andframe.thread.AfTask;
 import com.andframe.util.java.AfDateGuid;
 
 /**
- * DaemonThread ºóÌ¨Ïß³Ì¹ÜÀí
+ * DaemonThread åå°çº¿ç¨‹ç®¡ç†
  * 
  * @author SCWANG
  * 
  */
 public class AfDaemonThread {
-	// ¶¨ÒåÔËĞĞµÄ×î´óÏß³ÌÊıÁ¿
+	// å®šä¹‰è¿è¡Œçš„æœ€å¤§çº¿ç¨‹æ•°é‡
 	private static final int MAXTHREADNUM = 5;
-	// ¶¨ÒåµÈ´ıÈÎÎñ¶ÓÁĞ
+	// å®šä¹‰ç­‰å¾…ä»»åŠ¡é˜Ÿåˆ—
 	private static Queue<AfTask> mqeTask = new LinkedList<AfTask>();
-	// ¶¨ÒåÏß³ÌÁĞ±íÈİÆ÷
+	// å®šä¹‰çº¿ç¨‹åˆ—è¡¨å®¹å™¨
 	private static List<ThreadWorker> mltWorker = new ArrayList<ThreadWorker>();
 
 	/**
 	 * @Description:
-	 * ¶¨Ê±ÍùºóÌ¨Å×ËÍÒ»¸ö Task ÈÎÎñ£¨»áÔÚUIÏß³ÌÖĞdispatch£¬ÈÎÎñ¿ªÊ¼£©
+	 * å®šæ—¶å¾€åå°æŠ›é€ä¸€ä¸ª Task ä»»åŠ¡ï¼ˆä¼šåœ¨UIçº¿ç¨‹ä¸­dispatchï¼Œä»»åŠ¡å¼€å§‹ï¼‰
 	 * @Author: scwang
-	 * @Version: V1.0, 2015-2-26 ÏÂÎç2:34:06
-	 * @Modified: ³õ´Î´´½¨postTaskDelayed·½·¨
-	 * @param task ÈÎÎñ
-	 * @return ·µ»Ø´«ÈëµÄ  task ÈÎÎñ¶ÔÏó
+	 * @Version: V1.0, 2015-2-26 ä¸‹åˆ2:34:06
+	 * @Modified: åˆæ¬¡åˆ›å»ºpostTaskDelayedæ–¹æ³•
+	 * @param task ä»»åŠ¡
+	 * @return è¿”å›ä¼ å…¥çš„  task ä»»åŠ¡å¯¹è±¡
 	 */
 	public static AfTask postTask(AfTask task) {
 		return postTaskDelayed(task, 0);
@@ -38,14 +38,14 @@ public class AfDaemonThread {
 	
 	/**
 	 * @Description:
-	 * ¶¨Ê±ÍùºóÌ¨Å×ËÍÒ»¸ö Task ÈÎÎñ
-	 * ²»»á»áÔÚUIÏß³ÌÖĞdispatch£¬ÓÃÓÚUIÏß³ÌËÀÍöµÄÊ±ºò
-	 * »áÓ°Ïìµ½ AfTask.onPrepare µÄÏß³Ìµ÷ÓÃ
+	 * å®šæ—¶å¾€åå°æŠ›é€ä¸€ä¸ª Task ä»»åŠ¡
+	 * ä¸ä¼šä¼šåœ¨UIçº¿ç¨‹ä¸­dispatchï¼Œç”¨äºUIçº¿ç¨‹æ­»äº¡çš„æ—¶å€™
+	 * ä¼šå½±å“åˆ° AfTask.onPrepare çš„çº¿ç¨‹è°ƒç”¨
 	 * @Author: scwang
-	 * @Version: V1.0, 2015-2-26 ÏÂÎç2:34:06
-	 * @Modified: ³õ´Î´´½¨postTaskDelayed·½·¨
-	 * @param task ÈÎÎñ
-	 * @return ·µ»Ø´«ÈëµÄ  task ÈÎÎñ¶ÔÏó
+	 * @Version: V1.0, 2015-2-26 ä¸‹åˆ2:34:06
+	 * @Modified: åˆæ¬¡åˆ›å»ºpostTaskDelayedæ–¹æ³•
+	 * @param task ä»»åŠ¡
+	 * @return è¿”å›ä¼ å…¥çš„  task ä»»åŠ¡å¯¹è±¡
 	 */
 	public static AfTask postTaskNoDispatch(AfTask task) {
 		return postTaskDelayedNoDispatch(task, 0);
@@ -53,15 +53,15 @@ public class AfDaemonThread {
 
 	/**
 	 * @Description:
-	 * ¶¨Ê±ÍùºóÌ¨Å×ËÍÒ»¸ö Task ÈÎÎñ
-	 * »áÔÚUIÏß³ÌÖĞdispatch£¬ÈÎÎñ¿ªÊ¼
-	 * AfTask.onPrepare »áÔÚUIÏß³ÌÖĞµ÷ÓÃ
+	 * å®šæ—¶å¾€åå°æŠ›é€ä¸€ä¸ª Task ä»»åŠ¡
+	 * ä¼šåœ¨UIçº¿ç¨‹ä¸­dispatchï¼Œä»»åŠ¡å¼€å§‹
+	 * AfTask.onPrepare ä¼šåœ¨UIçº¿ç¨‹ä¸­è°ƒç”¨
 	 * @Author: scwang
-	 * @Version: V1.0, 2015-2-26 ÏÂÎç2:34:06
-	 * @Modified: ³õ´Î´´½¨postTaskDelayed·½·¨
-	 * @param task ÈÎÎñ
-	 * @param delay ÑÓÊ±Ö´ĞĞ
-	 * @return ·µ»Ø´«ÈëµÄ  task ÈÎÎñ¶ÔÏó
+	 * @Version: V1.0, 2015-2-26 ä¸‹åˆ2:34:06
+	 * @Modified: åˆæ¬¡åˆ›å»ºpostTaskDelayedæ–¹æ³•
+	 * @param task ä»»åŠ¡
+	 * @param delay å»¶æ—¶æ‰§è¡Œ
+	 * @return è¿”å›ä¼ å…¥çš„  task ä»»åŠ¡å¯¹è±¡
 	 */
 	public static AfTask postTaskDelayed(final AfTask task,final long delay) {
 		AfApplication.dispatch(new AfDispatch() {
@@ -88,15 +88,15 @@ public class AfDaemonThread {
 	
 	/**
 	 * @Description:
-	 * ¶¨Ê±ÍùºóÌ¨Å×ËÍÒ»¸ö Task ÈÎÎñ
-	 * ²»»á»áÔÚUIÏß³ÌÖĞdispatch£¬ÓÃÓÚUIÏß³ÌËÀÍöµÄÊ±ºò
-	 * »áÓ°Ïìµ½ AfTask.onPrepare µÄÏß³Ìµ÷ÓÃ
+	 * å®šæ—¶å¾€åå°æŠ›é€ä¸€ä¸ª Task ä»»åŠ¡
+	 * ä¸ä¼šä¼šåœ¨UIçº¿ç¨‹ä¸­dispatchï¼Œç”¨äºUIçº¿ç¨‹æ­»äº¡çš„æ—¶å€™
+	 * ä¼šå½±å“åˆ° AfTask.onPrepare çš„çº¿ç¨‹è°ƒç”¨
 	 * @Author: scwang
-	 * @Version: V1.0, 2015-2-26 ÏÂÎç2:34:06
-	 * @Modified: ³õ´Î´´½¨postTaskDelayed·½·¨
-	 * @param task ÈÎÎñ
-	 * @param delay ÑÓÊ±Ö´ĞĞ
-	 * @return ·µ»Ø´«ÈëµÄ  task ÈÎÎñ¶ÔÏó
+	 * @Version: V1.0, 2015-2-26 ä¸‹åˆ2:34:06
+	 * @Modified: åˆæ¬¡åˆ›å»ºpostTaskDelayedæ–¹æ³•
+	 * @param task ä»»åŠ¡
+	 * @param delay å»¶æ—¶æ‰§è¡Œ
+	 * @return è¿”å›ä¼ å…¥çš„  task ä»»åŠ¡å¯¹è±¡
 	 */
 	public static AfTask postTaskDelayedNoDispatch(final AfTask task,final long delay) {
 		// TODO Auto-generated method stub
@@ -116,7 +116,7 @@ public class AfDaemonThread {
 		return task;
 	}
 
-	// Ò»¸öÏß³ÌÈÎÎñÖ´ĞĞÍê³É
+	// ä¸€ä¸ªçº¿ç¨‹ä»»åŠ¡æ‰§è¡Œå®Œæˆ
 	private static void onTaskFinish(ThreadWorker worker) {
 		synchronized (mltWorker) {
 			mltWorker.remove(worker);
@@ -153,7 +153,7 @@ public class AfDaemonThread {
 				mTask.run();
 			} catch (Throwable e) {
 				// TODO: handle exception
-				AfExceptionHandler.handler(e, "AfDaemonThread.ThreadWorker.run ³öÏÖÒì³£");
+				AfExceptionHandler.handler(e, "AfDaemonThread.ThreadWorker.run å‡ºç°å¼‚å¸¸");
 			}
 			onTaskFinish(this);
 		}

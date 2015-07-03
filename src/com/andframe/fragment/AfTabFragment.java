@@ -6,15 +6,15 @@ import com.andframe.feature.AfBundle;
 
 public abstract class AfTabFragment extends AfFragment{
 
-	// ÇĞ»»µ½FragmentÒ³Ãæ µÄ´ÎÊıÍ³¼Æ
+	// åˆ‡æ¢åˆ°Fragmenté¡µé¢ çš„æ¬¡æ•°ç»Ÿè®¡
 	private int mSwitchCount = 0;
-	// ±êÊ¶ÊÇ·ñ´´½¨ÊÓÍ¼
+	// æ ‡è¯†æ˜¯å¦åˆ›å»ºè§†å›¾
 	private Boolean mIsCreateView = false;
-	// ±êÊ¶´´½¨ÊÓÍ¼µÄÊ±ºòÊÇ·ñĞèÒªSwitch
+	// æ ‡è¯†åˆ›å»ºè§†å›¾çš„æ—¶å€™æ˜¯å¦éœ€è¦Switch
 	private Boolean mIsNeedSwitch = false;
 
 	/**
-	 * ×Ô¶¨Òå View onCreate(Bundle)
+	 * è‡ªå®šä¹‰ View onCreate(Bundle)
 	 */
 	protected void onCreated(AfBundle bundle,AfView view)throws Exception{
 		
@@ -65,31 +65,31 @@ public abstract class AfTabFragment extends AfFragment{
 
 
 	/**
-	 * µÚÒ»´ÎÇĞ»»µ½±¾Ò³Ãæ
+	 * ç¬¬ä¸€æ¬¡åˆ‡æ¢åˆ°æœ¬é¡µé¢
 	 */
 	protected void onFirstSwitchOver() {
 
 	}
 
 	/**
-	 * Ã¿´ÎÇĞ»»µ½±¾Ò³Ãæ
+	 * æ¯æ¬¡åˆ‡æ¢åˆ°æœ¬é¡µé¢
 	 * 
 	 * @param count
-	 *            ÇĞ»»ĞòºÅ
+	 *            åˆ‡æ¢åºå·
 	 */
 	protected void onSwitchOver(int count) {
 
 	}
 
 	/**
-	 * Àë¿ª±¾Ò³Ãæ
+	 * ç¦»å¼€æœ¬é¡µé¢
 	 */
 	protected void onSwitchLeave() {
 
 	}
 
 	/**
-	 * ²éÑ¯ÏµÍ³Êı¾İ±ä¶¯
+	 * æŸ¥è¯¢ç³»ç»Ÿæ•°æ®å˜åŠ¨
 	 */
 	public void onQueryChanged() {
 		// TODO Auto-generated method stub

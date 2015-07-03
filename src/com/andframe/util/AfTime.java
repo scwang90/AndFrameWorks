@@ -2,10 +2,10 @@ package com.andframe.util;
 
 import java.util.Date;
 /**
- * @Description: ÔÚÏßÊ±¼ä»ñÈ¡¹¤¾ßÀà£¨Î´ÊµÏÖ£©
+ * @Description: åœ¨çº¿æ—¶é—´è·å–å·¥å…·ç±»ï¼ˆæœªå®ç°ï¼‰
  * @Author: scwang
- * @Version: V1.0, 2015-3-13 ÏÂÎç5:00:40
- * @Modified: ³õ´Î´´½¨AfTimeÀà
+ * @Version: V1.0, 2015-3-13 ä¸‹åˆ5:00:40
+ * @Modified: åˆæ¬¡åˆ›å»ºAfTimeç±»
  */
 public class AfTime {
 

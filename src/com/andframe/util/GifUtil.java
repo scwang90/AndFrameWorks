@@ -8,7 +8,7 @@ import com.andframe.helper.android.AfGifHelper.GifFrame;
 public class GifUtil
 {
     /**
-     * 解码GIF图片
+     * 瑙ｇ爜GIF鍥剧墖
      * 
      * @param is
      * @return
@@ -21,7 +21,7 @@ public class GifUtil
         return null;
     }
     /**
-     * 判断图片是否为GIF格式
+     * 鍒ゆ柇鍥剧墖鏄惁涓篏IF鏍煎紡
      * @param is
      * @return
      */

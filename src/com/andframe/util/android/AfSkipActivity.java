@@ -9,20 +9,20 @@ import android.net.Uri;
 
 import com.andframe.exception.AfException;
 /**
- * @Description: ·â×°AndroidÏµÍ³Ò³ÃæÌø×ª
+ * @Description: å°è£…Androidç³»ç»Ÿé¡µé¢è·³è½¬
  * @Author: scwang
- * @Version: V1.0, 2015-4-3 ÏÂÎç3:34:14
- * @Modified: ³õ´Î´´½¨AfSkipActivityÀà
+ * @Version: V1.0, 2015-4-3 ä¸‹åˆ3:34:14
+ * @Modified: åˆæ¬¡åˆ›å»ºAfSkipActivityç±»
  */
 public class AfSkipActivity {
 
 	/**
-	 * @Description: Ìø×ªµ½²¦ºÅÒ³Ãæ
+	 * @Description: è·³è½¬åˆ°æ‹¨å·é¡µé¢
 	 * @Author: scwang
-	 * @Version: V1.0, 2015-4-3 ÏÂÎç3:35:40
+	 * @Version: V1.0, 2015-4-3 ä¸‹åˆ3:35:40
 	 * @param context
 	 * @param phone
-	 * @throws AfException È¨ÏŞ²»×ã»òÕßÕÒ²»µ½²¦ºÅÒ³Ãæ
+	 * @throws AfException æƒé™ä¸è¶³æˆ–è€…æ‰¾ä¸åˆ°æ‹¨å·é¡µé¢
 	 */
 	public static void call(Context context, String phone) throws Exception{
 		// TODO Auto-generated method stub
@@ -32,9 +32,9 @@ public class AfSkipActivity {
 		context.startActivity(intent);
 	}
 	/**
-	 * ´ò¿ªÎÄ¼ş
+	 * æ‰“å¼€æ–‡ä»¶
 	 * @param file
-	 * @throws AfException ÕÒ²»µ½ÏàÓ¦µÄÈí¼ş
+	 * @throws AfException æ‰¾ä¸åˆ°ç›¸åº”çš„è½¯ä»¶
 	 */
 	public static void openFile(Context context, File file) throws Exception {
 		Intent intent = new Intent();
@@ -46,24 +46,24 @@ public class AfSkipActivity {
 	}
 
 	/**
-	 * ¸ù¾İÎÄ¼şºó×ºÃû»ñµÃ¶ÔÓ¦µÄMIMEÀàĞÍ¡£
+	 * æ ¹æ®æ–‡ä»¶åç¼€åè·å¾—å¯¹åº”çš„MIMEç±»å‹ã€‚
 	 * @param file
 	 */
 	public static String getMIMEType(File file) {
 		String type = "*/*";
 		String fName = file.getName();
-		// »ñÈ¡ºó×ºÃûÇ°µÄ·Ö¸ô·û"."ÔÚfNameÖĞµÄÎ»ÖÃ¡£
+		// è·å–åç¼€åå‰çš„åˆ†éš”ç¬¦"."åœ¨fNameä¸­çš„ä½ç½®ã€‚
 		int dotIndex = fName.lastIndexOf(".");
 		if (dotIndex < 0) {
 			return type;
 		}
-		/* »ñÈ¡ÎÄ¼şµÄºó×ºÃû */
+		/* è·å–æ–‡ä»¶çš„åç¼€å */
 		String end = fName.substring(dotIndex, fName.length());
 		end = end.toLowerCase(Locale.ENGLISH);
 		if (end == "")
 			return type;
-		// ÔÚMIMEºÍÎÄ¼şÀàĞÍµÄÆ¥Åä±íÖĞÕÒµ½¶ÔÓ¦µÄMIMEÀàĞÍ¡£
-		for (int i = 0; i < MIME_MapTable.length; i++) { // MIME_MapTable??ÔÚÕâÀïÄãÒ»¶¨ÓĞÒÉÎÊ£¬Õâ¸öMIME_MapTableÊÇÊ²Ã´£¿
+		// åœ¨MIMEå’Œæ–‡ä»¶ç±»å‹çš„åŒ¹é…è¡¨ä¸­æ‰¾åˆ°å¯¹åº”çš„MIMEç±»å‹ã€‚
+		for (int i = 0; i < MIME_MapTable.length; i++) { // MIME_MapTable??åœ¨è¿™é‡Œä½ ä¸€å®šæœ‰ç–‘é—®ï¼Œè¿™ä¸ªMIME_MapTableæ˜¯ä»€ä¹ˆï¼Ÿ
 			if (end.equals(MIME_MapTable[i][0]))
 				type = MIME_MapTable[i][1];
 		}
@@ -71,7 +71,7 @@ public class AfSkipActivity {
 	}
 
 	protected static final String[][] MIME_MapTable = {
-			// {ºó×ºÃû£¬ MIMEÀàĞÍ}
+			// {åç¼€åï¼Œ MIMEç±»å‹}
 			{ ".3gp", "video/3gpp" },
 			{ ".apk", "application/vnd.android.package-archive" },
 			{ ".asf", "video/x-ms-asf" },
