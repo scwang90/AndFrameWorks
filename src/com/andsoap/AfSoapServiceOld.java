@@ -57,14 +57,10 @@ public class AfSoapServiceOld<T> {
 
 	}
 
-	/**
-	 * 日期显示格式 "yyyy-MM-dd HH:mm:ss"
-	 */
+	/** 日期显示格式 "yyyy-MM-dd HH:mm:ss" */
 	public static final String FORMAT_DATE = "yyyy-MM-dd HH:mm:ss";
 	public static final DateFormat format = new SimpleDateFormat(FORMAT_DATE, Locale.US);
-	/**
-	 * 枚举DEBUG模式
-	 */
+	/** 枚举DEBUG模式 */
 	public static final int DEBUG_USER = 0; // 用户使用 调试方式：邮件发送错误信息
 	public static final int DEBUG_JAVA = 1; // 电脑调试 调试方式：使用java连接 localhost
 	public static final int DEBUG_PHONE = 2; // 手机调试 调试方式：使用simulator连接 10.0.0.2

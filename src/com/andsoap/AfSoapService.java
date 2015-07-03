@@ -153,7 +153,6 @@ public class AfSoapService<T> {
 
 	/**
 	 * 设置服务
-	 * 
 	 * @param namespace
 	 *            like "http://tempuri.org/"
 	 * @param svc
@@ -496,11 +495,9 @@ public class AfSoapService<T> {
 	}
 
 	/**
-	 * @Description: listFromJsonSafed 是 AfSoapService 的方法
+	 * listFromJsonSafed 是 AfSoapService 的方法
 	 * 		反序列化JSON到对象List<T> 发现 T 中的字段为 null 自动设置默认值 防止出现 null 导致空指针异常
-	 * @Author: scwang
-	 * @Version: V1.0, 2015-1-19 下午2:52:30
-	 * @Modified: 初次创建listFromJsonSafed方法
+	 * @author 树朾
 	 * @param string
 	 * @param clazz
 	 * @return 如果 json 为null 或者 “null” 返回 null
