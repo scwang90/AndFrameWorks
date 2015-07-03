@@ -3,25 +3,25 @@ package com.andcloud.model;
 import com.avos.avoscloud.AVFile;
 import com.avos.avoscloud.AVUser;
 /**
- * ÓÃ»§
+ * ç”¨æˆ·
  * @author SCWANG
  */
 public class AvUser extends AVUser {
 	
 	/**
-	 * êÇ³Æ
+	 * æ˜µç§°
 	 */
 	private static final String NickName = "NickName";
 	/**
-	 * ¸öĞÔ»¯Í·Ïñ
+	 * ä¸ªæ€§åŒ–å¤´åƒ
 	 */
 	private static final String Avator = "Avator";
 	/**
-	 * ĞÔ±ğ
+	 * æ€§åˆ«
 	 */
 	private static final String Gender = "Gender";
 	/**
-	 * ¸öĞÔÇ°Ãæ
+	 * ä¸ªæ€§å‰é¢
 	 */
 	private static final String Signature = "Signature";
 

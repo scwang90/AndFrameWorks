@@ -60,7 +60,7 @@ public class FeedbackAgent {
 						oldcount = comments.size();
 						//startActivity(FeedbacksActivity.class);
 						Intent intent = new Intent(mContext, ThreadActivity.class);
-						Notification notify = AfNotifyCenter.getNotification("用户反馈", "您有新的消息", intent);
+						Notification notify = AfNotifyCenter.getNotification("鐢ㄦ埛鍙嶉", "鎮ㄦ湁鏂扮殑娑堟伅", intent);
 						AfNotifyCenter.notify(notify, 1256);
 					}
 				}

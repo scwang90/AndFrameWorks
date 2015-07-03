@@ -39,7 +39,7 @@ public class AndCloud {
 	
 	public static void initializeAvos(Context context,String appid,String appkey,String channel) {
 		try {
-		    // ³õÊ¼»¯Ó¦ÓÃ Id ºÍ Ó¦ÓÃ Key£¬Äú¿ÉÒÔÔÚÓ¦ÓÃÉèÖÃ²Ëµ¥ÀïÕÒµ½ÕâĞ©ĞÅÏ¢
+		    // åˆå§‹åŒ–åº”ç”¨ Id å’Œ åº”ç”¨ Keyï¼Œæ‚¨å¯ä»¥åœ¨åº”ç”¨è®¾ç½®èœå•é‡Œæ‰¾åˆ°è¿™äº›ä¿¡æ¯
 		    AVOSCloud.initialize(context,appid,appkey);
 //		    AVAnalytics.start(this);
 		    AVAnalytics.setAppChannel(channel);
@@ -56,8 +56,8 @@ public class AndCloud {
 			AnalyticsConfig.setAppkey(appkey);
 			AnalyticsConfig.setChannel(channel);
 			MobclickAgent.setDebugMode(isDebug);
-//			SDKÔÚÍ³¼ÆFragmentÊ±£¬ĞèÒª¹Ø±ÕActivity×Ô´øµÄÒ³ÃæÍ³¼Æ£¬
-//			È»ºóÔÚÃ¿¸öÒ³ÃæÖĞÖØĞÂ¼¯³ÉÒ³ÃæÍ³¼ÆµÄ´úÂë(°üÀ¨µ÷ÓÃÁË onResume ºÍ onPause µÄActivity)¡£
+//			SDKåœ¨ç»Ÿè®¡Fragmentæ—¶ï¼Œéœ€è¦å…³é—­Activityè‡ªå¸¦çš„é¡µé¢ç»Ÿè®¡ï¼Œ
+//			ç„¶ååœ¨æ¯ä¸ªé¡µé¢ä¸­é‡æ–°é›†æˆé¡µé¢ç»Ÿè®¡çš„ä»£ç (åŒ…æ‹¬è°ƒç”¨äº† onResume å’Œ onPause çš„Activity)ã€‚
 			MobclickAgent.openActivityDurationTrack(false);
 //			MobclickAgent.setAutoLocation(true);
 //			MobclickAgent.setSessionContinueMillis(1000);
