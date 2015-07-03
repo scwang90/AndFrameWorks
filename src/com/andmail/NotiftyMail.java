@@ -17,14 +17,14 @@ public class NotiftyMail extends AppinfoMail{
 	public NotiftyMail(String title,String content) {
 		super(title, content);
 		// TODO Auto-generated constructor stub
-		mailtype = "ÊÂ¼şÍ¨Öª";
+		mailtype = "äº‹ä»¶é€šçŸ¥";
 		md5 = AfMD5.getMD5(title+content);
 	}
 
 	public NotiftyMail(SginType type,String title,String content) {
 		super(title, content);
 		// TODO Auto-generated constructor stub
-		mailtype = "ÊÂ¼şÍ¨Öª";
+		mailtype = "äº‹ä»¶é€šçŸ¥";
 		switch (type) {
 		case TITLE:
 			mSendOnce = true;
@@ -44,7 +44,7 @@ public class NotiftyMail extends AppinfoMail{
 	public NotiftyMail(boolean sendonce,String title,String content) {
 		this(title, content);
 		// TODO Auto-generated constructor stub
-		mailtype = "ÊÂ¼şÍ¨Öª";
+		mailtype = "äº‹ä»¶é€šçŸ¥";
 		mSendOnce = sendonce;
 	}
 
@@ -64,7 +64,7 @@ public class NotiftyMail extends AppinfoMail{
 	public void send() throws Exception {
 		// TODO Auto-generated method stub
 		AfPrivateCaches cache = AfPrivateCaches.getInstance();
-		if (!mSendOnce || cache.get(md5, String.class) == null) {//±ê¼ÇÏàÍ¬´íÎóÖ»·¢ËÍÒ»´Î
+		if (!mSendOnce || cache.get(md5, String.class) == null) {//æ ‡è®°ç›¸åŒé”™è¯¯åªå‘é€ä¸€æ¬¡
 			super.send();
 			cache.put(md5, md5);
 		}

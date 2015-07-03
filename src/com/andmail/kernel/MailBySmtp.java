@@ -16,19 +16,19 @@ import com.andframe.exception.AfToastException;
 
 public class MailBySmtp {
 	
-	private String host;// smtp·şÎñÆ÷
-	private String auth;// ÑéÖ¤
+	private String host;// smtpæœåŠ¡å™¨
+	private String auth;// éªŒè¯
 
-	private String mailAcount;// ÓÊ¼şÓÃ»§Ãû
-	private String password;// ÃÜÂë
+	private String mailAcount;// é‚®ä»¶ç”¨æˆ·å
+	private String password;// å¯†ç 
 
-	// ¹²Í¬±äÁ¿
+	// å…±åŒå˜é‡
 	private Properties props;
 	private Session session;
 	private MimeMessage mimeMessage;
 
 	/**
-	 * ¹¹Ôìº¯Êı
+	 * æ„é€ å‡½æ•°
 	 */
 	public MailBySmtp(String host, String mailAcount, String password) {
 		this.host = host;
@@ -38,20 +38,20 @@ public class MailBySmtp {
 	}
 
 	/**
-	 * ±äÁ¿³õÊ¼»¯
+	 * å˜é‡åˆå§‹åŒ–
 	 */
 	protected void initialize() {
 		props = System.getProperties();
-		// Ö¸¶¨smtp·şÎñÆ÷
+		// æŒ‡å®šsmtpæœåŠ¡å™¨
 		props.put("mail.smtp.host", host);
 		props.put("mail.smtp.auth", auth);
-		// ĞÂ½¨Ò»¸ö°üº¬smtp»á»°µÄMimeMessage¶ÔÏó
+		// æ–°å»ºä¸€ä¸ªåŒ…å«smtpä¼šè¯çš„MimeMessageå¯¹è±¡
 		session = Session.getDefaultInstance(props, null);
 		mimeMessage = new MimeMessage(session);
 	}
 
 	/**
-	 * Éè¶¨ÓÊ¼şĞÅÏ¢
+	 * è®¾å®šé‚®ä»¶ä¿¡æ¯
 	 * 
 	 * @param from
 	 *            ,to,subject
@@ -60,41 +60,41 @@ public class MailBySmtp {
 	 * @throws UnsupportedEncodingException
 	 */
 	public void create(String from, String to, String subject) throws Exception {
-		// ³õÊ¼»¯
+		// åˆå§‹åŒ–
 		initialize();
 		if (from.equals("") || to.equals("") || subject.equals("")) {
-			throw new AfToastException("ÊäÈëÓĞÎó");
+			throw new AfToastException("è¾“å…¥æœ‰è¯¯");
 		} else {
-			// Ö¸¶¨ËÍĞÅÈË
+			// æŒ‡å®šé€ä¿¡äºº
 			mimeMessage.setFrom(new InternetAddress(from));
-			// ¶Ô·½ÓÊ¼şµØÖ·
+			// å¯¹æ–¹é‚®ä»¶åœ°å€
 			mimeMessage.setRecipients(Message.RecipientType.TO, to);
-			// ÓÊ¼ş±êÌâ
+			// é‚®ä»¶æ ‡é¢˜
 			mimeMessage.setSubject(subject, "GBK");
 		}
 	}
 
 	/**
-	 * ÓÊ¼ş¸ñÊ½£¬ºÍÄÚÈİÖ¸¶¨
+	 * é‚®ä»¶æ ¼å¼ï¼Œå’Œå†…å®¹æŒ‡å®š
 	 * @param content
 	 * @throws MessagingException
 	 */
 	public void addContent(String content) throws MessagingException {
-		// Ö¸¶¨ÓÊ¼ş¸ñÊ½
+		// æŒ‡å®šé‚®ä»¶æ ¼å¼
 		mimeMessage.setHeader("Content-Type", "text/html");
-		// ÓÊ¼şÄÚÈİ
+		// é‚®ä»¶å†…å®¹
 		mimeMessage.setText(content);
 	}
 
 	/**
-	 * ·¢ĞÅ
+	 * å‘ä¿¡
 	 * 
 	 * @throws MessagingException
 	 */
 	public void send() throws MessagingException {
-		// Ö¸¶¨ËÍĞÅÈÕÆÚ
+		// æŒ‡å®šé€ä¿¡æ—¥æœŸ
 		mimeMessage.setSentDate(new Date());
-		// ËÍĞÅ
+		// é€ä¿¡
 		Transport transport = session.getTransport("smtp");
 		transport.connect(host, mailAcount, password);
 		transport.sendMessage(mimeMessage, mimeMessage.getAllRecipients());

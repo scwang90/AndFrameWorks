@@ -48,7 +48,7 @@ public class MailResender extends MailSender{
 			Set<ResendEntity> sethanlder = mCache.getExceptionHandlerSet(null);
 			for (ResendEntity entity : sethanlder) {
 				String content = AfDateFormat.FULL.format(entity.mSendTime);
-				content = "原始时间:"+content +"\r\n\r\n"+entity.mContent+entity.mException;
+				content = "鍘熷鏃堕棿:"+content +"\r\n\r\n"+entity.mContent+entity.mException;
 				new MailSender(mModel,mSendTo,entity.mSubject,content).send();
 			}
 			sethanlder.clear();
@@ -73,9 +73,9 @@ public class MailResender extends MailSender{
 			// TODO Auto-generated constructor stub
 			mSubject = mail.mSubject;
 			mContent = mail.mContent;
-			mException = "\r\n\r\n重发异常:\r\n" + AfExceptionHandler.getExceptionName(e) + 
-			"\r\n\r\n重发信息:\r\n" + AfExceptionHandler.getExceptionMessage(e) + 
-			"\r\n\r\n重发堆栈:\r\n" + AfExceptionHandler.getPackageStackTraceInfo(e);
+			mException = "\r\n\r\n閲嶅彂寮傚父:\r\n" + AfExceptionHandler.getExceptionName(e) + 
+			"\r\n\r\n閲嶅彂淇℃伅:\r\n" + AfExceptionHandler.getExceptionMessage(e) + 
+			"\r\n\r\n閲嶅彂鍫嗘爤:\r\n" + AfExceptionHandler.getPackageStackTraceInfo(e);
 		}
 	}
 

@@ -93,8 +93,8 @@ public class MailKernel {
 	    for (int j = 0, n = multipart.getCount(); j < n; j++) {
 	        Part part = multipart.getBodyPart(j);
 	        if (part.getContent() instanceof Multipart) {
-	            Multipart mp = (Multipart) part.getContent();// ×ª³ÉÐ¡°ü¹ü
-	            getHtmlPartMultipart(mp,ltParts); //µÝ¹éµü´ú
+	            Multipart mp = (Multipart) part.getContent();// è½¬æˆå°åŒ…è£¹
+	            getHtmlPartMultipart(mp,ltParts); //é€’å½’è¿­ä»£
 	        } else {
 	        	getHtmlPartPart(part,ltParts);
 	        }

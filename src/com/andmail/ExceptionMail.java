@@ -15,7 +15,7 @@ public class ExceptionMail extends AppinfoMail{
 	public ExceptionMail(Exceptional ex) {
 		super(title(ex), "");
 		// TODO Auto-generated constructor stub
-		mailtype = "Òì³£²¶×½";
+		mailtype = "å¼‚å¸¸æ•æ‰";
 		mExceptional = ex;
 		md5 = AfMD5.getMD5(ex.Name+ex.Message+ex.Stack);
 	}
@@ -32,13 +32,13 @@ public class ExceptionMail extends AppinfoMail{
 
 	protected void packAppinfo() {
 		// TODO Auto-generated method stub
-		mContent = "·¢ËÍÊ±¼ä:" +AfDateFormat.FULL.format(mExceptional.RegDate) + 
-				"\r\n\r\nÒì³£Ãû³Æ:\r\n" + mExceptional.Name + 
-				"\r\n\r\nÒì³£ĞÅÏ¢:\r\n" + mExceptional.Message + 
-				"\r\n\r\n±¸×¢ĞÅÏ¢:\r\n" + mExceptional.Remark;
+		mContent = "å‘é€æ—¶é—´:" +AfDateFormat.FULL.format(mExceptional.RegDate) + 
+				"\r\n\r\nå¼‚å¸¸åç§°:\r\n" + mExceptional.Name + 
+				"\r\n\r\nå¼‚å¸¸ä¿¡æ¯:\r\n" + mExceptional.Message + 
+				"\r\n\r\nå¤‡æ³¨ä¿¡æ¯:\r\n" + mExceptional.Remark;
 		super.packAppinfo();
 		mContent = mContent + 
-				"\r\n\r\nÒì³£Ïß³Ì:\r\n" + mExceptional.Thread + 
+				"\r\n\r\nå¼‚å¸¸çº¿ç¨‹:\r\n" + mExceptional.Thread + 
 				"\r\n\r\n" + mExceptional.Stack;
 	}
 
@@ -46,7 +46,7 @@ public class ExceptionMail extends AppinfoMail{
 	public void send() throws Exception {
 		// TODO Auto-generated method stub
 		AfPrivateCaches cache = AfPrivateCaches.getInstance();
-		if (cache.get(md5, String.class) == null) {//±ê¼ÇÏàÍ¬´íÎóÖ»·¢ËÍÒ»´Î
+		if (cache.get(md5, String.class) == null) {//æ ‡è®°ç›¸åŒé”™è¯¯åªå‘é€ä¸€æ¬¡
 			super.send();
 			cache.put(md5, md5);
 		}

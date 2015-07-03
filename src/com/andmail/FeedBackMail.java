@@ -7,7 +7,7 @@ public class FeedBackMail extends AppinfoMail{
 	public FeedBackMail(String subject, String content) {
 		super(subject, content);
 		// TODO Auto-generated constructor stub
-		mailtype =  "Òâ¼û·´À¡";
+		mailtype =  "æ„è§åé¦ˆ";
 	}
 
 }
