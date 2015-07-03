@@ -58,21 +58,21 @@ public class AfSoapServiceOld<T> {
 	}
 
 	/**
-	 * ÈÕÆÚÏÔÊ¾¸ñÊ½ "yyyy-MM-dd HH:mm:ss"
+	 * æ—¥æœŸæ˜¾ç¤ºæ ¼å¼ "yyyy-MM-dd HH:mm:ss"
 	 */
 	public static final String FORMAT_DATE = "yyyy-MM-dd HH:mm:ss";
 	public static final DateFormat format = new SimpleDateFormat(FORMAT_DATE, Locale.US);
 	/**
-	 * Ã¶¾ÙDEBUGÄ£Ê½
+	 * æšä¸¾DEBUGæ¨¡å¼
 	 */
-	public static final int DEBUG_USER = 0; // ÓÃ»§Ê¹ÓÃ µ÷ÊÔ·½Ê½£ºÓÊ¼ş·¢ËÍ´íÎóĞÅÏ¢
-	public static final int DEBUG_JAVA = 1; // µçÄÔµ÷ÊÔ µ÷ÊÔ·½Ê½£ºÊ¹ÓÃjavaÁ¬½Ó localhost
-	public static final int DEBUG_PHONE = 2; // ÊÖ»úµ÷ÊÔ µ÷ÊÔ·½Ê½£ºÊ¹ÓÃsimulatorÁ¬½Ó 10.0.0.2
-	public static final int DEBUG_TEST = 3; // ÊÖ»úµ÷ÊÔ ²âÊÔÊı¾İ£ºÊı¾İ½Ó¿Ú·µ»Ø²âÊÔÊı¾İ ²»Á¬½ÓÍøÂç
+	public static final int DEBUG_USER = 0; // ç”¨æˆ·ä½¿ç”¨ è°ƒè¯•æ–¹å¼ï¼šé‚®ä»¶å‘é€é”™è¯¯ä¿¡æ¯
+	public static final int DEBUG_JAVA = 1; // ç”µè„‘è°ƒè¯• è°ƒè¯•æ–¹å¼ï¼šä½¿ç”¨javaè¿æ¥ localhost
+	public static final int DEBUG_PHONE = 2; // æ‰‹æœºè°ƒè¯• è°ƒè¯•æ–¹å¼ï¼šä½¿ç”¨simulatorè¿æ¥ 10.0.0.2
+	public static final int DEBUG_TEST = 3; // æ‰‹æœºè°ƒè¯• æµ‹è¯•æ•°æ®ï¼šæ•°æ®æ¥å£è¿”å›æµ‹è¯•æ•°æ® ä¸è¿æ¥ç½‘ç»œ
 
 
 	/**
-	 * ÉèÖÃ·şÎñ 
+	 * è®¾ç½®æœåŠ¡ 
 	 * @param namespace like "http://tempuri.org/"
 	 * @param svc like "Service.svc"
 	 * @param sinterface like  "IService/"
@@ -175,13 +175,13 @@ public class AfSoapServiceOld<T> {
 		} catch (Error er) {
 			throw new Exception(er.getMessage(), er);
 		} catch (XmlPullParserException ex) {
-			throw new AfToastException("·şÎñÆ÷·µ»ØÒì³£", ex);
+			throw new AfToastException("æœåŠ¡å™¨è¿”å›å¼‚å¸¸", ex);
 		} catch (ConnectException ex) {
-			throw new AfToastException("Á¬½Ó·şÎñÆ÷Ê§°Ü:"+ex.getMessage(), ex);
+			throw new AfToastException("è¿æ¥æœåŠ¡å™¨å¤±è´¥:"+ex.getMessage(), ex);
 		} catch (FileNotFoundException ex) {
-			throw new AfToastException("·şÎñÆ÷µØÖ·´íÎó:"+ex.getMessage(), ex);
+			throw new AfToastException("æœåŠ¡å™¨åœ°å€é”™è¯¯:"+ex.getMessage(), ex);
 		} catch (SoapFault ex) {
-			throw new AfToastException("·şÎñÆ÷·´À¡:"+ex.faultstring, ex);
+			throw new AfToastException("æœåŠ¡å™¨åé¦ˆ:"+ex.faultstring, ex);
 		}
 	}
 

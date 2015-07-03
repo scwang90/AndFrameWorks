@@ -138,21 +138,21 @@ public class AfSoapService<T> {
 	}
 
 	/**
-	 * ÈÕÆÚÏÔÊ¾¸ñÊ½ "yyyy-MM-dd HH:mm:ss"
+	 * æ—¥æœŸæ˜¾ç¤ºæ ¼å¼ "yyyy-MM-dd HH:mm:ss"
 	 */
 	public static final String FORMAT_DATE = "yyyy-MM-dd HH:mm:ss";
 	public static final DateFormat format = new SimpleDateFormat(FORMAT_DATE,
 			Locale.US);
 	/**
-	 * Ã¶¾ÙDEBUGÄ£Ê½
+	 * æšä¸¾DEBUGæ¨¡å¼
 	 */
-	public static final int DEBUG_USER = 0; // ÓÃ»§Ê¹ÓÃ µ÷ÊÔ·½Ê½£ºÓÊ¼ş·¢ËÍ´íÎóĞÅÏ¢
-	public static final int DEBUG_JAVA = 1; // µçÄÔµ÷ÊÔ µ÷ÊÔ·½Ê½£ºÊ¹ÓÃjavaÁ¬½Ó localhost
-	public static final int DEBUG_PHONE = 2; // ÊÖ»úµ÷ÊÔ µ÷ÊÔ·½Ê½£ºÊ¹ÓÃsimulatorÁ¬½Ó 10.0.0.2
-	public static final int DEBUG_TEST = 3; // ÊÖ»úµ÷ÊÔ ²âÊÔÊı¾İ£ºÊı¾İ½Ó¿Ú·µ»Ø²âÊÔÊı¾İ ²»Á¬½ÓÍøÂç
+	public static final int DEBUG_USER = 0; // ç”¨æˆ·ä½¿ç”¨ è°ƒè¯•æ–¹å¼ï¼šé‚®ä»¶å‘é€é”™è¯¯ä¿¡æ¯
+	public static final int DEBUG_JAVA = 1; // ç”µè„‘è°ƒè¯• è°ƒè¯•æ–¹å¼ï¼šä½¿ç”¨javaè¿æ¥ localhost
+	public static final int DEBUG_PHONE = 2; // æ‰‹æœºè°ƒè¯• è°ƒè¯•æ–¹å¼ï¼šä½¿ç”¨simulatorè¿æ¥ 10.0.0.2
+	public static final int DEBUG_TEST = 3; // æ‰‹æœºè°ƒè¯• æµ‹è¯•æ•°æ®ï¼šæ•°æ®æ¥å£è¿”å›æµ‹è¯•æ•°æ® ä¸è¿æ¥ç½‘ç»œ
 
 	/**
-	 * ÉèÖÃ·şÎñ
+	 * è®¾ç½®æœåŠ¡
 	 * 
 	 * @param namespace
 	 *            like "http://tempuri.org/"
@@ -280,17 +280,17 @@ public class AfSoapService<T> {
 		} catch (Error er) {
 			throw new Exception(er.getMessage(), er);
 		} catch (JsonSyntaxException ex) {
-			throw new AfToastException("·şÎñÆ÷·µ»Ø¸ñÊ½Òì³£");
+			throw new AfToastException("æœåŠ¡å™¨è¿”å›æ ¼å¼å¼‚å¸¸");
 		} catch (UnsupportedEncodingException ex) {
-			throw new AfToastException("·şÎñÆ÷·µ»Ø±àÂëÒì³£");
+			throw new AfToastException("æœåŠ¡å™¨è¿”å›ç¼–ç å¼‚å¸¸");
 		} catch (XmlPullParserException ex) {
-			throw new AfToastException("·şÎñÆ÷·µ»ØÒì³£", ex);
+			throw new AfToastException("æœåŠ¡å™¨è¿”å›å¼‚å¸¸", ex);
 		} catch (ConnectException ex) {
-			throw new AfToastException("Á¬½Ó·şÎñÆ÷Ê§°Ü:" + ex.getMessage(), ex);
+			throw new AfToastException("è¿æ¥æœåŠ¡å™¨å¤±è´¥:" + ex.getMessage(), ex);
 		} catch (FileNotFoundException ex) {
-			throw new AfToastException("·şÎñÆ÷µØÖ·´íÎó:" + ex.getMessage(), ex);
+			throw new AfToastException("æœåŠ¡å™¨åœ°å€é”™è¯¯:" + ex.getMessage(), ex);
 		} catch (SoapFault ex) {
-			throw new AfToastException("·şÎñÆ÷·´À¡:" + ex.faultstring, ex);
+			throw new AfToastException("æœåŠ¡å™¨åé¦ˆ:" + ex.faultstring, ex);
 		}
 	}
 
@@ -301,7 +301,7 @@ public class AfSoapService<T> {
 			String value = holder.getReturnValue();
 			return modelFromJsonSafed(value, mClass);
 		} catch (UnsupportedEncodingException ex) {
-			throw new Exception("·şÎñÆ÷·µ»Ø±àÂëÒì³£");
+			throw new Exception("æœåŠ¡å™¨è¿”å›ç¼–ç å¼‚å¸¸");
 		}
 	}
 
@@ -314,7 +314,7 @@ public class AfSoapService<T> {
 				models.add(modelFromJsonSafed(string, mClass));
 			}
 		} catch (UnsupportedEncodingException ex) {
-			throw new Exception("·şÎñÆ÷·µ»Ø±àÂëÒì³£");
+			throw new Exception("æœåŠ¡å™¨è¿”å›ç¼–ç å¼‚å¸¸");
 		}
 		return models;
 	}
@@ -326,7 +326,7 @@ public class AfSoapService<T> {
 			String value = holder.getReturnValue();
 			return modelFromJsonSafed(value, int.class);
 		} catch (UnsupportedEncodingException ex) {
-			throw new Exception("·şÎñÆ÷·µ»Ø±àÂëÒì³£");
+			throw new Exception("æœåŠ¡å™¨è¿”å›ç¼–ç å¼‚å¸¸");
 		}
 	}
 
@@ -337,7 +337,7 @@ public class AfSoapService<T> {
 			String value = holder.getReturnValue();
 			return modelFromJsonSafed(value, long.class);
 		} catch (UnsupportedEncodingException ex) {
-			throw new Exception("·şÎñÆ÷·µ»Ø±àÂëÒì³£");
+			throw new Exception("æœåŠ¡å™¨è¿”å›ç¼–ç å¼‚å¸¸");
 		}
 	}
 
@@ -348,7 +348,7 @@ public class AfSoapService<T> {
 			String value = holder.getReturnValue();
 			return modelFromJsonSafed(value, boolean.class);
 		} catch (UnsupportedEncodingException ex) {
-			throw new Exception("·şÎñÆ÷·µ»Ø±àÂëÒì³£");
+			throw new Exception("æœåŠ¡å™¨è¿”å›ç¼–ç å¼‚å¸¸");
 		}
 	}
 
@@ -364,7 +364,7 @@ public class AfSoapService<T> {
 			String value = holder.getReturnValue();
 			return modelFromJsonSafed(value, mClass);
 		} catch (UnsupportedEncodingException ex) {
-			throw new Exception("·şÎñÆ÷·µ»Ø±àÂëÒì³£");
+			throw new Exception("æœåŠ¡å™¨è¿”å›ç¼–ç å¼‚å¸¸");
 		}
 	}
 
@@ -377,7 +377,7 @@ public class AfSoapService<T> {
 				models.add(modelFromJsonSafed(string, mClass));
 			}
 		} catch (UnsupportedEncodingException ex) {
-			throw new Exception("·şÎñÆ÷·µ»Ø±àÂëÒì³£");
+			throw new Exception("æœåŠ¡å™¨è¿”å›ç¼–ç å¼‚å¸¸");
 		}
 		return models;
 	}
@@ -389,7 +389,7 @@ public class AfSoapService<T> {
 			String value = holder.getReturnValue();
 			return modelFromJsonSafed(value, int.class);
 		} catch (UnsupportedEncodingException ex) {
-			throw new Exception("·şÎñÆ÷·µ»Ø±àÂëÒì³£");
+			throw new Exception("æœåŠ¡å™¨è¿”å›ç¼–ç å¼‚å¸¸");
 		}
 	}
 
@@ -400,7 +400,7 @@ public class AfSoapService<T> {
 			String value = holder.getReturnValue();
 			return modelFromJsonSafed(value, long.class);
 		} catch (UnsupportedEncodingException ex) {
-			throw new Exception("·şÎñÆ÷·µ»Ø±àÂëÒì³£");
+			throw new Exception("æœåŠ¡å™¨è¿”å›ç¼–ç å¼‚å¸¸");
 		}
 	}
 
@@ -411,7 +411,7 @@ public class AfSoapService<T> {
 			String value = holder.getReturnValue();
 			return modelFromJsonSafed(value, boolean.class);
 		} catch (UnsupportedEncodingException ex) {
-			throw new Exception("·şÎñÆ÷·µ»Ø±àÂëÒì³£");
+			throw new Exception("æœåŠ¡å™¨è¿”å›ç¼–ç å¼‚å¸¸");
 		}
 	}
 
@@ -427,7 +427,7 @@ public class AfSoapService<T> {
 			String value = holder.getReturnValue();
 			return modelFromJsonSafed(value, mClass);
 		} catch (UnsupportedEncodingException ex) {
-			throw new Exception("·şÎñÆ÷·µ»Ø±àÂëÒì³£");
+			throw new Exception("æœåŠ¡å™¨è¿”å›ç¼–ç å¼‚å¸¸");
 		}
 	}
 
@@ -440,7 +440,7 @@ public class AfSoapService<T> {
 				models.add(modelFromJsonSafed(string, mClass));
 			}
 		} catch (UnsupportedEncodingException ex) {
-			throw new Exception("·şÎñÆ÷·µ»Ø±àÂëÒì³£");
+			throw new Exception("æœåŠ¡å™¨è¿”å›ç¼–ç å¼‚å¸¸");
 		}
 		return models;
 	}
@@ -464,7 +464,7 @@ public class AfSoapService<T> {
 			String value = holder.getReturnValue();
 			return modelFromJsonSafed(value, int.class);
 		} catch (UnsupportedEncodingException ex) {
-			throw new Exception("·şÎñÆ÷·µ»Ø±àÂëÒì³£");
+			throw new Exception("æœåŠ¡å™¨è¿”å›ç¼–ç å¼‚å¸¸");
 		}
 	}
 
@@ -475,7 +475,7 @@ public class AfSoapService<T> {
 			String value = holder.getReturnValue();
 			return modelFromJsonSafed(value, long.class);
 		} catch (UnsupportedEncodingException ex) {
-			throw new Exception("·şÎñÆ÷·µ»Ø±àÂëÒì³£");
+			throw new Exception("æœåŠ¡å™¨è¿”å›ç¼–ç å¼‚å¸¸");
 		}
 	}
 
@@ -486,7 +486,7 @@ public class AfSoapService<T> {
 			String value = holder.getReturnValue();
 			return modelFromJsonSafed(value, boolean.class);
 		} catch (UnsupportedEncodingException ex) {
-			throw new Exception("·şÎñÆ÷·µ»Ø±àÂëÒì³£");
+			throw new Exception("æœåŠ¡å™¨è¿”å›ç¼–ç å¼‚å¸¸");
 		}
 	}
 
@@ -496,15 +496,15 @@ public class AfSoapService<T> {
 	}
 
 	/**
-	 * @Description: listFromJsonSafed ÊÇ AfSoapService µÄ·½·¨
-	 * 		·´ĞòÁĞ»¯JSONµ½¶ÔÏóList<T> ·¢ÏÖ T ÖĞµÄ×Ö¶ÎÎª null ×Ô¶¯ÉèÖÃÄ¬ÈÏÖµ ·ÀÖ¹³öÏÖ null µ¼ÖÂ¿ÕÖ¸ÕëÒì³£
+	 * @Description: listFromJsonSafed æ˜¯ AfSoapService çš„æ–¹æ³•
+	 * 		ååºåˆ—åŒ–JSONåˆ°å¯¹è±¡List<T> å‘ç° T ä¸­çš„å­—æ®µä¸º null è‡ªåŠ¨è®¾ç½®é»˜è®¤å€¼ é˜²æ­¢å‡ºç° null å¯¼è‡´ç©ºæŒ‡é’ˆå¼‚å¸¸
 	 * @Author: scwang
-	 * @Version: V1.0, 2015-1-19 ÏÂÎç2:52:30
-	 * @Modified: ³õ´Î´´½¨listFromJsonSafed·½·¨
+	 * @Version: V1.0, 2015-1-19 ä¸‹åˆ2:52:30
+	 * @Modified: åˆæ¬¡åˆ›å»ºlistFromJsonSafedæ–¹æ³•
 	 * @param string
 	 * @param clazz
-	 * @return Èç¹û json Îªnull »òÕß ¡°null¡± ·µ»Ø null
-	 * @throws Exception ¹¹½¨¶ÔÏóÒì³£
+	 * @return å¦‚æœ json ä¸ºnull æˆ–è€… â€œnullâ€ è¿”å› null
+	 * @throws Exception æ„å»ºå¯¹è±¡å¼‚å¸¸
 	 */
 	public static <T> List<T> listFromJsonSafed(String json, Class<T> clazz) throws Exception {
 		if (json == null || json.toLowerCase(Locale.ENGLISH).trim().equals("null")) {
@@ -520,11 +520,11 @@ public class AfSoapService<T> {
 	}
 	
 	/**
-	 * ·´ĞòÁĞ»¯JSONµ½¶ÔÏóT ·¢ÏÖ T ÖĞµÄ×Ö¶ÎÎª null ×Ô¶¯ÉèÖÃÄ¬ÈÏÖµ ·ÀÖ¹³öÏÖ null µ¼ÖÂ¿ÕÖ¸ÕëÒì³£
+	 * ååºåˆ—åŒ–JSONåˆ°å¯¹è±¡T å‘ç° T ä¸­çš„å­—æ®µä¸º null è‡ªåŠ¨è®¾ç½®é»˜è®¤å€¼ é˜²æ­¢å‡ºç° null å¯¼è‡´ç©ºæŒ‡é’ˆå¼‚å¸¸
 	 * @param json
 	 * @param clazz
-	 * @return Èç¹û json Îªnull »òÕß ¡°null¡± ·µ»Ø null
-	 * @throws Exception ¹¹½¨¶ÔÏóÒì³£
+	 * @return å¦‚æœ json ä¸ºnull æˆ–è€… â€œnullâ€ è¿”å› null
+	 * @throws Exception æ„å»ºå¯¹è±¡å¼‚å¸¸
 	 */
 	public static <T> T modelFromJsonSafed(String json, Class<T> clazz) throws Exception {
 		// TODO Auto-generated method stub

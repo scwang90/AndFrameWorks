@@ -19,7 +19,7 @@ public class AfSoapDomain<T, Tid> extends AfSoapService<T> implements
 		// TODO Auto-generated method stub
 		if(hoder.ReturnValue != null){
 			if(hoder.getReturnValue().toLowerCase(Locale.ENGLISH).equals("false")){
-				throw new Exception("Ò»¸öÄÚ²¿µÄ´íÎó£¬¹¥³ÇÊ¦ÕıÔÚÅ¬Á¦ĞŞ¸´ÖĞ¡£¡£¡£");
+				throw new Exception("ä¸€ä¸ªå†…éƒ¨çš„é”™è¯¯ï¼Œæ”»åŸå¸ˆæ­£åœ¨åŠªåŠ›ä¿®å¤ä¸­ã€‚ã€‚ã€‚");
 			}
 		}
 		return false;

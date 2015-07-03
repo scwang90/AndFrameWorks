@@ -25,7 +25,7 @@ public class AfDomain<T, Tid> extends AfSoapServiceOld<T> implements
 		request.addProperty("model", mGson.toJson(model));
 		Object response = this.getResponse("Insert", request);
 		if (response.toString().toLowerCase(Locale.ENGLISH).equals("false")) {
-			throw new AfToastException("Ò»¸öÄÚ²¿µÄ´íÎó£¬¹¥³ÇÊ¦ÕıÔÚÅ¬Á¦ĞŞ¸´ÖĞ¡£¡£¡£");
+			throw new AfToastException("ä¸€ä¸ªå†…éƒ¨çš„é”™è¯¯ï¼Œæ”»åŸå¸ˆæ­£åœ¨åŠªåŠ›ä¿®å¤ä¸­ã€‚ã€‚ã€‚");
 		}
 		return true;
 	}
