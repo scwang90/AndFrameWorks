@@ -445,7 +445,6 @@ public class ThreadActivity extends Activity {
 	/**
 	 * Get the value of the data column for this Uri. This is useful for
 	 * MediaStore Uris, and other file-based ContentProviders.
-	 * 
 	 * @param context
 	 *            The context.
 	 * @param uri

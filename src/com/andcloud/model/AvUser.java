@@ -4,7 +4,7 @@ import com.avos.avoscloud.AVFile;
 import com.avos.avoscloud.AVUser;
 /**
  * 用户
- * @author SCWANG
+ * @author 树朾
  */
 public class AvUser extends AVUser {
 	
