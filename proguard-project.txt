@@ -19,20 +19,20 @@
 #   public *;
 #}
 
-#常用混淆标记
+#甯哥敤娣锋穯鏍囪
 -ignorewarnings
 -keepattributes Signature
 -keepclasseswithmembernames class * {
     native <methods>;
 }
 
-#andframe混淆标记
+#andframe娣锋穯鏍囪
 -keep class com.andframe.entity.** {<fields>;}
 -keep class com.andframe.model.** {<fields>;}
 -keep class com.andframe.bean.** {<fields>;}
 -keep public class org.xmlpull.** {*;}
 
-#andmail混淆标记
+#andmail娣锋穯鏍囪
 -keep class com.andmail.model.** {<fields>;}
 -keep class com.sun.mail.smtp.** {*;}
 
