@@ -10,6 +10,7 @@ import com.andframe.util.UUIDUtil;
  * 版本标识
  * 用于更新服务使用
  */
+@SuppressWarnings("serial")
 public class Version implements Serializable{
 
 	private UUID ID = UUIDUtil.Empty;

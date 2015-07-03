@@ -5,7 +5,7 @@ import java.io.Serializable;
 /**
  * 定位结果Model
  */
-@SuppressWarnings("")
+@SuppressWarnings("serial")
 public class Address implements Serializable {
 
 //    public int Country = -1;

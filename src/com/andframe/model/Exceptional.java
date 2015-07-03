@@ -5,6 +5,7 @@ import java.util.UUID;
 import com.andframe.model.framework.AfModel;
 import com.andframe.util.UUIDUtil;
 
+@SuppressWarnings("serial")
 public class Exceptional extends AfModel {
 
     //新的错误

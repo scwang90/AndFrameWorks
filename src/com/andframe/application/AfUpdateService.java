@@ -32,6 +32,7 @@ import com.andframe.feature.AfIntent;
 import com.andframe.thread.AfHandlerTask;
 import com.andframe.thread.AfTask;
 
+@SuppressWarnings("deprecation")
 public class AfUpdateService implements Callback {
 	
 	protected Builder mBuilder;

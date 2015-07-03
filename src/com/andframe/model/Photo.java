@@ -5,6 +5,7 @@ import com.andframe.model.framework.AfModel;
 /**
  * 相册
  */
+@SuppressWarnings("serial")
 public class Photo extends AfModel {
 	
 	public String Url = "";

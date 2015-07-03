@@ -37,6 +37,7 @@ import com.andframe.util.java.AfStringUtil;
  * @Version: V1.0, 2015-3-13 下午5:27:48
  * @Modified: 初次创建AfDownloader类
  */
+@SuppressWarnings("deprecation")
 public class AfDownloader {
 	/**
 	 * 广播接收

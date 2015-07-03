@@ -70,6 +70,7 @@ import com.andframe.util.java.AfVersion;
  * 			public boolean isBackground() //判断是否在后台允许（按HOME之后）
  * 			public Random getRandom()//获取统一随机数
  */
+@SuppressWarnings("deprecation")
 public abstract class AfApplication extends Application {
 
 	/**

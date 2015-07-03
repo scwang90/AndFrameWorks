@@ -7,6 +7,7 @@ import java.io.Serializable;
  * 分页查询开始索引、开始分页等从 0 开始索引
  * @author Administrator
  */
+@SuppressWarnings("serial")
 public class Page implements Serializable{
     public boolean IsASC = true;
     public String Order = "";

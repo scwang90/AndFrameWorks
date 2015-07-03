@@ -6,6 +6,7 @@ import java.io.Serializable;
 import java.util.Date;
 import java.util.UUID;
 
+@SuppressWarnings("serial")
 public class AfModel  implements Serializable , Comparable<AfModel>{
     
 	public UUID ID = UUID.randomUUID();
