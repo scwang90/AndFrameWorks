@@ -2,7 +2,6 @@ package com.andwidget.satellitemenu;
 
 /**
  * Linearly distributes satellites in the given total degree.
- * 
  * @author Siyamed SINIR
  *
  */

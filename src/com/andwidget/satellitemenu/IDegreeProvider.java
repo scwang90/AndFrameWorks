@@ -2,7 +2,6 @@ package com.andwidget.satellitemenu;
 
 /**
  * Interface for providing degrees between satellites. 
- * 
  * @author Siyamed SINIR
  *
  */

@@ -407,7 +407,6 @@ public class OpacityBar extends View {
 	 * Set the bar color. <br>
 	 * <br>
 	 * Its discouraged to use this method.
-	 * 
 	 * @param color
 	 */
 	public void setColor(int color) {
@@ -437,7 +436,6 @@ public class OpacityBar extends View {
 
 	/**
 	 * Set the pointer on the bar. With the opacity value.
-	 * 
 	 * @param saturation
 	 *            float between 0 > 255
 	 */
@@ -471,7 +469,6 @@ public class OpacityBar extends View {
 
 	/**
 	 * Calculate the color selected by the pointer on the bar.
-	 * 
 	 * @param coord
 	 *            Coordinate of the pointer.
 	 */

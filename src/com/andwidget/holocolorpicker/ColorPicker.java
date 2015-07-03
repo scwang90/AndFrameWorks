@@ -64,62 +64,40 @@ public class ColorPicker extends View {
 	private static final int[] COLORS = new int[] { 0xFFFF0000, 0xFFFF00FF,
 			0xFF0000FF, 0xFF00FFFF, 0xFF00FF00, 0xFFFFFF00, 0xFFFF0000 };
 
-	/**
-	 * {@code Paint} instance used to draw the color wheel.
-	 */
+	/** {@code Paint} instance used to draw the color wheel. */
 	private Paint mColorWheelPaint;
 
-	/**
-	 * {@code Paint} instance used to draw the pointer's "halo".
-	 */
+	/** {@code Paint} instance used to draw the pointer's "halo". */
 	private Paint mPointerHaloPaint;
 
-	/**
-	 * {@code Paint} instance used to draw the pointer (the selected color).
-	 */
+	/** {@code Paint} instance used to draw the pointer (the selected color). */
 	private Paint mPointerColor;
 
-	/**
-	 * The width of the color wheel thickness.
-	 */
+	/** The width of the color wheel thickness. */
 	private int mColorWheelThickness;
 
-	/**
-	 * The radius of the color wheel.
-	 */
+	/** The radius of the color wheel. */
 	private int mColorWheelRadius;
 	private int mPreferredColorWheelRadius;
 
-	/**
-	 * The radius of the center circle inside the color wheel.
-	 */
+	/** The radius of the center circle inside the color wheel. */
 	private int mColorCenterRadius;
 	private int mPreferredColorCenterRadius;
 
-	/**
-	 * The radius of the halo of the center circle inside the color wheel.
-	 */
+	/** The radius of the halo of the center circle inside the color wheel. */
 	private int mColorCenterHaloRadius;
 	private int mPreferredColorCenterHaloRadius;
 
-	/**
-	 * The radius of the pointer.
-	 */
+	/** The radius of the pointer. */
 	private int mColorPointerRadius;
 
-	/**
-	 * The radius of the halo of the pointer.
-	 */
+	/** The radius of the halo of the pointer. */
 	private int mColorPointerHaloRadius;
 
-	/**
-	 * The rectangle enclosing the color wheel.
-	 */
+	/** The rectangle enclosing the color wheel. */
 	private RectF mColorWheelRectangle = new RectF();
 
-	/**
-	 * The rectangle enclosing the center inside the color wheel.
-	 */
+	/** The rectangle enclosing the center inside the color wheel. */
 	private RectF mCenterRectangle = new RectF();
 
 	/**
@@ -130,28 +108,19 @@ public class ColorPicker extends View {
 	 */
 	private boolean mUserIsMovingPointer = false;
 
-	/**
-	 * The ARGB value of the currently selected color.
-	 */
+	/** The ARGB value of the currently selected color. */
 	private int mColor;
 
-	/**
-	 * The ARGB value of the center with the old selected color.
-	 */
+	/** The ARGB value of the center with the old selected color. */
 	private int mCenterOldColor;
 	
-	/**
-	 * Whether to show the old color in the center or not.
-	 */
+	/** Whether to show the old color in the center or not. */
 	private boolean mShowCenterOldColor;
 
-	/**
-	 * The ARGB value of the center with the new selected color.
-	 */
+	/** The ARGB value of the center with the new selected color. */
 	private int mCenterNewColor;
 
-	/**
-	 * Number of pixels the origin of this view is moved in X- and Y-direction.
+	/** Number of pixels the origin of this view is moved in X- and Y-direction.
 	 * 
 	 * <p>
 	 * We use the center of this (quadratic) View as origin of our internal
@@ -168,19 +137,13 @@ public class ColorPicker extends View {
 	 */
 	private float mTranslationOffset;
 	
-	/**
-	 * Distance between pointer and user touch in X-direction.
-	 */
+	/** Distance between pointer and user touch in X-direction. */
     	private float mSlopX;
     
-	/**
-	 * Distance between pointer and user touch in Y-direction.
-	 */
+	/** Distance between pointer and user touch in Y-direction. */
     	private float mSlopY;
 
-	/**
-	 * The pointer's position expressed as angle (in rad).
-	 */
+	/** The pointer's position expressed as angle (in rad). */
 	private float mAngle;
 
 	/**
@@ -207,34 +170,22 @@ public class ColorPicker extends View {
 	 */
 	private float[] mHSV = new float[3];
 
-	/**
-	 * {@code SVBar} instance used to control the Saturation/Value bar.
-	 */
+	/** {@code SVBar} instance used to control the Saturation/Value bar. */
 	private SVBar mSVbar = null;
 
-	/**
-	 * {@code OpacityBar} instance used to control the Opacity bar.
-	 */
+	/** {@code OpacityBar} instance used to control the Opacity bar. */
 	private OpacityBar mOpacityBar = null;
 
-	/**
-	 * {@code SaturationBar} instance used to control the Saturation bar.
-	 */
+	/** {@code SaturationBar} instance used to control the Saturation bar. */
 	private SaturationBar mSaturationBar = null;
 
-	/**
-	 * {@code ValueBar} instance used to control the Value bar.
-	 */
+	/** {@code ValueBar} instance used to control the Value bar. */
 	private ValueBar mValueBar = null;
 
-	/**
-	 * {@code onColorChangedListener} instance of the onColorChangedListener
-	 */
+	/** {@code onColorChangedListener} instance of the onColorChangedListener */
 	private OnColorChangedListener onColorChangedListener;
 
-	/**
-	 * {@code onColorSelectedListener} instance of the onColorSelectedListener
-	 */
+	/** {@code onColorSelectedListener} instance of the onColorSelectedListener */
 	private OnColorSelectedListener onColorSelectedListener;
 
 	public ColorPicker(Context context) {
@@ -255,9 +206,7 @@ public class ColorPicker extends View {
 	/**
 	 * An interface that is called whenever the color is changed. Currently it
 	 * is always called when the color is changes.
-	 * 
 	 * @author lars
-	 * 
 	 */
 	public interface OnColorChangedListener {
 		public void onColorChanged(int color);
@@ -274,7 +223,6 @@ public class ColorPicker extends View {
 
 	/**
 	 * Set a onColorChangedListener
-	 * 
 	 * @param {@code OnColorChangedListener}
 	 */
 	public void setOnColorChangedListener(OnColorChangedListener listener) {
@@ -292,7 +240,6 @@ public class ColorPicker extends View {
 
 	/**
 	 * Set a onColorSelectedListener
-	 * 
 	 * @param {@code OnColorSelectedListener}
 	 */
 	public void setOnColorSelectedListener(OnColorSelectedListener listener) {
@@ -466,7 +413,6 @@ public class ColorPicker extends View {
 
 	/**
 	 * Calculate the color using the supplied angle.
-	 * 
 	 * @param angle
 	 *            The selected color's position expressed as angle (in rad).
 	 * 
@@ -516,7 +462,6 @@ public class ColorPicker extends View {
 	 * Set the color to be highlighted by the pointer. </br> </br> If the
 	 * instances {@code SVBar} and the {@code OpacityBar} aren't null the color
 	 * will also be set to them
-	 * 
 	 * @param color
 	 *            The RGB value of the color to highlight. If this is not a
 	 *            color displayed on the color wheel a very simple algorithm is
@@ -572,7 +517,6 @@ public class ColorPicker extends View {
 
 	/**
 	 * Convert a color to an angle.
-	 * 
 	 * @param color
 	 *            The RGB value of the color to "find" on the color wheel.
 	 * 
@@ -677,7 +621,6 @@ public class ColorPicker extends View {
 	/**
 	 * Calculate the pointer's coordinates on the color wheel using the supplied
 	 * angle.
-	 * 
 	 * @param angle
 	 *            The position of the pointer expressed as angle (in rad).
 	 * 
@@ -693,7 +636,6 @@ public class ColorPicker extends View {
 
 	/**
 	 * Add a Saturation/Value bar to the color wheel.
-	 * 
 	 * @param bar
 	 *            The instance of the Saturation/Value bar.
 	 */
@@ -706,7 +648,6 @@ public class ColorPicker extends View {
 
 	/**
 	 * Add a Opacity bar to the color wheel.
-	 * 
 	 * @param bar
 	 *            The instance of the Opacity bar.
 	 */
@@ -731,7 +672,6 @@ public class ColorPicker extends View {
 
 	/**
 	 * Change the color of the center which indicates the new color.
-	 * 
 	 * @param color
 	 *            int of the color.
 	 */
@@ -751,7 +691,6 @@ public class ColorPicker extends View {
 
 	/**
 	 * Change the color of the center which indicates the old color.
-	 * 
 	 * @param color
 	 *            int of the color.
 	 */
@@ -767,7 +706,6 @@ public class ColorPicker extends View {
 	
 	/**
 	 * Set whether the old color is to be shown in the center or not
-	 * 
 	 * @param show true if the old color is to be shown, false otherwise
 	 */
 	public void setShowOldCenterColor(boolean show) {
@@ -782,7 +720,6 @@ public class ColorPicker extends View {
 	/**
 	 * Used to change the color of the {@code OpacityBar} used by the
 	 * {@code SVBar} if there is an change in color.
-	 * 
 	 * @param color
 	 *            int of the color used to change the opacity bar color.
 	 */
@@ -794,7 +731,6 @@ public class ColorPicker extends View {
 
 	/**
 	 * Used to change the color of the {@code SaturationBar}.
-	 * 
 	 * @param color
 	 *            int of the color used to change the opacity bar color.
 	 */
@@ -806,7 +742,6 @@ public class ColorPicker extends View {
 
 	/**
 	 * Used to change the color of the {@code ValueBar}.
-	 * 
 	 * @param color
 	 *            int of the color used to change the opacity bar color.
 	 */

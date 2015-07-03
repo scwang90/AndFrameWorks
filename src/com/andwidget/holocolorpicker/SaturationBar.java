@@ -413,7 +413,6 @@ public class SaturationBar extends View {
 	 * Set the bar color. <br>
 	 * <br>
 	 * Its discouraged to use this method.
-	 * 
 	 * @param color
 	 */
 	public void setColor(int color) {
@@ -447,7 +446,6 @@ public class SaturationBar extends View {
 
 	/**
 	 * Set the pointer on the bar. With the opacity value.
-	 * 
 	 * @param saturation
 	 *            float between 0 > 1
 	 */

@@ -18,7 +18,7 @@ import com.andwidget.holocolorpicker.ValueBar;
 /**
  * AwColorPicker 
  * 颜色选择器
- * @author SCWANG
+ * @author 树朾
  */
 public class AwColorPicker {
 
@@ -36,6 +36,7 @@ public class AwColorPicker {
 		mLayout = inflater.inflate(R.layout.colorpicker_dialogview, null);
 		findLayout(new AfView(mLayout));
 	}
+
 	/**
 	 * 显示颜色选择对话框
 	 * @param title

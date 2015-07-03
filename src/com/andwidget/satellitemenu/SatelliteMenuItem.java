@@ -8,7 +8,6 @@ import android.widget.ImageView;
  * Menu Item. 
  *
  * TODO: tell about usage
- * 
  * @author Siyamed SINIR
  *
  */

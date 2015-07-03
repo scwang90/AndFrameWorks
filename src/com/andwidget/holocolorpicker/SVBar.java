@@ -387,7 +387,6 @@ public class SVBar extends View {
 
 	/**
 	 * Set the pointer on the bar. With the saturation value.
-	 * 
 	 * @param saturation
 	 *            float between 0 > 1
 	 */
@@ -407,7 +406,6 @@ public class SVBar extends View {
 
 	/**
 	 * Set the pointer on the bar. With the Value value.
-	 * 
 	 * @param value
 	 *            float between 0 > 1
 	 */
@@ -429,7 +427,6 @@ public class SVBar extends View {
 	 * Set the bar color. <br>
 	 * <br>
 	 * Its discouraged to use this method.
-	 * 
 	 * @param color
 	 */
 	public void setColor(int color) {
@@ -461,7 +458,6 @@ public class SVBar extends View {
 
 	/**
 	 * Calculate the color selected by the pointer on the bar.
-	 * 
 	 * @param coord
 	 *            Coordinate of the pointer.
 	 */

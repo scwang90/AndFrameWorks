@@ -12,7 +12,6 @@ import com.andwidget.R;
 
 /**
  * Factory class for creating satellite in/out animations
- * 
  * @author Siyamed SINIR
  *
  */

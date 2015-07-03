@@ -26,9 +26,7 @@ import com.andwidget.R;
  * Provides a "Path" like menu for android. ??
  * 
  * TODO: tell about usage
- * 
  * @author Siyamed SINIR
- * 
  */
 public class SatelliteMenu extends FrameLayout {
 
@@ -387,7 +385,6 @@ public class SatelliteMenu extends FrameLayout {
 	
 	/**
 	 * Sets the click listener for satellite items.
-	 * 
 	 * @param itemClickedListener
 	 */
 	public void setOnItemClickedListener(SateliteClickedListener itemClickedListener) {
@@ -398,7 +395,6 @@ public class SatelliteMenu extends FrameLayout {
 	/**
 	 * Defines the algorithm to define the gap between each item. 
 	 * Note: Calling before adding items is strongly recommended. 
-	 * 
 	 * @param gapDegreeProvider
 	 */
 	public void setGapDegreeProvider(IDegreeProvider gapDegreeProvider) {
@@ -409,7 +405,6 @@ public class SatelliteMenu extends FrameLayout {
 	/**
 	 * Defines the total space between the initial and final item in degrees.
 	 * Note: Calling before adding items is strongly recommended.
-	 * 
 	 * @param totalSpacingDegree The degree between initial and final items. 
 	 */
 	public void setTotalSpacingDegree(float totalSpacingDegree) {
@@ -420,7 +415,6 @@ public class SatelliteMenu extends FrameLayout {
 	/**
 	 * Sets the distance of items from the center in pixels.
 	 * Note: Calling before adding items is strongly recommended.
-	 * 
 	 * @param distance the distance of items to center in pixels.
 	 */
 	public void setSatelliteDistance(int distance) {
@@ -431,7 +425,6 @@ public class SatelliteMenu extends FrameLayout {
 	/**
 	 * Sets the duration for expanding and collapsing the items in miliseconds. 
 	 * Note: Calling before adding items is strongly recommended.
-	 * 
 	 * @param expandDuration the duration for expanding and collapsing the items in miliseconds.
 	 */
 	public void setExpandDuration(int expandDuration) {
@@ -441,7 +434,6 @@ public class SatelliteMenu extends FrameLayout {
 	
 	/**
 	 * Sets the image resource for the center button.
-	 * 
 	 * @param resource The image resource.
 	 */
 	public void setMainImage(int resource) {
@@ -450,7 +442,6 @@ public class SatelliteMenu extends FrameLayout {
 	
 	/**
 	 * Sets the image drawable for the center button.
-	 * 
 	 * @param resource The image drawable.
 	 */
 	public void setMainImage(Drawable drawable) {
@@ -459,12 +450,12 @@ public class SatelliteMenu extends FrameLayout {
 
 	/**
 	 * Defines if the menu shall collapse the items when an item is clicked. Default value is true. 
-	 * 
 	 * @param closeItemsOnClick
 	 */
 	public void setCloseItemsOnClick(boolean closeItemsOnClick) {
 		this.closeItemsOnClick = closeItemsOnClick;
 	}
+
 	/**
 	 * please call before additems
 	 * @param sizepx
