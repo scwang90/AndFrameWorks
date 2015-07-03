@@ -4,7 +4,7 @@ import java.util.Locale;
 
 
 /**
- * @author SCWANG
+ * @author 树朾
  *
  */
 public class AfFileTypeEnum

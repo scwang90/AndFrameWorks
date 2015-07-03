@@ -271,7 +271,7 @@ public class AfLocation
 
     /**
      * 请求等待 异常
-     * @author SCWANG
+     * @author 树朾
      *  如果接收到异常 处理方法是 稍等片刻再调用一次接口
      */
     public static class WaitException extends Throwable{

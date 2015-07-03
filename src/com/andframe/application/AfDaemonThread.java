@@ -12,7 +12,7 @@ import com.andframe.util.java.AfDateGuid;
 /**
  * DaemonThread 后台线程管理
  * 
- * @author SCWANG
+ * @author 树朾
  * 
  */
 public class AfDaemonThread {
@@ -24,9 +24,9 @@ public class AfDaemonThread {
 	private static List<ThreadWorker> mltWorker = new ArrayList<ThreadWorker>();
 
 	/**
-	 * @Description:
+	 *
 	 * 定时往后台抛送一个 Task 任务（会在UI线程中dispatch，任务开始）
-	 * @Author: scwang
+	 * @author 树朾
 	 * @Version: V1.0, 2015-2-26 下午2:34:06
 	 * @Modified: 初次创建postTaskDelayed方法
 	 * @param task 任务
@@ -37,11 +37,11 @@ public class AfDaemonThread {
 	}
 	
 	/**
-	 * @Description:
+	 *
 	 * 定时往后台抛送一个 Task 任务
 	 * 不会会在UI线程中dispatch，用于UI线程死亡的时候
 	 * 会影响到 AfTask.onPrepare 的线程调用
-	 * @Author: scwang
+	 * @author 树朾
 	 * @Version: V1.0, 2015-2-26 下午2:34:06
 	 * @Modified: 初次创建postTaskDelayed方法
 	 * @param task 任务
@@ -52,11 +52,11 @@ public class AfDaemonThread {
 	}
 
 	/**
-	 * @Description:
+	 *
 	 * 定时往后台抛送一个 Task 任务
 	 * 会在UI线程中dispatch，任务开始
 	 * AfTask.onPrepare 会在UI线程中调用
-	 * @Author: scwang
+	 * @author 树朾
 	 * @Version: V1.0, 2015-2-26 下午2:34:06
 	 * @Modified: 初次创建postTaskDelayed方法
 	 * @param task 任务
@@ -87,11 +87,11 @@ public class AfDaemonThread {
 	}
 	
 	/**
-	 * @Description:
+	 *
 	 * 定时往后台抛送一个 Task 任务
 	 * 不会会在UI线程中dispatch，用于UI线程死亡的时候
 	 * 会影响到 AfTask.onPrepare 的线程调用
-	 * @Author: scwang
+	 * @author 树朾
 	 * @Version: V1.0, 2015-2-26 下午2:34:06
 	 * @Modified: 初次创建postTaskDelayed方法
 	 * @param task 任务

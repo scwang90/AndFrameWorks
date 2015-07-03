@@ -2,7 +2,7 @@ package com.andframe.view.treeview;
 
 /***
  * AfTreeEstablishable 树形转换器
- * @author SCWANG
+ * @author 树朾
  *	适用于 将 list 转为 tree
  * @param <T>
  */

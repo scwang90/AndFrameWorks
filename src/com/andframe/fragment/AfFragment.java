@@ -39,7 +39,7 @@ import com.andframe.thread.AfTask;
 import com.andframe.thread.AfThreadWorker;
 /**
  * 框架 AfFragment
- * @author SCWANG
+ * @author 树朾
  *
  *	以下是 AfFragment 像子类提供的 功能方法
  *
@@ -111,10 +111,10 @@ public abstract class AfFragment extends Fragment implements AfPageable {
 	protected boolean mIsRecycled = false;
 
 	/**
-	 * @Description: 获取LOG日志 TAG 是 AfFragment 的方法
+	 *  获取LOG日志 TAG 是 AfFragment 的方法
 	 * 用户也可以重写自定义TAG,这个值AfActivity在日志记录时候会使用
 	 * 子类实现也可以使用
-	 * @Author: scwang
+	 * @author 树朾
 	 * @Version: V1.0, 2015-2-14 上午10:58:00
 	 * @Modified: 初次创建TAG方法
 	 * @return

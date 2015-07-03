@@ -28,9 +28,8 @@ import com.andframe.util.java.AfCollections;
 import com.andframe.view.AfListView;
 import com.andframe.view.pulltorefresh.AfPullToRefreshBase.OnRefreshListener;
 /**
- * @Description: 数据列表框架 Frament
- * @Author: scwang
- * @Version: V1.0, 2015-2-27 上午10:26:21
+ * 数据列表框架 Frament
+ * @author 树朾
  * @param <T>
  */
 public abstract class AfListViewFrament<T> extends AfTabFragment implements
@@ -80,8 +79,8 @@ public abstract class AfListViewFrament<T> extends AfTabFragment implements
 	}
 
 	/**
-	 * @Description: 创建方法
-	 * @Author: scwang
+	 *  创建方法
+	 * @author 树朾
 	 * @Version: V1.0, 2015-2-27 上午10:19:01
 	 * @param bundle
 	 * @param view
@@ -156,8 +155,8 @@ public abstract class AfListViewFrament<T> extends AfTabFragment implements
 	protected abstract AfModuleNodata newModuleNodata(AfPageable pageable);
 
 	/**
-	 * @Description: 显示数据页面
-	 * @Author: scwang
+	 *  显示数据页面
+	 * @author 树朾
 	 * @Version: V1.0, 2015-2-27 上午10:18:26
 	 * @param adapter
 	 */
@@ -168,8 +167,8 @@ public abstract class AfListViewFrament<T> extends AfTabFragment implements
 	}
 
 	/**
-	 * @Description: 正在加载数据提示
-	 * @Author: scwang
+	 *  正在加载数据提示
+	 * @author 树朾
 	 * @Version: V1.0, 2015-2-27 上午10:18:05
 	 */
 	public void setLoading() {
@@ -193,8 +192,8 @@ public abstract class AfListViewFrament<T> extends AfTabFragment implements
 	};
 
 	/**
-	 * @Description: 处理空数据
-	 * @Author: scwang
+	 *  处理空数据
+	 * @author 树朾
 	 * @Version: V1.0, 2015-2-27 上午10:16:46
 	 * @Modified: 初次创建setNodata方法
 	 */
@@ -206,8 +205,8 @@ public abstract class AfListViewFrament<T> extends AfTabFragment implements
 	}
 
 	/**
-	 * @Description: 错误信息处理
-	 * @Author: scwang
+	 *  错误信息处理
+	 * @author 树朾
 	 * @Version: V1.0, 2015-2-27 上午10:16:26
 	 * @param ex
 	 */
@@ -219,8 +218,8 @@ public abstract class AfListViewFrament<T> extends AfTabFragment implements
 	}
 
 	/**
-	 * @Description: 用户加载分页通知事件
-	 * @Author: scwang
+	 *  用户加载分页通知事件
+	 * @author 树朾
 	 * @Version: V1.0, 2015-2-27 上午10:15:54
 	 * @return
 	 */
@@ -232,8 +231,8 @@ public abstract class AfListViewFrament<T> extends AfTabFragment implements
 	}
 
 	/**
-	 * @Description: 用户刷新数据通知事件
-	 * @Author: scwang
+	 *  用户刷新数据通知事件
+	 * @author 树朾
 	 * @Version: V1.0, 2015-2-27 上午10:14:52
 	 * @return
 	 */
@@ -245,8 +244,8 @@ public abstract class AfListViewFrament<T> extends AfTabFragment implements
 	}
 
 	/**
-	 * @Description: 数据列表点击事件
-	 * @Author: scwang
+	 *  数据列表点击事件
+	 * @author 树朾
 	 * @Version: V1.0, 2015-2-27 上午10:25:18
 	 * @Modified:
 	 * @param parent
@@ -262,8 +261,8 @@ public abstract class AfListViewFrament<T> extends AfTabFragment implements
 	}
 
 	/**
-	 * @Description: onItemClick 事件的 包装 一般情况下子类可以重写这个方法
-	 * @Author: scwang
+	 *  onItemClick 事件的 包装 一般情况下子类可以重写这个方法
+	 * @author 树朾
 	 * @Version: V1.0, 2015-2-27 上午10:20:05
 	 * @param model
 	 * @param index
@@ -284,7 +283,7 @@ public abstract class AfListViewFrament<T> extends AfTabFragment implements
 
 	/**
 	 * 数据加载内部任务类（数据加载事件已经转发，无实际处理代码）
-	 * @author scwang
+	 * @author 树朾
 	 */
 	protected class AbListViewTask extends AfListViewTask<T> {
 
@@ -358,8 +357,8 @@ public abstract class AfListViewFrament<T> extends AfTabFragment implements
 	}
 
 	/**
-	 * @Description: 缓存加载结束处理时间（框架默认调用onRefreshed事件处理）
-	 * @Author: scwang
+	 *  缓存加载结束处理时间（框架默认调用onRefreshed事件处理）
+	 * @author 树朾
 	 * @Version: V1.0, 2015-1-22 下午9:19:02
 	 * @Modified: 初次创建onLoaded方法
 	 * @param task 
@@ -380,8 +379,8 @@ public abstract class AfListViewFrament<T> extends AfTabFragment implements
 	}
 	/**
 	 * @param task 
-	 * @Description: 任务刷新结束处理事件
-	 * @Author: scwang
+	 *  任务刷新结束处理事件
+	 * @author 树朾
 	 * @Version: V1.0, 2015-1-20 上午11:29:09
 	 * @Modified: 初次创建onRefreshed方法
 	 * @param isfinish 是否成功执行
@@ -419,8 +418,8 @@ public abstract class AfListViewFrament<T> extends AfTabFragment implements
 		return true;
 	}
 	/**
-	 * @Description: 任务加载更多结束处理事件
-	 * @Author: scwang
+	 *  任务加载更多结束处理事件
+	 * @author 树朾
 	 * @Version: V1.0, 2015-1-20 上午11:34:04
 	 * @Modified: 初次创建onMored方法
 	 * @param loadListTask
@@ -461,8 +460,8 @@ public abstract class AfListViewFrament<T> extends AfTabFragment implements
 	protected abstract IAfLayoutItem<T> getItemLayout(T data);
 
 	/**
-	 * @Description: 加载缓存列表（不分页，在异步线程中执行，不可以更改页面操作）
-	 * @Author: scwang
+	 *  加载缓存列表（不分页，在异步线程中执行，不可以更改页面操作）
+	 * @author 树朾
 	 * @Version: V1.0, 2015-1-22 下午9:27:48
 	 * @Modified: 初次创建onLoad方法
 	 * @return 返回 null 可以使用框架内置缓存
@@ -481,8 +480,8 @@ public abstract class AfListViewFrament<T> extends AfTabFragment implements
 	protected abstract List<T> onTaskListByPage(Page page, int task) throws Exception;
 
 	/**
-	 * @Description: 根据数据ltdata新建一个 适配器 重写这个方法之后getItemLayout方法将失效
-	 * @Author: scwang
+	 *  根据数据ltdata新建一个 适配器 重写这个方法之后getItemLayout方法将失效
+	 * @author 树朾
 	 * @Version: V1.0, 2015-1-20 下午4:46:34
 	 * @Modified: 初次创建newAdapter方法
 	 * @param context
@@ -495,8 +494,8 @@ public abstract class AfListViewFrament<T> extends AfTabFragment implements
 	}
 
 	/**
-	 * @Description: ListView数据适配器（事件已经转发getItemLayout，无实际处理代码）
-	 * @Author: scwang
+	 *  ListView数据适配器（事件已经转发getItemLayout，无实际处理代码）
+	 * @author 树朾
 	 * @Version: V1.0, 2015-2-27 上午10:21:27
 	 */
 	protected class AbListViewAdapter extends AfListAdapter<T>{
@@ -507,8 +506,8 @@ public abstract class AfListViewFrament<T> extends AfTabFragment implements
 		}
 
 		/**
-		 * @Description: 转发事件到 AfListViewFrament.this.getItemLayout(data);
-		 * @Author: scwang
+		 *  转发事件到 AfListViewFrament.this.getItemLayout(data);
+		 * @author 树朾
 		 * @param data
 		 * @return 
 		 */

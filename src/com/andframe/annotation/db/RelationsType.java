@@ -5,7 +5,7 @@ package com.andframe.annotation.db;
  * 名称：RelationsType.java 
  * 描述：关联关系类型
  * @author zhaoqp
- * @date：2013-10-15 上午9:55:13
+ * @date 2013-10-15 上午9:55:13
  * @version v1.0
  */
 public class RelationsType {

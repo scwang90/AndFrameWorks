@@ -9,7 +9,7 @@ import android.os.Bundle;
 import com.google.gson.Gson;
 /**
  * AfBundle 
- * @author SCWANG
+ * @author 树朾
  *		包装 Android Bundle 支持任意对象传输
  */
 public class AfBundle {

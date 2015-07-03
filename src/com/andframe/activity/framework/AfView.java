@@ -9,7 +9,7 @@ import android.view.ViewParent;
 import com.andframe.application.AfExceptionHandler;
 /**
  * AfView 框架视图类
- * @author SCWANG
+ * @author 树朾
  *	实现了 AfViewable 接口 优化 findViewById 方法
  */
 public class AfView implements AfViewable {

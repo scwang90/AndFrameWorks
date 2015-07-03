@@ -9,7 +9,7 @@ import android.widget.AdapterView.OnItemClickListener;
 import com.andframe.feature.AfIntent;
 /**
  * 框架 Activity
- * @author SCWANG
+ * @author 树朾
  */
 public abstract class AfActivity extends com.andframe.activity.framework.AfActivity implements OnItemClickListener {
 
@@ -37,9 +37,8 @@ public abstract class AfActivity extends com.andframe.activity.framework.AfActiv
 		super.onActivityResult(questcode, resultcode, data);
 	}
 	/**
-	 * @Description: final 包装 onItemClick 事件处理 防止抛出异常崩溃
-	 * @Author: scwang
-	 * @Version: V1.0, 2015-2-14 上午10:34:56
+	 *  final 包装 onItemClick 事件处理 防止抛出异常崩溃
+	 * @author 树朾
 	 * @param parent
 	 * @param view
 	 * @param position

@@ -4,7 +4,7 @@ import com.andframe.activity.framework.AfView;
 import com.andframe.adapter.AfListAdapter.IAfLayoutItem;
 /**
  * 相似列表布局适配器
- * @author scwang
+ * @author 树朾
  * @param <T> 实际需要布局模板
  * @param <TT> 可以适配的模板
  */

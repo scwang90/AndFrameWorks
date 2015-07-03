@@ -1,10 +1,8 @@
 package com.andframe.util.java;
 
 /**
- * @Description: 通用版本转换类
- * @Author: scwang
- * @Version: V1.0, 2015-3-13 下午5:04:21
- * @Modified: 初次创建AfVersion类
+ * 通用版本转换类
+ * @author 树朾
  */
 public class AfVersion {
 	

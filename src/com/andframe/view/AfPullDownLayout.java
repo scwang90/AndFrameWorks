@@ -17,29 +17,27 @@ import android.widget.ScrollView;
 
 import com.andframe.feature.AfDensity;
 /**
- * @Description: 手势拖动布局
- * @Author: scwang
- * @Version: V1.0, 2015-1-27 下午3:08:02
- * @Modified: 初次创建AfPullDownLayout类
+ * 手势拖动布局
+ * @author 树朾
  */
 public class AfPullDownLayout extends LinearLayout {
 
 	/**
-	 * @Description: 手势监听器
-	 * @Author: scwang
+	 *  手势监听器
+	 * @author 树朾
 	 * @Version: V1.0, 2015-1-27 下午3:07:59
 	 * @Modified: 初次创建OnPullDownListener类
 	 */
 	public static interface OnPullDownListener {
 		/**
-		 * @Description: 手势操作进行时监听
+		 *  手势操作进行时监听
 		 * @param value 百分比
 		 * @param height 高度差
 		 * @return 暂无定义
 		 */
 		public boolean onPulling(float value,int height,int max);
 		/**
-		 * @Description: 手势操作释放时监听
+		 *  手势操作释放时监听
 		 * @param value 百分比
 		 * @param height 高度差
 		 * @return 暂无定义

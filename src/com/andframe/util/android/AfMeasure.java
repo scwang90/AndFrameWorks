@@ -7,7 +7,7 @@ import android.view.View.MeasureSpec;
 import android.widget.LinearLayout.LayoutParams;
 /**
  * 视图测量工具
- * @author SCWANG
+ * @author 树朾
  *	在设置View的内容之后 对View的大学进行测量
  */
 public class AfMeasure {

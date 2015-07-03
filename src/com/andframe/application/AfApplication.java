@@ -45,28 +45,28 @@ import com.andframe.util.java.AfVersion;
 /**
  * AfApplication 抽象类 （继承使用必须继承并使用，其他框架功能依赖于 AfApplication）
  * 
- * @author SCWANG 负责 全局数据的存储 和 事件通知
+ * @author 树朾 负责 全局数据的存储 和 事件通知
  * 
- *         必须实现 指定工程中 的主页面 的类 getForegroundClass
+ *        必须实现 指定工程中 的主页面 的类 getForegroundClass
  * 
- *         提供静态全局接口 public static getApp() 获取全局App public static getAppContext()
- *         获取App public static getLooper() 获取全局消息循环对象（用于构造UI Handler） public
- *         static postTask(AfTask task) 抛送全局任务（AfTask） public static
- *         postHandle(AfUIHandle handle) 抛送UIHandle任务（AfUIHandle） public static
- *         getNetworkStatus() 获取网络状态 值类型在AfNetworkEnum中 public static
- *         getDebugMode() 获取当前调试模式 public static setDebugMode(int mode) 设置调试模式
- *         public static getVersion() 获取当前App版本 public static getVersionCode()
- *         获取当前App版本Code
+ *        提供静态全局接口 public static getApp() 获取全局App public static getAppContext()
+ *        获取App public static getLooper() 获取全局消息循环对象（用于构造UI Handler） public
+ *        static postTask(AfTask task) 抛送全局任务（AfTask） public static
+ *        postHandle(AfUIHandle handle) 抛送UIHandle任务（AfUIHandle） public static
+ *        getNetworkStatus() 获取网络状态 值类型在AfNetworkEnum中 public static
+ *        getDebugMode() 获取当前调试模式 public static setDebugMode(int mode) 设置调试模式
+ *        public static getVersion() 获取当前App版本 public static getVersionCode()
+ *        获取当前App版本Code
  * 
- *         非静态接口 public exitForeground(Object power) 退出前台 public
- *         startForeground(Activity activity) 启动前台 public getCachesPath(String
- *         type) 获取并创建缓存路劲 public getWorkspacePath(String type) 获取并创建工作路劲
+ *        非静态接口 public exitForeground(Object power) 退出前台 public
+ *        startForeground(Activity activity) 启动前台 public getCachesPath(String
+ *        type) 获取并创建缓存路劲 public getWorkspacePath(String type) 获取并创建工作路劲
  * 
- *         继承之后根据需要的功能 重写 相应的函数 public getExceptionHandler() //全局异常处理 public
- *         getAppSetting() //全局设置 public getImageService() //图片服务 public
- *         getFileService() //文件服务 public getUpdateService() //更新服务 public
- *         getLogoId() //App Logo（更新等功能会用到） public getAppName() //App 名称
- *         
+ *        继承之后根据需要的功能 重写 相应的函数 public getExceptionHandler() //全局异常处理 public
+ *        getAppSetting() //全局设置 public getImageService() //图片服务 public
+ *        getFileService() //文件服务 public getUpdateService() //更新服务 public
+ *        getLogoId() //App Logo（更新等功能会用到） public getAppName() //App 名称
+ *
  * 			public boolean isBackground() //判断是否在后台允许（按HOME之后）
  * 			public Random getRandom()//获取统一随机数
  */
@@ -76,7 +76,7 @@ public abstract class AfApplication extends Application {
 	/**
 	 * interface INotifyNeedUpdate
 	 * 
-	 * @author SCWANG 需要更新通知接口
+	 * @author 树朾 需要更新通知接口
 	 */
 	public interface INotifyNeedUpdate {
 		void onNotifyNeedUpdate(String curver, String server);
@@ -85,7 +85,7 @@ public abstract class AfApplication extends Application {
 	/**
 	 * interface INotifyUpdate
 	 * 
-	 * @author SCWANG 需要更新通知接口
+	 * @author 树朾 需要更新通知接口
 	 */
 	public interface INotifyUpdate {
 		void onNotifyUpdate(String curver, String server, String describe);
@@ -94,7 +94,7 @@ public abstract class AfApplication extends Application {
 	/**
 	 * interface INotifyNetworkStatus
 	 * 
-	 * @author SCWANG 网络状态改变通知接口
+	 * @author 树朾 网络状态改变通知接口
 	 */
 	public static interface INotifyNetworkStatus {
 		void onNetworkStatusChanged(int networkStatus);

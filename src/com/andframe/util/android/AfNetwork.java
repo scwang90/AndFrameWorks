@@ -10,8 +10,8 @@ import android.net.ConnectivityManager;
 import android.net.NetworkInfo;
 
 /**
- * @Description: 网络配置
- * @Author: scwang
+ * 网络配置
+ * @author 树朾
  */
 public class AfNetwork
 {

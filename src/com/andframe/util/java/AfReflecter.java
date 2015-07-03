@@ -10,12 +10,12 @@ import java.util.ArrayList;
 import java.util.List;
 /**
  * java 反射工具类
- * @author SCWANG
+ * @author 树朾
  */
 public class AfReflecter {
 
 	/**
-	 * @Description: 获取 subobj 相对 父类 supclass 的 第index个泛型参数
+	 *  获取 subobj 相对 父类 supclass 的 第index个泛型参数
 	 * @param subobj 对象 一般用this 如 class Type<E> 可传入 Type.this 
 	 * @param supclass 父类(模板类) 如 class Type<E> 可传入 Type.class 
 	 * @param index 要获取参数的序列 一般用0

@@ -19,12 +19,12 @@ import android.os.Build.VERSION;
 /**
  * AfSharedPreference
  * 
- * @author SCWANG 包装 android SharedPreferences 主要实现 1.动态缓存路径 path 可以指定保存到SD卡中
- *         public AfSharedPreference(Context context,String path,String name)；
- *         2.添加日期格式支持 public Date getDate(String key, long value) public Date
- *         getDate(String key, Date value) 3.低版本兼容 public Set<String>
- *         getStringSet(String key, Set<String> value) public void
- *         putStringSet(String key, Set<String> value)
+ * @author 树朾 包装 android SharedPreferences 主要实现 1.动态缓存路径 path 可以指定保存到SD卡中
+ *        public AfSharedPreference(Context context,String path,String name)；
+ *        2.添加日期格式支持 public Date getDate(String key, long value) public Date
+ *        getDate(String key, Date value) 3.低版本兼容 public Set<String>
+ *        getStringSet(String key, Set<String> value) public void
+ *        putStringSet(String key, Set<String> value)
  */
 public class AfSharedPreference {
 	private SharedPreferences mShared = null;

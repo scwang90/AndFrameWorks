@@ -16,7 +16,7 @@ import com.andframe.util.java.AfReflecter;
 import com.andframe.util.java.AfStringUtil;
 /**
  * 控件绑定器
- * @author SCWANG
+ * @author 树朾
  */
 public class AfViewBinder {
 

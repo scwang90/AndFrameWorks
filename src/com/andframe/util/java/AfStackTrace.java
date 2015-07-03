@@ -4,16 +4,14 @@ import java.lang.annotation.Annotation;
 import java.lang.reflect.Method;
 
 /**
- * @Description: java堆栈工具类 1.可以查看当前函数名称 2.可以判断当前函数是否已经递归调用
- * @Author: scwang
- * @Version: V1.0, 2015-3-13 下午4:58:20
- * @Modified: 初次创建AfStackTrace类
+ * java堆栈工具类 1.可以查看当前函数名称 2.可以判断当前函数是否已经递归调用
+ * @author 树朾
  */
 public class AfStackTrace {
 
 	/**
-	 * @Description: 获取调用 getCurrentStatck 的 Statck
-	 * @Author: scwang
+	 *  获取调用 getCurrentStatck 的 Statck
+	 * @author 树朾
 	 * @Version: V1.0, 2015-2-26 下午4:21:59
 	 * @return 调用getCurrentStatck的Statck
 	 */
@@ -37,9 +35,9 @@ public class AfStackTrace {
 	}
 
 	/**
-	 * @Description: 获取调用 getCurrentStatck 的 Method
+	 *  获取调用 getCurrentStatck 的 Method
 	 * 暂时不支持重载方法
-	 * @Author: scwang
+	 * @author 树朾
 	 * @Version: V1.0, 2015-2-26 下午4:21:59
 	 * @return 调用getCurrentStatck的Statck
 	 */
@@ -60,9 +58,9 @@ public class AfStackTrace {
 	}
 
 	/**
-	 * @Description: 获取调用 getCurrentStatck 的 Method
+	 *  获取调用 getCurrentStatck 的 Method
 	 * 暂时不支持重载方法
-	 * @Author: scwang
+	 * @author 树朾
 	 * @Version: V1.0, 2015-2-26 下午4:21:59
 	 * @return 调用getCurrentStatck的Statck
 	 */
@@ -83,8 +81,8 @@ public class AfStackTrace {
 	}
 	
 	/**
-	 * @Description: 判断调用isLoopCall 的方法是否已经被循环递归调用
-	 * @Author: scwang
+	 *  判断调用isLoopCall 的方法是否已经被循环递归调用
+	 * @author 树朾
 	 * @Version: V1.0, 2015-2-26 下午4:18:47
 	 * @return true 已经递归 false 没有递归
 	 */
@@ -97,7 +95,6 @@ public class AfStackTrace {
 				if (AfStackTrace.class.getName().equals(
 						stacks[i].getClassName())) {
 					index = i;
-					stack = stacks[i];
 					break;
 				}
 			}

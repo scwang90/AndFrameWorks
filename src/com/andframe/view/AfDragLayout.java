@@ -11,11 +11,9 @@ import android.view.View.OnClickListener;
 import android.view.View.OnTouchListener;
 import android.widget.RelativeLayout;
 /**
- * @Description: 
+ *
  * 抽屉布局
- * @Author: scwang
- * @Version: V1.0, 2015-1-27 下午2:22:48
- * @Modified: 初次创建AfDragLayout类
+ * @author 树朾
  */
 public class AfDragLayout  extends RelativeLayout implements OnTouchListener,OnClickListener,Runnable{
 

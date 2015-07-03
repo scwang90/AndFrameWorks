@@ -28,7 +28,7 @@ import com.andframe.util.java.AfStringUtil;
 
 /**
  * 框架相册浏览页面
- * @author SCWANG
+ * @author 树朾
  *	支持 	单张照片浏览
  *		多张浏览
  *		动态加载相册浏览

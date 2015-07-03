@@ -15,17 +15,16 @@ import com.andframe.caches.AfImageCaches;
 import com.andframe.feature.AfDensity;
 import com.andframe.thread.AfHandlerTask;
 /**
- * @Description: 图片压缩处理类
- * @Author: scwang
- * @Version: V1.0, 2015-3-13 下午4:54:23
+ * 图片压缩处理类
+ * @author 树朾
  */
 public class AfImageThumb {
 
 	/**
-	 * @Description: 绑定 image 到 ImageView
+	 *  绑定 image 到 ImageView
 	 * 	使用文件缓存，和多线程，提高绑定数据书记杜
 	 *  图片大小适配屏幕，防止内存异常
-	 * @Author: scwang
+	 * @author 树朾
 	 * @param iv
 	 * @param image
 	 */
@@ -58,10 +57,10 @@ public class AfImageThumb {
 	}
 
 	/**
-	 * @Description: 
+	 *
 	 * 从文件加载一张不大于 屏幕/3 的图片
 	 * 如果大于将按缩小到不 大于屏幕/3 (2的倍数缩小，原比例)
-	 * @Author: scwang
+	 * @author 树朾
 	 * @param path 文件路径
 	 * @return
 	 * @throws IOException
@@ -74,10 +73,10 @@ public class AfImageThumb {
 	}
 
 	/**
-	 * @Description: 
+	 *
 	 * 从文件加载一张不大于 screenscale 的图片
 	 * 如果大于将按缩小到不大于screenscale (2的倍数缩小，原比例)
-	 * @Author: scwang
+	 * @author 树朾
 	 * @param path 文件路径
 	 * @param screenscale 最大宽度（相对手机屏幕，如0.3倍屏幕）
 	 * @return
@@ -91,10 +90,10 @@ public class AfImageThumb {
 	}
 
 	/**
-	 * @Description: 
+	 *
 	 * 从文件加载一张不大于 maxw maxh 的图片
 	 * 如果大于将按缩小到不大于maxw maxh (2的倍数缩小，原比例)
-	 * @Author: scwang
+	 * @author 树朾
 	 * @param path 文件路径
 	 * @param maxw 最大宽度
 	 * @param maxh 最大高度
@@ -120,8 +119,8 @@ public class AfImageThumb {
 
 
 	/**
-	 * @Description: 可用于生成缩略图。（默认回收原图）
-	 * @Author: scwang
+	 *  可用于生成缩略图。（默认回收原图）
+	 * @author 树朾
 	 * @param source 原图
 	 * @param width 剪裁大小
 	 * @param height 剪裁大小
@@ -132,8 +131,8 @@ public class AfImageThumb {
 	}
 
 	/**
-	 * @Description: 可用于生成缩略图。
-	 * @Author: scwang
+	 *  可用于生成缩略图。
+	 * @author 树朾
 	 * @param source 原图
 	 * @param width 剪裁大小
 	 * @param height 剪裁大小

@@ -13,7 +13,7 @@ import com.andframe.annotation.db.Table;
 import com.andframe.util.java.AfStringUtil;
 /**
  * db.annotation 解释器
- * @author scwang
+ * @author 树朾
  */
 public class Interpreter {
 	

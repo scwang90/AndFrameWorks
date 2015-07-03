@@ -1,7 +1,7 @@
 package com.andframe.util.java;
 /**
- * @Description: 区域名称简化工具
- * @Author: scwang
+ * 区域名称简化工具
+ * @author 树朾
  */
 public class AfCityName {
 	
@@ -40,7 +40,6 @@ public class AfCityName {
 					length = length - minority.length();
 					tCityName = tCityName.substring(0,length);
 					i = -1;
-					continue;
 				}
 			}
 		}
@@ -64,7 +63,6 @@ public class AfCityName {
 					tCityName = tCityName.substring(0, tCityName.length()
 							- minorities[i].length());
 					i = -1;
-					continue;
 				}
 				// else if(simpleminorities.length > 1 &&
 				// tCityName.endsWith(simpleminorities[i]))

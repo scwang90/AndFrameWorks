@@ -6,7 +6,7 @@ import com.andframe.application.AfApplication;
 
 /**
  * AfDurableCache 持久缓存
- * @author SCWANG
+ * @author 树朾
  *			继承AfJsonCache 主要持久化缓存
  *			将缓存路径固定到<工程路径/Caches/DurableCache>  中
  */

@@ -17,7 +17,7 @@ import com.andframe.view.AfAlbumView;
 
 /**
  * AfAlbumActivity 专用适配器
- * @author SCWANG 相册的适配器
+ * @author 树朾 相册的适配器
  */
 public class AfAlbumPagerAdapter extends PagerAdapter {
 	

@@ -41,7 +41,7 @@ public class AfFileUtil {
 
 
 	/**
-	 * @Description: 单文件复制
+	 *  单文件复制
 	 * @param fileFrom
 	 * @param fileTo
 	 * @return false 复制失败
@@ -96,8 +96,8 @@ public class AfFileUtil {
 		}
 	}
 	/**
-	 * @Description: 转换文件大小到String显示描述 如 648KB,5MB 整数
-	 * @Author: scwang
+	 *  转换文件大小到String显示描述 如 648KB,5MB 整数
+	 * @author 树朾
 	 * @Version: V1.0, 2015-4-3 下午3:28:55
 	 * @Modified: 初次创建getFileSize方法
 	 * @param size

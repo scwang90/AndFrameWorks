@@ -15,13 +15,13 @@ import android.graphics.RectF;
 import android.graphics.drawable.BitmapDrawable;
 import android.graphics.drawable.Drawable;
 /**
- * @Description: 图片处理
- * @Author: scwang
+ * 图片处理
+ * @author 树朾
  */
 public class AfImageHelper {
 
 	/**
-	 * @Description: Drawable 转换 Bitmap
+	 *  Drawable 转换 Bitmap
 	 * @param drawable
 	 * @return
 	 */

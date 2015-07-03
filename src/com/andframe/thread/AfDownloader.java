@@ -32,10 +32,8 @@ import com.andframe.util.java.AfFileUtil;
 import com.andframe.util.java.AfStringUtil;
 
 /**
- * @Description: 下载器类
- * @Author: scwang
- * @Version: V1.0, 2015-3-13 下午5:27:48
- * @Modified: 初次创建AfDownloader类
+ * 下载器类
+ * @author 树朾
  */
 @SuppressWarnings("deprecation")
 public class AfDownloader {
@@ -45,7 +43,7 @@ public class AfDownloader {
 	public static final String FILE_NOTIFICATION = "FILE_NOTIFICATION";
 
 	/**
-	 * @Description: 异步下载 url 到 path 文件名为 name
+	 *  异步下载 url 到 path 文件名为 name
 	 * @param url 下载链接
 	 * @param path 下载目录
 	 * @param name 下载文件名
@@ -60,7 +58,7 @@ public class AfDownloader {
 	}
 
 	/**
-	 * @Description: 异步下载 url 到 path
+	 *  异步下载 url 到 path
 	 * @param url 下载链接
 	 * @param path 下载路径
 	 */
@@ -73,7 +71,7 @@ public class AfDownloader {
 	}
 
 	/**
-	 * @Description: 异步下载 url 到 path
+	 *  异步下载 url 到 path
 	 * @param url 下载链接
 	 * @param path 下载路径
 	 */
@@ -85,7 +83,7 @@ public class AfDownloader {
 		AfApplication.postTask(new DownloadTask(entity,listener));
 	}
 	/**
-	 * @Description: 异步下载
+	 *  异步下载
 	 * @param entity 下载配置实体
 	 */
 	public static void download(DownloadEntity entity) {
@@ -94,7 +92,7 @@ public class AfDownloader {
 	}
 
 	/**
-	 * @Description: 异步下载
+	 *  异步下载
 	 * @param entity 下载配置实体
 	 * @param listener 加载进度监听器
 	 */
@@ -103,7 +101,7 @@ public class AfDownloader {
 		AfApplication.postTask(new DownloadTask(entity,listener));
 	}
 	/**
-	 * @Description: 判断 url是否正在下载
+	 *  判断 url是否正在下载
 	 * @param url
 	 * @return true 正在下载 false 没有在下载
 	 */
@@ -112,7 +110,7 @@ public class AfDownloader {
 		return isDownloading(entity.DownloadUrl);
 	}
 	/**
-	 * @Description: 判断 url是否正在下载
+	 *  判断 url是否正在下载
 	 * @param url
 	 * @return true 正在下载 false 没有在下载
 	 */
@@ -130,7 +128,7 @@ public class AfDownloader {
 		return false;
 	}
 	/**
-	 * @Description: 判断 url是否正在下载
+	 *  判断 url是否正在下载
 	 * @param tag 
 	 * @return true 正在下载 false 没有在下载
 	 */
@@ -148,7 +146,7 @@ public class AfDownloader {
 		return false;
 	}
 	/**
-	 * @Description: 新的绑定进度监听器
+	 *  新的绑定进度监听器
 	 * @param entity 下载配置实体
 	 * @param listener 加载进度监听器
 	 * @return 返回最新的监听器 
@@ -160,7 +158,7 @@ public class AfDownloader {
 		return setListener(entity.DownloadUrl, listener);
 	}
 	/**
-	 * @Description: 新的绑定进度监听器
+	 *  新的绑定进度监听器
 	 * @param url 下载路劲
 	 * @param listener 加载进度监听器
 	 * @return 返回最新的监听器 
@@ -190,7 +188,7 @@ public class AfDownloader {
 		return null;
 	}
 	/**
-	 * @Description: 任务栏配置
+	 *  任务栏配置
 	 */
 	public static class NotifyEntity{
 
@@ -315,24 +313,24 @@ public class AfDownloader {
 		 */
 		boolean onBreakAway();
 		/**
-		 * @Description: 下载进度
+		 *  下载进度
 		 * @param rate 百分比
 		 * @param loaded 已下载长度
 		 * @param total 文件总大小
 		 */
 		void onDownloadProgress(float rate, long loaded, long total);
 		/**
-		 * @Description: 通知栏点击事件
+		 *  通知栏点击事件
 		 * @param endity 下载实体描述
 		 */
 		void notifyClick(DownloadEntity endity);
 		/**
-		 * @Description: 下载完成
+		 *  下载完成
 		 * @return true 已经处理 false 没有处理（影响到notifyClick）
 		 */
 		boolean onDownloadFinish();
 		/**
-		 * @Description: 下载失败
+		 *  下载失败
 		 * @param error 错误信息
 		 * @param e 错误异常
 		 * @return true 已经处理 false 没有处理（影响到notifyClick）
@@ -340,7 +338,7 @@ public class AfDownloader {
 		boolean onDownloadFail(String error, Throwable e);
 	}
 	/**
-	 * @Description: 常用监听接口
+	 *  常用监听接口
 	 */
 	public static abstract class DownloadViewerListener implements DownloadListener{
 
@@ -552,7 +550,7 @@ public class AfDownloader {
 			mDownloadPath = endity.getFullPath();
 		}
 		/**
-		 * @Description: 重新绑定监听器
+		 *  重新绑定监听器
 		 * @param listener 新的监听器
 		 * @return 返回最新的监听器 
 		 * 如果等于 传入的监听器 绑定成功 否则 上一个监听器拒绝新的绑定

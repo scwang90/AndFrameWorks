@@ -47,7 +47,7 @@ import com.andframe.thread.AfThreadWorker;
 import com.andframe.util.java.AfStackTrace;
 /**
  * 框架 Activity
- * @author SCWANG
+ * @author 树朾
  *
  *	以下是 Activity 像子类提供的 功能方法
  *
@@ -120,11 +120,10 @@ public abstract class AfActivity extends FragmentActivity implements AfPageable,
 	protected boolean mIsRecycled = false;
 
 	/**
-	 * @Description: 获取LOG日志 TAG 是 AfActivity 的方法
+	 *  获取LOG日志 TAG 是 AfActivity 的方法
 	 * 用户也可以重写自定义TAG,这个值AfActivity在日志记录时候会使用
 	 * 子类实现也可以使用
-	 * @Author: scwang
-	 * @Version: V1.0, 2015-2-14 上午10:58:00
+	 * @author 树朾
 	 * @Modified: 初次创建TAG方法
 	 * @return
 	 */
@@ -1010,9 +1009,8 @@ public abstract class AfActivity extends FragmentActivity implements AfPageable,
 	}
 	
 	/**
-	 * @Description: final 包装 onItemClick 事件处理 防止抛出异常崩溃
-	 * @Author: scwang
-	 * @Version: V1.0, 2015-2-14 上午10:34:56
+	 *  final 包装 onItemClick 事件处理 防止抛出异常崩溃
+	 * @author 树朾
 	 * @param parent
 	 * @param view
 	 * @param position
@@ -1035,10 +1033,9 @@ public abstract class AfActivity extends FragmentActivity implements AfPageable,
 	}
 
 	/**
-	 * @Description: 
+	 *
 	 * 安全onItemClick框架会捕捉异常防止崩溃
-	 * @Author: scwang
-	 * @Version: V1.0, 2015-2-14 上午10:38:56
+	 * @author 树朾
 	 * @Modified: 初次创建onItemClick方法
 	 * @param parent
 	 * @param item

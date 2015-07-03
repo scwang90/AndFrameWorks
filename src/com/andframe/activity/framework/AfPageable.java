@@ -13,7 +13,7 @@ import com.andframe.activity.framework.AfActivity;
 import com.andframe.thread.AfTask;
 /**
  * 框架页面接口 AfPageable
- * @author SCWANG
+ * @author 树朾
  *	继承了 AfViewable 
  */
 public interface AfPageable extends AfViewable,AfPageListener{
@@ -350,7 +350,7 @@ public interface AfPageable extends AfViewable,AfPageListener{
 
 	/**
 	 * doInputText 的监听器
-	 * @author SCWANG
+	 * @author 树朾
 	 */
 	public interface InputTextListener{
 		void onInputTextComfirm(EditText input);
@@ -358,7 +358,7 @@ public interface AfPageable extends AfViewable,AfPageListener{
 
 	/**
 	 * 可取消的 InputTextListener
-	 * @author SCWANG
+	 * @author 树朾
 	 */
 	public interface InputTextCancelable extends InputTextListener{
 		void onInputTextCancel(EditText input);

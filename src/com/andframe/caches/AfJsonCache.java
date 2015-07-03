@@ -11,7 +11,7 @@ import com.google.gson.Gson;
 
 /**
  * AfJsonCache
- * @author SCWANG
+ * @author 树朾
  *		包装 AfSharedPreference 主要实现
  *			1.对任意对象 Object 的支持
  *					public void put(String key, Object value) 

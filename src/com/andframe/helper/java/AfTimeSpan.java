@@ -2,10 +2,8 @@ package com.andframe.helper.java;
 
 import java.util.Date;
 /**
- * @Description: java 时间跨度计算
- * @Author: scwang
- * @Version: V1.0, 2015-3-13 下午5:01:05
- * @Modified: 初次创建AfTimeSpan类
+ * java 时间跨度计算
+ * @author 树朾
  */
 public class AfTimeSpan
 {

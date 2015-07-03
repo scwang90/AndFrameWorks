@@ -4,7 +4,7 @@ import java.util.Collection;
 
 /***
  * AfTreeNodeable 树形构造器
- * @author SCWANG
+ * @author 树朾
  *		适用与已有的树形结构转换
  * @param <T>
  */

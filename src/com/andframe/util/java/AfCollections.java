@@ -6,8 +6,8 @@ import java.util.List;
 
 /**
  * 集合工具类
- * @Description: AfCollections
- * @Author: scwang
+ * AfCollections
+ * @author 树朾
  */
 public class AfCollections {
 
@@ -19,13 +19,7 @@ public class AfCollections {
 		@Override
 		public boolean equals(TT left, TT right) {
 			// TODO Auto-generated method stub
-			if (left != right) {
-				if (left != null && right != null) {
-					return left.equals(right);
-				}
-				return false;
-			}
-			return true;
+			return (left != null && right != null) && left.equals(right);
 		}
 	}
 
@@ -71,7 +65,6 @@ public class AfCollections {
 	 * 在 left 中添加 right 中的所有元素（并排除重复）
 	 * @param left （传入参数，删除成功元素将会增多）
 	 * @param right（传入参数，不会改变）
-	 * @param comparable 比较器
 	 */
 	public static <T> void addall(List<T> left, List<T> right) {
 		// TODO Auto-generated method stub

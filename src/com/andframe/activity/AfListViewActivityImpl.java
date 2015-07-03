@@ -13,9 +13,8 @@ import com.andframe.layoutbind.AfModuleProgress;
 import com.andframe.layoutbind.AfModuleProgressImpl;
 import com.andframe.layoutbind.AfModuleTitlebar;
 /**
- * @Description: 数据列表框架 Activity
- * @Author: scwang
- * @Version: V1.0, 2015-2-27 上午10:27:22
+ * 数据列表框架 Activity
+ * @author 树朾
  * @param <T> 列表数据实体类
  */
 public abstract class AfListViewActivityImpl<T> extends AfListViewActivity<T>{

@@ -12,10 +12,8 @@ import com.google.gson.Gson;
 
 /**
  * 使用Gson实现多元数据传递
- * @Description: AfIntent
- * @Author: scwang
- * @Version: V1.0, 2015-4-3 下午3:26:29
- * @Modified: 初次创建AfIntent类
+ * AfIntent
+ * @author 树朾
  */
 public class AfIntent extends Intent{
 

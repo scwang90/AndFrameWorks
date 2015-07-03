@@ -3,7 +3,7 @@ package com.andframe.entity;
 import com.andframe.database.AfDbOpenHelper;
 
 /**
- * orm°ζ±ΎΚµΜεΐΰ
+ * ormη‰ζ¬ε®δ½“η±»
  */
 public class VersionEntity
 {

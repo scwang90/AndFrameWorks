@@ -13,10 +13,8 @@ import android.provider.MediaStore.Images.Media;
 import android.widget.Toast;
 /**
  * 调用系统文件选择或者照片选择
- * @Description: AfFileSelector
- * @Author: scwang
- * @Version: V1.0, 2015-4-3 下午3:46:13
- * @Modified: 初次创建AfFileSelector类
+ * AfFileSelector
+ * @author 树朾
  */
 public class AfFileSelector {
 

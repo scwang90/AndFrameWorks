@@ -11,7 +11,7 @@ import android.widget.EditText;
 import com.andframe.activity.framework.AfPageListener;
 /**
  * 软键盘输入类
- * @author SCWANG
+ * @author 树朾
  */
 public class AfSoftInputer implements OnGlobalLayoutListener {
 

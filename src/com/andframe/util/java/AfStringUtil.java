@@ -3,36 +3,43 @@ package com.andframe.util.java;
 import java.util.regex.Pattern;
 
 /**
- * @Description: 字符串常用工具类
- * @Author: scwang
- * @Version: V1.0, 2015-1-26 下午12:23:15
- * @Modified: 初次创建AfStringUtil类
+ * 字符串常用工具类
+ * @author 树朾
  */
 public class AfStringUtil {
 
+	/**
+	 * 验证为空
+	 * @param string
+	 * @return
+	 */
 	public static boolean isEmpty(String string) {
 		// TODO Auto-generated method stub
 		return string == null || string.trim().length() == 0;
 	}
-	
+
+	/**
+	 * 验证不为空
+	 * @param string
+	 * @return
+	 */
 	public static boolean isNotEmpty(String string) {
 		// TODO Auto-generated method stub
 		return string != null && string.trim().length() > 0;
 	}
 
+	/**
+	 * 验证l,r是否相等(传null不会空指针异常，但是无法验证返回false)
+	 * @param l
+	 * @param r
+	 * @return 是否相等
+	 */
 	public static boolean equals(String l,String r){
-		if (l != r) {
-			if (l != null || r != null) {
-				return l.equals(r);
-			}
-			return false;
-		}
-		return true;
+		return ((l != null || r != null)) && l.equals(r);
 	}
 
 	/**
 	 * 验证输入的邮箱格式是否符合
-	 * 
 	 * @param email
 	 * @return 是否合法
 	 */

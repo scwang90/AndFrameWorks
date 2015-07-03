@@ -9,16 +9,14 @@ import android.net.Uri;
 
 import com.andframe.exception.AfException;
 /**
- * @Description: 封装Android系统页面跳转
- * @Author: scwang
- * @Version: V1.0, 2015-4-3 下午3:34:14
- * @Modified: 初次创建AfSkipActivity类
+ * 封装Android系统页面跳转
+ * @author 树朾
  */
 public class AfSkipActivity {
 
 	/**
-	 * @Description: 跳转到拨号页面
-	 * @Author: scwang
+	 *  跳转到拨号页面
+	 * @author 树朾
 	 * @Version: V1.0, 2015-4-3 下午3:35:40
 	 * @param context
 	 * @param phone
@@ -60,7 +58,7 @@ public class AfSkipActivity {
 		/* 获取文件的后缀名 */
 		String end = fName.substring(dotIndex, fName.length());
 		end = end.toLowerCase(Locale.ENGLISH);
-		if (end == "")
+		if ("".equals(end))
 			return type;
 		// 在MIME和文件类型的匹配表中找到对应的MIME类型。
 		for (int i = 0; i < MIME_MapTable.length; i++) { // MIME_MapTable??在这里你一定有疑问，这个MIME_MapTable是什么？

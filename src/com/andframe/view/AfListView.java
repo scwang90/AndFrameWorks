@@ -11,7 +11,7 @@ import com.andframe.view.pulltorefresh.PullRefreshHeaderImpl;
 
 /**
  * 可下拉刷新的 上啦更多的 listview 
- * @author SCWANG
+ * @author 树朾
  *
  */
 public class AfListView extends AfRefreshListView<ListView>{

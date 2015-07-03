@@ -21,7 +21,7 @@ import com.andframe.feature.AfIntent;
 import com.andframe.util.java.AfVersion;
 /**
  * 框架App主页面 
- * @author SCWANG
+ * @author 树朾
  *	实现 更新通知，网络改变通知接口
  *		主要实现了更新提示，网络无效提示
  *		onCreate 向 App 注册主页面

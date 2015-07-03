@@ -3,7 +3,7 @@ package com.andframe.activity.framework;
 
 /**
  * 框架页面监听接口 AfPageListener
- * @author SCWANG
+ * @author 树朾
  * 	主要监听键盘显示和隐藏
  * 	页面需要查询数据变动
  */

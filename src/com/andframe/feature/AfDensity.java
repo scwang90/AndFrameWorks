@@ -39,7 +39,7 @@ public class AfDensity {
 	/**
 	 * dip 转换成 像素（px）
 	 * @param dipValue
-	 * @return
+	 * @return 像素（px）
 	 */
 	public int dip2px(float dipValue) {
 		final float scale = mDisplayMetrics.density;
@@ -49,7 +49,7 @@ public class AfDensity {
 	/**
 	 * 像素（px）转换成dip
 	 * @param pxValue
-	 * @return
+	 * @return dip
 	 */
 	public int px2dip(float pxValue) {
 		final float scale = mDisplayMetrics.density;
@@ -59,7 +59,7 @@ public class AfDensity {
 	/**
 	 * 获取屏幕像素宽度的 ratio 百分比
 	 * @param ratio
-	 * @return
+	 * @return 百分比
 	 */
 	public int proportion(float ratio) {
 		// TODO Auto-generated method stub
@@ -74,7 +74,7 @@ public class AfDensity {
 	 * @param ratio
 	 * @param offset 用于布局没有占满屏幕（带边框），
 	 * 		那么 offset = 0 - 边框
-	 * @return
+	 * @return proportion
 	 */
 	public int proportion(float ratio,int offset) {
 		// TODO Auto-generated method stub
@@ -86,14 +86,14 @@ public class AfDensity {
 
 	/**
 	 * 获取屏幕像素宽度
-	 * @return
+	 * @return 像素宽度
 	 */
 	public int getWidthPixels(){
 		return mDisplayMetrics.widthPixels;
 	}
 	/**
 	 * 获取屏幕像素高度
-	 * @return
+	 * @return 像素高度
 	 */
 	public int getHeightPixels(){
 		return mDisplayMetrics.heightPixels;

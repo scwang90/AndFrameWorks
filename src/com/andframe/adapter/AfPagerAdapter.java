@@ -14,7 +14,7 @@ import com.andframe.application.AfExceptionHandler;
 
 /**
  * AfAlbumActivity 专用适配器
- * @author SCWANG 相册的适配器
+ * @author 树朾 相册的适配器
  */
 public abstract class AfPagerAdapter<T> extends PagerAdapter {
 	

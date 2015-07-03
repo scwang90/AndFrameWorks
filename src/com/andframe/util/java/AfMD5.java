@@ -9,10 +9,8 @@ import java.util.Locale;
 import java.util.Map;
 
 /**
- * @Description: MD5 计算
- * @Author: scwang
- * @Version: V1.0, 2015-4-3 下午3:17:51
- * @Modified: 初次创建AfMD5类
+ * MD5 计算
+ * @author 树朾
  */
 public class AfMD5 {
 	
@@ -84,11 +82,10 @@ public class AfMD5 {
 
 	/**
 	 * 获取文件夹中文件的MD5值
-	 * 
 	 * @param file
 	 * @param listChild
 	 *            ;true递归子目录中的文件
-	 * @return
+	 * @return MD5值
 	 */
 	public static Map<String, String> getDirMD5(File file, boolean listChild) {
 		if (!file.isDirectory()) {
@@ -100,7 +97,7 @@ public class AfMD5 {
 		for (int i = 0; i < files.length; i++) {
 			File f = files[i];
 			if (f.isDirectory() && listChild) {
-				map.putAll(getDirMD5(f, listChild));
+				map.putAll(getDirMD5(f, true));
 			} else {
 				md5 = getMD5(f);
 				if (md5 != null) {

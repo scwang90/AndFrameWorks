@@ -15,7 +15,7 @@ import com.andframe.application.AfExceptionHandler;
 import com.andframe.util.java.AfMD5;
 /**
  * AfImageCaches 图片缓存
- * @author SCWANG
+ * @author 树朾
  *		1.内存缓存 （用于加速图片的读取，没有的时候用文件缓存）
  *		2.文件缓存 （文件缓存>=内存缓存）
  *		

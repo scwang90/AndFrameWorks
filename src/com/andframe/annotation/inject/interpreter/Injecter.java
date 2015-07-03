@@ -10,7 +10,7 @@ import com.andframe.application.AfExceptionHandler;
 import com.andframe.util.java.AfReflecter;
 /**
  * annotation.inject 解释器
- * @author scwang
+ * @author 树朾
  */
 public class Injecter {
 	

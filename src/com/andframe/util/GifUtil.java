@@ -9,9 +9,8 @@ public class GifUtil
 {
     /**
      * 解码GIF图片
-     * 
      * @param is
-     * @return
+     * @return GifFrame
      */
     public static GifFrame[] getGif(InputStream is) {
         AfGifHelper gifHelper = new AfGifHelper();
@@ -23,7 +22,7 @@ public class GifUtil
     /**
      * 判断图片是否为GIF格式
      * @param is
-     * @return
+     * @return 是否为GIF格式
      */
     public static boolean isGif(InputStream is) {
         AfGifHelper gifHelper = new AfGifHelper();

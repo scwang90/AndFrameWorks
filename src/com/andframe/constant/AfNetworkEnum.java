@@ -3,7 +3,7 @@ package com.andframe.constant;
 import android.net.ConnectivityManager;
 
 /**
- * @author SCWANG
+ * @author 树朾
  *
  */
 public class AfNetworkEnum
