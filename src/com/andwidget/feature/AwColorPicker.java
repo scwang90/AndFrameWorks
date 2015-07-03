@@ -17,7 +17,7 @@ import com.andwidget.holocolorpicker.SaturationBar;
 import com.andwidget.holocolorpicker.ValueBar;
 /**
  * AwColorPicker 
- * ÑÕÉ«Ñ¡ÔñÆ÷
+ * é¢œè‰²é€‰æ‹©å™¨
  * @author SCWANG
  */
 public class AwColorPicker {
@@ -37,7 +37,7 @@ public class AwColorPicker {
 		findLayout(new AfView(mLayout));
 	}
 	/**
-	 * ÏÔÊ¾ÑÕÉ«Ñ¡Ôñ¶Ô»°¿ò
+	 * æ˜¾ç¤ºé¢œè‰²é€‰æ‹©å¯¹è¯æ¡†
 	 * @param title
 	 * @param positive
 	 * @param lpositive
