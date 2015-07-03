@@ -1,9 +1,12 @@
 package com.andframe.model.framework;
 
+import android.support.annotation.NonNull;
+
+import java.io.Serializable;
 import java.util.Date;
 import java.util.UUID;
 
-public class AfModel implements Comparable<AfModel>{
+public class AfModel  implements Serializable , Comparable<AfModel>{
     
 	public UUID ID = UUID.randomUUID();
     
@@ -49,7 +52,7 @@ public class AfModel implements Comparable<AfModel>{
 	}
 
 	@Override
-	public int compareTo(AfModel tag) {
+	public int compareTo(@NonNull AfModel tag) {
 		// TODO Auto-generated method stub
 		if(RegDate != null && tag.RegDate != null){
 			return tag.RegDate.compareTo(RegDate);

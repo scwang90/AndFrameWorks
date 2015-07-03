@@ -25,10 +25,12 @@
 -keepclasseswithmembernames class * {
     native <methods>;
 }
+-keep class * implements android.os.Parcelable{*;}
+-keep class * implements java.io.Serializable{*;}
 
 #andframe»ìÏý±ê¼Ç
 -keep class com.andframe.entity.** {<fields>;}
 -keep class com.andframe.model.** {<fields>;}
 -keep class com.andframe.bean.** {<fields>;}
--keep public class org.xmlpull.** {*;}
+
 

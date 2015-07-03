@@ -1,11 +1,16 @@
 package com.andframe.bean;
 
+import java.io.Serializable;
 import java.util.Date;
 import java.util.UUID;
 
 import com.andframe.util.UUIDUtil;
 
-public class Version {
+/**
+ * 版本标识
+ * 用于更新服务使用
+ */
+public class Version implements Serializable{
 
 	private UUID ID = UUIDUtil.Empty;
 
