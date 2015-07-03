@@ -11,7 +11,6 @@ import android.telephony.TelephonyManager;
  * Date:2012-3-12
  * 
  * @version 1.00
- * 
  */
 public class SIMCardInfo {
     /**

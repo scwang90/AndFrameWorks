@@ -102,7 +102,6 @@ public class AfGifHelper {
 
 	/**
 	 * Gets display duration for specified frame.
-	 * 
 	 * @param n
 	 *            int index of frame
 	 * @return delay in milliseconds

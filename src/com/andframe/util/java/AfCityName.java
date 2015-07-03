@@ -22,7 +22,6 @@ public class AfCityName {
 
 	/**
 	 * 去除民族地区
-	 * 
 	 * @param tCityName
 	 *            地名
 	 * @return 简化后的地名
@@ -48,7 +47,6 @@ public class AfCityName {
 
 	/**
 	 * 简化地名
-	 * 
 	 * @param tCityName
 	 *            地名
 	 * @return 简化后的地名

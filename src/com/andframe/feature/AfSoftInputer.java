@@ -32,6 +32,7 @@ public class AfSoftInputer implements OnGlobalLayoutListener {
 			view.getViewTreeObserver().addOnGlobalLayoutListener(this);
 		}
 	}
+
 	/**
 	 * 实现 onGlobalLayout 
 	 * 	用于计算 软键盘的弹出和隐藏
@@ -91,7 +92,6 @@ public class AfSoftInputer implements OnGlobalLayoutListener {
 	}
 
 	/**
-	 * 
 	 * @param editview
 	 * @param enable
 	 */

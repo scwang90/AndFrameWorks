@@ -39,7 +39,6 @@ public class AfEntityDao<T> extends AfDao<T>{
 
 	/**
 	 * 获取全部
-	 * 
 	 * @param order
 	 * @return
 	 */
@@ -70,7 +69,6 @@ public class AfEntityDao<T> extends AfDao<T>{
 
 	/**
 	 * 分页查询 带排序 条件
-	 * 
 	 * @param where
 	 * @param order
 	 * @param num
@@ -84,7 +82,6 @@ public class AfEntityDao<T> extends AfDao<T>{
 
 	/**
 	 * 分页查询 带排序 条件
-	 * 
 	 * @param where
 	 * @param order
 	 * @return
@@ -92,9 +89,9 @@ public class AfEntityDao<T> extends AfDao<T>{
 	public List<T> getWhere(String where, String order) {
 		return getListEntity(super.getModelsWhere("*",where,order));
 	}
+
 	/**
 	 * 条件查询 带分页
-	 * 
 	 * @param column
 	 * @param where
 	 * @param num
@@ -107,7 +104,6 @@ public class AfEntityDao<T> extends AfDao<T>{
 
 	/**
 	 * 条件查询
-	 * 
 	 * @param where
 	 * @return
 	 */

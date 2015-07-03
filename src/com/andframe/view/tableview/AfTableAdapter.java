@@ -25,6 +25,7 @@ public class AfTableAdapter extends AfListAdapter<Object> {
 //		// TODO Auto-generated method stub
 //		return 0;
 //	}
+
 	/**
 	 * @deprecated
 	 */

@@ -6,8 +6,8 @@ import android.support.v4.view.ViewPager.OnPageChangeListener;
 /**
  * ViewPager 框架主页面
  * @author 树朾
- *	如果App 主页是一个 ViewPager 的话，可以继承 
- *		AfMainViewPagerActivity
+ * 如果App 主页是一个 ViewPager 的话，可以继承 
+ * 	AfMainViewPagerActivity
  */
 public abstract class AfMainViewPagerActivity extends AfMainActivity
 	implements OnPageChangeListener{

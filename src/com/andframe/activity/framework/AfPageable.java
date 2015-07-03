@@ -14,11 +14,11 @@ import com.andframe.thread.AfTask;
 /**
  * 框架页面接口 AfPageable
  * @author 树朾
- *	继承了 AfViewable 
+ * 继承了 AfViewable 
  */
 public interface AfPageable extends AfViewable,AfPageListener{
 
-	/** 
+	/**
 	 * 抛送任务到Worker执行
 	 * @param task 任务对象
 	 */

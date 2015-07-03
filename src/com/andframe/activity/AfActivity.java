@@ -36,6 +36,7 @@ public abstract class AfActivity extends com.andframe.activity.framework.AfActiv
 		// TODO Auto-generated method stub
 		super.onActivityResult(questcode, resultcode, data);
 	}
+
 	/**
 	 *  final 包装 onItemClick 事件处理 防止抛出异常崩溃
 	 * @author 树朾

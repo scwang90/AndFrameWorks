@@ -291,7 +291,6 @@ public abstract class AfPullToRefreshBase<Target extends View> extends
 	/**
 	 * Returns whether the widget has disabled scrolling on the Refreshable View
 	 * while refreshing.
-	 * 
 	 * @param true if the widget has disabled scrolling while refreshing
 	 */
 	public final boolean isDisableScrollingWhileRefreshing() {
@@ -310,7 +309,6 @@ public abstract class AfPullToRefreshBase<Target extends View> extends
 	/**
 	 * By default the Widget disabled scrolling on the Refreshable View while
 	 * refreshing. This method can change this behaviour.
-	 * 
 	 * @param disableScrollingWhileRefreshing
 	 *            - true if you want to disable scrolling while refreshing
 	 */
@@ -331,7 +329,6 @@ public abstract class AfPullToRefreshBase<Target extends View> extends
 
 	/**
 	 * Set OnRefreshListener for the Widget
-	 * 
 	 * @param listener
 	 *            - Listener to be used when the Widget is set to Refresh
 	 */
@@ -341,7 +338,6 @@ public abstract class AfPullToRefreshBase<Target extends View> extends
 
 	/**
 	 * A mutator to enable/disable Pull-to-Refresh for the current View
-	 * 
 	 * @param enable
 	 *            Whether Pull-To-Refresh should be used
 	 */
@@ -352,7 +348,6 @@ public abstract class AfPullToRefreshBase<Target extends View> extends
 	/**
 	 * Set Text to show when the Widget is being pulled, and will refresh when
 	 * released
-	 * 
 	 * @param releaseLabel
 	 *            - String to display
 	 */
@@ -367,7 +362,6 @@ public abstract class AfPullToRefreshBase<Target extends View> extends
 
 	/**
 	 * Set Text to show when the Widget is being Pulled
-	 * 
 	 * @param pullLabel
 	 *            - String to display
 	 */
@@ -382,7 +376,6 @@ public abstract class AfPullToRefreshBase<Target extends View> extends
 
 	/**
 	 * Set Text to show when the Widget is refreshing
-	 * 
 	 * @param refreshingLabel
 	 *            - String to display
 	 */
@@ -402,7 +395,6 @@ public abstract class AfPullToRefreshBase<Target extends View> extends
 	/**
 	 * Sets the Widget to be in the refresh state. The UI will be updated to
 	 * show the 'Refreshing' view.
-	 * 
 	 * @param doScroll
 	 *            - true if you want to force a scroll to the Refreshing view.
 	 */
@@ -639,7 +631,6 @@ public abstract class AfPullToRefreshBase<Target extends View> extends
 	 * 
 	 * Be sure to set the ID of the view in this method, especially if you're
 	 * using a ListActivity or ListFragment.
-	 * 
 	 * @param context
 	 * @param attrs
 	 *            AttributeSet from wrapped class. Means that anything you

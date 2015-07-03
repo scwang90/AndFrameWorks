@@ -56,6 +56,7 @@ public abstract class AfServiceNotify<T> {
 		}
 		return clazz.cast(instance);
 	}
+
 	/**
 	 * 启动服务
 	 * @param id

@@ -33,6 +33,7 @@ public class AfCollections {
 	public static <T> List<T> redundance(List<T> left, List<T> right) {
 		return redundance(left, right, new ComparableImpl<T>());
 	}
+
 	/**
 	 * 
 	 * 获取在 left 中 right 不存在的元素
@@ -91,6 +92,7 @@ public class AfCollections {
 		// TODO Auto-generated method stub
 		remove(left, right, new ComparableImpl<T>());
 	}
+
 	/**
 	 * 在 left 中删除 right 中的所有元素
 	 * @param left （传入参数，删除成功元素将会减少）
@@ -107,6 +109,7 @@ public class AfCollections {
 			}
 		}
 	}
+
 	/**
 	 * 判断集合 collects 是否为空
 	 * @param collects
@@ -116,6 +119,7 @@ public class AfCollections {
 		// TODO Auto-generated method stub
 		return collects == null || collects.size() == 0;
 	}
+
 	/**
 	 * 判断集合 collects 是否不为空
 	 * @param collects

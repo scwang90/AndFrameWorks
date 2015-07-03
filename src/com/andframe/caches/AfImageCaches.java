@@ -16,14 +16,14 @@ import com.andframe.util.java.AfMD5;
 /**
  * AfImageCaches 图片缓存
  * @author 树朾
- *		1.内存缓存 （用于加速图片的读取，没有的时候用文件缓存）
- *		2.文件缓存 （文件缓存>=内存缓存）
- *		
- *		a.请在 Application 初始化的时候 调用 initialize 初始化 path 是文件缓存路径
- *			public static synchronized void initialize(Context context, String path) 
- *		b.使用方法为单例模式，调用getInstance获取缓存实例
- *			public static synchronized AfImageCaches getInstance()
- *		c.详细使用
+ * 	1.内存缓存 （用于加速图片的读取，没有的时候用文件缓存）
+ * 	2.文件缓存 （文件缓存>=内存缓存）
+ * 	
+ * 	a.请在 Application 初始化的时候 调用 initialize 初始化 path 是文件缓存路径
+ * 		public static synchronized void initialize(Context context, String path) 
+ * 	b.使用方法为单例模式，调用getInstance获取缓存实例
+ * 		public static synchronized AfImageCaches getInstance()
+ * 	c.详细使用
 				 * 获取缓存 BitmapDrawable 
 				public BitmapDrawable get(Context context, String url) 
 				 * 获取缓存 Bitmap 
@@ -83,7 +83,6 @@ public class AfImageCaches {
 	};
 
 	/**
-	 * 
 	 * @param context
 	 */
 	private AfImageCaches(Context context) {
@@ -111,6 +110,7 @@ public class AfImageCaches {
 		}
 		return new BitmapDrawable(context.getResources(), bitmap);
 	}
+
 	/**
 	 * 获取缓存 Bitmap 
 	 * @param url 图片的URl
@@ -179,6 +179,7 @@ public class AfImageCaches {
 		// TODO Auto-generated method stub
 		put(url, bitmap.getBitmap());
 	}
+
 	/**
 	 * 清除所有缓存
 	 */
@@ -241,7 +242,6 @@ public class AfImageCaches {
 	}
 
 	/**
-	 * 
 	 * @param key
 	 * @param bitmap
 	 */
@@ -267,6 +267,7 @@ public class AfImageCaches {
 //			AfExceptionHandler.handler(e, "图片缓存，putToFile 出现异常");
 		}
 	}
+
 	/**
 	 * 映射一个url到本地缓存路径到
 	 * @param mLinkUrl

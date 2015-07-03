@@ -36,7 +36,7 @@ public abstract class AfListTask<T> extends AfHandlerTask {
 	 * 设置 并且任务为 TASK_LOAD AfListTask 将自动使用缓存功能
 	 */
 	public Class<T> mCacheClazz = null;
-	/** 
+	/**
 	 *  缓存使用的 KEY_CACHELIST = this.getClass().getName()
 	 * 		KEY_CACHELIST 为缓存的标识
 	 */
@@ -57,6 +57,7 @@ public abstract class AfListTask<T> extends AfHandlerTask {
 		super(TASK_LOAD);
 		this.mCacheClazz = clazz;
 	}
+
 	/**
 	 * 调用这个构造函数可以触发 TASK_LOAD 任务
 	 * 加载上次缓存数据，如果过期将触发 TASK_REFRESH 加载新数据
@@ -103,6 +104,7 @@ public abstract class AfListTask<T> extends AfHandlerTask {
 			mFirstResult = adapter.getCount();
 		}
 	}
+
 	/**
 	 * 获取缓存时间 如果没有缓存 返回 null
 	 * @return

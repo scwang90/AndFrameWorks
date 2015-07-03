@@ -7,8 +7,8 @@ import com.andframe.application.AfApplication;
 /**
  * AfDurableCache 持久缓存
  * @author 树朾
- *			继承AfJsonCache 主要持久化缓存
- *			将缓存路径固定到<工程路径/Caches/DurableCache>  中
+ * 		继承AfJsonCache 主要持久化缓存
+ * 		将缓存路径固定到<工程路径/Caches/DurableCache>  中
  */
 public class AfDurableCache extends AfJsonCache
 {
@@ -20,6 +20,7 @@ public class AfDurableCache extends AfJsonCache
 		super(AfApplication.getApp(),getPath(), CACHE_NAME);
 		// TODO Auto-generated constructor stub
 	}
+
 	/**
 	 * SD卡被占用时会返回null
 	 * @return

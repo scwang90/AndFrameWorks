@@ -33,6 +33,7 @@ public class AfDailog {
 	public void doShowDialog(String title, String message) {
 		doShowDialog(0,title,message,"我知道了", null, "", null);
 	}
+
 	/**
 	 * 显示对话框 并添加默认按钮 "我知道了"
 	 * @param title 显示标题
@@ -42,6 +43,7 @@ public class AfDailog {
 	public void doShowDialog(String title, String message,OnClickListener lpositive) {
 		doShowDialog(0,title,message,"我知道了", lpositive, "", null);
 	}
+
 	/**
 	 * 显示对话框 
 	 * @param title 显示标题
@@ -52,6 +54,7 @@ public class AfDailog {
 	public void doShowDialog(String title, String message,String positive,OnClickListener lpositive) {
 		doShowDialog(0,title,message,positive, lpositive, "", null);
 	}
+
 	/**
 	 * 显示对话框 
 	 * @param title 显示标题
@@ -66,6 +69,7 @@ public class AfDailog {
 			OnClickListener lnegative) {
 		doShowDialog(0,title,message,positive, lpositive,negative,lnegative);
 	}
+
 	/**
 	 * 显示对话框 
 	 * @param title 显示标题
@@ -173,6 +177,7 @@ public class AfDailog {
 		builder.create();
 		builder.show();
 	}
+
 	/**
 	 * 显示视图对话框 
 	 * @param title 显示标题
@@ -201,6 +206,7 @@ public class AfDailog {
 		// TODO Auto-generated method stub
 		doShowViewDialog(0,title,view,positive, lpositive,negative,lnegative);
 	}
+
 	/**
 	 * 显示视图对话框 
 	 * @param title 显示标题
@@ -218,6 +224,7 @@ public class AfDailog {
 			String negative,OnClickListener lnegative) {
 		doShowViewDialog(0,title,view,positive, lpositive,neutral,lneutral,negative,lnegative);
 	}
+
 	/**
 	 * 显示视图对话框 
 	 * @param iconres 对话框图标
@@ -233,6 +240,7 @@ public class AfDailog {
 			String negative,OnClickListener lnegative) {
 		doShowViewDialog(0,title,view,positive, lpositive,"",null,negative,lnegative);
 	}
+
 	/**
 	 * 显示视图对话框 
 	 * @param iconres 对话框图标
@@ -311,6 +319,7 @@ public class AfDailog {
 		builder.create();
 		builder.show();
 	}
+
 	/**
 	 * 显示一个单选对话框 （设置可取消）
 	 * @param title 对话框标题

@@ -204,7 +204,6 @@ public abstract class AfRefreshListView<T extends ListView> extends AfPullToRefr
 
 	/**
 	 * 获取 OnItemClick 中的index 对应ListView 中的index 包含 HeaderView
-	 * 
 	 * @param index
 	 * @return
 	 */
@@ -215,7 +214,6 @@ public abstract class AfRefreshListView<T extends ListView> extends AfPullToRefr
 
 	/**
 	 * 获取 OnItemClick 中的index 对应Adapter 中的index
-	 * 
 	 * @param index
 	 * @return
 	 */

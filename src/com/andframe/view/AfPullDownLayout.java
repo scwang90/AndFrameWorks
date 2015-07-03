@@ -25,8 +25,6 @@ public class AfPullDownLayout extends LinearLayout {
 	/**
 	 *  手势监听器
 	 * @author 树朾
-	 * @Version: V1.0, 2015-1-27 下午3:07:59
-	 * @Modified: 初次创建OnPullDownListener类
 	 */
 	public static interface OnPullDownListener {
 		/**
@@ -114,6 +112,7 @@ public class AfPullDownLayout extends LinearLayout {
 	public final boolean isPullToRefreshEnabled() {
 		return isPullToRefreshEnabled;
 	}
+
 	/**
 	 * 设置加速器
 	 * @param interpolator
@@ -131,9 +130,9 @@ public class AfPullDownLayout extends LinearLayout {
 	public void setOnPullDownListener(OnPullDownListener onOnPullDownListener) {
 		this.onOnPullDownListener = onOnPullDownListener;
 	}
+
 	/**
 	 * A mutator to enable/disable Pull-to-Refresh for the current View
-	 * 
 	 * @param enable
 	 *            Whether Pull-To-Refresh should be used
 	 */

@@ -43,7 +43,7 @@ public class AfImageService {
 	public enum Effect{
 		/*** 无效果*/
 		NONE(EFFECT_NONE),	
-		/** * 黑白 */
+		/*** 黑白 */
 		GRAY(EFFECT_GRAY),	
 		/*** 圆形效果*/
 		ROUND(EFFECT_ROUND),
@@ -94,6 +94,7 @@ public class AfImageService {
 	public void setBitmapNotFind(BitmapDrawable mBitmapNotFind) {
 		this.mBitmapNotFind = mBitmapNotFind;
 	}
+
 	/**
 	 * 在没有加载图片之前 可以使用默认图片
 	 * @return
@@ -146,6 +147,7 @@ public class AfImageService {
 	public static void bindImage(String url, ImageView view, String idefault) {
 		bindImage(url, view, idefault,true) ;
 	}
+
 	/**
 	 * 将图片URL绑定到控件ImageView
 	 * @param url 图片连接 http:// 格式
@@ -167,6 +169,7 @@ public class AfImageService {
 			mInstance.doBind(url, view, 0,effect.value, true);
 		}
 	}
+
 	/**
 	 * 将图片URL绑定到控件ImageView
 	 * @param url 图片连接 http:// 格式
@@ -179,6 +182,7 @@ public class AfImageService {
 			mInstance.doBind(url, view, idefault,effect.value, true);
 		}
 	}
+
 	/**
 	 * 将图片URL绑定到控件ImageView
 	 * @param url 图片连接 http:// 格式
@@ -191,6 +195,7 @@ public class AfImageService {
 			mInstance.doBind(url, view, idefault,effect.value, true);
 		}
 	}
+
 	/**
 	 * 将图片URL绑定到控件ImageView
 	 * @param url 图片连接 http:// 格式
@@ -232,6 +237,7 @@ public class AfImageService {
 			mInstance.doBind(url, view, idefault,effect.value, enable);
 		}
 	}
+
 	/**
 	 * 将图片URL绑定到控件ImageView
 	 * @param url 图片连接 http:// 格式
@@ -246,6 +252,7 @@ public class AfImageService {
 			mInstance.doBind(url, (null), listener, "",EFFECT_NONE, true);
 		}
 	}
+
 	/**
 	 * 将图片URL绑定到控件ImageView
 	 * @param url 图片连接 http:// 格式
@@ -260,6 +267,7 @@ public class AfImageService {
 			mInstance.doBind(url, (null), listener, sdefault,effect.value, enable);
 		}
 	}
+
 	/**
 	 * 将图片URL绑定到控件ImageView
 	 * @param url 图片连接 http:// 格式
@@ -280,6 +288,7 @@ public class AfImageService {
 			} 
 		}
 	}
+
 	/**
 	 * 将图片URL绑定到控件ImageView
 	 * @param url 图片连接 http:// 格式
@@ -300,6 +309,7 @@ public class AfImageService {
 			}
 		}
 	}
+
 	/**
 	 * 将图片URL绑定到控件ImageView
 	 * @param url 图片连接 http:// 格式

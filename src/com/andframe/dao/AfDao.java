@@ -128,6 +128,7 @@ public abstract class AfDao<T> {
 			return Interpreter.getColumnName(field) + "='" + value.replace("'", "") + "'";
 		}
 	}
+
 	/**
 	 * 关闭之后会出现各种问题
 	 */
@@ -142,7 +143,6 @@ public abstract class AfDao<T> {
 
 	/**
 	 * 添加一条记录
-	 * 
 	 * @param obj
 	 * @return
 	 */
@@ -181,7 +181,6 @@ public abstract class AfDao<T> {
 
 	/**
 	 * 更新一条记录
-	 * 
 	 * @param obj
 	 * @return
 	 */
@@ -229,7 +228,6 @@ public abstract class AfDao<T> {
 
 	/**
 	 * 统计条件符合where 的 数据条数
-	 * 
 	 * @param column
 	 * @return
 	 */
@@ -264,7 +262,6 @@ public abstract class AfDao<T> {
 
 	/**
 	 * 删除符合Where条件的数据
-	 * 
 	 * @param where
 	 */
 	public final void delWhere(String where) {
@@ -276,7 +273,6 @@ public abstract class AfDao<T> {
 
 	/**
 	 * 分页查询
-	 * 
 	 * @param column
 	 * @param num
 	 * @param offset
@@ -299,7 +295,6 @@ public abstract class AfDao<T> {
 
 	/**
 	 * 分页查询 带排序
-	 * 
 	 * @param column
 	 * @param order
 	 * @param num
@@ -326,7 +321,6 @@ public abstract class AfDao<T> {
 
 	/**
 	 * 分页查询 带排序 条件
-	 * 
 	 * @param column
 	 * @param where
 	 * @param order
@@ -356,7 +350,6 @@ public abstract class AfDao<T> {
 
 	/**
 	 * 分页查询 带排序 条件
-	 * 
 	 * @param column
 	 * @param where
 	 * @param order
@@ -376,9 +369,9 @@ public abstract class AfDao<T> {
 			return getModels(mDbReadable.rawQuery(sql.toString(), null));
 		}
 	}
+
 	/**
 	 * 条件查询 带分页
-	 * 
 	 * @param column
 	 * @param where
 	 * @param num
@@ -405,7 +398,6 @@ public abstract class AfDao<T> {
 
 	/**
 	 * 条件查询
-	 * 
 	 * @param column
 	 * @param where
 	 * @param num
@@ -427,7 +419,6 @@ public abstract class AfDao<T> {
 
 	/**
 	 * 获取全部
-	 * 
 	 * @param column
 	 * @return
 	 */
@@ -440,7 +431,6 @@ public abstract class AfDao<T> {
 
 	/**
 	 * 获取全部
-	 * 
 	 * @param column
 	 * @return
 	 */

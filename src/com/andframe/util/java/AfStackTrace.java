@@ -12,7 +12,6 @@ public class AfStackTrace {
 	/**
 	 *  获取调用 getCurrentStatck 的 Statck
 	 * @author 树朾
-	 * @Version: V1.0, 2015-2-26 下午4:21:59
 	 * @return 调用getCurrentStatck的Statck
 	 */
 	public static StackTraceElement getCurrentStatck() {
@@ -38,7 +37,6 @@ public class AfStackTrace {
 	 *  获取调用 getCurrentStatck 的 Method
 	 * 暂时不支持重载方法
 	 * @author 树朾
-	 * @Version: V1.0, 2015-2-26 下午4:21:59
 	 * @return 调用getCurrentStatck的Statck
 	 */
 	public static Method getCurrentMethod() {
@@ -61,7 +59,6 @@ public class AfStackTrace {
 	 *  获取调用 getCurrentStatck 的 Method
 	 * 暂时不支持重载方法
 	 * @author 树朾
-	 * @Version: V1.0, 2015-2-26 下午4:21:59
 	 * @return 调用getCurrentStatck的Statck
 	 */
 	public static <T extends Annotation> T getCurrentMethodAnnotation(Class<T> annotation) {
@@ -83,7 +80,6 @@ public class AfStackTrace {
 	/**
 	 *  判断调用isLoopCall 的方法是否已经被循环递归调用
 	 * @author 树朾
-	 * @Version: V1.0, 2015-2-26 下午4:18:47
 	 * @return true 已经递归 false 没有递归
 	 */
 	public static boolean isLoopCall() {

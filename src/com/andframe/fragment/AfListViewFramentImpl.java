@@ -19,6 +19,7 @@ public abstract class AfListViewFramentImpl<T> extends AfListViewFrament<T> {
 	public AfListViewFramentImpl() {
 		// TODO Auto-generated constructor stub
 	}
+
 	/**
 	 * 使用缓存必须调用这个构造函数
 	 * @param clazz
@@ -27,6 +28,7 @@ public abstract class AfListViewFramentImpl<T> extends AfListViewFrament<T> {
 		super(clazz);
 		// TODO Auto-generated constructor stub
 	}
+
 	/**
 	 * 使用缓存必须调用这个构造函数
 	 * 	可以自定义缓存标识

@@ -12,13 +12,13 @@ import com.google.gson.Gson;
 /**
  * AfJsonCache
  * @author 树朾
- *		包装 AfSharedPreference 主要实现
- *			1.对任意对象 Object 的支持
- *					public void put(String key, Object value) 
- *					public void put(String key, Object value,Class<?> clazz)
- *			2.对任意 List 的支持
- *					putList(String key, List<T> values,Class<?> clazz)
- *					public<T> List<T> getList(String key,Class<T> clazz) 
+ * 	包装 AfSharedPreference 主要实现
+ * 		1.对任意对象 Object 的支持
+ * 				public void put(String key, Object value) 
+ * 				public void put(String key, Object value,Class<?> clazz)
+ * 		2.对任意 List 的支持
+ * 				putList(String key, List<T> values,Class<?> clazz)
+ * 				public<T> List<T> getList(String key,Class<T> clazz) 
  */
 public class AfJsonCache 
 {

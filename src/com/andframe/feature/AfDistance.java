@@ -22,7 +22,6 @@ public class AfDistance {
 
 	/**
 	 * 计算兴趣点的距离
-	 * 
 	 * @param lon1
 	 * @param lat1
 	 * @param lon2
@@ -57,7 +56,6 @@ public class AfDistance {
 
 	/**
 	 * 计算兴趣点的距离
-	 * 
 	 * @param lon1
 	 * @param lat1
 	 * @param lon2
@@ -88,7 +86,6 @@ public class AfDistance {
 
 	/**
 	 * 计算 兴趣点 Address 和 定位 Location的距离
-	 * 
 	 * @param location
 	 *            定位
 	 * @param address
@@ -106,7 +103,6 @@ public class AfDistance {
 
 	/**
 	 * 根据定位 Location 转换 周围半径 radius
-	 * 
 	 * @param location
 	 *            定位
 	 * @param radius
@@ -122,7 +118,6 @@ public class AfDistance {
 
 	/**
 	 * 根据定位 Location 获取当前纬度下，东西方向1KM对应的经度偏移量
-	 * 
 	 * @param location
 	 *            定位
 	 * @return 经度1度对应的实际距离，单位米

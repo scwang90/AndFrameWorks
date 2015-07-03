@@ -63,6 +63,7 @@ public class AfFileSelector {
 		}
 		return "";
 	}
+
 	/**
 	 * 调用相册（图片浏览器）选择图片
 	 * @param outputpath 拍照后在手机的储存路径
@@ -83,6 +84,7 @@ public class AfFileSelector {
 			.show();
 		}
 	}
+
 	/**
 	 * 调用相册（图片浏览器）选择图片
 	 * @param request startActivityForResult 的请求 request 

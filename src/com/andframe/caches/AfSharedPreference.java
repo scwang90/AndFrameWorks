@@ -18,7 +18,6 @@ import android.os.Build.VERSION;
 
 /**
  * AfSharedPreference
- * 
  * @author 树朾 包装 android SharedPreferences 主要实现 1.动态缓存路径 path 可以指定保存到SD卡中
  *        public AfSharedPreference(Context context,String path,String name)；
  *        2.添加日期格式支持 public Date getDate(String key, long value) public Date
@@ -39,7 +38,6 @@ public class AfSharedPreference {
 
 	/**
 	 * 1.动态缓存路径 path 可以指定保存到SD卡中
-	 * 
 	 * @param context
 	 * @param path
 	 *            保存路劲

@@ -36,6 +36,7 @@ public class AfDensity {
 		// TODO Auto-generated constructor stub
 		mDisplayMetrics = metrics;
 	}
+
 	/**
 	 * dip 转换成 像素（px）
 	 * @param dipValue
@@ -91,6 +92,7 @@ public class AfDensity {
 	public int getWidthPixels(){
 		return mDisplayMetrics.widthPixels;
 	}
+
 	/**
 	 * 获取屏幕像素高度
 	 * @return 像素高度

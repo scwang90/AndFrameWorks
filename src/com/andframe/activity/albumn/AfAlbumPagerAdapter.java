@@ -40,9 +40,9 @@ public class AfAlbumPagerAdapter extends PagerAdapter {
 	public Photo getItemAt(int index){
 		return mltData.get(index);
 	}
+
 	/**
 	 * 适配器新增 点击更多 数据追加接口
-	 * 
 	 * @param ltNews
 	 */
 	public void AddData(List<Photo> ltData) {
@@ -53,7 +53,6 @@ public class AfAlbumPagerAdapter extends PagerAdapter {
 
 	/**
 	 * 适配器新增 数据刷新 接口
-	 * 
 	 * @param ltNews
 	 */
 	public void setData(List<Photo> ltData) {

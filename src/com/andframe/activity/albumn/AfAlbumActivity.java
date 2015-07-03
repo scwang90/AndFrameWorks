@@ -29,12 +29,12 @@ import com.andframe.util.java.AfStringUtil;
 /**
  * 框架相册浏览页面
  * @author 树朾
- *	支持 	单张照片浏览
- *		多张浏览
- *		动态加载相册浏览
+ * 支持 	单张照片浏览
+ * 	多张浏览
+ * 	动态加载相册浏览
  *
- *	继承之后主要实现
- *		
+ * 继承之后主要实现
+ * 	
 	 * 	获取相册的总布局
 	protected abstract int getAlbumLayoutId();
 	 * 获取 显示相册名称 TextView
@@ -254,6 +254,7 @@ public abstract class AfAlbumActivity extends AfActivity
 		}
 
 	}
+
 	/**
 	 * 重写 这个函数 可以实现加载网络相册
 	 * @param albumID	相册ID

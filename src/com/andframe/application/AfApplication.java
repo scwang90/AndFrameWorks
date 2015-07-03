@@ -44,7 +44,6 @@ import com.andframe.util.java.AfVersion;
 
 /**
  * AfApplication 抽象类 （继承使用必须继承并使用，其他框架功能依赖于 AfApplication）
- * 
  * @author 树朾 负责 全局数据的存储 和 事件通知
  * 
  *        必须实现 指定工程中 的主页面 的类 getForegroundClass
@@ -184,7 +183,6 @@ public abstract class AfApplication extends Application {
 
 	/**
 	 * 获取 activity 主页面 类
-	 * 
 	 * @param fragment
 	 * @return
 	 */
@@ -328,7 +326,6 @@ public abstract class AfApplication extends Application {
 
 	/**
 	 * 获取App工作目录
-	 * 
 	 * @param type
 	 */
 	public synchronized String getPrivatePath(String type) {
@@ -341,7 +338,6 @@ public abstract class AfApplication extends Application {
 
 	/**
 	 * 获取App工作目录
-	 * 
 	 * @param type
 	 */
 	public synchronized String getWorkspacePath(String type) {
@@ -362,7 +358,6 @@ public abstract class AfApplication extends Application {
 
 	/**
 	 * 获取caches目录
-	 * 
 	 * @param type
 	 */
 	public synchronized String getCachesPath(String type) {
@@ -408,6 +403,7 @@ public abstract class AfApplication extends Application {
 		}
 		return null;
 	}
+
 	/**
 	 * 获取服务器最新版本
 	 * @return
@@ -463,6 +459,7 @@ public abstract class AfApplication extends Application {
 		}
 		return singleton;
 	}
+
 	/**
 	 * 设置全局单例实例
 	 * @param key
@@ -471,6 +468,7 @@ public abstract class AfApplication extends Application {
 	public synchronized void setSingleton(String key,Object value){
 		mSingletonMap.put(key, value);
 	}
+
 	/**
 	 * 获取CurActivity
 	 * 
@@ -493,7 +491,6 @@ public abstract class AfApplication extends Application {
 
 	/**
 	 * 设置主页面
-	 * 
 	 * @param activity
 	 *            主页面
 	 */
@@ -505,7 +502,6 @@ public abstract class AfApplication extends Application {
 
 	/**
 	 * 设置当前的页面
-	 * 
 	 * @param type
 	 *            用于权限验证
 	 * @param activity
@@ -539,7 +535,6 @@ public abstract class AfApplication extends Application {
 
 	/**
 	 * 设置当前的页面
-	 * 
 	 * @param type
 	 *            用于权限验证
 	 * @param fragment
@@ -553,7 +548,6 @@ public abstract class AfApplication extends Application {
 
 	/**
 	 * 设置App网络状态
-	 * 
 	 * @param power
 	 *            传入this指针 用于验证权限
 	 * @param networkState
@@ -576,7 +570,6 @@ public abstract class AfApplication extends Application {
 
 	/**
 	 * 设置 服务器 App 版本
-	 * 
 	 * @param power
 	 *            传入this指针 用于验证权限
 	 * @param version
@@ -593,7 +586,6 @@ public abstract class AfApplication extends Application {
 
 	/**
 	 * 设置 服务器 App 版本 更新描述
-	 * 
 	 * @param power
 	 *            传入this指针 用于验证权限
 	 * @param describe
@@ -612,7 +604,6 @@ public abstract class AfApplication extends Application {
 
 	/**
 	 * 向 power 发送 需要更新通知
-	 * 
 	 * @param power
 	 *            通知的对象 必须实现 INotifyNeedUpdate 接口
 	 * @param networkState
@@ -635,7 +626,6 @@ public abstract class AfApplication extends Application {
 
 	/**
 	 * 向 power 发送 需要更新通知
-	 * 
 	 * @param power
 	 *            通知的对象 必须实现 INotifyNeedUpdate 接口
 	 * @param networkState
@@ -657,7 +647,6 @@ public abstract class AfApplication extends Application {
 
 	/**
 	 * 向 power 发送 网络状态改变通知
-	 * 
 	 * @param power
 	 *            通知的对象 必须实现 INotifyNetworkStatus 接口
 	 * @param networkState
@@ -679,7 +668,6 @@ public abstract class AfApplication extends Application {
 
 	/**
 	 * 通知APP 启动天台页面
-	 * 
 	 * @param fragment
 	 */
 	public synchronized void startForeground() {
@@ -719,7 +707,6 @@ public abstract class AfApplication extends Application {
 
 	/**
 	 * 通知APP 前台已经关闭
-	 * 
 	 * @param activity
 	 *            权限对象 传入this
 	 */
@@ -805,6 +792,7 @@ public abstract class AfApplication extends Application {
 		// TODO Auto-generated method stub
 		return "AndFrame";
 	}
+
 	/**
 	 * 获取 Des默认加密密钥
 	 * @return
@@ -813,9 +801,9 @@ public abstract class AfApplication extends Application {
 		// TODO Auto-generated method stub
 		return AfMD5.getMD5("");
 	}
+
 	/**
 	 * 密码加密
-	 * 
 	 * @param password
 	 *            密码明文
 	 * @return 加密的密文 子类可重写这个方法更改加密算法（默认 MD5）
@@ -824,6 +812,7 @@ public abstract class AfApplication extends Application {
 		// TODO Auto-generated method stub
 		return AfMD5.getMD5(password);
 	}
+
 	/**
 	 * 处理触发事件
 	 * @param eventId
@@ -832,6 +821,7 @@ public abstract class AfApplication extends Application {
 	public void onEvent(String eventId, String tag) {
 		
 	}
+
 	/**
 	 * 更新App相关信息 接口事件
 	 * (各个框架组件中会调用触发)
@@ -839,6 +829,7 @@ public abstract class AfApplication extends Application {
 	public void onUpdateAppinfo(){
 		
 	}
+
 	/**
 	 * 当APP被临时销毁时保存App 状态 在AfActivity 中调用
 	 */
@@ -853,7 +844,6 @@ public abstract class AfApplication extends Application {
 
 	/**
 	 * 当APP被临时销毁时保存App 状态 在onRestoreInstanceState() 中调用
-	 * 
 	 * @param state
 	 */
 	protected void onRestoreInstanceState(AfSharedPreference state) {
@@ -955,6 +945,7 @@ public abstract class AfApplication extends Application {
 		}
 		return false;
 	}
+
 	/**
 	 * 获取统一随机数
 	 * @return

@@ -6,7 +6,7 @@ import com.andframe.activity.framework.AfViewable;
 import com.andframe.layoutbind.AfLayoutModule;
 /**
  * 框架加载组件
- * @author Administrator
+ * @author 树朾
  *
  */
 public abstract class AfModuleProgress extends AfLayoutModule{

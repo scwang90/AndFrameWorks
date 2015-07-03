@@ -79,7 +79,6 @@ public class AfTable{
 //	}
 
 	/**
-	 * 
 	 * @param context
 	 * @param columns
 	 * @param offset	屏幕宽度偏差
@@ -116,8 +115,8 @@ public class AfTable{
 		}
 		return table;
 	}
+
 	/**
-	 * 
 	 * @param context
 	 * @param columns
 	 * @return

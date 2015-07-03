@@ -35,9 +35,9 @@ public class AfFrameSelector extends AfLayoutModule {
 		// TODO Auto-generated method stub
 		return mFrameLayout;
 	}
+
 	/**
 	 * 在 FrameLayout 中选择 view 的布局 隐藏其他的布局
-	 * 
 	 * @param id
 	 * @return
 	 */
@@ -70,7 +70,6 @@ public class AfFrameSelector extends AfLayoutModule {
 
 	/**
 	 * 在 FrameLayout 中选择 id 的布局 隐藏其他的布局
-	 * 
 	 * @param id
 	 * @return
 	 */

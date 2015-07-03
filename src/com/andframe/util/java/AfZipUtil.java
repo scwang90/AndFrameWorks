@@ -17,7 +17,6 @@ public class AfZipUtil {
 
 	/**
 	 * 压缩
-	 * 
 	 * @param zipFileName
 	 *            压缩产生的zip包文件名--带路径,如果为null或空则默认按文件名生产压缩文件名
 	 * @param relativePath
@@ -59,10 +58,8 @@ public class AfZipUtil {
 		}
 	}
 
-	/** */
 	/**
 	 * 压缩
-	 * 
 	 * @param zos
 	 *            压缩输出流
 	 * @param relativePath
@@ -94,10 +91,8 @@ public class AfZipUtil {
 		}
 	}
 
-	/** */
 	/**
 	 * 压缩文件
-	 * 
 	 * @param zos
 	 *            压缩输出流
 	 * @param file
@@ -132,10 +127,8 @@ public class AfZipUtil {
 		}
 	}
 
-	/** */
 	/**
 	 * 创建目录
-	 * 
 	 * @param zos
 	 *            zip输出流
 	 * @param relativePath
@@ -151,10 +144,8 @@ public class AfZipUtil {
 		zos.closeEntry();
 	}
 
-	/** */
 	/**
 	 * 解压缩zip包
-	 * 
 	 * @param zipFilePath
 	 *            zip文件路径
 	 * @param targetPath

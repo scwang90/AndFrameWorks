@@ -27,6 +27,7 @@ public abstract class AfListAdapter<T> extends BaseAdapter {
 		mltArray = ltdata;
 		mInflater = LayoutInflater.from(context);
 	}
+
 	/**
 	 * 获取数据列表
 	 * @return
@@ -34,9 +35,9 @@ public abstract class AfListAdapter<T> extends BaseAdapter {
 	public List<T> getList(){
 		return mltArray;
 	}
+
 	/**
 	 * 适配器新增 点击更多 数据追加接口
-	 * 
 	 * @param ltdata
 	 */
 	public void addData(T data) {
@@ -44,9 +45,9 @@ public abstract class AfListAdapter<T> extends BaseAdapter {
 		mltArray.add(data);
 		notifyDataSetChanged();
 	}
+
 	/**
 	 * 适配器新增 点击更多 数据追加接口
-	 * 
 	 * @param ltdata
 	 */
 	public void addData(List<T> ltdata) {
@@ -57,7 +58,6 @@ public abstract class AfListAdapter<T> extends BaseAdapter {
 
 	/**
 	 * 适配器新增 数据刷新 接口
-	 * 
 	 * @param ltdata
 	 */
 	public void setData(List<T> ltdata) {
@@ -68,7 +68,6 @@ public abstract class AfListAdapter<T> extends BaseAdapter {
 
 	/**
 	 * 适配器新增 单个数据刷新 接口
-	 * 
 	 * @param index
 	 * @param obj
 	 */
@@ -82,7 +81,6 @@ public abstract class AfListAdapter<T> extends BaseAdapter {
 
 	/**
 	 * 适配器新增 数据删除 接口
-	 * 
 	 * @param ltdata
 	 */
 	public void remove(int index) {
@@ -95,7 +93,6 @@ public abstract class AfListAdapter<T> extends BaseAdapter {
 
 	/**
 	 * 适配器新增 数据插入 接口
-	 * 
 	 * @param ltdata
 	 */
 	public void insert(int index, T object) {

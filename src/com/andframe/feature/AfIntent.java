@@ -86,6 +86,7 @@ public class AfIntent extends Intent{
 		}
 		return value == null ? defaul : value;
 	}
+
 	/**
 	 * 获取List<T>
 	 * @param _key
@@ -95,6 +96,7 @@ public class AfIntent extends Intent{
 	public <T> List<T> getList(String _key,Class<T> clazz) {
 		return getList(_key,null,clazz);
 	}
+
 	/**
 	/**
 	 * 获取List<T>

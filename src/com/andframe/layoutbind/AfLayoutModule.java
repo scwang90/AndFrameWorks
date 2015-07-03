@@ -13,6 +13,7 @@ public abstract class AfLayoutModule implements IAfLayoutModule {
 	protected AfLayoutModule(AfViewable view){
 		InitializeComponent(view);
 	}
+
 	/**
 	 * 子类构造函数中必须调用这个函数
 	 * @param view
@@ -21,6 +22,7 @@ public abstract class AfLayoutModule implements IAfLayoutModule {
 		mLayout = findLayout(view);
 		mIsValid = mLayout != null;
 	}
+
 	/**
 	 * 在 AfViewable 找到相应的 布局Layout
 	 * @param view

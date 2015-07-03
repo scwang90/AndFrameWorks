@@ -37,6 +37,7 @@ public abstract class AfLayoutItemAdapter <T,TT> implements IAfLayoutItem<T>{
 		// TODO Auto-generated method stub
 		return item.getLayoutId();
 	}
+
 	/**
 	 * 把模板数据 T 转成 TT
 	 * @param model

@@ -49,7 +49,7 @@ public abstract class AfListViewFrament<T> extends AfTabFragment implements
 	 * 设置 并且任务为 TASK_LOAD AfListTask 将自动使用缓存功能
 	 */
 	public Class<T> mCacheClazz = null;
-	/** 
+	/**
 	 *  缓存使用的 KEY_CACHELIST = this.getClass().getName()
 	 * 		KEY_CACHELIST 为缓存的标识
 	 */
@@ -59,6 +59,7 @@ public abstract class AfListViewFrament<T> extends AfTabFragment implements
 		// TODO Auto-generated constructor stub
 		
 	}
+
 	/**
 	 * 使用缓存必须调用这个构造函数
 	 * @param clazz
@@ -67,6 +68,7 @@ public abstract class AfListViewFrament<T> extends AfTabFragment implements
 		// TODO Auto-generated constructor stub
 		this.mCacheClazz = clazz;
 	}
+
 	/**
 	 * 使用缓存必须调用这个构造函数
 	 * 	可以自定义缓存标识
@@ -81,7 +83,6 @@ public abstract class AfListViewFrament<T> extends AfTabFragment implements
 	/**
 	 *  创建方法
 	 * @author 树朾
-	 * @Version: V1.0, 2015-2-27 上午10:19:01
 	 * @param bundle
 	 * @param view
 	 * @throws Exception
@@ -157,7 +158,6 @@ public abstract class AfListViewFrament<T> extends AfTabFragment implements
 	/**
 	 *  显示数据页面
 	 * @author 树朾
-	 * @Version: V1.0, 2015-2-27 上午10:18:26
 	 * @param adapter
 	 */
 	public void setData(AfListAdapter<T> adapter) {
@@ -169,7 +169,6 @@ public abstract class AfListViewFrament<T> extends AfTabFragment implements
 	/**
 	 *  正在加载数据提示
 	 * @author 树朾
-	 * @Version: V1.0, 2015-2-27 上午10:18:05
 	 */
 	public void setLoading() {
 		// TODO Auto-generated method stub
@@ -194,8 +193,6 @@ public abstract class AfListViewFrament<T> extends AfTabFragment implements
 	/**
 	 *  处理空数据
 	 * @author 树朾
-	 * @Version: V1.0, 2015-2-27 上午10:16:46
-	 * @Modified: 初次创建setNodata方法
 	 */
 	public void setNodata() {
 		// TODO Auto-generated method stub
@@ -207,7 +204,6 @@ public abstract class AfListViewFrament<T> extends AfTabFragment implements
 	/**
 	 *  错误信息处理
 	 * @author 树朾
-	 * @Version: V1.0, 2015-2-27 上午10:16:26
 	 * @param ex
 	 */
 	public void setLoadError(Throwable ex) {
@@ -220,7 +216,6 @@ public abstract class AfListViewFrament<T> extends AfTabFragment implements
 	/**
 	 *  用户加载分页通知事件
 	 * @author 树朾
-	 * @Version: V1.0, 2015-2-27 上午10:15:54
 	 * @return
 	 */
 	@Override
@@ -233,7 +228,6 @@ public abstract class AfListViewFrament<T> extends AfTabFragment implements
 	/**
 	 *  用户刷新数据通知事件
 	 * @author 树朾
-	 * @Version: V1.0, 2015-2-27 上午10:14:52
 	 * @return
 	 */
 	@Override
@@ -246,7 +240,6 @@ public abstract class AfListViewFrament<T> extends AfTabFragment implements
 	/**
 	 *  数据列表点击事件
 	 * @author 树朾
-	 * @Version: V1.0, 2015-2-27 上午10:25:18
 	 * @Modified:
 	 * @param parent
 	 * @param view
@@ -263,7 +256,6 @@ public abstract class AfListViewFrament<T> extends AfTabFragment implements
 	/**
 	 *  onItemClick 事件的 包装 一般情况下子类可以重写这个方法
 	 * @author 树朾
-	 * @Version: V1.0, 2015-2-27 上午10:20:05
 	 * @param model
 	 * @param index
 	 */
@@ -359,8 +351,6 @@ public abstract class AfListViewFrament<T> extends AfTabFragment implements
 	/**
 	 *  缓存加载结束处理时间（框架默认调用onRefreshed事件处理）
 	 * @author 树朾
-	 * @Version: V1.0, 2015-1-22 下午9:19:02
-	 * @Modified: 初次创建onLoaded方法
 	 * @param task 
 	 * @param isfinish
 	 * @param ltdata
@@ -377,12 +367,11 @@ public abstract class AfListViewFrament<T> extends AfTabFragment implements
 		}
 		return deal;
 	}
+
 	/**
 	 * @param task 
 	 *  任务刷新结束处理事件
 	 * @author 树朾
-	 * @Version: V1.0, 2015-1-20 上午11:29:09
-	 * @Modified: 初次创建onRefreshed方法
 	 * @param isfinish 是否成功执行
 	 * @param ltdata
 	 * @return 返回true 已经做好错误页面显示 返回false 框架会做好默认错误反馈
@@ -417,11 +406,10 @@ public abstract class AfListViewFrament<T> extends AfTabFragment implements
 		}
 		return true;
 	}
+
 	/**
 	 *  任务加载更多结束处理事件
 	 * @author 树朾
-	 * @Version: V1.0, 2015-1-20 上午11:34:04
-	 * @Modified: 初次创建onMored方法
 	 * @param loadListTask
 	 * @param isfinish
 	 * @param ltdata
@@ -450,6 +438,7 @@ public abstract class AfListViewFrament<T> extends AfTabFragment implements
 		}
 		return true;
 	}
+
 	/**
 	 * 获取列表项布局Item
 	 * 如果重写 newAdapter 之后，本方法将无效
@@ -462,14 +451,13 @@ public abstract class AfListViewFrament<T> extends AfTabFragment implements
 	/**
 	 *  加载缓存列表（不分页，在异步线程中执行，不可以更改页面操作）
 	 * @author 树朾
-	 * @Version: V1.0, 2015-1-22 下午9:27:48
-	 * @Modified: 初次创建onLoad方法
 	 * @return 返回 null 可以使用框架内置缓存
 	 */
 	protected List<T> onTaskLoad() {
 		// TODO Auto-generated method stub
 		return null;
 	}
+
 	/**
 	 * 数据分页加载（在异步线程中执行，不可以更改页面操作）
 	 * @param page 分页对象
@@ -482,8 +470,6 @@ public abstract class AfListViewFrament<T> extends AfTabFragment implements
 	/**
 	 *  根据数据ltdata新建一个 适配器 重写这个方法之后getItemLayout方法将失效
 	 * @author 树朾
-	 * @Version: V1.0, 2015-1-20 下午4:46:34
-	 * @Modified: 初次创建newAdapter方法
 	 * @param context
 	 * @param ltdata
 	 * @return
@@ -496,7 +482,6 @@ public abstract class AfListViewFrament<T> extends AfTabFragment implements
 	/**
 	 *  ListView数据适配器（事件已经转发getItemLayout，无实际处理代码）
 	 * @author 树朾
-	 * @Version: V1.0, 2015-2-27 上午10:21:27
 	 */
 	protected class AbListViewAdapter extends AfListAdapter<T>{
 

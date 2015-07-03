@@ -41,7 +41,7 @@ import com.andframe.thread.AfThreadWorker;
  * 框架 AfFragment
  * @author 树朾
  *
- *	以下是 AfFragment 像子类提供的 功能方法
+ * 以下是 AfFragment 像子类提供的 功能方法
  *
 	protected void buildThreadWorker()
 	 * 为本页面开启一个独立后台线程 供 postTask 的 任务(AfTask)运行 注意：开启线程之后 postTask
@@ -115,8 +115,6 @@ public abstract class AfFragment extends Fragment implements AfPageable {
 	 * 用户也可以重写自定义TAG,这个值AfActivity在日志记录时候会使用
 	 * 子类实现也可以使用
 	 * @author 树朾
-	 * @Version: V1.0, 2015-2-14 上午10:58:00
-	 * @Modified: 初次创建TAG方法
 	 * @return
 	 */
 	protected String TAG() {
@@ -127,6 +125,7 @@ public abstract class AfFragment extends Fragment implements AfPageable {
 		// TODO Auto-generated method stub
 		return "AfFragment("+getClass().getName()+")."+tag;
 	}
+
 	/**
 	 * 判断是否被回收
 	 * @return true 已经被回收
@@ -147,6 +146,7 @@ public abstract class AfFragment extends Fragment implements AfPageable {
 			mWorker = new AfThreadWorker(this.getClass().getSimpleName());
 		}
 	}
+
 	/**
 	 * 抛送任务到Worker执行
 	 * @param task
@@ -289,7 +289,6 @@ public abstract class AfFragment extends Fragment implements AfPageable {
 
 	/**
 	 * 每次切换到本页面
-	 * 
 	 * @param count
 	 *            切换序号
 	 */
@@ -400,9 +399,9 @@ public abstract class AfFragment extends Fragment implements AfPageable {
 		}
 		return null;
 	}
+
 	/**
 	 * 显示 进度对话框
-	 * 
 	 * @param message
 	 *            消息
 	 */
@@ -413,7 +412,6 @@ public abstract class AfFragment extends Fragment implements AfPageable {
 
 	/**
 	 * 显示 进度对话框
-	 * 
 	 * @param message
 	 *            消息
 	 * @param cancel
@@ -426,7 +424,6 @@ public abstract class AfFragment extends Fragment implements AfPageable {
 
 	/**
 	 * 显示 进度对话框
-	 * 
 	 * @param message
 	 *            消息
 	 * @param cancel
@@ -454,7 +451,6 @@ public abstract class AfFragment extends Fragment implements AfPageable {
 
 	/**
 	 * 显示 进度对话框
-	 * 
 	 * @param message
 	 *            消息
 	 * @param cancel
@@ -482,7 +478,6 @@ public abstract class AfFragment extends Fragment implements AfPageable {
 
 	/**
 	 * 显示 进度对话框
-	 * 
 	 * @param message
 	 *            消息
 	 * @param cancel
@@ -517,6 +512,7 @@ public abstract class AfFragment extends Fragment implements AfPageable {
 	public void onSoftInputShown() {
 		// TODO Auto-generated method stub
 	}
+
 	/**
 	 * 隐藏 进度对话框
 	 */
@@ -541,6 +537,7 @@ public abstract class AfFragment extends Fragment implements AfPageable {
 	public void doShowDialog(String title, String message) {
 		doShowDialog(0,title,message,"我知道了", null, "", null);
 	}
+
 	/**
 	 * 显示对话框 并添加默认按钮 "我知道了"
 	 * @param title 显示标题
@@ -550,6 +547,7 @@ public abstract class AfFragment extends Fragment implements AfPageable {
 	public void doShowDialog(String title, String message,OnClickListener lpositive) {
 		doShowDialog(0,title,message,"我知道了", lpositive, "", null);
 	}
+
 	/**
 	 * 显示对话框 
 	 * @param title 显示标题
@@ -560,6 +558,7 @@ public abstract class AfFragment extends Fragment implements AfPageable {
 	public void doShowDialog(String title, String message,String positive,OnClickListener lpositive) {
 		doShowDialog(0,title,message,positive, lpositive, "", null);
 	}
+
 	/**
 	 * 显示对话框 
 	 * @param title 显示标题
@@ -594,6 +593,7 @@ public abstract class AfFragment extends Fragment implements AfPageable {
 		// TODO Auto-generated method stub
 		doShowDialog(0, title, message,positive, lpositive, neutral, lneutral, negative,lnegative);
 	}
+
 	/**
 	 * 显示对话框 
 	 * @param iconres 对话框图标
@@ -654,6 +654,7 @@ public abstract class AfFragment extends Fragment implements AfPageable {
 		// TODO Auto-generated method stub
 		new AfDailog(getActivity()).doShowDialog(theme, iconres, title, message, positive, lpositive, neutral, lneutral, negative, lnegative);
 	}
+
 	/**
 	 * 显示视图对话框 
 	 * @param title 显示标题
@@ -684,6 +685,7 @@ public abstract class AfFragment extends Fragment implements AfPageable {
 		// TODO Auto-generated method stub
 		doShowViewDialog(0,title,view,positive, lpositive,negative,lnegative);
 	}
+
 	/**
 	 * 显示视图对话框 
 	 * @param title 显示标题
@@ -702,6 +704,7 @@ public abstract class AfFragment extends Fragment implements AfPageable {
 			String negative,OnClickListener lnegative) {
 		doShowViewDialog(0,title,view,positive, lpositive,neutral,lneutral,negative,lnegative);
 	}
+
 	/**
 	 * 显示视图对话框 
 	 * @param iconres 对话框图标
@@ -718,6 +721,7 @@ public abstract class AfFragment extends Fragment implements AfPageable {
 			String negative,OnClickListener lnegative) {
 		doShowViewDialog(0,title,view,positive, lpositive,"",null,negative,lnegative);
 	}
+
 	/**
 	 * 显示视图对话框 
 	 * @param iconres 对话框图标

@@ -22,12 +22,12 @@ import com.andframe.util.java.AfVersion;
 /**
  * 框架App主页面 
  * @author 树朾
- *	实现 更新通知，网络改变通知接口
- *		主要实现了更新提示，网络无效提示
- *		onCreate 向 App 注册主页面
- *		onDestroy 向 App 解除主页面
+ * 实现 更新通知，网络改变通知接口
+ * 	主要实现了更新提示，网络无效提示
+ * 	onCreate 向 App 注册主页面
+ * 	onDestroy 向 App 解除主页面
  *
- *		返回按键 提示 "再按一次退出程序"
+ * 	返回按键 提示 "再按一次退出程序"
  */
 public abstract class AfMainActivity extends AfActivity
 	implements INotifyNeedUpdate,INotifyUpdate,INotifyNetworkStatus,OnClickListener{

@@ -17,7 +17,6 @@ public class AfSkipActivity {
 	/**
 	 *  跳转到拨号页面
 	 * @author 树朾
-	 * @Version: V1.0, 2015-4-3 下午3:35:40
 	 * @param context
 	 * @param phone
 	 * @throws AfException 权限不足或者找不到拨号页面
@@ -29,6 +28,7 @@ public class AfSkipActivity {
 		intent.setData(Uri.parse("tel:" + phone));
 		context.startActivity(intent);
 	}
+
 	/**
 	 * 打开文件
 	 * @param file

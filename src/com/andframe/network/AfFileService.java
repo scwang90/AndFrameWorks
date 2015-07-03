@@ -58,7 +58,6 @@ public class AfFileService {
 	}
 	
 	/***
-	 * 
 	 * @param serivce 形如 "/FileService"
 	 * @param servlet 形如 "/FileServlet"
 	 */
@@ -69,7 +68,6 @@ public class AfFileService {
 	}
 
 	/***
-	 * 
 	 * @param ip
 	 * @param port
 	 */
@@ -206,6 +204,7 @@ public class AfFileService {
 			return false;
 		}
 	}
+
 	/**
 	 * 根据URL下图片 注意，此方法仅供用于Android程序
 	 * @param strUrl
@@ -232,7 +231,6 @@ public class AfFileService {
 
 	/**
 	 * 根据URL下图片 注意，此方法仅供用于Android程序
-	 * 
 	 * @param strUrl
 	 *            图片网络地址
 	 * @return 如果成功，返回Bitmap对象
@@ -251,7 +249,6 @@ public class AfFileService {
 
 	/**
 	 * 从服务器下载文件
-	 * 
 	 * @param Url
 	 * @param outpath
 	 * @return

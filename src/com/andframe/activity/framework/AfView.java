@@ -10,7 +10,7 @@ import com.andframe.application.AfExceptionHandler;
 /**
  * AfView 框架视图类
  * @author 树朾
- *	实现了 AfViewable 接口 优化 findViewById 方法
+ * 实现了 AfViewable 接口 优化 findViewById 方法
  */
 public class AfView implements AfViewable {
 
@@ -20,6 +20,7 @@ public class AfView implements AfViewable {
 		// TODO Auto-generated constructor stub
 		mRootView = view;
 	}
+
 	/**
 	 * 使AfView 承载的 view 从父视图中脱离出来成为独立的 view 
 	 * 	主要用于用于view 的转移

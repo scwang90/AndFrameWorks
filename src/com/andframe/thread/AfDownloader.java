@@ -82,6 +82,7 @@ public class AfDownloader {
 		entity.DownloadPath = path;
 		AfApplication.postTask(new DownloadTask(entity,listener));
 	}
+
 	/**
 	 *  异步下载
 	 * @param entity 下载配置实体
@@ -100,6 +101,7 @@ public class AfDownloader {
 		// TODO Auto-generated method stub
 		AfApplication.postTask(new DownloadTask(entity,listener));
 	}
+
 	/**
 	 *  判断 url是否正在下载
 	 * @param url
@@ -109,6 +111,7 @@ public class AfDownloader {
 		// TODO Auto-generated method stub
 		return isDownloading(entity.DownloadUrl);
 	}
+
 	/**
 	 *  判断 url是否正在下载
 	 * @param url
@@ -127,6 +130,7 @@ public class AfDownloader {
 		}
 		return false;
 	}
+
 	/**
 	 *  判断 url是否正在下载
 	 * @param tag 
@@ -145,6 +149,7 @@ public class AfDownloader {
 		}
 		return false;
 	}
+
 	/**
 	 *  新的绑定进度监听器
 	 * @param entity 下载配置实体
@@ -157,6 +162,7 @@ public class AfDownloader {
 		// TODO Auto-generated method stub
 		return setListener(entity.DownloadUrl, listener);
 	}
+
 	/**
 	 *  新的绑定进度监听器
 	 * @param url 下载路劲
@@ -187,6 +193,7 @@ public class AfDownloader {
 		}
 		return null;
 	}
+
 	/**
 	 *  任务栏配置
 	 */
@@ -337,6 +344,7 @@ public class AfDownloader {
 		 */
 		boolean onDownloadFail(String error, Throwable e);
 	}
+
 	/**
 	 *  常用监听接口
 	 */
@@ -373,6 +381,7 @@ public class AfDownloader {
 		}
 		
 	}
+
 	/**
 	 * 下载管理监听接口
 	 */

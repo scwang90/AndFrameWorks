@@ -57,7 +57,6 @@ public class AfImageThumb {
 	}
 
 	/**
-	 *
 	 * 从文件加载一张不大于 屏幕/3 的图片
 	 * 如果大于将按缩小到不 大于屏幕/3 (2的倍数缩小，原比例)
 	 * @author 树朾
@@ -73,7 +72,6 @@ public class AfImageThumb {
 	}
 
 	/**
-	 *
 	 * 从文件加载一张不大于 screenscale 的图片
 	 * 如果大于将按缩小到不大于screenscale (2的倍数缩小，原比例)
 	 * @author 树朾
@@ -90,7 +88,6 @@ public class AfImageThumb {
 	}
 
 	/**
-	 *
 	 * 从文件加载一张不大于 maxw maxh 的图片
 	 * 如果大于将按缩小到不大于maxw maxh (2的倍数缩小，原比例)
 	 * @author 树朾

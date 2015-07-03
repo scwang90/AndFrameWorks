@@ -73,7 +73,6 @@ public abstract class AfTabFragment extends AfFragment{
 
 	/**
 	 * 每次切换到本页面
-	 * 
 	 * @param count
 	 *            切换序号
 	 */

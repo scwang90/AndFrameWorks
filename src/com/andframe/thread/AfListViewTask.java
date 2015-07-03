@@ -70,6 +70,7 @@ public abstract class AfListViewTask<T> extends AfListTask<T>
 		super(adapter);
 		// TODO Auto-generated constructor stub
 	}
+
 	/**
 	 * 数据分页加载（在异步线程中执行，不可以更改页面操作）
 	 * @param page 分页对象
@@ -108,6 +109,7 @@ public abstract class AfListViewTask<T> extends AfListTask<T>
 		}
 		return false;
 	}
+
 	/**
 	 * 任务执行出错 之后统一（各种任务）处理错误提示
 	 * 	如果在 onRefreshed、onMored、onWorked、onLoaded 返回true 表示已经错误处理提示
@@ -127,6 +129,7 @@ public abstract class AfListViewTask<T> extends AfListTask<T>
 			}
 		}
 	}
+
 	/**
 	 * 刷新任务执行结束 后页面处理工作
 	 * @param isfinish true 成功执行数据刷新 false 失败

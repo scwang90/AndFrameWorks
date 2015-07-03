@@ -24,6 +24,7 @@ public abstract class AfListViewActivityImpl<T> extends AfListViewActivity<T>{
 	public AfListViewActivityImpl() {
 		// TODO Auto-generated constructor stub
 	}
+
 	/**
 	 * 使用缓存必须调用这个构造函数
 	 * @param clazz
@@ -32,6 +33,7 @@ public abstract class AfListViewActivityImpl<T> extends AfListViewActivity<T>{
 		super(clazz);
 		// TODO Auto-generated constructor stub
 	}
+
 	/**
 	 * 使用缓存必须调用这个构造函数
 	 * 	可以自定义缓存标识

@@ -39,6 +39,7 @@ public class AfImageHelper {
 		drawable.draw(canvas);
 		return bitmap;
 	}
+
 	/**
 	 * 转换图片灰色
 	 * @param context
@@ -188,6 +189,7 @@ public class AfImageHelper {
 		// TODO Auto-generated method stub
 		return new BitmapDrawable(context.getResources(), toRoundCornerBitmap(bitmap.getBitmap(),recycle));
 	}
+
 	/**
 	 * 高斯模糊
 	 * @param sentBitmap
