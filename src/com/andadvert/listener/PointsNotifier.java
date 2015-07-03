@@ -1,6 +1,6 @@
 package com.andadvert.listener;
 /**
- * 点数监听接口
+ * 鐐规暟鐩戝惉鎺ュ彛
  * @author Administrator
  */
 public interface PointsNotifier {

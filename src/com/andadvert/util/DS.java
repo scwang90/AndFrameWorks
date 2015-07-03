@@ -6,7 +6,7 @@ import com.andframe.helper.android.AfDesHelper;
 
 public class DS {
 	
-	private static String key = "92abf7a35f196b52";//¹ã¸æ
+	private static String key = "92abf7a35f196b52";//å¹¿å‘Š
 
 	static AfDesHelper u = new AfDesHelper(AfApplication.getApp().getDesKey());
 	

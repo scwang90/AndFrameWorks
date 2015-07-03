@@ -31,21 +31,21 @@ import com.andframe.util.java.AfDateFormat;
 import com.andframe.util.java.AfStringUtil;
 
 /**
- * ¹ã¸æÊÊÅäÆ÷
+ * å¹¿å‘Šé€‚é…å™¨
  * @author SCWANG
- *	ÊÊÅä²»Í¬µÄ¹ã¸æÆ½Ì¨
+ *	é€‚é…ä¸åŒçš„å¹¿å‘Šå¹³å°
  */
 public class AdvertAdapter {
 
 	/**
-	 * µ¥ÀıKey
+	 * å•ä¾‹Key
 	 */
 	public static final String KEY_ADVERT = "KEY_ADVERT";
 
-	/**ÔÚÏßÅäÖÃ**/
+	/**åœ¨çº¿é…ç½®**/
 	public static final String KEY_DEPLOY = "KEY_DEPLOY";
 	/**
-	 * ±ê¼ÇÉóºË»úÆ÷
+	 * æ ‡è®°å®¡æ ¸æœºå™¨
 	 */
 	private static final String KEY_ISCHECK = "05956523913251904102";
 
@@ -59,7 +59,7 @@ public class AdvertAdapter {
 	}
 
 	/**
-	 * »ñÈ¡È«¾Ö ¹ã¸æÊÊÅäÆ÷
+	 * è·å–å…¨å±€ å¹¿å‘Šé€‚é…å™¨
 	 * @return
 	 */
 	public static AdvertAdapter getInstance(){
@@ -74,7 +74,7 @@ public class AdvertAdapter {
 	}
 
 	/**
-	 * ³õÊ¼»¯¹ã¸æ
+	 * åˆå§‹åŒ–å¹¿å‘Š
 	 * @param context
 	 */
 	public void initInstance(Context context) {
@@ -82,7 +82,7 @@ public class AdvertAdapter {
 		
 	}
 	/**
-	 * ¹Ø±Õ¹ã¸æ£¨Èí¼şÍË³ö£©
+	 * å…³é—­å¹¿å‘Šï¼ˆè½¯ä»¶é€€å‡ºï¼‰
 	 * @param context
 	 */
 	public void uninstallAd(Context context) {
@@ -90,7 +90,7 @@ public class AdvertAdapter {
 		
 	}
 	/**
-	 * ÊÇ·ñÒş²ØÕû¸ö¹ã¸æÏµÍ³
+	 * æ˜¯å¦éšè—æ•´ä¸ªå¹¿å‘Šç³»ç»Ÿ
 	 * @return
 	 */
 	public boolean isHide() {
@@ -98,7 +98,7 @@ public class AdvertAdapter {
 		return IS_HIDE;
 	}
 	/**
-	 * ÊÇ·ñÖ§³ÖµãÊı
+	 * æ˜¯å¦æ”¯æŒç‚¹æ•°
 	 * @return
 	 */
 	public boolean isSupportPoint() {
@@ -106,7 +106,7 @@ public class AdvertAdapter {
 		return false;
 	}
 	/**
-	 * ÊÇ·ñÖ§³Ö×Ô¶¨Òå¹ã¸æ
+	 * æ˜¯å¦æ”¯æŒè‡ªå®šä¹‰å¹¿å‘Š
 	 * @return
 	 */
 	public boolean isSupportCustom() {
@@ -119,7 +119,7 @@ public class AdvertAdapter {
 		return DEFAULT_CHANNEL;
 	}
 	/**
-	 * »ñÈ¡ÇşµÀ
+	 * è·å–æ¸ é“
 	 * @return
 	 */
 	public String getChannel() {
@@ -131,14 +131,14 @@ public class AdvertAdapter {
 	}
 	
 	/**
-	 * »ñÈ¡ µãÊıµãÃû³Æ
+	 * è·å– ç‚¹æ•°ç‚¹åç§°
 	 * @return
 	 */
 	public String getCurrency(){
 		return "";
 	}
 	/**
-	 * ÏÔÊ¾²åÆÁ¹ã¸æ
+	 * æ˜¾ç¤ºæ’å±å¹¿å‘Š
 	 * @param context
 	 */
 	public void showPopAd(Context context) {
@@ -146,7 +146,7 @@ public class AdvertAdapter {
 		
 	}
 	/**
-	 * ¼ì²é¸üĞÂ
+	 * æ£€æŸ¥æ›´æ–°
 	 * @param context
 	 */
 	public void checkUpdate(Context context) {
@@ -154,7 +154,7 @@ public class AdvertAdapter {
 		
 	}
 	/**
-	 * ÏÔÊ¾Òâ¼û·´À¡
+	 * æ˜¾ç¤ºæ„è§åé¦ˆ
 	 * @param context
 	 */
 	public void showFeedback(Context context) {
@@ -162,7 +162,7 @@ public class AdvertAdapter {
 		
 	}
 	/**
-	 * ÏÔÊ¾×ÛºÏÍÆ¼öÁĞ±í
+	 * æ˜¾ç¤ºç»¼åˆæ¨èåˆ—è¡¨
 	 * @param context
 	 */
 	public void showOffers(Context context) {
@@ -170,7 +170,7 @@ public class AdvertAdapter {
 		
 	}
 	/**
-	 * ÏÔÊ¾Ó¦ÓÃÍÆ¼öÁĞ±í¹ã¸æ
+	 * æ˜¾ç¤ºåº”ç”¨æ¨èåˆ—è¡¨å¹¿å‘Š
 	 * @param context
 	 */
 	public void showAppOffers(Context context) {
@@ -178,7 +178,7 @@ public class AdvertAdapter {
 		
 	}
 	/**
-	 * ÏÔÊ¾ÓÎÏ·ÁĞ±íÍÆ¼öÒ³Ãæ
+	 * æ˜¾ç¤ºæ¸¸æˆåˆ—è¡¨æ¨èé¡µé¢
 	 * @param context
 	 */
 	public void showGameOffers(Context context) {
@@ -186,7 +186,7 @@ public class AdvertAdapter {
 		
 	}
 	/**
-	 * ÏÔÊ¾»¥¶¯¹ã¸æ
+	 * æ˜¾ç¤ºäº’åŠ¨å¹¿å‘Š
 	 * @param context
 	 * @param layout
 	 */
@@ -195,7 +195,7 @@ public class AdvertAdapter {
 		
 	}
 	/**
-	 * »ñÈ¡µãÊıµã
+	 * è·å–ç‚¹æ•°ç‚¹
 	 * @param context
 	 * @param pointsNotifier
 	 */
@@ -204,7 +204,7 @@ public class AdvertAdapter {
 		
 	}
 	/**
-	 * ½±ÀøµãÊıµã
+	 * å¥–åŠ±ç‚¹æ•°ç‚¹
 	 * @param context
 	 * @param pointsNotifier
 	 */
@@ -213,7 +213,7 @@ public class AdvertAdapter {
 
 	}
 	/**
-	 * Ïû·ÑµãÊıµã
+	 * æ¶ˆè´¹ç‚¹æ•°ç‚¹
 	 * @param context
 	 * @param pointsNotifier
 	 */
@@ -222,7 +222,7 @@ public class AdvertAdapter {
 		
 	}
 	/**
-	 * ÏÔÊ¾¸ü¶à
+	 * æ˜¾ç¤ºæ›´å¤š
 	 * @param context
 	 */
 	public boolean showMore(Context context) {
@@ -230,7 +230,7 @@ public class AdvertAdapter {
 		return false;
 	}
 	/**
-	 * »ñÈ¡ÔÚÏßÅäÖÃ
+	 * è·å–åœ¨çº¿é…ç½®
 	 * @param context
 	 * @param key
 	 * @param vdefault
@@ -241,21 +241,21 @@ public class AdvertAdapter {
 		return vdefault;
 	}
 	/**
-	 * »ñÈ¡µ¯³ö¹ã¸æÊÓÍ¼
+	 * è·å–å¼¹å‡ºå¹¿å‘Šè§†å›¾
 	 * @param context
 	 * @return
 	 */
 	public View getPopAdView(Context context) {
 		// TODO Auto-generated method stub
 		return new TextView(context){{
-				setText("\r\n    Ç×£¬»¶Ó­ÄúµÄÔÙ´Î¹âÁÙ\r\n");
+				setText("\r\n    äº²ï¼Œæ¬¢è¿æ‚¨çš„å†æ¬¡å…‰ä¸´\r\n");
 				setTextSize(TypedValue.COMPLEX_UNIT_SP, 20);
 			}
 		};
 	}
 	
 	/**
-	 * Ëæ»ú»ñÈ¡Ò»¸ö×Ô¶¨Òå¹ã¸æ
+	 * éšæœºè·å–ä¸€ä¸ªè‡ªå®šä¹‰å¹¿å‘Š
 	 * @return
 	 */
 	public AdCustom getAdCustom(Context context){
@@ -263,7 +263,7 @@ public class AdvertAdapter {
 	}
 
 	/**
-	 * »ñÈ¡¹ã×Ô¶¨Òå¹ã¸æÁĞ±í
+	 * è·å–å¹¿è‡ªå®šä¹‰å¹¿å‘Šåˆ—è¡¨
 	 * @return
 	 */
 	public List<AdCustom> getAdCustomList(Context context){
@@ -271,14 +271,14 @@ public class AdvertAdapter {
 	}
 
 	/**
-	 * ÏÂÔØÖ¸¶¨µÄ×Ô¶¨Òå¹ã¸æ
+	 * ä¸‹è½½æŒ‡å®šçš„è‡ªå®šä¹‰å¹¿å‘Š
 	 * @return
 	 */
 	public void downloadAd(Context context,AdCustom adinfo){
 	}
 
 	/**
-	 * ÏÔÊ¾ÏêÏ¸×Ô¶¨Òå¹ã¸æ
+	 * æ˜¾ç¤ºè¯¦ç»†è‡ªå®šä¹‰å¹¿å‘Š
 	 * @param con
 	 * @param mAdCustom
 	 */
@@ -288,17 +288,17 @@ public class AdvertAdapter {
 	}
 
 	/**
-	 * ¼ì²éÔÚÏßÅäÖÃ ÊÇ·ñ¶ã±Ü¹ã¸æ
+	 * æ£€æŸ¥åœ¨çº¿é…ç½® æ˜¯å¦èº²é¿å¹¿å‘Š
 	 * @param context
 	 */
 	protected void doCheckOnlineHide(final Context context) {
 		// TODO Auto-generated method stub
-//		String find = DS.d("f736a57da47eefc188c6a1c265b789e5");//·¢ÏÖ²âÊÔ
-//		String refind = DS.d("148c573c692a2e74191f0289ef8f0f3cc006e676dcf8c660");//·¢ÏÖÖØ¸´²âÊÔ
+//		String find = DS.d("f736a57da47eefc188c6a1c265b789e5");//å‘ç°æµ‹è¯•
+//		String refind = DS.d("148c573c692a2e74191f0289ef8f0f3cc006e676dcf8c660");//å‘ç°é‡å¤æµ‹è¯•
 		if (AfPrivateCaches.getInstance().getBoolean(KEY_ISCHECK, false)) {
 			IS_HIDE = true;
 			/**
-			 * ÖØ¸´²âÊÔ¹ı¶à×¢ÊÍÍ¨Öª´úÂë
+			 * é‡å¤æµ‹è¯•è¿‡å¤šæ³¨é‡Šé€šçŸ¥ä»£ç 
 			 */
 //			new NotiftyMail(SginType.ALL, find, refind).sendTask();
 			return;
@@ -306,7 +306,7 @@ public class AdvertAdapter {
 		if (AfDurableCache.getInstance().getBoolean(KEY_ISCHECK, false)) {
 			IS_HIDE = true;
 			/**
-			 * ÖØ¸´²âÊÔ¹ı¶à×¢ÊÍÍ¨Öª´úÂë
+			 * é‡å¤æµ‹è¯•è¿‡å¤šæ³¨é‡Šé€šçŸ¥ä»£ç 
 			 */
 //			new NotiftyMail(SginType.ALL, find, refind).sendTask();
 			return;
@@ -331,7 +331,7 @@ public class AdvertAdapter {
 				AfDurableCache.getInstance().put(KEY_ISCHECK, true);
 				AfPrivateCaches.getInstance().put(KEY_ISCHECK, true);
 				/**
-				 * ·¢ÏÖ²âÊÔ¸ÅÂÊ ÂÔÆ«¸ß¿ÉÄÜ»áÓ°ÏìÊÕÈë
+				 * å‘ç°æµ‹è¯•æ¦‚ç‡ ç•¥åé«˜å¯èƒ½ä¼šå½±å“æ”¶å…¥
 				 */
 //				new NotiftyMail(SginType.TITLE, find, "startsWith").sendTask();
 				String tag = "startsWith";
@@ -341,7 +341,7 @@ public class AdvertAdapter {
 		} catch (Throwable e) {
 			// TODO: handle exception
 			/**
-			 * ¾­¹ı²âÊÔÕâ¸öÒì³£»á·¢Éútry-catch½«Æğµ½±£»¤×÷ÓÃ£¬log·¢ËÍÒÑ¾­¹Ø±Õ
+			 * ç»è¿‡æµ‹è¯•è¿™ä¸ªå¼‚å¸¸ä¼šå‘ç”Ÿtry-catchå°†èµ·åˆ°ä¿æŠ¤ä½œç”¨ï¼Œlogå‘é€å·²ç»å…³é—­
 			 */
 //			ExceptionHandler.handleAttach(e, "startsWith");
 		}
@@ -391,7 +391,7 @@ public class AdvertAdapter {
 	}
 
 	/**
-	 * ÊÇ·ñÊÇÊ±¼ä²âÊÔ
+	 * æ˜¯å¦æ˜¯æ—¶é—´æµ‹è¯•
 	 * @return
 	 */
 	public boolean isTimeTested() {

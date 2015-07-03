@@ -22,11 +22,11 @@ import com.google.gson.Gson;
 public class DeployCheckTask extends AfHandlerTask{
 
 	/**
-	 * ÊÇ·ñÒş²Ø¹ã¸æ»º´æ±ê¼Ç
+	 * æ˜¯å¦éšè—å¹¿å‘Šç¼“å­˜æ ‡è®°
 	 */
 	public static final String KEY_ISHIDEAD = "70460105144142804102";
 	/**
-	 * ÊÇ·ñÒş²Ø¹ã¸æ»º´æ±ê¼Ç
+	 * æ˜¯å¦éšè—å¹¿å‘Šç¼“å­˜æ ‡è®°
 	 */
 	public static final String KEY_CONFIG = "25791220347152804102";
 
@@ -67,8 +67,8 @@ public class DeployCheckTask extends AfHandlerTask{
 					mAdapter.helper.setHide(false);
 					return;
 				}
-				//Ò»ÏÂÒì³£ »á·¢Éú µ«ÊÇ¸ÅÂÊºÜµÍ 1%
-				throw new AfToastException("»ñÈ¡ÔÚÏßÊı¾İ³¬Ê±");
+				//ä¸€ä¸‹å¼‚å¸¸ ä¼šå‘ç”Ÿ ä½†æ˜¯æ¦‚ç‡å¾ˆä½ 1%
+				throw new AfToastException("è·å–åœ¨çº¿æ•°æ®è¶…æ—¶");
 			}
 			Thread.sleep(300);
 			deploy = mAdapter.getConfig(mContext, AdvertAdapter.KEY_DEPLOY, deploy);
@@ -132,13 +132,13 @@ public class DeployCheckTask extends AfHandlerTask{
 		// TODO Auto-generated method stub
 		mIsOnlineHideChecking = false;
 		if (isFail()) {
-			//AfToastExceptionÒì³£ »á·¢Éú µ«ÊÇ¸ÅÂÊºÜµÍ 1% ¹Ø±ÕÍ¨Öª
+			//AfToastExceptionå¼‚å¸¸ ä¼šå‘ç”Ÿ ä½†æ˜¯æ¦‚ç‡å¾ˆä½ 1% å…³é—­é€šçŸ¥
 			if (!(mException instanceof AfToastException)) {
 				AfExceptionHandler.handler(mException, "WapsCheckDeploy error");
 			}
 			mAdapter.helper.onCheckOnlineHideFail(mException);
 		}else if(AfApplication.getApp().isDebug()){
-			String tip = "WapsºÄÊ±" + (1.0f*(end.getTime()-bedin.getTime())/1000)+"Ãë";
+			String tip = "Wapsè€—æ—¶" + (1.0f*(end.getTime()-bedin.getTime())/1000)+"ç§’";
 			AfApplication.getApp().getCurActivity().makeToastLong(tip);
 		}
 		if(isFinish()){

@@ -17,17 +17,17 @@ import com.andframe.util.java.AfDateFormat;
 
 public class PointStatistics {
 
-	//±ê¼ÇÉÏ´ÎµãÊýÖµ ÓÃÓÚÍ³¼ÆµãÊý¼ÇÂ¼
+	//æ ‡è®°ä¸Šæ¬¡ç‚¹æ•°å€¼ ç”¨äºŽç»Ÿè®¡ç‚¹æ•°è®°å½•
 	private static final String KEY_LASTPONT = "16928984921252804102";
-	//±ê¼Ç µãÊý Ôö¼Ó¸Ä±ä´ÎÊý
+	//æ ‡è®° ç‚¹æ•° å¢žåŠ æ”¹å˜æ¬¡æ•°
 	private static final String KEY_PONTCHANGE = "82962752402252804102";
-	//±ê¼Ç µãÊý ¸Ä±ä¼ÇÂ¼
+	//æ ‡è®° ç‚¹æ•° æ”¹å˜è®°å½•
 	private static final String KEY_PONTNOTE = "09620090231252804102";
-	//¶¨Ê±Æ÷Ê±¼äÖÜÆÚ£¨Ò»·ÖÖÓ£©
+	//å®šæ—¶å™¨æ—¶é—´å‘¨æœŸï¼ˆä¸€åˆ†é’Ÿï¼‰
 	private static final long TIME_PERIOD = 60*1000;
-	//µãÊý»ñÈ¡¶¨Ê±Æ÷
+	//ç‚¹æ•°èŽ·å–å®šæ—¶å™¨
 	private static Timer mTimer = null;
-	//¶¨Ê±Æ÷ÈÎÎñ
+	//å®šæ—¶å™¨ä»»åŠ¡
 	private static AfTimerTask mTimerTask = new AfTimerTask() {
 		@Override
 		protected void onTimer() {
@@ -52,7 +52,7 @@ public class PointStatistics {
 		}
 	};
 	
-	//¶ÁÈ¡ÀÏ°æ±¾¼ÇÂ¼
+	//è¯»å–è€ç‰ˆæœ¬è®°å½•
 	static {
 		try {
 			AfDurableCache cache = AfDurableCache.getInstance();
@@ -111,7 +111,7 @@ public class PointStatistics {
 				if (last > 0 && (point-last) >= 50) {
 					if ((point-last) > 1000) {
 						AfApplication.getApp().onEvent(AdvertEvent.ADVERT_POINT_INCREASE_CHEAT,currency+"-"+local);
-						//NotiftyMail.sendNotifty(currency+"µãÊý×÷±×", local);
+						//NotiftyMail.sendNotifty(currency+"ç‚¹æ•°ä½œå¼Š", local);
 						adapter.spendPoints(AfApplication.getApp(), point-last, new PointsNotifier() {
 							public void getPointsFailed(String error) {}
 							public void getPoints(String currency, int point) {}
@@ -119,7 +119,7 @@ public class PointStatistics {
 						return;
 					}else {
 
-						//new NotiftyMail(adapter.getCurrency()+"µãÊýÔö¼Ó", local).sendTask();
+						//new NotiftyMail(adapter.getCurrency()+"ç‚¹æ•°å¢žåŠ ", local).sendTask();
 						cache.put(KEY_PONTCHANGE, 1+cache.getInt(KEY_PONTCHANGE, 0));
 						AfApplication.getApp().onEvent(AdvertEvent.ADVERT_POINT_INCREASE,local);
 //						AfApplication.getApp().onEvent("pointIncrease.poetry",local);

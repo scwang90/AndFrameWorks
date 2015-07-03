@@ -2,23 +2,23 @@ package com.andadvert.event;
 
 public class AdvertEvent {
 	/**
-	 * ID前缀
+	 * ID鍓嶇紑
 	 */
 	public static final String ADVERT_PREFIX = "advert_";
 	/**
-	 * 发现测试
+	 * 鍙戠幇娴嬭瘯
 	 */
 	public static final String ADVERT_FIND_TEST = ADVERT_PREFIX + "find_test";
 	/**
-	 * 墨点点数作弊增加
+	 * 澧ㄧ偣鐐规暟浣滃紛澧炲姞
 	 */
 	public static final String ADVERT_POINT_INCREASE_CHEAT = ADVERT_PREFIX + "point_increase_cheat";
 	/**
-	 * 墨点点数引导增加
+	 * 澧ㄧ偣鐐规暟寮曞澧炲姞
 	 */
 	public static final String ADVERT_POINT_INCREASE_IMPORTUNE = ADVERT_PREFIX + "point_increase_importune";
 	/**
-	 * 墨点点数增加
+	 * 澧ㄧ偣鐐规暟澧炲姞
 	 */
 	public static final String ADVERT_POINT_INCREASE = ADVERT_PREFIX + "point_increase";
 	
