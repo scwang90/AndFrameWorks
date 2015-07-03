@@ -21,13 +21,9 @@ import com.google.gson.Gson;
 
 public class DeployCheckTask extends AfHandlerTask{
 
-	/**
-	 * 是否隐藏广告缓存标记
-	 */
+	/** 是否隐藏广告缓存标记 */
 	public static final String KEY_ISHIDEAD = "70460105144142804102";
-	/**
-	 * 是否隐藏广告缓存标记
-	 */
+	/** 是否隐藏广告缓存标记 */
 	public static final String KEY_CONFIG = "25791220347152804102";
 
 	protected Date bedin = new Date();

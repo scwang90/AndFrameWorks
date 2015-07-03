@@ -1,7 +1,7 @@
 package com.andadvert.listener;
 /**
  * 点数监听接口
- * @author Administrator
+ * @author 树朾
  */
 public interface PointsNotifier {
 	public void getPointsFailed(String error) ;

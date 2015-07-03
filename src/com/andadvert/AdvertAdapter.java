@@ -32,21 +32,17 @@ import com.andframe.util.java.AfStringUtil;
 
 /**
  * 广告适配器
- * @author SCWANG
- *	适配不同的广告平台
+ * @author 树朾
+ * 适配不同的广告平台
  */
 public class AdvertAdapter {
 
-	/**
-	 * 单例Key
-	 */
+	/** 单例Key */
 	public static final String KEY_ADVERT = "KEY_ADVERT";
 
 	/**在线配置**/
 	public static final String KEY_DEPLOY = "KEY_DEPLOY";
-	/**
-	 * 标记审核机器
-	 */
+	/** 标记审核机器 */
 	private static final String KEY_ISCHECK = "05956523913251904102";
 
 	protected OnlineDeploy mDeploy = new OnlineDeploy(){{Remark="default";}};
@@ -81,6 +77,7 @@ public class AdvertAdapter {
 		// TODO Auto-generated method stub
 		
 	}
+
 	/**
 	 * 关闭广告（软件退出）
 	 * @param context
@@ -89,6 +86,7 @@ public class AdvertAdapter {
 		// TODO Auto-generated method stub
 		
 	}
+
 	/**
 	 * 是否隐藏整个广告系统
 	 * @return
@@ -97,6 +95,7 @@ public class AdvertAdapter {
 		// TODO Auto-generated method stub
 		return IS_HIDE;
 	}
+
 	/**
 	 * 是否支持点数
 	 * @return
@@ -105,6 +104,7 @@ public class AdvertAdapter {
 		// TODO Auto-generated method stub
 		return false;
 	}
+
 	/**
 	 * 是否支持自定义广告
 	 * @return
@@ -118,6 +118,7 @@ public class AdvertAdapter {
 		// TODO Auto-generated method stub
 		return DEFAULT_CHANNEL;
 	}
+
 	/**
 	 * 获取渠道
 	 * @return
@@ -137,6 +138,7 @@ public class AdvertAdapter {
 	public String getCurrency(){
 		return "";
 	}
+
 	/**
 	 * 显示插屏广告
 	 * @param context
@@ -145,6 +147,7 @@ public class AdvertAdapter {
 		// TODO Auto-generated method stub
 		
 	}
+
 	/**
 	 * 检查更新
 	 * @param context
@@ -153,6 +156,7 @@ public class AdvertAdapter {
 		// TODO Auto-generated method stub
 		
 	}
+
 	/**
 	 * 显示意见反馈
 	 * @param context
@@ -161,6 +165,7 @@ public class AdvertAdapter {
 		// TODO Auto-generated method stub
 		
 	}
+
 	/**
 	 * 显示综合推荐列表
 	 * @param context
@@ -169,6 +174,7 @@ public class AdvertAdapter {
 		// TODO Auto-generated method stub
 		
 	}
+
 	/**
 	 * 显示应用推荐列表广告
 	 * @param context
@@ -177,6 +183,7 @@ public class AdvertAdapter {
 		// TODO Auto-generated method stub
 		
 	}
+
 	/**
 	 * 显示游戏列表推荐页面
 	 * @param context
@@ -185,6 +192,7 @@ public class AdvertAdapter {
 		// TODO Auto-generated method stub
 		
 	}
+
 	/**
 	 * 显示互动广告
 	 * @param context
@@ -194,6 +202,7 @@ public class AdvertAdapter {
 		// TODO Auto-generated method stub
 		
 	}
+
 	/**
 	 * 获取点数点
 	 * @param context
@@ -203,6 +212,7 @@ public class AdvertAdapter {
 		// TODO Auto-generated method stub
 		
 	}
+
 	/**
 	 * 奖励点数点
 	 * @param context
@@ -212,6 +222,7 @@ public class AdvertAdapter {
 		// TODO Auto-generated method stub
 
 	}
+
 	/**
 	 * 消费点数点
 	 * @param context
@@ -221,6 +232,7 @@ public class AdvertAdapter {
 		// TODO Auto-generated method stub
 		
 	}
+
 	/**
 	 * 显示更多
 	 * @param context
@@ -229,6 +241,7 @@ public class AdvertAdapter {
 		// TODO Auto-generated method stub
 		return false;
 	}
+
 	/**
 	 * 获取在线配置
 	 * @param context
@@ -240,6 +253,7 @@ public class AdvertAdapter {
 		// TODO Auto-generated method stub
 		return vdefault;
 	}
+
 	/**
 	 * 获取弹出广告视图
 	 * @param context
