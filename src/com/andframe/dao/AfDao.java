@@ -19,7 +19,7 @@ import com.andframe.util.UUIDUtil;
 import com.andframe.util.java.AfReflecter;
 
 public abstract class AfDao<T> {
-	
+
 	protected Class<T> mClazz;
 	protected SQLiteDatabase mDbWriteable = null;
 	protected SQLiteDatabase mDbReadable = null;
@@ -48,9 +48,36 @@ public abstract class AfDao<T> {
 		this.Initialized(mClazz);
 	}
 
+	public AfDao(Context context,Class<T> clazz) {
+		this.mClazz = clazz;
+		this.mHelper = AfDbOpenHelper.getInstance(context,mClazz);
+		this.mDbWriteable = mHelper.getWritableDatabase();
+		this.mDbReadable = mHelper.getReadableDatabase();
+		this.mTableName = Interpreter.getTableName(mClazz);
+		this.Initialized(mClazz);
+	}
+
+	public AfDao(Context context,Class<T> clazz,String dbname) {
+		this.mClazz = clazz;
+		this.mHelper = AfDbOpenHelper.getInstance(context,mClazz,dbname);
+		this.mDbWriteable = mHelper.getWritableDatabase();
+		this.mDbReadable = mHelper.getReadableDatabase();
+		this.mTableName = Interpreter.getTableName(mClazz);
+		this.Initialized(mClazz);
+	}
+
 	@SuppressWarnings("unchecked")
 	public AfDao(Context context,String path,String dbname) {
 		this.mClazz = (Class<T>)AfReflecter.getActualTypeArgument(this, AfDao.class, 0);
+		this.mHelper = AfDbOpenHelper.getInstance(context,mClazz,path,dbname);
+		this.mDbWriteable = mHelper.getWritableDatabase();
+		this.mDbReadable = mHelper.getReadableDatabase();
+		this.mTableName = Interpreter.getTableName(mClazz);
+		this.Initialized(mClazz);
+	}
+
+	public AfDao(Context context,Class<T> clazz,String path,String dbname) {
+		this.mClazz = clazz;
 		this.mHelper = AfDbOpenHelper.getInstance(context,mClazz,path,dbname);
 		this.mDbWriteable = mHelper.getWritableDatabase();
 		this.mDbReadable = mHelper.getReadableDatabase();
@@ -64,7 +91,7 @@ public abstract class AfDao<T> {
 		super.finalize();
 		this.close();
 	}
-	
+
 	private void Initialized(Class<T> clazz) {
 		boolean isfrist = true;
 		StringBuilder values = new StringBuilder();
@@ -129,20 +156,18 @@ public abstract class AfDao<T> {
 		}
 	}
 
-	/**
-	 * 关闭之后会出现各种问题
-	 */
 	public final void close() {
 		// TODO Auto-generated method stub
 		synchronized(mHelper){
-//			mDbReadable.close();
-//			mDbWriteable.close();
+			mDbReadable.close();
+			mDbWriteable.close();
 //			mHelper.close();
 		}
 	}
 
 	/**
 	 * 添加一条记录
+	 *
 	 * @param obj
 	 * @return
 	 */
@@ -181,6 +206,7 @@ public abstract class AfDao<T> {
 
 	/**
 	 * 更新一条记录
+	 *
 	 * @param obj
 	 * @return
 	 */
@@ -228,6 +254,7 @@ public abstract class AfDao<T> {
 
 	/**
 	 * 统计条件符合where 的 数据条数
+	 *
 	 * @param column
 	 * @return
 	 */
@@ -262,6 +289,7 @@ public abstract class AfDao<T> {
 
 	/**
 	 * 删除符合Where条件的数据
+	 *
 	 * @param where
 	 */
 	public final void delWhere(String where) {
@@ -273,6 +301,7 @@ public abstract class AfDao<T> {
 
 	/**
 	 * 分页查询
+	 *
 	 * @param column
 	 * @param num
 	 * @param offset
@@ -295,6 +324,7 @@ public abstract class AfDao<T> {
 
 	/**
 	 * 分页查询 带排序
+	 *
 	 * @param column
 	 * @param order
 	 * @param num
@@ -302,7 +332,7 @@ public abstract class AfDao<T> {
 	 * @return
 	 */
 	protected final List<Model> getModelsLimit(String column, String order, int num,
-			int offset) {
+											   int offset) {
 		synchronized(mHelper){
 			StringBuilder sql = new StringBuilder();
 			sql.append("select ");
@@ -321,6 +351,7 @@ public abstract class AfDao<T> {
 
 	/**
 	 * 分页查询 带排序 条件
+	 *
 	 * @param column
 	 * @param where
 	 * @param order
@@ -329,7 +360,7 @@ public abstract class AfDao<T> {
 	 * @return
 	 */
 	protected final List<Model> getModelsLimit(String column, String where, String order,
-			int num, int offset) {
+											   int num, int offset) {
 		synchronized(mHelper){
 			StringBuilder sql = new StringBuilder();
 			sql.append("select ");
@@ -350,6 +381,7 @@ public abstract class AfDao<T> {
 
 	/**
 	 * 分页查询 带排序 条件
+	 *
 	 * @param column
 	 * @param where
 	 * @param order
@@ -369,9 +401,9 @@ public abstract class AfDao<T> {
 			return getModels(mDbReadable.rawQuery(sql.toString(), null));
 		}
 	}
-
 	/**
 	 * 条件查询 带分页
+	 *
 	 * @param column
 	 * @param where
 	 * @param num
@@ -379,7 +411,7 @@ public abstract class AfDao<T> {
 	 * @return
 	 */
 	protected final List<Model> getModelsWhere(String column, String where, int num,
-			int offset) {
+											   int offset) {
 		synchronized(mHelper){
 			StringBuilder sql = new StringBuilder();
 			sql.append("select ");
@@ -398,6 +430,7 @@ public abstract class AfDao<T> {
 
 	/**
 	 * 条件查询
+	 *
 	 * @param column
 	 * @param where
 	 * @param num
@@ -419,18 +452,20 @@ public abstract class AfDao<T> {
 
 	/**
 	 * 获取全部
+	 *
 	 * @param column
 	 * @return
 	 */
 	protected final List<Model> getModelsAll(String column) {
 		synchronized(mHelper){
-		return getModels(mDbReadable.rawQuery("select " + column + " from " + mTableName,
-				null));
+			return getModels(mDbReadable.rawQuery("select " + column + " from " + mTableName,
+					null));
 		}
 	}
 
 	/**
 	 * 获取全部
+	 *
 	 * @param column
 	 * @return
 	 */
@@ -450,14 +485,14 @@ public abstract class AfDao<T> {
 	protected Model getModel(Cursor cursor) {
 		// TODO Auto-generated method stub
 		try {
-            Model model = new Model();
-            if (cursor.moveToNext()) {
-                int columnCount = cursor.getColumnCount();
-                for (int i = 0; i < columnCount; i++) {
-                    model.set(cursor.getColumnName(i), cursor.getString(i));
-                }
-            }
-            return model;
+			Model model = new Model();
+			if (cursor.moveToNext()) {
+				int columnCount = cursor.getColumnCount();
+				for (int i = 0; i < columnCount; i++) {
+					model.set(cursor.getColumnName(i), cursor.getString(i));
+				}
+			}
+			return model;
 		} finally{
 			// TODO: handle exception
 			cursor.close();
@@ -470,65 +505,65 @@ public abstract class AfDao<T> {
 			List<Model> models = new ArrayList<AfDao.Model>();
 			while (cursor.moveToNext()) {
 				Model model = new Model();
-                int count = cursor.getColumnCount();
-                for (int i = 0; i < count; i++) {
-                	model.set(cursor.getColumnName(i), cursor.getString(i));
-                }
-                models.add(model);
-            }
-            return models;
+				int count = cursor.getColumnCount();
+				for (int i = 0; i < count; i++) {
+					model.set(cursor.getColumnName(i), cursor.getString(i));
+				}
+				models.add(model);
+			}
+			return models;
 		} finally{
 			// TODO: handle exception
 			cursor.close();
 		}
 	}
-	
+
 	@SuppressWarnings("serial")
 	public static class Model extends HashMap<String, Object>{
-		
-	    private Object model;
-	    
-	    public Model() {
+
+		private Object model;
+
+		public Model() {
 			// TODO Auto-generated constructor stub
 		}
 
 		public Model(Object obj) {
 			// TODO Auto-generated constructor stub
-	    	this.model = obj;
+			this.model = obj;
 		}
 
 		public Object get(String column) {
-	        return super.get(column);
-	    }
+			return super.get(column);
+		}
 
-	    public String getString(String column) {
-	        return String.valueOf(get(column));
-	    }
+		public String getString(String column) {
+			return String.valueOf(get(column));
+		}
 
 		public Short getShort(String columnName) {
 			// TODO Auto-generated method stub
-	        return Short.valueOf(getString(columnName));
+			return Short.valueOf(getString(columnName));
 		}
 
-	    public int getInt(String column) {
-	        return Integer.valueOf(getString(column));
-	    }
+		public int getInt(String column) {
+			return Integer.valueOf(getString(column));
+		}
 
-	    public boolean getBoolean(String column) {
-	        return Boolean.valueOf(getString(column));
-	    }
+		public boolean getBoolean(String column) {
+			return Boolean.valueOf(getString(column));
+		}
 
-	    public double getDouble(String column) {
-	        return Double.valueOf(getString(column));
-	    }
+		public double getDouble(String column) {
+			return Double.valueOf(getString(column));
+		}
 
-	    public float getFloat(String column) {
-	        return Float.valueOf(getString(column));
-	    }
+		public float getFloat(String column) {
+			return Float.valueOf(getString(column));
+		}
 
-	    public long getLong(String column) {
-	        return Long.valueOf(getString(column));
-	    }
+		public long getLong(String column) {
+			return Long.valueOf(getString(column));
+		}
 
 		public UUID getUUID(String column) {
 			// TODO Auto-generated method stub
@@ -545,9 +580,9 @@ public abstract class AfDao<T> {
 			return new Date(getLong(column));
 		}
 
-	    public void set(String key, Object value) {
-	        put(key, value);
-	    }
+		public void set(String key, Object value) {
+			put(key, value);
+		}
 
 		public Object getFieldObject(Field field) throws Exception {
 			// TODO Auto-generated method stub

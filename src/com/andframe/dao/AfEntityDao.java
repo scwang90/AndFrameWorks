@@ -29,23 +29,40 @@ public class AfEntityDao<T> extends AfDao<T>{
 		// TODO Auto-generated constructor stub
 	}
 
+
+	public AfEntityDao(Context context,Class<T> clazz) {
+		super(context,clazz);
+		// TODO Auto-generated constructor stub
+	}
+
+	public AfEntityDao(Context context,Class<T> clazz, String dbname) {
+		super(context,clazz, dbname);
+		// TODO Auto-generated constructor stub
+	}
+
+	public AfEntityDao(Context context,Class<T> clazz,String path, String dbname) {
+		super(context,clazz, path, dbname);
+		// TODO Auto-generated constructor stub
+	}
+
 	/**
 	 * 获取全部
 	 * @return
 	 */
 	public List<T> getAll(){
-		return getListEntity(super.getModelsAll("*"));
+		return getEntitys(super.getModelsAll("*"));
 	}
 
 	/**
 	 * 获取全部
+	 *
 	 * @param order
 	 * @return
 	 */
 	public List<T> getAll(String order) {
-		return getListEntity(super.getModelsAll("*",order));
+		return getEntitys(super.getModelsAll("*",order));
 	}
-	
+
 	/**
 	 * 分页查询
 	 * @param num
@@ -53,7 +70,7 @@ public class AfEntityDao<T> extends AfDao<T>{
 	 * @return
 	 */
 	public List<T> getLimit(int num, int offset) {
-		return getListEntity(super.getModelsLimit("*", num, offset));
+		return getEntitys(super.getModelsLimit("*", num, offset));
 	}
 
 	/**
@@ -64,11 +81,12 @@ public class AfEntityDao<T> extends AfDao<T>{
 	 * @return
 	 */
 	public List<T> getLimit(String order, int num,int offset) {
-		return getListEntity(super.getModelsLimit("*",order, num, offset));
+		return getEntitys(super.getModelsLimit("*",order, num, offset));
 	}
 
 	/**
 	 * 分页查询 带排序 条件
+	 *
 	 * @param where
 	 * @param order
 	 * @param num
@@ -76,22 +94,23 @@ public class AfEntityDao<T> extends AfDao<T>{
 	 * @return
 	 */
 	public List<T> getLimit(String where, String order,
-			int num, int offset) {
-		return getListEntity(super.getModelsLimit("*",where,order, num, offset));
+							int num, int offset) {
+		return getEntitys(super.getModelsLimit("*",where,order, num, offset));
 	}
 
 	/**
 	 * 分页查询 带排序 条件
+	 *
 	 * @param where
 	 * @param order
 	 * @return
 	 */
 	public List<T> getWhere(String where, String order) {
-		return getListEntity(super.getModelsWhere("*",where,order));
+		return getEntitys(super.getModelsWhere("*",where,order));
 	}
-
 	/**
 	 * 条件查询 带分页
+	 *
 	 * @param column
 	 * @param where
 	 * @param num
@@ -99,20 +118,21 @@ public class AfEntityDao<T> extends AfDao<T>{
 	 * @return
 	 */
 	public List<T> getWhere(String where, int num,int offset) {
-		return getListEntity(super.getModelsWhere("*",where,num,offset));
+		return getEntitys(super.getModelsWhere("*",where,num,offset));
 	}
 
 	/**
 	 * 条件查询
+	 *
 	 * @param where
 	 * @return
 	 */
 	public final List<T> getWhere(String where) {
-		return getListEntity(super.getModelsWhere("*",where));
+		return getEntitys(super.getModelsWhere("*",where));
 	}
 
-	
-	protected List<T> getListEntity(List<Model> models) {
+
+	protected List<T> getEntitys(List<Model> models) {
 		List<T> ltEntity = new ArrayList<T>();
 		try {
 			for (Model model : models) {
@@ -120,11 +140,18 @@ public class AfEntityDao<T> extends AfDao<T>{
 			}
 		} catch (Throwable ex) {
 			// TODO Auto-generated catch block
-			AfExceptionHandler.handler(ex, "AfEntityDao.getListEntity.getEntity-Exception");
+			AfExceptionHandler.handler(ex, "AfEntityDao.getEntitys.getEntity-Exception");
 		}
 		return ltEntity;
 	}
-	
+
+	protected T getEntity(List<Model> models) throws Exception {
+		for (Model model : models) {
+			return getEntity(model);
+		}
+		return null;
+	}
+
 	protected T getEntity(Model model) throws Exception {
 		// TODO Auto-generated method stub
 		T entity = mClazz.newInstance();
