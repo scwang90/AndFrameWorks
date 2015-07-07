@@ -108,7 +108,7 @@ public class AfExceptionHandler implements UncaughtExceptionHandler{
 			}
 			
 			String path = AfDurableCache.getPath();
-			FileWriter writer = new FileWriter(path+"/attach-"+AfDateFormat.FULL.format(new Date()));
+			FileWriter writer = new FileWriter(path+"/attach-"+AfDateFormat.format("y-M-d$HH-mm-ss",new Date())+".txt");
 			writer.write(msg);
 			writer.close();
 		} catch (Throwable e) {
@@ -134,7 +134,7 @@ public class AfExceptionHandler implements UncaughtExceptionHandler{
 			}
 			
 			String path = AfDurableCache.getPath();
-			FileWriter writer = new FileWriter(path+"/handler-"+AfDateFormat.FULL.format(new Date()));
+			FileWriter writer = new FileWriter(path+"/handler-"+AfDateFormat.format("y-M-d$HH-mm-ss",new Date())+".txt");
 			writer.write(msg);
 			writer.close();
 		} catch (Throwable e) {
@@ -169,7 +169,7 @@ public class AfExceptionHandler implements UncaughtExceptionHandler{
 				mDefaultHandler.uncaughtException(thread, ex);
 			}
 			String path = AfDurableCache.getPath();
-			FileWriter writer = new FileWriter(path+"/error-"+AfDateFormat.FULL.format(new Date()));
+			FileWriter writer = new FileWriter(path+"/error-"+AfDateFormat.format("y-M-d$HH-mm-ss",new Date())+".txt");
 			writer.write(msg);
 			writer.close();
 			return;
