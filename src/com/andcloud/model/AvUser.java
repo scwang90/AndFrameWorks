@@ -17,6 +17,10 @@ public class AvUser extends AVUser {
 	 */
 	private static final String Avator = "Avator";
 	/**
+	 * 个性化头像Url(第三方登陆)
+	 */
+	private static final String AvatorUrl = "AvatorUrl";
+	/**
 	 * 性别
 	 */
 	private static final String Gender = "Gender";
@@ -31,6 +35,14 @@ public class AvUser extends AVUser {
 	
 	public void setNickName(String name) {
 		this.put(NickName, name);
+	}
+	
+	public void setAvatorUrl(String avator) {
+		this.put(AvatorUrl, avator);
+	}
+	
+	public String getAvatorUrl() {
+		return this.getString(AvatorUrl);
 	}
 	
 	public String getNickName() {
