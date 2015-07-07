@@ -438,7 +438,7 @@ public class AfImageService {
 		// 如果失败从网络上加载数据
 		if (idefault == 0 && image != null) {
 			bindImageBitmap(view,listener,image,effect);
-		} else if(idefault > 0){
+		} else if (idefault > 0){
 			view.setImageResource(idefault);
 		}
 	}
@@ -448,7 +448,7 @@ public class AfImageService {
 		// 如果失败从网络上加载数据
 		if (idefault == null && image != null) {
 			bindImageBitmap(view,listener,image,effect);
-		} else if(idefault != null){
+		} else if (idefault != null){
 			AfApplication app = AfApplication.getApp();
 			AfImageCaches imagecaches = AfImageCaches.getInstance();
 			BitmapDrawable bitmap = imagecaches.get(app,idefault);

@@ -148,7 +148,7 @@ public abstract class AfDao<T> {
 				bool = false;
 			}
 			return Interpreter.getColumnName(field) + "='" + (bool ? 1 : 0) + "'";
-		} else if(data == null){
+		} else if (data == null){
 			return Interpreter.getColumnName(field) + "=null";
 		}else {
 			String value = data==null?"null":data.toString();

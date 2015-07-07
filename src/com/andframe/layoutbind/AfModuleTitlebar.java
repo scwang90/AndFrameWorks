@@ -83,7 +83,7 @@ public class AfModuleTitlebar extends AfLayoutModule implements OnClickListener 
 				if (activity != null) {
 					activity.finish();
 				}
-			} else if(v.getId() == R.id.titlebar_other_meun){
+			} else if (v.getId() == R.id.titlebar_other_meun){
 				PopupMenu pm = new PopupMenu(v.getContext(), v);
 				if (pm.isValid()) {
 					Iterator<Entry<String, Integer>> iter = mMeuns.entrySet().iterator();  
