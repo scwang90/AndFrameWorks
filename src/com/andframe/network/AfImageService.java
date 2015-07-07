@@ -7,7 +7,6 @@ import java.util.Locale;
 
 import android.content.Context;
 import android.graphics.Bitmap;
-import android.graphics.BitmapFactory;
 import android.graphics.drawable.BitmapDrawable;
 import android.graphics.drawable.Drawable;
 import android.os.Message;
@@ -23,6 +22,7 @@ import com.andframe.helper.android.AfImageHelper;
 import com.andframe.thread.AfDownloader.DownloadEntity;
 import com.andframe.thread.AfDownloader.DownloadTask;
 import com.andframe.thread.AfHandlerTask;
+import com.andframe.util.android.AfImageThumb;
 import com.andframe.util.android.AfNetwork;
 
 public class AfImageService {
@@ -438,7 +438,7 @@ public class AfImageService {
 		// 如果失败从网络上加载数据
 		if (idefault == 0 && image != null) {
 			bindImageBitmap(view,listener,image,effect);
-		} else if(idefault > 0){
+		} else if (idefault > 0){
 			view.setImageResource(idefault);
 		}
 	}
@@ -448,7 +448,7 @@ public class AfImageService {
 		// 如果失败从网络上加载数据
 		if (idefault == null && image != null) {
 			bindImageBitmap(view,listener,image,effect);
-		} else if(idefault != null){
+		} else if (idefault != null){
 			AfApplication app = AfApplication.getApp();
 			AfImageCaches imagecaches = AfImageCaches.getInstance();
 			BitmapDrawable bitmap = imagecaches.get(app,idefault);
@@ -591,7 +591,8 @@ public class AfImageService {
 					throw new AfException("未知异常，找不到文件");
 				}
 			}else {
-				Bitmap bitmap = BitmapFactory.decodeFile(mLinkUrl);
+//				Bitmap bitmap = BitmapFactory.decodeFile(mLinkUrl);
+				Bitmap bitmap = AfImageThumb.revitionImageSize(mLinkUrl, 1.0f);
 				mBitmap = new BitmapDrawable(app.getResources(), bitmap);
 				bitmap.toString();//用于当bitmap=null时抛出异常
 			}
