@@ -12,7 +12,7 @@ import com.umeng.analytics.AnalyticsConfig;
 import com.umeng.analytics.MobclickAgent;
 
 public class AndCloud {
-	
+
 	public static abstract class QQAuthHelper{
 		public abstract Tencent getQQAuth();
 	}
@@ -21,13 +21,13 @@ public class AndCloud {
 	public static void initializeQQAuth(Context appcontext,String appid){
 		mTencent = Tencent.createInstance(appid, appcontext);
 	}
-	
+
 	public static QQAuthHelper helper = new QQAuthHelper(){
 		public Tencent getQQAuth(){
 			return mTencent;
 		}
 	};
-	
+
 	public static void registerSubclass(Class<? extends AVObject> clazz){
 		try {
 			AVObject.registerSubclass(clazz);
@@ -36,7 +36,7 @@ public class AndCloud {
 			AfExceptionHandler.handler(e, "AndCloud.registerSubclass");
 		}
 	}
-	
+
 	public static void initializeAvos(Context context,String appid,String appkey,String channel) {
 		try {
 		    // 初始化应用 Id 和 应用 Key，您可以在应用设置菜单里找到这些信息
@@ -49,7 +49,7 @@ public class AndCloud {
 			AfExceptionHandler.handler(e, "AndCloud.initialize");
 		}
 	}
-	
+
 	public static void initializeUmeng(Context context,String appkey,String channel) {
 		try {
 			boolean isDebug = AfApplication.getApp().isDebug();

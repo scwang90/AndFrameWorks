@@ -15,7 +15,7 @@ import com.avos.avoscloud.feedback.FeedbackThread;
 import com.avos.avoscloud.feedback.FeedbackThread.SyncCallback;
 
 public class FeedbackAgent {
-	
+
 	FeedbackThread defaultThread;
 	Context mContext;
 	boolean contactSwitch = true;

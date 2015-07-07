@@ -8,7 +8,7 @@ import com.avos.avoscloud.AVAnalytics;
 import com.umeng.analytics.MobclickAgent;
 
 public class AbActivity extends AfActivity {
-	
+
 	protected void onPause() {
 		super.onPause();
 		AbActivity.pause(this);

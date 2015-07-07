@@ -13,7 +13,7 @@ public class AvUserDomain extends AvDomain<AvUser>{
 		user.setNickName(nickname);
 		user.signUp();
 	}
-	
+
 	public AvUser logIn(String username,String password) throws AVException {
 		// TODO Auto-generated method stub
 		AvUser.logOut();
@@ -24,7 +24,7 @@ public class AvUserDomain extends AvDomain<AvUser>{
 		// TODO Auto-generated method stub
 		return AvUser.getCurrentUser(AvUser.class);
 	}
-	
+
 	public void logOut() throws AVException {
 		// TODO Auto-generated method stub
 		AvUser.logOut();
