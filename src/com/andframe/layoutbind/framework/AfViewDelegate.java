@@ -11,7 +11,6 @@ import android.graphics.Paint;
 import android.graphics.Point;
 import android.graphics.Rect;
 import android.graphics.drawable.Drawable;
-import android.os.Build;
 import android.os.Bundle;
 import android.os.Handler;
 import android.os.IBinder;
@@ -27,12 +26,16 @@ import android.view.KeyEvent.DispatcherState;
 import android.view.MotionEvent;
 import android.view.TouchDelegate;
 import android.view.View;
+import android.view.ViewDebug.CapturedViewProperty;
+import android.view.ViewDebug.ExportedProperty;
+import android.view.ViewDebug.IntToString;
 import android.view.ViewGroup.LayoutParams;
 import android.view.ViewOverlay;
 import android.view.ViewParent;
 import android.view.ViewPropertyAnimator;
 import android.view.ViewTreeObserver;
 import android.view.WindowId;
+import android.view.WindowInsets;
 import android.view.accessibility.AccessibilityEvent;
 import android.view.accessibility.AccessibilityNodeInfo;
 import android.view.accessibility.AccessibilityNodeProvider;
@@ -47,1353 +50,3193 @@ public class AfViewDelegate extends View{
 	public AfViewDelegate(View view) {
 		super(view.getContext());
 		// TODO Auto-generated constructor stub
-		if (this.target == null) {
-			this.target = this;
-		}else {
-			this.target = view;
-		}
+		this.target = view;
 	}
 
+	@Override
 	public void addChildrenForAccessibility(ArrayList<View> children) {
-		target.addChildrenForAccessibility(children);
+		// TODO Auto-generated method stub
+		if (this.target == null) {
+			super.addChildrenForAccessibility(children);
+		}
+		this.target.addChildrenForAccessibility(children);
 	}
 
+	@Override
 	public void addFocusables(ArrayList<View> views, int direction,
 			int focusableMode) {
-		target.addFocusables(views, direction, focusableMode);
+		// TODO Auto-generated method stub
+		if (this.target == null) {
+			return;
+		}
+		this.target.addFocusables(views, direction, focusableMode);
 	}
 
+	@Override
 	public void addFocusables(ArrayList<View> views, int direction) {
-		target.addFocusables(views, direction);
+		// TODO Auto-generated method stub
+		if (this.target == null) {
+			return;
+		}
+		this.target.addFocusables(views, direction);
 	}
 
+	@Override
 	public void addOnAttachStateChangeListener(
 			OnAttachStateChangeListener listener) {
-		target.addOnAttachStateChangeListener(listener);
+		// TODO Auto-generated method stub
+		if (this.target == null) {
+			return;
+		}
+		this.target.addOnAttachStateChangeListener(listener);
 	}
 
+	@Override
 	public void addOnLayoutChangeListener(OnLayoutChangeListener listener) {
-		target.addOnLayoutChangeListener(listener);
+		// TODO Auto-generated method stub
+		if (this.target == null) {
+			return;
+		}
+		this.target.addOnLayoutChangeListener(listener);
 	}
 
+	@Override
 	public void addTouchables(ArrayList<View> views) {
-		target.addTouchables(views);
+		// TODO Auto-generated method stub
+		if (this.target == null) {
+			return;
+		}
+		this.target.addTouchables(views);
 	}
 
+	@Override
 	public ViewPropertyAnimator animate() {
-		return target.animate();
+		// TODO Auto-generated method stub
+		if (this.target == null) {
+			return super.animate();
+		}
+		return this.target.animate();
 	}
 
+	@Override
 	public void announceForAccessibility(CharSequence text) {
-		target.announceForAccessibility(text);
+		// TODO Auto-generated method stub
+		if (this.target == null) {
+			return;
+		}
+		this.target.announceForAccessibility(text);
 	}
 
+	@Override
 	public void bringToFront() {
-		target.bringToFront();
+		// TODO Auto-generated method stub
+		if (this.target == null) {
+			return;
+		}
+		this.target.bringToFront();
 	}
 
+	@Override
 	public void buildDrawingCache() {
-		target.buildDrawingCache();
+		// TODO Auto-generated method stub
+		if (this.target == null) {
+			return;
+		}
+		this.target.buildDrawingCache();
 	}
 
+	@Override
 	public void buildDrawingCache(boolean autoScale) {
-		target.buildDrawingCache(autoScale);
+		// TODO Auto-generated method stub
+		if (this.target == null) {
+			return;
+		}
+		this.target.buildDrawingCache(autoScale);
 	}
 
+	@Override
 	public void buildLayer() {
-		target.buildLayer();
+		// TODO Auto-generated method stub
+		if (this.target == null) {
+			return;
+		}
+		this.target.buildLayer();
 	}
 
+	@Override
 	public boolean callOnClick() {
-		return target.callOnClick();
+		// TODO Auto-generated method stub
+		if (this.target == null) {
+			return super.callOnClick();
+		}
+		return this.target.callOnClick();
 	}
 
+	@Override
+	public boolean canResolveLayoutDirection() {
+		// TODO Auto-generated method stub
+		if (this.target == null) {
+			return super.canResolveLayoutDirection();
+		}
+		return this.target.canResolveLayoutDirection();
+	}
+
+	@Override
+	public boolean canResolveTextAlignment() {
+		// TODO Auto-generated method stub
+		if (this.target == null) {
+			return super.canResolveTextAlignment();
+		}
+		return this.target.canResolveTextAlignment();
+	}
+
+	@Override
+	public boolean canResolveTextDirection() {
+		// TODO Auto-generated method stub
+		if (this.target == null) {
+			return super.canResolveTextDirection();
+		}
+		return this.target.canResolveTextDirection();
+	}
+
+	@Override
 	public boolean canScrollHorizontally(int direction) {
-		return target.canScrollHorizontally(direction);
+		// TODO Auto-generated method stub
+		if (this.target == null) {
+			return super.canScrollHorizontally(direction);
+		}
+		return this.target.canScrollHorizontally(direction);
 	}
 
+	@Override
 	public boolean canScrollVertically(int direction) {
-		return target.canScrollVertically(direction);
+		// TODO Auto-generated method stub
+		if (this.target == null) {
+			return super.canScrollVertically(direction);
+		}
+		return this.target.canScrollVertically(direction);
 	}
 
+	@Override
 	public void cancelLongPress() {
-		target.cancelLongPress();
+		// TODO Auto-generated method stub
+		if (this.target == null) {
+			return;
+		}
+		this.target.cancelLongPress();
 	}
 
+	@Override
 	public boolean checkInputConnectionProxy(View view) {
-		return target.checkInputConnectionProxy(view);
+		// TODO Auto-generated method stub
+		if (this.target == null) {
+			return super.checkInputConnectionProxy(view);
+		}
+		return this.target.checkInputConnectionProxy(view);
 	}
 
+	@Override
 	public void clearAnimation() {
-		target.clearAnimation();
+		// TODO Auto-generated method stub
+		if (this.target == null) {
+			return;
+		}
+		this.target.clearAnimation();
 	}
 
+	@Override
 	public void clearFocus() {
-		target.clearFocus();
+		// TODO Auto-generated method stub
+		if (this.target == null) {
+			return;
+		}
+		this.target.clearFocus();
 	}
 
+	@Override
 	public void computeScroll() {
-		target.computeScroll();
+		// TODO Auto-generated method stub
+		if (this.target == null) {
+			return;
+		}
+		this.target.computeScroll();
 	}
 
+	@Override
 	public AccessibilityNodeInfo createAccessibilityNodeInfo() {
-		return target.createAccessibilityNodeInfo();
+		// TODO Auto-generated method stub
+		if (this.target == null) {
+			return super.createAccessibilityNodeInfo();
+		}
+		return this.target.createAccessibilityNodeInfo();
 	}
 
+	@Override
 	public void createContextMenu(ContextMenu menu) {
-		target.createContextMenu(menu);
+		// TODO Auto-generated method stub
+		if (this.target == null) {
+			return;
+		}
+		this.target.createContextMenu(menu);
 	}
 
+	@Override
 	public void destroyDrawingCache() {
-		target.destroyDrawingCache();
+		// TODO Auto-generated method stub
+		if (this.target == null) {
+			return;
+		}
+		this.target.destroyDrawingCache();
 	}
 
+	@Override
+	public WindowInsets dispatchApplyWindowInsets(WindowInsets insets) {
+		// TODO Auto-generated method stub
+		if (this.target == null) {
+			return super.dispatchApplyWindowInsets(insets);
+		}
+		return this.target.dispatchApplyWindowInsets(insets);
+	}
+
+	@Override
 	public void dispatchConfigurationChanged(Configuration newConfig) {
-		target.dispatchConfigurationChanged(newConfig);
+		// TODO Auto-generated method stub
+		if (this.target == null) {
+			return;
+		}
+		this.target.dispatchConfigurationChanged(newConfig);
 	}
 
+	@Override
 	public void dispatchDisplayHint(int hint) {
-		target.dispatchDisplayHint(hint);
+		// TODO Auto-generated method stub
+		if (this.target == null) {
+			return;
+		}
+		this.target.dispatchDisplayHint(hint);
 	}
 
+	@Override
 	public boolean dispatchDragEvent(DragEvent event) {
-		return target.dispatchDragEvent(event);
+		// TODO Auto-generated method stub
+		if (this.target == null) {
+			return super.dispatchDragEvent(event);
+		}
+		return this.target.dispatchDragEvent(event);
 	}
 
+	@Override
 	public boolean dispatchGenericMotionEvent(MotionEvent event) {
-		return target.dispatchGenericMotionEvent(event);
+		// TODO Auto-generated method stub
+		if (this.target == null) {
+			return super.dispatchGenericMotionEvent(event);
+		}
+		return this.target.dispatchGenericMotionEvent(event);
 	}
 
+	@Override
 	public boolean dispatchKeyEvent(KeyEvent event) {
-		return target.dispatchKeyEvent(event);
+		// TODO Auto-generated method stub
+		if (this.target == null) {
+			return super.dispatchKeyEvent(event);
+		}
+		return this.target.dispatchKeyEvent(event);
 	}
 
+	@Override
 	public boolean dispatchKeyEventPreIme(KeyEvent event) {
-		return target.dispatchKeyEventPreIme(event);
+		// TODO Auto-generated method stub
+		if (this.target == null) {
+			return super.dispatchKeyEventPreIme(event);
+		}
+		return this.target.dispatchKeyEventPreIme(event);
 	}
 
+	@Override
 	public boolean dispatchKeyShortcutEvent(KeyEvent event) {
-		return target.dispatchKeyShortcutEvent(event);
+		// TODO Auto-generated method stub
+		if (this.target == null) {
+			return super.dispatchKeyShortcutEvent(event);
+		}
+		return this.target.dispatchKeyShortcutEvent(event);
 	}
 
+	@Override
 	public boolean dispatchPopulateAccessibilityEvent(AccessibilityEvent event) {
-		return target.dispatchPopulateAccessibilityEvent(event);
+		// TODO Auto-generated method stub
+		if (this.target == null) {
+			return super.dispatchPopulateAccessibilityEvent(event);
+		}
+		return this.target.dispatchPopulateAccessibilityEvent(event);
 	}
 
+	@Override
 	public void dispatchSystemUiVisibilityChanged(int visibility) {
-		target.dispatchSystemUiVisibilityChanged(visibility);
+		// TODO Auto-generated method stub
+		if (this.target == null) {
+			return;
+		}
+		this.target.dispatchSystemUiVisibilityChanged(visibility);
 	}
 
+	@Override
 	public boolean dispatchTouchEvent(MotionEvent event) {
-		return target.dispatchTouchEvent(event);
+		// TODO Auto-generated method stub
+		if (this.target == null) {
+			return super.dispatchTrackballEvent(event);
+		}
+		return this.target.dispatchTouchEvent(event);
 	}
 
+	@Override
 	public boolean dispatchTrackballEvent(MotionEvent event) {
-		return target.dispatchTrackballEvent(event);
+		// TODO Auto-generated method stub
+		if (this.target == null) {
+			return super.dispatchTrackballEvent(event);
+		}
+		return this.target.dispatchTrackballEvent(event);
 	}
 
+	@Override
 	public boolean dispatchUnhandledMove(View focused, int direction) {
-		return target.dispatchUnhandledMove(focused, direction);
+		// TODO Auto-generated method stub
+		if (this.target == null) {
+			return super.dispatchUnhandledMove(focused, direction);
+		}
+		return this.target.dispatchUnhandledMove(focused, direction);
 	}
 
+	@Override
 	public void dispatchWindowFocusChanged(boolean hasFocus) {
-		target.dispatchWindowFocusChanged(hasFocus);
+		// TODO Auto-generated method stub
+		if (this.target == null) {
+			return;
+		}
+		this.target.dispatchWindowFocusChanged(hasFocus);
 	}
 
+	@Override
 	public void dispatchWindowSystemUiVisiblityChanged(int visible) {
-		target.dispatchWindowSystemUiVisiblityChanged(visible);
+		// TODO Auto-generated method stub
+		if (this.target == null) {
+			return;
+		}
+		this.target.dispatchWindowSystemUiVisiblityChanged(visible);
 	}
 
+	@Override
 	public void dispatchWindowVisibilityChanged(int visibility) {
-		target.dispatchWindowVisibilityChanged(visibility);
+		// TODO Auto-generated method stub
+		if (this.target == null) {
+			return;
+		}
+		this.target.dispatchWindowVisibilityChanged(visibility);
 	}
 
+	@Override
 	public void draw(Canvas canvas) {
-		target.draw(canvas);
+		// TODO Auto-generated method stub
+		if (this.target == null) {
+			return;
+		}
+		this.target.draw(canvas);
 	}
 
-	public boolean equals(Object o) {
-		return target.equals(o);
-	}
-
+	@Override
 	public View findFocus() {
-		return target.findFocus();
+		// TODO Auto-generated method stub
+		if (this.target == null) {
+			return super.findFocus();
+		}
+		return this.target.findFocus();
 	}
 
+	
+	
+	@Override
 	public void findViewsWithText(ArrayList<View> outViews,
 			CharSequence searched, int flags) {
-		target.findViewsWithText(outViews, searched, flags);
+		// TODO Auto-generated method stub
+		if (this.target == null) {
+			return;
+		}
+		this.target.findViewsWithText(outViews, searched, flags);
 	}
 
+	@Override
 	public View focusSearch(int direction) {
-		return target.focusSearch(direction);
+		// TODO Auto-generated method stub
+		if (this.target == null) {
+			return super.focusSearch(direction);
+		}
+		return this.target.focusSearch(direction);
 	}
 
+	@Override
 	public void forceLayout() {
-		target.forceLayout();
+		// TODO Auto-generated method stub
+		if (this.target == null) {
+			return;
+		}
+		this.target.forceLayout();
 	}
 
+	@Override
+	public int getAccessibilityLiveRegion() {
+		// TODO Auto-generated method stub
+		if (this.target == null) {
+			return super.getAccessibilityLiveRegion();
+		}
+		return this.target.getAccessibilityLiveRegion();
+	}
+
+	@Override
 	public AccessibilityNodeProvider getAccessibilityNodeProvider() {
-		return target.getAccessibilityNodeProvider();
+		// TODO Auto-generated method stub
+		if (this.target == null) {
+			return super.getAccessibilityNodeProvider();
+		}
+		return this.target.getAccessibilityNodeProvider();
 	}
 
+	@Override
+	@ExportedProperty(category = "drawing")
 	public float getAlpha() {
-		return target.getAlpha();
+		// TODO Auto-generated method stub
+		if (this.target == null) {
+			return super.getAlpha();
+		}
+		return this.target.getAlpha();
 	}
 
+	@Override
 	public Animation getAnimation() {
-		return target.getAnimation();
+		// TODO Auto-generated method stub
+		if (this.target == null) {
+			return super.getAnimation();
+		}
+		return this.target.getAnimation();
 	}
 
+	@Override
 	public IBinder getApplicationWindowToken() {
-		return target.getApplicationWindowToken();
+		// TODO Auto-generated method stub
+		if (this.target == null) {
+			return super.getApplicationWindowToken();
+		}
+		return this.target.getApplicationWindowToken();
 	}
 
+	@Override
 	public Drawable getBackground() {
-		return target.getBackground();
+		// TODO Auto-generated method stub
+		if (this.target == null) {
+			return super.getBackground();
+		}
+		return this.target.getBackground();
 	}
 
+	@Override
+	@ExportedProperty(category = "layout")
 	public int getBaseline() {
-		return target.getBaseline();
+		// TODO Auto-generated method stub
+		if (this.target == null) {
+			return super.getBaseline();
+		}
+		return this.target.getBaseline();
 	}
 
+	@Override
 	public float getCameraDistance() {
-		return target.getCameraDistance();
+		// TODO Auto-generated method stub
+		if (this.target == null) {
+			return super.getCameraDistance();
+		}
+		return this.target.getCameraDistance();
 	}
 
+	@Override
 	public Rect getClipBounds() {
-		return target.getClipBounds();
+		// TODO Auto-generated method stub
+		if (this.target == null) {
+			return super.getClipBounds();
+		}
+		return this.target.getClipBounds();
 	}
 
+	@Override
+	@ExportedProperty(category = "accessibility")
 	public CharSequence getContentDescription() {
-		return target.getContentDescription();
+		// TODO Auto-generated method stub
+		if (this.target == null) {
+			return super.getContentDescription();
+		}
+		return this.target.getContentDescription();
 	}
 
+	@Override
 	public Display getDisplay() {
-		return target.getDisplay();
+		// TODO Auto-generated method stub
+		if (this.target == null) {
+			return super.getDisplay();
+		}
+		return this.target.getDisplay();
 	}
 
+	@Override
 	public Bitmap getDrawingCache() {
-		return target.getDrawingCache();
+		// TODO Auto-generated method stub
+		if (this.target == null) {
+			return super.getDrawingCache();
+		}
+		return this.target.getDrawingCache();
 	}
 
+	@Override
 	public Bitmap getDrawingCache(boolean autoScale) {
-		return target.getDrawingCache(autoScale);
+		// TODO Auto-generated method stub
+		if (this.target == null) {
+			return super.getDrawingCache(autoScale);
+		}
+		return this.target.getDrawingCache(autoScale);
 	}
 
+	@Override
 	public int getDrawingCacheBackgroundColor() {
-		return target.getDrawingCacheBackgroundColor();
+		// TODO Auto-generated method stub
+		if (this.target == null) {
+			return super.getDrawingCacheBackgroundColor();
+		}
+		return this.target.getDrawingCacheBackgroundColor();
 	}
 
+	@Override
 	public int getDrawingCacheQuality() {
-		return target.getDrawingCacheQuality();
+		// TODO Auto-generated method stub
+		if (this.target == null) {
+			return super.getDrawingCacheQuality();
+		}
+		return this.target.getDrawingCacheQuality();
 	}
 
+	@Override
 	public void getDrawingRect(Rect outRect) {
-		target.getDrawingRect(outRect);
+		// TODO Auto-generated method stub
+		if (this.target == null) {
+			return;
+		}
+		this.target.getDrawingRect(outRect);
 	}
 
+	@Override
 	public long getDrawingTime() {
-		return target.getDrawingTime();
+		// TODO Auto-generated method stub
+		if (this.target == null) {
+			return super.getDrawingTime();
+		}
+		return this.target.getDrawingTime();
 	}
 
+	@Override
+	@ExportedProperty
 	public boolean getFilterTouchesWhenObscured() {
-		return target.getFilterTouchesWhenObscured();
+		// TODO Auto-generated method stub
+		if (this.target == null) {
+			return super.getFilterTouchesWhenObscured();
+		}
+		return this.target.getFilterTouchesWhenObscured();
 	}
 
+	@Override
 	public boolean getFitsSystemWindows() {
-		return target.getFitsSystemWindows();
+		// TODO Auto-generated method stub
+		if (this.target == null) {
+			return super.getFitsSystemWindows();
+		}
+		return this.target.getFitsSystemWindows();
 	}
 
+	@Override
 	public ArrayList<View> getFocusables(int direction) {
-		return target.getFocusables(direction);
+		// TODO Auto-generated method stub
+		if (this.target == null) {
+			return super.getFocusables(direction);
+		}
+		return this.target.getFocusables(direction);
 	}
 
+	@Override
 	public void getFocusedRect(Rect r) {
-		target.getFocusedRect(r);
+		// TODO Auto-generated method stub
+		if (this.target == null) {
+			return;
+		}
+		this.target.getFocusedRect(r);
 	}
 
+	@Override
 	public boolean getGlobalVisibleRect(Rect r, Point globalOffset) {
-		return target.getGlobalVisibleRect(r, globalOffset);
+		// TODO Auto-generated method stub
+		if (this.target == null) {
+			return super.getGlobalVisibleRect(r, globalOffset);
+		}
+		return this.target.getGlobalVisibleRect(r, globalOffset);
 	}
 
+	@Override
 	public Handler getHandler() {
-		return target.getHandler();
+		// TODO Auto-generated method stub
+		if (this.target == null) {
+			return super.getHandler();
+		}
+		return this.target.getHandler();
 	}
 
+	@Override
 	public void getHitRect(Rect outRect) {
-		target.getHitRect(outRect);
+		// TODO Auto-generated method stub
+		if (this.target == null) {
+			return;
+		}
+		this.target.getHitRect(outRect);
 	}
 
+	@Override
 	public int getHorizontalFadingEdgeLength() {
-		return target.getHorizontalFadingEdgeLength();
+		// TODO Auto-generated method stub
+		if (this.target == null) {
+			return super.getHorizontalFadingEdgeLength();
+		}
+		return this.target.getHorizontalFadingEdgeLength();
 	}
 
+	@Override
+	@CapturedViewProperty
 	public int getId() {
-		return target.getId();
+		// TODO Auto-generated method stub
+		if (this.target == null) {
+			return super.getId();
+		}
+		return this.target.getId();
 	}
 
+	@Override
+	@ExportedProperty(category = "accessibility", mapping = {
+			@IntToString(from = 0, to = "auto"),
+			@IntToString(from = 1, to = "yes"),
+			@IntToString(from = 2, to = "no"),
+			@IntToString(from = 4, to = "noHideDescendants") })
 	public int getImportantForAccessibility() {
-		return target.getImportantForAccessibility();
+		// TODO Auto-generated method stub
+		if (this.target == null) {
+			return super.getImportantForAccessibility();
+		}
+		return this.target.getImportantForAccessibility();
 	}
 
+	@Override
 	public boolean getKeepScreenOn() {
-		return target.getKeepScreenOn();
+		// TODO Auto-generated method stub
+		if (this.target == null) {
+			return super.getKeepScreenOn();
+		}
+		return this.target.getKeepScreenOn();
 	}
 
+	@Override
 	public DispatcherState getKeyDispatcherState() {
-		return target.getKeyDispatcherState();
+		// TODO Auto-generated method stub
+		if (this.target == null) {
+			return super.getKeyDispatcherState();
+		}
+		return this.target.getKeyDispatcherState();
 	}
 
+	@Override
+	@ExportedProperty(category = "accessibility")
 	public int getLabelFor() {
-		return target.getLabelFor();
+		// TODO Auto-generated method stub
+		if (this.target == null) {
+			return super.getLabelFor();
+		}
+		return this.target.getLabelFor();
 	}
 
+	@Override
 	public int getLayerType() {
-		return target.getLayerType();
+		// TODO Auto-generated method stub
+		if (this.target == null) {
+			return super.getLayerType();
+		}
+		return this.target.getLayerType();
 	}
 
+	@Override
+	@ExportedProperty(category = "layout", mapping = {
+			@IntToString(from = 0, to = "RESOLVED_DIRECTION_LTR"),
+			@IntToString(from = 1, to = "RESOLVED_DIRECTION_RTL") })
 	public int getLayoutDirection() {
-		return target.getLayoutDirection();
+		// TODO Auto-generated method stub
+		if (this.target == null) {
+			return super.getLayoutDirection();
+		}
+		return this.target.getLayoutDirection();
 	}
 
+	@Override
+	@ExportedProperty(deepExport = true, prefix = "layout_")
 	public LayoutParams getLayoutParams() {
-		return target.getLayoutParams();
+		// TODO Auto-generated method stub
+		if (this.target == null) {
+			return super.getLayoutParams();
+		}
+		return this.target.getLayoutParams();
 	}
 
+	@Override
 	public void getLocationInWindow(int[] location) {
-		target.getLocationInWindow(location);
+		// TODO Auto-generated method stub
+		if (this.target == null) {
+			return;
+		}
+		this.target.getLocationInWindow(location);
 	}
 
+	@Override
 	public void getLocationOnScreen(int[] location) {
-		target.getLocationOnScreen(location);
+		// TODO Auto-generated method stub
+		if (this.target == null) {
+			return;
+		}
+		this.target.getLocationOnScreen(location);
 	}
 
+	@Override
 	public Matrix getMatrix() {
-		return target.getMatrix();
+		// TODO Auto-generated method stub
+		if (this.target == null) {
+			return super.getMatrix();
+		}
+		return this.target.getMatrix();
 	}
 
+	@Override
 	public int getMinimumHeight() {
-		return target.getMinimumHeight();
+		// TODO Auto-generated method stub
+		if (this.target == null) {
+			return super.getMinimumHeight();
+		}
+		return this.target.getMinimumHeight();
 	}
 
+	@Override
 	public int getMinimumWidth() {
-		return target.getMinimumWidth();
+		// TODO Auto-generated method stub
+		if (this.target == null) {
+			return super.getMinimumWidth();
+		}
+		return this.target.getMinimumWidth();
 	}
 
+	@Override
 	public int getNextFocusDownId() {
-		return target.getNextFocusDownId();
+		// TODO Auto-generated method stub
+		if (this.target == null) {
+			return super.getNextFocusDownId();
+		}
+		return this.target.getNextFocusDownId();
 	}
 
+	@Override
 	public int getNextFocusForwardId() {
-		return target.getNextFocusForwardId();
+		// TODO Auto-generated method stub
+		if (this.target == null) {
+			return super.getNextFocusForwardId();
+		}
+		return this.target.getNextFocusForwardId();
 	}
 
+	@Override
 	public int getNextFocusLeftId() {
-		return target.getNextFocusLeftId();
+		// TODO Auto-generated method stub
+		if (this.target == null) {
+			return super.getNextFocusLeftId();
+		}
+		return this.target.getNextFocusLeftId();
 	}
 
+	@Override
 	public int getNextFocusRightId() {
-		return target.getNextFocusRightId();
+		// TODO Auto-generated method stub
+		if (this.target == null) {
+			return super.getNextFocusRightId();
+		}
+		return this.target.getNextFocusRightId();
 	}
 
+	@Override
 	public int getNextFocusUpId() {
-		return target.getNextFocusUpId();
+		// TODO Auto-generated method stub
+		if (this.target == null) {
+			return super.getNextFocusUpId();
+		}
+		return this.target.getNextFocusUpId();
 	}
 
+	@Override
 	public OnFocusChangeListener getOnFocusChangeListener() {
-		return target.getOnFocusChangeListener();
+		// TODO Auto-generated method stub
+		if (this.target == null) {
+			return super.getOnFocusChangeListener();
+		}
+		return this.target.getOnFocusChangeListener();
 	}
 
+	@Override
 	public int getOverScrollMode() {
-		return target.getOverScrollMode();
+		// TODO Auto-generated method stub
+		if (this.target == null) {
+			return super.getOverScrollMode();
+		}
+		return this.target.getOverScrollMode();
 	}
 
+	@Override
 	public ViewOverlay getOverlay() {
-		return target.getOverlay();
+		// TODO Auto-generated method stub
+		if (this.target == null) {
+			return super.getOverlay();
+		}
+		return this.target.getOverlay();
 	}
 
+	@Override
 	public int getPaddingBottom() {
-		return target.getPaddingBottom();
+		// TODO Auto-generated method stub
+		if (this.target == null) {
+			return super.getPaddingBottom();
+		}
+		return this.target.getPaddingBottom();
 	}
 
+	@Override
 	public int getPaddingEnd() {
-		return target.getPaddingEnd();
+		// TODO Auto-generated method stub
+		if (this.target == null) {
+			return super.getPaddingEnd();
+		}
+		return this.target.getPaddingEnd();
 	}
 
+	@Override
 	public int getPaddingLeft() {
-		return target.getPaddingLeft();
+		// TODO Auto-generated method stub
+		if (this.target == null) {
+			return super.getPaddingLeft();
+		}
+		return this.target.getPaddingLeft();
 	}
 
+	@Override
 	public int getPaddingRight() {
-		return target.getPaddingRight();
+		// TODO Auto-generated method stub
+		if (this.target == null) {
+			return super.getPaddingRight();
+		}
+		return this.target.getPaddingRight();
 	}
 
+	@Override
 	public int getPaddingStart() {
-		return target.getPaddingStart();
+		// TODO Auto-generated method stub
+		if (this.target == null) {
+			return super.getPaddingStart();
+		}
+		return this.target.getPaddingStart();
 	}
 
+	@Override
 	public int getPaddingTop() {
-		return target.getPaddingTop();
+		// TODO Auto-generated method stub
+		if (this.target == null) {
+			return super.getPaddingTop();
+		}
+		return this.target.getPaddingTop();
 	}
 
+	@Override
 	public ViewParent getParentForAccessibility() {
-		return target.getParentForAccessibility();
+		// TODO Auto-generated method stub
+		if (this.target == null) {
+			return super.getParentForAccessibility();
+		}
+		return this.target.getParentForAccessibility();
 	}
 
+	@Override
+	@ExportedProperty(category = "drawing")
 	public float getPivotX() {
-		return target.getPivotX();
+		// TODO Auto-generated method stub
+		if (this.target == null) {
+			return super.getPivotX();
+		}
+		return this.target.getPivotX();
 	}
 
+	@Override
+	@ExportedProperty(category = "drawing")
 	public float getPivotY() {
-		return target.getPivotY();
+		// TODO Auto-generated method stub
+		if (this.target == null) {
+			return super.getPivotY();
+		}
+		return this.target.getPivotY();
 	}
 
+	@Override
 	public Resources getResources() {
-		return target.getResources();
+		// TODO Auto-generated method stub
+		if (this.target == null) {
+			return super.getResources();
+		}
+		return this.target.getResources();
 	}
 
+	@Override
 	public View getRootView() {
-		return target.getRootView();
+		// TODO Auto-generated method stub
+		if (this.target == null) {
+			return super.getRootView();
+		}
+		return this.target.getRootView();
 	}
 
+	@Override
+	@ExportedProperty(category = "drawing")
 	public float getRotation() {
-		return target.getRotation();
+		// TODO Auto-generated method stub
+		if (this.target == null) {
+			return super.getRotation();
+		}
+		return this.target.getRotation();
 	}
 
+	@Override
+	@ExportedProperty(category = "drawing")
 	public float getRotationX() {
-		return target.getRotationX();
+		// TODO Auto-generated method stub
+		if (this.target == null) {
+			return super.getRotationX();
+		}
+		return this.target.getRotationX();
 	}
 
+	@Override
+	@ExportedProperty(category = "drawing")
 	public float getRotationY() {
-		return target.getRotationY();
+		// TODO Auto-generated method stub
+		if (this.target == null) {
+			return super.getRotationY();
+		}
+		return this.target.getRotationY();
 	}
 
+	@Override
+	@ExportedProperty(category = "drawing")
 	public float getScaleX() {
-		return target.getScaleX();
+		// TODO Auto-generated method stub
+		if (this.target == null) {
+			return super.getScaleY();
+		}
+		return this.target.getScaleX();
 	}
 
+	@Override
+	@ExportedProperty(category = "drawing")
 	public float getScaleY() {
-		return target.getScaleY();
+		// TODO Auto-generated method stub
+		if (this.target == null) {
+			return super.getScaleY();
+		}
+		return this.target.getScaleY();
 	}
 
+	@Override
 	public int getScrollBarDefaultDelayBeforeFade() {
-		return target.getScrollBarDefaultDelayBeforeFade();
+		// TODO Auto-generated method stub
+		if (this.target == null) {
+			return super.getScrollBarDefaultDelayBeforeFade();
+		}
+		return this.target.getScrollBarDefaultDelayBeforeFade();
 	}
 
+	@Override
 	public int getScrollBarFadeDuration() {
-		return target.getScrollBarFadeDuration();
+		// TODO Auto-generated method stub
+		if (this.target == null) {
+			return super.getScrollBarFadeDuration();
+		}
+		return this.target.getScrollBarFadeDuration();
 	}
 
+	@Override
 	public int getScrollBarSize() {
-		return target.getScrollBarSize();
+		// TODO Auto-generated method stub
+		if (this.target == null) {
+			return super.getScrollBarSize();
+		}
+		return this.target.getScrollBarSize();
 	}
 
+	@Override
+	@ExportedProperty(mapping = {
+			@IntToString(from = 0, to = "INSIDE_OVERLAY"),
+			@IntToString(from = 16777216, to = "INSIDE_INSET"),
+			@IntToString(from = 33554432, to = "OUTSIDE_OVERLAY"),
+			@IntToString(from = 50331648, to = "OUTSIDE_INSET") })
 	public int getScrollBarStyle() {
-		return target.getScrollBarStyle();
+		// TODO Auto-generated method stub
+		if (this.target == null) {
+			return super.getScrollBarStyle();
+		}
+		return this.target.getScrollBarStyle();
 	}
 
+	@Override
+	@ExportedProperty(category = "drawing")
 	public int getSolidColor() {
-		return target.getSolidColor();
+		// TODO Auto-generated method stub
+		if (this.target == null) {
+			return super.getSolidColor();
+		}
+		return this.target.getSolidColor();
 	}
 
+	@Override
 	public int getSystemUiVisibility() {
-		return target.getSystemUiVisibility();
+		// TODO Auto-generated method stub
+		if (this.target == null) {
+			return super.getSystemUiVisibility();
+		}
+		return this.target.getSystemUiVisibility();
 	}
 
+	@Override
+	@ExportedProperty
 	public Object getTag() {
-		return target.getTag();
+		// TODO Auto-generated method stub
+		if (this.target == null) {
+			return super.getTag();
+		}
+		return this.target.getTag();
 	}
 
+	@Override
 	public Object getTag(int key) {
-		return target.getTag(key);
+		// TODO Auto-generated method stub
+		if (this.target == null) {
+			return super.getTag(key);
+		}
+		return this.target.getTag(key);
 	}
 
+	@Override
+	@ExportedProperty(category = "text", mapping = {
+			@IntToString(from = 0, to = "INHERIT"),
+			@IntToString(from = 1, to = "GRAVITY"),
+			@IntToString(from = 2, to = "TEXT_START"),
+			@IntToString(from = 3, to = "TEXT_END"),
+			@IntToString(from = 4, to = "CENTER"),
+			@IntToString(from = 5, to = "VIEW_START"),
+			@IntToString(from = 6, to = "VIEW_END") })
 	public int getTextAlignment() {
-		return target.getTextAlignment();
+		// TODO Auto-generated method stub
+		if (this.target == null) {
+			return super.getTextAlignment();
+		}
+		return this.target.getTextAlignment();
 	}
 
+	@Override
+	@ExportedProperty(category = "text", mapping = {
+			@IntToString(from = 0, to = "INHERIT"),
+			@IntToString(from = 1, to = "FIRST_STRONG"),
+			@IntToString(from = 2, to = "ANY_RTL"),
+			@IntToString(from = 3, to = "LTR"),
+			@IntToString(from = 4, to = "RTL"),
+			@IntToString(from = 5, to = "LOCALE") })
 	public int getTextDirection() {
-		return target.getTextDirection();
+		// TODO Auto-generated method stub
+		if (this.target == null) {
+			return super.getTextDirection();
+		}
+		return this.target.getTextDirection();
 	}
 
+	@Override
 	public TouchDelegate getTouchDelegate() {
-		return target.getTouchDelegate();
+		// TODO Auto-generated method stub
+		if (this.target == null) {
+			return super.getTouchDelegate();
+		}
+		return this.target.getTouchDelegate();
 	}
 
+	@Override
 	public ArrayList<View> getTouchables() {
-		return target.getTouchables();
+		// TODO Auto-generated method stub
+		if (this.target == null) {
+			return super.getTouchables();
+		}
+		return this.target.getTouchables();
 	}
 
+	@Override
+	@ExportedProperty(category = "drawing")
 	public float getTranslationX() {
-		return target.getTranslationX();
+		// TODO Auto-generated method stub
+		if (this.target == null) {
+			return super.getTranslationX();
+		}
+		return this.target.getTranslationX();
 	}
 
+	@Override
+	@ExportedProperty(category = "drawing")
 	public float getTranslationY() {
-		return target.getTranslationY();
+		// TODO Auto-generated method stub
+		if (this.target == null) {
+			return super.getTranslationY();
+		}
+		return this.target.getTranslationY();
 	}
 
+	@Override
 	public int getVerticalFadingEdgeLength() {
-		return target.getVerticalFadingEdgeLength();
+		// TODO Auto-generated method stub
+		if (this.target == null) {
+			return super.getVerticalFadingEdgeLength();
+		}
+		return this.target.getVerticalFadingEdgeLength();
 	}
 
+	@Override
 	public int getVerticalScrollbarPosition() {
-		return target.getVerticalScrollbarPosition();
+		// TODO Auto-generated method stub
+		if (this.target == null) {
+			return super.getVerticalScrollbarPosition();
+		}
+		return this.target.getVerticalScrollbarPosition();
 	}
 
+	@Override
 	public int getVerticalScrollbarWidth() {
-		return target.getVerticalScrollbarWidth();
+		// TODO Auto-generated method stub
+		if (this.target == null) {
+			return super.getVerticalScrollbarWidth();
+		}
+		return this.target.getVerticalScrollbarWidth();
 	}
 
+	@Override
 	public ViewTreeObserver getViewTreeObserver() {
-		return target.getViewTreeObserver();
+		// TODO Auto-generated method stub
+		if (this.target == null) {
+			return super.getViewTreeObserver();
+		}
+		return this.target.getViewTreeObserver();
 	}
 
+	@Override
+	@ExportedProperty(mapping = { @IntToString(from = 0, to = "VISIBLE"),
+			@IntToString(from = 4, to = "INVISIBLE"),
+			@IntToString(from = 8, to = "GONE") })
 	public int getVisibility() {
-		return target.getVisibility();
+		// TODO Auto-generated method stub
+		if (this.target == null) {
+			return super.getVisibility();
+		}
+		return this.target.getVisibility();
 	}
 
+	@Override
 	public WindowId getWindowId() {
-		return target.getWindowId();
+		// TODO Auto-generated method stub
+		if (this.target == null) {
+			return super.getWindowId();
+		}
+		return this.target.getWindowId();
 	}
 
+	@Override
 	public int getWindowSystemUiVisibility() {
-		return target.getWindowSystemUiVisibility();
+		// TODO Auto-generated method stub
+		if (this.target == null) {
+			return super.getWindowSystemUiVisibility();
+		}
+		return this.target.getWindowSystemUiVisibility();
 	}
 
+	@Override
 	public IBinder getWindowToken() {
-		return target.getWindowToken();
+		// TODO Auto-generated method stub
+		if (this.target == null) {
+			return super.getWindowToken();
+		}
+		return this.target.getWindowToken();
 	}
 
+	@Override
 	public int getWindowVisibility() {
-		return target.getWindowVisibility();
+		// TODO Auto-generated method stub
+		if (this.target == null) {
+			return super.getWindowVisibility();
+		}
+		return this.target.getWindowVisibility();
 	}
 
+	@Override
 	public void getWindowVisibleDisplayFrame(Rect outRect) {
-		target.getWindowVisibleDisplayFrame(outRect);
+		// TODO Auto-generated method stub
+		if (this.target == null) {
+			return;
+		}
+		this.target.getWindowVisibleDisplayFrame(outRect);
 	}
 
+	@Override
+	@ExportedProperty(category = "drawing")
 	public float getX() {
-		return target.getX();
+		// TODO Auto-generated method stub
+		if (this.target == null) {
+			return super.getX();
+		}
+		return this.target.getX();
 	}
 
+	@Override
+	@ExportedProperty(category = "drawing")
 	public float getY() {
-		return target.getY();
+		// TODO Auto-generated method stub
+		if (this.target == null) {
+			return super.getY();
+		}
+		return this.target.getY();
 	}
 
+	@Override
+	@ExportedProperty(category = "focus")
 	public boolean hasFocus() {
-		return target.hasFocus();
+		// TODO Auto-generated method stub
+		if (this.target == null) {
+			return super.hasFocus();
+		}
+		return this.target.hasFocus();
 	}
 
+	@Override
 	public boolean hasFocusable() {
-		return target.hasFocusable();
+		// TODO Auto-generated method stub
+		if (this.target == null) {
+			return super.hasFocusable();
+		}
+		return this.target.hasFocusable();
 	}
 
+	@Override
 	public boolean hasOnClickListeners() {
-		return target.hasOnClickListeners();
+		// TODO Auto-generated method stub
+		if (this.target == null) {
+			return super.hasOnClickListeners();
+		}
+		return this.target.hasOnClickListeners();
 	}
 
+	@Override
 	public boolean hasOverlappingRendering() {
-		return target.hasOverlappingRendering();
+		// TODO Auto-generated method stub
+		if (this.target == null) {
+			return super.hasOverlappingRendering();
+		}
+		return this.target.hasOverlappingRendering();
 	}
 
+	@Override
+	@ExportedProperty(category = "layout")
 	public boolean hasTransientState() {
-		return target.hasTransientState();
+		// TODO Auto-generated method stub
+		if (this.target == null) {
+			return super.hasTransientState();
+		}
+		return this.target.hasTransientState();
 	}
 
+	@Override
 	public boolean hasWindowFocus() {
-		return target.hasWindowFocus();
+		// TODO Auto-generated method stub
+		if (this.target == null) {
+			return super.hasWindowFocus();
+		}
+		return this.target.hasWindowFocus();
 	}
 
-	public int hashCode() {
-		return target.hashCode();
-	}
-
+	@Override
 	public void invalidate() {
-		target.invalidate();
+		// TODO Auto-generated method stub
+		if (this.target == null) {
+			return;
+		}
+		this.target.invalidate();
 	}
 
+	@Override
 	public void invalidate(int l, int t, int r, int b) {
-		target.invalidate(l, t, r, b);
+		// TODO Auto-generated method stub
+		if (this.target == null) {
+			return;
+		}
+		this.target.invalidate(l, t, r, b);
 	}
 
+	@Override
 	public void invalidate(Rect dirty) {
-		target.invalidate(dirty);
+		// TODO Auto-generated method stub
+		if (this.target == null) {
+			return;
+		}
+		this.target.invalidate(dirty);
 	}
 
+	@Override
 	public void invalidateDrawable(Drawable drawable) {
-		target.invalidateDrawable(drawable);
+		// TODO Auto-generated method stub
+		if (this.target == null) {
+			return;
+		}
+		this.target.invalidateDrawable(drawable);
 	}
 
+	@Override
+	@ExportedProperty
 	public boolean isActivated() {
-		return target.isActivated();
+		// TODO Auto-generated method stub
+		if (this.target == null) {
+			return super.isActivated();
+		}
+		return this.target.isActivated();
 	}
 
+	@Override
+	public boolean isAttachedToWindow() {
+		// TODO Auto-generated method stub
+		if (this.target == null) {
+			return super.isAttachedToWindow();
+		}
+		return this.target.isAttachedToWindow();
+	}
+
+	@Override
+	@ExportedProperty
 	public boolean isClickable() {
-		return target.isClickable();
+		// TODO Auto-generated method stub
+		if (this.target == null) {
+			return super.isClickable();
+		}
+		return this.target.isClickable();
 	}
 
+	@Override
 	public boolean isDirty() {
-		return target.isDirty();
+		// TODO Auto-generated method stub
+		if (this.target == null) {
+			return super.isDirty();
+		}
+		return this.target.isDirty();
 	}
 
+	@Override
+	@ExportedProperty(category = "drawing")
 	public boolean isDrawingCacheEnabled() {
-		return target.isDrawingCacheEnabled();
+		// TODO Auto-generated method stub
+		if (this.target == null) {
+			return super.isDrawingCacheEnabled();
+		}
+		return this.target.isDrawingCacheEnabled();
 	}
 
+	@Override
 	public boolean isDuplicateParentStateEnabled() {
-		return target.isDuplicateParentStateEnabled();
+		// TODO Auto-generated method stub
+		if (this.target == null) {
+			return super.isDuplicateParentStateEnabled();
+		}
+		return this.target.isDuplicateParentStateEnabled();
 	}
 
+	@Override
+	@ExportedProperty
 	public boolean isEnabled() {
-		return target.isEnabled();
+		// TODO Auto-generated method stub
+		if (this.target == null) {
+			return super.isEnabled();
+		}
+		return this.target.isEnabled();
 	}
 
+	@Override
+	@ExportedProperty(category = "focus")
 	public boolean isFocused() {
-		return target.isFocused();
+		// TODO Auto-generated method stub
+		if (this.target == null) {
+			return super.isFocused();
+		}
+		return this.target.isFocused();
 	}
 
+	@Override
+	@ExportedProperty
 	public boolean isHapticFeedbackEnabled() {
-		return target.isHapticFeedbackEnabled();
+		// TODO Auto-generated method stub
+		if (this.target == null) {
+			return super.isHapticFeedbackEnabled();
+		}
+		return this.target.isHapticFeedbackEnabled();
 	}
 
+	@Override
 	public boolean isHardwareAccelerated() {
-		return target.isHardwareAccelerated();
+		// TODO Auto-generated method stub
+		if (this.target == null) {
+			return super.isHardwareAccelerated();
+		}
+		return this.target.isHardwareAccelerated();
 	}
 
+	@Override
 	public boolean isHorizontalFadingEdgeEnabled() {
-		return target.isHorizontalFadingEdgeEnabled();
+		// TODO Auto-generated method stub
+		if (this.target == null) {
+			return super.isHorizontalFadingEdgeEnabled();
+		}
+		return this.target.isHorizontalFadingEdgeEnabled();
 	}
 
+	@Override
 	public boolean isHorizontalScrollBarEnabled() {
-		return target.isHorizontalScrollBarEnabled();
+		// TODO Auto-generated method stub
+		if (this.target == null) {
+			return super.isHorizontalScrollBarEnabled();
+		}
+		return this.target.isHorizontalScrollBarEnabled();
 	}
 
+	@Override
+	@ExportedProperty
 	public boolean isHovered() {
-		return target.isHovered();
+		// TODO Auto-generated method stub
+		if (this.target == null) {
+			return super.isHovered();
+		}
+		return this.target.isHovered();
 	}
 
+	@Override
 	public boolean isInEditMode() {
-		return target.isInEditMode();
+		// TODO Auto-generated method stub
+		if (this.target == null) {
+			return super.isInLayout();
+		}
+		return this.target.isInEditMode();
 	}
 
+	@Override
 	public boolean isInLayout() {
-		return target.isInLayout();
+		// TODO Auto-generated method stub
+		if (this.target == null) {
+			return super.isInLayout();
+		}
+		return this.target.isInLayout();
 	}
 
+	@Override
+	@ExportedProperty
 	public boolean isInTouchMode() {
-		return target.isInTouchMode();
+		// TODO Auto-generated method stub
+		if (this.target == null) {
+			return super.isInTouchMode();
+		}
+		return this.target.isInTouchMode();
 	}
 
+	@Override
+	public boolean isLaidOut() {
+		// TODO Auto-generated method stub
+		if (this.target == null) {
+			return super.isLaidOut();
+		}
+		return this.target.isLaidOut();
+	}
+
+	@Override
+	public boolean isLayoutDirectionResolved() {
+		// TODO Auto-generated method stub
+		if (this.target == null) {
+			return super.isLayoutDirectionResolved();
+		}
+		return this.target.isLayoutDirectionResolved();
+	}
+
+	@Override
 	public boolean isLayoutRequested() {
-		return target.isLayoutRequested();
+		// TODO Auto-generated method stub
+		if (this.target == null) {
+			return super.isLayoutRequested();
+		}
+		return this.target.isLayoutRequested();
 	}
 
+	@Override
 	public boolean isLongClickable() {
-		return target.isLongClickable();
+		// TODO Auto-generated method stub
+		if (this.target == null) {
+			return super.isLongClickable();
+		}
+		return this.target.isLongClickable();
 	}
 
+	@Override
+	@ExportedProperty(category = "drawing")
 	public boolean isOpaque() {
-		return target.isOpaque();
+		// TODO Auto-generated method stub
+		if (this.target == null) {
+			return super.isOpaque();
+		}
+		return this.target.isOpaque();
 	}
 
+	@Override
 	public boolean isPaddingRelative() {
-		return target.isPaddingRelative();
+		// TODO Auto-generated method stub
+		if (this.target == null) {
+			return super.isPaddingRelative();
+		}
+		return this.target.isPaddingRelative();
 	}
 
+	@Override
 	public boolean isPressed() {
-		return target.isPressed();
+		// TODO Auto-generated method stub
+		if (this.target == null) {
+			return super.isPressed();
+		}
+		return this.target.isPressed();
 	}
 
+	@Override
 	public boolean isSaveEnabled() {
-		return target.isSaveEnabled();
+		// TODO Auto-generated method stub
+		if (this.target == null) {
+			return super.isSaveEnabled();
+		}
+		return this.target.isSaveEnabled();
 	}
 
+	@Override
 	public boolean isSaveFromParentEnabled() {
-		return target.isSaveFromParentEnabled();
+		// TODO Auto-generated method stub
+		if (this.target == null) {
+			return super.isSaveFromParentEnabled();
+		}
+		return this.target.isSaveFromParentEnabled();
 	}
 
+	@Override
 	public boolean isScrollContainer() {
-		return target.isScrollContainer();
+		// TODO Auto-generated method stub
+		if (this.target == null) {
+			return super.isScrollContainer();
+		}
+		return this.target.isScrollContainer();
 	}
 
+	@Override
 	public boolean isScrollbarFadingEnabled() {
-		return target.isScrollbarFadingEnabled();
+		// TODO Auto-generated method stub
+		if (this.target == null) {
+			return super.isScrollbarFadingEnabled();
+		}
+		return this.target.isScrollbarFadingEnabled();
 	}
 
+	@Override
+	@ExportedProperty
 	public boolean isSelected() {
-		return target.isSelected();
+		// TODO Auto-generated method stub
+		if (this.target == null) {
+			return super.isSelected();
+		}
+		return this.target.isSelected();
 	}
 
+	@Override
 	public boolean isShown() {
-		return target.isShown();
+		// TODO Auto-generated method stub
+		if (this.target == null) {
+			return super.isShown();
+		}
+		return this.target.isShown();
 	}
 
+	@Override
+	@ExportedProperty
 	public boolean isSoundEffectsEnabled() {
-		return target.isSoundEffectsEnabled();
+		// TODO Auto-generated method stub
+		if (this.target == null) {
+			return super.isSoundEffectsEnabled();
+		}
+		return this.target.isSoundEffectsEnabled();
 	}
 
+	@Override
+	public boolean isTextAlignmentResolved() {
+		// TODO Auto-generated method stub
+		if (this.target == null) {
+			return super.isTextAlignmentResolved();
+		}
+		return this.target.isTextAlignmentResolved();
+	}
+
+	@Override
+	public boolean isTextDirectionResolved() {
+		// TODO Auto-generated method stub
+		if (this.target == null) {
+			return super.isTextDirectionResolved();
+		}
+		return this.target.isTextDirectionResolved();
+	}
+
+	@Override
 	public boolean isVerticalFadingEdgeEnabled() {
-		return target.isVerticalFadingEdgeEnabled();
+		// TODO Auto-generated method stub
+		if (this.target == null) {
+			return super.isVerticalFadingEdgeEnabled();
+		}
+		return this.target.isVerticalFadingEdgeEnabled();
 	}
 
+	@Override
 	public boolean isVerticalScrollBarEnabled() {
-		return target.isVerticalScrollBarEnabled();
+		// TODO Auto-generated method stub
+		if (this.target == null) {
+			return super.isVerticalScrollBarEnabled();
+		}
+		return this.target.isVerticalScrollBarEnabled();
 	}
 
+	@Override
 	public void jumpDrawablesToCurrentState() {
-		target.jumpDrawablesToCurrentState();
+		// TODO Auto-generated method stub
+		if (this.target == null) {
+			return;
+		}
+		this.target.jumpDrawablesToCurrentState();
 	}
 
-	public void layouty(int l, int t, int r, int b) {
-		target.layout(l, t, r, b);
+	//@Override
+//	public void layouty(int l, int t, int r, int b) {
+//		// TODO Auto-generated method stub
+//		if (this.target == null) {
+//			return;
+//		}
+//		this.target.layout(l, t, r, b);
+//	}
+	
+	@Override
+	protected void onLayout(boolean changed, int left, int top, int right,
+			int bottom) {
+		// TODO Auto-generated method stub
+		if (this.target == null) {
+			super.onLayout(changed, left, top, right, bottom);
+		}
+		this.target.layout(left, top, right, bottom);
 	}
 
+	@Override
 	public void offsetLeftAndRight(int offset) {
-		target.offsetLeftAndRight(offset);
+		// TODO Auto-generated method stub
+		if (this.target == null) {
+			return;
+		}
+		this.target.offsetLeftAndRight(offset);
 	}
 
+	@Override
 	public void offsetTopAndBottom(int offset) {
-		target.offsetTopAndBottom(offset);
+		// TODO Auto-generated method stub
+		if (this.target == null) {
+			return;
+		}
+		this.target.offsetTopAndBottom(offset);
 	}
 
+	@Override
+	public WindowInsets onApplyWindowInsets(WindowInsets insets) {
+		// TODO Auto-generated method stub
+		if (this.target == null) {
+			return super.onApplyWindowInsets(insets);
+		}
+		return this.target.onApplyWindowInsets(insets);
+	}
+
+	@Override
+	public void onCancelPendingInputEvents() {
+		// TODO Auto-generated method stub
+		if (this.target == null) {
+			return;
+		}
+		this.target.onCancelPendingInputEvents();
+	}
+
+	@Override
 	public boolean onCheckIsTextEditor() {
-		return target.onCheckIsTextEditor();
+		// TODO Auto-generated method stub
+		if (this.target == null) {
+			return super.onCheckIsTextEditor();
+		}
+		return this.target.onCheckIsTextEditor();
 	}
 
+	@Override
 	public InputConnection onCreateInputConnection(EditorInfo outAttrs) {
-		return target.onCreateInputConnection(outAttrs);
+		// TODO Auto-generated method stub
+		if (this.target == null) {
+			return super.onCreateInputConnection(outAttrs);
+		}
+		return this.target.onCreateInputConnection(outAttrs);
 	}
 
+	@Override
 	public boolean onDragEvent(DragEvent event) {
-		return target.onDragEvent(event);
+		// TODO Auto-generated method stub
+		if (this.target == null) {
+			return super.onDragEvent(event);
+		}
+		return this.target.onDragEvent(event);
 	}
 
+	@Override
 	public boolean onFilterTouchEventForSecurity(MotionEvent event) {
-		return target.onFilterTouchEventForSecurity(event);
+		// TODO Auto-generated method stub
+		if (this.target == null) {
+			return super.onFilterTouchEventForSecurity(event);
+		}
+		return this.target.onFilterTouchEventForSecurity(event);
 	}
 
+	@Override
 	public void onFinishTemporaryDetach() {
-		target.onFinishTemporaryDetach();
+		// TODO Auto-generated method stub
+		if (this.target == null) {
+			return;
+		}
+		this.target.onFinishTemporaryDetach();
 	}
 
+	@Override
 	public boolean onGenericMotionEvent(MotionEvent event) {
-		return target.onGenericMotionEvent(event);
+		// TODO Auto-generated method stub
+		if (this.target == null) {
+			return super.onGenericMotionEvent(event);
+		}
+		return this.target.onGenericMotionEvent(event);
 	}
 
+	@Override
 	public void onHoverChanged(boolean hovered) {
-		target.onHoverChanged(hovered);
+		// TODO Auto-generated method stub
+		if (this.target == null) {
+			return;
+		}
+		this.target.onHoverChanged(hovered);
 	}
 
+	@Override
 	public boolean onHoverEvent(MotionEvent event) {
-		return target.onHoverEvent(event);
+		// TODO Auto-generated method stub
+		if (this.target == null) {
+			return super.onHoverEvent(event);
+		}
+		return this.target.onHoverEvent(event);
 	}
 
+	@Override
 	public void onInitializeAccessibilityEvent(AccessibilityEvent event) {
-		target.onInitializeAccessibilityEvent(event);
+		// TODO Auto-generated method stub
+		if (this.target == null) {
+			return;
+		}
+		this.target.onInitializeAccessibilityEvent(event);
 	}
 
+	@Override
 	public void onInitializeAccessibilityNodeInfo(AccessibilityNodeInfo info) {
-		target.onInitializeAccessibilityNodeInfo(info);
+		// TODO Auto-generated method stub
+		if (this.target == null) {
+			return;
+		}
+		this.target.onInitializeAccessibilityNodeInfo(info);
 	}
 
+	@Override
 	public boolean onKeyDown(int keyCode, KeyEvent event) {
-		return target.onKeyDown(keyCode, event);
+		// TODO Auto-generated method stub
+		if (this.target == null) {
+			return super.onKeyDown(keyCode, event);
+		}
+		return this.target.onKeyDown(keyCode, event);
 	}
 
+	@Override
 	public boolean onKeyLongPress(int keyCode, KeyEvent event) {
-		return target.onKeyLongPress(keyCode, event);
+		// TODO Auto-generated method stub
+		if (this.target == null) {
+			return super.onKeyLongPress(keyCode, event);
+		}
+		return this.target.onKeyLongPress(keyCode, event);
 	}
 
+	@Override
 	public boolean onKeyMultiple(int keyCode, int repeatCount, KeyEvent event) {
-		return target.onKeyMultiple(keyCode, repeatCount, event);
+		// TODO Auto-generated method stub
+		if (this.target == null) {
+			return super.onKeyMultiple(keyCode, repeatCount, event);
+		}
+		return this.target.onKeyMultiple(keyCode, repeatCount, event);
 	}
 
+	@Override
 	public boolean onKeyPreIme(int keyCode, KeyEvent event) {
-		return target.onKeyPreIme(keyCode, event);
+		// TODO Auto-generated method stub
+		if (this.target == null) {
+			return super.onKeyPreIme(keyCode, event);
+		}
+		return this.target.onKeyPreIme(keyCode, event);
 	}
 
+	@Override
 	public boolean onKeyShortcut(int keyCode, KeyEvent event) {
-		return target.onKeyShortcut(keyCode, event);
+		// TODO Auto-generated method stub
+		if (this.target == null) {
+			return super.onKeyShortcut(keyCode, event);
+		}
+		return this.target.onKeyShortcut(keyCode, event);
 	}
 
+	@Override
 	public boolean onKeyUp(int keyCode, KeyEvent event) {
-		return target.onKeyUp(keyCode, event);
+		// TODO Auto-generated method stub
+		if (this.target == null) {
+			return super.onKeyUp(keyCode, event);
+		}
+		return this.target.onKeyUp(keyCode, event);
 	}
 
+	@Override
 	public void onPopulateAccessibilityEvent(AccessibilityEvent event) {
-		target.onPopulateAccessibilityEvent(event);
+		// TODO Auto-generated method stub
+		if (this.target == null) {
+			return;
+		}
+		this.target.onPopulateAccessibilityEvent(event);
 	}
 
+	@Override
 	public void onRtlPropertiesChanged(int layoutDirection) {
-		target.onRtlPropertiesChanged(layoutDirection);
+		// TODO Auto-generated method stub
+		if (this.target == null) {
+			return;
+		}
+		this.target.onRtlPropertiesChanged(layoutDirection);
 	}
 
+	@Override
 	public void onScreenStateChanged(int screenState) {
-		target.onScreenStateChanged(screenState);
+		// TODO Auto-generated method stub
+		if (this.target == null) {
+			return;
+		}
+		this.target.onScreenStateChanged(screenState);
 	}
 
+	@Override
 	public void onStartTemporaryDetach() {
-		target.onStartTemporaryDetach();
+		// TODO Auto-generated method stub
+		if (this.target == null) {
+			return;
+		}
+		this.target.onStartTemporaryDetach();
 	}
 
+	@Override
 	public boolean onTouchEvent(MotionEvent event) {
-		return target.onTouchEvent(event);
+		// TODO Auto-generated method stub
+		if (this.target == null) {
+			return super.onTouchEvent(event);
+		}
+		return this.target.onTouchEvent(event);
 	}
 
+	@Override
 	public boolean onTrackballEvent(MotionEvent event) {
-		return target.onTrackballEvent(event);
+		// TODO Auto-generated method stub
+		if (this.target == null) {
+			return super.onTrackballEvent(event);
+		}
+		return this.target.onTrackballEvent(event);
 	}
 
+	@Override
 	public void onWindowFocusChanged(boolean hasWindowFocus) {
-		target.onWindowFocusChanged(hasWindowFocus);
+		// TODO Auto-generated method stub
+		if (this.target == null) {
+			return;
+		}
+		this.target.onWindowFocusChanged(hasWindowFocus);
 	}
 
+	@Override
 	public void onWindowSystemUiVisibilityChanged(int visible) {
-		target.onWindowSystemUiVisibilityChanged(visible);
+		// TODO Auto-generated method stub
+		if (this.target == null) {
+			return;
+		}
+		this.target.onWindowSystemUiVisibilityChanged(visible);
 	}
 
+	@Override
 	public boolean performAccessibilityAction(int action, Bundle arguments) {
-		return target.performAccessibilityAction(action, arguments);
+		// TODO Auto-generated method stub
+		if (this.target == null) {
+			return super.performAccessibilityAction(action, arguments);
+		}
+		return this.target.performAccessibilityAction(action, arguments);
 	}
 
+	@Override
 	public boolean performClick() {
-		return target.performClick();
+		// TODO Auto-generated method stub
+		if (this.target == null) {
+			return super.performClick();
+		}
+		return this.target.performClick();
 	}
 
+	@Override
 	public boolean performHapticFeedback(int feedbackConstant, int flags) {
-		return target.performHapticFeedback(feedbackConstant, flags);
+		// TODO Auto-generated method stub
+		if (this.target == null) {
+			return super.performHapticFeedback(feedbackConstant, flags);
+		}
+		return this.target.performHapticFeedback(feedbackConstant, flags);
 	}
 
+	@Override
 	public boolean performHapticFeedback(int feedbackConstant) {
-		return target.performHapticFeedback(feedbackConstant);
+		// TODO Auto-generated method stub
+		if (this.target == null) {
+			return super.performHapticFeedback(feedbackConstant);
+		}
+		return this.target.performHapticFeedback(feedbackConstant);
 	}
 
+	@Override
 	public boolean performLongClick() {
-		return target.performLongClick();
+		// TODO Auto-generated method stub
+		if (this.target == null) {
+			return super.performLongClick();
+		}
+		return this.target.performLongClick();
 	}
 
+	@Override
 	public void playSoundEffect(int soundConstant) {
-		target.playSoundEffect(soundConstant);
+		// TODO Auto-generated method stub
+		if (this.target == null) {
+			return;
+		}
+		this.target.playSoundEffect(soundConstant);
 	}
 
+	@Override
 	public boolean post(Runnable action) {
-		return target.post(action);
+		// TODO Auto-generated method stub
+		if (this.target == null) {
+			return super.post(action);
+		}
+		return this.target.post(action);
 	}
 
+	@Override
 	public boolean postDelayed(Runnable action, long delayMillis) {
-		return target.postDelayed(action, delayMillis);
+		// TODO Auto-generated method stub
+		if (this.target == null) {
+			return super.postDelayed(action, delayMillis);
+		}
+		return this.target.postDelayed(action, delayMillis);
 	}
 
+	@Override
 	public void postInvalidate() {
-		target.postInvalidate();
+		// TODO Auto-generated method stub
+		if (this.target == null) {
+			return;
+		}
+		this.target.postInvalidate();
 	}
 
+	@Override
 	public void postInvalidate(int left, int top, int right, int bottom) {
-		target.postInvalidate(left, top, right, bottom);
+		// TODO Auto-generated method stub
+		if (this.target == null) {
+			return;
+		}
+		this.target.postInvalidate(left, top, right, bottom);
 	}
 
+	@Override
 	public void postInvalidateDelayed(long delayMilliseconds, int left,
 			int top, int right, int bottom) {
-		target.postInvalidateDelayed(delayMilliseconds, left, top, right,
-				bottom);
+		// TODO Auto-generated method stub
+		if (this.target == null) {
+			return;
+		}
+		this.target.postInvalidateDelayed(delayMilliseconds, left, top, right, bottom);
 	}
 
+	@Override
 	public void postInvalidateDelayed(long delayMilliseconds) {
-		target.postInvalidateDelayed(delayMilliseconds);
+		// TODO Auto-generated method stub
+		if (this.target == null) {
+			return;
+		}
+		this.target.postInvalidateDelayed(delayMilliseconds);
 	}
 
+	@Override
 	public void postInvalidateOnAnimation() {
-		target.postInvalidateOnAnimation();
+		// TODO Auto-generated method stub
+		if (this.target == null) {
+			return;
+		}
+		this.target.postInvalidateOnAnimation();
 	}
 
+	@Override
 	public void postInvalidateOnAnimation(int left, int top, int right,
 			int bottom) {
-		target.postInvalidateOnAnimation(left, top, right, bottom);
+		// TODO Auto-generated method stub
+		if (this.target == null) {
+			return;
+		}
+		this.target.postInvalidateOnAnimation(left, top, right, bottom);
 	}
 
+	@Override
 	public void postOnAnimation(Runnable action) {
-		target.postOnAnimation(action);
+		// TODO Auto-generated method stub
+		if (this.target == null) {
+			return;
+		}
+		this.target.postOnAnimation(action);
 	}
 
+	@Override
 	public void postOnAnimationDelayed(Runnable action, long delayMillis) {
-		target.postOnAnimationDelayed(action, delayMillis);
+		// TODO Auto-generated method stub
+		if (this.target == null) {
+			return;
+		}
+		this.target.postOnAnimationDelayed(action, delayMillis);
 	}
 
+	@Override
 	public void refreshDrawableState() {
-		target.refreshDrawableState();
+		// TODO Auto-generated method stub
+		if (this.target == null) {
+			return;
+		}
+		this.target.refreshDrawableState();
 	}
 
+	@Override
 	public boolean removeCallbacks(Runnable action) {
-		return target.removeCallbacks(action);
+		// TODO Auto-generated method stub
+		if (this.target == null) {
+			return super.removeCallbacks(action);
+		}
+		return this.target.removeCallbacks(action);
 	}
 
+	@Override
 	public void removeOnAttachStateChangeListener(
 			OnAttachStateChangeListener listener) {
-		target.removeOnAttachStateChangeListener(listener);
+		// TODO Auto-generated method stub
+		if (this.target == null) {
+			return;
+		}
+		this.target.removeOnAttachStateChangeListener(listener);
 	}
 
+	@Override
 	public void removeOnLayoutChangeListener(OnLayoutChangeListener listener) {
-		target.removeOnLayoutChangeListener(listener);
+		// TODO Auto-generated method stub
+		if (this.target == null) {
+			return;
+		}
+		this.target.removeOnLayoutChangeListener(listener);
 	}
 
+	@Override
+	public void requestApplyInsets() {
+		// TODO Auto-generated method stub
+		if (this.target == null) {
+			return;
+		}
+		this.target.requestApplyInsets();
+	}
+
+	@Override
 	@Deprecated
 	public void requestFitSystemWindows() {
-		target.requestFitSystemWindows();
-	}
-
-	public boolean requestFocus(int direction, Rect previouslyFocusedRect) {
-		return target.requestFocus(direction, previouslyFocusedRect);
-	}
-
-	public void requestLayout() {
-		target.requestLayout();
-	}
-
-	public boolean requestRectangleOnScreen(Rect rectangle, boolean immediate) {
-		return target.requestRectangleOnScreen(rectangle, immediate);
-	}
-
-	public boolean requestRectangleOnScreen(Rect rectangle) {
-		return target.requestRectangleOnScreen(rectangle);
-	}
-
-	public void restoreHierarchyState(SparseArray<Parcelable> container) {
-		target.restoreHierarchyState(container);
-	}
-
-	public void saveHierarchyState(SparseArray<Parcelable> container) {
-		target.saveHierarchyState(container);
-	}
-
-	public void scheduleDrawable(Drawable who, Runnable what, long when) {
-		target.scheduleDrawable(who, what, when);
-	}
-
-	public void scrollBy(int x, int y) {
-		target.scrollBy(x, y);
-	}
-
-	public void scrollTo(int x, int y) {
-		target.scrollTo(x, y);
-	}
-
-	public void sendAccessibilityEvent(int eventType) {
-		target.sendAccessibilityEvent(eventType);
-	}
-
-	public void sendAccessibilityEventUnchecked(AccessibilityEvent event) {
-		target.sendAccessibilityEventUnchecked(event);
-	}
-
-	public void setAccessibilityDelegate(AccessibilityDelegate delegate) {
-		target.setAccessibilityDelegate(delegate);
-	}
-
-	public void setActivated(boolean activated) {
-		target.setActivated(activated);
-	}
-
-	public void setAlpha(float alpha) {
-		target.setAlpha(alpha);
-	}
-
-	public void setAnimation(Animation animation) {
-		target.setAnimation(animation);
-	}
-
-	@SuppressWarnings("deprecation")
-	public void setBackground(Drawable background) {
-		if (Build.VERSION.SDK_INT > 16) {
-			target.setBackground(background);
-		}else {
-			target.setBackgroundDrawable(background);
+		// TODO Auto-generated method stub
+		if (this.target == null) {
+			return;
 		}
+		this.target.requestFitSystemWindows();
 	}
 
+	@Override
+	public boolean requestFocus(int direction, Rect previouslyFocusedRect) {
+		// TODO Auto-generated method stub
+		if (this.target == null) {
+			return super.requestFocus(direction, previouslyFocusedRect);
+		}
+		return this.target.requestFocus(direction, previouslyFocusedRect);
+	}
+
+	@Override
+	public void requestLayout() {
+		// TODO Auto-generated method stub
+		if (this.target == null) {
+			return;
+		}
+		this.target.requestLayout();
+	}
+
+	@Override
+	public boolean requestRectangleOnScreen(Rect rectangle, boolean immediate) {
+		// TODO Auto-generated method stub
+		if (this.target == null) {
+			return super.requestRectangleOnScreen(rectangle, immediate);
+		}
+		return this.target.requestRectangleOnScreen(rectangle, immediate);
+	}
+
+	@Override
+	public boolean requestRectangleOnScreen(Rect rectangle) {
+		// TODO Auto-generated method stub
+		if (this.target == null) {
+			return super.requestRectangleOnScreen(rectangle);
+		}
+		return this.target.requestRectangleOnScreen(rectangle);
+	}
+
+	@Override
+	public void restoreHierarchyState(SparseArray<Parcelable> container) {
+		// TODO Auto-generated method stub
+		if (this.target == null) {
+			return;
+		}
+		this.target.restoreHierarchyState(container);
+	}
+
+	@Override
+	public void saveHierarchyState(SparseArray<Parcelable> container) {
+		// TODO Auto-generated method stub
+		if (this.target == null) {
+			return;
+		}
+		this.target.saveHierarchyState(container);
+	}
+
+	@Override
+	public void scheduleDrawable(Drawable who, Runnable what, long when) {
+		// TODO Auto-generated method stub
+		if (this.target == null) {
+			return;
+		}
+		this.target.scheduleDrawable(who, what, when);
+	}
+
+	@Override
+	public void scrollBy(int x, int y) {
+		// TODO Auto-generated method stub
+		if (this.target == null) {
+			return;
+		}
+		this.target.scrollBy(x, y);
+	}
+
+	@Override
+	public void scrollTo(int x, int y) {
+		// TODO Auto-generated method stub
+		if (this.target == null) {
+			return;
+		}
+		this.target.scrollTo(x, y);
+	}
+
+	@Override
+	public void sendAccessibilityEvent(int eventType) {
+		// TODO Auto-generated method stub
+		if (this.target == null) {
+			return;
+		}
+		this.target.sendAccessibilityEvent(eventType);
+	}
+
+	@Override
+	public void sendAccessibilityEventUnchecked(AccessibilityEvent event) {
+		// TODO Auto-generated method stub
+		if (this.target == null) {
+			return;
+		}
+		this.target.sendAccessibilityEventUnchecked(event);
+	}
+
+	@Override
+	public void setAccessibilityDelegate(AccessibilityDelegate delegate) {
+		// TODO Auto-generated method stub
+		if (this.target == null) {
+			return;
+		}
+		this.target.setAccessibilityDelegate(delegate);
+	}
+
+	@Override
+	public void setAccessibilityLiveRegion(int mode) {
+		// TODO Auto-generated method stub
+		if (this.target == null) {
+			return;
+		}
+		this.target.setAccessibilityLiveRegion(mode);
+	}
+
+	@Override
+	public void setActivated(boolean activated) {
+		// TODO Auto-generated method stub
+		if (this.target == null) {
+			return;
+		}
+		this.target.setActivated(activated);
+	}
+
+	@Override
+	public void setAlpha(float alpha) {
+		// TODO Auto-generated method stub
+		if (this.target == null) {
+			return;
+		}
+		this.target.setAlpha(alpha);
+	}
+
+	@Override
+	public void setAnimation(Animation animation) {
+		// TODO Auto-generated method stub
+		if (this.target == null) {
+			return;
+		}
+		this.target.setAnimation(animation);
+	}
+
+	@Override
+	public void setBackground(Drawable background) {
+		// TODO Auto-generated method stub
+		if (this.target == null) {
+			return;
+		}
+		this.target.setBackground(background);
+	}
+
+	@Override
 	public void setBackgroundColor(int color) {
-		target.setBackgroundColor(color);
+		// TODO Auto-generated method stub
+		if (this.target == null) {
+			return;
+		}
+		this.target.setBackgroundColor(color);
 	}
 
+	@Override
 	@Deprecated
 	public void setBackgroundDrawable(Drawable background) {
-		target.setBackgroundDrawable(background);
+		// TODO Auto-generated method stub
+		if (this.target == null) {
+			return;
+		}
+		this.target.setBackgroundDrawable(background);
 	}
 
+	@Override
 	public void setBackgroundResource(int resid) {
-		target.setBackgroundResource(resid);
+		// TODO Auto-generated method stub
+		if (this.target == null) {
+			return;
+		}
+		this.target.setBackgroundResource(resid);
 	}
 
+	@Override
 	public void setCameraDistance(float distance) {
-		target.setCameraDistance(distance);
+		// TODO Auto-generated method stub
+		if (this.target == null) {
+			return;
+		}
+		this.target.setCameraDistance(distance);
 	}
 
+	@Override
 	public void setClickable(boolean clickable) {
-		target.setClickable(clickable);
+		// TODO Auto-generated method stub
+		if (this.target == null) {
+			return;
+		}
+		this.target.setClickable(clickable);
 	}
 
+	@Override
 	public void setClipBounds(Rect clipBounds) {
-		target.setClipBounds(clipBounds);
+		// TODO Auto-generated method stub
+		if (this.target == null) {
+			return;
+		}
+		this.target.setClipBounds(clipBounds);
 	}
 
+	@Override
 	public void setContentDescription(CharSequence contentDescription) {
-		target.setContentDescription(contentDescription);
+		// TODO Auto-generated method stub
+		if (this.target == null) {
+			return;
+		}
+		this.target.setContentDescription(contentDescription);
 	}
 
+	@Override
 	public void setDrawingCacheBackgroundColor(int color) {
-		target.setDrawingCacheBackgroundColor(color);
+		// TODO Auto-generated method stub
+		if (this.target == null) {
+			return;
+		}
+		this.target.setDrawingCacheBackgroundColor(color);
 	}
 
+	@Override
 	public void setDrawingCacheEnabled(boolean enabled) {
-		target.setDrawingCacheEnabled(enabled);
+		// TODO Auto-generated method stub
+		if (this.target == null) {
+			return;
+		}
+		this.target.setDrawingCacheEnabled(enabled);
 	}
 
+	@Override
 	public void setDrawingCacheQuality(int quality) {
-		target.setDrawingCacheQuality(quality);
+		// TODO Auto-generated method stub
+		if (this.target == null) {
+			return;
+		}
+		this.target.setDrawingCacheQuality(quality);
 	}
 
+	@Override
 	public void setDuplicateParentStateEnabled(boolean enabled) {
-		target.setDuplicateParentStateEnabled(enabled);
+		// TODO Auto-generated method stub
+		if (this.target == null) {
+			return;
+		}
+		this.target.setDuplicateParentStateEnabled(enabled);
 	}
 
+	@Override
 	public void setEnabled(boolean enabled) {
-		target.setEnabled(enabled);
+		// TODO Auto-generated method stub
+		if (this.target == null) {
+			return;
+		}
+		this.target.setEnabled(enabled);
 	}
 
+	@Override
 	public void setFadingEdgeLength(int length) {
-		target.setFadingEdgeLength(length);
+		// TODO Auto-generated method stub
+		if (this.target == null) {
+			return;
+		}
+		this.target.setFadingEdgeLength(length);
 	}
 
+	@Override
 	public void setFilterTouchesWhenObscured(boolean enabled) {
-		target.setFilterTouchesWhenObscured(enabled);
+		// TODO Auto-generated method stub
+		if (this.target == null) {
+			return;
+		}
+		this.target.setFilterTouchesWhenObscured(enabled);
 	}
 
+	@Override
 	public void setFitsSystemWindows(boolean fitSystemWindows) {
-		target.setFitsSystemWindows(fitSystemWindows);
+		// TODO Auto-generated method stub
+		if (this.target == null) {
+			return;
+		}
+		this.target.setFitsSystemWindows(fitSystemWindows);
 	}
 
+	@Override
 	public void setFocusable(boolean focusable) {
-		target.setFocusable(focusable);
+		// TODO Auto-generated method stub
+		if (this.target == null) {
+			return;
+		}
+		this.target.setFocusable(focusable);
 	}
 
+	@Override
 	public void setFocusableInTouchMode(boolean focusableInTouchMode) {
-		target.setFocusableInTouchMode(focusableInTouchMode);
+		// TODO Auto-generated method stub
+		if (this.target == null) {
+			return;
+		}
+		this.target.setFocusableInTouchMode(focusableInTouchMode);
 	}
 
+	@Override
 	public void setHapticFeedbackEnabled(boolean hapticFeedbackEnabled) {
-		target.setHapticFeedbackEnabled(hapticFeedbackEnabled);
+		// TODO Auto-generated method stub
+		if (this.target == null) {
+			return;
+		}
+		this.target.setHapticFeedbackEnabled(hapticFeedbackEnabled);
 	}
 
+	@Override
 	public void setHasTransientState(boolean hasTransientState) {
-		target.setHasTransientState(hasTransientState);
+		// TODO Auto-generated method stub
+		if (this.target == null) {
+			return;
+		}
+		this.target.setHasTransientState(hasTransientState);
 	}
 
+	@Override
 	public void setHorizontalFadingEdgeEnabled(
 			boolean horizontalFadingEdgeEnabled) {
-		target.setHorizontalFadingEdgeEnabled(horizontalFadingEdgeEnabled);
+		// TODO Auto-generated method stub
+		if (this.target == null) {
+			return;
+		}
+		this.target.setHorizontalFadingEdgeEnabled(horizontalFadingEdgeEnabled);
 	}
 
+	@Override
 	public void setHorizontalScrollBarEnabled(boolean horizontalScrollBarEnabled) {
-		target.setHorizontalScrollBarEnabled(horizontalScrollBarEnabled);
+		// TODO Auto-generated method stub
+		if (this.target == null) {
+			return;
+		}
+		this.target.setHorizontalScrollBarEnabled(horizontalScrollBarEnabled);
 	}
 
+	@Override
 	public void setHovered(boolean hovered) {
-		target.setHovered(hovered);
+		// TODO Auto-generated method stub
+		if (this.target == null) {
+			return;
+		}
+		this.target.setHovered(hovered);
 	}
 
+	@Override
 	public void setId(int id) {
-		target.setId(id);
+		// TODO Auto-generated method stub
+		if (this.target == null) {
+			return;
+		}
+		this.target.setId(id);
 	}
 
+	@Override
 	public void setImportantForAccessibility(int mode) {
-		target.setImportantForAccessibility(mode);
+		// TODO Auto-generated method stub
+		if (this.target == null) {
+			return;
+		}
+		this.target.setImportantForAccessibility(mode);
 	}
 
+	@Override
 	public void setKeepScreenOn(boolean keepScreenOn) {
-		target.setKeepScreenOn(keepScreenOn);
+		// TODO Auto-generated method stub
+		if (this.target == null) {
+			return;
+		}
+		this.target.setKeepScreenOn(keepScreenOn);
 	}
 
+	@Override
 	public void setLabelFor(int id) {
-		target.setLabelFor(id);
+		// TODO Auto-generated method stub
+		if (this.target == null) {
+			return;
+		}
+		this.target.setLabelFor(id);
 	}
 
+	@Override
 	public void setLayerPaint(Paint paint) {
-		target.setLayerPaint(paint);
+		// TODO Auto-generated method stub
+		if (this.target == null) {
+			return;
+		}
+		this.target.setLayerPaint(paint);
 	}
 
+	@Override
 	public void setLayerType(int layerType, Paint paint) {
-		target.setLayerType(layerType, paint);
+		// TODO Auto-generated method stub
+		if (this.target == null) {
+			return;
+		}
+		this.target.setLayerType(layerType, paint);
 	}
 
+	@Override
 	public void setLayoutDirection(int layoutDirection) {
-		target.setLayoutDirection(layoutDirection);
+		// TODO Auto-generated method stub
+		if (this.target == null) {
+			return;
+		}
+		this.target.setLayoutDirection(layoutDirection);
 	}
 
+	@Override
 	public void setLayoutParams(LayoutParams params) {
-		target.setLayoutParams(params);
+		// TODO Auto-generated method stub
+		if (this.target == null) {
+			return;
+		}
+		this.target.setLayoutParams(params);
 	}
 
+	@Override
 	public void setLongClickable(boolean longClickable) {
-		target.setLongClickable(longClickable);
+		// TODO Auto-generated method stub
+		if (this.target == null) {
+			return;
+		}
+		this.target.setLongClickable(longClickable);
 	}
 
+	@Override
 	public void setMinimumHeight(int minHeight) {
-		target.setMinimumHeight(minHeight);
+		// TODO Auto-generated method stub
+		if (this.target == null) {
+			return;
+		}
+		this.target.setMinimumHeight(minHeight);
 	}
 
+	@Override
 	public void setMinimumWidth(int minWidth) {
-		target.setMinimumWidth(minWidth);
+		// TODO Auto-generated method stub
+		if (this.target == null) {
+			return;
+		}
+		this.target.setMinimumWidth(minWidth);
 	}
 
+	@Override
 	public void setNextFocusDownId(int nextFocusDownId) {
-		target.setNextFocusDownId(nextFocusDownId);
+		// TODO Auto-generated method stub
+		if (this.target == null) {
+			return;
+		}
+		this.target.setNextFocusDownId(nextFocusDownId);
 	}
 
+	@Override
 	public void setNextFocusForwardId(int nextFocusForwardId) {
-		target.setNextFocusForwardId(nextFocusForwardId);
+		// TODO Auto-generated method stub
+		if (this.target == null) {
+			return;
+		}
+		this.target.setNextFocusForwardId(nextFocusForwardId);
 	}
 
+	@Override
 	public void setNextFocusLeftId(int nextFocusLeftId) {
-		target.setNextFocusLeftId(nextFocusLeftId);
+		// TODO Auto-generated method stub
+		if (this.target == null) {
+			return;
+		}
+		this.target.setNextFocusLeftId(nextFocusLeftId);
 	}
 
+	@Override
 	public void setNextFocusRightId(int nextFocusRightId) {
-		target.setNextFocusRightId(nextFocusRightId);
+		// TODO Auto-generated method stub
+		if (this.target == null) {
+			return;
+		}
+		this.target.setNextFocusRightId(nextFocusRightId);
 	}
 
+	@Override
 	public void setNextFocusUpId(int nextFocusUpId) {
-		target.setNextFocusUpId(nextFocusUpId);
+		// TODO Auto-generated method stub
+		if (this.target == null) {
+			return;
+		}
+		this.target.setNextFocusUpId(nextFocusUpId);
 	}
 
+	@Override
+	public void setOnApplyWindowInsetsListener(
+			OnApplyWindowInsetsListener listener) {
+		// TODO Auto-generated method stub
+		if (this.target == null) {
+			return;
+		}
+		this.target.setOnApplyWindowInsetsListener(listener);
+	}
+
+	@Override
 	public void setOnClickListener(OnClickListener l) {
-		target.setOnClickListener(l);
+		// TODO Auto-generated method stub
+		if (this.target == null) {
+			return;
+		}
+		this.target.setOnClickListener(l);
 	}
 
+	@Override
 	public void setOnCreateContextMenuListener(OnCreateContextMenuListener l) {
-		target.setOnCreateContextMenuListener(l);
+		// TODO Auto-generated method stub
+		if (this.target == null) {
+			return;
+		}
+		this.target.setOnCreateContextMenuListener(l);
 	}
 
+	@Override
 	public void setOnDragListener(OnDragListener l) {
-		target.setOnDragListener(l);
+		// TODO Auto-generated method stub
+		if (this.target == null) {
+			return;
+		}
+		this.target.setOnDragListener(l);
 	}
 
+	@Override
 	public void setOnFocusChangeListener(OnFocusChangeListener l) {
-		target.setOnFocusChangeListener(l);
+		// TODO Auto-generated method stub
+		if (this.target == null) {
+			return;
+		}
+		this.target.setOnFocusChangeListener(l);
 	}
 
+	@Override
 	public void setOnGenericMotionListener(OnGenericMotionListener l) {
-		target.setOnGenericMotionListener(l);
+		// TODO Auto-generated method stub
+		if (this.target == null) {
+			return;
+		}
+		this.target.setOnGenericMotionListener(l);
 	}
 
+	@Override
 	public void setOnHoverListener(OnHoverListener l) {
-		target.setOnHoverListener(l);
+		// TODO Auto-generated method stub
+		if (this.target == null) {
+			return;
+		}
+		this.target.setOnHoverListener(l);
 	}
 
+	@Override
 	public void setOnKeyListener(OnKeyListener l) {
-		target.setOnKeyListener(l);
+		// TODO Auto-generated method stub
+		if (this.target == null) {
+			return;
+		}
+		this.target.setOnKeyListener(l);
 	}
 
+	@Override
 	public void setOnLongClickListener(OnLongClickListener l) {
-		target.setOnLongClickListener(l);
+		// TODO Auto-generated method stub
+		if (this.target == null) {
+			return;
+		}
+		this.target.setOnLongClickListener(l);
 	}
 
+	@Override
 	public void setOnSystemUiVisibilityChangeListener(
 			OnSystemUiVisibilityChangeListener l) {
-		target.setOnSystemUiVisibilityChangeListener(l);
+		// TODO Auto-generated method stub
+		if (this.target == null) {
+			return;
+		}
+		this.target.setOnSystemUiVisibilityChangeListener(l);
 	}
 
+	@Override
 	public void setOnTouchListener(OnTouchListener l) {
-		target.setOnTouchListener(l);
+		// TODO Auto-generated method stub
+		if (this.target == null) {
+			return;
+		}
+		this.target.setOnTouchListener(l);
 	}
 
+	@Override
 	public void setOverScrollMode(int overScrollMode) {
-		target.setOverScrollMode(overScrollMode);
+		// TODO Auto-generated method stub
+		if (this.target == null) {
+			return;
+		}
+		this.target.setOverScrollMode(overScrollMode);
 	}
 
+	@Override
 	public void setPadding(int left, int top, int right, int bottom) {
-		target.setPadding(left, top, right, bottom);
+		// TODO Auto-generated method stub
+		if (this.target == null) {
+			return;
+		}
+		this.target.setPadding(left, top, right, bottom);
 	}
 
+	@Override
 	public void setPaddingRelative(int start, int top, int end, int bottom) {
-		target.setPaddingRelative(start, top, end, bottom);
+		// TODO Auto-generated method stub
+		if (this.target == null) {
+			return;
+		}
+		this.target.setPaddingRelative(start, top, end, bottom);
 	}
 
+	@Override
 	public void setPivotX(float pivotX) {
-		target.setPivotX(pivotX);
+		// TODO Auto-generated method stub
+		if (this.target == null) {
+			return;
+		}
+		this.target.setPivotX(pivotX);
 	}
 
+	@Override
 	public void setPivotY(float pivotY) {
-		target.setPivotY(pivotY);
+		// TODO Auto-generated method stub
+		if (this.target == null) {
+			return;
+		}
+		this.target.setPivotY(pivotY);
 	}
 
+	@Override
 	public void setPressed(boolean pressed) {
-		target.setPressed(pressed);
+		// TODO Auto-generated method stub
+		if (this.target == null) {
+			return;
+		}
+		this.target.setPressed(pressed);
 	}
 
+	@Override
 	public void setRotation(float rotation) {
-		target.setRotation(rotation);
+		// TODO Auto-generated method stub
+		if (this.target == null) {
+			return;
+		}
+		this.target.setRotation(rotation);
 	}
 
+	@Override
 	public void setRotationX(float rotationX) {
-		target.setRotationX(rotationX);
+		// TODO Auto-generated method stub
+		if (this.target == null) {
+			return;
+		}
+		this.target.setRotationX(rotationX);
 	}
 
+	@Override
 	public void setRotationY(float rotationY) {
-		target.setRotationY(rotationY);
+		// TODO Auto-generated method stub
+		if (this.target == null) {
+			return;
+		}
+		this.target.setRotationY(rotationY);
 	}
 
+	@Override
 	public void setSaveEnabled(boolean enabled) {
-		target.setSaveEnabled(enabled);
+		// TODO Auto-generated method stub
+		if (this.target == null) {
+			return;
+		}
+		this.target.setSaveEnabled(enabled);
 	}
 
+	@Override
 	public void setSaveFromParentEnabled(boolean enabled) {
-		target.setSaveFromParentEnabled(enabled);
+		// TODO Auto-generated method stub
+		if (this.target == null) {
+			return;
+		}
+		this.target.setSaveFromParentEnabled(enabled);
 	}
 
+	@Override
 	public void setScaleX(float scaleX) {
-		target.setScaleX(scaleX);
+		// TODO Auto-generated method stub
+		if (this.target == null) {
+			return;
+		}
+		this.target.setScaleX(scaleX);
 	}
 
+	@Override
 	public void setScaleY(float scaleY) {
-		target.setScaleY(scaleY);
+		// TODO Auto-generated method stub
+		if (this.target == null) {
+			return;
+		}
+		this.target.setScaleY(scaleY);
 	}
 
+	@Override
 	public void setScrollBarDefaultDelayBeforeFade(
 			int scrollBarDefaultDelayBeforeFade) {
-		target.setScrollBarDefaultDelayBeforeFade(scrollBarDefaultDelayBeforeFade);
+		// TODO Auto-generated method stub
+		if (this.target == null) {
+			return;
+		}
+		this.target.setScrollBarDefaultDelayBeforeFade(scrollBarDefaultDelayBeforeFade);
 	}
 
+	@Override
 	public void setScrollBarFadeDuration(int scrollBarFadeDuration) {
-		target.setScrollBarFadeDuration(scrollBarFadeDuration);
+		// TODO Auto-generated method stub
+		if (this.target == null) {
+			return;
+		}
+		this.target.setScrollBarFadeDuration(scrollBarFadeDuration);
 	}
 
+	@Override
 	public void setScrollBarSize(int scrollBarSize) {
-		target.setScrollBarSize(scrollBarSize);
+		// TODO Auto-generated method stub
+		if (this.target == null) {
+			return;
+		}
+		this.target.setScrollBarSize(scrollBarSize);
 	}
 
+	@Override
 	public void setScrollBarStyle(int style) {
-		target.setScrollBarStyle(style);
+		// TODO Auto-generated method stub
+		if (this.target == null) {
+			return;
+		}
+		this.target.setScrollBarStyle(style);
 	}
 
+	@Override
 	public void setScrollContainer(boolean isScrollContainer) {
-		target.setScrollContainer(isScrollContainer);
+		// TODO Auto-generated method stub
+		if (this.target == null) {
+			return;
+		}
+		this.target.setScrollContainer(isScrollContainer);
 	}
 
+	@Override
 	public void setScrollX(int value) {
-		target.setScrollX(value);
+		// TODO Auto-generated method stub
+		if (this.target == null) {
+			return;
+		}
+		this.target.setScrollX(value);
 	}
 
+	@Override
 	public void setScrollY(int value) {
-		target.setScrollY(value);
+		// TODO Auto-generated method stub
+		if (this.target == null) {
+			return;
+		}
+		this.target.setScrollY(value);
 	}
 
+	@Override
 	public void setScrollbarFadingEnabled(boolean fadeScrollbars) {
-		target.setScrollbarFadingEnabled(fadeScrollbars);
+		// TODO Auto-generated method stub
+		if (this.target == null) {
+			return;
+		}
+		this.target.setScrollbarFadingEnabled(fadeScrollbars);
 	}
 
+	@Override
 	public void setSelected(boolean selected) {
-		target.setSelected(selected);
+		// TODO Auto-generated method stub
+		if (this.target == null) {
+			return;
+		}
+		this.target.setSelected(selected);
 	}
 
+	@Override
 	public void setSoundEffectsEnabled(boolean soundEffectsEnabled) {
-		target.setSoundEffectsEnabled(soundEffectsEnabled);
+		// TODO Auto-generated method stub
+		if (this.target == null) {
+			return;
+		}
+		this.target.setSoundEffectsEnabled(soundEffectsEnabled);
 	}
 
+	@Override
 	public void setSystemUiVisibility(int visibility) {
-		target.setSystemUiVisibility(visibility);
+		// TODO Auto-generated method stub
+		if (this.target == null) {
+			return;
+		}
+		this.target.setSystemUiVisibility(visibility);
 	}
 
+	@Override
 	public void setTag(int key, Object tag) {
-		target.setTag(key, tag);
+		// TODO Auto-generated method stub
+		if (this.target == null) {
+			return;
+		}
+		this.target.setTag(key, tag);
 	}
 
+	@Override
 	public void setTag(Object tag) {
-		target.setTag(tag);
+		// TODO Auto-generated method stub
+		if (this.target == null) {
+			return;
+		}
+		this.target.setTag(tag);
 	}
 
+	@Override
 	public void setTextAlignment(int textAlignment) {
-		target.setTextAlignment(textAlignment);
+		// TODO Auto-generated method stub
+		if (this.target == null) {
+			return;
+		}
+		this.target.setTextAlignment(textAlignment);
 	}
 
+	@Override
 	public void setTextDirection(int textDirection) {
-		target.setTextDirection(textDirection);
+		// TODO Auto-generated method stub
+		if (this.target == null) {
+			return;
+		}
+		this.target.setTextDirection(textDirection);
 	}
 
+	@Override
 	public void setTouchDelegate(TouchDelegate delegate) {
-		target.setTouchDelegate(delegate);
+		// TODO Auto-generated method stub
+		if (this.target == null) {
+			return;
+		}
+		this.target.setTouchDelegate(delegate);
 	}
 
+	@Override
 	public void setTranslationX(float translationX) {
-		target.setTranslationX(translationX);
+		// TODO Auto-generated method stub
+		if (this.target == null) {
+			return;
+		}
+		this.target.setTranslationX(translationX);
 	}
 
+	@Override
 	public void setTranslationY(float translationY) {
-		target.setTranslationY(translationY);
+		// TODO Auto-generated method stub
+		if (this.target == null) {
+			return;
+		}
+		this.target.setTranslationY(translationY);
 	}
 
+	@Override
 	public void setVerticalFadingEdgeEnabled(boolean verticalFadingEdgeEnabled) {
-		target.setVerticalFadingEdgeEnabled(verticalFadingEdgeEnabled);
+		// TODO Auto-generated method stub
+		if (this.target == null) {
+			return;
+		}
+		this.target.setVerticalFadingEdgeEnabled(verticalFadingEdgeEnabled);
 	}
 
+	@Override
 	public void setVerticalScrollBarEnabled(boolean verticalScrollBarEnabled) {
-		target.setVerticalScrollBarEnabled(verticalScrollBarEnabled);
+		// TODO Auto-generated method stub
+		if (this.target == null) {
+			return;
+		}
+		this.target.setVerticalScrollBarEnabled(verticalScrollBarEnabled);
 	}
 
+	@Override
 	public void setVerticalScrollbarPosition(int position) {
-		target.setVerticalScrollbarPosition(position);
+		// TODO Auto-generated method stub
+		if (this.target == null) {
+			return;
+		}
+		this.target.setVerticalScrollbarPosition(position);
 	}
 
+	@Override
 	public void setVisibility(int visibility) {
-		target.setVisibility(visibility);
+		// TODO Auto-generated method stub
+		if (this.target == null) {
+			return;
+		}
+		this.target.setVisibility(visibility);
 	}
 
+	@Override
 	public void setWillNotCacheDrawing(boolean willNotCacheDrawing) {
-		target.setWillNotCacheDrawing(willNotCacheDrawing);
+		// TODO Auto-generated method stub
+		if (this.target == null) {
+			return;
+		}
+		this.target.setWillNotCacheDrawing(willNotCacheDrawing);
 	}
 
+	@Override
 	public void setWillNotDraw(boolean willNotDraw) {
-		target.setWillNotDraw(willNotDraw);
+		// TODO Auto-generated method stub
+		if (this.target == null) {
+			return;
+		}
+		this.target.setWillNotDraw(willNotDraw);
 	}
 
+	@Override
 	public void setX(float x) {
-		target.setX(x);
+		// TODO Auto-generated method stub
+		if (this.target == null) {
+			return;
+		}
+		this.target.setX(x);
 	}
 
+	@Override
 	public void setY(float y) {
-		target.setY(y);
+		// TODO Auto-generated method stub
+		if (this.target == null) {
+			return;
+		}
+		this.target.setY(y);
 	}
 
+	@Override
 	public boolean showContextMenu() {
-		return target.showContextMenu();
+		// TODO Auto-generated method stub
+		if (this.target == null) {
+			return super.showContextMenu();
+		}
+		return this.target.showContextMenu();
 	}
 
+	@Override
 	public ActionMode startActionMode(Callback callback) {
-		return target.startActionMode(callback);
+		// TODO Auto-generated method stub
+		if (this.target == null) {
+			return super.startActionMode(callback);
+		}
+		return this.target.startActionMode(callback);
 	}
 
+	@Override
 	public void startAnimation(Animation animation) {
-		target.startAnimation(animation);
+		// TODO Auto-generated method stub
+		if (this.target == null) {
+			return;
+		}
+		this.target.startAnimation(animation);
 	}
 
+	@Override
 	public String toString() {
-		return target.toString();
+		// TODO Auto-generated method stub
+		if (this.target == null) {
+			return super.toString();
+		}
+		return this.target.toString();
 	}
 
+	@Override
 	public void unscheduleDrawable(Drawable who, Runnable what) {
-		target.unscheduleDrawable(who, what);
+		// TODO Auto-generated method stub
+		if (this.target == null) {
+			return;
+		}
+		this.target.unscheduleDrawable(who, what);
 	}
 
+	@Override
 	public void unscheduleDrawable(Drawable who) {
-		target.unscheduleDrawable(who);
+		// TODO Auto-generated method stub
+		if (this.target == null) {
+			return;
+		}
+		this.target.unscheduleDrawable(who);
 	}
 
+	@Override
+	@ExportedProperty(category = "drawing")
 	public boolean willNotCacheDrawing() {
-		return target.willNotCacheDrawing();
+		// TODO Auto-generated method stub
+		if (this.target == null) {
+			return super.willNotCacheDrawing();
+		}
+		return this.target.willNotCacheDrawing();
 	}
 
+	@Override
+	@ExportedProperty(category = "drawing")
 	public boolean willNotDraw() {
-		return target.willNotDraw();
+		// TODO Auto-generated method stub
+		if (this.target == null) {
+			return super.willNotDraw();
+		}
+		return this.target.willNotDraw();
 	}
-
 
 }
