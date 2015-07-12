@@ -109,7 +109,6 @@ public class SaturationBar extends View {
 	/**
 	 * {@code true} if the user clicked on the pointer to start the move mode. <br>
 	 * {@code false} once the user stops touching the screen.
-	 * 
 	 * @see #onTouchEvent(MotionEvent)
 	 */
 	private boolean mIsMovingPointer;
@@ -482,7 +481,6 @@ public class SaturationBar extends View {
 
 	/**
 	 * Get the currently selected color.
-	 * 
 	 * @return The ARGB value of the currently selected color.
 	 */
 	public int getColor() {
@@ -494,7 +492,6 @@ public class SaturationBar extends View {
 	 * <br>
 	 * WARNING: Don't change the color picker. it is done already when the bar
 	 * is added to the ColorPicker
-	 * 
 	 * @see ColorPicker#addSVBar(SVBar)
 	 * @param picker
 	 */

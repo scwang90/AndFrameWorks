@@ -54,7 +54,6 @@ public class ColorPicker extends View {
 
 	/**
 	 * Colors to construct the color wheel using {@link SweepGradient}.
-	 * 
 	 * <p>
 	 * Note: The algorithm in {@link #normalizeColor(int)} highly depends on
 	 * these exact values. Be aware that {@link #setColor(int)} might break if
@@ -103,7 +102,6 @@ public class ColorPicker extends View {
 	/**
 	 * {@code true} if the user clicked on the pointer to start the move mode. <br>
 	 * {@code false} once the user stops touching the screen.
-	 * 
 	 * @see #onTouchEvent(MotionEvent)
 	 */
 	private boolean mUserIsMovingPointer = false;
@@ -121,18 +119,15 @@ public class ColorPicker extends View {
 	private int mCenterNewColor;
 
 	/** Number of pixels the origin of this view is moved in X- and Y-direction.
-	 * 
 	 * <p>
 	 * We use the center of this (quadratic) View as origin of our internal
 	 * coordinate system. Android uses the upper left corner as origin for the
 	 * View-specific coordinate system. So this is the value we use to translate
 	 * from one coordinate system to the other.
 	 * </p>
-	 * 
 	 * <p>
 	 * Note: (Re)calculated in {@link #onMeasure(int, int)}.
 	 * </p>
-	 * 
 	 * @see #onDraw(Canvas)
 	 */
 	private float mTranslationOffset;
@@ -215,7 +210,6 @@ public class ColorPicker extends View {
 	/**
 	 * An interface that is called whenever a new color has been selected.
 	 * Currently it is always called when the color wheel has been released.
-	 * 
 	 */
 	public interface OnColorSelectedListener {
 		public void onColorSelected(int color);
@@ -231,7 +225,6 @@ public class ColorPicker extends View {
 
 	/**
 	 * Gets the onColorChangedListener
-	 * 
 	 * @return {@code OnColorChangedListener}
 	 */
 	public OnColorChangedListener getOnColorChangedListener() {
@@ -248,7 +241,6 @@ public class ColorPicker extends View {
 
 	/**
 	 * Gets the onColorSelectedListener
-	 * 
 	 * @return {@code OnColorSelectedListener}
 	 */
 	public OnColorSelectedListener getOnColorSelectedListener() {
@@ -415,7 +407,6 @@ public class ColorPicker extends View {
 	 * Calculate the color using the supplied angle.
 	 * @param angle
 	 *            The selected color's position expressed as angle (in rad).
-	 * 
 	 * @return The ARGB value of the color on the color wheel at the specified
 	 *         angle.
 	 */
@@ -451,7 +442,6 @@ public class ColorPicker extends View {
 
 	/**
 	 * Get the currently selected color.
-	 * 
 	 * @return The ARGB value of the currently selected color.
 	 */
 	public int getColor() {
@@ -519,7 +509,6 @@ public class ColorPicker extends View {
 	 * Convert a color to an angle.
 	 * @param color
 	 *            The RGB value of the color to "find" on the color wheel.
-	 * 
 	 * @return The angle (in rad) the "normalized" color is displayed on the
 	 *         color wheel.
 	 */
@@ -623,7 +612,6 @@ public class ColorPicker extends View {
 	 * angle.
 	 * @param angle
 	 *            The position of the pointer expressed as angle (in rad).
-	 * 
 	 * @return The coordinates of the pointer's center in our internal
 	 *         coordinate system.
 	 */
@@ -753,7 +741,6 @@ public class ColorPicker extends View {
 	
 	/**
 	 * Checks if there is an {@code OpacityBar} connected.
-	 * 
 	 * @return true or false.
 	 */
 	public boolean hasOpacityBar(){
@@ -762,7 +749,6 @@ public class ColorPicker extends View {
 	
 	/**
 	 * Checks if there is a {@code ValueBar} connected.
-	 * 
 	 * @return true or false.
 	 */
 	public boolean hasValueBar(){
@@ -771,7 +757,6 @@ public class ColorPicker extends View {
 	
 	/**
 	 * Checks if there is a {@code SaturationBar} connected.
-	 * 
 	 * @return true or false.
 	 */
 	public boolean hasSaturationBar(){
@@ -780,7 +765,6 @@ public class ColorPicker extends View {
 	
 	/**
 	 * Checks if there is a {@code SVBar} connected.
-	 * 
 	 * @return true or false.
 	 */
 	public boolean hasSVBar(){
