@@ -261,7 +261,6 @@ public abstract class AfPullToRefreshBase<Target extends View> extends
 
 	/**
 	 * Deprecated. Use {@link #getRefreshableView()} from now on.
-	 * 
 	 * @deprecated
 	 * @return The Refreshable View which is currently wrapped
 	 */
@@ -272,7 +271,6 @@ public abstract class AfPullToRefreshBase<Target extends View> extends
 	/**
 	 * Get the Wrapped Refreshable View. Anything returned here has already been
 	 * added to the content view.
-	 * 
 	 * @return The View which is currently wrapped
 	 */
 	public final Target getRefreshableView() {
@@ -281,7 +279,6 @@ public abstract class AfPullToRefreshBase<Target extends View> extends
 
 	/**
 	 * Whether Pull-to-Refresh is enabled
-	 * 
 	 * @return enabled
 	 */
 	public final boolean isPullToRefreshEnabled() {
@@ -299,7 +296,6 @@ public abstract class AfPullToRefreshBase<Target extends View> extends
 
 	/**
 	 * Returns whether the Widget is currently in the Refreshing state
-	 * 
 	 * @return true if the Widget is currently refreshing
 	 */
 	public final boolean isRefreshing() {
@@ -563,7 +559,6 @@ public abstract class AfPullToRefreshBase<Target extends View> extends
 
 	/**
 	 * Actions a Pull Event
-	 * 
 	 * @return true if the Event has been handled, false if there has been no
 	 *         change
 	 */
@@ -628,7 +623,6 @@ public abstract class AfPullToRefreshBase<Target extends View> extends
 	 * This is implemented by derived classes to return the created View. If you
 	 * need to use a custom View (such as a custom ListView), override this
 	 * method and return an instance of your custom class.
-	 * 
 	 * Be sure to set the ID of the view in this method, especially if you're
 	 * using a ListActivity or ListFragment.
 	 * @param context
@@ -644,7 +638,6 @@ public abstract class AfPullToRefreshBase<Target extends View> extends
 	/**
 	 * Implemented by derived class to return whether the View is in a state
 	 * where the user can Pull to Refresh by scrolling down.
-	 * 
 	 * @return true if the View is currently the correct state (for example, top
 	 *         of a ListView)
 	 */
@@ -653,7 +646,6 @@ public abstract class AfPullToRefreshBase<Target extends View> extends
 	/**
 	 * Implemented by derived class to return whether the View is in a state
 	 * where the user can Pull to Refresh by scrolling up.
-	 * 
 	 * @return true if the View is currently in the correct state (for example,
 	 *         bottom of a ListView)
 	 */

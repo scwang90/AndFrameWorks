@@ -35,7 +35,7 @@ public class AfStringUtil {
 	 * @return 是否相等
 	 */
 	public static boolean equals(String l,String r){
-		return ((l != null || r != null)) && l.equals(r);
+		return ((l != null && r != null)) && l.equals(r);
 	}
 
 	/**

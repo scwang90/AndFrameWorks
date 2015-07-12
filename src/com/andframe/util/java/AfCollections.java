@@ -24,7 +24,6 @@ public class AfCollections {
 	}
 
 	/**
-	 * 
 	 * 获取在 left 中 right 不存在的元素
 	 * @param left（传入参数，不会改变）
 	 * @param right（传入参数，不会改变）
@@ -35,7 +34,6 @@ public class AfCollections {
 	}
 
 	/**
-	 * 
 	 * 获取在 left 中 right 不存在的元素
 	 * @param left（传入参数，不会改变）
 	 * @param right（传入参数，不会改变）

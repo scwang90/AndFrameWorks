@@ -15,8 +15,7 @@ public abstract class AfTimerTask extends TimerTask{
 			this.onTimer();
 		} catch (Throwable e) {
 			// TODO Auto-generated catch block
-			String remark = "AfTimerTask.run.onTimer 出现异常！\r\n";
-			remark += "class = " + getClass().toString();
+			String remark = "AfTimerTask("+getClass().getName()+").run.onTimer";
 			AfExceptionHandler.handler(e, remark);
 		}
 	}

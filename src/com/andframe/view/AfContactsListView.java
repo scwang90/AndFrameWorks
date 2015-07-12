@@ -184,7 +184,6 @@ public class AfContactsListView extends ExpandableListView implements
 	
 	
 	/**
-	 * 
 	 * 点击了 Group 触发的事件 , 要根据根据当前点击 Group 的状态来
 	 */
 	@Override

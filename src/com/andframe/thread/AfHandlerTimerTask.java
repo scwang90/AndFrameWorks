@@ -33,8 +33,7 @@ public abstract class AfHandlerTimerTask extends AfTimerTask implements Callback
 			result = this.onHandleTimer(msg);
 		} catch (Throwable e) {
 			// TODO: handle exception
-			String remark = "AfHandlerTimerTask.handleMessage.onHandleTimer 出现异常！\r\n";
-			remark += "class = " + getClass().toString();
+			String remark = "AfHandlerTimerTask("+getClass().getName()+").handleMessage.onHandleTimer";
 			AfExceptionHandler.handler(e, remark);
 		}
 		return result;

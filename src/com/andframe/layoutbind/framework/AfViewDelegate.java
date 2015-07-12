@@ -2,6 +2,7 @@ package com.andframe.layoutbind.framework;
 
 import java.util.ArrayList;
 
+import android.annotation.SuppressLint;
 import android.content.res.Configuration;
 import android.content.res.Resources;
 import android.graphics.Bitmap;
@@ -437,6 +438,7 @@ public class AfViewDelegate extends View{
 	public void draw(Canvas canvas) {
 		// TODO Auto-generated method stub
 		if (this.target == null) {
+			super.draw(canvas);
 			return;
 		}
 		this.target.draw(canvas);
@@ -1872,6 +1874,7 @@ public class AfViewDelegate extends View{
 	@Override
 	public void onInitializeAccessibilityEvent(AccessibilityEvent event) {
 		// TODO Auto-generated method stub
+		super.onInitializeAccessibilityEvent(event);
 		if (this.target == null) {
 			return;
 		}
@@ -1881,6 +1884,7 @@ public class AfViewDelegate extends View{
 	@Override
 	public void onInitializeAccessibilityNodeInfo(AccessibilityNodeInfo info) {
 		// TODO Auto-generated method stub
+		super.onInitializeAccessibilityNodeInfo(info);
 		if (this.target == null) {
 			return;
 		}
@@ -1944,6 +1948,7 @@ public class AfViewDelegate extends View{
 	@Override
 	public void onPopulateAccessibilityEvent(AccessibilityEvent event) {
 		// TODO Auto-generated method stub
+		super.onPopulateAccessibilityEvent(event);
 		if (this.target == null) {
 			return;
 		}
@@ -2227,6 +2232,7 @@ public class AfViewDelegate extends View{
 	@Override
 	public void requestLayout() {
 		// TODO Auto-generated method stub
+		super.requestLayout();
 		if (this.target == null) {
 			return;
 		}

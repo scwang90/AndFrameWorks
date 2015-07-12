@@ -106,7 +106,6 @@ public class AfPullDownLayout extends LinearLayout {
 
 	/**
 	 * Whether Pull-to-Refresh is enabled
-	 * 
 	 * @return enabled
 	 */
 	public final boolean isPullToRefreshEnabled() {
@@ -285,7 +284,6 @@ public class AfPullDownLayout extends LinearLayout {
 
 	/**
 	 * Actions a Pull Event
-	 * 
 	 * @return true if the Event has been handled, false if there has been no
 	 *         change
 	 */
@@ -331,7 +329,6 @@ public class AfPullDownLayout extends LinearLayout {
 	/**
 	 * Implemented by derived class to return whether the View is in a state
 	 * where the user can Pull to Refresh by scrolling down.
-	 * 
 	 * @return true if the View is currently the correct state (for example, top
 	 *         of a ListView)
 	 */

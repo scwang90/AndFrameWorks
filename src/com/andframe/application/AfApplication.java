@@ -74,37 +74,35 @@ public abstract class AfApplication extends Application {
 
 	/**
 	 * interface INotifyNeedUpdate
-	 * 
 	 * @author 树朾 需要更新通知接口
 	 */
 	public interface INotifyNeedUpdate {
+
 		void onNotifyNeedUpdate(String curver, String server);
 	}
-
 	/**
 	 * interface INotifyUpdate
-	 * 
 	 * @author 树朾 需要更新通知接口
 	 */
 	public interface INotifyUpdate {
+
 		void onNotifyUpdate(String curver, String server, String describe);
 	}
-
 	/**
 	 * interface INotifyNetworkStatus
-	 * 
 	 * @author 树朾 网络状态改变通知接口
 	 */
 	public static interface INotifyNetworkStatus {
+
 		void onNetworkStatusChanged(int networkStatus);
 	}
-
 	public static final int DEBUG_NONE = 0;
+
 	public static final int DEBUG_TESTDATA = 1;
 	public static final int DEBUG_TEST = 2;
 	public static final String STATE_RUNNING = "APP_CACHE_RUNNING";
-
 	protected static final String STATE_TIME = "STATE_TIME";
+
 	protected static final String STATE_NETWORKSTATUS = "STATE_NETWORKSTATUS";
 	protected static final String STATE_FIXEDPOSITION = "STATE_FIXEDPOSITION";
 	protected static final String STATE_DEBUGMODE = "STATE_DEBUGMODE";
@@ -112,7 +110,6 @@ public abstract class AfApplication extends Application {
 	protected static final String STATE_SERVERVERSION = "STATE_SERVERVERSION";
 	protected static final String STATE_ISINITIALIZED = "STATE_ISINITIALIZED";
 	protected static final String STATE_ISFORERUNNING = "STATE_ISFORERUNNING";
-
 	public static AfApplication mApp = null;
 
 	public static synchronized AfApplication getApp() {
@@ -133,7 +130,7 @@ public abstract class AfApplication extends Application {
 		}
 		return AfDaemonThread.postTask(task);
 	}
-	
+
 	public static synchronized AfTask postTaskDelayed(AfTask task, int delay) {
 		if (mApp.mWorker != null) {
 			return mApp.mWorker.postTaskDelayed(task, delay);
@@ -163,7 +160,6 @@ public abstract class AfApplication extends Application {
 
 	/**
 	 * 获取内部版本
-	 * 
 	 * @return
 	 */
 	public static synchronized String getVersion() {
@@ -173,7 +169,6 @@ public abstract class AfApplication extends Application {
 
 	/**
 	 * 获取内部版本代码
-	 * 
 	 * @return
 	 */
 	public static synchronized int getVersionCode() {
@@ -190,6 +185,7 @@ public abstract class AfApplication extends Application {
 
 	// Debug Mode
 	protected int mDebugMode = DEBUG_NONE;
+
 	// 当前网络连接类型 默认为 未连接
 	protected int mNetworkStatus = AfNetwork.TYPE_NONE;
 	// 当前主页面
@@ -206,14 +202,14 @@ public abstract class AfApplication extends Application {
 	protected String mUpdateDescribe = "";
 	//随机数生成器
 	protected Random mRandom = new Random();
-
 	// 主程序的线程Worker
 	protected Looper mLooper = null;
 
 	protected AfThreadWorker mWorker = null;
 
 	protected boolean mIsExiting = false;
-//	protected boolean mIsGoingHome = false;
+
+	//	protected boolean mIsGoingHome = false;
 	protected boolean mIsInitialized = false;
 	// 标记前台是否在运行
 	protected boolean mIsForegroundRunning = false;
@@ -221,7 +217,8 @@ public abstract class AfApplication extends Application {
 	protected Date mStateTime = new Date();
 	protected AfSharedPreference mRunningState = null;
 	private PackageInfo mPackageInfo;
-	
+	private ApplicationInfo mApplicationInfo;
+
 	//全局单例模式MAP
 	protected Map<String,Object> mSingletonMap = new LinkedHashMap<String,Object>(); 
 
@@ -307,7 +304,6 @@ public abstract class AfApplication extends Application {
 
 	/**
 	 * 在每次程序启动的时候初始化一遍
-	 * 
 	 * @deprecated 已经弃用
 	 * @param power
 	 *            用于权限验证
@@ -372,24 +368,46 @@ public abstract class AfApplication extends Application {
 
 	/**
 	 * 获取包信息
-	 * 
-	 * @return
+	 * @return PackageInfo
 	 */
 	public PackageInfo getPackageInfo() {
 		return mPackageInfo;
 	}
 
 	/**
-	 * 获取在Application 中定义的 meta-data
-	 * @param key
-	 * @return
+	 * 获取 App信息
+	 * @return ApplicationInfo
 	 */
-	public String getMetaData(String key) {
-		try {
+	@Override
+	public ApplicationInfo getApplicationInfo() {
+		if (mApplicationInfo == null) {
+//			mApplicationInfo = super.getApplicationInfo();
+//			if (mApplicationInfo == null){
 			String name = this.getPackageName();
 			int type = PackageManager.GET_META_DATA;
 			PackageManager manager = this.getPackageManager();
-			ApplicationInfo info = manager.getApplicationInfo(name, type);
+			try {
+				mApplicationInfo = manager.getApplicationInfo(name, type);
+			} catch (Throwable e) {
+				AfExceptionHandler.handler(e, "PackageManager.getApplicationInfo");
+			}
+//			}
+		}
+		return mApplicationInfo;
+	}
+
+	/**
+	 * 获取在Application 中定义的 meta-data
+	 * @param key
+	 * @return meta-data or null
+	 */
+	public String getMetaData(String key) {
+		try {
+//			String name = this.getPackageName();
+//			int type = PackageManager.GET_META_DATA;
+//			PackageManager manager = this.getPackageManager();
+//			ApplicationInfo info = manager.getApplicationInfo(name, type);
+			ApplicationInfo info = getApplicationInfo();
 			Object data = info.metaData.get(key);
 			if (data == null) {
 				throw new Exception("getMetaData null");
@@ -406,7 +424,7 @@ public abstract class AfApplication extends Application {
 
 	/**
 	 * 获取服务器最新版本
-	 * @return
+	 * @return verson
 	 */
 	public String getServerVersion() {
 		return mServerVersion;
@@ -414,8 +432,7 @@ public abstract class AfApplication extends Application {
 
 	/**
 	 * 获取服务器最新版本更新描述
-	 * 
-	 * @return
+	 * @return describe
 	 */
 	public String getUpdateDescribe() {
 		return mUpdateDescribe;
@@ -423,8 +440,7 @@ public abstract class AfApplication extends Application {
 
 	/**
 	 * 获取App是否 需要更新
-	 * 
-	 * @return
+	 * @return need
 	 */
 	public boolean isNeedUpdate() {
 		// TODO Auto-generated method stub
@@ -435,9 +451,8 @@ public abstract class AfApplication extends Application {
 
 	/**
 	 * 获取App是否 执行过 initialize
-	 * 
 	 * @deprecated 已经弃用
-	 * @return
+	 * @return inited
 	 */
 	public synchronized boolean isInitialize() {
 		return mIsInitialized;
@@ -446,7 +461,6 @@ public abstract class AfApplication extends Application {
 	/**
 	 * 获取全局单例实例
 	 * @param key
-	 * @param value
 	 */
 	@SuppressWarnings("unchecked")
 	public synchronized <T> T getSingleton(String key){
@@ -471,8 +485,7 @@ public abstract class AfApplication extends Application {
 
 	/**
 	 * 获取CurActivity
-	 * 
-	 * @return
+	 * @return AfActivity or null
 	 */
 	public synchronized AfActivity getCurActivity() {
 		// TODO Auto-generated method stub
@@ -481,8 +494,7 @@ public abstract class AfApplication extends Application {
 
 	/**
 	 * 获取AfMainActivity
-	 * 
-	 * @return
+	 * @return AfMainActivity or null
 	 */
 	public synchronized AfMainActivity getMainActivity() {
 		// TODO Auto-generated method stub
@@ -502,7 +514,7 @@ public abstract class AfApplication extends Application {
 
 	/**
 	 * 设置当前的页面
-	 * @param type
+	 * @param power
 	 *            用于权限验证
 	 * @param activity
 	 *            当前的 Activity
@@ -535,7 +547,7 @@ public abstract class AfApplication extends Application {
 
 	/**
 	 * 设置当前的页面
-	 * @param type
+	 * @param power
 	 *            用于权限验证
 	 * @param fragment
 	 *            当前的 Fragment
@@ -668,7 +680,6 @@ public abstract class AfApplication extends Application {
 
 	/**
 	 * 通知APP 启动天台页面
-	 * @param fragment
 	 */
 	public synchronized void startForeground() {
 		// TODO Auto-generated method stub
@@ -681,6 +692,10 @@ public abstract class AfApplication extends Application {
 		}
 	}
 
+	/**
+	 * 退出前台
+	 * @param power
+	 */
 	public synchronized void exitForeground(Object power) {
 		// TODO Auto-generated method stub
 		/** (2014-7-30 注释 只有当notifyForegroundClosed时才设为false) **/
@@ -697,8 +712,7 @@ public abstract class AfApplication extends Application {
 
 	/**
 	 * 获取 前台页面是否在运行
-	 * 
-	 * @return
+	 * @return isforeground
 	 */
 	public synchronized boolean isForegroundRunning() {
 		// TODO Auto-generated method stub
@@ -725,8 +739,7 @@ public abstract class AfApplication extends Application {
 
 	/**
 	 * 获取 ExceptionHandler
-	 * 
-	 * @return
+	 * @return handler
 	 */
 	public AfExceptionHandler getExceptionHandler() {
 		// TODO Auto-generated method stub
@@ -735,8 +748,7 @@ public abstract class AfApplication extends Application {
 
 	/**
 	 * 获取 AfAppSettings
-	 * 
-	 * @return
+	 * @return setting
 	 */
 	public AfAppSettings getAppSetting() {
 		// TODO Auto-generated method stub
@@ -745,8 +757,7 @@ public abstract class AfApplication extends Application {
 
 	/**
 	 * 获取 AfImageService
-	 * 
-	 * @return
+	 * @return service
 	 */
 	public AfImageService getImageService() {
 		// TODO Auto-generated method stub
@@ -755,8 +766,7 @@ public abstract class AfApplication extends Application {
 
 	/**
 	 * 获取 AfFileService
-	 * 
-	 * @return
+	 * @return fileservice
 	 */
 	public AfFileService getFileService() {
 		// TODO Auto-generated method stub
@@ -765,8 +775,7 @@ public abstract class AfApplication extends Application {
 
 	/**
 	 * 获取 AfUpdateService
-	 * 
-	 * @return
+	 * @return updateservice
 	 */
 	public AfUpdateService getUpdateService() {
 		// TODO Auto-generated method stub
@@ -775,7 +784,6 @@ public abstract class AfApplication extends Application {
 
 	/**
 	 * 获取APP图标ID,子类可以继承返回R.drawable.app_logo
-	 * 
 	 * @return APP图标ID
 	 */
 	public int getLogoId() {
@@ -785,7 +793,6 @@ public abstract class AfApplication extends Application {
 
 	/**
 	 * 获取APP名称,子类可以继承返回getString(R.string.app_name);
-	 * 
 	 * @return APP名称
 	 */
 	public String getAppName() {
@@ -795,7 +802,7 @@ public abstract class AfApplication extends Application {
 
 	/**
 	 * 获取 Des默认加密密钥
-	 * @return
+	 * @return key
 	 */
 	public String getDesKey() {
 		// TODO Auto-generated method stub
@@ -818,8 +825,18 @@ public abstract class AfApplication extends Application {
 	 * @param eventId
 	 * @param tag
 	 */
+	@Deprecated
 	public void onEvent(String eventId, String tag) {
-		
+		this.onEvent(eventId,new Object(),tag);
+	}
+
+	/**
+	 * 处理触发事件
+	 * @param eventId
+	 * @param tag
+	 */
+	public void onEvent(String eventId,Object tag, String remark) {
+
 	}
 
 	/**
@@ -896,10 +913,9 @@ public abstract class AfApplication extends Application {
 
 	/**
 	 * 获取签值信息
-	 * 
 	 * @author allen
 	 * @version 2013-8-27 下午4:15:04
-	 * @return
+	 * @return X509Certificate
 	 */
 	public X509Certificate getSignInfo() {
 		try {
@@ -928,7 +944,7 @@ public abstract class AfApplication extends Application {
 	/**
 	 * 判断是否在后台运行（按HOME之后）
 	 * 需要额外权限 android.permission.GET_TASKS 
-	 * @return
+	 * @return isBackground
 	 */
 	public boolean isBackground() {
 		ActivityManager am = (ActivityManager) getSystemService(Context.ACTIVITY_SERVICE);
@@ -948,7 +964,7 @@ public abstract class AfApplication extends Application {
 
 	/**
 	 * 获取统一随机数
-	 * @return
+	 * @return Random
 	 */
 	public Random getRandom(){
 		return mRandom;

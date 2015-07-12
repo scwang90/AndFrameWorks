@@ -151,9 +151,14 @@ public abstract class AfExpandableAdapter<G, C> extends
 			bindingItem(item, group, child);
 		} catch (Throwable e) {
 			// TODO: handle exception
-			String remark = "AfListAdapter.getView 出现异常\r\n";
-			remark += "class = " + getClass().toString();
-			remark.toString();
+			String remark = "AfExpandableListAdapter("+getClass().getName()+").getChildView\r\n";
+			View cview = view;
+			if (parent instanceof View){
+				cview = (View) parent;
+			}
+			if (cview != null && cview.getContext() != null){
+				remark += "class = " + cview.getContext().getClass().toString();
+			}
 			AfExceptionHandler.handler(e, remark);
 		}
 		return view;
@@ -208,9 +213,14 @@ public abstract class AfExpandableAdapter<G, C> extends
 			bindingItem(item, group, isExpanded);
 		} catch (Throwable e) {
 			// TODO: handle exception
-			String remark = "AfListAdapter.getView 出现异常\r\n";
-			remark += "class = " + getClass().toString();
-			remark.toString();
+			String remark = "AfExpandableListAdapter("+getClass().getName()+").getGroupView\r\n";
+			View cview = view;
+			if (parent instanceof View){
+				cview = (View) parent;
+			}
+			if (cview != null && cview.getContext() != null){
+				remark += "class = " + cview.getContext().getClass().toString();
+			}
 			AfExceptionHandler.handler(e, remark);
 		}
 		return view;

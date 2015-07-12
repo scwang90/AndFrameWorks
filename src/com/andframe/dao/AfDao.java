@@ -160,11 +160,11 @@ public abstract class AfDao<T> {
 	 */
 	public final void close() {
 		// TODO Auto-generated method stub
-		synchronized(mHelper){
+//		synchronized(mHelper){
 //			mDbReadable.close();
 //			mDbWriteable.close();
 //			mHelper.close();
-		}
+//		}
 	}
 
 	/**
@@ -225,8 +225,7 @@ public abstract class AfDao<T> {
 				return true;
 			} catch (Throwable e) {
 				// TODO Auto-generated catch block
-				String remark = "AfDao，update("+obj+","+where+") 出现异常\r\n";
-				remark += "class = " + getClass().toString();
+				String remark = "AfDao("+getClass().getName()+").update("+obj+","+where+")\r\n";
 				AfExceptionHandler.handler(e, remark);
 			}
 			return false;

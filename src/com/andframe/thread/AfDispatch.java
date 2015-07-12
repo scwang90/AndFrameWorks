@@ -16,8 +16,7 @@ public abstract class AfDispatch implements Runnable, Callback{
 			this.onDispatch();
 		} catch (Throwable e) {
 			// TODO: handle exception
-			String remark = "AfUIHandle.run 出现异常！\r\n";
-			remark += "class = " + getClass().toString();
+			String remark = "AfDispatch("+getClass().getName()+").run.onDispatch";
 			AfExceptionHandler.handler(e, remark);
 		}
 	}

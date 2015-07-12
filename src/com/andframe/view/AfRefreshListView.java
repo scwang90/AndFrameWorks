@@ -251,7 +251,6 @@ public abstract class AfRefreshListView<T extends ListView> extends AfPullToRefr
 	/**
 	 * Returns the number of header views in the list. Header views are special
 	 * views at the top of the list that should not be recycled during a layout.
-	 * 
 	 * @return
 	 */
 	public final int getHeaderViewsCount() {

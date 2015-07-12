@@ -50,8 +50,7 @@ public class AfTableAdapter extends AfListAdapter<Object> {
 			row.Binding(mTable, mltArray, position);
 		} catch (Throwable e) {
 			// TODO: handle exception
-			String remark = "AfTableAdapter.getView 出现异常\r\n";
-			remark += "class = " + getClass().toString();
+			String remark = "AfTableAdapter("+getClass().getName()+").getView";
 			AfExceptionHandler.handler(e, remark);
 		}
 		return view;

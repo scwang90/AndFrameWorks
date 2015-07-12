@@ -186,7 +186,6 @@ public class AfAlbumView extends ImageView implements OnClickListener {
 
 	/**
 	 * 计算最大比例
-	 * 
 	 * @return
 	 */
 	private float maxPostScale() {

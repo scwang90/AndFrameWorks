@@ -139,7 +139,7 @@ public class AfDaemonThread {
 				mTask.run();
 			} catch (Throwable e) {
 				// TODO: handle exception
-				AfExceptionHandler.handler(e, "AfDaemonThread.ThreadWorker.run 出现异常");
+				AfExceptionHandler.handler(e, "AfDaemonThread.ThreadWorker.Task.run");
 			}
 			onTaskFinish(this);
 		}

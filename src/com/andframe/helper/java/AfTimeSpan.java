@@ -631,7 +631,12 @@ public class AfTimeSpan
         double num2 = num + ((value >= 0.0) ? 0.5 : -0.5);
         return new AfTimeSpan(((long) num2));
     }
-
-     
-
+    /**
+     * time 到现在的时间段
+     * @param time
+     * @return AfTimeSpan
+     */
+    public static AfTimeSpan After(Date time) {
+        return AfTimeSpan.FromDate(time,new Date());
+    }
 }

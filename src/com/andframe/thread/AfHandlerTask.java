@@ -41,8 +41,7 @@ public abstract class AfHandlerTask extends AfTask implements Callback{
 			this.onHandle(msg);
 		} catch (Throwable e) {
 			// TODO: handle exception
-			String remark = "AfHandlerTask.handleMessage.onHandle 出现异常！\r\n";
-			remark += "class = " + getClass().toString();
+			String remark = "AfHandlerTask("+getClass().getName()+").handleMessage.onHandle";
 			AfExceptionHandler.handler(e, remark);
 		}
 		return result;
