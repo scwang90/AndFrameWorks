@@ -26,31 +26,32 @@ public class PointStatistics {
 	//定时器时间周期（一分钟）
 	private static final long TIME_PERIOD = 60*1000;
 	//点数获取定时器
-	private static Timer mTimer = null;
+	private static Timer mTimer = new Timer();
 	//定时器任务
-	private static AfTimerTask mTimerTask = new AfTimerTask() {
+	private static AfTimerTask mTimerTask = null;
+
+	private static class MonitorTask extends AfTimerTask implements PointsNotifier{
+
 		@Override
 		protected void onTimer() {
-			// TODO Auto-generated method stub
 			Context context = AfApplication.getApp();
 			AfActivity activity = AfApplication.getApp().getCurActivity();
 			if (activity != null && !activity.isRecycled()) {
 				context = activity;
 			}
-			AdvertAdapter.getInstance().getPoints(context, new PointsNotifier() {
-				@Override
-				public void getPointsFailed(String error) {
-					// TODO Auto-generated method stub
-					
-				}
-				@Override
-				public void getPoints(String currency, int point) {
-					// TODO Auto-generated method stub
-					doStaticsPoint(point, currency);
-				}
-			});
+			AdvertAdapter.getInstance().getPoints(context,this);
 		}
-	};
+
+		@Override
+		public void getPointsFailed(String error) {
+
+		}
+
+		@Override
+		public void getPoints(String currency, int point) {
+			doStaticsPoint(point, currency);
+		}
+	}
 	
 	//读取老版本记录
 	static {
@@ -71,8 +72,8 @@ public class PointStatistics {
 	}
 	
 	public static void start(){
-		if (mTimer == null) {
-			mTimer = new Timer();
+		if (mTimerTask == null) {
+			mTimerTask = new MonitorTask();
 			try{
 				mTimer.schedule(mTimerTask, TIME_PERIOD, TIME_PERIOD);
 			}catch(Throwable e){
@@ -82,15 +83,14 @@ public class PointStatistics {
 	}
 
 	public static void stop(){
-		if (mTimer != null) {
+		if (mTimerTask != null) {
 			try {
 				mTimerTask.cancel();
-				mTimer.cancel();
 			} catch (Throwable e) {
 				// TODO: handle exception
 				AfExceptionHandler.handleAttach(e, "PointStatistics.TimerTask.cancel");
 			}
-			mTimer = null;
+			mTimerTask = null;
 		}
 	}
 	

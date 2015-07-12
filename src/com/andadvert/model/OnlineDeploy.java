@@ -2,7 +2,10 @@ package com.andadvert.model;
 
 import com.google.gson.Gson;
 
-public class OnlineDeploy {
+import java.io.Serializable;
+
+@SuppressWarnings("serial")
+public class OnlineDeploy implements Serializable{
 	public int Verson = 0;
 	public String Name = "";
 	public String Version = "";
