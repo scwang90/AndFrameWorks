@@ -94,7 +94,6 @@ public class DefaultRequestHandler {
 	 * @param params
 	 *            key-value of params for api call
 	 * @param headers 
-	 * 
 	 * @return response string
 	 * @throws HttpException 
 	 */
