@@ -89,7 +89,6 @@ public class MailBySmtp {
 
 	/**
 	 * 发信
-	 * 
 	 * @throws MessagingException
 	 */
 	public void send() throws MessagingException {
