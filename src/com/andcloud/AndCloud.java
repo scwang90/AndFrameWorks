@@ -43,7 +43,7 @@ public class AndCloud {
 		    AVOSCloud.initialize(context,appid,appkey);
 //		    AVAnalytics.start(this);
 		    AVAnalytics.setAppChannel(channel);
-		    AVAnalytics.enableCrashReport(context, true);
+//		    AVAnalytics.enableCrashReport(context, true);
 		} catch (Exception e) {
 			// TODO: handle exception
 			AfExceptionHandler.handler(e, "AndCloud.initialize");
