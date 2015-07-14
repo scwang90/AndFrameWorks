@@ -12,6 +12,7 @@ import android.widget.AdapterView.OnItemClickListener;
 import android.widget.ListView;
 
 import com.andframe.activity.framework.AfPageable;
+import com.andframe.activity.framework.AfActivity;
 import com.andframe.adapter.AfListAdapter;
 import com.andframe.adapter.AfListAdapter.IAfLayoutItem;
 import com.andframe.bean.Page;

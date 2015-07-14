@@ -823,6 +823,14 @@ public abstract class AfApplication extends Application {
 	/**
 	 * 处理触发事件
 	 * @param eventId
+	 */
+	public void onEvent(String eventId) {
+		this.onEvent(eventId,new Object(),"");
+	}
+
+	/**
+	 * 处理触发事件
+	 * @param eventId
 	 * @param tag
 	 */
 	public void onEvent(String eventId, String tag) {
