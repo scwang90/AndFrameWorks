@@ -26,7 +26,6 @@ public class AvUser extends AVUser {
 	private static final String Signature = "Signature";
 
 	public AvUser() {
-		// TODO Auto-generated constructor stub
 	}
 
 	public void setNickName(String name) {
@@ -46,22 +45,18 @@ public class AvUser extends AVUser {
 	}
 
 	public boolean getGender() {
-		// TODO Auto-generated method stub
 		return getBoolean(Gender);
 	}
 
 	public void setGender(boolean gender) {
-		// TODO Auto-generated method stub
 		put(Gender, gender);
 	}
 
 	public String getSignature() {
-		// TODO Auto-generated method stub
 		return getString(Signature);
 	}
 
 	public void setSignature(String signature){
-		// TODO Auto-generated method stub
 		put(Signature, signature);
 	}
 }
