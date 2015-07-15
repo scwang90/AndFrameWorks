@@ -11,25 +11,25 @@ public class AvUser extends AVUser {
 	/**
 	 * 昵称
 	 */
-	private static final String NickName = "NickName";
+	protected static final String NickName = "NickName";
 	/**
 	 * 个性化头像
 	 */
-	private static final String Avator = "Avator";
+	protected static final String Avator = "Avator";
 	/**
 	 * 性别
 	 */
-	private static final String Gender = "Gender";
+	protected static final String Gender = "Gender";
 	/**
 	 * 个性前面
 	 */
-	private static final String Signature = "Signature";
+	protected static final String Signature = "Signature";
 
 	public AvUser() {
 	}
 
-	public void setNickName(String name) {
-		this.put(NickName, name);
+	public void setNickName(String nickname) {
+		this.put(NickName, nickname);
 	}
 
 	public String getNickName() {

@@ -11,14 +11,18 @@ import com.avos.avoscloud.AVQuery.CachePolicy;
 
 public class AvDomain<T extends AVObject> {
 
-	protected AVQuery<T> query = null;
+	protected Class<T> clazz;
 
 	public AvDomain() {
 		// TODO Auto-generated constructor stub
-		Class<T> clazz = AfReflecter.getActualTypeArgument(this, AvDomain.class, 0);
-		query = AVObject.getQuery(clazz);
+		clazz = AfReflecter.getActualTypeArgument(this, AvDomain.class, 0);
+	}
+
+	public AVQuery<T> getQuery(){
+		AVQuery<T> query = AVObject.getQuery(clazz);
 //		query.setMaxCacheAge(TimeUnit.DAYS.toMillis(1));
 		query.setMaxCacheAge(AfTimeSpan.FromDays(1).getTotalMilliseconds());
+		return query;
 	}
 
 	public void add(T model) throws AVException{
@@ -26,20 +30,24 @@ public class AvDomain<T extends AVObject> {
 	}
 
 	public List<T> list() throws AVException{
+		AVQuery<T> query = getQuery();
 		return query.find();
 	}
 
 	public List<T> list(int skip,int limit) throws AVException{
+		AVQuery<T> query = getQuery();
 		query.setSkip(skip);
 		query.setLimit(limit);
 		return query.find();
 	}
 
 	public int count() throws AVException{
+		AVQuery<T> query = getQuery();
 		return query.count();
 	}
 
 	public void setCachePolicy(CachePolicy policy){
+		AVQuery<T> query = getQuery();
 		query.setCachePolicy(policy);
 	}
 }
