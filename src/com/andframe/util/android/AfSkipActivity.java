@@ -3,6 +3,7 @@ package com.andframe.util.android;
 import java.io.File;
 import java.util.Locale;
 
+import android.content.ActivityNotFoundException;
 import android.content.Context;
 import android.content.Intent;
 import android.net.Uri;
@@ -29,6 +30,18 @@ public class AfSkipActivity {
 		context.startActivity(intent);
 	}
 
+	/**
+	 * 在APP市场打开 packageName
+	 * @param context
+	 * @param packageName
+	 * @throws ActivityNotFoundException 没有安装市场软件
+	 */
+	public static void openAppInMarket(Context context,String packageName) throws Exception{
+		Uri uri = Uri.parse("market://details?id="+packageName);
+		Intent intent = new Intent(Intent.ACTION_VIEW,uri);
+		intent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
+		context.startActivity(intent);
+	}
 	/**
 	 * 打开文件
 	 * @param file
@@ -132,4 +145,5 @@ public class AfSkipActivity {
 			{ ".wps", "application/vnd.ms-works" }, { ".xml", "text/plain" },
 			{ ".z", "application/x-compress" },
 			{ ".zip", "application/x-zip-compressed" }, { "", "*/*" } };
+
 }
