@@ -11,19 +11,19 @@ public class AvUser extends AVUser {
 	/**
 	 * 昵称
 	 */
-	protected static final String NickName = "NickName";
+	public static final String NickName = "NickName";
 	/**
 	 * 个性化头像
 	 */
-	protected static final String Avator = "Avator";
+	public static final String Avator = "Avator";
 	/**
 	 * 性别
 	 */
-	protected static final String Gender = "Gender";
+	public static final String Gender = "Gender";
 	/**
 	 * 个性前面
 	 */
-	protected static final String Signature = "Signature";
+	public static final String Signature = "Signature";
 
 	public AvUser() {
 	}
