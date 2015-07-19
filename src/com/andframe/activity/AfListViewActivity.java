@@ -144,6 +144,7 @@ public abstract class AfListViewActivity<T> extends AfActivity implements OnRefr
 	 */
 	public void setData(AfListAdapter<T> adapter) {
 		// TODO Auto-generated method stub
+		mAdapter = adapter;
 		mListView.setAdapter(adapter);
 		mSelector.SelectFrame(mListView);
 	}
@@ -230,8 +231,11 @@ public abstract class AfListViewActivity<T> extends AfActivity implements OnRefr
 	@Override
 	public void onItemClick(AdapterView<?> parent, View view, long id, int index) {
 		// TODO Auto-generated method stub
-		T model = mAdapter.getItemAt(mListView.getDataIndex(index));
-		onItemClick(model,index);
+		index = mListView.getDataIndex(index);
+		if (index >= 0){
+			T model = mAdapter.getItemAt(index);
+			onItemClick(model,index);
+		}
 	}
 
 	/**
@@ -355,8 +359,7 @@ public abstract class AfListViewActivity<T> extends AfActivity implements OnRefr
 			//通知列表刷新完成
 			mListView.finishRefresh();
 			if (!AfCollections.isEmpty(ltdata)) {
-				mAdapter = newAdapter(getActivity(), ltdata);
-				setData(mAdapter);
+				setData(mAdapter = newAdapter(getActivity(), ltdata));
 				if (ltdata.size() < task.PAGE_SIZE) {
 					mListView.removeMoreView();
 				}else {

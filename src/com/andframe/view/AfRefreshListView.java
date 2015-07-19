@@ -270,14 +270,15 @@ public abstract class AfRefreshListView<T extends ListView> extends AfPullToRefr
 
 	/**
 	 * 获取 OnItemClick 中的index 对应Adapter 中的index
+	 * 主要用于当ListView中有Header的时候 可以排除Header产生的index偏移
 	 * @param index
-	 * @return
+	 * @return index-headercount (小于0时代表点击的是header)
 	 */
 	public final int getDataIndex(int index) {
 		// TODO Auto-generated method stub
-		if (index < mTargetView.getHeaderViewsCount()) {
-			return index;
-		}
+//		if (index < mTargetView.getHeaderViewsCount()) {
+//			return index;
+//		}
 		return index - mTargetView.getHeaderViewsCount();
 	}
 
