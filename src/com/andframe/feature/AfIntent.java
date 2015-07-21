@@ -8,7 +8,6 @@ import android.content.Context;
 import android.content.Intent;
 import android.net.Uri;
 
-import com.andframe.application.AfExceptionHandler;
 import com.google.gson.Gson;
 
 /**
