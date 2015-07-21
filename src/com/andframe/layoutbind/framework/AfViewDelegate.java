@@ -2,7 +2,6 @@ package com.andframe.layoutbind.framework;
 
 import java.util.ArrayList;
 
-import android.annotation.SuppressLint;
 import android.content.res.Configuration;
 import android.content.res.Resources;
 import android.graphics.Bitmap;

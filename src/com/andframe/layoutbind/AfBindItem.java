@@ -1,5 +1,6 @@
 package com.andframe.layoutbind;
 
+import java.util.Date;
 import java.util.LinkedHashMap;
 import java.util.Map.Entry;
 import java.util.Set;
@@ -12,6 +13,7 @@ import android.widget.TextView;
 
 import com.andframe.activity.framework.AfView;
 import com.andframe.network.AfImageService;
+import com.andframe.util.java.AfDateFormat;
 import com.andframe.util.java.AfReflecter;
 import com.andframe.view.treeview.AfTreeViewItem;
 
@@ -57,6 +59,9 @@ public class AfBindItem<T> extends AfTreeViewItem<T> {
 				TextView textView = (TextView) view;
 				if (value == null) {
 					textView.setText("");
+				} else if(value instanceof Date) {
+					Date date = (Date) value;
+					textView.setText(AfDateFormat.FULL.format(date));
 				} else {
 					textView.setText(value.toString());
 				}
