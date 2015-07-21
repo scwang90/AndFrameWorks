@@ -823,9 +823,16 @@ public abstract class AfApplication extends Application {
 	/**
 	 * 处理触发事件
 	 * @param eventId
+	 */
+	public void onEvent(String eventId) {
+		this.onEvent(eventId,new Object(),"");
+	}
+
+	/**
+	 * 处理触发事件
+	 * @param eventId
 	 * @param tag
 	 */
-	@Deprecated
 	public void onEvent(String eventId, String tag) {
 		this.onEvent(eventId,new Object(),tag);
 	}
@@ -844,7 +851,6 @@ public abstract class AfApplication extends Application {
 	 * (各个框架组件中会调用触发)
 	 */
 	public void onUpdateAppinfo(){
-		
 	}
 
 	/**

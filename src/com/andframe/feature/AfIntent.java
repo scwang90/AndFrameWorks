@@ -8,6 +8,7 @@ import android.content.Context;
 import android.content.Intent;
 import android.net.Uri;
 
+import com.andframe.application.AfExceptionHandler;
 import com.google.gson.Gson;
 
 /**
@@ -83,6 +84,7 @@ public class AfIntent extends Intent{
 			value = mJson.fromJson(getStringExtra(_key+"[0]"), clazz);
 		} catch (Throwable e) {
 			// TODO: handle exception
+			throw new RuntimeException(e);
 		}
 		return value == null ? defaul : value;
 	}
