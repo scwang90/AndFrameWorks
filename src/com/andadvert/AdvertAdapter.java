@@ -45,6 +45,7 @@ public class AdvertAdapter {
 	/** 标记审核机器 */
 	private static final String KEY_ISCHECK = "05956523913251904102";
 
+	@SuppressWarnings("serial")
 	protected OnlineDeploy mDeploy = new OnlineDeploy(){{Remark="default";}};
 	protected static boolean IS_HIDE= true;
 
