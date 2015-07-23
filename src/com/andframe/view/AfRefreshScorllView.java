@@ -3,116 +3,76 @@ package com.andframe.view;
 import android.content.Context;
 import android.util.AttributeSet;
 import android.view.View;
+import android.view.ViewGroup;
 import android.widget.ScrollView;
 
+import com.andframe.activity.framework.AfPageable;
 import com.andframe.view.pulltorefresh.AfPullToRefreshBase;
+import com.andframe.view.pulltorefresh.PullRefreshFooterImpl;
+import com.andframe.view.pulltorefresh.PullRefreshHeaderImpl;
 
+public class AfRefreshScorllView extends AfPullToRefreshBase<ScrollView> {
+	
+	private static ScrollView mScrollView = null;
 
-public class AfRefreshScorllView extends AfPullToRefreshBase<ScrollView>
-{
-    public AfRefreshScorllView(Context context)
-    {
-        super(context);
-        // TODO Auto-generated constructor stub
-    }
+	public AfRefreshScorllView(ScrollView listView) {
+		super((mScrollView=listView).getContext());
+		// TODO Auto-generated constructor stub
+		setPullFooterLayout(new PullRefreshFooterImpl(listView.getContext()));
+		setPullHeaderLayout(new PullRefreshHeaderImpl(listView.getContext()));
+	}
+	
+	public AfRefreshScorllView(AfPageable viewable,int res) {
+		super((mScrollView=viewable.findViewByID(res)).getContext());
+		// TODO Auto-generated constructor stub
+		setPullFooterLayout(new PullRefreshFooterImpl(viewable.getContext()));
+		setPullHeaderLayout(new PullRefreshHeaderImpl(viewable.getContext()));
+	}
+	
+	public AfRefreshScorllView(Context context) {
+		super(context);
+		// TODO Auto-generated constructor stub
+	}
 
-    public AfRefreshScorllView(Context context, AttributeSet attrs)
-    {
-        super(context, attrs);
-        // TODO Auto-generated constructor stub
-    }
-    
+	public AfRefreshScorllView(Context context, AttributeSet attrs) {
+		super(context, attrs);
+		// TODO Auto-generated constructor stub
+	}
 
-    @Override
-    protected final ScrollView onCreateRefreshableView(Context context, AttributeSet attrs)
-    {
-        // TODO Auto-generated method stub
-    	ScrollView scrollview = new ScrollView(context, attrs);
-//        ScrollBarUtil.bindScrollBar(scrollview, R.drawable.shape_scrollbar);
-        //解决scrollview的上边和下边有黑色的阴影
-    	scrollview.setFadingEdgeLength(0);
-        return scrollview;
-    }
+	@Override
+	protected final ScrollView onCreateRefreshableView(Context context,
+			AttributeSet attrs) {
+		// TODO Auto-generated method stub
+		if (mScrollView != null) {
+			if (getParent() == null && mScrollView.getParent() instanceof ViewGroup) {
+				ViewGroup parent = ViewGroup.class.cast(mScrollView.getParent());
+				int index = parent.indexOfChild(mScrollView);
+				parent.removeView(mScrollView);
+				parent.addView(this, index,mScrollView.getLayoutParams());
+				mTargetView = mScrollView;
+				mScrollView = null;
+			}
+			return mTargetView;
+		}
+		ScrollView scrollview = new ScrollView(context, attrs);
+		scrollview.setFadingEdgeLength(0);
+		return scrollview;
+	}
 
-    @Override
-    protected final boolean isReadyForPullDown()
-    {
-        // TODO Auto-generated method stub
-        //targetview.getOverScrollMode();
-        return mTargetView.getScrollY() <= 0;
-    }
+	@Override
+	protected final boolean isReadyForPullDown() {
+		// TODO Auto-generated method stub
+		// targetview.getOverScrollMode();
+		return mTargetView.getScrollY() <= 0;
+	}
 
-    @Override
-    protected final boolean isReadyForPullUp()
-    {
-        // TODO Auto-generated method stub
-        return false;
-    }
+	@Override
+	protected final boolean isReadyForPullUp() {
+		// TODO Auto-generated method stub
+		return false;
+	}
 
-    public final void addChildToScrollView(View child)
-    {
-        mTargetView.addView(child);
-    }
-//    @Override
-//    public final void addView(View child, int width, int height)
-//    {
-//        // TODO Auto-generated method stub
-//        if(!isInternalAddView(child)){
-//            mTargetView.addView(child, width, height);
-//        }else{
-////            super.addView(child, width, height);
-//        }
-//    }
-//
-//    @Override
-//    public final void addView(View child, int index,
-//            android.view.ViewGroup.LayoutParams params)
-//    {
-//        // TODO Auto-generated method stub
-//        if(!isInternalAddView(child)){
-//            mTargetView.addView(child, index, params);
-//        }else{
-////            super.addView(child, index, params);
-//        }
-//    }
-//
-//    @Override
-//    public final void addView(View child, int index)
-//    {
-//        // TODO Auto-generated method stub
-//        if(!isInternalAddView(child)){
-//            mTargetView.addView(child, index);
-//        }else{
-////            super.addView(child, index);
-//        }
-//    }
-//
-//    @Override
-//    public final void addView(View child, android.view.ViewGroup.LayoutParams params)
-//    {
-//        // TODO Auto-generated method stub
-//        if(!isInternalAddView(child)){
-//            mTargetView.addView(child, params);
-//        }else{
-////            super.addView(child, params);
-//        }
-//    }
-//
-//    @Override
-//    public final void addView(View child)
-//    {
-//        // TODO Auto-generated method stub
-//        if(!isInternalAddView(child)){
-//            mTargetView.addView(child);
-//        }else{
-////            super.addView(child);
-//        }
-//    }
-//
-//    private boolean isInternalAddView(View view)
-//    {
-//        // TODO Auto-generated method stub
-//        return view == mTargetView ||view == mHeaderLayout ||view == mFooterLayout ;
-//    }
-
+	public final void addChildToScrollView(View child) {
+		mTargetView.addView(child);
+	}
 }
