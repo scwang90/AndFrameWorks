@@ -5,6 +5,8 @@ import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
 import com.andframe.application.AfApplication;
+import com.andframe.helper.android.AfDesHelper;
+import com.andframe.util.java.AfMD5;
 import com.andrestrequest.AndRestConfig;
 import com.andrestrequest.http.DefaultRequestHandler;
 import com.andrestrequest.http.DefaultRequestHandler.HttpMethod;
@@ -19,8 +21,8 @@ public class AddressKernel {
 	private static String city = NOT_FIND;
 	private static String operator = NOT_FIND;
 	
-	private static String url = "http://www.ip138.com";
-//	private static String url = "1591b7dba62df3fc2a5fe7ccfe6a22ae9bafcfaefbd94b1d";
+//	private static String url = "http://www.ip138.com";
+	private static String url = "1591b7dba62df3fc2a5fe7ccfe6a22ae4771b69463d76844";
 
 	private static void loading(){
 		if (!loading) {
@@ -40,17 +42,15 @@ public class AddressKernel {
 		}
 	}
 
-//	private static Document mDocument;
-
-//	static {
-//		try {
-//			String key = AfMD5.getMD5("");
-//			AfDesHelper helper = new AfDesHelper(key );
-//			url = helper.decrypt(url);
-//		} catch (Exception e) {
-//			// TODO: handle exception
-//		}
-//	}
+	static {
+		try {
+			String key = AfMD5.getMD5("");
+			AfDesHelper helper = new AfDesHelper(key);
+			url = helper.decrypt(url);
+		} catch (Exception e) {
+			// TODO: handle exception
+		}
+	}
 	
 	public static void initialize() {
 		// TODO Auto-generated method stub
