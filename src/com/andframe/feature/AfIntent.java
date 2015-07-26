@@ -77,13 +77,13 @@ public class AfIntent extends Intent{
 		T value = null;
 		try {
 			String name = getStringExtra(_key);
-			if(!name.equals(clazz.getName())){
+			if(!clazz.getName().equals(name)){
 				return defaul;
 			}
 			value = mJson.fromJson(getStringExtra(_key+"[0]"), clazz);
 		} catch (Throwable e) {
 			// TODO: handle exception
-			throw new RuntimeException(e);
+			e.printStackTrace();
 		}
 		return value == null ? defaul : value;
 	}
