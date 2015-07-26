@@ -6,7 +6,6 @@ import com.andframe.application.AfAppSettings;
 import com.andframe.application.AfApplication;
 import com.andframe.feature.AfIntent;
 import com.andframe.network.AfFileService;
-import com.andsoap.AfSoapService;
 import com.andoffice.activity.framework.cominfo.AbCominfoActivity;
 import com.andoffice.activity.framework.cominfo.Item;
 import com.andoffice.activity.framework.cominfo.Project;
@@ -46,7 +45,7 @@ public class SettingServerActivity extends AbCominfoActivity{
 			setting.setDataServerPort(数端.ivalue);
 			setting.setDebugMode(测试.blvalue?AfApplication.DEBUG_TESTDATA:AfApplication.DEBUG_TEST);
 			AfFileService.setServer(文域.value, 文端.ivalue);
-			AfSoapService.setServer(数域.value, 数端.ivalue);
+//			AfSoapService.setServer(数域.value, 数端.ivalue);
 			AfApplication.setDebugMode(setting.getDebugMode());
 			finish();
 			makeToastLong("配置服务器成功");
