@@ -6,6 +6,7 @@ import com.avos.avoscloud.AVObject;
 import java.io.Serializable;
 
 @AVClassName("Deploy")
+@SuppressWarnings("serial")
 public class Deploy extends AVObject implements Serializable {
 	/**
 	 * 版本配置

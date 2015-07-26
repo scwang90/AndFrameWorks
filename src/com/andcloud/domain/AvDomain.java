@@ -29,6 +29,14 @@ public class AvDomain<T extends AVObject> {
 		model.save();
 	}
 
+	public void update(T model) throws AVException{
+		model.save();
+	}
+
+	public void delete(T model) throws AVException{
+		model.delete();
+	}
+
 	public List<T> list() throws AVException{
 		AVQuery<T> query = getQuery();
 		return query.find();

@@ -1,13 +1,10 @@
 package com.andcloud;
 
 import android.content.Context;
-import android.os.Message;
 
-import com.andcloud.domain.AvDeployDomain;
 import com.andcloud.model.Deploy;
 import com.andframe.application.AfApplication;
 import com.andframe.application.AfExceptionHandler;
-import com.andframe.thread.AfHandlerTask;
 import com.avos.avoscloud.AVAnalytics;
 import com.avos.avoscloud.AVOSCloud;
 import com.avos.avoscloud.AVObject;
@@ -15,12 +12,9 @@ import com.tencent.tauth.Tencent;
 import com.umeng.analytics.AnalyticsConfig;
 import com.umeng.analytics.MobclickAgent;
 
-import java.util.List;
-
 public class AndCloud implements LoadDeployListener{
 
-	public static String Channel = "default";
-	public static String DefChannel = "default";
+	@SuppressWarnings("serial")
 	public static Deploy Deploy = new Deploy(){{setRemark("default");}};
 
 	@Override
@@ -56,29 +50,27 @@ public class AndCloud implements LoadDeployListener{
 			AfExceptionHandler.handler(e, "AndCloud.registerSubclass");
 		}
 	}
+	
+	public static void initializeDeploy(Context context,String defchannel,String channel,LoadDeployListener listener){
+		AfApplication.postTask(new DeployCheckTask(context, listener,defchannel,channel));
+	}
 
-	public static void initializeAvos(Context context,String appid,String appkey,String defchannel,String channel) {
+	public static void initializeAvos(Context context,String appid,String appkey,String channel) {
 		try {
-			Channel = channel;
-			DefChannel = defchannel;
 			AndCloud.registerSubclass(Deploy.class);
 			// 初始化应用 Id 和 应用 Key，您可以在应用设置菜单里找到这些信息
 			AVOSCloud.initialize(context,appid,appkey);
 //		    AVAnalytics.start(this);
 			AVAnalytics.setAppChannel(channel);
 //		    AVAnalytics.enableCrashReport(context, true);
-			AfApplication.postTask(new DeployCheckTask(context, new AndCloud()));
 		} catch (Exception e) {
 			// TODO: handle exception
 			AfExceptionHandler.handler(e, "AndCloud.initialize");
 		}
 	}
 
-	public static void initializeUmeng(Context context,String appkey,String defchannel,String channel) {
+	public static void initializeUmeng(Context context,String appkey,String channel) {
 		try {
-			Channel = channel;
-			DefChannel = defchannel;
-
 			AnalyticsConfig.setAppkey(appkey);
 			AnalyticsConfig.setChannel(channel);
 			MobclickAgent.setDebugMode(AfApplication.getApp().isDebug());

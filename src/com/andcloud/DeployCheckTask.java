@@ -1,5 +1,7 @@
 package com.andcloud;
 
+import java.util.List;
+
 import android.content.Context;
 import android.os.Message;
 
@@ -9,8 +11,6 @@ import com.andframe.application.AfApplication;
 import com.andframe.caches.AfPrivateCaches;
 import com.andframe.thread.AfHandlerTask;
 import com.andframe.util.android.AfNetwork;
-
-import java.util.List;
 
 public class DeployCheckTask extends AfHandlerTask{
 
@@ -22,12 +22,18 @@ public class DeployCheckTask extends AfHandlerTask{
 	protected Context mContext;
 	private Deploy mDeploy;
 	private LoadDeployListener mListener;
+	private String channel;
+	private String defchannel;
 	private static boolean mIsOnlineHideChecking = false;
 
-	public DeployCheckTask(Context context, LoadDeployListener listener) {
+	public DeployCheckTask(Context context, LoadDeployListener listener,
+			String defchannel, String channel) {
 		// TODO Auto-generated constructor stub
-		mContext = context;
-		mListener = listener;
+		this.channel = channel;
+		this.defchannel = defchannel;
+		if (listener == null) {
+			mListener = new AndCloud();
+		}
 	}
 
 	protected AfPrivateCaches getCaches(){
@@ -50,8 +56,8 @@ public class DeployCheckTask extends AfHandlerTask{
 		if (AfApplication.getNetworkStatus() != AfNetwork.TYPE_NONE) {
 			AvDeployDomain domain = new AvDeployDomain();
 			final List<Deploy> deploys = domain.list();
-			mDeploy = this.deploy(deploys, AndCloud.DefChannel);
-			mDeploy = this.deploy(deploys, AndCloud.Channel);
+			mDeploy = this.deploy(deploys, defchannel);
+			mDeploy = this.deploy(deploys, channel);
 		}else {
 			mDeploy = doReadCache();
 		}
@@ -89,11 +95,14 @@ public class DeployCheckTask extends AfHandlerTask{
 	protected boolean onHandle(Message msg) {
 		// TODO Auto-generated method stub
 		mIsOnlineHideChecking = false;
-		if (mDeploy == null){
-			mListener.onLoadDeployFailed();
-		} else {
-			getCaches().put(KEY_BUSINESSMODEL, mDeploy.isBusinessModel());
-			mListener.onLoadDeployFinish(mDeploy);
+		if (mListener != null) {
+			if (mDeploy == null){
+				mListener.onLoadDeployFailed();
+			} else {
+				AndCloud.Deploy = mDeploy;
+				getCaches().put(KEY_BUSINESSMODEL, mDeploy.isBusinessModel());
+				mListener.onLoadDeployFinish(mDeploy);
+			}
 		}
 		return false;
 	}
