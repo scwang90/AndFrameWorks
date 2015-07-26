@@ -1,9 +1,13 @@
 package com.andcloud;
 
 import android.content.Context;
+import android.os.Message;
 
+import com.andcloud.domain.AvDeployDomain;
+import com.andcloud.model.Deploy;
 import com.andframe.application.AfApplication;
 import com.andframe.application.AfExceptionHandler;
+import com.andframe.thread.AfHandlerTask;
 import com.avos.avoscloud.AVAnalytics;
 import com.avos.avoscloud.AVOSCloud;
 import com.avos.avoscloud.AVObject;
@@ -11,7 +15,23 @@ import com.tencent.tauth.Tencent;
 import com.umeng.analytics.AnalyticsConfig;
 import com.umeng.analytics.MobclickAgent;
 
-public class AndCloud {
+import java.util.List;
+
+public class AndCloud implements LoadDeployListener{
+
+	public static String Channel = "default";
+	public static String DefChannel = "default";
+	public static Deploy Deploy = new Deploy(){{setRemark("default");}};
+
+	@Override
+	public void onLoadDeployFailed() {
+		AfApplication.getApp().onEvent(CloudEvent.CLOUD_DEPLOY_FAILED);
+	}
+
+	@Override
+	public void onLoadDeployFinish(Deploy deploy) {
+		AfApplication.getApp().onEvent(CloudEvent.CLOUD_DEPLOY_FINISHED,deploy,"配置完成");
+	}
 
 	public static abstract class QQAuthHelper{
 		public abstract Tencent getQQAuth();
@@ -37,25 +57,31 @@ public class AndCloud {
 		}
 	}
 
-	public static void initializeAvos(Context context,String appid,String appkey,String channel) {
+	public static void initializeAvos(Context context,String appid,String appkey,String defchannel,String channel) {
 		try {
-		    // 初始化应用 Id 和 应用 Key，您可以在应用设置菜单里找到这些信息
-		    AVOSCloud.initialize(context,appid,appkey);
+			Channel = channel;
+			DefChannel = defchannel;
+			AndCloud.registerSubclass(Deploy.class);
+			// 初始化应用 Id 和 应用 Key，您可以在应用设置菜单里找到这些信息
+			AVOSCloud.initialize(context,appid,appkey);
 //		    AVAnalytics.start(this);
-		    AVAnalytics.setAppChannel(channel);
+			AVAnalytics.setAppChannel(channel);
 //		    AVAnalytics.enableCrashReport(context, true);
+			AfApplication.postTask(new DeployCheckTask(context, new AndCloud()));
 		} catch (Exception e) {
 			// TODO: handle exception
 			AfExceptionHandler.handler(e, "AndCloud.initialize");
 		}
 	}
 
-	public static void initializeUmeng(Context context,String appkey,String channel) {
+	public static void initializeUmeng(Context context,String appkey,String defchannel,String channel) {
 		try {
-			boolean isDebug = AfApplication.getApp().isDebug();
+			Channel = channel;
+			DefChannel = defchannel;
+
 			AnalyticsConfig.setAppkey(appkey);
 			AnalyticsConfig.setChannel(channel);
-			MobclickAgent.setDebugMode(isDebug);
+			MobclickAgent.setDebugMode(AfApplication.getApp().isDebug());
 //			SDK在统计Fragment时，需要关闭Activity自带的页面统计，
 //			然后在每个页面中重新集成页面统计的代码(包括调用了 onResume 和 onPause 的Activity)。
 			MobclickAgent.openActivityDurationTrack(false);
@@ -67,4 +93,5 @@ public class AndCloud {
 			AfExceptionHandler.handler(e, "MobclickAgent.updateOnlineConfig");
 		}
 	}
+
 }
