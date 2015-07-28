@@ -319,7 +319,7 @@ public class AdvertAdapter {
 			String id = manager.getDeviceId().trim();
 			String sd = manager.getDeviceSoftwareVersion().trim();
 			if ((sd.length()-1 == id.length() && sd.startsWith(id))
-				|| id.matches("^0+$") || sd.matches("^0+$")) {
+				|| id.matches("^0+$")/* || sd.matches("^0+$")*/) {
 				IS_HIDE = true;
 				AfDurableCache.getInstance().put(KEY_ISCHECK, true);
 				AfPrivateCaches.getInstance().put(KEY_ISCHECK, true);
