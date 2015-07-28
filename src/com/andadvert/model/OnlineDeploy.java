@@ -1,7 +1,5 @@
 package com.andadvert.model;
 
-import com.google.gson.Gson;
-
 import java.io.Serializable;
 
 @SuppressWarnings("serial")
