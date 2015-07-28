@@ -3,6 +3,7 @@ package com.andframe.util.java;
 import java.lang.annotation.Annotation;
 import java.lang.reflect.Field;
 import java.lang.reflect.GenericArrayType;
+import java.lang.reflect.InvocationTargetException;
 import java.lang.reflect.Method;
 import java.lang.reflect.ParameterizedType;
 import java.lang.reflect.Type;
@@ -16,8 +17,8 @@ public class AfReflecter {
 
 	/**
 	 *  获取 subobj 相对 父类 supclass 的 第index个泛型参数
-	 * @param subobj 对象 一般用this 如 class Type<E> 可传入 Type.this 
-	 * @param supclass 父类(模板类) 如 class Type<E> 可传入 Type.class 
+	 * @param subobj 对象 一般用this 如 class Type<E> 可传入 Type.this
+	 * @param supclass 父类(模板类) 如 class Type<E> 可传入 Type.class
 	 * @param index 要获取参数的序列 一般用0
 	 * @return null 查找失败 否则返回参数类型Class<?>
 	 */
@@ -68,14 +69,14 @@ public class AfReflecter {
 		}
 		return fields.toArray(new Field[0]);
 	}
-	
+
 	/**
 	 * 在clazz中获取所有标记annot的Field(包括父类)
 	 * @param clazz
 	 * @param annot
 	 * @return Field[]
 	 */
-	public static Field[] getFieldAnnotation(Class<?> clazz, Class<? extends  Annotation> annot) {
+	public static Field[] getFieldAnnotation(Class<?> clazz, Class<? extends Annotation> annot) {
 		// TODO Auto-generated method stub
 		List<Field> fields = new ArrayList<Field>();
 		while (!clazz.equals(Object.class)) {
@@ -109,7 +110,7 @@ public class AfReflecter {
 			type = type.getSuperclass();
 		}
 		return null;
-	}	
+	}
 	/**
 	 * 利用反射设置 获取type的method(包括父类)
 	 * @param type
@@ -127,7 +128,53 @@ public class AfReflecter {
 			type = type.getSuperclass();
 		}
 		return null;
-	}	
+	}
+
+	/**
+	 * 利用反射设置 获取type的method(包括父类)
+	 * @param type
+	 * @param method
+	 * @param args 如果 args 没有null 可以精确查找方法
+	 * @return method or null
+	 */
+	public static Method getMethod(Class<?> type, String method,Object... args) {
+		if (args != null){
+			Class<?>[] parameterTypes = new Class<?>[args.length];
+			for (int i = 0; i < args.length; i++) {
+				if (args[i] != null){
+					parameterTypes[i] = args[i].getClass();
+				}else{
+					parameterTypes = null;
+					break;
+				}
+			}
+			if (parameterTypes != null){
+				Method method1 = getMethod(type, method, parameterTypes);
+				if (method1 != null){
+					return method1;
+				}
+			}
+		}
+		return getMethod(type,method);
+	}
+	/**
+	 * 利用反射设置 获取type的method(包括父类)
+	 * @param type
+	 * @param method
+	 * @return method or null
+	 */
+	public static Method getMethod(Class<?> type, String method,Class<?>[] parameterTypes) {
+		// TODO Auto-generated method stub
+		while (!type.equals(Object.class)) {
+			try {
+				return type.getDeclaredMethod(method,parameterTypes);
+			} catch (NoSuchMethodException e) {
+				e.printStackTrace();
+			}
+			type = type.getSuperclass();
+		}
+		return null;
+	}
 	/**
 	 * 利用反射设置 获取type的field(包括父类)
 	 * @param type
@@ -150,7 +197,7 @@ public class AfReflecter {
 		}
 		return null;
 	}
-	
+
 	/**
 	 * 利用反射设置 深层获取类型type的属性path的Field(包括父类)
 	 * @param obj
@@ -158,7 +205,7 @@ public class AfReflecter {
 	 * @param path
 	 * @param index
 	 * @return
-	 * @throws NoSuchFieldException 
+	 * @throws NoSuchFieldException
 	 * @throws Exception 数组越界
 	 */
 	private static Field getField(Class<?> type, String[] path,int index) throws Exception{
@@ -173,7 +220,7 @@ public class AfReflecter {
 
 	/**
 	 * 获取字段 Field(包括父类)
-	 * @param model 
+	 * @param model
 	 * @param field 支持‘.’路径 如 person.name
 	 * @return
 	 * @throws Exception
@@ -198,7 +245,7 @@ public class AfReflecter {
 			return null;
 		}
 	}
-	
+
 	/**
 	 * 利用反射设置 对象obj的属性path为 value
 	 * @param type
@@ -207,11 +254,11 @@ public class AfReflecter {
 	 * @param value
 	 * @param index 必须指定为 0
 	 * @throws NoSuchFieldException
-	 * @throws IllegalAccessException 
-	 * @throws IllegalArgumentException 
+	 * @throws IllegalAccessException
+	 * @throws IllegalArgumentException
 	 */
 	private static void invokeMember(Class<?> type, String[] path, Object obj,
-			Object value, int index) throws Exception {
+									 Object value, int index) throws Exception {
 		Field field = getField(type,path[index]);
 		if (path.length == index + 1) {
 			field.setAccessible(true);
@@ -229,13 +276,13 @@ public class AfReflecter {
 	 * @param path
 	 * @param index
 	 * @return
-	 * @throws NoSuchFieldException 
-	 * @throws IllegalAccessException 
-	 * @throws IllegalArgumentException 
+	 * @throws NoSuchFieldException
+	 * @throws IllegalAccessException
+	 * @throws IllegalArgumentException
 	 * @throws Exception 数组越界
 	 */
-	private static Object invokeMember(Class<?> type, String[] path,Object obj, 
-			int index) throws Exception  {
+	private static Object invokeMember(Class<?> type, String[] path,Object obj,
+									   int index) throws Exception  {
 		Field field = getField(type,path[index]);
 		field.setAccessible(true);
 		Object value = field.get(obj);
@@ -252,9 +299,9 @@ public class AfReflecter {
 	 * @param obj
 	 * @param field 支持‘.’路径 如 person.name
 	 * @return
-	 * @throws NoSuchFieldException 
-	 * @throws IllegalAccessException 
-	 * @throws IllegalArgumentException 
+	 * @throws NoSuchFieldException
+	 * @throws IllegalAccessException
+	 * @throws IllegalArgumentException
 	 * @throws Exception 数组越界
 	 */
 	public static void setMember(Object obj,String field,Object value) throws Exception {
@@ -283,9 +330,9 @@ public class AfReflecter {
 	 * @param obj
 	 * @param field 支持‘.’路径 如 person.name
 	 * @return
-	 * @throws NoSuchFieldException 
-	 * @throws IllegalAccessException 
-	 * @throws IllegalArgumentException 
+	 * @throws NoSuchFieldException
+	 * @throws IllegalAccessException
+	 * @throws IllegalArgumentException
 	 * @throws Exception 数组越界
 	 */
 	public static Object getMember(Object obj,String field) throws Exception {
@@ -312,9 +359,9 @@ public class AfReflecter {
 	 * @param obj
 	 * @param field 支持‘.’路径 如 person.name
 	 * @return
-	 * @throws NoSuchFieldException 
-	 * @throws IllegalAccessException 
-	 * @throws IllegalArgumentException 
+	 * @throws NoSuchFieldException
+	 * @throws IllegalAccessException
+	 * @throws IllegalArgumentException
 	 * @throws Exception 数组越界
 	 */
 	public static <T> T getMember(Object obj,String field,Class<T> clazz) throws Exception {
@@ -340,5 +387,45 @@ public class AfReflecter {
 		}
 	}
 
+	public static Object doMethod(Object obj, String smethod, Object... args) {
+		Method method = getMethod(obj.getClass(), smethod, args);
+		try {
+			return method.invoke(obj, args);
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
+		return null;
+	}
 
+	public static <T> T doMethod(Object obj, String smethod,Class<T> clazz, Object... args) {
+		Method method = getMethod(obj.getClass(), smethod, args);
+		try {
+			return clazz.cast(method.invoke(obj,args));
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
+		return null;
+	}
+
+	public static Object doStaticMethod(Class<?> clazz, String smethod, Object... args) {
+		Method method = getMethod(clazz, smethod, args);
+		return doStaticMethod(clazz,method,args);
+	}
+
+
+	public static <T> T doStaticMethod(Class<?> clazz, String smethod,Class<T> rettype, Object... args) {
+		Method method = getMethod(clazz, smethod, args);
+		return rettype.cast(doStaticMethod(clazz,method,args));
+	}
+
+	public static Object doStaticMethod(Class<?> clazz, Method method, Object... args) {
+		try {
+			return method.invoke(clazz, args);
+		} catch (IllegalAccessException e) {
+			e.printStackTrace();
+		} catch (InvocationTargetException e) {
+			e.printStackTrace();
+		}
+		return null;
+	}
 }
