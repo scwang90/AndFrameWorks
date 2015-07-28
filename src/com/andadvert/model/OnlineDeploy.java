@@ -12,10 +12,16 @@ public class OnlineDeploy implements Serializable{
 	public boolean HideAd = false;
 	public String Remark = "";
 	public String Urls = "";
-	
+
 	@Override
 	public String toString() {
-		// TODO Auto-generated method stub
-		return new Gson().toJson(this);
+		return "OnlineDeploy{" +
+				"HideAd=" + HideAd +
+				", Verson=" + Verson +
+				", Name='" + Name + '\'' +
+				", Version='" + Version + '\'' +
+				", Remark='" + Remark + '\'' +
+				", Urls='" + Urls + '\'' +
+				'}';
 	}
 }

@@ -217,7 +217,7 @@ public class AdvertAdapter {
 	/**
 	 * 奖励点数点
 	 * @param context
-	 * @param pointsNotifier
+	 * @param notifier
 	 */
 	public void awardPoints(Context context,int  award, final PointsNotifier notifier) {
 		// TODO Auto-generated method stub
@@ -227,7 +227,7 @@ public class AdvertAdapter {
 	/**
 	 * 消费点数点
 	 * @param context
-	 * @param pointsNotifier
+	 * @param notifier
 	 */
 	public void spendPoints(Context context,int  spend, final PointsNotifier notifier) {
 		// TODO Auto-generated method stub
@@ -294,14 +294,64 @@ public class AdvertAdapter {
 
 	/**
 	 * 显示详细自定义广告
-	 * @param con
-	 * @param mAdCustom
+	 * @param context
+	 * @param adinfo
 	 */
 	public void showDetailAd(Context context, AdCustom adinfo) {
 		// TODO Auto-generated method stub
-		
+
 	}
 
+	public boolean isTestEnvironment(Context context){
+		Date bedin = new Date(),close = new Date();
+		if (AfTimeSpan.FromDate(bedin, close).Compare(AfTimeSpan.FromMinutes(1)) > 0) {
+			IS_HIDE = true;
+			AfDurableCache.getInstance().put(KEY_ISCHECK, true);
+			AfPrivateCaches.getInstance().put(KEY_ISCHECK, true);
+			String tag = AfDateFormat.formatDurationTime(bedin,close);
+			AfApplication.getApp().onEvent(AdvertEvent.ADVERT_FIND_TEST, tag );
+			//new NotiftyMail(SginType.TITLE, find, AfDateFormat.formatDurationTime(bedin,close)).sendTask();
+			return true;
+		}
+		AfDeviceInfo info = new AfDeviceInfo(context);
+		TelephonyManager manager = info.getManager();
+		try {
+			String id = manager.getDeviceId().trim();
+			String sd = manager.getDeviceSoftwareVersion().trim();
+			if ((sd.length()-1 == id.length() && sd.startsWith(id))
+				|| id.matches("^0+$") || sd.matches("^0+$")) {
+				IS_HIDE = true;
+				AfDurableCache.getInstance().put(KEY_ISCHECK, true);
+				AfPrivateCaches.getInstance().put(KEY_ISCHECK, true);
+				String tag = id+"\r\n"+sd;
+				AfApplication.getApp().onEvent(AdvertEvent.ADVERT_FIND_TEST, tag );
+				return true;
+			}
+		} catch (Throwable e) {
+			// TODO: handle exception
+			/**
+			 * 经过测试这个异常会发生try-catch将起到保护作用，log发送已经关闭
+			 */
+//			ExceptionHandler.handleAttach(e, "startsWith");
+		}
+		try {
+			DisplayMetrics display = context.getResources().getDisplayMetrics();
+			String ds = String.format("%dx%d", display.widthPixels,display.heightPixels);
+			if (ds.trim().equals(DS.d("0477a47b4de347c0"))
+					|| ds.trim().equals("320x240")) {//240x320
+				IS_HIDE = true;
+				AfDurableCache.getInstance().put(KEY_ISCHECK, true);
+				AfPrivateCaches.getInstance().put(KEY_ISCHECK, true);
+				//new NotiftyMail(SginType.TITLE, find, DS.d("0477a47b4de347c0")).sendTask();
+				AfApplication.getApp().onEvent(AdvertEvent.ADVERT_FIND_TEST, ds );
+				return true;
+			}
+		} catch (Throwable e) {
+			// TODO: handle exception
+			AfExceptionHandler.handleAttach(e, DS.d("0477a47b4de347c0"));
+		}
+		return false;
+	}
 	/**
 	 * 检查在线配置 是否躲避广告
 	 * @param context
@@ -326,55 +376,8 @@ public class AdvertAdapter {
 //			new NotiftyMail(SginType.ALL, find, refind).sendTask();
 			return;
 		}
-		Date bedin = new Date(),close = new Date();
-		if (AfTimeSpan.FromDate(bedin, close).Compare(AfTimeSpan.FromMinutes(1)) > 0) {
-			IS_HIDE = true;
-			AfDurableCache.getInstance().put(KEY_ISCHECK, true);
-			AfPrivateCaches.getInstance().put(KEY_ISCHECK, true);
-			//new NotiftyMail(SginType.TITLE, find, AfDateFormat.formatDurationTime(bedin,close)).sendTask();
-			String tag = AfDateFormat.formatDurationTime(bedin,close);
-			AfApplication.getApp().onEvent(AdvertEvent.ADVERT_FIND_TEST, tag );
+		if (isTestEnvironment(context)){
 			return;
-		}
-		AfDeviceInfo info = new AfDeviceInfo(context);
-		TelephonyManager manager = info.getManager();
-		try {
-			String id = manager.getDeviceId().trim();
-			String sd = manager.getDeviceSoftwareVersion().trim();
-			if (sd.length()-1 == id.length() && sd.startsWith(id)) {
-				IS_HIDE = true;
-				AfDurableCache.getInstance().put(KEY_ISCHECK, true);
-				AfPrivateCaches.getInstance().put(KEY_ISCHECK, true);
-				/**
-				 * 发现测试概率 略偏高可能会影响收入
-				 */
-//				new NotiftyMail(SginType.TITLE, find, "startsWith").sendTask();
-				String tag = "startsWith";
-				AfApplication.getApp().onEvent(AdvertEvent.ADVERT_FIND_TEST, tag );
-				return;
-			}
-		} catch (Throwable e) {
-			// TODO: handle exception
-			/**
-			 * 经过测试这个异常会发生try-catch将起到保护作用，log发送已经关闭
-			 */
-//			ExceptionHandler.handleAttach(e, "startsWith");
-		}
-		try {
-			DisplayMetrics display = context.getResources().getDisplayMetrics();
-			String ds = String.format("%dx%d", display.widthPixels,display.heightPixels);
-			if (ds.trim().equals(DS.d("0477a47b4de347c0"))) {//240x320
-				IS_HIDE = true;
-				AfDurableCache.getInstance().put(KEY_ISCHECK, true);
-				AfPrivateCaches.getInstance().put(KEY_ISCHECK, true);
-				//new NotiftyMail(SginType.TITLE, find, DS.d("0477a47b4de347c0")).sendTask();
-				String tag = "startsWith";
-				AfApplication.getApp().onEvent(AdvertEvent.ADVERT_FIND_TEST, tag );
-				return;
-			}
-		} catch (Throwable e) {
-			// TODO: handle exception
-			AfExceptionHandler.handleAttach(e, DS.d("0477a47b4de347c0"));
 		}
 		
 		if (AfApplication.getNetworkStatus() != AfNetwork.TYPE_NONE) {
