@@ -73,7 +73,7 @@ public class DeployCheckTask extends AfHandlerTask{
 				}
 			}
 		}
-		return null;
+		return mDeploy;
 	}
 	
 	public Deploy doReadCache() {
