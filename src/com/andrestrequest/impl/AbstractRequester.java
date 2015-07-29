@@ -11,7 +11,7 @@ import com.andrestrequest.http.DefaultRequestHandler;
  */
 public abstract class AbstractRequester {
 
-	protected DefaultRequestHandler requestHandler = DefaultRequestHandler.getInstance(); 
+	protected DefaultRequestHandler handler = DefaultRequestHandler.getInstance();
 
 	protected Map<String, String> userkeyHeader(String userkey) {
 		// TODO Auto-generated method stub
@@ -27,4 +27,5 @@ public abstract class AbstractRequester {
 //		params.put("pageSize", pageSize);
 		return params;
 	}
+
 }
