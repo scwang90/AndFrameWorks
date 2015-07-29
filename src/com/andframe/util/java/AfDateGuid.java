@@ -22,6 +22,17 @@ public class AfDateGuid {
 		sb.append(random.nextInt(10));
 		return sb.toString();
 	}
+
+	public static String NewReverseID(){
+		Calendar car = Calendar.getInstance();
+		StringBuilder sb = new StringBuilder();
+		sb.append(simpleformat.format(car.getTime()));
+		sb.append(decimalformat.format(car.get(Calendar.MILLISECOND)));
+		sb.append(random.nextInt(10));
+		sb.append(random.nextInt(10));
+		sb.append(random.nextInt(10));
+		return sb.reverse().toString();
+	}
 	
 	public static void main(String[] args) {
 		System.out.println(NewID());

@@ -1,32 +1,44 @@
 package com.andframe.helper.android;
 
 import android.content.Context;
+import android.net.wifi.WifiManager;
 import android.telephony.TelephonyManager;
 import android.util.DisplayMetrics;
 
 public class AfDeviceInfo {
 
 	private DisplayMetrics mDisplay = null;
+	private WifiManager mWifiManager = null;
 	private TelephonyManager mPhoneManager = null;
 
 	public AfDeviceInfo(Context context) {
 		// TODO Auto-generated constructor stub
-		String server = Context.TELEPHONY_SERVICE;
+		String tmserver = Context.TELEPHONY_SERVICE;
+		String wiserver = Context.WIFI_SERVICE;
 		mDisplay = context.getResources().getDisplayMetrics();
-		mPhoneManager = (TelephonyManager)context.getSystemService(server);
+		mWifiManager = (WifiManager) context.getSystemService(wiserver);
+		mPhoneManager = (TelephonyManager)context.getSystemService(tmserver);
 	}
 	
 	public TelephonyManager getManager() {
 		return mPhoneManager;
 	}
 	
-	public String getDeviceId()
-	{
+	public String getDeviceId()	{
 		try {
 			return mPhoneManager.getDeviceId();
 		} catch (Throwable e) {
 			// TODO: handle exception
 			return ("获取失败，请添加 android.permission.READ_PHONE_STATE 权限！");
+		}
+	}
+
+	public String getMacAddress() {
+		try {
+			return mWifiManager.getConnectionInfo().getMacAddress();
+		} catch (Throwable e) {
+			// TODO: handle exception
+			return ("获取失败，请添加 android.permission.ACCESS_WIFI_STATE 权限！");
 		}
 	}
 
