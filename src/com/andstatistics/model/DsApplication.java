@@ -39,5 +39,8 @@ public class DsApplication implements Serializable{
 	public DsApplication() {
 		// TODO Auto-generated constructor stub
 	}
-	
+
+	public DsApplication(String appkey) {
+		this.keyId = appkey;
+	}
 }

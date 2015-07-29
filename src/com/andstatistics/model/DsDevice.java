@@ -47,5 +47,8 @@ public class DsDevice implements Serializable {
 	public DsDevice() {
 		// TODO Auto-generated constructor stub
 	}
-	
+
+	public DsDevice(DsApplication application) {
+		this.appId = application.keyId;
+	}
 }

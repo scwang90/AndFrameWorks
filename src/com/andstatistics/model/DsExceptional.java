@@ -1,5 +1,7 @@
 package com.andstatistics.model;
 
+import com.andframe.model.Exceptional;
+
 import java.io.Serializable;
 
 /**
@@ -72,117 +74,16 @@ public class DsExceptional implements Serializable {
 		// TODO Auto-generated constructor stub
 	}
 	
-	public String getKeyId(){
-		return this.keyId;
+	public static DsExceptional from(Exceptional exceptional) {
+		DsExceptional dsExceptional = new DsExceptional();
+		dsExceptional.device = exceptional.Device;
+		dsExceptional.message = exceptional.Message;
+		dsExceptional.name = exceptional.Name;
+		dsExceptional.platform = exceptional.Platform;
+		dsExceptional.stack = exceptional.Stack;
+		dsExceptional.thread = exceptional.Thread;
+		dsExceptional.version = exceptional.Version;
+		dsExceptional.status = exceptional.Status;
+		return dsExceptional;
 	}
-
-	public void setKeyId(String keyId) {
-		this.keyId = keyId;
-	}
-		
-	public String getAppId(){
-		return this.appId;
-	}
-
-	public void setAppId(String appId) {
-		this.appId = appId;
-	}
-		
-	public String getName(){
-		return this.name;
-	}
-
-	public void setName(String name) {
-		this.name = name;
-	}
-		
-	public String getDescription(){
-		return this.description;
-	}
-
-	public void setDescription(String description) {
-		this.description = description;
-	}
-		
-	public java.util.Date getCreateTime(){
-		return this.createTime;
-	}
-
-	public void setCreateTime(java.util.Date createTime) {
-		this.createTime = createTime;
-	}
-		
-	public java.util.Date getUpdateTime(){
-		return this.updateTime;
-	}
-
-	public void setUpdateTime(java.util.Date updateTime) {
-		this.updateTime = updateTime;
-	}
-		
-	public String getUser(){
-		return this.user;
-	}
-
-	public void setUser(String user) {
-		this.user = user;
-	}
-		
-	public String getDevice(){
-		return this.device;
-	}
-
-	public void setDevice(String device) {
-		this.device = device;
-	}
-		
-	public String getVersion(){
-		return this.version;
-	}
-
-	public void setVersion(String version) {
-		this.version = version;
-	}
-		
-	public String getMessage(){
-		return this.message;
-	}
-
-	public void setMessage(String message) {
-		this.message = message;
-	}
-		
-	public String getStack(){
-		return this.stack;
-	}
-
-	public void setStack(String stack) {
-		this.stack = stack;
-	}
-		
-	public String getThread(){
-		return this.thread;
-	}
-
-	public void setThread(String thread) {
-		this.thread = thread;
-	}
-		
-	public String getPlatform(){
-		return this.platform;
-	}
-
-	public void setPlatform(String platform) {
-		this.platform = platform;
-	}
-		
-	public Integer getStatus(){
-		return this.status;
-	}
-
-	public void setStatus(Integer status) {
-		this.status = status;
-	}
-		
-
 }
