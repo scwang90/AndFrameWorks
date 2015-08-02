@@ -48,7 +48,7 @@ public class DefaultRequestHandler {
 	private static DefaultRequestHandler instance;
 
 	public enum HttpMethod {
-		DELETE, GET, POST, PUT;
+		DELETE, GET, POST, PUT, post;
 	}
 
 	private DefaultRequestHandler() {
@@ -98,27 +98,22 @@ public class DefaultRequestHandler {
 	 * @throws HttpException 
 	 */
 
-	public Response doRequest(HttpMethod method, String path, Map<String, String> headers,
+	public synchronized Response doRequest(HttpMethod method, String path, Map<String, String> headers,
 			Object body,Map<String, Object> params) throws Exception {
 		Response response = null;
 		HttpRequestBase request = buildRequest(method, path,headers,body, params);
 
-		try {
-			if (DEBUG) {
-				System.out.println(request);
-				for (Header header : request.getAllHeaders()) {
-					System.out.println(header);
-				}
-				if (body != null) {
-					System.out.println(EntityUtils.toString(getEntity(body),AndRestConfig.getCharset()));
-				}
+		if (DEBUG) {
+			System.out.println(request);
+			for (Header header : request.getAllHeaders()) {
+				System.out.println(header);
 			}
-			DefaultResponseHandler responseHandler = new DefaultResponseHandler();
-			response = getClient().execute(request, responseHandler);
-		} catch (IOException e) {
-			throw new HttpException(
-					"Http request did not return successfully.", e);
+			if (body != null) {
+				System.out.println(EntityUtils.toString(getEntity(body),AndRestConfig.getCharset()));
+			}
 		}
+		DefaultResponseHandler responseHandler = new DefaultResponseHandler();
+		response = getClient().execute(request, responseHandler);
 
 		return response;
 	}

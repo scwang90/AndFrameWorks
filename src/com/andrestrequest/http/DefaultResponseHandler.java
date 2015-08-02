@@ -2,28 +2,24 @@
 // This is part of Xively4J library, it is under the BSD 3-Clause license.
 package com.andrestrequest.http;
 
-import java.io.IOException;
-import java.util.HashMap;
-import java.util.Map;
+import com.andrestrequest.AndRestConfig;
+import com.andrestrequest.util.GsonUtil;
 
 import org.apache.http.Header;
 import org.apache.http.HttpEntity;
 import org.apache.http.HttpResponse;
-import org.apache.http.ParseException;
 import org.apache.http.client.ClientProtocolException;
 import org.apache.http.client.ResponseHandler;
 import org.apache.http.util.EntityUtils;
-import org.json.JSONException;
 import org.json.JSONObject;
 
-import com.andrestrequest.AndRestConfig;
-import com.andrestrequest.util.GsonUtil;
-import com.andrestrequest.util.exception.ParseToObjectException;
+import java.io.IOException;
+import java.util.HashMap;
+import java.util.Map;
 
 /**
  * Class for handling the http response
  * @author s0pau
- * @param <T>
  */
 @SuppressWarnings("deprecation")
 public class DefaultResponseHandler implements ResponseHandler<Response> {
@@ -55,18 +51,7 @@ public class DefaultResponseHandler implements ResponseHandler<Response> {
 
 		Response retval = new Response(statusCode);
 
-		try {
-			retval.setBody(parseHttpEntity(response.getEntity()));
-		} catch (IOException e) {
-			throw new HttpException(
-					"Http response [%s] but body cannot be parsed.", e);
-		} catch (ParseException e) {
-			// TODO Auto-generated catch block
-			throw new ParseToObjectException("Json解析异常", e);
-		} catch (JSONException e) {
-			// TODO Auto-generated catch block
-			throw new ParseToObjectException("Json解析异常", e);
-		}
+		retval.setBody(parseHttpEntity(response.getEntity()));
 
 		Map<String, String> headers = new HashMap<String, String>();
 		for (Header header : response.getAllHeaders()) {
@@ -77,7 +62,7 @@ public class DefaultResponseHandler implements ResponseHandler<Response> {
 		return retval;
 	}
 	
-	private String parseHttpEntity(HttpEntity entity) throws IOException, ParseException, JSONException {
+	private String parseHttpEntity(HttpEntity entity) throws IOException{
 		String response = EntityUtils.toString(entity, AndRestConfig.getCharset());
 		if (DEBUG)
 		{
@@ -96,21 +81,15 @@ public class DefaultResponseHandler implements ResponseHandler<Response> {
 				try {
 					ErrorMessage message = GsonUtil.toObject(errormessage, ErrorMessageClass);
 					throw new ServerCodeException(message);
-				} catch (ParseException e) {
+				} catch (ServerCodeException e) {
 					// TODO: handle exception
-					System.out.println("errormessage = "+errormessage);
-					throw new ServerException(response);
-				} catch (ParseToObjectException e) {
+					throw e;
+				} catch (Throwable e) {
 					// TODO: handle exception
-					System.out.println("errormessage = "+errormessage);
-					throw new ServerException(response);
+					throw new ServerException(errormessage);
 				}
 			}
-		} catch (ParseException e) {
-			// TODO: handle exception
-			System.out.println("response = "+response);
-			throw new ServerException(response);
-		} catch (JSONException e) {
+		} catch (Throwable e) {
 			// TODO: handle exception
 			System.out.println("response = "+response);
 			throw new ServerException(response);
