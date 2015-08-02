@@ -14,6 +14,6 @@ public class DsFeedbackDomain extends BaseDomain<DsFeedback> {
     }
 
     public void exceptional(DsFeedback feedback) throws Exception {
-        handler.doRequest(HttpMethod.POST,"/Feedback",feedback);
+        super.doRequest(HttpMethod.POST,"/Feedback",feedback);
     }
 }

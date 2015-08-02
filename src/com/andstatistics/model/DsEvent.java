@@ -32,6 +32,10 @@ public class DsEvent implements Serializable {
 	 */
 	public String parameter;
 	/**
+	 * 渠道
+	 */
+	public String channel;
+	/**
 	 * 备注
 	 */
 	public String remark;

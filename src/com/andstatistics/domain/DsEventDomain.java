@@ -14,6 +14,6 @@ public class DsEventDomain extends BaseDomain<DsEvent> {
     }
 
     public void triggerEvent(DsEvent event) throws Exception {
-        handler.doRequest(HttpMethod.POST,"/TriggerEvent",event);
+        super.doRequest(HttpMethod.POST,"/TriggerEvent",event);
     }
 }

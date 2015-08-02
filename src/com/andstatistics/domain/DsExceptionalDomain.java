@@ -14,6 +14,6 @@ public class DsExceptionalDomain extends BaseDomain<DsExceptional> {
     }
 
     public void exceptional(DsExceptional exceptional) throws Exception {
-        handler.doRequest(HttpMethod.POST,"/Exceptional",exceptional);
+        super.doRequest(HttpMethod.POST,"/Exceptional",exceptional);
     }
 }

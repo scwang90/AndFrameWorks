@@ -22,6 +22,10 @@ public class DsExceptional implements Serializable {
 	 */
 	public String appId;
 	/**
+	 * 渠道
+	 */
+	public String channel;
+	/**
 	 * 应用名称
 	 */
 	public String name;

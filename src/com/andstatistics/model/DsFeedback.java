@@ -36,6 +36,10 @@ public class DsFeedback implements Serializable {
 	 */
 	public String content;
 	/**
+	 * 渠道
+	 */
+	public String channel;
+	/**
 	 * 联系方式
 	 */
 	public String contact;

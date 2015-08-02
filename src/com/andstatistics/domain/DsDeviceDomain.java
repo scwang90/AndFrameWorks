@@ -14,10 +14,10 @@ public class DsDeviceDomain extends BaseDomain<DsDevice> {
     }
 
     public void initDevice(DsDevice device,String channel) throws Exception {
-        handler.doRequest(HttpMethod.POST,"/InitDevice/"+channel,device);
+        super.doRequest(HttpMethod.POST, "/InitDevice/" + channel, device);
     }
 
     public void uninstall(DsDevice device,String channel) throws Exception {
-        handler.doRequest(HttpMethod.POST,"/Uninstall/"+channel,device);
+        super.doRequest(HttpMethod.POST,"/Uninstall/"+channel,device);
     }
 }
