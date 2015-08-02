@@ -16,6 +16,8 @@ public class AndCloud implements LoadDeployListener{
 
 	@SuppressWarnings("serial")
 	public static Deploy Deploy = new Deploy(){{setRemark("default");}};
+	private static String mChannel;
+	private static String mDefchannel;
 
 	@Override
 	public void onLoadDeployFailed() {
@@ -24,7 +26,7 @@ public class AndCloud implements LoadDeployListener{
 
 	@Override
 	public void onLoadDeployFinish(Deploy deploy) {
-		AfApplication.getApp().onEvent(CloudEvent.CLOUD_DEPLOY_FINISHED,deploy,"配置完成");
+		AfApplication.getApp().onEvent(CloudEvent.CLOUD_DEPLOY_FINISHED,deploy,""+deploy.isBusinessModel());
 	}
 
 	public static abstract class QQAuthHelper{
@@ -50,9 +52,17 @@ public class AndCloud implements LoadDeployListener{
 			AfExceptionHandler.handler(e, "AndCloud.registerSubclass");
 		}
 	}
-	
-	public static void initializeDeploy(Context context,String defchannel,String channel,LoadDeployListener listener){
-		AfApplication.postTask(new DeployCheckTask(context, listener,defchannel,channel));
+
+	public static void initializeDeploy(Context context,String defchannel,String channel){
+		mChannel = channel;
+		mDefchannel = defchannel;
+		//DeployCheckTask.deploy(context, listener,defchannel,channel);
+	}
+
+	public static void deploy(Context context,LoadDeployListener listener){
+		if (mChannel != null && mDefchannel != null) {
+			DeployCheckTask.deploy(context, listener,mDefchannel,mChannel);
+		}
 	}
 
 	public static void initializeAvos(Context context,String appid,String appkey,String channel) {

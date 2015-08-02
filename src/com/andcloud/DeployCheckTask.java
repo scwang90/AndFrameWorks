@@ -8,6 +8,7 @@ import android.os.Message;
 import com.andcloud.domain.AvDeployDomain;
 import com.andcloud.model.Deploy;
 import com.andframe.application.AfApplication;
+import com.andframe.application.AfExceptionHandler;
 import com.andframe.caches.AfPrivateCaches;
 import com.andframe.thread.AfHandlerTask;
 import com.andframe.util.android.AfNetwork;
@@ -92,6 +93,18 @@ public class DeployCheckTask extends AfHandlerTask{
 	}
 
 	@Override
+	protected void onException(Throwable e) {
+		super.onException(e);
+		AfExceptionHandler.handleAttach(e,"DeployCheckTask.onException");
+		try {
+			Thread.sleep(30*1000);
+		} catch (InterruptedException e1) {
+			e1.printStackTrace();
+		}
+		deploy(mContext,mListener, defchannel,channel);
+	}
+
+	@Override
 	protected boolean onHandle(Message msg) {
 		// TODO Auto-generated method stub
 		mIsOnlineHideChecking = false;
@@ -106,5 +119,8 @@ public class DeployCheckTask extends AfHandlerTask{
 		}
 		return false;
 	}
-	
+
+	public static void deploy(Context context, LoadDeployListener listener, String defchannel, String channel) {
+		AfApplication.postTask(new DeployCheckTask(context, listener,defchannel,channel));
+	}
 }
