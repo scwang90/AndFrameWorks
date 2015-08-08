@@ -1,13 +1,13 @@
 package com.andcloud.domain;
 
-import java.util.List;
-
 import com.andframe.helper.java.AfTimeSpan;
 import com.andframe.util.java.AfReflecter;
 import com.avos.avoscloud.AVException;
 import com.avos.avoscloud.AVObject;
 import com.avos.avoscloud.AVQuery;
 import com.avos.avoscloud.AVQuery.CachePolicy;
+
+import java.util.List;
 
 public class AvDomain<T extends AVObject> {
 
@@ -21,7 +21,9 @@ public class AvDomain<T extends AVObject> {
 	public AVQuery<T> getQuery(){
 		AVQuery<T> query = AVObject.getQuery(clazz);
 //		query.setMaxCacheAge(TimeUnit.DAYS.toMillis(1));
-		query.setMaxCacheAge(AfTimeSpan.FromDays(1).getTotalMilliseconds());
+//		query.setMaxCacheAge(AfTimeSpan.FromDays(1).getTotalMilliseconds());
+		query.setCachePolicy(CachePolicy.CACHE_ELSE_NETWORK);
+		query.setMaxCacheAge(AfTimeSpan.FromHours(0.5).getTotalMilliseconds());
 		return query;
 	}
 
