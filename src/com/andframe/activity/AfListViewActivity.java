@@ -1,8 +1,5 @@
 package com.andframe.activity;
 
-import java.util.Date;
-import java.util.List;
-
 import android.content.Context;
 import android.os.Bundle;
 import android.view.View;
@@ -11,8 +8,8 @@ import android.widget.AdapterView;
 import android.widget.AdapterView.OnItemClickListener;
 import android.widget.ListView;
 
-import com.andframe.activity.framework.AfPageable;
 import com.andframe.activity.framework.AfActivity;
+import com.andframe.activity.framework.AfPageable;
 import com.andframe.adapter.AfListAdapter;
 import com.andframe.adapter.AfListAdapter.IAfLayoutItem;
 import com.andframe.bean.Page;
@@ -24,9 +21,14 @@ import com.andframe.layoutbind.AfModuleProgress;
 import com.andframe.thread.AfListViewTask;
 import com.andframe.util.java.AfCollections;
 import com.andframe.view.AfListView;
+import com.andframe.view.AfRefreshListView;
 import com.andframe.view.pulltorefresh.AfPullToRefreshBase.OnRefreshListener;
+
+import java.util.Date;
+import java.util.List;
 /**
  * 数据列表框架 Activity
+ * 带有下拉刷新、数据分页加载、上啦更多、数据缓存
  * @author 树朾
  * @param <T> 列表数据实体类
  */
@@ -38,7 +40,7 @@ public abstract class AfListViewActivity<T> extends AfActivity implements OnRefr
 	protected AfModuleProgress mProgress;
 	protected AfFrameSelector mSelector;
 
-	protected AfListView mListView;
+	protected AfRefreshListView<ListView> mListView;
 	protected AfListAdapter<T> mAdapter;
 
 	/**
@@ -95,13 +97,30 @@ public abstract class AfListViewActivity<T> extends AfActivity implements OnRefr
 		mProgress = newModuleProgress(this);
 		mSelector = newAfFrameSelector(this);
 
-		mListView = new AfListView(findListView(this));
+		mListView = newAfListView(this);
 		mListView.setOnRefreshListener(this);
 		mListView.setOnItemClickListener(this);
 		
 		// 设置banner尺寸
 		setLoading();
 		postTask(new AbListViewTask(mCacheClazz,KEY_CACHELIST));
+	}
+
+	/**
+	 * 创建指定命令的任务并执行
+	 * @param task
+	 */
+	protected AbListViewTask postTask(int task) {
+		return (AbListViewTask)postTask(new AbListViewTask(task));
+	}
+
+	/**
+	 * 创建新的AfListView
+	 * @param pageable
+	 * @return
+	 */
+	protected AfRefreshListView<ListView> newAfListView(AfPageable pageable) {
+		return new AfListView(findListView(pageable));
 	}
 
 	/**
@@ -283,6 +302,19 @@ public abstract class AfListViewActivity<T> extends AfActivity implements OnRefr
 			// TODO Auto-generated constructor stub
 		}
 
+		/**
+		 * 自定义任务 触发 onWorking 和 onTaskWorking
+		 * @param task
+		 */
+		public AbListViewTask(int task) {
+			super(task);
+		}
+
+		@Override
+		public boolean onPrepare() {
+			return AfListViewActivity.this.onTaskPrepare(mTask);
+		}
+
 		@Override
 		protected List<T> onLoad() {
 			// TODO Auto-generated method stub
@@ -298,6 +330,11 @@ public abstract class AfListViewActivity<T> extends AfActivity implements OnRefr
 		protected List<T> onListByPage(Page page, int task) throws Exception {
 			// TODO Auto-generated method stub
 			return AfListViewActivity.this.onTaskListByPage(page,task);
+		}
+
+		@Override
+		protected boolean onWorking(int task) throws Exception {
+			return AfListViewActivity.this.onTaskWorking(task);
 		}
 
 		//事件转发 参考 AfListViewFrament.onLoaded
@@ -321,8 +358,19 @@ public abstract class AfListViewActivity<T> extends AfActivity implements OnRefr
 			return AfListViewActivity.this.onMored(this,isfinish, ltdata);
 		}
 
+		@Override
+		protected boolean onWorked(int task, boolean isfinish, List<T> ltdata) {
+			return AfListViewActivity.this.onTaskWorked(this, isfinish, ltdata);
+		}
 	}
-	
+
+	/**
+	 * 任务准备开始 （在UI线程中）
+	 * @return 返回true 表示准备完毕 否则 false 任务将被取消
+	 */
+	protected boolean onTaskPrepare(int task) {
+		return true;
+	}
 
 	/**
 	 *  缓存加载结束处理时间（框架默认调用onRefreshed事件处理）
@@ -385,7 +433,7 @@ public abstract class AfListViewActivity<T> extends AfActivity implements OnRefr
 	/**
 	 *  任务加载更多结束处理事件
 	 * @author 树朾
-	 * @param loadListTask
+	 * @param task
 	 * @param isfinish
 	 * @param ltdata
 	 * @return 返回true 已经做好错误页面显示 返回false 框架会做好默认错误反馈
@@ -442,6 +490,26 @@ public abstract class AfListViewActivity<T> extends AfActivity implements OnRefr
 	 */
 	protected abstract List<T> onTaskListByPage(Page page, int task) throws Exception;
 
+	/**
+	 * 由postTask(int task)触发
+	 * 除了与刷新、翻页、加载缓存有关的其他任务工作（异步线程、留给子类任务扩展用）
+	 * @param task
+	 * @return
+	 */
+	protected boolean onTaskWorking(int task) throws Exception{
+		return false;
+	}
+
+	/**
+	 * 与onTaskWorking相对应的结束（UI线程）
+	 * @param abListViewTask
+	 * @param isfinish
+	 * @param ltdata
+	 * @return
+	 */
+	protected boolean onTaskWorked(AbListViewTask abListViewTask, boolean isfinish, List<T> ltdata) {
+		return false;
+	}
 	/**
 	 *  根据数据ltdata新建一个 适配器 重写这个方法之后getItemLayout方法将失效
 	 * @author 树朾

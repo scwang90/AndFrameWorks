@@ -1,10 +1,5 @@
 package com.andframe.layoutbind;
 
-import java.util.HashMap;
-import java.util.Iterator;
-import java.util.List;
-import java.util.Map.Entry;
-
 import android.view.MenuItem;
 import android.view.View;
 import android.view.View.OnClickListener;
@@ -17,6 +12,11 @@ import com.andframe.view.multichoice.AfMultiChoiceAdapter.GenericityListener;
 import com.andframe.widget.popupmenu.MenuEntity;
 import com.andframe.widget.popupmenu.OnMenuItemClickListener;
 import com.andframe.widget.popupmenu.PopupMenu;
+
+import java.util.HashMap;
+import java.util.Iterator;
+import java.util.List;
+import java.util.Map.Entry;
 
 public abstract class AfSelectorBottombar extends AfLayoutAlpha implements
 		OnClickListener, GenericityListener, OnMenuItemClickListener {
@@ -33,15 +33,15 @@ public abstract class AfSelectorBottombar extends AfLayoutAlpha implements
 	protected abstract ImageView getFunctionViewMore(AfViewable view);
 	protected abstract LinearLayout getFunctionLayout(AfViewable view);
 	
-	public AfSelectorBottombar(AfViewable view) {
-		super(view);
+	public AfSelectorBottombar(AfViewable view,int viewid) {
+		super(view,viewid);
 		// TODO Auto-generated constructor stub
 		if (isValid()) {
 			mMore = getFunctionViewMore(view);
 			mContaint = getFunctionLayout(view);
 			mContaint.removeAllViews();
 			mMore.setOnClickListener(this);
-			mLayout.setVisibility(View.GONE);
+			target.setVisibility(View.GONE);
 		}
 	}
 	
@@ -72,7 +72,16 @@ public abstract class AfSelectorBottombar extends AfLayoutAlpha implements
 	}
 	
 	public void setAdapter(AfMultiChoiceAdapter<? extends Object> adapter) {
-		adapter.addGenericityListener(this);
+		if (adapter != null){
+			adapter.addGenericityListener(this);
+			if (adapter.isMultiChoiceMode()!=isVisibility()){
+				if (isVisibility()){
+					this.hide();
+				} else {
+					this.show();
+				}
+			}
+		}
 	}
 
 	@Override

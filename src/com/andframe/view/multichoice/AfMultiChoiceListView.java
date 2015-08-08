@@ -76,7 +76,6 @@ public class AfMultiChoiceListView extends AfRefreshListView<ListView> implement
 			if(mSelectorBottombar != null){
 				mSelectorBottombar.setAdapter(mAdapter);
 			}
-			
 		}
 	}
 

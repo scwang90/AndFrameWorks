@@ -1,10 +1,5 @@
 package com.andframe.layoutbind;
 
-import java.util.HashMap;
-import java.util.Iterator;
-import java.util.List;
-import java.util.Map.Entry;
-
 import android.os.Build;
 import android.view.MenuItem;
 import android.view.View;
@@ -16,6 +11,11 @@ import com.andframe.view.multichoice.AfMultiChoiceAdapter;
 import com.andframe.view.multichoice.AfMultiChoiceAdapter.GenericityListener;
 import com.andframe.widget.popupmenu.OnMenuItemClickListener;
 import com.andframe.widget.popupmenu.PopupMenu;
+
+import java.util.HashMap;
+import java.util.Iterator;
+import java.util.List;
+import java.util.Map.Entry;
 
 public abstract class AfSelectorTitlebar extends AfLayoutAlpha 
 	implements OnClickListener, GenericityListener, OnMenuItemClickListener {
@@ -45,8 +45,8 @@ public abstract class AfSelectorTitlebar extends AfLayoutAlpha
 		}
 	}
 	
-	public AfSelectorTitlebar(AfViewable view) {
-		super(view);
+	public AfSelectorTitlebar(AfViewable view,int viewid) {
+		super(view,viewid);
 		// TODO Auto-generated constructor stub
 		mTvText = findTitleSelectTvText(view);
 		mBtFinish = findTitleSelectBtFinish(view);
@@ -72,6 +72,15 @@ public abstract class AfSelectorTitlebar extends AfLayoutAlpha
 			mAdapter = adapter;
 			mOperate.setEnabled(true);
 			mAdapter.addGenericityListener(this);
+			if (mAdapter != null){
+				if (mAdapter.isMultiChoiceMode()!=isVisibility()){
+					if (isVisibility()){
+						this.hide();
+					} else {
+						this.show();
+					}
+				}
+			}
 		}
 	}
 	
@@ -97,7 +106,7 @@ public abstract class AfSelectorTitlebar extends AfLayoutAlpha
 	}
 
 	public View getLayout() {
-		return mLayout;
+		return target;
 	}
 
 	@Override
@@ -185,7 +194,7 @@ public abstract class AfSelectorTitlebar extends AfLayoutAlpha
 	@Override
 	public boolean isValid() {
 		// TODO Auto-generated method stub
-		return mIsValid&&mBtFinish!= null&&mOperate!= null&&mTvText!=null;
+		return super.isValid()&&mBtFinish!= null&&mOperate!= null&&mTvText!=null;
 	}
 
 	

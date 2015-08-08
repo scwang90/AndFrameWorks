@@ -1,9 +1,5 @@
 package com.andframe.thread;
 
-import java.util.ArrayList;
-import java.util.Date;
-import java.util.List;
-
 import android.os.Handler;
 import android.os.Message;
 
@@ -14,6 +10,10 @@ import com.andframe.caches.AfPrivateCaches;
 import com.andframe.constant.AfNetworkEnum;
 import com.andframe.exception.AfToastException;
 import com.andframe.helper.java.AfTimeSpan;
+
+import java.util.ArrayList;
+import java.util.Date;
+import java.util.List;
 
 public abstract class AfListTask<T> extends AfHandlerTask {
 	// 加载单页条数
@@ -126,7 +126,7 @@ public abstract class AfListTask<T> extends AfHandlerTask {
 	
 	/**
 	 * 加载缓存
-	 * @param ischecktimeout 是否检测缓存过期（刷新失败时候可以加载缓存）
+	 * 是否检测缓存过期（刷新失败时候可以加载缓存）
 	 * @return
 	 */
 	protected List<T> onLoad(){

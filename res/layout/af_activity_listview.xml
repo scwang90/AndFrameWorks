@@ -3,9 +3,21 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:orientation="vertical" >
-        
-	<include layout="@layout/af_module_titlebar" />
 
-    <include layout="@layout/af_module_listview" />
+    <FrameLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content">
+        <include layout="@layout/af_module_titlebar" />
+        <include layout="@layout/af_module_titlebar_select"
+            android:visibility="gone"/>
+    </FrameLayout>
 
+    <include
+        android:layout_width="match_parent"
+        android:layout_height="0dp"
+        android:layout_weight="1.0"
+        layout="@layout/af_module_listview" />
+
+    <include layout="@layout/af_module_bottombar_select"
+        android:visibility="gone"/>
 </LinearLayout>

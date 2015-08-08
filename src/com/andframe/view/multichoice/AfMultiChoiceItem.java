@@ -11,10 +11,13 @@ import android.widget.LinearLayout;
 import android.widget.LinearLayout.LayoutParams;
 
 import com.andframe.feature.AfDensity;
-import com.andframe.layoutbind.AfLisItem;
+import com.andframe.layoutbind.AfListItem;
 
-
-public abstract class AfMultiChoiceItem<T> extends AfLisItem<T> implements OnClickListener{
+/**
+ * 多选ITEM模板
+ * @param <T>
+ */
+public abstract class AfMultiChoiceItem<T> extends AfListItem<T> implements OnClickListener{
 
 	public enum SelectStatus{
 		NONE,UNSELECT,SELECTED

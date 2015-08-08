@@ -1,9 +1,5 @@
 package com.andframe.thread;
 
-import java.io.IOException;
-import java.util.Date;
-import java.util.List;
-
 import android.os.Handler;
 import android.os.Message;
 
@@ -12,6 +8,14 @@ import com.andframe.adapter.AfListAdapter;
 import com.andframe.application.AfApplication;
 import com.andframe.bean.Page;
 
+import java.io.IOException;
+import java.util.Date;
+import java.util.List;
+
+/**
+ * 各种数据加载任务handler分流
+ * @param <T>
+ */
 public abstract class AfListViewTask<T> extends AfListTask<T>
 {
     //枚举任务类型
@@ -112,7 +116,7 @@ public abstract class AfListViewTask<T> extends AfListTask<T>
 
 	/**
 	 * 任务执行出错 之后统一（各种任务）处理错误提示
-	 * 	如果在 onRefreshed、onMored、onWorked、onLoaded 返回true 表示已经错误处理提示
+	 * 	如果在 onRefreshed、onMored、onTaskWorked、onLoaded 返回true 表示已经错误处理提示
 	 * 矿井唉将不在调用 onDealError 
 	 * @param task
 	 * @param rrrors
