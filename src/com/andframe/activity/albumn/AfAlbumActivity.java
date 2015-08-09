@@ -15,7 +15,7 @@ import android.view.View;
 import android.view.View.OnTouchListener;
 import android.widget.TextView;
 
-import com.andframe.activity.AfActivity;
+import com.andframe.activity.framework.AfActivity;
 import com.andframe.activity.framework.AfViewable;
 import com.andframe.bean.Page;
 import com.andframe.exception.AfToastException;
@@ -73,17 +73,17 @@ public abstract class AfAlbumActivity extends AfActivity
 	/**
 	 * The {@link ViewPager} that will host the section contents.
 	 */
-	private ViewPager mViewPager;
+	protected ViewPager mViewPager;
 
-	private UUID AlbumID = null;
-	private String mPhotoName = "相册名称";
-	private String mDescribe = "相册的基本描述信息和相关资料";
-	private String mHeadUrl = "";
+	protected UUID AlbumID = null;
+	protected String mPhotoName = "相册名称";
+	protected String mDescribe = "相册的基本描述信息和相关资料";
+	protected String mHeadUrl = "";
 
-	private Photo mHeader = null;
-	private List<Photo> mltPhoto = new ArrayList<Photo>();
+	protected Photo mHeader = null;
+	protected List<Photo> mltPhoto = new ArrayList<Photo>();
 
-	private AfAlbumPagerAdapter mAdapter = null;
+	protected AfAlbumPagerAdapter mAdapter = null;
 
 	/**
 	 * 以下是 相册必备的 View

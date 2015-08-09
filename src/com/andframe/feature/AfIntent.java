@@ -1,14 +1,14 @@
 package com.andframe.feature;
 
-import java.util.ArrayList;
-import java.util.List;
-import java.util.UUID;
-
 import android.content.Context;
 import android.content.Intent;
 import android.net.Uri;
 
 import com.google.gson.Gson;
+
+import java.util.ArrayList;
+import java.util.List;
+import java.util.UUID;
 
 /**
  * 使用Gson实现多元数据传递
@@ -57,8 +57,12 @@ public class AfIntent extends Intent{
 	}
 
 	public void put(String _key, Object value) {
-		putExtra(_key, value.getClass().getName());
-		putExtra(_key+"[0]", mJson.toJson(value));
+		if (value instanceof List){
+			putList(_key,(List)value);
+		} else {
+			putExtra(_key, value.getClass().getName());
+			putExtra(_key+"[0]", mJson.toJson(value));
+		}
 	}
 
 	public void putList(String _key, List<? extends Object> value) {
