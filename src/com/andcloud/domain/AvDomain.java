@@ -29,14 +29,17 @@ public class AvDomain<T extends AVObject> {
 
 	public void add(T model) throws AVException{
 		model.save();
+		AVQuery.clearAllCachedResults();
 	}
 
 	public void update(T model) throws AVException{
 		model.save();
+		AVQuery.clearAllCachedResults();
 	}
 
 	public void delete(T model) throws AVException{
 		model.delete();
+		AVQuery.clearAllCachedResults();
 	}
 
 	public List<T> list() throws AVException{
