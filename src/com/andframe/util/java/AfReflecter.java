@@ -1,5 +1,7 @@
 package com.andframe.util.java;
 
+import com.andframe.application.AfExceptionHandler;
+
 import java.lang.annotation.Annotation;
 import java.lang.reflect.Field;
 import java.lang.reflect.GenericArrayType;
@@ -388,6 +390,10 @@ public class AfReflecter {
 	}
 
 	public static Object doMethod(Object obj, String smethod, Object... args) {
+		if (obj == null){
+			AfExceptionHandler.handler(new RuntimeException("obj=null"),"AfReflecter.doMethod");
+			return null;
+		}
 		Method method = getMethod(obj.getClass(), smethod, args);
 		try {
 			return method.invoke(obj, args);
@@ -398,6 +404,10 @@ public class AfReflecter {
 	}
 
 	public static <T> T doMethod(Object obj, String smethod,Class<T> clazz, Object... args) {
+		if (obj == null){
+			AfExceptionHandler.handler(new RuntimeException("obj=null"),"AfReflecter.doMethod");
+			return null;
+		}
 		Method method = getMethod(obj.getClass(), smethod, args);
 		try {
 			return clazz.cast(method.invoke(obj,args));
