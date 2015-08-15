@@ -1,12 +1,12 @@
 package com.andoffice.layoutbind;
 
 import java.util.AbstractMap;
+import java.util.AbstractMap.SimpleEntry;
 import java.util.ArrayList;
 import java.util.Collection;
 import java.util.HashMap;
 import java.util.Iterator;
 import java.util.List;
-import java.util.AbstractMap.SimpleEntry;
 import java.util.Map.Entry;
 
 import android.view.KeyEvent;
@@ -20,10 +20,9 @@ import android.widget.PopupMenu.OnMenuItemClickListener;
 import android.widget.TextView;
 import android.widget.TextView.OnEditorActionListener;
 
-import com.andoffice.R;
 import com.andframe.activity.framework.AfPageable;
-import com.andframe.activity.framework.AfViewable;
 import com.andframe.layoutbind.AfLayoutAlpha;
+import com.andoffice.R;
 
 public class ModuleTitlebarSearcher extends AfLayoutAlpha implements OnClickListener, OnEditorActionListener, OnMenuItemClickListener {
 	
@@ -54,7 +53,7 @@ public class ModuleTitlebarSearcher extends AfLayoutAlpha implements OnClickList
 	private AfPageable mPage = null;
 	
 	public ModuleTitlebarSearcher(AfPageable page) {
-		super(page);
+		super(page,R.id.titlebar_search_layout);
 		// TODO Auto-generated constructor stub
 		mPage = page;
 		if(isValid()){
@@ -69,11 +68,6 @@ public class ModuleTitlebarSearcher extends AfLayoutAlpha implements OnClickList
 		}
 	}
 	
-	protected View findLayout(AfViewable view) {
-		// TODO Auto-generated method stub
-		return view.findViewById(R.id.titlebar_search_layout);
-	}
-
 	@Override
 	public void onClick(View v) {
 		// TODO Auto-generated method stub

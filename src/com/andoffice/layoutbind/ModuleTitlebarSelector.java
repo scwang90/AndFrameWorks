@@ -14,7 +14,7 @@ public class ModuleTitlebarSelector extends AfSelectorTitlebar {
 	public static final int ID_OPERATE = R.id.titlebar_select_operate;
 
 	public ModuleTitlebarSelector(AfPageable page) {
-		super(page);
+		super(page,R.id.titlebar_select);
 		// TODO Auto-generated constructor stub
 	}
 	@Override
@@ -31,12 +31,6 @@ public class ModuleTitlebarSelector extends AfSelectorTitlebar {
 	protected TextView findTitleSelectTvText(AfViewable view) {
 		// TODO Auto-generated method stub
 		return view.findViewByID(R.id.titlebar_select_text);
-	}
-	@Override
-	protected View findLayout(AfViewable view) {
-		// TODO Auto-generated method stub
-		mTvText = view.findViewByID(R.id.titlebar_select_text);
-		return  (View)mTvText.getParent();
 	}
 
 }

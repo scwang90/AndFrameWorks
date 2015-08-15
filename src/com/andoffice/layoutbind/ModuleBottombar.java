@@ -1,12 +1,10 @@
 package com.andoffice.layoutbind;
 
 import android.view.View;
-import android.view.View.OnClickListener;
 
-import com.andoffice.R;
 import com.andframe.activity.framework.AfPageable;
-import com.andframe.activity.framework.AfViewable;
 import com.andframe.layoutbind.AfLayoutAlpha;
+import com.andoffice.R;
 
 public class ModuleBottombar extends AfLayoutAlpha{
 
@@ -22,7 +20,7 @@ public class ModuleBottombar extends AfLayoutAlpha{
 	protected View[] mViews = new View[ID_All];
 	
 	public ModuleBottombar(AfPageable page) {
-		super(page);
+		super(page,R.id.bottombar_layout);
 		// TODO Auto-generated constructor stub
 		if(isValid()){
 			int[] ids = new int[]{
@@ -38,14 +36,14 @@ public class ModuleBottombar extends AfLayoutAlpha{
 				mViews[i].setVisibility(View.GONE);
 				mViews[i].setId(i);
 			}
-			mLayout.setVisibility(View.GONE);
+			target.setVisibility(View.GONE);
 		}
 	}
 	
 	public void setFunction(int id ,boolean value){
 		if(id >= 0 && id < ID_All){
-			if(value && mLayout.getVisibility() != View.VISIBLE){
-				mLayout.setVisibility(View.VISIBLE);
+			if(value && target.getVisibility() != View.VISIBLE){
+				target.setVisibility(View.VISIBLE);
 			}
 			mViews[id].setVisibility(value?View.VISIBLE:View.GONE);
 		}
@@ -54,19 +52,13 @@ public class ModuleBottombar extends AfLayoutAlpha{
 	public void setHighLightMode(boolean value){
 		if(isValid()){
 			if(value){
-				mLayout.setBackgroundResource(R.color.theme_titlebar_selcet_dg);
+				target.setBackgroundResource(R.color.theme_titlebar_selcet_dg);
 			}else{
-				mLayout.setBackgroundResource(R.color.gray_dark);
+				target.setBackgroundResource(R.color.gray_dark);
 			}	
 		}
 	}
 	
-	@Override
-	protected View findLayout(AfViewable view) {
-		// TODO Auto-generated method stub
-		return view.findViewById(R.id.bottombar_layout);
-	}
-
 	public void setListener(OnClickListener listener) {
 		// TODO Auto-generated constructor stub
 		for (View view : mViews) {

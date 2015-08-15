@@ -1,6 +1,5 @@
 package com.andoffice.layoutbind;
 
-import android.view.View;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
 
@@ -20,16 +19,10 @@ public class ModuleBottombarSelector extends AfSelectorBottombar{
 	public static final String DETAIL_OK = "完成";
 	
 	public ModuleBottombarSelector(AfPageable page) {
-		super(page);
+		super(page,R.id.bottombar_select_layout);
 		// TODO Auto-generated constructor stub
 	}
 	
-	@Override
-	protected View findLayout(AfViewable view) {
-		// TODO Auto-generated method stub
-		return view.findViewById(R.id.bottombar_select_layout);
-	}
-
 	@Override
 	protected ImageView getFunctionViewMore(AfViewable view) {
 		// TODO Auto-generated method stub
