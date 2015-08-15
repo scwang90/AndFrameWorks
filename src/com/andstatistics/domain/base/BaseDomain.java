@@ -1,15 +1,14 @@
 package com.andstatistics.domain.base;
 
+import java.util.HashMap;
+import java.util.Map;
+
 import com.andframe.helper.android.AfDesHelper;
 import com.andframe.util.java.AfDateGuid;
 import com.andframe.util.java.AfMD5;
-import com.andrestrequest.http.DefaultRequestHandler;
 import com.andrestrequest.http.DefaultRequestHandler.HttpMethod;
 import com.andrestrequest.http.Response;
 import com.andrestrequest.impl.AbstractRequester;
-
-import java.util.HashMap;
-import java.util.Map;
 
 /**
  * Created by SCWANG on 2015-07-29.

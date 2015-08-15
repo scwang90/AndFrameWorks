@@ -1,8 +1,8 @@
 package com.andstatistics.model;
 
-import com.andframe.model.Exceptional;
-
 import java.io.Serializable;
+
+import com.andframe.model.Exceptional;
 
 /**
  * 数据库表ds_exceptional
@@ -10,6 +10,7 @@ import java.io.Serializable;
  * @date 2015-07-28 23:44:10 中国标准时间
  */
 //@Table("ds_exceptional")
+@SuppressWarnings("serial")
 public class DsExceptional implements Serializable {
 
 //	@Id

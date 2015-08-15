@@ -8,6 +8,7 @@ import java.io.Serializable;
  * @date 2015-07-28 23:44:10 中国标准时间
  */
 //@Table("ds_application")
+@SuppressWarnings("serial")
 public class DsApplication implements Serializable{
 
 //	@Id

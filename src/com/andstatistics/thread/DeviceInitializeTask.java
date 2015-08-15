@@ -1,16 +1,14 @@
 package com.andstatistics.thread;
 
+import java.util.UUID;
+
 import android.content.Context;
 import android.os.Message;
 
-import com.andframe.thread.AfTask;
-import com.andframe.thread.AfThreadWorker;
 import com.andframe.util.android.AfNetwork;
 import com.andframe.util.java.AfStringUtil;
 import com.andstatistics.domain.DsDeviceDomain;
 import com.andstatistics.model.DsDevice;
-
-import java.util.UUID;
 
 /**
  * Created by SCWANG on 2015-07-29.

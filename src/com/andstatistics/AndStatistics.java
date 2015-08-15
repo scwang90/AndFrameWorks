@@ -4,7 +4,6 @@ import android.content.Context;
 
 import com.andframe.application.AfApplication;
 import com.andframe.application.AfExceptionHandler;
-import com.andframe.exception.AfException;
 import com.andframe.model.Exceptional;
 import com.andrestrequest.AndRestConfig;
 import com.andrestrequest.http.DefaultResponseHandler;
