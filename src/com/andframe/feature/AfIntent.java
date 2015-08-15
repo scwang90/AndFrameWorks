@@ -58,7 +58,7 @@ public class AfIntent extends Intent{
 
 	public void put(String _key, Object value) {
 		if (value instanceof List){
-			putList(_key,(List)value);
+			putList(_key,(List<?>)value);
 		} else {
 			putExtra(_key, value.getClass().getName());
 			putExtra(_key+"[0]", mJson.toJson(value));

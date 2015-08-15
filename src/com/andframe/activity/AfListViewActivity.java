@@ -110,6 +110,7 @@ public abstract class AfListViewActivity<T> extends AfActivity implements OnRefr
 	 * 创建指定命令的任务并执行
 	 * @param task
 	 */
+	@SuppressWarnings("unchecked")
 	protected AbListViewTask postTask(int task) {
 		return (AbListViewTask)postTask(new AbListViewTask(task));
 	}

@@ -1,6 +1,5 @@
 package com.andframe.thread;
 
-import com.andframe.application.AfApplication;
 import com.andframe.exception.AfException;
 
 import android.content.DialogInterface;
