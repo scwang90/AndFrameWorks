@@ -2,7 +2,6 @@
 // This is part of Xively4J library, it is under the BSD 3-Clause license.
 package com.andrestrequest.http;
 
-import java.io.IOException;
 import java.io.UnsupportedEncodingException;
 import java.net.URI;
 import java.net.URISyntaxException;
