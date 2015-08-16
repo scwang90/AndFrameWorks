@@ -29,7 +29,7 @@ import com.andframe.util.java.AfVersion;
  *
  * 	返回按键 提示 "再按一次退出程序"
  */
-public abstract class AfMainActivity extends AfActivity
+public abstract class AfMainActivity extends com.andframe.activity.framework.AfActivity
 	implements INotifyNeedUpdate,INotifyUpdate,INotifyNetworkStatus,OnClickListener{
 
 	protected static final String KEY_IGNORE = "39894915342252804102";

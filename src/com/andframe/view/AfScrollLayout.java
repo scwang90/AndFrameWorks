@@ -21,7 +21,7 @@ public class AfScrollLayout extends ViewGroup {
 
 	private static final int SNAP_VELOCITY = 600;
 
-	private Scroller mScroller; // 滑动控制??
+	private Scroller mScroller; // 滑动控制
 
 	private int mCurScreen;
 

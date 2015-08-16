@@ -181,7 +181,7 @@ public abstract class AfApplication extends Application {
 	 * @param fragment
 	 * @return
 	 */
-	public abstract Class<? extends AfMainActivity> getForegroundClass();
+	public abstract Class<? extends AfActivity> getForegroundClass();
 
 	// Debug Mode
 	protected int mDebugMode = DEBUG_NONE;

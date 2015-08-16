@@ -1,10 +1,5 @@
 package com.andframe.activity.framework;
 
-import java.util.ArrayList;
-import java.util.List;
-import java.util.Timer;
-import java.util.TimerTask;
-
 import android.annotation.SuppressLint;
 import android.app.Activity;
 import android.app.Application;
@@ -45,6 +40,11 @@ import com.andframe.fragment.AfFragment;
 import com.andframe.thread.AfTask;
 import com.andframe.thread.AfThreadWorker;
 import com.andframe.util.java.AfStackTrace;
+
+import java.util.ArrayList;
+import java.util.List;
+import java.util.Timer;
+import java.util.TimerTask;
 /**
  * 框架 Activity
  * @author 树朾
@@ -434,8 +434,7 @@ public abstract class AfActivity extends FragmentActivity implements AfPageable,
 	/**
 	 * 显示 进度对话框
 	 * @param message 消息
-	 * @param cancel 是否可取消
-	 * @param textsize 字体大小
+	 * @param listener 取消监听器
 	 */
 	public void showProgressDialog(String message,
 			OnCancelListener listener) {
@@ -458,7 +457,7 @@ public abstract class AfActivity extends FragmentActivity implements AfPageable,
 	/**
 	 * 显示 进度对话框
 	 * @param message 消息
-	 * @param cancel 是否可取消
+	 * @param listener 取消监听器
 	 * @param textsize 字体大小
 	 */
 	public void showProgressDialog(String message,
