@@ -2,6 +2,7 @@ package com.andframe.layoutbind.framework;
 
 import java.util.ArrayList;
 
+import android.annotation.SuppressLint;
 import android.content.res.Configuration;
 import android.content.res.Resources;
 import android.graphics.Bitmap;
@@ -43,6 +44,7 @@ import android.view.animation.Animation;
 import android.view.inputmethod.EditorInfo;
 import android.view.inputmethod.InputConnection;
 
+@SuppressLint("NewApi")
 public class AfViewDelegate extends View{
 
 	protected View target;
