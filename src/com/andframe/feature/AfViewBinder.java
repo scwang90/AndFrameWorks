@@ -1,6 +1,8 @@
 package com.andframe.feature;
 
+import java.lang.annotation.Annotation;
 import java.lang.reflect.Field;
+import java.lang.reflect.Method;
 
 import android.view.View;
 import android.view.View.OnClickListener;
@@ -8,10 +10,13 @@ import android.widget.AbsListView;
 
 import com.andframe.activity.framework.AfView;
 import com.andframe.activity.framework.AfViewable;
+import com.andframe.annotation.view.BindClick;
+import com.andframe.annotation.view.BindLongClick;
 import com.andframe.annotation.view.BindView;
 import com.andframe.annotation.view.Select;
 import com.andframe.application.AfExceptionHandler;
 import com.andframe.feature.framework.EventListener;
+import com.andframe.layoutbind.framework.AfViewDelegate;
 import com.andframe.util.java.AfReflecter;
 import com.andframe.util.java.AfStringUtil;
 /**
@@ -44,31 +49,70 @@ public class AfViewBinder {
 	
 	public void doBind(AfViewable root) {
 		// TODO Auto-generated method stub
-		for (Field field : AfReflecter.getFieldAnnotation(mHandler.getClass(),BindView.class)) {
-            try {
-            	BindView bind = field.getAnnotation(BindView.class);
-            	int viewId = bind.value();
-            	boolean clickLis = bind.click();
-                View view = root.findViewById(viewId);
-                
-                if (clickLis && mHandler instanceof OnClickListener) {
-                	view.setOnClickListener((OnClickListener)mHandler);
-                }
-                
-                setOnClickListener(view,bind.onClick());
+		doBindView(root);
+		doBindClick(root);
+		doBindLongClick(root);
+	}
+
+	private Class<?> getStopType(){
+		if (mHandler instanceof AfViewDelegate){
+			return AfViewDelegate.class;
+		}
+		return Object.class;
+	}
+
+	public void doBindClick(AfViewable root) {
+		for (Method method : AfReflecter.getMethodAnnotation(mHandler.getClass(), getStopType(), BindClick.class)) {
+			try {
+				BindClick bind = method.getAnnotation(BindClick.class);
+				int viewId = bind.value();
+				View view = root.findViewById(viewId);
+				view.setOnClickListener(new EventListener(mHandler).click(method));
+			} catch (Exception e) {
+				AfExceptionHandler.handler(e,TAG("doBindLongClick.")+ method.getName());
+			}
+		}
+	}
+
+	public void doBindLongClick(AfViewable root) {
+		for (Method method : AfReflecter.getMethodAnnotation(mHandler.getClass(), getStopType(), BindLongClick.class)) {
+			try {
+				BindLongClick bind = method.getAnnotation(BindLongClick.class);
+				int viewId = bind.value();
+				View view = root.findViewById(viewId);
+				view.setOnLongClickListener(new EventListener(mHandler).longClick(method));
+			} catch (Exception e) {
+				AfExceptionHandler.handler(e,TAG("doBindLongClick.")+ method.getName());
+			}
+		}
+	}
+
+	public void doBindView(AfViewable root) {
+		for (Field field : AfReflecter.getFieldAnnotation(mHandler.getClass(), getStopType(), BindView.class)) {
+			try {
+				BindView bind = field.getAnnotation(BindView.class);
+				int viewId = bind.value();
+				boolean clickLis = bind.click();
+				View view = root.findViewById(viewId);
+
+				if (clickLis && mHandler instanceof OnClickListener) {
+					view.setOnClickListener((OnClickListener)mHandler);
+				}
+
+				setOnClickListener(view,bind.onClick());
 				setLongClickListener(view,bind.longClick());
 				setItemClickListener(view,bind.itemClick());
 				setItemLongClickListener(view,bind.itemLongClick());
-				
+
 				Select select = bind.select();
 				if(AfStringUtil.isNotEmpty(select.selected())){
 					setViewSelectListener(view,select.selected(),select.noSelected());
 				}
 				field.setAccessible(true);
-                field.set(mHandler, view);
-            } catch (Exception e) {
-               AfExceptionHandler.handler(e,TAG("initBindView.")+ field.getName());
-            }
+				field.set(mHandler, view);
+			} catch (Exception e) {
+				AfExceptionHandler.handler(e,TAG("doBindView.")+ field.getName());
+			}
 		}
 	}
 

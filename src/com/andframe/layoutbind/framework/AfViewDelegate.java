@@ -27,9 +27,11 @@ import android.view.KeyEvent.DispatcherState;
 import android.view.MotionEvent;
 import android.view.TouchDelegate;
 import android.view.View;
+import android.view.ViewDebug;
 import android.view.ViewDebug.CapturedViewProperty;
 import android.view.ViewDebug.ExportedProperty;
 import android.view.ViewDebug.IntToString;
+import android.view.ViewGroup;
 import android.view.ViewGroup.LayoutParams;
 import android.view.ViewOverlay;
 import android.view.ViewParent;
@@ -57,7 +59,6 @@ public class AfViewDelegate extends View{
 
 	@Override
 	public void addChildrenForAccessibility(ArrayList<View> children) {
-		// TODO Auto-generated method stub
 		if (this.target == null) {
 			super.addChildrenForAccessibility(children);
 		}
@@ -67,7 +68,6 @@ public class AfViewDelegate extends View{
 	@Override
 	public void addFocusables(ArrayList<View> views, int direction,
 			int focusableMode) {
-		// TODO Auto-generated method stub
 		if (this.target == null) {
 			return;
 		}
@@ -76,7 +76,6 @@ public class AfViewDelegate extends View{
 
 	@Override
 	public void addFocusables(ArrayList<View> views, int direction) {
-		// TODO Auto-generated method stub
 		if (this.target == null) {
 			return;
 		}
@@ -86,7 +85,6 @@ public class AfViewDelegate extends View{
 	@Override
 	public void addOnAttachStateChangeListener(
 			OnAttachStateChangeListener listener) {
-		// TODO Auto-generated method stub
 		if (this.target == null) {
 			return;
 		}
@@ -95,7 +93,6 @@ public class AfViewDelegate extends View{
 
 	@Override
 	public void addOnLayoutChangeListener(OnLayoutChangeListener listener) {
-		// TODO Auto-generated method stub
 		if (this.target == null) {
 			return;
 		}
@@ -104,7 +101,6 @@ public class AfViewDelegate extends View{
 
 	@Override
 	public void addTouchables(ArrayList<View> views) {
-		// TODO Auto-generated method stub
 		if (this.target == null) {
 			return;
 		}
@@ -113,7 +109,6 @@ public class AfViewDelegate extends View{
 
 	@Override
 	public ViewPropertyAnimator animate() {
-		// TODO Auto-generated method stub
 		if (this.target == null) {
 			return super.animate();
 		}
@@ -122,7 +117,6 @@ public class AfViewDelegate extends View{
 
 	@Override
 	public void announceForAccessibility(CharSequence text) {
-		// TODO Auto-generated method stub
 		if (this.target == null) {
 			return;
 		}
@@ -131,7 +125,6 @@ public class AfViewDelegate extends View{
 
 	@Override
 	public void bringToFront() {
-		// TODO Auto-generated method stub
 		if (this.target == null) {
 			return;
 		}
@@ -140,7 +133,6 @@ public class AfViewDelegate extends View{
 
 	@Override
 	public void buildDrawingCache() {
-		// TODO Auto-generated method stub
 		if (this.target == null) {
 			return;
 		}
@@ -149,7 +141,6 @@ public class AfViewDelegate extends View{
 
 	@Override
 	public void buildDrawingCache(boolean autoScale) {
-		// TODO Auto-generated method stub
 		if (this.target == null) {
 			return;
 		}
@@ -158,7 +149,6 @@ public class AfViewDelegate extends View{
 
 	@Override
 	public void buildLayer() {
-		// TODO Auto-generated method stub
 		if (this.target == null) {
 			return;
 		}
@@ -167,7 +157,6 @@ public class AfViewDelegate extends View{
 
 	@Override
 	public boolean callOnClick() {
-		// TODO Auto-generated method stub
 		if (this.target == null) {
 			return super.callOnClick();
 		}
@@ -176,7 +165,6 @@ public class AfViewDelegate extends View{
 
 	@Override
 	public boolean canResolveLayoutDirection() {
-		// TODO Auto-generated method stub
 		if (this.target == null) {
 			return super.canResolveLayoutDirection();
 		}
@@ -185,7 +173,6 @@ public class AfViewDelegate extends View{
 
 	@Override
 	public boolean canResolveTextAlignment() {
-		// TODO Auto-generated method stub
 		if (this.target == null) {
 			return super.canResolveTextAlignment();
 		}
@@ -194,7 +181,6 @@ public class AfViewDelegate extends View{
 
 	@Override
 	public boolean canResolveTextDirection() {
-		// TODO Auto-generated method stub
 		if (this.target == null) {
 			return super.canResolveTextDirection();
 		}
@@ -203,7 +189,6 @@ public class AfViewDelegate extends View{
 
 	@Override
 	public boolean canScrollHorizontally(int direction) {
-		// TODO Auto-generated method stub
 		if (this.target == null) {
 			return super.canScrollHorizontally(direction);
 		}
@@ -212,7 +197,6 @@ public class AfViewDelegate extends View{
 
 	@Override
 	public boolean canScrollVertically(int direction) {
-		// TODO Auto-generated method stub
 		if (this.target == null) {
 			return super.canScrollVertically(direction);
 		}
@@ -221,7 +205,6 @@ public class AfViewDelegate extends View{
 
 	@Override
 	public void cancelLongPress() {
-		// TODO Auto-generated method stub
 		if (this.target == null) {
 			return;
 		}
@@ -230,7 +213,6 @@ public class AfViewDelegate extends View{
 
 	@Override
 	public boolean checkInputConnectionProxy(View view) {
-		// TODO Auto-generated method stub
 		if (this.target == null) {
 			return super.checkInputConnectionProxy(view);
 		}
@@ -239,7 +221,6 @@ public class AfViewDelegate extends View{
 
 	@Override
 	public void clearAnimation() {
-		// TODO Auto-generated method stub
 		if (this.target == null) {
 			return;
 		}
@@ -248,7 +229,6 @@ public class AfViewDelegate extends View{
 
 	@Override
 	public void clearFocus() {
-		// TODO Auto-generated method stub
 		if (this.target == null) {
 			return;
 		}
@@ -257,7 +237,6 @@ public class AfViewDelegate extends View{
 
 	@Override
 	public void computeScroll() {
-		// TODO Auto-generated method stub
 		if (this.target == null) {
 			return;
 		}
@@ -266,7 +245,6 @@ public class AfViewDelegate extends View{
 
 	@Override
 	public AccessibilityNodeInfo createAccessibilityNodeInfo() {
-		// TODO Auto-generated method stub
 		if (this.target == null) {
 			return super.createAccessibilityNodeInfo();
 		}
@@ -275,7 +253,6 @@ public class AfViewDelegate extends View{
 
 	@Override
 	public void createContextMenu(ContextMenu menu) {
-		// TODO Auto-generated method stub
 		if (this.target == null) {
 			return;
 		}
@@ -284,7 +261,6 @@ public class AfViewDelegate extends View{
 
 	@Override
 	public void destroyDrawingCache() {
-		// TODO Auto-generated method stub
 		if (this.target == null) {
 			return;
 		}
@@ -293,7 +269,6 @@ public class AfViewDelegate extends View{
 
 	@Override
 	public WindowInsets dispatchApplyWindowInsets(WindowInsets insets) {
-		// TODO Auto-generated method stub
 		if (this.target == null) {
 			return super.dispatchApplyWindowInsets(insets);
 		}
@@ -302,7 +277,6 @@ public class AfViewDelegate extends View{
 
 	@Override
 	public void dispatchConfigurationChanged(Configuration newConfig) {
-		// TODO Auto-generated method stub
 		if (this.target == null) {
 			return;
 		}
@@ -311,7 +285,6 @@ public class AfViewDelegate extends View{
 
 	@Override
 	public void dispatchDisplayHint(int hint) {
-		// TODO Auto-generated method stub
 		if (this.target == null) {
 			return;
 		}
@@ -320,7 +293,6 @@ public class AfViewDelegate extends View{
 
 	@Override
 	public boolean dispatchDragEvent(DragEvent event) {
-		// TODO Auto-generated method stub
 		if (this.target == null) {
 			return super.dispatchDragEvent(event);
 		}
@@ -329,7 +301,6 @@ public class AfViewDelegate extends View{
 
 	@Override
 	public boolean dispatchGenericMotionEvent(MotionEvent event) {
-		// TODO Auto-generated method stub
 		if (this.target == null) {
 			return super.dispatchGenericMotionEvent(event);
 		}
@@ -338,7 +309,6 @@ public class AfViewDelegate extends View{
 
 	@Override
 	public boolean dispatchKeyEvent(KeyEvent event) {
-		// TODO Auto-generated method stub
 		if (this.target == null) {
 			return super.dispatchKeyEvent(event);
 		}
@@ -347,7 +317,6 @@ public class AfViewDelegate extends View{
 
 	@Override
 	public boolean dispatchKeyEventPreIme(KeyEvent event) {
-		// TODO Auto-generated method stub
 		if (this.target == null) {
 			return super.dispatchKeyEventPreIme(event);
 		}
@@ -356,7 +325,6 @@ public class AfViewDelegate extends View{
 
 	@Override
 	public boolean dispatchKeyShortcutEvent(KeyEvent event) {
-		// TODO Auto-generated method stub
 		if (this.target == null) {
 			return super.dispatchKeyShortcutEvent(event);
 		}
@@ -365,7 +333,6 @@ public class AfViewDelegate extends View{
 
 	@Override
 	public boolean dispatchPopulateAccessibilityEvent(AccessibilityEvent event) {
-		// TODO Auto-generated method stub
 		if (this.target == null) {
 			return super.dispatchPopulateAccessibilityEvent(event);
 		}
@@ -374,7 +341,6 @@ public class AfViewDelegate extends View{
 
 	@Override
 	public void dispatchSystemUiVisibilityChanged(int visibility) {
-		// TODO Auto-generated method stub
 		if (this.target == null) {
 			return;
 		}
@@ -383,7 +349,6 @@ public class AfViewDelegate extends View{
 
 	@Override
 	public boolean dispatchTouchEvent(MotionEvent event) {
-		// TODO Auto-generated method stub
 		if (this.target == null) {
 			return super.dispatchTrackballEvent(event);
 		}
@@ -392,7 +357,6 @@ public class AfViewDelegate extends View{
 
 	@Override
 	public boolean dispatchTrackballEvent(MotionEvent event) {
-		// TODO Auto-generated method stub
 		if (this.target == null) {
 			return super.dispatchTrackballEvent(event);
 		}
@@ -401,7 +365,6 @@ public class AfViewDelegate extends View{
 
 	@Override
 	public boolean dispatchUnhandledMove(View focused, int direction) {
-		// TODO Auto-generated method stub
 		if (this.target == null) {
 			return super.dispatchUnhandledMove(focused, direction);
 		}
@@ -410,7 +373,6 @@ public class AfViewDelegate extends View{
 
 	@Override
 	public void dispatchWindowFocusChanged(boolean hasFocus) {
-		// TODO Auto-generated method stub
 		if (this.target == null) {
 			return;
 		}
@@ -419,7 +381,6 @@ public class AfViewDelegate extends View{
 
 	@Override
 	public void dispatchWindowSystemUiVisiblityChanged(int visible) {
-		// TODO Auto-generated method stub
 		if (this.target == null) {
 			return;
 		}
@@ -428,7 +389,6 @@ public class AfViewDelegate extends View{
 
 	@Override
 	public void dispatchWindowVisibilityChanged(int visibility) {
-		// TODO Auto-generated method stub
 		if (this.target == null) {
 			return;
 		}
@@ -437,7 +397,6 @@ public class AfViewDelegate extends View{
 
 	@Override
 	public void draw(Canvas canvas) {
-		// TODO Auto-generated method stub
 		if (this.target == null) {
 			super.draw(canvas);
 			return;
@@ -447,7 +406,6 @@ public class AfViewDelegate extends View{
 
 	@Override
 	public View findFocus() {
-		// TODO Auto-generated method stub
 		if (this.target == null) {
 			return super.findFocus();
 		}
@@ -459,7 +417,6 @@ public class AfViewDelegate extends View{
 	@Override
 	public void findViewsWithText(ArrayList<View> outViews,
 			CharSequence searched, int flags) {
-		// TODO Auto-generated method stub
 		if (this.target == null) {
 			return;
 		}
@@ -468,7 +425,6 @@ public class AfViewDelegate extends View{
 
 	@Override
 	public View focusSearch(int direction) {
-		// TODO Auto-generated method stub
 		if (this.target == null) {
 			return super.focusSearch(direction);
 		}
@@ -477,7 +433,6 @@ public class AfViewDelegate extends View{
 
 	@Override
 	public void forceLayout() {
-		// TODO Auto-generated method stub
 		if (this.target == null) {
 			return;
 		}
@@ -486,7 +441,6 @@ public class AfViewDelegate extends View{
 
 	@Override
 	public int getAccessibilityLiveRegion() {
-		// TODO Auto-generated method stub
 		if (this.target == null) {
 			return super.getAccessibilityLiveRegion();
 		}
@@ -495,7 +449,6 @@ public class AfViewDelegate extends View{
 
 	@Override
 	public AccessibilityNodeProvider getAccessibilityNodeProvider() {
-		// TODO Auto-generated method stub
 		if (this.target == null) {
 			return super.getAccessibilityNodeProvider();
 		}
@@ -503,9 +456,8 @@ public class AfViewDelegate extends View{
 	}
 
 	@Override
-	@ExportedProperty(category = "drawing")
+	//@ExportedProperty(category = "drawing")
 	public float getAlpha() {
-		// TODO Auto-generated method stub
 		if (this.target == null) {
 			return super.getAlpha();
 		}
@@ -514,7 +466,6 @@ public class AfViewDelegate extends View{
 
 	@Override
 	public Animation getAnimation() {
-		// TODO Auto-generated method stub
 		if (this.target == null) {
 			return super.getAnimation();
 		}
@@ -523,7 +474,6 @@ public class AfViewDelegate extends View{
 
 	@Override
 	public IBinder getApplicationWindowToken() {
-		// TODO Auto-generated method stub
 		if (this.target == null) {
 			return super.getApplicationWindowToken();
 		}
@@ -532,7 +482,6 @@ public class AfViewDelegate extends View{
 
 	@Override
 	public Drawable getBackground() {
-		// TODO Auto-generated method stub
 		if (this.target == null) {
 			return super.getBackground();
 		}
@@ -540,9 +489,8 @@ public class AfViewDelegate extends View{
 	}
 
 	@Override
-	@ExportedProperty(category = "layout")
+	//@ExportedProperty(category = "layout")
 	public int getBaseline() {
-		// TODO Auto-generated method stub
 		if (this.target == null) {
 			return super.getBaseline();
 		}
@@ -551,7 +499,6 @@ public class AfViewDelegate extends View{
 
 	@Override
 	public float getCameraDistance() {
-		// TODO Auto-generated method stub
 		if (this.target == null) {
 			return super.getCameraDistance();
 		}
@@ -560,7 +507,6 @@ public class AfViewDelegate extends View{
 
 	@Override
 	public Rect getClipBounds() {
-		// TODO Auto-generated method stub
 		if (this.target == null) {
 			return super.getClipBounds();
 		}
@@ -568,9 +514,8 @@ public class AfViewDelegate extends View{
 	}
 
 	@Override
-	@ExportedProperty(category = "accessibility")
+	//@ExportedProperty(category = "accessibility")
 	public CharSequence getContentDescription() {
-		// TODO Auto-generated method stub
 		if (this.target == null) {
 			return super.getContentDescription();
 		}
@@ -579,7 +524,6 @@ public class AfViewDelegate extends View{
 
 	@Override
 	public Display getDisplay() {
-		// TODO Auto-generated method stub
 		if (this.target == null) {
 			return super.getDisplay();
 		}
@@ -588,7 +532,6 @@ public class AfViewDelegate extends View{
 
 	@Override
 	public Bitmap getDrawingCache() {
-		// TODO Auto-generated method stub
 		if (this.target == null) {
 			return super.getDrawingCache();
 		}
@@ -597,7 +540,6 @@ public class AfViewDelegate extends View{
 
 	@Override
 	public Bitmap getDrawingCache(boolean autoScale) {
-		// TODO Auto-generated method stub
 		if (this.target == null) {
 			return super.getDrawingCache(autoScale);
 		}
@@ -606,7 +548,6 @@ public class AfViewDelegate extends View{
 
 	@Override
 	public int getDrawingCacheBackgroundColor() {
-		// TODO Auto-generated method stub
 		if (this.target == null) {
 			return super.getDrawingCacheBackgroundColor();
 		}
@@ -615,7 +556,6 @@ public class AfViewDelegate extends View{
 
 	@Override
 	public int getDrawingCacheQuality() {
-		// TODO Auto-generated method stub
 		if (this.target == null) {
 			return super.getDrawingCacheQuality();
 		}
@@ -624,7 +564,6 @@ public class AfViewDelegate extends View{
 
 	@Override
 	public void getDrawingRect(Rect outRect) {
-		// TODO Auto-generated method stub
 		if (this.target == null) {
 			return;
 		}
@@ -633,7 +572,6 @@ public class AfViewDelegate extends View{
 
 	@Override
 	public long getDrawingTime() {
-		// TODO Auto-generated method stub
 		if (this.target == null) {
 			return super.getDrawingTime();
 		}
@@ -641,9 +579,8 @@ public class AfViewDelegate extends View{
 	}
 
 	@Override
-	@ExportedProperty
+	//@ExportedProperty
 	public boolean getFilterTouchesWhenObscured() {
-		// TODO Auto-generated method stub
 		if (this.target == null) {
 			return super.getFilterTouchesWhenObscured();
 		}
@@ -652,7 +589,6 @@ public class AfViewDelegate extends View{
 
 	@Override
 	public boolean getFitsSystemWindows() {
-		// TODO Auto-generated method stub
 		if (this.target == null) {
 			return super.getFitsSystemWindows();
 		}
@@ -661,7 +597,6 @@ public class AfViewDelegate extends View{
 
 	@Override
 	public ArrayList<View> getFocusables(int direction) {
-		// TODO Auto-generated method stub
 		if (this.target == null) {
 			return super.getFocusables(direction);
 		}
@@ -670,7 +605,6 @@ public class AfViewDelegate extends View{
 
 	@Override
 	public void getFocusedRect(Rect r) {
-		// TODO Auto-generated method stub
 		if (this.target == null) {
 			return;
 		}
@@ -679,7 +613,6 @@ public class AfViewDelegate extends View{
 
 	@Override
 	public boolean getGlobalVisibleRect(Rect r, Point globalOffset) {
-		// TODO Auto-generated method stub
 		if (this.target == null) {
 			return super.getGlobalVisibleRect(r, globalOffset);
 		}
@@ -688,7 +621,6 @@ public class AfViewDelegate extends View{
 
 	@Override
 	public Handler getHandler() {
-		// TODO Auto-generated method stub
 		if (this.target == null) {
 			return super.getHandler();
 		}
@@ -697,7 +629,6 @@ public class AfViewDelegate extends View{
 
 	@Override
 	public void getHitRect(Rect outRect) {
-		// TODO Auto-generated method stub
 		if (this.target == null) {
 			return;
 		}
@@ -706,7 +637,6 @@ public class AfViewDelegate extends View{
 
 	@Override
 	public int getHorizontalFadingEdgeLength() {
-		// TODO Auto-generated method stub
 		if (this.target == null) {
 			return super.getHorizontalFadingEdgeLength();
 		}
@@ -714,9 +644,8 @@ public class AfViewDelegate extends View{
 	}
 
 	@Override
-	@CapturedViewProperty
+	//@CapturedViewProperty
 	public int getId() {
-		// TODO Auto-generated method stub
 		if (this.target == null) {
 			return super.getId();
 		}
@@ -724,13 +653,12 @@ public class AfViewDelegate extends View{
 	}
 
 	@Override
-	@ExportedProperty(category = "accessibility", mapping = {
-			@IntToString(from = 0, to = "auto"),
-			@IntToString(from = 1, to = "yes"),
-			@IntToString(from = 2, to = "no"),
-			@IntToString(from = 4, to = "noHideDescendants") })
+	//@ExportedProperty(category = "accessibility", mapping = {
+			//@IntToString(from = 0, to = "auto"),
+			//@IntToString(from = 1, to = "yes"),
+			//@IntToString(from = 2, to = "no"),
+			//@IntToString(from = 4, to = "noHideDescendants") })
 	public int getImportantForAccessibility() {
-		// TODO Auto-generated method stub
 		if (this.target == null) {
 			return super.getImportantForAccessibility();
 		}
@@ -739,7 +667,6 @@ public class AfViewDelegate extends View{
 
 	@Override
 	public boolean getKeepScreenOn() {
-		// TODO Auto-generated method stub
 		if (this.target == null) {
 			return super.getKeepScreenOn();
 		}
@@ -748,7 +675,6 @@ public class AfViewDelegate extends View{
 
 	@Override
 	public DispatcherState getKeyDispatcherState() {
-		// TODO Auto-generated method stub
 		if (this.target == null) {
 			return super.getKeyDispatcherState();
 		}
@@ -756,9 +682,8 @@ public class AfViewDelegate extends View{
 	}
 
 	@Override
-	@ExportedProperty(category = "accessibility")
+	//@ExportedProperty(category = "accessibility")
 	public int getLabelFor() {
-		// TODO Auto-generated method stub
 		if (this.target == null) {
 			return super.getLabelFor();
 		}
@@ -767,7 +692,6 @@ public class AfViewDelegate extends View{
 
 	@Override
 	public int getLayerType() {
-		// TODO Auto-generated method stub
 		if (this.target == null) {
 			return super.getLayerType();
 		}
@@ -775,11 +699,10 @@ public class AfViewDelegate extends View{
 	}
 
 	@Override
-	@ExportedProperty(category = "layout", mapping = {
-			@IntToString(from = 0, to = "RESOLVED_DIRECTION_LTR"),
-			@IntToString(from = 1, to = "RESOLVED_DIRECTION_RTL") })
+	//@ExportedProperty(category = "layout", mapping = {
+			//@IntToString(from = 0, to = "RESOLVED_DIRECTION_LTR"),
+			//@IntToString(from = 1, to = "RESOLVED_DIRECTION_RTL") })
 	public int getLayoutDirection() {
-		// TODO Auto-generated method stub
 		if (this.target == null) {
 			return super.getLayoutDirection();
 		}
@@ -787,9 +710,8 @@ public class AfViewDelegate extends View{
 	}
 
 	@Override
-	@ExportedProperty(deepExport = true, prefix = "layout_")
+	//@ExportedProperty(deepExport = true, prefix = "layout_")
 	public LayoutParams getLayoutParams() {
-		// TODO Auto-generated method stub
 		if (this.target == null) {
 			return super.getLayoutParams();
 		}
@@ -798,7 +720,6 @@ public class AfViewDelegate extends View{
 
 	@Override
 	public void getLocationInWindow(int[] location) {
-		// TODO Auto-generated method stub
 		if (this.target == null) {
 			return;
 		}
@@ -807,7 +728,6 @@ public class AfViewDelegate extends View{
 
 	@Override
 	public void getLocationOnScreen(int[] location) {
-		// TODO Auto-generated method stub
 		if (this.target == null) {
 			return;
 		}
@@ -816,7 +736,6 @@ public class AfViewDelegate extends View{
 
 	@Override
 	public Matrix getMatrix() {
-		// TODO Auto-generated method stub
 		if (this.target == null) {
 			return super.getMatrix();
 		}
@@ -825,7 +744,6 @@ public class AfViewDelegate extends View{
 
 	@Override
 	public int getMinimumHeight() {
-		// TODO Auto-generated method stub
 		if (this.target == null) {
 			return super.getMinimumHeight();
 		}
@@ -834,7 +752,6 @@ public class AfViewDelegate extends View{
 
 	@Override
 	public int getMinimumWidth() {
-		// TODO Auto-generated method stub
 		if (this.target == null) {
 			return super.getMinimumWidth();
 		}
@@ -843,7 +760,6 @@ public class AfViewDelegate extends View{
 
 	@Override
 	public int getNextFocusDownId() {
-		// TODO Auto-generated method stub
 		if (this.target == null) {
 			return super.getNextFocusDownId();
 		}
@@ -852,7 +768,6 @@ public class AfViewDelegate extends View{
 
 	@Override
 	public int getNextFocusForwardId() {
-		// TODO Auto-generated method stub
 		if (this.target == null) {
 			return super.getNextFocusForwardId();
 		}
@@ -861,7 +776,6 @@ public class AfViewDelegate extends View{
 
 	@Override
 	public int getNextFocusLeftId() {
-		// TODO Auto-generated method stub
 		if (this.target == null) {
 			return super.getNextFocusLeftId();
 		}
@@ -870,7 +784,6 @@ public class AfViewDelegate extends View{
 
 	@Override
 	public int getNextFocusRightId() {
-		// TODO Auto-generated method stub
 		if (this.target == null) {
 			return super.getNextFocusRightId();
 		}
@@ -879,7 +792,6 @@ public class AfViewDelegate extends View{
 
 	@Override
 	public int getNextFocusUpId() {
-		// TODO Auto-generated method stub
 		if (this.target == null) {
 			return super.getNextFocusUpId();
 		}
@@ -888,7 +800,6 @@ public class AfViewDelegate extends View{
 
 	@Override
 	public OnFocusChangeListener getOnFocusChangeListener() {
-		// TODO Auto-generated method stub
 		if (this.target == null) {
 			return super.getOnFocusChangeListener();
 		}
@@ -897,7 +808,6 @@ public class AfViewDelegate extends View{
 
 	@Override
 	public int getOverScrollMode() {
-		// TODO Auto-generated method stub
 		if (this.target == null) {
 			return super.getOverScrollMode();
 		}
@@ -906,7 +816,6 @@ public class AfViewDelegate extends View{
 
 	@Override
 	public ViewOverlay getOverlay() {
-		// TODO Auto-generated method stub
 		if (this.target == null) {
 			return super.getOverlay();
 		}
@@ -915,7 +824,6 @@ public class AfViewDelegate extends View{
 
 	@Override
 	public int getPaddingBottom() {
-		// TODO Auto-generated method stub
 		if (this.target == null) {
 			return super.getPaddingBottom();
 		}
@@ -924,7 +832,6 @@ public class AfViewDelegate extends View{
 
 	@Override
 	public int getPaddingEnd() {
-		// TODO Auto-generated method stub
 		if (this.target == null) {
 			return super.getPaddingEnd();
 		}
@@ -933,7 +840,6 @@ public class AfViewDelegate extends View{
 
 	@Override
 	public int getPaddingLeft() {
-		// TODO Auto-generated method stub
 		if (this.target == null) {
 			return super.getPaddingLeft();
 		}
@@ -942,7 +848,6 @@ public class AfViewDelegate extends View{
 
 	@Override
 	public int getPaddingRight() {
-		// TODO Auto-generated method stub
 		if (this.target == null) {
 			return super.getPaddingRight();
 		}
@@ -951,7 +856,6 @@ public class AfViewDelegate extends View{
 
 	@Override
 	public int getPaddingStart() {
-		// TODO Auto-generated method stub
 		if (this.target == null) {
 			return super.getPaddingStart();
 		}
@@ -960,7 +864,6 @@ public class AfViewDelegate extends View{
 
 	@Override
 	public int getPaddingTop() {
-		// TODO Auto-generated method stub
 		if (this.target == null) {
 			return super.getPaddingTop();
 		}
@@ -969,7 +872,6 @@ public class AfViewDelegate extends View{
 
 	@Override
 	public ViewParent getParentForAccessibility() {
-		// TODO Auto-generated method stub
 		if (this.target == null) {
 			return super.getParentForAccessibility();
 		}
@@ -977,9 +879,8 @@ public class AfViewDelegate extends View{
 	}
 
 	@Override
-	@ExportedProperty(category = "drawing")
+	//@ExportedProperty(category = "drawing")
 	public float getPivotX() {
-		// TODO Auto-generated method stub
 		if (this.target == null) {
 			return super.getPivotX();
 		}
@@ -987,9 +888,8 @@ public class AfViewDelegate extends View{
 	}
 
 	@Override
-	@ExportedProperty(category = "drawing")
+	//@ExportedProperty(category = "drawing")
 	public float getPivotY() {
-		// TODO Auto-generated method stub
 		if (this.target == null) {
 			return super.getPivotY();
 		}
@@ -998,7 +898,6 @@ public class AfViewDelegate extends View{
 
 	@Override
 	public Resources getResources() {
-		// TODO Auto-generated method stub
 		if (this.target == null) {
 			return super.getResources();
 		}
@@ -1007,7 +906,6 @@ public class AfViewDelegate extends View{
 
 	@Override
 	public View getRootView() {
-		// TODO Auto-generated method stub
 		if (this.target == null) {
 			return super.getRootView();
 		}
@@ -1015,9 +913,8 @@ public class AfViewDelegate extends View{
 	}
 
 	@Override
-	@ExportedProperty(category = "drawing")
+	//@ExportedProperty(category = "drawing")
 	public float getRotation() {
-		// TODO Auto-generated method stub
 		if (this.target == null) {
 			return super.getRotation();
 		}
@@ -1025,9 +922,8 @@ public class AfViewDelegate extends View{
 	}
 
 	@Override
-	@ExportedProperty(category = "drawing")
+	//@ExportedProperty(category = "drawing")
 	public float getRotationX() {
-		// TODO Auto-generated method stub
 		if (this.target == null) {
 			return super.getRotationX();
 		}
@@ -1035,9 +931,8 @@ public class AfViewDelegate extends View{
 	}
 
 	@Override
-	@ExportedProperty(category = "drawing")
+	//@ExportedProperty(category = "drawing")
 	public float getRotationY() {
-		// TODO Auto-generated method stub
 		if (this.target == null) {
 			return super.getRotationY();
 		}
@@ -1045,9 +940,8 @@ public class AfViewDelegate extends View{
 	}
 
 	@Override
-	@ExportedProperty(category = "drawing")
+	//@ExportedProperty(category = "drawing")
 	public float getScaleX() {
-		// TODO Auto-generated method stub
 		if (this.target == null) {
 			return super.getScaleY();
 		}
@@ -1055,9 +949,8 @@ public class AfViewDelegate extends View{
 	}
 
 	@Override
-	@ExportedProperty(category = "drawing")
+	//@ExportedProperty(category = "drawing")
 	public float getScaleY() {
-		// TODO Auto-generated method stub
 		if (this.target == null) {
 			return super.getScaleY();
 		}
@@ -1066,7 +959,6 @@ public class AfViewDelegate extends View{
 
 	@Override
 	public int getScrollBarDefaultDelayBeforeFade() {
-		// TODO Auto-generated method stub
 		if (this.target == null) {
 			return super.getScrollBarDefaultDelayBeforeFade();
 		}
@@ -1075,7 +967,6 @@ public class AfViewDelegate extends View{
 
 	@Override
 	public int getScrollBarFadeDuration() {
-		// TODO Auto-generated method stub
 		if (this.target == null) {
 			return super.getScrollBarFadeDuration();
 		}
@@ -1084,7 +975,6 @@ public class AfViewDelegate extends View{
 
 	@Override
 	public int getScrollBarSize() {
-		// TODO Auto-generated method stub
 		if (this.target == null) {
 			return super.getScrollBarSize();
 		}
@@ -1092,13 +982,12 @@ public class AfViewDelegate extends View{
 	}
 
 	@Override
-	@ExportedProperty(mapping = {
-			@IntToString(from = 0, to = "INSIDE_OVERLAY"),
-			@IntToString(from = 16777216, to = "INSIDE_INSET"),
-			@IntToString(from = 33554432, to = "OUTSIDE_OVERLAY"),
-			@IntToString(from = 50331648, to = "OUTSIDE_INSET") })
+	//@ExportedProperty(mapping = {
+			//@IntToString(from = 0, to = "INSIDE_OVERLAY"),
+			//@IntToString(from = 16777216, to = "INSIDE_INSET"),
+			//@IntToString(from = 33554432, to = "OUTSIDE_OVERLAY"),
+			//@IntToString(from = 50331648, to = "OUTSIDE_INSET") })
 	public int getScrollBarStyle() {
-		// TODO Auto-generated method stub
 		if (this.target == null) {
 			return super.getScrollBarStyle();
 		}
@@ -1106,9 +995,8 @@ public class AfViewDelegate extends View{
 	}
 
 	@Override
-	@ExportedProperty(category = "drawing")
+	//@ExportedProperty(category = "drawing")
 	public int getSolidColor() {
-		// TODO Auto-generated method stub
 		if (this.target == null) {
 			return super.getSolidColor();
 		}
@@ -1117,7 +1005,6 @@ public class AfViewDelegate extends View{
 
 	@Override
 	public int getSystemUiVisibility() {
-		// TODO Auto-generated method stub
 		if (this.target == null) {
 			return super.getSystemUiVisibility();
 		}
@@ -1125,9 +1012,8 @@ public class AfViewDelegate extends View{
 	}
 
 	@Override
-	@ExportedProperty
+	//@ExportedProperty
 	public Object getTag() {
-		// TODO Auto-generated method stub
 		if (this.target == null) {
 			return super.getTag();
 		}
@@ -1136,7 +1022,6 @@ public class AfViewDelegate extends View{
 
 	@Override
 	public Object getTag(int key) {
-		// TODO Auto-generated method stub
 		if (this.target == null) {
 			return super.getTag(key);
 		}
@@ -1144,16 +1029,15 @@ public class AfViewDelegate extends View{
 	}
 
 	@Override
-	@ExportedProperty(category = "text", mapping = {
-			@IntToString(from = 0, to = "INHERIT"),
-			@IntToString(from = 1, to = "GRAVITY"),
-			@IntToString(from = 2, to = "TEXT_START"),
-			@IntToString(from = 3, to = "TEXT_END"),
-			@IntToString(from = 4, to = "CENTER"),
-			@IntToString(from = 5, to = "VIEW_START"),
-			@IntToString(from = 6, to = "VIEW_END") })
+	//@ExportedProperty(category = "text", mapping = {
+			//@IntToString(from = 0, to = "INHERIT"),
+			//@IntToString(from = 1, to = "GRAVITY"),
+			//@IntToString(from = 2, to = "TEXT_START"),
+			//@IntToString(from = 3, to = "TEXT_END"),
+			//@IntToString(from = 4, to = "CENTER"),
+			//@IntToString(from = 5, to = "VIEW_START"),
+			//@IntToString(from = 6, to = "VIEW_END") })
 	public int getTextAlignment() {
-		// TODO Auto-generated method stub
 		if (this.target == null) {
 			return super.getTextAlignment();
 		}
@@ -1161,15 +1045,14 @@ public class AfViewDelegate extends View{
 	}
 
 	@Override
-	@ExportedProperty(category = "text", mapping = {
-			@IntToString(from = 0, to = "INHERIT"),
-			@IntToString(from = 1, to = "FIRST_STRONG"),
-			@IntToString(from = 2, to = "ANY_RTL"),
-			@IntToString(from = 3, to = "LTR"),
-			@IntToString(from = 4, to = "RTL"),
-			@IntToString(from = 5, to = "LOCALE") })
+	//@ExportedProperty(category = "text", mapping = {
+			//@IntToString(from = 0, to = "INHERIT"),
+			//@IntToString(from = 1, to = "FIRST_STRONG"),
+			//@IntToString(from = 2, to = "ANY_RTL"),
+			//@IntToString(from = 3, to = "LTR"),
+			//@IntToString(from = 4, to = "RTL"),
+			//@IntToString(from = 5, to = "LOCALE") })
 	public int getTextDirection() {
-		// TODO Auto-generated method stub
 		if (this.target == null) {
 			return super.getTextDirection();
 		}
@@ -1178,7 +1061,6 @@ public class AfViewDelegate extends View{
 
 	@Override
 	public TouchDelegate getTouchDelegate() {
-		// TODO Auto-generated method stub
 		if (this.target == null) {
 			return super.getTouchDelegate();
 		}
@@ -1187,7 +1069,6 @@ public class AfViewDelegate extends View{
 
 	@Override
 	public ArrayList<View> getTouchables() {
-		// TODO Auto-generated method stub
 		if (this.target == null) {
 			return super.getTouchables();
 		}
@@ -1195,9 +1076,8 @@ public class AfViewDelegate extends View{
 	}
 
 	@Override
-	@ExportedProperty(category = "drawing")
+	//@ExportedProperty(category = "drawing")
 	public float getTranslationX() {
-		// TODO Auto-generated method stub
 		if (this.target == null) {
 			return super.getTranslationX();
 		}
@@ -1205,9 +1085,8 @@ public class AfViewDelegate extends View{
 	}
 
 	@Override
-	@ExportedProperty(category = "drawing")
+	//@ExportedProperty(category = "drawing")
 	public float getTranslationY() {
-		// TODO Auto-generated method stub
 		if (this.target == null) {
 			return super.getTranslationY();
 		}
@@ -1216,7 +1095,6 @@ public class AfViewDelegate extends View{
 
 	@Override
 	public int getVerticalFadingEdgeLength() {
-		// TODO Auto-generated method stub
 		if (this.target == null) {
 			return super.getVerticalFadingEdgeLength();
 		}
@@ -1225,7 +1103,6 @@ public class AfViewDelegate extends View{
 
 	@Override
 	public int getVerticalScrollbarPosition() {
-		// TODO Auto-generated method stub
 		if (this.target == null) {
 			return super.getVerticalScrollbarPosition();
 		}
@@ -1234,7 +1111,6 @@ public class AfViewDelegate extends View{
 
 	@Override
 	public int getVerticalScrollbarWidth() {
-		// TODO Auto-generated method stub
 		if (this.target == null) {
 			return super.getVerticalScrollbarWidth();
 		}
@@ -1243,7 +1119,6 @@ public class AfViewDelegate extends View{
 
 	@Override
 	public ViewTreeObserver getViewTreeObserver() {
-		// TODO Auto-generated method stub
 		if (this.target == null) {
 			return super.getViewTreeObserver();
 		}
@@ -1251,11 +1126,10 @@ public class AfViewDelegate extends View{
 	}
 
 	@Override
-	@ExportedProperty(mapping = { @IntToString(from = 0, to = "VISIBLE"),
-			@IntToString(from = 4, to = "INVISIBLE"),
-			@IntToString(from = 8, to = "GONE") })
+	//@ExportedProperty(mapping = { //@IntToString(from = 0, to = "VISIBLE"),
+			//@IntToString(from = 4, to = "INVISIBLE"),
+			//@IntToString(from = 8, to = "GONE") })
 	public int getVisibility() {
-		// TODO Auto-generated method stub
 		if (this.target == null) {
 			return super.getVisibility();
 		}
@@ -1264,7 +1138,6 @@ public class AfViewDelegate extends View{
 
 	@Override
 	public WindowId getWindowId() {
-		// TODO Auto-generated method stub
 		if (this.target == null) {
 			return super.getWindowId();
 		}
@@ -1273,7 +1146,6 @@ public class AfViewDelegate extends View{
 
 	@Override
 	public int getWindowSystemUiVisibility() {
-		// TODO Auto-generated method stub
 		if (this.target == null) {
 			return super.getWindowSystemUiVisibility();
 		}
@@ -1282,7 +1154,6 @@ public class AfViewDelegate extends View{
 
 	@Override
 	public IBinder getWindowToken() {
-		// TODO Auto-generated method stub
 		if (this.target == null) {
 			return super.getWindowToken();
 		}
@@ -1291,7 +1162,6 @@ public class AfViewDelegate extends View{
 
 	@Override
 	public int getWindowVisibility() {
-		// TODO Auto-generated method stub
 		if (this.target == null) {
 			return super.getWindowVisibility();
 		}
@@ -1300,7 +1170,6 @@ public class AfViewDelegate extends View{
 
 	@Override
 	public void getWindowVisibleDisplayFrame(Rect outRect) {
-		// TODO Auto-generated method stub
 		if (this.target == null) {
 			return;
 		}
@@ -1308,9 +1177,8 @@ public class AfViewDelegate extends View{
 	}
 
 	@Override
-	@ExportedProperty(category = "drawing")
+	//@ExportedProperty(category = "drawing")
 	public float getX() {
-		// TODO Auto-generated method stub
 		if (this.target == null) {
 			return super.getX();
 		}
@@ -1318,9 +1186,8 @@ public class AfViewDelegate extends View{
 	}
 
 	@Override
-	@ExportedProperty(category = "drawing")
+	//@ExportedProperty(category = "drawing")
 	public float getY() {
-		// TODO Auto-generated method stub
 		if (this.target == null) {
 			return super.getY();
 		}
@@ -1328,9 +1195,8 @@ public class AfViewDelegate extends View{
 	}
 
 	@Override
-	@ExportedProperty(category = "focus")
+	//@ExportedProperty(category = "focus")
 	public boolean hasFocus() {
-		// TODO Auto-generated method stub
 		if (this.target == null) {
 			return super.hasFocus();
 		}
@@ -1339,7 +1205,6 @@ public class AfViewDelegate extends View{
 
 	@Override
 	public boolean hasFocusable() {
-		// TODO Auto-generated method stub
 		if (this.target == null) {
 			return super.hasFocusable();
 		}
@@ -1348,7 +1213,6 @@ public class AfViewDelegate extends View{
 
 	@Override
 	public boolean hasOnClickListeners() {
-		// TODO Auto-generated method stub
 		if (this.target == null) {
 			return super.hasOnClickListeners();
 		}
@@ -1357,7 +1221,6 @@ public class AfViewDelegate extends View{
 
 	@Override
 	public boolean hasOverlappingRendering() {
-		// TODO Auto-generated method stub
 		if (this.target == null) {
 			return super.hasOverlappingRendering();
 		}
@@ -1365,9 +1228,8 @@ public class AfViewDelegate extends View{
 	}
 
 	@Override
-	@ExportedProperty(category = "layout")
+	//@ExportedProperty(category = "layout")
 	public boolean hasTransientState() {
-		// TODO Auto-generated method stub
 		if (this.target == null) {
 			return super.hasTransientState();
 		}
@@ -1376,7 +1238,6 @@ public class AfViewDelegate extends View{
 
 	@Override
 	public boolean hasWindowFocus() {
-		// TODO Auto-generated method stub
 		if (this.target == null) {
 			return super.hasWindowFocus();
 		}
@@ -1385,7 +1246,6 @@ public class AfViewDelegate extends View{
 
 	@Override
 	public void invalidate() {
-		// TODO Auto-generated method stub
 		if (this.target == null) {
 			return;
 		}
@@ -1394,7 +1254,6 @@ public class AfViewDelegate extends View{
 
 	@Override
 	public void invalidate(int l, int t, int r, int b) {
-		// TODO Auto-generated method stub
 		if (this.target == null) {
 			return;
 		}
@@ -1403,7 +1262,6 @@ public class AfViewDelegate extends View{
 
 	@Override
 	public void invalidate(Rect dirty) {
-		// TODO Auto-generated method stub
 		if (this.target == null) {
 			return;
 		}
@@ -1412,7 +1270,6 @@ public class AfViewDelegate extends View{
 
 	@Override
 	public void invalidateDrawable(Drawable drawable) {
-		// TODO Auto-generated method stub
 		if (this.target == null) {
 			return;
 		}
@@ -1420,9 +1277,8 @@ public class AfViewDelegate extends View{
 	}
 
 	@Override
-	@ExportedProperty
+	//@ExportedProperty
 	public boolean isActivated() {
-		// TODO Auto-generated method stub
 		if (this.target == null) {
 			return super.isActivated();
 		}
@@ -1431,7 +1287,6 @@ public class AfViewDelegate extends View{
 
 	@Override
 	public boolean isAttachedToWindow() {
-		// TODO Auto-generated method stub
 		if (this.target == null) {
 			return super.isAttachedToWindow();
 		}
@@ -1439,9 +1294,8 @@ public class AfViewDelegate extends View{
 	}
 
 	@Override
-	@ExportedProperty
+	//@ExportedProperty
 	public boolean isClickable() {
-		// TODO Auto-generated method stub
 		if (this.target == null) {
 			return super.isClickable();
 		}
@@ -1450,7 +1304,6 @@ public class AfViewDelegate extends View{
 
 	@Override
 	public boolean isDirty() {
-		// TODO Auto-generated method stub
 		if (this.target == null) {
 			return super.isDirty();
 		}
@@ -1458,9 +1311,8 @@ public class AfViewDelegate extends View{
 	}
 
 	@Override
-	@ExportedProperty(category = "drawing")
+	//@ExportedProperty(category = "drawing")
 	public boolean isDrawingCacheEnabled() {
-		// TODO Auto-generated method stub
 		if (this.target == null) {
 			return super.isDrawingCacheEnabled();
 		}
@@ -1469,7 +1321,6 @@ public class AfViewDelegate extends View{
 
 	@Override
 	public boolean isDuplicateParentStateEnabled() {
-		// TODO Auto-generated method stub
 		if (this.target == null) {
 			return super.isDuplicateParentStateEnabled();
 		}
@@ -1477,9 +1328,8 @@ public class AfViewDelegate extends View{
 	}
 
 	@Override
-	@ExportedProperty
+	//@ExportedProperty
 	public boolean isEnabled() {
-		// TODO Auto-generated method stub
 		if (this.target == null) {
 			return super.isEnabled();
 		}
@@ -1487,9 +1337,8 @@ public class AfViewDelegate extends View{
 	}
 
 	@Override
-	@ExportedProperty(category = "focus")
+	//@ExportedProperty(category = "focus")
 	public boolean isFocused() {
-		// TODO Auto-generated method stub
 		if (this.target == null) {
 			return super.isFocused();
 		}
@@ -1497,9 +1346,8 @@ public class AfViewDelegate extends View{
 	}
 
 	@Override
-	@ExportedProperty
+	//@ExportedProperty
 	public boolean isHapticFeedbackEnabled() {
-		// TODO Auto-generated method stub
 		if (this.target == null) {
 			return super.isHapticFeedbackEnabled();
 		}
@@ -1508,7 +1356,6 @@ public class AfViewDelegate extends View{
 
 	@Override
 	public boolean isHardwareAccelerated() {
-		// TODO Auto-generated method stub
 		if (this.target == null) {
 			return super.isHardwareAccelerated();
 		}
@@ -1517,7 +1364,6 @@ public class AfViewDelegate extends View{
 
 	@Override
 	public boolean isHorizontalFadingEdgeEnabled() {
-		// TODO Auto-generated method stub
 		if (this.target == null) {
 			return super.isHorizontalFadingEdgeEnabled();
 		}
@@ -1526,7 +1372,6 @@ public class AfViewDelegate extends View{
 
 	@Override
 	public boolean isHorizontalScrollBarEnabled() {
-		// TODO Auto-generated method stub
 		if (this.target == null) {
 			return super.isHorizontalScrollBarEnabled();
 		}
@@ -1534,9 +1379,8 @@ public class AfViewDelegate extends View{
 	}
 
 	@Override
-	@ExportedProperty
+	//@ExportedProperty
 	public boolean isHovered() {
-		// TODO Auto-generated method stub
 		if (this.target == null) {
 			return super.isHovered();
 		}
@@ -1545,7 +1389,6 @@ public class AfViewDelegate extends View{
 
 	@Override
 	public boolean isInEditMode() {
-		// TODO Auto-generated method stub
 		if (this.target == null) {
 			return super.isInLayout();
 		}
@@ -1554,7 +1397,6 @@ public class AfViewDelegate extends View{
 
 	@Override
 	public boolean isInLayout() {
-		// TODO Auto-generated method stub
 		if (this.target == null) {
 			return super.isInLayout();
 		}
@@ -1562,9 +1404,8 @@ public class AfViewDelegate extends View{
 	}
 
 	@Override
-	@ExportedProperty
+	//@ExportedProperty
 	public boolean isInTouchMode() {
-		// TODO Auto-generated method stub
 		if (this.target == null) {
 			return super.isInTouchMode();
 		}
@@ -1573,7 +1414,6 @@ public class AfViewDelegate extends View{
 
 	@Override
 	public boolean isLaidOut() {
-		// TODO Auto-generated method stub
 		if (this.target == null) {
 			return super.isLaidOut();
 		}
@@ -1582,7 +1422,6 @@ public class AfViewDelegate extends View{
 
 	@Override
 	public boolean isLayoutDirectionResolved() {
-		// TODO Auto-generated method stub
 		if (this.target == null) {
 			return super.isLayoutDirectionResolved();
 		}
@@ -1591,7 +1430,6 @@ public class AfViewDelegate extends View{
 
 	@Override
 	public boolean isLayoutRequested() {
-		// TODO Auto-generated method stub
 		if (this.target == null) {
 			return super.isLayoutRequested();
 		}
@@ -1600,7 +1438,6 @@ public class AfViewDelegate extends View{
 
 	@Override
 	public boolean isLongClickable() {
-		// TODO Auto-generated method stub
 		if (this.target == null) {
 			return super.isLongClickable();
 		}
@@ -1608,9 +1445,8 @@ public class AfViewDelegate extends View{
 	}
 
 	@Override
-	@ExportedProperty(category = "drawing")
+	//@ExportedProperty(category = "drawing")
 	public boolean isOpaque() {
-		// TODO Auto-generated method stub
 		if (this.target == null) {
 			return super.isOpaque();
 		}
@@ -1619,7 +1455,6 @@ public class AfViewDelegate extends View{
 
 	@Override
 	public boolean isPaddingRelative() {
-		// TODO Auto-generated method stub
 		if (this.target == null) {
 			return super.isPaddingRelative();
 		}
@@ -1628,7 +1463,6 @@ public class AfViewDelegate extends View{
 
 	@Override
 	public boolean isPressed() {
-		// TODO Auto-generated method stub
 		if (this.target == null) {
 			return super.isPressed();
 		}
@@ -1637,7 +1471,6 @@ public class AfViewDelegate extends View{
 
 	@Override
 	public boolean isSaveEnabled() {
-		// TODO Auto-generated method stub
 		if (this.target == null) {
 			return super.isSaveEnabled();
 		}
@@ -1646,7 +1479,6 @@ public class AfViewDelegate extends View{
 
 	@Override
 	public boolean isSaveFromParentEnabled() {
-		// TODO Auto-generated method stub
 		if (this.target == null) {
 			return super.isSaveFromParentEnabled();
 		}
@@ -1655,7 +1487,6 @@ public class AfViewDelegate extends View{
 
 	@Override
 	public boolean isScrollContainer() {
-		// TODO Auto-generated method stub
 		if (this.target == null) {
 			return super.isScrollContainer();
 		}
@@ -1664,7 +1495,6 @@ public class AfViewDelegate extends View{
 
 	@Override
 	public boolean isScrollbarFadingEnabled() {
-		// TODO Auto-generated method stub
 		if (this.target == null) {
 			return super.isScrollbarFadingEnabled();
 		}
@@ -1672,9 +1502,8 @@ public class AfViewDelegate extends View{
 	}
 
 	@Override
-	@ExportedProperty
+	//@ExportedProperty
 	public boolean isSelected() {
-		// TODO Auto-generated method stub
 		if (this.target == null) {
 			return super.isSelected();
 		}
@@ -1683,7 +1512,6 @@ public class AfViewDelegate extends View{
 
 	@Override
 	public boolean isShown() {
-		// TODO Auto-generated method stub
 		if (this.target == null) {
 			return super.isShown();
 		}
@@ -1691,9 +1519,8 @@ public class AfViewDelegate extends View{
 	}
 
 	@Override
-	@ExportedProperty
+	//@ExportedProperty
 	public boolean isSoundEffectsEnabled() {
-		// TODO Auto-generated method stub
 		if (this.target == null) {
 			return super.isSoundEffectsEnabled();
 		}
@@ -1702,7 +1529,6 @@ public class AfViewDelegate extends View{
 
 	@Override
 	public boolean isTextAlignmentResolved() {
-		// TODO Auto-generated method stub
 		if (this.target == null) {
 			return super.isTextAlignmentResolved();
 		}
@@ -1711,7 +1537,6 @@ public class AfViewDelegate extends View{
 
 	@Override
 	public boolean isTextDirectionResolved() {
-		// TODO Auto-generated method stub
 		if (this.target == null) {
 			return super.isTextDirectionResolved();
 		}
@@ -1720,7 +1545,6 @@ public class AfViewDelegate extends View{
 
 	@Override
 	public boolean isVerticalFadingEdgeEnabled() {
-		// TODO Auto-generated method stub
 		if (this.target == null) {
 			return super.isVerticalFadingEdgeEnabled();
 		}
@@ -1729,7 +1553,6 @@ public class AfViewDelegate extends View{
 
 	@Override
 	public boolean isVerticalScrollBarEnabled() {
-		// TODO Auto-generated method stub
 		if (this.target == null) {
 			return super.isVerticalScrollBarEnabled();
 		}
@@ -1738,7 +1561,6 @@ public class AfViewDelegate extends View{
 
 	@Override
 	public void jumpDrawablesToCurrentState() {
-		// TODO Auto-generated method stub
 		if (this.target == null) {
 			return;
 		}
@@ -1757,7 +1579,6 @@ public class AfViewDelegate extends View{
 	@Override
 	protected void onLayout(boolean changed, int left, int top, int right,
 			int bottom) {
-		// TODO Auto-generated method stub
 		if (this.target == null) {
 			super.onLayout(changed, left, top, right, bottom);
 		}
@@ -1766,7 +1587,6 @@ public class AfViewDelegate extends View{
 
 	@Override
 	public void offsetLeftAndRight(int offset) {
-		// TODO Auto-generated method stub
 		if (this.target == null) {
 			return;
 		}
@@ -1775,7 +1595,6 @@ public class AfViewDelegate extends View{
 
 	@Override
 	public void offsetTopAndBottom(int offset) {
-		// TODO Auto-generated method stub
 		if (this.target == null) {
 			return;
 		}
@@ -1784,7 +1603,6 @@ public class AfViewDelegate extends View{
 
 	@Override
 	public WindowInsets onApplyWindowInsets(WindowInsets insets) {
-		// TODO Auto-generated method stub
 		if (this.target == null) {
 			return super.onApplyWindowInsets(insets);
 		}
@@ -1793,7 +1611,6 @@ public class AfViewDelegate extends View{
 
 	@Override
 	public void onCancelPendingInputEvents() {
-		// TODO Auto-generated method stub
 		if (this.target == null) {
 			return;
 		}
@@ -1802,7 +1619,6 @@ public class AfViewDelegate extends View{
 
 	@Override
 	public boolean onCheckIsTextEditor() {
-		// TODO Auto-generated method stub
 		if (this.target == null) {
 			return super.onCheckIsTextEditor();
 		}
@@ -1811,7 +1627,6 @@ public class AfViewDelegate extends View{
 
 	@Override
 	public InputConnection onCreateInputConnection(EditorInfo outAttrs) {
-		// TODO Auto-generated method stub
 		if (this.target == null) {
 			return super.onCreateInputConnection(outAttrs);
 		}
@@ -1820,7 +1635,6 @@ public class AfViewDelegate extends View{
 
 	@Override
 	public boolean onDragEvent(DragEvent event) {
-		// TODO Auto-generated method stub
 		if (this.target == null) {
 			return super.onDragEvent(event);
 		}
@@ -1829,7 +1643,6 @@ public class AfViewDelegate extends View{
 
 	@Override
 	public boolean onFilterTouchEventForSecurity(MotionEvent event) {
-		// TODO Auto-generated method stub
 		if (this.target == null) {
 			return super.onFilterTouchEventForSecurity(event);
 		}
@@ -1838,7 +1651,6 @@ public class AfViewDelegate extends View{
 
 	@Override
 	public void onFinishTemporaryDetach() {
-		// TODO Auto-generated method stub
 		if (this.target == null) {
 			return;
 		}
@@ -1847,7 +1659,6 @@ public class AfViewDelegate extends View{
 
 	@Override
 	public boolean onGenericMotionEvent(MotionEvent event) {
-		// TODO Auto-generated method stub
 		if (this.target == null) {
 			return super.onGenericMotionEvent(event);
 		}
@@ -1856,7 +1667,6 @@ public class AfViewDelegate extends View{
 
 	@Override
 	public void onHoverChanged(boolean hovered) {
-		// TODO Auto-generated method stub
 		if (this.target == null) {
 			return;
 		}
@@ -1865,7 +1675,6 @@ public class AfViewDelegate extends View{
 
 	@Override
 	public boolean onHoverEvent(MotionEvent event) {
-		// TODO Auto-generated method stub
 		if (this.target == null) {
 			return super.onHoverEvent(event);
 		}
@@ -1874,7 +1683,6 @@ public class AfViewDelegate extends View{
 
 	@Override
 	public void onInitializeAccessibilityEvent(AccessibilityEvent event) {
-		// TODO Auto-generated method stub
 		super.onInitializeAccessibilityEvent(event);
 		if (this.target == null) {
 			return;
@@ -1884,7 +1692,6 @@ public class AfViewDelegate extends View{
 
 	@Override
 	public void onInitializeAccessibilityNodeInfo(AccessibilityNodeInfo info) {
-		// TODO Auto-generated method stub
 		super.onInitializeAccessibilityNodeInfo(info);
 		if (this.target == null) {
 			return;
@@ -1894,7 +1701,6 @@ public class AfViewDelegate extends View{
 
 	@Override
 	public boolean onKeyDown(int keyCode, KeyEvent event) {
-		// TODO Auto-generated method stub
 		if (this.target == null) {
 			return super.onKeyDown(keyCode, event);
 		}
@@ -1903,7 +1709,6 @@ public class AfViewDelegate extends View{
 
 	@Override
 	public boolean onKeyLongPress(int keyCode, KeyEvent event) {
-		// TODO Auto-generated method stub
 		if (this.target == null) {
 			return super.onKeyLongPress(keyCode, event);
 		}
@@ -1912,7 +1717,6 @@ public class AfViewDelegate extends View{
 
 	@Override
 	public boolean onKeyMultiple(int keyCode, int repeatCount, KeyEvent event) {
-		// TODO Auto-generated method stub
 		if (this.target == null) {
 			return super.onKeyMultiple(keyCode, repeatCount, event);
 		}
@@ -1921,7 +1725,6 @@ public class AfViewDelegate extends View{
 
 	@Override
 	public boolean onKeyPreIme(int keyCode, KeyEvent event) {
-		// TODO Auto-generated method stub
 		if (this.target == null) {
 			return super.onKeyPreIme(keyCode, event);
 		}
@@ -1930,7 +1733,6 @@ public class AfViewDelegate extends View{
 
 	@Override
 	public boolean onKeyShortcut(int keyCode, KeyEvent event) {
-		// TODO Auto-generated method stub
 		if (this.target == null) {
 			return super.onKeyShortcut(keyCode, event);
 		}
@@ -1939,7 +1741,6 @@ public class AfViewDelegate extends View{
 
 	@Override
 	public boolean onKeyUp(int keyCode, KeyEvent event) {
-		// TODO Auto-generated method stub
 		if (this.target == null) {
 			return super.onKeyUp(keyCode, event);
 		}
@@ -1948,7 +1749,6 @@ public class AfViewDelegate extends View{
 
 	@Override
 	public void onPopulateAccessibilityEvent(AccessibilityEvent event) {
-		// TODO Auto-generated method stub
 		super.onPopulateAccessibilityEvent(event);
 		if (this.target == null) {
 			return;
@@ -1958,7 +1758,6 @@ public class AfViewDelegate extends View{
 
 	@Override
 	public void onRtlPropertiesChanged(int layoutDirection) {
-		// TODO Auto-generated method stub
 		if (this.target == null) {
 			return;
 		}
@@ -1967,7 +1766,6 @@ public class AfViewDelegate extends View{
 
 	@Override
 	public void onScreenStateChanged(int screenState) {
-		// TODO Auto-generated method stub
 		if (this.target == null) {
 			return;
 		}
@@ -1976,7 +1774,6 @@ public class AfViewDelegate extends View{
 
 	@Override
 	public void onStartTemporaryDetach() {
-		// TODO Auto-generated method stub
 		if (this.target == null) {
 			return;
 		}
@@ -1985,7 +1782,6 @@ public class AfViewDelegate extends View{
 
 	@Override
 	public boolean onTouchEvent(MotionEvent event) {
-		// TODO Auto-generated method stub
 		if (this.target == null) {
 			return super.onTouchEvent(event);
 		}
@@ -1994,7 +1790,6 @@ public class AfViewDelegate extends View{
 
 	@Override
 	public boolean onTrackballEvent(MotionEvent event) {
-		// TODO Auto-generated method stub
 		if (this.target == null) {
 			return super.onTrackballEvent(event);
 		}
@@ -2003,7 +1798,6 @@ public class AfViewDelegate extends View{
 
 	@Override
 	public void onWindowFocusChanged(boolean hasWindowFocus) {
-		// TODO Auto-generated method stub
 		if (this.target == null) {
 			return;
 		}
@@ -2012,7 +1806,6 @@ public class AfViewDelegate extends View{
 
 	@Override
 	public void onWindowSystemUiVisibilityChanged(int visible) {
-		// TODO Auto-generated method stub
 		if (this.target == null) {
 			return;
 		}
@@ -2021,7 +1814,6 @@ public class AfViewDelegate extends View{
 
 	@Override
 	public boolean performAccessibilityAction(int action, Bundle arguments) {
-		// TODO Auto-generated method stub
 		if (this.target == null) {
 			return super.performAccessibilityAction(action, arguments);
 		}
@@ -2030,7 +1822,6 @@ public class AfViewDelegate extends View{
 
 	@Override
 	public boolean performClick() {
-		// TODO Auto-generated method stub
 		if (this.target == null) {
 			return super.performClick();
 		}
@@ -2039,7 +1830,6 @@ public class AfViewDelegate extends View{
 
 	@Override
 	public boolean performHapticFeedback(int feedbackConstant, int flags) {
-		// TODO Auto-generated method stub
 		if (this.target == null) {
 			return super.performHapticFeedback(feedbackConstant, flags);
 		}
@@ -2048,7 +1838,6 @@ public class AfViewDelegate extends View{
 
 	@Override
 	public boolean performHapticFeedback(int feedbackConstant) {
-		// TODO Auto-generated method stub
 		if (this.target == null) {
 			return super.performHapticFeedback(feedbackConstant);
 		}
@@ -2057,7 +1846,6 @@ public class AfViewDelegate extends View{
 
 	@Override
 	public boolean performLongClick() {
-		// TODO Auto-generated method stub
 		if (this.target == null) {
 			return super.performLongClick();
 		}
@@ -2066,7 +1854,6 @@ public class AfViewDelegate extends View{
 
 	@Override
 	public void playSoundEffect(int soundConstant) {
-		// TODO Auto-generated method stub
 		if (this.target == null) {
 			return;
 		}
@@ -2075,7 +1862,6 @@ public class AfViewDelegate extends View{
 
 	@Override
 	public boolean post(Runnable action) {
-		// TODO Auto-generated method stub
 		if (this.target == null) {
 			return super.post(action);
 		}
@@ -2084,7 +1870,6 @@ public class AfViewDelegate extends View{
 
 	@Override
 	public boolean postDelayed(Runnable action, long delayMillis) {
-		// TODO Auto-generated method stub
 		if (this.target == null) {
 			return super.postDelayed(action, delayMillis);
 		}
@@ -2093,7 +1878,6 @@ public class AfViewDelegate extends View{
 
 	@Override
 	public void postInvalidate() {
-		// TODO Auto-generated method stub
 		if (this.target == null) {
 			return;
 		}
@@ -2102,7 +1886,6 @@ public class AfViewDelegate extends View{
 
 	@Override
 	public void postInvalidate(int left, int top, int right, int bottom) {
-		// TODO Auto-generated method stub
 		if (this.target == null) {
 			return;
 		}
@@ -2112,7 +1895,6 @@ public class AfViewDelegate extends View{
 	@Override
 	public void postInvalidateDelayed(long delayMilliseconds, int left,
 			int top, int right, int bottom) {
-		// TODO Auto-generated method stub
 		if (this.target == null) {
 			return;
 		}
@@ -2121,7 +1903,6 @@ public class AfViewDelegate extends View{
 
 	@Override
 	public void postInvalidateDelayed(long delayMilliseconds) {
-		// TODO Auto-generated method stub
 		if (this.target == null) {
 			return;
 		}
@@ -2130,7 +1911,6 @@ public class AfViewDelegate extends View{
 
 	@Override
 	public void postInvalidateOnAnimation() {
-		// TODO Auto-generated method stub
 		if (this.target == null) {
 			return;
 		}
@@ -2140,7 +1920,6 @@ public class AfViewDelegate extends View{
 	@Override
 	public void postInvalidateOnAnimation(int left, int top, int right,
 			int bottom) {
-		// TODO Auto-generated method stub
 		if (this.target == null) {
 			return;
 		}
@@ -2149,7 +1928,6 @@ public class AfViewDelegate extends View{
 
 	@Override
 	public void postOnAnimation(Runnable action) {
-		// TODO Auto-generated method stub
 		if (this.target == null) {
 			return;
 		}
@@ -2158,7 +1936,6 @@ public class AfViewDelegate extends View{
 
 	@Override
 	public void postOnAnimationDelayed(Runnable action, long delayMillis) {
-		// TODO Auto-generated method stub
 		if (this.target == null) {
 			return;
 		}
@@ -2167,7 +1944,6 @@ public class AfViewDelegate extends View{
 
 	@Override
 	public void refreshDrawableState() {
-		// TODO Auto-generated method stub
 		if (this.target == null) {
 			return;
 		}
@@ -2176,7 +1952,6 @@ public class AfViewDelegate extends View{
 
 	@Override
 	public boolean removeCallbacks(Runnable action) {
-		// TODO Auto-generated method stub
 		if (this.target == null) {
 			return super.removeCallbacks(action);
 		}
@@ -2186,7 +1961,6 @@ public class AfViewDelegate extends View{
 	@Override
 	public void removeOnAttachStateChangeListener(
 			OnAttachStateChangeListener listener) {
-		// TODO Auto-generated method stub
 		if (this.target == null) {
 			return;
 		}
@@ -2195,7 +1969,6 @@ public class AfViewDelegate extends View{
 
 	@Override
 	public void removeOnLayoutChangeListener(OnLayoutChangeListener listener) {
-		// TODO Auto-generated method stub
 		if (this.target == null) {
 			return;
 		}
@@ -2204,7 +1977,6 @@ public class AfViewDelegate extends View{
 
 	@Override
 	public void requestApplyInsets() {
-		// TODO Auto-generated method stub
 		if (this.target == null) {
 			return;
 		}
@@ -2212,9 +1984,8 @@ public class AfViewDelegate extends View{
 	}
 
 	@Override
-	@Deprecated
+	//@Deprecated
 	public void requestFitSystemWindows() {
-		// TODO Auto-generated method stub
 		if (this.target == null) {
 			return;
 		}
@@ -2223,7 +1994,6 @@ public class AfViewDelegate extends View{
 
 	@Override
 	public boolean requestFocus(int direction, Rect previouslyFocusedRect) {
-		// TODO Auto-generated method stub
 		if (this.target == null) {
 			return super.requestFocus(direction, previouslyFocusedRect);
 		}
@@ -2232,7 +2002,6 @@ public class AfViewDelegate extends View{
 
 	@Override
 	public void requestLayout() {
-		// TODO Auto-generated method stub
 		super.requestLayout();
 		if (this.target == null) {
 			return;
@@ -2242,7 +2011,6 @@ public class AfViewDelegate extends View{
 
 	@Override
 	public boolean requestRectangleOnScreen(Rect rectangle, boolean immediate) {
-		// TODO Auto-generated method stub
 		if (this.target == null) {
 			return super.requestRectangleOnScreen(rectangle, immediate);
 		}
@@ -2251,7 +2019,6 @@ public class AfViewDelegate extends View{
 
 	@Override
 	public boolean requestRectangleOnScreen(Rect rectangle) {
-		// TODO Auto-generated method stub
 		if (this.target == null) {
 			return super.requestRectangleOnScreen(rectangle);
 		}
@@ -2260,7 +2027,6 @@ public class AfViewDelegate extends View{
 
 	@Override
 	public void restoreHierarchyState(SparseArray<Parcelable> container) {
-		// TODO Auto-generated method stub
 		if (this.target == null) {
 			return;
 		}
@@ -2269,7 +2035,6 @@ public class AfViewDelegate extends View{
 
 	@Override
 	public void saveHierarchyState(SparseArray<Parcelable> container) {
-		// TODO Auto-generated method stub
 		if (this.target == null) {
 			return;
 		}
@@ -2278,7 +2043,6 @@ public class AfViewDelegate extends View{
 
 	@Override
 	public void scheduleDrawable(Drawable who, Runnable what, long when) {
-		// TODO Auto-generated method stub
 		if (this.target == null) {
 			return;
 		}
@@ -2287,7 +2051,6 @@ public class AfViewDelegate extends View{
 
 	@Override
 	public void scrollBy(int x, int y) {
-		// TODO Auto-generated method stub
 		if (this.target == null) {
 			return;
 		}
@@ -2296,7 +2059,6 @@ public class AfViewDelegate extends View{
 
 	@Override
 	public void scrollTo(int x, int y) {
-		// TODO Auto-generated method stub
 		if (this.target == null) {
 			return;
 		}
@@ -2305,7 +2067,6 @@ public class AfViewDelegate extends View{
 
 	@Override
 	public void sendAccessibilityEvent(int eventType) {
-		// TODO Auto-generated method stub
 		if (this.target == null) {
 			return;
 		}
@@ -2314,7 +2075,6 @@ public class AfViewDelegate extends View{
 
 	@Override
 	public void sendAccessibilityEventUnchecked(AccessibilityEvent event) {
-		// TODO Auto-generated method stub
 		if (this.target == null) {
 			return;
 		}
@@ -2323,7 +2083,6 @@ public class AfViewDelegate extends View{
 
 	@Override
 	public void setAccessibilityDelegate(AccessibilityDelegate delegate) {
-		// TODO Auto-generated method stub
 		if (this.target == null) {
 			return;
 		}
@@ -2332,7 +2091,6 @@ public class AfViewDelegate extends View{
 
 	@Override
 	public void setAccessibilityLiveRegion(int mode) {
-		// TODO Auto-generated method stub
 		if (this.target == null) {
 			return;
 		}
@@ -2341,7 +2099,6 @@ public class AfViewDelegate extends View{
 
 	@Override
 	public void setActivated(boolean activated) {
-		// TODO Auto-generated method stub
 		if (this.target == null) {
 			return;
 		}
@@ -2350,7 +2107,6 @@ public class AfViewDelegate extends View{
 
 	@Override
 	public void setAlpha(float alpha) {
-		// TODO Auto-generated method stub
 		if (this.target == null) {
 			return;
 		}
@@ -2359,7 +2115,6 @@ public class AfViewDelegate extends View{
 
 	@Override
 	public void setAnimation(Animation animation) {
-		// TODO Auto-generated method stub
 		if (this.target == null) {
 			return;
 		}
@@ -2368,7 +2123,6 @@ public class AfViewDelegate extends View{
 
 	@Override
 	public void setBackground(Drawable background) {
-		// TODO Auto-generated method stub
 		if (this.target == null) {
 			return;
 		}
@@ -2377,7 +2131,6 @@ public class AfViewDelegate extends View{
 
 	@Override
 	public void setBackgroundColor(int color) {
-		// TODO Auto-generated method stub
 		if (this.target == null) {
 			return;
 		}
@@ -2385,9 +2138,8 @@ public class AfViewDelegate extends View{
 	}
 
 	@Override
-	@Deprecated
+	//@Deprecated
 	public void setBackgroundDrawable(Drawable background) {
-		// TODO Auto-generated method stub
 		if (this.target == null) {
 			return;
 		}
@@ -2396,7 +2148,6 @@ public class AfViewDelegate extends View{
 
 	@Override
 	public void setBackgroundResource(int resid) {
-		// TODO Auto-generated method stub
 		if (this.target == null) {
 			return;
 		}
@@ -2405,7 +2156,6 @@ public class AfViewDelegate extends View{
 
 	@Override
 	public void setCameraDistance(float distance) {
-		// TODO Auto-generated method stub
 		if (this.target == null) {
 			return;
 		}
@@ -2414,7 +2164,6 @@ public class AfViewDelegate extends View{
 
 	@Override
 	public void setClickable(boolean clickable) {
-		// TODO Auto-generated method stub
 		if (this.target == null) {
 			return;
 		}
@@ -2423,7 +2172,6 @@ public class AfViewDelegate extends View{
 
 	@Override
 	public void setClipBounds(Rect clipBounds) {
-		// TODO Auto-generated method stub
 		if (this.target == null) {
 			return;
 		}
@@ -2432,7 +2180,6 @@ public class AfViewDelegate extends View{
 
 	@Override
 	public void setContentDescription(CharSequence contentDescription) {
-		// TODO Auto-generated method stub
 		if (this.target == null) {
 			return;
 		}
@@ -2441,7 +2188,6 @@ public class AfViewDelegate extends View{
 
 	@Override
 	public void setDrawingCacheBackgroundColor(int color) {
-		// TODO Auto-generated method stub
 		if (this.target == null) {
 			return;
 		}
@@ -2450,7 +2196,6 @@ public class AfViewDelegate extends View{
 
 	@Override
 	public void setDrawingCacheEnabled(boolean enabled) {
-		// TODO Auto-generated method stub
 		if (this.target == null) {
 			return;
 		}
@@ -2459,7 +2204,6 @@ public class AfViewDelegate extends View{
 
 	@Override
 	public void setDrawingCacheQuality(int quality) {
-		// TODO Auto-generated method stub
 		if (this.target == null) {
 			return;
 		}
@@ -2468,7 +2212,6 @@ public class AfViewDelegate extends View{
 
 	@Override
 	public void setDuplicateParentStateEnabled(boolean enabled) {
-		// TODO Auto-generated method stub
 		if (this.target == null) {
 			return;
 		}
@@ -2477,7 +2220,6 @@ public class AfViewDelegate extends View{
 
 	@Override
 	public void setEnabled(boolean enabled) {
-		// TODO Auto-generated method stub
 		if (this.target == null) {
 			return;
 		}
@@ -2486,7 +2228,6 @@ public class AfViewDelegate extends View{
 
 	@Override
 	public void setFadingEdgeLength(int length) {
-		// TODO Auto-generated method stub
 		if (this.target == null) {
 			return;
 		}
@@ -2495,7 +2236,6 @@ public class AfViewDelegate extends View{
 
 	@Override
 	public void setFilterTouchesWhenObscured(boolean enabled) {
-		// TODO Auto-generated method stub
 		if (this.target == null) {
 			return;
 		}
@@ -2504,7 +2244,6 @@ public class AfViewDelegate extends View{
 
 	@Override
 	public void setFitsSystemWindows(boolean fitSystemWindows) {
-		// TODO Auto-generated method stub
 		if (this.target == null) {
 			return;
 		}
@@ -2513,7 +2252,6 @@ public class AfViewDelegate extends View{
 
 	@Override
 	public void setFocusable(boolean focusable) {
-		// TODO Auto-generated method stub
 		if (this.target == null) {
 			return;
 		}
@@ -2522,7 +2260,6 @@ public class AfViewDelegate extends View{
 
 	@Override
 	public void setFocusableInTouchMode(boolean focusableInTouchMode) {
-		// TODO Auto-generated method stub
 		if (this.target == null) {
 			return;
 		}
@@ -2531,7 +2268,6 @@ public class AfViewDelegate extends View{
 
 	@Override
 	public void setHapticFeedbackEnabled(boolean hapticFeedbackEnabled) {
-		// TODO Auto-generated method stub
 		if (this.target == null) {
 			return;
 		}
@@ -2540,7 +2276,6 @@ public class AfViewDelegate extends View{
 
 	@Override
 	public void setHasTransientState(boolean hasTransientState) {
-		// TODO Auto-generated method stub
 		if (this.target == null) {
 			return;
 		}
@@ -2550,7 +2285,6 @@ public class AfViewDelegate extends View{
 	@Override
 	public void setHorizontalFadingEdgeEnabled(
 			boolean horizontalFadingEdgeEnabled) {
-		// TODO Auto-generated method stub
 		if (this.target == null) {
 			return;
 		}
@@ -2559,7 +2293,6 @@ public class AfViewDelegate extends View{
 
 	@Override
 	public void setHorizontalScrollBarEnabled(boolean horizontalScrollBarEnabled) {
-		// TODO Auto-generated method stub
 		if (this.target == null) {
 			return;
 		}
@@ -2568,7 +2301,6 @@ public class AfViewDelegate extends View{
 
 	@Override
 	public void setHovered(boolean hovered) {
-		// TODO Auto-generated method stub
 		if (this.target == null) {
 			return;
 		}
@@ -2577,7 +2309,6 @@ public class AfViewDelegate extends View{
 
 	@Override
 	public void setId(int id) {
-		// TODO Auto-generated method stub
 		if (this.target == null) {
 			return;
 		}
@@ -2586,7 +2317,6 @@ public class AfViewDelegate extends View{
 
 	@Override
 	public void setImportantForAccessibility(int mode) {
-		// TODO Auto-generated method stub
 		if (this.target == null) {
 			return;
 		}
@@ -2595,7 +2325,6 @@ public class AfViewDelegate extends View{
 
 	@Override
 	public void setKeepScreenOn(boolean keepScreenOn) {
-		// TODO Auto-generated method stub
 		if (this.target == null) {
 			return;
 		}
@@ -2604,7 +2333,6 @@ public class AfViewDelegate extends View{
 
 	@Override
 	public void setLabelFor(int id) {
-		// TODO Auto-generated method stub
 		if (this.target == null) {
 			return;
 		}
@@ -2613,7 +2341,6 @@ public class AfViewDelegate extends View{
 
 	@Override
 	public void setLayerPaint(Paint paint) {
-		// TODO Auto-generated method stub
 		if (this.target == null) {
 			return;
 		}
@@ -2622,7 +2349,6 @@ public class AfViewDelegate extends View{
 
 	@Override
 	public void setLayerType(int layerType, Paint paint) {
-		// TODO Auto-generated method stub
 		if (this.target == null) {
 			return;
 		}
@@ -2631,7 +2357,6 @@ public class AfViewDelegate extends View{
 
 	@Override
 	public void setLayoutDirection(int layoutDirection) {
-		// TODO Auto-generated method stub
 		if (this.target == null) {
 			return;
 		}
@@ -2640,7 +2365,6 @@ public class AfViewDelegate extends View{
 
 	@Override
 	public void setLayoutParams(LayoutParams params) {
-		// TODO Auto-generated method stub
 		if (this.target == null) {
 			return;
 		}
@@ -2649,7 +2373,6 @@ public class AfViewDelegate extends View{
 
 	@Override
 	public void setLongClickable(boolean longClickable) {
-		// TODO Auto-generated method stub
 		if (this.target == null) {
 			return;
 		}
@@ -2658,7 +2381,6 @@ public class AfViewDelegate extends View{
 
 	@Override
 	public void setMinimumHeight(int minHeight) {
-		// TODO Auto-generated method stub
 		if (this.target == null) {
 			return;
 		}
@@ -2667,7 +2389,6 @@ public class AfViewDelegate extends View{
 
 	@Override
 	public void setMinimumWidth(int minWidth) {
-		// TODO Auto-generated method stub
 		if (this.target == null) {
 			return;
 		}
@@ -2676,7 +2397,6 @@ public class AfViewDelegate extends View{
 
 	@Override
 	public void setNextFocusDownId(int nextFocusDownId) {
-		// TODO Auto-generated method stub
 		if (this.target == null) {
 			return;
 		}
@@ -2685,7 +2405,6 @@ public class AfViewDelegate extends View{
 
 	@Override
 	public void setNextFocusForwardId(int nextFocusForwardId) {
-		// TODO Auto-generated method stub
 		if (this.target == null) {
 			return;
 		}
@@ -2694,7 +2413,6 @@ public class AfViewDelegate extends View{
 
 	@Override
 	public void setNextFocusLeftId(int nextFocusLeftId) {
-		// TODO Auto-generated method stub
 		if (this.target == null) {
 			return;
 		}
@@ -2703,7 +2421,6 @@ public class AfViewDelegate extends View{
 
 	@Override
 	public void setNextFocusRightId(int nextFocusRightId) {
-		// TODO Auto-generated method stub
 		if (this.target == null) {
 			return;
 		}
@@ -2712,7 +2429,6 @@ public class AfViewDelegate extends View{
 
 	@Override
 	public void setNextFocusUpId(int nextFocusUpId) {
-		// TODO Auto-generated method stub
 		if (this.target == null) {
 			return;
 		}
@@ -2722,7 +2438,6 @@ public class AfViewDelegate extends View{
 	@Override
 	public void setOnApplyWindowInsetsListener(
 			OnApplyWindowInsetsListener listener) {
-		// TODO Auto-generated method stub
 		if (this.target == null) {
 			return;
 		}
@@ -2731,7 +2446,6 @@ public class AfViewDelegate extends View{
 
 	@Override
 	public void setOnClickListener(OnClickListener l) {
-		// TODO Auto-generated method stub
 		if (this.target == null) {
 			return;
 		}
@@ -2740,7 +2454,6 @@ public class AfViewDelegate extends View{
 
 	@Override
 	public void setOnCreateContextMenuListener(OnCreateContextMenuListener l) {
-		// TODO Auto-generated method stub
 		if (this.target == null) {
 			return;
 		}
@@ -2749,7 +2462,6 @@ public class AfViewDelegate extends View{
 
 	@Override
 	public void setOnDragListener(OnDragListener l) {
-		// TODO Auto-generated method stub
 		if (this.target == null) {
 			return;
 		}
@@ -2758,7 +2470,6 @@ public class AfViewDelegate extends View{
 
 	@Override
 	public void setOnFocusChangeListener(OnFocusChangeListener l) {
-		// TODO Auto-generated method stub
 		if (this.target == null) {
 			return;
 		}
@@ -2767,7 +2478,6 @@ public class AfViewDelegate extends View{
 
 	@Override
 	public void setOnGenericMotionListener(OnGenericMotionListener l) {
-		// TODO Auto-generated method stub
 		if (this.target == null) {
 			return;
 		}
@@ -2776,7 +2486,6 @@ public class AfViewDelegate extends View{
 
 	@Override
 	public void setOnHoverListener(OnHoverListener l) {
-		// TODO Auto-generated method stub
 		if (this.target == null) {
 			return;
 		}
@@ -2785,7 +2494,6 @@ public class AfViewDelegate extends View{
 
 	@Override
 	public void setOnKeyListener(OnKeyListener l) {
-		// TODO Auto-generated method stub
 		if (this.target == null) {
 			return;
 		}
@@ -2794,7 +2502,6 @@ public class AfViewDelegate extends View{
 
 	@Override
 	public void setOnLongClickListener(OnLongClickListener l) {
-		// TODO Auto-generated method stub
 		if (this.target == null) {
 			return;
 		}
@@ -2804,7 +2511,6 @@ public class AfViewDelegate extends View{
 	@Override
 	public void setOnSystemUiVisibilityChangeListener(
 			OnSystemUiVisibilityChangeListener l) {
-		// TODO Auto-generated method stub
 		if (this.target == null) {
 			return;
 		}
@@ -2813,7 +2519,6 @@ public class AfViewDelegate extends View{
 
 	@Override
 	public void setOnTouchListener(OnTouchListener l) {
-		// TODO Auto-generated method stub
 		if (this.target == null) {
 			return;
 		}
@@ -2822,7 +2527,6 @@ public class AfViewDelegate extends View{
 
 	@Override
 	public void setOverScrollMode(int overScrollMode) {
-		// TODO Auto-generated method stub
 		if (this.target == null) {
 			return;
 		}
@@ -2831,7 +2535,6 @@ public class AfViewDelegate extends View{
 
 	@Override
 	public void setPadding(int left, int top, int right, int bottom) {
-		// TODO Auto-generated method stub
 		if (this.target == null) {
 			return;
 		}
@@ -2840,7 +2543,6 @@ public class AfViewDelegate extends View{
 
 	@Override
 	public void setPaddingRelative(int start, int top, int end, int bottom) {
-		// TODO Auto-generated method stub
 		if (this.target == null) {
 			return;
 		}
@@ -2849,7 +2551,6 @@ public class AfViewDelegate extends View{
 
 	@Override
 	public void setPivotX(float pivotX) {
-		// TODO Auto-generated method stub
 		if (this.target == null) {
 			return;
 		}
@@ -2858,7 +2559,6 @@ public class AfViewDelegate extends View{
 
 	@Override
 	public void setPivotY(float pivotY) {
-		// TODO Auto-generated method stub
 		if (this.target == null) {
 			return;
 		}
@@ -2867,7 +2567,6 @@ public class AfViewDelegate extends View{
 
 	@Override
 	public void setPressed(boolean pressed) {
-		// TODO Auto-generated method stub
 		if (this.target == null) {
 			return;
 		}
@@ -2876,7 +2575,6 @@ public class AfViewDelegate extends View{
 
 	@Override
 	public void setRotation(float rotation) {
-		// TODO Auto-generated method stub
 		if (this.target == null) {
 			return;
 		}
@@ -2885,7 +2583,6 @@ public class AfViewDelegate extends View{
 
 	@Override
 	public void setRotationX(float rotationX) {
-		// TODO Auto-generated method stub
 		if (this.target == null) {
 			return;
 		}
@@ -2894,7 +2591,6 @@ public class AfViewDelegate extends View{
 
 	@Override
 	public void setRotationY(float rotationY) {
-		// TODO Auto-generated method stub
 		if (this.target == null) {
 			return;
 		}
@@ -2903,7 +2599,6 @@ public class AfViewDelegate extends View{
 
 	@Override
 	public void setSaveEnabled(boolean enabled) {
-		// TODO Auto-generated method stub
 		if (this.target == null) {
 			return;
 		}
@@ -2912,7 +2607,6 @@ public class AfViewDelegate extends View{
 
 	@Override
 	public void setSaveFromParentEnabled(boolean enabled) {
-		// TODO Auto-generated method stub
 		if (this.target == null) {
 			return;
 		}
@@ -2921,7 +2615,6 @@ public class AfViewDelegate extends View{
 
 	@Override
 	public void setScaleX(float scaleX) {
-		// TODO Auto-generated method stub
 		if (this.target == null) {
 			return;
 		}
@@ -2930,7 +2623,6 @@ public class AfViewDelegate extends View{
 
 	@Override
 	public void setScaleY(float scaleY) {
-		// TODO Auto-generated method stub
 		if (this.target == null) {
 			return;
 		}
@@ -2940,7 +2632,6 @@ public class AfViewDelegate extends View{
 	@Override
 	public void setScrollBarDefaultDelayBeforeFade(
 			int scrollBarDefaultDelayBeforeFade) {
-		// TODO Auto-generated method stub
 		if (this.target == null) {
 			return;
 		}
@@ -2949,7 +2640,6 @@ public class AfViewDelegate extends View{
 
 	@Override
 	public void setScrollBarFadeDuration(int scrollBarFadeDuration) {
-		// TODO Auto-generated method stub
 		if (this.target == null) {
 			return;
 		}
@@ -2958,7 +2648,6 @@ public class AfViewDelegate extends View{
 
 	@Override
 	public void setScrollBarSize(int scrollBarSize) {
-		// TODO Auto-generated method stub
 		if (this.target == null) {
 			return;
 		}
@@ -2967,7 +2656,6 @@ public class AfViewDelegate extends View{
 
 	@Override
 	public void setScrollBarStyle(int style) {
-		// TODO Auto-generated method stub
 		if (this.target == null) {
 			return;
 		}
@@ -2976,7 +2664,6 @@ public class AfViewDelegate extends View{
 
 	@Override
 	public void setScrollContainer(boolean isScrollContainer) {
-		// TODO Auto-generated method stub
 		if (this.target == null) {
 			return;
 		}
@@ -2985,7 +2672,6 @@ public class AfViewDelegate extends View{
 
 	@Override
 	public void setScrollX(int value) {
-		// TODO Auto-generated method stub
 		if (this.target == null) {
 			return;
 		}
@@ -2994,7 +2680,6 @@ public class AfViewDelegate extends View{
 
 	@Override
 	public void setScrollY(int value) {
-		// TODO Auto-generated method stub
 		if (this.target == null) {
 			return;
 		}
@@ -3003,7 +2688,6 @@ public class AfViewDelegate extends View{
 
 	@Override
 	public void setScrollbarFadingEnabled(boolean fadeScrollbars) {
-		// TODO Auto-generated method stub
 		if (this.target == null) {
 			return;
 		}
@@ -3012,7 +2696,6 @@ public class AfViewDelegate extends View{
 
 	@Override
 	public void setSelected(boolean selected) {
-		// TODO Auto-generated method stub
 		if (this.target == null) {
 			return;
 		}
@@ -3021,7 +2704,6 @@ public class AfViewDelegate extends View{
 
 	@Override
 	public void setSoundEffectsEnabled(boolean soundEffectsEnabled) {
-		// TODO Auto-generated method stub
 		if (this.target == null) {
 			return;
 		}
@@ -3030,7 +2712,6 @@ public class AfViewDelegate extends View{
 
 	@Override
 	public void setSystemUiVisibility(int visibility) {
-		// TODO Auto-generated method stub
 		if (this.target == null) {
 			return;
 		}
@@ -3039,7 +2720,6 @@ public class AfViewDelegate extends View{
 
 	@Override
 	public void setTag(int key, Object tag) {
-		// TODO Auto-generated method stub
 		if (this.target == null) {
 			return;
 		}
@@ -3048,7 +2728,6 @@ public class AfViewDelegate extends View{
 
 	@Override
 	public void setTag(Object tag) {
-		// TODO Auto-generated method stub
 		if (this.target == null) {
 			return;
 		}
@@ -3057,7 +2736,6 @@ public class AfViewDelegate extends View{
 
 	@Override
 	public void setTextAlignment(int textAlignment) {
-		// TODO Auto-generated method stub
 		if (this.target == null) {
 			return;
 		}
@@ -3066,7 +2744,6 @@ public class AfViewDelegate extends View{
 
 	@Override
 	public void setTextDirection(int textDirection) {
-		// TODO Auto-generated method stub
 		if (this.target == null) {
 			return;
 		}
@@ -3075,7 +2752,6 @@ public class AfViewDelegate extends View{
 
 	@Override
 	public void setTouchDelegate(TouchDelegate delegate) {
-		// TODO Auto-generated method stub
 		if (this.target == null) {
 			return;
 		}
@@ -3084,7 +2760,6 @@ public class AfViewDelegate extends View{
 
 	@Override
 	public void setTranslationX(float translationX) {
-		// TODO Auto-generated method stub
 		if (this.target == null) {
 			return;
 		}
@@ -3093,7 +2768,6 @@ public class AfViewDelegate extends View{
 
 	@Override
 	public void setTranslationY(float translationY) {
-		// TODO Auto-generated method stub
 		if (this.target == null) {
 			return;
 		}
@@ -3102,7 +2776,6 @@ public class AfViewDelegate extends View{
 
 	@Override
 	public void setVerticalFadingEdgeEnabled(boolean verticalFadingEdgeEnabled) {
-		// TODO Auto-generated method stub
 		if (this.target == null) {
 			return;
 		}
@@ -3111,7 +2784,6 @@ public class AfViewDelegate extends View{
 
 	@Override
 	public void setVerticalScrollBarEnabled(boolean verticalScrollBarEnabled) {
-		// TODO Auto-generated method stub
 		if (this.target == null) {
 			return;
 		}
@@ -3120,7 +2792,6 @@ public class AfViewDelegate extends View{
 
 	@Override
 	public void setVerticalScrollbarPosition(int position) {
-		// TODO Auto-generated method stub
 		if (this.target == null) {
 			return;
 		}
@@ -3129,7 +2800,6 @@ public class AfViewDelegate extends View{
 
 	@Override
 	public void setVisibility(int visibility) {
-		// TODO Auto-generated method stub
 		if (this.target == null) {
 			return;
 		}
@@ -3138,7 +2808,6 @@ public class AfViewDelegate extends View{
 
 	@Override
 	public void setWillNotCacheDrawing(boolean willNotCacheDrawing) {
-		// TODO Auto-generated method stub
 		if (this.target == null) {
 			return;
 		}
@@ -3147,7 +2816,6 @@ public class AfViewDelegate extends View{
 
 	@Override
 	public void setWillNotDraw(boolean willNotDraw) {
-		// TODO Auto-generated method stub
 		if (this.target == null) {
 			return;
 		}
@@ -3156,7 +2824,6 @@ public class AfViewDelegate extends View{
 
 	@Override
 	public void setX(float x) {
-		// TODO Auto-generated method stub
 		if (this.target == null) {
 			return;
 		}
@@ -3165,7 +2832,6 @@ public class AfViewDelegate extends View{
 
 	@Override
 	public void setY(float y) {
-		// TODO Auto-generated method stub
 		if (this.target == null) {
 			return;
 		}
@@ -3174,7 +2840,6 @@ public class AfViewDelegate extends View{
 
 	@Override
 	public boolean showContextMenu() {
-		// TODO Auto-generated method stub
 		if (this.target == null) {
 			return super.showContextMenu();
 		}
@@ -3183,7 +2848,6 @@ public class AfViewDelegate extends View{
 
 	@Override
 	public ActionMode startActionMode(Callback callback) {
-		// TODO Auto-generated method stub
 		if (this.target == null) {
 			return super.startActionMode(callback);
 		}
@@ -3192,7 +2856,6 @@ public class AfViewDelegate extends View{
 
 	@Override
 	public void startAnimation(Animation animation) {
-		// TODO Auto-generated method stub
 		if (this.target == null) {
 			return;
 		}
@@ -3201,7 +2864,6 @@ public class AfViewDelegate extends View{
 
 	@Override
 	public String toString() {
-		// TODO Auto-generated method stub
 		if (this.target == null) {
 			return super.toString();
 		}
@@ -3210,7 +2872,6 @@ public class AfViewDelegate extends View{
 
 	@Override
 	public void unscheduleDrawable(Drawable who, Runnable what) {
-		// TODO Auto-generated method stub
 		if (this.target == null) {
 			return;
 		}
@@ -3219,7 +2880,6 @@ public class AfViewDelegate extends View{
 
 	@Override
 	public void unscheduleDrawable(Drawable who) {
-		// TODO Auto-generated method stub
 		if (this.target == null) {
 			return;
 		}
@@ -3227,9 +2887,8 @@ public class AfViewDelegate extends View{
 	}
 
 	@Override
-	@ExportedProperty(category = "drawing")
+	//@ExportedProperty(category = "drawing")
 	public boolean willNotCacheDrawing() {
-		// TODO Auto-generated method stub
 		if (this.target == null) {
 			return super.willNotCacheDrawing();
 		}
@@ -3237,9 +2896,8 @@ public class AfViewDelegate extends View{
 	}
 
 	@Override
-	@ExportedProperty(category = "drawing")
+	//@ExportedProperty(category = "drawing")
 	public boolean willNotDraw() {
-		// TODO Auto-generated method stub
 		if (this.target == null) {
 			return super.willNotDraw();
 		}

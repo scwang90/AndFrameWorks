@@ -178,7 +178,6 @@ public abstract class AfApplication extends Application {
 
 	/**
 	 * 获取 activity 主页面 类
-	 * @param fragment
 	 * @return
 	 */
 	public abstract Class<? extends AfActivity> getForegroundClass();
@@ -193,7 +192,7 @@ public abstract class AfApplication extends Application {
 	// 当前主页面
 	protected AfFragment mCurFragment = null;
 	// 主页面
-	protected AfMainActivity mMainActivity = null;
+	protected AfActivity mMainActivity = null;
 	// 当前版本
 	protected String mVersion = "0.0.0.0";
 	// 最新版本
@@ -496,7 +495,7 @@ public abstract class AfApplication extends Application {
 	 * 获取AfMainActivity
 	 * @return AfMainActivity or null
 	 */
-	public synchronized AfMainActivity getMainActivity() {
+	public synchronized AfActivity getMainActivity() {
 		// TODO Auto-generated method stub
 		return mMainActivity;
 	}
@@ -506,7 +505,7 @@ public abstract class AfApplication extends Application {
 	 * @param activity
 	 *            主页面
 	 */
-	public synchronized void setMainActivity(AfMainActivity activity) {
+	public synchronized void setMainActivity(AfActivity activity) {
 		// TODO Auto-generated method stub
 		mMainActivity = activity;
 		mIsForegroundRunning = true;
@@ -520,26 +519,29 @@ public abstract class AfApplication extends Application {
 	 *            当前的 Activity
 	 */
 	public synchronized void setCurActivity(Object power, AfActivity activity) {
-		if (power instanceof AfActivity || power instanceof AfActivity) {
+		if (power instanceof AfActivity) {
+			//AfActivity 退出
+			if (activity == null){
+				if (activity == mMainActivity){
+					notifyForegroundClosed(mMainActivity);
+				}
+			}
 			// 如果正在返回主页面
-			// if(activity instanceof AfMainActivity){
-			// mMainActivity = (AfMainActivity)activity;
-			// mIsForegroundRunning = true;
-			// }
-			if (/*mIsGoingHome || */mIsExiting) {
+			else if (mIsExiting) {
 				// 如果已经到达主页面
-				if (activity instanceof AfMainActivity) {
+				if (getForegroundClass().isInstance(activity)) {
 					// 关闭返回主页面功能
 					if (mIsExiting) {
 						activity.finish();
 					}
 					mIsExiting = false;
-//					mIsGoingHome = false;
 				} else {
 					// 关不当前页面回到主页面
 					activity.finish();
 					return;
 				}
+			} if(getForegroundClass().isInstance(activity) && !mIsExiting && mMainActivity==null){
+				setMainActivity(activity);
 			}
 			mCurActivity = activity;
 		}
@@ -618,8 +620,6 @@ public abstract class AfApplication extends Application {
 	 * 向 power 发送 需要更新通知
 	 * @param power
 	 *            通知的对象 必须实现 INotifyNeedUpdate 接口
-	 * @param networkState
-	 *            当前网络状态
 	 */
 	private void notifyUpdate(Object power, String curver, String server,
 			String describe) {
@@ -640,7 +640,6 @@ public abstract class AfApplication extends Application {
 	 * 向 power 发送 需要更新通知
 	 * @param power
 	 *            通知的对象 必须实现 INotifyNeedUpdate 接口
-	 * @param networkState
 	 *            当前网络状态
 	 */
 	private void notifyNeedUpdate(Object power, String curver, String server) {
@@ -701,7 +700,7 @@ public abstract class AfApplication extends Application {
 		/** (2014-7-30 注释 只有当notifyForegroundClosed时才设为false) **/
 		// mIsForegroundRunning = false;
 		if (mCurActivity != null) {
-			if (mCurActivity instanceof AfMainActivity) {
+			if (mCurActivity instanceof AfActivity) {
 				mCurActivity.finish();
 			} else {
 				mIsExiting = true;
@@ -724,9 +723,9 @@ public abstract class AfApplication extends Application {
 	 * @param activity
 	 *            权限对象 传入this
 	 */
-	public synchronized void notifyForegroundClosed(AfMainActivity activity) {
+	public synchronized void notifyForegroundClosed(AfActivity activity) {
 		// TODO Auto-generated method stub
-		if (activity instanceof AfMainActivity && mIsForegroundRunning) {
+		if (activity == mMainActivity && mIsForegroundRunning) {
 			// 清空相关信息
 			mCurActivity = null;
 			mMainActivity = null;

@@ -247,7 +247,7 @@ public abstract class AfActivity extends FragmentActivity implements AfPageable,
 	protected void onResume() {
 		// TODO Auto-generated method stub
 		super.onResume();
-		AfApplication.getApp().setCurActivity(this, this);
+		getAfApplication().setCurActivity(this, this);
 		this.onQueryChanged();
 	}
 
@@ -255,6 +255,7 @@ public abstract class AfActivity extends FragmentActivity implements AfPageable,
 	protected void onDestroy() {
 		// TODO Auto-generated method stub
 		super.onDestroy();
+		getAfApplication().setCurActivity(this,null);
 		mIsRecycled = true;
 		if (mWorker != null) {
 			mWorker.quit();

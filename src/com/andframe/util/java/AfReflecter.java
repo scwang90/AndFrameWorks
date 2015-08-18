@@ -1,5 +1,6 @@
 package com.andframe.util.java;
 
+import com.andframe.annotation.view.BindView;
 import com.andframe.application.AfExceptionHandler;
 
 import java.lang.annotation.Annotation;
@@ -57,7 +58,6 @@ public class AfReflecter {
 	/**
 	 * 在clazz中获取所有Field(包括父类)
 	 * @param clazz
-	 * @param annot
 	 * @return Field[]
 	 */
 	public static Field[] getField(Class<?> clazz) {
@@ -80,9 +80,21 @@ public class AfReflecter {
 	 */
 	public static Field[] getFieldAnnotation(Class<?> clazz, Class<? extends Annotation> annot) {
 		// TODO Auto-generated method stub
+		return getFieldAnnotation(clazz, Object.class, annot);
+	}
+	/**
+	 * 在clazz中获取所有标记annot的Field(包括父类)
+	 * @param type
+	 * @param stoptype
+	 * @param annot
+	 * @return Field[]
+	 */
+	public static Field[] getFieldAnnotation(Class<?> type, Class<?> stoptype, Class<? extends Annotation> annot) {
+		// TODO Auto-generated method stub
+		Class<?> clazz = type;
 		List<Field> fields = new ArrayList<Field>();
-		while (!clazz.equals(Object.class)) {
-			for (Field field : clazz.getDeclaredFields()) {
+		while (!clazz.equals(stoptype)) {
+			for (Field field : type.getDeclaredFields()) {
 				if (field.isAnnotationPresent(annot)) {
 					fields.add(field);
 				}
@@ -91,9 +103,36 @@ public class AfReflecter {
 		}
 		return fields.toArray(new Field[0]);
 	}
-
 	/**
-	 * 利用反射设置 获取type的method的Annotation(包括父类)
+	 * 在clazz中获取所有标记 annot 的 Method (包括父类)
+	 * @param clazz
+	 * @param annot
+	 * @return Field[]
+	 */
+	public static Method[] getMethodAnnotation(Class<?> clazz, Class<? extends Annotation> annot) {
+		return getMethodAnnotation(clazz,Object.class,annot);
+	}
+	/**
+	 * 在clazz中获取所有标记 annot 的 Method (包括父类)
+	 * @param clazz
+	 * @param stoptype
+	 * @param annot
+	 * @return Field[]
+	 */
+	public static Method[] getMethodAnnotation(Class<?> clazz, Class<?> stoptype, Class<? extends Annotation> annot) {
+		List<Method> methods = new ArrayList<Method>();
+		while (!clazz.equals(stoptype)) {
+			for (Method method : clazz.getDeclaredMethods()) {
+				if (method.isAnnotationPresent(annot)) {
+					methods.add(method);
+				}
+			}
+			clazz = clazz.getSuperclass();
+		}
+		return methods.toArray(new Method[0]);
+	}
+	/**
+	 * 利用反射设置 获取 type 的 method 的Annotation(包括父类)
 	 * @param type
 	 * @param method
 	 * @param annot
@@ -101,15 +140,27 @@ public class AfReflecter {
 	 */
 	public static <T extends  Annotation> T getMethodAnnotation(Class<?> type, String method,  Class<T> annot) {
 		// TODO Auto-generated method stub
-		while (!type.equals(Object.class)) {
-			for (Method dmethod : type.getDeclaredMethods()) {
+		return getMethodAnnotation(type,Object.class,method,annot);
+	}
+	/**
+	 * 利用反射设置 获取 type 的 method 的Annotation(包括父类)
+	 * @param type
+	 * @param method
+	 * @param annot
+	 * @return method or null
+	 */
+	public static <T extends  Annotation> T getMethodAnnotation(Class<?> type, Class<?> stoptype, String method,  Class<T> annot) {
+		// TODO Auto-generated method stub
+		Class<?> clazz = null;
+		while (!clazz.equals(stoptype)) {
+			for (Method dmethod : clazz.getDeclaredMethods()) {
 				if (dmethod.getName().equals(method)) {
 					if (dmethod.isAnnotationPresent(annot)) {
 						return dmethod.getAnnotation(annot);
 					}
 				}
 			}
-			type = type.getSuperclass();
+			clazz = clazz.getSuperclass();
 		}
 		return null;
 	}
@@ -169,7 +220,7 @@ public class AfReflecter {
 		// TODO Auto-generated method stub
 		while (!type.equals(Object.class)) {
 			try {
-				return type.getDeclaredMethod(method,parameterTypes);
+				return type.getDeclaredMethod(method, parameterTypes);
 			} catch (NoSuchMethodException e) {
 				e.printStackTrace();
 			}
@@ -261,7 +312,7 @@ public class AfReflecter {
 	 */
 	private static void invokeMember(Class<?> type, String[] path, Object obj,
 									 Object value, int index) throws Exception {
-		Field field = getField(type,path[index]);
+		Field field = getField(type, path[index]);
 		if (path.length == index + 1) {
 			field.setAccessible(true);
 			field.set(obj, value);
@@ -410,7 +461,7 @@ public class AfReflecter {
 		}
 		Method method = getMethod(obj.getClass(), smethod, args);
 		try {
-			return clazz.cast(method.invoke(obj,args));
+			return clazz.cast(method.invoke(obj, args));
 		} catch (Exception e) {
 			e.printStackTrace();
 		}
@@ -419,13 +470,13 @@ public class AfReflecter {
 
 	public static Object doStaticMethod(Class<?> clazz, String smethod, Object... args) {
 		Method method = getMethod(clazz, smethod, args);
-		return doStaticMethod(clazz,method,args);
+		return doStaticMethod(clazz, method, args);
 	}
 
 
 	public static <T> T doStaticMethod(Class<?> clazz, String smethod,Class<T> rettype, Object... args) {
 		Method method = getMethod(clazz, smethod, args);
-		return rettype.cast(doStaticMethod(clazz,method,args));
+		return rettype.cast(doStaticMethod(clazz, method, args));
 	}
 
 	public static Object doStaticMethod(Class<?> clazz, Method method, Object... args) {
@@ -438,4 +489,5 @@ public class AfReflecter {
 		}
 		return null;
 	}
+
 }
