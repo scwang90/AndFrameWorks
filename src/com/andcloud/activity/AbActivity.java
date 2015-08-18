@@ -2,7 +2,7 @@ package com.andcloud.activity;
 
 import android.content.Context;
 
-import com.andframe.activity.AfActivity;
+import com.andframe.activity.framework.AfActivity;
 import com.andframe.application.AfExceptionHandler;
 import com.avos.avoscloud.AVAnalytics;
 import com.umeng.analytics.MobclickAgent;
