@@ -1,15 +1,5 @@
 package com.andframe.application;
 
-import java.io.ByteArrayInputStream;
-import java.io.File;
-import java.security.cert.CertificateFactory;
-import java.security.cert.X509Certificate;
-import java.util.Date;
-import java.util.LinkedHashMap;
-import java.util.List;
-import java.util.Map;
-import java.util.Random;
-
 import android.app.ActivityManager;
 import android.app.ActivityManager.RunningTaskInfo;
 import android.app.Application;
@@ -26,7 +16,6 @@ import android.os.Looper;
 
 import com.andframe.BuildConfig;
 import com.andframe.activity.framework.AfActivity;
-import com.andframe.activity.AfMainActivity;
 import com.andframe.broadcast.ConnectionChangeReceiver;
 import com.andframe.caches.AfImageCaches;
 import com.andframe.caches.AfSharedPreference;
@@ -41,6 +30,17 @@ import com.andframe.util.DatabaseUtil;
 import com.andframe.util.android.AfNetwork;
 import com.andframe.util.java.AfMD5;
 import com.andframe.util.java.AfVersion;
+
+import java.io.ByteArrayInputStream;
+import java.io.File;
+import java.security.cert.CertificateFactory;
+import java.security.cert.X509Certificate;
+import java.util.ArrayList;
+import java.util.Date;
+import java.util.LinkedHashMap;
+import java.util.List;
+import java.util.Map;
+import java.util.Random;
 
 /**
  * AfApplication 抽象类 （继承使用必须继承并使用，其他框架功能依赖于 AfApplication）
@@ -973,5 +973,60 @@ public abstract class AfApplication extends Application {
 	 */
 	public Random getRandom(){
 		return mRandom;
+	}
+
+	/**
+	 * 用于转换接口通知
+	 * @param objects
+	 * @param clazz
+	 * @param <T>
+	 * @return
+	 */
+	protected  <T> T transform(Object object, Class<T> clazz) {
+		if (clazz.isInstance(object)){
+			return clazz.cast(object);
+		}
+		return null;
+	}
+
+	/**
+	 * 用于转换接口通知
+	 * @param objects
+	 * @param clazz
+	 * @param <T>
+	 * @return
+	 */
+	protected <T> List<T> transforms(Object[] objects, Class<T> clazz) {
+		List<T> list = new ArrayList<T>();
+		for (Object object : objects) {
+			if (clazz.isInstance(object)){
+				list.add(clazz.cast(object));
+			}
+		}
+		return list;
+	}
+
+	/**
+	 * 用于转换接口通知
+	 * @param clazz
+	 * @param <T>
+	 * @return
+	 */
+	protected <T> List<T> transformNotifys(Class<T> clazz){
+		List<Object> list = new ArrayList<Object>();
+		if (mMainActivity != mCurActivity
+				&& mMainActivity != null
+				&& !mMainActivity.isRecycled()){
+			list.add(mMainActivity);
+		}
+		if (mCurActivity != null
+				&& !mCurActivity.isRecycled()){
+			list.add(mCurActivity);
+		}
+		if (mCurFragment != null
+				&& !mCurFragment.isRecycled()){
+			list.add(mCurFragment);
+		}
+		return transforms(list.toArray(new Object[0]),clazz);
 	}
 }

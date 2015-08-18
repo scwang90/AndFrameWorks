@@ -94,7 +94,7 @@ public class AfReflecter {
 		Class<?> clazz = type;
 		List<Field> fields = new ArrayList<Field>();
 		while (!clazz.equals(stoptype)) {
-			for (Field field : type.getDeclaredFields()) {
+			for (Field field : clazz.getDeclaredFields()) {
 				if (field.isAnnotationPresent(annot)) {
 					fields.add(field);
 				}
