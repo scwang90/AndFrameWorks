@@ -1,7 +1,5 @@
 package com.andframe.layoutbind.framework;
 
-import java.util.ArrayList;
-
 import android.annotation.SuppressLint;
 import android.content.res.Configuration;
 import android.content.res.Resources;
@@ -27,11 +25,6 @@ import android.view.KeyEvent.DispatcherState;
 import android.view.MotionEvent;
 import android.view.TouchDelegate;
 import android.view.View;
-import android.view.ViewDebug;
-import android.view.ViewDebug.CapturedViewProperty;
-import android.view.ViewDebug.ExportedProperty;
-import android.view.ViewDebug.IntToString;
-import android.view.ViewGroup;
 import android.view.ViewGroup.LayoutParams;
 import android.view.ViewOverlay;
 import android.view.ViewParent;
@@ -46,6 +39,8 @@ import android.view.animation.Animation;
 import android.view.inputmethod.EditorInfo;
 import android.view.inputmethod.InputConnection;
 
+import java.util.ArrayList;
+
 @SuppressLint("NewApi")
 public class AfViewDelegate extends View{
 
@@ -55,6 +50,10 @@ public class AfViewDelegate extends View{
 		super(view.getContext());
 		// TODO Auto-generated constructor stub
 		this.target = view;
+	}
+
+	public View getTarget() {
+		return target;
 	}
 
 	@Override

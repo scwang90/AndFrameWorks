@@ -1,48 +1,40 @@
 package com.andframe.layoutbind;
 
-import java.util.ArrayList;
-import java.util.List;
-
 import android.view.View;
 import android.widget.FrameLayout;
 
 import com.andframe.activity.framework.AfView;
 import com.andframe.activity.framework.AfViewable;
+import com.andframe.layoutbind.framework.AfViewModule;
 import com.andframe.layoutbind.framework.IAfLayoutModule;
 
-public class AfFrameSelector extends AfLayoutModule {
+import java.util.ArrayList;
+import java.util.List;
+
+public class AfFrameSelector extends AfViewModule {
 
 	private FrameLayout mFrameLayout = null;
 
 	public AfFrameSelector(AfViewable view, int id) {
-		super(view);
+		super(view,id);
 		// TODO Auto-generated constructor stub
 		mFrameLayout = view.findViewByID(id);
-		mLayout = findLayout(view);
-		mIsValid = mLayout != null;
 	}
 
 	public AfFrameSelector(FrameLayout frameLayout) {
-		super(new AfView(frameLayout));
+		super(new AfView(frameLayout),0);
 		// TODO Auto-generated constructor stub
+		target = frameLayout;
 		mFrameLayout = frameLayout;
-		mLayout = findLayout(new AfView(frameLayout));
-		mIsValid = mLayout != null;
-	}
-
-	@Override
-	protected View findLayout(AfViewable view) {
-		// TODO Auto-generated method stub
-		return mFrameLayout;
 	}
 
 	/**
 	 * 在 FrameLayout 中选择 view 的布局 隐藏其他的布局
-	 * @param id
+	 * @param view
 	 * @return
 	 */
 	public boolean SelectFrame(View view) {
-		if (mIsValid) {
+		if (isValid()) {
 			int count = mFrameLayout.getChildCount();
 			List<View> lthide = new ArrayList<View>();
 			for (int i = 0; i < count; i++) {
@@ -74,7 +66,7 @@ public class AfFrameSelector extends AfLayoutModule {
 	 * @return
 	 */
 	public boolean SelectFrame(int id) {
-		if (mIsValid) {
+		if (isValid()) {
 			View view = mFrameLayout.findViewById(id);
 			if (view != null) {
 				return SelectFrame(view);

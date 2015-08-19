@@ -522,7 +522,7 @@ public abstract class AfApplication extends Application {
 		if (power instanceof AfActivity) {
 			//AfActivity 退出
 			if (activity == null){
-				if (activity == mMainActivity){
+				if (power == mMainActivity){
 					notifyForegroundClosed(mMainActivity);
 				}
 			}
