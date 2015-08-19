@@ -6,16 +6,22 @@ import java.util.UUID;
 
 import android.os.Bundle;
 
+import com.andframe.feature.framework.AfExtrater;
 import com.google.gson.Gson;
 /**
  * AfBundle 
  * @author 树朾
  * 	包装 Android Bundle 支持任意对象传输
  */
-public class AfBundle {
+public class AfBundle implements AfExtrater{
 
 	protected Bundle mBundle;
 	protected static Gson mJson = new Gson();
+
+	public AfBundle() {
+		// TODO Auto-generated constructor stub
+		mBundle = new Bundle();
+	}
 
 	public AfBundle(Bundle bundle) {
 		// TODO Auto-generated constructor stub

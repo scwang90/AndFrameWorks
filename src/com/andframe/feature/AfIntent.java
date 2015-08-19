@@ -4,6 +4,7 @@ import android.content.Context;
 import android.content.Intent;
 import android.net.Uri;
 
+import com.andframe.feature.framework.AfExtrater;
 import com.google.gson.Gson;
 
 import java.util.ArrayList;
@@ -15,7 +16,7 @@ import java.util.UUID;
  * AfIntent
  * @author 树朾
  */
-public class AfIntent extends Intent{
+public class AfIntent extends Intent implements AfExtrater{
 
 	protected static Gson mJson = new Gson();
 

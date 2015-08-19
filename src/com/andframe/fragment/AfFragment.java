@@ -25,6 +25,7 @@ import android.widget.Toast;
 import com.andframe.activity.framework.AfActivity;
 import com.andframe.activity.framework.AfPageable;
 import com.andframe.activity.framework.AfView;
+import com.andframe.annotation.inject.interpreter.Injecter;
 import com.andframe.application.AfApplication;
 import com.andframe.application.AfDaemonThread;
 import com.andframe.application.AfExceptionHandler;
@@ -251,6 +252,8 @@ public abstract class AfFragment extends Fragment implements AfPageable {
 //			mRootView.getViewTreeObserver().addOnGlobalLayoutListener(this);
 			AfViewBinder binder = new AfViewBinder(this);
 			binder.doBind(mRootView);
+			Injecter injecter = new Injecter(this);
+			injecter.doInject(getActivity());
 			AfSoftInputer inputer = new AfSoftInputer(getActivity());
 			inputer.setBindListener(mRootView, this);
 			onCreated(new AfView(mRootView), new AfBundle(getArguments()));
@@ -453,9 +456,7 @@ public abstract class AfFragment extends Fragment implements AfPageable {
 	 * 显示 进度对话框
 	 * @param message
 	 *            消息
-	 * @param cancel
-	 *            是否可取消
-	 * @param textsize
+	 * @param listener
 	 *            字体大小
 	 */
 	public final void showProgressDialog(String message,
@@ -480,7 +481,7 @@ public abstract class AfFragment extends Fragment implements AfPageable {
 	 * 显示 进度对话框
 	 * @param message
 	 *            消息
-	 * @param cancel
+	 * @param listener
 	 *            是否可取消
 	 * @param textsize
 	 *            字体大小
