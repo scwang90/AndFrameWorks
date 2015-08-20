@@ -32,7 +32,6 @@ public abstract class AfMultiChoiceListActivity<T> extends AfListViewActivity<T>
 	protected AfMultiChoiceAdapter<T> mMultiChoiceAdapter;
 
 	public AfMultiChoiceListActivity() {
-		// TODO Auto-generated constructor stub
 
 	}
 
@@ -41,7 +40,6 @@ public abstract class AfMultiChoiceListActivity<T> extends AfListViewActivity<T>
 	 * @param clazz
 	 */
 	public AfMultiChoiceListActivity(Class<T> clazz) {
-		// TODO Auto-generated constructor stub
 		super(clazz);
 	}
 
@@ -51,7 +49,6 @@ public abstract class AfMultiChoiceListActivity<T> extends AfListViewActivity<T>
 	 * @param clazz
 	 */
 	public AfMultiChoiceListActivity(Class<T> clazz, String KEY_CACHELIST) {
-		// TODO Auto-generated constructor stub
 		super(clazz,KEY_CACHELIST);
 	}
 
@@ -80,7 +77,6 @@ public abstract class AfMultiChoiceListActivity<T> extends AfListViewActivity<T>
 	 */
 	@Override
 	protected boolean onBackKeyPressed() {
-		// TODO Auto-generated method stub
 		if (mMultiChoiceAdapter != null && mMultiChoiceAdapter.isMultiChoiceMode()) {
 			mMultiChoiceAdapter.closeMultiChoice();
 			return true;
@@ -122,7 +118,6 @@ public abstract class AfMultiChoiceListActivity<T> extends AfListViewActivity<T>
 
 		public AbMultiChoiceAdapter(Context context, List<T> ltdata) {
 			super(context, ltdata);
-			// TODO Auto-generated constructor stub
 		}
 		/**
 		 *  转发事件到 AfListViewActivity.this.getItemLayout(data);

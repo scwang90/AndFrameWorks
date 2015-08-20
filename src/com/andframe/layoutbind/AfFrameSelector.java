@@ -17,13 +17,11 @@ public class AfFrameSelector extends AfViewModule {
 
 	public AfFrameSelector(AfViewable view, int id) {
 		super(view,id);
-		// TODO Auto-generated constructor stub
 		mFrameLayout = view.findViewByID(id);
 	}
 
 	public AfFrameSelector(FrameLayout frameLayout) {
 		super(new AfView(frameLayout),0);
-		// TODO Auto-generated constructor stub
 		target = frameLayout;
 		mFrameLayout = frameLayout;
 	}

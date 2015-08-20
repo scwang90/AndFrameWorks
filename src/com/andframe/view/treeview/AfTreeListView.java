@@ -15,12 +15,10 @@ public class AfTreeListView extends AfMultiChoiceListView{
 	
 	public AfTreeListView(Context context) {
 		super(context);
-		// TODO Auto-generated constructor stub
 	}
 	
 	public AfTreeListView(Context context, AttributeSet attrs) {
 		super(context, attrs);
-		// TODO Auto-generated constructor stub
 	}
 	
 	/**
@@ -57,7 +55,6 @@ public class AfTreeListView extends AfMultiChoiceListView{
 	
 	@Override
 	public void onItemClick(AdapterView<?> adview, View view, int index, long id) {
-		// TODO Auto-generated method stub
 		if(mAdapter == null || mAdapter.isMultiChoiceMode()
 				|| mAdapter.isItemClickable(getDataIndex(index))){
 			super.onItemClick(adview, view, index, id);

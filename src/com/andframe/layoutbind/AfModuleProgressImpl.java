@@ -10,12 +10,10 @@ public class AfModuleProgressImpl extends AfModuleProgress{
 
 	public AfModuleProgressImpl(AfViewable view) {
 		super(view);
-		// TODO Auto-generated constructor stub
 	}
 	
 	@Override
 	protected View findLayout(AfViewable view) {
-		// TODO Auto-generated method stub
 		mTvDescription = view.findViewByID(R.id.module_progress_loadinfo);
 		if(mTvDescription != null){
 			return (View) mTvDescription.getParent();
@@ -25,7 +23,6 @@ public class AfModuleProgressImpl extends AfModuleProgress{
 
 	@Override
 	protected TextView findDescription(AfViewable view) {
-		// TODO Auto-generated method stub
 		return view.findViewByID(R.id.module_progress_loadinfo);
 	}
 

@@ -13,17 +13,14 @@ public class AfAlbumViewPager extends ViewPager{
 	
 	public AfAlbumViewPager(Context context) {
 		super(context);
-		// TODO Auto-generated constructor stub
 	}
 	
 	public AfAlbumViewPager(Context context, AttributeSet attrs) {
 		super(context, attrs);
-		// TODO Auto-generated constructor stub
 	}
 
 	@Override
 	public boolean onTouchEvent(MotionEvent arg0) {
-		// TODO Auto-generated method stub
 		if (!mHorizontalScrollBarEnabled) {
 			return false;
 		}
@@ -32,14 +29,12 @@ public class AfAlbumViewPager extends ViewPager{
 	
 	@Override
 	public boolean onInterceptTouchEvent(MotionEvent arg0) {
-		// TODO Auto-generated method stub
 		if (!mHorizontalScrollBarEnabled) {
 			return false;
 		}
 		try {
 			return super.onInterceptTouchEvent(arg0);
 		} catch (Throwable e) {
-			// TODO: handle exception
 			AfException.handle(e, "AfAlbumViewPager.onInterceptTouchEvent 捕捉异常！");
 			return false;
 		}
@@ -47,7 +42,6 @@ public class AfAlbumViewPager extends ViewPager{
 
 	@Override
 	public void setHorizontalScrollBarEnabled(boolean horizontalScrollBarEnabled) {
-		// TODO Auto-generated method stub
 		mHorizontalScrollBarEnabled = horizontalScrollBarEnabled;
 		super.setHorizontalScrollBarEnabled(horizontalScrollBarEnabled);
 	}

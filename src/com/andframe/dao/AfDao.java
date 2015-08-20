@@ -87,7 +87,6 @@ public abstract class AfDao<T> {
 
 	@Override
 	protected void finalize() throws Throwable {
-		// TODO Auto-generated method stub
 		super.finalize();
 		this.close();
 	}
@@ -130,7 +129,6 @@ public abstract class AfDao<T> {
 	}
 
 	private String setValue(T obj, Field field) throws Exception {
-		// TODO Auto-generated method stub
 		Object data = field.get(obj);
 		Class<?> type = field.getType();
 		if (type.equals(Date.class)) {
@@ -159,7 +157,6 @@ public abstract class AfDao<T> {
 	 * 关闭之后会出现各种问题
 	 */
 	public final void close() {
-		// TODO Auto-generated method stub
 //		synchronized(mHelper){
 //			mDbReadable.close();
 //			mDbWriteable.close();
@@ -187,14 +184,12 @@ public abstract class AfDao<T> {
 				mDbWriteable.execSQL(sql.toString(), tObjects);
 				return true;
 			} catch (Throwable e) {
-				// TODO: handle exception
 				return false;
 			}
 		}
 	}
 
 	protected Object[] getObjectFromFields(T obj) throws Exception {
-		// TODO Auto-generated method stub
 		Model model = new Model(obj);
 		List<Object> list = new ArrayList<Object>();
 		Field[] fields = AfReflecter.getField(mClazz);
@@ -224,7 +219,6 @@ public abstract class AfDao<T> {
 				mDbWriteable.execSQL(sql.toString());
 				return true;
 			} catch (Throwable e) {
-				// TODO Auto-generated catch block
 				String remark = "AfDao("+getClass().getName()+").update("+obj+","+where+")\r\n";
 				AfExceptionHandler.handler(e, remark);
 			}
@@ -282,7 +276,6 @@ public abstract class AfDao<T> {
 	 * 删除所有
 	 */
 	public final void delAll() {
-		// TODO Auto-generated method stub
 		synchronized(mHelper){
 			mDbWriteable.execSQL("delete from " + mTableName);
 		}
@@ -294,7 +287,6 @@ public abstract class AfDao<T> {
 	 * @param where
 	 */
 	public final void delWhere(String where) {
-		// TODO Auto-generated method stub
 		synchronized(mHelper){
 			mDbWriteable.execSQL("delete from " + mTableName + " " + AfSQLHelper.Where(where));
 		}
@@ -484,7 +476,6 @@ public abstract class AfDao<T> {
 	}
 
 	protected Model getModel(Cursor cursor) {
-		// TODO Auto-generated method stub
 		try {
 			Model model = new Model();
 			if (cursor.moveToNext()) {
@@ -495,13 +486,11 @@ public abstract class AfDao<T> {
 			}
 			return model;
 		} finally{
-			// TODO: handle exception
 			cursor.close();
 		}
 	}
 
 	protected List<Model> getModels(Cursor cursor) {
-		// TODO Auto-generated method stub
 		try {
 			List<Model> models = new ArrayList<AfDao.Model>();
 			while (cursor.moveToNext()) {
@@ -514,7 +503,6 @@ public abstract class AfDao<T> {
 			}
 			return models;
 		} finally{
-			// TODO: handle exception
 			cursor.close();
 		}
 	}
@@ -525,11 +513,9 @@ public abstract class AfDao<T> {
 		private Object model;
 
 		public Model() {
-			// TODO Auto-generated constructor stub
 		}
 
 		public Model(Object obj) {
-			// TODO Auto-generated constructor stub
 			this.model = obj;
 		}
 
@@ -542,7 +528,6 @@ public abstract class AfDao<T> {
 		}
 
 		public Short getShort(String columnName) {
-			// TODO Auto-generated method stub
 			return Short.valueOf(getString(columnName));
 		}
 
@@ -567,17 +552,14 @@ public abstract class AfDao<T> {
 		}
 
 		public UUID getUUID(String column) {
-			// TODO Auto-generated method stub
 			try {
 				return UUID.fromString(getString(column));
 			} catch (Exception e) {
-				// TODO: handle exception
 				return UUID.fromString("00000000-0000-0000-0000-000000000000");
 			}
 		}
 
 		public Date getDate(String column) {
-			// TODO Auto-generated method stub
 			return new Date(getLong(column));
 		}
 
@@ -586,7 +568,6 @@ public abstract class AfDao<T> {
 		}
 
 		public Object getFieldObject(Field field) throws Exception {
-			// TODO Auto-generated method stub
 			field.setAccessible(true);
 			Class<?> type = field.getType();
 			if (type.equals(Date.class)) {

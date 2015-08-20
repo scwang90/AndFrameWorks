@@ -8,26 +8,21 @@ public class AfException extends Exception{
 
 	public AfException() {
 		super();
-		// TODO Auto-generated constructor stub
 	}
 
 	public AfException(String detailMessage, Throwable throwable) {
 		super(detailMessage, throwable);
-		// TODO Auto-generated constructor stub
 	}
 
 	public AfException(String detailMessage) {
 		super(detailMessage);
-		// TODO Auto-generated constructor stub
 	}
 
 	public AfException(Throwable throwable) {
 		super(throwable);
-		// TODO Auto-generated constructor stub
 	}
 
 	public static String handle(Throwable e, String tip) {
-		// TODO Auto-generated method stub
 		int index = 0;
 		Throwable ex = e;
 		while (!(ex instanceof AfToastException) && ex.getCause() != null && ++index < 5) {

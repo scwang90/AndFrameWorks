@@ -167,7 +167,6 @@ public class AfCharset {
 	 * @param bytes
 	 */
 	public static void mixup(byte[] bytes) {
-		// TODO Auto-generated method stub
 		for (int i = 0; i < bytes.length; i++) {
 			bytes[i] = (byte) ((bytes[i] + (100*(i&1)-50))%256);
 		}
@@ -178,7 +177,6 @@ public class AfCharset {
 	 * @param bytes
 	 */
 	public static void mixdown(byte[] bytes) {
-		// TODO Auto-generated method stub
 		for (int i = 0; i < bytes.length; i++) {
 			bytes[i] = (byte) ((bytes[i] - (100*(i&1)-50))%256);
 		}

@@ -20,18 +20,15 @@ public class AfTableView extends HorizontalScrollView {
 
 	public AfTableView(Context context) {
 		super(context);
-		// TODO Auto-generated constructor stub
 		InitializeComponent(context);
 	}
 
 	public AfTableView(Context context, AttributeSet attrs) {
 		super(context, attrs);
-		// TODO Auto-generated constructor stub
 		InitializeComponent(context);
 	}
 
 	protected void InitializeComponent(Context context) {
-		// TODO Auto-generated method stub
 		mLayout = new LinearLayout(context);
 		mLayout.setOrientation(LinearLayout.VERTICAL);
 		mListView = new ListView(context);
@@ -60,11 +57,9 @@ public class AfTableView extends HorizontalScrollView {
 	}
 
 	public static void setBackground(View view, int back) {
-		// TODO Auto-generated method stub
 		try {
 			view.setBackgroundResource(back);
 		} catch (NotFoundException e) {
-			// TODO: handle exception
 			view.setBackgroundColor(back);
 		}
 	}
@@ -79,7 +74,6 @@ public class AfTableView extends HorizontalScrollView {
 
 		public AfTableHeader(Context context, AfTable table) {
 			super(context);
-			// TODO Auto-generated constructor stub
 			setOrientation(HORIZONTAL);
 			setBackground(this, table.BackgroundIdHeader);
 			setLayoutParams(new LayoutParams(CONTENT, table.HeaderHeight));
@@ -102,11 +96,9 @@ public class AfTableView extends HorizontalScrollView {
 		}
 
 		public static void setBackground(View view, int back) {
-			// TODO Auto-generated method stub
 			try {
 				view.setBackgroundResource(back);
 			} catch (NotFoundException e) {
-				// TODO: handle exception
 				view.setBackgroundColor(back);
 			}
 		}

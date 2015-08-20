@@ -46,7 +46,6 @@ public class AfContactsListView extends ExpandableListView implements
 	}
 
 	public int getGroupClickStatus(int group) {
-		// TODO Auto-generated method stub
 		if (mGroupStatus.containsKey(String.valueOf(group))) {
 			return mGroupStatus.get(String.valueOf(group));
 		} else {
@@ -55,7 +54,6 @@ public class AfContactsListView extends ExpandableListView implements
 	}
 
 	public void setGroupClickStatus(int group, int status) {
-		// TODO Auto-generated method stub
 		mGroupStatus.put(String.valueOf(group), status);
 	}
 
@@ -168,7 +166,6 @@ public class AfContactsListView extends ExpandableListView implements
 	 */
 	@Override
 	public void setAdapter(ListAdapter adapter) {
-		// TODO Auto-generated method stub
 		super.setAdapter(adapter);
 		throw new NullPointerException("请使用 setAdapter(AfContactsAdapter adapter)");
 	}
@@ -176,7 +173,6 @@ public class AfContactsListView extends ExpandableListView implements
 
 	@SuppressWarnings("rawtypes")
 	public void setAdapter(AfContactsAdapter adapter) {
-		// TODO Auto-generated method stub
 		super.setAdapter(adapter);
 		mGroupStatus.clear();
 		mAdapter = adapter;
@@ -232,7 +228,6 @@ public class AfContactsListView extends ExpandableListView implements
 	}
 
 	private int getQQHeaderState(int group, int child) {
-		// TODO Auto-generated method stub
 		ExpandableListAdapter adapter = getExpandableListAdapter();
 		if(adapter != null){
 			final int childCount = adapter.getChildrenCount(group);

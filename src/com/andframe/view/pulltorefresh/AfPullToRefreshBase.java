@@ -66,26 +66,22 @@ public abstract class AfPullToRefreshBase<Target extends View> extends
 
 	public AfPullToRefreshBase(Context context) {
 		super(context);
-		// TODO Auto-generated constructor stub
 		this.initialized(context, null);
 	}
 
 	public AfPullToRefreshBase(Context context, int mode) {
 		super(context);
-		// TODO Auto-generated constructor stub
 		this.mode = mode;
 		this.initialized(context, null);
 	}
 
 	public AfPullToRefreshBase(Context context, AttributeSet attrs) {
 		super(context, attrs);
-		// TODO Auto-generated constructor stub
 		this.initialized(context, attrs);
 	}
 
 	public AfPullToRefreshBase(Context context, AttributeSet attrs, int defStyle) {
 		super(context, attrs, defStyle);
-		// TODO Auto-generated constructor stub
 		this.initialized(context, attrs);
 	}
 
@@ -230,7 +226,6 @@ public abstract class AfPullToRefreshBase<Target extends View> extends
 	 * 提交刷新完成 更新时间
 	 */
 	public final void finishRefresh() {
-		// TODO Auto-generated method stub
 		onRefreshComplete();
 		setLastUpdateTime(new Date());
 	}
@@ -239,12 +234,10 @@ public abstract class AfPullToRefreshBase<Target extends View> extends
 	 * 提交刷新完成 但是失败 不更新时间
 	 */
 	public final void finishRefreshFail() {
-		// TODO Auto-generated method stub
 		onRefreshComplete();
 	}
 
 	public final void finishLoadMore() {
-		// TODO Auto-generated method stub
 		onRefreshComplete();
 	}
 
@@ -253,7 +246,6 @@ public abstract class AfPullToRefreshBase<Target extends View> extends
 	// ===========================================================
 
 	public final void setLastUpdateTime(Date date) {
-		// TODO Auto-generated method stub
 		if (mHeaderLayout != null) {
 			mHeaderLayout.setLastUpdateTime(date);
 		}
@@ -491,7 +483,6 @@ public abstract class AfPullToRefreshBase<Target extends View> extends
 
 	@Override
 	public void setOnTouchListener(OnTouchListener listener) {
-		// TODO Auto-generated method stub
 		mTouchListener = listener;
 	}
 
@@ -736,7 +727,6 @@ public abstract class AfPullToRefreshBase<Target extends View> extends
 	private Smoothable mSmooth = new Smoothable() {
 		@Override
 		public boolean onSmooth(int value, int form, int to) {
-			// TODO Auto-generated method stub
 			scrollTo(0, value);
 			return true;
 		}

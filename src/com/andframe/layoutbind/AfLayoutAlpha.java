@@ -20,13 +20,11 @@ public abstract class AfLayoutAlpha extends AfViewModule implements AnimationLis
 	
 	public AfLayoutAlpha(AfViewable view,int viewid) {
 		super(view,viewid);
-		// TODO Auto-generated constructor stub
 		mAnimationHide.setDuration(DURATION);
 		mAnimationShow.setDuration(DURATION);
 	}
 
 	public void hide() {
-		// TODO Auto-generated constructor stub
 		if (target != null && target.getVisibility() == View.VISIBLE) {
 			mAnimationHide = new AlphaAnimation(1, 0);
 			mAnimationHide.setDuration(DURATION);
@@ -39,7 +37,6 @@ public abstract class AfLayoutAlpha extends AfViewModule implements AnimationLis
 	}
 
 	public void show() {
-		// TODO Auto-generated constructor stub
 		if (target != null && target.getVisibility() != View.VISIBLE) {
 			target.setVisibility(View.VISIBLE);
 			mAnimationShow = new AlphaAnimation(0, 1);
@@ -54,7 +51,6 @@ public abstract class AfLayoutAlpha extends AfViewModule implements AnimationLis
 	
 	@Override
 	public boolean isVisibility() {
-		// TODO Auto-generated method stub
 		if(!mHasStarted){
 			return super.isVisibility();
 		}else{
@@ -65,18 +61,15 @@ public abstract class AfLayoutAlpha extends AfViewModule implements AnimationLis
 
     @Override
     public void onAnimationStart(Animation animation) {
-    	// TODO Auto-generated method stub
     	mHasStarted = true;
     }
     
     @Override
     public void onAnimationRepeat(Animation animation) {
-    	// TODO Auto-generated method stub
     }
     
     @Override
     public void onAnimationEnd(Animation animation) {
-    	// TODO Auto-generated method stub
     	mHasStarted = false;
     	if(animation == mAnimationHide){
     		target.setVisibility(View.GONE);

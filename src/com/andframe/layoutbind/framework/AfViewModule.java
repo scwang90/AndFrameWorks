@@ -11,7 +11,6 @@ public class AfViewModule extends AfViewDelegate implements AfViewable,IViewModu
 
 	public AfViewModule(AfViewable view, int id) {
 		super(new View(view.getContext()));
-		// TODO Auto-generated constructor stub
 		target = view.findViewById(id);
 	}
 	
@@ -26,7 +25,6 @@ public class AfViewModule extends AfViewDelegate implements AfViewable,IViewModu
 	
 	@Override
 	public void hide() {
-		// TODO Auto-generated method stub
 		if(isValid()){
 			setVisibility(View.GONE);
 		}
@@ -34,7 +32,6 @@ public class AfViewModule extends AfViewDelegate implements AfViewable,IViewModu
 
 	@Override
 	public void show() {
-		// TODO Auto-generated method stub
 		if(isValid()){
 			setVisibility(View.VISIBLE);
 		}
@@ -42,13 +39,11 @@ public class AfViewModule extends AfViewDelegate implements AfViewable,IViewModu
 
 	@Override
 	public boolean isValid() {
-		// TODO Auto-generated method stub
 		return target != null;
 	}
 
 	@Override
 	public boolean isVisibility() {
-		// TODO Auto-generated method stub
 		if(isValid()){
 			return getVisibility() == View.VISIBLE;
 		}
@@ -58,11 +53,9 @@ public class AfViewModule extends AfViewDelegate implements AfViewable,IViewModu
 	@SuppressWarnings("unchecked")
 	@Override
 	public <T extends View> T findViewByID(int id) {
-		// TODO Auto-generated method stub
 		try {
 			return (T)target.findViewById(id);
 		} catch (Exception e) {
-			// TODO: handle exception
 			AfExceptionHandler.handler(e, "AfViewModule.findViewByID");
 		}
 		return null;
@@ -70,7 +63,6 @@ public class AfViewModule extends AfViewDelegate implements AfViewable,IViewModu
 
 	@Override
 	public <T extends View> T findViewById(int id, Class<T> clazz) {
-		// TODO Auto-generated method stub
 		View view = target.findViewById(id);
 		if (clazz.isInstance(view)) {
 			return clazz.cast(view);

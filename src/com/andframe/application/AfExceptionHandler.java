@@ -90,7 +90,6 @@ public class AfExceptionHandler implements UncaughtExceptionHandler{
 		}
 	}
 	protected void onHandlerAttachException(Throwable ex, String remark,String handlerid) {
-		// TODO Auto-generated method stub
 		try {
 			String msg = "时间:" + AfDateFormat.FULL.format(new Date()) +
 					"\r\n\r\n备注:\r\n" + "Attach-"+remark +
@@ -112,12 +111,10 @@ public class AfExceptionHandler implements UncaughtExceptionHandler{
 			writer.write(msg);
 			writer.close();
 		} catch (Throwable e) {
-			// TODO: handle exception
 		}
 	}
 
 	protected void onHandlerException(Throwable ex, String remark, String handlerid) {
-		// TODO Auto-generated method stub
 		try {
 			String msg = "时间:" + AfDateFormat.FULL.format(new Date()) +
 					"\r\n\r\n备注:\r\n" + remark +
@@ -138,7 +135,6 @@ public class AfExceptionHandler implements UncaughtExceptionHandler{
 			writer.write(msg);
 			writer.close();
 		} catch (Throwable e) {
-			// TODO: handle exception
 		}
 	}
 
@@ -160,7 +156,6 @@ public class AfExceptionHandler implements UncaughtExceptionHandler{
 				doShowDialog(activity, "程序崩溃了", msg,new Handler.Callback() {
 					@Override
 					public boolean handleMessage(Message msg) {
-						// TODO Auto-generated method stub
 						mDefaultHandler.uncaughtException(thread, ex);
 						return false;
 					}
@@ -174,7 +169,6 @@ public class AfExceptionHandler implements UncaughtExceptionHandler{
 			writer.close();
 			return;
 		} catch (Throwable e) {
-			// TODO: handle exception
 			e.printStackTrace();
 		}
 		
@@ -186,7 +180,6 @@ public class AfExceptionHandler implements UncaughtExceptionHandler{
 	}
 
 	public static String getAllStackTraceInfo(Throwable ex) {
-		// TODO Auto-generated method stub
 		StringBuilder sb = new StringBuilder();
 		sb.append("本地推栈:\r\n");
 		sb.append(getPackageStackTraceInfo(ex));
@@ -196,7 +189,6 @@ public class AfExceptionHandler implements UncaughtExceptionHandler{
 	}
 
 	public static String getExceptionMessage(Throwable ex) {
-		// TODO Auto-generated method stub
 		String message = ex.getMessage();
 		ex = ex.getCause();
 		if (ex != null) {
@@ -207,7 +199,6 @@ public class AfExceptionHandler implements UncaughtExceptionHandler{
 	}
 
 	public static String getExceptionName(Throwable ex) {
-		// TODO Auto-generated method stub
 		String name = ex.getClass().toString();
 		ex = ex.getCause();
 		if (ex != null) {
@@ -218,7 +209,6 @@ public class AfExceptionHandler implements UncaughtExceptionHandler{
 	}
 
 	public static String getPackageStackTraceInfo(Throwable ex) {
-		// TODO Auto-generated method stub
 		String TraceInfo = "";
 		String Package = AfApplication.getApp().getPackageName() + ".";
 		for (StackTraceElement stack : ex.getStackTrace()) {
@@ -236,7 +226,6 @@ public class AfExceptionHandler implements UncaughtExceptionHandler{
 	}
 	
 	public static String getStackTraceInfo(Throwable ex) {
-		// TODO Auto-generated method stub
 		StringBuilder builder = new StringBuilder();
 		builder.append(ex.getClass().toString());
 		builder.append("\r\n");
@@ -256,7 +245,6 @@ public class AfExceptionHandler implements UncaughtExceptionHandler{
 	public static HashMap<String, String> mDialogMap = new HashMap<String, String>();
 
 	public static synchronized void doShowDialog(Context activity, String title, String msg,Callback callback, Looper looper,String id) {
-		// TODO Auto-generated method stub
 		if(mDialogMap.containsKey(id)){
 			return;
 		}
@@ -280,7 +268,6 @@ public class AfExceptionHandler implements UncaughtExceptionHandler{
 							@Override
 							@SuppressLint("HandlerLeak")
 							public void onClick(DialogInterface dialog, int which) {
-								// TODO Auto-generated method stub
 								dialog.dismiss();
 								mDialogMap.remove(tid);
 								if(tLooper != null && tcallback != null){
@@ -291,7 +278,6 @@ public class AfExceptionHandler implements UncaughtExceptionHandler{
 								Handler handler = new Handler(){
 									@Override
 									public void handleMessage(Message msg) {
-										// TODO Auto-generated method stub
 										Looper.myLooper().quit();
 									}
 								};
@@ -301,7 +287,6 @@ public class AfExceptionHandler implements UncaughtExceptionHandler{
 					dialog.show();
 					Looper.loop();
 				} catch (Throwable e) {
-					// TODO: handle exception
 					e.printStackTrace();
 				}
 			};
@@ -309,17 +294,14 @@ public class AfExceptionHandler implements UncaughtExceptionHandler{
 	}
 	
 	public static void doShowDialog(Context activity, String title, String msg,String id) {
-		// TODO Auto-generated method stub
 		doShowDialog(activity, title, msg, null,null,id);
 	}
 	
 	public static void doShowDialog(Context activity, String title, String msg,Callback callback) {
-		// TODO Auto-generated method stub
 		doShowDialog(activity, title, msg, callback,null,AfDateGuid.NewID());
 	}
 	
 	public static void doShowDialog(Context activity, String title, String msg,Callback callback,String id) {
-		// TODO Auto-generated method stub
 		doShowDialog(activity, title, msg, callback,null,id);
 	}
 

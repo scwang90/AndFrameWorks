@@ -127,22 +127,18 @@ public abstract class AfActivity extends FragmentActivity implements AfPageable,
 	 * @return
 	 */
 	protected String TAG() {
-		// TODO Auto-generated method stub
 		return "AfActivity("+getClass().getName()+")";
 	}
 	
 	protected String TAG(String tag) {
-		// TODO Auto-generated method stub
 		return "AfActivity("+getClass().getName()+")."+tag;
 	}
 
 	@Override
 	protected void onRestoreInstanceState(Bundle savedInstanceState) {
-		// TODO Auto-generated method stub
 		try {
 			super.onRestoreInstanceState(savedInstanceState);
 		} catch (Throwable e) {
-			// TODO: handle exception
 			if (AfApplication.getApp().isDebug()) {
 				AfExceptionHandler.handler(e, "AfActivity.onRestoreInstanceState");
 			}
@@ -151,12 +147,10 @@ public abstract class AfActivity extends FragmentActivity implements AfPageable,
 	
 	@Override
 	protected void onSaveInstanceState(Bundle outState) {
-		// TODO Auto-generated method stub
 		try {
 			AfApplication.getApp().onSaveInstanceState();
 			super.onSaveInstanceState(outState);
 		} catch (Exception e) {
-			// TODO: handle exception
 			AfExceptionHandler.handler(e, "AfActivity.onSaveInstanceState");
 		}
 	}
@@ -179,7 +173,6 @@ public abstract class AfActivity extends FragmentActivity implements AfPageable,
 	 */
 	@Override
 	public boolean isRecycled() {
-		// TODO Auto-generated method stub
 		return mIsRecycled;
 	}
 
@@ -191,7 +184,6 @@ public abstract class AfActivity extends FragmentActivity implements AfPageable,
 	 */
 	@Override
 	public void setContentView(int res) {
-		// TODO Auto-generated method stub
 		setContentView(LayoutInflater.from(this).inflate(res, null));
 	}
 
@@ -203,7 +195,6 @@ public abstract class AfActivity extends FragmentActivity implements AfPageable,
 	 */
 	@Override
 	public void setContentView(View view) {
-		// TODO Auto-generated method stub
 		setContentView(view, new LayoutParams(LP_MP, LP_MP));
 	}
 
@@ -215,7 +206,6 @@ public abstract class AfActivity extends FragmentActivity implements AfPageable,
 	 */
 	@Override
 	public void setContentView(View view, LayoutParams params) {
-		// TODO Auto-generated method stub
 		super.setContentView(view, params);
 		mRoot = view;
 		AfViewBinder binder;
@@ -230,7 +220,6 @@ public abstract class AfActivity extends FragmentActivity implements AfPageable,
 	 * 当软键盘显示
 	 */
 	public void onSoftInputShown() {
-		// TODO Auto-generated method stub
 		
 	}
 
@@ -239,13 +228,11 @@ public abstract class AfActivity extends FragmentActivity implements AfPageable,
 	 * 当面软键盘收起
 	 */
 	public void onSoftInputHiden() {
-		// TODO Auto-generated method stub
 		
 	}
 
 	@Override
 	protected void onResume() {
-		// TODO Auto-generated method stub
 		super.onResume();
 		getAfApplication().setCurActivity(this, this);
 		this.onQueryChanged();
@@ -253,7 +240,6 @@ public abstract class AfActivity extends FragmentActivity implements AfPageable,
 
 	@Override
 	protected void onDestroy() {
-		// TODO Auto-generated method stub
 		super.onDestroy();
 		getAfApplication().setCurActivity(this,null);
 		mIsRecycled = true;
@@ -266,7 +252,6 @@ public abstract class AfActivity extends FragmentActivity implements AfPageable,
 	 * 查询系统数据变动
 	 */
 	public void onQueryChanged() {
-		// TODO Auto-generated method stub
 	}
 
 	/**
@@ -274,7 +259,6 @@ public abstract class AfActivity extends FragmentActivity implements AfPageable,
 	 * 任何任务都会在该线程中运行。 如果 postTask 前一个任务未完成，后一个任务将等待
 	 */
 	protected void buildThreadWorker() {
-		// TODO Auto-generated method stub
 		if (mWorker == null) {
 			mWorker = new AfThreadWorker(this.getClass().getSimpleName());
 		}
@@ -282,81 +266,68 @@ public abstract class AfActivity extends FragmentActivity implements AfPageable,
 
 	@Override
 	public Context getContext() {
-		// TODO Auto-generated method stub
 		return this;
 	}
 
 	@Override
 	public Activity getActivity() {
-		// TODO Auto-generated method stub
 		return this;
 	}
 
 	@Override
 	public void startActivity(Class<? extends AfActivity> tclass) {
-		// TODO Auto-generated method stub
 		startActivity(new Intent(this, tclass));
 	}
 
 	@Override
 	public void startActivityForResult(Class<? extends AfActivity> tclass,
 			int request) {
-		// TODO Auto-generated method stub
 		startActivityForResult(new Intent(this, tclass), request);
 	}
 	
 	@Override
 	public boolean getSoftInputStatus() {
-		// TODO Auto-generated method stub
 		return new AfSoftInputer(this).getSoftInputStatus();
 	}
 	
 	@Override
 	public boolean getSoftInputStatus(View view) {
-		// TODO Auto-generated method stub
 		return new AfSoftInputer(this).getSoftInputStatus(view);
 	}
 
 	@Override
 	public void setSoftInputEnable(EditText editview, boolean enable) {
-		// TODO Auto-generated method stub
 		new AfSoftInputer(this).setSoftInputEnable(editview, enable);
 	}
 
 	@Override
 	public void makeToastLong(int resid) {
-		// TODO Auto-generated method stub
 		Toast.makeText(this, resid, Toast.LENGTH_LONG).show();
 	}
 
 	@Override
 	public void makeToastShort(int resid) {
-		// TODO Auto-generated method stub
 		Toast.makeText(this, resid, Toast.LENGTH_SHORT).show();
 	}
 
 	@Override
 	public void makeToastLong(String tip) {
-		// TODO Auto-generated method stub
 		Toast.makeText(this, tip, Toast.LENGTH_LONG).show();
 	}
 
 	@Override
 	public void makeToastShort(String tip) {
-		// TODO Auto-generated method stub
 		Toast.makeText(this, tip, Toast.LENGTH_SHORT).show();
 	}
 
 	@Override
 	public void makeToastLong(String tip,Throwable e) {
-		// TODO Auto-generated method stub
 		tip = AfException.handle(e, tip);
 		Toast.makeText(this, tip, Toast.LENGTH_LONG).show();
 	}
 
 	@Override
 	public <T extends View> T findViewById(int id, Class<T> clazz) {
-		// TODO Auto-generated method stub
 		View view = findViewById(id);
 		if (clazz.isInstance(view)) {
 			return clazz.cast(view);
@@ -367,11 +338,9 @@ public abstract class AfActivity extends FragmentActivity implements AfPageable,
 	@Override
 	@SuppressWarnings("unchecked")
 	public <T extends View> T findViewByID(int id) {
-		// TODO Auto-generated method stub
 		try {
 			return (T)findViewById(id);
 		} catch (Exception e) {
-			// TODO: handle exception
 			AfExceptionHandler.handler(e, TAG("findViewByID"));
 		}
 		return null;
@@ -382,7 +351,6 @@ public abstract class AfActivity extends FragmentActivity implements AfPageable,
 	 * @param task
 	 */
 	public AfTask postTask(AfTask task) {
-		// TODO Auto-generated method stub
 		if (mWorker != null) {
 			return mWorker.postTask(task);
 		}
@@ -394,7 +362,6 @@ public abstract class AfActivity extends FragmentActivity implements AfPageable,
 	 * @param message 消息
 	 */
 	public void showProgressDialog(String message) {
-		// TODO Auto-generated method stub
 		showProgressDialog(message, false, 25);
 	}
 
@@ -404,7 +371,6 @@ public abstract class AfActivity extends FragmentActivity implements AfPageable,
 	 * @param cancel 是否可取消
 	 */
 	public void showProgressDialog(String message, boolean cancel) {
-		// TODO Auto-generated method stub
 		showProgressDialog(message, cancel, 25);
 	}
 
@@ -416,7 +382,6 @@ public abstract class AfActivity extends FragmentActivity implements AfPageable,
 	 */
 	public void showProgressDialog(String message, boolean cancel,
 			int textsize) {
-		// TODO Auto-generated method stub
 		try {
 			mProgress = new ProgressDialog(this);
 			mProgress.setMessage(message);
@@ -426,7 +391,6 @@ public abstract class AfActivity extends FragmentActivity implements AfPageable,
 
 			setDialogFontSize(mProgress, textsize);
 		} catch (Exception e) {
-			// TODO: handle exception
 			//进过日志验证，这个异常会发送，但是概率非常小，注释掉异常通知
 //			AfExceptionHandler.handler(e, "AfActivity.showProgressDialog");
 		}
@@ -439,7 +403,6 @@ public abstract class AfActivity extends FragmentActivity implements AfPageable,
 	 */
 	public void showProgressDialog(String message,
 			OnCancelListener listener) {
-		// TODO Auto-generated method stub
 		try {
 			mProgress = new ProgressDialog(this);
 			mProgress.setMessage(message);
@@ -449,7 +412,6 @@ public abstract class AfActivity extends FragmentActivity implements AfPageable,
 			
 			setDialogFontSize(mProgress, 25);
 		} catch (Exception e) {
-			// TODO: handle exception
 			//进过日志验证，这个异常会发送，但是概率非常小，注释掉异常通知
 //			AfExceptionHandler.handler(e, "AfActivity.showProgressDialog");
 		}
@@ -463,7 +425,6 @@ public abstract class AfActivity extends FragmentActivity implements AfPageable,
 	 */
 	public void showProgressDialog(String message,
 			OnCancelListener listener, int textsize) {
-		// TODO Auto-generated method stub
 		try {
 			mProgress = new ProgressDialog(this);
 			mProgress.setMessage(message);
@@ -473,7 +434,6 @@ public abstract class AfActivity extends FragmentActivity implements AfPageable,
 			
 			setDialogFontSize(mProgress, textsize);
 		} catch (Exception e) {
-			// TODO: handle exception
 			//进过日志验证，这个异常会发送，但是概率非常小，注释掉异常通知
 //			AfExceptionHandler.handler(e, "AfActivity.showProgressDialog");
 		}
@@ -483,14 +443,12 @@ public abstract class AfActivity extends FragmentActivity implements AfPageable,
 	 * 隐藏 进度对话框
 	 */
 	public void hideProgressDialog() {
-		// TODO Auto-generated method stub
 		try {
 			if (mProgress != null && !isRecycled()) {
 				mProgress.dismiss();
 				mProgress = null;
 			}
 		} catch (Exception e) {
-			// TODO: handle exception
 			AfExceptionHandler.handler(e, "AfActivity.hideProgressDialog");
 		}
 	}
@@ -591,7 +549,6 @@ public abstract class AfActivity extends FragmentActivity implements AfPageable,
 			String positive, OnClickListener lpositive, 
 			String neutral, OnClickListener lneutral, 
 			String negative,OnClickListener lnegative) {
-		// TODO Auto-generated method stub
 		doShowDialog(-1, iconres, title, message, positive, lpositive, neutral, lneutral, negative, lnegative);
 	}
 
@@ -615,7 +572,6 @@ public abstract class AfActivity extends FragmentActivity implements AfPageable,
 			String positive, OnClickListener lpositive,
 			String neutral, OnClickListener lneutral, 
 			String negative,OnClickListener lnegative) {
-		// TODO Auto-generated method stub
 		new AfDailog(this).doShowDialog(theme, iconres, title, message, positive, lpositive, neutral, lneutral, negative, lnegative);
 	}
 
@@ -629,7 +585,6 @@ public abstract class AfActivity extends FragmentActivity implements AfPageable,
 	@Override
 	public void doShowViewDialog(String title, View view, String positive,
 			OnClickListener lpositive) {
-		// TODO Auto-generated method stub
 		doShowViewDialog(title, view, positive, lpositive,"",null);
 	}
 
@@ -646,7 +601,6 @@ public abstract class AfActivity extends FragmentActivity implements AfPageable,
 	public void doShowViewDialog(String title, View view, String positive,
 			OnClickListener lpositive, String negative,
 			OnClickListener lnegative) {
-		// TODO Auto-generated method stub
 		doShowViewDialog(0,title,view,positive, lpositive,negative,lnegative);
 	}
 
@@ -703,7 +657,6 @@ public abstract class AfActivity extends FragmentActivity implements AfPageable,
 			String positive, OnClickListener lpositive, 
 			String neutral, OnClickListener lneutral, 
 			String negative,OnClickListener lnegative) {
-		// TODO Auto-generated method stub
 		doShowViewDialog(-1, iconres, title, view, positive, lpositive, neutral, lneutral, negative, lnegative);
 	}
 
@@ -727,7 +680,6 @@ public abstract class AfActivity extends FragmentActivity implements AfPageable,
 			String positive, OnClickListener lpositive,
 			String neutral, OnClickListener lneutral, 
 			String negative,OnClickListener lnegative) {
-		// TODO Auto-generated method stub
 		new AfDailog(this).doShowViewDialog(theme, iconres, title, view, positive, lpositive, neutral, lneutral, negative, lnegative);
 	}
 
@@ -752,7 +704,6 @@ public abstract class AfActivity extends FragmentActivity implements AfPageable,
 	 */
 	public void doSelectItem(String title,String[] items,OnClickListener listener,
 			final OnClickListener oncancel) {
-		// TODO Auto-generated method stub
 		new AfDailog(this).doSelectItem(title, items, listener, oncancel);
 	}
 
@@ -763,7 +714,6 @@ public abstract class AfActivity extends FragmentActivity implements AfPageable,
 	 * @param listener 选择监听器
 	 */
 	public void doSelectItem(String title,String[] items,OnClickListener listener) {
-		// TODO Auto-generated method stub
 		doSelectItem(title, items, listener, null);
 	}
 
@@ -804,7 +754,6 @@ public abstract class AfActivity extends FragmentActivity implements AfPageable,
 	}
 
 	private void setViewFontText(View view, String text) {
-		// TODO Auto-generated method stub
 		if (view instanceof ViewGroup) {
 			ViewGroup parent = (ViewGroup) view;
 			int count = parent.getChildCount();
@@ -841,7 +790,6 @@ public abstract class AfActivity extends FragmentActivity implements AfPageable,
 	 */
 	@Override
 	public boolean onKeyLongPress(int keyCode, KeyEvent event) {
-		// TODO Auto-generated method stub
 		boolean isHandled = false;
 		List<Fragment> fragments = getSupportFragmentManager().getFragments();
 		fragments = fragments == null ? new ArrayList<Fragment>() : fragments;
@@ -863,7 +811,6 @@ public abstract class AfActivity extends FragmentActivity implements AfPageable,
 	@Override
 	@SuppressLint("NewApi")
 	public boolean onKeyShortcut(int keyCode, KeyEvent event) {
-		// TODO Auto-generated method stub
 		boolean isHandled = false;
 		List<Fragment> fragments = getSupportFragmentManager().getFragments();
 		fragments = fragments == null ? new ArrayList<Fragment>() : fragments;
@@ -884,7 +831,6 @@ public abstract class AfActivity extends FragmentActivity implements AfPageable,
 	 */
 	@Override
 	public boolean onKeyMultiple(int keyCode, int repeatCount, KeyEvent event) {
-		// TODO Auto-generated method stub
 		boolean isHandled = false;
 		List<Fragment> fragments = getSupportFragmentManager().getFragments();
 		fragments = fragments == null ? new ArrayList<Fragment>() : fragments;
@@ -906,7 +852,6 @@ public abstract class AfActivity extends FragmentActivity implements AfPageable,
 	@Override
 	@SuppressLint("NewApi")
 	public boolean onKeyUp(int keyCode, KeyEvent event) {
-		// TODO Auto-generated method stub
 		boolean isHandled = false;
 		List<Fragment> fragments = getSupportFragmentManager().getFragments();
 		fragments = fragments == null ? new ArrayList<Fragment>() : fragments;
@@ -927,7 +872,6 @@ public abstract class AfActivity extends FragmentActivity implements AfPageable,
 	 */
 	@Override
 	public boolean onKeyDown(int keyCode, KeyEvent event) {
-		// TODO Auto-generated method stub
 		boolean isHandled = false;
 		List<Fragment> fragments = getSupportFragmentManager().getFragments();
 		fragments = fragments == null ? new ArrayList<Fragment>() : fragments;
@@ -949,7 +893,6 @@ public abstract class AfActivity extends FragmentActivity implements AfPageable,
 	 */
 	@Override
 	protected void onCreate(Bundle bundle) {
-		// TODO Auto-generated method stub
 		try {
 			if (AfStackTrace.isLoopCall()) {
 				//System.out.println("递归检测");
@@ -960,7 +903,6 @@ public abstract class AfActivity extends FragmentActivity implements AfPageable,
 			injecter.doInject(this);
 			this.onCreate(bundle, new AfIntent(getIntent()));
 		} catch (final Throwable e) {
-			// TODO: handle exception
 			//handler 可能会根据 Activity 弹窗提示错误信息
 			//当前 Activity 即将关闭，提示窗口也会关闭
 			//用定时器 等到原始 Activity 再提示弹窗
@@ -968,7 +910,6 @@ public abstract class AfActivity extends FragmentActivity implements AfPageable,
 				new Timer().schedule(new TimerTask() {
 					@Override
 					public void run() {
-						// TODO Auto-generated method stub
 						AfExceptionHandler.handler(e, TAG()+".onCreate");
 					}
 				},500);
@@ -1003,7 +944,6 @@ public abstract class AfActivity extends FragmentActivity implements AfPageable,
 	 */
 	@Override
 	protected void onActivityResult(int questcode, int resultcode, Intent data) {
-		// TODO Auto-generated method stub
 		try {
 			if (AfStackTrace.isLoopCall()) {
 				//System.out.println("递归检测");
@@ -1011,7 +951,6 @@ public abstract class AfActivity extends FragmentActivity implements AfPageable,
 			}
 			onActivityResult(new AfIntent(data), questcode, resultcode);
 		} catch (Throwable e) {
-			// TODO: handle exception
 			if (!(e instanceof AfToastException)) {
 				AfExceptionHandler.handler(e, TAG()+".onActivityResult");
 			}
@@ -1030,7 +969,6 @@ public abstract class AfActivity extends FragmentActivity implements AfPageable,
 	@Override
 	public void onItemClick(AdapterView<?> parent, View view, int position,
 			long id) {
-		// TODO Auto-generated method stub
 		try {
 			if (AfStackTrace.isLoopCall()) {
 				//System.out.println("递归检测");
@@ -1038,7 +976,6 @@ public abstract class AfActivity extends FragmentActivity implements AfPageable,
 			}
 			this.onItemClick(parent,view,id,position);
 		} catch (Exception e) {
-			// TODO: handle exception
 			AfExceptionHandler.handler(e, TAG()+".onItemClick");
 		}
 	}
@@ -1052,7 +989,6 @@ public abstract class AfActivity extends FragmentActivity implements AfPageable,
 	 * @param index
 	 */
 	protected void onItemClick(AdapterView<?> parent, View item, long id,int index) {
-		// TODO Auto-generated method stub
 		
 	}
 
@@ -1067,7 +1003,6 @@ public abstract class AfActivity extends FragmentActivity implements AfPageable,
 	 * @param resultcode
 	 */
 	protected void onActivityResult(AfIntent intent, int questcode,int resultcode) {
-		// TODO Auto-generated method stub
 		super.onActivityResult(questcode, resultcode, intent);
 	}
 
@@ -1076,7 +1011,6 @@ public abstract class AfActivity extends FragmentActivity implements AfPageable,
 	 */
 	@Override
 	public void onBackPressed() {
-		// TODO Auto-generated method stub
 		if (AfStackTrace.isLoopCall()) {
 			super.onBackPressed();
 			return;
@@ -1091,7 +1025,6 @@ public abstract class AfActivity extends FragmentActivity implements AfPageable,
 	 * 转发 onBackPressed 事件给 AfFragment
 	 */
 	protected boolean onBackKeyPressed() {
-		// TODO Auto-generated method stub
 		boolean isHandled = false;
 		List<Fragment> fragments = getSupportFragmentManager().getFragments();
 		fragments = fragments == null ? new ArrayList<Fragment>() : fragments;

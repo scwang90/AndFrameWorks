@@ -17,7 +17,6 @@ public class AfView implements AfViewable {
 	private View mRootView = null;
 
 	public AfView(View view) {
-		// TODO Auto-generated constructor stub
 		mRootView = view;
 	}
 
@@ -39,7 +38,6 @@ public class AfView implements AfViewable {
 	}
 	@Override
 	public Context getContext() {
-		// TODO Auto-generated method stub
 		if (mRootView != null) {
 			return mRootView.getContext();
 		}
@@ -48,7 +46,6 @@ public class AfView implements AfViewable {
 
 	@Override
 	public Resources getResources() {
-		// TODO Auto-generated method stub
 		if (mRootView != null) {
 			return mRootView.getResources();
 		}
@@ -56,13 +53,11 @@ public class AfView implements AfViewable {
 	}
 
 	public View getView() {
-		// TODO Auto-generated method stub
 		return mRootView;
 	}
 	
 	@Override
 	public View findViewById(int id) {
-		// TODO Auto-generated method stub
 		if (mRootView != null) {
 			return mRootView.findViewById(id);
 		}
@@ -71,7 +66,6 @@ public class AfView implements AfViewable {
 
 	@Override
 	public <T extends View> T findViewById(int id, Class<T> clazz) {
-		// TODO Auto-generated method stub
 		View view = findViewById(id);
 		if (clazz.isInstance(view)) {
 			return clazz.cast(view);
@@ -81,11 +75,9 @@ public class AfView implements AfViewable {
 	@Override
 	@SuppressWarnings("unchecked")
 	public <T extends View> T findViewByID(int id) {
-		// TODO Auto-generated method stub
 		try {
 			return (T)findViewById(id);
 		} catch (Exception e) {
-			// TODO: handle exception
 			AfExceptionHandler.handler(e, "AfView.findViewByID");
 		}
 		return null;

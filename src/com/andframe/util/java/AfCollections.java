@@ -18,7 +18,6 @@ public class AfCollections {
 	public static class ComparableImpl<TT> implements Comparable<TT>{
 		@Override
 		public boolean equals(TT left, TT right) {
-			// TODO Auto-generated method stub
 			return (left != null && right != null) && left.equals(right);
 		}
 	}
@@ -41,7 +40,6 @@ public class AfCollections {
 	 * @return 与 left right 独立的 list
 	 */
 	public static <T> List<T> redundance(List<T> left, List<T> right,Comparable<T> comparable) {
-		// TODO Auto-generated method stub
 		List<T> redundance = new ArrayList<T>();
 		List<T> tright = new ArrayList<T>(right);
 		for (T f : left) {
@@ -66,7 +64,6 @@ public class AfCollections {
 	 * @param right（传入参数，不会改变）
 	 */
 	public static <T> void addall(List<T> left, List<T> right) {
-		// TODO Auto-generated method stub
 		addall(left, right, new ComparableImpl<T>());
 	}
 	
@@ -87,7 +84,6 @@ public class AfCollections {
 	 * @param right（传入参数，不会改变）
 	 */
 	public static <T> void remove(List<T> left, List<T> right) {
-		// TODO Auto-generated method stub
 		remove(left, right, new ComparableImpl<T>());
 	}
 
@@ -114,7 +110,6 @@ public class AfCollections {
 	 * @return collects == null || collects.size() == 0
 	 */
 	public static boolean isEmpty(Collection<?> collects) {
-		// TODO Auto-generated method stub
 		return collects == null || collects.size() == 0;
 	}
 
@@ -124,7 +119,6 @@ public class AfCollections {
 	 * @return collects == null || collects.size() == 0
 	 */
 	public static boolean isNotEmpty(Collection<?> collects) {
-		// TODO Auto-generated method stub
 		return collects != null && collects.size() > 0;
 	}
 	
@@ -135,7 +129,6 @@ public class AfCollections {
 	 * @return 相等 true 否则 false
 	 */
 	public static <T> boolean equals(List<T> left,List<T> right) {
-		// TODO Auto-generated method stub
 		return equals(left, right,new ComparableImpl<T>());
 	}
 

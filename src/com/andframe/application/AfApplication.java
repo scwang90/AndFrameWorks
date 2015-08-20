@@ -149,12 +149,10 @@ public abstract class AfApplication extends Application {
 	}
 
 	public static synchronized int getDebugMode() {
-		// TODO Auto-generated method stub
 		return mApp.mDebugMode;
 	}
 
 	public static synchronized void setDebugMode(int mode) {
-		// TODO Auto-generated method stub
 		mApp.mDebugMode = mode;
 	}
 
@@ -163,7 +161,6 @@ public abstract class AfApplication extends Application {
 	 * @return
 	 */
 	public static synchronized String getVersion() {
-		// TODO Auto-generated method stub
 		return mApp.mVersion;
 	}
 
@@ -172,7 +169,6 @@ public abstract class AfApplication extends Application {
 	 * @return
 	 */
 	public static synchronized int getVersionCode() {
-		// TODO Auto-generated method stub
 		return AfVersion.transformVersion(mApp.mVersion);
 	}
 
@@ -222,7 +218,6 @@ public abstract class AfApplication extends Application {
 	protected Map<String,Object> mSingletonMap = new LinkedHashMap<String,Object>(); 
 
 	public AfApplication() {
-		// TODO Auto-generated constructor stub
 		mApp = this;
 		mLooper = Looper.myLooper();
 		AfFileService.setServer("/FileService", "/FileServlet");
@@ -237,7 +232,6 @@ public abstract class AfApplication extends Application {
 	 * 任何任务都会在该线程中运行。 如果 postTask 前一个任务未完成，后一个任务将等待
 	 */
 	protected void buildThreadWorker() {
-		// TODO Auto-generated method stub
 		if (mWorker == null) {
 			mWorker = new AfThreadWorker(this.getClass().getSimpleName());
 		}
@@ -245,7 +239,6 @@ public abstract class AfApplication extends Application {
 
 	@Override
 	public void onCreate() {
-		// TODO Auto-generated method stub
 		super.onCreate();
 		try {
 			AfExceptionHandler.register();
@@ -281,19 +274,16 @@ public abstract class AfApplication extends Application {
 			// 检查数据库
 			new DatabaseUtil(getAppContext()).checkDataBaseVersion();
 		} catch (Throwable e) {
-			// TODO Auto-generated catch block
 			e.printStackTrace();// handled
 			AfExceptionHandler.handler(e, "AfApplication.onCreate");
 		}
 	}
 	
 	public boolean isDebug() {
-		// TODO Auto-generated method stub
 		return BuildConfig.DEBUG;
 	}
 	
 	private void getPackageVersion() throws Exception {
-		// TODO Auto-generated method stub
 		int get = PackageManager.GET_CONFIGURATIONS;
 		String tPackageName = getPackageName();
 		PackageManager magager = getPackageManager();
@@ -313,7 +303,6 @@ public abstract class AfApplication extends Application {
 				// 标识初始化完成
 				mIsInitialized = true;
 			} catch (Throwable e) {
-				// TODO: handle exception
 				AfExceptionHandler.handler(e, "AfApplication.initialize");
 			}
 		}
@@ -336,7 +325,6 @@ public abstract class AfApplication extends Application {
 	 * @param type
 	 */
 	public synchronized String getWorkspacePath(String type) {
-		// TODO Auto-generated method stub
 		File workspace = null;
 		if (Environment.getExternalStorageState().equals(
 				Environment.MEDIA_MOUNTED)) {
@@ -356,7 +344,6 @@ public abstract class AfApplication extends Application {
 	 * @param type
 	 */
 	public synchronized String getCachesPath(String type) {
-		// TODO Auto-generated method stub
 		File caches = new File(getWorkspacePath("caches"));
 		caches = new File(caches, type);
 		if (!caches.exists()) {
@@ -415,7 +402,6 @@ public abstract class AfApplication extends Application {
 //			key = info.metaData.getString(key);
 			return key;
 		} catch (Throwable e) {
-			// TODO: handle exception
 			AfExceptionHandler.handler(e, "AfApplication.getMetaData");
 		}
 		return null;
@@ -442,7 +428,6 @@ public abstract class AfApplication extends Application {
 	 * @return need
 	 */
 	public boolean isNeedUpdate() {
-		// TODO Auto-generated method stub
 		int curver = AfVersion.transformVersion(mVersion);
 		int server = AfVersion.transformVersion(mServerVersion);
 		return curver < server;
@@ -467,7 +452,6 @@ public abstract class AfApplication extends Application {
 		try {
 			singleton = (T) mSingletonMap.get(key);
 		} catch (Exception e) {
-			// TODO: handle exception
 			AfExceptionHandler.handler(e, "AfApplication.getSingleton");
 		}
 		return singleton;
@@ -487,7 +471,6 @@ public abstract class AfApplication extends Application {
 	 * @return AfActivity or null
 	 */
 	public synchronized AfActivity getCurActivity() {
-		// TODO Auto-generated method stub
 		return mCurActivity;
 	}
 
@@ -496,7 +479,6 @@ public abstract class AfApplication extends Application {
 	 * @return AfMainActivity or null
 	 */
 	public synchronized AfActivity getMainActivity() {
-		// TODO Auto-generated method stub
 		return mMainActivity;
 	}
 
@@ -506,7 +488,6 @@ public abstract class AfApplication extends Application {
 	 *            主页面
 	 */
 	public synchronized void setMainActivity(AfActivity activity) {
-		// TODO Auto-generated method stub
 		mMainActivity = activity;
 		mIsForegroundRunning = true;
 	}
@@ -529,6 +510,7 @@ public abstract class AfApplication extends Application {
 			// 如果正在返回主页面
 			else if (mIsExiting) {
 				// 如果已经到达主页面
+				mCurActivity = activity;
 				if (getForegroundClass().isInstance(activity)) {
 					// 关闭返回主页面功能
 					if (mIsExiting) {
@@ -542,8 +524,8 @@ public abstract class AfApplication extends Application {
 				}
 			} if(getForegroundClass().isInstance(activity) && !mIsExiting && mMainActivity==null){
 				setMainActivity(activity);
+				mCurActivity = activity;
 			}
-			mCurActivity = activity;
 		}
 	}
 
@@ -568,7 +550,6 @@ public abstract class AfApplication extends Application {
 	 *            指定的网络状态
 	 */
 	public synchronized void setNetworkStatus(Object power, int networkState) {
-		// TODO Auto-generated method stub
 		if (power instanceof ConnectionChangeReceiver) {
 			mNetworkStatus = networkState;
 
@@ -590,7 +571,6 @@ public abstract class AfApplication extends Application {
 	 *            服务器版本
 	 */
 	public synchronized void setServerVersion(Object power, String version) {
-		// TODO Auto-generated method stub
 		mServerVersion = version;
 		if (isNeedUpdate()) {
 			notifyNeedUpdate(mCurActivity, mVersion, mServerVersion);
@@ -607,7 +587,6 @@ public abstract class AfApplication extends Application {
 	 */
 	public synchronized void setServerVersion(Object power, String version,
 			String describe) {
-		// TODO Auto-generated method stub
 		mServerVersion = version;
 		mUpdateDescribe = describe;
 		if (isNeedUpdate()) {
@@ -623,13 +602,11 @@ public abstract class AfApplication extends Application {
 	 */
 	private void notifyUpdate(Object power, String curver, String server,
 			String describe) {
-		// TODO Auto-generated method stub
 		if (power instanceof INotifyUpdate) {
 			try {
 				INotifyUpdate tINotify = (INotifyUpdate) power;
 				tINotify.onNotifyUpdate(curver, server, describe);
 			} catch (Throwable e) {
-				// TODO: handle exception
 				e.printStackTrace();// handled
 				AfExceptionHandler.handler(e, "AfApplication.notifyUpdate");
 			}
@@ -643,13 +620,11 @@ public abstract class AfApplication extends Application {
 	 *            当前网络状态
 	 */
 	private void notifyNeedUpdate(Object power, String curver, String server) {
-		// TODO Auto-generated method stub
 		if (power instanceof INotifyNeedUpdate) {
 			try {
 				INotifyNeedUpdate tINotify = (INotifyNeedUpdate) power;
 				tINotify.onNotifyNeedUpdate(curver, server);
 			} catch (Throwable e) {
-				// TODO: handle exception
 				e.printStackTrace();// handled
 				AfExceptionHandler.handler(e, "AfApplication.notifyNeedUpdate");
 			}
@@ -664,13 +639,11 @@ public abstract class AfApplication extends Application {
 	 *            当前网络状态
 	 */
 	private synchronized void notifyNetworkStatus(Object power, int networkState) {
-		// TODO Auto-generated method stub
 		if (power instanceof INotifyNetworkStatus) {
 			try {
 				INotifyNetworkStatus tINotify = (INotifyNetworkStatus) power;
 				tINotify.onNetworkStatusChanged(networkState);
 			} catch (Throwable e) {
-				// TODO: handle exception
 				e.printStackTrace();// handled
 				AfExceptionHandler.handler(e, "AfApplication.notifyNetworkStatus");
 			}
@@ -681,7 +654,6 @@ public abstract class AfApplication extends Application {
 	 * 通知APP 启动天台页面
 	 */
 	public synchronized void startForeground() {
-		// TODO Auto-generated method stub
 		if (mIsForegroundRunning == false) {
 			mIsForegroundRunning = true;
 			mMainActivity = null;
@@ -696,7 +668,6 @@ public abstract class AfApplication extends Application {
 	 * @param power
 	 */
 	public synchronized void exitForeground(Object power) {
-		// TODO Auto-generated method stub
 		/** (2014-7-30 注释 只有当notifyForegroundClosed时才设为false) **/
 		// mIsForegroundRunning = false;
 		if (mCurActivity != null) {
@@ -714,7 +685,6 @@ public abstract class AfApplication extends Application {
 	 * @return isforeground
 	 */
 	public synchronized boolean isForegroundRunning() {
-		// TODO Auto-generated method stub
 		return mIsForegroundRunning;
 	}
 
@@ -724,7 +694,6 @@ public abstract class AfApplication extends Application {
 	 *            权限对象 传入this
 	 */
 	public synchronized void notifyForegroundClosed(AfActivity activity) {
-		// TODO Auto-generated method stub
 		if (activity == mMainActivity && mIsForegroundRunning) {
 			// 清空相关信息
 			mCurActivity = null;
@@ -741,7 +710,6 @@ public abstract class AfApplication extends Application {
 	 * @return handler
 	 */
 	public AfExceptionHandler getExceptionHandler() {
-		// TODO Auto-generated method stub
 		return new AfExceptionHandler();
 	}
 
@@ -750,7 +718,6 @@ public abstract class AfApplication extends Application {
 	 * @return setting
 	 */
 	public AfAppSettings getAppSetting() {
-		// TODO Auto-generated method stub
 		return new AfAppSettings(this);
 	}
 
@@ -759,7 +726,6 @@ public abstract class AfApplication extends Application {
 	 * @return service
 	 */
 	public AfImageService getImageService() {
-		// TODO Auto-generated method stub
 		return new AfImageService();
 	}
 
@@ -768,7 +734,6 @@ public abstract class AfApplication extends Application {
 	 * @return fileservice
 	 */
 	public AfFileService getFileService() {
-		// TODO Auto-generated method stub
 		return new AfFileService();
 	}
 
@@ -777,7 +742,6 @@ public abstract class AfApplication extends Application {
 	 * @return updateservice
 	 */
 	public AfUpdateService getUpdateService() {
-		// TODO Auto-generated method stub
 		return new AfUpdateService(this);
 	}
 
@@ -786,7 +750,6 @@ public abstract class AfApplication extends Application {
 	 * @return APP图标ID
 	 */
 	public int getLogoId() {
-		// TODO Auto-generated method stub
 		return android.R.drawable.zoom_plate;
 	}
 
@@ -795,7 +758,6 @@ public abstract class AfApplication extends Application {
 	 * @return APP名称
 	 */
 	public String getAppName() {
-		// TODO Auto-generated method stub
 		return "AndFrame";
 	}
 
@@ -804,7 +766,6 @@ public abstract class AfApplication extends Application {
 	 * @return key
 	 */
 	public String getDesKey() {
-		// TODO Auto-generated method stub
 		return AfMD5.getMD5("");
 	}
 
@@ -815,7 +776,6 @@ public abstract class AfApplication extends Application {
 	 * @return 加密的密文 子类可重写这个方法更改加密算法（默认 MD5）
 	 */
 	public String encryptionPassword(String password) {
-		// TODO Auto-generated method stub
 		return AfMD5.getMD5(password);
 	}
 
@@ -856,7 +816,6 @@ public abstract class AfApplication extends Application {
 	 * 当APP被临时销毁时保存App 状态 在AfActivity 中调用
 	 */
 	public final void onRestoreInstanceState() {
-		// TODO Auto-generated method stub
 		Date date = mRunningState.getDate(STATE_TIME);
 		if (date != null) {
 			onRestoreInstanceState(mRunningState);
@@ -869,7 +828,6 @@ public abstract class AfApplication extends Application {
 	 * @param state
 	 */
 	protected void onRestoreInstanceState(AfSharedPreference state) {
-		// TODO Auto-generated method stub
 		mDebugMode = state.getInt(STATE_DEBUGMODE, mDebugMode);
 		mNetworkStatus = state.getInt(STATE_NETWORKSTATUS, mNetworkStatus);
 		mVersion = state.getString(STATE_VERSION, mVersion);
@@ -883,7 +841,6 @@ public abstract class AfApplication extends Application {
 	 * 更新保存转台时间，如果已经保存下次也可执行 onSaveInstanceState
 	 */
 	public void updateStateTime() {
-		// TODO Auto-generated method stub
 		mStateTime = new Date();
 	}
 
@@ -891,7 +848,6 @@ public abstract class AfApplication extends Application {
 	 * 当APP被还原时候还原原来状态 在AfActivity 中调用
 	 */
 	public final void onSaveInstanceState() {
-		// TODO Auto-generated method stub
 		// 如果保存时间标记一直，则不用保存
 		Date date = mRunningState.getDate(STATE_TIME);
 		if (date != null && date.equals(mStateTime)) {
@@ -905,7 +861,6 @@ public abstract class AfApplication extends Application {
 	 * 当APP被还原时候还原原来状态 在AfActivity 中调用
 	 */
 	protected void onSaveInstanceState(AfSharedPreference state) {
-		// TODO Auto-generated method stub
 		Editor editor = mRunningState.getSharePrefereEditor();
 		editor.putInt(STATE_NETWORKSTATUS, mNetworkStatus);
 		editor.putInt(STATE_DEBUGMODE, mDebugMode);
@@ -962,7 +917,6 @@ public abstract class AfApplication extends Application {
 				}
 			}
 		} catch (Throwable e) {
-			// TODO: handle exception
 		}
 		return false;
 	}
@@ -977,7 +931,7 @@ public abstract class AfApplication extends Application {
 
 	/**
 	 * 用于转换接口通知
-	 * @param objects
+	 * @param object
 	 * @param clazz
 	 * @param <T>
 	 * @return

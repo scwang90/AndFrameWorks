@@ -78,19 +78,16 @@ public class AfPullDownLayout extends LinearLayout {
 	
 	public AfPullDownLayout(Context context) {
 		super(context);
-		// TODO Auto-generated constructor stub
 		this.initialized(context, null);
 	}
 
 	public AfPullDownLayout(Context context, int mode) {
 		super(context);
-		// TODO Auto-generated constructor stub
 		this.initialized(context, null);
 	}
 
 	public AfPullDownLayout(Context context, AttributeSet attrs) {
 		super(context, attrs);
-		// TODO Auto-generated constructor stub
 		this.initialized(context, attrs);
 	}
 
@@ -124,10 +121,10 @@ public class AfPullDownLayout extends LinearLayout {
 
 	/**
 	 * 设置释放监听器
-	 * @param onPullDownRelease
+	 * @param listener
 	 */
-	public void setOnPullDownListener(OnPullDownListener onOnPullDownListener) {
-		this.onOnPullDownListener = onOnPullDownListener;
+	public void setOnPullDownListener(OnPullDownListener listener) {
+		this.onOnPullDownListener = listener;
 	}
 
 	/**
@@ -148,7 +145,6 @@ public class AfPullDownLayout extends LinearLayout {
 			this.mPullDownable = new ReadyForPullDownable() {
 				@Override
 				public boolean isReadyForPullDown() {
-					// TODO Auto-generated method stub
 					return scrollview.getScrollY() <= 0;
 				}
 			};
@@ -159,13 +155,11 @@ public class AfPullDownLayout extends LinearLayout {
 			this.mPullDownable = new ReadyForPullDownable() {
 				@Override
 				public boolean isReadyForPullDown() {
-					// TODO Auto-generated method stubreturn mIsNeedFooter
 					return 5 >= Math.abs(getLastPositionDistanceGuess(listview)
 							- listview.getBottom());
 				}
 
 				private int getLastPositionDistanceGuess(AbsListView listview) {
-					// TODO Auto-generated method stub
 					Field field;
 					// 获取ContextWrapper对象中的mBase变量。该变量保存了ContextImpl对象
 					try {
@@ -174,7 +168,6 @@ public class AfPullDownLayout extends LinearLayout {
 						field.setAccessible(true);
 						return (Integer) field.get(listview);
 					} catch (Throwable e) {
-						// TODO Auto-generated catch block
 						e.printStackTrace();
 					}
 					return -1;
@@ -193,9 +186,6 @@ public class AfPullDownLayout extends LinearLayout {
 	// ===========================================================
 	// Methods for/from SuperClass/Interfaces
 	// ===========================================================
-
-
-
 	@SuppressLint("ClickableViewAccessibility")
 	@Override
 	public final boolean onTouchEvent(MotionEvent event) {
@@ -301,13 +291,6 @@ public class AfPullDownLayout extends LinearLayout {
 		if (onOnPullDownListener != null) {
 			onOnPullDownListener.onPulling((float)(y/H),y,(int) H);
 		}
-//		try {
-//			String tip = String.format("x=%6d,y=%6d",x,y);
-//			System.out.println(tip);
-//		} catch (Throwable e) {
-//			// TODO: handle exception
-//			e.printStackTrace();
-//		}
 
 		if (newHeight != 0) {
 			if (state == PULL_TO_DOWN) {
@@ -376,7 +359,6 @@ public class AfPullDownLayout extends LinearLayout {
 	private Smoothable mSmooth = new Smoothable() {
 		@Override
 		public boolean onSmooth(int value, int form, int to) {
-			// TODO Auto-generated method stub
 			scrollTo(0, value);
 			if (onOnPullDownListener != null) {
 				value = -value;

@@ -35,7 +35,6 @@ public abstract class AfMultiChoiceAdapter<T> extends AfListAdapter<T>{
 	
 	public AfMultiChoiceAdapter(Context context, List<T> ltdata) {
 		super(context, ltdata);
-		// TODO Auto-generated constructor stub
 		mContext = context;
 	}
 
@@ -57,7 +56,6 @@ public abstract class AfMultiChoiceAdapter<T> extends AfListAdapter<T>{
 	
 	@Override
 	public void addData(List<T> ltdata) {
-		// TODO Auto-generated method stub
 		if(isMultiChoiceMode() && ltdata.size() > 0){
 			boolean[] old = mIsSelecteds;
 			mIsSelecteds = new boolean[old.length+ltdata.size()];
@@ -75,7 +73,6 @@ public abstract class AfMultiChoiceAdapter<T> extends AfListAdapter<T>{
 	
 	@Override
 	public void setData(List<T> ltdata) {
-		// TODO Auto-generated method stub
 		if(isMultiChoiceMode()){
 			super.setData(ltdata);
 			mChoiceNumber = 0;
@@ -90,14 +87,12 @@ public abstract class AfMultiChoiceAdapter<T> extends AfListAdapter<T>{
 	
 	@Override
 	public void setData(int index, T obj) {
-		// TODO Auto-generated method stub
 		//closeMultiChoice();
 		super.setData(index, obj);
 	}
 	
 	@Override
 	public void insert(int index, T object) {
-		// TODO Auto-generated method stub
 		if(isMultiChoiceMode()){
 			super.insert(index, object);
 			mChoiceNumber = 0;
@@ -112,7 +107,6 @@ public abstract class AfMultiChoiceAdapter<T> extends AfListAdapter<T>{
 	
 	@Override
 	public void remove(int index) {
-		// TODO Auto-generated method stub
 		if(isMultiChoiceMode()){
 			super.remove(index);
 			mChoiceNumber = 0;
@@ -127,7 +121,6 @@ public abstract class AfMultiChoiceAdapter<T> extends AfListAdapter<T>{
     
 	@Override
 	protected final IAfLayoutItem<T> getItemLayout(T data) {
-		// TODO Auto-generated method stub
 		return getMultiChoiceItem(data);
 	}
 	
@@ -135,7 +128,6 @@ public abstract class AfMultiChoiceAdapter<T> extends AfListAdapter<T>{
 
 	@Override
 	protected boolean bindingItem(IAfLayoutItem<T> item, int index) {
-		// TODO Auto-generated method stub
 		//return super.bindingItem(item, index);
 		AfMultiChoiceItem<T> mcitem = (AfMultiChoiceItem<T>)item;
 		AfMultiChoiceItem.SelectStatus status = AfMultiChoiceItem.SelectStatus.NONE;
@@ -152,7 +144,6 @@ public abstract class AfMultiChoiceAdapter<T> extends AfListAdapter<T>{
 
 
 	public boolean beginMultiChoice(int index) {
-		// TODO Auto-generated method stub
 		if(getCount() > 0){
 			mIsSelecteds = new boolean[getCount()];
 			if(index > -1){
@@ -176,7 +167,6 @@ public abstract class AfMultiChoiceAdapter<T> extends AfListAdapter<T>{
 	}
 	
 	public boolean beginMultiChoice(boolean notify) {
-		// TODO Auto-generated method stub
 		if(mIsSelecteds == null && getCount() > 0){
 			mIsSelecteds = new boolean[getCount()];
 			if(notify){
@@ -197,7 +187,6 @@ public abstract class AfMultiChoiceAdapter<T> extends AfListAdapter<T>{
 	}
 	
 	public boolean closeMultiChoice() {
-		// TODO Auto-generated method stub
 		if(mIsSelecteds != null){
 			for (GenericityListener listener : mGenericityListeners) {
 				listener.onMultiChoiceClosed(this,peekSelectedItems());
@@ -214,7 +203,6 @@ public abstract class AfMultiChoiceAdapter<T> extends AfListAdapter<T>{
 	}
 
 	public List<T> getSelectedItems() {
-		// TODO Auto-generated method stub
 		List<T> list = new ArrayList<T>();
 		if(mIsSelecteds != null && mIsSelecteds.length == mltArray.size()){
 			for (int i = 0; i < mIsSelecteds.length; i++) {
@@ -228,7 +216,6 @@ public abstract class AfMultiChoiceAdapter<T> extends AfListAdapter<T>{
 	}
 
 	public List<T> peekSelectedItems() {
-		// TODO Auto-generated method stub
 		List<T> list = new ArrayList<T>();
 		if(mIsSelecteds != null && mIsSelecteds.length == mltArray.size()){
 			for (int i = 0; i < mIsSelecteds.length; i++) {
@@ -241,7 +228,6 @@ public abstract class AfMultiChoiceAdapter<T> extends AfListAdapter<T>{
 	}
 
 	public void selectAll() {
-		// TODO Auto-generated method stub
 		if(mIsSelecteds != null){
 			mChoiceNumber = getCount();
 			for (int i = 0; i < mIsSelecteds.length; i++) {
@@ -258,7 +244,6 @@ public abstract class AfMultiChoiceAdapter<T> extends AfListAdapter<T>{
 	}
 
 	public void selectInvert() {
-		// TODO Auto-generated method stub
 		if(mIsSelecteds != null){
 			mChoiceNumber = getCount() - mChoiceNumber;
 			for (int i = 0; i < mIsSelecteds.length; i++) {
@@ -275,7 +260,6 @@ public abstract class AfMultiChoiceAdapter<T> extends AfListAdapter<T>{
 	}
 
 	public void selectNone() {
-		// TODO Auto-generated method stub
 		if(mIsSelecteds != null){
 			mChoiceNumber = 0;
 			mIsSelecteds = new boolean[getCount()];
@@ -291,13 +275,11 @@ public abstract class AfMultiChoiceAdapter<T> extends AfListAdapter<T>{
 	
 	@Override
 	protected View onInflateItem(IAfLayoutItem<T> item, ViewGroup parent) {
-		// TODO Auto-generated method stub
 		View view = super.onInflateItem(item, parent);
 		return ((AfMultiChoiceItem<T>)item).inflateLayout(view,this);
 	}
 
 	public void onItemClick(int index) {
-		// TODO Auto-generated method stub
 		if(mIsSelecteds != null && index >= 0 && index < mltArray.size()){
 			boolean checked = !mIsSelecteds[index];
 			if(mIsSingle){
@@ -320,7 +302,6 @@ public abstract class AfMultiChoiceAdapter<T> extends AfListAdapter<T>{
 	}
 	
 	void setSelect(T tag, boolean checked) {
-		// TODO Auto-generated method stub
 		this.onItemClick(mltArray.indexOf(tag));
 //		int index = mltData.indexOf(tag);
 //		if(index > -1 && mIsSelecteds != null){
@@ -343,7 +324,6 @@ public abstract class AfMultiChoiceAdapter<T> extends AfListAdapter<T>{
 	}
 	
 	public void setSingle(boolean single) {
-		// TODO Auto-generated method stub
 		mIsSingle  = single; 
 	}
 

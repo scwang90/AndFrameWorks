@@ -37,17 +37,14 @@ public abstract class AfMultiChoiceItem<T> extends AfListItem<T> implements OnCl
 	protected int mSelectDisplay = SD_BACKGROUNG;
 	
 	public AfMultiChoiceItem() {
-		// TODO Auto-generated constructor stub
 	}
 
 	public AfMultiChoiceItem(int layoutId) {
 		super(layoutId);
-		// TODO Auto-generated constructor stub
 	}
 
 	@Override
 	public void onBinding(T model,int index) {
-		// TODO Auto-generated method stub
 		if(!onBinding(mModel = model,index,mSelectStatus) && mMultiChoiceCheckBox!=null){
 			if(mSelectDisplay == SD_CHECK){
 				switch (mSelectStatus) {
@@ -81,7 +78,6 @@ public abstract class AfMultiChoiceItem<T> extends AfListItem<T> implements OnCl
 	@SuppressLint("NewApi")
 	@SuppressWarnings("deprecation")
 	public View inflateLayout(View view,AfMultiChoiceAdapter<T> adapter) {
-		// TODO Auto-generated method stub
 		mAdapter = adapter;
 		
 		
@@ -129,7 +125,6 @@ public abstract class AfMultiChoiceItem<T> extends AfListItem<T> implements OnCl
 
 	@Override
 	public void onClick(View v) {
-		// TODO Auto-generated method stub
 		if(v == mMultiChoiceContent){
 			mMultiChoiceCheckBox.setChecked(!mMultiChoiceCheckBox.isChecked());
 		}else if(v == mMultiChoiceCheckBox){
@@ -138,7 +133,6 @@ public abstract class AfMultiChoiceItem<T> extends AfListItem<T> implements OnCl
 	}
 	
 	protected void notifyItemSelectChanged(boolean checked) {
-		// TODO Auto-generated method stub
 		if(mModel != null){
 			mAdapter.setSelect(mModel,checked);
 		}

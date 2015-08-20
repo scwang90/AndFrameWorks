@@ -31,12 +31,10 @@ public class AfTableRow extends LinearLayout implements OnClickListener {
 
 	public AfTableRow(Context context, AttributeSet attrs) {
 		super(context, attrs);
-		// TODO Auto-generated constructor stub
 	}
 
 	public AfTableRow(Context context, AfTable table) {
 		super(context);
-		// TODO Auto-generated constructor stub
 		this.setOrientation(HORIZONTAL);
 		AfColumn[] columns = table.getColumns();
 		mFiled = new Field[columns.length];
@@ -67,11 +65,9 @@ public class AfTableRow extends LinearLayout implements OnClickListener {
 	}
 
 	private void setBackground(View view, int back) {
-		// TODO Auto-generated method stub
 		try {
 			view.setBackgroundResource(back);
 		} catch (NotFoundException e) {
-			// TODO: handle exception
 			view.setBackgroundColor(back);
 		}
 	}
@@ -106,7 +102,6 @@ public class AfTableRow extends LinearLayout implements OnClickListener {
 
 	private void BindingCheck(AfColumn afColumn, LinearLayout layout,
 			Object value) {
-		// TODO Auto-generated method stub
 		CheckBox check = (CheckBox) layout.getChildAt(0);
 		boolean vcheck = false;
 		if (value instanceof Boolean) {
@@ -123,7 +118,6 @@ public class AfTableRow extends LinearLayout implements OnClickListener {
 	}
 
 	private void BindingText(AfColumn column, TextView textview, Object value) {
-		// TODO Auto-generated method stub
 		if (value == null) {
 			textview.setText("");
 		} else {
@@ -179,7 +173,6 @@ public class AfTableRow extends LinearLayout implements OnClickListener {
 
 	@Override
 	public void onClick(View v) {
-		// TODO Auto-generated method stub
 		if (v instanceof CheckBox) {
 			CheckBox check = (CheckBox) v;
 			try {
@@ -196,7 +189,6 @@ public class AfTableRow extends LinearLayout implements OnClickListener {
 					mFiled[col].set(mObject, 1l);
 				}
 			} catch (Throwable e) {
-				// TODO Auto-generated catch block
 				e.printStackTrace();
 			}
 		}

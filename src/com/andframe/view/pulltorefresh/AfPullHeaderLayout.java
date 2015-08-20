@@ -50,7 +50,6 @@ public abstract class AfPullHeaderLayout extends FrameLayout
 
     public AfPullHeaderLayout(Context context) {
         super(context);
-        // TODO Auto-generated constructor stub
         this.initailize(context);
         this.setLastUpdateTime(new Date());
     }
@@ -58,7 +57,6 @@ public abstract class AfPullHeaderLayout extends FrameLayout
     public AfPullHeaderLayout(Context context, AttributeSet attrs)
     {
         super(context, attrs);
-        // TODO Auto-generated constructor stub
         this.initailize(context);
         this.initAttributeSet(context,attrs);
         this.setLastUpdateTime(new Date());
@@ -66,7 +64,6 @@ public abstract class AfPullHeaderLayout extends FrameLayout
 
     private void initAttributeSet(Context context, AttributeSet attrs)
     {
-        // TODO Auto-generated method stub
         //TypedArray array = context.obtainStyledAttributes(attrs,R.styleable.PullToRefresh);
         //ViewGroup.LayoutParams lp = mHeaderUnderLine2.getLayoutParams();
         //lp.height = (int)array.getDimension(R.styleable.PullToRefresh_dividerHeight, 1);

@@ -16,33 +16,27 @@ public class AfEntityDao<T> extends AfDao<T>{
 
 	public AfEntityDao(Context context) {
 		super(context);
-		// TODO Auto-generated constructor stub
 	}
 
 	public AfEntityDao(Context context, String dbname) {
 		super(context, dbname);
-		// TODO Auto-generated constructor stub
 	}
 
 	public AfEntityDao(Context context,String path, String dbname) {
 		super(context, path, dbname);
-		// TODO Auto-generated constructor stub
 	}
 
 
 	public AfEntityDao(Context context,Class<T> clazz) {
 		super(context,clazz);
-		// TODO Auto-generated constructor stub
 	}
 
 	public AfEntityDao(Context context,Class<T> clazz, String dbname) {
 		super(context,clazz, dbname);
-		// TODO Auto-generated constructor stub
 	}
 
 	public AfEntityDao(Context context,Class<T> clazz,String path, String dbname) {
 		super(context,clazz, path, dbname);
-		// TODO Auto-generated constructor stub
 	}
 
 	/**
@@ -139,7 +133,6 @@ public class AfEntityDao<T> extends AfDao<T>{
 				ltEntity.add(getEntity(model));
 			}
 		} catch (Throwable ex) {
-			// TODO Auto-generated catch block
 			AfExceptionHandler.handler(ex, "AfEntityDao.getEntitys.getEntity-Exception");
 		}
 		return ltEntity;
@@ -153,7 +146,6 @@ public class AfEntityDao<T> extends AfDao<T>{
 	}
 
 	protected T getEntity(Model model) throws Exception {
-		// TODO Auto-generated method stub
 		T entity = mClazz.newInstance();
 		for (Field field : AfReflecter.getField(mClazz)) {
 			if (Interpreter.isColumn(field)) {

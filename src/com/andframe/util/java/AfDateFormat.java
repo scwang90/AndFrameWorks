@@ -24,7 +24,6 @@ public class AfDateFormat {
 	}
 
 	public static String formatDate(Date date) {
-		// TODO Auto-generated method stub
 		Calendar calender = Calendar.getInstance();
 		int thisyear = calender.get(Calendar.YEAR);
 		calender.setTime(date);
@@ -36,7 +35,6 @@ public class AfDateFormat {
 	}
 
 	public static String formatTime(Date date) {
-		// TODO Auto-generated method stub
 		Calendar calender = Calendar.getInstance();
 		int thisday = calender.get(Calendar.DAY_OF_MONTH);
 		int thismonth = calender.get(Calendar.MONTH);
@@ -80,7 +78,6 @@ public class AfDateFormat {
 	}
 
 	public static String formatDuration(Date begDate, Date endDate) {
-		// TODO Auto-generated method stub
 		StringBuilder builder = new StringBuilder(formatDate(begDate));
 		builder.append(" - ");
 		builder.append(formatDate(endDate));
@@ -88,7 +85,6 @@ public class AfDateFormat {
 	}
 
 	public static String formatDurationTime(Date begDate, Date endDate) {
-		// TODO Auto-generated method stub
 		StringBuilder builder = new StringBuilder(formatTime(begDate));
 		builder.append(" - ");
 		builder.append(formatTime(endDate));

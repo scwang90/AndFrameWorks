@@ -31,7 +31,6 @@ public abstract class AfListViewTask<T> extends AfListTask<T>
 	 */
 	public AfListViewTask(Class<T> clazz) {
 		super(clazz);
-		// TODO Auto-generated constructor stub
 	}
 
 	/**
@@ -45,34 +44,28 @@ public abstract class AfListViewTask<T> extends AfListTask<T>
 	 */
 	public AfListViewTask(Class<T> clazz, String KEY_CACHELIST) {
 		super(clazz, KEY_CACHELIST);
-		// TODO Auto-generated constructor stub
 	}
 
 
 	public AfListViewTask(int task) {
 		super(task);
-		// TODO Auto-generated constructor stub
 	}
 	
 	public AfListViewTask(int task,int first) {
 		super(task,first);
-		// TODO Auto-generated constructor stub
 	}
 	
 	public AfListViewTask(Handler handle, int task) {
 		super(handle, task);
-		// TODO Auto-generated constructor stub
 	}
 	
 
 	public AfListViewTask(List<T> list) {
 		super(list);
-		// TODO Auto-generated constructor stub
 	}
 
 	public AfListViewTask(AfListAdapter<T> adapter) {
 		super(adapter);
-		// TODO Auto-generated constructor stub
 	}
 
 	/**
@@ -96,7 +89,6 @@ public abstract class AfListViewTask<T> extends AfListTask<T>
 
 	@Override
 	protected boolean onHandle(Message msg) {
-		// TODO Auto-generated method stub
 		boolean isfinish = isFinish();
 		boolean dealerror = false;
 		if (mTask == TASK_LOAD) {
@@ -123,7 +115,6 @@ public abstract class AfListViewTask<T> extends AfListTask<T>
 	 * @param exception
 	 */
 	protected void onDealError(int task, String rrrors, Throwable exception) {
-		// TODO Auto-generated method stub
 		AfActivity activity = AfApplication.getApp().getCurActivity();
 		if (activity != null && !activity.isRecycled()) {
 			if (exception instanceof IOException) {
@@ -159,7 +150,6 @@ public abstract class AfListViewTask<T> extends AfListTask<T>
 	 * @return 返回 true 表示 isfinish=false 时候 已经做了失败提示处理 将不在调用 onDealError
 	 */
 	protected boolean onWorked(int task, boolean isfinish, List<T> ltdata) {
-		// TODO Auto-generated method stub
 		return false;
 	}
 
@@ -170,13 +160,11 @@ public abstract class AfListViewTask<T> extends AfListTask<T>
 	 * @return 返回 true 表示 isfinish=false 时候 已经做了失败提示处理 将不在调用 onDealError
 	 */
 	protected boolean onLoaded(boolean isfinish, List<T> ltdata,Date cachetime) {
-		// TODO Auto-generated method stub
 		return onRefreshed(isfinish, ltdata);
 	}
 	
 	@SuppressWarnings("rawtypes")
 	public static AfListViewTask getTask(Message msg) {
-		// TODO Auto-generated method stub
 		if (msg.obj instanceof AfListViewTask) {
 			return (AfListViewTask) msg.obj;
 		}

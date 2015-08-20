@@ -35,7 +35,6 @@ public abstract class AfSelectorBottombar extends AfLayoutAlpha implements
 	
 	public AfSelectorBottombar(AfViewable view,int viewid) {
 		super(view,viewid);
-		// TODO Auto-generated constructor stub
 		if (isValid()) {
 			mMore = getFunctionViewMore(view);
 			mContaint = getFunctionLayout(view);
@@ -67,7 +66,6 @@ public abstract class AfSelectorBottombar extends AfLayoutAlpha implements
 	}
 	
 	public void setMenuItemListener(OnMenuItemClickListener listener) {
-		// TODO Auto-generated method stub
 		mListener = listener;
 	}
 	
@@ -86,7 +84,6 @@ public abstract class AfSelectorBottombar extends AfLayoutAlpha implements
 
 	@Override
 	public void onClick(View v) {
-		// TODO Auto-generated method stub
 		if (v == mMore) {
 			PopupMenu pm = new PopupMenu(v.getContext(), v);
 			if (!pm.isValid()) {
@@ -107,7 +104,6 @@ public abstract class AfSelectorBottombar extends AfLayoutAlpha implements
 
 	@Override
 	public boolean onMenuItemClick(MenuItem menu) {
-		// TODO Auto-generated method stub
 		if (mListener != null) {
 			return mListener.onMenuItemClick(menu);
 		}
@@ -118,7 +114,6 @@ public abstract class AfSelectorBottombar extends AfLayoutAlpha implements
 	public void onMultiChoiceChanged(
 			AfMultiChoiceAdapter<? extends Object> adapter, Object tag,
 			boolean selected, int number) {
-		// TODO Auto-generated method stub
 
 	}
 
@@ -126,21 +121,18 @@ public abstract class AfSelectorBottombar extends AfLayoutAlpha implements
 	public void onMultiChoiceChanged(
 			AfMultiChoiceAdapter<? extends Object> adapter, int number,
 			int total) {
-		// TODO Auto-generated method stub
 	}
 	
 	@Override
 	public void onMultiChoiceAddData(
 			AfMultiChoiceAdapter<? extends Object> adapter,
 			List<? extends Object> list) {
-		// TODO Auto-generated method stub
 		
 	}
 
 	@Override
 	public void onMultiChoiceStarted(
 			AfMultiChoiceAdapter<? extends Object> adapter, int number) {
-		// TODO Auto-generated method stub
 		if (function > 0) {
 			this.show();
 		}
@@ -150,7 +142,6 @@ public abstract class AfSelectorBottombar extends AfLayoutAlpha implements
 	public void onMultiChoiceClosed(
 			AfMultiChoiceAdapter<? extends Object> adapter,
 			List<? extends Object> list) {
-		// TODO Auto-generated method stub
 		if (function > 0) {
 			this.hide();
 		}

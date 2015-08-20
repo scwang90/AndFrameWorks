@@ -14,21 +14,17 @@ public class AfSelectorTitlebarImpl extends AfSelectorTitlebar {
 
 	public AfSelectorTitlebarImpl(AfPageable page) {
 		super(page,R.id.af_titlebar_select);
-		// TODO Auto-generated constructor stub
 	}
 	@Override
 	protected View findTitleSelectBtFinish(AfViewable view) {
-		// TODO Auto-generated method stub
 		return view.findViewById(R.id.af_titlebar_select_finish);
 	}
 	@Override
 	protected View findTitleSelectOperate(AfViewable view) {
-		// TODO Auto-generated method stub
 		return view.findViewById(R.id.af_titlebar_select_operate);
 	}
 	@Override
 	protected TextView findTitleSelectTvText(AfViewable view) {
-		// TODO Auto-generated method stub
 		return view.findViewByID(R.id.af_titlebar_select_text);
 	}
 

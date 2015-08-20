@@ -27,12 +27,10 @@ public abstract class AfTreeViewAdapter<T> extends AfMultiChoiceAdapter<T> {
 
 	public AfTreeViewAdapter(Context context, List<T> ltdata,AfTreeEstablisher<T> establisher) {
 		this(context,ltdata,establisher,false);
-		// TODO Auto-generated constructor stub
 	}
 	
 	public AfTreeViewAdapter(Context context, List<T> ltdata,AfTreeEstablisher<T> establisher,boolean isExpanded) {
 		super(context, new ArrayList<T>());
-		// TODO Auto-generated constructor stub
 		mltOriginData = ltdata;
 		mEstablisher = establisher;
 		mDefaultExpanded = isExpanded;
@@ -48,12 +46,10 @@ public abstract class AfTreeViewAdapter<T> extends AfMultiChoiceAdapter<T> {
 
 	@Override
 	protected final AfMultiChoiceItem<T> getMultiChoiceItem(T data) {
-		// TODO Auto-generated method stub
 		return getTreeViewItem(data);
 	}
 
 	public boolean isItemClickable(int index) {
-		// TODO Auto-generated method stub
 		if(mTreeNodeClickable == null){
 			return false;
 		}
@@ -63,14 +59,12 @@ public abstract class AfTreeViewAdapter<T> extends AfMultiChoiceAdapter<T> {
 	@Override
 	protected View onInflateItem(IAfLayoutItem<T> item,
 			ViewGroup parent) {
-		// TODO Auto-generated method stub
 		View view = super.onInflateItem(item, parent);
 		return ((AfTreeViewItem<T>)item).inflateLayout(view,this);
 	}
 	
 	@Override
 	protected boolean bindingItem(IAfLayoutItem<T> item, int index) {
-		// TODO Auto-generated method stub
 		AfTreeViewItem<T> tvitem = (AfTreeViewItem<T>)item;
 		tvitem.setNode(mNodeShow.get(index));
 		return super.bindingItem(item, index);
@@ -78,7 +72,6 @@ public abstract class AfTreeViewAdapter<T> extends AfMultiChoiceAdapter<T> {
 	
 	@Override
 	public void onItemClick(int index) {
-		// TODO Auto-generated method stub
 		if(isMultiChoiceMode()){
 			super.onItemClick(index);
 		}else{
@@ -99,7 +92,6 @@ public abstract class AfTreeViewAdapter<T> extends AfMultiChoiceAdapter<T> {
 	}
 
 	private void setNodeRecursion(AfTreeNode<T> node, boolean expand) {
-		// TODO Auto-generated method stub
 		if(node.children != null && !node.children.equals("")){
 			for (AfTreeNode<T> element : node.children) {
 				setNodeRecursion(element,expand);
@@ -112,7 +104,6 @@ public abstract class AfTreeViewAdapter<T> extends AfMultiChoiceAdapter<T> {
 
 	@Override
 	public void addData(List<T> ltdata) {
-		// TODO Auto-generated method stub
 		mltOriginData.addAll(ltdata);
 		mRootNode = mEstablisher.establish(mltOriginData,mDefaultExpanded);
 		restoreTreeNode(mRootNode,mNodeShow);
@@ -121,7 +112,6 @@ public abstract class AfTreeViewAdapter<T> extends AfMultiChoiceAdapter<T> {
 
 	@Override
 	public void setData(List<T> ltdata) {
-		// TODO Auto-generated method stub
 		mltOriginData = ltdata;
 		mRootNode = mEstablisher.establish(mltOriginData,mDefaultExpanded);
 		updateNodeListToShow();
@@ -129,7 +119,6 @@ public abstract class AfTreeViewAdapter<T> extends AfMultiChoiceAdapter<T> {
 	
 	@Override
 	public void setData(int index, T obj) {
-		// TODO Auto-generated method stub
 		if (mltOriginData.size() > index) {
 			mltOriginData.set(index, obj);
 			mRootNode = mEstablisher.establish(mltOriginData,mDefaultExpanded);
@@ -139,7 +128,6 @@ public abstract class AfTreeViewAdapter<T> extends AfMultiChoiceAdapter<T> {
 	
 	@Override
 	public void insert(int index, T object) {
-		// TODO Auto-generated method stub
 		if (mltOriginData.size() >= index) {
 			mltOriginData.add(index, object);
 			mRootNode = mEstablisher.establish(mltOriginData,mDefaultExpanded);
@@ -149,7 +137,6 @@ public abstract class AfTreeViewAdapter<T> extends AfMultiChoiceAdapter<T> {
 	
 	@Override
 	public void remove(int index) {
-		// TODO Auto-generated method stub
 		if (mltOriginData.size() > index) {
 			mltOriginData.remove(index);
 			mRootNode = mEstablisher.establish(mltOriginData,mDefaultExpanded);
@@ -169,7 +156,6 @@ public abstract class AfTreeViewAdapter<T> extends AfMultiChoiceAdapter<T> {
 	}
 	
 	protected void updateNodeListToShow() {
-		// TODO Auto-generated method stub
 		restoreTreeNode(mRootNode,mNodeShow);
 		mltArray.clear();
 		mNodeShow.clear();
@@ -179,7 +165,6 @@ public abstract class AfTreeViewAdapter<T> extends AfMultiChoiceAdapter<T> {
 	}
 
 	protected void restoreTreeNode(AfTreeNode<T> root,List<AfTreeNode<T>> nodes) {
-		// TODO Auto-generated method stub
 		List<AfTreeNode<T>> remain = new ArrayList<AfTreeNode<T>>(nodes);
 		for (AfTreeNode<T> node : nodes) {
 			if(root == node){

@@ -21,7 +21,6 @@ public class AfFileTypeEnum
 	public static final int TEXT = 8;
 
 	public static int getType(String name) {
-		// TODO Auto-generated method stub
 		int index = 0;
 		if(name != null && (index = name.indexOf('.')) > -1){
 			name = name.toLowerCase(Locale.CHINESE);

@@ -6,6 +6,5 @@ public class AfTimer extends Timer{
 	
 	public AfTimer() {
 		super(true);
-		// TODO Auto-generated constructor stub
 	}
 }

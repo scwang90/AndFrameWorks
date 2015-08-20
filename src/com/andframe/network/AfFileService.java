@@ -78,7 +78,6 @@ public class AfFileService {
 	}
 	
 	protected static void initialize() {
-		// TODO Auto-generated method stub
 		webRoot = "http://"+server+":"+port+SerivcePath;
 		servletUrl = "http://"+server+":"+port+SerivcePath+ServletPath;
 	}

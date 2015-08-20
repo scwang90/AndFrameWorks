@@ -39,19 +39,16 @@ public class AfScrollLayout extends ViewGroup {
 
 	public AfScrollLayout(Context context) {
 		super(context);
-		// TODO Auto-generated constructor stub
 		init(context);
 	}
 
 	public AfScrollLayout(Context context, AttributeSet attrs) {
 		super(context, attrs);
-		// TODO Auto-generated constructor stub
 		init(context);
 	}
 
 	public AfScrollLayout(Context context, AttributeSet attrs, int defStyle) {
 		super(context, attrs, defStyle);
-		// TODO Auto-generated constructor stub
 
 		init(context);
 	}
@@ -67,7 +64,6 @@ public class AfScrollLayout extends ViewGroup {
 
 	@Override
 	protected void onLayout(boolean changed, int l, int t, int r, int b) {
-		// TODO Auto-generated method stub
 
 		if (changed) {
 			int childLeft = 0;
@@ -87,7 +83,6 @@ public class AfScrollLayout extends ViewGroup {
 
 	@Override
 	protected void onMeasure(int widthMeasureSpec, int heightMeasureSpec) {
-		// TODO Auto-generated method stub
 		super.onMeasure(widthMeasureSpec, heightMeasureSpec);
 
 		final int width = MeasureSpec.getSize(widthMeasureSpec);
@@ -131,7 +126,6 @@ public class AfScrollLayout extends ViewGroup {
 
 	@Override
 	public void computeScroll() {
-		// TODO Auto-generated method stub
 		if (mScroller.computeScrollOffset()) {
 			scrollTo(mScroller.getCurrX(), mScroller.getCurrY());
 			postInvalidate();
@@ -140,7 +134,6 @@ public class AfScrollLayout extends ViewGroup {
 
 	@Override
 	public boolean onTouchEvent(MotionEvent event) {
-		// TODO Auto-generated method stub
 
 		final int action = event.getAction();
 		final float x = event.getX();
@@ -214,7 +207,6 @@ public class AfScrollLayout extends ViewGroup {
 
 	//
 	// public boolean onInterceptTouchEvent(MotionEvent ev) {
-	// // TODO Auto-generated method stub
 	// final int action = ev.getAction();
 	// if ((action == MotionEvent.ACTION_MOVE)
 	// && (mTouchState != TOUCH_STATE_REST)) {

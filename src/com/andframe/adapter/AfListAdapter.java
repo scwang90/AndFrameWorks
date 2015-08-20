@@ -41,7 +41,6 @@ public abstract class AfListAdapter<T> extends BaseAdapter {
 	 * @param ltdata
 	 */
 	public void addData(T data) {
-		// TODO Auto-generated method stub
 		mltArray.add(data);
 		notifyDataSetChanged();
 	}
@@ -51,7 +50,6 @@ public abstract class AfListAdapter<T> extends BaseAdapter {
 	 * @param ltdata
 	 */
 	public void addData(List<T> ltdata) {
-		// TODO Auto-generated method stub
 		mltArray.addAll(ltdata);
 		notifyDataSetChanged();
 	}
@@ -61,7 +59,6 @@ public abstract class AfListAdapter<T> extends BaseAdapter {
 	 * @param ltdata
 	 */
 	public void setData(List<T> ltdata) {
-		// TODO Auto-generated method stub
 		mltArray = new ArrayList<T>(ltdata);
 		notifyDataSetChanged();
 	}
@@ -72,7 +69,6 @@ public abstract class AfListAdapter<T> extends BaseAdapter {
 	 * @param obj
 	 */
 	public void setData(int index, T obj) {
-		// TODO Auto-generated method stub
 		if (mltArray.size() > index) {
 			mltArray.set(index, obj);
 			notifyDataSetChanged();
@@ -84,7 +80,6 @@ public abstract class AfListAdapter<T> extends BaseAdapter {
 	 * @param ltdata
 	 */
 	public void remove(int index) {
-		// TODO Auto-generated method stub
 		if (mltArray.size() > index) {
 			mltArray.remove(index);
 			notifyDataSetChanged();
@@ -96,7 +91,6 @@ public abstract class AfListAdapter<T> extends BaseAdapter {
 	 * @param ltdata
 	 */
 	public void insert(int index, T object) {
-		// TODO Auto-generated method stub
 		if (mltArray.size() >= index) {
 			mltArray.add(index, object);
 			notifyDataSetChanged();
@@ -105,31 +99,26 @@ public abstract class AfListAdapter<T> extends BaseAdapter {
 
 	@Override
 	public int getCount() {
-		// TODO Auto-generated method stub
 		return mltArray.size();
 	}
 
 	@Override
 	public Object getItem(int arg0) {
-		// TODO Auto-generated method stub
 		return mltArray.get(arg0);
 	}
 
 	public T getItemAt(int index) {
-		// TODO Auto-generated method stub
 		return mltArray.get(index);
 	}
 
 	@Override
 	public long getItemId(int arg0) {
-		// TODO Auto-generated method stub
 		return 0;
 	}
 
 	@Override
 	@SuppressWarnings("unchecked")
 	public View getView(int position, View view, ViewGroup parent) {
-		// TODO Auto-generated method stub
 		// 列表视图获取必须检查 view 是否为空 不能每次都 inflate 否则手机内存负载不起
 		IAfLayoutItem<T> item = null;
 		try {
@@ -142,7 +131,6 @@ public abstract class AfListAdapter<T> extends BaseAdapter {
 			}
 			bindingItem(item, position);
 		} catch (Throwable e) {
-			// TODO: handle exception
 			String remark = "AfListAdapter("+getClass().getName()+").getView\r\n";
 			View cview = view;
 			if (parent instanceof View){
@@ -157,7 +145,6 @@ public abstract class AfListAdapter<T> extends BaseAdapter {
 	}
 
 	protected IAfLayoutItem<T> getItemLayout(List<T> ltarray, int position) {
-		// TODO Auto-generated method stub
 		return getItemLayout(ltarray.get(position));
 	}
 

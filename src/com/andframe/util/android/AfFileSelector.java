@@ -71,7 +71,6 @@ public class AfFileSelector {
 	 * 用于 onActivityResult 中检测
 	 */
 	public static void showPhotograph(Activity activity,File outputpath, int request) {
-		// TODO Auto-generated method stub
 		try {
 			mOutputpath = outputpath;
 			Uri imageUri = Uri.fromFile(outputpath);//The Uri to store the big bitmap 
@@ -79,7 +78,6 @@ public class AfFileSelector {
 			intent.putExtra(MediaStore.EXTRA_OUTPUT, imageUri); 
 			activity.startActivityForResult(intent, request);//or TAKE_SMALL_PICTURE 
 		} catch (Exception e) {
-			// TODO: handle exception
 			Toast.makeText(activity, "没有找到系统相机程序喔~", Toast.LENGTH_SHORT)
 			.show();
 		}
@@ -91,7 +89,6 @@ public class AfFileSelector {
 	 * 用于	onActivityResult 中检测
 	 */
 	public static void showImageChooser(Activity activity, int request) {
-		// TODO Auto-generated method stub
 		Intent i = new Intent(Intent.ACTION_PICK, Media.EXTERNAL_CONTENT_URI);
 		try {
 			activity.startActivityForResult(i, request);

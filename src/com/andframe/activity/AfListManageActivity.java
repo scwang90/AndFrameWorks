@@ -30,7 +30,6 @@ public abstract class AfListManageActivity<T> extends AfMultiChoiceListActivity<
 	protected List<T> mltDelete = null;
 
 	public AfListManageActivity() {
-		// TODO Auto-generated constructor stub
 
 	}
 
@@ -39,7 +38,6 @@ public abstract class AfListManageActivity<T> extends AfMultiChoiceListActivity<
 	 * @param clazz
 	 */
 	public AfListManageActivity(Class<T> clazz) {
-		// TODO Auto-generated constructor stub
 		super(clazz);
 	}
 
@@ -49,7 +47,6 @@ public abstract class AfListManageActivity<T> extends AfMultiChoiceListActivity<
 	 * @param clazz
 	 */
 	public AfListManageActivity(Class<T> clazz, String KEY_CACHELIST) {
-		// TODO Auto-generated constructor stub
 		super(clazz,KEY_CACHELIST);
 	}
 
@@ -57,7 +54,6 @@ public abstract class AfListManageActivity<T> extends AfMultiChoiceListActivity<
 	 * 创建删除菜单
 	 */
 	protected void buildMultiDelete() {
-		// TODO Auto-generated method stub
 		if (mSelectorTitlebar != null){
 			mSelectorTitlebar.putMenu("删除", REQUEST_DELETE);
 			mSelectorTitlebar.setMenuItemListener(this);
@@ -82,7 +78,6 @@ public abstract class AfListManageActivity<T> extends AfMultiChoiceListActivity<
 	 * 点击删除按钮 提问确认删除
 	 */
 	protected void doReauestDelete() {
-		// TODO Auto-generated method stub
 		if (mMultiChoiceAdapter.isMultiChoiceMode()) {
 			final List<T> list = mMultiChoiceAdapter.peekSelectedItems();
 			if (list.size() > 0) {
@@ -90,7 +85,6 @@ public abstract class AfListManageActivity<T> extends AfMultiChoiceListActivity<
 						new DialogInterface.OnClickListener(){
 							@Override
 							public void onClick(DialogInterface arg0,int arg1) {
-								// TODO Auto-generated method stub
 								mSelected = null;
 								mltDelete = list;
 								postTask(TASK_DELETE);
@@ -161,7 +155,6 @@ public abstract class AfListManageActivity<T> extends AfMultiChoiceListActivity<
 	 * @throws Exception
 	 */
 	protected void onTaskRead(T model) throws Exception {
-		// TODO Auto-generated method stub
 		Thread.sleep(1000);
 	}
 
@@ -171,7 +164,6 @@ public abstract class AfListManageActivity<T> extends AfMultiChoiceListActivity<
 	 * @throws Exception
 	 */
 	protected void onTaskDelete(List<T> ltdelete) throws Exception {
-		// TODO Auto-generated method stub
 		Thread.sleep(1000);
 	}
 

@@ -9,7 +9,6 @@ public abstract class AfListItem<T> implements IAfLayoutItem<T>{
 	private int layoutId;
 	
 	public AfListItem() {
-		// TODO Auto-generated constructor stub
 	}
 	
 	public AfListItem(int layoutId) {
@@ -18,13 +17,11 @@ public abstract class AfListItem<T> implements IAfLayoutItem<T>{
 
 	@Override
 	public int getLayoutId() {
-		// TODO Auto-generated method stub
 		return layoutId;
 	}
 	
 	@Override
 	public void onHandle(AfView view) {
-		// TODO Auto-generated method stub
 		AfViewBinder binder = new AfViewBinder(this);
 		binder.doBind(view.getView());
 	}

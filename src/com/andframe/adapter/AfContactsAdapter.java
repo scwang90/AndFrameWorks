@@ -29,7 +29,6 @@ public abstract class AfContactsAdapter<G, C> extends AfExpandableAdapter<G, C>{
 	}
 
 	public void bindHeader(View header, int group,int child, int alpha) {
-		// TODO Auto-generated method stub
 		mHeader.onBinding(mGroups.get(group).mValue,true);
 	}
 

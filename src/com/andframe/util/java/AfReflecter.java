@@ -61,7 +61,6 @@ public class AfReflecter {
 	 * @return Field[]
 	 */
 	public static Field[] getField(Class<?> clazz) {
-		// TODO Auto-generated method stub
 		List<Field> fields = new ArrayList<Field>();
 		while (!clazz.equals(Object.class)) {
 			for (Field field : clazz.getDeclaredFields()) {
@@ -79,7 +78,6 @@ public class AfReflecter {
 	 * @return Field[]
 	 */
 	public static Field[] getFieldAnnotation(Class<?> clazz, Class<? extends Annotation> annot) {
-		// TODO Auto-generated method stub
 		return getFieldAnnotation(clazz, Object.class, annot);
 	}
 	/**
@@ -90,7 +88,6 @@ public class AfReflecter {
 	 * @return Field[]
 	 */
 	public static Field[] getFieldAnnotation(Class<?> type, Class<?> stoptype, Class<? extends Annotation> annot) {
-		// TODO Auto-generated method stub
 		Class<?> clazz = type;
 		List<Field> fields = new ArrayList<Field>();
 		while (!clazz.equals(stoptype)) {
@@ -139,7 +136,6 @@ public class AfReflecter {
 	 * @return method or null
 	 */
 	public static <T extends  Annotation> T getMethodAnnotation(Class<?> type, String method,  Class<T> annot) {
-		// TODO Auto-generated method stub
 		return getMethodAnnotation(type,Object.class,method,annot);
 	}
 	/**
@@ -150,7 +146,6 @@ public class AfReflecter {
 	 * @return method or null
 	 */
 	public static <T extends  Annotation> T getMethodAnnotation(Class<?> type, Class<?> stoptype, String method,  Class<T> annot) {
-		// TODO Auto-generated method stub
 		Class<?> clazz = null;
 		while (!clazz.equals(stoptype)) {
 			for (Method dmethod : clazz.getDeclaredMethods()) {
@@ -171,7 +166,6 @@ public class AfReflecter {
 	 * @return method or null
 	 */
 	public static Method getMethod(Class<?> type, String method) {
-		// TODO Auto-generated method stub
 		while (!type.equals(Object.class)) {
 			for (Method dmethod : type.getDeclaredMethods()) {
 				if (dmethod.getName().equals(method)) {
@@ -217,7 +211,6 @@ public class AfReflecter {
 	 * @return method or null
 	 */
 	public static Method getMethod(Class<?> type, String method,Class<?>[] parameterTypes) {
-		// TODO Auto-generated method stub
 		while (!type.equals(Object.class)) {
 			try {
 				return type.getDeclaredMethod(method, parameterTypes);
@@ -235,15 +228,12 @@ public class AfReflecter {
 	 * @return field or null
 	 */
 	public static Field getField(Class<?> type, String field) {
-		// TODO Auto-generated method stub
 		while (!type.equals(Object.class)) {
 			try {
 				return type.getDeclaredField(field);
 			} catch (NoSuchFieldException e) {
-				// TODO Auto-generated catch block
 				//e.printStackTrace();
 			} catch (SecurityException e) {
-				// TODO Auto-generated catch block
 				//e.printStackTrace();
 			}
 			type = type.getSuperclass();
@@ -279,7 +269,6 @@ public class AfReflecter {
 	 * @throws Exception
 	 */
 	public static Field getField(Object model, String field) throws Exception {
-		// TODO Auto-generated method stub
 		return getField(model.getClass(), field.split("\\."), 0);
 	}
 
@@ -290,11 +279,9 @@ public class AfReflecter {
 	 * @return
 	 */
 	public static Field getFieldNoException(Object model, String field) {
-		// TODO Auto-generated method stub
 		try {
 			return getField(model.getClass(), field.split("\\."), 0);
 		} catch (Throwable e) {
-			// TODO Auto-generated catch block
 			return null;
 		}
 	}
@@ -372,7 +359,6 @@ public class AfReflecter {
 			invokeMember(obj.getClass(), field.split("\\."), obj,value, 0);
 			return true;
 		} catch (Throwable e) {
-			// TODO Auto-generated catch block
 			return false;
 		}
 	}
@@ -402,7 +388,6 @@ public class AfReflecter {
 		try {
 			return invokeMember(obj.getClass(), field.split("\\."), obj, 0);
 		} catch (Throwable e) {
-			// TODO Auto-generated catch block
 			return null;
 		}
 	}
@@ -435,7 +420,6 @@ public class AfReflecter {
 		try {
 			return clazz.cast(invokeMember(obj.getClass(), field.split("\\."), obj, 0));
 		} catch (Throwable e) {
-			// TODO Auto-generated catch block
 			return null;
 		}
 	}

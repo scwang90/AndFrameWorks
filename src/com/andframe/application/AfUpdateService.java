@@ -55,7 +55,6 @@ public class AfUpdateService implements Callback {
 	}
 
 	public AfUpdateService(Context context) {
-		// TODO Auto-generated constructor stub
 		mContext = context;
 		// 设置任务栏中下载进程显示的views
 		AfApplication app = AfApplication.getApp();
@@ -76,7 +75,6 @@ public class AfUpdateService implements Callback {
 	}
 
 	private void start(Context context, String url, String version) {
-		// TODO Auto-generated method stub
 		String path = AfApplication.getApp().getWorkspacePath("update");
 		AfDaemonThread.postTask(new DownloadTask(url, path, version + ".apk"));
 
@@ -98,7 +96,6 @@ public class AfUpdateService implements Callback {
 					"application/vnd.android.package-archive");
 			context.startActivity(intent);
 		} catch (Throwable e) {
-			// TODO: handle exception
 			e.printStackTrace();// handled
 			AfExceptionHandler.handler(e, "更新服务，Instanll 调用安装失败");
 		}
@@ -106,7 +103,6 @@ public class AfUpdateService implements Callback {
 
 	@Override
 	public boolean handleMessage(Message msg) {
-		// TODO Auto-generated method stub
 		DownloadTask task = (DownloadTask) msg.obj;
 		if (task.mResult == AfTask.RESULT_FINISH) {
 			if (task.mTask == DownloadTask.TASK_UPDATEPROGRESS) {
@@ -125,12 +121,10 @@ public class AfUpdateService implements Callback {
 	}
 
 	public static void checkUpdate() {
-		// TODO Auto-generated method stub
 		AfDaemonThread.postTask(new CheckUpdateTask(false));
 	}
 
 	public static void checkUpdate(boolean feedback) {
-		// TODO Auto-generated method stub
 		AfDaemonThread.postTask(new CheckUpdateTask(feedback));
 	}
 
@@ -139,17 +133,14 @@ public class AfUpdateService implements Callback {
 	}
 
 	public String getLastApkVersion() throws Exception{
-		// TODO Auto-generated method stub
 		return "0.0.0.0";
 	}
 
 	public String getApkUrl(String serversion) {
-		// TODO Auto-generated method stub
 		return "";
 	}
 	
 	public String getDownloadUrl(){
-		// TODO Auto-generated method stub
 		return "";
 	}
 	
@@ -161,13 +152,11 @@ public class AfUpdateService implements Callback {
 		private String mDscribe = "";
 
 		public CheckUpdateTask(boolean feedback) {
-			// TODO Auto-generated constructor stub
 			ndFeedback = feedback;
 		}
 
 		@Override
 		protected void onWorking(Message tMessage) throws Exception {
-			// TODO Auto-generated method stub
 //			if (mServersion.equals("0.0.0.0")) {
 				String version = AfApplication.getVersion();
 				mServersion = mInstance.getLastApkVersion();
@@ -177,7 +166,6 @@ public class AfUpdateService implements Callback {
 
 		@Override
 		protected boolean onHandle(Message msg) {
-			// TODO Auto-generated method stub
 			AfApplication app = AfApplication.getApp();
 			if (mResult == AfTask.RESULT_FINISH) {
 				app.setServerVersion(this,mServersion,mDscribe);
@@ -191,7 +179,6 @@ public class AfUpdateService implements Callback {
 
 		@Override
 		public void onClick(DialogInterface dialog, int which) {
-			// TODO Auto-generated method stub
 			String url = mInstance.getApkUrl(mServersion);
 			startDownLoadUpate(AfApplication.getApp(), url, mServersion);
 		}
@@ -207,7 +194,6 @@ public class AfUpdateService implements Callback {
 				upadate.delete();
 			}
 		} catch (Throwable e) {
-			// TODO: handle exception
 			AfApplication app = AfApplication.getApp();
 			AfActivity activity = app.getCurActivity();
 			if (activity != null) {
@@ -264,7 +250,6 @@ public class AfUpdateService implements Callback {
 
 		public DownloadTask(String url, String path, String file) {
 			super(new Handler(AfUpdateService.this));
-			// TODO Auto-generated constructor stub
 			mDownloadUrl = url;
 			mDownloadPath = path;
 			mDownloadFile = file;
@@ -272,7 +257,6 @@ public class AfUpdateService implements Callback {
 
 		@Override
 		protected void onWorking(Message tMessage) throws Exception {
-			// TODO Auto-generated method stub
 			mTask = TASK_UPDATEPROGRESS;
 			mHandler.sendMessage(mHandler.obtainMessage(mResult, this));
 

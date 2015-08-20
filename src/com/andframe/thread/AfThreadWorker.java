@@ -39,7 +39,6 @@ public class AfThreadWorker extends Thread{
 
 	@Override
 	public void run() {
-		// TODO Auto-generated method stub
 		synchronized (mLock) {
 			Looper.prepare();
 			mLooper = Looper.myLooper();
@@ -66,20 +65,17 @@ public class AfThreadWorker extends Thread{
 	}
 	
 	public void post(AfTask task) {
-		// TODO Auto-generated method stub
 		if (task.onPrepare()) {
 			getHandler().post(task);
 		}
 	}
 	public AfTask postTask(AfTask task) {
-		// TODO Auto-generated method stub
 		if (task.onPrepare()) {
 			getHandler().post(task);
 		}
 		return task;
 	}
 	public AfTask postTaskDelayed(AfTask task,long delay) {
-		// TODO Auto-generated method stub
 		if (task.onPrepare()) {
 			getHandler().postDelayed(task,delay);
 		}

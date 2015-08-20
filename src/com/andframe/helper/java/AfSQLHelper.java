@@ -9,12 +9,10 @@ public class AfSQLHelper {
 	}
 
 	public String andwhere(String where) {
-		// TODO Auto-generated method stub
 		return andWhere(where);
 	}
 
 	public String orwhere(String where) {
-		// TODO Auto-generated method stub
 		return orWhere(where);
 	}
 
@@ -35,7 +33,6 @@ public class AfSQLHelper {
 	}
 
 	public static String andWhere(String where) {
-		// TODO Auto-generated method stub
 		if(where != null){
 			String lower = where.toLowerCase(Locale.ENGLISH);
 			String trim = lower.trim();
@@ -52,7 +49,6 @@ public class AfSQLHelper {
 	}
 
 	public static String orWhere(String where) {
-		// TODO Auto-generated method stub
 		if(where != null ){
 			String lower = where.toLowerCase(Locale.ENGLISH);
 			String trim = lower.trim();

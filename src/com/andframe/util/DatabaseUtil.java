@@ -49,7 +49,6 @@ public class DatabaseUtil
     	checkDataBaseVersion(0);
     }
     public void checkDataBaseVersion(int index) {
-        // TODO Auto-generated method stub
         try
         {
             AfVersionDao dao = new AfVersionDao(context);
@@ -68,7 +67,6 @@ public class DatabaseUtil
         }
         catch (Throwable e)//版本过旧无法读取
         {
-            // TODO: handle exception
 //        	AfExceptionHandler.handleAttach(e, "数据库版本过旧无法读取");
         	if (file != null && file.exists()) {
         		file.delete();

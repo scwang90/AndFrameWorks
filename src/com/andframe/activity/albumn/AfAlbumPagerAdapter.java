@@ -27,13 +27,11 @@ public class AfAlbumPagerAdapter extends PagerAdapter {
 	protected ViewPager mViewPager;
 
 	public AfAlbumPagerAdapter(Context context, List<Photo> ltData) {
-		// TODO Auto-generated constructor stub
 		mltData = ltData;
 		mHashMap = new HashMap<String, AlbumPagerItem>();
 	}
 
 	public void setOnTouchListener(OnTouchListener listener) {
-		// TODO Auto-generated method stub
 		mTouchListener = listener;
 	}
 
@@ -46,7 +44,6 @@ public class AfAlbumPagerAdapter extends PagerAdapter {
 	 * @param ltNews
 	 */
 	public void AddData(List<Photo> ltData) {
-		// TODO Auto-generated method stub
 		mltData.addAll(ltData);
 		notifyDataSetChanged();
 	}
@@ -56,7 +53,6 @@ public class AfAlbumPagerAdapter extends PagerAdapter {
 	 * @param ltNews
 	 */
 	public void setData(List<Photo> ltData) {
-		// TODO Auto-generated method stub
 		mltData = ltData;
 		notifyDataSetChanged();
 	}
@@ -64,7 +60,6 @@ public class AfAlbumPagerAdapter extends PagerAdapter {
 	// 这里进行回收，当我们左右滑动的时候，会把早期的图片回收掉.
 	@Override
 	public void destroyItem(View container, int position, Object object) {
-		// TODO Auto-generated constructor stub
 		View view = mHashMap.get(String.valueOf(position)).mTvImage;
 		((ViewPager) container).removeView(view);
 		mHashMap.remove(String.valueOf(position));
@@ -72,14 +67,12 @@ public class AfAlbumPagerAdapter extends PagerAdapter {
 
 	@Override
 	public void finishUpdate(View view) {
-		// TODO Auto-generated constructor stub
 
 	}
 
 	// 这里返回相册有多少条,和BaseAdapter一样.
 	@Override
 	public int getCount() {
-		// TODO Auto-generated constructor stub
 		return mltData.size();
 	}
 
@@ -87,7 +80,6 @@ public class AfAlbumPagerAdapter extends PagerAdapter {
 	// 重新reload，不存在new一个并且填充数据.
 	@Override
 	public Object instantiateItem(View container, int position) {
-		// TODO Auto-generated constructor stub
 		AfAlbumView view = null;
 		String key = String.valueOf(position);
 		if (mHashMap.containsKey(key)) {
@@ -136,7 +128,6 @@ public class AfAlbumPagerAdapter extends PagerAdapter {
 		}
 
 		public void setOnTouchListener(OnTouchListener listener) {
-			// TODO Auto-generated method stub
 			mTouchListener = listener;
 			if (mTouchListener != null) {
 				mTvImage.setOnTouchListener(mTouchListener);
@@ -161,7 +152,6 @@ public class AfAlbumPagerAdapter extends PagerAdapter {
 	}
 
 	public void setViewPager(ViewPager pager) {
-		// TODO Auto-generated method stub
 		mViewPager = pager;
 	}
 

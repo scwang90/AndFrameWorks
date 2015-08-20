@@ -31,7 +31,6 @@ public abstract class AfListManageActivityImpl<T> extends AfListManageActivity<T
 	protected AfModuleTitlebar mAfTitlebar;
 
 	public AfListManageActivityImpl() {
-		// TODO Auto-generated constructor stub
 	}
 
 	/**
@@ -39,7 +38,6 @@ public abstract class AfListManageActivityImpl<T> extends AfListManageActivity<T
 	 * @param clazz
 	 */
 	public AfListManageActivityImpl(Class<T> clazz) {
-		// TODO Auto-generated constructor stub
 		super(clazz);
 	}
 
@@ -49,7 +47,6 @@ public abstract class AfListManageActivityImpl<T> extends AfListManageActivity<T
 	 * @param clazz
 	 */
 	public AfListManageActivityImpl(Class<T> clazz, String KEY_CACHELIST) {
-		// TODO Auto-generated constructor stub
 		super(clazz,KEY_CACHELIST);
 	}
 
@@ -64,31 +61,26 @@ public abstract class AfListManageActivityImpl<T> extends AfListManageActivity<T
 
 	@Override
 	protected int getLayoutId() {
-		// TODO Auto-generated method stub
 		return R.layout.af_activity_listview;
 	}
 
 	@Override
 	protected ListView findListView(AfPageable pageable) {
-		// TODO Auto-generated method stub
 		return pageable.findViewByID(R.id.modulelistview_listview);
 	}
 
 	@Override
 	protected AfFrameSelector newAfFrameSelector(AfPageable pageable) {
-		// TODO Auto-generated method stub
 		return new AfFrameSelector(this, R.id.modulelistview_contentframe);
 	}
 
 	@Override
 	protected AfModuleProgress newModuleProgress(AfPageable pageable) {
-		// TODO Auto-generated method stub
 		return new AfModuleProgressImpl(pageable);
 	}
 
 	@Override
 	protected AfModuleNodata newModuleNodata(AfPageable pageable) {
-		// TODO Auto-generated method stub
 		return new AfModuleNodataImpl(pageable);
 	}
 

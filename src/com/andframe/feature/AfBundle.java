@@ -19,12 +19,10 @@ public class AfBundle implements AfExtrater{
 	protected static Gson mJson = new Gson();
 
 	public AfBundle() {
-		// TODO Auto-generated constructor stub
 		mBundle = new Bundle();
 	}
 
 	public AfBundle(Bundle bundle) {
-		// TODO Auto-generated constructor stub
 		mBundle = bundle;
 	}
 	
@@ -58,7 +56,6 @@ public class AfBundle implements AfExtrater{
 			}
 			value = mJson.fromJson(mBundle.getString(_key+"[0]"), clazz);
 		} catch (Throwable e) {
-			// TODO: handle exception
 		}
 		return value == null ? defaul : value;
 	}
@@ -79,7 +76,6 @@ public class AfBundle implements AfExtrater{
 				}
 			}
 		} catch (Throwable e) {
-			// TODO: handle exception
 			if(value != null && value.size() == 0){
 				value = null;
 			}
@@ -88,42 +84,34 @@ public class AfBundle implements AfExtrater{
 	}
 
 	public String getString(String _key, String _default) {
-		// TODO Auto-generated method stub
 		return get(_key,_default,String.class);
 	}
 
 	public short getShort(String _key, short _default) {
-		// TODO Auto-generated method stub
 		return get(_key,_default,Short.class);
 	}
 
 	public boolean getBoolean(String _key, boolean _default) {
-		// TODO Auto-generated method stub
 		return get(_key,_default,Boolean.class);
 	}
 
 	public int getInt(String _key, int _default) {
-		// TODO Auto-generated method stub
 		return get(_key,_default,Integer.class);
 	}
 
 	public long getLong(String _key, long _default) {
-		// TODO Auto-generated method stub
 		return get(_key,_default,Long.class);
 	}
 
 	public float getFloat(String _key, float _default) {
-		// TODO Auto-generated method stub
 		return get(_key,_default,Float.class);
 	}
 
 	public double getDouble(String _key, double _default) {
-		// TODO Auto-generated method stub
 		return get(_key,_default,Double.class);
 	}
 
 	public UUID getUUID(String _key, UUID _default) {
-		// TODO Auto-generated method stub
 		return get(_key,_default,UUID.class);
 	}
 }

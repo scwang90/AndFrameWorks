@@ -11,11 +11,9 @@ public abstract class AfDispatch implements Runnable, Callback{
 
 	@Override
 	public final void run() {
-		// TODO Auto-generated method stub
 		try {
 			this.onDispatch();
 		} catch (Throwable e) {
-			// TODO: handle exception
 			String remark = "AfDispatch("+getClass().getName()+").run.onDispatch";
 			AfExceptionHandler.handler(e, remark);
 		}
@@ -23,7 +21,6 @@ public abstract class AfDispatch implements Runnable, Callback{
 	
 	@Override
 	public boolean handleMessage(Message msg) {
-		// TODO Auto-generated method stub
 		this.run();
 		return true;
 	}
@@ -31,7 +28,6 @@ public abstract class AfDispatch implements Runnable, Callback{
 	protected abstract void onDispatch();
 
 	public void dispatch(Looper looper) {
-		// TODO Auto-generated method stub
 		//new Handler(looper,this).dispatchMessage(Message.obtain());
 		new Handler(looper,this).post(this);
 	}

@@ -13,12 +13,10 @@ public class AfModuleNodataImpl extends AfModuleNodata {
 
 	public AfModuleNodataImpl(AfPageable page) {
 		super(page);
-		// TODO Auto-generated constructor stub
 	}
 	
 	@Override
 	protected View findLayout(AfViewable view) {
-		// TODO Auto-generated method stub
 		View layout = view.findViewById(R.id.module_nodata_button);
 		if(layout != null){
 			layout = (View)layout.getParent();
@@ -28,13 +26,11 @@ public class AfModuleNodataImpl extends AfModuleNodata {
 
 	@Override
 	protected View findRefreshButton(AfViewable view) {
-		// TODO Auto-generated method stub
 		return view.findViewById(R.id.module_nodata_button);
 	}
 
 	@Override
 	protected TextView findDescription(AfViewable view) {
-		// TODO Auto-generated method stub
 		return view.findViewByID(R.id.module_nodata_description);
 	}
 }

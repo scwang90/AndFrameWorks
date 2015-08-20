@@ -19,12 +19,10 @@ public class AfTableHeader extends LinearLayout {
 
 	public AfTableHeader(Context context, AttributeSet attrs) {
 		super(context, attrs);
-		// TODO Auto-generated constructor stub
 	}
 	
 	public AfTableHeader(Context context, AfTable table) {
 		super(context);
-		// TODO Auto-generated constructor stub
 		setOrientation(HORIZONTAL);
 		setBackground(this, table.BackgroundIdHeader);
 		setLayoutParams(new LayoutParams(CONTENT, table.HeaderHeight));
@@ -47,11 +45,9 @@ public class AfTableHeader extends LinearLayout {
 	}
 
 	public static void setBackground(View view, int back) {
-		// TODO Auto-generated method stub
 		 try {
 			 view.setBackgroundResource(back);
 		 } catch (NotFoundException e) {
-			 // TODO: handle exception
 			 view.setBackgroundColor(back);
 		 }
 	}

@@ -57,7 +57,6 @@ public class AfDesHelper {
 			decryptCipher = Cipher.getInstance("DES");
 			decryptCipher.init(Cipher.DECRYPT_MODE, key);
 		} catch (Throwable e) {
-			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
 	}
@@ -86,11 +85,9 @@ public class AfDesHelper {
 	 * @return 解密值
 	 */
 	public String decryptNoException(String strIn) {
-		// TODO Auto-generated method stub
 		try {
 			return decrypt(strIn);
 		} catch (Throwable e) {
-			// TODO: handle exception
 		}
 		return "";
 	}
@@ -114,7 +111,6 @@ public class AfDesHelper {
 		try {
 			return decrypt(strIn);
 		} catch (Throwable e) {
-			// TODO: handle exception
 			return "";
 		}
 	}

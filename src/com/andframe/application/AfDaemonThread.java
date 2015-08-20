@@ -56,7 +56,6 @@ public class AfDaemonThread {
 		AfApplication.dispatch(new AfDispatch() {
 			@Override
 			protected void onDispatch() {
-				// TODO Auto-generated method stub
 				synchronized (mltWorker) {
 					if (mltWorker.size() < MAXTHREADNUM) {
 						if (task.onPrepare()) {
@@ -85,7 +84,6 @@ public class AfDaemonThread {
 	 * @return 返回传入的  task 任务对象
 	 */
 	public static AfTask postTaskDelayedNoDispatch(final AfTask task,final long delay) {
-		// TODO Auto-generated method stub
 		synchronized (mltWorker) {
 			if (mltWorker.size() < MAXTHREADNUM) {
 				if (task.onPrepare()) {
@@ -120,25 +118,21 @@ public class AfDaemonThread {
 
 		public ThreadWorker(String name, Runnable task, long delay) {
 			super(name);
-			// TODO Auto-generated constructor stub
 			mTask = task;
 			mDelay = delay;
 		}
 
 		@Override
 		public void run() {
-			// TODO Auto-generated method stub
 			if (mDelay > 0) {
 				try {
 					Thread.sleep(mDelay);
 				} catch (Throwable e) {
-					// TODO: handle exception
 				}
 			}
 			try {
 				mTask.run();
 			} catch (Throwable e) {
-				// TODO: handle exception
 				AfExceptionHandler.handler(e, "AfDaemonThread.ThreadWorker.Task.run");
 			}
 			onTaskFinish(this);

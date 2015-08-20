@@ -18,7 +18,6 @@ public class AfDurableCache extends AfJsonCache
 	
 	private AfDurableCache() throws Exception {
 		super(AfApplication.getApp(),getPath(), CACHE_NAME);
-		// TODO Auto-generated constructor stub
 	}
 
 	/**
@@ -30,7 +29,6 @@ public class AfDurableCache extends AfJsonCache
 			try {
 				mInstance = new AfDurableCache();
 			} catch (Throwable e) {
-				// TODO: handle exception
 //				AfExceptionHandler.handler(e, "获取持久缓存失败");
 			}
 		}
@@ -38,7 +36,6 @@ public class AfDurableCache extends AfJsonCache
 	}
 
 	public static String getPath() {
-		// TODO Auto-generated method stub
 		return AfApplication.getApp().getCachesPath("Durable");
 	}
 
@@ -46,7 +43,6 @@ public class AfDurableCache extends AfJsonCache
 
 	private AfDurableCache(String name) throws Exception{
 		super(AfApplication.getApp(),getPath(), name);
-		// TODO Auto-generated constructor stub
 	}
 	
 	public static AfDurableCache getInstance(String name) {
@@ -55,7 +51,6 @@ public class AfDurableCache extends AfJsonCache
 			try {
 				caches = new AfDurableCache(name);
 			} catch (Exception e) {
-				// TODO Auto-generated catch block
 				e.printStackTrace();
 			}
 			mHashMap.put(name, caches);

@@ -37,7 +37,6 @@ public class AfGifPlayer extends AfTask{
     
 	@Override
 	protected void onWorking(Message msg) throws Exception {
-		// TODO Auto-generated method stub
         if (!frames[index].image.isRecycled()) {
             image.setImageBitmap(frames[index].image);
         }

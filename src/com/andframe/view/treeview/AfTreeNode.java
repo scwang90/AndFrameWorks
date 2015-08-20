@@ -12,12 +12,10 @@ public class AfTreeNode<T> {
 	public List<AfTreeNode<T>> children = null;
 	
 	protected AfTreeNode(T model) {
-		// TODO Auto-generated constructor stub
 		this.value = model;
 	}
 	
 	protected AfTreeNode(AfTreeNode<T> parent, T model, boolean isExpanded) {
-		// TODO Auto-generated constructor stub
 		this.value = model;
 		this.level = parent.level + 1;
 		this.isExpanded = isExpanded;
@@ -40,7 +38,6 @@ public class AfTreeNode<T> {
 	}
 	
 	public AfTreeNode(Collection<T> collect, AfTreeNodeable<T> able,boolean isExpanded) {
-		// TODO Auto-generated constructor stub
 		this.level = -1;
 		this.isExpanded = true;
 		this.children = new ArrayList<AfTreeNode<T>>();
@@ -51,7 +48,6 @@ public class AfTreeNode<T> {
 
 	protected AfTreeNode(AfTreeNode<T> parent, T model, AfTreeNodeable<T> able, boolean isExpanded) {
 		this(parent,model,isExpanded);
-		// TODO Auto-generated constructor stub
 		Collection<T> children = able.getChildren(model);
 		if(children != null){
 			this.children = new ArrayList<AfTreeNode<T>>();
@@ -62,7 +58,6 @@ public class AfTreeNode<T> {
 	}
 
 	protected void bulidChildNode(List<T> list, AfTreeEstablishable<T> able,boolean isExpanded) {
-		// TODO Auto-generated method stub
 		children = new ArrayList<AfTreeNode<T>>();
 		List<T> tlist = new ArrayList<T>(list);
 		for (T model : tlist) {

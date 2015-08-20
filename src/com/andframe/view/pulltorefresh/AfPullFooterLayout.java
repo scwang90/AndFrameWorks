@@ -23,14 +23,12 @@ public abstract class AfPullFooterLayout extends AfPullHeaderLayout
     public AfPullFooterLayout(Context context)
     {
         super(context);
-        // TODO Auto-generated constructor stub
         this.initailize(context);
     }
     
     public AfPullFooterLayout(Context context, AttributeSet attrs)
     {
         super(context, attrs);
-        // TODO Auto-generated constructor stub
         this.initailize(context);
     }
     
@@ -119,7 +117,6 @@ public abstract class AfPullFooterLayout extends AfPullHeaderLayout
 
 	@Override
 	protected int getViewID(EnumViewID id) {
-		// TODO Auto-generated method stub
 		if(mHeader == null)
 		{
 			mHeader = getHeader();
@@ -129,7 +126,6 @@ public abstract class AfPullFooterLayout extends AfPullHeaderLayout
 
 	@Override
 	protected String getString(Context context, EnumString string) {
-		// TODO Auto-generated method stub
 //		if(string == EnumString.header_loading)
 //		{
 //			return getFooterString(context,EnumFooterString.footer_loading);

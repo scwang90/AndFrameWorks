@@ -15,42 +15,36 @@ public class AfGridView extends AfRefreshGridView{
 
 	public AfGridView(GridView GridView) {
 		super((mGridView=GridView).getContext());
-		// TODO Auto-generated constructor stub
 		setPullFooterLayout(new PullRefreshFooterImpl(GridView.getContext()));
 		setPullHeaderLayout(new PullRefreshHeaderImpl(GridView.getContext()));
 	}
 	
 	public AfGridView(AfPageable viewable,int res) {
 		super((mGridView=viewable.findViewByID(res)).getContext());
-		// TODO Auto-generated constructor stub
 		setPullFooterLayout(new PullRefreshFooterImpl(viewable.getContext()));
 		setPullHeaderLayout(new PullRefreshHeaderImpl(viewable.getContext()));
 	}
 	
 	public AfGridView(Context context) {
 		super(context);
-		// TODO Auto-generated constructor stub
 		setPullFooterLayout(new PullRefreshFooterImpl(context));
 		setPullHeaderLayout(new PullRefreshHeaderImpl(context));
 	}
 
 	public AfGridView(Context context, AttributeSet attrs) {
 		super(context, attrs);
-		// TODO Auto-generated constructor stub
 		setPullFooterLayout(new PullRefreshFooterImpl(context));
 		setPullHeaderLayout(new PullRefreshHeaderImpl(context));
 	}
 
 	public AfGridView(Context context, AttributeSet attrs, int defStyle) {
 		super(context, attrs, defStyle);
-		// TODO Auto-generated constructor stub
 		setPullFooterLayout(new PullRefreshFooterImpl(context));
 		setPullHeaderLayout(new PullRefreshHeaderImpl(context));
 	}
 
 	@Override
 	protected GridView onCreateGridView(Context context, AttributeSet attrs) {
-		// TODO Auto-generated method stub
 		if (mGridView != null) {
 			if (getParent() == null && mGridView.getParent() instanceof ViewGroup) {
 				ViewGroup parent = ViewGroup.class.cast(mGridView.getParent());

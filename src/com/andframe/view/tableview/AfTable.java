@@ -26,7 +26,6 @@ public class AfTable{
 //	protected WeakReference<List<?>> mRefData = null;
 
 //	public AfTable(List<AfColumn> columns, List<?> datas) {
-//		// TODO Auto-generated constructor stub
 //		mRefData = new WeakReference<List<?>>(datas);
 //		mColumns = columns.toArray(new AfColumn[0]);
 //	}
@@ -39,7 +38,6 @@ public class AfTable{
 	}
 
 	public AfColumn[] getColumns() {
-		// TODO Auto-generated method stub
 		return mColumns;
 	}
 
@@ -55,7 +53,6 @@ public class AfTable{
 //	}
 
 //	public List<String[]> buildContent() {
-//		// TODO Auto-generated method stub
 //		List<String[]> list = new ArrayList<String[]>();
 //		try {
 //			Class<?> clazz = mRefData.get().get(0).getClass();
@@ -73,7 +70,6 @@ public class AfTable{
 //				list.add(content);
 //			}
 //		} catch (Throwable e) {
-//			// TODO: handle exception
 //		}
 //		return list;
 //	}

@@ -58,7 +58,6 @@ public class AfNetwork
             @Override
             public void onClick(DialogInterface dialog, int which)
             {
-                // TODO Auto-generated method stub
                 Intent mIntent = new Intent("/");
                 ComponentName comp = new ComponentName("com.android.settings",
                         "com.android.settings.WirelessSettings");

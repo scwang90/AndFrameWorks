@@ -6,7 +6,6 @@ public class AfAsyncTask<Params, Progress, Result> extends AsyncTask<Params, Pro
 
 	@Override
 	protected Result doInBackground(Params... params) {
-		// TODO Auto-generated method stub
 		return null;
 	}
 

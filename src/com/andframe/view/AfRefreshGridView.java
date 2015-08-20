@@ -17,36 +17,30 @@ public abstract class AfRefreshGridView extends AfPullToRefreshBase<GridView> {
 
 	public AfRefreshGridView(Context context) {
 		super(context);
-		// TODO Auto-generated constructor stub
 	}
 
 	public AfRefreshGridView(Context context, AttributeSet attrs) {
 		super(context, attrs);
-		// TODO Auto-generated constructor stub
 	}
 
 	public AfRefreshGridView(Context context, AttributeSet attrs, int defStyle) {
 		super(context, attrs, defStyle);
-		// TODO Auto-generated constructor stub
 	}
 	
 
 	@Override
 	protected GridView onCreateRefreshableView(Context context,
 			AttributeSet attrs) {
-		// TODO Auto-generated method stub
 		mTargetView = onCreateGridView(context,attrs);
 		return mTargetView;
 	}
 
 	protected GridView onCreateGridView(Context context, AttributeSet attrs) {
-		// TODO Auto-generated method stub
 		return new GridView(context, attrs);
 	}
 
 //	@Override
 //	protected final boolean isReadyForPullDown() {
-//		// TODO Auto-generated method stub
 //		// targetview.getOverScrollMode();
 //		return mIsOpenRefresh
 //				&& 5 >= Math.abs(getFirstPositionDistanceGuess(mTargetView)
@@ -55,7 +49,6 @@ public abstract class AfRefreshGridView extends AfPullToRefreshBase<GridView> {
 //
 //	@Override
 //	protected final boolean isReadyForPullUp() {
-//		// TODO Auto-generated method stub
 //		return mIsNeedFooter
 //				&& 5 >= Math.abs(getLastPositionDistanceGuess(mTargetView)
 //						- mTargetView.getBottom());
@@ -70,7 +63,6 @@ public abstract class AfRefreshGridView extends AfPullToRefreshBase<GridView> {
 //			field.setAccessible(true);
 //			return (Integer) field.get(view);
 //		} catch (Throwable e) {
-//			// TODO Auto-generated catch block
 //			e.printStackTrace();
 //		}
 //		return -1;
@@ -85,7 +77,6 @@ public abstract class AfRefreshGridView extends AfPullToRefreshBase<GridView> {
 //			field.setAccessible(true);
 //			return (Integer) field.get(view);
 //		} catch (Throwable e) {
-//			// TODO Auto-generated catch block
 //			e.printStackTrace();
 //		}
 //		return -1;
@@ -152,7 +143,6 @@ public abstract class AfRefreshGridView extends AfPullToRefreshBase<GridView> {
 
 
 	public void setAdapter(ListAdapter mAdapter) {
-		// TODO Auto-generated method stub
 		mTargetView.setAdapter(mAdapter);
 	}
 
@@ -161,18 +151,15 @@ public abstract class AfRefreshGridView extends AfPullToRefreshBase<GridView> {
 	}
 
 	public final void addMoreView() {
-		// TODO Auto-generated method stub
 		mIsNeedFooter = true;
 	}
 
 	public final void removeMoreView() {
-		// TODO Auto-generated method stub
 		onRefreshComplete();
 		mIsNeedFooter = false;
 	}
 
 	public void setOnItemClickListener(OnItemClickListener listener) {
-		// TODO Auto-generated method stub
 		mTargetView.setOnItemClickListener(listener);
 	}
 

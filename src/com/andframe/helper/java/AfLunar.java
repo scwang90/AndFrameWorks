@@ -131,12 +131,10 @@ public class AfLunar {
 	}
 
 	public String getLunarMonthString() {
-		// TODO Auto-generated method stub
 		return null;
 	}
 
 	public AfLunar(Date date) {
-		// TODO Auto-generated constructor stub
 		Calendar calender = Calendar.getInstance();
 		calender.setTime(date);
 		//this(calender);

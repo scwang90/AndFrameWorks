@@ -42,7 +42,6 @@ public abstract class AfMainActivity extends com.andframe.activity.framework.AfA
 
 	@Override
 	protected void onCreate(Bundle bundle, AfIntent intent) throws Exception {
-		// TODO Auto-generated method stub
 		super.onCreate(bundle, intent);
 		AfApplication app = AfApplication.getApp();
 		app.setMainActivity(this);
@@ -74,7 +73,6 @@ public abstract class AfMainActivity extends com.andframe.activity.framework.AfA
 	 * @return
 	 */
 	protected boolean onRestoreApp() {
-		// TODO Auto-generated method stub
 		return true;
 	}
 
@@ -83,7 +81,6 @@ public abstract class AfMainActivity extends com.andframe.activity.framework.AfA
 	 */
 	@Override
 	protected void onDestroy() {
-		// TODO Auto-generated method stub
 		AfApplication app = AfApplication.getApp();
 		// 通知APP 界面已经退出
 		app.notifyForegroundClosed(this);
@@ -92,7 +89,6 @@ public abstract class AfMainActivity extends com.andframe.activity.framework.AfA
 
 //	@Override
 //	public boolean dispatchKeyEvent(KeyEvent event) {
-//		// TODO Auto-generated method stub
 //		if (event.getKeyCode() == KeyEvent.KEYCODE_BACK
 //				&& event.getAction() == KeyEvent.ACTION_DOWN) {
 //			if ((System.currentTimeMillis() - mExitTime) > mExitInterval) {
@@ -108,7 +104,6 @@ public abstract class AfMainActivity extends com.andframe.activity.framework.AfA
 	
 	@Override
 	protected boolean onBackKeyPressed() {
-		// TODO Auto-generated method stub
 		boolean isHandled = super.onBackKeyPressed();
 		if (!isHandled) {
 			isHandled = true;
@@ -124,7 +119,6 @@ public abstract class AfMainActivity extends com.andframe.activity.framework.AfA
 
 	@Override
 	public void onNotifyUpdate(String curver, String server, String describe) {
-		// TODO Auto-generated method stub
 		// 显示去要更新对话框
 		AfApplication app = AfApplication.getApp();
 		if (app.isForegroundRunning() && app.getCurActivity() == this) {
@@ -134,7 +128,6 @@ public abstract class AfMainActivity extends com.andframe.activity.framework.AfA
 	
 	@Override
 	public void onNotifyNeedUpdate(String curver, String server) {
-		// TODO Auto-generated method stub
 		// 显示去要更新对话框
 		AfApplication app = AfApplication.getApp();
 		if (app.isForegroundRunning() && app.getCurActivity() == this) {
@@ -144,12 +137,10 @@ public abstract class AfMainActivity extends com.andframe.activity.framework.AfA
 	
 	@Override
 	public void onNetworkStatusChanged(int networkStatus) {
-		// TODO Auto-generated method stub
 	}
 
 	@Override
 	public void onClick(View v) {
-		// TODO Auto-generated method stub
 	}
 
 
@@ -165,7 +156,6 @@ public abstract class AfMainActivity extends com.andframe.activity.framework.AfA
 				new DialogInterface.OnClickListener() {
 					@Override
 					public void onClick(DialogInterface dialog, int which) {
-						// TODO Auto-generated method stub
 						// 如果没有网络连接，则进入网络设置界面
 						startActivity(new Intent(Settings.ACTION_WIFI_SETTINGS));
 					}
@@ -176,7 +166,6 @@ public abstract class AfMainActivity extends com.andframe.activity.framework.AfA
 	}
 
 	protected void showNeedUpdate() {
-		// TODO Auto-generated method stub
 		AfPrivateCaches caches = AfPrivateCaches.getInstance();
 		String curversion = AfApplication.getVersion();
 		String serversion = AfApplication.getApp().getServerVersion();
@@ -200,7 +189,6 @@ public abstract class AfMainActivity extends com.andframe.activity.framework.AfA
 			builder.setPositiveButton("下载更新", new DialogInterface.OnClickListener() {
 				@Override
 				public void onClick(DialogInterface dialog, int which) {
-					// TODO Auto-generated method stub
 					String serversion = AfApplication.getApp().getServerVersion();
 					String url = AfUpdateService.getInstance().getApkUrl(serversion);
 					AfUpdateService.startDownLoadUpate(getContext(), url, serversion);
@@ -209,7 +197,6 @@ public abstract class AfMainActivity extends com.andframe.activity.framework.AfA
 			builder.setNeutralButton("忽略此版本",new DialogInterface.OnClickListener() {
 				@Override
 				public void onClick(DialogInterface dialog, int which) {
-					// TODO Auto-generated method stub
 					AfPrivateCaches caches = AfPrivateCaches.getInstance();
 					String serversion = AfApplication.getApp().getServerVersion();
 					caches.put(KEY_IGNORE, serversion);

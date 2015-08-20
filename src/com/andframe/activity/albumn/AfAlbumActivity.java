@@ -119,7 +119,6 @@ public abstract class AfAlbumActivity extends AfActivity
 
 	@Override
 	protected void onCreate(Bundle bundle, AfIntent intent) throws Exception {
-		// TODO Auto-generated method stub
 		super.onCreate(bundle, intent);
 
 		setContentView(getAlbumLayoutId());
@@ -211,7 +210,6 @@ public abstract class AfAlbumActivity extends AfActivity
 						long last = mLastTouch;
 						@Override
 						protected boolean onHandleTimer(Message msg) {
-							// TODO Auto-generated method stub
 							mHandleing = false;
 							if(last == mLastTouch){                                                                                                                                                                                                                           
 								int index = mViewPager.getCurrentItem();
@@ -227,7 +225,6 @@ public abstract class AfAlbumActivity extends AfActivity
 	}
 
 	protected void onPageClick(int index, Photo photo) {
-		// TODO Auto-generated method stub
 		this.finish();
 	}
 
@@ -237,13 +234,11 @@ public abstract class AfAlbumActivity extends AfActivity
 
 		@Override
 		protected void onWorking(Message tMessage) throws Exception {
-			// TODO Auto-generated method stub
 			mphotos = onRequestAlbum(AlbumID, new Page(100, mltPhoto.size()));
 		}
 
 		@Override
 		protected boolean onHandle(Message msg) {
-			// TODO Auto-generated method stub
 			if(mResult == RESULT_FINISH){
 				mAdapter.AddData(mphotos);
 				onPageSelected(mViewPager.getCurrentItem());
@@ -262,7 +257,6 @@ public abstract class AfAlbumActivity extends AfActivity
 	 * @return
 	 */
 	public List<Photo> onRequestAlbum(UUID albumID, Page page) throws Exception{
-		// TODO Auto-generated method stub
 		return new ArrayList<Photo>();
 	}
 
@@ -271,7 +265,6 @@ public abstract class AfAlbumActivity extends AfActivity
 	// arg0==0的时候表示什么都没做，就是停在那。
 	@Override
 	public void onPageScrollStateChanged(int arg0) {
-		// TODO Auto-generated method stub
 
 	}
 
@@ -279,14 +272,12 @@ public abstract class AfAlbumActivity extends AfActivity
 	// 默示在前一个页面滑动到后一个页面的时辰，在前一个页面滑动前调用的办法。
 	@Override
 	public void onPageScrolled(int arg0, float arg1, int arg2) {
-		// TODO Auto-generated method stub
 
 	}
 
 	// currPage是默示你当前选中的页面，这事务是在你页面跳转完毕的时辰调用的。
 	@Override
 	public void onPageSelected(int currPage) {
-		// TODO Auto-generated method stub
 		if (mltPhoto.size() > currPage) {
 			Photo photo = mltPhoto.get(currPage);
 			if (photo.Describe != null && photo.Describe.length() > 0) {

@@ -20,42 +20,36 @@ public class AfMultiGridView extends AfMultiChoiceGridView{
 
 	public AfMultiGridView(GridView listView) {
 		super((mGridView=listView).getContext());
-		// TODO Auto-generated constructor stub
 		setPullFooterLayout(new PullRefreshFooterImpl(listView.getContext()));
 		setPullHeaderLayout(new PullRefreshHeaderImpl(listView.getContext()));
 	}
 	
 	public AfMultiGridView(AfPageable viewable,int res) {
 		super((mGridView=viewable.findViewByID(res)).getContext());
-		// TODO Auto-generated constructor stub
 		setPullFooterLayout(new PullRefreshFooterImpl(viewable.getContext()));
 		setPullHeaderLayout(new PullRefreshHeaderImpl(viewable.getContext()));
 	}
 	
 	public AfMultiGridView(Context context) {
 		super(context);
-		// TODO Auto-generated constructor stub
 		setPullFooterLayout(new PullRefreshFooterImpl(context));
 		setPullHeaderLayout(new PullRefreshHeaderImpl(context));
 	}
 
 	public AfMultiGridView(Context context, AttributeSet attrs) {
 		super(context, attrs);
-		// TODO Auto-generated constructor stub
 		setPullFooterLayout(new PullRefreshFooterImpl(context));
 		setPullHeaderLayout(new PullRefreshHeaderImpl(context));
 	}
 
 	public AfMultiGridView(Context context, AttributeSet attrs, int defStyle) {
 		super(context, attrs, defStyle);
-		// TODO Auto-generated constructor stub
 		setPullFooterLayout(new PullRefreshFooterImpl(context));
 		setPullHeaderLayout(new PullRefreshHeaderImpl(context));
 	}
 
 	@Override
 	protected GridView onCreateGridView(Context context, AttributeSet attrs) {
-		// TODO Auto-generated method stub
 		if (mGridView != null) {
 			if (getParent() == null && mGridView.getParent() instanceof ViewGroup) {
 				ViewGroup parent = ViewGroup.class.cast(mGridView.getParent());
@@ -72,7 +66,6 @@ public class AfMultiGridView extends AfMultiChoiceGridView{
 
 	@Override
 	protected GridView onCreateRefreshableView(Context context, AttributeSet attrs) {
-		// TODO Auto-generated method stub
 		mGridView = onCreateGridView(context,attrs);//new ListView(context)
 		// 解决listview在拖动的时候背景图片消失变成黑色背景
 		mGridView.setCacheColorHint(0);

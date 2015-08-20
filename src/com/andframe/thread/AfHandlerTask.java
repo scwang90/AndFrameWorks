@@ -13,34 +13,28 @@ public abstract class AfHandlerTask extends AfTask implements Callback{
 
 	protected AfHandlerTask() {
 		super(null);
-		// TODO Auto-generated constructor stub
 		this.mHandler = new Handler(AfApplication.getLooper(),this);
 	}
 
 	protected AfHandlerTask(int task) {
 		super(null,task);
-		// TODO Auto-generated constructor stub
 		this.mHandler = new Handler(AfApplication.getLooper(),this);
 	}
 
 	protected AfHandlerTask(Handler handler) {
 		super(handler);
-		// TODO Auto-generated constructor stub
 	}
 	
 	protected AfHandlerTask(Handler handler, int task) {
 		super(handler,task);
-		// TODO Auto-generated constructor stub
 	}
 
 	@Override
 	public final boolean handleMessage(Message msg) {
-		// TODO Auto-generated method stub
 		boolean result = false;
 		try {
 			this.onHandle(msg);
 		} catch (Throwable e) {
-			// TODO: handle exception
 			String remark = "AfHandlerTask("+getClass().getName()+").handleMessage.onHandle";
 			AfExceptionHandler.handler(e, remark);
 		}
@@ -48,7 +42,6 @@ public abstract class AfHandlerTask extends AfTask implements Callback{
 	}
 
 	public static AfHandlerTask getTask(Message msg) {
-		// TODO Auto-generated method stub
 		if (msg.obj instanceof AfHandlerTask) {
 			return (AfHandlerTask) msg.obj;
 		}

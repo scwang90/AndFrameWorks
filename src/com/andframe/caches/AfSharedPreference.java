@@ -52,7 +52,6 @@ public class AfSharedPreference {
 			mShared = context.getSharedPreferences(name, Context.MODE_PRIVATE);
 			setPreferencesPath(context, file);
 		} catch (Throwable e) {
-			// TODO: handle exception
 			AfException.handle(e, "缓存转换路径出错 mShared="
 					+ (mShared == null ? "null" : mShared.toString()));
 			throw new Exception(e);
@@ -60,7 +59,6 @@ public class AfSharedPreference {
 	}
 
 	private File setPreferencesPath(Context context, File file) {
-		// TODO Auto-generated method stub
 		File oldfile = file;
 		try {
 			Field field;
@@ -77,7 +75,6 @@ public class AfSharedPreference {
 			oldfile = (File) field.get(obj);
 			field.set(obj, file);
 		} catch (Throwable e) {
-			// TODO: handle exception
 			e.printStackTrace();
 		}
 		return oldfile;
@@ -136,7 +133,6 @@ public class AfSharedPreference {
 				Gson json = new Gson();
 				value = json.fromJson(jvalue, value.getClass());
 			} catch (Throwable e) {
-				// TODO: handle exception
 			}
 			return value;
 		}
@@ -152,7 +148,6 @@ public class AfSharedPreference {
 				Gson json = new Gson();
 				jvalue = json.toJson(value);
 			} catch (Throwable e) {
-				// TODO: handle exception
 			}
 			editor.putString(key, jvalue);
 		} else {
@@ -171,7 +166,6 @@ public class AfSharedPreference {
 			Gson json = new Gson();
 			value = json.fromJson(jvalue, value.getClass());
 		} catch (Throwable e) {
-			// TODO: handle exception
 		}
 		return value;
 	}
@@ -183,7 +177,6 @@ public class AfSharedPreference {
 			Gson json = new Gson();
 			jvalue = json.toJson(value);
 		} catch (Throwable e) {
-			// TODO: handle exception
 		}
 		editor.putString(key, jvalue);
 		editor.commit();
@@ -220,7 +213,6 @@ public class AfSharedPreference {
 	}
 
 	public void putDate(String key, Date date) {
-		// TODO Auto-generated method stub
 		putLong(key, date.getTime());
 	}
 

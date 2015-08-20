@@ -35,14 +35,12 @@ public abstract class AfLayoutModule implements IAfLayoutModule {
 	}
 
 	public void hide() {
-		// TODO Auto-generated constructor stub
 		if (mLayout != null) {
 			mLayout.setVisibility(View.GONE);
 		}
 	}
 
 	public void show() {
-		// TODO Auto-generated constructor stub
 		if (mLayout != null) {
 			mLayout.setVisibility(View.VISIBLE);
 		}
@@ -50,13 +48,11 @@ public abstract class AfLayoutModule implements IAfLayoutModule {
 
 	@Override
 	public boolean isValid() {
-		// TODO Auto-generated method stub
 		return mIsValid;
 	}
 
 	@Override
 	public void setEnabled(boolean enabled) {
-		// TODO Auto-generated method stub
 		if (mLayout != null) {
 			mLayout.setEnabled(enabled);
 		}
@@ -64,7 +60,6 @@ public abstract class AfLayoutModule implements IAfLayoutModule {
 
 	@Override
 	public boolean isVisibility() {
-		// TODO Auto-generated method stub
 		if(isValid()){
 			return mLayout.getVisibility() == View.VISIBLE;
 		}

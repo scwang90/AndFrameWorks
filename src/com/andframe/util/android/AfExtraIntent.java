@@ -75,7 +75,6 @@ public class AfExtraIntent {
 	}
 
 	public static short getShort(String key, short Default) {
-		// TODO Auto-generated method stub
 		Object obj = mHashMap.get(key);
 		if (obj != null && obj instanceof Short) {
 			return (Short) obj;
@@ -84,7 +83,6 @@ public class AfExtraIntent {
 	}
 
 	public static boolean getBoolean(String key, boolean Default) {
-		// TODO Auto-generated method stub
 		Object obj = mHashMap.get(key);
 		if (obj != null && obj instanceof Boolean) {
 			return (Boolean) obj;
@@ -93,7 +91,6 @@ public class AfExtraIntent {
 	}
 
 	public static int getInt(String key, int Default) {
-		// TODO Auto-generated method stub
 		Object obj = mHashMap.get(key);
 		if (obj != null && obj instanceof Integer) {
 			return (Integer) obj;
@@ -102,7 +99,6 @@ public class AfExtraIntent {
 	}
 
 	public static long getLong(String key, long Default) {
-		// TODO Auto-generated method stub
 		Object obj = mHashMap.get(key);
 		if (obj != null && obj instanceof Long) {
 			return (Long) obj;
@@ -111,7 +107,6 @@ public class AfExtraIntent {
 	}
 
 	public static float getFloat(String key, float Default) {
-		// TODO Auto-generated method stub
 		Object obj = mHashMap.get(key);
 		if (obj != null && obj instanceof Float) {
 			return (Float) obj;
@@ -120,7 +115,6 @@ public class AfExtraIntent {
 	}
 
 	public static double getDouble(String key, double Default) {
-		// TODO Auto-generated method stub
 		Object obj = mHashMap.get(key);
 		if (obj != null && obj instanceof Double) {
 			return (Double) obj;
@@ -129,7 +123,6 @@ public class AfExtraIntent {
 	}
 
 	public static UUID getUUID(String key, UUID Default) {
-		// TODO Auto-generated method stub
 		Object obj = mHashMap.get(key);
 		if (obj != null && obj instanceof UUID) {
 			return (UUID) obj;

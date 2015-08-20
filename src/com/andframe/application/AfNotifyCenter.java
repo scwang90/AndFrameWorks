@@ -91,12 +91,10 @@ public class AfNotifyCenter {
 	}
 
 	public static void cancel(int id) {
-		// TODO Auto-generated method stub
 		mManager.cancel(id);
 	}
 
 	public static void clear() {
-		// TODO Auto-generated method stub
 		mManager.cancelAll();
 	}
 

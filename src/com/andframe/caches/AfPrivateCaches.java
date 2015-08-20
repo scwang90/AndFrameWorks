@@ -13,11 +13,9 @@ public class AfPrivateCaches  extends AfJsonCache
 
 	private AfPrivateCaches() {
 		super(AfApplication.getApp(), CACHE_NAME);
-		// TODO Auto-generated constructor stub
 	}
 	private AfPrivateCaches(String name) {
 		super(AfApplication.getApp(), name);
-		// TODO Auto-generated constructor stub
 	}
 	
 	public static AfPrivateCaches getInstance() {

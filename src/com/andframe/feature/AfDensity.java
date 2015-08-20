@@ -28,12 +28,10 @@ public class AfDensity {
 	protected DisplayMetrics mDisplayMetrics = null;
 
 	public AfDensity(Context context) {
-		// TODO Auto-generated constructor stub
 		mDisplayMetrics = context.getResources().getDisplayMetrics();
 	}
 	
 	public AfDensity(DisplayMetrics metrics) {
-		// TODO Auto-generated constructor stub
 		mDisplayMetrics = metrics;
 	}
 
@@ -63,7 +61,6 @@ public class AfDensity {
 	 * @return 百分比
 	 */
 	public int proportion(float ratio) {
-		// TODO Auto-generated method stub
 		if(ratio > 1){
 			return (int)(ratio+0.5f);
 		}
@@ -78,7 +75,6 @@ public class AfDensity {
 	 * @return proportion
 	 */
 	public int proportion(float ratio,int offset) {
-		// TODO Auto-generated method stub
 		if(ratio > 1){
 			return (int)(ratio+0.5f+offset);
 		}

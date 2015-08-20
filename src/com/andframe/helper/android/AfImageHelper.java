@@ -180,13 +180,11 @@ public class AfImageHelper {
 
 	public BitmapDrawable toRoundBitmap(Context context,
 			BitmapDrawable bitmap,boolean recycle) {
-		// TODO Auto-generated method stub
 		return new BitmapDrawable(context.getResources(), toRoundBitmap(bitmap.getBitmap(),recycle));
 	}
 
 	public BitmapDrawable toRoundCornerBitmap(Context context,
 			BitmapDrawable bitmap,boolean recycle) {
-		// TODO Auto-generated method stub
 		return new BitmapDrawable(context.getResources(), toRoundCornerBitmap(bitmap.getBitmap(),recycle));
 	}
 

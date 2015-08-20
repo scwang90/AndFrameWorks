@@ -42,26 +42,22 @@ public class AfDbOpenHelper extends SQLiteOpenHelper {
 
 	private AfDbOpenHelper(Context context) {
 		super(context, DBNAME, null, VERSION);
-		// TODO Auto-generated constructor stub
 		this.mContext = context;
 	}
 
 	public AfDbOpenHelper(Context context, String dbname) {
 		super(context, dbname, null, VERSION);
-		// TODO Auto-generated constructor stub
 		this.mContext = context;
 	}
 
 	public AfDbOpenHelper(Context context, String path, String dbname) {
 		super(context, dbname, null, VERSION);
-		// TODO Auto-generated constructor stub
 		this.mContext = context;
 		this.mDatabase = createOnPath(path, dbname);
 	}
 
 	@Override
 	public void onCreate(SQLiteDatabase db) {
-		// TODO Auto-generated method stub
 		for (Class<?> tclass : Tables) {
 			createTable(tclass, db);
 		}
@@ -69,7 +65,6 @@ public class AfDbOpenHelper extends SQLiteOpenHelper {
 	
 	@Override
 	public SQLiteDatabase getWritableDatabase() {
-		// TODO Auto-generated method stub
 		if (mDatabase != null) {
 			return mDatabase;
 		}
@@ -78,7 +73,6 @@ public class AfDbOpenHelper extends SQLiteOpenHelper {
 	
 	@Override
 	public SQLiteDatabase getReadableDatabase() {
-		// TODO Auto-generated method stub
 		if (mDatabase != null) {
 			return mDatabase;
 		}
@@ -87,7 +81,6 @@ public class AfDbOpenHelper extends SQLiteOpenHelper {
 
 	@Override
 	public void onUpgrade(SQLiteDatabase db, int oldVersion, int newVersion) {
-		// TODO Auto-generated method stub
 
 	}
 
@@ -131,14 +124,12 @@ public class AfDbOpenHelper extends SQLiteOpenHelper {
 		try {
 			db.execSQL(sql.toString());
 		} catch (Throwable e) {
-			// TODO: handle exception
 			AfExceptionHandler.handler(e, "AfDbOpenHelper.createTable");
 		}
 	}
 
 	@Override
 	public synchronized void close() {
-		// TODO Auto-generated method stub
 		if (mHelper == this) {
 			mHelper = null;
 		}
@@ -168,7 +159,6 @@ public class AfDbOpenHelper extends SQLiteOpenHelper {
     }
 
 	public static AfDbOpenHelper getInstance(Context context) {
-		// TODO Auto-generated method stub
 		if (mHelper == null) {
 			mHelper = new AfDbOpenHelper(context);
 		}
@@ -176,7 +166,6 @@ public class AfDbOpenHelper extends SQLiteOpenHelper {
 	}
 
 	public static AfDbOpenHelper getInstance(Context context,Class<?> clazz) {
-		// TODO Auto-generated method stub
 		if (mHelper == null) {
 			mHelper = new AfDbOpenHelper(context);
 		}
@@ -185,7 +174,6 @@ public class AfDbOpenHelper extends SQLiteOpenHelper {
 	}
 	
 	public static AfDbOpenHelper getInstance(Context context,Class<?> clazz,String dbname) {
-		// TODO Auto-generated method stub
 		AfDbOpenHelper helper = mHelperMap.get(dbname);
 		if (helper == null) {
 				helper = new AfDbOpenHelper(context,dbname);
@@ -196,7 +184,6 @@ public class AfDbOpenHelper extends SQLiteOpenHelper {
 	}
 
 	public static AfDbOpenHelper getInstance(Context context,Class<?> clazz,String path,String dbname) {
-		// TODO Auto-generated method stub
 		AfDbOpenHelper helper = mHelperMap.get(path+dbname);
 		if (helper == null) {
 			helper = new AfDbOpenHelper(context,path,dbname);

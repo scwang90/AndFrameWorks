@@ -84,13 +84,11 @@ public class AfAlbumView extends ImageView implements OnClickListener {
 
 	@Override
 	public void onClick(View v) {
-		// TODO Auto-generated method stub
 		Toast.makeText(getContext(), "点击事件", Toast.LENGTH_SHORT).show();
 	}
 
 	@Override
 	public void setOnTouchListener(OnTouchListener listener) {
-		// TODO Auto-generated method stub
 		mTouchListener = listener;
 	}
 
@@ -294,7 +292,6 @@ public class AfAlbumView extends ImageView implements OnClickListener {
 //			new Handler(AfApplication.getLooper()).postDelayed(new Runnable() {
 //				@Override
 //				public void run() {
-//					// TODO Auto-generated method stub
 //					notifyFocusables();
 //				}
 //			}, 500);
@@ -413,7 +410,6 @@ public class AfAlbumView extends ImageView implements OnClickListener {
 	}
 
 	private void notifyFocusables() {
-		// TODO Auto-generated method stub
 		if (mViewPager instanceof AfAlbumViewPager) {
 			mViewPager.setHorizontalScrollBarEnabled(!(mHasScale 
 					|| mode == MODE_ROTATE 
@@ -432,7 +428,6 @@ public class AfAlbumView extends ImageView implements OnClickListener {
 		public float[] p = null;
 
 		public Smooth(float x, float y, float[] p) {
-			// TODO Auto-generated constructor stub
 			this.x = x;
 			this.x = y;
 			this.p = p;
@@ -440,13 +435,11 @@ public class AfAlbumView extends ImageView implements OnClickListener {
 
 		@Override
 		public void onStart(int from, int to) {
-			// TODO Auto-generated method stub
 
 		}
 
 		@Override
 		public boolean onSmooth(int value, float percent, int from, int to) {
-			// TODO Auto-generated method stub
 			float scale = 1f * value / 100000;
 			matrix.setValues(p);
 			matrix.postScale(scale, scale, x, y);
@@ -457,7 +450,6 @@ public class AfAlbumView extends ImageView implements OnClickListener {
 
 		@Override
 		public void onFinish(int from, int to) {
-			// TODO Auto-generated method stub
 
 		}
 	};
@@ -569,7 +561,6 @@ public class AfAlbumView extends ImageView implements OnClickListener {
 	}
 
 	public void setViewPager(ViewPager pager) {
-		// TODO Auto-generated method stub
 		mViewPager = pager;
 	}
 }

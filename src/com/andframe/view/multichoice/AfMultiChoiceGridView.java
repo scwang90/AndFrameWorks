@@ -23,40 +23,34 @@ public class AfMultiChoiceGridView extends AfRefreshGridView implements
 
 	public AfMultiChoiceGridView(Context context) {
 		super(context);
-		// TODO Auto-generated constructor stub
 		super.setOnItemClickListener(this);
 		super.setOnItemLongClickListener(this);
 	}
 
 	public AfMultiChoiceGridView(Context context, AttributeSet attrs) {
 		super(context, attrs);
-		// TODO Auto-generated constructor stub
 		super.setOnItemClickListener(this);
 		super.setOnItemLongClickListener(this);
 	}
 
 	public AfMultiChoiceGridView(Context context, AttributeSet attrs, int defStyle) {
 		super(context, attrs, defStyle);
-		// TODO Auto-generated constructor stub
 		super.setOnItemClickListener(this);
 		super.setOnItemLongClickListener(this);
 	}
 	
 	@Override
 	protected GridView onCreateGridView(Context context, AttributeSet attrs) {
-		// TODO Auto-generated method stub
 		return new GridView(context);
 	}
 
 	@Override
 	public void setOnItemClickListener(OnItemClickListener listener) {
-		// TODO Auto-generated method stub
 		mItemClickListener = listener;
 	}
 
 	@Override
 	public void setOnItemLongClickListener(OnItemLongClickListener listener) {
-		// TODO Auto-generated method stub
 		mItemLongClickListener = listener;
 	}
 
@@ -96,13 +90,11 @@ public class AfMultiChoiceGridView extends AfRefreshGridView implements
 	}
 
 	public void setSelector(AfSelectorBottombar selector) {
-		// TODO Auto-generated method stub
 		this.mSelectorBottombar = selector;
 	}
 	
 	@Override
 	public void onItemClick(AdapterView<?> adview, View view, int index, long id) {
-		// TODO Auto-generated method stub
 		if (mAdapter != null && mAdapter.isMultiChoiceMode()) {
 			mAdapter.onItemClick((index));
 		} else if (mItemClickListener != null) {
@@ -113,7 +105,6 @@ public class AfMultiChoiceGridView extends AfRefreshGridView implements
 	@Override
 	public boolean onItemLongClick(AdapterView<?> adview, View view, int index,
 			long id) {
-		// TODO Auto-generated method stub
 		if (mAdapter != null && !mAdapter.isMultiChoiceMode()) {
 			mAdapter.beginMultiChoice((index));
 			return true;

@@ -38,13 +38,11 @@ public class AfDragLayout  extends RelativeLayout implements OnTouchListener,OnC
 	
 	@Override
 	protected void onCreateContextMenu(ContextMenu menu) {
-		// TODO Auto-generated method stub
 		super.onCreateContextMenu(menu);
 	}
 
 	@Override
 	protected void onFinishInflate() {
-		// TODO Auto-generated method stub
 		super.onFinishInflate();
 		mDragView = findViewById(android.R.id.hint);
 		mContent = findViewById(android.R.id.content);
@@ -58,7 +56,6 @@ public class AfDragLayout  extends RelativeLayout implements OnTouchListener,OnC
 
 	@Override
 	public void onClick(View v) {
-		// TODO Auto-generated method stub
     	mIsExpand = !mIsExpand;
     	mHandler.postDelayed(this, interval);
 	}
@@ -66,7 +63,6 @@ public class AfDragLayout  extends RelativeLayout implements OnTouchListener,OnC
 	@SuppressLint("ClickableViewAccessibility")
 	@Override
 	public boolean onTouch(View v, MotionEvent event) {
-		// TODO Auto-generated method stub
         switch (event.getAction()) {
         case MotionEvent.ACTION_DOWN:
         	mLastValue = (int) event.getRawY();// 获取触摸事件触摸位置的原始Y坐标
@@ -101,7 +97,6 @@ public class AfDragLayout  extends RelativeLayout implements OnTouchListener,OnC
 
 	@Override
 	public void run() {
-		// TODO Auto-generated method stub
 		if(mIsExpand && mCurDragValue != mContentHeight){
 			mCurDragValue += 10;
 			if(mCurDragValue > mContentHeight){

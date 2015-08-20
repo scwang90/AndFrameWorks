@@ -49,7 +49,6 @@ public class AfDownloader {
      * @param name 下载文件名
      */
     public static void download(String url, String path, String name) {
-        // TODO Auto-generated method stub
         DownloadEntity entity = new DownloadEntity();
         entity.Name = name;
         entity.DownloadUrl = url;
@@ -63,7 +62,6 @@ public class AfDownloader {
      * @param path 下载路径
      */
     public static void download(String url, String path) {
-        // TODO Auto-generated method stub
         DownloadEntity entity = new DownloadEntity();
         entity.DownloadUrl = url;
         entity.DownloadPath = path;
@@ -76,7 +74,6 @@ public class AfDownloader {
      * @param path 下载路径
      */
     public static void download(String url, String path, DownloadListener listener) {
-        // TODO Auto-generated method stub
         DownloadEntity entity = new DownloadEntity();
         entity.DownloadUrl = url;
         entity.DownloadPath = path;
@@ -88,7 +85,6 @@ public class AfDownloader {
      * @param entity 下载配置实体
      */
     public static void download(DownloadEntity entity) {
-        // TODO Auto-generated method stub
         AfApplication.postTask(new DownloadTask(entity, null));
     }
 
@@ -98,7 +94,6 @@ public class AfDownloader {
      * @param listener 加载进度监听器
      */
     public static void download(DownloadEntity entity, DownloadListener listener) {
-        // TODO Auto-generated method stub
         AfApplication.postTask(new DownloadTask(entity, listener));
     }
 
@@ -108,7 +103,6 @@ public class AfDownloader {
      * @return true 正在下载 false 没有在下载
      */
     public static boolean isDownloading(DownloadEntity entity) {
-        // TODO Auto-generated method stub
         return isDownloading(entity.DownloadUrl);
     }
 
@@ -118,7 +112,6 @@ public class AfDownloader {
      * @return true 正在下载 false 没有在下载
      */
     public static boolean isDownloading(String url) {
-        // TODO Auto-generated method stub
 //		for (DownloadTask task : DownloadTask.mltDownloading) {
         for (int i = 0; i < DownloadTask.mltDownloading.size(); i++) {
             DownloadTask task = DownloadTask.mltDownloading.get(i);
@@ -137,7 +130,6 @@ public class AfDownloader {
      * @return true 正在下载 false 没有在下载
      */
     public static boolean isDownloading(Object tag) {
-        // TODO Auto-generated method stub
 //		for (DownloadTask task : DownloadTask.mltDownloading) {
         for (int i = 0; i < DownloadTask.mltDownloading.size(); i++) {
             DownloadTask task = DownloadTask.mltDownloading.get(i);
@@ -159,7 +151,6 @@ public class AfDownloader {
      * 如果null 匹配不到下载任务
      */
     public static DownloadListener setListener(DownloadEntity entity, DownloadListener listener) {
-        // TODO Auto-generated method stub
         return setListener(entity.DownloadUrl, listener);
     }
 
@@ -172,7 +163,6 @@ public class AfDownloader {
      * 如果null 匹配不到下载任务
      */
     public static DownloadListener setListener(String url, DownloadListener listener) {
-        // TODO Auto-generated method stub
         for (int i = 0; i < DownloadTask.mltDownloading.size(); i++) {
             DownloadTask task = DownloadTask.mltDownloading.get(i);
             if (listener != null && AfStringUtil.equals(task.mEndityUrl, url)) {
@@ -204,7 +194,6 @@ public class AfDownloader {
          * @return "附件下载XXXX"
          */
         public String getContentTitle() {
-            // TODO Auto-generated method stub
             if (ContentTitle == null) {
                 return "文件下载";
             }
@@ -215,7 +204,6 @@ public class AfDownloader {
          * @return "文件XXXXX下载完成,大小XXXX"
          */
         public String getFinishText() {
-            // TODO Auto-generated method stub
             if (FinishText == null) {
                 return "文件下载完成";
             }
@@ -226,7 +214,6 @@ public class AfDownloader {
          * @return "文件XXXXX下载失败"
          */
         public String getFailText() {
-            // TODO Auto-generated method stub
             if (FailText == null) {
                 return "文件下载失败";
             }
@@ -261,12 +248,10 @@ public class AfDownloader {
         Throwable Excption = null;
 
         public boolean isDownloaded() {
-            // TODO Auto-generated method stub
             return isDownloaded;
         } 
 
         void setDownloaded() {
-            // TODO Auto-generated method stub
             isDownloaded = true;
         }
 
@@ -366,31 +351,26 @@ public class AfDownloader {
 
         @Override
         public void onDownloadStart() {
-            // TODO Auto-generated method stub
 
         }
 
         @Override
         public boolean onBreakAway() {
-            // TODO Auto-generated method stub
             return true;//同意脱离
         }
 
         @Override
         public void notifyClick(DownloadEntity endity) {
-            // TODO Auto-generated method stub
 
         }
 
         @Override
         public boolean onDownloadFinish() {
-            // TODO Auto-generated method stub
             return false;
         }
 
         @Override
         public boolean onDownloadFail(String error, Throwable e) {
-            // TODO Auto-generated method stub
             return false;
         }
 
@@ -404,7 +384,6 @@ public class AfDownloader {
         protected DownloadViewerListener listener;
 
         public DownloadManagerListener() {
-            // TODO Auto-generated constructor stub
         }
 
         public DownloadManagerListener(DownloadViewerListener listener) {
@@ -414,7 +393,6 @@ public class AfDownloader {
 
         @Override
         public void onDownloadStart() {
-            // TODO Auto-generated method stub
             if (listener != null) {
                 listener.onDownloadStart();
             }
@@ -422,13 +400,11 @@ public class AfDownloader {
 
         @Override
         public boolean onBreakAway() {
-            // TODO Auto-generated method stub
             return false;//同意脱离
         }
 
         @Override
         public void onDownloadProgress(float rate, long loaded, long total) {
-            // TODO Auto-generated method stub
             if (listener != null) {
                 listener.onDownloadProgress(rate, loaded, total);
             }
@@ -436,7 +412,6 @@ public class AfDownloader {
 
         @Override
         public boolean onDownloadFinish() {
-            // TODO Auto-generated method stub
             if (listener != null) {
                 return listener.onDownloadFinish();
             }
@@ -445,7 +420,6 @@ public class AfDownloader {
 
         @Override
         public boolean onDownloadFail(String error, Throwable e) {
-            // TODO Auto-generated method stub
             if (listener != null) {
                 return listener.onDownloadFail(error, e);
             }
@@ -458,7 +432,6 @@ public class AfDownloader {
          * @return true 绑定成功 false 上一个监听器 拒绝
          */
         public boolean setDownloadListener(DownloadViewerListener listener) {
-            // TODO Auto-generated method stub
             if (this.listener == null || this.listener.onBreakAway()) {
                 this.listener = listener;
                 return true;
@@ -477,7 +450,6 @@ public class AfDownloader {
         private int notifyid = 1000 + rand.nextInt(1000);
 
         public Notifier(Context context, DownloadEntity entity) {
-            // TODO Auto-generated constructor stub
             mEotify = entity.Notify;
             mBuilder = new Builder(context);
             mBuilder.setSmallIcon(android.R.drawable.stat_sys_download);
@@ -496,14 +468,12 @@ public class AfDownloader {
         }
 
         public void notifyProgress(int max, int precent, boolean indeterminate) {
-            // TODO Auto-generated method stub
             mBuilder.setProgress(max, precent, false);// 设置为false，表示刻度
             mBuilder.setContentText("已下载 " + precent + "% ");
             mManager.notify(notifyid, mBuilder.build());
         }
 
         public void notifyStart() {
-            // TODO Auto-generated method stub
             mBuilder.setContentTitle(mEotify.getContentTitle());
             mBuilder.setTicker(mEotify.getContentTitle());
 //			mBuilder.setTicker("正在下载...");
@@ -513,7 +483,6 @@ public class AfDownloader {
         }
 
         public void notifyFinish() {
-            // TODO Auto-generated method stub
             mBuilder.setProgress(100, 100, false);// 设置为false，表示刻度
             mBuilder.setSmallIcon(android.R.drawable.stat_sys_download_done);
             mBuilder.setTicker(mEotify.getFinishText());
@@ -527,7 +496,6 @@ public class AfDownloader {
         }
 
         public void notifyFail() {
-            // TODO Auto-generated method stub
             mBuilder.setSmallIcon(android.R.drawable.stat_sys_download_done);
             mBuilder.setTicker(mEotify.getFailText());
             mBuilder.setContentText(mEotify.getFailText());
@@ -537,7 +505,6 @@ public class AfDownloader {
         }
 
         public void cancel() {
-            // TODO Auto-generated method stub
             mManager.cancel(notifyid);
         }
 
@@ -568,7 +535,6 @@ public class AfDownloader {
         private static Map<String, DownloadTask> mNotifyMap = new HashMap<String, DownloadTask>();
 
         public DownloadTask(DownloadEntity endity, DownloadListener listener) {
-            // TODO Auto-generated constructor stub
             mEndity = endity;
             mListener = listener;
             mEndityUrl = endity.DownloadUrl;
@@ -583,7 +549,6 @@ public class AfDownloader {
          * 如果等于 传入的监听器 绑定成功 否则 上一个监听器拒绝新的绑定
          */
         public DownloadListener setDownloadListener(DownloadListener listener) {
-            // TODO Auto-generated method stub
             if (mListener == null || mListener.onBreakAway()) {
                 mListener = listener;
                 if (mListener != null) {
@@ -595,7 +560,6 @@ public class AfDownloader {
 
         @Override
         public boolean onPrepare() {
-            // TODO Auto-generated method stub
             mltDownloading.add(this);
             // 构造 通知
             if (mEndity.Notify != null) {
@@ -610,7 +574,6 @@ public class AfDownloader {
 
         @Override
         protected void onWorking(Message msg) throws Exception {
-            // TODO Auto-generated method stub
             if (!mEndity.isDownloaded()) {
 
                 HttpGet get = new HttpGet(mEndityUrl);
@@ -682,7 +645,6 @@ public class AfDownloader {
 
         @Override
         protected boolean onHandle(Message msg) {
-            // TODO Auto-generated method stub
             if (mResult == AfTask.RESULT_FINISH) {
                 if (msg.what == DOWNLOAD_PROGRESS) {
                     // 更新状态栏上的下载进度信息
@@ -729,7 +691,6 @@ public class AfDownloader {
         }
 
         public void notifyClick() {
-            // TODO Auto-generated method stub
             if (mListener != null) {
                 mListener.notifyClick(mEndity);
             }
@@ -759,7 +720,6 @@ public class AfDownloader {
 //					}
                 }
             } catch (Exception e) {
-                // TODO: handle exception
                 AfExceptionHandler.handler(e, "DownloadBroadcast.onReceive");
             }
         }
@@ -772,7 +732,6 @@ public class AfDownloader {
             DownloadBroadcast receiver = new DownloadBroadcast();
             AfApplication.getApp().registerReceiver(receiver, filter);
         } catch (Throwable e) {
-            // TODO: handle exception
             AfExceptionHandler.handleAttach(e, "DownloadBroadcast.registerReceiver error");
         }
     }

@@ -22,7 +22,6 @@ public abstract class AfTabFragment extends AfFragment{
 
 	@Override
 	protected final void onCreated(AfView rootView, AfBundle bundle)throws Exception {
-		// TODO Auto-generated method stub
 		mIsCreateView = true;
 		onCreated(bundle,rootView);
 		if (mIsNeedSwitch == true) {
@@ -37,7 +36,6 @@ public abstract class AfTabFragment extends AfFragment{
 	}
 	@Override
 	public final void setUserVisibleHint(boolean isVisibleToUser) {
-		// TODO Auto-generated method stub
 		super.setUserVisibleHint(isVisibleToUser);
 		if (isVisibleToUser) {
 			if (mIsCreateView) {
@@ -57,7 +55,6 @@ public abstract class AfTabFragment extends AfFragment{
 
 	@Override
 	public void onDestroyView() {
-		// TODO Auto-generated method stub
 		super.onDestroyView();
 		mIsCreateView = false;
 		mIsNeedSwitch = false;
@@ -91,7 +88,6 @@ public abstract class AfTabFragment extends AfFragment{
 	 * 查询系统数据变动
 	 */
 	public void onQueryChanged() {
-		// TODO Auto-generated method stub
 		
 	}
 }

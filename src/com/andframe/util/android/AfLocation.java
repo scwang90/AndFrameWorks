@@ -225,7 +225,6 @@ public class AfLocation
         @Override
         public void onProviderEnabled(String provider)
         {
-            // TODO Auto-generated method stub
             for (int i = 0 ; i < ltDisableProvider.size() ; i++)
             {
                 String tProvider = ltDisableProvider.get(i);
@@ -240,13 +239,11 @@ public class AfLocation
         @Override
         public void onStatusChanged(String provider, int status, Bundle extras)
         {
-            // TODO Auto-generated method stub
             
         }
 
         private void setBestProvider()
         {
-            // TODO Auto-generated method stub
             Boolean isDisableNet = false;
             Boolean isDisableGps = false;
             for (int i = 0 ; i < ltDisableProvider.size() ; i++)

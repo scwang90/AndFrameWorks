@@ -23,7 +23,6 @@ public class AfSkipActivity {
 	 * @throws AfException 权限不足或者找不到拨号页面
 	 */
 	public static void call(Context context, String phone) throws Exception{
-		// TODO Auto-generated method stub
 		Intent intent = new Intent();
 		intent.setAction(Intent.ACTION_DIAL);
 		intent.setData(Uri.parse("tel:" + phone));

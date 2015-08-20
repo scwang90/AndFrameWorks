@@ -22,17 +22,14 @@ public abstract class AfRefreshListView<T extends ListView> extends AfPullToRefr
 
 	public AfRefreshListView(Context context) {
 		super(context);
-		// TODO Auto-generated constructor stub
 	}
 
 	public AfRefreshListView(Context context, AttributeSet attrs) {
 		super(context, attrs);
-		// TODO Auto-generated constructor stub
 	}
 
 	public AfRefreshListView(Context context, AttributeSet attrs, int defStyle) {
 		super(context, attrs, defStyle);
-		// TODO Auto-generated constructor stub
 	}
 	
 	public final Object getData(int position) {
@@ -73,7 +70,6 @@ public abstract class AfRefreshListView<T extends ListView> extends AfPullToRefr
 	@Override
 	@SuppressLint("NewApi")
 	protected T onCreateRefreshableView(Context context, AttributeSet attrs) {
-		// TODO Auto-generated method stub
 		mListView = onCreateListView(context,attrs);//new ListView(context)
 //		View view = new View(context);
 //		mListView.addHeaderView(view, null, true);
@@ -98,7 +94,6 @@ public abstract class AfRefreshListView<T extends ListView> extends AfPullToRefr
 		mListView.setScrollingCacheEnabled(false);
 		// 解决listview的上边和下边有黑色的阴影
 		mListView.setFadingEdgeLength(0);
-		// TODO Auto-generated method stub
 		// TypedArray array =
 		// context.obtainStyledAttributes(attrs,android.R.style.DeviceDefault_Light_ButtonBar);
 		// listview.setCacheColorHint(array.getInteger(R.styleable.PullToRefresh_cacheColorHint,0));
@@ -117,7 +112,6 @@ public abstract class AfRefreshListView<T extends ListView> extends AfPullToRefr
 	
 //	@Override
 //	protected final boolean isReadyForPullDown() {
-//		// TODO Auto-generated method stub
 //		return mIsOpenRefresh 
 //				&&mTargetView.getFirstVisiblePosition() == 0
 //				&& mTargetView.getScrollY() <= 0;
@@ -125,7 +119,6 @@ public abstract class AfRefreshListView<T extends ListView> extends AfPullToRefr
 //	
 //	@Override
 //	protected final boolean isReadyForPullUp() {
-//		// TODO Auto-generated method stub
 //		return mIsNeedFooter &&
 //				mTargetView.getLastVisiblePosition() 
 //				== mTargetView.getCount() - 1;
@@ -133,7 +126,6 @@ public abstract class AfRefreshListView<T extends ListView> extends AfPullToRefr
 	
 //	@Override
 //	protected final boolean isReadyForPullDown() {
-//		// TODO Auto-generated method stub
 //		// targetview.getOverScrollMode();
 //		return mIsOpenRefresh
 //				&& 5 >= Math.abs(getFirstPositionDistanceGuess(mTargetView)
@@ -142,7 +134,6 @@ public abstract class AfRefreshListView<T extends ListView> extends AfPullToRefr
 //
 //	@Override
 //	protected final boolean isReadyForPullUp() {
-//		// TODO Auto-generated method stub
 //		return mIsNeedFooter
 //				&& 5 >= Math.abs(getLastPositionDistanceGuess(mTargetView)
 //						- mTargetView.getBottom());
@@ -157,7 +148,6 @@ public abstract class AfRefreshListView<T extends ListView> extends AfPullToRefr
 //			field.setAccessible(true);
 //			return (Integer) field.get(view);
 //		} catch (Throwable e) {
-//			// TODO Auto-generated catch block
 //			e.printStackTrace();
 //		}
 //		return -1;
@@ -172,7 +162,6 @@ public abstract class AfRefreshListView<T extends ListView> extends AfPullToRefr
 //			field.setAccessible(true);
 //			return (Integer) field.get(view);
 //		} catch (Throwable e) {
-//			// TODO Auto-generated catch block
 //			e.printStackTrace();
 //		}
 //		return -1;
@@ -238,12 +227,10 @@ public abstract class AfRefreshListView<T extends ListView> extends AfPullToRefr
 	}
 	
 	public final void addMoreView() {
-		// TODO Auto-generated method stub
 		mIsNeedFooter = true;
 	}
 
 	public final void removeMoreView() {
-		// TODO Auto-generated method stub
 		onRefreshComplete();
 		mIsNeedFooter = false;
 	}
@@ -254,7 +241,6 @@ public abstract class AfRefreshListView<T extends ListView> extends AfPullToRefr
 	 * @return
 	 */
 	public final int getHeaderViewsCount() {
-		// TODO Auto-generated method stub
 		return mTargetView.getHeaderViewsCount() - 1;
 	}
 
@@ -264,7 +250,6 @@ public abstract class AfRefreshListView<T extends ListView> extends AfPullToRefr
 	 * @return
 	 */
 	public final int getIndex(int index) {
-		// TODO Auto-generated method stub
 		return index - 0;//1;
 	}
 
@@ -275,7 +260,6 @@ public abstract class AfRefreshListView<T extends ListView> extends AfPullToRefr
 	 * @return index-headercount (小于0时代表点击的是header)
 	 */
 	public final int getDataIndex(int index) {
-		// TODO Auto-generated method stub
 //		if (index < mTargetView.getHeaderViewsCount()) {
 //			return index;
 //		}
@@ -307,12 +291,10 @@ public abstract class AfRefreshListView<T extends ListView> extends AfPullToRefr
 	}
 
 	public int getCount() {
-		// TODO Auto-generated method stub
 		return mTargetView.getCount();
 	}
 
 	public void smoothScrollToPosition(int position) {
-		// TODO Auto-generated method stub
 		mTargetView.smoothScrollToPosition(position);
 	}
 

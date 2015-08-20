@@ -20,12 +20,10 @@ public class AfSoftInputer implements OnGlobalLayoutListener {
 	private Context mContext;
 
 	public AfSoftInputer(Context context) {
-		// TODO Auto-generated constructor stub
 		mContext = context;
 	}
 
 	public void setBindListener(View view, AfPageListener pageListener) {
-		// TODO Auto-generated method stub
 		if (view != null && pageListener != null) {
 			mRootView = view;
 			mPageListener = pageListener;
@@ -43,7 +41,6 @@ public class AfSoftInputer implements OnGlobalLayoutListener {
 	private int lastdiff = -1;
 	@Override
 	public void onGlobalLayout() {
-		// TODO Auto-generated method stub
 		if(mRootView != null){
 			int diff = mRootView.getRootView().getHeight() - mRootView.getHeight();
 			if(lastdiff > -1){
@@ -71,7 +68,6 @@ public class AfSoftInputer implements OnGlobalLayoutListener {
 	 * @return true 打开 false 关闭
 	 */
 	public boolean getSoftInputStatus() {
-		// TODO Auto-generated method stub
 		InputMethodManager imm = null;
 		String Server = Context.INPUT_METHOD_SERVICE;
 		imm = (InputMethodManager)mContext.getSystemService(Server);
@@ -84,7 +80,6 @@ public class AfSoftInputer implements OnGlobalLayoutListener {
 	 * @return true 打开 false 关闭
 	 */
 	public boolean getSoftInputStatus(View view) {
-		// TODO Auto-generated method stub
 		InputMethodManager imm = null;
 		String Server = Context.INPUT_METHOD_SERVICE;
 		imm = (InputMethodManager)mContext.getSystemService(Server);
@@ -96,7 +91,6 @@ public class AfSoftInputer implements OnGlobalLayoutListener {
 	 * @param enable
 	 */
 	public void setSoftInputEnable(EditText editview, boolean enable) {
-		// TODO Auto-generated method stub
 		InputMethodManager imm = null;
 		String Server = Context.INPUT_METHOD_SERVICE;
 		imm = (InputMethodManager) mContext.getSystemService(Server);

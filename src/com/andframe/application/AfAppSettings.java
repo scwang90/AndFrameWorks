@@ -40,7 +40,6 @@ public class AfAppSettings {
 	protected static AfAppSettings mInstance;
 
     protected AfAppSettings(Context context) {
-		// TODO Auto-generated constructor stub
     	int mode = Context.MODE_PRIVATE;
     	mShared = new AfJsonCache(context,EM_SHARENAME,mode);
     	setDefault(KEY_ST_LOGINACCOUNT, "");
@@ -59,27 +58,22 @@ public class AfAppSettings {
 	}
 
     protected int getDefaultFileServerPort() {
-		// TODO Auto-generated method stub
 		return 8089;
 	}
 
     protected String getDefaultFileServerIP() {
-		// TODO Auto-generated method stub
 		return "127.0.0.1";
 	}
 
 	protected int getDefaultDataServerPort() {
-		// TODO Auto-generated method stub
 		return 8088;
 	}
 
 	protected String getDefaultDataServerIP() {
-		// TODO Auto-generated method stub
 		return "127.0.0.1";
 	}
 
 	protected void setDefault(String key, Object defaul) {
-		// TODO Auto-generated method stub
 		if(mShared.isEmpty(key)){
 			mShared.put(key, defaul);
 		}
@@ -192,12 +186,10 @@ public class AfAppSettings {
 	}
 
 	public void setDebugMode(int mode) {
-		// TODO Auto-generated method stub
 		mShared.put(KEY_IT_APPDEBUGMODE, mode);
 	}
 
 	public int getDebugMode() {
-		// TODO Auto-generated method stub
 		return mShared.get(KEY_IT_APPDEBUGMODE,0, int.class);
 	}
 	

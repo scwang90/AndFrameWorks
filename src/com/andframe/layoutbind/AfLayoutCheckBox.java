@@ -13,7 +13,6 @@ public class AfLayoutCheckBox extends AfLayoutModule implements OnClickListener{
 
 	public AfLayoutCheckBox(AfViewable view,CheckBox checkbox) {
 		super(view);
-		// TODO Auto-generated constructor stub
 		mCheckBox = checkbox;
 		mLayout = findLayout(view);
 		mIsValid = mLayout != null;
@@ -24,7 +23,6 @@ public class AfLayoutCheckBox extends AfLayoutModule implements OnClickListener{
 
 	public AfLayoutCheckBox(AfViewable view, int id) {
 		super(view);
-		// TODO Auto-generated constructor stub
 		mCheckBox = view.findViewByID(id);
 		mLayout = findLayout(view);
 		mIsValid = mLayout != null;
@@ -35,7 +33,6 @@ public class AfLayoutCheckBox extends AfLayoutModule implements OnClickListener{
 
 	@Override
 	protected View findLayout(AfViewable view) {
-		// TODO Auto-generated method stub
 		if(mCheckBox != null && mCheckBox.getParent() instanceof View){
 			return(View)mCheckBox.getParent();
 		}
@@ -44,7 +41,6 @@ public class AfLayoutCheckBox extends AfLayoutModule implements OnClickListener{
 
 	@Override
 	public void onClick(View v) {
-		// TODO Auto-generated method stub
 		mCheckBox.setChecked(!mCheckBox.isChecked());
 	}
 }

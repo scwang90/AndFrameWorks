@@ -93,7 +93,6 @@ public class AfDistance {
 	 * @return 距离 （单位米）
 	 */
 	public static long getDistance(Location location, Address address) {
-		// TODO Auto-generated method stub
 		double lon1 = location.getLongitude();
 		double lat1 = location.getLatitude();
 		double lon2 = address.PostionX;

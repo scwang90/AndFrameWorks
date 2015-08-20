@@ -24,14 +24,12 @@ public class AfBindItem<T> extends AfTreeViewItem<T> {
 	BindItemMap bindMap;
 
 	public AfBindItem(int layoutId, BindItemMap bindMap) {
-		// TODO Auto-generated constructor stub
 		this.layoutId = layoutId;
 		this.bindMap = bindMap;
 	}
 
 	@Override
 	public void onHandle(AfView view) {
-		// TODO Auto-generated method stub
 		int index = 0;
 		bindViews = new View[bindMap.size()];
 		for (Entry<String, Integer> entry : bindMap.entrySet()) {
@@ -42,14 +40,12 @@ public class AfBindItem<T> extends AfTreeViewItem<T> {
 
 	@Override
 	public int getLayoutId() {
-		// TODO Auto-generated method stub
 		return layoutId;
 	}
 
 	@Override
 	protected boolean onBinding(T model, int level, boolean isExpanded,
 			SelectStatus status) {
-		// TODO Auto-generated method stub
 		int index = 0;
 		for (Entry<String, Integer> entry : bindMap.entrySet()) {
 			View view = bindViews[index];

@@ -26,24 +26,20 @@ public abstract class AfTreeViewItem<T> extends AfMultiChoiceItem<T>{
 	protected AfTreeViewAdapter<T> mTreeViewAdapter = null;
 	
 	public AfTreeViewItem() {
-		// TODO Auto-generated constructor stub
 	}
 
 	public AfTreeViewItem(int layoutId) {
 		super(layoutId);
-		// TODO Auto-generated constructor stub
 	}
 
 	@Override
 	public void onHandle(AfView view) {
-		// TODO Auto-generated method stub
 		retract = AfDensity.dip2px(view.getContext(), 20);
 	}
 	
 	@SuppressLint("NewApi")
 	@SuppressWarnings("deprecation")
 	public View inflateLayout(View view,AfTreeViewAdapter<T> adapter) {
-		// TODO Auto-generated method stub
 		//设置适配器
 		mTreeViewAdapter = adapter;
 		//创建布局
@@ -69,7 +65,6 @@ public abstract class AfTreeViewItem<T> extends AfMultiChoiceItem<T>{
 
 	@Override
 	protected final boolean onBinding(T model,int index,SelectStatus status) {
-		// TODO Auto-generated method stub
 		if (mTreeViewLayout != null && mNode != null) {
 			mTreeViewLayout.setPadding(mNode.level*retract, 0, 0, 0);
 			return onBinding(mNode.value,mNode.level,mNode.isExpanded,status);

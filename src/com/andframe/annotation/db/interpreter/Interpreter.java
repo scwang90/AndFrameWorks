@@ -23,7 +23,6 @@ public class Interpreter {
 	 * @return
 	 */
 	public static boolean isColumn(Field field) {
-		// TODO Auto-generated method stub
 		int modify = field.getModifiers();
 		return !Modifier.isFinal(modify) && !Modifier.isStatic(modify) 
 				&& !Modifier.isTransient(modify) 
@@ -36,7 +35,6 @@ public class Interpreter {
 	 * @return
 	 */
 	public static String getColumnName(Field field) {
-		// TODO Auto-generated method stub
 		if (field.isAnnotationPresent(Column.class)) {
 			Column column = field.getAnnotation(Column.class);
 			if (AfStringUtil.isNotEmpty(column.value())) {
@@ -58,7 +56,6 @@ public class Interpreter {
 	 * @return
 	 */
 	public static String getTableName(Class<?> clazz) {
-		// TODO Auto-generated method stub
 		if (clazz.isAnnotationPresent(Table.class)) {
 			Table table = clazz.getAnnotation(Table.class);
 			if (table.value() != null && table.value().length() > 0) {
@@ -74,7 +71,6 @@ public class Interpreter {
 	 * @return
 	 */
 	public static String getIdName(Class<?> clazz) {
-		// TODO Auto-generated method stub
 		Field field = getIdField(clazz);
 		if (field != null) {
 			Id id = field.getAnnotation(Id.class);
@@ -92,7 +88,6 @@ public class Interpreter {
 	 * @return
 	 */
 	public static Field getIdField(Class<?> clazz) {
-		// TODO Auto-generated method stub
 		List<Field> fields = new ArrayList<Field>();
 		while (!clazz.equals(Object.class)) {
 			for (Field field : clazz.getDeclaredFields()) {
@@ -124,7 +119,6 @@ public class Interpreter {
 	 * @return
 	 */
 	public static boolean isPrimaryKey(Field field) {
-		// TODO Auto-generated method stub
 		return field.isAnnotationPresent(Id.class)
 				|| (field.isAnnotationPresent(Column.class)
 				&& field.getAnnotation(Column.class).id());

@@ -24,7 +24,6 @@ public class AfContactsRefreshView extends AfRefreshListView<AfContactsListView>
 	@Override
 	protected AfContactsListView onCreateListView(Context context,
 			AttributeSet attrs) {
-		// TODO Auto-generated method stub
 		return new AfContactsListView(context,attrs);
 	}
 	
@@ -37,14 +36,12 @@ public class AfContactsRefreshView extends AfRefreshListView<AfContactsListView>
 	 */
 	@Override
 	public void setAdapter(ListAdapter adapter) {
-		// TODO Auto-generated method stub
 		super.setAdapter(adapter);
 		throw new NullPointerException("请使用 setAdapter(AfContactsAdapter adapter)");
 	}
 
 	@SuppressWarnings("rawtypes")
 	public void setAdapter(AfContactsAdapter adapter) {
-		// TODO Auto-generated method stub
 		mListView.setAdapter(adapter);
 	}
 }

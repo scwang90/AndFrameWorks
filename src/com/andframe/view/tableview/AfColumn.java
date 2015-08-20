@@ -22,10 +22,8 @@ public class AfColumn {
 
 	public AfColumn(String title, String bind, float fw) {
 		this(title,bind,fw,STRING);
-		// TODO Auto-generated constructor stub
 	}
 	public AfColumn(String title, String bind, float fw, int type) {
-		// TODO Auto-generated constructor stub
 		this.Header = title;
 		this.Binding = bind;
 		this.fWidth = fw;
@@ -33,16 +31,13 @@ public class AfColumn {
 	}
 	public AfColumn(String title, String bind, float fw,int min, int type) {
 		this(title,bind,fw,type);
-		// TODO Auto-generated constructor stub
 		this.mWidth = min;
 	}
 	public AfColumn(String title, String bind, float fw, String format) {
 		this(title,bind,fw,STRING);
-		// TODO Auto-generated constructor stub
 		this.Format = format;
 	}
 	public AfColumn(String title, String bind, int dw) {
-		// TODO Auto-generated constructor stub
 		this.Header = title;
 		this.Binding = bind;
 		this.dWidth = dw;
@@ -50,17 +45,14 @@ public class AfColumn {
 	}
 	public AfColumn(String title, String bind, int dw, String format) {
 		this(title,bind,dw);
-		// TODO Auto-generated constructor stub
 		this.Format = format;
 	}
 	public AfColumn(String title, String bind, int dw, ValueBinder binder) {
 		this(title,bind,dw);
-		// TODO Auto-generated constructor stub
 		this.Binder = binder;
 	}
 	public AfColumn(String title, String bind, float fw, ValueBinder binder) {
 		this(title,bind,fw);
-		// TODO Auto-generated constructor stub
 		this.Binder = binder;
 	}
 }

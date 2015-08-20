@@ -9,7 +9,6 @@ import android.widget.AbsListView;
 public class ScrollBarUtil {
 
 	public static void bindScrollBar(AbsListView listview, int resid) {
-		// TODO Auto-generated constructor stub
 		try {
 			listview.setFastScrollEnabled(true);
 			Field f = AbsListView.class.getDeclaredField("mFastScroller");

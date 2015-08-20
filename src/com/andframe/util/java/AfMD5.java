@@ -109,7 +109,6 @@ public class AfMD5 {
 	}
 
 	public static boolean equals(String vaule1, String vaule2) {
-		// TODO Auto-generated method stub
 		if(vaule1 != null && vaule2 != null){
 			vaule1 = vaule1.toUpperCase(Locale.ENGLISH);
 			vaule2 = vaule2.toUpperCase(Locale.ENGLISH);
@@ -119,7 +118,6 @@ public class AfMD5 {
 	}
 
 	public static String getDoubleMD5(String string) {
-		// TODO Auto-generated method stub
 		return getMD5(getMD5(string));
 	}
 

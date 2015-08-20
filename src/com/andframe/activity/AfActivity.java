@@ -19,7 +19,6 @@ public abstract class AfActivity extends com.andframe.activity.framework.AfActiv
 	 */
 	@Override
 	protected final void onCreate(Bundle bundle) {
-		// TODO Auto-generated method stub
 		super.onCreate(bundle);
 	}
 
@@ -33,7 +32,6 @@ public abstract class AfActivity extends com.andframe.activity.framework.AfActiv
 	 */
 	@Override
 	protected final void onActivityResult(int questcode, int resultcode, Intent data) {
-		// TODO Auto-generated method stub
 		super.onActivityResult(questcode, resultcode, data);
 	}
 
@@ -48,7 +46,6 @@ public abstract class AfActivity extends com.andframe.activity.framework.AfActiv
 	@Override
 	public final void onItemClick(AdapterView<?> parent, View view, int position,
 			long id) {
-		// TODO Auto-generated method stub
 		super.onItemClick(parent, view, position, id);
 	}
 
@@ -57,7 +54,6 @@ public abstract class AfActivity extends com.andframe.activity.framework.AfActiv
 	 */
 	@Override
 	public final void onBackPressed() {
-		// TODO Auto-generated method stub
 		super.onBackPressed();
 	}
 

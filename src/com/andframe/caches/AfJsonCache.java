@@ -26,7 +26,6 @@ public class AfJsonCache
     private AfSharedPreference mShared = null;
 
     public AfJsonCache(AfSharedPreference preference) {
-		// TODO Auto-generated constructor stub
     	mShared = preference;
 	}
     
@@ -43,12 +42,10 @@ public class AfJsonCache
     }
 
 	public void put(String key, Object value) {
-		// TODO Auto-generated method stub
     	put(key, value,value.getClass());
 	}
     
     public void put(String key, Object value,Class<?> clazz) {
-		// TODO Auto-generated method stub
     	mShared.putString(key, mJson.toJson(value, clazz));
 	}
     /**
@@ -59,7 +56,6 @@ public class AfJsonCache
      * @param clazz
      */
     public<T> void putList(String key, List<T> values,Class<T> clazz) {
-		// TODO Auto-generated method stub
     	List<String> set = new ArrayList<String>();
     	for (T value : values) {
     		set.add(mJson.toJson(value, clazz));
@@ -74,7 +70,6 @@ public class AfJsonCache
      * @param clazz
      */
     public<T> void pushList(String key, List<T> values,Class<T> clazz) {
-		// TODO Auto-generated method stub
     	List<String> set = new ArrayList<String>(mShared.getStringList(key, new ArrayList<String>()));
     	for (T value : values) {
     		set.add(mJson.toJson(value, clazz));
@@ -92,7 +87,6 @@ public class AfJsonCache
 			String svalue = mShared.getString(key, "");
 			value = mJson.fromJson(svalue, clazz);
 		} catch (Throwable e) {
-			// TODO: handle exception
 		}
 		return value == null ? defaul : value;
 	}
@@ -110,7 +104,6 @@ public class AfJsonCache
 				list.add(mJson.fromJson(string, clazz));
 			}
 		} catch (Throwable e) {
-			// TODO: handle exception
 		}
 		return list;
 	}
@@ -120,12 +113,10 @@ public class AfJsonCache
     }
     
 	public boolean isEmpty(String key) {
-		// TODO Auto-generated method stub
 		try {
 			return mShared.getString(key, "").equals("")&&
 					mShared.getStringSet(key, new HashSet<String>()).isEmpty();
 		} catch (Throwable e) {
-			// TODO: handle exception
 			return true;
 		}
 	}

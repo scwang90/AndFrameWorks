@@ -50,7 +50,6 @@ public abstract class AfServiceNotify<T> {
 				instance = (AfServiceNotify<?>) clazz.newInstance();
 				mInstance.put(clazz, instance);
 			} catch (Throwable e) {
-				// TODO Auto-generated catch block
 				return null;
 			}
 		}
@@ -80,7 +79,6 @@ public abstract class AfServiceNotify<T> {
 	}
 	
 	public void read(T model) {
-		// TODO Auto-generated method stub
 		if(isStarted()){
 			for (int i = 0; i < mltNotify.size(); i++) {
 				T announce = mltNotify.get(i);
@@ -95,7 +93,6 @@ public abstract class AfServiceNotify<T> {
 	}
 
 	public List<T> getNotify() {
-		// TODO Auto-generated method stub
 		return new ArrayList<T>(mltNotify);
 	}
 
@@ -131,7 +128,6 @@ public abstract class AfServiceNotify<T> {
 			try {
 				handled = listener.onNotify(list) || handled;
 			} catch (Throwable e) {
-				// TODO: handle exception
 				AfExceptionHandler.handler(e, "AfServiceNotify.notify - Exception");
 			}
 		}
@@ -152,13 +148,11 @@ public abstract class AfServiceNotify<T> {
 		private List<T> tltNotify = null;
 		
 		public ServiceTask(UUID user) {
-			// TODO Auto-generated constructor stub
 			tID = user;
 		}
 		
 		@Override
 		protected boolean onHandle(Message msg) {
-			// TODO Auto-generated method stub
 			if(isStarted()&&mServiceID.equals(tID)){
 				if(RESULT_FINISH == mResult){
 					mltNotify.clear();
@@ -177,20 +171,17 @@ public abstract class AfServiceNotify<T> {
 
 		@Override
 		protected void onWorking(Message msg) throws Exception {
-			// TODO Auto-generated method stub
 			tltNotify = onLoadNotify();
 		}
 	}
 
 	protected abstract List<T> onLoadNotify() throws Exception;
 //	protected List<T> onLoadNotify() throws Exception {
-//		// TODO Auto-generated method stub
 //		return new ArrayList<T>();
 //	}
 
 	protected abstract boolean isReaded(T item);
 //	protected boolean isReaded(T item) {
-//		// TODO Auto-generated method stub
 //		return false;
 //	}
 	
@@ -202,7 +193,6 @@ public abstract class AfServiceNotify<T> {
 //	}
 //
 //	protected Notification getNotification(T item) {
-//		// TODO Auto-generated method stub
 //		return AfNotifyCenter.getNotification("您有新的消息", null);
 //	}
 
@@ -214,12 +204,10 @@ public abstract class AfServiceNotify<T> {
 	}
 
 	protected Notification getNotification(List<T> list) {
-		// TODO Auto-generated method stub
 		return AfNotifyCenter.getNotification("您有新的消息", null);
 	}
 
 	protected Notification getNotification(T t) {
-		// TODO Auto-generated method stub
 		return AfNotifyCenter.getNotification("您有新的消息", null);
 	}
 

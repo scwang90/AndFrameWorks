@@ -10,11 +10,9 @@ public abstract class AfTimerTask extends TimerTask{
 
 	@Override
 	public final void run() {
-		// TODO Auto-generated method stub
 		try {
 			this.onTimer();
 		} catch (Throwable e) {
-			// TODO Auto-generated catch block
 			String remark = "AfTimerTask("+getClass().getName()+").run.onTimer";
 			AfExceptionHandler.handler(e, remark);
 		}

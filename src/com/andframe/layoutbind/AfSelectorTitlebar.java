@@ -37,17 +37,14 @@ public abstract class AfSelectorTitlebar extends AfLayoutAlpha
 	protected class MenuMap extends HashMap<String, Integer>{
 		private static final long serialVersionUID = -8159583806449123914L;
 		public MenuMap() {
-			// TODO Auto-generated constructor stub
 		}
 		public MenuMap(HashMap<String, Integer> map) {
 			super(map);
-			// TODO Auto-generated constructor stub
 		}
 	}
 	
 	public AfSelectorTitlebar(AfViewable view,int viewid) {
 		super(view,viewid);
-		// TODO Auto-generated constructor stub
 		mTvText = findTitleSelectTvText(view);
 		mBtFinish = findTitleSelectBtFinish(view);
 		mOperate = findTitleSelectOperate(view);
@@ -111,7 +108,6 @@ public abstract class AfSelectorTitlebar extends AfLayoutAlpha
 
 	@Override
 	public void onClick(View v) {
-		// TODO Auto-generated method stub
 		if (v == mOperate) {
 			PopupMenu pm = new PopupMenu(v.getContext(), v);
 			if (!pm.isValid()) {
@@ -138,7 +134,6 @@ public abstract class AfSelectorTitlebar extends AfLayoutAlpha
 	
 	@Override
 	public boolean onMenuItemClick(MenuItem item) {
-		// TODO Auto-generated method stub
 		switch (item.getItemId()) {
 		case ID_SELECTALL:
 			mAdapter.selectAll();
@@ -159,27 +154,23 @@ public abstract class AfSelectorTitlebar extends AfLayoutAlpha
 	@Override
 	public void onMultiChoiceStarted(AfMultiChoiceAdapter<? extends Object> adapter,
 			int number) {
-		// TODO Auto-generated method stub
 		this.show();
 		mTvText.setText(String.format(TEXT_FORMAT, adapter.getChoiceNumber(),adapter.getCount()));
 	}
 	@Override
 	public void onMultiChoiceChanged(AfMultiChoiceAdapter<? extends Object> adapter,
 			Object tag, boolean selected, int number) {
-		// TODO Auto-generated method stub
 		mTvText.setText(String.format(TEXT_FORMAT, number,adapter.getCount()));
 	}
 	@Override
 	public void onMultiChoiceChanged(AfMultiChoiceAdapter<? extends Object> adapter,
 			int number, int total) {
-		// TODO Auto-generated method stub
 		mTvText.setText(String.format(TEXT_FORMAT, number,total));
 	}
 	@Override
 	public void onMultiChoiceAddData(
 			AfMultiChoiceAdapter<? extends Object> adapter,
 			List<? extends Object> list) {
-		// TODO Auto-generated method stub
 		mTvText.setText(String.format(TEXT_FORMAT, adapter.getChoiceNumber(),adapter.getCount()));
 	}
 
@@ -187,19 +178,16 @@ public abstract class AfSelectorTitlebar extends AfLayoutAlpha
 	public void onMultiChoiceClosed(
 			AfMultiChoiceAdapter<? extends Object> adapter,
 			List<? extends Object> list) {
-		// TODO Auto-generated method stub
 		this.hide();
 	}
 	
 	@Override
 	public boolean isValid() {
-		// TODO Auto-generated method stub
 		return super.isValid()&&mBtFinish!= null&&mOperate!= null&&mTvText!=null;
 	}
 
 	
 	public void putMenu(String string, int id) {
-		// TODO Auto-generated method stub
 		mMeuns.put(string, id);
 	}
 }

@@ -58,7 +58,6 @@ public class AfImageService {
 		
 		int value = EFFECT_NONE;
 		private Effect(int effect) {
-			// TODO Auto-generated constructor stub
 			value = effect;
 		}
 		public int value() {
@@ -203,7 +202,6 @@ public class AfImageService {
 	 * @param idefault 默认图片 缓存连接
 	 */
 	public static void bindImage(String url, ImageView view, String sdefault, boolean enable) {
-		// TODO Auto-generated method stub
 		if(mInstance != null){
 			mInstance.doBind(url, view, sdefault,EFFECT_NONE, enable);
 		}
@@ -217,7 +215,6 @@ public class AfImageService {
 	 * @param enable 是否使用缓存
 	 */
 	public static void bindImage(String url, ImageView view, int idefault, boolean enable) {
-		// TODO Auto-generated method stub
 		if(mInstance != null){
 			mInstance.doBind(url, view, idefault,EFFECT_NONE, enable);
 		}
@@ -232,7 +229,6 @@ public class AfImageService {
 	 * @param enable 是否使用缓存
 	 */
 	public static void bindImage(String url, ImageView view,Effect effect, int idefault, boolean enable) {
-		// TODO Auto-generated method stub
 		if(mInstance != null){
 			mInstance.doBind(url, view, idefault,effect.value, enable);
 		}
@@ -247,7 +243,6 @@ public class AfImageService {
 	 * @param enable 是否使用缓存
 	 */
 	public static void bindImage(String url, LoadImageListener listener) {
-		// TODO Auto-generated method stub
 		if(mInstance != null){
 			mInstance.doBind(url, (null), listener, "",EFFECT_NONE, true);
 		}
@@ -262,7 +257,6 @@ public class AfImageService {
 	 * @param enable 是否使用缓存
 	 */
 	public static void bindImage(String url, LoadImageListener listener,Effect effect, String sdefault, boolean enable) {
-		// TODO Auto-generated method stub
 		if(mInstance != null){
 			mInstance.doBind(url, (null), listener, sdefault,effect.value, enable);
 		}
@@ -333,7 +327,6 @@ public class AfImageService {
 	}
 
 	protected boolean bindCaches(String url,ImageView view,LoadImageListener listener,boolean enable,int effect) {
-		// TODO Auto-generated method stub
 		if(enable){
 			AfApplication app = AfApplication.getApp();
 			AfImageCaches caches = AfImageCaches.getInstance();
@@ -347,7 +340,6 @@ public class AfImageService {
 	}
 
 	protected void bindImageBitmap(final ImageView view,LoadImageListener listener, BitmapDrawable bitmap ,int effect) {
-		// TODO Auto-generated method stub
 		AfApplication app = AfApplication.getApp();
 		if((effect & EFFECT_ROUND) == EFFECT_ROUND){
 			bitmap = new AfImageHelper().toRoundBitmap(app,bitmap,false);
@@ -390,7 +382,6 @@ public class AfImageService {
 //					
 //					@Override
 //					public void run() {
-//						// TODO Auto-generated method stub
 //						while (count++ < 100) {
 //							int width = view.getWidth();
 //							if (width > 0) {
@@ -409,14 +400,12 @@ public class AfImageService {
 	}
 
 	protected static boolean isSettingNoImage() {
-		// TODO Auto-generated method stub
 		int network = AfApplication.getNetworkStatus();
 		AfAppSettings setting = AfAppSettings.getInstance();
 		return (network == AfNetwork.TYPE_MOBILE && setting.isNoImage());
 	}
 
 	protected boolean bindNoImage(ImageView view,LoadImageListener listener, int idefault,int effect) {
-		// TODO Auto-generated method stub
 		if (isSettingNoImage()) {
 			bindDefault(view,listener, idefault, getImageNotFind(),effect);
 			return false;
@@ -425,7 +414,6 @@ public class AfImageService {
 	}
 
 	protected boolean bindNoImage(ImageView view,LoadImageListener listener, String idefault,int effect) {
-		// TODO Auto-generated method stub
 		if (isSettingNoImage()) {
 			bindDefault(view,listener, idefault, getImageNotFind(),effect);
 			return false;
@@ -434,7 +422,6 @@ public class AfImageService {
 	}
 
 	protected void bindDefault(ImageView view,LoadImageListener listener, int idefault, BitmapDrawable image,int effect) {
-		// TODO Auto-generated method stub
 		// 如果失败从网络上加载数据
 		if (idefault == 0 && image != null) {
 			bindImageBitmap(view,listener,image,effect);
@@ -444,7 +431,6 @@ public class AfImageService {
 	}
 
 	protected void bindDefault(ImageView view,LoadImageListener listener, String idefault,BitmapDrawable image,int effect) {
-		// TODO Auto-generated method stub
 		// 如果失败从网络上加载数据
 		if (idefault == null && image != null) {
 			bindImageBitmap(view,listener,image,effect);
@@ -464,7 +450,6 @@ public class AfImageService {
 	 * 把任务post到App的Worker执行
 	 */
 	private void postTask(ImageTask task) {
-		// TODO Auto-generated method stub
 		// 如果在正在加载列表中已经存在当前Url
 		ImageTask tTask = mLoadingTask.get(task.mLinkUrl);
 		if (tTask == null) {
@@ -518,7 +503,6 @@ public class AfImageService {
 
 		@Override
 		protected boolean onHandle(Message msg) {
-			// TODO Auto-generated method stub
 			// 如果任务成功执行完成
 			if (msg.what == ImageTask.RESULT_FINISH) {
 				for (ImageTask task : mltIncidentallyTask) {
@@ -541,7 +525,6 @@ public class AfImageService {
 		}
 
 		private void onFailed() {
-			// TODO Auto-generated method stub
 			if (mListener== null || !mListener.onImageFailed(mImageView,mErrors,mException)) {
 				if (mImageView != null && mImageView.getTag() == this) {
 						if (mDefaultId > 0)
@@ -556,7 +539,6 @@ public class AfImageService {
 		}
 
 		private void onFinish() {
-			// TODO Auto-generated method stub
 			if (mListener== null || !mListener.onImageLoaded(mImageView,mBitmap)) {
 				if (mImageView != null && mImageView.getTag() == this) {
 					bindImageBitmap(mImageView,null, mBitmap,mEffect);
@@ -566,7 +548,6 @@ public class AfImageService {
 
 		@Override
 		protected void onWorking(Message msg) throws Exception {
-			// TODO Auto-generated method stub
 			AfApplication app = AfApplication.getApp();
 			if (mIsCanReadCaches == true) {
 				AfImageCaches caches = AfImageCaches.getInstance();
@@ -599,7 +580,6 @@ public class AfImageService {
 			try {
 				AfImageCaches.getInstance().put(mLinkUrl, mBitmap);
 			} catch (Throwable e) {
-				// TODO: handle exception
 				AfExceptionHandler.handler(e, "图片服务缓存到本地失败");
 			}
 		}
@@ -609,7 +589,6 @@ public class AfImageService {
 		 * @param imageTask
 		 */
 		private void incidentallyTake(ImageTask imageTask) {
-			// TODO Auto-generated method stub
 			mltIncidentallyTask.add(imageTask);
 		}
 

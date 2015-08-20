@@ -29,13 +29,11 @@ public class Version implements Serializable{
 	public String ApkName = "";
 
 	public Version() {
-		// TODO Auto-generated constructor stub
 		this.ID = UUID.randomUUID();
 	}
 
 	public Version(String version, Date date, String url, String msg, int code,
 			String apk) {
-		// TODO Auto-generated constructor stub
 		this.ID = UUID.randomUUID();
 		this.VersionCode = code;
 		this.Version = version;
@@ -46,7 +44,6 @@ public class Version implements Serializable{
 	}
 
 	public Version(Version version) {
-		// TODO Auto-generated constructor stub
 		this.VersionCode = version.VersionCode;
 		this.ID = version.ID;
 		this.Version = version.Version;

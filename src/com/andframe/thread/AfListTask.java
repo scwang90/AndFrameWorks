@@ -75,23 +75,19 @@ public abstract class AfListTask<T> extends AfHandlerTask {
 	
 	public AfListTask(int task) {
 		super(task);
-		// TODO Auto-generated constructor stub
 	}
 	
 	public AfListTask(Handler handler, int task) {
 		super(handler, task);
-		// TODO Auto-generated constructor stub
 	}
 
 	public AfListTask(int task,int first) {
 		super(task);
-		// TODO Auto-generated constructor stub
 		mFirstResult = first;
 	}
 	
 	public AfListTask(List<T> list) {
 		super(list!=null?TASK_MORE:TASK_LOAD);
-		// TODO Auto-generated constructor stub
 		if (list!= null && list.size() > 0) {
 			mFirstResult = list.size();
 		}
@@ -99,7 +95,6 @@ public abstract class AfListTask<T> extends AfHandlerTask {
 	//加载更多专用
 	public AfListTask(AfListAdapter<T> adapter) {
 		super(adapter!=null?TASK_MORE:TASK_LOAD);
-		// TODO Auto-generated constructor stub
 		if (adapter!= null && adapter.getCount() > 0) {
 			mFirstResult = adapter.getCount();
 		}
@@ -119,7 +114,6 @@ public abstract class AfListTask<T> extends AfHandlerTask {
 	 * @return
 	 */
 	protected boolean isCacheTimeout() {
-		// TODO Auto-generated method stub
 		Date date = AfPrivateCaches.getInstance(KEY_CACHELIST).getDate(KEY_CACHETIME, new Date(0));
 		return AfTimeSpan.FromDate(date, new Date()).GreaterThan(mCacheSpan);
 	}
@@ -146,7 +140,6 @@ public abstract class AfListTask<T> extends AfHandlerTask {
 
 	@Override
 	protected final void onWorking(Message tMessage) throws Exception {
-		// TODO Auto-generated method stub
 		AfPrivateCaches cache = AfPrivateCaches.getInstance(KEY_CACHELIST);
 		switch (mTask) {
 		case AfListTask.TASK_LOAD:
@@ -165,7 +158,6 @@ public abstract class AfListTask<T> extends AfHandlerTask {
 						cache.put(KEY_CACHETIME, new Date());
 					}
 				} catch (Exception e) {
-					// TODO: handle exception
 					mTask = TASK_LOAD;
 					e.printStackTrace();
 					mltData = onLoad();
@@ -197,7 +189,6 @@ public abstract class AfListTask<T> extends AfHandlerTask {
 //		try {
 //			Collections.sort(mltData);
 //		} catch (Throwable e) {
-//			// TODO: handle exception
 //			e.printStackTrace();//handled
 //			String remark = "AfListViewTask.onWorking.sort 抛出异常\r\n";
 //			remark += "task = " + mTask;
@@ -208,13 +199,11 @@ public abstract class AfListTask<T> extends AfHandlerTask {
 
 	@Override
 	protected boolean onHandle(Message msg) {
-		// TODO Auto-generated method stub
 		return false;
 	}
 	
 	@Override
 	protected void onException(Throwable e) {
-		// TODO Auto-generated method stub
 		if (AfApplication.getNetworkStatus() == AfNetworkEnum.TYPE_NONE
 				&& mTask != AfTask.TASK_LOAD) {
 			mErrors = "当前网络不可用！";
@@ -224,7 +213,6 @@ public abstract class AfListTask<T> extends AfHandlerTask {
 
 	@SuppressWarnings("rawtypes")
 	public static AfListTask getTask(Message msg) {
-		// TODO Auto-generated method stub
 		if (msg.obj instanceof AfListTask) {
 			return (AfListTask) msg.obj;
 		}

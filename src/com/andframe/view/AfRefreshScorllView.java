@@ -17,32 +17,27 @@ public class AfRefreshScorllView extends AfPullToRefreshBase<ScrollView> {
 
 	public AfRefreshScorllView(ScrollView listView) {
 		super((mScrollView=listView).getContext());
-		// TODO Auto-generated constructor stub
 		setPullFooterLayout(new PullRefreshFooterImpl(listView.getContext()));
 		setPullHeaderLayout(new PullRefreshHeaderImpl(listView.getContext()));
 	}
 	
 	public AfRefreshScorllView(AfPageable viewable,int res) {
 		super((mScrollView=viewable.findViewByID(res)).getContext());
-		// TODO Auto-generated constructor stub
 		setPullFooterLayout(new PullRefreshFooterImpl(viewable.getContext()));
 		setPullHeaderLayout(new PullRefreshHeaderImpl(viewable.getContext()));
 	}
 	
 	public AfRefreshScorllView(Context context) {
 		super(context);
-		// TODO Auto-generated constructor stub
 	}
 
 	public AfRefreshScorllView(Context context, AttributeSet attrs) {
 		super(context, attrs);
-		// TODO Auto-generated constructor stub
 	}
 
 	@Override
 	protected final ScrollView onCreateRefreshableView(Context context,
 			AttributeSet attrs) {
-		// TODO Auto-generated method stub
 		if (mScrollView != null) {
 			if (getParent() == null && mScrollView.getParent() instanceof ViewGroup) {
 				ViewGroup parent = ViewGroup.class.cast(mScrollView.getParent());
@@ -61,14 +56,12 @@ public class AfRefreshScorllView extends AfPullToRefreshBase<ScrollView> {
 
 	@Override
 	protected final boolean isReadyForPullDown() {
-		// TODO Auto-generated method stub
 		// targetview.getOverScrollMode();
 		return mTargetView.getScrollY() <= 0;
 	}
 
 	@Override
 	protected final boolean isReadyForPullUp() {
-		// TODO Auto-generated method stub
 		return false;
 	}
 

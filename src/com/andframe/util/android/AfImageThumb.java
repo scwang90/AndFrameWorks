@@ -29,7 +29,6 @@ public class AfImageThumb {
 	 * @param image
 	 */
 	public static void bindImage(final ImageView iv, final String image) {
-		// TODO Auto-generated method stub
 		AfImageCaches caches = AfImageCaches.getInstance();
 		Bitmap bitmap = caches.get(image);
 		if (bitmap == null) {
@@ -37,14 +36,12 @@ public class AfImageThumb {
 				Bitmap bitmap = null;
 				@Override
 				protected void onWorking(Message msg) throws Exception {
-					// TODO Auto-generated method stub
 					AfImageCaches caches = AfImageCaches.getInstance();
 					bitmap = revitionImageSize(image);
 					caches.put(image, bitmap);
 				}
 				@Override
 				protected boolean onHandle(Message msg) {
-					// TODO Auto-generated method stub
 					if (bitmap != null) {
 						iv.setImageBitmap(bitmap);
 					}

@@ -16,13 +16,11 @@ public class AfTableAdapter extends AfListAdapter<Object> {
 
 	public AfTableAdapter(Context context, AfTable table, List<?> ltdata) {
 		super(context, new ArrayList<Object>(ltdata));
-		// TODO Auto-generated constructor stub
 		mTable = table;
 	}
 
 //	@Override
 //	public int getCount() {
-//		// TODO Auto-generated method stub
 //		return 0;
 //	}
 
@@ -31,13 +29,11 @@ public class AfTableAdapter extends AfListAdapter<Object> {
 	 */
 	@Override
 	protected final IAfLayoutItem<Object> getItemLayout(Object data) {
-		// TODO Auto-generated method stub
 		return null;
 	}
 
 	@Override
-	public View getView(int position, View view, ViewGroup parent) {
-		// TODO Auto-generated method stub // 列表视图获取必须检查 view 是否为空 不能每次都 inflate
+	public View getView(int position, View view, ViewGroup parent) { // 列表视图获取必须检查 view 是否为空 不能每次都 inflate
 		// 否则手机内存负载不起
 		AfTableRow row = null;
 		try {
@@ -49,7 +45,6 @@ public class AfTableAdapter extends AfListAdapter<Object> {
 			}
 			row.Binding(mTable, mltArray, position);
 		} catch (Throwable e) {
-			// TODO: handle exception
 			String remark = "AfTableAdapter("+getClass().getName()+").getView";
 			AfExceptionHandler.handler(e, remark);
 		}
@@ -57,7 +52,6 @@ public class AfTableAdapter extends AfListAdapter<Object> {
 	}
 
 	public AfTable getTable() {
-		// TODO Auto-generated method stub
 		return mTable;
 	}
 }

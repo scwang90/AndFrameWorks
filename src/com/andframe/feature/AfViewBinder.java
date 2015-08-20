@@ -28,12 +28,10 @@ public class AfViewBinder {
 	private Object mHandler;
 
 	public AfViewBinder(Object handler) {
-		// TODO Auto-generated constructor stub
 		mHandler = handler;
 	}
 	
 	protected String TAG(String tag) {
-		// TODO Auto-generated method stub
 		return "AfViewBinder("+mHandler.getClass().getName()+")."+tag;
 	}
 	
@@ -48,7 +46,6 @@ public class AfViewBinder {
 	}
 	
 	public void doBind(AfViewable root) {
-		// TODO Auto-generated method stub
 		doBindView(root);
 		doBindClick(root);
 		doBindLongClick(root);
@@ -117,14 +114,12 @@ public class AfViewBinder {
 	}
 
 	private void setViewSelectListener(View view, String selected,String noSelected) {
-		// TODO Auto-generated method stub
 		if(view instanceof AbsListView){
 			((AbsListView)view).setOnItemSelectedListener(new EventListener(this).select(selected).noSelect(noSelected));
 		}
 	}
 
 	private void setItemLongClickListener(View view, String method) {
-		// TODO Auto-generated method stub
 		if (AfStringUtil.isNotEmpty(method) && view instanceof AbsListView) {
 			AbsListView listView = AbsListView.class.cast(view);
 			listView.setOnItemLongClickListener(new EventListener(mHandler).itemLongClick(method));
@@ -132,7 +127,6 @@ public class AfViewBinder {
 	}
 
 	private void setItemClickListener(View view, String method) {
-		// TODO Auto-generated method stub
 		if (AfStringUtil.isNotEmpty(method) && view instanceof AbsListView) {
 			AbsListView listView = AbsListView.class.cast(view);
 			listView.setOnItemClickListener(new EventListener(mHandler).itemClick(method));
@@ -140,14 +134,12 @@ public class AfViewBinder {
 	}
 
 	private void setLongClickListener(View view, String method) {
-		// TODO Auto-generated method stub
 		if (AfStringUtil.isNotEmpty(method)) {
 			view.setOnLongClickListener(new EventListener(mHandler).longClick(method));
 		}
 	}
 
 	private void setOnClickListener(View view, String method) {
-		// TODO Auto-generated method stub
 		if (AfStringUtil.isNotEmpty(method)) {
 			view.setOnClickListener(new EventListener(mHandler).click(method));
 		}

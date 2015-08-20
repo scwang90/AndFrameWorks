@@ -12,7 +12,6 @@ public class AfDeviceInfo {
 	private TelephonyManager mPhoneManager = null;
 
 	public AfDeviceInfo(Context context) {
-		// TODO Auto-generated constructor stub
 		String tmserver = Context.TELEPHONY_SERVICE;
 		String wiserver = Context.WIFI_SERVICE;
 		mDisplay = context.getResources().getDisplayMetrics();
@@ -28,7 +27,6 @@ public class AfDeviceInfo {
 		try {
 			return mPhoneManager.getDeviceId();
 		} catch (Throwable e) {
-			// TODO: handle exception
 			return ("获取失败，请添加 android.permission.READ_PHONE_STATE 权限！");
 		}
 	}
@@ -37,13 +35,11 @@ public class AfDeviceInfo {
 		try {
 			return mWifiManager.getConnectionInfo().getMacAddress();
 		} catch (Throwable e) {
-			// TODO: handle exception
 			return ("获取失败，请添加 android.permission.ACCESS_WIFI_STATE 权限！");
 		}
 	}
 
 	public String getDeviceMessage() {
-		// TODO Auto-generated method stub
 		StringBuffer sb = new StringBuffer();
 		sb.append("设备型号： ");
 		sb.append(android.os.Build.MODEL);
@@ -62,7 +58,6 @@ public class AfDeviceInfo {
 			sb.append(mPhoneManager.getSimOperatorName());
 			sb.append("\r\n");
 		} catch (Throwable e) {
-			// TODO: handle exception
 			sb.append("获取失败，请添加 android.permission.READ_PHONE_STATE 权限！");
 		}
 		return sb.toString();
@@ -71,7 +66,6 @@ public class AfDeviceInfo {
 	private static AfDeviceInfo mInstance = null;
 	
 	public static AfDeviceInfo initialize(Context context){
-		// TODO Auto-generated method stub
 		if(mInstance == null){
 			mInstance = new AfDeviceInfo(context);
 		}
@@ -79,7 +73,6 @@ public class AfDeviceInfo {
 	}
 	
 	public static String detDeviceMessage() {
-		// TODO Auto-generated method stub
 		if(mInstance != null){
 			return mInstance.getDeviceMessage();
 		}

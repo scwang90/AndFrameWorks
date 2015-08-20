@@ -15,7 +15,6 @@ public abstract class AfModuleProgress extends AfLayoutModule{
 
 	public AfModuleProgress(AfViewable view) {
 		super(view);
-		// TODO Auto-generated constructor stub
 		if(isValid()){
 			mTvDescription = findDescription(view);
 			mTvDescription.setText("正在加载...");
@@ -30,14 +29,12 @@ public abstract class AfModuleProgress extends AfLayoutModule{
 	protected abstract TextView findDescription(AfViewable view);
 	
 	public void setDescription(String description) {
-		// TODO Auto-generated constructor stub
 		if(isValid()){
 			mTvDescription.setText(description);
 		}
 	}
 
 	public void setDescription(int resid) {
-		// TODO Auto-generated constructor stub
 		if(isValid()){
 			mTvDescription.setText(resid);
 		}

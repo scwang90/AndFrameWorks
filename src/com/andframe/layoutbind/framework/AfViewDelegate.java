@@ -48,7 +48,6 @@ public class AfViewDelegate extends View{
 
 	public AfViewDelegate(View view) {
 		super(view.getContext());
-		// TODO Auto-generated constructor stub
 		this.target = view;
 	}
 
@@ -1568,7 +1567,6 @@ public class AfViewDelegate extends View{
 
 	//@Override
 //	public void layouty(int l, int t, int r, int b) {
-//		// TODO Auto-generated method stub
 //		if (this.target == null) {
 //			return;
 //		}

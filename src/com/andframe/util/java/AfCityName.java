@@ -27,7 +27,6 @@ public class AfCityName {
 	 * @return 简化后的地名
 	 */
 	public static String removeNationArea(String tCityName) {
-		// TODO Auto-generated method stub
 		int length = tCityName.length();
 		String minority = minorities[0];
 		if (tCityName.endsWith("自治州") || tCityName.endsWith("自治县")
@@ -52,7 +51,6 @@ public class AfCityName {
 	 * @return 简化后的地名
 	 */
 	public static String SimplifyCityName(String tCityName) {
-		// TODO Auto-generated method stub
 		if (tCityName.endsWith("自治州") || tCityName.endsWith("自治县")
 				|| tCityName.endsWith("自治区")) {
 			tCityName = tCityName.substring(0, tCityName.length() - 3);

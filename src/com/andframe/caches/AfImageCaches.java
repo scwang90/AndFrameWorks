@@ -103,7 +103,6 @@ public class AfImageCaches {
 	 * @return BitmapDrawable 否则 null
 	 */
 	public BitmapDrawable get(Context context, String url) {
-		// TODO Auto-generated method stub
 		Bitmap bitmap = get(url);
 		if(bitmap == null){
 			return null;
@@ -176,7 +175,6 @@ public class AfImageCaches {
 	 * @param bitmap 缓存图片
 	 */
 	public void put(String url, BitmapDrawable bitmap) {
-		// TODO Auto-generated method stub
 		put(url, bitmap.getBitmap());
 	}
 
@@ -216,7 +214,6 @@ public class AfImageCaches {
 	 * @return
 	 */
 	public File getCachePath() {
-		// TODO Auto-generated method stub
 		return mCacheDirFile;
 	}
 
@@ -225,7 +222,6 @@ public class AfImageCaches {
 	 * @param key
 	 */
 	public void remove(String url) {
-		// TODO Auto-generated method stub
 		try {
 			String key = AfMD5.getMD5(url.getBytes());
 			String Path = mCacheDirFile.getAbsolutePath() + File.separator
@@ -235,7 +231,6 @@ public class AfImageCaches {
 				file.delete();
 			}
 		} catch (Throwable e) {
-			// TODO: handle exception
 			e.printStackTrace();
 			AfExceptionHandler.handler(e, "AfImageCaches.remove.Exception");
 		}
@@ -274,7 +269,6 @@ public class AfImageCaches {
 	 * @return
 	 */
 	public String mapPath(String mLinkUrl) {
-		// TODO Auto-generated method stub
 		String key = AfMD5.getMD5(mLinkUrl.getBytes());
 		return mCacheDirFile.getAbsolutePath() + File.separator
 				+ key;

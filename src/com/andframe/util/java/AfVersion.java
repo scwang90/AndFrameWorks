@@ -16,7 +16,6 @@ public class AfVersion {
 	}
 
 	public static int transformVersion(String version) {
-		// TODO: handle exception
 		try {
 			String[] vers = version.split("\\.");
 			int ver1 = Integer.parseInt(vers[0]);
@@ -32,7 +31,6 @@ public class AfVersion {
 //			ver1 = Math.min(127, ver1);
 			return (ver1 << 24) | (ver2 << 16) | (ver3 << 8) | (ver4);
 		} catch (Throwable e) {
-			// TODO: handle exception
 		}
 		return 0;
 	}

@@ -21,7 +21,6 @@ public class AfDailog {
 	private Context mContext;
 	
 	public AfDailog(Context context) {
-		// TODO Auto-generated constructor stub
 		mContext = context;
 	}
 
@@ -120,7 +119,6 @@ public class AfDailog {
 			String positive, OnClickListener lpositive, 
 			String neutral, OnClickListener lneutral, 
 			String negative,OnClickListener lnegative) {
-		// TODO Auto-generated method stub
 		doShowDialog(-1, iconres, title, message, positive, lpositive, neutral, lneutral, negative, lnegative);
 	}
 
@@ -143,19 +141,16 @@ public class AfDailog {
 			String positive, OnClickListener lpositive,
 			String neutral, OnClickListener lneutral, 
 			String negative,OnClickListener lnegative) {
-		// TODO Auto-generated method stub
 		Builder builder = null;
 		try {
 			builder = new Builder(mContext);
 		} catch (Throwable ex) {
-			// TODO: handle exception
 			return;
 		}
 		if (theme > 0) {
 			try {
 				builder = new Builder(mContext, theme);
 			} catch (Throwable e) {
-				// TODO: handle exception
 				builder = new Builder(mContext);
 			}
 		}
@@ -187,7 +182,6 @@ public class AfDailog {
 	 */
 	public void doShowViewDialog(String title, View view, String positive,
 			OnClickListener lpositive) {
-		// TODO Auto-generated method stub
 		doShowViewDialog(title, view, positive, lpositive,"",null);
 	}
 
@@ -203,7 +197,6 @@ public class AfDailog {
 	public void doShowViewDialog(String title, View view, String positive,
 			OnClickListener lpositive, String negative,
 			OnClickListener lnegative) {
-		// TODO Auto-generated method stub
 		doShowViewDialog(0,title,view,positive, lpositive,negative,lnegative);
 	}
 
@@ -257,7 +250,6 @@ public class AfDailog {
 			String positive, OnClickListener lpositive, 
 			String neutral, OnClickListener lneutral, 
 			String negative,OnClickListener lnegative) {
-		// TODO Auto-generated method stub
 		doShowViewDialog(-1, iconres, title, view, positive, lpositive, neutral, lneutral, negative, lnegative);
 	}
 
@@ -280,19 +272,16 @@ public class AfDailog {
 			String positive, OnClickListener lpositive,
 			String neutral, OnClickListener lneutral, 
 			String negative,OnClickListener lnegative) {
-		// TODO Auto-generated method stub
 		Builder builder = null;
 		try {
 			builder = new Builder(mContext);
 		} catch (Throwable ex) {
-			// TODO: handle exception
 			return;
 		}
 		if (theme > 0) {
 			try {
 				builder = new Builder(mContext, theme);
 			} catch (Throwable e) {
-				// TODO: handle exception
 				builder = new Builder(mContext);
 			}
 		}
@@ -352,7 +341,6 @@ public class AfDailog {
 	 */
 	public void doSelectItem(String title,String[] items,OnClickListener listener,
 			final OnClickListener oncancel) {
-		// TODO Auto-generated method stub
 		Builder dialog = new Builder(mContext);
 		if(title != null){
 			dialog.setTitle(title);
@@ -363,7 +351,6 @@ public class AfDailog {
 			dialog.setOnCancelListener(new OnCancelListener() {
 				@Override
 				public void onCancel(DialogInterface dialog) {
-					// TODO Auto-generated method stub
 					oncancel.onClick(dialog, 0);
 				}
 			});
@@ -379,7 +366,6 @@ public class AfDailog {
 	 * @param listener 选择监听器
 	 */
 	public void doSelectItem(String title,String[] items,OnClickListener listener) {
-		// TODO Auto-generated method stub
 		doSelectItem(title, items, listener, null);
 	}
 
@@ -423,7 +409,6 @@ public class AfDailog {
 		builder.setPositiveButton("确定", new DialogInterface.OnClickListener() {
 			@Override
 			public void onClick(DialogInterface dialog, int which) {
-				// TODO Auto-generated method stub
 				new AfSoftInputer(mContext).setSoftInputEnable(input, false);
 				dialog.dismiss();
 				flistener.onInputTextComfirm(input);
@@ -432,7 +417,6 @@ public class AfDailog {
 		builder.setNegativeButton("取消", new DialogInterface.OnClickListener() {
 			@Override
 			public void onClick(DialogInterface dialog, int which) {
-				// TODO Auto-generated method stub
 				new AfSoftInputer(mContext).setSoftInputEnable(input, false);
 				dialog.dismiss();
 				if(flistener instanceof InputTextCancelable){

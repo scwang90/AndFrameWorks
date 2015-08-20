@@ -14,7 +14,6 @@ public class AfStringUtil {
 	 * @return
 	 */
 	public static boolean isEmpty(String string) {
-		// TODO Auto-generated method stub
 		return string == null || string.trim().length() == 0;
 	}
 
@@ -24,7 +23,6 @@ public class AfStringUtil {
 	 * @return
 	 */
 	public static boolean isNotEmpty(String string) {
-		// TODO Auto-generated method stub
 		return string != null && string.trim().length() > 0;
 	}
 
