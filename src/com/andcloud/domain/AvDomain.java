@@ -14,7 +14,6 @@ public class AvDomain<T extends AVObject> {
 	protected Class<T> clazz;
 
 	public AvDomain() {
-		// TODO Auto-generated constructor stub
 		clazz = AfReflecter.getActualTypeArgument(this, AvDomain.class, 0);
 	}
 

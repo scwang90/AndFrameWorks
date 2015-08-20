@@ -29,7 +29,6 @@ public class DeployCheckTask extends AfHandlerTask{
 
 	public DeployCheckTask(Context context, LoadDeployListener listener,
 			String defchannel, String channel) {
-		// TODO Auto-generated constructor stub
 		this.channel = channel;
 		this.defchannel = defchannel;
 		if (listener == null) {
@@ -43,7 +42,6 @@ public class DeployCheckTask extends AfHandlerTask{
 	
 	@Override
 	public boolean onPrepare() {
-		// TODO Auto-generated method stub
 		if (mIsOnlineHideChecking) {
 			return false;
 		}
@@ -53,7 +51,6 @@ public class DeployCheckTask extends AfHandlerTask{
 	
 	@Override
 	protected void onWorking(Message msg) throws Exception {
-		// TODO Auto-generated method stub
 		if (AfApplication.getNetworkStatus() != AfNetwork.TYPE_NONE) {
 			AvDeployDomain domain = new AvDeployDomain();
 			final List<Deploy> deploys = domain.list();
@@ -65,7 +62,6 @@ public class DeployCheckTask extends AfHandlerTask{
 	}
 
 	private Deploy deploy(List<Deploy> deploys, String channel) {
-		// TODO Auto-generated method stub
 		for (Deploy deploy : deploys) {
 			if (deploy.getName().equals(channel)) {
 				if (deploy.getVerson() == 0 ||
@@ -78,7 +74,6 @@ public class DeployCheckTask extends AfHandlerTask{
 	}
 	
 	public Deploy doReadCache() {
-		// TODO Auto-generated method stub
 		Deploy deploy = new Deploy();
 		deploy.setBusinessModel(getCaches().getBoolean(KEY_BUSINESSMODEL, false));
 		deploy.setRemark("default_cache");
@@ -87,7 +82,6 @@ public class DeployCheckTask extends AfHandlerTask{
 	
 	@Override
 	protected void onCancel() {
-		// TODO Auto-generated method stub
 		super.onCancel();
 		mIsOnlineHideChecking = false;
 	}
@@ -106,7 +100,6 @@ public class DeployCheckTask extends AfHandlerTask{
 
 	@Override
 	protected boolean onHandle(Message msg) {
-		// TODO Auto-generated method stub
 		mIsOnlineHideChecking = false;
 		if (mListener != null) {
 			if (mDeploy == null){

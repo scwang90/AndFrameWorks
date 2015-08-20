@@ -51,11 +51,9 @@ public class FeedbackAgent {
 				int oldcount = (comments!=null)?comments.size():0;
 				@Override
 				public void onCommentsSend(List<Comment> comments, AVException e) {
-					// TODO Auto-generated method stub
 				}
 				@Override
 				public void onCommentsFetch(List<Comment> comments, AVException e) {
-					// TODO Auto-generated method stub
 					if (comments != null && comments.size() > oldcount) {
 						oldcount = comments.size();
 						//startActivity(FeedbacksActivity.class);
@@ -66,7 +64,6 @@ public class FeedbackAgent {
 				}
 			});
 		} catch (Exception e) {
-			// TODO: handle exception
 			AfExceptionHandler.handler(e, ("FeedbackAgent.FeedbackThread.sync"));
 		}
 	}

@@ -48,7 +48,6 @@ public class AndCloud implements LoadDeployListener{
 		try {
 			AVObject.registerSubclass(clazz);
 		} catch (Exception e) {
-			// TODO: handle exception
 			AfExceptionHandler.handler(e, "AndCloud.registerSubclass");
 		}
 	}
@@ -74,7 +73,6 @@ public class AndCloud implements LoadDeployListener{
 			AVAnalytics.setAppChannel(channel);
 //		    AVAnalytics.enableCrashReport(context, true);
 		} catch (Exception e) {
-			// TODO: handle exception
 			AfExceptionHandler.handler(e, "AndCloud.initialize");
 		}
 	}
@@ -91,7 +89,6 @@ public class AndCloud implements LoadDeployListener{
 //			MobclickAgent.setSessionContinueMillis(1000);
 			MobclickAgent.updateOnlineConfig(context);
 		} catch (Exception e) {
-			// TODO: handle exception
 			AfExceptionHandler.handler(e, "MobclickAgent.updateOnlineConfig");
 		}
 	}

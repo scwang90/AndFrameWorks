@@ -15,18 +15,15 @@ public class AvUserDomain extends AvDomain<AvUser>{
 	}
 
 	public AvUser logIn(String username,String password) throws AVException {
-		// TODO Auto-generated method stub
 		AvUser.logOut();
 		return AvUser.logIn(username, password,AvUser.class);
 	}
 
 	public AvUser getCurrentUser() throws AVException {
-		// TODO Auto-generated method stub
 		return AvUser.getCurrentUser(AvUser.class);
 	}
 
 	public void logOut() throws AVException {
-		// TODO Auto-generated method stub
 		AvUser.logOut();
 	}
 }
