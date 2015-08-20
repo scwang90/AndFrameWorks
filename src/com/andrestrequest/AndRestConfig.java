@@ -69,7 +69,6 @@ public class AndRestConfig {
 	}
 
 	public static String getIP() {
-		// TODO Auto-generated method stub
 		return ip;
 	}
 	
@@ -78,7 +77,6 @@ public class AndRestConfig {
 	}
 
 	public static String getPort() {
-		// TODO Auto-generated method stub
 		return port;
 	}
 	
@@ -87,7 +85,6 @@ public class AndRestConfig {
 	}
 
 	public static String getVersion() {
-		// TODO Auto-generated method stub
 		return version;
 	}
 	
@@ -128,7 +125,6 @@ public class AndRestConfig {
 	}
 	
 	public static String getBaseURI() {
-		// TODO Auto-generated method stub
 		return getIP() + ":" + getPort();
 //		URIBuilder builder = new URIBuilder();
 //		builder.setScheme("http");

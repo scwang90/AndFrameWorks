@@ -9,13 +9,11 @@ public class ServerCodeException extends ServerException{
 
 	public ServerCodeException(ErrorMessage message) {
 		super(message);
-		// TODO Auto-generated constructor stub
 		errorcode = message.getCode();
 	}
 
 	public ServerCodeException(String msg, Throwable e) {
 		super(msg, e);
-		// TODO Auto-generated constructor stub
 	}
 
 	public String getErrorcode() {

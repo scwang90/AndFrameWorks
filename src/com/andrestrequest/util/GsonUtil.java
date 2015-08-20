@@ -40,7 +40,6 @@ public class GsonUtil {
 	public static final String FORMAT_DATE = "yyyy-MM-dd HH:mm:ss";
 	public static final DateFormat format = new SimpleDateFormat(FORMAT_DATE,
 			Locale.US);
-	// TODO use annotations to metaprogram the parsing behaviour instead
 	/**
 	 * Get the list of model objects and create json as expected by the API.
 	 * @param isUpdate
@@ -54,7 +53,6 @@ public class GsonUtil {
 	 *             is empty or null
 	 */
 	public static  String toJson(Object model) {
-		// TODO strip nodes that has a null key?
 		String json = null;
 
 		// ADD ROOT
@@ -118,7 +116,6 @@ public class GsonUtil {
 				try {
 					return new Timestamp(Long.parseLong(json.getAsString()));
 				} catch (Exception ex) {
-					// TODO: handle exception
 					throw new JsonParseException(ex);
 				}
 			}

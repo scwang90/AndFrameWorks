@@ -14,12 +14,10 @@ public class ParseToObjectException extends AndRestException
 
 	public ParseToObjectException(String msg, Throwable e) {
 		super(msg, e);
-		// TODO Auto-generated constructor stub
 	}
 
 	public ParseToObjectException(String msg) {
 		super(msg);
-		// TODO Auto-generated constructor stub
 	}
 
 }

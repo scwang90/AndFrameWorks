@@ -24,11 +24,9 @@ public class Response {
 	private String body;
 
 	public Response() {
-		// TODO Auto-generated constructor stub
 	}
 	
 	public Response(int statusCode) {
-		// TODO Auto-generated constructor stub
 		this.statusCode = statusCode;
 	}
 
@@ -86,11 +84,9 @@ public class Response {
 	}
 
 	public JSONObject getJSONObject() throws Exception {
-		// TODO Auto-generated method stub
 		try {
 			return new JSONObject(body);
 		} catch (Exception e) {
-			// TODO: handle exception
 			throw new ServerException("服务器返回格式异常："+body,e);
 		}
 	}

@@ -82,15 +82,12 @@ public class DefaultResponseHandler implements ResponseHandler<Response> {
 					ErrorMessage message = GsonUtil.toObject(errormessage, ErrorMessageClass);
 					throw new ServerCodeException(message);
 				} catch (ServerCodeException e) {
-					// TODO: handle exception
 					throw e;
 				} catch (Throwable e) {
-					// TODO: handle exception
 					throw new ServerException(errormessage);
 				}
 			}
 		} catch (Throwable e) {
-			// TODO: handle exception
 			System.out.println("response = "+response);
 			throw new ServerException(response);
 		}
