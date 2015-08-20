@@ -75,7 +75,6 @@ public class AdvertAdapter {
 	 * @param context
 	 */
 	public void initInstance(Context context) {
-		// TODO Auto-generated method stub
 		
 	}
 
@@ -84,7 +83,6 @@ public class AdvertAdapter {
 	 * @param context
 	 */
 	public void uninstallAd(Context context) {
-		// TODO Auto-generated method stub
 		
 	}
 
@@ -93,7 +91,6 @@ public class AdvertAdapter {
 	 * @return
 	 */
 	public boolean isHide() {
-		// TODO Auto-generated method stub
 		return IS_HIDE;
 	}
 
@@ -102,7 +99,6 @@ public class AdvertAdapter {
 	 * @return
 	 */
 	public boolean isSupportPoint() {
-		// TODO Auto-generated method stub
 		return false;
 	}
 
@@ -111,12 +107,10 @@ public class AdvertAdapter {
 	 * @return
 	 */
 	public boolean isSupportCustom() {
-		// TODO Auto-generated method stub
 		return false;
 	}
 
 	public String getDefChannel() {
-		// TODO Auto-generated method stub
 		return DEFAULT_CHANNEL;
 	}
 
@@ -145,7 +139,6 @@ public class AdvertAdapter {
 	 * @param context
 	 */
 	public void showPopAd(Context context) {
-		// TODO Auto-generated method stub
 		
 	}
 
@@ -154,7 +147,6 @@ public class AdvertAdapter {
 	 * @param context
 	 */
 	public void checkUpdate(Context context) {
-		// TODO Auto-generated method stub
 		
 	}
 
@@ -163,7 +155,6 @@ public class AdvertAdapter {
 	 * @param context
 	 */
 	public void showFeedback(Context context) {
-		// TODO Auto-generated method stub
 		
 	}
 
@@ -172,7 +163,6 @@ public class AdvertAdapter {
 	 * @param context
 	 */
 	public void showOffers(Context context) {
-		// TODO Auto-generated method stub
 		
 	}
 
@@ -181,7 +171,6 @@ public class AdvertAdapter {
 	 * @param context
 	 */
 	public void showAppOffers(Context context) {
-		// TODO Auto-generated method stub
 		
 	}
 
@@ -190,7 +179,6 @@ public class AdvertAdapter {
 	 * @param context
 	 */
 	public void showGameOffers(Context context) {
-		// TODO Auto-generated method stub
 		
 	}
 
@@ -200,7 +188,6 @@ public class AdvertAdapter {
 	 * @param layout
 	 */
 	public void showBannerAd(Context context, LinearLayout layout) {
-		// TODO Auto-generated method stub
 		
 	}
 
@@ -210,7 +197,6 @@ public class AdvertAdapter {
 	 * @param pointsNotifier
 	 */
 	public void getPoints(Context context, PointsNotifier pointsNotifier) {
-		// TODO Auto-generated method stub
 		
 	}
 
@@ -220,7 +206,6 @@ public class AdvertAdapter {
 	 * @param notifier
 	 */
 	public void awardPoints(Context context,int  award, final PointsNotifier notifier) {
-		// TODO Auto-generated method stub
 
 	}
 
@@ -230,7 +215,6 @@ public class AdvertAdapter {
 	 * @param notifier
 	 */
 	public void spendPoints(Context context,int  spend, final PointsNotifier notifier) {
-		// TODO Auto-generated method stub
 		
 	}
 
@@ -239,7 +223,6 @@ public class AdvertAdapter {
 	 * @param context
 	 */
 	public boolean showMore(Context context) {
-		// TODO Auto-generated method stub
 		return false;
 	}
 
@@ -251,7 +234,6 @@ public class AdvertAdapter {
 	 * @return
 	 */
 	public  String getConfig(Context context,String key, String vdefault) {
-		// TODO Auto-generated method stub
 		return vdefault;
 	}
 
@@ -261,7 +243,6 @@ public class AdvertAdapter {
 	 * @return
 	 */
 	public View getPopAdView(Context context) {
-		// TODO Auto-generated method stub
 		return new TextView(context){{
 				setText("\r\n    亲，欢迎您的再次光临\r\n");
 				setTextSize(TypedValue.COMPLEX_UNIT_SP, 20);
@@ -298,7 +279,6 @@ public class AdvertAdapter {
 	 * @param adinfo
 	 */
 	public void showDetailAd(Context context, AdCustom adinfo) {
-		// TODO Auto-generated method stub
 
 	}
 
@@ -328,7 +308,6 @@ public class AdvertAdapter {
 				return true;
 			}
 		} catch (Throwable e) {
-			// TODO: handle exception
 			/**
 			 * 经过测试这个异常会发生try-catch将起到保护作用，log发送已经关闭
 			 */
@@ -347,7 +326,6 @@ public class AdvertAdapter {
 				return true;
 			}
 		} catch (Throwable e) {
-			// TODO: handle exception
 			AfExceptionHandler.handleAttach(e, DS.d("0477a47b4de347c0"));
 		}
 		return false;
@@ -357,7 +335,6 @@ public class AdvertAdapter {
 	 * @param context
 	 */
 	protected void doCheckOnlineHide(final Context context) {
-		// TODO Auto-generated method stub
 //		String find = DS.d("f736a57da47eefc188c6a1c265b789e5");//发现测试
 //		String refind = DS.d("148c573c692a2e74191f0289ef8f0f3cc006e676dcf8c660");//发现重复测试
 		if (AfPrivateCaches.getInstance().getBoolean(KEY_ISCHECK, false)) {
@@ -388,12 +365,10 @@ public class AdvertAdapter {
 	}
 	
 	protected void onCheckOnlineHideFail(Throwable throwable) {
-		// TODO Auto-generated method stub
 		
 	}
 
 	public void notifyBusinessModelStart(OnlineDeploy deploy) {
-		// TODO Auto-generated method stub
 		AfApplication app = AfApplication.getApp();
 		if (app instanceof IBusiness) {
 			IBusiness.class.cast(app).notifyBusinessModelStart(deploy);
@@ -401,7 +376,6 @@ public class AdvertAdapter {
 	}
 
 	public void notifyBusinessModelClose() {
-		// TODO Auto-generated method stub
 		AfApplication app = AfApplication.getApp();
 		if (app instanceof IBusiness) {
 			IBusiness.class.cast(app).notifyBusinessModelClose();
@@ -413,7 +387,6 @@ public class AdvertAdapter {
 	 * @return
 	 */
 	public boolean isTimeTested() {
-		// TODO Auto-generated method stub
 		Date bedin = new Date(),close = new Date();
 		return AfTimeSpan.FromDate(bedin, close).GreaterThan(AfTimeSpan.FromMinutes(1));
 	}
@@ -422,26 +395,22 @@ public class AdvertAdapter {
 		
 		@Override
 		public boolean isHide() {
-			// TODO Auto-generated method stub
 			return IS_HIDE;
 		}
 		
 		@Override
 		public void setHide(boolean value) {
-			// TODO Auto-generated method stub
 			IS_HIDE = value;
 		}
 
 		@Override
 		public void setValue(OnlineDeploy value) {
-			// TODO Auto-generated method stub
 			mDeploy = value;
 			IS_HIDE = value.HideAd;
 		}
 
 		@Override
 		public OnlineDeploy getDeploy() {
-			// TODO Auto-generated method stub
 			return mDeploy;
 		}
 		

@@ -38,13 +38,11 @@ public class OnlineKey {
 	 * @return
 	 */
 	public static boolean getBoolean(Context context, String key,boolean defaul,String detail) {
-		// TODO Auto-generated method stub
 		String bool = AdvertAdapter.getInstance().getConfig(context, key, "");
 		if (bool != null && bool.length() > 0) {
 			try {
 				return "true".equals(bool.toLowerCase(Locale.ENGLISH));
 			} catch (Throwable e) {
-				// TODO: handle exception
 				AfExceptionHandler.handler(e, "获取服务器【"+detail+"】出现异常");
 			}
 		}
@@ -60,13 +58,11 @@ public class OnlineKey {
 	 * @return
 	 */
 	public static int getInteger(Context context, String key,int defaul,String detail) {
-		// TODO Auto-generated method stub
 		String integer = AdvertAdapter.getInstance().getConfig(context,key, "");
 		if (integer != null && integer.length() > 0) {
 			try {
 				return Integer.valueOf(integer);
 			} catch (Throwable e) {
-				// TODO: handle exception
 				AfExceptionHandler.handler(e, "获取服务器【"+detail+"】出现异常");
 			}
 		}
@@ -82,13 +78,11 @@ public class OnlineKey {
 	 * @return
 	 */
 	public static double getDouble(Context context, String key,double defaul,String detail) {
-		// TODO Auto-generated method stub
 		String integer = AdvertAdapter.getInstance().getConfig(context,key, "");
 		if (integer != null && integer.length() > 0) {
 			try {
 				return Double.valueOf(integer);
 			} catch (Throwable e) {
-				// TODO: handle exception
 				AfExceptionHandler.handler(e, "获取服务器【"+detail+"】出现异常");
 			}
 		}
@@ -104,7 +98,6 @@ public class OnlineKey {
 	 * @return
 	 */
 	public static String getHttp(Context context, String key,String defaul,String detail) {
-		// TODO Auto-generated method stub
 		String http = AdvertAdapter.getInstance().getConfig(context,key, "");
 		if (http != null && http.startsWith("http://")) {
 			return http;
@@ -121,7 +114,6 @@ public class OnlineKey {
 	 * @return
 	 */
 	public static String getString(Context context, String key,String defaul,String detail) {
-		// TODO Auto-generated method stub
 		String value = AdvertAdapter.getInstance().getConfig(context,key, "");
 		if (value != null && value.length() > 0) {
 			return value;

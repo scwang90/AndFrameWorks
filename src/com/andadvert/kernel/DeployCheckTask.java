@@ -33,14 +33,12 @@ public class DeployCheckTask extends AfHandlerTask{
 	private static boolean mIsOnlineHideChecking = false;
 	
 	public DeployCheckTask(Context context,AdvertAdapter adapter) {
-		// TODO Auto-generated constructor stub
 		mContext = context;
 		mAdapter = adapter;
 	}
 	
 	@Override
 	public boolean onPrepare() {
-		// TODO Auto-generated method stub
 		if (mIsOnlineHideChecking) {
 			return false;
 		}
@@ -50,7 +48,6 @@ public class DeployCheckTask extends AfHandlerTask{
 	
 	@Override
 	protected void onWorking(Message msg) throws Exception {
-		// TODO Auto-generated method stub
 		bedin = new Date();
 		AfTimeSpan span = AfTimeSpan.FromMinutes(5);
 		
@@ -80,7 +77,6 @@ public class DeployCheckTask extends AfHandlerTask{
 	}
 
 	public void doAnalysisDeploy(String onlinekey) throws Exception {
-		// TODO Auto-generated method stub
 		Gson gson = new Gson();
 		String[] keys = onlinekey.split("\\|");
 		List<OnlineDeploy> configs = new ArrayList<OnlineDeploy>();
@@ -96,7 +92,6 @@ public class DeployCheckTask extends AfHandlerTask{
 	}
 
 	private void doConfig(List<OnlineDeploy> configs, String channel) {
-		// TODO Auto-generated method stub
 		for (OnlineDeploy config : configs) {
 			if (config.Name.equals(channel)) {
 				if (config.Verson == 0 || config.Verson == AfApplication.getVersionCode()) {
@@ -108,7 +103,6 @@ public class DeployCheckTask extends AfHandlerTask{
 	}
 	
 	public void doReadCache() {
-		// TODO Auto-generated method stub
 		AfPrivateCaches caches = AfPrivateCaches.getInstance();
 		if (!caches.getBoolean(KEY_ISHIDEAD, true)) {
 			mAdapter.helper.setHide(false);
@@ -118,14 +112,12 @@ public class DeployCheckTask extends AfHandlerTask{
 	
 	@Override
 	protected void onCancel() {
-		// TODO Auto-generated method stub
 		super.onCancel();
 		mIsOnlineHideChecking = false;
 	}
 
 	@Override
 	protected boolean onHandle(Message msg) {
-		// TODO Auto-generated method stub
 		mIsOnlineHideChecking = false;
 		if (isFail()) {
 			//AfToastException异常 会发生 但是概率很低 1% 关闭通知

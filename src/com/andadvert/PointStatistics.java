@@ -67,7 +67,6 @@ public class PointStatistics {
 				cache.put(KEY_PONTCHANGE, 0);
 			}
 		} catch (Throwable e) {
-			// TODO: handle exception
 		}
 	}
 	
@@ -87,7 +86,6 @@ public class PointStatistics {
 			try {
 				mTimerTask.cancel();
 			} catch (Throwable e) {
-				// TODO: handle exception
 				AfExceptionHandler.handleAttach(e, "PointStatistics.TimerTask.cancel");
 			}
 			mTimerTask = null;
@@ -95,7 +93,6 @@ public class PointStatistics {
 	}
 	
 	public static void doStaticsPoint(int point, String currency) {
-		// TODO Auto-generated method stub
 		AfPrivateCaches cache = AfPrivateCaches.getInstance();
 		int last = cache.get(KEY_LASTPONT, 0, Integer.class);
 		cache.put(KEY_LASTPONT, point);
@@ -135,25 +132,21 @@ public class PointStatistics {
 	}
 
 	public static String getPointStatistics() {
-		// TODO Auto-generated method stub
 		AfPrivateCaches cache = AfPrivateCaches.getInstance();
 		return cache.getString(KEY_PONTNOTE, "");
 	}
 
 	public static String getAttractStatistics() {
-		// TODO Auto-generated method stub
 		AfPrivateCaches cache = AfPrivateCaches.getInstance();
 		return cache.getString("66603395431241904102", "");
 	}
 
 	public static int getPoint() {
-		// TODO Auto-generated method stub
 		AfPrivateCaches cache = AfPrivateCaches.getInstance();
 		return cache.get(KEY_LASTPONT, 0, Integer.class);
 	}
 
 	public static int getPointIncreaseCount() {
-		// TODO Auto-generated method stub
 		AfPrivateCaches cache = AfPrivateCaches.getInstance();
 		return cache.get(KEY_PONTCHANGE, 0, Integer.class);
 	}
