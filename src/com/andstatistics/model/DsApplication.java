@@ -38,7 +38,6 @@ public class DsApplication implements Serializable{
 	public java.util.Date updateTime;
 
 	public DsApplication() {
-		// TODO Auto-generated constructor stub
 	}
 
 	public DsApplication(String appkey) {

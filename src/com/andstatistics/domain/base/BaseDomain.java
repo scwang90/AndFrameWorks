@@ -53,7 +53,6 @@ public class BaseDomain<T> extends AbstractRequester {
     }
 
     private Map<String, String> buildToken() throws Exception {
-        // TODO Auto-generated method stub
         return buildToken(new HashMap<String, String>());
     }
 

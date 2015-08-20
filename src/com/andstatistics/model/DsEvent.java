@@ -54,7 +54,6 @@ public class DsEvent implements Serializable {
 	public java.util.Date updateTime;
 
 	public DsEvent() {
-		// TODO Auto-generated constructor stub
 	}
 	
 }

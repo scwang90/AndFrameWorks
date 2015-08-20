@@ -14,7 +14,6 @@ public class UniqueKernel
 	private AfJsonCache mPrivateUnique = null;
 
 	public UniqueKernel(Context context){
-		// TODO Auto-generated constructor stub
 		mDurableUnique = UniqueCache.getInstance(CACHE_NAME);
 		mPrivateUnique = AfPrivateCaches.getInstance(CACHE_NAME);
 	}

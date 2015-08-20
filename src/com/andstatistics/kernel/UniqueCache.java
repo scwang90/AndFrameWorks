@@ -13,7 +13,6 @@ public class UniqueCache extends AfJsonCache
 	
 	private UniqueCache(String name) throws Exception {
 		super(AfApplication.getApp(),getPath(), name);
-		// TODO Auto-generated constructor stub
 	}
 
 	/**
@@ -25,7 +24,6 @@ public class UniqueCache extends AfJsonCache
 			try {
 				mDurableCache = new UniqueCache(name);
 			} catch (Throwable e) {
-				// TODO: handle exception
 //				AfExceptionHandler.handler(e, "获取持久缓存失败");
 			}
 		}
@@ -33,7 +31,6 @@ public class UniqueCache extends AfJsonCache
 	}
 
 	private static String getPath() {
-		// TODO Auto-generated method stub
 		File workspace = null;
 		if (Environment.getExternalStorageState().equals(Environment.MEDIA_MOUNTED)) {
 			String sdcard = Environment.getExternalStorageDirectory().getPath();

@@ -76,7 +76,6 @@ public class DsExceptional implements Serializable {
 	public Integer status;
 
 	public DsExceptional() {
-		// TODO Auto-generated constructor stub
 	}
 	
 	public static DsExceptional from(Exceptional exceptional) {

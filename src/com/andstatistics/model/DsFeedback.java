@@ -66,7 +66,6 @@ public class DsFeedback implements Serializable {
 	public String bug;
 
 	public DsFeedback() {
-		// TODO Auto-generated constructor stub
 	}
 	
 }

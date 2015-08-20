@@ -46,7 +46,6 @@ public class DsDevice implements Serializable {
 	public java.util.Date updateTime;
 
 	public DsDevice() {
-		// TODO Auto-generated constructor stub
 	}
 
 	public DsDevice(DsApplication application) {
