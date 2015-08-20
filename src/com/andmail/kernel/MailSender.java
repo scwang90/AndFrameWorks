@@ -19,17 +19,14 @@ public class MailSender extends AfTask{
 	protected MailModel mModel;
 
 	public MailSender(String subject, String content) {
-		// TODO Auto-generated constructor stub
 		this(defaultModel,defaultModel.username,subject,content);
 	}
 
 	public MailSender(MailModel model,String subject, String content) {
-		// TODO Auto-generated constructor stub
 		this(model,model.username,subject,content);
 	}
 
 	public MailSender(MailModel model,String sendto,String subject, String content) {
-		// TODO Auto-generated constructor stub
 		mModel = model;
 		mSubject = subject;
 		mContent = content;
@@ -45,13 +42,11 @@ public class MailSender extends AfTask{
 	}
 
 	public void sendTask() {
-		// TODO Auto-generated method stub
 		AfApplication.postTask(this);
 	}
 
 	@Override
 	protected void onWorking(Message msg) throws Exception {
-		// TODO Auto-generated method stub
 		this.send();
 	}
 

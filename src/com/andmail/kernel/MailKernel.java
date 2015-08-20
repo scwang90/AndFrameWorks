@@ -33,7 +33,6 @@ public class MailKernel {
 		DEFAULT("imap"),IMAP("imap"),POP3("pop3");
 		public String value;
 		private Protocol(String value) {
-			// TODO Auto-generated constructor stub
 			this.value = value;
 		}
 	}
@@ -42,7 +41,6 @@ public class MailKernel {
 	protected Properties mProperties = new Properties();   
 	
 	public MailKernel(MailFolder folder) {
-		// TODO Auto-generated constructor stub
 		mMailFolder = folder;
 		setProtocol(Protocol.DEFAULT);
 	}
@@ -52,7 +50,6 @@ public class MailKernel {
 	}
 
 	protected void setUseSSLFactory() {
-		// TODO Auto-generated method stub
 		mProperties.setProperty("mail.imap.socketFactory.class", SSL_FACTORY);        
 		mProperties.setProperty("mail.imap.port", "993");
 //		mProperties.setProperty("mail.imap.socketFactory.port", "993");     
@@ -77,7 +74,6 @@ public class MailKernel {
 	
 
 	protected List<Part> getHtmlPart(Message message) throws Exception {
-		// TODO Auto-generated method stub
 		List<Part> ltParts = new ArrayList<Part>();
 		Object o = message.getContent();
 		if(o instanceof Multipart) {
@@ -89,7 +85,6 @@ public class MailKernel {
 	}
 
 	protected void getHtmlPartMultipart(Multipart multipart, List<Part> ltParts) throws Exception {
-		// TODO Auto-generated method stub
 	    for (int j = 0, n = multipart.getCount(); j < n; j++) {
 	        Part part = multipart.getBodyPart(j);
 	        if (part.getContent() instanceof Multipart) {
@@ -102,7 +97,6 @@ public class MailKernel {
 	}
 
 	protected void getHtmlPartPart(Part part, List<Part> ltParts) throws Exception {
-		// TODO Auto-generated method stub
 		String contenttype = part.getContentType().toLowerCase(Locale.ENGLISH);
 		if (contenttype.indexOf("text/html") >= 0) {
 			ltParts.add(part);

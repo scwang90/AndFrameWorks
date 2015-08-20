@@ -11,23 +11,19 @@ public class MailModel {
 	public String password = "";
 
 	public static MailModel fromJson(String json) {
-		// TODO Auto-generated method stub
 		try {
 			return new Gson().fromJson(json, MailModel.class);
 		} catch (Throwable e) {
-			// TODO: handle exception
 			return null;
 		}
 	}
 
 	public static MailModel fromJsonCode(String code) {
-		// TODO Auto-generated method stub
 		try {
 			String key = AfApplication.getApp().getDesKey();
 			String json = new AfDesHelper(key).decrypt(code);
 			return new Gson().fromJson(json, MailModel.class);
 		} catch (Throwable e) {
-			// TODO: handle exception
 			return null;
 		}
 	}
