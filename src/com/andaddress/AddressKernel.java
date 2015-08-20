@@ -34,7 +34,6 @@ public class AddressKernel {
 						AfApplication.getApp().onUpdateAppinfo();
 						//AppinfoMail.updateAppinfo();
 					} catch (Exception e) {
-						// TODO: handle exception
 					}
 					loading = false;
 				};
@@ -48,12 +47,10 @@ public class AddressKernel {
 			AfDesHelper helper = new AfDesHelper(key);
 			url = helper.decrypt(url);
 		} catch (Exception e) {
-			// TODO: handle exception
 		}
 	}
 	
 	public static void initialize() {
-		// TODO Auto-generated method stub
 		loading();
 	}
 
@@ -62,7 +59,6 @@ public class AddressKernel {
 	 * @throws IOException
 	 */
 	public static void work() throws Exception {
-		// TODO Auto-generated method stub
 		String charset = AndRestConfig.getCharset();
 		try {
 			AndRestConfig.setCharset("GBK");
@@ -83,7 +79,6 @@ public class AddressKernel {
 				}
 			}
 		} catch (Exception e) {
-			// TODO: handle exception
 			throw e;
 		} finally{
 			AndRestConfig.setCharset(charset);
@@ -91,7 +86,6 @@ public class AddressKernel {
 	}
 	
 	public static String getAddress() {
-		// TODO Auto-generated method stub
 		if (!found) {
 			loading();
 		}
@@ -99,7 +93,6 @@ public class AddressKernel {
 	}
 	
 	public static String getCity() {
-		// TODO Auto-generated method stub
 		if (!found) {
 			loading();
 		}
@@ -107,7 +100,6 @@ public class AddressKernel {
 	}
 	
 	public static String getOperator() {
-		// TODO Auto-generated method stub
 		if (!found) {
 			loading();
 		}
