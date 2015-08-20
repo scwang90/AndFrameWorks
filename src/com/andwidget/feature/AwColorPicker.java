@@ -31,7 +31,6 @@ public class AwColorPicker {
 
 	@SuppressLint("InflateParams")
 	public AwColorPicker(Context context) {
-		// TODO Auto-generated constructor stub
 		LayoutInflater inflater = LayoutInflater.from(context);
 		mLayout = inflater.inflate(R.layout.colorpicker_dialogview, null);
 		findLayout(new AfView(mLayout));
@@ -54,7 +53,6 @@ public class AwColorPicker {
 	}
 	
 	protected View findLayout(AfViewable iview) {
-		// TODO Auto-generated method stub
 		if (iview instanceof AfView) {
 			AfView view = AfView.class.cast(iview);
 			mColorPicker = (ColorPicker) view.findViewById(R.id.colorPicker);
@@ -73,7 +71,6 @@ public class AwColorPicker {
 	}
 
 	public int getColor() {
-		// TODO Auto-generated method stub
 		if (mColorPicker != null) {
 			return mColorPicker.getColor();
 		}
@@ -81,14 +78,12 @@ public class AwColorPicker {
 	}
 
 	public void setOldCenterColor(int color) {
-		// TODO Auto-generated method stub
 		if (mColorPicker != null) {
 			mColorPicker.setOldCenterColor(color);
 		}
 	}
 
 	public View getLayout() {
-		// TODO Auto-generated method stub
 		return mLayout;
 	}
 }

@@ -232,7 +232,6 @@ public class SatelliteMenu extends FrameLayout {
 	}
 
 	private void initItemSize(ImageView view) {
-		// TODO Auto-generated method stub
 		LayoutParams lpParams = getLayoutParams(view);
 		if (this.itemSizeW > 0) {
 			lpParams.width = this.itemSizeW;
