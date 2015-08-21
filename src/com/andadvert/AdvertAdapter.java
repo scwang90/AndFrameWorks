@@ -416,7 +416,7 @@ public class AdvertAdapter {
 		
 		public void onCheckOnlineHideFail(Throwable throwable) {
 			AdvertAdapter.this.onCheckOnlineHideFail(throwable);
-		};
+		}
 	};
 	
 }
