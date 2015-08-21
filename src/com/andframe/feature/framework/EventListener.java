@@ -29,18 +29,18 @@ import android.widget.AdapterView;
 import android.widget.AdapterView.OnItemClickListener;
 import android.widget.AdapterView.OnItemLongClickListener;
 import android.widget.AdapterView.OnItemSelectedListener;
+import android.widget.CompoundButton;
 
-public class EventListener implements OnClickListener, OnLongClickListener, OnItemClickListener, OnItemSelectedListener,OnItemLongClickListener {
+public class EventListener implements OnClickListener, OnLongClickListener, OnItemClickListener,OnItemLongClickListener, CompoundButton.OnCheckedChangeListener {
 
 	private Object handler;
 	
 	private Method clickMethod;
 	private Method longClickMethod;
 	private Method itemClickMethod;
-	private Method itemSelectMethod;
-	private Method nothingSelectedMethod;
 	private Method itemLongClickMehtod;
-	
+	private Method checkedChangedMehtod;
+
 	public EventListener(Object handler) {
 		this.handler = handler;
 	}
@@ -55,91 +55,56 @@ public class EventListener implements OnClickListener, OnLongClickListener, OnIt
 		return this;
 	}
 
-	public OnItemLongClickListener itemLongClick(Method method){
-		this.itemLongClickMehtod = method;
-		return this;
-	}
-
 	public OnItemClickListener itemClick(Method method){
 		this.itemClickMethod = method;
 		return this;
 	}
 
-	public EventListener select(Method method){
-		this.itemSelectMethod = method;
+	public OnItemLongClickListener itemLongClick(Method method){
+		this.itemLongClickMehtod = method;
 		return this;
 	}
 
-	public EventListener noSelect(Method method){
-		this.nothingSelectedMethod = method;
+	public CompoundButton.OnCheckedChangeListener checkedChange(Method method) {
+		this.checkedChangedMehtod = method;
 		return this;
 	}
 
-	public OnClickListener click(String method){
-		this.clickMethod = AfReflecter.getMethod(handler.getClass(), method, new Class[]{View.class});
-		return this;
+	public void onClick(View v) {
+		invokeMethod(handler, clickMethod, v);
 	}
-	
-	public OnLongClickListener longClick(String method){
-		this.longClickMethod = AfReflecter.getMethod(handler.getClass(), method, new Class[]{View.class});
-		return this;
-	}
-	
-	public OnItemLongClickListener itemLongClick(String method){
-		this.itemLongClickMehtod = AfReflecter.getMethod(handler.getClass(), method, new Class[]{AdapterView.class,View.class,int.class,long.class});
-		return this;
-	}
-	
-	public OnItemClickListener itemClick(String method){
-		this.itemClickMethod = AfReflecter.getMethod(handler.getClass(), method, new Class[]{AdapterView.class,View.class,int.class,long.class});
-		return this;
-	}
-	
-	public EventListener select(String method){
-		this.itemSelectMethod = AfReflecter.getMethod(handler.getClass(), method, new Class[]{AdapterView.class,View.class,int.class,long.class});
-		return this;
-	}
-	
-	public EventListener noSelect(String method){
-		this.nothingSelectedMethod = AfReflecter.getMethod(handler.getClass(), method, new Class[]{AdapterView.class});
-		return this;
-	}
-	
+
 	public boolean onLongClick(View v) {
 		return (boolean)invokeMethod(handler, longClickMethod, v);
 	}
 
-	public boolean onItemLongClick(AdapterView<?> arg0, View arg1, int arg2,long arg3) {
-		return (boolean)invokeMethod(handler, itemLongClickMehtod, arg0, arg1, arg2, arg3);
+	@Override
+	public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
+		invokeMethod(handler, itemClickMethod, parent, view, parent, id);
 	}
-	
-	public void onItemSelected(AdapterView<?> arg0, View arg1, int arg2,long arg3) {
-		invokeMethod(handler, itemSelectMethod, arg0, arg1, arg2, arg3);
+
+	@Override
+	public boolean onItemLongClick(AdapterView<?> parent, View view, int position, long id) {
+		return (boolean)invokeMethod(handler, itemLongClickMehtod, parent, view, position, id);
 	}
-	
-	public void onNothingSelected(AdapterView<?> arg0) {
-		invokeMethod(handler, nothingSelectedMethod, arg0);
-	}
-	
-	public void onItemClick(AdapterView<?> arg0, View arg1, int arg2, long arg3) {
-		invokeMethod(handler, itemClickMethod, arg0, arg1, arg2, arg3);
-	}
-	
-	public void onClick(View v) {
-		invokeMethod(handler, clickMethod, v);
+
+	@Override
+	public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
+		invokeMethod(handler, checkedChangedMehtod, buttonView,isChecked);
 	}
 
 	private Object invokeMethod(Object handler, Method method, Object... params) {
 		if (handler != null && method != null){
 			try {
 				return method.invoke(handler, params);
-			}catch(Exception e){
+			}catch(Throwable e){
 				e.printStackTrace();
 				AfExceptionHandler.handler(e, "EventListener.invokeMethod");
 			}
 		}
 		return null;
 	}
+
 
 }
 

@@ -1,19 +1,45 @@
 package com.andframe.layoutbind.framework;
 
+import android.app.Application;
 import android.view.View;
 
 import com.andframe.activity.framework.AfViewable;
 import com.andframe.annotation.inject.interpreter.Injecter;
+import com.andframe.application.AfApplication;
 import com.andframe.application.AfExceptionHandler;
 import com.andframe.feature.AfViewBinder;
 
 public class AfViewModule extends AfViewDelegate implements AfViewable,IViewModule{
 
-	public AfViewModule(AfViewable view, int id) {
+	public static <T extends AfViewModule> T init(Class<T> clazz,AfViewable view,int viewId){
+		try {
+			T module = clazz.newInstance();
+			AfViewModule viewModule = module;
+			viewModule.setTarget(view.findViewById(viewId));
+			return module;
+		} catch (Throwable e) {
+			throw new RuntimeException(e);
+		}
+	}
+
+	protected AfViewModule(){
+		super(new View(AfApplication.getApp()));
+	}
+
+	protected AfViewModule(AfViewable view, int id) {
 		super(new View(view.getContext()));
 		target = view.findViewById(id);
 	}
-	
+
+	private void setTarget(View target) {
+		this.target = target;
+		this.onCreated(target);
+	}
+
+	protected void onCreated(View target) {
+		this.doInject();
+	}
+
 	protected void doInject(){
 		if(isValid()){
 			AfViewBinder binder = new AfViewBinder(this);

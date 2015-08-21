@@ -8,13 +8,14 @@ import java.lang.annotation.Target;
 
 /**
  * 注解式绑定控件<br>
-    @ BindLongClick(R.id.viewId)
-    public boolean onLongClick(View v) {
+    AdapterView.OnItemClickListener
+    @ BindItemLongClick(R.id.viewId)
+    public boolean onItemLongClick(AdapterView<?> parent, View view, int position, long id) {
     }
  */
-@Target(ElementType.FIELD)
+@Target(ElementType.METHOD)
 @Retention(RetentionPolicy.RUNTIME)
-public @interface BindLongClick {
+public @interface BindItemLongClick {
     public int[] value();
 }
 

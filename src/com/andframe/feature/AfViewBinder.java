@@ -1,24 +1,30 @@
 package com.andframe.feature;
 
-import java.lang.annotation.Annotation;
-import java.lang.reflect.Field;
-import java.lang.reflect.Method;
-
 import android.view.View;
 import android.view.View.OnClickListener;
-import android.widget.AbsListView;
+import android.widget.AdapterView;
+import android.widget.CompoundButton;
+import android.widget.ListView;
 
 import com.andframe.activity.framework.AfView;
 import com.andframe.activity.framework.AfViewable;
+import com.andframe.annotation.view.BindCheckedChange;
 import com.andframe.annotation.view.BindClick;
+import com.andframe.annotation.view.BindItemClick;
+import com.andframe.annotation.view.BindItemLongClick;
 import com.andframe.annotation.view.BindLongClick;
 import com.andframe.annotation.view.BindView;
-import com.andframe.annotation.view.Select;
 import com.andframe.application.AfExceptionHandler;
 import com.andframe.feature.framework.EventListener;
 import com.andframe.layoutbind.framework.AfViewDelegate;
 import com.andframe.util.java.AfReflecter;
-import com.andframe.util.java.AfStringUtil;
+
+import java.lang.reflect.Field;
+import java.lang.reflect.Method;
+import java.lang.reflect.Array;
+import java.util.ArrayList;
+import java.util.List;
+
 /**
  * 控件绑定器
  * @author 树朾
@@ -46,9 +52,12 @@ public class AfViewBinder {
 	}
 	
 	public void doBind(AfViewable root) {
-		doBindView(root);
 		doBindClick(root);
 		doBindLongClick(root);
+		doBindItemClick(root);
+		doBindItemLongClick(root);
+		doBindCheckedChange(root);
+		doBindView(root);
 	}
 
 	private Class<?> getStopType(){
@@ -62,9 +71,10 @@ public class AfViewBinder {
 		for (Method method : AfReflecter.getMethodAnnotation(mHandler.getClass(), getStopType(), BindClick.class)) {
 			try {
 				BindClick bind = method.getAnnotation(BindClick.class);
-				int viewId = bind.value();
-				View view = root.findViewById(viewId);
-				view.setOnClickListener(new EventListener(mHandler).click(method));
+				for (int id : bind.value()){
+					View view = root.findViewById(id);
+					view.setOnClickListener(new EventListener(mHandler).click(method));
+				}
 			} catch (Exception e) {
 				AfExceptionHandler.handler(e,TAG("doBindLongClick.")+ method.getName());
 			}
@@ -75,9 +85,58 @@ public class AfViewBinder {
 		for (Method method : AfReflecter.getMethodAnnotation(mHandler.getClass(), getStopType(), BindLongClick.class)) {
 			try {
 				BindLongClick bind = method.getAnnotation(BindLongClick.class);
-				int viewId = bind.value();
-				View view = root.findViewById(viewId);
-				view.setOnLongClickListener(new EventListener(mHandler).longClick(method));
+				for (int id : bind.value()){
+					View view = root.findViewById(id);
+					view.setOnLongClickListener(new EventListener(mHandler).longClick(method));
+				}
+			} catch (Exception e) {
+				AfExceptionHandler.handler(e,TAG("doBindLongClick.")+ method.getName());
+			}
+		}
+	}
+
+	public void doBindItemClick(AfViewable root) {
+		for (Method method : AfReflecter.getMethodAnnotation(mHandler.getClass(), getStopType(), BindItemClick.class)) {
+			try {
+				BindItemClick bind = method.getAnnotation(BindItemClick.class);
+				for (int id : bind.value()){
+					AdapterView view = root.findViewByID(id);
+					if (view != null){
+						view.setOnItemClickListener(new EventListener(mHandler).itemClick(method));
+					}
+				}
+			} catch (Exception e) {
+				AfExceptionHandler.handler(e,TAG("doBindLongClick.")+ method.getName());
+			}
+		}
+	}
+
+	public void doBindItemLongClick(AfViewable root) {
+		for (Method method : AfReflecter.getMethodAnnotation(mHandler.getClass(), getStopType(), BindItemLongClick.class)) {
+			try {
+				BindItemLongClick bind = method.getAnnotation(BindItemLongClick.class);
+				for (int id : bind.value()){
+					AdapterView view = root.findViewByID(id);
+					if (view != null){
+						view.setOnItemLongClickListener(new EventListener(mHandler).itemLongClick(method));
+					}
+				}
+			} catch (Exception e) {
+				AfExceptionHandler.handler(e,TAG("doBindLongClick.")+ method.getName());
+			}
+		}
+	}
+
+	public void doBindCheckedChange(AfViewable root) {
+		for (Method method : AfReflecter.getMethodAnnotation(mHandler.getClass(), getStopType(), BindCheckedChange.class)) {
+			try {
+				BindCheckedChange bind = method.getAnnotation(BindCheckedChange.class);
+				for (int id : bind.value()){
+					CompoundButton view = root.findViewByID(id);
+					if (view != null){
+						view.setOnCheckedChangeListener(new EventListener(mHandler).checkedChange(method));
+					}
+				}
 			} catch (Exception e) {
 				AfExceptionHandler.handler(e,TAG("doBindLongClick.")+ method.getName());
 			}
@@ -88,62 +147,31 @@ public class AfViewBinder {
 		for (Field field : AfReflecter.getFieldAnnotation(mHandler.getClass(), getStopType(), BindView.class)) {
 			try {
 				BindView bind = field.getAnnotation(BindView.class);
-				int viewId = bind.value();
-				boolean clickLis = bind.click();
-				View view = root.findViewById(viewId);
-
-				if (clickLis && mHandler instanceof OnClickListener) {
-					view.setOnClickListener((OnClickListener)mHandler);
+				List<View> list = new ArrayList<View>();
+				for (int id : bind.value()){
+					int viewId = id;
+					View view = root.findViewById(viewId);
+					if (view != null){
+						if (bind.click() && mHandler instanceof OnClickListener) {
+							view.setOnClickListener((OnClickListener) mHandler);
+						}
+						list.add(view);
+					}
 				}
-
-				setOnClickListener(view,bind.onClick());
-				setLongClickListener(view,bind.longClick());
-				setItemClickListener(view,bind.itemClick());
-				setItemLongClickListener(view,bind.itemLongClick());
-
-				Select select = bind.select();
-				if(AfStringUtil.isNotEmpty(select.selected())){
-					setViewSelectListener(view,select.selected(),select.noSelected());
+				if (list.size() > 0){
+					field.setAccessible(true);
+					if (field.getType().isArray()){
+						Class<?> componentType = field.getType().getComponentType();
+						Object[] array = list.toArray((Object[]) Array.newInstance(componentType, list.size()));
+						field.set(mHandler, array);
+					} else {
+						field.set(mHandler, list.get(0));
+					}
 				}
-				field.setAccessible(true);
-				field.set(mHandler, view);
 			} catch (Exception e) {
 				AfExceptionHandler.handler(e,TAG("doBindView.")+ field.getName());
 			}
 		}
 	}
 
-	private void setViewSelectListener(View view, String selected,String noSelected) {
-		if(view instanceof AbsListView){
-			((AbsListView)view).setOnItemSelectedListener(new EventListener(this).select(selected).noSelect(noSelected));
-		}
-	}
-
-	private void setItemLongClickListener(View view, String method) {
-		if (AfStringUtil.isNotEmpty(method) && view instanceof AbsListView) {
-			AbsListView listView = AbsListView.class.cast(view);
-			listView.setOnItemLongClickListener(new EventListener(mHandler).itemLongClick(method));
-		}
-	}
-
-	private void setItemClickListener(View view, String method) {
-		if (AfStringUtil.isNotEmpty(method) && view instanceof AbsListView) {
-			AbsListView listView = AbsListView.class.cast(view);
-			listView.setOnItemClickListener(new EventListener(mHandler).itemClick(method));
-		}
-	}
-
-	private void setLongClickListener(View view, String method) {
-		if (AfStringUtil.isNotEmpty(method)) {
-			view.setOnLongClickListener(new EventListener(mHandler).longClick(method));
-		}
-	}
-
-	private void setOnClickListener(View view, String method) {
-		if (AfStringUtil.isNotEmpty(method)) {
-			view.setOnClickListener(new EventListener(mHandler).click(method));
-		}
-	}
-
-	
 }

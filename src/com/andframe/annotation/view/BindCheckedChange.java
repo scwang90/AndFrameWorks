@@ -8,13 +8,14 @@ import java.lang.annotation.Target;
 
 /**
  * 注解式绑定控件<br>
-    @ BindLongClick(R.id.viewId)
-    public boolean onLongClick(View v) {
+    CompoundButton.OnCheckedChangeListener
+    @ BindCheckedChange(R.id.viewId)
+    public void onCheckedChanged(CompoundButton button, boolean isChecked) {
     }
  */
-@Target(ElementType.FIELD)
+@Target(ElementType.METHOD)
 @Retention(RetentionPolicy.RUNTIME)
-public @interface BindLongClick {
+public @interface BindCheckedChange {
     public int[] value();
 }
 

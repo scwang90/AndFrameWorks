@@ -7,6 +7,8 @@ import android.view.ViewGroup;
 import android.view.ViewParent;
 
 import com.andframe.application.AfExceptionHandler;
+import com.andframe.layoutbind.framework.AfViewDelegate;
+
 /**
  * AfView 框架视图类
  * @author 树朾
@@ -36,6 +38,7 @@ public class AfView implements AfViewable {
 		}
 		return null;
 	}
+
 	@Override
 	public Context getContext() {
 		if (mRootView != null) {
