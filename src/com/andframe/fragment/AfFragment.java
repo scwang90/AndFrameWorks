@@ -291,6 +291,7 @@ public abstract class AfFragment extends Fragment implements AfPageable {
 	 * 查询系统数据变动
 	 */
 	public void onQueryChanged() {
+		new Injecter(this).doInjectQueryChanged();
 	}
 
 	

@@ -4,10 +4,10 @@ import android.view.View;
 import android.view.View.OnClickListener;
 import android.widget.AdapterView;
 import android.widget.CompoundButton;
-import android.widget.ListView;
 
 import com.andframe.activity.framework.AfView;
 import com.andframe.activity.framework.AfViewable;
+import com.andframe.annotation.view.BindAfterViews;
 import com.andframe.annotation.view.BindCheckedChange;
 import com.andframe.annotation.view.BindClick;
 import com.andframe.annotation.view.BindItemClick;
@@ -19,11 +19,16 @@ import com.andframe.feature.framework.EventListener;
 import com.andframe.layoutbind.framework.AfViewDelegate;
 import com.andframe.util.java.AfReflecter;
 
+import java.lang.reflect.Array;
 import java.lang.reflect.Field;
 import java.lang.reflect.Method;
-import java.lang.reflect.Array;
 import java.util.ArrayList;
+import java.util.Collections;
+import java.util.Comparator;
 import java.util.List;
+import java.util.Map;
+
+;
 
 /**
  * 控件绑定器
@@ -58,6 +63,7 @@ public class AfViewBinder {
 		doBindItemLongClick(root);
 		doBindCheckedChange(root);
 		doBindView(root);
+		doBindAfterView(root);
 	}
 
 	private Class<?> getStopType(){
@@ -171,6 +177,67 @@ public class AfViewBinder {
 			} catch (Exception e) {
 				AfExceptionHandler.handler(e,TAG("doBindView.")+ field.getName());
 			}
+		}
+	}
+
+	private void doBindAfterView(AfViewable root) {
+		List<SimpleEntry> methods = new ArrayList<SimpleEntry>();
+		for (Method method : AfReflecter.getMethodAnnotation(mHandler.getClass(), getStopType(), BindAfterViews.class)) {
+			BindAfterViews annotation = method.getAnnotation(BindAfterViews.class);
+			methods.add(new SimpleEntry(method,annotation));
+		}
+		Collections.sort(methods, new Comparator<SimpleEntry>() {
+			@Override
+			public int compare(SimpleEntry lhs, SimpleEntry rhs) {
+				return lhs.getValue().value()-rhs.getValue().value();
+			}
+		});
+		for (SimpleEntry entry : methods) {
+			try {
+				invokeMethod(mHandler,entry.getKey());
+			}catch(Throwable e){
+				e.printStackTrace();
+				if (!entry.getValue().exception()){
+					throw new RuntimeException("调用视图初始化失败",e);
+				}
+				AfExceptionHandler.handler(e, TAG("doBindView.")+entry.getKey().getName());
+			}
+		}
+	}
+
+	private Object invokeMethod(Object handler, Method method, Object... params) throws Exception {
+		if (handler != null && method != null){
+			method.setAccessible(true);
+			return method.invoke(handler, params);
+		}
+		return null;
+	}
+	public static class SimpleEntry implements Map.Entry<Method,BindAfterViews> {
+
+		private final Method key;
+		private BindAfterViews value;
+
+		public SimpleEntry(Method theKey, BindAfterViews theValue) {
+			key = theKey;
+			value = theValue;
+		}
+
+		public Method getKey() {
+			return key;
+		}
+
+		public BindAfterViews getValue() {
+			return value;
+		}
+
+		public BindAfterViews setValue(BindAfterViews object) {
+			BindAfterViews result = value;
+			value = object;
+			return result;
+		}
+
+		@Override public String toString() {
+			return key + "=" + value;
 		}
 	}
 

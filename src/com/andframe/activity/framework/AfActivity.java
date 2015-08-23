@@ -252,6 +252,7 @@ public abstract class AfActivity extends FragmentActivity implements AfPageable,
 	 * 查询系统数据变动
 	 */
 	public void onQueryChanged() {
+		new Injecter(this).doInjectQueryChanged();
 	}
 
 	/**

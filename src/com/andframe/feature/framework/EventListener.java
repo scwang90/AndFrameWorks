@@ -15,21 +15,17 @@
  */
 package com.andframe.feature.framework;
 
-import java.lang.reflect.InvocationTargetException;
-import java.lang.reflect.Method;
-
-import com.andframe.application.AfExceptionHandler;
-import com.andframe.exception.AfException;
-import com.andframe.util.java.AfReflecter;
-
 import android.view.View;
 import android.view.View.OnClickListener;
 import android.view.View.OnLongClickListener;
 import android.widget.AdapterView;
 import android.widget.AdapterView.OnItemClickListener;
 import android.widget.AdapterView.OnItemLongClickListener;
-import android.widget.AdapterView.OnItemSelectedListener;
 import android.widget.CompoundButton;
+
+import com.andframe.application.AfExceptionHandler;
+
+import java.lang.reflect.Method;
 
 public class EventListener implements OnClickListener, OnLongClickListener, OnItemClickListener,OnItemLongClickListener, CompoundButton.OnCheckedChangeListener {
 
@@ -80,7 +76,7 @@ public class EventListener implements OnClickListener, OnLongClickListener, OnIt
 
 	@Override
 	public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
-		invokeMethod(handler, itemClickMethod, parent, view, parent, id);
+		invokeMethod(handler, itemClickMethod, parent, view, position, id);
 	}
 
 	@Override
@@ -96,6 +92,7 @@ public class EventListener implements OnClickListener, OnLongClickListener, OnIt
 	private Object invokeMethod(Object handler, Method method, Object... params) {
 		if (handler != null && method != null){
 			try {
+				method.setAccessible(true);
 				return method.invoke(handler, params);
 			}catch(Throwable e){
 				e.printStackTrace();

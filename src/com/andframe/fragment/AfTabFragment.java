@@ -65,7 +65,7 @@ public abstract class AfTabFragment extends AfFragment{
 	 * 第一次切换到本页面
 	 */
 	protected void onFirstSwitchOver() {
-
+		super.onFirstSwitchOver();
 	}
 
 	/**
@@ -74,20 +74,20 @@ public abstract class AfTabFragment extends AfFragment{
 	 *            切换序号
 	 */
 	protected void onSwitchOver(int count) {
-
+		super.onSwitchOver(count);
 	}
 
 	/**
 	 * 离开本页面
 	 */
 	protected void onSwitchLeave() {
-
+		super.onSwitchLeave();
 	}
 
 	/**
 	 * 查询系统数据变动
 	 */
 	public void onQueryChanged() {
-		
+		super.onQueryChanged();
 	}
 }

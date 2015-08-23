@@ -9,4 +9,5 @@ import java.lang.annotation.Target;
 @Retention(RetentionPolicy.RUNTIME)
 public @interface InjectExtra {
     public String value();
+    public boolean necessary() default false;
 }
