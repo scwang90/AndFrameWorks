@@ -11,7 +11,6 @@ public class Deploy extends AVObject implements Serializable {
 	/**
 	 * 版本配置
 	 */
-	public static final String Verson = "Verson";
 	public static final String Name = "Name";
 	public static final String Version = "Version";
 	public static final String BusinessModel = "BusinessModel";
