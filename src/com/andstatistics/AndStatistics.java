@@ -10,6 +10,7 @@ import com.andrestrequest.http.DefaultResponseHandler;
 import com.andstatistics.kernel.DeviceKernel;
 import com.andstatistics.kernel.UniqueKernel;
 import com.andstatistics.model.DsApplication;
+import com.andstatistics.model.DsDeploy;
 import com.andstatistics.model.DsDevice;
 import com.andstatistics.model.DsEvent;
 import com.andstatistics.model.DsExceptional;
@@ -22,18 +23,34 @@ import com.andstatistics.thread.FeedbackTask;
 /**
  * Created by SCWANG on 2015-07-29.
  */
-public class AndStatistics {
+public class AndStatistics implements LoadDeployListener {
+
+    @SuppressWarnings("serial")
+    public static DsDeploy Deploy = new DsDeploy(){{remark = ("default");}};
+
+    @Override
+    public void onLoadDeployFailed() {
+        AfApplication.getApp().onEvent(StatisticsEvent.STATISTICS_DEPLOY_FAILED);
+    }
+
+    @Override
+    public void onLoadDeployFinish(DsDeploy deploy) {
+        AfApplication.getApp().onEvent(StatisticsEvent.STATISTICS_DEPLOY_FINISHED,deploy,""+deploy.business);
+    }
 
     public interface Helper{
         DsApplication buildApplication(Context context, String appkey);
         DsDevice buildDevice(Context context, DsApplication application);
         DsEvent buildEvent(Context context, DsApplication application, DsDevice device);
+        String getAppkey();
     }
 
     private static DsDevice device;
+
     private static DsApplication application;
     private static Context appContext;
     private static String channel;
+    private static String defchannel;
 
     public static void initInstance(Context context,String appkey,String channel){
         if (appContext == null) {
@@ -51,6 +68,17 @@ public class AndStatistics {
             appContext = null;
             application = null;
             device = null;
+        }
+    }
+
+    public static void initializeDeploy(Context context,String defchannel,String channel){
+        AndStatistics.channel = channel;
+        AndStatistics.defchannel = defchannel;
+    }
+
+    public static void deploy(Context context,LoadDeployListener listener){
+        if (channel != null && defchannel != null) {
+            DeployCheckTask.deploy(context, listener,defchannel,channel);
         }
     }
 
@@ -137,6 +165,14 @@ public class AndStatistics {
             event.appId = application.keyId;
             event.uniqueId = device.uniqueId;
             return event;
+        }
+
+        @Override
+        public String getAppkey() {
+            if (application != null){
+                return application.keyId;
+            }
+            return null;
         }
     };
 
