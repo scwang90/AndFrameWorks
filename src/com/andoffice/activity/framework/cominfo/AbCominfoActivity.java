@@ -1,10 +1,5 @@
 package com.andoffice.activity.framework.cominfo;
 
-import java.io.File;
-import java.util.ArrayList;
-import java.util.Calendar;
-import java.util.List;
-
 import android.annotation.SuppressLint;
 import android.app.AlertDialog;
 import android.app.AlertDialog.Builder;
@@ -47,6 +42,11 @@ import com.andoffice.bean.Permission;
 import com.andoffice.domain.IDomain;
 import com.andoffice.domain.impl.ImplDomain;
 import com.andoffice.layoutbind.ModuleTitlebar;
+
+import java.io.File;
+import java.util.ArrayList;
+import java.util.Calendar;
+import java.util.List;
 
 public abstract class AbCominfoActivity extends AfActivity implements
 		View.OnClickListener, OnCheckedChangeListener{
@@ -166,7 +166,6 @@ public abstract class AbCominfoActivity extends AfActivity implements
 
 	/**
 	 * 不可编辑的 如果是编辑模式的话 返回 Item.DISABLE
-	 * @param mode 
 	 * @param type
 	 * @return
 	 */

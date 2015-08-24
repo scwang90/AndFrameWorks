@@ -1,26 +1,32 @@
 package com.andoffice.domain.impl;
 
-import java.util.ArrayList;
-import java.util.LinkedHashMap;
-import java.util.List;
-import java.util.UUID;
-
 import com.andframe.application.AfApplication;
 import com.andframe.bean.Page;
 import com.andframe.helper.java.AfSQLHelper;
 import com.andframe.model.framework.AfModel;
 import com.andframe.util.java.AfReflecter;
-import com.andsoap.domain.AfSoapDomain;
 import com.andoffice.domain.IDomain;
 
+import java.util.ArrayList;
+import java.util.LinkedHashMap;
+import java.util.List;
+import java.util.UUID;
+
+//import com.andsoap.domain.AfSoapDomain;
+
 public class ImplDomain<T> 
-		extends AfSoapDomain<T, UUID> implements IDomain<T> {
+		/*extends AfSoapDomain<T, UUID> */implements IDomain<T> {
 
 	protected UUID AuthIdValue = UUID.fromString("eb74b4b4-4607-486b-9f78-c46e31dee30a");//UUIDUtil.Empty;
 	protected static LinkedHashMap<String, Object> mltTestMap = new LinkedHashMap<String, Object>();
 
 	protected List<T> buildTestData(){
 		return new ArrayList<T>();
+	}
+	protected Class<T> mClass;
+
+	public ImplDomain(){
+		mClass = (Class<T>)AfReflecter.getActualTypeArgument(this,ImplDomain.class,0);
 	}
 	
 	@SuppressWarnings("unchecked")
@@ -83,16 +89,10 @@ public class ImplDomain<T>
 	
 
 	public ImplDomain(Class<T> clazz) {
-		super(clazz);
 		// TODO Auto-generated constructor stub
+		mClass = clazz;
 	}
 
-	public ImplDomain(Class<T> clazz,String departid) {
-		super(clazz);
-		// TODO Auto-generated constructor stub
-		
-	}
-	
 	@Override
 	public boolean Insert(T model) throws Exception {
 		// TODO Auto-generated method stub
@@ -101,7 +101,7 @@ public class ImplDomain<T>
 			getTestData().add(model);
 			return true;
 		}
-		return super.Insert(AuthIdValue, model);
+		return false;//super.Insert(AuthIdValue, model);
 	}
 
 	@Override
@@ -122,7 +122,7 @@ public class ImplDomain<T>
 			}
 			return false;
 		}
-		return super.Update(AuthIdValue, model);
+		return false;//super.Update(AuthIdValue, model);
 	}
 
 	@Override
@@ -143,7 +143,7 @@ public class ImplDomain<T>
 			}
 			return false;
 		}
-		return super.Delete(AuthIdValue, model);
+		return false;//super.Delete(AuthIdValue, model);
 	}
 
 	@Override
@@ -169,7 +169,7 @@ public class ImplDomain<T>
 			}
 			return false;
 		}
-		return super.DeleteList(AuthIdValue, list);
+		return false;//super.DeleteList(AuthIdValue, list);
 	}
 
 	@Override
@@ -194,7 +194,7 @@ public class ImplDomain<T>
 			}
 			return true;
 		}
-		return super.UpdateList(AuthIdValue, list);
+		return false;//super.UpdateList(AuthIdValue, list);
 	}
 
 	@Override
@@ -215,7 +215,7 @@ public class ImplDomain<T>
 			}
 			return false;
 		}
-		return super.DeleteByID(AuthIdValue, id);
+		return false;//super.DeleteByID(AuthIdValue, id);
 	}
 
 	public T GetByID(UUID id) throws Exception {
@@ -235,11 +235,11 @@ public class ImplDomain<T>
 //		properties.put("authid", mGson.toJson(AuthIdValue));
 //		properties.put("id", mGson.toJson(id));
 
-		String[][] properties = new String[][] {
-				new String[] { "authid", mGson.toJson(AuthIdValue)},
-				new String[] {"id", mGson.toJson(id)} };
+//		String[][] properties = new String[][] {
+//				new String[] { "authid", mGson.toJson(AuthIdValue)},
+//				new String[] {"id", mGson.toJson(id)} };
 		
-		return getModel("GetByID", properties);
+		return null;//getModel("GetByID", properties);
 	}
 
 	public boolean Exists(UUID id) throws Exception {
@@ -255,10 +255,10 @@ public class ImplDomain<T>
 			}
 			return false;
 		}
-		LinkedHashMap<String, String> properties = new LinkedHashMap<String, String>();
-		properties.put("authid", mGson.toJson(AuthIdValue));
-		properties.put("id", mGson.toJson(id));
-		return getBoolean("Exists", properties);
+//		LinkedHashMap<String, String> properties = new LinkedHashMap<String, String>();
+//		properties.put("authid", mGson.toJson(AuthIdValue));
+//		properties.put("id", mGson.toJson(id));
+		return false;//getBoolean("Exists", properties);
 	}
 
 	public List<T> GetListByPage(String where, Page page) throws Exception {
@@ -266,11 +266,11 @@ public class ImplDomain<T>
 			Thread.sleep(1000);
 			return getTestData( where,page);
 		}
-		LinkedHashMap<String, String> properties = new LinkedHashMap<String, String>();
-		properties.put("authid", mGson.toJson(AuthIdValue));
-		properties.put("where", where);
-		properties.put("page", mGson.toJson(page));
-		return getList("GetListByPage", properties);
+//		LinkedHashMap<String, String> properties = new LinkedHashMap<String, String>();
+//		properties.put("authid", mGson.toJson(AuthIdValue));
+//		properties.put("where", where);
+//		properties.put("page", mGson.toJson(page));
+		return new ArrayList<T>();//getList("GetListByPage", properties);
 	}
 
 	public long GetRecordCount(String where) throws Exception {
@@ -278,10 +278,10 @@ public class ImplDomain<T>
 			Thread.sleep(1000);
 			return getTestData( where).size();
 		}
-		LinkedHashMap<String, String> properties = new LinkedHashMap<String, String>();
-		properties.put("authid", mGson.toJson(AuthIdValue));
-		properties.put("where", where);
-		return getLong("GetRecordCount", properties);
+//		LinkedHashMap<String, String> properties = new LinkedHashMap<String, String>();
+//		properties.put("authid", mGson.toJson(AuthIdValue));
+//		properties.put("where", where);
+		return 0;//getLong("GetRecordCount", properties);
 	}
 
 	public List<T> GetListWhere(String where, String order, String asc)
@@ -290,12 +290,12 @@ public class ImplDomain<T>
 			Thread.sleep(1000);
 			return getTestData( where);
 		}
-		LinkedHashMap<String, String> properties = new LinkedHashMap<String, String>();
-		properties.put("authid", mGson.toJson(AuthIdValue));
-		properties.put("where", where);
-		properties.put("order", order);
-		properties.put("asc", asc);
-		return getList("GetListWhere", properties);
+//		LinkedHashMap<String, String> properties = new LinkedHashMap<String, String>();
+//		properties.put("authid", mGson.toJson(AuthIdValue));
+//		properties.put("where", where);
+//		properties.put("order", order);
+//		properties.put("asc", asc);
+		return new ArrayList<T>();//getList("GetListWhere", properties);
 	}
 	
 	protected String where(String where) {
