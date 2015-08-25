@@ -1,17 +1,17 @@
 package com.andframe.feature;
 
-import org.json.JSONObject;
-
 import com.andframe.util.java.AfReflecter;
 import com.google.gson.internal.UnsafeAllocator;
 
 import org.json.JSONArray;
+import org.json.JSONException;
 import org.json.JSONObject;
 
 import java.lang.reflect.Array;
 import java.lang.reflect.Field;
 import java.lang.reflect.Modifier;
 import java.lang.reflect.ParameterizedType;
+import java.lang.reflect.Type;
 import java.util.ArrayList;
 import java.util.Collection;
 import java.util.Date;
@@ -25,11 +25,19 @@ import java.util.Set;
 public class AfJsoner {
 
     public static String toJson(Object object){
-        return builderJson(object).toString();
+        try {
+            return builderJson(object).toString();
+        } catch (JSONException e) {
+            throw new RuntimeException(e);
+        }
     }
 
     public static <T> T fromJson(String json,Class<T> clazz){
-        return fromJson(new JSONObject(json),clazz);
+        try {
+            return fromJson(new JSONObject(json),clazz);
+        } catch (JSONException e) {
+            throw new RuntimeException(e);
+        }
     }
 
     public static <T> T fromJson(JSONObject object,Class<T> clazz){
@@ -41,14 +49,15 @@ public class AfJsoner {
                 value = fromJson((JSONObject) value, field.getType());
             } else if (value instanceof JSONArray){
                 Class<?> type = field.getType();
+                Type generic = field.getGenericType();
                 if (type.isArray()){
                     type = type.getComponentType();
                     List<?> list = fromJsons((JSONArray) value,type);
                     value = Array.newInstance(type, list.size());
                     value = list.toArray((Object[]) value);
                 } else if (List.class.equals(type)){
-                    ParameterizedType generic = (ParameterizedType) field.getGenericType();
-                    type = (Class<?>)generic.getActualTypeArguments()[0];
+                    ParameterizedType parameterized = (ParameterizedType)generic;
+                    type = (Class<?>)parameterized.getActualTypeArguments()[0];
                     value = fromJsons((JSONArray) value,type);
                 }
             }
@@ -60,6 +69,41 @@ public class AfJsoner {
             }
         }
         return model;
+    }
+
+    public static <T> List<T> fromJsons(String json,Class<T> clazz){
+        try {
+            return fromJsons(new JSONArray(json),clazz);
+        } catch (Throwable e) {
+            throw new RuntimeException(e);
+        }
+    }
+
+    public static <T> List<T> fromJsons(JSONArray array,Class<T> clazz){
+        List<T> list = new ArrayList<T>();
+        for (int i = 0; i < array.length() ; i++) {
+            Object value = array.opt(i);
+            if (value instanceof JSONObject){
+                list.add(fromJson((JSONObject) value,clazz));
+            } else if (value instanceof JSONArray){
+                Class<?> type = clazz;
+                if (type.isArray()){
+                    type = type.getComponentType();
+                    List<?> tlist = fromJsons((JSONArray) value,type);
+                    value = Array.newInstance(type, tlist.size());
+                    value = tlist.toArray((Object[]) value);
+                    list.add((T)value);
+                } else if (List.class.equals(type)){
+                    type.toString();
+//                    ParameterizedType generic = (ParameterizedType) field.getGenericType();
+//                    type = (Class<?>)generic.getActualTypeArguments()[0];
+//                    value = fromJsons((JSONArray) value,type);
+                }
+            } else {
+                list.add((T)value);
+            }
+        }
+        return list;
     }
 
     private static <T> T allocateInstance(Class<T> clazz) {
@@ -74,19 +118,7 @@ public class AfJsoner {
         return null;
     }
 
-    public static <T> List<T> fromJsons(String json,Class<T> clazz){
-        return fromJsons(new JSONArray(json),clazz);
-    }
-
-    public static <T> List<T> fromJsons(JSONArray array,Class<T> clazz){
-        List<T> list = new ArrayList<T>();
-        for (int i = 0; i < array.length() ; i++) {
-            list.add(fromJson(array.getJSONObject(i),clazz));
-        }
-        return list;
-    }
-
-    private static Object builderJson(Object value) {
+    private static Object builderJson(Object value) throws JSONException {
         if (value == null){
             return "null";
         } else if (value instanceof Map){
@@ -113,7 +145,7 @@ public class AfJsoner {
      * @param obj 不可为空
      * @return
      */
-    private static JSONObject builderObject(Object obj) {
+    private static JSONObject builderObject(Object obj) throws JSONException {
         JSONObject object = new JSONObject();
         Field[] fields = getJsonField(obj);
         for (Field field : fields) {
@@ -123,7 +155,7 @@ public class AfJsoner {
         return object;
     }
 
-    private static JSONArray builderArray(Object[] objs) {
+    private static JSONArray builderArray(Object[] objs) throws JSONException {
         JSONArray array = new JSONArray();
         for (Object obj : objs) {
             if (obj == null){
@@ -135,7 +167,7 @@ public class AfJsoner {
         return array;
     }
 
-    private static JSONObject builderMap(Map value) {
+    private static JSONObject builderMap(Map value) throws JSONException {
         JSONObject object = new JSONObject();
         Set<Map.Entry> set = value.entrySet();
         for (Map.Entry entry: set) {
