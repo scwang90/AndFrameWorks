@@ -41,7 +41,7 @@ public class DsDeploy implements Serializable{
 	/**
 	 * 是否开启商业模式
 	 */
-	public Boolean business;
+	public Boolean business = false;
 	/**
 	 * 创建时间
 	 */
