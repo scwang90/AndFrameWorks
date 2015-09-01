@@ -27,7 +27,15 @@
 }
 
 #andframe混淆标记
--keep class com.andframe.entity.** {<fields>;}
--keep class com.andframe.model.** {<fields>;}
--keep class com.andframe.bean.** {<fields>;}
+-keepclassmembers class * {
+    @com.andframe.annotation.view.BindAfterViews *;
+    @com.andframe.annotation.view.BindCheckedChange *;
+    @com.andframe.annotation.view.BindClick *;
+    @com.andframe.annotation.view.BindItemClick *;
+    @com.andframe.annotation.view.BindItemLongClick *;
+    @com.andframe.annotation.view.BindLongClick *;
+
+    @com.andframe.annotation.inject.InjectInit *;
+    @com.andframe.annotation.inject.InjectQueryChanged *;
+}
 
