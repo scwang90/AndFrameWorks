@@ -18,6 +18,7 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.view.ViewGroup.LayoutParams;
 import android.view.Window;
+import android.widget.AdapterView;
 import android.widget.EditText;
 import android.widget.TextView;
 import android.widget.Toast;
@@ -38,6 +39,8 @@ import com.andframe.feature.AfSoftInputer;
 import com.andframe.feature.AfViewBinder;
 import com.andframe.thread.AfTask;
 import com.andframe.thread.AfThreadWorker;
+import com.andframe.util.java.AfStackTrace;
+
 /**
  * 框架 AfFragment
  * @author 树朾
@@ -96,7 +99,7 @@ import com.andframe.thread.AfThreadWorker;
 	public void onQueryChanged();
 }
  */
-public abstract class AfFragment extends Fragment implements AfPageable {
+public abstract class AfFragment extends Fragment implements AfPageable,AdapterView.OnItemClickListener {
 
 	public static final String EXTRA_DATA = "EXTRA_DATA";
 	public static final String EXTRA_INDEX = "EXTRA_INDEX";
@@ -870,4 +873,37 @@ public abstract class AfFragment extends Fragment implements AfPageable {
 		return false;
 	}
 
+	/**
+	 *  final 包装 onItemClick 事件处理 防止抛出异常崩溃
+	 * @author 树朾
+	 * @param parent
+	 * @param view
+	 * @param position
+	 * @param id
+	 */
+	@Override
+	public void onItemClick(AdapterView<?> parent, View view, int position,
+							long id) {
+		try {
+			if (AfStackTrace.isLoopCall()) {
+				//System.out.println("递归检测");
+				return;
+			}
+			this.onItemClick(parent,view,id,position);
+		} catch (Exception e) {
+			AfExceptionHandler.handler(e, TAG()+".onItemClick");
+		}
+	}
+
+	/**
+	 * 安全onItemClick框架会捕捉异常防止崩溃
+	 * @author 树朾
+	 * @param parent
+	 * @param item
+	 * @param id
+	 * @param index
+	 */
+	protected void onItemClick(AdapterView<?> parent, View item, long id,int index) {
+
+	}
 }

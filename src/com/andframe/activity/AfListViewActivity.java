@@ -309,7 +309,7 @@ public abstract class AfListViewActivity<T> extends AfActivity implements OnRefr
 			return super.onLoad();
 		}
 
-		//事件转发 参考 AfListViewFrament.onListByPage
+		//事件转发 参考 AfListViewFragment.onListByPage
 		@Override
 		protected List<T> onListByPage(Page page, int task) throws Exception {
 			return AfListViewActivity.this.onTaskListByPage(page,task);
@@ -320,18 +320,18 @@ public abstract class AfListViewActivity<T> extends AfActivity implements OnRefr
 			return AfListViewActivity.this.onTaskWorking(task);
 		}
 
-		//事件转发 参考 AfListViewFrament.onLoaded
+		//事件转发 参考 AfListViewFragment.onLoaded
 		@Override
 		protected boolean onLoaded(boolean isfinish, List<T> ltdata,Date cachetime) {
 			return AfListViewActivity.this.onLoaded(this,isfinish, ltdata,cachetime);
 		}
 
-		//事件转发 参考 AfListViewFrament.onRefreshed
+		//事件转发 参考 AfListViewFragment.onRefreshed
 		@Override
 		protected boolean onRefreshed(boolean isfinish, List<T> ltdata) {
 			return AfListViewActivity.this.onRefreshed(this,isfinish, ltdata);
 		}
-		//事件转发 参考 AfListViewFrament.onMored
+		//事件转发 参考 AfListViewFragment.onMored
 		@Override
 		protected boolean onMored(boolean isfinish, List<T> ltdata,
 				boolean ended) {
