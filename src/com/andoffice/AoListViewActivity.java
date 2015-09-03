@@ -289,27 +289,27 @@ public abstract class AoListViewActivity<T> extends AfActivity implements OnRefr
 			return super.onLoad();
 		}
 
-		//事件转发 参考 AfListViewFrament.onListByPage
+		//事件转发 参考 AfListViewFragment.onListByPage
 		@Override
 		protected List<T> onListByPage(Page page, int task) throws Exception {
 			// TODO Auto-generated method stub
 			return AoListViewActivity.this.onTaskListByPage(page,task);
 		}
 
-		//事件转发 参考 AfListViewFrament.onLoaded
+		//事件转发 参考 AfListViewFragment.onLoaded
 		@Override
 		protected boolean onLoaded(boolean isfinish, List<T> ltdata,Date cachetime) {
 			// TODO Auto-generated method stub
 			return AoListViewActivity.this.onLoaded(this,isfinish, ltdata,cachetime);
 		}
 
-		//事件转发 参考 AfListViewFrament.onRefreshed
+		//事件转发 参考 AfListViewFragment.onRefreshed
 		@Override
 		protected boolean onRefreshed(boolean isfinish, List<T> ltdata) {
 			// TODO Auto-generated method stub
 			return AoListViewActivity.this.onRefreshed(this,isfinish, ltdata);
 		}
-		//事件转发 参考 AfListViewFrament.onMored
+		//事件转发 参考 AfListViewFragment.onMored
 		@Override
 		protected boolean onMored(boolean isfinish, List<T> ltdata,
 				boolean ended) {
