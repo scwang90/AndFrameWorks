@@ -1,22 +1,37 @@
 package com.andframe.annotation.db.interpreter;
 
+import com.andframe.annotation.db.Column;
+import com.andframe.annotation.db.DbIgnore;
+import com.andframe.annotation.db.Id;
+import com.andframe.annotation.db.Table;
+import com.andframe.util.java.AfReflecter;
+import com.andframe.util.java.AfStringUtil;
+
 import java.lang.reflect.Field;
 import java.lang.reflect.Modifier;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Locale;
-
-import com.andframe.annotation.db.Column;
-import com.andframe.annotation.db.DbIgnore;
-import com.andframe.annotation.db.Id;
-import com.andframe.annotation.db.Table;
-import com.andframe.util.java.AfStringUtil;
 /**
  * db.annotation 解释器
  * @author 树朾
  */
 public class Interpreter {
-	
+
+	/**
+	 * 获取field是否是数据库列
+	 * @param clazz
+	 * @return
+	 */
+	public static Field[] getColumns(Class<?> clazz) {
+		List<Field> fields = new ArrayList<Field>();
+		for (Field field : AfReflecter.getField(clazz)) {
+			if(Interpreter.isColumn(field)){
+				fields.add(field);
+			}
+		}
+		return fields.toArray(new Field[0]);
+	}
 	/**
 	 * 获取field是否是数据库列
 	 * @param field

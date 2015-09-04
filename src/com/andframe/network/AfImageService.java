@@ -526,7 +526,7 @@ public class AfImageService {
 
 		private void onFailed() {
 			if (mListener== null || !mListener.onImageFailed(mImageView,mErrors,mException)) {
-				if (mImageView != null && mImageView.getTag() == this) {
+				if (mImageView != null && mImageView.getTag() == this && getImageGetFail() != null) {
 						if (mDefaultId > 0)
 							//view.setImageResource(mDefaultId);
 							bindDefault(mImageView,null, mDefaultId, getImageGetFail(),mEffect);

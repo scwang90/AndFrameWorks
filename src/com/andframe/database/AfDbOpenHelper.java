@@ -1,5 +1,13 @@
 package com.andframe.database;
 
+import android.content.Context;
+import android.database.sqlite.SQLiteDatabase;
+import android.database.sqlite.SQLiteOpenHelper;
+
+import com.andframe.annotation.db.interpreter.Interpreter;
+import com.andframe.application.AfExceptionHandler;
+import com.andframe.entity.VersionEntity;
+
 import java.io.File;
 import java.io.IOException;
 import java.lang.reflect.Field;
@@ -8,15 +16,6 @@ import java.util.Date;
 import java.util.HashMap;
 import java.util.List;
 import java.util.UUID;
-
-import android.content.Context;
-import android.database.sqlite.SQLiteDatabase;
-import android.database.sqlite.SQLiteOpenHelper;
-
-import com.andframe.annotation.db.interpreter.Interpreter;
-import com.andframe.application.AfExceptionHandler;
-import com.andframe.entity.VersionEntity;
-import com.andframe.util.java.AfReflecter;
 
 public class AfDbOpenHelper extends SQLiteOpenHelper {
 
@@ -90,34 +89,32 @@ public class AfDbOpenHelper extends SQLiteOpenHelper {
 		StringBuilder sql = new StringBuilder("create table if not exists ");
 		sql.append(tname);
 		sql.append(" (");
-		for (Field field : AfReflecter.getField(clazz)) {
-			if(Interpreter.isColumn(field)){
-				if (isfrist == false) {
-					sql.append(',');
-				}
-				isfrist = false;
-				Class<?> type = field.getType();
-				String name = field.getName();
-				sql.append(name);
-				sql.append(' ');
-				if (type.equals(Date.class) || type.equals(int.class)
-						|| type.equals(Long.class) || type.equals(long.class)
-						|| type.equals(Short.class) || type.equals(short.class)
-						|| type.equals(Boolean.class) || type.equals(boolean.class)
-						|| type.equals(Integer.class)) {
-					sql.append("integer");
-				} else if (type.equals(float.class) || type.equals(Float.class)) {
-					sql.append("float");
-				} else if (type.equals(double.class) || type.equals(Double.class)) {
-					sql.append("double");
-				} else if (type.equals(UUID.class)) {
-					sql.append("text");
-				} else {
-					sql.append("text");
-				}
-				if (name.equals("ID") || Interpreter.isPrimaryKey(field)) {
-					sql.append(" NOT NULL PRIMARY KEY");
-				}
+		for (Field field : Interpreter.getColumns(clazz)) {
+			if (isfrist == false) {
+				sql.append(',');
+			}
+			isfrist = false;
+			Class<?> type = field.getType();
+			String name = field.getName();
+			sql.append(name);
+			sql.append(' ');
+			if (type.equals(Date.class) || type.equals(int.class)
+					|| type.equals(Long.class) || type.equals(long.class)
+					|| type.equals(Short.class) || type.equals(short.class)
+					|| type.equals(Boolean.class) || type.equals(boolean.class)
+					|| type.equals(Integer.class)) {
+				sql.append("integer");
+			} else if (type.equals(float.class) || type.equals(Float.class)) {
+				sql.append("float");
+			} else if (type.equals(double.class) || type.equals(Double.class)) {
+				sql.append("double");
+			} else if (type.equals(UUID.class)) {
+				sql.append("text");
+			} else {
+				sql.append("text");
+			}
+			if (name.equals("ID") || Interpreter.isPrimaryKey(field)) {
+				sql.append(" NOT NULL PRIMARY KEY");
 			}
 		}
 		sql.append(')');
