@@ -82,7 +82,7 @@ public class AfViewBinder {
 					view.setOnClickListener(new EventListener(mHandler).click(method));
 				}
 			} catch (Exception e) {
-				AfExceptionHandler.handler(e,TAG("doBindLongClick.")+ method.getName());
+				AfExceptionHandler.handler(e,TAG("doBindClick.")+ method.getName());
 			}
 		}
 	}
