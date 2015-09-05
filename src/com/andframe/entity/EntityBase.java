@@ -1,7 +1,9 @@
 package com.andframe.entity;
 
 
-public interface EntityBase<Model>
+import java.io.Serializable;
+
+public interface EntityBase<Model> extends Serializable
 {
     /**
      * 获取Model
