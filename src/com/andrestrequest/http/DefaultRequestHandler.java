@@ -45,6 +45,7 @@ public class DefaultRequestHandler {
 	private DefaultHttpClient httpClient;
 
 	private static DefaultRequestHandler instance;
+	private DefaultResponseHandler responseHandler;
 
 	public enum HttpMethod {
 		DELETE, GET, POST, PUT, post;
@@ -52,6 +53,11 @@ public class DefaultRequestHandler {
 
 	private DefaultRequestHandler() {
 		// singleton
+	}
+
+	public DefaultRequestHandler(DefaultResponseHandler responseHandler) {
+		// singleton
+		this.responseHandler = responseHandler;
 	}
 
 	public static DefaultRequestHandler getInstance() {
@@ -111,7 +117,9 @@ public class DefaultRequestHandler {
 				System.out.println(EntityUtils.toString(getEntity(body),AndRestConfig.getCharset()));
 			}
 		}
-		DefaultResponseHandler responseHandler = new DefaultResponseHandler();
+		if (responseHandler == null){
+			responseHandler = new DefaultResponseHandler();
+		}
 		response = getClient().execute(request, responseHandler);
 
 		return response;

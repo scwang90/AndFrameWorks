@@ -33,7 +33,33 @@ public class DefaultResponseHandler implements ResponseHandler<Response> {
 	
 	public static Class<? extends ErrorMessage> ErrorMessageClass = null;
 
-	public static boolean DEBUG = false;  
+	public static boolean DEBUG = false;
+
+	public boolean jsonframework = true;
+	public String status = null;
+	public Object status_ok = null;
+	public String result = null;
+
+	public DefaultResponseHandler(){
+		this.status = STATUS;
+		this.status_ok = STATUS_OK;
+		this.result = RESULT;
+		this.jsonframework = JSONFRAMEWORK;
+	}
+
+	public DefaultResponseHandler(boolean jsonframework){
+		this.status = STATUS;
+		this.status_ok = STATUS_OK;
+		this.result = RESULT;
+		this.jsonframework = jsonframework;
+	}
+
+	public DefaultResponseHandler(String STATUS,Object STATUS_OK,String RESULT){
+		this.status = STATUS;
+		this.status_ok = STATUS_OK;
+		this.result = RESULT;
+		this.jsonframework = true;
+	}
 
 	public Response handleResponse(HttpResponse response) throws ClientProtocolException, IOException {
 		int statusCode = response.getStatusLine().getStatusCode();
@@ -68,16 +94,16 @@ public class DefaultResponseHandler implements ResponseHandler<Response> {
 		{
 			System.out.println("Handling response "+response);
 		}
-		if (!JSONFRAMEWORK || STATUS==null || STATUS_OK==null || RESULT == null) {
+		if (!jsonframework || status==null || status_ok==null || result == null) {
 			return response;
 		}
 		try {
 			JSONObject object = new JSONObject(response);
-			if (STATUS_OK.equals(object.get(STATUS))) {
-				return object.get(RESULT).toString();
+			if (status_ok.equals(object.get(status))) {
+				return object.get(result).toString();
 				// return root.getJSONArray(RESULT);
 			} else {
-				String errormessage = object.get(RESULT).toString();
+				String errormessage = object.get(result).toString();
 				try {
 					ErrorMessage message = GsonUtil.toObject(errormessage, ErrorMessageClass);
 					throw new ServerCodeException(message);
