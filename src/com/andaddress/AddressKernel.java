@@ -1,16 +1,17 @@
 package com.andaddress;
 
-import java.io.IOException;
-import java.util.regex.Matcher;
-import java.util.regex.Pattern;
-
 import com.andframe.application.AfApplication;
 import com.andframe.helper.android.AfDesHelper;
 import com.andframe.util.java.AfMD5;
 import com.andrestrequest.AndRestConfig;
 import com.andrestrequest.http.DefaultRequestHandler;
 import com.andrestrequest.http.DefaultRequestHandler.HttpMethod;
+import com.andrestrequest.http.DefaultResponseHandler;
 import com.andrestrequest.http.Response;
+
+import java.io.IOException;
+import java.util.regex.Matcher;
+import java.util.regex.Pattern;
 
 public class AddressKernel {
 	
@@ -62,7 +63,7 @@ public class AddressKernel {
 		String charset = AndRestConfig.getCharset();
 		try {
 			AndRestConfig.setCharset("GBK");
-			DefaultRequestHandler handler = DefaultRequestHandler.getInstance();
+			DefaultRequestHandler handler = new DefaultRequestHandler(new DefaultResponseHandler(false));
 			HttpMethod method = HttpMethod.GET;
 			Response response = handler.doRequest(method , url);
 			Pattern compile = Pattern.compile("<iframe\\s*src=[\"|'](\\S*)[\"|']");
