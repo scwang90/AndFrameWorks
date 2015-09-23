@@ -26,13 +26,13 @@ public abstract class AfActivity extends com.andframe.activity.framework.AfActiv
 	 * (non-Javadoc)
 	 * @see android.support.v4.app.FragmentActivity#onActivityResult(int, int, android.content.Intent)
 	 * final 重写 onActivityResult 使用 try-catch 调用 
-	 * 		onActivityResult(AfIntent intent, int questcode,int resultcode)
-	 * @see AfActivity#onActivityResult(AfIntent intent, int questcode,int resultcode)
-	 * {@link AfActivity#onActivityResult(AfIntent intent, int questcode,int resultcode)}
+	 * 		onActivityResult(AfIntent intent, int requestcode,int resultcode)
+	 * @see AfActivity#onActivityResult(AfIntent intent, int requestcode,int resultcode)
+	 * {@link AfActivity#onActivityResult(AfIntent intent, int requestcode,int resultcode)}
 	 */
 	@Override
-	protected final void onActivityResult(int questcode, int resultcode, Intent data) {
-		super.onActivityResult(questcode, resultcode, data);
+	protected final void onActivityResult(int requestcode, int resultcode, Intent data) {
+		super.onActivityResult(requestcode, resultcode, data);
 	}
 
 	/**

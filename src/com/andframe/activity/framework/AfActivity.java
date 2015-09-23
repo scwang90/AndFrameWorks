@@ -939,18 +939,18 @@ public abstract class AfActivity extends FragmentActivity implements AfPageable,
 	 * (non-Javadoc)
 	 * @see android.support.v4.app.FragmentActivity#onActivityResult(int, int, android.content.Intent)
 	 * final 重写 onActivityResult 使用 try-catch 调用 
-	 * 		onActivityResult(AfIntent intent, int questcode,int resultcode)
-	 * @see AfActivity#onActivityResult(AfIntent intent, int questcode,int resultcode)
-	 * {@link AfActivity#onActivityResult(AfIntent intent, int questcode,int resultcode)}
+	 * 		onActivityResult(AfIntent intent, int requestcode,int resultcode)
+	 * @see AfActivity#onActivityResult(AfIntent intent, int requestcode,int resultcode)
+	 * {@link AfActivity#onActivityResult(AfIntent intent, int requestcode,int resultcode)}
 	 */
 	@Override
-	protected void onActivityResult(int questcode, int resultcode, Intent data) {
+	protected void onActivityResult(int requestcode, int resultcode, Intent data) {
 		try {
 			if (AfStackTrace.isLoopCall()) {
 				//System.out.println("递归检测");
 				return;
 			}
-			onActivityResult(new AfIntent(data), questcode, resultcode);
+			onActivityResult(new AfIntent(data), requestcode, resultcode);
 		} catch (Throwable e) {
 			if (!(e instanceof AfToastException)) {
 				AfExceptionHandler.handler(e, TAG()+".onActivityResult");
@@ -994,17 +994,17 @@ public abstract class AfActivity extends FragmentActivity implements AfPageable,
 	}
 
 	/**
-	 * 安全 onActivityResult(AfIntent intent, int questcode,int resultcode) 
-	 * 在onActivityResult(int questCode, int resultCode, Intent data) 中调用
+	 * 安全 onActivityResult(AfIntent intent, int requestcode,int resultcode)
+	 * 在onActivityResult(int requestcode, int resultCode, Intent data) 中调用
 	 * 并使用 try-catch 提高安全性，子类请重写这个方法 
 	 * @see AfActivity#onActivityResult(int, int, android.content.Intent)
 	 * {@link AfActivity#onActivityResult(int, int, android.content.Intent)}
 	 * @param intent
-	 * @param questcode
+	 * @param requestcode
 	 * @param resultcode
 	 */
-	protected void onActivityResult(AfIntent intent, int questcode,int resultcode) {
-		super.onActivityResult(questcode, resultcode, intent);
+	protected void onActivityResult(AfIntent intent, int requestcode,int resultcode) {
+		super.onActivityResult(requestcode, resultcode, intent);
 	}
 
 	/**

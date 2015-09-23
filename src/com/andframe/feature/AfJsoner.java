@@ -197,4 +197,15 @@ public class AfJsoner {
         }
         return fileds.toArray(new Field[0]);
     }
+
+    /**
+     * 使用json克隆model
+     * @param model
+     * @param clazz
+     * @param <T>
+     * @return
+     */
+    public static <T> T clone(Object model, Class<T> clazz) {
+        return AfJsoner.fromJson(AfJsoner.toJson(model),clazz);
+    }
 }
