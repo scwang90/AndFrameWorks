@@ -31,7 +31,6 @@ public class ModuleListView extends AfLayoutModule
 
 	public ModuleListView(AfPageable page) {
 		super(page);
-		// TODO Auto-generated constructor stub
 		mNodata = new ModuleNodata(page);
 		mSelector = new FrameSelector(page);
 		mProgress = new ModuleProgress(page);
@@ -55,7 +54,6 @@ public class ModuleListView extends AfLayoutModule
 
 	@Override
 	protected View findLayout(AfViewable view) {
-		// TODO Auto-generated method stub
 		View layout = view.findViewById(R.id.module_listview);
 		if (layout != null) {
 			layout = (View) layout.getParent();
@@ -64,7 +62,6 @@ public class ModuleListView extends AfLayoutModule
 	}
 
 	public ModuleNodata getNoData() {
-		// TODO Auto-generated method stub
 		return mNodata;
 	}
 
@@ -73,14 +70,12 @@ public class ModuleListView extends AfLayoutModule
 	}
 
 	public final void hide() {
-		// TODO Auto-generated constructor stub
 		if (mLayout.getVisibility() == View.VISIBLE) {
 			mLayout.setVisibility(View.GONE);
 		}
 	}
 
 	public final void show() {
-		// TODO Auto-generated constructor stub
 		if (mLayout.getVisibility() != View.VISIBLE) {
 			mLayout.setVisibility(View.VISIBLE);
 		}
@@ -88,26 +83,22 @@ public class ModuleListView extends AfLayoutModule
 
 	@Override
 	public boolean isValid() {
-		// TODO Auto-generated method stub
 		return mIsValid;
 	}
 
 	public final void addMoreView() {
-		// TODO Auto-generated method stub
 		if (mIsValid) {
 			mListView.addMoreView();
 		}
 	}
 
 	public final void removeMoreView() {
-		// TODO Auto-generated method stub
 		if (mIsValid) {
 			mListView.removeMoreView();
 		}
 	}
 
 	public final int getHeaderViewsCount() {
-		// TODO Auto-generated method stub
 		if (mIsValid) {
 			return mListView.getHeaderViewsCount();
 		}
@@ -115,7 +106,6 @@ public class ModuleListView extends AfLayoutModule
 	}
 
 	public final int getIndex(int index) {
-		// TODO Auto-generated method stub
 		if (mIsValid) {
 			return mListView.getIndex(index);
 		}
@@ -123,7 +113,6 @@ public class ModuleListView extends AfLayoutModule
 	}
 
 	public final int getDataIndex(int index) {
-		// TODO Auto-generated method stub
 		if (mIsValid) {
 			return mListView.getDataIndex(index);
 		}
@@ -148,7 +137,6 @@ public class ModuleListView extends AfLayoutModule
 	 * 提交刷新完成 更新时间
 	 */
 	public final void finishRefresh() {
-		// TODO Auto-generated method stub
 		if (mIsValid) {
 			mListView.finishRefresh();
 		}
@@ -158,21 +146,18 @@ public class ModuleListView extends AfLayoutModule
 	 * 提交刷新完成 但是失败 不更新时间
 	 */
 	public final void finishRefreshFail() {
-		// TODO Auto-generated method stub
 		if (mIsValid) {
 			mListView.finishRefreshFail();
 		}
 	}
 
 	public final void finishLoadMore() {
-		// TODO Auto-generated method stub
 		if (mIsValid) {
 			mListView.finishLoadMore();
 		}
 	}
 
 	public final void setLastUpdateTime(Date date) {
-		// TODO Auto-generated method stub
 		if (mIsValid) {
 			mListView.setLastUpdateTime(date);
 		}
@@ -232,27 +217,22 @@ public class ModuleListView extends AfLayoutModule
 	}
 
 	public final void setOnNodataRefreshListener(OnClickListener listener) {
-		// TODO Auto-generated constructor stub
 		mNodata.setOnRefreshListener(listener);
 	}
 
 	public void setNoDataText(String description) {
-		// TODO Auto-generated constructor stub
 		mNodata.setDescription(description);
 	}
 
 	public void setNoDataText(int id) {
-		// TODO Auto-generated constructor stub
 		mNodata.setDescription(id);
 	}
 
 	public void setNoDataButtonText(String text) {
-		// TODO Auto-generated constructor stub
 		mNodata.setButtonText(text);
 	}
 
 	public void setNoDataButtonText(int id) {
-		// TODO Auto-generated constructor stub
 		mNodata.setButtonText(id);
 	}
 
@@ -270,7 +250,6 @@ public class ModuleListView extends AfLayoutModule
 
 	@Override
 	public void setEnabled(boolean enabled) {
-		// TODO Auto-generated method stub
 
 	}
 }

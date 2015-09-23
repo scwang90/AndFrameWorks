@@ -16,7 +16,6 @@ public class SettingServerActivity extends AbCominfoActivity{
 
 	@Override
 	protected void onCreate(AfIntent intent, List<Project> list, Mode[] mode) {
-		// TODO Auto-generated method stub
 		mTitlebar.setTitle("配置服务器");
 		AfAppSettings setting = AfAppSettings.getInstance();
 		Project prodata = new Project("数据服务");
@@ -36,7 +35,6 @@ public class SettingServerActivity extends AbCominfoActivity{
 
 	@Override
 	protected void onSubmit(List<Project> ltproject, Mode mode) {
-		// TODO Auto-generated method stub
 		try {
 			AfAppSettings setting = AfAppSettings.getInstance();
 			setting.setFileServerIP(文域.value);
@@ -50,7 +48,6 @@ public class SettingServerActivity extends AbCominfoActivity{
 			finish();
 			makeToastLong("配置服务器成功");
 		} catch (Exception e) {
-			// TODO: handle exception
 			makeToastLong("服务器配置失败："+e.getMessage());
 		}
 	}

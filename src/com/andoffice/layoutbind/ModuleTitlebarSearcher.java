@@ -29,11 +29,9 @@ public class ModuleTitlebarSearcher extends AfLayoutAlpha implements OnClickList
 	@SuppressWarnings("serial")
 	public static class SearchOptions extends ArrayList<Entry<String, String>>{
 		public SearchOptions() {
-			// TODO Auto-generated constructor stub
 		}
 
 		public void put(String key, String value) {
-			// TODO Auto-generated method stub
 			add(new SimpleEntry<String, String>(key,value));
 		}
 	}
@@ -54,7 +52,6 @@ public class ModuleTitlebarSearcher extends AfLayoutAlpha implements OnClickList
 	
 	public ModuleTitlebarSearcher(AfPageable page) {
 		super(page,R.id.titlebar_search_layout);
-		// TODO Auto-generated constructor stub
 		mPage = page;
 		if(isValid()){
 			mVwSearch = page.findViewByID(R.id.titlebar_search_go);
@@ -70,7 +67,6 @@ public class ModuleTitlebarSearcher extends AfLayoutAlpha implements OnClickList
 	
 	@Override
 	public void onClick(View v) {
-		// TODO Auto-generated method stub
 		if(v == mTvOption){
 			PopupMenu popmenu = new PopupMenu(v.getContext(),v);
 			for (int i = 0; i < mltOptions.size(); i++) {
@@ -91,7 +87,6 @@ public class ModuleTitlebarSearcher extends AfLayoutAlpha implements OnClickList
 	
 	@Override
 	public boolean onEditorAction(TextView v, int actionId, KeyEvent event) {
-		// TODO Auto-generated method stub
 		if(EditorInfo.IME_ACTION_SEARCH == actionId){
 			String keyword = mEtKeyword.getText().toString();
 			if(mListener.onSearch(this, mEyOption.getKey(), keyword)){
@@ -111,19 +106,16 @@ public class ModuleTitlebarSearcher extends AfLayoutAlpha implements OnClickList
 	
 	@Override
 	public boolean onMenuItemClick(MenuItem item) {
-		// TODO Auto-generated method stub
 		mEyOption = mltOptions.get(item.getItemId());
 		mTvOption.setText(mEyOption.getValue());
 		return true;
 	}
 	
 	public void setListener(SearcherListener mListener) {
-		// TODO Auto-generated method stub
 		this.mListener = mListener;
 	}			
 
 	public void setOptions(HashMap<String, String> options){
-		// TODO Auto-generated method stub
 		if(isValid() && options != null && !options.equals("")){
 			mltOptions = new ArrayList<Entry<String,String>>();
 			Iterator<Entry<String, String>> iter = options.entrySet().iterator();
@@ -138,7 +130,6 @@ public class ModuleTitlebarSearcher extends AfLayoutAlpha implements OnClickList
 	}
 	
 	public void setOptions(Collection<Entry<String, String>> options){
-		// TODO Auto-generated method stub
 		if(isValid() && options != null && !options.equals("")){
 			mltOptions = new ArrayList<Entry<String,String>>(options);
 			mTvOption.setText(mltOptions.get(0).getValue());
@@ -150,7 +141,6 @@ public class ModuleTitlebarSearcher extends AfLayoutAlpha implements OnClickList
 	
 	@Override
 	public void show() {
-		// TODO Auto-generated method stub
 		if(isValid()){
 			super.show();
 			mPage.setSoftInputEnable(mEtKeyword, true);
@@ -159,7 +149,6 @@ public class ModuleTitlebarSearcher extends AfLayoutAlpha implements OnClickList
 	
 	@Override
 	public void hide() {
-		// TODO Auto-generated method stub
 		if(isValid()){
 			super.hide();
 			mPage.setSoftInputEnable(mEtKeyword, false);

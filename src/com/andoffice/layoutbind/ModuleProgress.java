@@ -23,7 +23,6 @@ public class ModuleProgress extends AfHandlerTimerTask implements IAfLayoutModul
 
 
 	public ModuleProgress(AfPageable page) {
-		// TODO Auto-generated constructor stub
 //		Resources resource = page.getResources();
 //		mDrawables = new Drawable[] {
 //				resource.getDrawable(R.drawable.image_person),
@@ -40,12 +39,10 @@ public class ModuleProgress extends AfHandlerTimerTask implements IAfLayoutModul
 	}
 
 	public void setDescription(String description) {
-		// TODO Auto-generated constructor stub
 		mTvDescription.setText(description);
 	}
 
 	public void setDescription(int resid) {
-		// TODO Auto-generated constructor stub
 		mTvDescription.setText(resid);
 	}
 
@@ -54,14 +51,12 @@ public class ModuleProgress extends AfHandlerTimerTask implements IAfLayoutModul
 	}
 
 	public void hide() {
-		// TODO Auto-generated constructor stub
 		if (mIsValid && mLayout.getVisibility() == View.VISIBLE) {
 			mLayout.setVisibility(View.GONE);
 		}
 	}
 
 	public void show() {
-		// TODO Auto-generated constructor stub
 		if (mIsValid && mLayout.getVisibility() != View.VISIBLE) {
 			mLayout.setVisibility(View.VISIBLE);
 		}
@@ -69,7 +64,6 @@ public class ModuleProgress extends AfHandlerTimerTask implements IAfLayoutModul
 
 	@Override
 	protected boolean onHandleTimer(Message msg) {
-		// TODO Auto-generated method stub
 		Drawable drawable = mDrawables[mCount];
 		mTvDescription.setCompoundDrawablesWithIntrinsicBounds(null, drawable,
 				null, null);
@@ -85,13 +79,11 @@ public class ModuleProgress extends AfHandlerTimerTask implements IAfLayoutModul
 
 	@Override
 	public boolean isValid() {
-		// TODO Auto-generated method stub
 		return mIsValid;
 	}
 	
 	@Override
 	public boolean isVisibility() {
-		// TODO Auto-generated method stub
 		if(mIsValid){
 			return mLayout.getVisibility() == View.VISIBLE;
 		}
@@ -100,7 +92,6 @@ public class ModuleProgress extends AfHandlerTimerTask implements IAfLayoutModul
 	
 	@Override
 	public void setEnabled(boolean enabled) {
-		// TODO Auto-generated method stub
-		
+
 	}
 }

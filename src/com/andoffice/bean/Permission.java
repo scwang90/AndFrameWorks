@@ -11,7 +11,6 @@ public class Permission extends AfModel{
 	public boolean IsDelete;
 
 	public Permission() {
-		// TODO Auto-generated method stub
 		this.IsRead = true;
 		this.IsAdd = true;
 		this.IsModify = true;
@@ -20,7 +19,6 @@ public class Permission extends AfModel{
 
 	public Permission(Permission model) {
 		super(model);
-		// TODO Auto-generated method stub
 		this.IsRead = model.IsRead;
 		this.IsAdd = model.IsAdd;
 		this.IsModify = model.IsModify;
@@ -29,7 +27,6 @@ public class Permission extends AfModel{
 
 	public Permission(boolean read, boolean add, boolean del, boolean edit) {
 		this();
-		// TODO Auto-generated constructor stub
 		this.IsRead = read;
 		this.IsAdd = add;
 		this.IsDelete = del;
@@ -38,7 +35,6 @@ public class Permission extends AfModel{
 	
 	@Override
 	public boolean equals(Object o) {
-		// TODO Auto-generated method stub
 		if(o instanceof Permission){
 			boolean equal = true;
 			Permission obj = (Permission)o;

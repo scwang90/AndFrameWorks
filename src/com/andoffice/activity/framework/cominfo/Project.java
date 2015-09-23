@@ -21,29 +21,24 @@ public class Project {
 	public LayoutParams mLayoutParams = null; 
 
 	public Project() {
-		// TODO Auto-generated constructor stub
 	}
 
 	public Project(String name) {
-		// TODO Auto-generated constructor stub
 		this.name = name;
 	}
 
 	public Project(String name, int type) {
-		// TODO Auto-generated constructor stub
 		this.type = type;
 		this.name = name;
 	}
 
 	public Project(String name,View custom) {
-		// TODO Auto-generated constructor stub
 		this.type = CUSTOM;
 		this.name = name;
 		this.custom = custom;
 	}
 
 	Project(Project project) {
-		// TODO Auto-generated constructor stub
 		this.type = project.type;
 		this.name = project.name;
 		this.custom = project.custom;
@@ -66,7 +61,6 @@ public class Project {
 	}
 
 	public void put(Item item) {
-		// TODO Auto-generated method stub
 		items.add(item);
 		if(type == TEXTBOX //TEXTBOX 类型有效化
 				&& item.type != Item.DISABLE

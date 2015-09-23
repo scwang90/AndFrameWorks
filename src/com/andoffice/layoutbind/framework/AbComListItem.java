@@ -7,13 +7,11 @@ public abstract class AbComListItem<T> extends AbListItem<T> implements IAfChild
 
 	@Override
 	public void onBinding(T model, boolean isExpanded) {
-		// TODO Auto-generated method stub
-		
+
 	}
 
 	@Override
 	protected boolean onBinding(T model,int index, SelectStatus status) {
-		// TODO Auto-generated method stub
 		return false;
 	}
 	

@@ -54,8 +54,7 @@ public abstract class AoListViewActivity<T> extends AfActivity implements OnRefr
 	public String KEY_CACHELIST = this.getClass().getName();
 	
 	public AoListViewActivity() {
-		// TODO Auto-generated constructor stub
-		
+
 	}
 
 	/**
@@ -63,7 +62,6 @@ public abstract class AoListViewActivity<T> extends AfActivity implements OnRefr
 	 * @param clazz
 	 */
 	public AoListViewActivity(Class<T> clazz) {
-		// TODO Auto-generated constructor stub
 		this.mCacheClazz = clazz;
 	}
 
@@ -73,7 +71,6 @@ public abstract class AoListViewActivity<T> extends AfActivity implements OnRefr
 	 * @param clazz
 	 */
 	public AoListViewActivity(Class<T> clazz, String KEY_CACHELIST) {
-		// TODO Auto-generated constructor stub
 		this.mCacheClazz = clazz;
 		this.KEY_CACHELIST = KEY_CACHELIST;
 	}
@@ -87,7 +84,6 @@ public abstract class AoListViewActivity<T> extends AfActivity implements OnRefr
 	 * @throws Exception
 	 */
 	protected void onCreate(Bundle bundle, AfIntent intent) throws Exception {
-		// TODO Auto-generated method stub
 		super.onCreate(bundle, intent);
 		setContentView(getLayoutId());
 
@@ -143,7 +139,6 @@ public abstract class AoListViewActivity<T> extends AfActivity implements OnRefr
 	 * @param adapter
 	 */
 	public void setData(AfListAdapter<T> adapter) {
-		// TODO Auto-generated method stub
 		mListView.setAdapter(adapter);
 		mSelector.SelectFrame(mListView);
 	}
@@ -153,7 +148,6 @@ public abstract class AoListViewActivity<T> extends AfActivity implements OnRefr
 	 * @author 树朾
 	 */
 	public void setLoading() {
-		// TODO Auto-generated method stub
 		mProgress.setDescription("正在加载...");
 		mSelector.SelectFrame(mProgress);
 	}
@@ -166,7 +160,6 @@ public abstract class AoListViewActivity<T> extends AfActivity implements OnRefr
 	private OnClickListener mNodataRefreshListener = new OnClickListener() {
 		@Override
 		public void onClick(View v) {
-			// TODO Auto-generated method stub
 			onRefresh();
 			setLoading();
 		}
@@ -177,7 +170,6 @@ public abstract class AoListViewActivity<T> extends AfActivity implements OnRefr
 	 * @author 树朾
 	 */
 	public void setNodata() {
-		// TODO Auto-generated method stub
 		mNodata.setDescription("抱歉，暂无数据");
 		mSelector.SelectFrame(mNodata);
 		mNodata.setOnRefreshListener(mNodataRefreshListener);
@@ -189,7 +181,6 @@ public abstract class AoListViewActivity<T> extends AfActivity implements OnRefr
 	 * @param ex
 	 */
 	public void setLoadError(Throwable ex) {
-		// TODO Auto-generated method stub
 		mNodata.setDescription(AfException.handle(ex, "数据加载出现异常"));
 		mNodata.setOnRefreshListener(mNodataRefreshListener);
 		mSelector.SelectFrame(mNodata);
@@ -202,7 +193,6 @@ public abstract class AoListViewActivity<T> extends AfActivity implements OnRefr
 	 */
 	@Override
 	public boolean onMore() {
-		// TODO Auto-generated method stub
 		postTask(new AbListViewTask(mAdapter));
 		return true;
 	}
@@ -214,7 +204,6 @@ public abstract class AoListViewActivity<T> extends AfActivity implements OnRefr
 	 */
 	@Override
 	public boolean onRefresh() {
-		// TODO Auto-generated method stub
 		postTask(new AbListViewTask(null));
 		return true;
 	}
@@ -229,7 +218,6 @@ public abstract class AoListViewActivity<T> extends AfActivity implements OnRefr
 	 */
 	@Override
 	public void onItemClick(AdapterView<?> parent, View view, long id, int index) {
-		// TODO Auto-generated method stub
 		T model = mAdapter.getItemAt(mListView.getDataIndex(index));
 		onItemClick(model,index);
 	}
@@ -241,13 +229,11 @@ public abstract class AoListViewActivity<T> extends AfActivity implements OnRefr
 	 * @param index
 	 */
 	protected void onItemClick(T model, int index) {
-		// TODO Auto-generated method stub
-		
+
 	}
 
 	@Override
 	public void onClick(View v) {
-		// TODO Auto-generated method stub
 //		if (v != null && v.getId() == ModuleNodata.ID_BUTTON) {
 //			onRefresh();
 //			setLoading();
@@ -267,7 +253,6 @@ public abstract class AoListViewActivity<T> extends AfActivity implements OnRefr
 		 */
 		public AbListViewTask(Class<T> clazz, String KEY_CACHELIST) {
 			super(clazz, KEY_CACHELIST);
-			// TODO Auto-generated constructor stub
 		}
 
 		/**
@@ -276,12 +261,10 @@ public abstract class AoListViewActivity<T> extends AfActivity implements OnRefr
 		 */
 		public AbListViewTask(AfListAdapter<T> adapter) {
 			super(adapter);
-			// TODO Auto-generated constructor stub
 		}
 
 		@Override
 		protected List<T> onLoad() {
-			// TODO Auto-generated method stub
 			List<T> list = AoListViewActivity.this.onTaskLoad();
 			if (!AfCollections.isEmpty(list)) {
 				return list;
@@ -292,28 +275,24 @@ public abstract class AoListViewActivity<T> extends AfActivity implements OnRefr
 		//事件转发 参考 AfListViewFragment.onListByPage
 		@Override
 		protected List<T> onListByPage(Page page, int task) throws Exception {
-			// TODO Auto-generated method stub
 			return AoListViewActivity.this.onTaskListByPage(page,task);
 		}
 
 		//事件转发 参考 AfListViewFragment.onLoaded
 		@Override
 		protected boolean onLoaded(boolean isfinish, List<T> ltdata,Date cachetime) {
-			// TODO Auto-generated method stub
 			return AoListViewActivity.this.onLoaded(this,isfinish, ltdata,cachetime);
 		}
 
 		//事件转发 参考 AfListViewFragment.onRefreshed
 		@Override
 		protected boolean onRefreshed(boolean isfinish, List<T> ltdata) {
-			// TODO Auto-generated method stub
 			return AoListViewActivity.this.onRefreshed(this,isfinish, ltdata);
 		}
 		//事件转发 参考 AfListViewFragment.onMored
 		@Override
 		protected boolean onMored(boolean isfinish, List<T> ltdata,
 				boolean ended) {
-			// TODO Auto-generated method stub
 			return AoListViewActivity.this.onMored(this,isfinish, ltdata);
 		}
 
@@ -331,7 +310,6 @@ public abstract class AoListViewActivity<T> extends AfActivity implements OnRefr
 	 */
 	protected boolean onLoaded(AbListViewTask task, boolean isfinish,
 			List<T> ltdata, Date cachetime) {
-		// TODO Auto-generated method stub
 		boolean deal = onRefreshed(task,isfinish,ltdata);
 		if (isfinish && !AfCollections.isEmpty(ltdata)) {
 			//设置上次刷新缓存时间
@@ -350,7 +328,6 @@ public abstract class AoListViewActivity<T> extends AfActivity implements OnRefr
 	 */
 	@SuppressWarnings("static-access")
 	protected boolean onRefreshed(AbListViewTask task, boolean isfinish, List<T> ltdata) {
-		// TODO Auto-generated method stub
 		if (isfinish) {
 			//通知列表刷新完成
 			mListView.finishRefresh();
@@ -390,7 +367,6 @@ public abstract class AoListViewActivity<T> extends AfActivity implements OnRefr
 	@SuppressWarnings("static-access")
 	protected boolean onMored(AbListViewTask task, boolean isfinish,
 			List<T> ltdata) {
-		// TODO Auto-generated method stub
 		// 通知列表刷新完成
 		mListView.finishLoadMore();
 		if (isfinish) {
@@ -426,7 +402,6 @@ public abstract class AoListViewActivity<T> extends AfActivity implements OnRefr
 	 * @return 返回 null 可以使用框架内置缓存
 	 */
 	protected List<T> onTaskLoad() {
-		// TODO Auto-generated method stub
 		return null;
 	}
 
@@ -447,7 +422,6 @@ public abstract class AoListViewActivity<T> extends AfActivity implements OnRefr
 	 * @return
 	 */
 	protected AfListAdapter<T> newAdapter(Context context, List<T> ltdata) {
-		// TODO Auto-generated method stub
 		return new AbListViewAdapter(getContext(), ltdata);
 	}
 
@@ -459,7 +433,6 @@ public abstract class AoListViewActivity<T> extends AfActivity implements OnRefr
 
 		public AbListViewAdapter(Context context, List<T> ltdata) {
 			super(context, ltdata);
-			// TODO Auto-generated constructor stub
 		}
 		/**
 		 * 转发事件到 AoListViewActivity.this.getItemLayout(data);
@@ -469,7 +442,6 @@ public abstract class AoListViewActivity<T> extends AfActivity implements OnRefr
 		 */
 		@Override
 		protected IAfLayoutItem<T> getItemLayout(T data) {
-			// TODO Auto-generated method stub
 			return AoListViewActivity.this.getItemLayout(data);
 		}
 		

@@ -75,7 +75,6 @@ public class ImplDomain<T>
 	}
 
 	protected List<T> getTestData(String where, Page page) {
-		// TODO Auto-generated method stub
 		List<T> list = getTestData(where);
 		if(list.size() <= page.FirstResult){
 			return new ArrayList<T>();
@@ -89,13 +88,11 @@ public class ImplDomain<T>
 	
 
 	public ImplDomain(Class<T> clazz) {
-		// TODO Auto-generated constructor stub
 		mClass = clazz;
 	}
 
 	@Override
 	public boolean Insert(T model) throws Exception {
-		// TODO Auto-generated method stub
 		if(AfApplication.getDebugMode() == AfApplication.DEBUG_TESTDATA){
 			Thread.sleep(1000);
 			getTestData().add(model);
@@ -106,7 +103,6 @@ public class ImplDomain<T>
 
 	@Override
 	public boolean Update(T model) throws Exception {
-		// TODO Auto-generated method stub
 		if(AfApplication.getDebugMode() == AfApplication.DEBUG_TESTDATA){
 			Thread.sleep(1000);
 			List<T> ltTest =  getTestData();
@@ -127,7 +123,6 @@ public class ImplDomain<T>
 
 	@Override
 	public boolean Delete(T model) throws Exception {
-		// TODO Auto-generated method stub
 		if(AfApplication.getDebugMode() == AfApplication.DEBUG_TESTDATA){
 			Thread.sleep(1000);
 			List<T> ltTest =  getTestData();
@@ -148,7 +143,6 @@ public class ImplDomain<T>
 
 	@Override
 	public boolean DeleteList(List<T> list) throws Exception {
-		// TODO Auto-generated method stub
 		if(AfApplication.getDebugMode() == AfApplication.DEBUG_TESTDATA){
 			Thread.sleep(1000);
 			List<T> tlist = new ArrayList<T>(list);
@@ -174,7 +168,6 @@ public class ImplDomain<T>
 
 	@Override
 	public boolean UpdateList(List<T> list) throws Exception {
-		// TODO Auto-generated method stub
 		if(AfApplication.getDebugMode() == AfApplication.DEBUG_TESTDATA){
 			Thread.sleep(1000);
 			List<T> tlist = new ArrayList<T>(list);
@@ -199,7 +192,6 @@ public class ImplDomain<T>
 
 	@Override
 	public boolean DeleteByID(UUID id) throws Exception {
-		// TODO Auto-generated method stub
 		if(AfApplication.getDebugMode() == AfApplication.DEBUG_TESTDATA){
 			Thread.sleep(1000);
 			List<T> ltTest =  getTestData();
@@ -299,17 +291,14 @@ public class ImplDomain<T>
 	}
 	
 	protected String where(String where) {
-		// TODO Auto-generated method stub
 		return AfSQLHelper.Where(where);
 	}
 
 	protected String andwhere(String where) {
-		// TODO Auto-generated method stub
 		return AfSQLHelper.andWhere(where);
 	}
 
 	protected String orwhere(String where) {
-		// TODO Auto-generated method stub
 		return AfSQLHelper.orWhere(where);
 	}
 }

@@ -21,7 +21,6 @@ public class ModuleBottombar extends AfLayoutAlpha{
 	
 	public ModuleBottombar(AfPageable page) {
 		super(page,R.id.bottombar_layout);
-		// TODO Auto-generated constructor stub
 		if(isValid()){
 			int[] ids = new int[]{
 					R.id.bottombar_add,
@@ -60,35 +59,29 @@ public class ModuleBottombar extends AfLayoutAlpha{
 	}
 	
 	public void setListener(OnClickListener listener) {
-		// TODO Auto-generated constructor stub
 		for (View view : mViews) {
 			view.setOnClickListener(listener);
 		}
 	}
 
 	public void setIdListener(int id,OnClickListener listener) {
-		// TODO Auto-generated constructor stub
 		if(id >= 0 && id < ID_All){
 			mViews[id].setOnClickListener(listener);
 		}
 	}
 
 	public void setSelectListener(OnClickListener listener) {
-		// TODO Auto-generated constructor stub
 		mViews[ID_SELECT].setOnClickListener(listener);
 	}
 
 	public void setAddListener(OnClickListener listener) {
-		// TODO Auto-generasted constructor stub
 		mViews[ID_ADD].setOnClickListener(listener);
 	}
 	public void setSearchListener(OnClickListener listener) {
-		// TODO Auto-generasted constructor stub
 		mViews[ID_SEARCH].setOnClickListener(listener);
 	}
 
 	public void setTableListener(OnClickListener listener) {
-		// TODO Auto-generasted constructor stub
 		mViews[ID_TABLE].setOnClickListener(listener);
 	}
 }

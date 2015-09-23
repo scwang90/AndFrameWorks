@@ -1,8 +1,5 @@
 package com.andoffice.activity.framework.cominfo;
 
-import java.util.ArrayList;
-import java.util.List;
-
 import android.os.Message;
 import android.widget.TextView;
 
@@ -11,6 +8,9 @@ import com.andframe.model.framework.AfModel;
 import com.andoffice.activity.framework.AbModeuleListActivity;
 import com.andoffice.domain.IDomain;
 import com.andoffice.domain.impl.ImplDomain;
+
+import java.util.ArrayList;
+import java.util.List;
 
 public abstract class AbModelActivity<T> extends AbCominfoActivity{
 
@@ -22,7 +22,6 @@ public abstract class AbModelActivity<T> extends AbCominfoActivity{
 	
 	@Override
 	protected void onSubmit(List<Project> ltproject, Mode mode) {
-		// TODO Auto-generated method stub
 		T model = onSubmitModel(ltproject,mode);
 		if(model != null){
 			switch (mode) {
@@ -46,7 +45,6 @@ public abstract class AbModelActivity<T> extends AbCominfoActivity{
 	 * @return 返回true 成功写回（即将关闭页面）放回false 放弃回写将放弃关闭页面
 	 */
 	protected boolean onTaskWriteBack(AfIntent intent, T model) {
-		// TODO Auto-generated method stub
 		intent.put(EXTRA_RESULT, model);
 		return true;
 	}
@@ -59,7 +57,6 @@ public abstract class AbModelActivity<T> extends AbCominfoActivity{
 	 * @throws Exception
 	 */
 	protected void onTaskAdd(IDomain<T> domain, T model) throws Exception {
-		// TODO Auto-generated method stub
 		domain.Insert(model);
 	}
 
@@ -71,7 +68,6 @@ public abstract class AbModelActivity<T> extends AbCominfoActivity{
 	 * @throws Exception
 	 */
 	protected void onTaskEdit(IDomain<T> domain, T model) throws Exception {
-		// TODO Auto-generated method stub
 		domain.Update(model);
 	}
 	
@@ -79,12 +75,10 @@ public abstract class AbModelActivity<T> extends AbCominfoActivity{
 
 		public AbCommodelTask(T model, int task) {
 			super(model, task);
-			// TODO Auto-generated constructor stub
 		}
 		
 		@Override
 		protected void onWorking(Message msg) throws Exception {
-			// TODO Auto-generated method stub
 			IDomain<T> domain = getDomain(mClass);
 			switch (mTask) {
 			case TASK_ADD:
@@ -98,37 +92,31 @@ public abstract class AbModelActivity<T> extends AbCominfoActivity{
 		
 		@Override
 		protected boolean onWriteBack(AfIntent intent, T model) {
-			// TODO Auto-generated method stub
 			return onTaskWriteBack(intent, model);
 		}
 	}
 
 	protected <TM> Item buildSelectItem(Item item,Class<TM> clazz,Class<? extends AbModeuleListActivity<? extends TM>> activity) {
-		// TODO Auto-generated method stub
 		mltSelector.add(new ModelSelector(item,clazz,activity));
 		return item;
 	}
 	
 	public IDomain<T> getDomain(Class<T> clazz) {
-		// TODO Auto-generated method stub
 		return new ImplDomain<T>(clazz);
 	}
 
 	protected <TM> Item buildSelectItem(Item item,boolean single,Class<TM> clazz,Class<? extends AbModeuleListActivity<? extends TM>> activity) {
-		// TODO Auto-generated method stub
 		mltSelector.add(new ModelSelector(item,single,clazz,activity));
 		return item;
 	}
 	
 	protected <TM> Item buildSelectItem(Item item,String title,boolean single,Class<TM> clazz,Class<? extends AbModeuleListActivity<? extends TM>> activity) {
-		// TODO Auto-generated method stub
 		mltSelector.add(new ModelSelector(item,title,single,clazz,activity));
 		return item;
 	}
 	
 	@Override
 	protected boolean onItemClick(Item item, TextView textview) {
-		// TODO Auto-generated method stub
 		for (int i = 0; i < mltSelector.size(); i++) {
 			ModelSelector selector = mltSelector.get(i);
 			if(selector.item == item){
@@ -147,11 +135,10 @@ public abstract class AbModelActivity<T> extends AbCominfoActivity{
 	}
 	
 	@Override
-	protected void onActivityResult(AfIntent intent, int questcode,int resultcode) {
-		// TODO Auto-generated method stub
+	protected void onActivityResult(AfIntent intent, int requestcode,int resultcode) {
 		if(resultcode == RESULT_OK){
 			for (int i = 0; i < mltSelector.size(); i++) {
-				if(questcode == REQUEST_CHOOSERMODEL + i){
+				if(requestcode == REQUEST_CHOOSERMODEL + i){
 					ModelSelector selector = mltSelector.get(i);
 					if(selector.single){
 						Object model = intent.get(EXTRA_RESULT, selector.clazz);
@@ -168,7 +155,7 @@ public abstract class AbModelActivity<T> extends AbCominfoActivity{
 				}
 			}
 		}
-		super.onActivityResult(intent, questcode, resultcode);
+		super.onActivityResult(intent, requestcode, resultcode);
 	}
 
 	/**
@@ -177,7 +164,6 @@ public abstract class AbModelActivity<T> extends AbCominfoActivity{
 	 * @param ltmodel 选择的多条数据
 	 */
 	protected void onItemSelected(Item item, List<?> ltmodel) {
-		// TODO Auto-generated method stub
 		String text = "";
 		for (Object model : ltmodel) {
 			if (model instanceof AfModel) {
@@ -196,14 +182,11 @@ public abstract class AbModelActivity<T> extends AbCominfoActivity{
 	protected static class ModelSelector{
 		public ModelSelector(Item item,Class<?> clazz,Class<?> activity) {
 			this(item,"选择" + item.name,true,clazz,activity);
-			// TODO Auto-generated constructor stub
 		}
 		public ModelSelector(Item item, boolean single,Class<?> clazz,Class<?> activity) {
 			this(item,"选择" + item.name,single,clazz,activity);
-			// TODO Auto-generated constructor stub
 		}
 		public ModelSelector(Item item, String title, boolean single,Class<?> clazz,Class<?> activity) {
-			// TODO Auto-generated constructor stub
 			this.title = title;
 			this.clazz = clazz;
 			this.item = item;

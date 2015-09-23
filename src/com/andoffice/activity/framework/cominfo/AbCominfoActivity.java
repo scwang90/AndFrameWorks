@@ -101,7 +101,6 @@ public abstract class AbCominfoActivity extends AfActivity implements
 	 * @return
 	 */
 	protected AfModel getModel() {
-		// TODO Auto-generated method stub
 		return new AfModel();
 	}
 
@@ -116,7 +115,6 @@ public abstract class AbCominfoActivity extends AfActivity implements
 	protected abstract void onSubmit(List<Project> ltproject,Mode mode);
 
 	protected void onSubmitProject(Project project,Button bt, Mode mode) {
-		// TODO Auto-generated method stub
 		bt.setEnabled(false);
 	}
 
@@ -124,7 +122,6 @@ public abstract class AbCominfoActivity extends AfActivity implements
 	@SuppressLint("HandlerLeak")
 	protected final void onCreate(Bundle bundle, AfIntent intent) throws Exception {
 		super.onCreate(bundle, intent);
-		// TODO Auto-generated method stub
 		setContentView(R.layout.layout_commonpanel);
 
 		mMode[0] = Mode.EDIT;
@@ -170,7 +167,6 @@ public abstract class AbCominfoActivity extends AfActivity implements
 	 * @return
 	 */
 	protected int DisEdit(int type) {
-		// TODO Auto-generated method stub
 		if(mMode[0] == Mode.EDIT){
 			return Item.DISABLE;
 		}
@@ -183,7 +179,6 @@ public abstract class AbCominfoActivity extends AfActivity implements
 	 * @return
 	 */
 	protected Item DisEdit(Item item) {
-		// TODO Auto-generated method stub
 		if(mMode[0] == Mode.EDIT){
 			item.type = Item.DISABLE;
 		}
@@ -192,7 +187,6 @@ public abstract class AbCominfoActivity extends AfActivity implements
 
 
 	protected DynamicProject getDynamicProject(Project project) {
-		// TODO Auto-generated method stub
 		for (DynamicProject dynpro : mltDynamic) {
 			if(dynpro.mProject == project){
 				return dynpro;
@@ -212,7 +206,6 @@ public abstract class AbCominfoActivity extends AfActivity implements
 	}
 
 	private void doBuildLayout(Project[] projects) {
-		// TODO Auto-generated method stub
 		mLayout.removeAllViews();
 		for (Project project : projects) {
 			doBuildProject(project, mLayout);
@@ -223,8 +216,7 @@ public abstract class AbCominfoActivity extends AfActivity implements
 	}
 
 	private void doBuildProject(Project project, LinearLayout layout) {
-		// TODO Auto-generated method stub
-		DynamicProject dynamic = new DynamicProject(project); 
+		DynamicProject dynamic = new DynamicProject(project);
 		dynamic.mTvTitle = new TextView(this);
 		dynamic.mTvTitle.setText(project.name);
 		dynamic.mTvTitle.setTextColor(mTvProjectName.getTextColors());
@@ -275,7 +267,6 @@ public abstract class AbCominfoActivity extends AfActivity implements
 	}
 
 	private boolean doUninstallSelectbarItem(Project project,Item item, LinearLayout layout) {
-		// TODO Auto-generated method stub
 		//排除不能删除的项
 		if(item.type != Item.BUTTON && item.type < Item.TEXTBOXSINGLE){
 			int index = project.items.indexOf(item);
@@ -305,7 +296,6 @@ public abstract class AbCominfoActivity extends AfActivity implements
 
 	@SuppressWarnings("deprecation")
 	private void doBuildTextBoxItem(Item item, LinearLayout layout) {
-		// TODO Auto-generated method stub
 		if(mMode[0] == Mode.VIEW || item.type == Item.DISABLE){
 			item.mTextView = new TextView(this);
 		}else{
@@ -354,7 +344,6 @@ public abstract class AbCominfoActivity extends AfActivity implements
 
 	@SuppressWarnings("deprecation")
 	private void doBuildSelectbarItem(Item item, LinearLayout projectlayout) {
-		// TODO Auto-generated method stub
 		if (projectlayout.getChildCount() > 0) {
 			View divider = new View(this);
 			divider.setBackgroundDrawable(mViewDivider.getBackground());
@@ -431,7 +420,6 @@ public abstract class AbCominfoActivity extends AfActivity implements
 	
 	@Override
 	public void onClick(View v) {
-		// TODO Auto-generated method stub
 		if (v != null &&(v.getId() == ModuleTitlebar.ID_OK
 				|| v.getId() == R.id.button_finish)) {
 			doSubmit();
@@ -443,7 +431,6 @@ public abstract class AbCominfoActivity extends AfActivity implements
 				project.doCheckNotnull();
 				this.onSubmitProject(project,(Button)v,mMode[0]);
 			} catch (Exception e) {
-				// TODO: handle exception
 				makeToastLong("",e);
 				return;
 			}
@@ -456,13 +443,11 @@ public abstract class AbCominfoActivity extends AfActivity implements
 	}
 
 	protected void doSubmit() {
-		// TODO Auto-generated method stub
 		try {
 			for (Project project : mltDynamic) {
 				project.doCheckNotnull();
 			}
 		} catch (Exception e) {
-			// TODO: handle exception
 			makeToastLong("",e);
 			return;
 		}
@@ -471,7 +456,6 @@ public abstract class AbCominfoActivity extends AfActivity implements
 	
 	@Override
 	public void onCheckedChanged(CompoundButton view, boolean isChecked) {
-		// TODO Auto-generated method stub
 		if(view instanceof CheckBox && view.getTag() instanceof Item){
 			Item item = (Item) view.getTag();
 			item.blvalue = isChecked;
@@ -480,12 +464,11 @@ public abstract class AbCominfoActivity extends AfActivity implements
 	}
 	
 	@Override
-	protected void onActivityResult(AfIntent intent, int questcode,
+	protected void onActivityResult(AfIntent intent, int requestcode,
 			int resultcode) {
-		// TODO Auto-generated method stub
-		super.onActivityResult(intent, questcode, resultcode);
+		super.onActivityResult(intent, requestcode, resultcode);
 		if (resultcode == RESULT_OK) {
-			switch (questcode) {
+			switch (requestcode) {
 			case REQUEST_FILECHOOSER:
 				String path = AfFileSelector.onActivityFileResult(this,resultcode, intent);
 				File file = new File(path);
@@ -499,7 +482,6 @@ public abstract class AbCominfoActivity extends AfActivity implements
 	}
 
 	protected boolean onItemClick(Item item, TextView textview) {
-		// TODO Auto-generated method stub
 		if(item.type == Item.SELECTOR_DATE){
 			doSelectDate(item,textview,ID_DATE);
 		}else if(item.type == Item.SELECTOR_TIME){
@@ -521,7 +503,6 @@ public abstract class AbCominfoActivity extends AfActivity implements
 	 * @param init 标记是否初始化时候
 	 */
 	protected void onItemInputFinish(Item item, TextView view,boolean init) {
-		// TODO Auto-generated method stub
 	}
 
 	/**
@@ -530,14 +511,12 @@ public abstract class AbCominfoActivity extends AfActivity implements
 	 * @param textview 对应 TextView
 	 */
 	protected void doSelectItem(final Item item, final TextView textview) {
-		// TODO Auto-generated method stub
 		final String[] items = item.values;
 		Builder builder = new AlertDialog.Builder(this);
 		builder.setTitle("请选择" + item.name);
 		builder.setItems(items, new DialogInterface.OnClickListener() {
 			@Override
 			public void onClick(DialogInterface dialog, int which) {
-				// TODO Auto-generated method stub
 				item.ivalue = which;
 				item.blvalue = which > 0;
 				item.value = items[which];
@@ -555,7 +534,6 @@ public abstract class AbCominfoActivity extends AfActivity implements
 	}
 
 	protected void doInputText(final Item item, final TextView textview) {
-		// TODO Auto-generated method stub
 		final EditText input = new EditText(this);
 		input.setText(item.value);
 		input.clearFocus();
@@ -575,7 +553,6 @@ public abstract class AbCominfoActivity extends AfActivity implements
 		builder.setPositiveButton("确定", new DialogInterface.OnClickListener() {
 			@Override
 			public void onClick(DialogInterface dialog, int which) {
-				// TODO Auto-generated method stub
 				setSoftInputEnable(input, false);
 				String text = input.getText().toString();
 				if (!text.equals("")) {
@@ -587,7 +564,6 @@ public abstract class AbCominfoActivity extends AfActivity implements
 							item.ivalue = (int) item.dvalue;
 							item.fvalue = (float) item.dvalue;
 						} catch (Exception ex) {
-							// TODO: handle exception
 							AfExceptionHandler.handler(ex,"AbCommonActivity.doInputText.onClick.valueOf 出现异常");
 						}
 					}else if(item.type == Item.PASSWORD){
@@ -608,7 +584,6 @@ public abstract class AbCominfoActivity extends AfActivity implements
 		builder.setNegativeButton("取消", new DialogInterface.OnClickListener() {
 			@Override
 			public void onClick(DialogInterface dialog, int which) {
-				// TODO Auto-generated method stub
 				setSoftInputEnable(input, false);
 				dialog.dismiss();
 			}
@@ -626,7 +601,6 @@ public abstract class AbCominfoActivity extends AfActivity implements
 	}
 
 	protected void doSelectDateTime(Item item, TextView textview, int id) {
-		// TODO Auto-generated method stub
 		final Item fitem = item;
 		final TextView ftext = textview;
 		final Calendar calender = Calendar.getInstance();
@@ -638,7 +612,6 @@ public abstract class AbCominfoActivity extends AfActivity implements
 			private boolean fdealwith = false;
 			@Override
 			public void onDateSet(DatePicker view, final int year, final int month,final int day) {
-				// TODO Auto-generated method stub
 				if(fdealwith == true){
 					return ;
 				}
@@ -649,7 +622,6 @@ public abstract class AbCominfoActivity extends AfActivity implements
 					private boolean fdealwith = false;
 					@Override
 					public void onTimeSet(TimePicker view, int hour, int minute) {
-						// TODO Auto-generated method stub
 						if(fdealwith == true){
 							return ;
 						}
@@ -666,7 +638,6 @@ public abstract class AbCominfoActivity extends AfActivity implements
 	}
 	
 	protected void doSelectTime(Item item, TextView textview, int id) {
-		// TODO Auto-generated method stub
 		final Item fitem = item;
 		final TextView ftext = textview;
 		Calendar calender = Calendar.getInstance();
@@ -677,7 +648,6 @@ public abstract class AbCominfoActivity extends AfActivity implements
 			private boolean fdealwith = false;
 			@Override
 			public void onTimeSet(TimePicker view, int hour, int minute) {
-				// TODO Auto-generated method stub
 				if(fdealwith == true){
 					return ;
 				}
@@ -690,7 +660,6 @@ public abstract class AbCominfoActivity extends AfActivity implements
 	}
 
 	protected void doSelectDate(Item item, TextView textview, int id) {
-		// TODO Auto-generated method stub
 		final Item fitem = item;
 		final TextView ftext = textview;
 		Calendar calender = Calendar.getInstance();
@@ -702,7 +671,6 @@ public abstract class AbCominfoActivity extends AfActivity implements
 			private boolean fdealwith = false;
 			@Override
 			public void onDateSet(DatePicker view, final int year, final int month,final int day) {
-				// TODO Auto-generated method stub
 				if(fdealwith == true){
 					return ;
 				}
@@ -716,7 +684,6 @@ public abstract class AbCominfoActivity extends AfActivity implements
 
 	protected void onItemDateSet(Item item, TextView text, DatePicker view,
 			int year, int month, int day) {
-		// TODO Auto-generated method stub
 		Calendar calender = Calendar.getInstance();
 		calender.setTime(item.vdate);
 		calender.set(Calendar.YEAR, year);
@@ -730,7 +697,6 @@ public abstract class AbCominfoActivity extends AfActivity implements
 	
 	protected void onItemTimeSet(Item item, TextView text, TimePicker view,
 			int hour, int minute) {
-		// TODO Auto-generated method stub
 		Calendar calender = Calendar.getInstance();
 		calender.setTime(item.vdate);
 		calender.set(Calendar.HOUR_OF_DAY, hour);
@@ -742,7 +708,6 @@ public abstract class AbCominfoActivity extends AfActivity implements
 	}
 
 	protected void onItemDateTimeSet(Item item, TextView text, int year, int month, int day,int hour, int minute) {
-		// TODO Auto-generated method stub
 		Calendar calender = Calendar.getInstance();
 		calender.setTime(item.vdate);
 		calender.set(Calendar.YEAR, year);
@@ -757,7 +722,6 @@ public abstract class AbCominfoActivity extends AfActivity implements
 	}
 
 	protected void onItemSelected(Item item,Object model) {
-		// TODO Auto-generated method stub
 		if (model instanceof AfModel) {
 			item.setValue(AfModel.class.cast(model).Name);
 		}else if(model != null){
@@ -781,7 +745,6 @@ public abstract class AbCominfoActivity extends AfActivity implements
 		
 		DynamicProject(Project project) {
 			super(project);
-			// TODO Auto-generated constructor stub
 			mProject = project;
 		}
 	
@@ -804,14 +767,12 @@ public abstract class AbCominfoActivity extends AfActivity implements
 			}
 		}
 		public void dynClear() {
-			// TODO Auto-generated method stub
 			items.clear();
 			mLayout.removeAllViews();
 			mTvTitle.setVisibility(View.GONE);
 		}
 	
 		public void dynSetTitle(String title) {
-			// TODO Auto-generated method stub
 			mTvTitle.setText(title);
 			if(mTvTitle.getVisibility() != View.VISIBLE){
 				if(!title.equals("")){
@@ -821,7 +782,6 @@ public abstract class AbCominfoActivity extends AfActivity implements
 		}
 	
 		public void dynPut(Item item) {
-			// TODO Auto-generated method stub
 			items.add(item);
 			doBuildSelectbarItem(item, mLayout);
 			if(mTvTitle.getVisibility() != View.VISIBLE){
@@ -836,7 +796,6 @@ public abstract class AbCominfoActivity extends AfActivity implements
 		 * @return 是否成功删除
 		 */
 		public boolean dynUninstall(Item item) {
-			// TODO Auto-generated method stub
 			int index = items.indexOf(item);
 			if(index >= 0 && doUninstallSelectbarItem(this,item, mLayout)){
 				items.remove(index);
@@ -851,7 +810,6 @@ public abstract class AbCominfoActivity extends AfActivity implements
 		 */
 		@Override
 		public void doCheckNotnull() throws Exception {
-			// TODO Auto-generated method stub
 			if(!mIsShown){//如果已经被隐藏，则忽略检查，默认全部非空并通过
 				return;
 			}
@@ -881,14 +839,12 @@ public abstract class AbCominfoActivity extends AfActivity implements
 		@SuppressWarnings("unchecked")
 		public AbCommonTask(T model,int task) {
 			super(task);
-			// TODO Auto-generated constructor stub
 			mModel = model;
 			mClass = (Class<T>)model.getClass();
 		}
 		
 		@Override
 		public boolean onPrepare() {
-			// TODO Auto-generated method stub
 			showProgressDialog("正在提交请求...");
 			if(getSoftInputStatus()){
 				setSoftInputEnable(null, false);
@@ -898,7 +854,6 @@ public abstract class AbCominfoActivity extends AfActivity implements
 
 		@Override
 		protected void onWorking(Message msg) throws Exception {
-			// TODO Auto-generated method stub
 			IDomain<T> domain = new ImplDomain<T>(mClass);
 			switch (mTask) {
 			case TASK_ADD:
@@ -912,7 +867,6 @@ public abstract class AbCominfoActivity extends AfActivity implements
 
 		@Override
 		protected boolean onHandle(Message msg) {
-			// TODO Auto-generated method stub
 			hideProgressDialog();
 			if (mResult == RESULT_FINISH) {// TASK_ADD and TASK_MODIFY
 				makeToastShort("操作成功完成！");
@@ -934,7 +888,6 @@ public abstract class AbCominfoActivity extends AfActivity implements
 		 * @return 返回true 成功写回（即将关闭页面）放回false 放弃回写将放弃关闭页面
 		 */
 		protected boolean onWriteBack(AfIntent intent,T model) {
-			// TODO Auto-generated method stub
 			intent.put(EXTRA_RESULT, model);
 			return true;
 		}

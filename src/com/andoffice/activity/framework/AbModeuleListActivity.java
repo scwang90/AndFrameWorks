@@ -1,11 +1,5 @@
 package com.andoffice.activity.framework;
 
-import java.util.ArrayList;
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
-import java.util.Map.Entry;
-
 import android.app.AlertDialog.Builder;
 import android.content.DialogInterface;
 import android.os.Bundle;
@@ -39,6 +33,12 @@ import com.andoffice.layoutbind.ModuleTitlebar;
 import com.andoffice.layoutbind.ModuleTitlebarSearcher;
 import com.andoffice.layoutbind.ModuleTitlebarSearcher.SearchOptions;
 import com.andoffice.layoutbind.ModuleTitlebarSearcher.SearcherListener;
+
+import java.util.ArrayList;
+import java.util.HashMap;
+import java.util.List;
+import java.util.Map;
+import java.util.Map.Entry;
 
 public abstract class AbModeuleListActivity<T> extends
 		AbSuperListViewActivity<T> implements SearcherListener {
@@ -93,7 +93,6 @@ public abstract class AbModeuleListActivity<T> extends
 	protected List<T> mltSelection = null;
 
 	public AbModeuleListActivity(Class<T> clazz) {
-		// TODO Auto-generated constructor stub
 		mClazzModel = clazz;
 		mDomain = getDomain();
 	}
@@ -101,7 +100,6 @@ public abstract class AbModeuleListActivity<T> extends
 	public AbModeuleListActivity(Class<T> clazz,
 			Class<? extends AfActivity> clazzview) {
 		this(clazz);
-		// TODO Auto-generated constructor stub
 		mClazzView = clazzview;
 		mClazzAdd = clazzview;
 	}
@@ -110,12 +108,10 @@ public abstract class AbModeuleListActivity<T> extends
 			Class<? extends AfActivity> clazzview,
 			Class<? extends AfActivity> clazzadd) {
 		this(clazz, clazzview);
-		// TODO Auto-generated constructor stub
 		mClazzAdd = clazzadd;
 	}
 
 	public AbModeuleListActivity(Class<T> clazz, IDomain<T> domain) {
-		// TODO Auto-generated constructor stub
 		mClazzModel = clazz;
 		if (domain != null) {
 			mDomain = domain;
@@ -127,7 +123,6 @@ public abstract class AbModeuleListActivity<T> extends
 	public AbModeuleListActivity(Class<T> clazz, IDomain<T> domain,
 			Class<? extends AfActivity> clazzview) {
 		this(clazz, domain);
-		// TODO Auto-generated constructor stub
 		mClazzView = clazzview;
 		mClazzAdd = clazzview;
 	}
@@ -136,14 +131,12 @@ public abstract class AbModeuleListActivity<T> extends
 			Class<? extends AfActivity> clazzview,
 			Class<? extends AfActivity> clazzadd) {
 		this(clazz, domain, clazzview);
-		// TODO Auto-generated constructor stub
 		mClazzAdd = clazzadd;
 	}
 
 	@Override
 	protected final void onCreate(Bundle bundle, AfIntent intent,AfRefreshListView<ListView> listview) throws Exception {
 		super.onCreate(bundle, intent, listview);
-		// TODO Auto-generated method stub
 		//根据传递值设置标题
 		mTitlebar.setTitle(intent.getString(EXTRA_TITLE,getString(R.string.app_name)));
 		//判断调用模式
@@ -180,7 +173,6 @@ public abstract class AbModeuleListActivity<T> extends
 	}
 
 	protected void onCreate(Bundle bundle, AfIntent intent,Permission permission) throws Exception {
-		// TODO Auto-generated method stub
 		//非选择状态
 		if(!mIsSelection){
 			if (mPermission.IsDelete) {
@@ -196,13 +188,11 @@ public abstract class AbModeuleListActivity<T> extends
 	}
 
 	protected void buildAddFunction(Class<? extends AfActivity> clazz) {
-		// TODO Auto-generated method stub
 		mClazzAdd = clazz;
 		buildAddFunction();
 	}
 
 	protected void buildAddFunction() {
-		// TODO Auto-generated method stub
 		if (mClazzAdd != null) {
 			HashMap<String, Integer> map = new HashMap<String, Integer>();
 			map.put("添加", REQUEST_ADD);
@@ -216,7 +206,6 @@ public abstract class AbModeuleListActivity<T> extends
 	}
 
 	protected void buildSearch(List<Entry<String, String>> options) {
-		// TODO Auto-generated method stub
 		HashMap<String, Integer> map = new HashMap<String, Integer>();
 		map.put("搜索", REQUEST_SEARCH);
 		mTitlebar.addMeuns(map);
@@ -230,7 +219,6 @@ public abstract class AbModeuleListActivity<T> extends
 	}
 
 	protected void buildSearch() {
-		// TODO Auto-generated method stub
 		HashMap<String, Integer> map = new HashMap<String, Integer>();
 		map.put("搜索", REQUEST_SEARCH);
 		mTitlebar.addMeuns(map);
@@ -249,14 +237,12 @@ public abstract class AbModeuleListActivity<T> extends
 	 * 		子类可以重写这个方法自定义搜索字段
 	 */
 	protected SearchOptions onBuildSearchItem() {
-		// TODO Auto-generated method stub
 		SearchOptions entitys = new SearchOptions();
 		entitys.put("Name", "名称");
 		return entitys;
 	}
 
 	protected void buildTableView() {
-		// TODO Auto-generated method stub
 		HashMap<String, Integer> map = new HashMap<String, Integer>();
 		map.put("表格视图", REQUEST_TABLE);
 		mTitlebar.addMeuns(map);
@@ -270,13 +256,11 @@ public abstract class AbModeuleListActivity<T> extends
 	}
 
 	protected void buildModifyFunction(Class<? extends AfActivity> clazz) {
-		// TODO Auto-generated method stub
 		mClazzAdd = clazz;
 		buildModifyFunction();
 	}
 
 	protected void buildModifyFunction() {
-		// TODO Auto-generated method stub
 		if (mClazzAdd != null) {
 			HashMap<String, Integer> map = new HashMap<String, Integer>();
 			map.put("编辑", REQUEST_EDIT);
@@ -291,7 +275,6 @@ public abstract class AbModeuleListActivity<T> extends
 	}
 
 	protected void buildMultiDelete() {
-		// TODO Auto-generated method stub
 		HashMap<String, Integer> map = new HashMap<String, Integer>();
 		map.put("删除", REQUEST_DELETE);
 		mTitlebarSelector.addMeuns(map);
@@ -324,7 +307,6 @@ public abstract class AbModeuleListActivity<T> extends
 	}
 
 	private void doSearchHide() {
-		// TODO Auto-generated method stub
 		mTitlebarSearcher.hide();
 		mBottombar.setHighLightMode(false);
 		mBottombar.show();
@@ -338,7 +320,6 @@ public abstract class AbModeuleListActivity<T> extends
 	 * 在多选状态下 点击编辑按钮 启动编辑页面
 	 */
 	protected void doRequestEdit() {
-		// TODO Auto-generated method stub
 		if (mMultiChoiceAdapter.isMultiChoiceMode()) {
 			List<T> list = mMultiChoiceAdapter.peekSelectedItems();
 			if (list.size() == 0) {
@@ -356,7 +337,6 @@ public abstract class AbModeuleListActivity<T> extends
 	 * 点击搜索按钮，显示搜索控件
 	 */
 	protected void doSearchShow() {
-		// TODO Auto-generated method stub
 		mTitlebarSearcher.show();
 		mTitlebarSearcher.setListener(this);
 		mBottombar.hide();
@@ -367,7 +347,6 @@ public abstract class AbModeuleListActivity<T> extends
 	 * 点击删除按钮 提问确认删除
 	 */
 	protected void doReauestDelete() {
-		// TODO Auto-generated method stub
 		if (mMultiChoiceAdapter.isMultiChoiceMode()) {
 			final List<T> list = mMultiChoiceAdapter.peekSelectedItems();
 			if (list.size() > 0) {
@@ -380,7 +359,6 @@ public abstract class AbModeuleListActivity<T> extends
 							@Override
 							public void onClick(DialogInterface dialog,
 									int which) {
-								// TODO Auto-generated method stub
 								mSelected = null;
 								mltDelete = list;
 								postTask(getTask(TASK_DELETE));
@@ -397,7 +375,6 @@ public abstract class AbModeuleListActivity<T> extends
 	 * 点击表格视图按钮，启动表格页面
 	 */
 	protected void doShowTableView() {
-		// TODO Auto-generated method stub
 		if (mAdapter == null || mAdapter.getCount() == 0) {
 			makeToastLong("现在还没有任何数据喔~");
 			return;
@@ -412,7 +389,6 @@ public abstract class AbModeuleListActivity<T> extends
 	 * 点击添加按钮，启动添加页面
 	 */
 	protected void doStartAddActivity() {
-		// TODO Auto-generated method stub
 		AfIntent intent = new AfIntent(this, mClazzAdd);
 		onPutIntentWhenStartAddOrEdit(intent, null);
 		startActivityForResult(intent, REQUEST_ADD);
@@ -423,7 +399,6 @@ public abstract class AbModeuleListActivity<T> extends
 	 * @param model
 	 */
 	protected void doStartEditActivity(T model) {
-		// TODO Auto-generated method stub
 		AfIntent intent = new AfIntent(this, mClazzView);
 		onPutIntentWhenStartAddOrEdit(intent, model);
 		startActivityForResult(intent, REQUEST_EDIT);
@@ -435,7 +410,6 @@ public abstract class AbModeuleListActivity<T> extends
 	 * @return
 	 */
 	protected AfColumn[] getTableColumn() {
-		// TODO Auto-generated method stub
 		AfColumn[] list = new AfColumn[] {
 				new AfColumn("名称", "Name", 0.333f, AfColumn.STRING),
 				new AfColumn("备注", "Remark", 0.333f, AfColumn.STRING),
@@ -444,7 +418,6 @@ public abstract class AbModeuleListActivity<T> extends
 	}
 
 	protected Object getModel(T model) {
-		// TODO Auto-generated method stub
 		return model;
 	}
 
@@ -453,7 +426,6 @@ public abstract class AbModeuleListActivity<T> extends
 	}
 
 	protected String getWhere() {
-		// TODO Auto-generated method stub
 		if (mSeaechEntry != null) {
 			String option = mSeaechEntry.get("Key");
 			String keyword = mSeaechEntry.get("Value");
@@ -464,7 +436,6 @@ public abstract class AbModeuleListActivity<T> extends
 
 	@Override
 	public void onClick(View v) {
-		// TODO Auto-generated method stub
 		if (v == null) {
 			super.onClick(v);
 			return;
@@ -495,7 +466,6 @@ public abstract class AbModeuleListActivity<T> extends
 
 	@Override
 	public void onSoftInputHiden() {
-		// TODO Auto-generated method stub
 		super.onSoftInputHiden();
 		mBottombar.show();
 		if (mTitlebarSearcher.isVisibility() && mSeaechEntry == null) {
@@ -505,7 +475,6 @@ public abstract class AbModeuleListActivity<T> extends
 
 	@Override
 	public void onSoftInputShown() {
-		// TODO Auto-generated method stub
 		super.onSoftInputShown();
 		mBottombar.hide();
 	}
@@ -513,7 +482,6 @@ public abstract class AbModeuleListActivity<T> extends
 	@Override
 	public boolean onSearch(ModuleTitlebarSearcher searcher, String option,
 			String keyword) {
-		// TODO Auto-generated method stub
 		if (keyword.equals("")) {
 			this.doSearchHide();
 		} else {
@@ -527,17 +495,15 @@ public abstract class AbModeuleListActivity<T> extends
 
 	@Override
 	protected AfMultiChoiceItem<T> getItemLayout(T data) {
-		// TODO Auto-generated method stub
 		return new ListItem<T>();
 	}
 
 	@Override
-	protected void onActivityResult(AfIntent intent, int questcode, int resultcode) {
-		// TODO Auto-generated method stub
-		super.onActivityResult(intent, questcode, resultcode);
+	protected void onActivityResult(AfIntent intent, int requestcode, int resultcode) {
+		super.onActivityResult(intent, requestcode, resultcode);
 		if (resultcode == RESULT_OK) {
 			T value = intent.get(EXTRA_RESULT, mClazzModel);
-			switch (questcode) {
+			switch (requestcode) {
 			case REQUEST_ADD:
 				if (value != null) {
 					this.onDataAdded(value,intent);
@@ -553,7 +519,6 @@ public abstract class AbModeuleListActivity<T> extends
 	}
 
 	protected void onDataEdited(T oldv, T newv, AfIntent intent) {
-		// TODO Auto-generated method stub
 		List<T> mltArray = mAdapter.getList();
 		int index = mltArray.indexOf(oldv);
 		if (index >= 0) {
@@ -563,7 +528,6 @@ public abstract class AbModeuleListActivity<T> extends
 	}
 
 	protected void onDataAdded(T value, AfIntent intent) {
-		// TODO Auto-generated method stub
 		if (mAdapter == null || mAdapter.getCount() == 0) {
 			List<T> mltArray = new ArrayList<T>();
 			mltArray.add(value);
@@ -576,12 +540,10 @@ public abstract class AbModeuleListActivity<T> extends
 	}
 
 	protected void onDataDeleted(T model) {
-		// TODO Auto-generated method stub
 	}
 	
 	@Override
 	public boolean onMenuItemClick(MenuItem menu) {
-		// TODO Auto-generated method stub
 		switch (menu.getItemId()) {
 		case REQUEST_DELETE:
 			this.doReauestDelete();
@@ -609,7 +571,6 @@ public abstract class AbModeuleListActivity<T> extends
 
 	@Override
 	protected boolean onBackKeyPressed() {
-		// TODO Auto-generated method stub
 		if (mTitlebarSearcher.isVisibility()) {
 			this.doSearchHide();
 			return true;
@@ -620,7 +581,6 @@ public abstract class AbModeuleListActivity<T> extends
 	
 	@Override
 	public void onItemClick(AdapterView<?> absview, View view,long id, int index) {
-		// TODO Auto-generated method stub
 		super.onItemClick(absview, view, index, id);
 		mSelected = mAdapter.getItemAt(mModuleListView.getDataIndex(index));
 		if (mClazzView != null) {
@@ -635,7 +595,6 @@ public abstract class AbModeuleListActivity<T> extends
 	 *            当前选择的对象 为null是表示添加页面
 	 */
 	protected void onPutIntentWhenStartAddOrEdit(AfIntent intent, T model) {
-		// TODO Auto-generated method stub
 		String expermiss = AbModeuleListActivity.EXTRA_PERMISSION;
 		intent.put(expermiss, mPermission);
 		if (model != null) {
@@ -645,7 +604,6 @@ public abstract class AbModeuleListActivity<T> extends
 
 	@Override
 	protected boolean onTaskPrepare(int task) {
-		// TODO Auto-generated method stub
 		switch (task) {
 		case TASK_DELETE:
 			showProgressDialog("正在删除...");
@@ -660,7 +618,6 @@ public abstract class AbModeuleListActivity<T> extends
 
 	@Override
 	protected List<T> onTaskLoad() {
-		// TODO Auto-generated method stub
 		if (mltSelection != null) {
 			mIsPaging = false;
 			return mltSelection;
@@ -673,14 +630,12 @@ public abstract class AbModeuleListActivity<T> extends
 	 */
 	@Override
 	protected List<T> onTaskListFromDomain(int task, Page page) throws Exception {
-		// TODO Auto-generated method stub
 		String where = getWhere();
 		return mDomain.GetListByPage(where, page);
 	}
 
 	@Override
 	protected boolean onTaskWorking(int task) throws Exception {
-		// TODO Auto-generated method stub
 		switch (task) {
 		case TASK_READ:
 			onTaskRead(mSelected);
@@ -694,7 +649,6 @@ public abstract class AbModeuleListActivity<T> extends
 				try {
 					throw new AfToastException("mltDelete 为空");
 				} catch (Exception e) {
-					// TODO: handle exception
 					AfExceptionHandler.handler(e, remark);
 				}
 			}
@@ -704,18 +658,15 @@ public abstract class AbModeuleListActivity<T> extends
 	}
 
 	protected void onTaskRead(T model) throws Exception {
-		// TODO Auto-generated method stub
 		mDomain.Update(model);
 	}
 
 	protected void onTaskDelete(List<T> mltmodel) throws Exception {
-		// TODO Auto-generated method stub
 		mDomain.DeleteList(mltmodel);
 	}
 
 	@Override
 	protected boolean onTaskTerminate(AfListViewTask<?> task) {
-		// TODO Auto-generated method stub
 		switch (task.mTask) {
 		case TASK_DELETE:
 			hideProgressDialog();
@@ -754,7 +705,6 @@ public abstract class AbModeuleListActivity<T> extends
 	@Override
 	public void onMultiChoiceClosed(AfMultiChoiceAdapter<T> adapter,
 			List<T> list) {
-		// TODO Auto-generated method stub
 		super.onMultiChoiceClosed(adapter, list);
 	}
 }

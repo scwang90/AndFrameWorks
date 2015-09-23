@@ -18,7 +18,6 @@ public abstract class AbModeuleActivity extends AfActivity {
 	protected Permission mPermission = null;
 
 	protected void onCreate(Bundle bundle,AfIntent intent) throws Exception {
-		// TODO Auto-generated method stub
 		super.onCreate(bundle, intent);
 		mTitleText = intent.getString(EXTRA_TITLE, getString(R.string.app_name));
 		mPermission = intent.get(EXTRA_PERMISSION, Permission.class);
@@ -31,7 +30,6 @@ public abstract class AbModeuleActivity extends AfActivity {
 					new DialogInterface.OnClickListener() {
 				@Override
 				public void onClick(DialogInterface dialog, int index) {
-					// TODO Auto-generated method stub
 					getActivity().finish();
 				}
 			});

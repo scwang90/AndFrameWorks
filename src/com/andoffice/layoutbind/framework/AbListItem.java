@@ -24,7 +24,6 @@ public abstract class AbListItem<T> extends AfMultiChoiceItem<T>{
 	
 	@Override
 	public void onHandle(AfView view) {
-		// TODO Auto-generated method stub
 		mLayout = view.findViewByID(R.id.listitem_common_layout);
 		mLayoutTitle = view.findViewByID(R.id.listitem_common_titlelayout);
 		mTvTitle = view.findViewByID(R.id.listitem_common_title);
@@ -40,7 +39,6 @@ public abstract class AbListItem<T> extends AfMultiChoiceItem<T>{
 	
 	@Override
 	public final int getLayoutId() {
-		// TODO Auto-generated method stub
 		return R.layout.listitem_common;
 	}
 

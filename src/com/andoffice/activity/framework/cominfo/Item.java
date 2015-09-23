@@ -72,7 +72,6 @@ public class Item {
 	public Object model = "";
 
 	public boolean isEmpty() {
-		// TODO Auto-generated method stub
 		if (type == CHECK) {
 			return false;
 		}
@@ -88,7 +87,6 @@ public class Item {
 	}
 
 	public Item(String name, boolean value) {
-		// TODO Auto-generated constructor stub
 		this.type = CHECK;
 		this.name = name;
 		this.blvalue = value;
@@ -96,19 +94,16 @@ public class Item {
 
 	public Item(String name, boolean value, int type) {
 		this(name, value);
-		// TODO Auto-generated constructor stub
 		this.type = type;
 	}
 
 	public Item(boolean notnull, String name, String value) {
-		// TODO Auto-generated constructor stub
 		this.name = name;
 		this.value = value;
 		this.notnull = notnull;
 	}
 
 	public Item(boolean notnull, String name, Object model, String binding) {
-		// TODO Auto-generated constructor stub
 		this.name = name;
 		this.notnull = notnull;
 		initBinding(model, binding);
@@ -117,7 +112,6 @@ public class Item {
 	public Item(boolean notnull, String name, Object model, String binding,
 			int type) {
 		this(notnull, name, model, binding);
-		// TODO Auto-generated constructor stub
 		if (this.type != type) {
 			this.type = type;
 			if (type == SELECTOR_DATE) {
@@ -130,7 +124,6 @@ public class Item {
 
 	public Item(boolean notnull, String name, Object model, String binding,
 			String[] values) {
-		// TODO Auto-generated constructor stub
 		this.name = name;
 		this.values = values;
 		this.notnull = notnull;
@@ -143,7 +136,6 @@ public class Item {
 
 	public Item(boolean notnull, String name, double value) {
 		this(notnull, name, value + "");
-		// TODO Auto-generated constructor stub
 		this.ivalue = (int) value;
 		this.lvalue = (long) value;
 		this.fvalue = (float) value;
@@ -156,19 +148,16 @@ public class Item {
 
 	public Item(boolean notnull, int id, String name, double value) {
 		this(notnull, name, value);
-		// TODO Auto-generated constructor stub
 		this.id = id;
 	}
 
 	public Item(boolean notnull, int id, String name, String value) {
 		this(notnull, name, value);
-		// TODO Auto-generated constructor stub
 		this.id = id;
 	}
 
 	public Item(boolean notnull, String name, String value, String[] values) {
 		this(notnull, name, value);
-		// TODO Auto-generated constructor stub
 		this.values = values;
 		for (int i = 0; i < values.length; i++) {
 			if (value.equals(values[i])) {
@@ -180,7 +169,6 @@ public class Item {
 
 	public Item(boolean notnull, String name, String value, int type) {
 		this(notnull, name, value);
-		// TODO Auto-generated constructor stub
 		this.type = type;
 		if (type == NUMBER && !value.equals("")) {
 			try {
@@ -188,7 +176,6 @@ public class Item {
 				ivalue = (int) dvalue;
 				fvalue = (float) dvalue;
 			} catch (Exception ex) {
-				// TODO: handle exception
 				AfExceptionHandler.handler(ex, "Item.Double.valueOf 出现异常");
 			}
 		}
@@ -203,7 +190,6 @@ public class Item {
 				ivalue = (int) dvalue;
 				fvalue = (float) dvalue;
 			} catch (Exception ex) {
-				// TODO: handle exception
 				AfExceptionHandler.handler(ex, "Item.Double.valueOf 出现异常");
 			}
 		}
@@ -211,7 +197,6 @@ public class Item {
 
 	public Item(boolean notnull, String name, Date date, int type) {
 		this(notnull, name, "");
-		// TODO Auto-generated constructor stub
 		this.type = type;
 		if (date != null) {
 			this.vdate = date;
@@ -226,7 +211,6 @@ public class Item {
 	}
 
 	public void formatdate(Date date) {
-		// TODO Auto-generated method stub
 		value = AfDateFormat.DATE.format(date);
 		if (mTextView != null) {
 			mTextView.setText(value);
@@ -234,7 +218,6 @@ public class Item {
 	}
 
 	public void formattime(Date date) {
-		// TODO Auto-generated method stub
 		value = AfDateFormat.TIME.format(date);
 		if (mTextView != null) {
 			mTextView.setText(value);
@@ -242,7 +225,6 @@ public class Item {
 	}
 
 	public void formatdatetime(Date date) {
-		// TODO Auto-generated method stub
 		value = AfDateFormat.SIMPLE.format(date);
 		if (mTextView != null) {
 			mTextView.setText(value);
@@ -250,7 +232,6 @@ public class Item {
 	}
 
 	public void setValue(String value) {
-		// TODO Auto-generated method stub
 		this.value = value;
 		if (mTextView != null) {
 			mTextView.setText(value);
@@ -280,7 +261,6 @@ public class Item {
 					}
 				}
 			} catch (Exception e) {
-				// TODO: handle exception
 			}
 		}
 	}
@@ -298,7 +278,6 @@ public class Item {
 	}
 
 	protected void initBinding(Object model, String binding) {
-		// TODO Auto-generated method stub
 		this.model = model;
 		this.binding = binding;
 		Field field = AfReflecter.getFieldNoException(model, binding);

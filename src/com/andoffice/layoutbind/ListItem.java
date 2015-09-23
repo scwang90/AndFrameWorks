@@ -10,13 +10,11 @@ import com.andoffice.layoutbind.framework.AbListItem;
 public class ListItem<T> extends AbListItem<T>{
 
 	public ListItem() {
-		// TODO Auto-generated constructor stub
 		mSelectDisplay = SD_CHECK;
 	}
 
 	@Override
 	public void onHandle(AfView view) {
-		// TODO Auto-generated method stub
 		super.onHandle(view);
 		mTvLeft1.setMaxLines(2);
 		mTvLeft1.setSingleLine(false);
@@ -28,7 +26,6 @@ public class ListItem<T> extends AbListItem<T>{
 	}
 	@Override
 	protected boolean onBinding(T data,int index,SelectStatus status) {
-		// TODO Auto-generated method stub
 		if (data instanceof AfModel) {
 			AfModel model = AfModel.class.cast(data);
 			mTvTitle.setText(model.Name);

@@ -42,7 +42,6 @@ public abstract class AbSuperListViewFragment<T extends AfModel> extends AbListV
 	@Override
 	protected void onCreate(AfBundle bundle, AfMultiChoiceListView listview)
 			throws Exception {
-		// TODO Auto-generated method stub
 		super.onCreate(bundle, listview);
 		mBottombar.setSelectListener(this);
 		mBottombar.setFunction(ModuleBottombar.ID_SELECT, true);
@@ -55,7 +54,6 @@ public abstract class AbSuperListViewFragment<T extends AfModel> extends AbListV
 	
 	@Override
 	public boolean onBackPressed() {
-		// TODO Auto-generated method stub
 		if(mMultiChoiceAdapter!=null&&
 				mMultiChoiceAdapter.isMultiChoiceMode()){
 			mMultiChoiceAdapter.closeMultiChoice();
@@ -67,7 +65,6 @@ public abstract class AbSuperListViewFragment<T extends AfModel> extends AbListV
 	
 	@Override
 	public boolean onMenuItemClick(MenuItem item) {
-		// TODO Auto-generated method stub
 		if(item.getItemId() == REQUEST_SELECT){
 			if(mMultiChoiceAdapter != null){
 				mMultiChoiceAdapter.beginMultiChoice();
@@ -81,7 +78,6 @@ public abstract class AbSuperListViewFragment<T extends AfModel> extends AbListV
 	
 	@Override
 	public void onClick(View v) {
-		// TODO Auto-generated method stub
 		if(v.getId() == ModuleBottombar.ID_SELECT){
 			if(mMultiChoiceAdapter != null){
 				mMultiChoiceAdapter.beginMultiChoice();
@@ -96,32 +92,27 @@ public abstract class AbSuperListViewFragment<T extends AfModel> extends AbListV
 	@Override
 	public void onMultiChoiceChanged(AfMultiChoiceAdapter<T> adapter,
 			int number, int total) {
-		// TODO Auto-generated method stub
-		
+
 	}
 	
 	@Override
 	public void onMultiChoiceChanged(AfMultiChoiceAdapter<T> adapter, T tag,
 			boolean selected, int number) {
-		// TODO Auto-generated method stub
-		
+
 	}
 	
 	@Override
 	public void onMultiChoiceClosed(AfMultiChoiceAdapter<T> adapter,
 			List<T> list) {
-		// TODO Auto-generated method stub
 		mBottombar.show();
 	}
 	@Override
 	public void onMultiChoiceStarted(AfMultiChoiceAdapter<T> adapter, int number) {
-		// TODO Auto-generated method stub
 		mBottombar.hide();
 	}
 	
 	@Override
 	protected AfListViewTask<T> getTask(Handler handler, int task) {
-		// TODO Auto-generated method stub
 		return new AbListViewTask(handler,task);
 	}
 
@@ -138,7 +129,6 @@ public abstract class AbSuperListViewFragment<T extends AfModel> extends AbListV
 	
 	@Override
 	public boolean handleMessage(Message msg) {
-		// TODO Auto-generated method stub
 		AfListViewTask<?> task = AfListViewTask.getTask(msg);
 		if(task != null && this.onTaskTerminate(task)){
 			return true;
@@ -150,12 +140,10 @@ public abstract class AbSuperListViewFragment<T extends AfModel> extends AbListV
 
 		public AbListViewAdapter(List<T> ltdata) {
 			super(getActivity(), ltdata);
-			// TODO Auto-generated constructor stub
 		}
 		
 		@Override
 		protected AfMultiChoiceItem<T> getMultiChoiceItem(T data) {
-			// TODO Auto-generated method stub
 			return AbSuperListViewFragment.this.getItemLayout(data);
 		}
 	}
@@ -164,69 +152,57 @@ public abstract class AbSuperListViewFragment<T extends AfModel> extends AbListV
 
 		public AbListViewTask(Handler handler,int task) {
 			super(handler, task);
-			// TODO Auto-generated constructor stub
 		}
 		
 		@Override
 		public boolean onPrepare() {
-			// TODO Auto-generated method stub
 			return onTaskPrepare(mTask);
 		}
 
 		@Override
 		protected List<T> onLoad() {
-			// TODO Auto-generated method stub
 			return onTaskLoad();
 		}
 
 		@Override
 		protected List<T> onListByPage(Page page, int task) throws Exception {
-			// TODO Auto-generated method stub
 			return onTaskListFromDomain(mTask,page);
 		}
 		
 		@Override
 		protected boolean onWorking(int task) throws Exception {
-			// TODO Auto-generated method stub
 			return onTaskWorking(task);
 		}
 
 		@Override
 		protected boolean onRefreshed(boolean isfinish, List<T> ltdata) {
-			// TODO Auto-generated method stub
 			return false;
 		}
 
 		@Override
 		protected boolean onMored(boolean isfinish, List<T> ltdata,
 				boolean ended) {
-			// TODO Auto-generated method stub
 			return false;
 		}
 	}
 
 	protected boolean onTaskPrepare(int task) {
-		// TODO Auto-generated method stub
 		return true;
 	}
 	
 	protected List<T> onTaskLoad(){
-		// TODO Auto-generated method stub
 		return new ArrayList<T>();
 	}
 
 	protected List<T> onTaskMore(Page page) throws Exception{
-		// TODO Auto-generated method stub
 		return new ArrayList<T>();
 	}
 
 	protected boolean onTaskWorking(int task) throws Exception{
-		// TODO Auto-generated method stub
 		return false;
 	}
 
 	protected boolean onTaskTerminate(AfListViewTask<?> task) {
-		// TODO Auto-generated method stub
 		return super.handleMessage(AfTask.putTask(task));
 	}
 }

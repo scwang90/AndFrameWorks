@@ -35,7 +35,6 @@ public class ModuleTabControl extends AfLayoutModule implements
 
 	public ModuleTabControl(AfPageable page) {
 		super(page);
-		// TODO Auto-generated constructor stub
 		if(isValid()){
 			mResources = page.getContext().getResources();
 			mInfalter = LayoutInflater.from(page.getContext());
@@ -48,7 +47,6 @@ public class ModuleTabControl extends AfLayoutModule implements
 	
 	@Override
 	protected View findLayout(AfViewable view) {
-		// TODO Auto-generated method stub
 		View layout = view.findViewById(R.id.tabcontrol_hscrollview);
 		if(layout != null){
 			layout = (View)layout.getParent();
@@ -80,7 +78,6 @@ public class ModuleTabControl extends AfLayoutModule implements
 
 	@Override
 	public void onCheckedChanged(CompoundButton button, boolean isChecked) {
-		// TODO Auto-generated method stub
 		if (isChecked) {
 			if (mLastButton != null) {
 				mLastButton.setBackgroundColor(0);

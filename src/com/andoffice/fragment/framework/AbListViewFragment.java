@@ -63,7 +63,6 @@ public abstract class AbListViewFragment<T extends AfModel> extends AfTabFragmen
 	private Handler mHandler = null;
 	
 	private Handler getHandler() {
-		// TODO Auto-generated method stub
 		if(mHandler == null){
 			mHandler = new Handler(AfApplication.getLooper(), this);
 		}
@@ -86,13 +85,11 @@ public abstract class AbListViewFragment<T extends AfModel> extends AfTabFragmen
 
 	@Override
 	protected final View onCreateView(LayoutInflater inflater, ViewGroup container) {
-		// TODO Auto-generated method stub
 		return inflater.inflate(R.layout.layout_listview, container, false);
 	}
 	
 	@Override
 	protected final void onCreated(AfBundle bundle,AfView view) throws Exception {
-		// TODO Auto-generated method stub
 		// 控件初始化
 		mTitlebar = new ModuleTitlebar(this);
 		mTitleMain = new ModuleTitleMain(this);
@@ -146,14 +143,12 @@ public abstract class AbListViewFragment<T extends AfModel> extends AfTabFragmen
 	@Override
 	public void onItemClick(AdapterView<?> absview, View view, int index,
 			long id) {
-		// TODO Auto-generated method stub
 
 	}
 
 	@Override
 	public boolean onItemLongClick(AdapterView<?> absview, View view,
 			int index, long id) {
-		// TODO Auto-generated method stub
 		return false;
 	}
 
@@ -162,7 +157,6 @@ public abstract class AbListViewFragment<T extends AfModel> extends AfTabFragmen
 	 */
 	@Override
 	protected final void onFirstSwitchOver() {
-		// TODO Auto-generated method stub
 		postTask(getTask(getHandler(),AfTask.TASK_LOAD));
 	}
 
@@ -171,7 +165,6 @@ public abstract class AbListViewFragment<T extends AfModel> extends AfTabFragmen
 	 * @param progress 是否显示正在加载页面
 	 */
 	protected void postRefreshTask(boolean progress) {
-		// TODO Auto-generated method stub
 		postTask(getTask(getHandler(),AfListTask.TASK_REFRESH));
 		if(progress){
 			mModuleListView.SelectFrame(ModuleListView.PRIGRESS);
@@ -180,7 +173,6 @@ public abstract class AbListViewFragment<T extends AfModel> extends AfTabFragmen
 	
 	@Override
 	public final boolean onMore() {
-		// TODO Auto-generated method stub
 		// 抛送更多任务
 		AfListViewTask<T> task = getTask(getHandler(),AfListTask.TASK_MORE);
 		task.mFirstResult = mltArray.size();
@@ -190,7 +182,6 @@ public abstract class AbListViewFragment<T extends AfModel> extends AfTabFragmen
 
 	@Override
 	public final boolean onRefresh() {
-		// TODO Auto-generated method stub
 		// 抛送刷新任务
 		postTask(getTask(getHandler(),AfListTask.TASK_REFRESH));
 		return true;
@@ -198,7 +189,6 @@ public abstract class AbListViewFragment<T extends AfModel> extends AfTabFragmen
 
 	@Override
 	public void onClick(View v) {
-		// TODO Auto-generated method stub
 		if (v.getId() == ModuleNodata.ID_BUTTON
 				|| v.getId() == ModuleNodata.TEXT_TOREFRESH) {
 			// 设置正在加载页面
@@ -211,7 +201,6 @@ public abstract class AbListViewFragment<T extends AfModel> extends AfTabFragmen
 	@Override
 	@SuppressWarnings("unchecked")
 	public boolean handleMessage(Message msg) {
-		// TODO Auto-generated method stub
 		AfListViewTask<T> tTask = (AfListViewTask<T>) msg.obj;
 		if (tTask.mTask == AfTask.TASK_LOAD) {
 			if (tTask.mltData.size() > 0) {

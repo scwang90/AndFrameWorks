@@ -20,24 +20,20 @@ public class ModuleBottombarSelector extends AfSelectorBottombar{
 	
 	public ModuleBottombarSelector(AfPageable page) {
 		super(page,R.id.bottombar_select_layout);
-		// TODO Auto-generated constructor stub
 	}
 	
 	@Override
 	protected ImageView getFunctionViewMore(AfViewable view) {
-		// TODO Auto-generated method stub
 		return view.findViewByID(R.id.bottombar_select_more);
 	}
 
 	@Override
 	protected LinearLayout getFunctionLayout(AfViewable view) {
-		// TODO Auto-generated method stub
 		return view.findViewByID(R.id.bottombar_select_contain);
 	}
 	
 	@Override
 	protected int getSelectorDrawableResId() {
-		// TODO Auto-generated method stub
 		return R.drawable.selector_background;
 	}
 

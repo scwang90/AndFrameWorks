@@ -10,18 +10,15 @@ public class PullRefreshHeader extends AfPullHeaderLayout{
 
 	public PullRefreshHeader(Context context) {
 		super(context);
-		// TODO Auto-generated constructor stub
 	}
 
 	public PullRefreshHeader(Context context, AttributeSet attrs)
     {
 		super(context,attrs);
-        // TODO Auto-generated method stub
     }
 
 	@Override
 	protected String getString(Context context, EnumString string) {
-		// TODO Auto-generated method stub
 		if(string == EnumString.header_loading)
 		{
 			return "正在加载";
@@ -43,7 +40,6 @@ public class PullRefreshHeader extends AfPullHeaderLayout{
 
 	@Override
 	protected int getViewID(EnumViewID id) {
-		// TODO Auto-generated method stub
 		if(id == EnumViewID.header_image)
 		{
 			return R.id.refresh_list_header_pull_down;

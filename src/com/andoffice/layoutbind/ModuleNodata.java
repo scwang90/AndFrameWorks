@@ -27,7 +27,6 @@ public class ModuleNodata extends AfLayoutModule implements IAfLayoutModule{
 	
 	public ModuleNodata(AfPageable page) {
 		super(page);
-		// TODO Auto-generated constructor stub
 		if(isValid()){
 			mTvButton = page.findViewByID(R.id.module_nodata_button);
 			mTvDescription = page.findViewByID(R.id.module_nodata_description);
@@ -37,7 +36,6 @@ public class ModuleNodata extends AfLayoutModule implements IAfLayoutModule{
 	
 	@Override
 	protected View findLayout(AfViewable view) {
-		// TODO Auto-generated method stub
 		View layout = view.findViewById(R.id.module_nodata_button);
 		if(layout != null){
 			layout = (View)layout.getParent();
@@ -46,28 +44,23 @@ public class ModuleNodata extends AfLayoutModule implements IAfLayoutModule{
 	}
 
 	public void setDescription(String description) {
-		// TODO Auto-generated constructor stub
 		mTvDescription.setText(description);
 	}
 
 	public void setDescription(int id) {
-		// TODO Auto-generated constructor stub
 		mTvDescription.setText(id);
 	}
 
 	public void setButtonText(String text) {
-		// TODO Auto-generated constructor stub
 		mTvButton.setText(text);
 	}
 
 	public void setButtonText(int id) {
-		// TODO Auto-generated constructor stub
 		mTvButton.setId(id);
 		mTvButton.setText(id);
 	}
 
 	public void setOnRefreshListener(OnClickListener listener) {
-		// TODO Auto-generated constructor stub
 		mTvButton.setOnClickListener(listener);
 		if(listener != null){
 			mTvButton.setVisibility(View.VISIBLE);
@@ -77,7 +70,6 @@ public class ModuleNodata extends AfLayoutModule implements IAfLayoutModule{
 	}
 
 	public TextView getButton() {
-		// TODO Auto-generated method stub
 		return mTvButton;
 	}
 }

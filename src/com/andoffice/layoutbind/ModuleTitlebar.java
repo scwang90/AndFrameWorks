@@ -41,13 +41,11 @@ public class ModuleTitlebar extends AfLayoutModule implements OnClickListener {
 	private WeakReference<Activity> mWeakRefActivity = null;
 
 	public ModuleTitlebar(AfPageable page) {
-		// TODO Auto-generated constructor stub
 		this(page, FUNCTION_NONE);
 	}
 
 	public ModuleTitlebar(AfPageable page, int function) {
 		super(page);
-		// TODO Auto-generated constructor stub
 		if(isValid()){
 			mBtAdd = page.findViewById(R.id.titlebar_other_add);
 			mBtGoBack = page.findViewById(R.id.titlebar_other_goback);
@@ -64,13 +62,11 @@ public class ModuleTitlebar extends AfLayoutModule implements OnClickListener {
 
 	@Override
 	protected View findLayout(AfViewable view) {
-		// TODO Auto-generated method stub
 		return view.findViewById(R.id.titlebar_other_layout);
 	}
 
 	@Override
 	public void onClick(View v) {
-		// TODO Auto-generated method stub
 		if (mWeakRefActivity != null) {
 			if (R.id.titlebar_other_goback == v.getId()) {
 				Activity activity = mWeakRefActivity.get();
@@ -91,7 +87,6 @@ public class ModuleTitlebar extends AfLayoutModule implements OnClickListener {
 	}
 
 	public void setFunction(int function) {
-		// TODO Auto-generated constructor stub
 		switch (function) {
 		default:
 		case FUNCTION_NONE:
@@ -126,37 +121,30 @@ public class ModuleTitlebar extends AfLayoutModule implements OnClickListener {
 	}
 	
 	public void setOnGoBackListener(OnClickListener listener) {
-		// TODO Auto-generated constructor stub
 		mBtGoBack.setOnClickListener(listener);
 	}
 
 	public void setOnAddListener(OnClickListener listener) {
-		// TODO Auto-generasted constructor stub
 		mBtAdd.setOnClickListener(listener);
 	}
 
 	public void setOnOkListener(OnClickListener listener) {
-		// TODO Auto-generasted constructor stub
 		mBtOK.setOnClickListener(listener);
 	}
 
 	public void setTitle(String description) {
-		// TODO Auto-generated constructor stub
 		mTvTitle.setText(description);
 	}
 
 	public void setTitle(int id) {
-		// TODO Auto-generated constructor stub
 		mTvTitle.setText(id);
 	}
 
 	public String getTitle() {
-		// TODO Auto-generated method stub
 		return mTvTitle.getText().toString();
 	}
 
 	public void putMenu(String text, int id) {
-		// TODO Auto-generated method stub
 		this.mMeuns.put(text, id);
 	}
 

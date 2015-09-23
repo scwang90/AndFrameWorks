@@ -10,18 +10,15 @@ public class PullRefreshFooter extends AfPullFooterLayout{
 
 	public PullRefreshFooter(Context context) {
 		super(context);
-		// TODO Auto-generated constructor stub
 	}
 
 	public PullRefreshFooter(Context context, AttributeSet attrs)
     {
 		super(context,attrs);
-        // TODO Auto-generated method stub
     }
 
 	@Override
 	protected String getFooterString(Context context, EnumFooterString string) {
-		// TODO Auto-generated method stub
 		if(string == EnumFooterString.footer_loading)
 		{
 			return "正在加载";
@@ -43,7 +40,6 @@ public class PullRefreshFooter extends AfPullFooterLayout{
 
 	@Override
 	protected AfPullHeaderLayout getHeader() {
-		// TODO Auto-generated method stub
 		return new PullRefreshHeader(getContext());
 	}
 

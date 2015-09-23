@@ -19,7 +19,6 @@ public abstract class ItemTree<T> extends AfTreeViewItem<T>{
 	
 	@Override
 	public void onHandle(AfView view) {
-		// TODO Auto-generated method stub
 		mTvTitle = view.findViewByID(R.id.listitem_common_title);
 		mTvCorner = view.findViewByID(R.id.listitem_common_date);
 		mTvLeft1 = view.findViewByID(R.id.listitem_common_left1);
@@ -32,7 +31,6 @@ public abstract class ItemTree<T> extends AfTreeViewItem<T>{
 
 	@Override
 	public final int getLayoutId() {
-		// TODO Auto-generated method stub
 		return R.layout.listitem_common;
 	}
 

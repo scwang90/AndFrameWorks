@@ -66,7 +66,6 @@ public abstract class AbListViewActivity<T> extends AfActivity implements
 	@Override
 	protected final void onCreate(Bundle bundle,AfIntent intent) throws Exception {
 		super.onCreate(bundle, intent);
-		// TODO Auto-generated method stub
 		setContentView(R.layout.layout_listview);
 		// 控件初始化
 		mTitlebar = new ModuleTitlebar(this);
@@ -119,7 +118,6 @@ public abstract class AbListViewActivity<T> extends AfActivity implements
 	 * @param progress 是否显示正在加载页面
 	 */
 	protected void postRefreshTask(boolean progress) {
-		// TODO Auto-generated method stub
 		postTask(getTask(AfListTask.TASK_REFRESH));
 		if(progress){
 			mModuleListView.SelectFrame(ModuleListView.PRIGRESS);
@@ -127,7 +125,6 @@ public abstract class AbListViewActivity<T> extends AfActivity implements
 	}
 
 	protected boolean doMoveTo(View view, FrameLayout frame,int index) {
-		// TODO Auto-generated method stub
 		ViewParent parent = view.getParent();
 		if(parent != null){
 			if(parent instanceof ViewGroup){
@@ -145,19 +142,16 @@ public abstract class AbListViewActivity<T> extends AfActivity implements
 
 	@Override
 	public void onItemClick(AdapterView<?> absview, View view,long id, int index) {
-		// TODO Auto-generated method stub
 	}
 
 	@Override
 	public boolean onItemLongClick(AdapterView<?> absview, View view,
 			int index, long id) {
-		// TODO Auto-generated method stub
 		return false;
 	}
 
 	@Override
 	public boolean onMore() {
-		// TODO Auto-generated method stub
 		// 抛送更多任务
 		AfListViewTask<T> task = getTask(AfListTask.TASK_MORE);
 		task.mFirstResult = mAdapter.getCount();
@@ -167,7 +161,6 @@ public abstract class AbListViewActivity<T> extends AfActivity implements
 
 	@Override
 	public boolean onRefresh() {
-		// TODO Auto-generated method stub
 		// 抛送刷新任务
 		postTask(getTask(AfListTask.TASK_REFRESH));
 		return true;
@@ -175,7 +168,6 @@ public abstract class AbListViewActivity<T> extends AfActivity implements
 
 	@Override
 	public void onClick(View v) {
-		// TODO Auto-generated method stub
 		if (v == null) {
 			return;
 		}
@@ -191,7 +183,6 @@ public abstract class AbListViewActivity<T> extends AfActivity implements
 	@Override
 	@SuppressWarnings("unchecked")
 	public boolean handleMessage(Message msg) {
-		// TODO Auto-generated method stub
 		AfListViewTask<T> tTask = (AfListViewTask<T>) msg.obj;
 		if (tTask.mTask == AfTask.TASK_LOAD) {
 			if (tTask.mltData.size() > 0) {

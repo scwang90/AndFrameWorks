@@ -36,7 +36,6 @@ public class TableViewActivity extends AfActivity{
 	@Override
 	protected void onCreate(Bundle bundle,AfIntent intent) throws Exception {
 		super.onCreate(bundle, intent);
-		// TODO Auto-generated method stub
 		//setContentView(mTableView = new AfTableView(this));
 		setContentView(R.layout.layout_tableview);
 		
@@ -45,7 +44,6 @@ public class TableViewActivity extends AfActivity{
 		findViewById(R.id.tableview_goback).setOnClickListener(new OnClickListener() {
 			@Override
 			public void onClick(View v) {
-				// TODO Auto-generated method stub
 				getActivity().finish();
 			}
 		});
