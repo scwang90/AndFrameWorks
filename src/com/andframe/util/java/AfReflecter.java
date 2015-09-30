@@ -1,5 +1,7 @@
 package com.andframe.util.java;
 
+import com.google.gson.internal.UnsafeAllocator;
+
 import java.lang.annotation.Annotation;
 import java.lang.reflect.Field;
 import java.lang.reflect.GenericArrayType;
@@ -15,15 +17,17 @@ import java.util.List;
  */
 public class AfReflecter {
 
+
 	/**
-	 *  获取 subobj 相对 父类 supclass 的 第index个泛型参数
-	 * @param subobj 对象 一般用this 如 class Type<E> 可传入 Type.this
+	 * 获取 subobj 相对 父类 supclass 的 第index个泛型参数
+	 *
+	 * @param subobj   对象 一般用this 如 class Type<E> 可传入 Type.this
 	 * @param supclass 父类(模板类) 如 class Type<E> 可传入 Type.class
-	 * @param index 要获取参数的序列 一般用0
+	 * @param index    要获取参数的序列 一般用0
 	 * @return null 查找失败 否则返回参数类型Class<?>
 	 */
 	@SuppressWarnings("unchecked")
-	public static <T> Class<T> getActualTypeArgument(Object subobj,Class<?> supclass,int index){
+	public static <T> Class<T> getActualTypeArgument(Object subobj, Class<?> supclass, int index) {
 		Class<?> subclass = subobj.getClass();
 		List<ParameterizedType> ptypes = new ArrayList<ParameterizedType>();
 		ParameterizedType ptype = null;
@@ -31,35 +35,47 @@ public class AfReflecter {
 			Type type = subclass.getGenericSuperclass();
 			if (type == null) {
 				throw new Error("GenericSuperclass not find");
-			}else if (type instanceof Class) {
-				subclass = (Class<?>)type;
-			}else if (type instanceof ParameterizedType) {
+			} else if (type instanceof Class) {
+				subclass = (Class<?>) type;
+			} else if (type instanceof ParameterizedType) {
 				ptype = ParameterizedType.class.cast(type);
 				ptypes.add(ptype);
-				subclass = (Class<?>)ptype.getRawType();
-			}else if (type instanceof GenericArrayType) {
+				subclass = (Class<?>) ptype.getRawType();
+			} else if (type instanceof GenericArrayType) {
 				GenericArrayType gtype = GenericArrayType.class.cast(type);
-				subclass = (Class<?>)gtype.getGenericComponentType();
-			}else{
+				subclass = (Class<?>) gtype.getGenericComponentType();
+			} else {
 				throw new Error("GenericSuperclass not case");
 			}
 		}
 		Type type = null;
-		do{
-			type = ptypes.get(ptypes.size()-1).getActualTypeArguments()[index];
-			ptypes.remove(ptypes.size()-1);
-		}while(!(type instanceof Class) && ptypes.size() > 0);
-		return (Class<T>)type;
+		do {
+			type = ptypes.get(ptypes.size() - 1).getActualTypeArguments()[index];
+			ptypes.remove(ptypes.size() - 1);
+		} while (!(type instanceof Class) && ptypes.size() > 0);
+		return (Class<T>) type;
 	}
 
 	/**
 	 * 在clazz中获取所有Field(包括父类)
-	 * @param clazz
+	 *
+	 * @param clazz 开始扫描类型
 	 * @return Field[]
 	 */
 	public static Field[] getField(Class<?> clazz) {
+		return getField(clazz, Object.class);
+	}
+
+	/**
+	 * 在clazz中获取所有Field(向父类扫描知道stop停止)
+	 *
+	 * @param clazz    开始扫描类型
+	 * @param stoptype 停止扫描类型 stop 本身不被扫描 必须是 clazz 父类
+	 * @return Field[]
+	 */
+	public static Field[] getField(Class<?> clazz, Class<?> stoptype) {
 		List<Field> fields = new ArrayList<Field>();
-		while (!clazz.equals(Object.class)) {
+		while (!clazz.equals(stoptype)) {
 			for (Field field : clazz.getDeclaredFields()) {
 				fields.add(field);
 			}
@@ -70,18 +86,21 @@ public class AfReflecter {
 
 	/**
 	 * 在clazz中获取所有标记annot的Field(包括父类)
-	 * @param clazz
-	 * @param annot
+	 *
+	 * @param clazz 开始扫描类型
+	 * @param annot Annotation
 	 * @return Field[]
 	 */
 	public static Field[] getFieldAnnotation(Class<?> clazz, Class<? extends Annotation> annot) {
 		return getFieldAnnotation(clazz, Object.class, annot);
 	}
+
 	/**
 	 * 在clazz中获取所有标记annot的Field(包括父类)
-	 * @param type
-	 * @param stoptype
-	 * @param annot
+	 *
+	 * @param type     开始扫描类型
+	 * @param stoptype 停止扫描类型
+	 * @param annot    Annotation
 	 * @return Field[]
 	 */
 	public static Field[] getFieldAnnotation(Class<?> type, Class<?> stoptype, Class<? extends Annotation> annot) {
@@ -97,69 +116,78 @@ public class AfReflecter {
 		}
 		return fields.toArray(new Field[0]);
 	}
+
 	/**
 	 * 在clazz中获取所有标记 annot 的 Method (包括父类)
-	 * @param clazz
-	 * @param annot
+	 *
+	 * @param clazz 开始扫描类型
+	 * @param annot Annotation
 	 * @return Field[]
 	 */
 	public static Method[] getMethodAnnotation(Class<?> clazz, Class<? extends Annotation> annot) {
-		return getMethodAnnotation(clazz,Object.class,annot);
+		return getMethodAnnotation(clazz, Object.class, annot);
 	}
+
 	/**
 	 * 在clazz中获取所有标记 annot 的 Method (包括父类)
-	 * @param clazz
-	 * @param stoptype
-	 * @param annot
+	 *
+	 * @param type     开始扫描类型
+	 * @param stoptype 停止扫描类型
+	 * @param annot    Annotation
 	 * @return Field[]
 	 */
-	public static Method[] getMethodAnnotation(Class<?> clazz, Class<?> stoptype, Class<? extends Annotation> annot) {
+	public static Method[] getMethodAnnotation(Class<?> type, Class<?> stoptype, Class<? extends Annotation> annot) {
 		List<Method> methods = new ArrayList<Method>();
-		while (!clazz.equals(stoptype)) {
-			for (Method method : clazz.getDeclaredMethods()) {
+		while (!type.equals(stoptype)) {
+			for (Method method : type.getDeclaredMethods()) {
 				if (method.isAnnotationPresent(annot)) {
 					methods.add(method);
 				}
 			}
-			clazz = clazz.getSuperclass();
+			type = type.getSuperclass();
 		}
 		return methods.toArray(new Method[0]);
 	}
+
 	/**
-	 * 利用反射设置 获取 type 的 method 的Annotation(包括父类)
-	 * @param type
-	 * @param method
-	 * @param annot
+	 * 获取 type 的 method 的 Annotation (包括父类)
+	 *
+	 * @param type   对象类型
+	 * @param method 方法名称
+	 * @param annot  Annotation
 	 * @return method or null
 	 */
-	public static <T extends  Annotation> T getMethodAnnotation(Class<?> type, String method,  Class<T> annot) {
-		return getMethodAnnotation(type,Object.class,method,annot);
+	public static <T extends Annotation> T getMethodAnnotation(Class<?> type, String method, Class<T> annot) {
+		return getMethodAnnotation(type, Object.class, method, annot);
 	}
+
 	/**
-	 * 利用反射设置 获取 type 的 method 的Annotation(包括父类)
-	 * @param type
-	 * @param method
-	 * @param annot
+	 * 获取 type 的 method 的 Annotation (包括父类)
+	 *
+	 * @param type   对象类型
+	 * @param method 方法名称
+	 * @param annot  Annotation
 	 * @return method or null
 	 */
-	public static <T extends  Annotation> T getMethodAnnotation(Class<?> type, Class<?> stoptype, String method,  Class<T> annot) {
-		Class<?> clazz = null;
-		while (!clazz.equals(stoptype)) {
-			for (Method dmethod : clazz.getDeclaredMethods()) {
+	public static <T extends Annotation> T getMethodAnnotation(Class<?> type, Class<?> stoptype, String method, Class<T> annot) {
+		while (!type.equals(stoptype)) {
+			for (Method dmethod : type.getDeclaredMethods()) {
 				if (dmethod.getName().equals(method)) {
 					if (dmethod.isAnnotationPresent(annot)) {
 						return dmethod.getAnnotation(annot);
 					}
 				}
 			}
-			clazz = clazz.getSuperclass();
+			type = type.getSuperclass();
 		}
 		return null;
 	}
+
 	/**
-	 * 利用反射设置 获取type的method(包括父类)
-	 * @param type
-	 * @param method
+	 * 获取type的method(包括父类)
+	 *
+	 * @param type   对象类型
+	 * @param method 方法名称
 	 * @return method or null
 	 */
 	public static Method getMethod(Class<?> type, String method) {
@@ -175,39 +203,42 @@ public class AfReflecter {
 	}
 
 	/**
-	 * 利用反射设置 获取type的method(包括父类)
-	 * @param type
-	 * @param method
-	 * @param args 如果 args 没有null 可以精确查找方法
+	 * 获取type的method(包括父类)
+	 *
+	 * @param type   对象类型
+	 * @param method 方法名称
+	 * @param args   如果 args 没有null 可以精确查找方法
 	 * @return method or null
 	 */
-	public static Method getMethod(Class<?> type, String method,Object... args) {
-		if (args != null){
+	public static Method getMethod(Class<?> type, String method, Object... args) {
+		if (args != null) {
 			Class<?>[] parameterTypes = new Class<?>[args.length];
 			for (int i = 0; i < args.length; i++) {
-				if (args[i] != null){
+				if (args[i] != null) {
 					parameterTypes[i] = args[i].getClass();
-				}else{
+				} else {
 					parameterTypes = null;
 					break;
 				}
 			}
-			if (parameterTypes != null){
+			if (parameterTypes != null) {
 				Method method1 = getMethod(type, method, parameterTypes);
-				if (method1 != null){
+				if (method1 != null) {
 					return method1;
 				}
 			}
 		}
-		return getMethod(type,method);
+		return getMethod(type, method);
 	}
+
 	/**
-	 * 利用反射设置 获取type的method(包括父类)
-	 * @param type
+	 * 获取type的method(包括父类)
+	 *
+	 * @param type   对象类型
 	 * @param method
 	 * @return method or null
 	 */
-	public static Method getMethod(Class<?> type, String method,Class<?>[] parameterTypes) {
+	public static Method getMethod(Class<?> type, String method, Class<?>[] parameterTypes) {
 		while (!type.equals(Object.class)) {
 			try {
 				return type.getDeclaredMethod(method, parameterTypes);
@@ -218,9 +249,11 @@ public class AfReflecter {
 		}
 		return null;
 	}
+
 	/**
-	 * 利用反射设置 获取type的field(包括父类)
-	 * @param type
+	 * 获取type的field(包括父类)
+	 *
+	 * @param type  对象类型
 	 * @param field 不支持‘.’路径
 	 * @return field or null
 	 */
@@ -239,16 +272,11 @@ public class AfReflecter {
 	}
 
 	/**
-	 * 利用反射设置 深层获取类型type的属性path的Field(包括父类)
-	 * @param type
-	 * @param path
-	 * @param index
-	 * @return
-	 * @throws NoSuchFieldException
-	 * @throws Exception 数组越界
+	 * 深层获取类型type的属性path的Field(包括父类)（内部递归算法）
 	 */
-	private static Field getField(Class<?> type, String[] path,int index) throws Exception{
-		Field field = getField(type,path[index]);
+	private static Field getField(Class<?> type, String[] path, int index) throws Exception {
+		Field field = getField(type, path[index]);
+		if (field == null) return null;
 		if (path.length == index + 1) {
 			return field;
 		} else if (path.length > 0) {
@@ -259,9 +287,10 @@ public class AfReflecter {
 
 	/**
 	 * 获取字段 Field(包括父类)
-	 * @param model
+	 *
+	 * @param model 操作对象
 	 * @param field 支持‘.’路径 如 person.name
-	 * @return
+	 * @return Field
 	 * @throws Exception
 	 */
 	public static Field getField(Object model, String field) throws Exception {
@@ -270,9 +299,10 @@ public class AfReflecter {
 
 	/**
 	 * 获取字段 Field(包括父类)
-	 * @param model
+	 *
+	 * @param model 操作对象
 	 * @param field 支持‘.’路径 如 person.name
-	 * @return
+	 * @return Field
 	 */
 	public static Field getFieldNoException(Object model, String field) {
 		try {
@@ -283,19 +313,12 @@ public class AfReflecter {
 	}
 
 	/**
-	 * 利用反射设置 对象obj的属性path为 value
-	 * @param type
-	 * @param path
-	 * @param obj
-	 * @param value
-	 * @param index 必须指定为 0
-	 * @throws NoSuchFieldException
-	 * @throws IllegalAccessException
-	 * @throws IllegalArgumentException
+	 * 获取对象obj的属性path的value （内部递归算法）
 	 */
 	private static void invokeMember(Class<?> type, String[] path, Object obj,
 									 Object value, int index) throws Exception {
 		Field field = getField(type, path[index]);
+		if (field == null) return;
 		if (path.length == index + 1) {
 			field.setAccessible(true);
 			field.set(obj, value);
@@ -306,20 +329,11 @@ public class AfReflecter {
 	}
 
 	/**
-	 * 利用反射设置 获取对象obj的属性path的value
-	 * @param obj
-	 * @param type
-	 * @param path
-	 * @param index
-	 * @return
-	 * @throws NoSuchFieldException
-	 * @throws IllegalAccessException
-	 * @throws IllegalArgumentException
-	 * @throws Exception 数组越界
+	 * 获取对象obj的属性path的value （内部递归算法）
 	 */
-	private static Object invokeMember(Class<?> type, String[] path,Object obj,
-									   int index) throws Exception  {
-		Field field = getField(type,path[index]);
+	private static Object invokeMember(Class<?> type, String[] path, Object obj, int index) throws Exception {
+		Field field = getField(type, path[index]);
+		if (field == null) return null;
 		field.setAccessible(true);
 		Object value = field.get(obj);
 		if (path.length == index + 1) {
@@ -332,55 +346,51 @@ public class AfReflecter {
 
 	/**
 	 * 获取 obj 属性 field 的值
-	 * @param obj
+	 *
+	 * @param obj   操作对象
 	 * @param field 支持‘.’路径 如 person.name
-	 * @return
-	 * @throws NoSuchFieldException
-	 * @throws IllegalAccessException
-	 * @throws IllegalArgumentException
 	 * @throws Exception 数组越界
 	 */
-	public static void setMember(Object obj,String field,Object value) throws Exception {
-		invokeMember(obj.getClass(), field.split("\\."), obj,value, 0);
+	public static void setMember(Object obj, String field, Object value) throws Exception {
+		invokeMember(obj.getClass(), field.split("\\."), obj, value, 0);
 	}
 
 	/**
 	 * 获取 obj 属性 field 的值
-	 * @param obj
+	 *
+	 * @param obj   操作对象
 	 * @param field 支持‘.’路径 如 person.name
-	 * @return
+	 * @return 成功失败
 	 */
-	public static boolean setMemberNoException(Object obj,String field,Object value) {
+	public static boolean setMemberNoException(Object obj, String field, Object value) {
 		try {
-			invokeMember(obj.getClass(), field.split("\\."), obj,value, 0);
+			invokeMember(obj.getClass(), field.split("\\."), obj, value, 0);
 			return true;
 		} catch (Throwable e) {
 			return false;
 		}
 	}
 
-
 	/**
 	 * 获取 obj 属性 field 的值
-	 * @param obj
+	 *
+	 * @param obj   操作对象
 	 * @param field 支持‘.’路径 如 person.name
-	 * @return
-	 * @throws NoSuchFieldException
-	 * @throws IllegalAccessException
-	 * @throws IllegalArgumentException
+	 * @return 值
 	 * @throws Exception 数组越界
 	 */
-	public static Object getMember(Object obj,String field) throws Exception {
+	public static Object getMember(Object obj, String field) throws Exception {
 		return invokeMember(obj.getClass(), field.split("\\."), obj, 0);
 	}
 
 	/**
 	 * 获取 obj 属性 field 的值
-	 * @param obj
+	 *
+	 * @param obj   操作对象
 	 * @param field 支持‘.’路径 如 person.name
-	 * @return
+	 * @return 值
 	 */
-	public static Object getMemberNoException(Object obj,String field) {
+	public static Object getMemberNoException(Object obj, String field) {
 		try {
 			return invokeMember(obj.getClass(), field.split("\\."), obj, 0);
 		} catch (Throwable e) {
@@ -390,31 +400,33 @@ public class AfReflecter {
 
 	/**
 	 * 获取 obj 属性 field 的值
+	 *
 	 * @param obj
 	 * @param field 支持‘.’路径 如 person.name
 	 * @return
 	 * @throws NoSuchFieldException
 	 * @throws IllegalAccessException
 	 * @throws IllegalArgumentException
-	 * @throws Exception 数组越界
+	 * @throws Exception                数组越界
 	 */
-	public static <T> T getMember(Object obj,String field,Class<T> clazz) throws Exception {
+	public static <T> T getMember(Object obj, String field, Class<T> type) throws Exception {
 		obj = invokeMember(obj.getClass(), field.split("\\."), obj, 0);
-		if(clazz.isInstance(obj)){
-			clazz.cast(obj);
+		if (type.isInstance(obj)) {
+			type.cast(obj);
 		}
 		return null;
 	}
 
 	/**
 	 * 获取 obj 属性 field 的值
+	 *
 	 * @param obj
 	 * @param field 支持‘.’路径 如 person.name
 	 * @return
 	 */
-	public static <T> T  getMemberNoException(Object obj,String field,Class<T> clazz) {
+	public static <T> T getMemberNoException(Object obj, String field, Class<T> type) {
 		try {
-			return clazz.cast(invokeMember(obj.getClass(), field.split("\\."), obj, 0));
+			return type.cast(invokeMember(obj.getClass(), field.split("\\."), obj, 0));
 		} catch (Throwable e) {
 			return null;
 		}
@@ -430,34 +442,52 @@ public class AfReflecter {
 		return null;
 	}
 
-	public static <T> T doMethod(Object obj, String smethod,Class<T> clazz, Object... args) {
+	public static <T> T doMethod(Object obj, String smethod, Class<T> type, Object... args) {
 		Method method = getMethod(obj.getClass(), smethod, args);
 		try {
-			return clazz.cast(method.invoke(obj, args));
+			return type.cast(method.invoke(obj, args));
 		} catch (Exception e) {
 			e.printStackTrace();
 		}
 		return null;
 	}
 
-	public static Object doStaticMethod(Class<?> clazz, String smethod, Object... args) {
-		Method method = getMethod(clazz, smethod, args);
-		return doStaticMethod(clazz, method, args);
+	public static Object doStaticMethod(Class<?> type, String smethod, Object... args) {
+		Method method = getMethod(type, smethod, args);
+		return doStaticMethod(type, method, args);
 	}
 
 
-	public static <T> T doStaticMethod(Class<?> clazz, String smethod,Class<T> rettype, Object... args) {
-		Method method = getMethod(clazz, smethod, args);
-		return rettype.cast(doStaticMethod(clazz, method, args));
+	public static <T> T doStaticMethod(Class<?> type, String smethod, Class<T> rettype, Object... args) {
+		Method method = getMethod(type, smethod, args);
+		return rettype.cast(doStaticMethod(type, method, args));
 	}
 
-	public static Object doStaticMethod(Class<?> clazz, Method method, Object... args) {
+	public static <T> Object doStaticMethod(Class<?> type, Method method, Object... args) {
 		try {
-			return method.invoke(clazz, args);
+			return method.invoke(type, args);
 		} catch (IllegalAccessException e) {
 			e.printStackTrace();
 		} catch (InvocationTargetException e) {
 			e.printStackTrace();
+		}
+		return null;
+	}
+
+	/**
+	 * 为 type 创建实例
+	 * @param type 类型
+	 * @param <T> 模板参数
+	 * @return 新的实例 失败会 null （很少会失败）
+	 */
+	public static <T> T newInstance(Class<T> type) {
+		try {
+			return type.newInstance();
+		} catch (Throwable e) {
+		}
+		try {
+			return (T) UnsafeAllocator.create().newInstance(type);
+		} catch (Throwable e) {
 		}
 		return null;
 	}
