@@ -401,13 +401,10 @@ public class AfReflecter {
 	/**
 	 * 获取 obj 属性 field 的值
 	 *
-	 * @param obj
+	 * @param obj   操作对象
 	 * @param field 支持‘.’路径 如 person.name
-	 * @return
-	 * @throws NoSuchFieldException
-	 * @throws IllegalAccessException
-	 * @throws IllegalArgumentException
-	 * @throws Exception                数组越界
+	 * @return 值
+	 * @throws Exception 数组越界
 	 */
 	public static <T> T getMember(Object obj, String field, Class<T> type) throws Exception {
 		obj = invokeMember(obj.getClass(), field.split("\\."), obj, 0);
@@ -420,9 +417,9 @@ public class AfReflecter {
 	/**
 	 * 获取 obj 属性 field 的值
 	 *
-	 * @param obj
+	 * @param obj   操作对象
 	 * @param field 支持‘.’路径 如 person.name
-	 * @return
+	 * @return 值
 	 */
 	public static <T> T getMemberNoException(Object obj, String field, Class<T> type) {
 		try {
@@ -476,8 +473,9 @@ public class AfReflecter {
 
 	/**
 	 * 为 type 创建实例
+	 *
 	 * @param type 类型
-	 * @param <T> 模板参数
+	 * @param <T>  模板参数
 	 * @return 新的实例 失败会 null （很少会失败）
 	 */
 	public static <T> T newInstance(Class<T> type) {
