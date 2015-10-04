@@ -1,10 +1,5 @@
 package com.andframe.application;
 
-import java.io.FileWriter;
-import java.lang.Thread.UncaughtExceptionHandler;
-import java.util.Date;
-import java.util.HashMap;
-
 import android.annotation.SuppressLint;
 import android.app.AlertDialog.Builder;
 import android.content.Context;
@@ -17,10 +12,16 @@ import android.os.Message;
 
 import com.andframe.activity.framework.AfActivity;
 import com.andframe.caches.AfDurableCache;
+import com.andframe.exception.AfToastException;
 import com.andframe.helper.android.AfDeviceInfo;
 import com.andframe.model.Exceptional;
 import com.andframe.util.java.AfDateFormat;
 import com.andframe.util.java.AfDateGuid;
+
+import java.io.FileWriter;
+import java.lang.Thread.UncaughtExceptionHandler;
+import java.util.Date;
+import java.util.HashMap;
 
 public class AfExceptionHandler implements UncaughtExceptionHandler{
 
@@ -65,7 +66,7 @@ public class AfExceptionHandler implements UncaughtExceptionHandler{
 	}
 	
 	public static void handleAttach(Throwable ex,String remark) {
-		if(INSTANCE != null){
+		if(INSTANCE != null && !(ex instanceof AfToastException)){
 			String handlerid;
 			StackTraceElement[] stacks = ex.getStackTrace();
 			if(stacks != null && stacks.length > 0){
@@ -78,7 +79,7 @@ public class AfExceptionHandler implements UncaughtExceptionHandler{
 	}
 
 	public static void handler(Throwable ex,String remark) {
-		if(INSTANCE != null){
+		if(INSTANCE != null && !(ex instanceof AfToastException)){
 			String handlerid;
 			StackTraceElement[] stacks = ex.getStackTrace();
 			if(stacks != null && stacks.length > 0){

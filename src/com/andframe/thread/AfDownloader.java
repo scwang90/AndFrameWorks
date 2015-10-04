@@ -1,21 +1,5 @@
 package com.andframe.thread;
 
-import java.io.BufferedInputStream;
-import java.io.BufferedOutputStream;
-import java.io.File;
-import java.io.FileOutputStream;
-import java.io.InputStream;
-import java.util.ArrayList;
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
-import java.util.Random;
-
-import org.apache.http.HttpEntity;
-import org.apache.http.HttpResponse;
-import org.apache.http.client.methods.HttpGet;
-import org.apache.http.impl.client.DefaultHttpClient;
-
 import android.app.NotificationManager;
 import android.app.PendingIntent;
 import android.content.BroadcastReceiver;
@@ -30,6 +14,22 @@ import com.andframe.application.AfExceptionHandler;
 import com.andframe.feature.AfIntent;
 import com.andframe.util.java.AfFileUtil;
 import com.andframe.util.java.AfStringUtil;
+
+import org.apache.http.HttpEntity;
+import org.apache.http.HttpResponse;
+import org.apache.http.client.methods.HttpGet;
+import org.apache.http.impl.client.DefaultHttpClient;
+
+import java.io.BufferedInputStream;
+import java.io.BufferedOutputStream;
+import java.io.File;
+import java.io.FileOutputStream;
+import java.io.InputStream;
+import java.util.ArrayList;
+import java.util.HashMap;
+import java.util.List;
+import java.util.Map;
+import java.util.Random;
 
 /**
  * 下载器类
@@ -99,7 +99,7 @@ public class AfDownloader {
 
     /**
      * 判断 url是否正在下载
-     * @param entity
+     * @param entity 下载实体
      * @return true 正在下载 false 没有在下载
      */
     public static boolean isDownloading(DownloadEntity entity) {
@@ -108,7 +108,7 @@ public class AfDownloader {
 
     /**
      * 判断 url是否正在下载
-     * @param url
+     * @param url 下载url
      * @return true 正在下载 false 没有在下载
      */
     public static boolean isDownloading(String url) {
@@ -126,7 +126,7 @@ public class AfDownloader {
 
     /**
      * 判断 url是否正在下载
-     * @param tag
+     * @param tag 下载绑定目标
      * @return true 正在下载 false 没有在下载
      */
     public static boolean isDownloading(Object tag) {
@@ -412,18 +412,12 @@ public class AfDownloader {
 
         @Override
         public boolean onDownloadFinish() {
-            if (listener != null) {
-                return listener.onDownloadFinish();
-            }
-            return false;
+            return listener != null && listener.onDownloadFinish();
         }
 
         @Override
         public boolean onDownloadFail(String error, Throwable e) {
-            if (listener != null) {
-                return listener.onDownloadFail(error, e);
-            }
-            return false;
+            return listener != null && listener.onDownloadFail(error, e);
         }
 
         /**
@@ -590,7 +584,7 @@ public class AfDownloader {
                     if (spath != null) {
                         File path = new File(spath);
                         if (!path.exists()) {
-                            path.mkdir();
+                            path.mkdirs();
                         }
                     }
                 }
@@ -603,7 +597,7 @@ public class AfDownloader {
                 // 已写入流作为参数创建一个带有缓冲的写入流
                 BufferedOutputStream bos = new BufferedOutputStream(fos);
 
-                int read = 0, precent = 0;
+                int read, precent;
                 byte[] buffer = new byte[1024];
                 long now, last = System.currentTimeMillis();
                 long count = 0, length = entity.getContentLength();
