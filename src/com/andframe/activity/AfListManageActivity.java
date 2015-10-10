@@ -70,7 +70,7 @@ public abstract class AfListManageActivity<T> extends AfMultiChoiceListActivity<
 			mltArray.add(value);
 			mAdapter = newAdapter(this,mltArray);
 			mListView.setAdapter(mAdapter);
-			mSelector.SelectFrame(mNodata);
+			mSelector.SelectFrame(mListView);
 		} else {
 			mAdapter.insert(0, value);
 		}
@@ -113,8 +113,8 @@ public abstract class AfListManageActivity<T> extends AfMultiChoiceListActivity<
 
 	/**
 	 * 列表项被点击
-	 * @param model
-	 * @param index
+	 * @param model 点击项对应的数据
+	 * @param index 点击项的index
 	 */
 	@Override
 	protected void onItemClick(T model, int index) {
@@ -127,7 +127,7 @@ public abstract class AfListManageActivity<T> extends AfMultiChoiceListActivity<
 	 * 任务准备开始 （在UI线程中）
 	 * @return 返回true 表示准备完毕 否则 false 任务将被取消
 	 * @param task 任务ID
-	 * @return
+	 * @return 是否处理
 	 */
 	@Override
 	protected boolean onTaskPrepare(int task) {
@@ -166,7 +166,7 @@ public abstract class AfListManageActivity<T> extends AfMultiChoiceListActivity<
 
 	/**
 	 * 标记已读任务（异步线程）
-	 * @param model
+	 * @param model 任务数据
 	 * @throws Exception
 	 */
 	protected void onTaskRead(T model) throws Exception {
@@ -175,7 +175,7 @@ public abstract class AfListManageActivity<T> extends AfMultiChoiceListActivity<
 
 	/**
 	 * 删除任务（异步线程）
-	 * @param ltdelete
+	 * @param ltdelete 删除的列表对象
 	 * @throws Exception
 	 */
 	protected void onTaskDelete(List<T> ltdelete) throws Exception {
@@ -215,7 +215,7 @@ public abstract class AfListManageActivity<T> extends AfMultiChoiceListActivity<
 
 	/**
 	 * 数据已经被删除
-	 * @param ltDelete
+	 * @param ltDelete 被删除的列表数据
 	 * return true onDataDeleted将不会被调用
 	 */
 	protected boolean onDatasDeleted(List<T> ltDelete) {
@@ -224,7 +224,7 @@ public abstract class AfListManageActivity<T> extends AfMultiChoiceListActivity<
 
 	/**
 	 * 数据已经被删除
-	 * @param model
+	 * @param model 被删除的数据
 	 */
 	protected void onDataDeleted(T model) {
 
