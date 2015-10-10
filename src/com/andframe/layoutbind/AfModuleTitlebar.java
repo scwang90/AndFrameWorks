@@ -1,12 +1,7 @@
 package com.andframe.layoutbind;
 
-import java.lang.ref.WeakReference;
-import java.util.HashMap;
-import java.util.Iterator;
-import java.util.Map;
-import java.util.Map.Entry;
-
 import android.app.Activity;
+import android.view.MenuItem;
 import android.view.View;
 import android.view.View.OnClickListener;
 import android.widget.TextView;
@@ -14,11 +9,18 @@ import android.widget.TextView;
 import com.andframe.R;
 import com.andframe.activity.framework.AfPageable;
 import com.andframe.activity.framework.AfViewable;
+import com.andframe.application.AfExceptionHandler;
 import com.andframe.widget.popupmenu.OnMenuItemClickListener;
 import com.andframe.widget.popupmenu.PopupMenu;
 
+import java.lang.ref.WeakReference;
+import java.util.HashMap;
+import java.util.Iterator;
+import java.util.Map;
+import java.util.Map.Entry;
 
-public class AfModuleTitlebar extends AfLayoutModule implements OnClickListener {
+
+public class AfModuleTitlebar extends AfLayoutModule implements OnClickListener, OnMenuItemClickListener {
 
 	public static final int FUNCTION_NONE = 0;
 	public static final int FUNCTION_ADD = 1;
@@ -86,7 +88,7 @@ public class AfModuleTitlebar extends AfLayoutModule implements OnClickListener 
 						Entry<String, Integer> entry = iter.next();  
 						pm.getMenu().add(1,entry.getValue(),0,entry.getKey());
 					}  
-					pm.setOnMenuItemClickListener(mListener);
+					pm.setOnMenuItemClickListener(this);
 					pm.show();
 				}
 			}
@@ -127,16 +129,43 @@ public class AfModuleTitlebar extends AfLayoutModule implements OnClickListener 
 		this.mListener = mListener;
 	}
 	
-	public void setOnGoBackListener(OnClickListener listener) {
-		mBtGoBack.setOnClickListener(listener);
+	public void setOnGoBackListener(final OnClickListener listener) {
+		mBtGoBack.setOnClickListener(new OnClickListener() {
+			@Override
+			public void onClick(View v) {
+				try {
+					listener.onClick(v);
+				} catch (Throwable e) {
+					AfExceptionHandler.handler(e,"AfModuleTitlebar.mBtGoBack.onClick");
+				}
+			}
+		});
 	}
 
-	public void setOnAddListener(OnClickListener listener) {
-		mBtAdd.setOnClickListener(listener);
+	public void setOnAddListener(final OnClickListener listener) {
+		mBtAdd.setOnClickListener(new OnClickListener() {
+			@Override
+			public void onClick(View v) {
+				try {
+					listener.onClick(v);
+				} catch (Throwable e) {
+					AfExceptionHandler.handler(e,"AfModuleTitlebar.mBtAdd.onClick");
+				}
+			}
+		});
 	}
 
-	public void setOnOkListener(OnClickListener listener) {
-		mBtOK.setOnClickListener(listener);
+	public void setOnOkListener(final OnClickListener listener) {
+		mBtOK.setOnClickListener(new OnClickListener() {
+			@Override
+			public void onClick(View v) {
+				try {
+					listener.onClick(v);
+				} catch (Throwable e) {
+					AfExceptionHandler.handler(e,"AfModuleTitlebar.mBtOK.onClick");
+				}
+			}
+		});
 	}
 
 	public void setTitle(String description) {
@@ -155,4 +184,15 @@ public class AfModuleTitlebar extends AfLayoutModule implements OnClickListener 
 		this.mMeuns.put(text, id);
 	}
 
+	@Override
+	public boolean onMenuItemClick(MenuItem item) {
+		if (mListener != null) {
+			try {
+				mListener.onMenuItemClick(item);
+			} catch (Throwable e) {
+				AfExceptionHandler.handler(e,"AfModuleTitlebar.onMenuItemClick");
+			}
+		}
+		return false;
+	}
 }

@@ -35,7 +35,7 @@ public abstract class AfListManageActivity<T> extends AfMultiChoiceListActivity<
 
 	/**
 	 * 使用缓存必须调用这个构造函数
-	 * @param clazz
+	 * @param clazz 缓存使用的 class 对象（json要用到）
 	 */
 	public AfListManageActivity(Class<T> clazz) {
 		super(clazz);
@@ -44,7 +44,7 @@ public abstract class AfListManageActivity<T> extends AfMultiChoiceListActivity<
 	/**
 	 * 使用缓存必须调用这个构造函数
 	 * 	可以自定义缓存标识
-	 * @param clazz
+	 * @param clazz 缓存使用的 class 对象（json要用到）
 	 */
 	public AfListManageActivity(Class<T> clazz, String KEY_CACHELIST) {
 		super(clazz,KEY_CACHELIST);
@@ -61,9 +61,24 @@ public abstract class AfListManageActivity<T> extends AfMultiChoiceListActivity<
 	}
 
 	/**
+	 * 向列表中添加数据 到第一条
+	 * @param value 数据
+	 */
+	protected void addData(T value) {
+		if (mAdapter == null || mAdapter.getCount() == 0) {
+			List<T> mltArray = new ArrayList<T>();
+			mltArray.add(value);
+			mAdapter = newAdapter(this,mltArray);
+			mListView.setAdapter(mAdapter);
+			mSelector.SelectFrame(mNodata);
+		} else {
+			mAdapter.insert(0, value);
+		}
+	}
+	/**
 	 * 菜单事件处理
-	 * @param item
-	 * @return
+	 * @param item 菜单项
+	 * @return 是否处理
 	 */
 	@Override
 	public boolean onMenuItemClick(MenuItem item) {
@@ -130,8 +145,8 @@ public abstract class AfListManageActivity<T> extends AfMultiChoiceListActivity<
 
 	/**
 	 * 任务执行分流（异步线程）
-	 * @param task
-	 * @return
+	 * @param task 任务ID
+	 * @return 是否执行
 	 * @throws Exception
 	 */
 	@Override

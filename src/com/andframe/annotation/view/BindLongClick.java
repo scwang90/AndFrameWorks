@@ -7,12 +7,12 @@ import java.lang.annotation.Target;
 
 
 /**
- * 注解式绑定控件<br>
+ * 注解式绑定长按事件<br>
     @ BindLongClick(R.id.viewId)
     public boolean onLongClick(View v) {
     }
  */
-@Target(ElementType.FIELD)
+@Target(ElementType.METHOD)
 @Retention(RetentionPolicy.RUNTIME)
 public @interface BindLongClick {
     public int[] value();

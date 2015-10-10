@@ -60,7 +60,7 @@ public abstract class AfListViewActivity<T> extends AfActivity implements OnRefr
 
 	/**
 	 * 使用缓存必须调用这个构造函数
-	 * @param clazz
+	 * @param clazz 缓存使用的 class 对象（json要用到）
 	 */
 	public AfListViewActivity(Class<T> clazz) {
 		this.mCacheClazz = clazz;
@@ -69,7 +69,7 @@ public abstract class AfListViewActivity<T> extends AfActivity implements OnRefr
 	/**
 	 * 使用缓存必须调用这个构造函数
 	 * 	可以自定义缓存标识
-	 * @param clazz
+	 * @param clazz 缓存使用的 class 对象（json要用到）
 	 */
 	public AfListViewActivity(Class<T> clazz, String KEY_CACHELIST) {
 		this.mCacheClazz = clazz;

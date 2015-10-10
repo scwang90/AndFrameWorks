@@ -5,6 +5,13 @@ import java.lang.annotation.Retention;
 import java.lang.annotation.RetentionPolicy;
 import java.lang.annotation.Target;
 
+/**
+ * 注解式注册查询更改事件<br>
+   @ InjectQueryChanged
+   public void onQueryChanged(){
+
+   }
+ */
 @Target(ElementType.METHOD)
 @Retention(RetentionPolicy.RUNTIME)
 public @interface InjectQueryChanged {

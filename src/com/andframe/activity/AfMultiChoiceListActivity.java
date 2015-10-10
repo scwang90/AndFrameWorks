@@ -37,7 +37,7 @@ public abstract class AfMultiChoiceListActivity<T> extends AfListViewActivity<T>
 
 	/**
 	 * 使用缓存必须调用这个构造函数
-	 * @param clazz
+	 * @param clazz 缓存使用的 class 对象（json要用到）
 	 */
 	public AfMultiChoiceListActivity(Class<T> clazz) {
 		super(clazz);
@@ -46,7 +46,7 @@ public abstract class AfMultiChoiceListActivity<T> extends AfListViewActivity<T>
 	/**
 	 * 使用缓存必须调用这个构造函数
 	 * 	可以自定义缓存标识
-	 * @param clazz
+	 * @param clazz 缓存使用的 class 对象（json要用到）
 	 */
 	public AfMultiChoiceListActivity(Class<T> clazz, String KEY_CACHELIST) {
 		super(clazz,KEY_CACHELIST);
