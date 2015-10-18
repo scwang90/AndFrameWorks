@@ -1,5 +1,6 @@
 package com.andcloud.domain;
 
+import com.andcloud.model.AvObject;
 import com.andframe.helper.java.AfTimeSpan;
 import com.andframe.util.java.AfReflecter;
 import com.avos.avoscloud.AVException;
@@ -18,6 +19,10 @@ public class AvDomain<T extends AVObject> {
 	}
 
 	public AVQuery<T> getQuery(){
+		return getQuery(clazz);
+	}
+
+	public <T extends AVObject> AVQuery<T> getQuery(Class<T> clazz){
 		AVQuery<T> query = AVObject.getQuery(clazz);
 //		query.setMaxCacheAge(TimeUnit.DAYS.toMillis(1));
 //		query.setMaxCacheAge(AfTimeSpan.FromDays(1).getTotalMilliseconds());
@@ -39,6 +44,17 @@ public class AvDomain<T extends AVObject> {
 	public void delete(T model) throws AVException{
 		model.delete();
 		AVQuery.clearAllCachedResults();
+	}
+
+	public T findById(String objectId) throws AVException {
+		AVQuery<T> query = getQuery();
+		query.setSkip(0);
+		query.setLimit(1);
+		query.whereEqualTo(AvObject.objectId,objectId);
+		for (T model : query.find()) {
+			return model;
+		}
+		return null;
 	}
 
 	public List<T> list() throws AVException{
