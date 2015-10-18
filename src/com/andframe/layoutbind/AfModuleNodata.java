@@ -5,14 +5,15 @@ import android.view.View.OnClickListener;
 import android.widget.TextView;
 
 import com.andframe.activity.framework.AfViewable;
-import com.andframe.layoutbind.AfLayoutModule;
+import com.andframe.application.AfExceptionHandler;
 import com.andframe.layoutbind.framework.IAfLayoutModule;
 
-public abstract class AfModuleNodata extends AfLayoutModule implements IAfLayoutModule{
+public abstract class AfModuleNodata extends AfLayoutModule implements IAfLayoutModule, OnClickListener {
 	
 	protected View mButton = null;
 	protected TextView mTvButton = null;
 	protected TextView mTvDescription = null;
+	protected OnClickListener mListener = null;
 	
 	public AfModuleNodata(AfViewable view) {
 		super(view);
@@ -23,6 +24,7 @@ public abstract class AfModuleNodata extends AfLayoutModule implements IAfLayout
 				mTvButton = TextView.class.cast(mButton);
 				setButtonText("点击刷新");
 			}
+			mButton.setOnClickListener(this);
 //			mTvButton.setVisibility(View.GONE);
 		}
 	}
@@ -71,7 +73,7 @@ public abstract class AfModuleNodata extends AfLayoutModule implements IAfLayout
 
 	public void setOnRefreshListener(OnClickListener listener) {
 		if (isValid()) {
-			mButton.setOnClickListener(listener);
+			mListener = listener;
 			if(listener != null){
 				mButton.setVisibility(View.VISIBLE);
 			}else{
@@ -89,5 +91,16 @@ public abstract class AfModuleNodata extends AfLayoutModule implements IAfLayout
 
 	public View getButton() {
 		return mButton;
+	}
+
+	@Override
+	public void onClick(View v) {
+		try {
+			if (mListener != null) {
+				mListener.onClick(v);
+			}
+		} catch (Throwable ex) {
+			AfExceptionHandler.handler(ex,"AfModuleNodata.onClick");
+		}
 	}
 }

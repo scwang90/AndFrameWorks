@@ -37,15 +37,6 @@ public class AfExtraIntent {
 		return mHashMap.get(key);
 	}
 
-	@SuppressWarnings("unchecked")
-	public static <T> T getObject(String key) {
-		try {
-			return (T)get(key);
-		} catch (Throwable e){
-			return null;
-		}
-	}
-
 	public static <T> T get(String key, Class<T> clazz) {
 		return get(key,null,clazz);
 	}
