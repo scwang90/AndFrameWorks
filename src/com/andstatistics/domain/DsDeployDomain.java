@@ -1,11 +1,9 @@
 package com.andstatistics.domain;
 
-import com.andrestrequest.http.DefaultRequestHandler;
 import com.andrestrequest.http.DefaultRequestHandler.HttpMethod;
 import com.andrestrequest.http.Response;
 import com.andstatistics.domain.base.BaseDomain;
 import com.andstatistics.model.DsDeploy;
-import com.andstatistics.model.DsDevice;
 
 import java.util.List;
 
