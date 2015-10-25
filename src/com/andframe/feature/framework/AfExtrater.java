@@ -1,12 +1,5 @@
 package com.andframe.feature.framework;
 
-import android.content.Context;
-import android.content.Intent;
-import android.net.Uri;
-
-import com.google.gson.Gson;
-
-import java.util.ArrayList;
 import java.util.List;
 import java.util.UUID;
 

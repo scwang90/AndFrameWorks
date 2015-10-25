@@ -20,8 +20,10 @@ import java.util.Map;
 import java.util.Set;
 
 /**
+ * 自制Json转换
  * Created by SCWANG on 2015-08-24.
  */
+@SuppressWarnings({"rawtypes","unchecked"})
 public class AfJsoner {
 
     public static String toJson(Object object){
@@ -167,9 +169,9 @@ public class AfJsoner {
         return array;
     }
 
-    private static JSONObject builderMap(Map value) throws JSONException {
+	private static JSONObject builderMap(Map value) throws JSONException {
         JSONObject object = new JSONObject();
-        Set<Map.Entry> set = value.entrySet();
+		Set<Map.Entry> set = value.entrySet();
         for (Map.Entry entry: set) {
             object.put(entry.getKey().toString(),builderJson(entry.getValue()));
         }

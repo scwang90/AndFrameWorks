@@ -1,6 +1,5 @@
 package com.andframe.layoutbind.framework;
 
-import android.app.Application;
 import android.view.View;
 
 import com.andframe.activity.framework.AfViewable;

@@ -1,5 +1,7 @@
 package com.andframe.layoutbind.framework;
 
+import java.util.ArrayList;
+
 import android.annotation.SuppressLint;
 import android.content.res.Configuration;
 import android.content.res.Resources;
@@ -39,9 +41,7 @@ import android.view.animation.Animation;
 import android.view.inputmethod.EditorInfo;
 import android.view.inputmethod.InputConnection;
 
-import java.util.ArrayList;
-
-@SuppressLint("NewApi")
+@SuppressLint({"NewApi","deprecation"})
 public class AfViewDelegate extends View{
 
 	protected View target;
@@ -1981,7 +1981,7 @@ public class AfViewDelegate extends View{
 	}
 
 	@Override
-	//@Deprecated
+	@Deprecated
 	public void requestFitSystemWindows() {
 		if (this.target == null) {
 			return;
@@ -2135,7 +2135,7 @@ public class AfViewDelegate extends View{
 	}
 
 	@Override
-	//@Deprecated
+	@Deprecated
 	public void setBackgroundDrawable(Drawable background) {
 		if (this.target == null) {
 			return;

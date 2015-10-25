@@ -7,7 +7,6 @@ import android.view.ViewGroup;
 import android.view.ViewParent;
 
 import com.andframe.application.AfExceptionHandler;
-import com.andframe.layoutbind.framework.AfViewDelegate;
 
 /**
  * AfView 框架视图类

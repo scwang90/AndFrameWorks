@@ -71,7 +71,7 @@ public class EventListener implements OnClickListener, OnLongClickListener, OnIt
 	}
 
 	public boolean onLongClick(View v) {
-		return (boolean)invokeMethod(handler, longClickMethod, v);
+		return (Boolean)invokeMethod(handler, longClickMethod, v);
 	}
 
 	@Override
@@ -81,7 +81,7 @@ public class EventListener implements OnClickListener, OnLongClickListener, OnIt
 
 	@Override
 	public boolean onItemLongClick(AdapterView<?> parent, View view, int position, long id) {
-		return (boolean)invokeMethod(handler, itemLongClickMehtod, parent, view, position, id);
+		return (Boolean)invokeMethod(handler, itemLongClickMehtod, parent, view, position, id);
 	}
 
 	@Override

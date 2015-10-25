@@ -1,5 +1,14 @@
 package com.andframe.feature;
 
+import java.lang.reflect.Array;
+import java.lang.reflect.Field;
+import java.lang.reflect.Method;
+import java.util.ArrayList;
+import java.util.Collections;
+import java.util.Comparator;
+import java.util.List;
+import java.util.Map;
+
 import android.view.View;
 import android.view.View.OnClickListener;
 import android.widget.AdapterView;
@@ -19,16 +28,6 @@ import com.andframe.feature.framework.EventListener;
 import com.andframe.layoutbind.framework.AfViewDelegate;
 import com.andframe.util.java.AfReflecter;
 
-import java.lang.reflect.Array;
-import java.lang.reflect.Field;
-import java.lang.reflect.Method;
-import java.util.ArrayList;
-import java.util.Collections;
-import java.util.Comparator;
-import java.util.List;
-import java.util.Map;
-
-;
 
 /**
  * 控件绑定器
@@ -106,7 +105,7 @@ public class AfViewBinder {
 			try {
 				BindItemClick bind = method.getAnnotation(BindItemClick.class);
 				for (int id : bind.value()){
-					AdapterView view = root.findViewByID(id);
+					AdapterView<?> view = root.findViewByID(id);
 					if (view != null){
 						view.setOnItemClickListener(new EventListener(mHandler).itemClick(method));
 					}
@@ -122,7 +121,7 @@ public class AfViewBinder {
 			try {
 				BindItemLongClick bind = method.getAnnotation(BindItemLongClick.class);
 				for (int id : bind.value()){
-					AdapterView view = root.findViewByID(id);
+					AdapterView<?> view = root.findViewByID(id);
 					if (view != null){
 						view.setOnItemLongClickListener(new EventListener(mHandler).itemLongClick(method));
 					}
@@ -212,6 +211,7 @@ public class AfViewBinder {
 		}
 		return null;
 	}
+	
 	public static class SimpleEntry implements Map.Entry<Method,BindAfterViews> {
 
 		private final Method key;
