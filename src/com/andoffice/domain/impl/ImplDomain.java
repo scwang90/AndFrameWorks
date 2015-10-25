@@ -25,6 +25,7 @@ public class ImplDomain<T>
 	}
 	protected Class<T> mClass;
 
+	@SuppressWarnings("unchecked")
 	public ImplDomain(){
 		mClass = (Class<T>)AfReflecter.getActualTypeArgument(this,ImplDomain.class,0);
 	}
