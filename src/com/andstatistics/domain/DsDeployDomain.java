@@ -20,4 +20,5 @@ public class DsDeployDomain extends BaseDomain<DsDeploy> {
         Response response = super.doRequest(HttpMethod.POST, "/findByAppId/" + appkey);
         return response.getBodyAsObjects(DsDeploy.class);
     }
+    
 }
