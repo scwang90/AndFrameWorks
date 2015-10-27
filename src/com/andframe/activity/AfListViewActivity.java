@@ -42,6 +42,10 @@ public abstract class AfListViewActivity<T> extends AfActivity implements OnRefr
 
 	protected AfRefreshListView<ListView> mListView;
 	protected AfListAdapter<T> mAdapter;
+	/**
+	 * 是否使用分页
+	 */
+	protected boolean mIsPaging = true;
 
 	/**
 	 * 缓存使用的 class 对象（json要用到）
@@ -388,7 +392,7 @@ public abstract class AfListViewActivity<T> extends AfActivity implements OnRefr
 				setData(mAdapter = newAdapter(getActivity(), ltdata));
 				if (ltdata.size() < task.PAGE_SIZE) {
 					mListView.removeMoreView();
-				}else {
+				} else if (mIsPaging) {
 					mListView.addMoreView();
 				}
 			} else {
