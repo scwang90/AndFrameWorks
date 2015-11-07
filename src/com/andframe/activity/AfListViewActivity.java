@@ -18,6 +18,7 @@ import com.andframe.feature.AfIntent;
 import com.andframe.layoutbind.AfFrameSelector;
 import com.andframe.layoutbind.AfModuleNodata;
 import com.andframe.layoutbind.AfModuleProgress;
+import com.andframe.thread.AfListTask;
 import com.andframe.thread.AfListViewTask;
 import com.andframe.util.java.AfCollections;
 import com.andframe.view.AfListView;
@@ -34,8 +35,6 @@ import java.util.List;
  */
 public abstract class AfListViewActivity<T> extends AfActivity implements OnRefreshListener, OnItemClickListener, OnClickListener{
 
-	protected static final String EXTRA_LAYOUT = "EXTRA_LAYOUT";
-	
 	protected AfModuleNodata mNodata;
 	protected AfModuleProgress mProgress;
 	protected AfFrameSelector mSelector;
@@ -82,11 +81,8 @@ public abstract class AfListViewActivity<T> extends AfActivity implements OnRefr
 
 	/**
 	 *  创建方法
-	 * @author 树朾
-	 * @Modified:
-	 * @param bundle
-	 * @param intent
-	 * @throws Exception
+	 * @param bundle 源Bundle
+	 * @param intent 框架AfIntent
 	 */
 	@Override
 	protected void onCreate(Bundle bundle, AfIntent intent) throws Exception {
@@ -108,7 +104,7 @@ public abstract class AfListViewActivity<T> extends AfActivity implements OnRefr
 
 	/**
 	 * 创建指定命令的任务并执行
-	 * @param task
+	 * @param task 任务标识
 	 */
 	@SuppressWarnings("unchecked")
 	protected AbListViewTask postTask(int task) {
@@ -117,8 +113,8 @@ public abstract class AfListViewActivity<T> extends AfActivity implements OnRefr
 
 	/**
 	 * 创建新的AfListView
-	 * @param pageable
-	 * @return
+	 * @param pageable 页面对象
+	 * @return 可刷新的ListView
 	 */
 	protected AfRefreshListView<ListView> newAfListView(AfPageable pageable) {
 		return new AfListView(findListView(pageable));
@@ -126,41 +122,39 @@ public abstract class AfListViewActivity<T> extends AfActivity implements OnRefr
 
 	/**
 	 *  获取setContentView的id
-	 * @author 树朾
 	 * @return id
 	 */
 	protected abstract int getLayoutId();
 	/**
 	 * 获取列表控件
-	 * @param pageable
+	 * @param pageable 页面对象
 	 * @return pageable.findListViewById(id)
 	 */
 	protected abstract ListView findListView(AfPageable pageable);
 
 	/**
 	 * 新建页面选择器
-	 * @param pageable
-	 * @return
+	 * @param pageable 页面对象
+	 * @return 数据页面切换器
 	 */
 	protected abstract AfFrameSelector newAfFrameSelector(AfPageable pageable);
 	/**
 	 * 新建加载页面
-	 * @param pageable
-	 * @return
+	 * @param pageable 页面对象
+	 * @return 加载页面模块
 	 */
 	protected abstract AfModuleProgress newModuleProgress(AfPageable pageable);
 	/**
 	 * 新建空数据页面
-	 * @param pageable
-	 * @return
+	 * @param pageable 页面对象
+	 * @return 空数据页面模块
 	 */
 	protected abstract AfModuleNodata newModuleNodata(AfPageable pageable);
 
 
 	/**
 	 *  显示数据页面
-	 * @author 树朾
-	 * @param adapter
+	 * @param adapter 适配器数据
 	 */
 	public void setData(AfListAdapter<T> adapter) {
 		mAdapter = adapter;
@@ -170,7 +164,6 @@ public abstract class AfListViewActivity<T> extends AfActivity implements OnRefr
 
 	/**
 	 *  正在加载数据提示
-	 * @author 树朾
 	 */
 	public void setLoading() {
 		mProgress.setDescription("正在加载...");
@@ -192,7 +185,6 @@ public abstract class AfListViewActivity<T> extends AfActivity implements OnRefr
 
 	/**
 	 *  处理空数据
-	 * @author 树朾
 	 */
 	public void setNodata() {
 		mNodata.setDescription("抱歉，暂无数据");
@@ -202,8 +194,7 @@ public abstract class AfListViewActivity<T> extends AfActivity implements OnRefr
 
 	/**
 	 *  错误信息处理
-	 * @author 树朾
-	 * @param ex
+	 * @param ex 异常对象
 	 */
 	public void setLoadError(Throwable ex) {
 		mNodata.setDescription(AfException.handle(ex, "数据加载出现异常"));
@@ -213,8 +204,7 @@ public abstract class AfListViewActivity<T> extends AfActivity implements OnRefr
 
 	/**
 	 *  用户加载分页通知事件
-	 * @author 树朾
-	 * @return
+	 * @return 是否处理（影响列表控件响应状态）
 	 */
 	@Override
 	public boolean onMore() {
@@ -224,22 +214,20 @@ public abstract class AfListViewActivity<T> extends AfActivity implements OnRefr
 
 	/**
 	 *  用户刷新数据通知事件
-	 * @author 树朾
-	 * @return
+	 * @return 是否处理（影响列表控件响应状态）
 	 */
 	@Override
 	public boolean onRefresh() {
-		postTask(new AbListViewTask(null));
+		postTask(new AbListViewTask(AfListTask.TASK_REFRESH));
 		return true;
 	}
 
 	/**
 	 *  数据列表点击事件
-	 * @author 树朾
-	 * @param parent
-	 * @param view
-	 * @param index
-	 * @param id
+	 * @param parent 列表控件
+	 * @param view 被点击的视图
+	 * @param index 被点击的index
+	 * @param id 被点击的视图ID
 	 */
 	@Override
 	public void onItemClick(AdapterView<?> parent, View view, long id, int index) {
@@ -252,9 +240,8 @@ public abstract class AfListViewActivity<T> extends AfActivity implements OnRefr
 
 	/**
 	 *  onItemClick 事件的 包装 一般情况下子类可以重写这个方法
-	 * @author 树朾
-	 * @param model
-	 * @param index
+	 * @param model 被点击的数据model
+	 * @param index 被点击的index
 	 */
 	protected void onItemClick(T model, int index) {
 		
@@ -276,8 +263,8 @@ public abstract class AfListViewActivity<T> extends AfActivity implements OnRefr
 
 		/**
 		 * 可以触发加载缓存任务（框架缓存加载失败会改变成刷新任务）
-		 * @param clazz
-		 * @param KEY_CACHELIST
+		 * @param clazz 数据Model的类对象（json要用到）
+		 * @param KEY_CACHELIST 缓存的KEY标识
 		 */
 		public AbListViewTask(Class<T> clazz, String KEY_CACHELIST) {
 			super(clazz, KEY_CACHELIST);
@@ -293,7 +280,7 @@ public abstract class AfListViewActivity<T> extends AfActivity implements OnRefr
 
 		/**
 		 * 自定义任务 触发 onWorking 和 onTaskWorking
-		 * @param task
+		 * @param task 任务标识
 		 */
 		public AbListViewTask(int task) {
 			super(task);
@@ -358,12 +345,11 @@ public abstract class AfListViewActivity<T> extends AfActivity implements OnRefr
 
 	/**
 	 *  缓存加载结束处理时间（框架默认调用onRefreshed事件处理）
-	 * @author 树朾
-	 * @param task 
-	 * @param isfinish
-	 * @param ltdata
+	 * @param task 任务执行对象
+	 * @param isfinish 任务是否完成（未捕捉到异常）
+	 * @param ltdata 完成加载数据
 	 * @param cachetime 缓存时间
-	 * @return
+	 * @return 返回true 已经做好错误页面显示 返回false 框架会做好默认错误反馈
 	 */
 	protected boolean onLoaded(AbListViewTask task, boolean isfinish,
 			List<T> ltdata, Date cachetime) {
@@ -376,11 +362,10 @@ public abstract class AfListViewActivity<T> extends AfActivity implements OnRefr
 	}
 
 	/**
-	 * @param task 
 	 *  任务刷新结束处理事件
-	 * @author 树朾
-	 * @param isfinish 是否成功执行
-	 * @param ltdata
+	 * @param task 任务执行对象
+	 * @param isfinish 任务是否完成（未捕捉到异常）
+	 * @param ltdata 完成加载数据
 	 * @return 返回true 已经做好错误页面显示 返回false 框架会做好默认错误反馈
 	 */
 	@SuppressWarnings("static-access")
@@ -414,10 +399,9 @@ public abstract class AfListViewActivity<T> extends AfActivity implements OnRefr
 
 	/**
 	 *  任务加载更多结束处理事件
-	 * @author 树朾
-	 * @param task
-	 * @param isfinish
-	 * @param ltdata
+	 * @param task 任务执行对象
+	 * @param isfinish 任务是否完成（未捕捉到异常）
+	 * @param ltdata 完成加载数据
 	 * @return 返回true 已经做好错误页面显示 返回false 框架会做好默认错误反馈
 	 */
 	@SuppressWarnings("static-access")
@@ -454,7 +438,6 @@ public abstract class AfListViewActivity<T> extends AfActivity implements OnRefr
 
 	/**
 	 *  加载缓存列表（不分页，在异步线程中执行，不可以更改页面操作）
-	 * @author 树朾
 	 * @return 返回 null 可以使用框架内置缓存
 	 */
 	protected List<T> onTaskLoad() {
@@ -473,8 +456,8 @@ public abstract class AfListViewActivity<T> extends AfActivity implements OnRefr
 	/**
 	 * 由postTask(int task)触发
 	 * 除了与刷新、翻页、加载缓存有关的其他任务工作（异步线程、留给子类任务扩展用）
-	 * @param task
-	 * @return
+	 * @param task 任务标识
+	 * @return 是否成功执行
 	 */
 	protected boolean onTaskWorking(int task) throws Exception{
 		return false;
@@ -482,20 +465,19 @@ public abstract class AfListViewActivity<T> extends AfActivity implements OnRefr
 
 	/**
 	 * 与onTaskWorking相对应的结束（UI线程）
-	 * @param abListViewTask
-	 * @param isfinish
-	 * @param ltdata
-	 * @return
+	 * @param abListViewTask 任务执行对象
+	 * @param isfinish 任务是否完成（未捕捉到异常）
+	 * @param ltdata 完成加载数据
+	 * @return 返回true 已经做好错误页面显示 返回false 框架会做好默认错误反馈
 	 */
 	protected boolean onTaskWorked(AbListViewTask abListViewTask, boolean isfinish, List<T> ltdata) {
 		return false;
 	}
 	/**
 	 *  根据数据ltdata新建一个 适配器 重写这个方法之后getItemLayout方法将失效
-	 * @author 树朾
-	 * @param context
-	 * @param ltdata
-	 * @return
+	 * @param context Context对象
+	 * @param ltdata 完成加载数据
+	 * @return 新的适配器
 	 */
 	protected AfListAdapter<T> newAdapter(Context context, List<T> ltdata) {
 		return new AbListViewAdapter(getContext(), ltdata);
@@ -512,9 +494,6 @@ public abstract class AfListViewActivity<T> extends AfActivity implements OnRefr
 		}
 		/**
 		 *  转发事件到 AfListViewActivity.this.getItemLayout(data);
-		 * @author 树朾
-		 * @param data
-		 * @return 
 		 */
 		@Override
 		protected IAfLayoutItem<T> getItemLayout(T data) {
