@@ -522,8 +522,11 @@ public abstract class AfApplication extends Application {
 					activity.finish();
 					return;
 				}
-			} if(getForegroundClass().isInstance(activity) && !mIsExiting && mMainActivity==null){
+				//如果是主页面
+			} if(getForegroundClass().isInstance(activity) && mMainActivity==null){
 				setMainActivity(activity);
+				mCurActivity = activity;
+			} else {
 				mCurActivity = activity;
 			}
 		}

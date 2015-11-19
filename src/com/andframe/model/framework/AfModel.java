@@ -1,7 +1,5 @@
 package com.andframe.model.framework;
 
-import android.support.annotation.NonNull;
-
 import java.io.Serializable;
 import java.util.Date;
 import java.util.UUID;
@@ -49,7 +47,7 @@ public class AfModel  implements Serializable , Comparable<AfModel>{
 	}
 
 	@Override
-	public int compareTo(@NonNull AfModel tag) {
+	public int compareTo(AfModel tag) {
 		if(RegDate != null && tag.RegDate != null){
 			return tag.RegDate.compareTo(RegDate);
 		}
