@@ -11,6 +11,8 @@ import com.andframe.layoutbind.AfModuleNodataImpl;
 import com.andframe.layoutbind.AfModuleProgress;
 import com.andframe.layoutbind.AfModuleProgressImpl;
 import com.andframe.layoutbind.AfModuleTitlebar;
+import com.andframe.layoutbind.AfModuleTitlebarImpl;
+
 /**
  * 数据列表框架 Activity
  * @author 树朾
@@ -43,7 +45,7 @@ public abstract class AoListViewActivityImpl<T> extends AoListViewActivity<T>{
 	@Override
 	protected void onCreate(Bundle bundle, AfIntent intent) throws Exception {
 		super.onCreate(bundle, intent);
-		mTitlebar = new AfModuleTitlebar(this);
+		mTitlebar = new AfModuleTitlebarImpl(this);
 	}
 	
 	@Override
