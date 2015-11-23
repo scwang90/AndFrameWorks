@@ -57,7 +57,6 @@ public class AdvertAdapter {
 
 	/**
 	 * 获取全局 广告适配器
-	 * @return
 	 */
 	public static AdvertAdapter getInstance(){
 		String key = KEY_ADVERT;
@@ -72,7 +71,6 @@ public class AdvertAdapter {
 
 	/**
 	 * 初始化广告
-	 * @param context
 	 */
 	public void initInstance(Context context) {
 		
@@ -80,7 +78,6 @@ public class AdvertAdapter {
 
 	/**
 	 * 关闭广告（软件退出）
-	 * @param context
 	 */
 	public void uninstallAd(Context context) {
 		
@@ -88,7 +85,6 @@ public class AdvertAdapter {
 
 	/**
 	 * 是否隐藏整个广告系统
-	 * @return
 	 */
 	public boolean isHide() {
 		return IS_HIDE;
@@ -96,7 +92,6 @@ public class AdvertAdapter {
 
 	/**
 	 * 是否支持点数
-	 * @return
 	 */
 	public boolean isSupportPoint() {
 		return false;
@@ -104,7 +99,6 @@ public class AdvertAdapter {
 
 	/**
 	 * 是否支持自定义广告
-	 * @return
 	 */
 	public boolean isSupportCustom() {
 		return false;
@@ -116,7 +110,6 @@ public class AdvertAdapter {
 
 	/**
 	 * 获取渠道
-	 * @return
 	 */
 	public String getChannel() {
 		String mchanel = AfApplication.getApp().getMetaData("chanel");
@@ -128,7 +121,6 @@ public class AdvertAdapter {
 	
 	/**
 	 * 获取 点数点名称
-	 * @return
 	 */
 	public String getCurrency(){
 		return "";
@@ -136,7 +128,6 @@ public class AdvertAdapter {
 
 	/**
 	 * 显示插屏广告
-	 * @param context
 	 */
 	public void showPopAd(Context context) {
 		
@@ -144,7 +135,6 @@ public class AdvertAdapter {
 
 	/**
 	 * 检查更新
-	 * @param context
 	 */
 	public void checkUpdate(Context context) {
 		
@@ -152,7 +142,6 @@ public class AdvertAdapter {
 
 	/**
 	 * 显示意见反馈
-	 * @param context
 	 */
 	public void showFeedback(Context context) {
 		
@@ -160,7 +149,6 @@ public class AdvertAdapter {
 
 	/**
 	 * 显示综合推荐列表
-	 * @param context
 	 */
 	public void showOffers(Context context) {
 		
@@ -168,7 +156,6 @@ public class AdvertAdapter {
 
 	/**
 	 * 显示应用推荐列表广告
-	 * @param context
 	 */
 	public void showAppOffers(Context context) {
 		
@@ -176,7 +163,6 @@ public class AdvertAdapter {
 
 	/**
 	 * 显示游戏列表推荐页面
-	 * @param context
 	 */
 	public void showGameOffers(Context context) {
 		
@@ -184,8 +170,6 @@ public class AdvertAdapter {
 
 	/**
 	 * 显示互动广告
-	 * @param context
-	 * @param layout
 	 */
 	public void showBannerAd(Context context, LinearLayout layout) {
 		
@@ -193,8 +177,6 @@ public class AdvertAdapter {
 
 	/**
 	 * 获取点数点
-	 * @param context
-	 * @param pointsNotifier
 	 */
 	public void getPoints(Context context, PointsNotifier pointsNotifier) {
 		
@@ -202,8 +184,6 @@ public class AdvertAdapter {
 
 	/**
 	 * 奖励点数点
-	 * @param context
-	 * @param notifier
 	 */
 	public void awardPoints(Context context,int  award, final PointsNotifier notifier) {
 
@@ -211,8 +191,6 @@ public class AdvertAdapter {
 
 	/**
 	 * 消费点数点
-	 * @param context
-	 * @param notifier
 	 */
 	public void spendPoints(Context context,int  spend, final PointsNotifier notifier) {
 		
@@ -220,7 +198,6 @@ public class AdvertAdapter {
 
 	/**
 	 * 显示更多
-	 * @param context
 	 */
 	public boolean showMore(Context context) {
 		return false;
@@ -228,10 +205,6 @@ public class AdvertAdapter {
 
 	/**
 	 * 获取在线配置
-	 * @param context
-	 * @param key
-	 * @param vdefault
-	 * @return
 	 */
 	public  String getConfig(Context context,String key, String vdefault) {
 		return vdefault;
@@ -239,8 +212,6 @@ public class AdvertAdapter {
 
 	/**
 	 * 获取弹出广告视图
-	 * @param context
-	 * @return
 	 */
 	public View getPopAdView(Context context) {
 		return new TextView(context){{
@@ -252,7 +223,6 @@ public class AdvertAdapter {
 	
 	/**
 	 * 随机获取一个自定义广告
-	 * @return
 	 */
 	public AdCustom getAdCustom(Context context){
 		return null;
@@ -260,7 +230,6 @@ public class AdvertAdapter {
 
 	/**
 	 * 获取广自定义广告列表
-	 * @return
 	 */
 	public List<AdCustom> getAdCustomList(Context context){
 		return new ArrayList<AdCustom>();
@@ -268,15 +237,12 @@ public class AdvertAdapter {
 
 	/**
 	 * 下载指定的自定义广告
-	 * @return
 	 */
 	public void downloadAd(Context context,AdCustom adinfo){
 	}
 
 	/**
 	 * 显示详细自定义广告
-	 * @param context
-	 * @param adinfo
 	 */
 	public void showDetailAd(Context context, AdCustom adinfo) {
 
@@ -332,7 +298,6 @@ public class AdvertAdapter {
 	}
 	/**
 	 * 检查在线配置 是否躲避广告
-	 * @param context
 	 */
 	protected void doCheckOnlineHide(final Context context) {
 //		String find = DS.d("f736a57da47eefc188c6a1c265b789e5");//发现测试
@@ -384,7 +349,6 @@ public class AdvertAdapter {
 
 	/**
 	 * 是否是时间测试
-	 * @return
 	 */
 	public boolean isTimeTested() {
 		Date bedin = new Date(),close = new Date();
