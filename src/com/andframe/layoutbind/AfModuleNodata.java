@@ -31,14 +31,10 @@ public abstract class AfModuleNodata extends AfLayoutModule implements IAfLayout
 
 	/**
 	 * 获取刷新按钮 建议是 TextView
-	 * @param view
-	 * @return
 	 */
 	protected abstract View findRefreshButton(AfViewable view);
 	/**
 	 * 获取信息提示 TextView
-	 * @param view
-	 * @return
 	 */
 	protected abstract TextView findDescription(AfViewable view);
 

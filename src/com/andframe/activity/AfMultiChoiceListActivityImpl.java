@@ -13,6 +13,7 @@ import com.andframe.layoutbind.AfModuleNodataImpl;
 import com.andframe.layoutbind.AfModuleProgress;
 import com.andframe.layoutbind.AfModuleProgressImpl;
 import com.andframe.layoutbind.AfModuleTitlebar;
+import com.andframe.layoutbind.AfModuleTitlebarImpl;
 import com.andframe.layoutbind.AfSelectorBottombar;
 import com.andframe.layoutbind.AfSelectorBottombarImpl;
 import com.andframe.layoutbind.AfSelectorTitlebar;
@@ -53,7 +54,7 @@ public abstract class AfMultiChoiceListActivityImpl<T> extends AfMultiChoiceList
 	@Override
 	protected void onCreate(Bundle bundle, AfIntent intent) throws Exception {
 		super.onCreate(bundle, intent);
-		mAfTitlebar = new AfModuleTitlebar(this);
+		mAfTitlebar = new AfModuleTitlebarImpl(this);
 		mAfTitlebar.putMenu("选择", ID_SELECT);
 		mAfTitlebar.setFunction(AfModuleTitlebar.FUNCTION_MENU);
 		mAfTitlebar.setMenuItemListener(this);

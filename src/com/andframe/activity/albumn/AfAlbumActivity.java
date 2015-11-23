@@ -88,32 +88,23 @@ public abstract class AfAlbumActivity extends AfActivity
 	/**
 	 * 以下是 相册必备的 View
 	 * 	获取相册的总布局
-	 * @param layoutInflater 
 	 */
 	
 	protected abstract int getAlbumLayoutId();
 	/**
 	 * 获取 显示相册名称 TextView
-	 * @param afViewable
-	 * @return
 	 */
 	protected abstract TextView getTextViewName(AfViewable view);
 	/**
 	 * 获取 显示相册总量和当前量 TextView
-	 * @param afViewable
-	 * @return
 	 */
 	protected abstract TextView getTextViewSize(AfViewable view);
 	/**
 	 * 获取 显示相册照片详细信息 TextView
-	 * @param afViewable
-	 * @return
 	 */
 	protected abstract TextView getTextViewDetail(AfViewable view);
 	/**
 	 * 获取相册滑动 ViewPager
-	 * @param afViewable
-	 * @return
 	 */
 	protected abstract ViewPager getViewPager(AfViewable view);
 

@@ -13,6 +13,7 @@ import com.andframe.layoutbind.AfModuleNodataImpl;
 import com.andframe.layoutbind.AfModuleProgress;
 import com.andframe.layoutbind.AfModuleProgressImpl;
 import com.andframe.layoutbind.AfModuleTitlebar;
+import com.andframe.layoutbind.AfModuleTitlebarImpl;
 import com.andframe.layoutbind.AfSelectorBottombar;
 import com.andframe.layoutbind.AfSelectorBottombarImpl;
 import com.andframe.layoutbind.AfSelectorTitlebar;
@@ -53,10 +54,14 @@ public abstract class AfListManageActivityImpl<T> extends AfListManageActivity<T
 	@Override
 	protected void onCreate(Bundle bundle, AfIntent intent) throws Exception {
 		super.onCreate(bundle, intent);
-		mAfTitlebar = new AfModuleTitlebar(this);
+		mAfTitlebar = newModuleTitlebar(this);
 		mAfTitlebar.putMenu("选择", REQUEST_SELECT);
 		mAfTitlebar.setFunction(AfModuleTitlebar.FUNCTION_MENU);
 		mAfTitlebar.setMenuItemListener(this);
+	}
+
+	protected AfModuleTitlebar newModuleTitlebar(AfPageable pageable) {
+		return new AfModuleTitlebarImpl(this);
 	}
 
 	@Override

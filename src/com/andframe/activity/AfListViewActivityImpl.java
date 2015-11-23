@@ -12,6 +12,8 @@ import com.andframe.layoutbind.AfModuleNodataImpl;
 import com.andframe.layoutbind.AfModuleProgress;
 import com.andframe.layoutbind.AfModuleProgressImpl;
 import com.andframe.layoutbind.AfModuleTitlebar;
+import com.andframe.layoutbind.AfModuleTitlebarImpl;
+
 /**
  * 数据列表框架 Activity
  * @author 树朾
@@ -44,9 +46,13 @@ public abstract class AfListViewActivityImpl<T> extends AfListViewActivity<T>{
 	@Override
 	protected void onCreate(Bundle bundle, AfIntent intent) throws Exception {
 		super.onCreate(bundle, intent);
-		mAfTitlebar = new AfModuleTitlebar(this);
+		mAfTitlebar = newModuleTitlebar(this);
 	}
-	
+
+	protected AfModuleTitlebar newModuleTitlebar(AfPageable pageable) {
+		return new AfModuleTitlebarImpl(this);
+	}
+
 	@Override
 	protected int getLayoutId() {
 		return R.layout.af_activity_listview;

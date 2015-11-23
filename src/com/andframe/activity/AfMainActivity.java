@@ -37,6 +37,7 @@ public abstract class AfMainActivity extends com.andframe.activity.framework.AfA
 	protected long mExitTime;
 	protected long mExitInterval = 2000;
 	protected boolean mNotifyNetInvaild = true;
+	protected boolean mDoubleBackKeyPressed = true;
 
 	protected abstract void onActivityCreate(Bundle savedInstanceState);
 
@@ -105,7 +106,7 @@ public abstract class AfMainActivity extends com.andframe.activity.framework.AfA
 	@Override
 	protected boolean onBackKeyPressed() {
 		boolean isHandled = super.onBackKeyPressed();
-		if (!isHandled) {
+		if (!isHandled && mDoubleBackKeyPressed) {
 			isHandled = true;
 			if ((System.currentTimeMillis() - mExitTime) > mExitInterval) {
 				makeToastShort("再按一次退出程序");
