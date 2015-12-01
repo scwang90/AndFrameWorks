@@ -1,5 +1,7 @@
 package com.andrestrequest;
 
+import com.andrestrequest.http.config.Config;
+
 import java.io.InputStream;
 import java.util.Properties;
 
@@ -22,33 +24,8 @@ public class AndRestConfig {
 	/** 链接超时 */
 	private static Integer connectionTimeout = 3000;
 	/** 接收类型 */
-	private static AcceptedMediaType responseMediaType = AcceptedMediaType.json;
+	private static Config.AcceptedMediaType responseMediaType = Config.AcceptedMediaType.json;
 	
-	/**
-	 * 接收类型
-	 * @author 树朾
-	 */
-	public enum AcceptedMediaType {
-		json("application/json"), xml("application/xml"), csv("text/html");
-
-		private String contentType;
-
-		private AcceptedMediaType(String contentType) {
-			this.contentType = contentType;
-		}
-
-		public String getMediaType() {
-			return contentType;
-		}
-	}
-
-//	public static void main(String[] args) {
-//		System.out.println(AcceptedMediaType.valueOf("json").contentType);
-//	}
-//	public static void main(String[] args) {
-//		System.out.println(new URIBuilder().setScheme("http").setHost("www.baidu.com:8888").setPath("/123/444"));
-//	}
-
 	/** 静态加载配置文件信息 */
 	static {
 		String path = "config.properties";
@@ -116,11 +93,11 @@ public class AndRestConfig {
 		AndRestConfig.connectionTimeout = connectionTimeout;
 	}
 	
-	public static AcceptedMediaType getResponseMediaType() {
+	public static Config.AcceptedMediaType getResponseMediaType() {
 		return responseMediaType;
 	}
 	
-	public static void setResponseMediaType(AcceptedMediaType responseMediaType) {
+	public static void setResponseMediaType(Config.AcceptedMediaType responseMediaType) {
 		AndRestConfig.responseMediaType = responseMediaType;
 	}
 	

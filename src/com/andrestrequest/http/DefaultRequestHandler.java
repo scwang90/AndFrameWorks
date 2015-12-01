@@ -25,6 +25,8 @@ import org.json.JSONObject;
 import com.andrestrequest.AndRestConfig;
 import com.andrestrequest.AndRestConfig.AcceptedMediaType;
 import com.andrestrequest.http.apache.URIBuilder;
+import com.andrestrequest.http.api.HttpMethod;
+import com.andrestrequest.http.api.RequestHandler;
 import com.andrestrequest.util.GsonUtil;
 import com.andrestrequest.util.StringUtil;
 
@@ -34,7 +36,7 @@ import com.andrestrequest.util.StringUtil;
  * @author s0pau
  */
 @SuppressWarnings("deprecation")
-public class DefaultRequestHandler {
+public class DefaultRequestHandler extends RequestHandler {
 	
 	public static boolean DEBUG = false;
 
@@ -47,11 +49,7 @@ public class DefaultRequestHandler {
 	private static DefaultRequestHandler instance;
 	private DefaultResponseHandler responseHandler;
 
-	public enum HttpMethod {
-		DELETE, GET, POST, PUT, post;
-	}
-
-	private DefaultRequestHandler() {
+	public DefaultRequestHandler() {
 		// singleton
 	}
 
@@ -67,29 +65,8 @@ public class DefaultRequestHandler {
 		return instance;
 	}
 
-	public Response doRequest(HttpMethod method, String path) throws Exception {
-		return doRequest(method, path, null,null,null);
-	}
-
-	public Response doRequest(HttpMethod method, String path, Object body) throws Exception {
-		return doRequest(method, path, null, body,null);
-	}
-
-	public Response doRequest(HttpMethod method, String path, Map<String, String> headers) throws Exception {
-		return doRequest(method, path, headers, null,null);
-	}
-
-	public Response doRequest(HttpMethod method, String path, Map<String, String> headers, Object body) throws Exception {
-		return doRequest(method, path, headers, body,null);
-	}
-
-	public Response doRequest(HttpMethod method, String path, Map<String, String> headers, Map<String, Object> params) throws Exception {
-		return doRequest(method, path,headers,null, params);
-	}
-
 	/**
 	 * * Make the request to Xively API and return the response string
-	 * @param <T extends ConnectedObject>
 	 * @param method
 	 *            http request methods
 	 * @param path
@@ -102,7 +79,6 @@ public class DefaultRequestHandler {
 	 * @return response string
 	 * @throws HttpException 
 	 */
-
 	public synchronized Response doRequest(HttpMethod method, String path, Map<String, String> headers,
 			Object body,Map<String, Object> params) throws Exception {
 		Response response = null;

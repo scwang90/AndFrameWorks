@@ -28,7 +28,6 @@ public class DefaultResponseHandler implements ResponseHandler<Response> {
 	public static Object STATUS_OK = null;
 	public static String RESULT = null;
 	public static int SUCCESSCODE = 200;
-	
 	public static boolean JSONFRAMEWORK = true;
 	
 	public static Class<? extends ErrorMessage> ErrorMessageClass = null;
