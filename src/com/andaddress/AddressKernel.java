@@ -5,9 +5,9 @@ import com.andframe.helper.android.AfDesHelper;
 import com.andframe.util.java.AfMD5;
 import com.andrestrequest.AndRestConfig;
 import com.andrestrequest.http.DefaultRequestHandler;
-import com.andrestrequest.http.DefaultRequestHandler.HttpMethod;
 import com.andrestrequest.http.DefaultResponseHandler;
 import com.andrestrequest.http.Response;
+import com.andrestrequest.http.api.HttpMethod;
 
 import java.io.IOException;
 import java.util.regex.Matcher;
