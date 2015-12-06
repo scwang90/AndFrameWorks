@@ -159,7 +159,7 @@ public abstract class AfListViewActivity<T> extends AfActivity implements OnRefr
 	public void setData(AfListAdapter<T> adapter) {
 		mAdapter = adapter;
 		mListView.setAdapter(adapter);
-		mSelector.SelectFrame(mListView);
+		mSelector.selectFrame(mListView);
 	}
 
 	/**
@@ -167,7 +167,7 @@ public abstract class AfListViewActivity<T> extends AfActivity implements OnRefr
 	 */
 	public void setLoading() {
 		mProgress.setDescription("正在加载...");
-		mSelector.SelectFrame(mProgress);
+		mSelector.selectFrame(mProgress);
 	}
 	
 	/**
@@ -188,7 +188,7 @@ public abstract class AfListViewActivity<T> extends AfActivity implements OnRefr
 	 */
 	public void setNodata() {
 		mNodata.setDescription("抱歉，暂无数据");
-		mSelector.SelectFrame(mNodata);
+		mSelector.selectFrame(mNodata);
 		mNodata.setOnRefreshListener(mNodataRefreshListener);
 	}
 
@@ -199,7 +199,7 @@ public abstract class AfListViewActivity<T> extends AfActivity implements OnRefr
 	public void setLoadError(Throwable ex) {
 		mNodata.setDescription(AfException.handle(ex, "数据加载出现异常"));
 		mNodata.setOnRefreshListener(mNodataRefreshListener);
-		mSelector.SelectFrame(mNodata);
+		mSelector.selectFrame(mNodata);
 	}
 
 	/**
@@ -388,7 +388,7 @@ public abstract class AfListViewActivity<T> extends AfActivity implements OnRefr
 			mListView.finishRefreshFail();
 			if (mAdapter != null && mAdapter.getCount() > 0) {
 				mListView.setAdapter(mAdapter);
-				mSelector.SelectFrame(mListView);
+				mSelector.selectFrame(mListView);
 				makeToastLong(task.makeErrorToast("加载失败"));
 			} else {
 				setLoadError(task.mException);

@@ -5,10 +5,13 @@ import java.lang.annotation.Retention;
 import java.lang.annotation.RetentionPolicy;
 import java.lang.annotation.Target;
 
-@Target(ElementType.FIELD)
+
+/**
+ * 注解式绑定控件<br>
+ */
+@Target(ElementType.METHOD)
 @Retention(RetentionPolicy.RUNTIME)
-public @interface InjectExtra {
-    String value();
-    String remark() default "";
-    boolean necessary() default false;
+public @interface InjectDelayed {
+    long value();
 }
+

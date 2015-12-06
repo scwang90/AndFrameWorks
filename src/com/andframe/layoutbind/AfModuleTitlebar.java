@@ -17,7 +17,7 @@ import java.lang.ref.WeakReference;
 import java.util.HashMap;
 import java.util.Map;
 
-public abstract class AfModuleTitlebar extends AfViewModule implements View.OnClickListener, OnMenuItemClickListener {
+public abstract class AfModuleTitlebar extends AfLayoutAlpha implements View.OnClickListener, OnMenuItemClickListener {
 
 	public static final int FUNCTION_NONE = 0;
 	public static final int FUNCTION_MENU = 1;

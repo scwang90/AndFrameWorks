@@ -31,7 +31,7 @@ public class AfFrameSelector extends AfViewModule {
 	 * @param view
 	 * @return
 	 */
-	public boolean SelectFrame(View view) {
+	public boolean selectFrame(View view) {
 		if (isValid()) {
 			int count = mFrameLayout.getChildCount();
 			List<View> lthide = new ArrayList<View>();
@@ -54,8 +54,8 @@ public class AfFrameSelector extends AfViewModule {
 		return false;
 	}
 
-	public boolean SelectFrame(IAfLayoutModule view) {
-		return SelectFrame(view.getLayout());
+	public boolean selectFrame(IAfLayoutModule view) {
+		return selectFrame(view.getLayout());
 	}
 
 	/**
@@ -63,11 +63,11 @@ public class AfFrameSelector extends AfViewModule {
 	 * @param id
 	 * @return
 	 */
-	public boolean SelectFrame(int id) {
+	public boolean selectFrame(int id) {
 		if (isValid()) {
 			View view = mFrameLayout.findViewById(id);
 			if (view != null) {
-				return SelectFrame(view);
+				return selectFrame(view);
 			}
 		}
 		return false;

@@ -91,7 +91,7 @@ public class AfCollections {
 	 * 在 left 中删除 right 中的所有元素
 	 * @param left （传入参数，删除成功元素将会减少）
 	 * @param right（传入参数，不会改变）
-	 * @param comparable 
+	 * @param comparable 比较器
 	 */
 	public static <T> void remove(List<T> left, List<T> right, Comparable<T> comparable) {
 		for (T r : right) {
@@ -106,7 +106,6 @@ public class AfCollections {
 
 	/**
 	 * 判断集合 collects 是否为空
-	 * @param collects
 	 * @return collects == null || collects.size() == 0
 	 */
 	public static boolean isEmpty(Collection<?> collects) {
@@ -115,7 +114,6 @@ public class AfCollections {
 
 	/**
 	 * 判断集合 collects 是否不为空
-	 * @param collects
 	 * @return collects == null || collects.size() == 0
 	 */
 	public static boolean isNotEmpty(Collection<?> collects) {

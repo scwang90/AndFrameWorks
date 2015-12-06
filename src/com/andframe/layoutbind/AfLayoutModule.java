@@ -26,7 +26,7 @@ public abstract class AfLayoutModule implements IAfLayoutModule {
 	/**
 	 * 在 AfViewable 找到相应的 布局Layout
 	 * @param view
-	 * @return 返回 Layout 有效最外层
+	 * @return 返回 InjectLayout 有效最外层
 	 */
 	protected abstract View findLayout(AfViewable view);
 

@@ -3,11 +3,13 @@ package com.andframe.annotation.inject.interpreter;
 import android.content.Context;
 import android.content.res.Resources;
 
+import com.andframe.R;
 import com.andframe.activity.framework.AfActivity;
 import com.andframe.activity.framework.AfPageable;
 import com.andframe.annotation.inject.Inject;
 import com.andframe.annotation.inject.InjectExtra;
 import com.andframe.annotation.inject.InjectInit;
+import com.andframe.annotation.inject.InjectLayout;
 import com.andframe.annotation.inject.InjectQueryChanged;
 import com.andframe.application.AfExceptionHandler;
 import com.andframe.feature.AfBundle;
@@ -19,6 +21,7 @@ import com.andframe.util.java.AfReflecter;
 
 import java.lang.reflect.Field;
 import java.lang.reflect.Method;
+import java.util.Random;
 
 /**
  * annotation.inject 解释器
@@ -43,9 +46,22 @@ public class Injecter {
 	}
 
 	public void doInject(Context context) {
-		doInjectSystem(context);
 		doInjectExtra(context);
+		doInjectLayout(context);
+		doInjectSystem(context);
 		doInjectInit(context);
+	}
+
+	private void doInjectLayout(Context context) {
+		InjectLayout layout = AfReflecter.getAnnotation(mHandler.getClass(), getStopType(), InjectLayout.class);
+		if (mHandler instanceof AfActivity && layout != null) {
+			try {
+				((AfActivity) mHandler).setContentView(layout.value());
+			}catch(Throwable e){
+				e.printStackTrace();
+				AfExceptionHandler.handler(e,TAG("doInjectLayout.setContentView"));
+			}
+		}
 	}
 
 	private void doInjectInit(Context context) {
@@ -111,6 +127,8 @@ public class Injecter {
 				Class<?> clazz = field.getType();
 				if (clazz.equals(Resources.class)) {
 					value = context.getResources();
+				} else if (clazz.equals(Random.class)) {
+					value = new Random();
 				}
 				field.setAccessible(true);
 				field.set(mHandler, value);

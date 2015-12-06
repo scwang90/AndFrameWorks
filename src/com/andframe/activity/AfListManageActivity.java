@@ -70,7 +70,7 @@ public abstract class AfListManageActivity<T> extends AfMultiChoiceListActivity<
 			mltArray.add(value);
 			mAdapter = newAdapter(this,mltArray);
 			mListView.setAdapter(mAdapter);
-			mSelector.SelectFrame(mListView);
+			mSelector.selectFrame(mListView);
 		} else {
 			mAdapter.insert(0, value);
 		}

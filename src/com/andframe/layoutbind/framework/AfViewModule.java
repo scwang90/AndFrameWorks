@@ -6,7 +6,7 @@ import com.andframe.activity.framework.AfViewable;
 import com.andframe.annotation.inject.interpreter.Injecter;
 import com.andframe.application.AfApplication;
 import com.andframe.application.AfExceptionHandler;
-import com.andframe.feature.AfViewBinder;
+import com.andframe.annotation.interpreter.ViewBinder;
 
 public class AfViewModule extends AfViewDelegate implements AfViewable,IViewModule{
 
@@ -41,7 +41,7 @@ public class AfViewModule extends AfViewDelegate implements AfViewable,IViewModu
 
 	protected void doInject(){
 		if(isValid()){
-			AfViewBinder binder = new AfViewBinder(this);
+			ViewBinder binder = new ViewBinder(this);
 			binder.doBind(target);
 			Injecter injecter = new Injecter(this);
 			injecter.doInject(getContext());

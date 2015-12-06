@@ -27,6 +27,7 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 import com.andframe.annotation.inject.interpreter.Injecter;
+import com.andframe.annotation.interpreter.ViewBinder;
 import com.andframe.application.AfApplication;
 import com.andframe.application.AfDaemonThread;
 import com.andframe.application.AfExceptionHandler;
@@ -35,7 +36,6 @@ import com.andframe.exception.AfToastException;
 import com.andframe.feature.AfDailog;
 import com.andframe.feature.AfIntent;
 import com.andframe.feature.AfSoftInputer;
-import com.andframe.feature.AfViewBinder;
 import com.andframe.fragment.AfFragment;
 import com.andframe.thread.AfTask;
 import com.andframe.thread.AfThreadWorker;
@@ -213,8 +213,8 @@ public abstract class AfActivity extends FragmentActivity implements AfPageable,
     public void setContentView(View view, LayoutParams params) {
         super.setContentView(view, params);
         mRoot = view;
-        AfViewBinder binder;
-        binder = new AfViewBinder(this);
+        ViewBinder binder;
+        binder = new ViewBinder(this);
         binder.doBind(view);
         AfSoftInputer inputer = new AfSoftInputer(this);
         inputer.setBindListener(view, this);

@@ -27,6 +27,7 @@ import com.andframe.activity.framework.AfActivity;
 import com.andframe.activity.framework.AfPageable;
 import com.andframe.activity.framework.AfView;
 import com.andframe.annotation.inject.interpreter.Injecter;
+import com.andframe.annotation.interpreter.ViewBinder;
 import com.andframe.application.AfApplication;
 import com.andframe.application.AfDaemonThread;
 import com.andframe.application.AfExceptionHandler;
@@ -36,7 +37,6 @@ import com.andframe.feature.AfBundle;
 import com.andframe.feature.AfDailog;
 import com.andframe.feature.AfIntent;
 import com.andframe.feature.AfSoftInputer;
-import com.andframe.feature.AfViewBinder;
 import com.andframe.thread.AfTask;
 import com.andframe.thread.AfThreadWorker;
 import com.andframe.util.java.AfStackTrace;
@@ -246,7 +246,7 @@ public abstract class AfFragment extends Fragment implements AfPageable, Adapter
         }
         try {
 //			mRootView.getViewTreeObserver().addOnGlobalLayoutListener(this);
-            AfViewBinder binder = new AfViewBinder(this);
+            ViewBinder binder = new ViewBinder(this);
             binder.doBind(mRootView);
             Injecter injecter = new Injecter(this);
             injecter.doInject(getActivity());

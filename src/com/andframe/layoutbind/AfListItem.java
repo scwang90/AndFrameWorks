@@ -2,7 +2,8 @@ package com.andframe.layoutbind;
 
 import com.andframe.activity.framework.AfView;
 import com.andframe.adapter.AfListAdapter.IAfLayoutItem;
-import com.andframe.feature.AfViewBinder;
+import com.andframe.annotation.inject.interpreter.Injecter;
+import com.andframe.annotation.interpreter.ViewBinder;
 
 public abstract class AfListItem<T> implements IAfLayoutItem<T>{
 	
@@ -22,8 +23,10 @@ public abstract class AfListItem<T> implements IAfLayoutItem<T>{
 	
 	@Override
 	public void onHandle(AfView view) {
-		AfViewBinder binder = new AfViewBinder(this);
+		ViewBinder binder = new ViewBinder(this);
 		binder.doBind(view.getView());
+		Injecter injecter = new Injecter(this);
+		injecter.doInject(view.getContext());
 	}
 
 }

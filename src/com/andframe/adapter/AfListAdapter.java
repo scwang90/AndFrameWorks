@@ -169,7 +169,7 @@ public abstract class AfListAdapter<T> extends BaseAdapter {
 		 */
 		public abstract void onBinding(T model,int index);
 		/**
-		 * 获取 Item 关联的 Layout ID
+		 * 获取 Item 关联的 InjectLayout ID
 		 * @return
 		 */
 		public abstract int getLayoutId();
