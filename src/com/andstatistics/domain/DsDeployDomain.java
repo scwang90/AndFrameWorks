@@ -1,13 +1,14 @@
 package com.andstatistics.domain;
 
-import com.andrestrequest.http.DefaultRequestHandler.HttpMethod;
 import com.andrestrequest.http.Response;
+import com.andrestrequest.http.api.HttpMethod;
 import com.andstatistics.domain.base.BaseDomain;
 import com.andstatistics.model.DsDeploy;
 
 import java.util.List;
 
 /**
+ * 在线部署
  * Created by SCWANG on 2015-07-29.
  */
 public class DsDeployDomain extends BaseDomain<DsDeploy> {
