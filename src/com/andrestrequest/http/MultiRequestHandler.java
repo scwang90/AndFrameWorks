@@ -53,7 +53,7 @@ public class MultiRequestHandler extends RequestHandler {
 
     public MultiRequestHandler() {
         // singleton
-        config = Loader.load("config.properties");
+        config = new Config();//Loader.load("config.properties");
     }
 
     public MultiRequestHandler(String properties) {
@@ -166,6 +166,15 @@ public class MultiRequestHandler extends RequestHandler {
                 URIBuilder builder = buildUri(method, path, params, mediaType);
                 request.setURI(builder.build());
             } else {
+                if (params != null && !params.isEmpty()) {
+                    for (Entry<String, Object> param : params.entrySet()) {
+                        if (path.indexOf('?') > 0) {
+                            path = path + "&" + param.getKey() + "=" + param.getValue();
+                        } else {
+                            path = path + "?" + param.getKey() + "=" + param.getValue();
+                        }
+                    }
+                }
                 request.setURI(new URI(path));
             }
         } catch (URISyntaxException e) {
