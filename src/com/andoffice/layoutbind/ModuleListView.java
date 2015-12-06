@@ -239,11 +239,11 @@ public class ModuleListView extends AfLayoutModule
 	public final boolean SelectFrame(int status) {
 		switch (status) {
 		case LISTVIEW:
-			return mSelector.SelectFrame(mListView);
+			return mSelector.selectFrame(mListView);
 		case PRIGRESS:
-			return mSelector.SelectFrame(mProgress.getLayout());
+			return mSelector.selectFrame(mProgress.getLayout());
 		case NULLDATA:
-			return mSelector.SelectFrame(mNodata.getLayout());
+			return mSelector.selectFrame(mNodata.getLayout());
 		}
 		return false;
 	}
