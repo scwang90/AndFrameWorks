@@ -1,5 +1,6 @@
 package com.andframe.layoutbind;
 
+import android.graphics.drawable.Drawable;
 import android.view.View;
 import android.view.animation.AlphaAnimation;
 import android.view.animation.Animation;
@@ -22,6 +23,13 @@ public abstract class AfLayoutAlpha extends AfViewModule implements AnimationLis
 		super(view,viewid);
 		mAnimationHide.setDuration(DURATION);
 		mAnimationShow.setDuration(DURATION);
+	}
+
+	public void setBackgroundAlpha(int alpha) {
+		Drawable drawable = getBackground();
+		if (drawable != null) {
+			drawable.setAlpha(alpha);
+		}
 	}
 
 	public void hide() {
@@ -57,7 +65,6 @@ public abstract class AfLayoutAlpha extends AfViewModule implements AnimationLis
 			return false;
 		}
 	}
-	
 
     @Override
     public void onAnimationStart(Animation animation) {

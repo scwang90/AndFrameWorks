@@ -505,7 +505,10 @@ public abstract class AfApplication extends Application {
 			if (activity == null){
 				if (power == mMainActivity){
 					notifyForegroundClosed(mMainActivity);
+				} else if (power == mCurActivity) {
+					mCurActivity = null;
 				}
+				return;
 			}
 			// 如果正在返回主页面
 			else if (mIsExiting) {
