@@ -115,7 +115,7 @@ public class GsonUtil {
 			} catch (ParseException e) {
 				try {
 					return new Timestamp(Long.parseLong(json.getAsString()));
-				} catch (Exception ex) {
+				} catch (Throwable ex) {
 					throw new JsonParseException(ex);
 				}
 			}

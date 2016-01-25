@@ -86,7 +86,7 @@ public class Response {
 	public JSONObject getJSONObject() throws Exception {
 		try {
 			return new JSONObject(body);
-		} catch (Exception e) {
+		} catch (Throwable e) {
 			throw new ServerException("服务器返回格式异常："+body,e);
 		}
 	}
