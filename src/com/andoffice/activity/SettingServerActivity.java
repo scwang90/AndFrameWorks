@@ -47,7 +47,7 @@ public class SettingServerActivity extends AbCominfoActivity{
 			AfApplication.setDebugMode(setting.getDebugMode());
 			finish();
 			makeToastLong("配置服务器成功");
-		} catch (Exception e) {
+		} catch (Throwable e) {
 			makeToastLong("服务器配置失败："+e.getMessage());
 		}
 	}

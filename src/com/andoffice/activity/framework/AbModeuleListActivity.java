@@ -648,7 +648,7 @@ public abstract class AbModeuleListActivity<T> extends
 				remark += "class = " + getClass().toString();
 				try {
 					throw new AfToastException("mltDelete 为空");
-				} catch (Exception e) {
+				} catch (Throwable e) {
 					AfExceptionHandler.handler(e, remark);
 				}
 			}

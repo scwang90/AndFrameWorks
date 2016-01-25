@@ -430,7 +430,7 @@ public abstract class AbCominfoActivity extends AfActivity implements
 			try {
 				project.doCheckNotnull();
 				this.onSubmitProject(project,(Button)v,mMode[0]);
-			} catch (Exception e) {
+			} catch (Throwable e) {
 				makeToastLong("",e);
 				return;
 			}
@@ -447,7 +447,7 @@ public abstract class AbCominfoActivity extends AfActivity implements
 			for (Project project : mltDynamic) {
 				project.doCheckNotnull();
 			}
-		} catch (Exception e) {
+		} catch (Throwable e) {
 			makeToastLong("",e);
 			return;
 		}
@@ -563,7 +563,7 @@ public abstract class AbCominfoActivity extends AfActivity implements
 							item.dvalue = Double.valueOf(text);
 							item.ivalue = (int) item.dvalue;
 							item.fvalue = (float) item.dvalue;
-						} catch (Exception ex) {
+						} catch (Throwable ex) {
 							AfExceptionHandler.handler(ex,"AbCommonActivity.doInputText.onClick.valueOf 出现异常");
 						}
 					}else if(item.type == Item.PASSWORD){
