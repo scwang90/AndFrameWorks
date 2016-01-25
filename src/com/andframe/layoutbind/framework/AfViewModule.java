@@ -80,7 +80,7 @@ public class AfViewModule extends AfViewDelegate implements AfViewable,IViewModu
 	public <T extends View> T findViewByID(int id) {
 		try {
 			return (T)target.findViewById(id);
-		} catch (Exception e) {
+		} catch (Throwable e) {
 			AfExceptionHandler.handler(e, "AfViewModule.findViewByID");
 		}
 		return null;

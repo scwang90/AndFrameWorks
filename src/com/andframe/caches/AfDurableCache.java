@@ -50,7 +50,7 @@ public class AfDurableCache extends AfJsonCache
 		if(caches == null){
 			try {
 				caches = new AfDurableCache(name);
-			} catch (Exception e) {
+			} catch (Throwable e) {
 				e.printStackTrace();
 			}
 			mHashMap.put(name, caches);

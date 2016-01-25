@@ -378,7 +378,7 @@ public abstract class AfFragment extends Fragment implements AfPageable, Adapter
     public <T extends View> T findViewByID(int id) {
         try {
             return (T) findViewById(id);
-        } catch (Exception e) {
+        } catch (Throwable e) {
             AfExceptionHandler.handler(e, TAG("findViewByID"));
         }
         return null;
@@ -420,7 +420,7 @@ public abstract class AfFragment extends Fragment implements AfPageable, Adapter
             mProgress.show();
 
             setDialogFontSize(mProgress, textsize);
-        } catch (Exception e) {
+        } catch (Throwable e) {
             //进过日志验证，这个异常会发送，但是概率非常小，注释掉异常通知
 //			AfExceptionHandler.handler(e, "AfActivity.showProgressDialog");
         }
@@ -442,7 +442,7 @@ public abstract class AfFragment extends Fragment implements AfPageable, Adapter
             mProgress.show();
 
             setDialogFontSize(mProgress, 25);
-        } catch (Exception e) {
+        } catch (Throwable e) {
             //进过日志验证，这个异常会发送，但是概率非常小，注释掉异常通知
 //			AfExceptionHandler.handler(e, "AfActivity.showProgressDialog");
         }
@@ -465,7 +465,7 @@ public abstract class AfFragment extends Fragment implements AfPageable, Adapter
             mProgress.show();
 
             setDialogFontSize(mProgress, textsize);
-        } catch (Exception e) {
+        } catch (Throwable e) {
             //进过日志验证，这个异常会发送，但是概率非常小，注释掉异常通知
 //			AfExceptionHandler.handler(e, "AfActivity.showProgressDialog");
         }
@@ -488,7 +488,7 @@ public abstract class AfFragment extends Fragment implements AfPageable, Adapter
                 mProgress.dismiss();
                 mProgress = null;
             }
-        } catch (Exception e) {
+        } catch (Throwable e) {
             AfExceptionHandler.handler(e, "AfActivity.hideProgressDialog");
         }
     }
@@ -1056,7 +1056,7 @@ public abstract class AfFragment extends Fragment implements AfPageable, Adapter
                 return;
             }
             this.onItemClick(parent, view, id, position);
-        } catch (Exception e) {
+        } catch (Throwable e) {
             AfExceptionHandler.handler(e, TAG() + ".onItemClick");
         }
     }

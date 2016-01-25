@@ -77,7 +77,7 @@ public class AfFileSelector {
 			Intent intent = new Intent(MediaStore.ACTION_IMAGE_CAPTURE);//action is capture 
 			intent.putExtra(MediaStore.EXTRA_OUTPUT, imageUri); 
 			activity.startActivityForResult(intent, request);//or TAKE_SMALL_PICTURE 
-		} catch (Exception e) {
+		} catch (Throwable e) {
 			Toast.makeText(activity, "没有找到系统相机程序喔~", Toast.LENGTH_SHORT)
 			.show();
 		}

@@ -157,7 +157,7 @@ public abstract class AfListTask<T> extends AfHandlerTask {
 						cache.putList(KEY_CACHELIST, mltData, mCacheClazz);
 						cache.put(KEY_CACHETIME, new Date());
 					}
-				} catch (Exception e) {
+				} catch (Throwable e) {
 					mTask = TASK_LOAD;
 					e.printStackTrace();
 					mltData = onLoad();

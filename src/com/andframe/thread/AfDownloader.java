@@ -713,7 +713,7 @@ public class AfDownloader {
 //						}
 //					}
                 }
-            } catch (Exception e) {
+            } catch (Throwable e) {
                 AfExceptionHandler.handler(e, "DownloadBroadcast.onReceive");
             }
         }

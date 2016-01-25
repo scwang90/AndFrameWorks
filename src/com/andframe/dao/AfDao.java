@@ -554,7 +554,7 @@ public abstract class AfDao<T> {
 		public UUID getUUID(String column) {
 			try {
 				return UUID.fromString(getString(column));
-			} catch (Exception e) {
+			} catch (Throwable e) {
 				return UUID.fromString("00000000-0000-0000-0000-000000000000");
 			}
 		}

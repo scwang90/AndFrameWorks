@@ -381,7 +381,7 @@ public class AfTimeSpan
                 return -1;
             }
         }
-        catch(Exception ex)
+        catch (Throwable ex)
         {
             return 1;
         }

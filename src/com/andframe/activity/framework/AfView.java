@@ -79,7 +79,7 @@ public class AfView implements AfViewable {
 	public <T extends View> T findViewByID(int id) {
 		try {
 			return (T)findViewById(id);
-		} catch (Exception e) {
+		} catch (Throwable e) {
 			AfExceptionHandler.handler(e, "AfView.findViewByID");
 		}
 		return null;

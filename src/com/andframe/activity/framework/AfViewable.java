@@ -10,13 +10,13 @@ import android.view.View;
  */
 public interface AfViewable {
 
-	public Context getContext();
+	Context getContext();
 
-	public Resources getResources();
+	Resources getResources();
 
-	public View findViewById(int id);
+	View findViewById(int id);
 
-	public <T extends View> T findViewByID(int id);
+	<T extends View> T findViewByID(int id);
 
-	public <T extends View> T findViewById(int id,Class<T> clazz);
+	<T extends View> T findViewById(int id,Class<T> clazz);
 }

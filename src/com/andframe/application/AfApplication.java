@@ -451,7 +451,7 @@ public abstract class AfApplication extends Application {
 		T singleton = null;
 		try {
 			singleton = (T) mSingletonMap.get(key);
-		} catch (Exception e) {
+		} catch (Throwable e) {
 			AfExceptionHandler.handler(e, "AfApplication.getSingleton");
 		}
 		return singleton;

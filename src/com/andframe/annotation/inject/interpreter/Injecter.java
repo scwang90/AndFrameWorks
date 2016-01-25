@@ -111,7 +111,7 @@ public class Injecter {
 					field.setAccessible(true);
 					field.set(mHandler, value);
 				}
-			} catch (Exception e) {
+			} catch (Throwable e) {
 				if (inject.necessary()){
 					throw new RuntimeException("缺少必须参数",e);
 				}
@@ -132,7 +132,7 @@ public class Injecter {
 				}
 				field.setAccessible(true);
 				field.set(mHandler, value);
-			} catch (Exception e) {
+			} catch (Throwable e) {
 				AfExceptionHandler.handler(e,TAG("doInject.Inject")+ field.getName());
 			}
 		}

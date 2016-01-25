@@ -268,7 +268,7 @@ public class AfReflecter {
             }
             type = type.getSuperclass();
         }
-        new NoSuchMethodException(method).printStackTrace();
+//        new NoSuchMethodException(method).printStackTrace();
         return null;
     }
 
@@ -453,7 +453,7 @@ public class AfReflecter {
         Method method = getMethod(obj.getClass(), smethod, args);
         try {
             return method.invoke(obj, args);
-        } catch (Exception e) {
+        } catch (Throwable e) {
             e.printStackTrace();
         }
         return null;
@@ -463,7 +463,7 @@ public class AfReflecter {
         Method method = getMethod(obj.getClass(), smethod, args);
         try {
             return type.cast(method.invoke(obj, args));
-        } catch (Exception e) {
+        } catch (Throwable e) {
             e.printStackTrace();
         }
         return null;
@@ -473,7 +473,7 @@ public class AfReflecter {
         Method method = getMethod(obj.getClass(), smethod, argtype);
         try {
             return method != null ? method.invoke(obj, args) : null;
-        } catch (Exception e) {
+        } catch (Throwable e) {
             e.printStackTrace();
         }
         return null;
@@ -483,7 +483,7 @@ public class AfReflecter {
         Method method = getMethod(obj.getClass(), smethod, argtype);
         try {
             return type.cast(method != null ? method.invoke(obj, args) : null);
-        } catch (Exception e) {
+        } catch (Throwable e) {
             e.printStackTrace();
         }
         return null;

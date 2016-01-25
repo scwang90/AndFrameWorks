@@ -153,7 +153,7 @@ public abstract class AfActivity extends FragmentActivity implements AfPageable,
         try {
             AfApplication.getApp().onSaveInstanceState();
             super.onSaveInstanceState(outState);
-        } catch (Exception e) {
+        } catch (Throwable e) {
             AfExceptionHandler.handler(e, "AfActivity.onSaveInstanceState");
         }
     }
@@ -239,17 +239,25 @@ public abstract class AfActivity extends FragmentActivity implements AfPageable,
     @Override
     protected void onResume() {
         super.onResume();
-        getAfApplication().setCurActivity(this, this);
-        this.onQueryChanged();
+        try {
+            getAfApplication().setCurActivity(this, this);
+            this.onQueryChanged();
+        } catch (Throwable ex) {
+            AfExceptionHandler.handler(ex, "AfActivity.onResume");
+        }
     }
 
     @Override
     protected void onDestroy() {
         super.onDestroy();
-        getAfApplication().setCurActivity(this, null);
-        mIsRecycled = true;
-        if (mWorker != null) {
-            mWorker.quit();
+        try {
+            getAfApplication().setCurActivity(this, null);
+            mIsRecycled = true;
+            if (mWorker != null) {
+                mWorker.quit();
+            }
+        } catch (Throwable ex) {
+            AfExceptionHandler.handler(ex, "AfActivity.onDestroy");
         }
     }
 
@@ -346,7 +354,7 @@ public abstract class AfActivity extends FragmentActivity implements AfPageable,
     public <T extends View> T findViewByID(int id) {
         try {
             return (T) findViewById(id);
-        } catch (Exception e) {
+        } catch (Throwable e) {
             AfExceptionHandler.handler(e, TAG("findViewByID"));
         }
         return null;
@@ -400,7 +408,7 @@ public abstract class AfActivity extends FragmentActivity implements AfPageable,
             mProgress.show();
 
             setDialogFontSize(mProgress, textsize);
-        } catch (Exception e) {
+        } catch (Throwable e) {
             //进过日志验证，这个异常会发送，但是概率非常小，注释掉异常通知
 //			AfExceptionHandler.handler(e, "AfActivity.showProgressDialog");
         }
@@ -422,7 +430,7 @@ public abstract class AfActivity extends FragmentActivity implements AfPageable,
             mProgress.show();
 
             setDialogFontSize(mProgress, 25);
-        } catch (Exception e) {
+        } catch (Throwable e) {
             //进过日志验证，这个异常会发送，但是概率非常小，注释掉异常通知
 //			AfExceptionHandler.handler(e, "AfActivity.showProgressDialog");
         }
@@ -445,7 +453,7 @@ public abstract class AfActivity extends FragmentActivity implements AfPageable,
             mProgress.show();
 
             setDialogFontSize(mProgress, textsize);
-        } catch (Exception e) {
+        } catch (Throwable e) {
             //进过日志验证，这个异常会发送，但是概率非常小，注释掉异常通知
 //			AfExceptionHandler.handler(e, "AfActivity.showProgressDialog");
         }
@@ -460,7 +468,7 @@ public abstract class AfActivity extends FragmentActivity implements AfPageable,
                 mProgress.dismiss();
                 mProgress = null;
             }
-        } catch (Exception e) {
+        } catch (Throwable e) {
             AfExceptionHandler.handler(e, "AfActivity.hideProgressDialog");
         }
     }
@@ -1127,7 +1135,7 @@ public abstract class AfActivity extends FragmentActivity implements AfPageable,
                 return;
             }
             this.onItemClick(parent, view, id, position);
-        } catch (Exception e) {
+        } catch (Throwable e) {
             AfExceptionHandler.handler(e, TAG() + ".onItemClick");
         }
     }

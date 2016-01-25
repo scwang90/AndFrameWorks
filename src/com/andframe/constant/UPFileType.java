@@ -12,7 +12,7 @@ public class UPFileType {
 		{
 			return folders[filetype];
 		}
-		catch(Exception ex){
+		catch (Throwable ex){
 			ex.printStackTrace();
 			return null;
 		}

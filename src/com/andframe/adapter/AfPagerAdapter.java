@@ -90,7 +90,7 @@ public abstract class AfPagerAdapter<T> extends PagerAdapter {
 				item.onBinding(model,position);
 				mHashMap.put(key, item);
 				((ViewPager) container).addView(item.mLayout = view);
-			} catch (Exception e) {
+			} catch (Throwable e) {
 				AfExceptionHandler.handleAttach(e, "AfPagerAdapter.instantiateItem Exception\r\nclass:"+getClass().getName());
 			}
 		}

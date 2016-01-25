@@ -68,7 +68,7 @@ public class ViewBinder {
     }
 
     public void doBind(View root) {
-        this.doBind(new AfView(root));
+        this.doBind((AfViewable)new AfView(root));
     }
 
     public void doBind(AfViewable root) {
@@ -114,7 +114,7 @@ public class ViewBinder {
                         return false;
                     }
                 }, bind.value());
-            } catch (Exception e) {
+            } catch (Throwable e) {
                 AfExceptionHandler.handler(e, TAG("doInjectDelayed.") + method.getName());
             }
         }
@@ -144,7 +144,7 @@ public class ViewBinder {
                 }
                 field.setAccessible(true);
                 field.set(mHandler, value);
-            } catch (Exception e) {
+            } catch (Throwable e) {
                 AfExceptionHandler.handler(e, TAG("doBindViewModule.") + field.getName());
             }
         }
@@ -158,7 +158,7 @@ public class ViewBinder {
                     View view = root.findViewById(id);
                     view.setOnClickListener(new EventListener(mHandler).click(method));
                 }
-            } catch (Exception e) {
+            } catch (Throwable e) {
                 AfExceptionHandler.handler(e, TAG("doBindClick.") + method.getName());
             }
         }
@@ -172,7 +172,7 @@ public class ViewBinder {
                     View view = root.findViewById(id);
                     view.setOnLongClickListener(new EventListener(mHandler).longClick(method));
                 }
-            } catch (Exception e) {
+            } catch (Throwable e) {
                 AfExceptionHandler.handler(e, TAG("doBindLongClick.") + method.getName());
             }
         }
@@ -188,7 +188,7 @@ public class ViewBinder {
                         view.setOnItemClickListener(new EventListener(mHandler).itemClick(method));
                     }
                 }
-            } catch (Exception e) {
+            } catch (Throwable e) {
                 AfExceptionHandler.handler(e, TAG("doBindLongClick.") + method.getName());
             }
         }
@@ -204,7 +204,7 @@ public class ViewBinder {
                         view.setOnItemLongClickListener(new EventListener(mHandler).itemLongClick(method));
                     }
                 }
-            } catch (Exception e) {
+            } catch (Throwable e) {
                 AfExceptionHandler.handler(e, TAG("doBindLongClick.") + method.getName());
             }
         }
@@ -220,7 +220,7 @@ public class ViewBinder {
                         view.setOnCheckedChangeListener(new EventListener(mHandler).checkedChange(method));
                     }
                 }
-            } catch (Exception e) {
+            } catch (Throwable e) {
                 AfExceptionHandler.handler(e, TAG("doBindLongClick.") + method.getName());
             }
         }
@@ -251,7 +251,7 @@ public class ViewBinder {
                         field.set(mHandler, list.get(0));
                     }
                 }
-            } catch (Exception e) {
+            } catch (Throwable e) {
                 AfExceptionHandler.handler(e, TAG("doBindView.") + field.getName());
             }
         }

@@ -157,21 +157,21 @@ public abstract class AfListAdapter<T> extends BaseAdapter {
 		return true;
 	}
 
-	public static interface IAfLayoutItem<T> {
+	public interface IAfLayoutItem<T> {
 		/**
 		 * 从视图中取出控件
 		 * @param view
 		 */
-		public abstract void onHandle(AfView view);
+		void onHandle(AfView view);
 		/**
 		 * 将数据绑定到控件显示
 		 * @param model
 		 */
-		public abstract void onBinding(T model,int index);
+		void onBinding(T model,int index);
 		/**
 		 * 获取 Item 关联的 InjectLayout ID
 		 * @return
 		 */
-		public abstract int getLayoutId();
+		int getLayoutId();
 	}
 }
