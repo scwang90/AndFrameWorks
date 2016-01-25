@@ -63,7 +63,7 @@ public class FeedbackAgent {
 					}
 				}
 			});
-		} catch (Exception e) {
+		} catch (Throwable e) {
 			AfExceptionHandler.handler(e, ("FeedbackAgent.FeedbackThread.sync"));
 		}
 	}

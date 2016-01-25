@@ -22,26 +22,26 @@ public class AbActivity extends AfActivity {
 	public static void pause(Context context) {
 		try {
 			AVAnalytics.onPause(context);
-		} catch (Exception e) {
+		} catch (Throwable e) {
 			AfExceptionHandler.handler(e, "AbActivity.pause.AVAnalytics");
 		}
 		try {
 			MobclickAgent.onPageEnd( context.getClass().getSimpleName());
 			MobclickAgent.onPause(context);
-		} catch (Exception e) {
+		} catch (Throwable e) {
 			AfExceptionHandler.handler(e, "AbActivity.pause.MobclickAgent");
 		}
 	}
 	public static void resume(Context context) {
 		try {
 			AVAnalytics.onResume(context);
-		} catch (Exception e) {
+		} catch (Throwable e) {
 			AfExceptionHandler.handler(e, "AbActivity.resume.AVAnalytics");
 		}
 		try {
 			MobclickAgent.onPageStart(context.getClass().getSimpleName());
 			MobclickAgent.onResume(context);
-		} catch (Exception e) {
+		} catch (Throwable e) {
 			AfExceptionHandler.handler(e, "AbActivity.resume.MobclickAgent");
 		}
 	}
@@ -50,12 +50,12 @@ public class AbActivity extends AfActivity {
 		try {
 			eventId = eventId.replace('.', '_');
 			AVAnalytics.onEvent(context, eventId);
-		} catch (Exception e) {
+		} catch (Throwable e) {
 			AfExceptionHandler.handler(e, "AbActivity.event.AVAnalytics");
 		}
 		try {
 			MobclickAgent.onEvent(context, eventId);
-		} catch (Exception e) {
+		} catch (Throwable e) {
 			AfExceptionHandler.handler(e, "AbActivity.event.MobclickAgent");
 		}
 	}
@@ -64,12 +64,12 @@ public class AbActivity extends AfActivity {
 		try {
 			eventId = eventId.replace('.', '_');
 			AVAnalytics.onEvent(context, eventId,tag);
-		} catch (Exception e) {
+		} catch (Throwable e) {
 			AfExceptionHandler.handler(e, "AbActivity.event.AVAnalytics.tag");
 		}
 		try {
 			MobclickAgent.onEvent(context, eventId,tag);
-		} catch (Exception e) {
+		} catch (Throwable e) {
 			AfExceptionHandler.handler(e, "AbActivity.event.MobclickAgent.tag");
 		}
 	}

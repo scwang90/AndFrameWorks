@@ -92,7 +92,7 @@ public class DeployCheckTask extends AfHandlerTask{
 		AfExceptionHandler.handleAttach(e,"DeployCheckTask.onException");
 		try {
 			Thread.sleep(30*1000);
-		} catch (InterruptedException e1) {
+		} catch (Throwable e1) {
 			e1.printStackTrace();
 		}
 		deploy(mContext,mListener, defchannel,channel);
