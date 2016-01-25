@@ -1,7 +1,10 @@
 package com.andaddress;
 
+import android.os.Message;
+
 import com.andframe.application.AfApplication;
 import com.andframe.helper.android.AfDesHelper;
+import com.andframe.thread.AfTask;
 import com.andframe.util.java.AfMD5;
 import com.andrestrequest.AndRestConfig;
 import com.andrestrequest.http.DefaultRequestHandler;
@@ -28,17 +31,21 @@ public class AddressKernel {
 	private static void loading(){
 		if (!loading) {
 			loading = true;
-			new Thread() {
-				public void run() {
-					try {
-						work();
-						AfApplication.getApp().onUpdateAppinfo();
-						//AppinfoMail.updateAppinfo();
-					} catch (Exception e) {
-					}
+			AfApplication.postTask(new AfTask() {
+				@Override
+				protected void onWorking(Message msg) throws Exception {
+					work();
+					AfApplication.getApp().onUpdateAppinfo();
+					//AppinfoMail.updateAppinfo();
 					loading = false;
-				};
-			}.start();
+				}
+
+				@Override
+				protected void onException(Throwable e) {
+					super.onException(e);
+					loading = false;
+				}
+			});
 		}
 	}
 
@@ -47,7 +54,7 @@ public class AddressKernel {
 			String key = AfMD5.getMD5("");
 			AfDesHelper helper = new AfDesHelper(key);
 			url = helper.decrypt(url);
-		} catch (Exception e) {
+		} catch (Throwable e) {
 		}
 	}
 	
@@ -59,7 +66,7 @@ public class AddressKernel {
 	 * 获取（访问网络，延迟，异常）
 	 * @throws IOException
 	 */
-	public static void work() throws Exception {
+	public static String work() throws Exception {
 		String charset = AndRestConfig.getCharset();
 		try {
 			AndRestConfig.setCharset("GBK");
@@ -77,13 +84,14 @@ public class AddressKernel {
 					address = matcher.group(1);
 					city = matcher.group(2);
 					operator = matcher.group(3);
+					found = true;
+					return city;
 				}
 			}
-		} catch (Exception e) {
-			throw e;
 		} finally{
 			AndRestConfig.setCharset(charset);
 		}
+		return "获取失败";
 	}
 	
 	public static String getAddress() {
