@@ -18,12 +18,12 @@ public @interface BindAfterViews {
     /**
      * 和其BindAfterView标记的方法的执行序号
      */
-    public int value() default 0;
+    int value() default 0;
     /**
      * 是否允许抛出异常
      * 默认true允许异常
      * @return false 不允许异常
      */
-    public boolean exception() default true;
+    boolean exception() default true;
 }
 

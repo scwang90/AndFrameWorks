@@ -27,6 +27,7 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 import com.andframe.annotation.inject.interpreter.Injecter;
+import com.andframe.annotation.interpreter.LayoutBinder;
 import com.andframe.annotation.interpreter.ViewBinder;
 import com.andframe.application.AfApplication;
 import com.andframe.application.AfDaemonThread;
@@ -75,8 +76,8 @@ import java.util.TimerTask;
  *         public void showProgressDialog(String message, listener);
  *         public void showProgressDialog(String message, listener, int textsize);
  *         public void hideProgressDialog();
- *         public void startActivity(Class<? extends AfActivity> tclass);
- *         public void startActivityForResult(Class<AfActivity> tclass,int request);
+ *         public void startActivity(Class<? extends AfActivity> clazz);
+ *         public void startActivityForResult(Class<AfActivity> clazz,int request);
  *         <p/>
  *         public void doShowDialog(String title, String message);
  *         public void doShowDialog(String title, String message,OnClickListener);
@@ -289,14 +290,32 @@ public abstract class AfActivity extends FragmentActivity implements AfPageable,
     }
 
     @Override
-    public void startActivity(Class<? extends AfActivity> tclass) {
-        startActivity(new Intent(this, tclass));
+    public void startActivity(Class<? extends AfActivity> clazz) {
+        startActivity(new Intent(this, clazz));
     }
 
     @Override
-    public void startActivityForResult(Class<? extends AfActivity> tclass,
+    public void startActivityForResult(Class<? extends AfActivity> clazz,
                                        int request) {
-        startActivityForResult(new Intent(this, tclass), request);
+        startActivityForResult(new Intent(this, clazz), request);
+    }
+
+    public void startActivityForResult(Class<? extends AfActivity> clazz,
+                                       int request, Object... args) {
+        AfIntent intent = new AfIntent(this, clazz);
+        if (args != null && args.length > 0) {
+            for (int i = 0; i < args.length / 2; i++) {
+                if (args[2 * i] instanceof String) {
+                    Object arg = args[2 * i + 1];
+                    if (arg != null && arg instanceof List) {
+                        intent.putList((String) args[2 * i], (List<? extends Object>)arg);
+                    } else {
+                        intent.put((String) args[2 * i], arg);
+                    }
+                }
+            }
+        }
+        startActivityForResult(intent, request);
     }
 
     @Override
@@ -1069,6 +1088,8 @@ public abstract class AfActivity extends FragmentActivity implements AfPageable,
             }
             Injecter injecter = new Injecter(this);
             injecter.doInject(this);
+            LayoutBinder binder = new LayoutBinder(this);
+            binder.doBind();
             this.onCreate(bundle, new AfIntent(getIntent()));
         } catch (final Throwable e) {
             //handler 可能会根据 Activity 弹窗提示错误信息

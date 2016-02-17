@@ -37,7 +37,6 @@ public abstract class AfActivity extends com.andframe.activity.framework.AfActiv
 
 	/**
 	 *  final 包装 onItemClick 事件处理 防止抛出异常崩溃
-	 * @author 树朾
 	 * @param parent
 	 * @param view
 	 * @param position

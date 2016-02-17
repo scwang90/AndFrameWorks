@@ -46,7 +46,6 @@ import java.util.Timer;
 
 /**
  * 控件绑定器
- *
  * @author 树朾
  */
 public class ViewBinder {

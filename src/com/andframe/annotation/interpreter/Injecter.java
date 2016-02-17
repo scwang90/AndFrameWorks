@@ -20,6 +20,9 @@ import com.andframe.util.java.AfStringUtil;
 
 import java.lang.reflect.Field;
 import java.lang.reflect.Method;
+import java.lang.reflect.ParameterizedType;
+import java.lang.reflect.Type;
+import java.util.List;
 import java.util.Random;
 
 /**
@@ -86,7 +89,7 @@ public class Injecter {
         for (Field field : AfReflecter.getFieldAnnotation(mHandler.getClass(), InjectExtra.class)) {
             InjectExtra inject = field.getAnnotation(InjectExtra.class);
             String remark = inject.remark();
-            remark = AfStringUtil.isEmpty(remark) ? field.getName(): remark;
+            remark = AfStringUtil.isEmpty(remark) ? field.getName() : remark;
             try {
                 if (mHandler instanceof AfPageable) {
                     AfExtrater intent = new AfIntent();
@@ -95,8 +98,15 @@ public class Injecter {
                     } else if (mHandler instanceof AfFragment) {
                         intent = new AfBundle(((AfFragment) mHandler).getArguments());
                     }
+
+                    Object value;
                     Class<?> clazz = field.getType();
-                    Object value = intent.get(inject.value(), clazz);
+                    if (clazz.isAssignableFrom(List.class)) {
+                        clazz = (Class) ((ParameterizedType) field.getGenericType()).getActualTypeArguments()[0];
+                        value = intent.getList(inject.value(), clazz);
+                    } else {
+                        value = intent.get(inject.value(), clazz);
+                    }
                     if (value == null) {
                         throw new RuntimeException("缺少必须参数【" + remark + "】");
                     }
