@@ -294,6 +294,23 @@ public abstract class AfActivity extends FragmentActivity implements AfPageable,
         startActivity(new Intent(this, clazz));
     }
 
+    public void startActivity(Class<? extends AfActivity> clazz,Object... args) {
+        AfIntent intent = new AfIntent(this, clazz);
+        if (args != null && args.length > 0) {
+            for (int i = 0; i < args.length / 2; i++) {
+                if (args[2 * i] instanceof String) {
+                    Object arg = args[2 * i + 1];
+                    if (arg != null && arg instanceof List) {
+                        intent.putList((String) args[2 * i], (List<? extends Object>)arg);
+                    } else {
+                        intent.put((String) args[2 * i], arg);
+                    }
+                }
+            }
+        }
+        startActivity(intent);
+    }
+
     @Override
     public void startActivityForResult(Class<? extends AfActivity> clazz,
                                        int request) {
