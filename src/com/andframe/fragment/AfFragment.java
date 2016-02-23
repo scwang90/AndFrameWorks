@@ -28,6 +28,7 @@ import com.andframe.activity.framework.AfPageable;
 import com.andframe.activity.framework.AfView;
 import com.andframe.annotation.inject.interpreter.Injecter;
 import com.andframe.annotation.interpreter.ViewBinder;
+import com.andframe.annotation.view.BindLayout;
 import com.andframe.application.AfApplication;
 import com.andframe.application.AfDaemonThread;
 import com.andframe.application.AfExceptionHandler;
@@ -215,13 +216,20 @@ public abstract class AfFragment extends Fragment implements AfPageable, Adapter
     /**
      * 自定义 View onCreate(Bundle)
      */
-    protected abstract void onCreated(AfView rootView, AfBundle bundle) throws Exception;
+    protected void onCreated(AfView rootView, AfBundle bundle) throws Exception {
+
+    }
 
     /**
      * 自定义 View onCreateView(LayoutInflater, ViewGroup)
      */
-    protected abstract View onCreateView(LayoutInflater inflater,
-                                         ViewGroup container);
+    protected View onCreateView(LayoutInflater inflater, ViewGroup container) {
+        if (this.getClass().isAnnotationPresent(BindLayout.class)) {
+            int id = this.getClass().getAnnotation(BindLayout.class).value();
+            return inflater.inflate(id,container,false);
+        }
+        return null;
+    }
 
     @Override
     public void onResume() {

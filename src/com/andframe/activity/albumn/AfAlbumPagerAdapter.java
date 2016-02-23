@@ -41,7 +41,7 @@ public class AfAlbumPagerAdapter extends PagerAdapter {
 
 	/**
 	 * 适配器新增 点击更多 数据追加接口
-	 * @param ltNews
+	 * @param ltData
 	 */
 	public void AddData(List<Photo> ltData) {
 		mltData.addAll(ltData);
@@ -50,7 +50,7 @@ public class AfAlbumPagerAdapter extends PagerAdapter {
 
 	/**
 	 * 适配器新增 数据刷新 接口
-	 * @param ltNews
+	 * @param ltData
 	 */
 	public void setData(List<Photo> ltData) {
 		mltData = ltData;

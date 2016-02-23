@@ -26,7 +26,7 @@ import com.andframe.util.android.AfImageThumb;
 import com.andframe.util.android.AfNetwork;
 
 public class AfImageService {
-	
+
 	public interface LoadImageListener{
 		/**图片成功加载完成**/
 		boolean onImageLoaded(ImageView view,Drawable drawable);
@@ -39,23 +39,23 @@ public class AfImageService {
 	public static final int EFFECT_ROUND = 0x02;
 	public static final int EFFECT_ROUNDCORNER = 0x04;
 	public static final int EFFECT_SELFADAPTION = 0x08;//自适应参数
-	
+
 	public enum Effect{
 		/*** 无效果*/
-		NONE(EFFECT_NONE),	
+		NONE(EFFECT_NONE),
 		/*** 黑白 */
-		GRAY(EFFECT_GRAY),	
+		GRAY(EFFECT_GRAY),
 		/*** 圆形效果*/
 		ROUND(EFFECT_ROUND),
 		/*** 圆角效果*/
 		ROUNDCORNER(EFFECT_ROUNDCORNER),//
 		/*** 图片自适应大小*/
 		SELFADAPTION(EFFECT_SELFADAPTION),//
-		//以下是组合 
+		//以下是组合
 		GRAY_ROUND(EFFECT_GRAY|EFFECT_ROUND),
 		GRAY_ROUNDCORNER(EFFECT_GRAY|EFFECT_ROUNDCORNER),
 		GRAY_SELFADAPTION(EFFECT_GRAY|EFFECT_SELFADAPTION);
-		
+
 		int value = EFFECT_NONE;
 		private Effect(int effect) {
 			value = effect;
@@ -64,9 +64,9 @@ public class AfImageService {
 			return value;
 		}
 	}
-	
+
 	protected static AfImageService mInstance;
-	
+
 	public static void initialize(Context context){
 		if(mInstance == null){
 			mInstance = AfApplication.getApp().getImageService();
@@ -121,16 +121,16 @@ public class AfImageService {
 	/**
 	 * 将图片URL绑定到控件ImageView
 	 * @param url 图片连接 http:// 格式
-	 * @param view
+	 * @param view 显示图片控件
 	 */
 	public static void bindImage(String url, ImageView view) {
 		bindImage(url, view, 0);
 	}
-	
+
 	/**
 	 * 将图片URL绑定到控件ImageView
 	 * @param url 图片连接 http:// 格式
-	 * @param view
+	 * @param view 显示图片控件
 	 * @param enable 是否使用缓存
 	 */
 	public static void bindImage(String url, ImageView view, boolean enable) {
@@ -140,7 +140,7 @@ public class AfImageService {
 	/**
 	 * 将图片URL绑定到控件ImageView
 	 * @param url 图片连接 http:// 格式
-	 * @param view
+	 * @param view 显示图片控件
 	 * @param idefault 默认图片 缓存连接
 	 */
 	public static void bindImage(String url, ImageView view, String idefault) {
@@ -150,7 +150,7 @@ public class AfImageService {
 	/**
 	 * 将图片URL绑定到控件ImageView
 	 * @param url 图片连接 http:// 格式
-	 * @param view
+	 * @param view 显示图片控件
 	 * @param idefault 默认图片的资源ID
 	 */
 	public static void bindImage(String url, ImageView view, int idefault) {
@@ -161,7 +161,7 @@ public class AfImageService {
 	 * 将图片URL绑定到控件ImageView
 	 * @param url 图片连接 http:// 格式
 	 * @param effect 图片处理效果
-	 * @param view
+	 * @param view 显示图片控件
 	 */
 	public static void bindImage(String url, ImageView view, Effect effect) {
 		if(mInstance != null){
@@ -173,7 +173,7 @@ public class AfImageService {
 	 * 将图片URL绑定到控件ImageView
 	 * @param url 图片连接 http:// 格式
 	 * @param effect 图片处理效果
-	 * @param view
+	 * @param view 显示图片控件
 	 * @param idefault 默认图片 缓存连接
 	 */
 	public static void bindImage(String url, ImageView view, Effect effect, String idefault) {
@@ -186,7 +186,7 @@ public class AfImageService {
 	 * 将图片URL绑定到控件ImageView
 	 * @param url 图片连接 http:// 格式
 	 * @param effect 图片处理效果
-	 * @param view
+	 * @param view 显示图片控件
 	 * @param idefault 默认图片的资源ID
 	 */
 	public static void bindImage(String url, ImageView view, Effect effect, int idefault) {
@@ -198,8 +198,8 @@ public class AfImageService {
 	/**
 	 * 将图片URL绑定到控件ImageView
 	 * @param url 图片连接 http:// 格式
-	 * @param view
-	 * @param idefault 默认图片 缓存连接
+	 * @param view 显示图片控件
+	 * @param sdefault 默认图片 缓存连接
 	 */
 	public static void bindImage(String url, ImageView view, String sdefault, boolean enable) {
 		if(mInstance != null){
@@ -210,7 +210,7 @@ public class AfImageService {
 	/**
 	 * 将图片URL绑定到控件ImageView
 	 * @param url 图片连接 http:// 格式
-	 * @param view
+	 * @param view 显示图片控件
 	 * @param idefault 默认图片的资源ID
 	 * @param enable 是否使用缓存
 	 */
@@ -223,7 +223,7 @@ public class AfImageService {
 	/**
 	 * 将图片URL绑定到控件ImageView
 	 * @param url 图片连接 http:// 格式
-	 * @param view
+	 * @param view 显示图片控件
 	 * @param effect 图片处理效果
 	 * @param idefault 默认图片的资源ID
 	 * @param enable 是否使用缓存
@@ -237,10 +237,7 @@ public class AfImageService {
 	/**
 	 * 将图片URL绑定到控件ImageView
 	 * @param url 图片连接 http:// 格式
-	 * @param view
-	 * @param effect 图片处理效果
-	 * @param idefault 默认图片的资源ID
-	 * @param enable 是否使用缓存
+	 * @param listener 监听器
 	 */
 	public static void bindImage(String url, LoadImageListener listener) {
 		if(mInstance != null){
@@ -251,9 +248,9 @@ public class AfImageService {
 	/**
 	 * 将图片URL绑定到控件ImageView
 	 * @param url 图片连接 http:// 格式
-	 * @param view
+	 * @param listener 监听器
 	 * @param effect 图片处理效果
-	 * @param idefault 默认图片的资源ID
+	 * @param sdefault 默认图片 缓存连接
 	 * @param enable 是否使用缓存
 	 */
 	public static void bindImage(String url, LoadImageListener listener,Effect effect, String sdefault, boolean enable) {
@@ -265,8 +262,8 @@ public class AfImageService {
 	/**
 	 * 将图片URL绑定到控件ImageView
 	 * @param url 图片连接 http:// 格式
-	 * @param view
-	 * @param idefault 默认图片 缓存连接
+	 * @param view 显示图片控件
+	 * @param sdefault 默认图片 缓存连接
 	 */
 	protected void doBind(String url, ImageView view, String sdefault,int effect, boolean enable) {
 		if (bindNoImage(view,null, sdefault,effect)) {
@@ -276,18 +273,18 @@ public class AfImageService {
 					// 如果失败从网络上加载数据
 					bindDefault(view,null, sdefault, getImageLoading(),effect);
 					postTask(new ImageTask(url, view,null, sdefault,effect));
-				} 
+				}
 			}else {
 				bindDefault(view,null, sdefault, getImageNotFind(),effect);
-			} 
+			}
 		}
 	}
 
 	/**
 	 * 将图片URL绑定到控件ImageView
 	 * @param url 图片连接 http:// 格式
-	 * @param view
-	 * @param idefault 默认图片 缓存连接
+	 * @param view 显示图片控件
+	 * @param sdefault 默认图片 缓存连接
 	 */
 	protected void doBind(String url, ImageView view,LoadImageListener listener, String sdefault,int effect, boolean enable) {
 		if (bindNoImage(view,listener, sdefault,effect)) {
@@ -307,7 +304,7 @@ public class AfImageService {
 	/**
 	 * 将图片URL绑定到控件ImageView
 	 * @param url 图片连接 http:// 格式
-	 * @param view
+	 * @param view 显示图片控件
 	 * @param idefault 默认图片的资源ID
 	 * @param enable 是否使用缓存
 	 */
@@ -323,7 +320,7 @@ public class AfImageService {
 			} else {
 				bindDefault(view,null, idefault, getImageNotFind(),effect);
 			}
-		} 
+		}
 	}
 
 	protected boolean bindCaches(String url,ImageView view,LoadImageListener listener,boolean enable,int effect) {
@@ -375,11 +372,11 @@ public class AfImageService {
 //				view.setLayoutParams(lp);
 //			}else {
 //				new Handler(AfApplication.getApp().getMainLooper()).postDelayed(new Runnable() {
-//					
+//
 //					private int count = 0;
 //					private float mAspectRatio  = AspectRatio;
 //					private ImageView mView = view;
-//					
+//
 //					@Override
 //					public void run() {
 //						while (count++ < 100) {
@@ -463,7 +460,7 @@ public class AfImageService {
 			tTask.incidentallyTake(task);
 		}
 	}
-	
+
 
 	protected class ImageTask extends AfHandlerTask{
 
@@ -490,7 +487,7 @@ public class AfImageService {
 			this.mEffect = effect;
 			mltIncidentallyTask.add(this);
 		}
-		
+
 		private ImageTask(String link, ImageView view,LoadImageListener listener, int defaultid,int effect) {
 			this(link,view,listener,effect);
 			this.mDefaultId = defaultid;
@@ -527,13 +524,13 @@ public class AfImageService {
 		private void onFailed() {
 			if (mListener== null || !mListener.onImageFailed(mImageView,mErrors,mException)) {
 				if (mImageView != null && mImageView.getTag() == this && getImageGetFail() != null) {
-						if (mDefaultId > 0)
-							//view.setImageResource(mDefaultId);
-							bindDefault(mImageView,null, mDefaultId, getImageGetFail(),mEffect);
-						else if (mDefaultUrl != null && mDefaultUrl.length() > 0)
-							bindDefault(mImageView,null, mDefaultUrl, getImageGetFail(),mEffect);
-						else
-							bindImageBitmap(mImageView,null, getImageGetFail(),mEffect);
+					if (mDefaultId > 0)
+						//view.setImageResource(mDefaultId);
+						bindDefault(mImageView,null, mDefaultId, getImageGetFail(),mEffect);
+					else if (mDefaultUrl != null && mDefaultUrl.length() > 0)
+						bindDefault(mImageView,null, mDefaultUrl, getImageGetFail(),mEffect);
+					else
+						bindImageBitmap(mImageView,null, getImageGetFail(),mEffect);
 				}
 			}
 		}

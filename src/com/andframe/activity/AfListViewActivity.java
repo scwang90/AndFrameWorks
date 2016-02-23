@@ -12,6 +12,7 @@ import com.andframe.activity.framework.AfActivity;
 import com.andframe.activity.framework.AfPageable;
 import com.andframe.adapter.AfListAdapter;
 import com.andframe.adapter.AfListAdapter.IAfLayoutItem;
+import com.andframe.annotation.view.BindLayout;
 import com.andframe.bean.Page;
 import com.andframe.exception.AfException;
 import com.andframe.feature.AfIntent;
@@ -120,11 +121,18 @@ public abstract class AfListViewActivity<T> extends AfActivity implements OnRefr
 		return new AfListView(findListView(pageable));
 	}
 
+
 	/**
-	 *  获取setContentView的id
+	 * 获取setContentView的id
 	 * @return id
 	 */
-	protected abstract int getLayoutId();
+	protected int getLayoutId() {
+		if (this.getClass().isAnnotationPresent(BindLayout.class)) {
+			return this.getClass().getAnnotation(BindLayout.class).value();
+		}
+		return 0;
+	}
+	/**
 	/**
 	 * 获取列表控件
 	 * @param pageable 页面对象

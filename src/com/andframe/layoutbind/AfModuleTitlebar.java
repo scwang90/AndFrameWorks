@@ -77,6 +77,12 @@ public abstract class AfModuleTitlebar extends AfLayoutAlpha implements View.OnC
 	 */
 	public abstract int getBtGoBackId();
 
+	public void hideLeftButton() {
+		if (mBtGoBack != null) {
+			mBtGoBack.setVisibility(GONE);
+		}
+	}
+
 	@Override
 	public void onClick(View v) {
 		if (mWeakRefActivity != null) {

@@ -19,13 +19,22 @@ import com.andframe.view.treeview.AfTreeViewItem;
 
 public class AfBindItem<T> extends AfTreeViewItem<T> {
 
-	int layoutId = 0;
 	View[] bindViews = null;
 	BindItemMap bindMap;
 
 	public AfBindItem(int layoutId, BindItemMap bindMap) {
-		this.layoutId = layoutId;
+		super(layoutId);
 		this.bindMap = bindMap;
+	}
+
+	public AfBindItem(int layoutId, Object... binds) {
+		super(layoutId);
+		this.bindMap = new BindItemMap();
+		for (int i = 0; i < binds.length / 2; i++) {
+			if (binds[2 * i] instanceof String && binds[2 * i + 1] instanceof Integer) {
+				bindMap.putBindMap((String) binds[2 * i], (Integer) binds[2 * i + 1]);
+			}
+		}
 	}
 
 	@Override
@@ -39,25 +48,39 @@ public class AfBindItem<T> extends AfTreeViewItem<T> {
 	}
 
 	@Override
-	public int getLayoutId() {
-		return layoutId;
-	}
-
-	@Override
 	protected boolean onBinding(T model, int level, boolean isExpanded,
-			SelectStatus status) {
+								SelectStatus status) {
 		int index = 0;
 		for (Entry<String, Integer> entry : bindMap.entrySet()) {
 			View view = bindViews[index];
-			Object value = AfReflecter.getMemberNoException(model,
-					entry.getKey());
+			String key = entry.getKey().replaceAll(":.*","");
+			String format = entry.getKey().substring(key.length());
+			Object value;
+			if ("".equals(key)) {
+				value = model;
+			} else {
+				value = AfReflecter.getMemberNoException(model,key);
+			}
+			if (format.length() > 0) {
+				format = format.substring(1);
+			}
 			if (view instanceof TextView) {
 				TextView textView = (TextView) view;
 				if (value == null) {
 					textView.setText("");
-				} else if(value instanceof Date) {
+				} else if (value instanceof Date) {
 					Date date = (Date) value;
-					textView.setText(AfDateFormat.FULL.format(date));
+					if (format.length() > 0) {
+						if (format.equals("time")) {
+							textView.setText(AfDateFormat.formatTime(date));
+						} else if (format.equals("date")){
+							textView.setText(AfDateFormat.formatDate(date));
+						} else {
+							textView.setText(AfDateFormat.format(format, date));
+						}
+					} else {
+						textView.setText(AfDateFormat.FULL.format(date));
+					}
 				} else {
 					textView.setText(value.toString());
 				}
@@ -68,6 +91,8 @@ public class AfBindItem<T> extends AfTreeViewItem<T> {
 				} else {
 					if (value instanceof String) {
 						AfImageService.bindImage(value.toString(), imageView);
+					} else if (value instanceof Integer) {
+						imageView.setImageResource((int) value);
 					} else if (value instanceof Bitmap) {
 						Bitmap bitmap = (Bitmap) value;
 						imageView.setImageBitmap(bitmap);
@@ -83,17 +108,22 @@ public class AfBindItem<T> extends AfTreeViewItem<T> {
 	}
 
 	public static class BindItemMap {
+
 		LinkedHashMap<String, Integer> bindMap;
+
 		public BindItemMap() {
 			this.bindMap = new LinkedHashMap<String, Integer>();
 		}
-		public void putBindMap(String field,int viewId){
+
+		public void putBindMap(String field, int viewId) {
 			bindMap.put(field, viewId);
 		}
-		public int size(){
+
+		public int size() {
 			return bindMap.size();
 		}
-		public Set<Entry<String,Integer>> entrySet(){
+
+		public Set<Entry<String, Integer>> entrySet() {
 			return bindMap.entrySet();
 		}
 	}

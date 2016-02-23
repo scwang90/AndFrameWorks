@@ -89,8 +89,9 @@ public abstract class AfAlbumActivity extends AfActivity
 	 * 以下是 相册必备的 View
 	 * 	获取相册的总布局
 	 */
-	
-	protected abstract int getAlbumLayoutId();
+	protected int getAlbumLayoutId() {
+		return 0;
+	}
 	/**
 	 * 获取 显示相册名称 TextView
 	 */
@@ -112,7 +113,10 @@ public abstract class AfAlbumActivity extends AfActivity
 	protected void onCreate(Bundle bundle, AfIntent intent) throws Exception {
 		super.onCreate(bundle, intent);
 
-		setContentView(getAlbumLayoutId());
+		if (mRoot == null) {
+			setContentView(getAlbumLayoutId());
+		}
+
 		mViewPager = getViewPager(this);
 		mViewPager.setOnPageChangeListener(this);
 		mViewPager.setOnTouchListener(this);
@@ -137,7 +141,7 @@ public abstract class AfAlbumActivity extends AfActivity
 			if(mPhotoName.equals("")){
 				mPhotoName = mHeader.Name;
 			}
-		}else if (!AfStringUtil.isEmpty(mPhotoName) 
+		} else if (!AfStringUtil.isEmpty(mPhotoName)
 				&& !AfStringUtil.isEmpty(mDescribe)
 				&& !AfStringUtil.isEmpty(mHeadUrl)
 				&& !UUIDUtil.Empty.equals(AlbumID)) {
@@ -155,7 +159,7 @@ public abstract class AfAlbumActivity extends AfActivity
 		}
 		if(!AlbumID.equals(UUIDUtil.Empty)){
 			postTask(new LoadAlbumTask());
-		} 
+		}
 		
 		onPageSelected(0);//用第零个元素初始化界面
 		mAdapter = new AfAlbumPagerAdapter(this, mltPhoto);

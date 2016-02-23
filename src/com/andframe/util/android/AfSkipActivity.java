@@ -18,8 +18,8 @@ public class AfSkipActivity {
 	/**
 	 *  跳转到拨号页面
 	 * @author 树朾
-	 * @param context
-	 * @param phone
+	 * @param context 上下文
+	 * @param phone 电话号码
 	 * @throws AfException 权限不足或者找不到拨号页面
 	 */
 	public static void call(Context context, String phone) throws Exception{
@@ -31,8 +31,8 @@ public class AfSkipActivity {
 
 	/**
 	 * 在APP市场打开 packageName
-	 * @param context
-	 * @param packageName
+	 * @param context 上下文
+	 * @param packageName 包名
 	 * @throws ActivityNotFoundException 没有安装市场软件
 	 */
 	public static void openAppInMarket(Context context,String packageName) throws Exception{
@@ -43,7 +43,7 @@ public class AfSkipActivity {
 	}
 	/**
 	 * 打开文件
-	 * @param file
+	 * @param file 文件
 	 * @throws AfException 找不到相应的软件
 	 */
 	public static void openFile(Context context, File file) throws Exception {
@@ -57,7 +57,7 @@ public class AfSkipActivity {
 
 	/**
 	 * 根据文件后缀名获得对应的MIME类型。
-	 * @param file
+	 * @param file 文件
 	 */
 	public static String getMIMEType(File file) {
 		String type = "*/*";
