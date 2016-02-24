@@ -8,14 +8,15 @@ import android.view.ViewTreeObserver.OnGlobalLayoutListener;
 import android.view.inputmethod.InputMethodManager;
 import android.widget.EditText;
 
-import com.andframe.activity.framework.AfPageListener;
+import com.andframe.activity.framework.AfSoftInputPageListener;
+
 /**
  * 软键盘输入类
  * @author 树朾
  */
 public class AfSoftInputer implements OnGlobalLayoutListener {
 
-	private AfPageListener mPageListener;
+	private AfSoftInputPageListener mPageListener;
 	private View mRootView;
 	private Context mContext;
 
@@ -23,7 +24,7 @@ public class AfSoftInputer implements OnGlobalLayoutListener {
 		mContext = context;
 	}
 
-	public void setBindListener(View view, AfPageListener pageListener) {
+	public void setBindListener(View view, AfSoftInputPageListener pageListener) {
 		if (view != null && pageListener != null) {
 			mRootView = view;
 			mPageListener = pageListener;

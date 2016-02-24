@@ -7,6 +7,7 @@ import android.widget.ImageView;
 import android.widget.TextView;
 
 import com.andframe.activity.framework.AfPageable;
+import com.andframe.activity.framework.AfView;
 import com.andframe.application.AfApplication;
 import com.andframe.application.AfExceptionHandler;
 import com.andframe.layoutbind.framework.AfViewModule;
@@ -48,6 +49,25 @@ public abstract class AfModuleTitlebar extends AfLayoutAlpha implements View.OnC
 		super(page, id);
 		if (isValid()) {
 			initView(page, function);
+		}
+	}
+
+	@Override
+	protected void onCreated(View target) {
+		super.onCreated(target);
+		if (target != null) {
+			mBtGoBack = target.findViewById(getBtGoBackId());
+			mBtMenu = new AfView(target).findViewById(getBtMeunId(), ImageView.class);
+			mTvTitle = new AfView(target).findViewById(getTitleTextId(), TextView.class);
+			if (target.getContext() instanceof Activity) {
+				mWeakRefActivity = new WeakReference<>(((Activity) target.getContext()));
+			} else {
+				mWeakRefActivity = new WeakReference<>(null);
+			}
+			mMeuns = new HashMap<>();
+			mBtMenu.setOnClickListener(this);
+			mBtGoBack.setOnClickListener(this);
+			setFunction(FUNCTION_NONE);
 		}
 	}
 

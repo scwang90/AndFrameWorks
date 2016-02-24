@@ -15,6 +15,7 @@ import com.andframe.annotation.view.BindCheckedChange;
 import com.andframe.annotation.view.BindClick;
 import com.andframe.annotation.view.BindItemClick;
 import com.andframe.annotation.view.BindItemLongClick;
+import com.andframe.annotation.view.BindLayout;
 import com.andframe.annotation.view.BindLongClick;
 import com.andframe.annotation.view.BindView;
 import com.andframe.annotation.view.BindViewModule;
@@ -28,8 +29,8 @@ import com.andframe.layoutbind.AfModuleProgressImpl;
 import com.andframe.layoutbind.AfModuleTitlebar;
 import com.andframe.layoutbind.AfModuleTitlebarImpl;
 import com.andframe.layoutbind.framework.AfViewDelegate;
+import com.andframe.layoutbind.framework.AfViewModule;
 import com.andframe.thread.AfHandlerTimerTask;
-import com.andframe.util.android.AfFileSelector;
 import com.andframe.util.java.AfReflecter;
 
 import java.lang.reflect.Array;
@@ -140,6 +141,11 @@ public class ViewBinder {
                     value = new AfModuleNodataImpl(pageable);
                 } else if (clazz.equals(AfModuleProgress.class) && pageable != null) {
                     value = new AfModuleProgressImpl(pageable);
+                } else if (pageable != null && field.getType().isAnnotationPresent(BindLayout.class)
+                        && AfViewModule.class.isAssignableFrom(field.getType())){
+                    BindLayout bindv = field.getType().getAnnotation(BindLayout.class);
+                    Class<? extends AfViewModule> type = (Class<? extends AfViewModule>)field.getType();
+                    value = AfViewModule.init(type,pageable,bindv.value());
                 }
                 field.setAccessible(true);
                 field.set(mHandler, value);

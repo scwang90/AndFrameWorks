@@ -95,7 +95,7 @@ import com.andframe.util.java.AfStackTrace;
  *         public void doInputText(String title,int type,InputTextListener listener);
  *         public void doInputText(String title,String defaul,int type,InputTextListener listener);
  *         <p/>
- *         AfPageListener 接口中的方法
+ *         AfSoftInputPageListener 接口中的方法
  *         public void onSoftInputShown();
  *         public void onSoftInputHiden();
  *         public void onQueryChanged();

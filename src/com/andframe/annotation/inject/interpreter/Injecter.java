@@ -11,13 +11,32 @@ import com.andframe.annotation.inject.InjectExtra;
 import com.andframe.annotation.inject.InjectInit;
 import com.andframe.annotation.inject.InjectLayout;
 import com.andframe.annotation.inject.InjectQueryChanged;
+import com.andframe.application.AfApplication;
 import com.andframe.application.AfExceptionHandler;
+import com.andframe.caches.AfDurableCache;
+import com.andframe.caches.AfImageCaches;
+import com.andframe.caches.AfJsonCache;
+import com.andframe.caches.AfPrivateCaches;
+import com.andframe.caches.AfSharedPreference;
 import com.andframe.feature.AfBundle;
+import com.andframe.feature.AfDailog;
+import com.andframe.feature.AfDensity;
+import com.andframe.feature.AfDistance;
+import com.andframe.feature.AfGifPlayer;
 import com.andframe.feature.AfIntent;
+import com.andframe.feature.AfSoftInputer;
 import com.andframe.feature.framework.AfExtrater;
 import com.andframe.fragment.AfFragment;
+import com.andframe.helper.android.AfDesHelper;
+import com.andframe.helper.android.AfDeviceInfo;
+import com.andframe.helper.android.AfGifHelper;
+import com.andframe.helper.android.AfImageHelper;
+import com.andframe.helper.java.AfSQLHelper;
 import com.andframe.layoutbind.framework.AfViewDelegate;
+import com.andframe.network.AfImageService;
+import com.andframe.util.android.AfMeasure;
 import com.andframe.util.java.AfReflecter;
+import com.andframe.util.java.AfStackTrace;
 
 import java.lang.reflect.Field;
 import java.lang.reflect.Method;
@@ -28,17 +47,17 @@ import java.util.Random;
  * @author 树朾
  */
 public class Injecter {
-	
+
 	private Object mHandler;
 
 	public Injecter(Object handler) {
 		mHandler = handler;
 	}
-	
+
 	protected String TAG(String tag) {
 		return "Injecter("+mHandler.getClass().getName()+")."+tag;
 	}
-	
+
 	public void doInject() {
 		if (mHandler instanceof Context) {
 			this.doInject((Context)(mHandler));
@@ -129,6 +148,36 @@ public class Injecter {
 					value = context.getResources();
 				} else if (clazz.equals(Random.class)) {
 					value = new Random();
+				} else if (clazz.equals(AfSoftInputer.class)) {
+					value = new AfSoftInputer(context);
+				} else if (clazz.equals(AfDailog.class)) {
+					value = new AfDailog(context);
+				} else if (clazz.equals(AfDensity.class)) {
+					value = new AfDensity(context);
+				} else if (clazz.equals(AfReflecter.class)) {
+					value = new AfReflecter();
+				} else if (clazz.equals(AfDesHelper.class)) {
+					value = new AfDesHelper();
+				} else if (clazz.equals(AfDeviceInfo.class)) {
+					value = new AfDeviceInfo(context);
+				} else if (clazz.equals(AfDistance.class)) {
+					value = new AfDistance();
+				} else if (clazz.equals(AfGifHelper.class)) {
+					value = new AfGifHelper();
+				} else if (clazz.equals(AfImageHelper.class)) {
+					value = new AfImageHelper();
+				} else if (clazz.equals(AfSharedPreference.class)) {
+					value = new AfSharedPreference(context,field.getAnnotation(Inject.class).value());
+				} else if (clazz.equals(AfDurableCache.class)) {
+					value = AfDurableCache.getInstance(field.getAnnotation(Inject.class).value());
+				} else if (clazz.equals(AfPrivateCaches.class)) {
+					value = AfPrivateCaches.getInstance(field.getAnnotation(Inject.class).value());
+				} else if (clazz.equals(AfJsonCache.class)) {
+					value = new AfJsonCache(context,field.getAnnotation(Inject.class).value());
+				} else if (clazz.equals(AfImageCaches.class)) {
+					value = AfImageCaches.getInstance();
+				} else if (clazz.equals(AfApplication.class)) {
+					value = AfApplication.getApp();
 				}
 				field.setAccessible(true);
 				field.set(mHandler, value);

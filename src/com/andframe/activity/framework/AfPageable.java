@@ -15,7 +15,7 @@ import com.andframe.thread.AfTask;
  * @author 树朾
  * 继承了 AfViewable 
  */
-public interface AfPageable extends AfViewable,AfPageListener{
+public interface AfPageable extends AfViewable,AfSoftInputPageListener {
 
 	/**
 	 * 抛送任务到Worker执行
@@ -27,6 +27,10 @@ public interface AfPageable extends AfViewable,AfPageListener{
 	 * @return true 已经被回收
 	 */
 	boolean isRecycled();
+	/**
+	 * 查询系统数据变动
+	 */
+	void onQueryChanged();
 	/**
 	 * 获取页面相关的 Activity
 	 * @return 相关的 Activity
