@@ -39,7 +39,6 @@ public abstract class AfPagerAdapter<T> extends PagerAdapter {
 
 	/**
 	 * 适配器新增 点击更多 数据追加接口
-	 * @param ltNews
 	 */
 	public void AddData(List<T> ltData) {
 		mltData.addAll(ltData);
@@ -48,7 +47,6 @@ public abstract class AfPagerAdapter<T> extends PagerAdapter {
 
 	/**
 	 * 适配器新增 数据刷新 接口
-	 * @param ltNews
 	 */
 	public void setData(List<T> ltData) {
 		mltData = ltData;
@@ -125,7 +123,6 @@ public abstract class AfPagerAdapter<T> extends PagerAdapter {
 
 		/**
 		 * 将数据绑定到控件显示
-		 * @param review
 		 */
 		public abstract void onBinding(IT model, int position);
 		public abstract View onHandler(ViewPager pager, OnTouchListener listener);
