@@ -29,6 +29,7 @@ public class Loader {
             config.status = properties.getProperty("andrest.response.status");
             config.status_ok = properties.getProperty("andrest.response.status_ok");
             config.result = properties.getProperty("andrest.response.result");
+            config.message = properties.getProperty("andrest.response.message");
             config.successcode = Integer.valueOf(properties.getProperty("andrest.response.successcode"));
             config.jsonframework = Boolean.valueOf(properties.getProperty("andrest.response.jsonframework"));
         } catch (Throwable e) {

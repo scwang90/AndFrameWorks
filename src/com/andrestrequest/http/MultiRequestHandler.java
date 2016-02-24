@@ -47,13 +47,15 @@ public class MultiRequestHandler extends RequestHandler {
 
     private DefaultHttpClient httpClient;
 
-    private DefaultResponseHandler responseHandler;
-
     private Config config;
 
     public MultiRequestHandler() {
         // singleton
         config = new Config();//Loader.load("config.properties");
+    }
+
+    public MultiRequestHandler(Config config) {
+        this.config = config;
     }
 
     public MultiRequestHandler(String properties) {
@@ -67,6 +69,10 @@ public class MultiRequestHandler extends RequestHandler {
 
     public static MultiRequestHandler getInstance(String properties) {
         return new MultiRequestHandler(properties);
+    }
+
+    public static MultiRequestHandler getInstance(Config config) {
+        return new MultiRequestHandler(config);
     }
 
     /**
@@ -92,9 +98,6 @@ public class MultiRequestHandler extends RequestHandler {
             if (body != null) {
                 System.out.println(EntityUtils.toString(getEntity(body), config.charset));
             }
-        }
-        if (responseHandler == null) {
-            responseHandler = new DefaultResponseHandler();
         }
         response = getClient().execute(request, new ResponseHandler<Response>() {
             @Override
@@ -246,7 +249,7 @@ public class MultiRequestHandler extends RequestHandler {
         {
             System.out.println("Handling response "+response);
         }
-        if (!config.jsonframework || config.status==null || config.status_ok==null || config.result == null) {
+        if (!config.jsonframework || config.status==null || config.status_ok==null || config.result == null || config.message == null) {
             return response;
         }
         try {
@@ -254,7 +257,7 @@ public class MultiRequestHandler extends RequestHandler {
             if (config.status_ok.equals(object.get(config.status))) {
                 return object.get(config.result).toString();
             } else {
-                String errormessage = object.get(config.result).toString();
+                String errormessage = object.get(config.message).toString();
                 try {
                     ErrorMessage message = GsonUtil.toObject(errormessage, config.ErrorMessageClass);
                     throw new ServerCodeException(message);

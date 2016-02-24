@@ -26,6 +26,7 @@ public class Config {
     public String status_ok = "true";
     public String status = null;
     public String result = null;
+    public String message = null;
     public boolean jsonframework = true;
     public int successcode = 200;
 
