@@ -254,7 +254,7 @@ public class MultiRequestHandler extends RequestHandler {
         }
         try {
             JSONObject object = new JSONObject(response);
-            if (config.status_ok.equals(object.get(config.status))) {
+            if (config.status_ok.equals("" + object.get(config.status))) {
                 return object.get(config.result).toString();
             } else {
                 String errormessage = object.get(config.message).toString();
