@@ -42,6 +42,8 @@ import com.andframe.thread.AfTask;
 import com.andframe.thread.AfThreadWorker;
 import com.andframe.util.java.AfStackTrace;
 
+import java.util.List;
+
 /**
  * 框架 AfFragment
  *
@@ -120,9 +122,6 @@ public abstract class AfFragment extends Fragment implements AfPageable, Adapter
      * 获取LOG日志 TAG 是 AfFragment 的方法
      * 用户也可以重写自定义TAG,这个值AfActivity在日志记录时候会使用
      * 子类实现也可以使用
-     *
-     * @return
-     * @author 树朾
      */
     protected String TAG() {
         return "AfFragment(" + getClass().getName() + ")";
@@ -154,8 +153,7 @@ public abstract class AfFragment extends Fragment implements AfPageable, Adapter
 
     /**
      * 抛送任务到Worker执行
-     *
-     * @param task
+     * @param task 任务标识
      */
     public AfTask postTask(AfTask task) {
         if (mWorker != null) {
@@ -169,12 +167,51 @@ public abstract class AfFragment extends Fragment implements AfPageable, Adapter
         super.onAttach(activity);
     }
 
-    public void startActivity(Class<? extends AfActivity> tclass) {
-        startActivity(new Intent(getActivity(), tclass));
+
+    @Override
+    public void startActivity(Class<? extends AfActivity> clazz) {
+        startActivity(new Intent(getActivity(), clazz));
     }
 
-    public void startActivityForResult(Class<? extends AfActivity> tclass, int request) {
-        startActivityForResult(new Intent(getActivity(), tclass), request);
+    public void startActivity(Class<? extends AfActivity> clazz,Object... args) {
+        AfIntent intent = new AfIntent(getActivity(), clazz);
+        if (args != null && args.length > 0) {
+            for (int i = 0; i < args.length / 2; i++) {
+                if (args[2 * i] instanceof String) {
+                    Object arg = args[2 * i + 1];
+                    if (arg != null && arg instanceof List) {
+                        intent.putList((String) args[2 * i], (List<? extends Object>)arg);
+                    } else {
+                        intent.put((String) args[2 * i], arg);
+                    }
+                }
+            }
+        }
+        startActivity(intent);
+    }
+
+    @Override
+    public void startActivityForResult(Class<? extends AfActivity> clazz,
+                                       int request) {
+        startActivityForResult(new Intent(getActivity(), clazz), request);
+    }
+
+    public void startActivityForResult(Class<? extends AfActivity> clazz,
+                                       int request, Object... args) {
+        AfIntent intent = new AfIntent(getActivity(), clazz);
+        if (args != null && args.length > 0) {
+            for (int i = 0; i < args.length / 2; i++) {
+                if (args[2 * i] instanceof String) {
+                    Object arg = args[2 * i + 1];
+                    if (arg != null && arg instanceof List) {
+                        intent.putList((String) args[2 * i], (List<? extends Object>)arg);
+                    } else {
+                        intent.put((String) args[2 * i], arg);
+                    }
+                }
+            }
+        }
+        startActivityForResult(intent, request);
     }
 
     /**
@@ -203,9 +240,6 @@ public abstract class AfFragment extends Fragment implements AfPageable, Adapter
      * 在onActivityResult(int requestcode, int resultCode, Intent data) 中调用
      * 并使用 try-catch 提高安全性，子类请重写这个方法
      *
-     * @param intent
-     * @param requestcode
-     * @param resultcode
      * @see AfFragment#onActivityResult(int, int, android.content.Intent)
      * {@link AfFragment#onActivityResult(int, int, android.content.Intent)}
      */
@@ -255,7 +289,7 @@ public abstract class AfFragment extends Fragment implements AfPageable, Adapter
         try {
 //			mRootView.getViewTreeObserver().addOnGlobalLayoutListener(this);
             ViewBinder binder = new ViewBinder(this);
-            binder.doBind(mRootView);
+            binder.doBind(this);
             Injecter injecter = new Injecter(this);
             injecter.doInject(getActivity());
             AfSoftInputer inputer = new AfSoftInputer(getActivity());
@@ -293,7 +327,6 @@ public abstract class AfFragment extends Fragment implements AfPageable, Adapter
 
     /**
      * 每次切换到本页面
-     *
      * @param count 切换序号
      */
     protected void onSwitchOver(int count) {
@@ -463,8 +496,7 @@ public abstract class AfFragment extends Fragment implements AfPageable, Adapter
      * @param listener 是否可取消
      * @param textsize 字体大小
      */
-    public final void showProgressDialog(String message,
-                                         OnCancelListener listener, int textsize) {
+    public final void showProgressDialog(String message, OnCancelListener listener, int textsize) {
         try {
             mProgress = new ProgressDialog(getActivity());
             mProgress.setMessage(message);
@@ -1048,12 +1080,6 @@ public abstract class AfFragment extends Fragment implements AfPageable, Adapter
 
     /**
      * final 包装 onItemClick 事件处理 防止抛出异常崩溃
-     *
-     * @param parent
-     * @param view
-     * @param position
-     * @param id
-     * @author 树朾
      */
     @Override
     public void onItemClick(AdapterView<?> parent, View view, int position,
@@ -1071,12 +1097,6 @@ public abstract class AfFragment extends Fragment implements AfPageable, Adapter
 
     /**
      * 安全onItemClick框架会捕捉异常防止崩溃
-     *
-     * @param parent
-     * @param item
-     * @param id
-     * @param index
-     * @author 树朾
      */
     protected void onItemClick(AdapterView<?> parent, View item, long id, int index) {
 

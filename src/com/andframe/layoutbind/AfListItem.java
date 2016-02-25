@@ -1,5 +1,7 @@
 package com.andframe.layoutbind;
 
+import android.view.View;
+
 import com.andframe.activity.framework.AfView;
 import com.andframe.adapter.AfListAdapter.IAfLayoutItem;
 import com.andframe.annotation.inject.interpreter.Injecter;
@@ -8,7 +10,9 @@ import com.andframe.annotation.view.BindLayout;
 
 public abstract class AfListItem<T> implements IAfLayoutItem<T>{
 
-	private int layoutId = 0;
+	private int layoutId;
+
+	protected View mLayout;
 
 	public AfListItem() {
 	}
@@ -31,9 +35,12 @@ public abstract class AfListItem<T> implements IAfLayoutItem<T>{
 	@Override
 	public void onHandle(AfView view) {
 		ViewBinder binder = new ViewBinder(this);
-		binder.doBind(view.getView());
+		binder.doBind(mLayout = view.getView());
 		Injecter injecter = new Injecter(this);
 		injecter.doInject(view.getContext());
 	}
 
+	public View getLayout() {
+		return mLayout;
+	}
 }

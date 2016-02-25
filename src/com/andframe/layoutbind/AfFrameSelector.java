@@ -26,10 +26,12 @@ public class AfFrameSelector extends AfViewModule {
 		mFrameLayout = frameLayout;
 	}
 
+	public FrameLayout getFrameLayout() {
+		return mFrameLayout;
+	}
+
 	/**
 	 * 在 FrameLayout 中选择 view 的布局 隐藏其他的布局
-	 * @param view
-	 * @return
 	 */
 	public boolean selectFrame(View view) {
 		if (isValid()) {

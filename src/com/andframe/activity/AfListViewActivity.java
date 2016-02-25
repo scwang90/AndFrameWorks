@@ -12,6 +12,7 @@ import com.andframe.activity.framework.AfActivity;
 import com.andframe.activity.framework.AfPageable;
 import com.andframe.adapter.AfListAdapter;
 import com.andframe.adapter.AfListAdapter.IAfLayoutItem;
+import com.andframe.annotation.mark.MarkCache;
 import com.andframe.annotation.view.BindLayout;
 import com.andframe.bean.Page;
 import com.andframe.exception.AfException;
@@ -22,6 +23,7 @@ import com.andframe.layoutbind.AfModuleProgress;
 import com.andframe.thread.AfListTask;
 import com.andframe.thread.AfListViewTask;
 import com.andframe.util.java.AfCollections;
+import com.andframe.util.java.AfReflecter;
 import com.andframe.view.AfListView;
 import com.andframe.view.AfRefreshListView;
 import com.andframe.view.pulltorefresh.AfPullToRefreshBase.OnRefreshListener;
@@ -57,9 +59,19 @@ public abstract class AfListViewActivity<T> extends AfActivity implements OnRefr
 	 * 		KEY_CACHELIST 为缓存的标识
 	 */
 	public String KEY_CACHELIST = this.getClass().getName();
-	
+
 	public AfListViewActivity() {
-		
+		if (this.getClass().isAnnotationPresent(MarkCache.class)) {
+			MarkCache mark = this.getClass().getAnnotation(MarkCache.class);
+			if (mark.value().equals(MarkCache.class)) {
+				mCacheClazz = AfReflecter.getActualTypeArgument(this,AfListViewActivity.class,0);
+			} else {
+				mCacheClazz = (Class<T>) mark.value();
+			}
+			if (!"".equals(mark.key())) {
+				KEY_CACHELIST = mark.key();
+			}
+		}
 	}
 
 	/**
@@ -97,7 +109,7 @@ public abstract class AfListViewActivity<T> extends AfActivity implements OnRefr
 		mListView = newAfListView(this);
 		mListView.setOnRefreshListener(this);
 		mListView.setOnItemClickListener(this);
-		
+
 		// 设置banner尺寸
 		setLoading();
 		postTask(new AbListViewTask(mCacheClazz,KEY_CACHELIST));
@@ -121,7 +133,6 @@ public abstract class AfListViewActivity<T> extends AfActivity implements OnRefr
 		return new AfListView(findListView(pageable));
 	}
 
-
 	/**
 	 * 获取setContentView的id
 	 * @return id
@@ -133,7 +144,7 @@ public abstract class AfListViewActivity<T> extends AfActivity implements OnRefr
 		return 0;
 	}
 	/**
-	/**
+	 /**
 	 * 获取列表控件
 	 * @param pageable 页面对象
 	 * @return pageable.findListViewById(id)
@@ -177,7 +188,7 @@ public abstract class AfListViewActivity<T> extends AfActivity implements OnRefr
 		mProgress.setDescription("正在加载...");
 		mSelector.selectFrame(mProgress);
 	}
-	
+
 	/**
 	 * 空数据页面刷新监听器
 	 * 子类需要重写监听器的话可以对 
@@ -252,7 +263,7 @@ public abstract class AfListViewActivity<T> extends AfActivity implements OnRefr
 	 * @param index 被点击的index
 	 */
 	protected void onItemClick(T model, int index) {
-		
+
 	}
 
 	@Override
@@ -333,7 +344,7 @@ public abstract class AfListViewActivity<T> extends AfActivity implements OnRefr
 		//事件转发 参考 AfListViewFragment.onMored
 		@Override
 		protected boolean onMored(boolean isfinish, List<T> ltdata,
-				boolean ended) {
+								  boolean ended) {
 			return AfListViewActivity.this.onMored(this,isfinish, ltdata);
 		}
 
@@ -360,7 +371,7 @@ public abstract class AfListViewActivity<T> extends AfActivity implements OnRefr
 	 * @return 返回true 已经做好错误页面显示 返回false 框架会做好默认错误反馈
 	 */
 	protected boolean onLoaded(AbListViewTask task, boolean isfinish,
-			List<T> ltdata, Date cachetime) {
+							   List<T> ltdata, Date cachetime) {
 		boolean deal = onRefreshed(task,isfinish,ltdata);
 		if (isfinish && !AfCollections.isEmpty(ltdata)) {
 			//设置上次刷新缓存时间
@@ -414,7 +425,7 @@ public abstract class AfListViewActivity<T> extends AfActivity implements OnRefr
 	 */
 	@SuppressWarnings("static-access")
 	protected boolean onMored(AbListViewTask task, boolean isfinish,
-			List<T> ltdata) {
+							  List<T> ltdata) {
 		// 通知列表刷新完成
 		mListView.finishLoadMore();
 		if (isfinish) {
@@ -493,7 +504,6 @@ public abstract class AfListViewActivity<T> extends AfActivity implements OnRefr
 
 	/**
 	 *  ListView数据适配器（事件已经转发getItemLayout，无实际处理代码）
-	 * @author 树朾
 	 */
 	protected class AbListViewAdapter extends AfListAdapter<T>{
 
@@ -507,6 +517,6 @@ public abstract class AfListViewActivity<T> extends AfActivity implements OnRefr
 		protected IAfLayoutItem<T> getItemLayout(T data) {
 			return AfListViewActivity.this.getItemLayout(data);
 		}
-		
+
 	}
 }

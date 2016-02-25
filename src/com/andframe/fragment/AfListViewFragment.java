@@ -13,6 +13,8 @@ import com.andframe.activity.framework.AfPageable;
 import com.andframe.activity.framework.AfView;
 import com.andframe.adapter.AfListAdapter;
 import com.andframe.adapter.AfListAdapter.IAfLayoutItem;
+import com.andframe.annotation.mark.MarkCache;
+import com.andframe.annotation.view.BindLayout;
 import com.andframe.bean.Page;
 import com.andframe.exception.AfException;
 import com.andframe.feature.AfBundle;
@@ -21,19 +23,21 @@ import com.andframe.layoutbind.AfModuleNodata;
 import com.andframe.layoutbind.AfModuleProgress;
 import com.andframe.thread.AfListViewTask;
 import com.andframe.util.java.AfCollections;
+import com.andframe.util.java.AfReflecter;
 import com.andframe.view.AfListView;
 import com.andframe.view.AfRefreshListView;
 import com.andframe.view.pulltorefresh.AfPullToRefreshBase.OnRefreshListener;
 
 import java.util.Date;
 import java.util.List;
+
 /**
  * 数据列表框架 Frament
- * @author 树朾
  * @param <T>
+ * @author 树朾
  */
 public abstract class AfListViewFragment<T> extends AfTabFragment implements
-		OnRefreshListener, OnItemClickListener, OnClickListener{
+		OnRefreshListener, OnItemClickListener, OnClickListener {
 
 	protected static final String EXTRA_LAYOUT = "EXTRA_LAYOUT";
 
@@ -50,18 +54,27 @@ public abstract class AfListViewFragment<T> extends AfTabFragment implements
 	 */
 	public Class<T> mCacheClazz = null;
 	/**
-	 *  缓存使用的 KEY_CACHELIST = this.getClass().getName()
-	 * 		KEY_CACHELIST 为缓存的标识
+	 * 缓存使用的 KEY_CACHELIST = this.getClass().getName()
+	 * KEY_CACHELIST 为缓存的标识
 	 */
 	public String KEY_CACHELIST = this.getClass().getName();
 
 	public AfListViewFragment() {
-
+		if (this.getClass().isAnnotationPresent(MarkCache.class)) {
+			MarkCache mark = this.getClass().getAnnotation(MarkCache.class);
+			if (mark.value().equals(MarkCache.class)) {
+				mCacheClazz = AfReflecter.getActualTypeArgument(this, AfListViewFragment.class, 0);
+			} else {
+				mCacheClazz = (Class<T>) mark.value();
+			}
+			if (!"".equals(mark.key())) {
+				KEY_CACHELIST = mark.key();
+			}
+		}
 	}
 
 	/**
 	 * 使用缓存必须调用这个构造函数
-	 * @param clazz
 	 */
 	public AfListViewFragment(Class<T> clazz) {
 		this.mCacheClazz = clazz;
@@ -69,8 +82,7 @@ public abstract class AfListViewFragment<T> extends AfTabFragment implements
 
 	/**
 	 * 使用缓存必须调用这个构造函数
-	 * 	可以自定义缓存标识
-	 * @param clazz
+	 * 可以自定义缓存标识
 	 */
 	public AfListViewFragment(Class<T> clazz, String KEY_CACHELIST) {
 		this.mCacheClazz = clazz;
@@ -84,10 +96,7 @@ public abstract class AfListViewFragment<T> extends AfTabFragment implements
 	}
 
 	/**
-	 *  创建方法
-	 * @param bundle
-	 * @param view
-	 * @throws Exception
+	 * 创建方法
 	 */
 	@Override
 	protected void onCreated(AfBundle bundle, AfView view) throws Exception {
@@ -102,63 +111,59 @@ public abstract class AfListViewFragment<T> extends AfTabFragment implements
 
 		// 设置banner尺寸
 		setLoading();
-		postTask(new AbListViewTask(mCacheClazz,KEY_CACHELIST));
+		postTask(new AbListViewTask(mCacheClazz, KEY_CACHELIST));
 	}
 
 	/**
 	 * 创建指定命令的任务并执行
-	 * @param task
 	 */
 	@SuppressWarnings("unchecked")
 	protected AbListViewTask postTask(int task) {
-		return (AbListViewTask)postTask(new AbListViewTask(task));
+		return (AbListViewTask) postTask(new AbListViewTask(task));
 	}
 
 	/**
 	 * 创建新的AfListView
-	 * @param pageable
-	 * @return
 	 */
 	protected AfRefreshListView<ListView> newAfListView(AfPageable pageable) {
 		return new AfListView(findListView(pageable));
 	}
 
 	/**
-	 *  获取setContentView的id
+	 * 获取setContentView的id
 	 * @return id
 	 */
-	protected abstract int getLayoutId();
+	protected int getLayoutId() {
+		if (this.getClass().isAnnotationPresent(BindLayout.class)) {
+			return this.getClass().getAnnotation(BindLayout.class).value();
+		}
+		return 0;
+	}
+
 	/**
 	 * 获取列表控件
-	 * @param pageable
 	 * @return pageable.findListViewById(id)
 	 */
 	protected abstract ListView findListView(AfPageable pageable);
 
 	/**
 	 * 新建页面选择器
-	 * @param pageable
-	 * @return
 	 */
 	protected abstract AfFrameSelector newAfFrameSelector(AfPageable pageable);
+
 	/**
 	 * 新建加载页面
-	 * @param pageable
-	 * @return
 	 */
 	protected abstract AfModuleProgress newModuleProgress(AfPageable pageable);
+
 	/**
 	 * 新建空数据页面
-	 * @param pageable
-	 * @return
 	 */
 	protected abstract AfModuleNodata newModuleNodata(AfPageable pageable);
 
 
 	/**
-	 *  显示数据页面
-	 * @author 树朾
-	 * @param adapter
+	 * 显示数据页面
 	 */
 	public void setData(AfListAdapter<T> adapter) {
 		mAdapter = adapter;
@@ -167,8 +172,7 @@ public abstract class AfListViewFragment<T> extends AfTabFragment implements
 	}
 
 	/**
-	 *  正在加载数据提示
-	 * @author 树朾
+	 * 正在加载数据提示
 	 */
 	public void setLoading() {
 		mProgress.setDescription("正在加载...");
@@ -177,7 +181,7 @@ public abstract class AfListViewFragment<T> extends AfTabFragment implements
 
 	/**
 	 * 空数据页面刷新监听器
-	 * 子类需要重写监听器的话可以对 
+	 * 子类需要重写监听器的话可以对
 	 * mNodataRefreshListener 重新赋值
 	 */
 	private OnClickListener mNodataRefreshListener = new OnClickListener() {
@@ -189,8 +193,7 @@ public abstract class AfListViewFragment<T> extends AfTabFragment implements
 	};
 
 	/**
-	 *  处理空数据
-	 * @author 树朾
+	 * 处理空数据
 	 */
 	public void setNodata() {
 		mNodata.setDescription("抱歉，暂无数据");
@@ -199,9 +202,7 @@ public abstract class AfListViewFragment<T> extends AfTabFragment implements
 	}
 
 	/**
-	 *  错误信息处理
-	 * @author 树朾
-	 * @param ex
+	 * 错误信息处理
 	 */
 	public void setLoadError(Throwable ex) {
 		mNodata.setDescription(AfException.handle(ex, "数据加载出现异常"));
@@ -210,9 +211,7 @@ public abstract class AfListViewFragment<T> extends AfTabFragment implements
 	}
 
 	/**
-	 *  用户加载分页通知事件
-	 * @author 树朾
-	 * @return
+	 * 用户加载分页通知事件
 	 */
 	@Override
 	public boolean onMore() {
@@ -221,9 +220,7 @@ public abstract class AfListViewFragment<T> extends AfTabFragment implements
 	}
 
 	/**
-	 *  用户刷新数据通知事件
-	 * @author 树朾
-	 * @return
+	 * 用户刷新数据通知事件
 	 */
 	@Override
 	public boolean onRefresh() {
@@ -232,27 +229,19 @@ public abstract class AfListViewFragment<T> extends AfTabFragment implements
 	}
 
 	/**
-	 *  数据列表点击事件
-	 * @author 树朾
-	 * @param parent
-	 * @param view
-	 * @param index
-	 * @param id
+	 * 数据列表点击事件
 	 */
 	@Override
 	public void onItemClick(AdapterView<?> parent, View view, long id, int index) {
 		index = mListView.getDataIndex(index);
-		if (index >= 0){
+		if (index >= 0) {
 			T model = mAdapter.getItemAt(index);
-			onItemClick(model,index);
+			onItemClick(model, index);
 		}
 	}
 
 	/**
-	 *  onItemClick 事件的 包装 一般情况下子类可以重写这个方法
-	 * @author 树朾
-	 * @param model
-	 * @param index
+	 * onItemClick 事件的 包装 一般情况下子类可以重写这个方法
 	 */
 	protected void onItemClick(T model, int index) {
 
@@ -268,14 +257,13 @@ public abstract class AfListViewFragment<T> extends AfTabFragment implements
 
 	/**
 	 * 数据加载内部任务类（数据加载事件已经转发，无实际处理代码）
-	 * @author 树朾
 	 */
 	protected class AbListViewTask extends AfListViewTask<T> {
 
 		/**
 		 * 可以触发加载缓存任务（框架缓存加载失败会改变成刷新任务）
-		 * @param clazz
-		 * @param KEY_CACHELIST
+		 * @param clazz         数据Model的类对象（json要用到）
+		 * @param KEY_CACHELIST 缓存的KEY标识
 		 */
 		public AbListViewTask(Class<T> clazz, String KEY_CACHELIST) {
 			super(clazz, KEY_CACHELIST);
@@ -291,7 +279,7 @@ public abstract class AfListViewFragment<T> extends AfTabFragment implements
 
 		/**
 		 * 自定义任务 触发 onWorking 和 onTaskWorking
-		 * @param task
+		 * @param task 任务标识
 		 */
 		public AbListViewTask(int task) {
 			super(task);
@@ -314,7 +302,7 @@ public abstract class AfListViewFragment<T> extends AfTabFragment implements
 		//事件转发 参考 AfListViewFragment.onListByPage
 		@Override
 		protected List<T> onListByPage(Page page, int task) throws Exception {
-			return AfListViewFragment.this.onTaskListByPage(page,task);
+			return AfListViewFragment.this.onTaskListByPage(page, task);
 		}
 
 		@Override
@@ -324,20 +312,20 @@ public abstract class AfListViewFragment<T> extends AfTabFragment implements
 
 		//事件转发 参考 AfListViewFragment.onLoaded
 		@Override
-		protected boolean onLoaded(boolean isfinish, List<T> ltdata,Date cachetime) {
-			return AfListViewFragment.this.onLoaded(this,isfinish, ltdata,cachetime);
+		protected boolean onLoaded(boolean isfinish, List<T> ltdata, Date cachetime) {
+			return AfListViewFragment.this.onLoaded(this, isfinish, ltdata, cachetime);
 		}
 
 		//事件转发 参考 AfListViewFragment.onRefreshed
 		@Override
 		protected boolean onRefreshed(boolean isfinish, List<T> ltdata) {
-			return AfListViewFragment.this.onRefreshed(this,isfinish, ltdata);
+			return AfListViewFragment.this.onRefreshed(this, isfinish, ltdata);
 		}
+
 		//事件转发 参考 AfListViewFragment.onMored
 		@Override
-		protected boolean onMored(boolean isfinish, List<T> ltdata,
-								  boolean ended) {
-			return AfListViewFragment.this.onMored(this,isfinish, ltdata);
+		protected boolean onMored(boolean isfinish, List<T> ltdata, boolean ended) {
+			return AfListViewFragment.this.onMored(this, isfinish, ltdata);
 		}
 
 		@Override
@@ -348,6 +336,7 @@ public abstract class AfListViewFragment<T> extends AfTabFragment implements
 
 	/**
 	 * 任务准备开始 （在UI线程中）
+	 *
 	 * @return 返回true 表示准备完毕 否则 false 任务将被取消
 	 */
 	protected boolean onTaskPrepare(int task) {
@@ -355,16 +344,11 @@ public abstract class AfListViewFragment<T> extends AfTabFragment implements
 	}
 
 	/**
-	 *  缓存加载结束处理时间（框架默认调用onRefreshed事件处理）
-	 * @author 树朾
-	 * @param task
-	 * @param isfinish
-	 * @param ltdata
+	 * 缓存加载结束处理时间（框架默认调用onRefreshed事件处理）
+	 *
 	 * @param cachetime 缓存时间
-	 * @return
 	 */
-	protected boolean onLoaded(AbListViewTask task, boolean isfinish,
-							   List<T> ltdata, Date cachetime) {
+	protected boolean onLoaded(AbListViewTask task, boolean isfinish, List<T> ltdata, Date cachetime) {
 		boolean deal = onRefreshed(task, isfinish, ltdata);
 		if (isfinish && !AfCollections.isEmpty(ltdata)) {
 			//设置上次刷新缓存时间
@@ -374,11 +358,9 @@ public abstract class AfListViewFragment<T> extends AfTabFragment implements
 	}
 
 	/**
-	 * @param task
-	 *  任务刷新结束处理事件
-	 * @author 树朾
+	 * @param task     任务刷新结束处理事件
 	 * @param isfinish 是否成功执行
-	 * @param ltdata
+	 * @param ltdata   数据
 	 * @return 返回true 已经做好错误页面显示 返回false 框架会做好默认错误反馈
 	 */
 	@SuppressWarnings("static-access")
@@ -390,7 +372,7 @@ public abstract class AfListViewFragment<T> extends AfTabFragment implements
 				setData(mAdapter = newAdapter(getActivity(), ltdata));
 				if (ltdata.size() < task.PAGE_SIZE) {
 					mListView.removeMoreView();
-				}else {
+				} else {
 					mListView.addMoreView();
 				}
 			} else {
@@ -411,16 +393,11 @@ public abstract class AfListViewFragment<T> extends AfTabFragment implements
 	}
 
 	/**
-	 *  任务加载更多结束处理事件
-	 * @author 树朾
-	 * @param task
-	 * @param isfinish
-	 * @param ltdata
+	 * 任务加载更多结束处理事件
 	 * @return 返回true 已经做好错误页面显示 返回false 框架会做好默认错误反馈
 	 */
 	@SuppressWarnings("static-access")
-	protected boolean onMored(AbListViewTask task, boolean isfinish,
-							  List<T> ltdata) {
+	protected boolean onMored(AbListViewTask task, boolean isfinish, List<T> ltdata) {
 		// 通知列表刷新完成
 		mListView.finishLoadMore();
 		if (isfinish) {
@@ -428,7 +405,7 @@ public abstract class AfListViewFragment<T> extends AfTabFragment implements
 				final int count = mAdapter.getCount();
 				// 更新列表
 				mAdapter.addData(ltdata);
-				mListView.smoothScrollToPosition(count+1);
+				mListView.smoothScrollToPosition(count + 1);
 			}
 			if (ltdata.size() < task.PAGE_SIZE) {
 				// 关闭更多选项
@@ -444,15 +421,16 @@ public abstract class AfListViewFragment<T> extends AfTabFragment implements
 	/**
 	 * 获取列表项布局Item
 	 * 如果重写 newAdapter 之后，本方法将无效
+	 *
 	 * @param data 对应的数据
 	 * @return 实现 布局接口 IAfLayoutItem 的Item兑现
-	 * 	new LayoutItem implements IAfLayoutItem<T>(){}
+	 * new LayoutItem implements IAfLayoutItem<T>(){}
 	 */
 	protected abstract IAfLayoutItem<T> getItemLayout(T data);
 
 	/**
-	 *  加载缓存列表（不分页，在异步线程中执行，不可以更改页面操作）
-	 * @author 树朾
+	 * 加载缓存列表（不分页，在异步线程中执行，不可以更改页面操作）
+	 *
 	 * @return 返回 null 可以使用框架内置缓存
 	 */
 	protected List<T> onTaskLoad() {
@@ -461,6 +439,7 @@ public abstract class AfListViewFragment<T> extends AfTabFragment implements
 
 	/**
 	 * 数据分页加载（在异步线程中执行，不可以更改页面操作）
+	 *
 	 * @param page 分页对象
 	 * @param task 任务id
 	 * @return 加载到的数据列表
@@ -471,48 +450,37 @@ public abstract class AfListViewFragment<T> extends AfTabFragment implements
 	/**
 	 * 由postTask(int task)触发
 	 * 除了与刷新、翻页、加载缓存有关的其他任务工作（异步线程、留给子类任务扩展用）
-	 * @param task
-	 * @return
 	 */
-	protected boolean onTaskWorking(int task) throws Exception{
+	protected boolean onTaskWorking(int task) throws Exception {
 		return false;
 	}
 
 	/**
 	 * 与onTaskWorking相对应的结束（UI线程）
-	 * @param abListViewTask
-	 * @param isfinish
-	 * @param ltdata
-	 * @return
 	 */
 	protected boolean onTaskWorked(AbListViewTask abListViewTask, boolean isfinish, List<T> ltdata) {
 		return false;
 	}
+
 	/**
-	 *  根据数据ltdata新建一个 适配器 重写这个方法之后getItemLayout方法将失效
-	 * @author 树朾
-	 * @param context
-	 * @param ltdata
-	 * @return
+	 * 根据数据ltdata新建一个 适配器 重写这个方法之后getItemLayout方法将失效
 	 */
 	protected AfListAdapter<T> newAdapter(Context context, List<T> ltdata) {
 		return new AbListViewAdapter(getContext(), ltdata);
 	}
 
 	/**
-	 *  ListView数据适配器（事件已经转发getItemLayout，无实际处理代码）
-	 * @author 树朾
+	 * ListView数据适配器（事件已经转发getItemLayout，无实际处理代码）
+	 *
 	 */
-	protected class AbListViewAdapter extends AfListAdapter<T>{
+	protected class AbListViewAdapter extends AfListAdapter<T> {
 
 		public AbListViewAdapter(Context context, List<T> ltdata) {
 			super(context, ltdata);
 		}
+
 		/**
-		 *  转发事件到 AfListViewFragment.this.getItemLayout(data);
-		 * @author 树朾
-		 * @param data
-		 * @return
+		 * 转发事件到 AfListViewFragment.this.getItemLayout(data);
 		 */
 		@Override
 		protected IAfLayoutItem<T> getItemLayout(T data) {

@@ -45,9 +45,9 @@ import java.util.Random;
 /**
  * AfApplication 抽象类 （继承使用必须继承并使用，其他框架功能依赖于 AfApplication）
  * @author 树朾 负责 全局数据的存储 和 事件通知
- * 
+ *
  *        必须实现 指定工程中 的主页面 的类 getForegroundClass
- * 
+ *
  *        提供静态全局接口 public static getApp() 获取全局App public static getAppContext()
  *        获取App public static getLooper() 获取全局消息循环对象（用于构造UI Handler） public
  *        static postTask(AfTask task) 抛送全局任务（AfTask） public static
@@ -56,11 +56,11 @@ import java.util.Random;
  *        getDebugMode() 获取当前调试模式 public static setDebugMode(int mode) 设置调试模式
  *        public static getVersion() 获取当前App版本 public static getVersionCode()
  *        获取当前App版本Code
- * 
+ *
  *        非静态接口 public exitForeground(Object power) 退出前台 public
  *        startForeground(Activity activity) 启动前台 public getCachesPath(String
  *        type) 获取并创建缓存路劲 public getWorkspacePath(String type) 获取并创建工作路劲
- * 
+ *
  *        继承之后根据需要的功能 重写 相应的函数 public getExceptionHandler() //全局异常处理 public
  *        getAppSetting() //全局设置 public getImageService() //图片服务 public
  *        getFileService() //文件服务 public getUpdateService() //更新服务 public
@@ -215,7 +215,7 @@ public abstract class AfApplication extends Application {
 	private ApplicationInfo mApplicationInfo;
 
 	//全局单例模式MAP
-	protected Map<String,Object> mSingletonMap = new LinkedHashMap<String,Object>(); 
+	protected Map<String,Object> mSingletonMap = new LinkedHashMap<String,Object>();
 
 	public AfApplication() {
 		mApp = this;
@@ -242,7 +242,7 @@ public abstract class AfApplication extends Application {
 		super.onCreate();
 		try {
 			AfExceptionHandler.register();
-			
+
 			mRunningState = new AfSharedPreference(this, STATE_RUNNING);
 			// 初始化设备信息
 			AfDeviceInfo.initialize(getAppContext());
@@ -278,11 +278,11 @@ public abstract class AfApplication extends Application {
 			AfExceptionHandler.handler(e, "AfApplication.onCreate");
 		}
 	}
-	
+
 	public boolean isDebug() {
 		return BuildConfig.DEBUG;
 	}
-	
+
 	private void getPackageVersion() throws Exception {
 		int get = PackageManager.GET_CONFIGURATIONS;
 		String tPackageName = getPackageName();
@@ -388,23 +388,21 @@ public abstract class AfApplication extends Application {
 	 * @return meta-data or null
 	 */
 	public String getMetaData(String key) {
+		return getMetaData(key,"");
+	}
+	public String getMetaData(String key,String defvalue) {
 		try {
-//			String name = this.getPackageName();
-//			int type = PackageManager.GET_META_DATA;
-//			PackageManager manager = this.getPackageManager();
-//			ApplicationInfo info = manager.getApplicationInfo(name, type);
 			ApplicationInfo info = getApplicationInfo();
 			Object data = info.metaData.get(key);
 			if (data == null) {
 				throw new Exception("getMetaData null");
 			}
 			key = String.valueOf(data);
-//			key = info.metaData.getString(key);
 			return key;
 		} catch (Throwable e) {
 			AfExceptionHandler.handler(e, "AfApplication.getMetaData");
 		}
-		return null;
+		return defvalue;
 	}
 
 	/**
@@ -592,7 +590,7 @@ public abstract class AfApplication extends Application {
 	 *            服务器版本
 	 */
 	public synchronized void setServerVersion(Object power, String version,
-			String describe) {
+											  String describe) {
 		mServerVersion = version;
 		mUpdateDescribe = describe;
 		if (isNeedUpdate()) {
@@ -607,7 +605,7 @@ public abstract class AfApplication extends Application {
 	 *            通知的对象 必须实现 INotifyNeedUpdate 接口
 	 */
 	private void notifyUpdate(Object power, String curver, String server,
-			String describe) {
+							  String describe) {
 		if (power instanceof INotifyUpdate) {
 			try {
 				INotifyUpdate tINotify = (INotifyUpdate) power;
