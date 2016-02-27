@@ -35,6 +35,9 @@ public abstract class AfListViewFragmentImpl<T> extends AfListViewFragment<T> {
 
 	@Override
 	protected int getLayoutId() {
+		if (super.getLayoutId() > 0) {
+			return super.getLayoutId();
+		}
 		return R.layout.af_module_listview;
 	}
 
