@@ -20,6 +20,8 @@ public class Config {
     public Integer socketTimeout = 3000;
     /** 链接超时 */
     public Integer connectionTimeout = 3000;
+    /** 请求类型 */
+    public AcceptedMediaType requestMediaType = AcceptedMediaType.json;
     /** 接收类型 */
     public AcceptedMediaType responseMediaType = AcceptedMediaType.json;
 
@@ -36,7 +38,7 @@ public class Config {
      * 接收类型
      */
     public enum AcceptedMediaType {
-        json("application/json"), xml("application/xml");
+        json("application/json"), xml("application/xml"),form("application/x-www-form-urlencoded");
         public final String contentType;
         AcceptedMediaType(String contentType) {
             this.contentType = contentType;

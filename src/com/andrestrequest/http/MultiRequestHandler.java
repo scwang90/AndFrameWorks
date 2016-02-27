@@ -139,7 +139,6 @@ public class MultiRequestHandler extends RequestHandler {
     }
 
     private HttpRequestBase buildRequest(HttpMethod method, String path, Map<String, String> headers,Object body, Map<String, Object> params) throws UnsupportedEncodingException {
-        Config.AcceptedMediaType mediaType = config.responseMediaType;
 
         HttpRequestBase request = null;
         StringEntity entity = getEntity(body);
@@ -166,7 +165,7 @@ public class MultiRequestHandler extends RequestHandler {
 
         try {
             if (!path.toLowerCase(Locale.ENGLISH).startsWith("http")) {
-                URIBuilder builder = buildUri(method, path, params, mediaType);
+                URIBuilder builder = buildUri(method, path, params);
                 request.setURI(builder.build());
             } else {
                 if (params != null && !params.isEmpty()) {
@@ -197,7 +196,7 @@ public class MultiRequestHandler extends RequestHandler {
         return request;
     }
 
-    private URIBuilder buildUri(HttpMethod method, String path, Map<String, Object> params, Config.AcceptedMediaType mediaType) throws UnsupportedEncodingException {
+    private URIBuilder buildUri(HttpMethod method, String path, Map<String, Object> params) throws UnsupportedEncodingException {
         URIBuilder uriBuilder = new URIBuilder();
         String host = config.ip;
         if (AfStringUtil.isNotEmpty(config.port)) {
@@ -213,7 +212,7 @@ public class MultiRequestHandler extends RequestHandler {
     }
 
     private StringEntity getEntity(Object body) {
-        Config.AcceptedMediaType mediaType = config.responseMediaType;
+        Config.AcceptedMediaType mediaType = config.requestMediaType;
         String json = null;//ParserUtil.toJson(body);
 
         if (body instanceof JSONObject || body instanceof String) {
@@ -255,7 +254,12 @@ public class MultiRequestHandler extends RequestHandler {
         try {
             JSONObject object = new JSONObject(response);
             if (config.status_ok.equals("" + object.get(config.status))) {
-                return object.get(config.result).toString();
+                if(object.has(config.result)) {
+                    return object.get(config.result).toString();
+                }
+                else{
+                    return "";
+                }
             } else {
                 String errormessage = object.get(config.message).toString();
                 try {
