@@ -10,7 +10,6 @@ import com.andframe.activity.framework.AfPageable;
 import com.andframe.activity.framework.AfView;
 import com.andframe.application.AfApplication;
 import com.andframe.application.AfExceptionHandler;
-import com.andframe.layoutbind.framework.AfViewModule;
 import com.andframe.widget.popupmenu.OnMenuItemClickListener;
 import com.andframe.widget.popupmenu.PopupMenu;
 
@@ -25,7 +24,8 @@ public abstract class AfModuleTitlebar extends AfLayoutAlpha implements View.OnC
 	public static final int FUNCTION_CUSTOM = 2;
 
 	protected View mBtGoBack = null;
-	protected ImageView mBtMenu = null;
+	protected TextView mBtRightTxt = null;
+	protected ImageView mBtRightImg = null;
 	protected TextView mTvTitle = null;
 	/**
 	 * 功能状态
@@ -57,7 +57,8 @@ public abstract class AfModuleTitlebar extends AfLayoutAlpha implements View.OnC
 		super.onCreated(target);
 		if (target != null) {
 			mBtGoBack = target.findViewById(getBtGoBackId());
-			mBtMenu = new AfView(target).findViewById(getBtMeunId(), ImageView.class);
+			mBtRightImg = new AfView(target).findViewById(getRightImgId(), ImageView.class);
+			mBtRightTxt = new AfView(target).findViewById(getRightTxtId(), TextView.class);
 			mTvTitle = new AfView(target).findViewById(getTitleTextId(), TextView.class);
 			if (target.getContext() instanceof Activity) {
 				mWeakRefActivity = new WeakReference<>(((Activity) target.getContext()));
@@ -65,19 +66,20 @@ public abstract class AfModuleTitlebar extends AfLayoutAlpha implements View.OnC
 				mWeakRefActivity = new WeakReference<>(null);
 			}
 			mMeuns = new HashMap<>();
-			mBtMenu.setOnClickListener(this);
+			mBtRightImg.setOnClickListener(this);
 			mBtGoBack.setOnClickListener(this);
+			mBtRightTxt.setOnClickListener(this);
 			setFunction(FUNCTION_NONE);
 		}
 	}
 
 	protected void initView(AfPageable page, int function) {
 		mBtGoBack = page.findViewById(getBtGoBackId());
-		mBtMenu = page.findViewById(getBtMeunId(), ImageView.class);
+		mBtRightImg = page.findViewById(getRightImgId(), ImageView.class);
 		mTvTitle = page.findViewById(getTitleTextId(), TextView.class);
 		mWeakRefActivity = new WeakReference<>(page.getActivity());
 		mMeuns = new HashMap<>();
-		mBtMenu.setOnClickListener(this);
+		mBtRightImg.setOnClickListener(this);
 		mBtGoBack.setOnClickListener(this);
 		setFunction(function);
 	}
@@ -88,9 +90,14 @@ public abstract class AfModuleTitlebar extends AfLayoutAlpha implements View.OnC
 	public abstract int getTitleTextId();
 
 	/**
-	 * 子类获取菜单控件ID ImageView
+	 * 子类获取右图片控件ID ImageView
 	 */
-	public abstract int getBtMeunId();
+	public abstract int getRightImgId();
+
+	/**
+	 * 子类获取右文本控件ID TextView
+	 */
+	public abstract int getRightTxtId();
 
 	/**
 	 * 子类获取标题控件ID
@@ -111,7 +118,7 @@ public abstract class AfModuleTitlebar extends AfLayoutAlpha implements View.OnC
 				if (activity != null) {
 					activity.finish();
 				}
-			} else if (v.getId() == getBtMeunId()) {
+			} else /*if (v.getId() == getRightImgId())*/ {
 				if (mFunction == FUNCTION_MENU) {
 					PopupMenu pm = new PopupMenu(v.getContext(), v);
 					if (pm.isValid()) {
@@ -135,7 +142,7 @@ public abstract class AfModuleTitlebar extends AfLayoutAlpha implements View.OnC
 	public void setFunction(int function) {
 		if (function != FUNCTION_CUSTOM) {
 			mFunction = function;
-			mBtMenu.setVisibility(function == FUNCTION_NONE ? View.GONE : View.VISIBLE);
+			mBtRightImg.setVisibility(function == FUNCTION_NONE ? View.GONE : View.VISIBLE);
 		} else if (AfApplication.getApp().isDebug()) {
 			AfExceptionHandler.doShowDialog(AfApplication.getApp().getCurActivity(), "设置自定义失败", "请使用setCustomFunction设置自定义功能", "" + this.hashCode());
 		}
@@ -143,7 +150,16 @@ public abstract class AfModuleTitlebar extends AfLayoutAlpha implements View.OnC
 
 	public void setCustomFunction(int imageId) {
 		mFunction = FUNCTION_CUSTOM;
-		mBtMenu.setImageResource(imageId);
+		mBtRightImg.setImageResource(imageId);
+		mBtRightImg.setVisibility(VISIBLE);
+		mBtRightTxt.setVisibility(GONE);
+	}
+
+	public void setCustomFunction(String text) {
+		mFunction = FUNCTION_CUSTOM;
+		mBtRightTxt.setText(text);
+		mBtRightTxt.setVisibility(VISIBLE);
+		mBtRightImg.setVisibility(GONE);
 	}
 
 	public void setCustomFunction(int imageId, View.OnClickListener listener) {

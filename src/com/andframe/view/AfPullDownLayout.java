@@ -26,21 +26,21 @@ public class AfPullDownLayout extends LinearLayout {
 	 *  手势监听器
 	 * @author 树朾
 	 */
-	public static interface OnPullDownListener {
+	public interface OnPullDownListener {
 		/**
 		 *  手势操作进行时监听
 		 * @param value 百分比
 		 * @param height 高度差
 		 * @return 暂无定义
 		 */
-		public boolean onPulling(float value,int height,int max);
+		boolean onPulling(float value,int height,int max);
 		/**
 		 *  手势操作释放时监听
 		 * @param value 百分比
 		 * @param height 高度差
 		 * @return 暂无定义
 		 */
-		public boolean onRelease(float value,int height,int max);
+		boolean onRelease(float value,int height,int max);
 	}
 	// ===========================================================
 	// Constants
@@ -48,7 +48,7 @@ public class AfPullDownLayout extends LinearLayout {
 
 	// 公式1 y = H-A/(x+A/H)
 	// 公式2 y = H-H*H/(x+H)
-	private double H = 100; 
+	private double H = 100;
 
 	// 状态
 	private static final int PULL_TO_DOWN = 0x0;
@@ -68,14 +68,19 @@ public class AfPullDownLayout extends LinearLayout {
 	private int state = PULL_TO_DOWN;
 
 	private boolean isPullToRefreshEnabled = true;
-	
+
 	private SmoothRunnable smoothrunnable;
 	private OnPullDownListener onOnPullDownListener;
 
-	private ReadyForPullDownable mPullDownable = null;
+	private ReadyForPullDownable mPullDownable = new ReadyForPullDownable() {
+		@Override
+		public boolean isReadyForPullDown() {
+			return true;
+		}
+	};
 
 	private Interpolator mInterpolator = new AccelerateDecelerateInterpolator();
-	
+
 	public AfPullDownLayout(Context context) {
 		super(context);
 		this.initialized(context, null);
@@ -175,11 +180,11 @@ public class AfPullDownLayout extends LinearLayout {
 			};
 		}
 	}
-	
+
 	public void setMaxScorllHeight(int height) {
 		this.H = height;
 	}
-	
+
 	public void setMaxScorllHeightDp(int height) {
 		this.H = AfDensity.dip2px(getContext(), height);
 	}
@@ -201,30 +206,30 @@ public class AfPullDownLayout extends LinearLayout {
 
 		switch (event.getAction()) {
 
-		case MotionEvent.ACTION_MOVE: {
-			if (isBeingDragged) {
-				lastMotionY = event.getY();
-				this.pullEvent();
-				return true;
-			}
-			break;
-		}
-
-		case MotionEvent.ACTION_CANCEL:
-		case MotionEvent.ACTION_UP: {
-			if (isBeingDragged) {
-				isBeingDragged = false;
-				smoothScrollTo(0);
-				if (onOnPullDownListener != null) {
-					int newHeight = Math.round(Math.max(lastMotionY - initMotionY, 0));
-					int x = newHeight;
-					int y = (int)(H-H*H/(x+H));
-					onOnPullDownListener.onRelease((float)(y/H),y,(int) H);
+			case MotionEvent.ACTION_MOVE: {
+				if (isBeingDragged) {
+					lastMotionY = event.getY();
+					this.pullEvent();
+					return true;
 				}
-				return true;
+				break;
 			}
-			break;
-		}
+
+			case MotionEvent.ACTION_CANCEL:
+			case MotionEvent.ACTION_UP: {
+				if (isBeingDragged) {
+					isBeingDragged = false;
+					smoothScrollTo(0);
+					if (onOnPullDownListener != null) {
+						int newHeight = Math.round(Math.max(lastMotionY - initMotionY, 0));
+						int x = newHeight;
+						int y = (int)(H-H*H/(x+H));
+						onOnPullDownListener.onRelease((float)(y/H),y,(int) H);
+					}
+					return true;
+				}
+				break;
+			}
 		}
 
 		return false;
@@ -246,28 +251,28 @@ public class AfPullDownLayout extends LinearLayout {
 		}
 
 		switch (action) {
-		case MotionEvent.ACTION_MOVE: {
-			if (isReadyForPullDown()) {
-				final float y = event.getY();
-				final float dy = y - lastMotionY;
-				final float yDiff = Math.abs(dy);
-				final float xDiff = Math.abs(event.getX() - lastMotionX);
+			case MotionEvent.ACTION_MOVE: {
+				if (isReadyForPullDown()) {
+					final float y = event.getY();
+					final float dy = y - lastMotionY;
+					final float yDiff = Math.abs(dy);
+					final float xDiff = Math.abs(event.getX() - lastMotionX);
 
-				if (yDiff > touchSlop && yDiff > xDiff && dy >= 0.0001f) {
-					lastMotionY = y;
-					isBeingDragged = true;
+					if (yDiff > touchSlop && yDiff > xDiff && dy >= 0.0001f) {
+						lastMotionY = y;
+						isBeingDragged = true;
+					}
 				}
+				break;
 			}
-			break;
-		}
-		case MotionEvent.ACTION_DOWN: {
-			if (isReadyForPullDown()) {
-				lastMotionY = initMotionY = event.getY();
-				lastMotionX = event.getX();
-				isBeingDragged = false;
+			case MotionEvent.ACTION_DOWN: {
+				if (isReadyForPullDown()) {
+					lastMotionY = initMotionY = event.getY();
+					lastMotionX = event.getX();
+					isBeingDragged = false;
+				}
+				break;
 			}
-			break;
-		}
 		}
 		return isBeingDragged;
 	}
@@ -384,7 +389,7 @@ public class AfPullDownLayout extends LinearLayout {
 		private boolean running = true;
 
 		public SmoothRunnable(Looper looper, Smoothable smoothable, int from,
-				int to) {
+							  int to) {
 			this.valueto = to;
 			this.valuefrom = from;
 			this.smoothable = smoothable;

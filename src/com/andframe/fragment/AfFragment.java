@@ -18,7 +18,6 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.view.ViewGroup.LayoutParams;
 import android.view.Window;
-import android.widget.AdapterView;
 import android.widget.EditText;
 import android.widget.TextView;
 import android.widget.Toast;
@@ -40,8 +39,8 @@ import com.andframe.feature.AfIntent;
 import com.andframe.feature.AfSoftInputer;
 import com.andframe.thread.AfTask;
 import com.andframe.thread.AfThreadWorker;
-import com.andframe.util.java.AfStackTrace;
 
+import java.util.Date;
 import java.util.List;
 
 /**
@@ -103,7 +102,7 @@ import java.util.List;
  *         public void onQueryChanged();
  *         }
  */
-public abstract class AfFragment extends Fragment implements AfPageable, AdapterView.OnItemClickListener {
+public abstract class AfFragment extends Fragment implements AfPageable {
 
     public static final String EXTRA_DATA = "EXTRA_DATA";
     public static final String EXTRA_INDEX = "EXTRA_INDEX";
@@ -985,6 +984,113 @@ public abstract class AfFragment extends Fragment implements AfPageable, Adapter
         new AfDailog(getActivity()).doShowDialog(key, defclick, theme, iconres, title, message, positive, lpositive, neutral, lneutral, negative, lnegative);
     }
 
+    /**
+     * 选择日期时间
+     * @param listener 监听器
+     */
+    public void doSelectDateTime(AfDailog.OnDateTimeSetListener listener) {
+        doSelectDateTime("", new Date(), listener);
+    }
+
+    /**
+     * 选择日期时间
+     * @param title 标题
+     * @param listener 监听器
+     */
+    public void doSelectDateTime(String title, AfDailog.OnDateTimeSetListener listener) {
+        doSelectDateTime(title, new Date(), listener);
+    }
+
+    /**
+     * 选择日期时间
+     * @param value 默认时间
+     * @param listener 监听器
+     */
+    public void doSelectDateTime(Date value, AfDailog.OnDateTimeSetListener listener) {
+        doSelectDateTime("", value, listener);
+    }
+
+    /**
+     * 选择日期时间
+     * @param title 标题
+     * @param value 默认时间
+     * @param listener 监听器
+     */
+    public void doSelectDateTime(final String title, final Date value, final AfDailog.OnDateTimeSetListener listener) {
+        new AfDailog(getActivity()).doSelectDateTime(title, value, listener);
+    }
+
+    /**
+     * 选择时间
+     * @param listener 监听器
+     */
+    public void doSelectTime(AfDailog.OnTimeSetListener listener) {
+        doSelectTime("", new Date(), listener);
+    }
+
+    /**
+     * 选择时间
+     * @param title 标题
+     * @param listener 监听器
+     */
+    public void doSelectTime(String title, AfDailog.OnTimeSetListener listener) {
+        doSelectTime(title, new Date(), listener);
+    }
+
+    /**
+     * 选择时间
+     * @param value 默认时间
+     * @param listener 监听器
+     */
+    public void doSelectTime(Date value, AfDailog.OnTimeSetListener listener) {
+        doSelectTime("", value, listener);
+    }
+
+    /**
+     * 选择时间
+     * @param title 标题
+     * @param value 默认时间
+     * @param listener 监听器
+     */
+    public void doSelectTime(String title, Date value, final AfDailog.OnTimeSetListener listener) {
+        new AfDailog(getActivity()).doSelectTime(title, value, listener);
+    }
+
+    /**
+     * 选择日期
+     * @param listener 监听器
+     */
+    public void doSelectDate(AfDailog.OnDateSetListener listener) {
+        doSelectDate("", new Date(), listener);
+    }
+
+    /**
+     * 选择日期
+     * @param title 标题
+     * @param listener 监听器
+     */
+    public void doSelectDate(String title, AfDailog.OnDateSetListener listener) {
+        doSelectDate(title, new Date(), listener);
+    }
+
+    /**
+     * 选择日期
+     * @param value 默认时间
+     * @param listener 监听器
+     */
+    public void doSelectDate(Date value, AfDailog.OnDateSetListener listener) {
+        doSelectDate("", value, listener);
+    }
+
+    /**
+     * 选择日期
+     * @param title 标题
+     * @param value 默认时间
+     * @param listener 监听器
+     */
+    public void doSelectDate(String title, Date value, AfDailog.OnDateSetListener listener) {
+        new AfDailog(getActivity()).doSelectDate(title,value, listener);
+    }
 
     protected void setProgressDialogText(ProgressDialog dialog, String text) {
         Window window = dialog.getWindow();
@@ -1078,27 +1184,4 @@ public abstract class AfFragment extends Fragment implements AfPageable, Adapter
         return false;
     }
 
-    /**
-     * final 包装 onItemClick 事件处理 防止抛出异常崩溃
-     */
-    @Override
-    public void onItemClick(AdapterView<?> parent, View view, int position,
-                            long id) {
-        try {
-            if (AfStackTrace.isLoopCall()) {
-                //System.out.println("递归检测");
-                return;
-            }
-            this.onItemClick(parent, view, id, position);
-        } catch (Throwable e) {
-            AfExceptionHandler.handler(e, TAG() + ".onItemClick");
-        }
-    }
-
-    /**
-     * 安全onItemClick框架会捕捉异常防止崩溃
-     */
-    protected void onItemClick(AdapterView<?> parent, View item, long id, int index) {
-
-    }
 }

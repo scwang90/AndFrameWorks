@@ -4,7 +4,6 @@ import android.view.View;
 
 import com.andframe.R;
 import com.andframe.activity.framework.AfPageable;
-import com.andframe.activity.framework.AfViewable;
 import com.andframe.application.AfExceptionHandler;
 
 public class AfModuleTitlebarImpl extends AfModuleTitlebar {
@@ -12,8 +11,8 @@ public class AfModuleTitlebarImpl extends AfModuleTitlebar {
     public static final int FUNCTION_ADD = 10;
     public static final int FUNCTION_OK = 11;
 
-    public static final int ID_GOBACK = R.id.af_titlebar_other_goback;
-    public static final int ID_MEUN = R.id.af_titlebar_other_meun;
+    public static final int ID_GOBACK = R.id.af_titlebar_left_goback;
+    public static final int ID_MEUN = R.id.af_titlebar_right_img;
 
     private View.OnClickListener mBtOkClickListener;
     private View.OnClickListener mBtAddClickListener;
@@ -32,23 +31,28 @@ public class AfModuleTitlebarImpl extends AfModuleTitlebar {
 
     @Override
     public int getTitleTextId() {
-        return R.id.af_titlebar_other_title;
+        return R.id.af_titlebar_title;
     }
 
     @Override
-    public int getBtMeunId() {
-        return R.id.af_titlebar_other_meun;
+    public int getRightImgId() {
+        return R.id.af_titlebar_right_img;
+    }
+
+    @Override
+    public int getRightTxtId() {
+        return R.id.af_titlebar_right_txt;
     }
 
     @Override
     public int getBtGoBackId() {
-        return R.id.af_titlebar_other_goback;
+        return R.id.af_titlebar_left_goback;
     }
 
     @Override
     public void onClick(View v) {
         if (mWeakRefActivity != null) {
-            if (v.getId() == getBtMeunId()) {
+            if (v.getId() == getRightImgId()) {
                 if (mFunction == FUNCTION_OK && mBtOkClickListener != null) {
                     try {
                         mBtOkClickListener.onClick(v);
@@ -73,13 +77,13 @@ public class AfModuleTitlebarImpl extends AfModuleTitlebar {
         super.setFunction(function);
         switch (function) {
             case FUNCTION_ADD:
-                mBtMenu.setImageResource(R.drawable.af_icon_add);
+                mBtRightImg.setImageResource(R.drawable.af_icon_add);
                 break;
             case FUNCTION_OK:
-                mBtMenu.setImageResource(R.drawable.af_icon_ok);
+                mBtRightImg.setImageResource(R.drawable.af_icon_ok);
                 break;
             case FUNCTION_MENU:
-                mBtMenu.setImageResource(R.drawable.af_icon_menu);
+                mBtRightImg.setImageResource(R.drawable.af_icon_menu);
                 break;
         }
     }

@@ -34,6 +34,7 @@ public abstract class AfTreeViewItem<T> extends AfMultiChoiceItem<T>{
 
 	@Override
 	public void onHandle(AfView view) {
+		super.onHandle(view);
 		retract = AfDensity.dip2px(view.getContext(), 20);
 	}
 	

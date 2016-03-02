@@ -2,11 +2,14 @@ package com.andframe.annotation.inject.interpreter;
 
 import android.content.Context;
 import android.content.res.Resources;
+import android.os.Message;
 
 import com.andframe.R;
 import com.andframe.activity.framework.AfActivity;
 import com.andframe.activity.framework.AfPageable;
+import com.andframe.activity.framework.AfViewable;
 import com.andframe.annotation.inject.Inject;
+import com.andframe.annotation.inject.InjectDelayed;
 import com.andframe.annotation.inject.InjectExtra;
 import com.andframe.annotation.inject.InjectInit;
 import com.andframe.annotation.inject.InjectLayout;
@@ -34,6 +37,7 @@ import com.andframe.helper.android.AfImageHelper;
 import com.andframe.helper.java.AfSQLHelper;
 import com.andframe.layoutbind.framework.AfViewDelegate;
 import com.andframe.network.AfImageService;
+import com.andframe.thread.AfHandlerTimerTask;
 import com.andframe.util.android.AfMeasure;
 import com.andframe.util.java.AfReflecter;
 import com.andframe.util.java.AfStackTrace;
@@ -41,6 +45,7 @@ import com.andframe.util.java.AfStackTrace;
 import java.lang.reflect.Field;
 import java.lang.reflect.Method;
 import java.util.Random;
+import java.util.Timer;
 
 /**
  * annotation.inject 解释器
@@ -69,6 +74,35 @@ public class Injecter {
 		doInjectLayout(context);
 		doInjectSystem(context);
 		doInjectInit(context);
+		doInjectDelayed(context);
+	}
+
+	private void doInjectDelayed(Context context) {
+		for (final Method method : AfReflecter.getMethodAnnotation(mHandler.getClass(), getStopType(), InjectDelayed.class)) {
+			try {
+				InjectDelayed bind = method.getAnnotation(InjectDelayed.class);
+				new Timer().schedule(new AfHandlerTimerTask() {
+					{
+						this.mMethod = method;
+					}
+
+					public final Method mMethod;
+
+					@Override
+					protected boolean onHandleTimer(Message msg) {
+						try {
+							mMethod.setAccessible(true);
+							mMethod.invoke(Injecter.this.mHandler);
+						} catch (Exception e) {
+							e.printStackTrace();
+						}
+						return false;
+					}
+				}, bind.value());
+			} catch (Throwable e) {
+				AfExceptionHandler.handler(e, TAG("doInjectDelayed.") + method.getName());
+			}
+		}
 	}
 
 	private void doInjectLayout(Context context) {

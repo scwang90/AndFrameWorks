@@ -3,6 +3,9 @@ package com.andframe.feature;
 import android.annotation.SuppressLint;
 import android.app.AlertDialog;
 import android.app.AlertDialog.Builder;
+import android.app.DatePickerDialog;
+import android.app.Dialog;
+import android.app.TimePickerDialog;
 import android.content.Context;
 import android.content.DialogInterface;
 import android.content.DialogInterface.OnCancelListener;
@@ -12,17 +15,22 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.view.ViewGroup.LayoutParams;
 import android.widget.CheckBox;
+import android.widget.DatePicker;
 import android.widget.EditText;
 import android.widget.LinearLayout;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
+import android.widget.TimePicker;
 
 import com.andframe.activity.AfActivity;
 import com.andframe.activity.framework.AfPageable.InputTextCancelable;
 import com.andframe.activity.framework.AfPageable.InputTextListener;
+import com.andframe.application.AfExceptionHandler;
 import com.andframe.caches.AfPrivateCaches;
 import com.andframe.util.java.AfStringUtil;
 
+import java.util.Calendar;
+import java.util.Date;
 import java.util.Stack;
 
 public class AfDailog {
@@ -159,37 +167,6 @@ public class AfDailog {
                              String neutral, OnClickListener lneutral,
                              String negative, OnClickListener lnegative) {
         doShowDialog(null, 0, theme, iconres, title, message, positive, lpositive, neutral, lneutral, negative, lnegative);
-//		Builder builder = null;
-//		if (theme > 0) {
-//			try {
-//				builder = new Builder(mContext, theme);
-//			} catch (Throwable e) {
-//			}
-//		}
-//		if (builder == null){
-//			try {
-//				builder = new Builder(mContext);
-//			} catch (Throwable ex) {
-//				return;
-//			}
-//		}
-//		builder.setTitle(title);
-//		builder.setMessage(message);
-//		if (iconres > 0) {
-//			builder.setIcon(iconres);
-//		}
-//		if (positive != null && positive.length() > 0) {
-//			builder.setPositiveButton(positive, lpositive);
-//		}
-//		if (neutral != null && neutral.length() > 0) {
-//			builder.setNeutralButton(neutral, lneutral);
-//		}
-//		if (negative != null && negative.length() > 0) {
-//			builder.setNegativeButton(negative, lnegative);
-//		}
-//		builder.setCancelable(false);
-//		builder.create();
-//		builder.show();
     }
 
     /**
@@ -696,5 +673,255 @@ public class AfDailog {
                 });
             }
         }
+    }
+
+    public interface OnDateTimeSetListener{
+        void onDateTimeSet(int year, int month, int day, int hour, int minute);
+    }
+
+    public static abstract class OnSimpleDateTimeSetListener implements OnDateTimeSetListener{
+        @Override
+        public void onDateTimeSet(int year, int month, int day, int hour, int minute) {
+            Calendar calender = Calendar.getInstance();
+            calender.setTime(new Date(0));
+            calender.set(Calendar.YEAR, year);
+            calender.set(Calendar.MONTH, month);
+            calender.set(Calendar.DAY_OF_MONTH, day);
+            calender.set(Calendar.HOUR_OF_DAY, hour);
+            calender.set(Calendar.MINUTE,minute);
+            onDateTimeSet(calender.getTime());
+        }
+        protected abstract void onDateTimeSet(Date time);
+    }
+
+    /**
+     * 选择日期时间
+     * @param listener 监听器
+     */
+    public void doSelectDateTime(OnDateTimeSetListener listener) {
+        doSelectDateTime("", new Date(), listener);
+    }
+
+    /**
+     * 选择日期时间
+     * @param title 标题
+     * @param listener 监听器
+     */
+    public void doSelectDateTime(String title, OnDateTimeSetListener listener) {
+        doSelectDateTime(title, new Date(), listener);
+    }
+
+    /**
+     * 选择日期时间
+     * @param value 默认时间
+     * @param listener 监听器
+     */
+    public void doSelectDateTime(Date value, OnDateTimeSetListener listener) {
+        doSelectDateTime("", value, listener);
+    }
+
+    /**
+     * 选择日期时间
+     * @param title 标题
+     * @param value 默认时间
+     * @param listener 监听器
+     */
+    public void doSelectDateTime(final String title, final Date value, final OnDateTimeSetListener listener) {
+        final Calendar calender = Calendar.getInstance();
+        calender.setTime(value);
+        int year = calender.get(Calendar.YEAR);
+        int month = calender.get(Calendar.MONTH);
+        int day = calender.get(Calendar.DAY_OF_MONTH);
+        final Dialog tDialog = new DatePickerDialog(mContext, new DatePickerDialog.OnDateSetListener() {
+            private boolean fdealwith = false;
+            @Override
+            public void onDateSet(DatePicker view, final int year, final int month,final int day) {
+                if(fdealwith){
+                    return ;
+                }
+                fdealwith = true;
+                int hour = calender.get(Calendar.HOUR_OF_DAY);
+                int minute = calender.get(Calendar.MINUTE);
+                Dialog tDialog = new TimePickerDialog(mContext, new TimePickerDialog.OnTimeSetListener() {
+                    private boolean fdealwith = false;
+                    @Override
+                    public void onTimeSet(TimePicker view, int hour, int minute) {
+                        if(fdealwith){
+                            return ;
+                        }
+                        fdealwith = true;
+                        try {
+                            listener.onDateTimeSet(year, month, day, hour, minute);
+                        } catch (Throwable e) {
+                            AfExceptionHandler.handler(e, "doSelectDateTime.listener.onDateTimeSet");
+                        }
+                    }
+                }, hour, minute, true);
+                if (title != null && title.length() > 0) {
+                    tDialog.setTitle(title);
+                }
+                tDialog.show();
+                tDialog.setCancelable(true);
+            }
+        }, year, month, day);
+        if (title != null && title.length() > 0) {
+            tDialog.setTitle(title);
+        }
+        tDialog.show();
+        tDialog.setCancelable(true);
+    }
+
+    public interface OnTimeSetListener {
+        void onTimeSet(int hour, int minute);
+    }
+
+    public static abstract class OnSimpleTimeSetListener implements OnTimeSetListener{
+        @Override
+        public void onTimeSet(int hour, int minute) {
+            Calendar calender = Calendar.getInstance();
+            calender.setTime(new Date(0));
+            calender.set(Calendar.HOUR_OF_DAY, hour);
+            calender.set(Calendar.MINUTE,minute);
+            onTimeSet(calender.getTime());
+        }
+        protected abstract void onTimeSet(Date time);
+    }
+
+    /**
+     * 选择时间
+     * @param listener 监听器
+     */
+    public void doSelectTime(OnTimeSetListener listener) {
+        doSelectTime("", new Date(), listener);
+    }
+
+    /**
+     * 选择时间
+     * @param title 标题
+     * @param listener 监听器
+     */
+    public void doSelectTime(String title, OnTimeSetListener listener) {
+        doSelectTime(title, new Date(), listener);
+    }
+
+    /**
+     * 选择时间
+     * @param value 默认时间
+     * @param listener 监听器
+     */
+    public void doSelectTime(Date value, OnTimeSetListener listener) {
+        doSelectTime("", value, listener);
+    }
+
+    /**
+     * 选择时间
+     * @param title 标题
+     * @param value 默认时间
+     * @param listener 监听器
+     */
+    public void doSelectTime(String title, Date value, final OnTimeSetListener listener) {
+        Calendar calender = Calendar.getInstance();
+        calender.setTime(value);
+        int hour = calender.get(Calendar.HOUR_OF_DAY);
+        int minute = calender.get(Calendar.MINUTE);
+        Dialog tDialog = new TimePickerDialog(mContext, new TimePickerDialog.OnTimeSetListener() {
+            private boolean fdealwith = false;
+            @Override
+            public void onTimeSet(TimePicker view, int hour, int minute) {
+                if(fdealwith){
+                    return ;
+                }
+                fdealwith = true;
+
+                try {
+                    listener.onTimeSet(hour, minute);
+                } catch (Throwable e) {
+                    AfExceptionHandler.handler(e, "doSelectTime.listener.onTimeSet");
+                }
+            }
+        }, hour, minute, true);
+        if (title != null && title.length() > 0) {
+            tDialog.setTitle(title);
+        }
+        tDialog.show();
+        tDialog.setCancelable(true);
+    }
+
+
+    public interface OnDateSetListener {
+        void onDateSet(int year, int month, int day);
+    }
+
+    public static abstract class OnSimpleDateSetListener implements OnDateSetListener{
+        @Override
+        public void onDateSet(int year, int month, int day) {
+            Calendar calender = Calendar.getInstance();
+            calender.setTime(new Date(0));
+            calender.set(Calendar.YEAR, year);
+            calender.set(Calendar.MONTH, month);
+            calender.set(Calendar.DAY_OF_MONTH, day);
+            onDateSet(calender.getTime());
+        }
+        protected abstract void onDateSet(Date date);
+    }
+
+    /**
+     * 选择日期
+     * @param listener 监听器
+     */
+    public void doSelectDate(OnDateSetListener listener) {
+        doSelectDate("", new Date(), listener);
+    }
+
+    /**
+     * 选择日期
+     * @param title 标题
+     * @param listener 监听器
+     */
+    public void doSelectDate(String title, OnDateSetListener listener) {
+        doSelectDate(title, new Date(), listener);
+    }
+
+    /**
+     * 选择日期
+     * @param value 默认时间
+     * @param listener 监听器
+     */
+    public void doSelectDate(Date value, OnDateSetListener listener) {
+        doSelectDate("", value, listener);
+    }
+
+    /**
+     * 选择日期
+     * @param title 标题
+     * @param value 默认时间
+     * @param listener 监听器
+     */
+    public void doSelectDate(String title, Date value, final OnDateSetListener listener) {
+        Calendar calender = Calendar.getInstance();
+        calender.setTime(value);
+        int year = calender.get(Calendar.YEAR);
+        int month = calender.get(Calendar.MONTH);
+        int day = calender.get(Calendar.DAY_OF_MONTH);
+        Dialog tDialog = new DatePickerDialog(mContext, new DatePickerDialog.OnDateSetListener() {
+            private boolean fdealwith = false;
+            @Override
+            public void onDateSet(DatePicker view, int year, int month, int day) {
+                if(fdealwith){
+                    return ;
+                }
+                fdealwith = true;
+                try {
+                    listener.onDateSet(year, month, day);
+                } catch (Throwable e) {
+                    AfExceptionHandler.handler(e, "doSelectDate.listener.onDateSet");
+                }
+            }
+        }, year, month, day);
+        if (title != null && title.length() > 0) {
+            tDialog.setTitle(title);
+        }
+        tDialog.show();
+        tDialog.setCancelable(true);
     }
 }

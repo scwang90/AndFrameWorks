@@ -14,6 +14,7 @@ import com.andframe.adapter.AfListAdapter;
 import com.andframe.adapter.AfListAdapter.IAfLayoutItem;
 import com.andframe.annotation.mark.MarkCache;
 import com.andframe.annotation.view.BindLayout;
+import com.andframe.application.AfExceptionHandler;
 import com.andframe.bean.Page;
 import com.andframe.exception.AfException;
 import com.andframe.feature.AfIntent;
@@ -36,7 +37,7 @@ import java.util.List;
  * @author 树朾
  * @param <T> 列表数据实体类
  */
-public abstract class AfListViewActivity<T> extends AfActivity implements OnRefreshListener, OnItemClickListener, OnClickListener{
+public abstract class AfListViewActivity<T> extends AfActivity implements OnRefreshListener, OnItemClickListener, OnClickListener, AdapterView.OnItemLongClickListener {
 
 	protected AfModuleNodata mNodata;
 	protected AfModuleProgress mProgress;
@@ -109,6 +110,7 @@ public abstract class AfListViewActivity<T> extends AfActivity implements OnRefr
 		mListView = newAfListView(this);
 		mListView.setOnRefreshListener(this);
 		mListView.setOnItemClickListener(this);
+		mListView.setOnItemLongClickListener(this);
 
 		// 设置banner尺寸
 		setLoading();
@@ -249,11 +251,15 @@ public abstract class AfListViewActivity<T> extends AfActivity implements OnRefr
 	 * @param id 被点击的视图ID
 	 */
 	@Override
-	public void onItemClick(AdapterView<?> parent, View view, long id, int index) {
+	public void onItemClick(AdapterView<?> parent, View view, int index, long id) {
 		index = mListView.getDataIndex(index);
 		if (index >= 0){
 			T model = mAdapter.getItemAt(index);
-			onItemClick(model,index);
+			try {
+				onItemClick(model, index);
+			} catch (Throwable e) {
+				AfExceptionHandler.handler(e, TAG("onItemClick"));
+			}
 		}
 	}
 
@@ -264,6 +270,36 @@ public abstract class AfListViewActivity<T> extends AfActivity implements OnRefr
 	 */
 	protected void onItemClick(T model, int index) {
 
+	}
+
+	/**
+	 *  数据列表点击事件
+	 * @param parent 列表控件
+	 * @param view 被点击的视图
+	 * @param index 被点击的index
+	 * @param id 被点击的视图ID
+	 */
+	@Override
+	public boolean onItemLongClick(AdapterView<?> parent, View view, int index, long id) {
+		index = mListView.getDataIndex(index);
+		if (index >= 0) {
+			T model = mAdapter.getItemAt(index);
+			try {
+				return onItemLongClick(model, index);
+			} catch (Throwable e) {
+				AfExceptionHandler.handler(e, TAG("onItemLongClick"));
+			}
+		}
+		return false;
+	}
+
+	/**
+	 * onItemLongClick 事件的 包装 一般情况下子类可以重写这个方法
+	 * @param model 被点击的数据model
+	 * @param index 被点击的index
+	 */
+	protected boolean onItemLongClick(T model, int index) {
+		return false;
 	}
 
 	@Override
@@ -406,9 +442,11 @@ public abstract class AfListViewActivity<T> extends AfActivity implements OnRefr
 			//通知列表刷新失败
 			mListView.finishRefreshFail();
 			if (mAdapter != null && mAdapter.getCount() > 0) {
-				mListView.setAdapter(mAdapter);
-				mSelector.selectFrame(mListView);
-				makeToastLong(task.makeErrorToast("加载失败"));
+				setData(mAdapter);
+				makeToastLong(task.makeErrorToast("刷新失败"));
+			} else if (ltdata != null && ltdata.size() > 0) {
+				setData(mAdapter = newAdapter(getActivity(), ltdata));
+				makeToastLong(task.makeErrorToast("刷新失败"));
 			} else {
 				setLoadError(task.mException);
 			}

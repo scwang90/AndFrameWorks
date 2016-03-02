@@ -20,8 +20,6 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.view.ViewGroup.LayoutParams;
 import android.view.Window;
-import android.widget.AdapterView;
-import android.widget.AdapterView.OnItemClickListener;
 import android.widget.EditText;
 import android.widget.TextView;
 import android.widget.Toast;
@@ -43,6 +41,7 @@ import com.andframe.thread.AfThreadWorker;
 import com.andframe.util.java.AfStackTrace;
 
 import java.util.ArrayList;
+import java.util.Date;
 import java.util.List;
 import java.util.Timer;
 import java.util.TimerTask;
@@ -101,13 +100,13 @@ import java.util.TimerTask;
  *         public void doInputText(String title,int type,InputTextListener listener);
  *         public void doInputText(String title,String defaul,int type,InputTextListener listener);
  *         <p/>
- *         AfSoftInputPageListener 接口中的方法
+ *         AfSoftInputListener 接口中的方法
  *         public void onSoftInputShown();
  *         public void onSoftInputHiden();
  *         public void onQueryChanged();
  *         }
  */
-public abstract class AfActivity extends FragmentActivity implements AfPageable, OnItemClickListener {
+public abstract class AfActivity extends FragmentActivity implements AfPageable {
 
     public static final String EXTRA_DATA = "EXTRA_DATA";
     public static final String EXTRA_INDEX = "EXTRA_INDEX";
@@ -226,7 +225,6 @@ public abstract class AfActivity extends FragmentActivity implements AfPageable,
      * 当软键盘显示
      */
     public void onSoftInputShown() {
-
     }
 
     /**
@@ -234,7 +232,6 @@ public abstract class AfActivity extends FragmentActivity implements AfPageable,
      * 当面软键盘收起
      */
     public void onSoftInputHiden() {
-
     }
 
     @Override
@@ -312,8 +309,7 @@ public abstract class AfActivity extends FragmentActivity implements AfPageable,
     }
 
     @Override
-    public void startActivityForResult(Class<? extends AfActivity> clazz,
-                                       int request) {
+    public void startActivityForResult(Class<? extends AfActivity> clazz, int request) {
         startActivityForResult(new Intent(this, clazz), request);
     }
 
@@ -333,6 +329,23 @@ public abstract class AfActivity extends FragmentActivity implements AfPageable,
             }
         }
         startActivityForResult(intent, request);
+    }
+
+    protected void setResultOk(Object... args) {
+        AfIntent intent = new AfIntent();
+        if (args != null && args.length > 0) {
+            for (int i = 0; i < args.length / 2; i++) {
+                if (args[2 * i] instanceof String) {
+                    Object arg = args[2 * i + 1];
+                    if (arg != null && arg instanceof List) {
+                        intent.putList((String) args[2 * i], (List<? extends Object>)arg);
+                    } else {
+                        intent.put((String) args[2 * i], arg);
+                    }
+                }
+            }
+        }
+        setResult(RESULT_OK, intent);
     }
 
     @Override
@@ -961,6 +974,114 @@ public abstract class AfActivity extends FragmentActivity implements AfPageable,
     }
 
     /**
+     * 选择日期时间
+     * @param listener 监听器
+     */
+    public void doSelectDateTime(AfDailog.OnDateTimeSetListener listener) {
+        doSelectDateTime("", new Date(), listener);
+    }
+
+    /**
+     * 选择日期时间
+     * @param title 标题
+     * @param listener 监听器
+     */
+    public void doSelectDateTime(String title, AfDailog.OnDateTimeSetListener listener) {
+        doSelectDateTime(title, new Date(), listener);
+    }
+
+    /**
+     * 选择日期时间
+     * @param value 默认时间
+     * @param listener 监听器
+     */
+    public void doSelectDateTime(Date value, AfDailog.OnDateTimeSetListener listener) {
+        doSelectDateTime("", value, listener);
+    }
+
+    /**
+     * 选择日期时间
+     * @param title 标题
+     * @param value 默认时间
+     * @param listener 监听器
+     */
+    public void doSelectDateTime(final String title, final Date value, final AfDailog.OnDateTimeSetListener listener) {
+        new AfDailog(this).doSelectDateTime(title, value, listener);
+    }
+
+    /**
+     * 选择时间
+     * @param listener 监听器
+     */
+    public void doSelectTime(AfDailog.OnTimeSetListener listener) {
+        doSelectTime("", new Date(), listener);
+    }
+
+    /**
+     * 选择时间
+     * @param title 标题
+     * @param listener 监听器
+     */
+    public void doSelectTime(String title, AfDailog.OnTimeSetListener listener) {
+        doSelectTime(title, new Date(), listener);
+    }
+
+    /**
+     * 选择时间
+     * @param value 默认时间
+     * @param listener 监听器
+     */
+    public void doSelectTime(Date value, AfDailog.OnTimeSetListener listener) {
+        doSelectTime("", value, listener);
+    }
+
+    /**
+     * 选择时间
+     * @param title 标题
+     * @param value 默认时间
+     * @param listener 监听器
+     */
+    public void doSelectTime(String title, Date value, final AfDailog.OnTimeSetListener listener) {
+        new AfDailog(this).doSelectTime(title, value, listener);
+    }
+
+    /**
+     * 选择日期
+     * @param listener 监听器
+     */
+    public void doSelectDate(AfDailog.OnDateSetListener listener) {
+        doSelectDate("", new Date(), listener);
+    }
+
+    /**
+     * 选择日期
+     * @param title 标题
+     * @param listener 监听器
+     */
+    public void doSelectDate(String title, AfDailog.OnDateSetListener listener) {
+        doSelectDate(title, new Date(), listener);
+    }
+
+    /**
+     * 选择日期
+     * @param value 默认时间
+     * @param listener 监听器
+     */
+    public void doSelectDate(Date value, AfDailog.OnDateSetListener listener) {
+        doSelectDate("", value, listener);
+    }
+
+    /**
+     * 选择日期
+     * @param title 标题
+     * @param value 默认时间
+     * @param listener 监听器
+     */
+    public void doSelectDate(String title, Date value, AfDailog.OnDateSetListener listener) {
+        new AfDailog(this).doSelectDate(title,value, listener);
+    }
+
+    /**
      * 动态改变等待对话框的文字
      *
      * @param dialog 等待对话框
@@ -1160,29 +1281,6 @@ public abstract class AfActivity extends FragmentActivity implements AfPageable,
             AfExceptionHandler.handler(e, TAG() + ".onActivityResult");
             makeToastLong("反馈信息读取错误！", e);
         }
-    }
-
-    /**
-     * final 包装 onItemClick 事件处理 防止抛出异常崩溃
-     */
-    @Override
-    public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
-        try {
-            if (AfStackTrace.isLoopCall()) {
-                //System.out.println("递归检测");
-                return;
-            }
-            this.onItemClick(parent, view, id, position);
-        } catch (Throwable e) {
-            AfExceptionHandler.handler(e, TAG() + ".onItemClick");
-        }
-    }
-
-    /**
-     * 安全onItemClick框架会捕捉异常防止崩溃
-     */
-    protected void onItemClick(AdapterView<?> parent, View item, long id, int index) {
-
     }
 
     /**

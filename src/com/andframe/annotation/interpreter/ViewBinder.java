@@ -68,7 +68,7 @@ public class ViewBinder {
     }
 
     public void doBind(View root) {
-        this.doBind((AfViewable)new AfView(root));
+        this.doBind((AfViewable) new AfView(root));
     }
 
     public void doBind(AfViewable root) {
@@ -78,9 +78,8 @@ public class ViewBinder {
         doBindItemLongClick(root);
         doBindCheckedChange(root);
         doBindView(root);
-        doBindAfterView(root);
         doBindViewModule(root);
-        doInjectDelayed(root);
+        doBindAfterView(root);
     }
 
     private Class<?> getStopType() {
@@ -88,36 +87,6 @@ public class ViewBinder {
             return AfViewDelegate.class;
         }
         return Object.class;
-    }
-
-    private void doInjectDelayed(AfViewable root) {
-        for (final Method method : AfReflecter.getMethodAnnotation(mHandler.getClass(), getStopType(), InjectDelayed.class)) {
-            try {
-                InjectDelayed bind = method.getAnnotation(InjectDelayed.class);
-                new Timer().schedule(new AfHandlerTimerTask() {
-                    {
-                        this.mMethod = method;
-                    }
-
-                    public final Method mMethod;
-
-                    @Override
-                    protected boolean onHandleTimer(Message msg) {
-                        try {
-                            mMethod.setAccessible(true);
-                            mMethod.invoke(ViewBinder.this.mHandler);
-                        } catch (IllegalAccessException e) {
-                            e.printStackTrace();
-                        } catch (InvocationTargetException e) {
-                            e.printStackTrace();
-                        }
-                        return false;
-                    }
-                }, bind.value());
-            } catch (Throwable e) {
-                AfExceptionHandler.handler(e, TAG("doInjectDelayed.") + method.getName());
-            }
-        }
     }
 
     public void doBindViewModule(AfViewable root) {

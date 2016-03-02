@@ -39,27 +39,31 @@ public class AfBindItem<T> extends AfTreeViewItem<T> {
 
 	@Override
 	public void onHandle(AfView view) {
+		super.onHandle(view);
 		int index = 0;
 		bindViews = new View[bindMap.size()];
 		for (Entry<String, Integer> entry : bindMap.entrySet()) {
-			bindViews[index] = view.findViewById(entry.getValue());
+			if (entry.getValue() <= 0) {
+				bindViews[index] = view.getView();
+			} else {
+				bindViews[index] = view.findViewById(entry.getValue());
+			}
 			index++;
 		}
 	}
 
 	@Override
-	protected boolean onBinding(T model, int level, boolean isExpanded,
-								SelectStatus status) {
+	protected boolean onBinding(T model, int level, boolean isExpanded, SelectStatus status) {
 		int index = 0;
 		for (Entry<String, Integer> entry : bindMap.entrySet()) {
 			View view = bindViews[index];
-			String key = entry.getKey().replaceAll(":.*","");
+			String key = entry.getKey().replaceAll(":.*", "");
 			String format = entry.getKey().substring(key.length());
 			Object value;
 			if ("".equals(key)) {
 				value = model;
 			} else {
-				value = AfReflecter.getMemberNoException(model,key);
+				value = AfReflecter.getMemberNoException(model, key);
 			}
 			if (format.length() > 0) {
 				format = format.substring(1);
@@ -73,7 +77,7 @@ public class AfBindItem<T> extends AfTreeViewItem<T> {
 					if (format.length() > 0) {
 						if (format.equals("time")) {
 							textView.setText(AfDateFormat.formatTime(date));
-						} else if (format.equals("date")){
+						} else if (format.equals("date")) {
 							textView.setText(AfDateFormat.formatDate(date));
 						} else {
 							textView.setText(AfDateFormat.format(format, date));
@@ -115,8 +119,18 @@ public class AfBindItem<T> extends AfTreeViewItem<T> {
 			this.bindMap = new LinkedHashMap<String, Integer>();
 		}
 
-		public void putBindMap(String field, int viewId) {
+		public BindItemMap(Object... args) {
+			this.bindMap = new LinkedHashMap<String, Integer>();
+			for (int i = 0; i < args.length / 2; i++) {
+				if (args[2 * i] instanceof String && args[2 * i + 1] instanceof Integer) {
+					bindMap.put((String) args[2 * i], (Integer) args[2 * i + 1]);
+				}
+			}
+		}
+
+		public BindItemMap putBindMap(String field, int viewId) {
 			bindMap.put(field, viewId);
+			return this;
 		}
 
 		public int size() {
