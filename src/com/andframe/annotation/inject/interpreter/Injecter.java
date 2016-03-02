@@ -157,7 +157,17 @@ public class Injecter {
 					if (mHandler instanceof AfActivity){
 						intent = new AfIntent(((AfActivity) mHandler).getIntent());
 					} else if (mHandler instanceof AfFragment){
-						intent = new AfBundle(((AfFragment) mHandler).getArguments());
+						final AfFragment fragment = (AfFragment) this.mHandler;
+						intent = new AfBundle(fragment.getArguments()){
+							@Override
+							public <T> T get(String _key, Class<T> clazz) {
+								T t = super.get(_key, clazz);
+								if (t == null && fragment.getActivity() != null) {
+									return new AfIntent(fragment.getActivity().getIntent()).get(_key,clazz);
+								}
+								return t;
+							}
+						};
 					}
 					Class<?> clazz = field.getType();
 					Object value = intent.get(inject.value(), clazz);
