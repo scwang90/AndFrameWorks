@@ -1,7 +1,10 @@
 package com.andframe.layoutbind.framework;
 
+import android.app.Application;
+import android.view.LayoutInflater;
 import android.view.View;
 
+import com.andframe.activity.framework.AfView;
 import com.andframe.activity.framework.AfViewable;
 import com.andframe.annotation.inject.interpreter.Injecter;
 import com.andframe.annotation.view.BindLayout;
@@ -28,6 +31,31 @@ public class AfViewModule extends AfViewDelegate implements AfViewable,IViewModu
 			if (module != null) {
 				AfViewModule viewModule = module;
 				viewModule.setTarget(view.findViewByID(viewId));
+			}
+			return module;
+		} catch (Throwable e) {
+			throw new RuntimeException(e);
+		}
+	}
+
+	public static <T extends AfViewModule> T init(Class<T> clazz, AfViewable afview){
+		if (!clazz.isAnnotationPresent(BindLayout.class)) return null;
+		try {
+			T module = null;
+			int id = clazz.getAnnotation(BindLayout.class).value();
+			View view = LayoutInflater.from(afview.getContext()).inflate(id, null);
+			Constructor<?>[] constructors = clazz.getConstructors();
+			for (int i = 0; i < constructors.length && module == null; i++) {
+				Class<?>[] parameterTypes = constructors[i].getParameterTypes();
+				if (parameterTypes.length == 0) {
+					module = clazz.newInstance();
+				} else if (parameterTypes.length == 1 && AfViewable.class.isAssignableFrom(parameterTypes[0])) {
+					module = (T)constructors[i].newInstance(new AfView(view));
+				}
+			}
+			if (module != null) {
+				AfViewModule viewModule = module;
+				viewModule.setTarget(view);
 			}
 			return module;
 		} catch (Throwable e) {

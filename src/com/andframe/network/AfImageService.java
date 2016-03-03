@@ -51,7 +51,7 @@ public class AfImageService {
 		ROUNDCORNER(EFFECT_ROUNDCORNER),//
 		/*** 图片自适应大小*/
 		SELFADAPTION(EFFECT_SELFADAPTION),//
-		//以下是组合
+		//以下是组合 
 		GRAY_ROUND(EFFECT_GRAY|EFFECT_ROUND),
 		GRAY_ROUNDCORNER(EFFECT_GRAY|EFFECT_ROUNDCORNER),
 		GRAY_SELFADAPTION(EFFECT_GRAY|EFFECT_SELFADAPTION);
@@ -372,11 +372,11 @@ public class AfImageService {
 //				view.setLayoutParams(lp);
 //			}else {
 //				new Handler(AfApplication.getApp().getMainLooper()).postDelayed(new Runnable() {
-//
+//					
 //					private int count = 0;
 //					private float mAspectRatio  = AspectRatio;
 //					private ImageView mView = view;
-//
+//					
 //					@Override
 //					public void run() {
 //						while (count++ < 100) {
@@ -422,8 +422,15 @@ public class AfImageService {
 		// 如果失败从网络上加载数据
 		if (idefault == 0 && image != null) {
 			bindImageBitmap(view,listener,image,effect);
-		} else if (idefault > 0){
-			view.setImageResource(idefault);
+		} else if (idefault > 0) {
+			if (effect == 0) {
+				view.setImageResource(idefault);
+			} else {
+				AfApplication app = AfApplication.getApp();
+				Drawable drawable = app.getResources().getDrawable(idefault);
+				BitmapDrawable bitmap = (BitmapDrawable) drawable;
+				bindImageBitmap(view,listener,bitmap,effect);
+			}
 		}
 	}
 

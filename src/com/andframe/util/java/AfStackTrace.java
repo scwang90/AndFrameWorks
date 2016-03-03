@@ -4,14 +4,15 @@ import java.lang.annotation.Annotation;
 import java.lang.reflect.Method;
 
 /**
- * java堆栈工具类 1.可以查看当前函数名称 2.可以判断当前函数是否已经递归调用
+ * java堆栈工具类
+ * 1.可以查看当前函数名称
+ * 2.可以判断当前函数是否已经递归调用
  * @author 树朾
  */
 public class AfStackTrace {
 
 	/**
 	 *  获取调用 getCurrentStatck 的 Statck
-	 * @author 树朾
 	 * @return 调用getCurrentStatck的Statck
 	 */
 	public static StackTraceElement getCurrentStatck() {
@@ -36,7 +37,6 @@ public class AfStackTrace {
 	/**
 	 *  获取调用 getCurrentStatck 的 Method
 	 * 暂时不支持重载方法
-	 * @author 树朾
 	 * @return 调用getCurrentStatck的Statck
 	 */
 	public static Method getCurrentMethod() {
@@ -55,14 +55,25 @@ public class AfStackTrace {
 	}
 
 	/**
-	 *  获取调用 getCurrentStatck 的 Method
+	 * 获取调用 getCurrentMethodAnnotation 的 Method 的 Annotation注解
 	 * 暂时不支持重载方法
-	 * @author 树朾
-	 * @return 调用getCurrentStatck的Statck
+	 * @param annotation 注解
+	 * @return Method 的 Annotation
 	 */
 	public static <T extends Annotation> T getCurrentMethodAnnotation(Class<T> annotation) {
+		return getCurrentMethodAnnotation(annotation,0);
+	}
+
+	/**
+	 * 获取调用 getCurrentMethodAnnotation 的 Method 的 Annotation注解
+	 * 暂时不支持重载方法
+	 * @param annotation 注解
+	 * @param level 向上层数 默认为0
+	 * @return Method 的 Annotation
+	 */
+	public static <T extends Annotation> T getCurrentMethodAnnotation(Class<T> annotation, int level) {
 		try {
-			StackTraceElement stack = new Throwable().getStackTrace()[1];
+			StackTraceElement stack = new Throwable().getStackTrace()[1 + level];
 			String methodName = stack.getMethodName();
 			for (Method method : Class.forName(stack.getClassName()).getMethods()) {
 				if (method.getName().endsWith(methodName)) {
@@ -74,10 +85,39 @@ public class AfStackTrace {
 		}
 		return null;
 	}
-	
+
+	/**
+	 * 获取调用 getCurrentMethodClassAnnotation 的 Method 的 Class的 Annotation注解
+	 * 暂时不支持重载方法
+	 * @param annotation 注解
+	 * @return Method 的 Class的 的 Annotation
+	 */
+	public static <T extends Annotation> T getCurrentMethodClassAnnotation(Class<T> annotation) {
+		return getCurrentMethodClassAnnotation(annotation, 0);
+	}
+
+	/**
+	 * 获取调用 getCurrentMethodClassAnnotation 的 Method 的 Class的 Annotation注解
+	 * 暂时不支持重载方法
+	 * @param annotation 注解
+	 * @param level 向上层数 默认为0
+	 * @return Method 的 Class的 的 Annotation
+	 */
+	public static <T extends Annotation> T getCurrentMethodClassAnnotation(Class<T> annotation, int level) {
+		try {
+			StackTraceElement stack = new Throwable().getStackTrace()[1 + level];
+			Class<?> clazz = Class.forName(stack.getClassName());
+			if (clazz.isAnnotationPresent(annotation)) {
+				return clazz.getAnnotation(annotation);
+			}
+		} catch (ClassNotFoundException e) {
+			e.printStackTrace();
+		}
+		return null;
+	}
+
 	/**
 	 *  判断调用isLoopCall 的方法是否已经被循环递归调用
-	 * @author 树朾
 	 * @return true 已经递归 false 没有递归
 	 */
 	public static boolean isLoopCall() {
