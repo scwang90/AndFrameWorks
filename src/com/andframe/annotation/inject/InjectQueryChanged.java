@@ -20,5 +20,5 @@ public @interface InjectQueryChanged {
      * 默认false允许异常
      * @return true 不允许异常
      */
-    public boolean value() default false;
+    boolean value() default false;
 }

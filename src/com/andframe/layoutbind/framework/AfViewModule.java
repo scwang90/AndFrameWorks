@@ -1,16 +1,15 @@
 package com.andframe.layoutbind.framework;
 
-import android.app.Application;
 import android.view.LayoutInflater;
 import android.view.View;
 
 import com.andframe.activity.framework.AfView;
 import com.andframe.activity.framework.AfViewable;
-import com.andframe.annotation.inject.interpreter.Injecter;
+import com.andframe.annotation.interpreter.Injecter;
+import com.andframe.annotation.interpreter.ViewBinder;
 import com.andframe.annotation.view.BindLayout;
 import com.andframe.application.AfApplication;
 import com.andframe.application.AfExceptionHandler;
-import com.andframe.annotation.interpreter.ViewBinder;
 
 import java.lang.reflect.Constructor;
 
@@ -82,19 +81,17 @@ public class AfViewModule extends AfViewDelegate implements AfViewable,IViewModu
 
 	private void setTarget(View target) {
 		this.target = target;
-		this.onCreated(target);
+		this.onCreated(new AfView(target));
 	}
 
-	protected void onCreated(View target) {
+	protected void onCreated(AfView target) {
 		this.doInject();
 	}
 
 	protected void doInject(){
 		if(isValid()){
-			ViewBinder binder = new ViewBinder(this);
-			binder.doBind(target);
-			Injecter injecter = new Injecter(this);
-			injecter.doInject(getContext());
+			Injecter.doInject(this, getContext());
+			ViewBinder.doBind(this, target);
 		}
 	}
 

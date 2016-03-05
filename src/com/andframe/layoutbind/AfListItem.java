@@ -4,7 +4,7 @@ import android.view.View;
 
 import com.andframe.activity.framework.AfView;
 import com.andframe.adapter.AfListAdapter.IAfLayoutItem;
-import com.andframe.annotation.inject.interpreter.Injecter;
+import com.andframe.annotation.interpreter.Injecter;
 import com.andframe.annotation.interpreter.ViewBinder;
 import com.andframe.annotation.view.BindLayout;
 
@@ -34,10 +34,8 @@ public abstract class AfListItem<T> implements IAfLayoutItem<T>{
 
 	@Override
 	public void onHandle(AfView view) {
-		ViewBinder binder = new ViewBinder(this);
-		binder.doBind(mLayout = view.getView());
-		Injecter injecter = new Injecter(this);
-		injecter.doInject(view.getContext());
+		ViewBinder.doBind(this, mLayout = view.getView());
+		Injecter.doInject(this, view.getContext());
 	}
 
 	public View getLayout() {

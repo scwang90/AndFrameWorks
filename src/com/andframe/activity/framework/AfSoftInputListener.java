@@ -2,12 +2,12 @@ package com.andframe.activity.framework;
 
 
 /**
- * 框架页面监听接口 AfSoftInputPageListener
+ * 框架页面监听接口 AfSoftInputListener
  * @author 树朾
  * 	主要监听键盘显示和隐藏
  * 	页面需要查询数据变动
  */
-public interface AfSoftInputPageListener {
+public interface AfSoftInputListener {
 	/**
 	 * 当软键盘显示
 	 */

@@ -40,8 +40,18 @@ public class AfStackTrace {
 	 * @return 调用getCurrentStatck的Statck
 	 */
 	public static Method getCurrentMethod() {
+		return getCurrentMethod(0);
+	}
+
+	/**
+	 * 获取调用 getCurrentStatck 的 Method
+	 * 暂时不支持重载方法
+	 * @param level 向上层数 默认为0
+	 * @return 调用getCurrentStatck的Statck
+	 */
+	public static Method getCurrentMethod(int level) {
 		try {
-			StackTraceElement stack = new Throwable().getStackTrace()[1];
+			StackTraceElement stack = new Throwable().getStackTrace()[1 + level];
 			String methodName = stack.getMethodName();
 			for (Method method : Class.forName(stack.getClassName()).getMethods()) {
 				if (method.getName().endsWith(methodName)) {
@@ -93,7 +103,7 @@ public class AfStackTrace {
 	 * @return Method 的 Class的 的 Annotation
 	 */
 	public static <T extends Annotation> T getCurrentMethodClassAnnotation(Class<T> annotation) {
-		return getCurrentMethodClassAnnotation(annotation, 0);
+		return getCurrentMethodClassAnnotation(annotation,0);
 	}
 
 	/**

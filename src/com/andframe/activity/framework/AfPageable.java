@@ -9,13 +9,17 @@ import android.text.InputType;
 import android.view.View;
 import android.widget.EditText;
 
+import com.andframe.feature.AfDailog;
 import com.andframe.thread.AfTask;
+
+import java.util.Date;
+
 /**
  * 框架页面接口 AfPageable
  * @author 树朾
  * 继承了 AfViewable 
  */
-public interface AfPageable extends AfViewable,AfSoftInputPageListener {
+public interface AfPageable extends AfViewable, AfSoftInputListener {
 
 	/**
 	 * 抛送任务到Worker执行
@@ -36,7 +40,7 @@ public interface AfPageable extends AfViewable,AfSoftInputPageListener {
 	 * @return 相关的 Activity
 	 */
 	Activity getActivity();
-	
+
 	String getString(int resid);
 
 	void makeToastLong(String tip);
@@ -60,14 +64,14 @@ public interface AfPageable extends AfViewable,AfSoftInputPageListener {
 	 * @return true 打开 false 关闭
 	 */
 	boolean getSoftInputStatus();
-	
+
 	/**
 	 * 获取软键盘大打开状态
 	 * @param view 关联view
 	 * @return true 打开 false 关闭
 	 */
 	boolean getSoftInputStatus(View view);
-	
+
 	/**
 	 * 设置软键盘显示和关闭
 	 * @param enable 显示或者关闭
@@ -94,14 +98,14 @@ public interface AfPageable extends AfViewable,AfSoftInputPageListener {
 	 * @param textsize 字体大小
 	 */
 	void showProgressDialog(String message, boolean cancel,
-			int textsize);
+							int textsize);
 
 	/**
 	 * 显示 进度对话框
 	 * @param message 消息
 	 */
 	void showProgressDialog(String message,
-			OnCancelListener listener);
+							OnCancelListener listener);
 
 	/**
 	 * 显示 进度对话框
@@ -109,7 +113,7 @@ public interface AfPageable extends AfViewable,AfSoftInputPageListener {
 	 * @param textsize 字体大小
 	 */
 	void showProgressDialog(String message,
-			OnCancelListener listener, int textsize);
+							OnCancelListener listener, int textsize);
 
 	/**
 	 * 隐藏 进度对话框
@@ -126,6 +130,12 @@ public interface AfPageable extends AfViewable,AfSoftInputPageListener {
 	 * 	省去创建 Intent 的代码
 	 */
 	void startActivity(Class<? extends AfActivity> tclass);
+	/**
+	 * 快速启动 AfActivity
+	 * @param tclass
+	 * 	省去创建 Intent 的代码
+	 */
+	void startActivity(Class<? extends AfActivity> tclass,Object... args);
 
 	/**
 	 * 快速启动 AfActivity ForResult
@@ -134,7 +144,15 @@ public interface AfPageable extends AfViewable,AfSoftInputPageListener {
 	 * 	省去创建 Intent 的代码
 	 */
 	void startActivityForResult(Class<? extends AfActivity> tclass,int request);
-	
+
+	/**
+	 * 快速启动 AfActivity ForResult
+	 * @param tclass
+	 * @param request
+	 * 	省去创建 Intent 的代码
+	 */
+	void startActivityForResult(Class<? extends AfActivity> tclass,int request,Object... args);
+
 
 	/**
 	 * 显示对话框 并添加默认按钮 "我知道了"
@@ -167,8 +185,8 @@ public interface AfPageable extends AfViewable,AfSoftInputPageListener {
 	 * @param lnegative 点击  拒绝 按钮 响应事件
 	 */
 	void doShowDialog(String title, String message,
-			String positive, OnClickListener lpositive, String negative,
-			OnClickListener lnegative) ;
+					  String positive, OnClickListener lpositive, String negative,
+					  OnClickListener lnegative) ;
 
 	/**
 	 * 显示对话框 
@@ -181,8 +199,8 @@ public interface AfPageable extends AfViewable,AfSoftInputPageListener {
 	 * @param lnegative 点击  拒绝 按钮 响应事件
 	 */
 	void doShowDialog(int iconres, String title, String message,
-			String positive, OnClickListener lpositive, String negative,
-			OnClickListener lnegative);
+					  String positive, OnClickListener lpositive, String negative,
+					  OnClickListener lnegative);
 
 	/**
 	 * 显示对话框 
@@ -196,10 +214,10 @@ public interface AfPageable extends AfViewable,AfSoftInputPageListener {
 	 * @param lnegative 点击  拒绝 按钮 响应事件
 	 */
 	void doShowDialog(String title, String message,
-			String positive, OnClickListener lpositive, 
-			String neutral, OnClickListener lneutral, 
-			String negative,OnClickListener lnegative);
-	
+					  String positive, OnClickListener lpositive,
+					  String neutral, OnClickListener lneutral,
+					  String negative,OnClickListener lnegative);
+
 	/**
 	 * 显示对话框 
 	 * @param iconres 对话框图标
@@ -213,9 +231,9 @@ public interface AfPageable extends AfViewable,AfSoftInputPageListener {
 	 * @param lnegative 点击  拒绝 按钮 响应事件
 	 */
 	void doShowDialog(int iconres, String title, String message,
-			String positive, OnClickListener lpositive, 
-			String neutral, OnClickListener lneutral, 
-			String negative,OnClickListener lnegative);
+					  String positive, OnClickListener lpositive,
+					  String neutral, OnClickListener lneutral,
+					  String negative,OnClickListener lnegative);
 
 	/**
 	 * 显示对话框 
@@ -231,10 +249,10 @@ public interface AfPageable extends AfViewable,AfSoftInputPageListener {
 	 * @param lnegative 点击  拒绝 按钮 响应事件
 	 */
 	void doShowDialog(int theme,int iconres, String title, String message,
-			String positive, OnClickListener lpositive, 
-			String neutral, OnClickListener lneutral, 
-			String negative,OnClickListener lnegative);
-	
+					  String positive, OnClickListener lpositive,
+					  String neutral, OnClickListener lneutral,
+					  String negative,OnClickListener lnegative);
+
 	/**
 	 * 显示视图对话框 
 	 * @param title 显示标题
@@ -243,7 +261,7 @@ public interface AfPageable extends AfViewable,AfSoftInputPageListener {
 	 * @param lpositive 点击  确认 按钮 响应事件
 	 */
 	void doShowViewDialog(String title, View view,String positive, OnClickListener lpositive);
-	
+
 	/**
 	 * 显示视图对话框 
 	 * @param title 显示标题
@@ -254,9 +272,9 @@ public interface AfPageable extends AfViewable,AfSoftInputPageListener {
 	 * @param lnegative 点击  拒绝 按钮 响应事件
 	 */
 	void doShowViewDialog(String title, View view,
-			String positive, OnClickListener lpositive, String negative,
-			OnClickListener lnegative);
-	
+						  String positive, OnClickListener lpositive, String negative,
+						  OnClickListener lnegative);
+
 	/**
 	 * 显示视图对话框 
 	 * @param title 显示标题
@@ -269,9 +287,9 @@ public interface AfPageable extends AfViewable,AfSoftInputPageListener {
 	 * @param lnegative 点击  拒绝 按钮 响应事件
 	 */
 	void doShowViewDialog(String title, View view,
-			String positive, OnClickListener lpositive, 
-			String neutral, OnClickListener lneutral, 
-			String negative,OnClickListener lnegative) ;
+						  String positive, OnClickListener lpositive,
+						  String neutral, OnClickListener lneutral,
+						  String negative,OnClickListener lnegative) ;
 	/**
 	 * 显示视图对话框 
 	 * @param iconres 对话框图标
@@ -283,8 +301,8 @@ public interface AfPageable extends AfViewable,AfSoftInputPageListener {
 	 * @param lnegative 点击  negative 按钮 响应事件
 	 */
 	void doShowViewDialog(int iconres, String title, View view,
-			String positive, OnClickListener lpositive, String negative,
-			OnClickListener lnegative);
+						  String positive, OnClickListener lpositive, String negative,
+						  OnClickListener lnegative);
 
 	/**
 	 * 显示视图对话框 
@@ -299,9 +317,9 @@ public interface AfPageable extends AfViewable,AfSoftInputPageListener {
 	 * @param lnegative 点击  拒绝 按钮 响应事件
 	 */
 	void doShowViewDialog(int iconres, String title, View view,
-			String positive, OnClickListener lpositive, 
-			String neutral, OnClickListener lneutral, 
-			String negative,OnClickListener lnegative) ;
+						  String positive, OnClickListener lpositive,
+						  String neutral, OnClickListener lneutral,
+						  String negative,OnClickListener lnegative) ;
 
 	/**
 	 * 显示视图对话框 
@@ -317,9 +335,9 @@ public interface AfPageable extends AfViewable,AfSoftInputPageListener {
 	 * @param lnegative 点击  拒绝 按钮 响应事件
 	 */
 	void doShowViewDialog(int theme,int iconres, String title, View view,
-			String positive, OnClickListener lpositive, 
-			String neutral, OnClickListener lneutral, 
-			String negative,OnClickListener lnegative) ;
+						  String positive, OnClickListener lpositive,
+						  String neutral, OnClickListener lneutral,
+						  String negative,OnClickListener lnegative) ;
 
 	/**
 	 * 显示一个单选对话框 
@@ -337,7 +355,7 @@ public interface AfPageable extends AfViewable,AfSoftInputPageListener {
 	 * @param listener 选择监听器
 	 */
 	void doSelectItem(String title,String[] items,OnClickListener listener);
-	
+
 	/**
 	 * 显示一个单选对话框 （设置可取消）
 	 * @param title 对话框标题
@@ -346,7 +364,7 @@ public interface AfPageable extends AfViewable,AfSoftInputPageListener {
 	 * @param cancel 是否可以取消
 	 */
 	void doSelectItem(String title,String[] items,OnClickListener listener,boolean cancel);
-	
+
 
 	/**
 	 * doInputText 的监听器
@@ -367,9 +385,9 @@ public interface AfPageable extends AfViewable,AfSoftInputPageListener {
 	/**
 	 * 密码输入类型
 	 */
-	static final int INPUTTYPE_PASSWORD =  InputType.TYPE_CLASS_TEXT 
-	| InputType.TYPE_TEXT_VARIATION_PASSWORD;
-	
+	static final int INPUTTYPE_PASSWORD =  InputType.TYPE_CLASS_TEXT
+			| InputType.TYPE_TEXT_VARIATION_PASSWORD;
+
 	/**
 	 * 弹出一个文本输入框
 	 * @param title 标题
@@ -427,9 +445,9 @@ public interface AfPageable extends AfViewable,AfSoftInputPageListener {
 	 * @param lnegative 点击  拒绝 按钮 响应事件
 	 */
 	void doShowDialog(String key, int defclick,
-							 String title, String message,
-							 String positive, OnClickListener lpositive,
-							 String negative, OnClickListener lnegative) ;
+					  String title, String message,
+					  String positive, OnClickListener lpositive,
+					  String negative, OnClickListener lnegative) ;
 
 	/**
 	 * 显示对话框
@@ -446,10 +464,10 @@ public interface AfPageable extends AfViewable,AfSoftInputPageListener {
 	 * @param lnegative 点击  拒绝 按钮 响应事件
 	 */
 	void doShowDialog(String key, int defclick,
-							 String title, String message,
-							 String positive, OnClickListener lpositive,
-							 String neutral, OnClickListener lneutral,
-							 String negative, OnClickListener lnegative) ;
+					  String title, String message,
+					  String positive, OnClickListener lpositive,
+					  String neutral, OnClickListener lneutral,
+					  String negative, OnClickListener lnegative) ;
 
 	/**
 	 * 显示对话框
@@ -465,9 +483,9 @@ public interface AfPageable extends AfViewable,AfSoftInputPageListener {
 	 * @param lnegative 点击  拒绝 按钮 响应事件
 	 */
 	void doShowDialog(String key, int defclick,
-							 int iconres, String title, String message,
-							 String positive, OnClickListener lpositive,
-							 String negative, OnClickListener lnegative) ;
+					  int iconres, String title, String message,
+					  String positive, OnClickListener lpositive,
+					  String negative, OnClickListener lnegative) ;
 
 	/**
 	 * 显示对话框
@@ -485,10 +503,10 @@ public interface AfPageable extends AfViewable,AfSoftInputPageListener {
 	 * @param lnegative 点击  拒绝 按钮 响应事件
 	 */
 	void doShowDialog(String key, int defclick,
-							 int iconres, String title, String message,
-							 String positive, OnClickListener lpositive,
-							 String neutral, OnClickListener lneutral,
-							 String negative, OnClickListener lnegative);
+					  int iconres, String title, String message,
+					  String positive, OnClickListener lpositive,
+					  String neutral, OnClickListener lneutral,
+					  String negative, OnClickListener lnegative);
 
 
 	/**
@@ -508,9 +526,94 @@ public interface AfPageable extends AfViewable,AfSoftInputPageListener {
 	 * @param lnegative 点击  拒绝 按钮 响应事件
 	 */
 	void doShowDialog(String key, int defclick,
-							 int theme, int iconres,
-							 String title, String message,
-							 String positive, OnClickListener lpositive,
-							 String neutral, OnClickListener lneutral,
-							 String negative, OnClickListener lnegative);
+					  int theme, int iconres,
+					  String title, String message,
+					  String positive, OnClickListener lpositive,
+					  String neutral, OnClickListener lneutral,
+					  String negative, OnClickListener lnegative);
+
+
+	/**
+	 * 选择日期时间
+	 * @param listener 监听器
+	 */
+	void doSelectDateTime(AfDailog.OnDateTimeSetListener listener);
+
+	/**
+	 * 选择日期时间
+	 * @param title 标题
+	 * @param listener 监听器
+	 */
+	void doSelectDateTime(String title, AfDailog.OnDateTimeSetListener listener);
+
+	/**
+	 * 选择日期时间
+	 * @param value 默认时间
+	 * @param listener 监听器
+	 */
+	void doSelectDateTime(Date value, AfDailog.OnDateTimeSetListener listener);
+
+	/**
+	 * 选择日期时间
+	 * @param title 标题
+	 * @param value 默认时间
+	 * @param listener 监听器
+	 */
+	void doSelectDateTime(final String title, final Date value, final AfDailog.OnDateTimeSetListener listener);
+
+	/**
+	 * 选择时间
+	 * @param listener 监听器
+	 */
+	void doSelectTime(AfDailog.OnTimeSetListener listener);
+
+	/**
+	 * 选择时间
+	 * @param title 标题
+	 * @param listener 监听器
+	 */
+	void doSelectTime(String title, AfDailog.OnTimeSetListener listener);
+
+	/**
+	 * 选择时间
+	 * @param value 默认时间
+	 * @param listener 监听器
+	 */
+	void doSelectTime(Date value, AfDailog.OnTimeSetListener listener);
+
+	/**
+	 * 选择时间
+	 * @param title 标题
+	 * @param value 默认时间
+	 * @param listener 监听器
+	 */
+	void doSelectTime(String title, Date value, final AfDailog.OnTimeSetListener listener);
+
+	/**
+	 * 选择日期
+	 * @param listener 监听器
+	 */
+	void doSelectDate(AfDailog.OnDateSetListener listener);
+
+	/**
+	 * 选择日期
+	 * @param title 标题
+	 * @param listener 监听器
+	 */
+	void doSelectDate(String title, AfDailog.OnDateSetListener listener);
+
+	/**
+	 * 选择日期
+	 * @param value 默认时间
+	 * @param listener 监听器
+	 */
+	void doSelectDate(Date value, AfDailog.OnDateSetListener listener);
+
+	/**
+	 * 选择日期
+	 * @param title 标题
+	 * @param value 默认时间
+	 * @param listener 监听器
+	 */
+	void doSelectDate(String title, Date value, AfDailog.OnDateSetListener listener);
 }

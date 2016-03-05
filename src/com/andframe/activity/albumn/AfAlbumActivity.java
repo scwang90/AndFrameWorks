@@ -113,7 +113,7 @@ public abstract class AfAlbumActivity extends AfActivity
 	protected void onCreate(Bundle bundle, AfIntent intent) throws Exception {
 		super.onCreate(bundle, intent);
 
-		if (mRoot == null) {
+		if (mRootView == null) {
 			setContentView(getAlbumLayoutId());
 		}
 

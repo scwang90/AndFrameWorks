@@ -24,7 +24,7 @@ import android.widget.EditText;
 import android.widget.TextView;
 import android.widget.Toast;
 
-import com.andframe.annotation.inject.interpreter.Injecter;
+import com.andframe.annotation.interpreter.Injecter;
 import com.andframe.annotation.interpreter.LayoutBinder;
 import com.andframe.annotation.interpreter.ViewBinder;
 import com.andframe.application.AfApplication;
@@ -115,7 +115,7 @@ public abstract class AfActivity extends FragmentActivity implements AfPageable 
     public static final int LP_MP = LayoutParams.MATCH_PARENT;
     public static final int LP_WC = LayoutParams.WRAP_CONTENT;
 
-    protected View mRoot = null;
+    protected View mRootView = null;
     protected ProgressDialog mProgress;
     protected AfThreadWorker mWorker = null;
 
@@ -212,10 +212,8 @@ public abstract class AfActivity extends FragmentActivity implements AfPageable 
     @Override
     public void setContentView(View view, LayoutParams params) {
         super.setContentView(view, params);
-        mRoot = view;
-        ViewBinder binder;
-        binder = new ViewBinder(this);
-        binder.doBind(view);
+        mRootView = view;
+        ViewBinder.doBind(this,view);
         AfSoftInputer inputer = new AfSoftInputer(this);
         inputer.setBindListener(view, this);
     }
@@ -239,6 +237,7 @@ public abstract class AfActivity extends FragmentActivity implements AfPageable 
         super.onResume();
         try {
             getAfApplication().setCurActivity(this, this);
+            Injecter.doInjectQueryChanged(this);
             this.onQueryChanged();
         } catch (Throwable ex) {
             AfExceptionHandler.handler(ex, "AfActivity.onResume");
@@ -263,7 +262,7 @@ public abstract class AfActivity extends FragmentActivity implements AfPageable 
      * 查询系统数据变动
      */
     public void onQueryChanged() {
-        new Injecter(this).doInjectQueryChanged();
+
     }
 
     /**
@@ -1224,10 +1223,8 @@ public abstract class AfActivity extends FragmentActivity implements AfPageable 
                 super.onCreate(bundle);
                 return;
             }
-            Injecter injecter = new Injecter(this);
-            injecter.doInject(this);
-            LayoutBinder binder = new LayoutBinder(this);
-            binder.doBind();
+            Injecter.doInject(this);
+            LayoutBinder.doBind(this);
             this.onCreate(bundle, new AfIntent(getIntent()));
         } catch (final Throwable e) {
             //handler 可能会根据 Activity 弹窗提示错误信息

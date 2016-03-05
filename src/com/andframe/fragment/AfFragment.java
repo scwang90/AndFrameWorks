@@ -25,7 +25,7 @@ import android.widget.Toast;
 import com.andframe.activity.framework.AfActivity;
 import com.andframe.activity.framework.AfPageable;
 import com.andframe.activity.framework.AfView;
-import com.andframe.annotation.inject.interpreter.Injecter;
+import com.andframe.annotation.interpreter.Injecter;
 import com.andframe.annotation.interpreter.ViewBinder;
 import com.andframe.annotation.view.BindLayout;
 import com.andframe.application.AfApplication;
@@ -267,7 +267,12 @@ public abstract class AfFragment extends Fragment implements AfPageable {
     @Override
     public void onResume() {
         super.onResume();
-        this.onQueryChanged();
+        try {
+            Injecter.doInjectQueryChanged(this);
+            this.onQueryChanged();
+        } catch (Throwable ex) {
+            AfExceptionHandler.handler(ex, "AfFragment.onResume");
+        }
     }
 
     @Override
@@ -286,11 +291,8 @@ public abstract class AfFragment extends Fragment implements AfPageable {
             mRootView = super.onCreateView(inflater, container, bundle);
         }
         try {
-//			mRootView.getViewTreeObserver().addOnGlobalLayoutListener(this);
-            ViewBinder binder = new ViewBinder(this);
-            binder.doBind(this);
-            Injecter injecter = new Injecter(this);
-            injecter.doInject(getActivity());
+            ViewBinder.doBind(this);
+            Injecter.doInject(this,getActivity());
             AfSoftInputer inputer = new AfSoftInputer(getActivity());
             inputer.setBindListener(mRootView, this);
             onCreated(new AfView(mRootView), new AfBundle(getArguments()));
@@ -340,8 +342,8 @@ public abstract class AfFragment extends Fragment implements AfPageable {
     /**
      * 查询系统数据变动
      */
+    @Override
     public void onQueryChanged() {
-        new Injecter(this).doInjectQueryChanged();
     }
 
 

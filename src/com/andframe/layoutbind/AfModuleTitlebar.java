@@ -1,6 +1,7 @@
 package com.andframe.layoutbind;
 
 import android.app.Activity;
+import android.app.Dialog;
 import android.view.MenuItem;
 import android.view.View;
 import android.widget.ImageView;
@@ -8,6 +9,7 @@ import android.widget.TextView;
 
 import com.andframe.activity.framework.AfPageable;
 import com.andframe.activity.framework.AfView;
+import com.andframe.activity.framework.AfViewable;
 import com.andframe.application.AfApplication;
 import com.andframe.application.AfExceptionHandler;
 import com.andframe.widget.popupmenu.OnMenuItemClickListener;
@@ -34,37 +36,44 @@ public abstract class AfModuleTitlebar extends AfLayoutAlpha implements View.OnC
 
 	protected Map<String, Integer> mMeuns = new HashMap<>();
 	protected OnMenuItemClickListener mListener = null;
+	protected WeakReference<Dialog> mWeakRefDialog = null;
 	protected WeakReference<Activity> mWeakRefActivity = null;
 	protected View.OnClickListener mBtCustomClickListener;
 
-	public AfModuleTitlebar(AfPageable page, int id) {
-		this(page, FUNCTION_NONE, id);
+	public AfModuleTitlebar(AfViewable view, int id) {
+		this(view, FUNCTION_NONE, id);
 	}
 
-	public AfModuleTitlebar(AfPageable page, String title, int id) {
-		this(page, FUNCTION_NONE, id);
+	public AfModuleTitlebar(AfViewable view, String title, int id) {
+		this(view, FUNCTION_NONE, id);
 		setTitle(title);
 	}
-	public AfModuleTitlebar(AfPageable page, int function, int id) {
-		super(page, id);
+	public AfModuleTitlebar(AfViewable view, int function, int id) {
+		super(view, id);
+		bindWeakReference(view);
 		if (isValid()) {
-			initView(page, function);
+			initView(view, function);
+		}
+	}
+
+	private void bindWeakReference(AfViewable view) {
+		if (view instanceof Dialog) {
+			mWeakRefDialog = new WeakReference<>(((Dialog) view));
+		} else if (view instanceof Activity) {
+			mWeakRefActivity = new WeakReference<>(((Activity) view));
+		} else if (target != null && target.getContext() instanceof Activity) {
+			mWeakRefActivity = new WeakReference<>(((Activity) target.getContext()));
 		}
 	}
 
 	@Override
-	protected void onCreated(View target) {
+	protected void onCreated(AfView target) {
 		super.onCreated(target);
 		if (target != null) {
 			mBtGoBack = target.findViewById(getBtGoBackId());
-			mBtRightImg = new AfView(target).findViewById(getRightImgId(), ImageView.class);
-			mBtRightTxt = new AfView(target).findViewById(getRightTxtId(), TextView.class);
-			mTvTitle = new AfView(target).findViewById(getTitleTextId(), TextView.class);
-			if (target.getContext() instanceof Activity) {
-				mWeakRefActivity = new WeakReference<>(((Activity) target.getContext()));
-			} else {
-				mWeakRefActivity = new WeakReference<>(null);
-			}
+			mBtRightImg = target.findViewById(getRightImgId(), ImageView.class);
+			mBtRightTxt = target.findViewById(getRightTxtId(), TextView.class);
+			mTvTitle = target.findViewById(getTitleTextId(), TextView.class);
 			mMeuns = new HashMap<>();
 			mBtRightImg.setOnClickListener(this);
 			mBtGoBack.setOnClickListener(this);
@@ -73,11 +82,10 @@ public abstract class AfModuleTitlebar extends AfLayoutAlpha implements View.OnC
 		}
 	}
 
-	protected void initView(AfPageable page, int function) {
-		mBtGoBack = page.findViewById(getBtGoBackId());
-		mBtRightImg = page.findViewById(getRightImgId(), ImageView.class);
-		mTvTitle = page.findViewById(getTitleTextId(), TextView.class);
-		mWeakRefActivity = new WeakReference<>(page.getActivity());
+	protected void initView(AfViewable view, int function) {
+		mBtGoBack = view.findViewById(getBtGoBackId());
+		mBtRightImg = view.findViewById(getRightImgId(), ImageView.class);
+		mTvTitle = view.findViewById(getTitleTextId(), TextView.class);
 		mMeuns = new HashMap<>();
 		mBtRightImg.setOnClickListener(this);
 		mBtGoBack.setOnClickListener(this);
@@ -112,28 +120,34 @@ public abstract class AfModuleTitlebar extends AfLayoutAlpha implements View.OnC
 
 	@Override
 	public void onClick(View v) {
-		if (mWeakRefActivity != null) {
-			if (v.getId() == getBtGoBackId()) {
+		if (v.getId() == getBtGoBackId()) {
+			if (mWeakRefDialog != null) {
+				Dialog dialog = mWeakRefDialog.get();
+				if (dialog != null) {
+					dialog.dismiss();
+				}
+			}
+			if (mWeakRefActivity != null) {
 				Activity activity = mWeakRefActivity.get();
 				if (activity != null) {
 					activity.finish();
 				}
-			} else /*if (v.getId() == getRightImgId())*/ {
-				if (mFunction == FUNCTION_MENU) {
-					PopupMenu pm = new PopupMenu(v.getContext(), v);
-					if (pm.isValid()) {
-						for (Map.Entry<String, Integer> entry : mMeuns.entrySet()) {
-							pm.getMenu().add(1, entry.getValue(), 0, entry.getKey());
-						}
-						pm.setOnMenuItemClickListener(this);
-						pm.show();
+			}
+		} else /*if (v.getId() == getRightImgId())*/ {
+			if (mFunction == FUNCTION_MENU) {
+				PopupMenu pm = new PopupMenu(v.getContext(), v);
+				if (pm.isValid()) {
+					for (Map.Entry<String, Integer> entry : mMeuns.entrySet()) {
+						pm.getMenu().add(1, entry.getValue(), 0, entry.getKey());
 					}
-				} else if (mFunction == FUNCTION_CUSTOM && mBtCustomClickListener != null) {
-					try {
-						mBtCustomClickListener.onClick(v);
-					} catch (Throwable e) {
-						AfExceptionHandler.handler(e, "AfModuleTitlebarImpl.mBtAdd.onClick");
-					}
+					pm.setOnMenuItemClickListener(this);
+					pm.show();
+				}
+			} else if (mFunction == FUNCTION_CUSTOM && mBtCustomClickListener != null) {
+				try {
+					mBtCustomClickListener.onClick(v);
+				} catch (Throwable e) {
+					AfExceptionHandler.handler(e, "AfModuleTitlebarImpl.mBtAdd.onClick");
 				}
 			}
 		}
@@ -227,4 +241,5 @@ public abstract class AfModuleTitlebar extends AfLayoutAlpha implements View.OnC
 		}
 		return false;
 	}
+
 }

@@ -1,6 +1,7 @@
 package com.andframe.annotation.interpreter;
 
 import android.app.Activity;
+import android.app.Dialog;
 
 import com.andframe.annotation.view.BindLayout;
 import com.andframe.application.AfExceptionHandler;
@@ -11,23 +12,14 @@ import com.andframe.application.AfExceptionHandler;
  */
 public class LayoutBinder {
 
-    private Object mHandler;
-
-    public LayoutBinder(Object handler) {
-        mHandler = handler;
-    }
-
-    protected String TAG(String tag) {
-        return "LayoutBinder(" + mHandler.getClass().getName() + ")." + tag;
-    }
-
-    public void doBind() {
-        if (mHandler instanceof Activity) {
-            this.doBind((Activity) (mHandler));
+    protected static String TAG(Object obj,String tag) {
+        if (obj == null) {
+            return "LayoutBinder." + tag;
         }
+        return "LayoutBinder(" + obj.getClass().getName() + ")." + tag;
     }
 
-    private void doBind(Activity activity) {
+    public static void doBind(Activity activity) {
         try{
             Class<? extends Activity> clazz = activity.getClass();
             if (clazz.isAnnotationPresent(BindLayout.class)) {
@@ -35,7 +27,19 @@ public class LayoutBinder {
                 activity.setContentView(annotation.value());
             }
         } catch (Throwable ex) {
-            AfExceptionHandler.handler(ex,TAG("doBind(activity)"));
+            AfExceptionHandler.handler(ex,TAG(activity,"doBind(activity)"));
+        }
+    }
+
+    public static void doBind(Dialog dialog) {
+        try{
+            Class<? extends Dialog> clazz = dialog.getClass();
+            if (clazz.isAnnotationPresent(BindLayout.class)) {
+                BindLayout annotation = clazz.getAnnotation(BindLayout.class);
+                dialog.setContentView(annotation.value());
+            }
+        } catch (Throwable ex) {
+            AfExceptionHandler.handler(ex,TAG(dialog,"doBind(dialog)"));
         }
     }
 }
