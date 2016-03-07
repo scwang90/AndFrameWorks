@@ -3,7 +3,7 @@ package com.andframe.layoutbind;
 import android.view.View;
 
 import com.andframe.R;
-import com.andframe.activity.framework.AfViewable;
+import com.andframe.activity.framework.AfPageable;
 import com.andframe.application.AfExceptionHandler;
 
 public class AfModuleTitlebarImpl extends AfModuleTitlebar {
@@ -17,16 +17,16 @@ public class AfModuleTitlebarImpl extends AfModuleTitlebar {
     private View.OnClickListener mBtOkClickListener;
     private View.OnClickListener mBtAddClickListener;
 
-    public AfModuleTitlebarImpl(AfViewable view) {
-        super(view,R.id.af_titlebar_other_layout);
+    public AfModuleTitlebarImpl(AfPageable page) {
+        super(page,R.id.af_titlebar_other_layout);
     }
 
-    public AfModuleTitlebarImpl(AfViewable view, int function) {
-        super(view, function,R.id.af_titlebar_other_layout);
+    public AfModuleTitlebarImpl(AfPageable page, int function) {
+        super(page, function,R.id.af_titlebar_other_layout);
     }
 
-    public AfModuleTitlebarImpl(AfViewable view, String title) {
-        super(view, title,R.id.af_titlebar_other_layout);
+    public AfModuleTitlebarImpl(AfPageable page, String title) {
+        super(page, title,R.id.af_titlebar_other_layout);
     }
 
     @Override
@@ -51,23 +51,21 @@ public class AfModuleTitlebarImpl extends AfModuleTitlebar {
 
     @Override
     public void onClick(View v) {
-        if (mWeakRefActivity != null) {
-            if (v.getId() == getRightImgId()) {
-                if (mFunction == FUNCTION_OK && mBtOkClickListener != null) {
-                    try {
-                        mBtOkClickListener.onClick(v);
-                    } catch (Throwable e) {
-                        AfExceptionHandler.handler(e, "AfModuleTitlebarImpl.mBtOK.onClick");
-                    }
-                    return;
-                } else if (mFunction == FUNCTION_ADD && mBtAddClickListener != null) {
-                    try {
-                        mBtAddClickListener.onClick(v);
-                    } catch (Throwable e) {
-                        AfExceptionHandler.handler(e, "AfModuleTitlebarImpl.mBtAdd.onClick");
-                    }
-                    return;
+        if (v.getId() == getRightImgId()) {
+            if (mFunction == FUNCTION_OK && mBtOkClickListener != null) {
+                try {
+                    mBtOkClickListener.onClick(v);
+                } catch (Throwable e) {
+                    AfExceptionHandler.handler(e, "AfModuleTitlebarImpl.mBtOK.onClick");
                 }
+                return;
+            } else if (mFunction == FUNCTION_ADD && mBtAddClickListener != null) {
+                try {
+                    mBtAddClickListener.onClick(v);
+                } catch (Throwable e) {
+                    AfExceptionHandler.handler(e, "AfModuleTitlebarImpl.mBtAdd.onClick");
+                }
+                return;
             }
         }
         super.onClick(v);

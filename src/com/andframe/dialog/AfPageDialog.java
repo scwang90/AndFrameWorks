@@ -1,8 +1,10 @@
 package com.andframe.dialog;
 
 import android.content.Context;
+import android.content.DialogInterface;
 import android.os.Bundle;
 import android.view.Gravity;
+import android.view.KeyEvent;
 import android.view.View;
 import android.view.ViewGroup;
 import android.view.Window;
@@ -23,7 +25,7 @@ public class AfPageDialog extends AfDialog{
         super(context, themeResId);
     }
 
-    public AfPageDialog(Context context, boolean cancelable, OnCancelListener cancelListener) {
+    public AfPageDialog(Context context, boolean cancelable, DialogInterface.OnCancelListener cancelListener) {
         super(context, cancelable, cancelListener);
     }
 
@@ -42,5 +44,15 @@ public class AfPageDialog extends AfDialog{
         getWindow().setAttributes(p);
         getWindow().setGravity(Gravity.TOP);
         getWindow().setBackgroundDrawable(null);
+    }
+
+    @Override
+    public boolean dispatchKeyEvent(KeyEvent event) {
+        if (event.getKeyCode() == KeyEvent.KEYCODE_BACK
+                && event.getAction() == KeyEvent.ACTION_UP) {
+            this.dismiss();
+            return true;
+        }
+        return super.dispatchKeyEvent(event);
     }
 }

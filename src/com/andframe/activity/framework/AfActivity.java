@@ -1290,7 +1290,7 @@ public abstract class AfActivity extends FragmentActivity implements AfPageable 
      * @param resultcode  返回码
      * @see AfActivity#onActivityResult(int, int, android.content.Intent)
      */
-    protected void onActivityResult(AfIntent intent, int requestcode, int resultcode) {
+    protected void onActivityResult(AfIntent intent, int requestcode, int resultcode) throws Exception{
         super.onActivityResult(requestcode, resultcode, intent);
     }
 

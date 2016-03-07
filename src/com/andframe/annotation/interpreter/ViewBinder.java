@@ -42,11 +42,12 @@ import java.util.Map;
 
 /**
  * 控件绑定器
+ *
  * @author 树朾
  */
 public class ViewBinder {
 
-    protected static String TAG(Object obj,String tag) {
+    protected static String TAG(Object obj, String tag) {
         if (obj == null) {
             return "ViewBinder." + tag;
         }
@@ -98,16 +99,21 @@ public class ViewBinder {
                 if (clazz.equals(AfModuleTitlebar.class) && pageable != null) {
                     value = new AfModuleTitlebarImpl(pageable);
                 } else if (clazz.equals(AfFrameSelector.class) && pageable != null) {
-                    value = new AfFrameSelector(pageable,bind.value());
+                    value = new AfFrameSelector(pageable, bind.value());
                 } else if (clazz.equals(AfModuleNodata.class) && pageable != null) {
                     value = new AfModuleNodataImpl(pageable);
                 } else if (clazz.equals(AfModuleProgress.class) && pageable != null) {
                     value = new AfModuleProgressImpl(pageable);
-                } else if (pageable != null && field.getType().isAnnotationPresent(BindLayout.class)
-                        && AfViewModule.class.isAssignableFrom(field.getType())){
-                    BindLayout bindv = field.getType().getAnnotation(BindLayout.class);
-                    Class<? extends AfViewModule> type = (Class<? extends AfViewModule>)field.getType();
-                    value = AfViewModule.init(type,pageable,bindv.value());
+                } else if (pageable != null
+                        && (field.getType().isAnnotationPresent(BindLayout.class)
+                        || bind.value() > 0)
+                        && AfViewModule.class.isAssignableFrom(field.getType())) {
+                    int id = bind.value();
+                    if (id <= 0) {
+                        id = field.getType().getAnnotation(BindLayout.class).value();
+                    }
+                    Class<? extends AfViewModule> type = (Class<? extends AfViewModule>) field.getType();
+                    value = AfViewModule.init(type, pageable, id);
                 }
                 field.setAccessible(true);
                 field.set(handler, value);
