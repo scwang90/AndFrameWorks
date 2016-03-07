@@ -126,17 +126,17 @@ public abstract class AbListViewFragment<T extends AfModel> extends AfTabFragmen
 
 		// 设置正在加载页面
 		if (mltArray == null) {
-			mModuleListView.SelectFrame(ModuleListView.PRIGRESS);
+			mModuleListView.selectFrame(ModuleListView.PRIGRESS);
 		} else if (mltArray.size() == 0) {
 			if (mIsLoading == true) {
-				mModuleListView.SelectFrame(ModuleListView.PRIGRESS);
+				mModuleListView.selectFrame(ModuleListView.PRIGRESS);
 			} else {
 				this.onNodata(mModuleListView.getNoData());
-				mModuleListView.SelectFrame(ModuleListView.NULLDATA);
+				mModuleListView.selectFrame(ModuleListView.NULLDATA);
 			}
 		} else {
 			mModuleListView.setAdapter(mAdapter);
-			mModuleListView.SelectFrame(ModuleListView.LISTVIEW);
+			mModuleListView.selectFrame(ModuleListView.LISTVIEW);
 		}
 	}
 
@@ -167,7 +167,7 @@ public abstract class AbListViewFragment<T extends AfModel> extends AfTabFragmen
 	protected void postRefreshTask(boolean progress) {
 		postTask(getTask(getHandler(),AfListTask.TASK_REFRESH));
 		if(progress){
-			mModuleListView.SelectFrame(ModuleListView.PRIGRESS);
+			mModuleListView.selectFrame(ModuleListView.PRIGRESS);
 		}
 	}
 	
@@ -192,7 +192,7 @@ public abstract class AbListViewFragment<T extends AfModel> extends AfTabFragmen
 		if (v.getId() == ModuleNodata.ID_BUTTON
 				|| v.getId() == ModuleNodata.TEXT_TOREFRESH) {
 			// 设置正在加载页面
-			mModuleListView.SelectFrame(ModuleListView.PRIGRESS);
+			mModuleListView.selectFrame(ModuleListView.PRIGRESS);
 			// 抛送刷新任务
 			postTask(getTask(getHandler(),AfListTask.TASK_REFRESH));
 		}
@@ -208,7 +208,7 @@ public abstract class AbListViewFragment<T extends AfModel> extends AfTabFragmen
 				mltArray = tTask.mltData;
 				mAdapter = getAdapter(mltArray);
 				mModuleListView.setAdapter(mAdapter);
-				mModuleListView.SelectFrame(ModuleListView.LISTVIEW);
+				mModuleListView.selectFrame(ModuleListView.LISTVIEW);
 			} else {
 				// 本地加载为空 执行网络刷新
 				tTask.mTask = AfListTask.TASK_REFRESH;
@@ -232,7 +232,7 @@ public abstract class AbListViewFragment<T extends AfModel> extends AfTabFragmen
 				}
 				if (tTask.mltData.size() > 0) {
 					// 恢复列表页面
-					mModuleListView.SelectFrame(ModuleListView.LISTVIEW);
+					mModuleListView.selectFrame(ModuleListView.LISTVIEW);
 					// 如果开启分页
 					if (mIsPaging
 							&& tTask.mltData.size() >= AfListViewTask.PAGE_SIZE) {
@@ -242,7 +242,7 @@ public abstract class AbListViewFragment<T extends AfModel> extends AfTabFragmen
 				// 无数据设置空页面
 				else if (mltArray == null || mltArray.size() == 0) {
 					this.onNodata(mModuleListView.getNoData());
-					mModuleListView.SelectFrame(ModuleListView.NULLDATA);
+					mModuleListView.selectFrame(ModuleListView.NULLDATA);
 				}
 				break;
 			case AfListTask.TASK_MORE:
@@ -267,10 +267,10 @@ public abstract class AbListViewFragment<T extends AfModel> extends AfTabFragmen
 				// 设置空数据页面
 				mModuleListView.setNoDataText(tTask.mErrors);
 				mModuleListView.setNoDataButtonText(ModuleNodata.TEXT_TOREFRESH);
-				mModuleListView.SelectFrame(ModuleListView.NULLDATA);
+				mModuleListView.selectFrame(ModuleListView.NULLDATA);
 			} else {
 				// 恢复列表页面
-				mModuleListView.SelectFrame(ModuleListView.LISTVIEW);
+				mModuleListView.selectFrame(ModuleListView.LISTVIEW);
 			}
 		}
 		return tTask.mTask == AfListTask.TASK_REFRESH

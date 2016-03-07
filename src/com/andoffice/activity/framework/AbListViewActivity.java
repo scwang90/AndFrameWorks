@@ -100,7 +100,7 @@ public abstract class AbListViewActivity<T> extends AfActivity implements
 		mModuleListView.setOnNodataRefreshListener(this);
 
 		// 设置正在加载页面
-		mModuleListView.SelectFrame(ModuleListView.PRIGRESS);
+		mModuleListView.selectFrame(ModuleListView.PRIGRESS);
 	}
 
 	/**
@@ -120,7 +120,7 @@ public abstract class AbListViewActivity<T> extends AfActivity implements
 	protected void postRefreshTask(boolean progress) {
 		postTask(getTask(AfListTask.TASK_REFRESH));
 		if(progress){
-			mModuleListView.SelectFrame(ModuleListView.PRIGRESS);
+			mModuleListView.selectFrame(ModuleListView.PRIGRESS);
 		}
 	}
 
@@ -174,7 +174,7 @@ public abstract class AbListViewActivity<T> extends AfActivity implements
 		if (v.getId() == ModuleNodata.ID_BUTTON
 				|| v.getId() == ModuleNodata.TEXT_TOREFRESH) {
 			// 设置正在加载页面
-			mModuleListView.SelectFrame(ModuleListView.PRIGRESS);
+			mModuleListView.selectFrame(ModuleListView.PRIGRESS);
 			// 抛送刷新任务
 			postTask(getTask(AfListTask.TASK_REFRESH));
 		}
@@ -189,7 +189,7 @@ public abstract class AbListViewActivity<T> extends AfActivity implements
 				// 设置ListView页面
 				mAdapter = getAdapter(tTask.mltData);
 				mModuleListView.setAdapter(mAdapter);
-				mModuleListView.SelectFrame(ModuleListView.LISTVIEW);
+				mModuleListView.selectFrame(ModuleListView.LISTVIEW);
 			} else {
 				// 本地加载为空 执行网络刷新
 				tTask.mTask = AfListTask.TASK_REFRESH;
@@ -212,7 +212,7 @@ public abstract class AbListViewActivity<T> extends AfActivity implements
 				}
 				if (tTask.mltData.size() > 0) {
 					// 恢复列表页面
-					mModuleListView.SelectFrame(ModuleListView.LISTVIEW);
+					mModuleListView.selectFrame(ModuleListView.LISTVIEW);
 					// 如果开启分页
 					if (mIsPaging
 							&& tTask.mltData.size() >= AfListViewTask.PAGE_SIZE) {
@@ -222,7 +222,7 @@ public abstract class AbListViewActivity<T> extends AfActivity implements
 				// 无数据设置空页面
 				else if (tTask.mltData == null || tTask.mltData.size() == 0) {
 					this.onNodata(mModuleListView.getNoData());
-					mModuleListView.SelectFrame(ModuleListView.NULLDATA);
+					mModuleListView.selectFrame(ModuleListView.NULLDATA);
 				}
 				break;
 			case AfListTask.TASK_MORE:
@@ -249,10 +249,10 @@ public abstract class AbListViewActivity<T> extends AfActivity implements
 				// 设置空数据页面
 				mModuleListView.setNoDataText(tTask.mErrors);
 				mModuleListView.setNoDataButtonText(ModuleNodata.TEXT_TOREFRESH);
-				mModuleListView.SelectFrame(ModuleListView.NULLDATA);
+				mModuleListView.selectFrame(ModuleListView.NULLDATA);
 			} else {
 				// 恢复列表页面
-				mModuleListView.SelectFrame(ModuleListView.LISTVIEW);
+				mModuleListView.selectFrame(ModuleListView.LISTVIEW);
 			}
 		}
 		return tTask.mTask == AfListTask.TASK_REFRESH

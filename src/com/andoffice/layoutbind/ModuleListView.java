@@ -236,7 +236,7 @@ public class ModuleListView extends AfLayoutModule
 		mNodata.setButtonText(id);
 	}
 
-	public final boolean SelectFrame(int status) {
+	public final boolean selectFrame(int status) {
 		switch (status) {
 		case LISTVIEW:
 			return mSelector.selectFrame(mListView);

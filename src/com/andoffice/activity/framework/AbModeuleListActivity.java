@@ -533,7 +533,7 @@ public abstract class AbModeuleListActivity<T> extends
 			mltArray.add(value);
 			mAdapter = getAdapter(mltArray);
 			mModuleListView.setAdapter(mAdapter);
-			mModuleListView.SelectFrame(ModuleListView.LISTVIEW);
+			mModuleListView.selectFrame(ModuleListView.LISTVIEW);
 		} else {
 			mAdapter.insert(0, value);
 		}
