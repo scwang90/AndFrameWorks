@@ -4,6 +4,6 @@ package com.andadvert.listener;
  * @author 树朾
  */
 public interface PointsNotifier {
-	public void getPointsFailed(String error) ;
-	public void getPoints(String currency, int point);
+	void getPointsFailed(String error) ;
+	void getPoints(String currency, int point);
 }
