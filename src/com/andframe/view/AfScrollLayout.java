@@ -12,7 +12,7 @@ import android.widget.Scroller;
 public class AfScrollLayout extends ViewGroup {
 	
 	public interface OnViewChangeListener {
-		public void OnViewChange(int view);
+		void OnViewChange(int view);
 	}
 
 	private static final String TAG = "ScrollLayout";

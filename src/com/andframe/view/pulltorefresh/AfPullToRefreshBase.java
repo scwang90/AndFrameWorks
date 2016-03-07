@@ -706,18 +706,18 @@ public abstract class AfPullToRefreshBase<Target extends View> extends
 	// Inner interface
 	// ===========================================================
 
-	public static interface OnRefreshListener {
-		public boolean onMore();
+	public interface OnRefreshListener {
+		boolean onMore();
 
-		public boolean onRefresh();
+		boolean onRefresh();
 	}
 
-	public static interface OnLastItemVisibleListener {
-		public void onLastItemVisible();
-	}
+//	public interface OnLastItemVisibleListener {
+//		void onLastItemVisible();
+//	}
 
-	private static interface Smoothable {
-		public boolean onSmooth(int value, int form, int to);
+	private interface Smoothable {
+		boolean onSmooth(int value, int form, int to);
 	}
 
 	// ===========================================================

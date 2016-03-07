@@ -30,5 +30,5 @@ public @interface Id {
 	/**
 	 * 列名.
 	 */
-	public String value() default "";
+	String value() default "";
 }

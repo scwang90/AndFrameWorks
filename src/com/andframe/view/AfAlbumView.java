@@ -454,12 +454,12 @@ public class AfAlbumView extends ImageView implements OnClickListener {
 		}
 	};
 
-	public static interface Smoothable {
-		public void onStart(int from, int to);
+	public interface Smoothable {
+		void onStart(int from, int to);
 
-		public void onFinish(int from, int to);
+		void onFinish(int from, int to);
 
-		public boolean onSmooth(int value, float percent, int from, int to);
+		boolean onSmooth(int value, float percent, int from, int to);
 	}
 
 	public class SmoothRunnable implements Runnable {

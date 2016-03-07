@@ -59,15 +59,15 @@ public abstract class AfExpandableAdapter<G, C> extends
 	}
 
 	public interface IAfGroupItem<T> {
-		public abstract void onHandle(AfView view);
-		public abstract void onBinding(T model, boolean isExpanded);
-		public abstract int getLayoutId();
+		void onHandle(AfView view);
+		void onBinding(T model, boolean isExpanded);
+		int getLayoutId();
 	}
 
 	public interface IAfChildItem<T> {
-		public abstract void onHandle(AfView view);
-		public abstract void onBinding(T model);
-		public abstract int getLayoutId();
+		void onHandle(AfView view);
+		void onBinding(T model);
+		int getLayoutId();
 	}
 
 	protected List<AfGroup<G, C>> mGroups;

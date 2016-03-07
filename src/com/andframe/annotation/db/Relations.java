@@ -18,26 +18,26 @@ public @interface Relations {
 	 *
 	 * @return the string
 	 */
-	public abstract String name();
+	String name();
 	
 	/**
 	 * 外键.
 	 *
 	 * @return the string
 	 */
-	public abstract String foreignKey();
+	String foreignKey();
 	
 	/**
 	 * 关联类型.
 	 *
 	 * @return the string  one2one  one2many many2many
 	 */
-	public abstract String type();
+	String type();
 	
 	/**
 	 * 关联类型.
 	 *
 	 * @return the string  query insert query_insert
 	 */
-	public abstract String action() default "query_insert";
+	String action() default "query_insert";
 }

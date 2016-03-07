@@ -31,26 +31,26 @@ public @interface Column {
 	 * 是否是主键ID
 	 * @return the boolean
 	 */
-	public abstract boolean id() default false;
+	boolean id() default false;
 	/**
 	 * 列名.
 	 *
 	 * @return the string
 	 */
-	public String value() default "";
+	String value() default "";
 
 	/**
 	 * 列类型.
 	 *
 	 * @return the string
 	 */
-	public abstract String type() default "";
+	String type() default "";
 
 	/**
 	 * 长度.
 	 *
 	 * @return the int
 	 */
-	public abstract int length() default 0;
+	int length() default 0;
 	
 }
