@@ -482,7 +482,7 @@ public class SatelliteMenu extends FrameLayout {
 		 * 
 		 * @param id The id of the item. 
 		 */
-		public void eventOccured(int id);
+		void eventOccured(int id);
 	}
 
 	/**

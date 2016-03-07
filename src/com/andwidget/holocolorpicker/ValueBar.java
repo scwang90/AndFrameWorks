@@ -157,7 +157,7 @@ public class ValueBar extends View {
 	private int oldChangedListenerValue;
 
     public interface OnValueChangedListener {
-        public void onValueChanged(int value);
+        void onValueChanged(int value);
     }
 
     public void setOnValueChangedListener(OnValueChangedListener listener) {

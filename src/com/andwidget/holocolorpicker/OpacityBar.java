@@ -146,7 +146,7 @@ public class OpacityBar extends View {
 	private int oldChangedListenerOpacity;
 
     public interface OnOpacityChangedListener {
-        public void onOpacityChanged(int opacity);
+        void onOpacityChanged(int opacity);
     }
 
     public void setOnOpacityChangedListener(OnOpacityChangedListener listener) {

@@ -204,7 +204,7 @@ public class ColorPicker extends View {
 	 * @author lars
 	 */
 	public interface OnColorChangedListener {
-		public void onColorChanged(int color);
+		void onColorChanged(int color);
 	}
 
 	/**
@@ -212,7 +212,7 @@ public class ColorPicker extends View {
 	 * Currently it is always called when the color wheel has been released.
 	 */
 	public interface OnColorSelectedListener {
-		public void onColorSelected(int color);
+		void onColorSelected(int color);
 	}
 
 	/**

@@ -6,5 +6,5 @@ package com.andwidget.satellitemenu;
  *
  */
 public interface IDegreeProvider {
-	public float[] getDegrees(int count, float totalDegrees);
+	float[] getDegrees(int count, float totalDegrees);
 }
