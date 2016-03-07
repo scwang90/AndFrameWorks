@@ -23,7 +23,9 @@ import org.apache.http.client.methods.HttpPut;
 import org.apache.http.client.methods.HttpRequestBase;
 import org.apache.http.entity.StringEntity;
 import org.apache.http.impl.client.DefaultHttpClient;
+import org.apache.http.impl.client.DefaultHttpRequestRetryHandler;
 import org.apache.http.message.BasicHeader;
+import org.apache.http.params.CoreConnectionPNames;
 import org.apache.http.util.EntityUtils;
 import org.json.JSONObject;
 
@@ -133,7 +135,10 @@ public class MultiRequestHandler extends RequestHandler {
 
     private DefaultHttpClient getClient() {
         if (httpClient == null) {
-            httpClient = HttpClientBuilder.getInstance().getHttpClient();
+            httpClient = new DefaultHttpClient();
+            httpClient.setHttpRequestRetryHandler(new DefaultHttpRequestRetryHandler(0, false));
+            httpClient.getParams().setParameter(CoreConnectionPNames.CONNECTION_TIMEOUT, config.connectionTimeout);
+            httpClient.getParams().setParameter(CoreConnectionPNames.SO_TIMEOUT, config.socketTimeout);
         }
         return httpClient;
     }
@@ -271,6 +276,8 @@ public class MultiRequestHandler extends RequestHandler {
                     throw new ServerException(errormessage);
                 }
             }
+        } catch (ServerException e) {
+            throw e;
         } catch (Throwable e) {
             throw new ServerException(response);
         }
