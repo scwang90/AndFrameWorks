@@ -84,7 +84,7 @@ public class AfViewModule extends AfViewDelegate implements AfViewable,IViewModu
 		this.onCreated(new AfView(target));
 	}
 
-	protected void onCreated(AfView target) {
+	protected void onCreated(AfView view) {
 		this.doInject();
 	}
 
