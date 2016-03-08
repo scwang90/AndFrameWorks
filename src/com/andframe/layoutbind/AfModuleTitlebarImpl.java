@@ -3,7 +3,7 @@ package com.andframe.layoutbind;
 import android.view.View;
 
 import com.andframe.R;
-import com.andframe.activity.framework.AfPageable;
+import com.andframe.activity.framework.AfViewable;
 import com.andframe.application.AfExceptionHandler;
 
 public class AfModuleTitlebarImpl extends AfModuleTitlebar {
@@ -17,16 +17,16 @@ public class AfModuleTitlebarImpl extends AfModuleTitlebar {
     private View.OnClickListener mBtOkClickListener;
     private View.OnClickListener mBtAddClickListener;
 
-    public AfModuleTitlebarImpl(AfPageable page) {
-        super(page,R.id.af_titlebar_other_layout);
+    public AfModuleTitlebarImpl(AfViewable viewable) {
+        super(viewable,R.id.af_titlebar_other_layout);
     }
 
-    public AfModuleTitlebarImpl(AfPageable page, int function) {
-        super(page, function,R.id.af_titlebar_other_layout);
+    public AfModuleTitlebarImpl(AfViewable viewable, int function) {
+        super(viewable, function,R.id.af_titlebar_other_layout);
     }
 
-    public AfModuleTitlebarImpl(AfPageable page, String title) {
-        super(page, title,R.id.af_titlebar_other_layout);
+    public AfModuleTitlebarImpl(AfViewable viewable, String title) {
+        super(viewable, title,R.id.af_titlebar_other_layout);
     }
 
     @Override

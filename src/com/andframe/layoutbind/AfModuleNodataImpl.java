@@ -4,17 +4,16 @@ import android.view.View;
 import android.widget.TextView;
 
 import com.andframe.R;
-import com.andframe.activity.framework.AfPageable;
 import com.andframe.activity.framework.AfViewable;
 
 public class AfModuleNodataImpl extends AfModuleNodata {
-	
+
 	public static final int ID_BUTTON = R.id.module_nodata_button;
 
-	public AfModuleNodataImpl(AfPageable page) {
-		super(page);
+	public AfModuleNodataImpl(AfViewable view) {
+		super(view);
 	}
-	
+
 	@Override
 	protected View findLayout(AfViewable view) {
 		View layout = view.findViewById(R.id.module_nodata_button);

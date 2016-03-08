@@ -81,30 +81,30 @@ public class ViewBinder {
     }
 
     private static void bindViewModule(Object handler, AfViewable root) {
-        AfPageable pageable = null;
-        if (root instanceof AfPageable) {
-            pageable = (AfPageable) root;
-        }
-        if (pageable == null && handler instanceof AfPageable) {
-            pageable = (AfPageable) handler;
-        }
-        if (pageable == null && root.getContext() instanceof AfPageable) {
-            pageable = (AfPageable) root.getContext();
-        }
+//        AfPageable pageable = null;
+//        if (root instanceof AfPageable) {
+//            pageable = (AfPageable) root;
+//        }
+//        if (pageable == null && handler instanceof AfPageable) {
+//            pageable = (AfPageable) handler;
+//        }
+//        if (pageable == null && root.getContext() instanceof AfPageable) {
+//            pageable = (AfPageable) root.getContext();
+//        }
         for (Field field : AfReflecter.getFieldAnnotation(handler.getClass(), getStopType(handler), BindViewModule.class)) {
             try {
                 Object value = null;
                 Class<?> clazz = field.getType();
                 BindViewModule bind = field.getAnnotation(BindViewModule.class);
-                if (clazz.equals(AfModuleTitlebar.class) && pageable != null) {
-                    value = new AfModuleTitlebarImpl(pageable);
-                } else if (clazz.equals(AfFrameSelector.class) && pageable != null) {
-                    value = new AfFrameSelector(pageable, bind.value());
-                } else if (clazz.equals(AfModuleNodata.class) && pageable != null) {
-                    value = new AfModuleNodataImpl(pageable);
-                } else if (clazz.equals(AfModuleProgress.class) && pageable != null) {
-                    value = new AfModuleProgressImpl(pageable);
-                } else if (pageable != null
+                if (clazz.equals(AfModuleTitlebar.class) && root != null) {
+                    value = new AfModuleTitlebarImpl(root);
+                } else if (clazz.equals(AfFrameSelector.class) && root != null) {
+                    value = new AfFrameSelector(root, bind.value());
+                } else if (clazz.equals(AfModuleNodata.class) && root != null) {
+                    value = new AfModuleNodataImpl(root);
+                } else if (clazz.equals(AfModuleProgress.class) && root != null) {
+                    value = new AfModuleProgressImpl(root);
+                } else if (root != null
                         && (field.getType().isAnnotationPresent(BindLayout.class)
                         || bind.value() > 0)
                         && AfViewModule.class.isAssignableFrom(field.getType())) {
@@ -113,7 +113,7 @@ public class ViewBinder {
                         id = field.getType().getAnnotation(BindLayout.class).value();
                     }
                     Class<? extends AfViewModule> type = (Class<? extends AfViewModule>) field.getType();
-                    value = AfViewModule.init(type, pageable, id);
+                    value = AfViewModule.init(type, root, id);
                 }
                 field.setAccessible(true);
                 field.set(handler, value);
