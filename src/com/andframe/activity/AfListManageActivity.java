@@ -61,21 +61,6 @@ public abstract class AfListManageActivity<T> extends AfMultiChoiceListActivity<
 	}
 
 	/**
-	 * 向列表中添加数据 到第一条
-	 * @param value 数据
-	 */
-	protected void addData(T value) {
-		if (mAdapter == null || mAdapter.getCount() == 0) {
-			List<T> mltArray = new ArrayList<T>();
-			mltArray.add(value);
-			mAdapter = newAdapter(this,mltArray);
-			mListView.setAdapter(mAdapter);
-			mSelector.selectFrame(mListView);
-		} else {
-			mAdapter.insert(0, value);
-		}
-	}
-	/**
 	 * 菜单事件处理
 	 * @param item 菜单项
 	 * @return 是否处理

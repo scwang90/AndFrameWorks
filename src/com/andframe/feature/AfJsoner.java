@@ -49,19 +49,21 @@ public class AfJsoner {
             Object value = object.opt(field.getName());
             if (value instanceof JSONObject){
                 value = fromJson((JSONObject) value, field.getType());
-            } else if (value instanceof JSONArray){
+            } else if (value instanceof JSONArray) {
                 Class<?> type = field.getType();
                 Type generic = field.getGenericType();
-                if (type.isArray()){
+                if (type.isArray()) {
                     type = type.getComponentType();
-                    List<?> list = fromJsons((JSONArray) value,type);
+                    List<?> list = fromJsons((JSONArray) value, type);
                     value = Array.newInstance(type, list.size());
                     value = list.toArray((Object[]) value);
-                } else if (List.class.equals(type)){
-                    ParameterizedType parameterized = (ParameterizedType)generic;
-                    type = (Class<?>)parameterized.getActualTypeArguments()[0];
-                    value = fromJsons((JSONArray) value,type);
+                } else if (List.class.equals(type)) {
+                    ParameterizedType parameterized = (ParameterizedType) generic;
+                    type = (Class<?>) parameterized.getActualTypeArguments()[0];
+                    value = fromJsons((JSONArray) value, type);
                 }
+            } else if (value instanceof Long && field.getType().equals(Date.class)){
+                value = new Date((Long)value);
             }
             try {
                 field.setAccessible(true);
@@ -169,9 +171,9 @@ public class AfJsoner {
         return array;
     }
 
-	private static JSONObject builderMap(Map value) throws JSONException {
+    private static JSONObject builderMap(Map value) throws JSONException {
         JSONObject object = new JSONObject();
-		Set<Map.Entry> set = value.entrySet();
+        Set<Map.Entry> set = value.entrySet();
         for (Map.Entry entry: set) {
             object.put(entry.getKey().toString(),builderJson(entry.getValue()));
         }

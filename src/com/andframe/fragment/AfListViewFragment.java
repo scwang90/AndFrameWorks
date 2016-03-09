@@ -29,6 +29,7 @@ import com.andframe.view.AfListView;
 import com.andframe.view.AfRefreshListView;
 import com.andframe.view.pulltorefresh.AfPullToRefreshBase.OnRefreshListener;
 
+import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
 
@@ -163,6 +164,19 @@ public abstract class AfListViewFragment<T> extends AfTabFragment implements
 	 */
 	protected abstract AfModuleNodata newModuleNodata(AfPageable pageable);
 
+	/**
+	 * 添加一条数据到显示列表
+	 * @param value 添加的数据
+	 */
+	public void addData(T value) {
+		if (mAdapter == null || mAdapter.getCount() == 0) {
+			List<T> ltArray = new ArrayList<>();
+			ltArray.add(value);
+			setData(newAdapter(getActivity(), ltArray));
+		} else {
+			mAdapter.insert(0, value);
+		}
+	}
 
 	/**
 	 * 显示数据页面

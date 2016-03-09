@@ -11,6 +11,7 @@ import java.lang.reflect.Method;
 import java.lang.reflect.ParameterizedType;
 import java.lang.reflect.Type;
 import java.util.ArrayList;
+import java.util.Collections;
 import java.util.List;
 
 /**
@@ -140,14 +141,21 @@ public class AfReflecter {
      * @return Field[]
      */
     public static Method[] getMethodAnnotation(Class<?> type, Class<?> stoptype, Class<? extends Annotation> annot) {
-        List<Method> methods = new ArrayList<Method>();
+        List<List<Method>> lists = new ArrayList<>();
         while (!type.equals(stoptype)) {
+            List<Method> methods = new ArrayList<>();
             for (Method method : type.getDeclaredMethods()) {
                 if (method.isAnnotationPresent(annot)) {
                     methods.add(method);
                 }
             }
+            lists.add(methods);
             type = type.getSuperclass();
+        }
+        List<Method> methods = new ArrayList<>();
+        Collections.reverse(lists);
+        for (List<Method> tmethods : lists) {
+            methods.addAll(tmethods);
         }
         return methods.toArray(new Method[0]);
     }
