@@ -217,7 +217,7 @@ public abstract class AoListViewActivity<T> extends AfActivity implements OnRefr
 	 * @param id
 	 */
 	@Override
-	public void onItemClick(AdapterView<?> parent, View view, long id, int index) {
+	public void onItemClick(AdapterView<?> parent, View view, int index, long id) {
 		T model = mAdapter.getItemAt(mListView.getDataIndex(index));
 		onItemClick(model,index);
 	}

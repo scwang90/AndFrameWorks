@@ -135,7 +135,7 @@ public abstract class AbModelActivity<T> extends AbCominfoActivity{
 	}
 	
 	@Override
-	protected void onActivityResult(AfIntent intent, int requestcode,int resultcode) {
+	protected void onActivityResult(AfIntent intent, int requestcode,int resultcode) throws Exception {
 		if(resultcode == RESULT_OK){
 			for (int i = 0; i < mltSelector.size(); i++) {
 				if(requestcode == REQUEST_CHOOSERMODEL + i){

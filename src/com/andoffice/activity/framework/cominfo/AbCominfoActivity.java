@@ -465,7 +465,7 @@ public abstract class AbCominfoActivity extends AfActivity implements
 	
 	@Override
 	protected void onActivityResult(AfIntent intent, int requestcode,
-			int resultcode) {
+			int resultcode) throws Exception {
 		super.onActivityResult(intent, requestcode, resultcode);
 		if (resultcode == RESULT_OK) {
 			switch (requestcode) {

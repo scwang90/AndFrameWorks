@@ -499,7 +499,7 @@ public abstract class AbModeuleListActivity<T> extends
 	}
 
 	@Override
-	protected void onActivityResult(AfIntent intent, int requestcode, int resultcode) {
+	protected void onActivityResult(AfIntent intent, int requestcode, int resultcode) throws Exception {
 		super.onActivityResult(intent, requestcode, resultcode);
 		if (resultcode == RESULT_OK) {
 			T value = intent.get(EXTRA_RESULT, mClazzModel);
@@ -580,7 +580,7 @@ public abstract class AbModeuleListActivity<T> extends
 	}
 	
 	@Override
-	public void onItemClick(AdapterView<?> absview, View view,long id, int index) {
+	public void onItemClick(AdapterView<?> absview, View view, int index,long id) {
 		super.onItemClick(absview, view, index, id);
 		mSelected = mAdapter.getItemAt(mModuleListView.getDataIndex(index));
 		if (mClazzView != null) {

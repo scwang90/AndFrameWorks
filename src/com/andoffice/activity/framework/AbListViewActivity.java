@@ -141,7 +141,7 @@ public abstract class AbListViewActivity<T> extends AfActivity implements
 	}
 
 	@Override
-	public void onItemClick(AdapterView<?> absview, View view,long id, int index) {
+	public void onItemClick(AdapterView<?> absview, View view, int index,long id) {
 	}
 
 	@Override
