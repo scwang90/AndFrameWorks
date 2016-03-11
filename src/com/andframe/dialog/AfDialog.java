@@ -157,7 +157,7 @@ public abstract class AfDialog extends Dialog implements AfPageable, AfSoftInput
     public void setContentView(View view, ViewGroup.LayoutParams params) {
         super.setContentView(view, params);
         mRootView = view;
-        ViewBinder.doBind(this, view);
+        ViewBinder.doBind(this, this);
         AfSoftInputer inputer = new AfSoftInputer(getContext());
         inputer.setBindListener(view, this);
     }

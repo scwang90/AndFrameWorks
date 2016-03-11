@@ -4,8 +4,8 @@ package com.andframe.layoutbind.framework;
 
 public interface IViewModule
 {
-	public void hide();
-	public void show();
-	public boolean isValid();
+	void hide();
+	void show();
+	boolean isValid();
 	boolean isVisibility();
 }

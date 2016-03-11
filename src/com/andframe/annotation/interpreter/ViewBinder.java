@@ -105,8 +105,7 @@ public class ViewBinder {
                 } else if (clazz.equals(AfModuleProgress.class) && root != null) {
                     value = new AfModuleProgressImpl(root);
                 } else if (root != null
-                        && (field.getType().isAnnotationPresent(BindLayout.class)
-                        || bind.value() > 0)
+                        && (field.getType().isAnnotationPresent(BindLayout.class) || bind.value() > 0)
                         && AfViewModule.class.isAssignableFrom(field.getType())) {
                     int id = bind.value();
                     if (id <= 0) {

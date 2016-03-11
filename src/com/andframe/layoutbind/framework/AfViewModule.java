@@ -13,9 +13,9 @@ import com.andframe.application.AfExceptionHandler;
 
 import java.lang.reflect.Constructor;
 
-public class AfViewModule extends AfViewDelegate implements AfViewable,IViewModule{
+public class AfViewModule extends AfViewDelegate implements AfViewable, IViewModule{
 
-	public static <T extends AfViewModule> T init(Class<T> clazz,AfViewable view,int viewId){
+	public static <T extends AfViewModule> T init(Class<T> clazz,AfViewable viewable,int viewId){
 		try {
 			T module = null;
 			Constructor<?>[] constructors = clazz.getConstructors();
@@ -24,12 +24,12 @@ public class AfViewModule extends AfViewDelegate implements AfViewable,IViewModu
 				if (parameterTypes.length == 0) {
 					module = clazz.newInstance();
 				} else if (parameterTypes.length == 1 && AfViewable.class.isAssignableFrom(parameterTypes[0])) {
-					module = (T)constructors[i].newInstance(view);
+					module = (T)constructors[i].newInstance(viewable);
 				}
 			}
 			if (module != null) {
 				AfViewModule viewModule = module;
-				viewModule.setTarget(view.findViewByID(viewId));
+				viewModule.setTarget(viewable,viewable.findViewByID(viewId));
 			}
 			return module;
 		} catch (Throwable e) {
@@ -37,12 +37,12 @@ public class AfViewModule extends AfViewDelegate implements AfViewable,IViewModu
 		}
 	}
 
-	public static <T extends AfViewModule> T init(Class<T> clazz, AfViewable afview){
+	public static <T extends AfViewModule> T init(Class<T> clazz, AfViewable viewable){
 		if (!clazz.isAnnotationPresent(BindLayout.class)) return null;
 		try {
 			T module = null;
 			int id = clazz.getAnnotation(BindLayout.class).value();
-			View view = LayoutInflater.from(afview.getContext()).inflate(id, null);
+			View view = LayoutInflater.from(viewable.getContext()).inflate(id, null);
 			Constructor<?>[] constructors = clazz.getConstructors();
 			for (int i = 0; i < constructors.length && module == null; i++) {
 				Class<?>[] parameterTypes = constructors[i].getParameterTypes();
@@ -54,7 +54,7 @@ public class AfViewModule extends AfViewDelegate implements AfViewable,IViewModu
 			}
 			if (module != null) {
 				AfViewModule viewModule = module;
-				viewModule.setTarget(view);
+				viewModule.setTarget(viewable,view);
 			}
 			return module;
 		} catch (Throwable e) {
@@ -79,12 +79,12 @@ public class AfViewModule extends AfViewDelegate implements AfViewable,IViewModu
 		target = view.findViewById(id);
 	}
 
-	private void setTarget(View target) {
+	private void setTarget(AfViewable viewable, View target) {
 		this.target = target;
-		this.onCreated(new AfView(target));
+		this.onCreated(viewable, target);
 	}
 
-	protected void onCreated(AfView view) {
+	protected void onCreated(AfViewable viewable, View view) {
 		this.doInject();
 	}
 
