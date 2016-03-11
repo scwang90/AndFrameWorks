@@ -42,8 +42,14 @@ import com.andframe.util.android.AfMeasure;
 import com.andframe.util.java.AfReflecter;
 import com.andframe.util.java.AfStackTrace;
 
+import org.json.JSONArray;
+
+import java.lang.reflect.Array;
 import java.lang.reflect.Field;
 import java.lang.reflect.Method;
+import java.lang.reflect.ParameterizedType;
+import java.lang.reflect.Type;
+import java.util.List;
 import java.util.Random;
 import java.util.Timer;
 
@@ -161,10 +167,32 @@ public class Injecter {
                                 }
                                 return t;
                             }
+
+                            @Override
+                            public <T> List<T> getList(String _key, Class<T> clazz) {
+                                List<T> list = super.getList(_key, clazz);
+                                if (list == null || list.size() == 0) {
+                                    return new AfIntent(fragment.getActivity().getIntent()).getList(_key, clazz);
+                                }
+                                return list;
+                            }
                         };
                     }
-                    Class<?> clazz = field.getType();
-                    Object value = intent.get(inject.value(), clazz);
+                    Object value;
+                    Class<?> type = field.getType();
+                    Type generic = field.getGenericType();
+                    if (type.isArray()) {
+                        type = type.getComponentType();
+                        List<?> list = intent.getList(inject.value(), type);
+                        value = Array.newInstance(type, list.size());
+                        value = list.toArray((Object[]) value);
+                    } else if (List.class.equals(type)) {
+                        ParameterizedType parameterized = (ParameterizedType) generic;
+                        type = (Class<?>) parameterized.getActualTypeArguments()[0];
+                        value = intent.getList(inject.value(), type);
+                    } else {
+                        value = intent.get(inject.value(), type);
+                    }
                     field.setAccessible(true);
                     field.set(handler, value);
                 }

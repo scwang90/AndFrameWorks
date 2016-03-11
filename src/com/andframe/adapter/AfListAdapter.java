@@ -14,10 +14,10 @@ import com.andframe.activity.framework.AfView;
 import com.andframe.application.AfExceptionHandler;
 
 public abstract class AfListAdapter<T> extends BaseAdapter {
-	
+
 	protected static final int LP_MP = LayoutParams.MATCH_PARENT;
 	protected static final int LP_WC = LayoutParams.WRAP_CONTENT;
-	
+
 	protected LayoutInflater mInflater;
 	protected List<T> mltArray = new ArrayList<T>();
 
@@ -138,6 +138,9 @@ public abstract class AfListAdapter<T> extends BaseAdapter {
 			}
 			if (cview != null && cview.getContext() != null){
 				remark += "class = " + cview.getContext().getClass().toString();
+			}
+			if (view == null) {
+				view = new View(mInflater.getContext());
 			}
 			AfExceptionHandler.handler(e, remark);
 		}
