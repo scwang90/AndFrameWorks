@@ -51,7 +51,6 @@ public abstract class AfModuleTitlebar extends AfLayoutAlpha implements View.OnC
 	public AfModuleTitlebar(AfViewable view, int function, int id) {
 		super(view, id);
 		if (isValid()) {
-			bindWeakReference(view);
 			initView(view, function);
 		}
 	}
@@ -69,7 +68,7 @@ public abstract class AfModuleTitlebar extends AfLayoutAlpha implements View.OnC
 	@Override
 	protected void onCreated(AfView view) {
 		super.onCreated(view);
-		if (view != null) {
+		if (target != null) {
 			bindWeakReference(view);
 			mBtGoBack = view.findViewById(getBtGoBackId());
 			mBtRightImg = view.findViewById(getRightImgId(), ImageView.class);
@@ -84,6 +83,7 @@ public abstract class AfModuleTitlebar extends AfLayoutAlpha implements View.OnC
 	}
 
 	protected void initView(AfViewable view, int function) {
+		bindWeakReference(view);
 		mBtGoBack = view.findViewById(getBtGoBackId());
 		mBtRightImg = view.findViewById(getRightImgId(), ImageView.class);
 		mTvTitle = view.findViewById(getTitleTextId(), TextView.class);
