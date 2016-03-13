@@ -19,6 +19,9 @@ public abstract class AfLayoutAlpha extends AfViewModule implements AnimationLis
 
 	protected boolean mHasStarted;
 
+	public AfLayoutAlpha() {
+	}
+
 	public AfLayoutAlpha(AfViewable view) {
 		super(view);
 		mAnimationHide.setDuration(DURATION);
@@ -62,7 +65,7 @@ public abstract class AfLayoutAlpha extends AfViewModule implements AnimationLis
 			target.setAnimation(animationSet);
 		}
 	}
-
+	
 	@Override
 	public boolean isVisibility() {
 		if(!mHasStarted){
@@ -72,22 +75,22 @@ public abstract class AfLayoutAlpha extends AfViewModule implements AnimationLis
 		}
 	}
 
-	@Override
-	public void onAnimationStart(Animation animation) {
-		mHasStarted = true;
-	}
-
-	@Override
-	public void onAnimationRepeat(Animation animation) {
-	}
-
-	@Override
-	public void onAnimationEnd(Animation animation) {
-		mHasStarted = false;
-		if(animation == mAnimationHide){
-			target.setVisibility(View.GONE);
-		}else if(animation == mAnimationShow){
-
+    @Override
+    public void onAnimationStart(Animation animation) {
+    	mHasStarted = true;
+    }
+    
+    @Override
+    public void onAnimationRepeat(Animation animation) {
+    }
+    
+    @Override
+    public void onAnimationEnd(Animation animation) {
+    	mHasStarted = false;
+    	if(animation == mAnimationHide){
+    		target.setVisibility(View.GONE);
+    	}else if(animation == mAnimationShow){
+			
 		}
-	}
+    }
 }

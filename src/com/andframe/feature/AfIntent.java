@@ -9,6 +9,7 @@ import com.google.gson.Gson;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Objects;
 import java.util.UUID;
 
 /**
@@ -43,7 +44,7 @@ public class AfIntent extends Intent implements AfExtrater{
 	public AfIntent(String action) {
 		super(action);
 	}
-	
+
 	public AfIntent(String _key, Object value) {
 		super();
 		putExtra(_key, value.getClass().getName());
@@ -75,8 +76,12 @@ public class AfIntent extends Intent implements AfExtrater{
 		T value = null;
 		try {
 			String name = getStringExtra(_key);
-			if(!clazz.getName().equals(name)){
-				return defaul;
+			if(!clazz.getName().equals(name) && !clazz.isPrimitive()) {
+				if (!Object.class.equals(clazz)) {
+					return defaul;
+				} else {
+					clazz = (Class<T>) Class.forName(name);
+				}
 			}
 			value = mJson.fromJson(getStringExtra(_key+"[0]"), clazz);
 		} catch (Throwable e) {
@@ -96,7 +101,7 @@ public class AfIntent extends Intent implements AfExtrater{
 	}
 
 	/**
-	/**
+	 /**
 	 * 获取List<T>
 	 * @param _key
 	 * @param defaul 如果找不到返回 defaul
