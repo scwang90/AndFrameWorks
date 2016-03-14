@@ -66,14 +66,14 @@ public abstract class AfModuleTitlebar extends AfLayoutAlpha implements View.OnC
 	}
 
 	@Override
-	protected void onCreated(AfView view) {
-		super.onCreated(view);
+	protected void onCreated(AfViewable viewable, View view) {
+		super.onCreated(viewable, view);
 		if (target != null) {
-			bindWeakReference(view);
-			mBtGoBack = view.findViewById(getBtGoBackId());
-			mBtRightImg = view.findViewById(getRightImgId(), ImageView.class);
-			mBtRightTxt = view.findViewById(getRightTxtId(), TextView.class);
-			mTvTitle = view.findViewById(getTitleTextId(), TextView.class);
+			bindWeakReference(viewable);
+			mBtGoBack = viewable.findViewById(getBtGoBackId());
+			mBtRightImg = viewable.findViewById(getRightImgId(), ImageView.class);
+			mBtRightTxt = viewable.findViewById(getRightTxtId(), TextView.class);
+			mTvTitle = viewable.findViewById(getTitleTextId(), TextView.class);
 			mMeuns = new HashMap<>();
 			mBtRightImg.setOnClickListener(this);
 			mBtGoBack.setOnClickListener(this);

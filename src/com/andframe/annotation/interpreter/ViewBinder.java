@@ -80,48 +80,6 @@ public class ViewBinder {
         return Object.class;
     }
 
-    private static void bindViewModule(Object handler, AfViewable root) {
-//        AfPageable pageable = null;
-//        if (root instanceof AfPageable) {
-//            pageable = (AfPageable) root;
-//        }
-//        if (pageable == null && handler instanceof AfPageable) {
-//            pageable = (AfPageable) handler;
-//        }
-//        if (pageable == null && root.getContext() instanceof AfPageable) {
-//            pageable = (AfPageable) root.getContext();
-//        }
-        for (Field field : AfReflecter.getFieldAnnotation(handler.getClass(), getStopType(handler), BindViewModule.class)) {
-            try {
-                Object value = null;
-                Class<?> clazz = field.getType();
-                BindViewModule bind = field.getAnnotation(BindViewModule.class);
-                if (clazz.equals(AfModuleTitlebar.class) && root != null) {
-                    value = new AfModuleTitlebarImpl(root);
-                } else if (clazz.equals(AfFrameSelector.class) && root != null) {
-                    value = new AfFrameSelector(root, bind.value());
-                } else if (clazz.equals(AfModuleNodata.class) && root != null) {
-                    value = new AfModuleNodataImpl(root);
-                } else if (clazz.equals(AfModuleProgress.class) && root != null) {
-                    value = new AfModuleProgressImpl(root);
-                } else if (root != null
-                        && (field.getType().isAnnotationPresent(BindLayout.class) || bind.value() > 0)
-                        && AfViewModule.class.isAssignableFrom(field.getType())) {
-                    int id = bind.value();
-                    if (id <= 0) {
-                        id = field.getType().getAnnotation(BindLayout.class).value();
-                    }
-                    Class<? extends AfViewModule> type = (Class<? extends AfViewModule>) field.getType();
-                    value = AfViewModule.init(type, root, id);
-                }
-                field.setAccessible(true);
-                field.set(handler, value);
-            } catch (Throwable e) {
-                AfExceptionHandler.handler(e, TAG(handler, "doBindViewModule.") + field.getName());
-            }
-        }
-    }
-
     private static void bindClick(Object handler, AfViewable root) {
         for (Method method : AfReflecter.getMethodAnnotation(handler.getClass(), getStopType(handler), BindClick.class)) {
             try {
@@ -202,10 +160,9 @@ public class ViewBinder {
         for (Field field : AfReflecter.getFieldAnnotation(handler.getClass(), getStopType(handler), BindView.class)) {
             try {
                 BindView bind = field.getAnnotation(BindView.class);
-                List<View> list = new ArrayList<View>();
+                List<View> list = new ArrayList<>();
                 for (int id : bind.value()) {
-                    int viewId = id;
-                    View view = root.findViewById(viewId);
+                    View view = root.findViewById(id);
                     if (view != null) {
                         if (bind.click() && handler instanceof OnClickListener) {
                             view.setOnClickListener((OnClickListener) handler);
@@ -219,12 +176,62 @@ public class ViewBinder {
                         Class<?> componentType = field.getType().getComponentType();
                         Object[] array = list.toArray((Object[]) Array.newInstance(componentType, list.size()));
                         field.set(handler, array);
+                    } else if (List.class.equals(field.getType())) {
+                        field.set(handler, list);
                     } else {
                         field.set(handler, list.get(0));
                     }
                 }
             } catch (Throwable e) {
                 AfExceptionHandler.handler(e, TAG(handler, "doBindView.") + field.getName());
+            }
+        }
+    }
+
+    private static void bindViewModule(Object handler, AfViewable root) {
+        for (Field field : AfReflecter.getFieldAnnotation(handler.getClass(), getStopType(handler), BindViewModule.class)) {
+            try {
+                Class<?> clazz = field.getType();
+                BindViewModule bind = field.getAnnotation(BindViewModule.class);
+                List<Object> list = new ArrayList<>();
+                for (int id : bind.value()) {
+                    Object value = null;
+                    if (clazz.equals(AfModuleTitlebar.class) && root != null) {
+                        value = new AfModuleTitlebarImpl(root);
+                    } else if (clazz.equals(AfFrameSelector.class) && root != null) {
+                        value = new AfFrameSelector(root, id);
+                    } else if (clazz.equals(AfModuleNodata.class) && root != null) {
+                        value = new AfModuleNodataImpl(root);
+                    } else if (clazz.equals(AfModuleProgress.class) && root != null) {
+                        value = new AfModuleProgressImpl(root);
+                    } else if (root != null
+                            && (field.getType().isAnnotationPresent(BindLayout.class) || id > 0)
+                            && AfViewModule.class.isAssignableFrom(field.getType())) {
+                        if (id <= 0) {
+                            id = field.getType().getAnnotation(BindLayout.class).value();
+                        }
+                        Class<? extends AfViewModule> type = (Class<? extends AfViewModule>) field.getType();
+                        value = AfViewModule.init(type, root, id);
+                    }
+                    if (value != null) {
+                        list.add(value);
+                    }
+                }
+
+                if (list.size() > 0) {
+                    field.setAccessible(true);
+                    if (field.getType().isArray()) {
+                        Class<?> componentType = field.getType().getComponentType();
+                        Object[] array = list.toArray((Object[]) Array.newInstance(componentType, list.size()));
+                        field.set(handler, array);
+                    } else if (List.class.equals(field.getType())) {
+                        field.set(handler, list);
+                    } else {
+                        field.set(handler, list.get(0));
+                    }
+                }
+            } catch (Throwable e) {
+                AfExceptionHandler.handler(e, TAG(handler, "doBindViewModule.") + field.getName());
             }
         }
     }
