@@ -21,10 +21,10 @@ import android.widget.TextView;
 import android.widget.TextView.OnEditorActionListener;
 
 import com.andframe.activity.framework.AfPageable;
-import com.andframe.layoutbind.AfLayoutAlpha;
+import com.andframe.layoutbind.AfModuleAlpha;
 import com.andoffice.R;
 
-public class ModuleTitlebarSearcher extends AfLayoutAlpha implements OnClickListener, OnEditorActionListener, OnMenuItemClickListener {
+public class ModuleTitlebarSearcher extends AfModuleAlpha implements OnClickListener, OnEditorActionListener, OnMenuItemClickListener {
 	
 	@SuppressWarnings("serial")
 	public static class SearchOptions extends ArrayList<Entry<String, String>>{

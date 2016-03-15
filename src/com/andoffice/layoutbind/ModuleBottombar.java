@@ -3,10 +3,10 @@ package com.andoffice.layoutbind;
 import android.view.View;
 
 import com.andframe.activity.framework.AfPageable;
-import com.andframe.layoutbind.AfLayoutAlpha;
+import com.andframe.layoutbind.AfModuleAlpha;
 import com.andoffice.R;
 
-public class ModuleBottombar extends AfLayoutAlpha{
+public class ModuleBottombar extends AfModuleAlpha {
 
 	public static final int ID_ADD = 0;
 	public static final int ID_SELECT = 1;
