@@ -4,11 +4,10 @@ import android.app.Activity;
 import android.app.Dialog;
 import android.view.MenuItem;
 import android.view.View;
+import android.view.View.OnClickListener;
 import android.widget.ImageView;
 import android.widget.TextView;
 
-import com.andframe.activity.framework.AfPageable;
-import com.andframe.activity.framework.AfView;
 import com.andframe.activity.framework.AfViewable;
 import com.andframe.application.AfApplication;
 import com.andframe.application.AfExceptionHandler;
@@ -19,7 +18,7 @@ import java.lang.ref.WeakReference;
 import java.util.HashMap;
 import java.util.Map;
 
-public abstract class AfModuleTitlebar extends AfLayoutAlpha implements View.OnClickListener, OnMenuItemClickListener {
+public abstract class AfModuleTitlebar extends AfModuleAlpha implements OnClickListener, OnMenuItemClickListener {
 
 	public static final int FUNCTION_NONE = 0;
 	public static final int FUNCTION_MENU = 1;
@@ -38,7 +37,7 @@ public abstract class AfModuleTitlebar extends AfLayoutAlpha implements View.OnC
 	protected OnMenuItemClickListener mListener = null;
 	protected WeakReference<Dialog> mWeakRefDialog = null;
 	protected WeakReference<Activity> mWeakRefActivity = null;
-	protected View.OnClickListener mBtCustomClickListener;
+	protected OnClickListener mBtCustomClickListener;
 
 	public AfModuleTitlebar(AfViewable view, int id) {
 		this(view, FUNCTION_NONE, id);
@@ -177,7 +176,7 @@ public abstract class AfModuleTitlebar extends AfLayoutAlpha implements View.OnC
 		mBtRightImg.setVisibility(GONE);
 	}
 
-	public void setCustomFunction(int imageId, View.OnClickListener listener) {
+	public void setCustomFunction(int imageId, OnClickListener listener) {
 		setCustomFunction(imageId);
 		setOnCustomListener(listener);
 	}
@@ -190,8 +189,8 @@ public abstract class AfModuleTitlebar extends AfLayoutAlpha implements View.OnC
 		this.mListener = mListener;
 	}
 
-	public void setOnGoBackListener(final View.OnClickListener listener) {
-		mBtGoBack.setOnClickListener(new View.OnClickListener() {
+	public void setOnGoBackListener(final OnClickListener listener) {
+		mBtGoBack.setOnClickListener(new OnClickListener() {
 			@Override
 			public void onClick(View v) {
 				try {
@@ -203,11 +202,11 @@ public abstract class AfModuleTitlebar extends AfLayoutAlpha implements View.OnC
 		});
 	}
 
-	public void setOnCustomListener(View.OnClickListener listener) {
+	public void setOnCustomListener(OnClickListener listener) {
 		mBtCustomClickListener = listener;
 	}
 
-	public void setFunctionOnClickListener(int function, View.OnClickListener listener) {
+	public void setFunctionOnClickListener(int function, OnClickListener listener) {
 		switch (function) {
 			case FUNCTION_CUSTOM:
 				mBtCustomClickListener = listener;

@@ -79,6 +79,18 @@ public class AfViewModule extends AfViewDelegate implements AfViewable, IViewMod
 		target = view.findViewById(id);
 	}
 
+	/**
+	 * 如果不想要采用 注入的形式
+	 * 子类构造函数中必须调用这个函数
+	 */
+	protected void InitializeComponent(AfViewable viewable){
+		if (this.getClass().isAnnotationPresent(BindLayout.class)) {
+			BindLayout bind = this.getClass().getAnnotation(BindLayout.class);
+			target = viewable.findViewById(bind.value());
+		}
+		setTarget(viewable,target);
+	}
+
 	private void setTarget(AfViewable viewable, View target) {
 		this.target = target;
 		this.onCreated(viewable, target);

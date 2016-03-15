@@ -18,7 +18,7 @@ import java.util.Iterator;
 import java.util.List;
 import java.util.Map.Entry;
 
-public abstract class AfSelectorBottombar extends AfLayoutAlpha implements
+public abstract class AfSelectorBottombar extends AfModuleAlpha implements
 		OnClickListener, GenericityListener, OnMenuItemClickListener {
 
 	public static final int MAX_ICON = 4;

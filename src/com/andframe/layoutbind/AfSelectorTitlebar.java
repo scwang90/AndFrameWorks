@@ -17,7 +17,7 @@ import java.util.Iterator;
 import java.util.List;
 import java.util.Map.Entry;
 
-public abstract class AfSelectorTitlebar extends AfLayoutAlpha 
+public abstract class AfSelectorTitlebar extends AfModuleAlpha
 	implements OnClickListener, GenericityListener, OnMenuItemClickListener {
 
 	private static final int ID_SELECTALL = -1;

@@ -77,9 +77,7 @@ public class AfIntent extends Intent implements AfExtrater{
 		try {
 			String name = getStringExtra(_key);
 			if(!clazz.getName().equals(name) && !clazz.isPrimitive()) {
-				if (!Object.class.equals(clazz)) {
-					return defaul;
-				} else {
+				if (clazz.isAssignableFrom(Class.forName(name))) {
 					clazz = (Class<T>) Class.forName(name);
 				}
 			}
