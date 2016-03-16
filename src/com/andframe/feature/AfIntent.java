@@ -48,12 +48,14 @@ public class AfIntent extends Intent implements AfExtrater{
 	public AfIntent(String _key, Object value) {
 		super();
 		putExtra(_key, value.getClass().getName());
-		putExtra(_key+"[0]", mJson.toJson(value));
+		putExtra(_key + "[0]", mJson.toJson(value));
 	}
 
 	public void put(String _key, Object value) {
-		if (value instanceof List){
-			putList(_key,(List<?>)value);
+		if (value.getClass().isArray()) {
+			putList(_key, (Object[]) value);
+		} else if (value instanceof List ) {
+			putList(_key, (List<?>) value);
 		} else {
 			putExtra(_key, value.getClass().getName());
 			putExtra(_key+"[0]", mJson.toJson(value));
@@ -65,6 +67,14 @@ public class AfIntent extends Intent implements AfExtrater{
 		putExtra(_key, mJson.toJson(length));
 		for (int i = 0; i < length; i++) {
 			putExtra(_key+"["+i+"]", mJson.toJson(value.get(i)));
+		}
+	}
+
+	public void putList(String _key, Object[] value) {
+		int length = value.length;
+		putExtra(_key, mJson.toJson(length));
+		for (int i = 0; i < length; i++) {
+			putExtra(_key+"["+i+"]", mJson.toJson(value[i]));
 		}
 	}
 

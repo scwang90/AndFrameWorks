@@ -2,8 +2,6 @@ package com.andframe.feature;
 
 import android.location.Location;
 
-import com.andframe.model.Address;
-
 /**
  * 用于计算兴趣点的距离
  */
@@ -92,11 +90,11 @@ public class AfDistance {
 	 *            兴趣点
 	 * @return 距离 （单位米）
 	 */
-	public static long getDistance(Location location, Address address) {
+	public static long getDistance(Location location, Location address) {
 		double lon1 = location.getLongitude();
 		double lat1 = location.getLatitude();
-		double lon2 = address.PostionX;
-		double lat2 = address.PostionY;
+		double lon2 = address.getLongitude();
+		double lat2 = address.getLatitude();
 		return (long) GetShortDistance(lon1, lat1, lon2, lat2);
 	}
 

@@ -41,6 +41,22 @@ public abstract class AfModuleAlpha extends AfViewModule implements AnimationLis
 		}
 	}
 
+	public void hide(boolean smoothAlpha) {
+		if (smoothAlpha) {
+			this.hide();
+		} else {
+			super.hide();
+		}
+	}
+
+	public void show(boolean smoothAlpha) {
+		if (smoothAlpha) {
+			this.show();
+		} else {
+			super.show();
+		}
+	}
+
 	public void hide() {
 		if (target != null && target.getVisibility() == View.VISIBLE) {
 			mAnimationHide = new AlphaAnimation(1, 0);
@@ -65,7 +81,7 @@ public abstract class AfModuleAlpha extends AfViewModule implements AnimationLis
 			target.setAnimation(animationSet);
 		}
 	}
-	
+
 	@Override
 	public boolean isVisibility() {
 		if(!mHasStarted){
@@ -75,22 +91,22 @@ public abstract class AfModuleAlpha extends AfViewModule implements AnimationLis
 		}
 	}
 
-    @Override
-    public void onAnimationStart(Animation animation) {
-    	mHasStarted = true;
-    }
-    
-    @Override
-    public void onAnimationRepeat(Animation animation) {
-    }
-    
-    @Override
-    public void onAnimationEnd(Animation animation) {
-    	mHasStarted = false;
-    	if(animation == mAnimationHide){
-    		target.setVisibility(View.GONE);
-    	}else if(animation == mAnimationShow){
-			
+	@Override
+	public void onAnimationStart(Animation animation) {
+		mHasStarted = true;
+	}
+
+	@Override
+	public void onAnimationRepeat(Animation animation) {
+	}
+
+	@Override
+	public void onAnimationEnd(Animation animation) {
+		mHasStarted = false;
+		if(animation == mAnimationHide){
+			target.setVisibility(View.GONE);
+		}else if(animation == mAnimationShow){
+
 		}
-    }
+	}
 }

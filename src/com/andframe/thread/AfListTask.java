@@ -178,14 +178,14 @@ public abstract class AfListTask<T> extends AfHandlerTask {
 			case AfListTask.TASK_REFRESH:
 				mltData = onRefresh(new Page(mPageSize,0));
 				if (mCacheClazz != null) {
-					cache.putList(KEY_CACHELIST, mltData, mCacheClazz);
+					cache.putList(KEY_CACHELIST, mltData);
 					cache.put(KEY_CACHETIME, new Date());
 				}
 				break;
 			case AfListTask.TASK_MORE:
 				mltData = onMore(new Page(mPageSize,mFirstResult));
 				if (mCacheClazz != null) {
-					cache.pushList(KEY_CACHELIST, mltData, mCacheClazz);
+					cache.pushList(KEY_CACHELIST, mltData);
 				}
 				break;
 			default :
