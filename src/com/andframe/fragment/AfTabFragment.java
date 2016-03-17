@@ -4,7 +4,7 @@ import com.andframe.activity.framework.AfView;
 import com.andframe.application.AfApplication;
 import com.andframe.feature.AfBundle;
 
-public abstract class AfTabFragment extends AfFragment{
+public abstract class AfTabFragment extends AfFragment {
 
 	// 切换到Fragment页面 的次数统计
 	private int mSwitchCount = 0;
@@ -16,15 +16,15 @@ public abstract class AfTabFragment extends AfFragment{
 	/**
 	 * 自定义 View onCreate(Bundle)
 	 */
-	protected void onCreated(AfBundle bundle,AfView view)throws Exception{
-		
+	protected void onCreated(AfBundle bundle, AfView view) throws Exception {
+
 	}
 
 	@Override
-	protected final void onCreated(AfView rootView, AfBundle bundle)throws Exception {
+	protected final void onCreated(AfView rootView, AfBundle bundle) throws Exception {
 		mIsCreateView = true;
-		onCreated(bundle,rootView);
-		if (mIsNeedSwitch == true) {
+		onCreated(bundle, rootView);
+		if (mIsNeedSwitch) {
 			mIsNeedSwitch = false;
 			AfApplication.getApp().setCurFragment(this, this);
 			if (mSwitchCount == 0) {
@@ -34,6 +34,7 @@ public abstract class AfTabFragment extends AfFragment{
 			this.onQueryChanged();
 		}
 	}
+
 	@Override
 	public final void setUserVisibleHint(boolean isVisibleToUser) {
 		super.setUserVisibleHint(isVisibleToUser);
@@ -60,6 +61,13 @@ public abstract class AfTabFragment extends AfFragment{
 		mIsNeedSwitch = false;
 	}
 
+	@Override
+	public void onDestroy() {
+		super.onDestroy();
+		if (AfApplication.getApp().getCurFragment() == this) {
+			AfApplication.getApp().setCurFragment(this, null);
+		}
+	}
 
 	/**
 	 * 第一次切换到本页面
@@ -70,8 +78,8 @@ public abstract class AfTabFragment extends AfFragment{
 
 	/**
 	 * 每次切换到本页面
-	 * @param count
-	 *            切换序号
+	 *
+	 * @param count 切换序号
 	 */
 	protected void onSwitchOver(int count) {
 		super.onSwitchOver(count);

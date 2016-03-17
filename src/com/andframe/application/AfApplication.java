@@ -92,7 +92,7 @@ public abstract class AfApplication extends Application {
 	 * interface INotifyNetworkStatus
 	 * @author 树朾 网络状态改变通知接口
 	 */
-	public static interface INotifyNetworkStatus {
+	public interface INotifyNetworkStatus {
 
 		void onNetworkStatusChanged(int networkStatus);
 	}
@@ -390,6 +390,7 @@ public abstract class AfApplication extends Application {
 	public String getMetaData(String key) {
 		return getMetaData(key,"");
 	}
+
 	public String getMetaData(String key,String defvalue) {
 		try {
 			ApplicationInfo info = getApplicationInfo();
@@ -470,6 +471,14 @@ public abstract class AfApplication extends Application {
 	 */
 	public synchronized AfActivity getCurActivity() {
 		return mCurActivity;
+	}
+
+	/**
+	 * 获取AfFragment
+	 * @return AfActivity or null
+	 */
+	public synchronized AfFragment getCurFragment() {
+		return mCurFragment;
 	}
 
 	/**
