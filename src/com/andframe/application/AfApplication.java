@@ -135,11 +135,16 @@ public abstract class AfApplication extends Application {
 		if (mApp.mWorker != null) {
 			return mApp.mWorker.postTaskDelayed(task, delay);
 		}
-		return AfDaemonThread.postTaskDelayed(task,delay);
+		return AfDaemonThread.postTaskDelayed(task, delay);
 	}
 
 	public static synchronized AfDispatch dispatch(AfDispatch handle) {
 		handle.dispatch(mApp.mLooper);
+		return handle;
+	}
+
+	public static synchronized AfDispatch dispatch(AfDispatch handle, long delay) {
+		handle.dispatch(mApp.mLooper,delay);
 		return handle;
 	}
 
