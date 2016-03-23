@@ -37,7 +37,7 @@ public class AfStackTrace {
 	/**
 	 *  获取调用 getCurrentStatck 的 Method
 	 * 暂时不支持重载方法
-	 * @return 调用getCurrentStatck的Statck
+	 * @return 调用getCurrentStatck 的 Statck
 	 */
 	public static Method getCurrentMethod() {
 		return getCurrentMethod(0);
@@ -47,7 +47,7 @@ public class AfStackTrace {
 	 * 获取调用 getCurrentStatck 的 Method
 	 * 暂时不支持重载方法
 	 * @param level 向上层数 默认为0
-	 * @return 调用getCurrentStatck的Statck
+	 * @return 调用getCurrentStatck 的 Statck
 	 */
 	public static Method getCurrentMethod(int level) {
 		try {

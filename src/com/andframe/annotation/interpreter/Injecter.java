@@ -172,7 +172,7 @@ public class Injecter {
                             public <T> List<T> getList(String _key, Class<T> clazz) {
                                 List<T> list = super.getList(_key, clazz);
                                 if (list == null || list.size() == 0) {
-                                    return new AfIntent(fragment.getActivity().getIntent()).getList(_key, clazz);
+                                    return new AfIntent(fragment.getActivity().getIntent()).getList(_key,clazz);
                                 }
                                 return list;
                             }
@@ -193,8 +193,10 @@ public class Injecter {
                     } else {
                         value = intent.get(inject.value(), type);
                     }
-                    field.setAccessible(true);
-                    field.set(handler, value);
+                    if (value != null) {
+                        field.setAccessible(true);
+                        field.set(handler, value);
+                    }
                 }
             } catch (Throwable e) {
                 if (inject.necessary()){
