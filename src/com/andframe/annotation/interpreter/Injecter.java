@@ -21,6 +21,7 @@ import com.andframe.caches.AfImageCaches;
 import com.andframe.caches.AfJsonCache;
 import com.andframe.caches.AfPrivateCaches;
 import com.andframe.caches.AfSharedPreference;
+import com.andframe.exception.AfToastException;
 import com.andframe.feature.AfBundle;
 import com.andframe.feature.AfDailog;
 import com.andframe.feature.AfDensity;
@@ -196,6 +197,8 @@ public class Injecter {
                     if (value != null) {
                         field.setAccessible(true);
                         field.set(handler, value);
+                    } else if (inject.necessary()) {
+                        throw new AfToastException("缺少必须参数" + inject.value());
                     }
                 }
             } catch (Throwable e) {

@@ -36,6 +36,7 @@ import com.andframe.feature.AfDailog;
 import com.andframe.feature.AfIntent;
 import com.andframe.feature.AfSoftInputer;
 import com.andframe.fragment.AfFragment;
+import com.andframe.thread.AfDispatch;
 import com.andframe.thread.AfTask;
 import com.andframe.thread.AfThreadWorker;
 import com.andframe.util.java.AfStackTrace;
@@ -108,9 +109,11 @@ import java.util.TimerTask;
  */
 public abstract class AfActivity extends FragmentActivity implements AfPageable {
 
-    public static final String EXTRA_DATA = "EXTRA_DATA";
-    public static final String EXTRA_INDEX = "EXTRA_INDEX";
-    public static final String EXTRA_RESULT = "EXTRA_RESULT";
+    public static final String EXTRA_DATA = "EXTRA_DATA";//通用数据传递标识
+    public static final String EXTRA_INDEX = "EXTRA_INDEX";//通用下标栓地标识
+    public static final String EXTRA_RESULT = "EXTRA_RESULT";//通用返回传递标识
+    public static final String EXTRA_MAIN = "EXTRA_MAIN";//主要数据传递标识
+    public static final String EXTRA_DEPUTY = "EXTRA_DEPUTY";//主要数据传递标识
 
     public static final int LP_MP = LayoutParams.MATCH_PARENT;
     public static final int LP_WC = LayoutParams.WRAP_CONTENT;
@@ -1218,11 +1221,15 @@ public abstract class AfActivity extends FragmentActivity implements AfPageable 
     @Override
     protected void onCreate(Bundle bundle) {
         try {
-            if (AfStackTrace.isLoopCall()) {
-                //System.out.println("递归检测");
-                super.onCreate(bundle);
-                return;
+            super.onCreate(bundle);
+            if (bundle != null) {
+                AfApplication.getApp().onRestoreInstanceState();
             }
+//            if (AfStackTrace.isLoopCall()) {
+//                //System.out.println("递归检测");
+//                super.onCreate(bundle);
+//                return;
+//            }
             Injecter.doInject(this);
             LayoutBinder.doBind(this);
             this.onCreate(bundle, new AfIntent(getIntent()));
@@ -1231,9 +1238,9 @@ public abstract class AfActivity extends FragmentActivity implements AfPageable 
             //当前 Activity 即将关闭，提示窗口也会关闭
             //用定时器 等到原始 Activity 再提示弹窗
             if (!(e instanceof AfToastException)) {
-                new Timer().schedule(new TimerTask() {
+                AfApplication.dispatch(new AfDispatch() {
                     @Override
-                    public void run() {
+                    protected void onDispatch() {
                         AfExceptionHandler.handler(e, TAG() + ".onCreate");
                     }
                 }, 500);
@@ -1251,10 +1258,7 @@ public abstract class AfActivity extends FragmentActivity implements AfPageable 
      * @throws Exception 安全异常
      */
     protected void onCreate(Bundle bundle, AfIntent intent) throws Exception {
-        super.onCreate(bundle);
-        if (bundle != null) {
-            AfApplication.getApp().onRestoreInstanceState();
-        }
+
     }
 
     /**

@@ -36,7 +36,10 @@ public class AfJsoner {
 
     public static <T> T fromJson(String json,Class<T> clazz){
         try {
-            return fromJson(new JSONObject(json),clazz);
+            if (null == json || "null".equals(json)) {
+                return null;
+            }
+            return fromJson(new JSONObject(json), clazz);
         } catch (JSONException e) {
             throw new RuntimeException(e);
         }
@@ -66,8 +69,10 @@ public class AfJsoner {
                 value = new Date((Long)value);
             }
             try {
-                field.setAccessible(true);
-                field.set(model,value);
+                if (!field.getType().isPrimitive() || value != null) {
+                    field.setAccessible(true);
+                    field.set(model, value);
+                }
             } catch (IllegalAccessException e) {
                 e.printStackTrace();
             }
@@ -133,11 +138,11 @@ public class AfJsoner {
             return builderArray((Object[])value);
         } else {
             final Class<?> type = value.getClass();
-            if (Integer.class.equals(type) || Short.class.equals(type) ||
+            if (type.isPrimitive() || Integer.class.equals(type) || Short.class.equals(type) ||
                     Long.class.equals(type) || Float.class.equals(type) ||
-                    Double.class.equals(type) || String.class.equals(type)){
+                    Double.class.equals(type) || String.class.equals(type) || Boolean.class.equals(type)){
                 return value;
-            } else if (Date.class.equals(type)){
+            } else if (Date.class.isAssignableFrom(type)){
                 return Date.class.cast(value).getTime();
             }
             return builderObject(value);
@@ -154,7 +159,9 @@ public class AfJsoner {
         Field[] fields = getJsonField(obj);
         for (Field field : fields) {
             Object value = getFiledValue(obj,field);
-            object.put(field.getName(),builderJson(value));
+            if (value != null) {
+                object.put(field.getName(),builderJson(value));
+            }
         }
         return object;
     }
