@@ -29,10 +29,13 @@ import com.andframe.layoutbind.AfModuleTitlebarImpl;
 import com.andframe.layoutbind.framework.AfViewDelegate;
 import com.andframe.layoutbind.framework.AfViewModule;
 import com.andframe.util.java.AfReflecter;
+import com.andframe.view.AfContactsRefreshView;
 
 import java.lang.reflect.Array;
 import java.lang.reflect.Field;
 import java.lang.reflect.Method;
+import java.lang.reflect.ParameterizedType;
+import java.lang.reflect.Type;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.Comparator;
@@ -204,14 +207,26 @@ public class ViewBinder {
                         value = new AfModuleNodataImpl(root);
                     } else if (clazz.equals(AfModuleProgress.class) && root != null) {
                         value = new AfModuleProgressImpl(root);
+                    } else if (clazz.equals(AfContactsRefreshView.class) && root != null) {
+                        value = new AfContactsRefreshView(root,bind.value()[0]);
                     } else if (root != null
                             && (field.getType().isAnnotationPresent(BindLayout.class) || id > 0)
-                            && AfViewModule.class.isAssignableFrom(field.getType())) {
+                            /*&& AfViewModule.class.isAssignableFrom(field.getType())*/) {
                         if (id <= 0) {
                             id = field.getType().getAnnotation(BindLayout.class).value();
                         }
-                        Class<? extends AfViewModule> type = (Class<? extends AfViewModule>) field.getType();
-                        value = AfViewModule.init(type, root, id);
+                        //Class<? extends AfViewModule> type = (Class<? extends AfViewModule>) field.getType();
+                        if (field.getType().isArray()) {
+                            Class<?> type = field.getType().getComponentType();
+                            value = AfViewModule.init((Class<? extends AfViewModule>) type, root, id);
+                        } else if (List.class.isAssignableFrom(field.getType())) {
+                            Type generic = field.getGenericType();
+                            ParameterizedType parameterized = (ParameterizedType) generic;
+                            Class<?> type = (Class<?>) parameterized.getActualTypeArguments()[0];
+                            value = AfViewModule.init((Class<? extends AfViewModule>) type, root, id);
+                        } else {
+                            value = AfViewModule.init((Class<? extends AfViewModule>) field.getType(), root, id);
+                        }
                     }
                     if (value != null) {
                         list.add(value);
@@ -224,7 +239,7 @@ public class ViewBinder {
                         Class<?> componentType = field.getType().getComponentType();
                         Object[] array = list.toArray((Object[]) Array.newInstance(componentType, list.size()));
                         field.set(handler, array);
-                    } else if (List.class.equals(field.getType())) {
+                    } else if (List.class.isAssignableFrom(field.getType())) {
                         field.set(handler, list);
                     } else {
                         field.set(handler, list.get(0));

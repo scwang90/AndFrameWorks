@@ -5,7 +5,7 @@ import android.util.AttributeSet;
 import android.view.ViewGroup;
 import android.widget.GridView;
 
-import com.andframe.activity.framework.AfPageable;
+import com.andframe.activity.framework.AfViewable;
 import com.andframe.view.pulltorefresh.PullRefreshFooterImpl;
 import com.andframe.view.pulltorefresh.PullRefreshHeaderImpl;
 
@@ -18,13 +18,13 @@ public class AfGridView extends AfRefreshGridView{
 		setPullFooterLayout(new PullRefreshFooterImpl(GridView.getContext()));
 		setPullHeaderLayout(new PullRefreshHeaderImpl(GridView.getContext()));
 	}
-	
-	public AfGridView(AfPageable viewable,int res) {
+
+	public AfGridView(AfViewable viewable,int res) {
 		super((mGridView=viewable.findViewByID(res)).getContext());
 		setPullFooterLayout(new PullRefreshFooterImpl(viewable.getContext()));
 		setPullHeaderLayout(new PullRefreshHeaderImpl(viewable.getContext()));
 	}
-	
+
 	public AfGridView(Context context) {
 		super(context);
 		setPullFooterLayout(new PullRefreshFooterImpl(context));

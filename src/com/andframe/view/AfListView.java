@@ -5,7 +5,7 @@ import android.util.AttributeSet;
 import android.view.ViewGroup;
 import android.widget.ListView;
 
-import com.andframe.activity.framework.AfPageable;
+import com.andframe.activity.framework.AfViewable;
 import com.andframe.view.pulltorefresh.PullRefreshFooterImpl;
 import com.andframe.view.pulltorefresh.PullRefreshHeaderImpl;
 
@@ -15,7 +15,7 @@ import com.andframe.view.pulltorefresh.PullRefreshHeaderImpl;
  *
  */
 public class AfListView extends AfRefreshListView<ListView>{
-	
+
 	private static ListView mlistView = null;
 
 	public AfListView(ListView listView) {
@@ -23,13 +23,13 @@ public class AfListView extends AfRefreshListView<ListView>{
 		setPullFooterLayout(new PullRefreshFooterImpl(listView.getContext()));
 		setPullHeaderLayout(new PullRefreshHeaderImpl(listView.getContext()));
 	}
-	
-	public AfListView(AfPageable viewable,int res) {
+
+	public AfListView(AfViewable viewable,int res) {
 		super((mlistView=viewable.findViewByID(res)).getContext());
 		setPullFooterLayout(new PullRefreshFooterImpl(viewable.getContext()));
 		setPullHeaderLayout(new PullRefreshHeaderImpl(viewable.getContext()));
 	}
-	
+
 	public AfListView(Context context) {
 		super(context);
 		setPullFooterLayout(new PullRefreshFooterImpl(context));
