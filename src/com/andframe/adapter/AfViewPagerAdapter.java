@@ -10,17 +10,22 @@ import android.support.v4.app.FragmentPagerAdapter;
  */
 public class AfViewPagerAdapter extends FragmentPagerAdapter {
 
-    private final Class<? extends Fragment>[] fragments;
+    private final Class<? extends Fragment>[] clazzs;
+    private final Fragment[] fragments;
 
     public AfViewPagerAdapter(FragmentActivity activity, Class<? extends Fragment>... fragments) {
         super(activity.getSupportFragmentManager());
-        this.fragments = fragments;
+        this.clazzs = fragments;
+        this.fragments = new Fragment[fragments.length];
     }
 
     @Override
     public Fragment getItem(int position) {
         try {
-            return fragments[position].newInstance();
+            if (fragments[position] == null) {
+                fragments[position] = clazzs[position].newInstance();
+            }
+            return fragments[position];
         } catch (Exception e) {
             e.printStackTrace();
         }
@@ -34,6 +39,6 @@ public class AfViewPagerAdapter extends FragmentPagerAdapter {
 
     @Override
     public CharSequence getPageTitle(int position) {
-        return fragments[position].getSimpleName();
+        return clazzs[position].getSimpleName();
     }
 }
