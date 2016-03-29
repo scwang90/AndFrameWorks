@@ -85,10 +85,12 @@ public abstract class AfModuleTitlebar extends AfModuleAlpha implements OnClickL
 		bindWeakReference(view);
 		mBtGoBack = view.findViewById(getBtGoBackId());
 		mBtRightImg = view.findViewById(getRightImgId(), ImageView.class);
+		mBtRightTxt = view.findViewById(getRightTxtId(), TextView.class);
 		mTvTitle = view.findViewById(getTitleTextId(), TextView.class);
 		mMeuns = new HashMap<>();
 		mBtRightImg.setOnClickListener(this);
 		mBtGoBack.setOnClickListener(this);
+		mBtRightTxt.setOnClickListener(this);
 		setFunction(function);
 	}
 

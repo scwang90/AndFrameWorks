@@ -4,6 +4,8 @@ import android.content.Context;
 import android.util.AttributeSet;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.ExpandableListView;
+import android.widget.ExpandableListView.OnChildClickListener;
 import android.widget.ListAdapter;
 
 import com.andframe.activity.framework.AfPageable;
@@ -78,13 +80,18 @@ public class AfContactsRefreshView extends AfRefreshListView<AfContactsListView>
 	}
 
 	@Override
+	@Deprecated
 	public void setAdapter(ListAdapter adapter) {
 		super.setAdapter(adapter);
-		throw new NullPointerException("请使用 setAdapter(AfContactsAdapter adapter)");
+		throw new RuntimeException("请使用 setAdapter(AfContactsAdapter adapter)");
 	}
 
 	@SuppressWarnings("rawtypes")
 	public void setAdapter(AfContactsAdapter adapter) {
 		mListView.setAdapter(adapter);
+	}
+
+	public void setOnChildClickListener(OnChildClickListener onChildClickListener) {
+		mListView.setOnChildClickListener(onChildClickListener);
 	}
 }
