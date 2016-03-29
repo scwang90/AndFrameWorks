@@ -104,9 +104,11 @@ import java.util.List;
  */
 public abstract class AfFragment extends Fragment implements AfPageable {
 
-    public static final String EXTRA_DATA = "EXTRA_DATA";
-    public static final String EXTRA_INDEX = "EXTRA_INDEX";
-    public static final String EXTRA_RESULT = "EXTRA_RESULT";
+    public static final String EXTRA_DATA = "EXTRA_DATA";//通用数据传递标识
+    public static final String EXTRA_INDEX = "EXTRA_INDEX";//通用下标栓地标识
+    public static final String EXTRA_RESULT = "EXTRA_RESULT";//通用返回传递标识
+    public static final String EXTRA_MAIN = "EXTRA_MAIN";//主要数据传递标识
+    public static final String EXTRA_DEPUTY = "EXTRA_DEPUTY";//主要数据传递标识
 
     public static final int LP_MP = LayoutParams.MATCH_PARENT;
     public static final int LP_WC = LayoutParams.WRAP_CONTENT;
@@ -455,6 +457,7 @@ public abstract class AfFragment extends Fragment implements AfPageable {
     public final void showProgressDialog(String message, boolean cancel,
                                          int textsize) {
         try {
+            hideProgressDialog();
             mProgress = new ProgressDialog(getActivity());
             mProgress.setMessage(message);
             mProgress.setCancelable(cancel);
@@ -477,6 +480,7 @@ public abstract class AfFragment extends Fragment implements AfPageable {
     public final void showProgressDialog(String message,
                                          OnCancelListener listener) {
         try {
+            hideProgressDialog();
             mProgress = new ProgressDialog(getActivity());
             mProgress.setMessage(message);
             mProgress.setCancelable(true);
@@ -499,6 +503,7 @@ public abstract class AfFragment extends Fragment implements AfPageable {
      */
     public final void showProgressDialog(String message, OnCancelListener listener, int textsize) {
         try {
+            hideProgressDialog();
             mProgress = new ProgressDialog(getActivity());
             mProgress.setMessage(message);
             mProgress.setCancelable(true);

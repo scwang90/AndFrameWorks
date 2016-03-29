@@ -452,6 +452,7 @@ public abstract class AfActivity extends FragmentActivity implements AfPageable 
     public void showProgressDialog(String message, boolean cancel,
                                    int textsize) {
         try {
+            hideProgressDialog();
             mProgress = new ProgressDialog(this);
             mProgress.setMessage(message);
             mProgress.setCancelable(cancel);
@@ -474,6 +475,7 @@ public abstract class AfActivity extends FragmentActivity implements AfPageable 
     public void showProgressDialog(String message,
                                    OnCancelListener listener) {
         try {
+            hideProgressDialog();
             mProgress = new ProgressDialog(this);
             mProgress.setMessage(message);
             mProgress.setCancelable(true);
@@ -497,6 +499,7 @@ public abstract class AfActivity extends FragmentActivity implements AfPageable 
     public void showProgressDialog(String message,
                                    OnCancelListener listener, int textsize) {
         try {
+            hideProgressDialog();
             mProgress = new ProgressDialog(this);
             mProgress.setMessage(message);
             mProgress.setCancelable(true);
@@ -1221,15 +1224,11 @@ public abstract class AfActivity extends FragmentActivity implements AfPageable 
     @Override
     protected void onCreate(Bundle bundle) {
         try {
-            super.onCreate(bundle);
-            if (bundle != null) {
-                AfApplication.getApp().onRestoreInstanceState();
+            if (AfStackTrace.isLoopCall()) {
+                //System.out.println("递归检测");
+                super.onCreate(bundle);
+                return;
             }
-//            if (AfStackTrace.isLoopCall()) {
-//                //System.out.println("递归检测");
-//                super.onCreate(bundle);
-//                return;
-//            }
             Injecter.doInject(this);
             LayoutBinder.doBind(this);
             this.onCreate(bundle, new AfIntent(getIntent()));
@@ -1258,7 +1257,10 @@ public abstract class AfActivity extends FragmentActivity implements AfPageable 
      * @throws Exception 安全异常
      */
     protected void onCreate(Bundle bundle, AfIntent intent) throws Exception {
-
+        super.onCreate(bundle);
+        if (bundle != null) {
+            AfApplication.getApp().onRestoreInstanceState();
+        }
     }
 
     /**
