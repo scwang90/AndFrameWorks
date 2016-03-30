@@ -12,7 +12,7 @@
         android:divider="#d9d9d9"
         android:dividerHeight="0.5dp"
         android:fadingEdge="none"
-        android:listSelector="@drawable/af_selected_background_listitem"
+        android:listSelector="@drawable/af_background_listitem"
         android:visibility="visible" />
 
     <include layout="@layout/af_module_progress" />

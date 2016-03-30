@@ -17,5 +17,12 @@
     <color name="pink">#FF87EF</color>
     <color name="orange">#ff6200</color>
     <color name="transparent">#00000000</color>
-    
+
+
+    <color name="divison">#b8b8b8</color>
+
+    <color name="text_title">#444444</color>
+    <color name="text_content">#555555</color>
+    <color name="text_assistant">#888888</color>
+
 </resources>

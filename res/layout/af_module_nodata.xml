@@ -20,7 +20,7 @@
     
     <TextView
         android:button="@null"
-        android:background="@drawable/af_selector_button_blue"
+        android:background="@drawable/af_button_blue"
         android:gravity="center"
         android:minWidth="200dip"
         android:minHeight="40dip"
