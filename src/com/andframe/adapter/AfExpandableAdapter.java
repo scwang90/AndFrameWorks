@@ -11,6 +11,8 @@ import android.widget.BaseExpandableListAdapter;
 
 import com.andframe.activity.framework.AfView;
 import com.andframe.activity.framework.AfViewable;
+import com.andframe.annotation.interpreter.Injecter;
+import com.andframe.annotation.interpreter.ViewBinder;
 import com.andframe.annotation.view.BindLayout;
 import com.andframe.application.AfExceptionHandler;
 
@@ -53,9 +55,28 @@ public abstract class AfExpandableAdapter<G, C> extends
 		}
 
 		public void setChildren(List<C> list) {
-			mChilds = new ArrayList<AfChild<C>>();
+			mChilds = new ArrayList<>();
 			for (C child : list) {
-				mChilds.add(new AfChild<C>(child));
+				mChilds.add(new AfChild<>(child));
+			}
+		}
+
+		public void addChild(C item) {
+			if (mChilds == null) {
+				mChilds = new ArrayList<>();
+			}
+			mChilds.add(0,new AfChild<>(item));
+		}
+
+		public void delChild(C item) {
+			if (mChilds != null) {
+				mChilds.remove(item);
+			}
+		}
+
+		public void delChild(int item) {
+			if (mChilds != null) {
+				mChilds.remove(item);
 			}
 		}
 	}
@@ -64,8 +85,11 @@ public abstract class AfExpandableAdapter<G, C> extends
 		private int layoutId = -1;
 		public IAfGroupItem(){}
 		public IAfGroupItem(int layoutId){ this.layoutId = layoutId;}
-		public abstract void onHandle(AfViewable view);
 		public abstract void onBinding(T model, boolean isExpanded);
+		public void onHandle(AfViewable view) {
+			Injecter.doInject(this, view.getContext());
+			ViewBinder.doBind(this, view);
+		}
 		public View onInflateItem(LayoutInflater inflater, ViewGroup parent) {
 			if (layoutId >= 0) {
 				return inflater.inflate(layoutId, parent, false);
@@ -83,8 +107,11 @@ public abstract class AfExpandableAdapter<G, C> extends
 		private int layoutId = -1;
 		public IAfChildItem(){}
 		public IAfChildItem(int layoutId){ this.layoutId = layoutId;}
-		public abstract void onHandle(AfViewable view);
 		public abstract void onBinding(T model);
+		public void onHandle(AfViewable view) {
+			Injecter.doInject(this, view.getContext());
+			ViewBinder.doBind(this, view);
+		}
 		public View onInflateItem(LayoutInflater inflater, ViewGroup parent) {
 			if (layoutId >= 0) {
 				return inflater.inflate(layoutId, parent, false);
@@ -124,6 +151,21 @@ public abstract class AfExpandableAdapter<G, C> extends
 		for (int i = 0; i < groups.size(); i++) {
 			mGroups.add(new AfGroup<G, C>(groups.get(i), childs.get(i)));
 		}
+		notifyDataSetChanged();
+	}
+
+	public void addChild(int group, C child) {
+		mGroups.get(group).addChild(child);
+		notifyDataSetChanged();
+	}
+
+	public void delChild(int group, C child) {
+		mGroups.get(group).delChild(child);
+		notifyDataSetChanged();
+	}
+
+	public void delChild(int group, int item) {
+		mGroups.get(group).delChild(item);
 		notifyDataSetChanged();
 	}
 

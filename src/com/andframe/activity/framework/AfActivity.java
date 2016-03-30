@@ -36,6 +36,9 @@ import com.andframe.feature.AfDailog;
 import com.andframe.feature.AfIntent;
 import com.andframe.feature.AfSoftInputer;
 import com.andframe.fragment.AfFragment;
+import com.andframe.thread.AfData2Task;
+import com.andframe.thread.AfData3Task;
+import com.andframe.thread.AfDataTask;
 import com.andframe.thread.AfDispatch;
 import com.andframe.thread.AfTask;
 import com.andframe.thread.AfThreadWorker;
@@ -44,8 +47,6 @@ import com.andframe.util.java.AfStackTrace;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
-import java.util.Timer;
-import java.util.TimerTask;
 
 /**
  * 框架 Activity
@@ -413,8 +414,6 @@ public abstract class AfActivity extends FragmentActivity implements AfPageable 
 
     /**
      * 抛送任务到Worker执行
-     *
-     * @param task 任务
      */
     public AfTask postTask(AfTask task) {
         if (mWorker != null) {
@@ -423,6 +422,26 @@ public abstract class AfActivity extends FragmentActivity implements AfPageable 
         return AfDaemonThread.postTask(task);
     }
 
+    /**
+     * 抛送带数据任务到Worker执行
+     */
+    public <T> AfTask postDataTask(T t, AfDataTask.OnTaskHandlerListener<T> task) {
+        return postTask(new AfDataTask<>(t, task));
+    }
+
+    /**
+     * 抛送带数据任务到Worker执行
+     */
+    public <T, TT> AfTask postDataTask(T t, TT tt, AfData2Task.OnData2TaskHandlerListener<T, TT> task) {
+        return postTask(new AfData2Task<>(t, tt, task));
+    }
+
+    /**
+     * 抛送带数据任务到Worker执行
+     */
+    public <T, TT, TTT> AfTask postDataTask(T t, TT tt, TTT ttt, AfData3Task.OnData3TaskHandlerListener<T, TT, TTT> task) {
+        return postTask(new AfData3Task<>(t, tt, ttt, task));
+    }
     /**
      * 显示 进度对话框
      *
@@ -452,7 +471,9 @@ public abstract class AfActivity extends FragmentActivity implements AfPageable 
     public void showProgressDialog(String message, boolean cancel,
                                    int textsize) {
         try {
-            hideProgressDialog();
+            if (mProgress != null) {
+                hideProgressDialog();
+            }
             mProgress = new ProgressDialog(this);
             mProgress.setMessage(message);
             mProgress.setCancelable(cancel);
@@ -475,7 +496,9 @@ public abstract class AfActivity extends FragmentActivity implements AfPageable 
     public void showProgressDialog(String message,
                                    OnCancelListener listener) {
         try {
-            hideProgressDialog();
+            if (mProgress != null) {
+                hideProgressDialog();
+            }
             mProgress = new ProgressDialog(this);
             mProgress.setMessage(message);
             mProgress.setCancelable(true);
@@ -499,7 +522,9 @@ public abstract class AfActivity extends FragmentActivity implements AfPageable 
     public void showProgressDialog(String message,
                                    OnCancelListener listener, int textsize) {
         try {
-            hideProgressDialog();
+            if (mProgress != null) {
+                hideProgressDialog();
+            }
             mProgress = new ProgressDialog(this);
             mProgress.setMessage(message);
             mProgress.setCancelable(true);
@@ -1231,11 +1256,26 @@ public abstract class AfActivity extends FragmentActivity implements AfPageable 
             }
             Injecter.doInject(this);
             LayoutBinder.doBind(this);
-            this.onCreate(bundle, new AfIntent(getIntent()));
         } catch (final Throwable e) {
             //handler 可能会根据 Activity 弹窗提示错误信息
             //当前 Activity 即将关闭，提示窗口也会关闭
             //用定时器 等到原始 Activity 再提示弹窗
+            if (!(e instanceof AfToastException)) {
+                AfApplication.dispatch(new AfDispatch() {
+                    @Override
+                    protected void onDispatch() {
+                        AfExceptionHandler.handler(e, TAG() + ".onCreate");
+                    }
+                }, 500);
+            }
+            super.onCreate(bundle);
+            makeToastLong("页面启动失败", e);
+            this.finish();
+            return;
+        }
+        try {
+            this.onCreate(bundle, new AfIntent(getIntent()));
+        } catch (final Exception e) {
             if (!(e instanceof AfToastException)) {
                 AfApplication.dispatch(new AfDispatch() {
                     @Override

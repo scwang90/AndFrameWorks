@@ -198,7 +198,11 @@ public class Injecter {
                         field.setAccessible(true);
                         field.set(handler, value);
                     } else if (inject.necessary()) {
-                        throw new AfToastException("缺少必须参数" + inject.value());
+                        if (inject.remark() != null && inject.remark().length() > 0) {
+                            throw new AfToastException("缺少必须参数" + inject.remark());
+                        } else {
+                            throw new AfToastException("缺少必须参数" + inject.value());
+                        }
                     }
                 }
             } catch (Throwable e) {

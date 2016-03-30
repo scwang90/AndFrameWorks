@@ -3,21 +3,24 @@ package com.andframe.feature;
 import android.content.Context;
 import android.content.Intent;
 import android.net.Uri;
+import android.os.Bundle;
+import android.os.Parcelable;
 
 import com.andframe.feature.framework.AfExtrater;
 import com.google.gson.Gson;
 
+import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.List;
-import java.util.Objects;
 import java.util.UUID;
 
 /**
  * 使用Gson实现多元数据传递
  * AfIntent
+ *
  * @author 树朾
  */
-public class AfIntent extends Intent implements AfExtrater{
+public class AfIntent extends Intent implements AfExtrater {
 
 	protected static Gson mJson = new Gson();
 
@@ -30,7 +33,7 @@ public class AfIntent extends Intent implements AfExtrater{
 	}
 
 	public AfIntent(Intent o) {
-		super(o!=null?o:new Intent());
+		super(o != null ? o : new Intent());
 	}
 
 	public AfIntent(String action, Uri uri, Context packageContext, Class<?> cls) {
@@ -47,51 +50,163 @@ public class AfIntent extends Intent implements AfExtrater{
 
 	public AfIntent(String _key, Object value) {
 		super();
-		putExtra(_key, value.getClass().getName());
-		putExtra(_key + "[0]", mJson.toJson(value));
+		put(_key, value);
 	}
 
 	public void put(String _key, Object value) {
-		if (value.getClass().isArray()) {
-			putList(_key, (Object[]) value);
-		} else if (value instanceof List ) {
-			putList(_key, (List<?>) value);
-		} else {
-			putExtra(_key, value.getClass().getName());
-			putExtra(_key+"[0]", mJson.toJson(value));
+		if (putOrgin(_key, value) == null) {
+			if (value.getClass().isArray()) {
+				putList(_key, (Object[]) value);
+			} else if (value instanceof List) {
+				putList(_key, (List<?>) value);
+			} else {
+				putExtra(_key + "[o]", value.getClass().getName());
+				putExtra(_key + "[0]", mJson.toJson(value));
+			}
 		}
+	}
+
+	public Object getOrgin(String _key, Object defaul, Class<?> clazz) {
+		if (clazz.equals(int[].class)) {
+			return getIntArrayExtra(_key);
+		} else if (clazz.equals(short[].class)) {
+			return getShortArrayExtra(_key);
+		} else if (clazz.equals(long[].class)) {
+			return getLongArrayExtra(_key);
+		} else if (clazz.equals(float[].class)) {
+			return getFloatArrayExtra(_key);
+		} else if (clazz.equals(double[].class)) {
+			return getDoubleArrayExtra(_key);
+		} else if (clazz.equals(byte[].class)) {
+			return getByteArrayExtra(_key);
+		} else if (clazz.equals(char[].class)) {
+			return getCharArrayExtra(_key);
+		} else if (clazz.equals(boolean[].class)) {
+			return getBooleanArrayExtra(_key);
+		} else if (clazz.equals(String[].class)) {
+			return getStringArrayExtra(_key);
+		} else if (clazz.equals(CharSequence[].class)) {
+			return getCharSequenceArrayExtra(_key);
+		} else if (clazz.equals(Parcelable[].class)) {
+			return getParcelableArrayExtra(_key);
+		} else if (clazz.equals(Integer.class) || clazz.equals(int.class)) {
+			return getIntExtra(_key, defaul == null ? 0 : (int) (defaul));
+		} else if (clazz.equals(Short.class) || clazz.equals(short.class)) {
+			return getShortExtra(_key, defaul == null ? 0 : (short) (defaul));
+		} else if (clazz.equals(Long.class) || clazz.equals(long.class)) {
+			return getLongExtra(_key, defaul == null ? 0 : (long) (defaul));
+		} else if (clazz.equals(Float.class) || clazz.equals(float.class)) {
+			return getFloatExtra(_key, defaul == null ? 0 : (float) (defaul));
+		} else if (clazz.equals(Double.class) || clazz.equals(double.class)) {
+			return getDoubleExtra(_key, defaul == null ? 0 : (double) (defaul));
+		} else if (clazz.equals(Byte.class) || clazz.equals(byte.class)) {
+			return getByteExtra(_key, defaul == null ? 0 : (byte) (defaul));
+		} else if (clazz.equals(Character.class) || clazz.equals(char.class)) {
+			return getCharExtra(_key, defaul == null ? 0 : (char) (defaul));
+		} else if (clazz.equals(Boolean.class) || clazz.equals(boolean.class)) {
+			return getBooleanExtra(_key, defaul != null && (boolean) (defaul));
+		} else if (clazz.equals(String.class)) {
+			return getStringExtra(_key);
+		} else if (clazz.equals(CharSequence.class)) {
+			return getCharSequenceExtra(_key);
+		} else if (clazz.equals(Bundle.class)) {
+			return getBundleExtra(_key);
+		} else if (Parcelable.class.isAssignableFrom(clazz)) {
+			return getParcelableExtra(_key);
+		} else if (Serializable.class.isAssignableFrom(clazz)) {
+			return getSerializableExtra(_key);
+		}
+		return null;
+	}
+
+	private Intent putOrgin(String key, Object value) {
+		if (value instanceof int[]) {
+			return putExtra(key, (int[]) value);
+		} else if (value instanceof short[]) {
+			return putExtra(key, (short[]) value);
+		} else if (value instanceof long[]) {
+			return putExtra(key, (long[]) value);
+		} else if (value instanceof float[]) {
+			return putExtra(key, (float[]) value);
+		} else if (value instanceof double[]) {
+			return putExtra(key, (double[]) value);
+		} else if (value instanceof byte[]) {
+			return putExtra(key, (byte[]) value);
+		} else if (value instanceof char[]) {
+			return putExtra(key, (char[]) value);
+		} else if (value instanceof boolean[]) {
+			return putExtra(key, (boolean[]) value);
+		} else if (value instanceof String[]) {
+			return putExtra(key, (String[]) value);
+		} else if (value instanceof CharSequence[]) {
+			return putExtra(key, (CharSequence[]) value);
+		} else if (value instanceof Parcelable[]) {
+			return putExtra(key, (Parcelable[]) value);
+		} else if (value instanceof Integer) {
+			return putExtra(key, (int) value);
+		} else if (value instanceof Short) {
+			return putExtra(key, (short) value);
+		} else if (value instanceof Long) {
+			return putExtra(key, (long) value);
+		} else if (value instanceof Float) {
+			return putExtra(key, (float) value);
+		} else if (value instanceof Double) {
+			return putExtra(key, (double) value);
+		} else if (value instanceof Byte) {
+			return putExtra(key, (byte) value);
+		} else if (value instanceof Character) {
+			return putExtra(key, (char) value);
+		} else if (value instanceof Boolean) {
+			return putExtra(key, (boolean) value);
+		} else if (value instanceof String) {
+			return putExtra(key, (String) value);
+		} else if (value instanceof CharSequence) {
+			return putExtra(key, (CharSequence) value);
+		} else if (value instanceof Bundle) {
+			return putExtra(key, (Bundle) value);
+		} else if (value instanceof Parcelable) {
+			return putExtra(key, (Parcelable) value);
+		} else if (value instanceof Serializable) {
+			return putExtra(key, (Serializable) value);
+		}
+		return null;
 	}
 
 	public void putList(String _key, List<? extends Object> value) {
 		int length = value.size();
-		putExtra(_key, mJson.toJson(length));
+		putExtra(_key + "[o]", mJson.toJson(length));
 		for (int i = 0; i < length; i++) {
-			putExtra(_key+"["+i+"]", mJson.toJson(value.get(i)));
+			putExtra(_key + "[" + i + "]", mJson.toJson(value.get(i)));
 		}
 	}
 
 	public void putList(String _key, Object[] value) {
 		int length = value.length;
-		putExtra(_key, mJson.toJson(length));
+		putExtra(_key + "[o]", mJson.toJson(length));
 		for (int i = 0; i < length; i++) {
-			putExtra(_key+"["+i+"]", mJson.toJson(value[i]));
+			putExtra(_key + "[" + i + "]", mJson.toJson(value[i]));
 		}
 	}
 
-	public <T> T get(String _key,Class<T> clazz) {
-		return get(_key,null,clazz);
+	public <T> T get(String _key, Class<T> clazz) {
+		return get(_key, null, clazz);
 	}
 
-	public <T> T get(String _key,T defaul,Class<T> clazz) {
+	public <T> T get(String _key, T defaul, Class<T> clazz) {
 		T value = null;
 		try {
-			String name = getStringExtra(_key);
-			if(!clazz.getName().equals(name) && !clazz.isPrimitive()) {
-				if (clazz.isAssignableFrom(Class.forName(name))) {
-					clazz = (Class<T>) Class.forName(name);
+			value = (T)getOrgin(_key,defaul,clazz);
+			if (value != null) {
+				return value;
+			}
+			String name = getStringExtra(_key + "[o]");
+			if (!clazz.getName().equals(name) && !clazz.isPrimitive()) {
+				Class<?> orgin = Class.forName(name);
+				if (clazz.isAssignableFrom(orgin) && !orgin.isAnonymousClass()) {
+					clazz = (Class<T>) orgin;
 				}
 			}
-			value = mJson.fromJson(getStringExtra(_key+"[0]"), clazz);
+			value = mJson.fromJson(getStringExtra(_key + "[0]"), clazz);
 		} catch (Throwable e) {
 			e.printStackTrace();
 		}
@@ -100,35 +215,33 @@ public class AfIntent extends Intent implements AfExtrater{
 
 	/**
 	 * 获取List<T>
-	 * @param _key
-	 * @param clazz
+	 *
 	 * @return 如果找不到返回 null， list 有可能为 0 个元素
 	 */
-	public <T> List<T> getList(String _key,Class<T> clazz) {
-		return getList(_key,null,clazz);
+	public <T> List<T> getList(String _key, Class<T> clazz) {
+		return getList(_key, null, clazz);
 	}
 
 	/**
-	 /**
+	 * /**
 	 * 获取List<T>
-	 * @param _key
+	 *
 	 * @param defaul 如果找不到返回 defaul
-	 * @param clazz
 	 * @return 如果找不到返回 null， list 有可能为 0 个元素
 	 */
-	public <T> List<T> getList(String _key,List<T> defaul,Class<T> clazz) {
+	public <T> List<T> getList(String _key, List<T> defaul, Class<T> clazz) {
 		List<T> value = null;
 		try {
-			value = new ArrayList<T>();
-			Integer length = mJson.fromJson(getStringExtra(_key), Integer.class);
+			value = new ArrayList<>();
+			Integer length = mJson.fromJson(getStringExtra(_key + "[o]"), Integer.class);
 			for (int i = 0; i < length; i++) {
-				T t = mJson.fromJson(getStringExtra(_key+"["+i+"]"), clazz);
-				if(t != null){
+				T t = mJson.fromJson(getStringExtra(_key + "[" + i + "]"), clazz);
+				if (t != null) {
 					value.add(t);
 				}
 			}
 		} catch (Throwable e) {
-			if(value != null && value.size() == 0){
+			if (value != null && value.size() == 0) {
 				value = null;
 			}
 		}
@@ -136,34 +249,62 @@ public class AfIntent extends Intent implements AfExtrater{
 	}
 
 	public String getString(String _key, String _default) {
-		return get(_key,_default,String.class);
+		return get(_key, _default, String.class);
 	}
 
 	public short getShort(String _key, short _default) {
-		return get(_key,_default,Short.class);
+		return get(_key, _default, Short.class);
 	}
 
 	public boolean getBoolean(String _key, boolean _default) {
-		return get(_key,_default,Boolean.class);
+		return get(_key, _default, Boolean.class);
 	}
 
 	public int getInt(String _key, int _default) {
-		return get(_key,_default,Integer.class);
+		return get(_key, _default, Integer.class);
 	}
 
 	public long getLong(String _key, long _default) {
-		return get(_key,_default,Long.class);
+		return get(_key, _default, Long.class);
 	}
 
 	public float getFloat(String _key, float _default) {
-		return get(_key,_default,Float.class);
+		return get(_key, _default, Float.class);
 	}
 
 	public double getDouble(String _key, double _default) {
-		return get(_key,_default,Double.class);
+		return get(_key, _default, Double.class);
+	}
+
+	public String[] getStrings(String _key, String[] _default) {
+		return get(_key, _default, String[].class);
+	}
+
+	public short[] getShorts(String _key, short[] _default) {
+		return get(_key, _default, short[].class);
+	}
+
+	public boolean[] getBooleans(String _key, boolean[] _default) {
+		return get(_key, _default, boolean[].class);
+	}
+
+	public int[] getInts(String _key, int[] _default) {
+		return get(_key, _default, int[].class);
+	}
+
+	public long[] getLongs(String _key, long[] _default) {
+		return get(_key, _default, long[].class);
+	}
+
+	public float[] getFloats(String _key, float[] _default) {
+		return get(_key, _default, float[].class);
+	}
+
+	public double[] getDoubles(String _key, double[] _default) {
+		return get(_key, _default, double[].class);
 	}
 
 	public UUID getUUID(String _key, UUID _default) {
-		return get(_key,_default,UUID.class);
+		return get(_key, _default, UUID.class);
 	}
 }
