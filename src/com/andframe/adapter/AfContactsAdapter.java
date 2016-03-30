@@ -15,7 +15,7 @@ public abstract class AfContactsAdapter<G, C> extends AfExpandableAdapter<G, C>{
 	public AfContactsAdapter(AfContactsListView listView, List<AfGroup<G, C>> groups) {
 		super(listView.getContext(), groups);
 		mHeader = getItemLayout(0);
-		View view = mInflater.inflate(mHeader.getLayoutId(), listView, false);
+		View view = mHeader.onInflateItem(mInflater, listView);
 		mHeader.onHandle(new AfView(view));
 		listView.setHeaderView(view);
 	}
@@ -23,7 +23,7 @@ public abstract class AfContactsAdapter<G, C> extends AfExpandableAdapter<G, C>{
 	public AfContactsAdapter(AfContactsRefreshView listView, List<AfGroup<G, C>> groups) {
 		super(listView.getContext(), groups);
 		mHeader = getItemLayout(0);
-		View view = mInflater.inflate(mHeader.getLayoutId(), listView, false);
+		View view = mHeader.onInflateItem(mInflater, listView);
 		mHeader.onHandle(new AfView(view));
 		listView.setHeaderView(view);
 	}

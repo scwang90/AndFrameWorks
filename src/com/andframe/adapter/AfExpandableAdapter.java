@@ -10,6 +10,8 @@ import android.view.ViewGroup;
 import android.widget.BaseExpandableListAdapter;
 
 import com.andframe.activity.framework.AfView;
+import com.andframe.activity.framework.AfViewable;
+import com.andframe.annotation.view.BindLayout;
 import com.andframe.application.AfExceptionHandler;
 
 public abstract class AfExpandableAdapter<G, C> extends
@@ -45,7 +47,7 @@ public abstract class AfExpandableAdapter<G, C> extends
 		public T value() {
 			return mValue;
 		}
-		
+
 		public int getCount() {
 			return mChilds.size();
 		}
@@ -58,16 +60,42 @@ public abstract class AfExpandableAdapter<G, C> extends
 		}
 	}
 
-	public interface IAfGroupItem<T> {
-		void onHandle(AfView view);
-		void onBinding(T model, boolean isExpanded);
-		int getLayoutId();
+	public static abstract class IAfGroupItem<T> {
+		private int layoutId = -1;
+		public IAfGroupItem(){}
+		public IAfGroupItem(int layoutId){ this.layoutId = layoutId;}
+		public abstract void onHandle(AfViewable view);
+		public abstract void onBinding(T model, boolean isExpanded);
+		public View onInflateItem(LayoutInflater inflater, ViewGroup parent) {
+			if (layoutId >= 0) {
+				return inflater.inflate(layoutId, parent, false);
+			} else if (this.getClass().isAnnotationPresent(BindLayout.class)) {
+				BindLayout layout = this.getClass().getAnnotation(BindLayout.class);
+				if (layout != null) {
+					return inflater.inflate(layout.value(), parent, false);
+				}
+			}
+			return null;
+		}
 	}
 
-	public interface IAfChildItem<T> {
-		void onHandle(AfView view);
-		void onBinding(T model);
-		int getLayoutId();
+	public static abstract class IAfChildItem<T> {
+		private int layoutId = -1;
+		public IAfChildItem(){}
+		public IAfChildItem(int layoutId){ this.layoutId = layoutId;}
+		public abstract void onHandle(AfViewable view);
+		public abstract void onBinding(T model);
+		public View onInflateItem(LayoutInflater inflater, ViewGroup parent) {
+			if (layoutId >= 0) {
+				return inflater.inflate(layoutId, parent, false);
+			} else if (this.getClass().isAnnotationPresent(BindLayout.class)) {
+				BindLayout layout = this.getClass().getAnnotation(BindLayout.class);
+				if (layout != null) {
+					return inflater.inflate(layout.value(), parent, false);
+				}
+			}
+			return null;
+		}
 	}
 
 	protected List<AfGroup<G, C>> mGroups;
@@ -78,10 +106,10 @@ public abstract class AfExpandableAdapter<G, C> extends
 		mInflater = LayoutInflater.from(context);
 	}
 
-	public AfExpandableAdapter(Context context,List<G> groups,List<List<C>> childs) {
-		mGroups = new ArrayList<AfGroup<G,C>>();
+	public AfExpandableAdapter(Context context, List<G> groups, List<List<C>> childs) {
+		mGroups = new ArrayList<AfGroup<G, C>>();
 		for (int i = 0; i < groups.size(); i++) {
-			mGroups.add(new AfGroup<G, C>(groups.get(i),childs.get(i)));
+			mGroups.add(new AfGroup<G, C>(groups.get(i), childs.get(i)));
 		}
 		mInflater = LayoutInflater.from(context);
 	}
@@ -91,10 +119,10 @@ public abstract class AfExpandableAdapter<G, C> extends
 		notifyDataSetChanged();
 	}
 
-	public void setList(List<G> groups,List<List<C>> childs) {
-		mGroups = new ArrayList<AfGroup<G,C>>();
+	public void setList(List<G> groups, List<List<C>> childs) {
+		mGroups = new ArrayList<AfGroup<G, C>>();
 		for (int i = 0; i < groups.size(); i++) {
-			mGroups.add(new AfGroup<G, C>(groups.get(i),childs.get(i)));
+			mGroups.add(new AfGroup<G, C>(groups.get(i), childs.get(i)));
 		}
 		notifyDataSetChanged();
 	}
@@ -121,7 +149,7 @@ public abstract class AfExpandableAdapter<G, C> extends
 	@Override
 	@SuppressWarnings("unchecked")
 	public View getChildView(int group, int child, boolean isLastChild,
-			View view, ViewGroup parent) {
+							 View view, ViewGroup parent) {
 		// 列表视图获取必须检查 view 是否为空 不能每次都 inflate 否则手机内存负载不起
 		IAfChildItem<C> item = null;
 		try {
@@ -134,12 +162,12 @@ public abstract class AfExpandableAdapter<G, C> extends
 			}
 			bindingItem(item, group, child);
 		} catch (Throwable e) {
-			String remark = "AfExpandableListAdapter("+getClass().getName()+").getChildView\r\n";
+			String remark = "AfExpandableListAdapter(" + getClass().getName() + ").getChildView\r\n";
 			View cview = view;
-			if (parent instanceof View){
+			if (parent instanceof View) {
 				cview = (View) parent;
 			}
-			if (cview != null && cview.getContext() != null){
+			if (cview != null && cview.getContext() != null) {
 				remark += "class = " + cview.getContext().getClass().toString();
 			}
 			AfExceptionHandler.handler(e, remark);
@@ -153,7 +181,7 @@ public abstract class AfExpandableAdapter<G, C> extends
 	}
 
 	protected View onInflateItem(IAfChildItem<C> item, ViewGroup parent) {
-		return mInflater.inflate(item.getLayoutId(), null);
+		return item.onInflateItem(mInflater, parent);
 	}
 
 	protected abstract IAfChildItem<C> getItemLayout(int group, int child);
@@ -176,7 +204,7 @@ public abstract class AfExpandableAdapter<G, C> extends
 	@Override
 	@SuppressWarnings("unchecked")
 	public View getGroupView(int group, boolean isExpanded, View view,
-			ViewGroup parent) {
+							 ViewGroup parent) {
 		// 列表视图获取必须检查 view 是否为空 不能每次都 inflate 否则手机内存负载不起
 		IAfGroupItem<G> item = null;
 		try {
@@ -189,12 +217,12 @@ public abstract class AfExpandableAdapter<G, C> extends
 			}
 			bindingItem(item, group, isExpanded);
 		} catch (Throwable e) {
-			String remark = "AfExpandableListAdapter("+getClass().getName()+").getGroupView\r\n";
+			String remark = "AfExpandableListAdapter(" + getClass().getName() + ").getGroupView\r\n";
 			View cview = view;
-			if (parent instanceof View){
+			if (parent instanceof View) {
 				cview = (View) parent;
 			}
-			if (cview != null && cview.getContext() != null){
+			if (cview != null && cview.getContext() != null) {
 				remark += "class = " + cview.getContext().getClass().toString();
 			}
 			AfExceptionHandler.handler(e, remark);
@@ -209,7 +237,7 @@ public abstract class AfExpandableAdapter<G, C> extends
 	protected abstract IAfGroupItem<G> getItemLayout(int group);
 
 	protected View onInflateItem(IAfGroupItem<G> item, ViewGroup parent) {
-		return mInflater.inflate(item.getLayoutId(), null);
+		return item.onInflateItem(mInflater, parent) ;
 	}
 
 	@Override
