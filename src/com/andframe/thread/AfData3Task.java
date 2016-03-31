@@ -79,6 +79,10 @@ public class AfData3Task<T, TT, TTT> extends AfHandlerTask {
             this.task = task;
         }
 
+        public AfData3Task<T, TT, TTT> getTask() {
+            return task;
+        }
+
         public boolean onPrepare(T t, TT tt, TTT ttt) {
             return false;
         }
