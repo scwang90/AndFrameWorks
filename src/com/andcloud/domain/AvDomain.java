@@ -22,7 +22,7 @@ public class AvDomain<T extends AVObject> {
 		return getQuery(clazz);
 	}
 
-	public <T extends AVObject> AVQuery<T> getQuery(Class<T> clazz){
+	public static <T extends AVObject> AVQuery<T> getQuery(Class<T> clazz){
 		AVQuery<T> query = AVObject.getQuery(clazz);
 //		query.setMaxCacheAge(TimeUnit.DAYS.toMillis(1));
 //		query.setMaxCacheAge(AfTimeSpan.FromDays(1).getTotalMilliseconds());
