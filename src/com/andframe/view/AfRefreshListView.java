@@ -6,6 +6,7 @@ import android.graphics.drawable.BitmapDrawable;
 import android.os.Build.VERSION;
 import android.util.AttributeSet;
 import android.view.View;
+import android.widget.AbsListView;
 import android.widget.Adapter;
 import android.widget.AdapterView.OnItemClickListener;
 import android.widget.AdapterView.OnItemLongClickListener;
@@ -13,6 +14,8 @@ import android.widget.ListAdapter;
 import android.widget.ListView;
 
 import com.andframe.view.pulltorefresh.AfPullToRefreshBase;
+
+import java.lang.reflect.Field;
 
 public abstract class AfRefreshListView<T extends ListView> extends AfPullToRefreshBase<T> {
 	protected ListAdapter mAdapter = null;
@@ -31,14 +34,14 @@ public abstract class AfRefreshListView<T extends ListView> extends AfPullToRefr
 	public AfRefreshListView(Context context, AttributeSet attrs, int defStyle) {
 		super(context, attrs, defStyle);
 	}
-	
+
 	public final Object getData(int position) {
 		if (mAdapter != null) {
 			return mAdapter.getItem(getDataIndex(position));
 		}
 		return mTargetView.getItemAtPosition(getDataIndex(position));
 	}
-	
+
 
 	public final <TT> TT getData(int position,Class<TT> clazz) {
 		Object item = new Object();
@@ -88,7 +91,7 @@ public abstract class AfRefreshListView<T extends ListView> extends AfPullToRefr
 			mListView.setDivider(new BitmapDrawable(getResources(),
 					getDrawingCache()));
 		}
-		
+
 		// 解决listview在拖动的时候背景图片消失变成黑色背景
 		mListView.setCacheColorHint(0);
 		mListView.setScrollingCacheEnabled(false);
@@ -109,7 +112,7 @@ public abstract class AfRefreshListView<T extends ListView> extends AfPullToRefr
 	public void setRefreshable(boolean able) {
 		mIsOpenRefresh = able;
 	}
-	
+
 //	@Override
 //	protected final boolean isReadyForPullDown() {
 //		return mIsOpenRefresh 
@@ -123,109 +126,109 @@ public abstract class AfRefreshListView<T extends ListView> extends AfPullToRefr
 //				mTargetView.getLastVisiblePosition() 
 //				== mTargetView.getCount() - 1;
 //	}
-	
-//	@Override
-//	protected final boolean isReadyForPullDown() {
-//		// targetview.getOverScrollMode();
-//		return mIsOpenRefresh
-//				&& 5 >= Math.abs(getFirstPositionDistanceGuess(mTargetView)
-//						- mTargetView.getTop());
-//	}
-//
-//	@Override
-//	protected final boolean isReadyForPullUp() {
-//		return mIsNeedFooter
-//				&& 5 >= Math.abs(getLastPositionDistanceGuess(mTargetView)
-//						- mTargetView.getBottom());
-//	}
-//
-//	int getFirstPositionDistanceGuess(AbsListView view) {
-//		Field field;
-//		// 获取ContextWrapper对象中的mBase变量。该变量保存了ContextImpl对象
-//		try {
-//			field = AbsListView.class
-//					.getDeclaredField("mFirstPositionDistanceGuess");
-//			field.setAccessible(true);
-//			return (Integer) field.get(view);
-//		} catch (Throwable e) {
-//			e.printStackTrace();
-//		}
-//		return -1;
-//	}
-//
-//	int getLastPositionDistanceGuess(AbsListView view) {
-//		Field field;
-//		// 获取ContextWrapper对象中的mBase变量。该变量保存了ContextImpl对象
-//		try {
-//			field = AbsListView.class
-//					.getDeclaredField("mLastPositionDistanceGuess");
-//			field.setAccessible(true);
-//			return (Integer) field.get(view);
-//		} catch (Throwable e) {
-//			e.printStackTrace();
-//		}
-//		return -1;
-//
-//	}
 
 	@Override
-	protected boolean isReadyForPullDown() {
-		return mIsOpenRefresh&&isFirstItemVisible();
+	protected final boolean isReadyForPullDown() {
+		// targetview.getOverScrollMode();
+		return mIsOpenRefresh
+				&& 5 >= Math.abs(getFirstPositionDistanceGuess(mTargetView)
+				- mTargetView.getTop());
 	}
 
 	@Override
-	protected boolean isReadyForPullUp() {
-		return mIsNeedFooter&&isLastItemVisible();
+	protected final boolean isReadyForPullUp() {
+		return mIsNeedFooter
+				&& 5 >= Math.abs(getLastPositionDistanceGuess(mTargetView)
+				- mTargetView.getBottom());
 	}
-	
-	private boolean isFirstItemVisible() {
-		final Adapter adapter = mTargetView.getAdapter();
 
-		if (null == adapter || adapter.isEmpty()) {
-			return true;
-		} else {
-			/**
-			 * This check should really just be:
-			 * mRefreshableView.getFirstVisiblePosition() == 0, but PtRListView
-			 * internally use a HeaderView which messes the positions up. For
-			 * now we'll just add one to account for it and rely on the inner
-			 * condition which checks getTop().
-			 */
-			if (mTargetView.getFirstVisiblePosition() <= 1) {
-				final View firstVisibleChild = mTargetView.getChildAt(0);
-				if (firstVisibleChild != null) {
-					return firstVisibleChild.getTop() >= mTargetView.getTop();
-				}
-			}
+	int getFirstPositionDistanceGuess(AbsListView view) {
+		Field field;
+		// 获取ContextWrapper对象中的mBase变量。该变量保存了ContextImpl对象
+		try {
+			field = AbsListView.class
+					.getDeclaredField("mFirstPositionDistanceGuess");
+			field.setAccessible(true);
+			return (Integer) field.get(view);
+		} catch (Throwable e) {
+			e.printStackTrace();
 		}
-		return false;
+		return -1;
 	}
-	
-	private boolean isLastItemVisible() {
-		final Adapter adapter = mTargetView.getAdapter();
-		if (null == adapter || adapter.isEmpty()) {
-			return true;
-		} else {
-			final int lastItemPosition = mTargetView.getCount() - 1;
-			final int lastVisiblePosition = mTargetView.getLastVisiblePosition();
-			/**
-			 * This check should really just be: lastVisiblePosition ==
-			 * lastItemPosition, but PtRListView internally uses a FooterView
-			 * which messes the positions up. For me we'll just subtract one to
-			 * account for it and rely on the inner condition which checks
-			 * getBottom().
-			 */
-			if (lastVisiblePosition >= lastItemPosition - 1) {
-				final int childIndex = lastVisiblePosition - mTargetView.getFirstVisiblePosition();
-				final View lastVisibleChild = mTargetView.getChildAt(childIndex);
-				if (lastVisibleChild != null) {
-					return lastVisibleChild.getBottom() <= mTargetView.getBottom();
-				}
-			}
+
+	int getLastPositionDistanceGuess(AbsListView view) {
+		Field field;
+		// 获取ContextWrapper对象中的mBase变量。该变量保存了ContextImpl对象
+		try {
+			field = AbsListView.class
+					.getDeclaredField("mLastPositionDistanceGuess");
+			field.setAccessible(true);
+			return (Integer) field.get(view);
+		} catch (Throwable e) {
+			e.printStackTrace();
 		}
-		return false;
+		return -1;
+
 	}
-	
+
+//	@Override
+//	protected boolean isReadyForPullDown() {
+//		return mIsOpenRefresh&&isFirstItemVisible();
+//	}
+//
+//	@Override
+//	protected boolean isReadyForPullUp() {
+//		return mIsNeedFooter&&isLastItemVisible();
+//	}
+//
+//	private boolean isFirstItemVisible() {
+//		final Adapter adapter = mTargetView.getAdapter();
+//
+//		if (null == adapter || adapter.isEmpty()) {
+//			return true;
+//		} else {
+//			/**
+//			 * This check should really just be:
+//			 * mRefreshableView.getFirstVisiblePosition() == 0, but PtRListView
+//			 * internally use a HeaderView which messes the positions up. For
+//			 * now we'll just add one to account for it and rely on the inner
+//			 * condition which checks getTop().
+//			 */
+//			if (mTargetView.getFirstVisiblePosition() <= 1) {
+//				final View firstVisibleChild = mTargetView.getChildAt(0);
+//				if (firstVisibleChild != null) {
+//					return firstVisibleChild.getTop() >= mTargetView.getTop();
+//				}
+//			}
+//		}
+//		return false;
+//	}
+//
+//	private boolean isLastItemVisible() {
+//		final Adapter adapter = mTargetView.getAdapter();
+//		if (null == adapter || adapter.isEmpty()) {
+//			return true;
+//		} else {
+//			final int lastItemPosition = mTargetView.getCount() - 1;
+//			final int lastVisiblePosition = mTargetView.getLastVisiblePosition();
+//			/**
+//			 * This check should really just be: lastVisiblePosition ==
+//			 * lastItemPosition, but PtRListView internally uses a FooterView
+//			 * which messes the positions up. For me we'll just subtract one to
+//			 * account for it and rely on the inner condition which checks
+//			 * getBottom().
+//			 */
+//			if (lastVisiblePosition >= lastItemPosition - 1) {
+//				final int childIndex = lastVisiblePosition - mTargetView.getFirstVisiblePosition();
+//				final View lastVisibleChild = mTargetView.getChildAt(childIndex);
+//				if (lastVisibleChild != null) {
+//					return lastVisibleChild.getBottom() <= mTargetView.getBottom();
+//				}
+//			}
+//		}
+//		return false;
+//	}
+
 	public final void addMoreView() {
 		mIsNeedFooter = true;
 	}
@@ -269,7 +272,7 @@ public abstract class AfRefreshListView<T extends ListView> extends AfPullToRefr
 	public void addHeaderView(View v) {
 		mTargetView.addHeaderView(v);
 	}
-	
+
 	public void addHeaderView(View v, Object data, boolean isSelectable) {
 		mTargetView.addHeaderView(v, data, isSelectable);
 	}
