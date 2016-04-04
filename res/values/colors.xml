@@ -19,10 +19,10 @@
     <color name="transparent">#00000000</color>
 
 
-    <color name="divison">#b8b8b8</color>
+    <color name="af_divison">#b8b8b8</color>
 
-    <color name="text_title">#444444</color>
-    <color name="text_content">#555555</color>
-    <color name="text_assistant">#888888</color>
+    <color name="af_text_title">#444444</color>
+    <color name="af_text_content">#555555</color>
+    <color name="af_text_assistant">#888888</color>
 
 </resources>

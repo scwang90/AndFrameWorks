@@ -22,6 +22,7 @@ import android.widget.AdapterView;
 import android.widget.AdapterView.OnItemClickListener;
 import android.widget.AdapterView.OnItemLongClickListener;
 import android.widget.CompoundButton;
+import android.widget.CompoundButton.OnCheckedChangeListener;
 
 import com.andframe.application.AfExceptionHandler;
 
@@ -31,7 +32,7 @@ import java.util.HashSet;
 import java.util.List;
 import java.util.Set;
 
-public class EventListener implements OnClickListener, OnLongClickListener, OnItemClickListener, OnItemLongClickListener, CompoundButton.OnCheckedChangeListener {
+public class EventListener implements OnClickListener, OnLongClickListener, OnItemClickListener, OnItemLongClickListener, OnCheckedChangeListener {
 
     private Object handler;
 
@@ -65,7 +66,7 @@ public class EventListener implements OnClickListener, OnLongClickListener, OnIt
         return this;
     }
 
-    public CompoundButton.OnCheckedChangeListener checkedChange(Method method) {
+    public OnCheckedChangeListener checkedChange(Method method) {
         this.checkedChangedMehtod = method;
         return this;
     }
@@ -75,7 +76,7 @@ public class EventListener implements OnClickListener, OnLongClickListener, OnIt
     }
 
     public boolean onLongClick(View v) {
-        return (Boolean) invokeMethod(handler, longClickMethod, v);
+        return Boolean.valueOf(true).equals(invokeMethod(handler, longClickMethod, v));
     }
 
     @Override
@@ -85,7 +86,7 @@ public class EventListener implements OnClickListener, OnLongClickListener, OnIt
 
     @Override
     public boolean onItemLongClick(AdapterView<?> parent, View view, int position, long id) {
-        return (Boolean) invokeMethod(handler, itemLongClickMehtod, parent, view, position, id);
+        return Boolean.valueOf(true).equals(invokeMethod(handler, itemLongClickMehtod, parent, view, position, id));
     }
 
     @Override
