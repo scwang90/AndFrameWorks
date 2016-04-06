@@ -69,6 +69,14 @@ public class AfData2Task<T, TT> extends AfHandlerTask {
         listener.onTaskBackground(t, tt);
     }
 
+    public T getData1() {
+        return t;
+    }
+
+    public TT getData2() {
+        return tt;
+    }
+
     public static abstract class AbData2TaskHandler<T, TT> implements OnData2TaskHandlerListener<T, TT> {
 
         AfData2Task<T, TT> task;

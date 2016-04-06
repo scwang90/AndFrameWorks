@@ -71,6 +71,18 @@ public class AfData3Task<T, TT, TTT> extends AfHandlerTask {
         listener.onTaskBackground(t, tt, ttt);
     }
 
+    public T getData1() {
+        return t;
+    }
+
+    public TT getData2() {
+        return tt;
+    }
+
+    public TT getData3() {
+        return tt;
+    }
+
     public static abstract class AbData3TaskHandler<T, TT, TTT> implements OnData3TaskHandlerListener<T, TT, TTT> {
 
         AfData3Task<T, TT, TTT> task;

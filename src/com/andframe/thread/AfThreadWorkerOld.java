@@ -64,18 +64,18 @@ public class AfThreadWorkerOld extends Thread{
 	}
 	
 	public void post(AfTask task) {
-		if (task.onPrepare()) {
+		if (!task.isCanceled() && task.onPrepare()) {
 			getHandler().post(task);
 		}
 	}
 	public AfTask postTask(AfTask task) {
-		if (task.onPrepare()) {
+		if (!task.isCanceled() && task.onPrepare()) {
 			getHandler().post(task);
 		}
 		return task;
 	}
 	public AfTask postTaskDelayed(AfTask task,long delay) {
-		if (task.onPrepare()) {
+		if (!task.isCanceled() && task.onPrepare()) {
 			getHandler().postDelayed(task,delay);
 		}
 		return task;

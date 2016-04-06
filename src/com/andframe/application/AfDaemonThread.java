@@ -58,7 +58,7 @@ public class AfDaemonThread {
 			protected void onDispatch() {
 				synchronized (mltWorker) {
 					if (mltWorker.size() < MAXTHREADNUM) {
-						if (task.onPrepare()) {
+						if (!task.isCanceled() && task.onPrepare()) {
 							ThreadWorker tWorker = new ThreadWorker(AfDateGuid.NewID(),task,delay);
 							mltWorker.add(tWorker);
 							tWorker.start();
@@ -86,7 +86,7 @@ public class AfDaemonThread {
 	public static AfTask postTaskDelayedNoDispatch(final AfTask task,final long delay) {
 		synchronized (mltWorker) {
 			if (mltWorker.size() < MAXTHREADNUM) {
-				if (task.onPrepare()) {
+				if (!task.isCanceled() && task.onPrepare()) {
 					ThreadWorker tWorker = new ThreadWorker(AfDateGuid.NewID(),task,delay);
 					mltWorker.add(tWorker);
 					tWorker.start();

@@ -65,21 +65,42 @@ public class AfThreadWorker extends Thread{
 	}
 	
 	public void post(AfTask task) {
-		if (task.onPrepare()) {
+		if (!task.isCanceled() && task.onPrepare()) {
 			getHandler().post(task);
 		}
 	}
 	public AfTask postTask(AfTask task) {
-		if (task.onPrepare()) {
+		if (!task.isCanceled() && task.onPrepare()) {
 			getHandler().post(task);
 		}
 		return task;
 	}
 	public AfTask postTaskDelayed(AfTask task,long delay) {
-		if (task.onPrepare()) {
+		if (!task.isCanceled() && task.onPrepare()) {
 			getHandler().postDelayed(task,delay);
 		}
 		return task;
+	}
+
+	/**
+	 * 抛送带数据任务到Worker执行
+	 */
+	public <T> AfTask postDataTask(T t, AfDataTask.OnTaskHandlerListener<T> task) {
+		return postTask(new AfDataTask<>(t, task));
+	}
+
+	/**
+	 * 抛送带数据任务到Worker执行
+	 */
+	public <T, TT> AfTask postDataTask(T t, TT tt, AfData2Task.OnData2TaskHandlerListener<T, TT> task) {
+		return postTask(new AfData2Task<>(t, tt, task));
+	}
+
+	/**
+	 * 抛送带数据任务到Worker执行
+	 */
+	public <T, TT, TTT> AfTask postDataTask(T t, TT tt, TTT ttt, AfData3Task.OnData3TaskHandlerListener<T, TT, TTT> task) {
+		return postTask(new AfData3Task<>(t, tt, ttt, task));
 	}
     
 }

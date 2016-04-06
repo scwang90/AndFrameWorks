@@ -9,16 +9,16 @@ import android.os.Message;
 public class AfDataTask <T> extends AfHandlerTask {
 
     public interface OnTaskHandlerListener<T> {
-        void onTaskBackground(T data) throws Exception;
-        boolean onTaskHandle(T data, AfDataTask task);
+        void onTaskBackground(T t) throws Exception;
+        boolean onTaskHandle(T t, AfDataTask task);
     }
 
-    T data;
+    T t;
     AbDataTaskHandler<T> handler;
     OnTaskHandlerListener<T> listener;
 
-    public AfDataTask(T data, OnTaskHandlerListener<T> listener) {
-        this.data = data;
+    public AfDataTask(T t, OnTaskHandlerListener<T> listener) {
+        this.t = t;
         this.listener = listener;
         if (listener instanceof AbDataTaskHandler) {
             handler = (AbDataTaskHandler<T>) listener;
@@ -28,7 +28,7 @@ public class AfDataTask <T> extends AfHandlerTask {
 
     @Override
     public boolean onPrepare() {
-        if (handler != null && handler.onPrepare(data)) {
+        if (handler != null && handler.onPrepare(t)) {
             return true;
         }
         return super.onPrepare();
@@ -38,7 +38,7 @@ public class AfDataTask <T> extends AfHandlerTask {
     protected void onCancel() {
         super.onCancel();
         if (handler != null) {
-            handler.onCancel(data);
+            handler.onCancel(t);
         }
     }
 
@@ -46,25 +46,29 @@ public class AfDataTask <T> extends AfHandlerTask {
     protected void onException(Throwable e) {
         super.onException(e);
         if (handler != null) {
-            handler.onException(data,e);
+            handler.onException(t,e);
         }
     }
 
     @Override
     protected boolean onHandle(Message msg) {
         if (handler != null) {
-            return handler.onHandle(data);
+            return handler.onHandle(t);
         }
-        return listener.onTaskHandle(data, this);
+        return listener.onTaskHandle(t, this);
     }
 
     @Override
     protected void onWorking(Message msg) throws Exception {
         if (handler != null) {
-            handler.onWorking(data);
+            handler.onWorking(t);
             return;
         }
-        listener.onTaskBackground(data);
+        listener.onTaskBackground(t);
+    }
+
+    public T getData() {
+        return t;
     }
 
     public static abstract class AbDataTaskHandler<T> implements OnTaskHandlerListener<T> {
@@ -79,34 +83,34 @@ public class AfDataTask <T> extends AfHandlerTask {
             return task;
         }
 
-        public boolean onPrepare(T data) {
+        public boolean onPrepare(T t) {
             return false;
         }
 
-        public void onCancel(T data) {
+        public void onCancel(T t) {
         }
 
         public String makeErrorToast(String tip) {
             return task.makeErrorToast(tip);
         }
 
-        public final boolean onHandle(T data) {
-            return onTaskHandle(data, task);
+        public final boolean onHandle(T t) {
+            return onTaskHandle(t, task);
         }
 
         public boolean isFail() {
             return task.isFail();
         }
 
-        public final void onWorking(T data) throws Exception {
-            this.onTaskBackground(data);
+        public final void onWorking(T t) throws Exception {
+            this.onTaskBackground(t);
         }
 
         public boolean isFinish() {
             return !isFail();
         }
 
-        public void onException(T data, Throwable e) {
+        public void onException(T t, Throwable e) {
 
         }
     }

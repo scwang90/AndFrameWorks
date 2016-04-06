@@ -70,6 +70,10 @@ public abstract class AfTask implements Runnable, OnCancelListener {
 		}
 	}
 
+	public boolean isCanceled() {
+		return mIsCanceled;
+	}
+
 	@Override
 	public final void onCancel(DialogInterface dialog) {
 		mIsCanceled = true;
@@ -96,7 +100,7 @@ public abstract class AfTask implements Runnable, OnCancelListener {
 	 * @return 返回true 表示准备完毕 否则 false 任务将被取消
 	 */
 	public boolean onPrepare() {
-		return true;
+		return !mIsCanceled;
 	}
 
 	public String makeErrorToast(String tip) {
