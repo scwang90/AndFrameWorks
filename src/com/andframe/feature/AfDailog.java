@@ -47,8 +47,8 @@ public class AfDailog {
      * @param title   显示标题
      * @param message 显示内容
      */
-    public void doShowDialog(String title, String message) {
-        doShowDialog(0, title, message, "我知道了", null, "", null);
+    public AlertDialog doShowDialog(String title, String message) {
+        return doShowDialog(0, title, message, "我知道了", null, "", null);
     }
 
     /**
@@ -58,8 +58,8 @@ public class AfDailog {
      * @param message   显示内容
      * @param lpositive 点击  "我知道了" 响应事件
      */
-    public void doShowDialog(String title, String message, OnClickListener lpositive) {
-        doShowDialog(0, title, message, "我知道了", lpositive, "", null);
+    public AlertDialog doShowDialog(String title, String message, OnClickListener lpositive) {
+        return doShowDialog(0, title, message, "我知道了", lpositive, "", null);
     }
 
     /**
@@ -70,8 +70,8 @@ public class AfDailog {
      * @param positive  确认 按钮显示信息
      * @param lpositive 点击  确认 按钮 响应事件
      */
-    public void doShowDialog(String title, String message, String positive, OnClickListener lpositive) {
-        doShowDialog(0, title, message, positive, lpositive, "", null);
+    public AlertDialog doShowDialog(String title, String message, String positive, OnClickListener lpositive) {
+        return doShowDialog(0, title, message, positive, lpositive, "", null);
     }
 
     /**
@@ -84,10 +84,10 @@ public class AfDailog {
      * @param negative  按钮显示信息
      * @param lnegative 点击  拒绝 按钮 响应事件
      */
-    public void doShowDialog(String title, String message,
+    public AlertDialog doShowDialog(String title, String message,
                              String positive, OnClickListener lpositive, String negative,
                              OnClickListener lnegative) {
-        doShowDialog(0, title, message, positive, lpositive, negative, lnegative);
+        return doShowDialog(0, title, message, positive, lpositive, negative, lnegative);
     }
 
     /**
@@ -102,11 +102,11 @@ public class AfDailog {
      * @param negative  按钮显示信息
      * @param lnegative 点击  拒绝 按钮 响应事件
      */
-    public void doShowDialog(String title, String message,
+    public AlertDialog doShowDialog(String title, String message,
                              String positive, OnClickListener lpositive,
                              String neutral, OnClickListener lneutral,
                              String negative, OnClickListener lnegative) {
-        doShowDialog(0, title, message, positive, lpositive, neutral, lneutral, negative, lnegative);
+        return doShowDialog(0, title, message, positive, lpositive, neutral, lneutral, negative, lnegative);
     }
 
     /**
@@ -120,10 +120,10 @@ public class AfDailog {
      * @param negative  按钮显示信息
      * @param lnegative 点击  拒绝 按钮 响应事件
      */
-    public void doShowDialog(int iconres, String title, String message,
+    public AlertDialog doShowDialog(int iconres, String title, String message,
                              String positive, OnClickListener lpositive, String negative,
                              OnClickListener lnegative) {
-        doShowDialog(iconres, title, message, positive, lpositive, "", null, negative, lnegative);
+        return doShowDialog(iconres, title, message, positive, lpositive, "", null, negative, lnegative);
     }
 
     /**
@@ -139,11 +139,11 @@ public class AfDailog {
      * @param negative  按钮显示信息
      * @param lnegative 点击  拒绝 按钮 响应事件
      */
-    public void doShowDialog(int iconres, String title, String message,
+    public AlertDialog doShowDialog(int iconres, String title, String message,
                              String positive, OnClickListener lpositive,
                              String neutral, OnClickListener lneutral,
                              String negative, OnClickListener lnegative) {
-        doShowDialog(-1, iconres, title, message, positive, lpositive, neutral, lneutral, negative, lnegative);
+        return doShowDialog(-1, iconres, title, message, positive, lpositive, neutral, lneutral, negative, lnegative);
     }
 
     /**
@@ -161,12 +161,12 @@ public class AfDailog {
      * @param lnegative 点击  拒绝 按钮 响应事件
      */
     @SuppressLint("NewApi")
-    public void doShowDialog(int theme, int iconres,
+    public AlertDialog doShowDialog(int theme, int iconres,
                              String title, String message,
                              String positive, OnClickListener lpositive,
                              String neutral, OnClickListener lneutral,
                              String negative, OnClickListener lnegative) {
-        doShowDialog(null, 0, theme, iconres, title, message, positive, lpositive, neutral, lneutral, negative, lnegative);
+        return doShowDialog(null, 0, theme, iconres, title, message, positive, lpositive, neutral, lneutral, negative, lnegative);
     }
 
     /**
@@ -177,9 +177,9 @@ public class AfDailog {
      * @param positive  确认 按钮显示信息
      * @param lpositive 点击  确认 按钮 响应事件
      */
-    public void doShowViewDialog(String title, View view, String positive,
+    public AlertDialog doShowViewDialog(String title, View view, String positive,
                                  OnClickListener lpositive) {
-        doShowViewDialog(title, view, positive, lpositive, "", null);
+        return doShowViewDialog(title, view, positive, lpositive, "", null);
     }
 
     /**
@@ -192,10 +192,10 @@ public class AfDailog {
      * @param negative  按钮显示信息
      * @param lnegative 点击  拒绝 按钮 响应事件
      */
-    public void doShowViewDialog(String title, View view, String positive,
+    public AlertDialog doShowViewDialog(String title, View view, String positive,
                                  OnClickListener lpositive, String negative,
                                  OnClickListener lnegative) {
-        doShowViewDialog(0, title, view, positive, lpositive, negative, lnegative);
+        return doShowViewDialog(0, title, view, positive, lpositive, negative, lnegative);
     }
 
     /**
@@ -210,11 +210,11 @@ public class AfDailog {
      * @param negative  按钮显示信息
      * @param lnegative 点击  拒绝 按钮 响应事件
      */
-    public void doShowViewDialog(String title, View view,
+    public AlertDialog doShowViewDialog(String title, View view,
                                  String positive, OnClickListener lpositive,
                                  String neutral, OnClickListener lneutral,
                                  String negative, OnClickListener lnegative) {
-        doShowViewDialog(0, title, view, positive, lpositive, neutral, lneutral, negative, lnegative);
+        return doShowViewDialog(0, title, view, positive, lpositive, neutral, lneutral, negative, lnegative);
     }
 
     /**
@@ -228,10 +228,10 @@ public class AfDailog {
      * @param negative  按钮显示信息
      * @param lnegative 点击  拒绝 按钮 响应事件
      */
-    public void doShowViewDialog(int iconres, String title, View view,
+    public AlertDialog doShowViewDialog(int iconres, String title, View view,
                                  String positive, OnClickListener lpositive,
                                  String negative, OnClickListener lnegative) {
-        doShowViewDialog(iconres, title, view, positive, lpositive, "", null, negative, lnegative);
+        return doShowViewDialog(iconres, title, view, positive, lpositive, "", null, negative, lnegative);
     }
 
     /**
@@ -247,11 +247,11 @@ public class AfDailog {
      * @param negative  按钮显示信息
      * @param lnegative 点击  拒绝 按钮 响应事件
      */
-    public void doShowViewDialog(int iconres, String title, View view,
+    public AlertDialog doShowViewDialog(int iconres, String title, View view,
                                  String positive, OnClickListener lpositive,
                                  String neutral, OnClickListener lneutral,
                                  String negative, OnClickListener lnegative) {
-        doShowViewDialog(-1, iconres, title, view, positive, lpositive, neutral, lneutral, negative, lnegative);
+        return doShowViewDialog(-1, iconres, title, view, positive, lpositive, neutral, lneutral, negative, lnegative);
     }
 
     /**
@@ -269,7 +269,7 @@ public class AfDailog {
      * @param lnegative 点击  拒绝 按钮 响应事件
      */
     @SuppressLint("NewApi")
-    public void doShowViewDialog(int theme,
+    public AlertDialog doShowViewDialog(int theme,
                                  int iconres, String title, View view,
                                  String positive, OnClickListener lpositive,
                                  String neutral, OnClickListener lneutral,
@@ -285,7 +285,7 @@ public class AfDailog {
             try {
                 builder = new Builder(mContext);
             } catch (Throwable ex) {
-                return;
+                return null;
             }
         }
         builder.setTitle(title);
@@ -309,7 +309,7 @@ public class AfDailog {
         }
         builder.setCancelable(false);
         builder.create();
-        builder.show();
+        return builder.show();
     }
 
     /**
@@ -320,7 +320,7 @@ public class AfDailog {
      * @param listener 选择监听器
      * @param cancel   取消选择监听器
      */
-    public void doSelectItem(String title, String[] items, OnClickListener listener,
+    public AlertDialog doSelectItem(String title, String[] items, OnClickListener listener,
                              boolean cancel) {
         Builder dialog = new Builder(mContext);
         dialog.setItems(items, listener);
@@ -333,7 +333,7 @@ public class AfDailog {
         } else {
             dialog.setCancelable(cancel);
         }
-        dialog.show();
+        return dialog.show();
     }
 
     /**
@@ -344,7 +344,7 @@ public class AfDailog {
      * @param listener 选择监听器
      * @param oncancel 取消选择监听器
      */
-    public void doSelectItem(String title, String[] items, OnClickListener listener,
+    public AlertDialog doSelectItem(String title, String[] items, OnClickListener listener,
                              final OnClickListener oncancel) {
         Builder dialog = new Builder(mContext);
         if (title != null) {
@@ -361,7 +361,7 @@ public class AfDailog {
             });
         }
         dialog.setItems(items, listener);
-        dialog.show();
+        return dialog.show();
     }
 
     /**
@@ -371,8 +371,8 @@ public class AfDailog {
      * @param items    选择菜单项
      * @param listener 选择监听器
      */
-    public void doSelectItem(String title, String[] items, OnClickListener listener) {
-        doSelectItem(title, items, listener, null);
+    public AlertDialog doSelectItem(String title, String[] items, OnClickListener listener) {
+        return doSelectItem(title, items, listener, null);
     }
 
     /**
@@ -381,8 +381,8 @@ public class AfDailog {
      * @param title    标题
      * @param listener 监听器
      */
-    public void doInputText(String title, InputTextListener listener) {
-        doInputText(title, "", InputType.TYPE_CLASS_TEXT, listener);
+    public AlertDialog doInputText(String title, InputTextListener listener) {
+        return doInputText(title, "", InputType.TYPE_CLASS_TEXT, listener);
     }
 
     /**
@@ -392,8 +392,8 @@ public class AfDailog {
      * @param type     android.text.InputType
      * @param listener 监听器
      */
-    public void doInputText(String title, int type, InputTextListener listener) {
-        doInputText(title, "", type, listener);
+    public AlertDialog doInputText(String title, int type, InputTextListener listener) {
+        return doInputText(title, "", type, listener);
     }
 
     /**
@@ -404,7 +404,7 @@ public class AfDailog {
      * @param type     android.text.InputType
      * @param listener 监听器
      */
-    public void doInputText(String title, String defaul, int type, InputTextListener listener) {
+    public AlertDialog doInputText(String title, String defaul, int type, InputTextListener listener) {
         final EditText input = new EditText(mContext);
         final int defaullength = defaul != null ? defaul.length() : 0;
         final InputTextListener flistener = listener;
@@ -442,6 +442,7 @@ public class AfDailog {
             }
         });
         dialog.show();
+        return dialog;
     }
 
     /**
@@ -451,8 +452,8 @@ public class AfDailog {
      * @param title   显示标题
      * @param message 显示内容
      */
-    public void doShowDialog(String key, String title, String message) {
-        doShowDialog(key, 0, 0, title, message, "我知道了", null, "", null);
+    public AlertDialog doShowDialog(String key, String title, String message) {
+        return doShowDialog(key, 0, 0, title, message, "我知道了", null, "", null);
     }
 
     /**
@@ -464,8 +465,8 @@ public class AfDailog {
      * @param positive  确认 按钮显示信息
      * @param lpositive 点击  确认 按钮 响应事件
      */
-    public void doShowDialog(String key, String title, String message, String positive, OnClickListener lpositive) {
-        doShowDialog(key, 0, 0, title, message, positive, lpositive, "", null);
+    public AlertDialog doShowDialog(String key, String title, String message, String positive, OnClickListener lpositive) {
+        return doShowDialog(key, 0, 0, title, message, positive, lpositive, "", null);
     }
 
     /**
@@ -480,11 +481,11 @@ public class AfDailog {
      * @param negative  按钮显示信息
      * @param lnegative 点击  拒绝 按钮 响应事件
      */
-    public void doShowDialog(String key, int defclick,
+    public AlertDialog doShowDialog(String key, int defclick,
                              String title, String message,
                              String positive, OnClickListener lpositive,
                              String negative, OnClickListener lnegative) {
-        doShowDialog(key, defclick, 0, title, message, positive, lpositive, negative, lnegative);
+        return doShowDialog(key, defclick, 0, title, message, positive, lpositive, negative, lnegative);
     }
 
     /**
@@ -501,12 +502,12 @@ public class AfDailog {
      * @param negative  按钮显示信息
      * @param lnegative 点击  拒绝 按钮 响应事件
      */
-    public void doShowDialog(String key, int defclick,
+    public AlertDialog doShowDialog(String key, int defclick,
                              String title, String message,
                              String positive, OnClickListener lpositive,
                              String neutral, OnClickListener lneutral,
                              String negative, OnClickListener lnegative) {
-        doShowDialog(key, defclick, 0, title, message, positive, lpositive, neutral, lneutral, negative, lnegative);
+        return doShowDialog(key, defclick, 0, title, message, positive, lpositive, neutral, lneutral, negative, lnegative);
     }
 
     /**
@@ -522,14 +523,14 @@ public class AfDailog {
      * @param negative  按钮显示信息
      * @param lnegative 点击  拒绝 按钮 响应事件
      */
-    public void doShowDialog(String key, int defclick,
+    public AlertDialog doShowDialog(String key, int defclick,
                              int iconres, String title, String message,
                              String positive, OnClickListener lpositive,
                              String negative, OnClickListener lnegative) {
         if (defclick == 1){
             defclick = 2;
         }
-        doShowDialog(key, defclick, iconres, title, message, positive, lpositive, "", null, negative, lnegative);
+        return doShowDialog(key, defclick, iconres, title, message, positive, lpositive, "", null, negative, lnegative);
     }
 
     /**
@@ -547,12 +548,12 @@ public class AfDailog {
      * @param negative  按钮显示信息
      * @param lnegative 点击  拒绝 按钮 响应事件
      */
-    public void doShowDialog(String key, int defclick,
+    public AlertDialog doShowDialog(String key, int defclick,
                              int iconres, String title, String message,
                              String positive, OnClickListener lpositive,
                              String neutral, OnClickListener lneutral,
                              String negative, OnClickListener lnegative) {
-        doShowDialog(key, defclick, -1, iconres, title, message, positive, lpositive, neutral, lneutral, negative, lnegative);
+        return doShowDialog(key, defclick, -1, iconres, title, message, positive, lpositive, neutral, lneutral, negative, lnegative);
     }
 
 
@@ -573,7 +574,7 @@ public class AfDailog {
      * @param lnegative 点击  拒绝 按钮 响应事件
      */
     @SuppressLint("NewApi")
-    public void doShowDialog(final String key, final int defclick,
+    public AlertDialog doShowDialog(final String key, final int defclick,
                              int theme, int iconres,
                              String title, String message,
                              String positive, OnClickListener lpositive,
@@ -590,7 +591,7 @@ public class AfDailog {
             try {
                 builder = new Builder(mContext);
             } catch (Throwable ex) {
-                return;
+                return null;
             }
         }
         builder.setTitle(title);
@@ -616,7 +617,7 @@ public class AfDailog {
                         clicks[i].onClick(null, i);
                     }
                 }
-                return;
+                return null;
             }
         }
         builder.setCancelable(false);
@@ -673,6 +674,7 @@ public class AfDailog {
                 });
             }
         }
+        return show;
     }
 
     public interface OnDateTimeSetListener{
@@ -698,8 +700,8 @@ public class AfDailog {
      * 选择日期时间
      * @param listener 监听器
      */
-    public void doSelectDateTime(OnDateTimeSetListener listener) {
-        doSelectDateTime("", new Date(), listener);
+    public AlertDialog doSelectDateTime(OnDateTimeSetListener listener) {
+        return doSelectDateTime("", new Date(), listener);
     }
 
     /**
@@ -707,8 +709,8 @@ public class AfDailog {
      * @param title 标题
      * @param listener 监听器
      */
-    public void doSelectDateTime(String title, OnDateTimeSetListener listener) {
-        doSelectDateTime(title, new Date(), listener);
+    public AlertDialog doSelectDateTime(String title, OnDateTimeSetListener listener) {
+        return doSelectDateTime(title, new Date(), listener);
     }
 
     /**
@@ -716,8 +718,8 @@ public class AfDailog {
      * @param value 默认时间
      * @param listener 监听器
      */
-    public void doSelectDateTime(Date value, OnDateTimeSetListener listener) {
-        doSelectDateTime("", value, listener);
+    public AlertDialog doSelectDateTime(Date value, OnDateTimeSetListener listener) {
+        return doSelectDateTime("", value, listener);
     }
 
     /**
@@ -726,13 +728,13 @@ public class AfDailog {
      * @param value 默认时间
      * @param listener 监听器
      */
-    public void doSelectDateTime(final String title, final Date value, final OnDateTimeSetListener listener) {
+    public AlertDialog doSelectDateTime(final String title, final Date value, final OnDateTimeSetListener listener) {
         final Calendar calender = Calendar.getInstance();
         calender.setTime(value);
         int year = calender.get(Calendar.YEAR);
         int month = calender.get(Calendar.MONTH);
         int day = calender.get(Calendar.DAY_OF_MONTH);
-        final Dialog tDialog = new DatePickerDialog(mContext, new DatePickerDialog.OnDateSetListener() {
+        final AlertDialog tDialog = new DatePickerDialog(mContext, new DatePickerDialog.OnDateSetListener() {
             private boolean fdealwith = false;
             @Override
             public void onDateSet(DatePicker view, final int year, final int month,final int day) {
@@ -769,6 +771,7 @@ public class AfDailog {
         }
         tDialog.show();
         tDialog.setCancelable(true);
+        return tDialog;
     }
 
     public interface OnTimeSetListener {
@@ -791,8 +794,8 @@ public class AfDailog {
      * 选择时间
      * @param listener 监听器
      */
-    public void doSelectTime(OnTimeSetListener listener) {
-        doSelectTime("", new Date(), listener);
+    public AlertDialog doSelectTime(OnTimeSetListener listener) {
+        return doSelectTime("", new Date(), listener);
     }
 
     /**
@@ -800,8 +803,8 @@ public class AfDailog {
      * @param title 标题
      * @param listener 监听器
      */
-    public void doSelectTime(String title, OnTimeSetListener listener) {
-        doSelectTime(title, new Date(), listener);
+    public AlertDialog doSelectTime(String title, OnTimeSetListener listener) {
+        return doSelectTime(title, new Date(), listener);
     }
 
     /**
@@ -809,8 +812,8 @@ public class AfDailog {
      * @param value 默认时间
      * @param listener 监听器
      */
-    public void doSelectTime(Date value, OnTimeSetListener listener) {
-        doSelectTime("", value, listener);
+    public AlertDialog doSelectTime(Date value, OnTimeSetListener listener) {
+        return doSelectTime("", value, listener);
     }
 
     /**
@@ -819,12 +822,12 @@ public class AfDailog {
      * @param value 默认时间
      * @param listener 监听器
      */
-    public void doSelectTime(String title, Date value, final OnTimeSetListener listener) {
+    public AlertDialog doSelectTime(String title, Date value, final OnTimeSetListener listener) {
         Calendar calender = Calendar.getInstance();
         calender.setTime(value);
         int hour = calender.get(Calendar.HOUR_OF_DAY);
         int minute = calender.get(Calendar.MINUTE);
-        Dialog tDialog = new TimePickerDialog(mContext, new TimePickerDialog.OnTimeSetListener() {
+        AlertDialog tDialog = new TimePickerDialog(mContext, new TimePickerDialog.OnTimeSetListener() {
             private boolean fdealwith = false;
             @Override
             public void onTimeSet(TimePicker view, int hour, int minute) {
@@ -845,6 +848,7 @@ public class AfDailog {
         }
         tDialog.show();
         tDialog.setCancelable(true);
+        return tDialog;
     }
 
 
@@ -869,8 +873,8 @@ public class AfDailog {
      * 选择日期
      * @param listener 监听器
      */
-    public void doSelectDate(OnDateSetListener listener) {
-        doSelectDate("", new Date(), listener);
+    public AlertDialog doSelectDate(OnDateSetListener listener) {
+        return doSelectDate("", new Date(), listener);
     }
 
     /**
@@ -878,8 +882,8 @@ public class AfDailog {
      * @param title 标题
      * @param listener 监听器
      */
-    public void doSelectDate(String title, OnDateSetListener listener) {
-        doSelectDate(title, new Date(), listener);
+    public AlertDialog doSelectDate(String title, OnDateSetListener listener) {
+        return doSelectDate(title, new Date(), listener);
     }
 
     /**
@@ -887,8 +891,8 @@ public class AfDailog {
      * @param value 默认时间
      * @param listener 监听器
      */
-    public void doSelectDate(Date value, OnDateSetListener listener) {
-        doSelectDate("", value, listener);
+    public AlertDialog doSelectDate(Date value, OnDateSetListener listener) {
+        return doSelectDate("", value, listener);
     }
 
     /**
@@ -897,13 +901,13 @@ public class AfDailog {
      * @param value 默认时间
      * @param listener 监听器
      */
-    public void doSelectDate(String title, Date value, final OnDateSetListener listener) {
+    public AlertDialog doSelectDate(String title, Date value, final OnDateSetListener listener) {
         Calendar calender = Calendar.getInstance();
         calender.setTime(value);
         int year = calender.get(Calendar.YEAR);
         int month = calender.get(Calendar.MONTH);
         int day = calender.get(Calendar.DAY_OF_MONTH);
-        Dialog tDialog = new DatePickerDialog(mContext, new DatePickerDialog.OnDateSetListener() {
+        AlertDialog tDialog = new DatePickerDialog(mContext, new DatePickerDialog.OnDateSetListener() {
             private boolean fdealwith = false;
             @Override
             public void onDateSet(DatePicker view, int year, int month, int day) {
@@ -923,5 +927,6 @@ public class AfDailog {
         }
         tDialog.show();
         tDialog.setCancelable(true);
+        return tDialog;
     }
 }
