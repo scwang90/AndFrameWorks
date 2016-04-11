@@ -5,7 +5,6 @@ import android.view.View.OnClickListener;
 import android.widget.AdapterView;
 import android.widget.CompoundButton;
 
-import com.andframe.activity.framework.AfPageable;
 import com.andframe.activity.framework.AfView;
 import com.andframe.activity.framework.AfViewable;
 import com.andframe.annotation.view.BindAfterViews;
@@ -181,7 +180,7 @@ public class ViewBinder {
                         field.set(handler, array);
                     } else if (List.class.equals(field.getType())) {
                         field.set(handler, list);
-                    } else {
+                    } else if(list.get(0) != null){
                         field.set(handler, list.get(0));
                     }
                 }
@@ -241,7 +240,7 @@ public class ViewBinder {
                         field.set(handler, array);
                     } else if (List.class.isAssignableFrom(field.getType())) {
                         field.set(handler, list);
-                    } else {
+                    } else if (list.get(0) != null) {
                         field.set(handler, list.get(0));
                     }
                 }

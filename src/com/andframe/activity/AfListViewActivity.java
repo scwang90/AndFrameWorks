@@ -13,9 +13,11 @@ import com.andframe.activity.framework.AfPageable;
 import com.andframe.adapter.AfListAdapter;
 import com.andframe.adapter.AfListAdapter.IAfLayoutItem;
 import com.andframe.annotation.mark.MarkCache;
+import com.andframe.annotation.view.BindAfterViews;
 import com.andframe.annotation.view.BindLayout;
 import com.andframe.application.AfExceptionHandler;
 import com.andframe.bean.Page;
+import com.andframe.caches.AfPrivateCaches;
 import com.andframe.exception.AfException;
 import com.andframe.feature.AfIntent;
 import com.andframe.layoutbind.AfFrameSelector;
@@ -61,6 +63,7 @@ public abstract class AfListViewActivity<T> extends AfActivity implements OnRefr
 	 * 		KEY_CACHELIST 为缓存的标识
 	 */
 	public String KEY_CACHELIST = this.getClass().getName();
+	public String KEY_CACHETIME = "KEY_CACHETIME";
 
 	public AfListViewActivity() {
 		if (this.getClass().isAnnotationPresent(MarkCache.class)) {
@@ -102,8 +105,13 @@ public abstract class AfListViewActivity<T> extends AfActivity implements OnRefr
 	@Override
 	protected void onCreate(Bundle bundle, AfIntent intent) throws Exception {
 		super.onCreate(bundle, intent);
-		setContentView(getLayoutId());
+		if (mRootView == null) {
+			setContentView(getLayoutId());
+		}
+	}
 
+	@BindAfterViews
+	protected void onInitFrameWork() throws Exception {
 		mNodata = newModuleNodata(this);
 		mProgress = newModuleProgress(this);
 		mSelector = newAfFrameSelector(this);
@@ -196,6 +204,7 @@ public abstract class AfListViewActivity<T> extends AfActivity implements OnRefr
 		mListView.setAdapter(adapter);
 		mSelector.selectFrame(mListView);
 	}
+
 
 	/**
 	 *  正在加载数据提示
@@ -322,6 +331,17 @@ public abstract class AfListViewActivity<T> extends AfActivity implements OnRefr
 //			onRefresh();
 //			setLoading();
 //		}
+	}
+
+	protected void putCache() {
+		if (mAdapter != null && AfCollections.isNotEmpty(mAdapter.getList())) {
+			putCache(mAdapter.getList());
+		}
+	}
+
+	protected void putCache(List<T> list) {
+		AfPrivateCaches.getInstance(KEY_CACHELIST).put(KEY_CACHETIME, new Date());
+		AfPrivateCaches.getInstance(KEY_CACHELIST).put(KEY_CACHELIST, list);
 	}
 
 	/**

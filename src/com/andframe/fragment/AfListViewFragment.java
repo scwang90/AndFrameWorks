@@ -17,6 +17,7 @@ import com.andframe.annotation.mark.MarkCache;
 import com.andframe.annotation.view.BindLayout;
 import com.andframe.application.AfExceptionHandler;
 import com.andframe.bean.Page;
+import com.andframe.caches.AfPrivateCaches;
 import com.andframe.exception.AfException;
 import com.andframe.feature.AfBundle;
 import com.andframe.layoutbind.AfFrameSelector;
@@ -60,6 +61,7 @@ public abstract class AfListViewFragment<T> extends AfTabFragment implements
 	 * KEY_CACHELIST 为缓存的标识
 	 */
 	public String KEY_CACHELIST = this.getClass().getName();
+	private String KEY_CACHETIME = "KEY_CACHETIME";
 
 	public AfListViewFragment() {
 		if (this.getClass().isAnnotationPresent(MarkCache.class)) {
@@ -309,6 +311,17 @@ public abstract class AfListViewFragment<T> extends AfTabFragment implements
 //			onRefresh();
 //			setLoading();
 //		}
+	}
+
+	protected void putCache() {
+		if (mAdapter != null && AfCollections.isNotEmpty(mAdapter.getList())) {
+			putCache(mAdapter.getList());
+		}
+	}
+
+	protected void putCache(List<T> list) {
+		AfPrivateCaches.getInstance(KEY_CACHELIST).put(KEY_CACHETIME, new Date());
+		AfPrivateCaches.getInstance(KEY_CACHELIST).put(KEY_CACHELIST, list);
 	}
 
 	/**

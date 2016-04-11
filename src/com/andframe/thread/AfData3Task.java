@@ -32,8 +32,8 @@ public class AfData3Task<T, TT, TTT> extends AfHandlerTask {
 
     @Override
     public boolean onPrepare() {
-        if (handler != null && handler.onPrepare(t, tt, ttt)) {
-            return true;
+        if (handler != null) {
+            return handler.onPrepare(t, tt, ttt);
         }
         return super.onPrepare();
     }
@@ -96,7 +96,7 @@ public class AfData3Task<T, TT, TTT> extends AfHandlerTask {
         }
 
         public boolean onPrepare(T t, TT tt, TTT ttt) {
-            return false;
+            return true;
         }
 
         public void onCancel(T t, TT tt, TTT ttt) {

@@ -4,10 +4,8 @@ import android.content.Context;
 import android.content.res.Resources;
 import android.os.Message;
 
-import com.andframe.R;
 import com.andframe.activity.framework.AfActivity;
 import com.andframe.activity.framework.AfPageable;
-import com.andframe.activity.framework.AfViewable;
 import com.andframe.annotation.inject.Inject;
 import com.andframe.annotation.inject.InjectDelayed;
 import com.andframe.annotation.inject.InjectExtra;
@@ -26,7 +24,6 @@ import com.andframe.feature.AfBundle;
 import com.andframe.feature.AfDailog;
 import com.andframe.feature.AfDensity;
 import com.andframe.feature.AfDistance;
-import com.andframe.feature.AfGifPlayer;
 import com.andframe.feature.AfIntent;
 import com.andframe.feature.AfSoftInputer;
 import com.andframe.feature.framework.AfExtrater;
@@ -35,15 +32,9 @@ import com.andframe.helper.android.AfDesHelper;
 import com.andframe.helper.android.AfDeviceInfo;
 import com.andframe.helper.android.AfGifHelper;
 import com.andframe.helper.android.AfImageHelper;
-import com.andframe.helper.java.AfSQLHelper;
 import com.andframe.layoutbind.framework.AfViewDelegate;
-import com.andframe.network.AfImageService;
 import com.andframe.thread.AfHandlerTimerTask;
-import com.andframe.util.android.AfMeasure;
 import com.andframe.util.java.AfReflecter;
-import com.andframe.util.java.AfStackTrace;
-
-import org.json.JSONArray;
 
 import java.lang.reflect.Array;
 import java.lang.reflect.Field;
@@ -89,7 +80,7 @@ public class Injecter {
                 if (init.value()){
                     throw new RuntimeException("调用查询失败",e);
                 }
-                AfExceptionHandler.handler(e, TAG(handler, "doInjectQueryChanged.invokeMethod.")+method.getName());
+                AfExceptionHandler.handler(e, TAG(handler, "doInjectQueryChanged.invokeMethod.") + method.getName());
             }
         }
     }
@@ -129,7 +120,7 @@ public class Injecter {
                 ((AfActivity) handler).setContentView(layout.value());
             }catch(Throwable e){
                 e.printStackTrace();
-                AfExceptionHandler.handler(e,TAG(handler, "doInjectLayout.setContentView"));
+                AfExceptionHandler.handler(e, TAG(handler, "doInjectLayout.setContentView"));
             }
         }
     }
@@ -144,13 +135,13 @@ public class Injecter {
                 if (init.value()){
                     throw new RuntimeException("调用初始化失败",e);
                 }
-                AfExceptionHandler.handler(e,TAG(handler, "doInjectInit.invokeMethod.")+method.getName());
+                AfExceptionHandler.handler(e, TAG(handler, "doInjectInit.invokeMethod.") + method.getName());
             }
         }
     }
 
     private static void injectExtra(Object handler, Context context) {
-        for (Field field : AfReflecter.getFieldAnnotation(handler.getClass(),InjectExtra.class)) {
+        for (Field field : AfReflecter.getFieldAnnotation(handler.getClass(), InjectExtra.class)) {
             InjectExtra inject = field.getAnnotation(InjectExtra.class);
             try {
                 if (handler instanceof AfPageable){
@@ -209,13 +200,13 @@ public class Injecter {
                 if (inject.necessary()){
                     throw new RuntimeException("缺少必须参数",e);
                 }
-                AfExceptionHandler.handler(e,TAG(handler, "doInject.InjectExtra.")+ field.getName());
+                AfExceptionHandler.handler(e, TAG(handler, "doInject.InjectExtra.") + field.getName());
             }
         }
     }
 
     private static void injectSystem(Object handler, Context context) {
-        for (Field field : AfReflecter.getFieldAnnotation(handler.getClass(),Inject.class)) {
+        for (Field field : AfReflecter.getFieldAnnotation(handler.getClass(), Inject.class)) {
             try {
                 Object value = null;
                 Class<?> clazz = field.getType();
@@ -254,10 +245,12 @@ public class Injecter {
                 } else if (clazz.equals(AfApplication.class)) {
                     value = AfApplication.getApp();
                 }
-                field.setAccessible(true);
-                field.set(handler, value);
+                if (value != null) {
+                    field.setAccessible(true);
+                    field.set(handler, value);
+                }
             } catch (Throwable e) {
-                AfExceptionHandler.handler(e,TAG(handler, "doInject.Inject")+ field.getName());
+                AfExceptionHandler.handler(e, TAG(handler, "doInject.Inject") + field.getName());
             }
         }
     }
