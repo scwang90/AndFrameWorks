@@ -1,5 +1,6 @@
 package com.andframe.feature;
 
+import android.annotation.SuppressLint;
 import android.content.Context;
 import android.content.Intent;
 import android.net.Uri;
@@ -19,6 +20,7 @@ import java.util.UUID;
  *
  * @author 树朾
  */
+@SuppressLint("ParcelCreator")
 public class AfIntent extends Intent implements AfExtrater {
 
     //protected static Gson mJson = new Gson();
