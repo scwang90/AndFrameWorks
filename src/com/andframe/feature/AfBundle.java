@@ -36,7 +36,7 @@ public class AfBundle implements AfExtrater {
 
 
     public void put(String _key, Object value) {
-        if (!putOrgin(_key, value)) {
+        if (value != null && !putOrgin(_key, value)) {
             if (value.getClass().isArray()) {
                 putList(_key, (Object[]) value);
             } else if (value instanceof List) {

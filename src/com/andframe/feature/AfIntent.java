@@ -1,6 +1,5 @@
 package com.andframe.feature;
 
-import android.annotation.SuppressLint;
 import android.content.Context;
 import android.content.Intent;
 import android.net.Uri;
@@ -20,7 +19,6 @@ import java.util.UUID;
  *
  * @author 树朾
  */
-@SuppressLint("ParcelCreator")
 public class AfIntent extends Intent implements AfExtrater {
 
     //protected static Gson mJson = new Gson();
@@ -55,7 +53,7 @@ public class AfIntent extends Intent implements AfExtrater {
     }
 
     public void put(String _key, Object value) {
-        if (putOrgin(_key, value) == null) {
+        if (value != null && putOrgin(_key, value) == null) {
             if (value.getClass().isArray()) {
                 putList(_key, (Object[]) value);
             } else if (value instanceof List) {
