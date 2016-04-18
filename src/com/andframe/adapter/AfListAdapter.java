@@ -38,7 +38,6 @@ public abstract class AfListAdapter<T> extends BaseAdapter {
 
 	/**
 	 * 适配器新增 点击更多 数据追加接口
-	 * @param ltdata
 	 */
 	public void addData(T data) {
 		mltArray.add(data);
@@ -77,7 +76,6 @@ public abstract class AfListAdapter<T> extends BaseAdapter {
 
 	/**
 	 * 适配器新增 数据删除 接口
-	 * @param ltdata
 	 */
 	public void remove(int index) {
 		if (mltArray.size() > index) {
@@ -88,7 +86,6 @@ public abstract class AfListAdapter<T> extends BaseAdapter {
 
 	/**
 	 * 适配器新增 数据插入 接口
-	 * @param ltdata
 	 */
 	public void insert(int index, T object) {
 		if (mltArray.size() >= index) {
@@ -104,7 +101,7 @@ public abstract class AfListAdapter<T> extends BaseAdapter {
 
 	@Override
 	public Object getItem(int arg0) {
-		return mltArray.get(arg0);
+		return getItemAt(arg0);
 	}
 
 	public T getItemAt(int index) {
@@ -148,7 +145,7 @@ public abstract class AfListAdapter<T> extends BaseAdapter {
 	}
 
 	protected IAfLayoutItem<T> getItemLayout(List<T> ltarray, int position) {
-		return getItemLayout(ltarray.get(position));
+		return getItemLayout(getItemAt(position));
 	}
 
 	protected View onInflateItem(IAfLayoutItem<T> item, ViewGroup parent) {
@@ -156,7 +153,7 @@ public abstract class AfListAdapter<T> extends BaseAdapter {
 	}
 
 	protected boolean bindingItem(IAfLayoutItem<T> item, int index) {
-		item.onBinding(mltArray.get(index),index);
+		item.onBinding(getItemAt(index),index);
 		return true;
 	}
 
