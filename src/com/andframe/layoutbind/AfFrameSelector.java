@@ -7,7 +7,7 @@ import com.andframe.activity.framework.AfView;
 import com.andframe.activity.framework.AfViewable;
 import com.andframe.annotation.view.BindLayout;
 import com.andframe.layoutbind.framework.AfViewModule;
-import com.andframe.layoutbind.framework.IAfLayoutModule;
+import com.andframe.layoutbind.framework.IViewModule;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -53,13 +53,16 @@ public class AfFrameSelector extends AfViewModule {
 	 */
 	public boolean selectFrame(View view) {
 		if (isValid()) {
+			if (view instanceof IViewModule) {
+				view = ((IViewModule) view).getTarget();
+			}
 			int count = mFrameLayout.getChildCount();
 			List<View> lthide = new ArrayList<View>();
 			for (int i = 0; i < count; i++) {
 				View tView = mFrameLayout.getChildAt(i);
 				if (view == tView) {
 					view.setVisibility(View.VISIBLE);
-				}else {
+				} else {
 					lthide.add(tView);
 				}
 				//tView.setVisibility(tView == view ? View.VISIBLE : View.GONE);
@@ -72,10 +75,6 @@ public class AfFrameSelector extends AfViewModule {
 			}
 		}
 		return false;
-	}
-
-	public boolean selectFrame(IAfLayoutModule view) {
-		return selectFrame(view.getLayout());
 	}
 
 	/**

@@ -249,7 +249,7 @@ public abstract class AfListViewFragment<T> extends AfTabFragment implements
      */
     @Override
     public boolean onRefresh() {
-        postTask(new AbListViewTask(null));
+        postTask(new AbListViewTask(AfListViewTask.TASK_REFRESH));
         return true;
     }
 

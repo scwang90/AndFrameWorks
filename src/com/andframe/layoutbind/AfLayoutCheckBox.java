@@ -5,33 +5,29 @@ import android.view.View.OnClickListener;
 import android.widget.CheckBox;
 
 import com.andframe.activity.framework.AfViewable;
+import com.andframe.layoutbind.framework.AfViewModule;
 
 
-public class AfLayoutCheckBox extends AfLayoutModule implements OnClickListener{
+public class AfLayoutCheckBox extends AfViewModule implements OnClickListener{
 
 	private CheckBox mCheckBox = null;
 
 	public AfLayoutCheckBox(AfViewable view,CheckBox checkbox) {
-		super(view);
+		super((View)checkbox.getParent());
 		mCheckBox = checkbox;
-		mLayout = findLayout(view);
-		mIsValid = mLayout != null;
 		if(isValid()){
-			mLayout.setOnClickListener(this);
+			target.setOnClickListener(this);
 		}
 	}
 
 	public AfLayoutCheckBox(AfViewable view, int id) {
-		super(view);
+		super((View)view.findViewByID(id).getParent());
 		mCheckBox = view.findViewByID(id);
-		mLayout = findLayout(view);
-		mIsValid = mLayout != null;
 		if(isValid()){
-			mLayout.setOnClickListener(this);
+			target.setOnClickListener(this);
 		}
 	}
 
-	@Override
 	protected View findLayout(AfViewable view) {
 		if(mCheckBox != null && mCheckBox.getParent() instanceof View){
 			return(View)mCheckBox.getParent();

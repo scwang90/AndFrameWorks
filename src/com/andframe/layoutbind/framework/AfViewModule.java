@@ -13,7 +13,7 @@ import com.andframe.application.AfExceptionHandler;
 
 import java.lang.reflect.Constructor;
 
-public class AfViewModule extends AfViewDelegate implements AfViewable, IViewModule{
+public class AfViewModule extends AfViewDelegate implements AfViewable, IViewModule {
 
 	public static <T extends AfViewModule> T init(Class<T> clazz,AfViewable viewable,int viewId){
 		try {
@@ -64,6 +64,10 @@ public class AfViewModule extends AfViewDelegate implements AfViewable, IViewMod
 
 	protected AfViewModule(){
 		super(new View(AfApplication.getApp()));
+	}
+
+	public AfViewModule(View view) {
+		super(view);
 	}
 
 	protected AfViewModule(AfViewable view) {

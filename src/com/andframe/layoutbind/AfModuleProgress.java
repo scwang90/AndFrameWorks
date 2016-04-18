@@ -3,18 +3,27 @@ package com.andframe.layoutbind;
 import android.widget.TextView;
 
 import com.andframe.activity.framework.AfViewable;
-import com.andframe.layoutbind.AfLayoutModule;
+import com.andframe.layoutbind.framework.AfViewModule;
+
 /**
  * 框架加载组件
  * @author 树朾
  *
  */
-public abstract class AfModuleProgress extends AfLayoutModule{
+public abstract class AfModuleProgress extends AfViewModule {
 
 	public TextView mTvDescription = null;
 
 	public AfModuleProgress(AfViewable view) {
 		super(view);
+		if(isValid()){
+			mTvDescription = findDescription(view);
+			mTvDescription.setText("正在加载...");
+		}
+	}
+
+	public AfModuleProgress(AfViewable view,int id) {
+		super(view,id);
 		if(isValid()){
 			mTvDescription = findDescription(view);
 			mTvDescription.setText("正在加载...");
