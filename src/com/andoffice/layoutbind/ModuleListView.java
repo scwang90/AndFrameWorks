@@ -9,16 +9,14 @@ import android.widget.AdapterView.OnItemLongClickListener;
 import android.widget.ListAdapter;
 import android.widget.ListView;
 
+import com.andframe.layoutbind.framework.AfViewModule;
 import com.andoffice.R;
 import com.andframe.activity.framework.AfPageable;
 import com.andframe.activity.framework.AfViewable;
-import com.andframe.layoutbind.AfLayoutModule;
-import com.andframe.layoutbind.framework.IAfLayoutModule;
 import com.andframe.view.AfMultiListView;
 import com.andframe.view.pulltorefresh.AfPullToRefreshBase.OnRefreshListener;
 
-public class ModuleListView extends AfLayoutModule
-		implements IAfLayoutModule {
+public class ModuleListView extends AfViewModule{
 
 	public static final int LISTVIEW = 0;
 	public static final int PRIGRESS = 1;
@@ -30,7 +28,7 @@ public class ModuleListView extends AfLayoutModule
 	protected AfMultiListView mListView = null;
 
 	public ModuleListView(AfPageable page) {
-		super(page);
+		super(page,R.id.module_listview_frame);
 		mNodata = new ModuleNodata(page);
 		mSelector = new FrameSelector(page);
 		mProgress = new ModuleProgress(page);
@@ -38,96 +36,55 @@ public class ModuleListView extends AfLayoutModule
 		if (isValid() && mSelector.isValid() && mSelector.isValid()
 				&& mProgress.isValid()) {
 			mListView = new AfMultiListView(page.findViewById(R.id.module_listview,ListView.class));
-//			mListView.setPullFooterLayout(new PullRefreshFooter(page
-//					.getContext()));
-//			mListView.setPullHeaderLayout(new PullRefreshHeader(page
-//					.getContext()));
-
-//			Drawable divider = page.getResources().getDrawable(
-//					R.drawable.line_horizontal);
-//			mListView.getRefreshableView().setDividerHeight(1);
-//			mListView.getRefreshableView().setDivider(divider);
-		} else {
-			mIsValid = false;
 		}
-	}
-
-	@Override
-	protected View findLayout(AfViewable view) {
-		View layout = view.findViewById(R.id.module_listview);
-		if (layout != null) {
-			layout = (View) layout.getParent();
-		}
-		return layout;
 	}
 
 	public ModuleNodata getNoData() {
 		return mNodata;
 	}
 
-	public final View getLayout() {
-		return mLayout;
-	}
-
-	public final void hide() {
-		if (mLayout.getVisibility() == View.VISIBLE) {
-			mLayout.setVisibility(View.GONE);
-		}
-	}
-
-	public final void show() {
-		if (mLayout.getVisibility() != View.VISIBLE) {
-			mLayout.setVisibility(View.VISIBLE);
-		}
-	}
-
-	@Override
-	public boolean isValid() {
-		return mIsValid;
-	}
-
 	public final void addMoreView() {
-		if (mIsValid) {
+		if (isValid()) {
 			mListView.addMoreView();
 		}
 	}
 
 	public final void removeMoreView() {
-		if (mIsValid) {
+		if (isValid()) {
 			mListView.removeMoreView();
 		}
 	}
 
 	public final int getHeaderViewsCount() {
-		if (mIsValid) {
+		if (isValid()) {
 			return mListView.getHeaderViewsCount();
 		}
 		return 0;
 	}
 
 	public final int getIndex(int index) {
-		if (mIsValid) {
+		if (isValid()) {
 			return mListView.getIndex(index);
 		}
 		return 0;
 	}
 
 	public final int getDataIndex(int index) {
-		if (mIsValid) {
+		if (isValid()) {
 			return mListView.getDataIndex(index);
 		}
 		return 0;
 	}
 
 	public final Object getData(int positon) {
-		if (mIsValid) {
+		if (isValid()) {
 			return mListView.getData(positon);
 		}
 		return null;
 	}
 
 	public final <E> E getData(int positon,Class<E> clazz) {
-		if (mIsValid) {
+		if (isValid()) {
 			return mListView.getData(positon,clazz);
 		}
 		return null;
@@ -137,7 +94,7 @@ public class ModuleListView extends AfLayoutModule
 	 * 提交刷新完成 更新时间
 	 */
 	public final void finishRefresh() {
-		if (mIsValid) {
+		if (isValid()) {
 			mListView.finishRefresh();
 		}
 	}
@@ -146,45 +103,45 @@ public class ModuleListView extends AfLayoutModule
 	 * 提交刷新完成 但是失败 不更新时间
 	 */
 	public final void finishRefreshFail() {
-		if (mIsValid) {
+		if (isValid()) {
 			mListView.finishRefreshFail();
 		}
 	}
 
 	public final void finishLoadMore() {
-		if (mIsValid) {
+		if (isValid()) {
 			mListView.finishLoadMore();
 		}
 	}
 
 	public final void setLastUpdateTime(Date date) {
-		if (mIsValid) {
+		if (isValid()) {
 			mListView.setLastUpdateTime(date);
 		}
 	}
 
 	public final void setPullToRefreshEnabled(boolean enable) {
-		if (mIsValid) {
+		if (isValid()) {
 			mListView.setPullToRefreshEnabled(enable);
 		}
 	}
 
 	public final ListView getRefreshableView() {
-		if (mIsValid) {
+		if (isValid()) {
 			return mListView.getRefreshableView();
 		}
 		return null;
 	}
 
 	public final AfMultiListView getAfRefreshableView() {
-		if (mIsValid) {
+		if (isValid()) {
 			return mListView;
 		}
 		return null;
 	}
 
 	public final boolean isRefreshing() {
-		if (mIsValid) {
+		if (isValid()) {
 			return mListView.isRefreshing();
 		}
 		return false;
@@ -192,26 +149,26 @@ public class ModuleListView extends AfLayoutModule
 
 	@SuppressWarnings("deprecation")
 	public final void setAdapter(ListAdapter adapter) {
-		if (mIsValid) {
+		if (isValid()) {
 			mListView.setAdapter(adapter);
 		}
 	}
 
 	public final void setOnRefreshListener(OnRefreshListener listener) {
-		if (mIsValid) {
+		if (isValid()) {
 			mListView.setOnRefreshListener(listener);
 		}
 	}
 
 	public final void setOnItemClickListener(OnItemClickListener listener) {
-		if (mIsValid) {
+		if (isValid()) {
 			mListView.setOnItemClickListener(listener);
 		}
 	}
 
 	public final void setOnItemLongClickListener(
 			OnItemLongClickListener listener) {
-		if (mIsValid) {
+		if (isValid()) {
 			mListView.setOnItemLongClickListener(listener);
 		}
 	}
@@ -243,7 +200,7 @@ public class ModuleListView extends AfLayoutModule
 		case PRIGRESS:
 			return mSelector.selectFrame(mProgress.getLayout());
 		case NULLDATA:
-			return mSelector.selectFrame(mNodata.getLayout());
+			return mSelector.selectFrame(mNodata);
 		}
 		return false;
 	}

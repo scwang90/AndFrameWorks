@@ -11,14 +11,14 @@ import android.view.View;
 import android.view.View.OnClickListener;
 import android.widget.TextView;
 
+import com.andframe.layoutbind.framework.AfViewModule;
 import com.andoffice.R;
 import com.andframe.activity.framework.AfPageable;
 import com.andframe.activity.framework.AfViewable;
-import com.andframe.layoutbind.AfLayoutModule;
 import com.andframe.widget.popupmenu.OnMenuItemClickListener;
 import com.andframe.widget.popupmenu.PopupMenu;
 
-public class ModuleTitlebar extends AfLayoutModule implements OnClickListener {
+public class ModuleTitlebar extends AfViewModule implements OnClickListener {
 
 	public static final int FUNCTION_NONE = 0;
 	public static final int FUNCTION_ADD = 1;
@@ -45,7 +45,7 @@ public class ModuleTitlebar extends AfLayoutModule implements OnClickListener {
 	}
 
 	public ModuleTitlebar(AfPageable page, int function) {
-		super(page);
+		super(page,R.id.titlebar_other_layout);
 		if(isValid()){
 			mBtAdd = page.findViewById(R.id.titlebar_other_add);
 			mBtGoBack = page.findViewById(R.id.titlebar_other_goback);
@@ -58,11 +58,6 @@ public class ModuleTitlebar extends AfLayoutModule implements OnClickListener {
 			mBtGoBack.setOnClickListener(this);
 			setFunction(function);
 		}
-	}
-
-	@Override
-	protected View findLayout(AfViewable view) {
-		return view.findViewById(R.id.titlebar_other_layout);
 	}
 
 	@Override

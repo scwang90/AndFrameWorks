@@ -1,203 +1,190 @@
 package com.andoffice.activity.framework;
 
-import java.util.ArrayList;
-import java.util.List;
-
+import android.content.Context;
 import android.os.Bundle;
-import android.os.Handler;
-import android.os.Message;
 import android.view.MenuItem;
 import android.view.View;
 import android.widget.ListView;
 
+import com.andframe.activity.AfListViewActivity;
+import com.andframe.activity.framework.AfPageable;
 import com.andframe.adapter.AfListAdapter;
 import com.andframe.bean.Page;
 import com.andframe.feature.AfIntent;
-import com.andframe.thread.AfListViewTask;
-import com.andframe.thread.AfTask;
-import com.andframe.view.AfRefreshListView;
+import com.andframe.layoutbind.AfFrameSelector;
+import com.andframe.layoutbind.AfModuleNodata;
+import com.andframe.layoutbind.AfModuleProgress;
 import com.andframe.view.multichoice.AfMultiChoiceAdapter;
 import com.andframe.view.multichoice.AfMultiChoiceAdapter.MultiChoiceListener;
 import com.andframe.view.multichoice.AfMultiChoiceItem;
 import com.andframe.widget.popupmenu.OnMenuItemClickListener;
+import com.andoffice.R;
 import com.andoffice.layoutbind.ModuleBottombar;
+import com.andoffice.layoutbind.ModuleBottombarSelector;
+import com.andoffice.layoutbind.ModuleNodata;
+import com.andoffice.layoutbind.ModuleProgress;
 import com.andoffice.layoutbind.ModuleTitlebar;
+import com.andoffice.layoutbind.ModuleTitlebarSearcher;
+import com.andoffice.layoutbind.ModuleTitlebarSelector;
 
-public abstract class AbSuperListViewActivity<T> extends AbListViewActivity<T> 
-	implements MultiChoiceListener<T>, OnMenuItemClickListener{
+import java.util.List;
 
-	private static final int REQUEST_SELECT = 1;
-	
-	protected AfMultiChoiceAdapter<T> mMultiChoiceAdapter = null;
-	
-	protected abstract List<T> onTaskListFromDomain(int task,Page page)throws Exception;
+public abstract class AbSuperListViewActivity<T> extends AfListViewActivity<T>
+        implements MultiChoiceListener<T>, OnMenuItemClickListener {
 
-	protected abstract AfMultiChoiceItem<T> getItemLayout(T data);
+    private static final int REQUEST_SELECT = 1;
 
-	@Override
-	protected void onCreate(Bundle bundle, AfIntent intent,AfRefreshListView<ListView> listview) throws Exception {
-		super.onCreate(bundle, intent, listview);
-	}
-	
-	@Override
-	protected boolean onBackKeyPressed() {
-		if(mMultiChoiceAdapter!=null&&
-				mMultiChoiceAdapter.isMultiChoiceMode()){
-			mMultiChoiceAdapter.closeMultiChoice();
-			return true;
-		}else{
-			return super.onBackKeyPressed();
-		}
-	}
-	
-	@Override
-	public boolean onMenuItemClick(MenuItem item) {
-		if(item.getItemId() == REQUEST_SELECT){
-			if(mMultiChoiceAdapter != null){
-				mMultiChoiceAdapter.beginMultiChoice();
-			}else{
-				makeToastShort("还没有数据喔~");
-			}
-			return true;
-		}
-		return false;
-	}
-	
-	@Override
-	public void onClick(View v) {
-		if(v.getId() == ModuleBottombar.ID_SELECT){
-			if(mMultiChoiceAdapter != null){
-				mMultiChoiceAdapter.beginMultiChoice();
-			}else{
-				makeToastShort("还没有数据喔~");
-			}
-		}else{
-			super.onClick(v);
-		}
-	}
-	
-	@Override
-	public void onMultiChoiceChanged(AfMultiChoiceAdapter<T> adapter,
-			int number, int total) {
+    protected ModuleTitlebar mTitlebar = null;
+    protected ModuleBottombar mBottombar = null;
+    protected ModuleTitlebarSelector mTitlebarSelector = null;
+    protected ModuleTitlebarSearcher mTitlebarSearcher = null;
+    protected ModuleBottombarSelector mBottombarSelector = null;
 
-	}
-	
-	@Override
-	public void onMultiChoiceChanged(AfMultiChoiceAdapter<T> adapter, T tag,
-			boolean selected, int number) {
+    protected AfMultiChoiceAdapter<T> mMultiChoiceAdapter = null;
 
-	}
-	
-	@Override
-	public void onMultiChoiceClosed(AfMultiChoiceAdapter<T> adapter,
-			List<T> list) {
-		mBottombar.show();
-	}
-	@Override
-	public void onMultiChoiceStarted(AfMultiChoiceAdapter<T> adapter, int number) {
-		mBottombar.hide();
-	}
-	
-	@Override
-	protected AfListViewTask<T> getTask(int task) {
-		return new AbListViewTask(task);
-	}
+    protected abstract List<T> onTaskListFromDomain(int task, Page page) throws Exception;
 
-	@Override
-	protected AfListAdapter<T> getAdapter(List<T> ltdata){
-		//获取并创建适配器监听器
-		mMultiChoiceAdapter = getMultiChoiceAdapter(ltdata);
-		mMultiChoiceAdapter.addListener(this);
-		//添加选择按钮状态
-		mBottombar.setSelectListener(this);
-		mBottombar.setFunction(ModuleBottombar.ID_SELECT, true);
-		mTitlebar.setMenuItemListener(this);
-		mTitlebar.putMenu("选择", REQUEST_SELECT);
-		mTitlebar.setFunction(ModuleTitlebar.FUNCTION_MENU);
-		//返回适配器到父类
-		return mMultiChoiceAdapter;
-	}
+    protected abstract AfMultiChoiceItem<T> getItemLayout(T data);
 
-	protected AfMultiChoiceAdapter<T> getMultiChoiceAdapter(List<T> ltdata){
-		return new AbListViewAdapter(ltdata);
-	}
-	
-	@Override
-	public boolean handleMessage(Message msg) {
-		AfListViewTask<?> task = AfListViewTask.getTask(msg);
-		if(task != null && this.onTaskTerminate(task)){
-			return true;
-		}
-		return super.handleMessage(msg);
-	}
-	
-	protected class AbListViewAdapter extends AfMultiChoiceAdapter<T>{
+    @Override
+    protected void onCreate(Bundle bundle, AfIntent intent) throws Exception {
+        super.onCreate(bundle, intent);
+        mTitlebar = new ModuleTitlebar(this);
+        mBottombar = new ModuleBottombar(this);
+        mTitlebarSelector = new ModuleTitlebarSelector(this);
+        mTitlebarSearcher = new ModuleTitlebarSearcher(this);
+        mBottombarSelector = new ModuleBottombarSelector(this);
+    }
 
-		public AbListViewAdapter(List<T> ltdata) {
-			super(getActivity(), ltdata);
-		}
-		
-		@Override
-		protected AfMultiChoiceItem<T> getMultiChoiceItem(T data) {
-			return AbSuperListViewActivity.this.getItemLayout(data);
-		}
-	}
-	
-	protected class AbListViewTask extends AfListViewTask<T>{
+    @Override
+    protected int getLayoutId() {
+        return R.layout.layout_listview;
+    }
 
-		public AbListViewTask(int task) {
-			super(new Handler(AbSuperListViewActivity.this), task);
-		}
-		
-		@Override
-		public boolean onPrepare() {
-			return onTaskPrepare(mTask);
-		}
+    @Override
+    protected AfModuleNodata newModuleNodata(AfPageable pageable) {
+        return new ModuleNodata(pageable);
+    }
 
-		@Override
-		protected List<T> onLoad() {
-			return onTaskLoad();
-		}
+    @Override
+    protected AfModuleProgress newModuleProgress(AfPageable pageable) {
+        return new ModuleProgress(pageable);
+    }
 
-		@Override
-		protected List<T> onListByPage(Page page, int task) throws Exception {
-			return onTaskListFromDomain(mTask,page);
-		}
-		
-		@Override
-		protected boolean onWorking(int task) throws Exception {
-			return onTaskWorking(task);
-		}
+    @Override
+    protected AfFrameSelector newAfFrameSelector(AfPageable pageable) {
+        return new AfFrameSelector(pageable,R.id.module_listview_frame);
+    }
 
-		@Override
-		protected boolean onRefreshed(boolean isfinish, List<T> ltdata) {
-			return false;
-		}
+    @Override
+    protected ListView findListView(AfPageable pageable) {
+        return pageable.findViewByID(R.id.module_listview);
+    }
 
-		@Override
-		protected boolean onMored(boolean isfinish, List<T> ltdata,
-				boolean ended) {
-			return false;
-		}
-	}
+    @Override
+    protected boolean onBackKeyPressed() {
+        if (mMultiChoiceAdapter != null &&
+                mMultiChoiceAdapter.isMultiChoiceMode()) {
+            mMultiChoiceAdapter.closeMultiChoice();
+            return true;
+        } else {
+            return super.onBackKeyPressed();
+        }
+    }
 
-	protected boolean onTaskPrepare(int task) {
-		return true;
-	}
-	
-	protected List<T> onTaskLoad(){
-		return new ArrayList<T>();
-	}
+    @Override
+    public boolean onMenuItemClick(MenuItem item) {
+        if (item.getItemId() == REQUEST_SELECT) {
+            if (mMultiChoiceAdapter != null) {
+                mMultiChoiceAdapter.beginMultiChoice();
+            } else {
+                makeToastShort("还没有数据喔~");
+            }
+            return true;
+        }
+        return false;
+    }
 
-//	protected List<T> onTaskMore(Page page) throws Exception{
-//		return new ArrayList<T>();
-//	}
+    @Override
+    public void onClick(View v) {
+        if (v.getId() == ModuleBottombar.ID_SELECT) {
+            if (mMultiChoiceAdapter != null) {
+                mMultiChoiceAdapter.beginMultiChoice();
+            } else {
+                makeToastShort("还没有数据喔~");
+            }
+        } else if (v.getId() == ModuleNodata.ID_BUTTON
+                || v.getId() == ModuleNodata.TEXT_TOREFRESH) {
+            postRefreshTask(true);
+        } else {
+            super.onClick(v);
+        }
+    }
 
-	protected boolean onTaskWorking(int task) throws Exception{
-		return false;
-	}
+    @Override
+    public void onMultiChoiceChanged(AfMultiChoiceAdapter<T> adapter, int number, int total) {
+    }
 
-	protected boolean onTaskTerminate(AfListViewTask<?> task) {
-		return super.handleMessage(AfTask.putTask(task));
-	}
+    @Override
+    public void onMultiChoiceChanged(AfMultiChoiceAdapter<T> adapter, T tag,boolean selected, int number) {
+    }
+
+    @Override
+    public void onMultiChoiceClosed(AfMultiChoiceAdapter<T> adapter,List<T> list) {
+        mBottombar.show();
+    }
+
+    @Override
+    public void onMultiChoiceStarted(AfMultiChoiceAdapter<T> adapter, int number) {
+        mBottombar.hide();
+    }
+
+    @Override
+    protected AfListAdapter<T> newAdapter(Context context, List<T> ltdata) {
+        //获取并创建适配器监听器
+        mMultiChoiceAdapter = getMultiChoiceAdapter(ltdata);
+        mMultiChoiceAdapter.addListener(this);
+        //添加选择按钮状态
+        mBottombar.setSelectListener(this);
+        mBottombar.setFunction(ModuleBottombar.ID_SELECT, true);
+
+        mTitlebar.setMenuItemListener(this);
+        mTitlebar.putMenu("选择", REQUEST_SELECT);
+        mTitlebar.setFunction(ModuleTitlebar.FUNCTION_MENU);
+        //返回适配器到父类
+        return mMultiChoiceAdapter;
+    }
+
+    @Override
+    protected List<T> onTaskListByPage(Page page, int task) throws Exception {
+        return onTaskListFromDomain(task, page);
+    }
+
+    protected AfMultiChoiceAdapter<T> getMultiChoiceAdapter(List<T> ltdata) {
+        return new AbListViewAdapter(ltdata);
+    }
+
+    protected class AbListViewAdapter extends AfMultiChoiceAdapter<T> {
+
+        public AbListViewAdapter(List<T> ltdata) {
+            super(getActivity(), ltdata);
+        }
+
+        @Override
+        protected AfMultiChoiceItem<T> getMultiChoiceItem(T data) {
+            return AbSuperListViewActivity.this.getItemLayout(data);
+        }
+    }
+
+    /**
+     * 发送刷新任务
+     *
+     * @param progress 是否显示正在加载页面
+     */
+    protected void postRefreshTask(boolean progress) {
+        onRefresh();
+        if (progress) {
+            setLoading();
+        }
+    }
 }

@@ -12,14 +12,12 @@ import android.widget.HorizontalScrollView;
 import android.widget.RadioButton;
 import android.widget.RadioGroup;
 
+import com.andframe.layoutbind.framework.AfViewModule;
 import com.andoffice.R;
 import com.andframe.activity.framework.AfPageable;
 import com.andframe.activity.framework.AfViewable;
-import com.andframe.layoutbind.AfLayoutModule;
-import com.andframe.layoutbind.framework.IAfLayoutModule;
 
-public class ModuleTabControl extends AfLayoutModule implements
-		IAfLayoutModule, OnCheckedChangeListener {
+public class ModuleTabControl extends AfViewModule implements OnCheckedChangeListener {
 	public interface ITabControlItem {
 		String getName();
 		void onCheckedChanged(boolean isChecked);
@@ -34,7 +32,7 @@ public class ModuleTabControl extends AfLayoutModule implements
 	private List<ITabControlItem> mltItem = new ArrayList<ITabControlItem>();
 
 	public ModuleTabControl(AfPageable page) {
-		super(page);
+		super(page,R.id.tabcontrol_lyt);
 		if(isValid()){
 			mResources = page.getContext().getResources();
 			mInfalter = LayoutInflater.from(page.getContext());
@@ -44,19 +42,8 @@ public class ModuleTabControl extends AfLayoutModule implements
 		}
 	}
 
-	
-	@Override
-	protected View findLayout(AfViewable view) {
-		View layout = view.findViewById(R.id.tabcontrol_hscrollview);
-		if(layout != null){
-			layout = (View)layout.getParent();
-		}
-		return layout;
-	}
-
-
 	public void setItems(List<ITabControlItem> ltitem) {
-		if (mIsValid) {
+		if (isValid()) {
 			mltItem.clear();
 			mltItem.addAll(ltitem);
 			mRadioGroup.removeAllViews();

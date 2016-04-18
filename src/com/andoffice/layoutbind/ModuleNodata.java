@@ -1,16 +1,14 @@
 package com.andoffice.layoutbind;
 
 import android.view.View;
-import android.view.View.OnClickListener;
 import android.widget.TextView;
 
 import com.andframe.activity.framework.AfPageable;
 import com.andframe.activity.framework.AfViewable;
-import com.andframe.layoutbind.AfLayoutModule;
-import com.andframe.layoutbind.framework.IAfLayoutModule;
+import com.andframe.layoutbind.AfModuleNodata;
 import com.andoffice.R;
 
-public class ModuleNodata extends AfLayoutModule implements IAfLayoutModule{
+public class ModuleNodata extends AfModuleNodata {
 	
 	public static final int ID_BUTTON = R.id.module_nodata_button;
 
@@ -26,50 +24,46 @@ public class ModuleNodata extends AfLayoutModule implements IAfLayoutModule{
 	private TextView mTvDescription = null;
 	
 	public ModuleNodata(AfPageable page) {
-		super(page);
-		if(isValid()){
-			mTvButton = page.findViewByID(R.id.module_nodata_button);
-			mTvDescription = page.findViewByID(R.id.module_nodata_description);
-			mTvButton.setVisibility(View.GONE);
-		}
+		super(page,R.id.module_nodata_layout);
 	}
-	
+
 	@Override
-	protected View findLayout(AfViewable view) {
-		View layout = view.findViewById(R.id.module_nodata_button);
-		if(layout != null){
-			layout = (View)layout.getParent();
-		}
-		return layout;
+	protected View findRefreshButton(AfViewable view) {
+		return view.findViewByID(R.id.module_nodata_button);
 	}
 
-	public void setDescription(String description) {
-		mTvDescription.setText(description);
+	@Override
+	protected TextView findDescription(AfViewable view) {
+		return view.findViewByID(R.id.module_nodata_description);
 	}
 
-	public void setDescription(int id) {
-		mTvDescription.setText(id);
-	}
-
-	public void setButtonText(String text) {
-		mTvButton.setText(text);
-	}
-
-	public void setButtonText(int id) {
-		mTvButton.setId(id);
-		mTvButton.setText(id);
-	}
-
-	public void setOnRefreshListener(OnClickListener listener) {
-		mTvButton.setOnClickListener(listener);
-		if(listener != null){
-			mTvButton.setVisibility(View.VISIBLE);
-		}else{
-			mTvButton.setVisibility(View.GONE);
-		}
-	}
-
-	public TextView getButton() {
-		return mTvButton;
-	}
+//	public void setDescription(String description) {
+//		mTvDescription.setText(description);
+//	}
+//
+//	public void setDescription(int id) {
+//		mTvDescription.setText(id);
+//	}
+//
+//	public void setButtonText(String text) {
+//		mTvButton.setText(text);
+//	}
+//
+//	public void setButtonText(int id) {
+//		mTvButton.setId(id);
+//		mTvButton.setText(id);
+//	}
+//
+//	public void setOnRefreshListener(OnClickListener listener) {
+//		mTvButton.setOnClickListener(listener);
+//		if(listener != null){
+//			mTvButton.setVisibility(View.VISIBLE);
+//		}else{
+//			mTvButton.setVisibility(View.GONE);
+//		}
+//	}
+//
+//	public TextView getButton() {
+//		return mTvButton;
+//	}
 }
