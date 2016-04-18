@@ -130,8 +130,8 @@ public abstract class AfListAdapter<T> extends BaseAdapter {
 		} catch (Throwable e) {
 			String remark = "AfListAdapter("+getClass().getName()+").getView\r\n";
 			View cview = view;
-			if (parent instanceof View){
-				cview = (View) parent;
+			if (parent != null){
+				cview = parent;
 			}
 			if (cview != null && cview.getContext() != null){
 				remark += "class = " + cview.getContext().getClass().toString();

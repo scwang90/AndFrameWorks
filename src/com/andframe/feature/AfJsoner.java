@@ -36,8 +36,27 @@ public class AfJsoner {
 
     public static <T> T fromJson(String json,Class<T> clazz){
         try {
-            if (null == json || "null".equals(json)) {
+            if (null == json || json.trim().length() == 0 || "null".equals(json)) {
                 return null;
+            }
+            if (Integer.class.equals(clazz)) {
+                return (T) Integer.valueOf(json);
+            } else if (Short.class.equals(clazz) || short.class.equals(clazz)) {
+                return (T) Short.valueOf(json);
+            } else if (Byte.class.equals(clazz) || byte.class.equals(clazz)) {
+                return (T) Byte.valueOf(json);
+            } else if (Character.class.equals(clazz) || char.class.equals(clazz)) {
+                return (T) Character.valueOf(json.charAt(0));
+            } else if (Long.class.equals(clazz) || long.class.equals(clazz)) {
+                return (T) Long.valueOf(json);
+            } else if (Float.class.equals(clazz) || float.class.equals(clazz)) {
+                return (T) Float.valueOf(json);
+            } else if (Double.class.equals(clazz) || double.class.equals(clazz)) {
+                return (T) Double.valueOf(json);
+            } else if (Boolean.class.equals(clazz) || boolean.class.equals(clazz)) {
+                return (T) Boolean.valueOf(json);
+            } else if (String.class.equals(clazz)) {
+                return (T)json;
             }
             return fromJson(new JSONObject(json), clazz);
         } catch (JSONException e) {
@@ -139,7 +158,7 @@ public class AfJsoner {
         } else {
             final Class<?> type = value.getClass();
             if (type.isPrimitive() || Integer.class.equals(type) || Short.class.equals(type) ||
-                    Long.class.equals(type) || Float.class.equals(type) ||
+                    Character.class.equals(type) || Byte.class.equals(type) || Long.class.equals(type) || Float.class.equals(type) ||
                     Double.class.equals(type) || String.class.equals(type) || Boolean.class.equals(type)){
                 return value;
             } else if (Date.class.isAssignableFrom(type)){
@@ -152,7 +171,6 @@ public class AfJsoner {
     /**
      *
      * @param obj 不可为空
-     * @return
      */
     private static JSONObject builderObject(Object obj) throws JSONException {
         JSONObject object = new JSONObject();

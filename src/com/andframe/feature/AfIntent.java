@@ -105,21 +105,21 @@ public class AfIntent extends Intent implements AfExtrater {
         } else if (clazz.equals(boolean.class)) {
             return getBooleanExtra(_key, defaul != null && (boolean) (defaul));
         } else if (clazz.equals(Integer.class)) {
-            return defaulOrNull(_key,getIntExtra(_key, defaul == null ? 0 : (int) (defaul)),defaul);
+            return defaulOrNull(_key, getIntExtra(_key, defaul == null ? 0 : (int) (defaul)), defaul);
         } else if (clazz.equals(Short.class)) {
-            return defaulOrNull(_key,getShortExtra(_key, defaul == null ? 0 : (short) (defaul)),defaul);
+            return defaulOrNull(_key, getShortExtra(_key, defaul == null ? 0 : (short) (defaul)), defaul);
         } else if (clazz.equals(Long.class)) {
-            return defaulOrNull(_key,getLongExtra(_key, defaul == null ? 0 : (long) (defaul)),defaul);
+            return defaulOrNull(_key, getLongExtra(_key, defaul == null ? 0 : (long) (defaul)), defaul);
         } else if (clazz.equals(Float.class)) {
-            return defaulOrNull(_key,getFloatExtra(_key, defaul == null ? 0 : (float) (defaul)),defaul);
+            return defaulOrNull(_key, getFloatExtra(_key, defaul == null ? 0 : (float) (defaul)), defaul);
         } else if (clazz.equals(Double.class)) {
-            return defaulOrNull(_key,getDoubleExtra(_key, defaul == null ? 0 : (double) (defaul)),defaul);
+            return defaulOrNull(_key, getDoubleExtra(_key, defaul == null ? 0 : (double) (defaul)), defaul);
         } else if (clazz.equals(Byte.class)) {
-            return defaulOrNull(_key,getByteExtra(_key, defaul == null ? 0 : (byte) (defaul)),defaul);
+            return defaulOrNull(_key, getByteExtra(_key, defaul == null ? 0 : (byte) (defaul)), defaul);
         } else if (clazz.equals(Character.class)) {
-            return defaulOrNull(_key,getCharExtra(_key, defaul == null ? 0 : (char) (defaul)),defaul);
+            return defaulOrNull(_key, getCharExtra(_key, defaul == null ? 0 : (char) (defaul)), defaul);
         } else if (clazz.equals(Boolean.class)) {
-            return defaulOrNull(_key,getBooleanExtra(_key, defaul != null && (boolean) (defaul)),defaul);
+            return defaulOrNull(_key, getBooleanExtra(_key, defaul != null && (boolean) (defaul)), defaul);
         } else if (clazz.equals(String.class)) {
             return getStringExtra(_key);
         } else if (clazz.equals(CharSequence.class)) {
@@ -134,7 +134,7 @@ public class AfIntent extends Intent implements AfExtrater {
         return null;
     }
 
-    private Object defaulOrNull(String _key,Object obj, Object defaul) {
+    private Object defaulOrNull(String _key, Object obj, Object defaul) {
         if (obj != null && defaul == null) {
             if (!this.hasExtra(_key)) {
                 return null;
@@ -219,7 +219,7 @@ public class AfIntent extends Intent implements AfExtrater {
     public <T> T get(String _key, T defaul, Class<T> clazz) {
         T value = null;
         try {
-            value = (T)getOrgin(_key,defaul,clazz);
+            value = (T) getOrgin(_key, defaul, clazz);
             if (value != null) {
                 return value;
             }
@@ -265,6 +265,28 @@ public class AfIntent extends Intent implements AfExtrater {
                 }
             }
         } catch (Throwable e) {
+            Class<?>[] clazzs = {Serializable.class, Parcelable.class};
+            for (Class<?> classz : clazzs){
+                Object obj = getOrgin(_key, defaul, classz);
+                if (obj instanceof List) {
+                    List objs = (List) obj;
+                    for (Object objt : objs) {
+                        if (objt != null && clazz.isAssignableFrom(objt.getClass())) {
+                            return (List<T>) objs;
+                        }
+                    }
+                } else if (obj != null && obj.getClass().isArray()) {
+                    Object[] objs = (Object[]) obj;
+                    for (Object objt : objs) {
+                        if (objt != null && clazz.isAssignableFrom(objt.getClass())) {
+                            for (Object objts : objs) {
+                                value.add((T) objts);
+                            }
+                            return value;
+                        }
+                    }
+                }
+            }
             if (value != null && value.size() == 0) {
                 value = null;
             }

@@ -251,6 +251,28 @@ public class AfBundle implements AfExtrater {
                 }
             }
         } catch (Throwable e) {
+            Class<?>[] clazzs = {Serializable.class, Parcelable.class};
+            for (Class<?> classz : clazzs){
+                Object obj = getOrgin(_key, defaul, classz);
+                if (obj instanceof List) {
+                    List objs = (List) obj;
+                    for (Object objt : objs) {
+                        if (objt != null && clazz.isAssignableFrom(objt.getClass())) {
+                            return (List<T>) objs;
+                        }
+                    }
+                } else if (obj != null && obj.getClass().isArray()) {
+                    Object[] objs = (Object[]) obj;
+                    for (Object objt : objs) {
+                        if (objt != null && clazz.isAssignableFrom(objt.getClass())) {
+                            for (Object objts : objs) {
+                                value.add((T) objts);
+                            }
+                            return value;
+                        }
+                    }
+                }
+            }
             if (value != null && value.size() == 0) {
                 value = null;
             }
