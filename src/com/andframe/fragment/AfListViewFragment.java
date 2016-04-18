@@ -209,7 +209,7 @@ public abstract class AfListViewFragment<T> extends AfTabFragment implements
      * 子类需要重写监听器的话可以对
      * mNodataRefreshListener 重新赋值
      */
-    private OnClickListener mNodataRefreshListener = new OnClickListener() {
+    protected OnClickListener mNodataRefreshListener = new OnClickListener() {
         @Override
         public void onClick(View v) {
             onRefresh();
