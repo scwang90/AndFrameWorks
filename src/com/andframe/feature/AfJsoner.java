@@ -39,7 +39,7 @@ public class AfJsoner {
             if (null == json || json.trim().length() == 0 || "null".equals(json)) {
                 return null;
             }
-            if (Integer.class.equals(clazz)) {
+            if (Integer.class.equals(clazz) || int.class.equals(clazz)) {
                 return (T) Integer.valueOf(json);
             } else if (Short.class.equals(clazz) || short.class.equals(clazz)) {
                 return (T) Short.valueOf(json);
@@ -88,15 +88,38 @@ public class AfJsoner {
                 value = new Date((Long)value);
             }
             try {
-                if (!field.getType().isPrimitive() || value != null) {
+                if (/*!field.getType().isPrimitive() || */value != null) {
                     field.setAccessible(true);
-                    field.set(model, value);
+                    field.set(model, safeValue(value,field.getType()));
                 }
             } catch (IllegalAccessException e) {
                 e.printStackTrace();
             }
         }
         return model;
+    }
+
+    protected static Object safeValue(Object value, Class<?> clazz) {
+        if (value != null) {
+            if (Integer.class.equals(clazz) || int.class.equals(clazz)) {
+                return Double.valueOf(value.toString()).intValue();
+            } else if (Short.class.equals(clazz) || short.class.equals(clazz)) {
+                return Double.valueOf(value.toString()).shortValue();
+            } else if (Byte.class.equals(clazz) || byte.class.equals(clazz)) {
+                return Byte.valueOf(value.toString());
+            } else if (Character.class.equals(clazz) || char.class.equals(clazz)) {
+                return (value.toString() + " ").charAt(0);
+            } else if (Long.class.equals(clazz) || long.class.equals(clazz)) {
+                return Double.valueOf(value.toString()).longValue();
+            } else if (Float.class.equals(clazz) || float.class.equals(clazz)) {
+                return Double.valueOf(value.toString()).floatValue();
+            } else if (Double.class.equals(clazz) || double.class.equals(clazz)) {
+                return Double.valueOf(value.toString());
+            } else if (Boolean.class.equals(clazz) || boolean.class.equals(clazz)) {
+                return Boolean.valueOf(value.toString());
+            }
+        }
+        return value;
     }
 
     public static <T> List<T> fromJsons(String json,Class<T> clazz){
@@ -140,7 +163,7 @@ public class AfJsoner {
         } catch (Throwable e) {
         }
         try {
-            return (T)UnsafeAllocator.create().newInstance(clazz);
+            return (T) UnsafeAllocator.create().newInstance(clazz);
         } catch (Throwable e) {
         }
         return null;

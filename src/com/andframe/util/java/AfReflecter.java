@@ -1,6 +1,5 @@
 package com.andframe.util.java;
 
-import com.andframe.annotation.inject.InjectLayout;
 import com.google.gson.internal.UnsafeAllocator;
 
 import java.lang.annotation.Annotation;
