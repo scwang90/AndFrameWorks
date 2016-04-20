@@ -21,10 +21,8 @@ public class AfStackTrace {
 		StackTraceElement stack = stacks[index];
 		if (!stack.getClassName().equals(AfStackTrace.class.getName())) {
 			for (int i = 0; i < stacks.length; i++) {
-				if (AfStackTrace.class.getName().equals(
-						stacks[i].getClassName())) {
+				if (AfStackTrace.class.getName().equals(stacks[i].getClassName())) {
 					index = i;
-					stack = stacks[i];
 					break;
 				}
 			}
@@ -35,9 +33,31 @@ public class AfStackTrace {
 	}
 
 	/**
+	 *  获取调用 getCurrentStatck 的 Statck
+	 * @param level 向上层数 默认为0
+	 * @return 调用getCurrentStatck的Statck
+	 */
+	public static StackTraceElement getCurrentStatck(int level) {
+		int index = 1;
+		StackTraceElement[] stacks = Thread.currentThread().getStackTrace();
+		StackTraceElement stack = stacks[index];
+		if (!stack.getClassName().equals(AfStackTrace.class.getName())) {
+			for (int i = 0; i < stacks.length; i++) {
+				if (AfStackTrace.class.getName().equals(stacks[i].getClassName())) {
+					index = i;
+					break;
+				}
+			}
+		}
+		index++;
+		stack = stacks[index + level];
+		return stack;
+	}
+
+	/**
 	 *  获取调用 getCurrentStatck 的 Method
 	 * 暂时不支持重载方法
-	 * @return 调用getCurrentStatck 的 Statck
+	 * @return 调用getCurrentStatck的Statck
 	 */
 	public static Method getCurrentMethod() {
 		return getCurrentMethod(0);
@@ -47,7 +67,7 @@ public class AfStackTrace {
 	 * 获取调用 getCurrentStatck 的 Method
 	 * 暂时不支持重载方法
 	 * @param level 向上层数 默认为0
-	 * @return 调用getCurrentStatck 的 Statck
+	 * @return 调用getCurrentStatck的Statck
 	 */
 	public static Method getCurrentMethod(int level) {
 		try {
