@@ -10,5 +10,5 @@ import java.lang.annotation.Target;
 public @interface InjectExtra {
     String value();
     String remark() default "";
-    boolean necessary() default false;
+    boolean necessary() default true;
 }
