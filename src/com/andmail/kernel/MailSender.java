@@ -46,7 +46,7 @@ public class MailSender extends AfTask{
 	}
 
 	@Override
-	protected void onWorking(Message msg) throws Exception {
+	protected void onWorking(/*Message msg*/) throws Exception {
 		this.send();
 	}
 

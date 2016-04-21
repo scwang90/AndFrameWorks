@@ -37,8 +37,8 @@ public class MailResender extends MailSender{
 	}
 	
 	@Override
-	protected void onWorking(Message msg) throws Exception {
-		super.onWorking(msg);
+	protected void onWorking(/*Message msg*/) throws Exception {
+		super.onWorking(/*msg*/);
 		try {
 			Set<ResendEntity> sethanlder = mCache.getExceptionHandlerSet(null);
 			for (ResendEntity entity : sethanlder) {
