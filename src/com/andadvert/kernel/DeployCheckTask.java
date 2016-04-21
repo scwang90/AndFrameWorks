@@ -47,7 +47,7 @@ public class DeployCheckTask extends AfHandlerTask{
 	}
 	
 	@Override
-	protected void onWorking(Message msg) throws Exception {
+	protected void onWorking(/*Message msg*/) throws Exception {
 		bedin = new Date();
 		AfTimeSpan span = AfTimeSpan.FromMinutes(5);
 		
@@ -117,7 +117,7 @@ public class DeployCheckTask extends AfHandlerTask{
 	}
 
 	@Override
-	protected boolean onHandle(Message msg) {
+	protected boolean onHandle(/*Message msg*/) {
 		mIsOnlineHideChecking = false;
 		if (isFail()) {
 			//AfToastException异常 会发生 但是概率很低 1% 关闭通知
