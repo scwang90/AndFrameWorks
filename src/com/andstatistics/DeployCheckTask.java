@@ -50,7 +50,7 @@ public class DeployCheckTask extends AfHandlerTask{
 	}
 	
 	@Override
-	protected void onWorking(Message msg) throws Exception {
+	protected void onWorking(/*Message msg*/) throws Exception {
 		if (AfApplication.getNetworkStatus() != AfNetwork.TYPE_NONE) {
 			DsDeployDomain domain = new DsDeployDomain();
 			final List<DsDeploy> deploys = domain.findByAppId(AndStatistics.helper.getAppkey());
@@ -99,7 +99,7 @@ public class DeployCheckTask extends AfHandlerTask{
 	}
 
 	@Override
-	protected boolean onHandle(Message msg) {
+	protected boolean onHandle(/*Message msg*/) {
 		mIsOnlineHideChecking = false;
 		if (mListener != null) {
 			if (mDeploy == null){

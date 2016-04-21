@@ -31,7 +31,7 @@ public class EventTriggerTask extends BaseTask{
     }
 
     @Override
-    protected void onWorking(Message msg) throws Exception {
+    protected void onWorking(/*Message msg*/) throws Exception {
         while (AfNetwork.getNetworkState(mContext) == AfNetwork.TYPE_NONE){
             Thread.sleep(30*1000);
         }
