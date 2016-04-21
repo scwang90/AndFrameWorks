@@ -33,7 +33,7 @@ public class AddressKernel {
 			loading = true;
 			AfApplication.postTask(new AfTask() {
 				@Override
-				protected void onWorking(Message msg) throws Exception {
+				protected void onWorking(/*Message msg*/) throws Exception {
 					work();
 					AfApplication.getApp().onUpdateAppinfo();
 					//AppinfoMail.updateAppinfo();
