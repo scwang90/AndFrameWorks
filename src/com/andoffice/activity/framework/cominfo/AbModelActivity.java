@@ -78,7 +78,7 @@ public abstract class AbModelActivity<T> extends AbCominfoActivity{
 		}
 		
 		@Override
-		protected void onWorking(Message msg) throws Exception {
+		protected void onWorking(/*Message msg*/) throws Exception {
 			IDomain<T> domain = getDomain(mClass);
 			switch (mTask) {
 			case TASK_ADD:

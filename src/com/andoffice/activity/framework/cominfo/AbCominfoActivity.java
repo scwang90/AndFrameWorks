@@ -835,10 +835,12 @@ public abstract class AbCominfoActivity extends AfActivity implements
 
 		protected T mModel;
 		protected Class<T> mClass;
+		protected int mTask;
 		
 		@SuppressWarnings("unchecked")
 		public AbCommonTask(T model,int task) {
-			super(task);
+//			super(task);
+			mTask = task;
 			mModel = model;
 			mClass = (Class<T>)model.getClass();
 		}
@@ -853,8 +855,8 @@ public abstract class AbCominfoActivity extends AfActivity implements
 		}
 
 		@Override
-		protected void onWorking(Message msg) throws Exception {
-			IDomain<T> domain = new ImplDomain<T>(mClass);
+		protected void onWorking(/*Message msg*/) throws Exception {
+			IDomain<T> domain = new ImplDomain<>(mClass);
 			switch (mTask) {
 			case TASK_ADD:
 				domain.Insert(mModel);
@@ -866,7 +868,7 @@ public abstract class AbCominfoActivity extends AfActivity implements
 		}
 
 		@Override
-		protected boolean onHandle(Message msg) {
+		protected boolean onHandle(/*Message msg*/) {
 			hideProgressDialog();
 			if (mResult == RESULT_FINISH) {// TASK_ADD and TASK_MODIFY
 				makeToastShort("操作成功完成！");
