@@ -1,7 +1,5 @@
 package com.andframe.thread;
 
-import android.os.Message;
-
 /**
  * 带有效数据的任务
  * Created by SCWANG on 2016/3/30.
@@ -27,7 +25,7 @@ public class AfDataTask <T> extends AfHandlerTask {
     }
 
     @Override
-    public boolean onPrepare() {
+    protected boolean onPrepare() {
         if (handler != null) {
             return handler.onPrepare(t);
         }
@@ -51,7 +49,7 @@ public class AfDataTask <T> extends AfHandlerTask {
     }
 
     @Override
-    protected boolean onHandle(Message msg) {
+    protected boolean onHandle(/*Message msg*/) {
         if (handler != null) {
             return handler.onHandle(t);
         }
@@ -59,7 +57,7 @@ public class AfDataTask <T> extends AfHandlerTask {
     }
 
     @Override
-    protected void onWorking(Message msg) throws Exception {
+    protected void onWorking(/*Message msg*/) throws Exception {
         if (handler != null) {
             handler.onWorking(t);
             return;

@@ -6,6 +6,8 @@ import android.content.BroadcastReceiver;
 import android.content.Context;
 import android.content.Intent;
 import android.content.IntentFilter;
+import android.os.Handler;
+import android.os.Looper;
 import android.os.Message;
 import android.support.v4.app.NotificationCompat.Builder;
 
@@ -504,11 +506,12 @@ public class AfDownloader {
 
     }
 
-    public static class DownloadTask extends AfHandlerTask {
+    public static class DownloadTask extends AfTask implements Handler.Callback {
 
         public static final int DOWNLOAD_FINISH = 20;
         public static final int DOWNLOAD_PROGRESS = 10;
 
+        private Handler mHandler;
         private DownloadEntity mEndity;
         private Notifier mNotifier;
         private String mEndityUrl;
@@ -522,17 +525,19 @@ public class AfDownloader {
         /**
          * 正在下载任务列表
          */
-        private static List<DownloadTask> mltDownloading = new ArrayList<DownloadTask>();
+        private static List<DownloadTask> mltDownloading = new ArrayList<>();
         /**
          * 成功或者失败 通知栏任务列表
          */
-        private static Map<String, DownloadTask> mNotifyMap = new HashMap<String, DownloadTask>();
+        private static Map<String, DownloadTask> mNotifyMap = new HashMap<>();
+
 
         public DownloadTask(DownloadEntity endity, DownloadListener listener) {
             mEndity = endity;
             mListener = listener;
             mEndityUrl = endity.DownloadUrl;
             mDownloadPath = endity.getFullPath();
+            mHandler = new Handler(Looper.getMainLooper(),this);
         }
 
         /**
@@ -553,7 +558,7 @@ public class AfDownloader {
         }
 
         @Override
-        public boolean onPrepare() {
+        protected boolean onPrepare() {
             mltDownloading.add(this);
             // 构造 通知
             if (mEndity.Notify != null) {
@@ -567,7 +572,7 @@ public class AfDownloader {
         }
 
         @Override
-        protected void onWorking(Message msg) throws Exception {
+        protected void onWorking(/*Message msg*/) throws Exception {
             if (!mEndity.isDownloaded()) {
 
                 HttpGet get = new HttpGet(mEndityUrl);
@@ -637,8 +642,18 @@ public class AfDownloader {
             }
         }
 
+//        @Override
+//        protected boolean onHandle(/*Message msg*/) {
+//        }
+
+        public void notifyClick() {
+            if (mListener != null) {
+                mListener.notifyClick(mEndity);
+            }
+        }
+
         @Override
-        protected boolean onHandle(Message msg) {
+        public boolean handleMessage(Message msg) {
             if (mResult == AfTask.RESULT_FINISH) {
                 if (msg.what == DOWNLOAD_PROGRESS) {
                     // 更新状态栏上的下载进度信息
@@ -683,13 +698,6 @@ public class AfDownloader {
             }
             return true;
         }
-
-        public void notifyClick() {
-            if (mListener != null) {
-                mListener.notifyClick(mEndity);
-            }
-        }
-
     }
 
     protected static class DownloadBroadcast extends BroadcastReceiver {

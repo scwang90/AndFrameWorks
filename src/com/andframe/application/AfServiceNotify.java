@@ -1,16 +1,15 @@
 package com.andframe.application;
 
+import android.app.Notification;
+
+import com.andframe.thread.AfHandlerTask;
+
 import java.util.ArrayList;
 import java.util.Collection;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Random;
 import java.util.UUID;
-
-import android.app.Notification;
-import android.os.Message;
-
-import com.andframe.thread.AfHandlerTask;
 
 public abstract class AfServiceNotify<T> {
 	
@@ -134,7 +133,7 @@ public abstract class AfServiceNotify<T> {
 		if(!handled && notify){
 			if (mSingleNotify) {
 				for (T t : list) {
-					AfNotifyCenter.notify(getNotification(t), 1000+rand.nextInt(1000));
+					AfNotifyCenter.notify(getNotification(t), 1000 + rand.nextInt(1000));
 				}
 			}else {
 				AfNotifyCenter.notify(getNotification(list), notifyid);
@@ -142,7 +141,7 @@ public abstract class AfServiceNotify<T> {
 		}
 	}
 	
-	private class ServiceTask extends AfHandlerTask{
+	private class ServiceTask extends AfHandlerTask {
 
 		private UUID tID = null;
 		private List<T> tltNotify = null;
@@ -152,7 +151,7 @@ public abstract class AfServiceNotify<T> {
 		}
 		
 		@Override
-		protected boolean onHandle(Message msg) {
+		protected boolean onHandle(/*Message msg*/) {
 			if(isStarted()&&mServiceID.equals(tID)){
 				if(RESULT_FINISH == mResult){
 					mltNotify.clear();
@@ -170,7 +169,7 @@ public abstract class AfServiceNotify<T> {
 		}
 
 		@Override
-		protected void onWorking(Message msg) throws Exception {
+		protected void onWorking(/*Message msg*/) throws Exception {
 			tltNotify = onLoadNotify();
 		}
 	}

@@ -249,8 +249,7 @@ public abstract class AfListViewFragment<T> extends AfTabFragment implements
      */
     @Override
     public boolean onRefresh() {
-        postTask(new AbListViewTask(AfListViewTask.TASK_REFRESH));
-        return true;
+        return postTask(new AbListViewTask(AfListTask.TASK_REFRESH)).setListener(mListView).prepare();
     }
 
     /**
@@ -370,7 +369,7 @@ public abstract class AfListViewFragment<T> extends AfTabFragment implements
         }
 
         @Override
-        public boolean onPrepare() {
+        protected boolean onPrepare() {
             return AfListViewFragment.this.onTaskPrepare(mTask);
         }
 

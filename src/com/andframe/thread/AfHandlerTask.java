@@ -1,39 +1,72 @@
 package com.andframe.thread;
 
-import com.andframe.application.AfApplication;
-import com.andframe.application.AfExceptionHandler;
-
 import android.os.Handler;
 import android.os.Handler.Callback;
 import android.os.Message;
 
+import com.andframe.application.AfApplication;
+import com.andframe.application.AfExceptionHandler;
+
 public abstract class AfHandlerTask extends AfTask implements Callback{
 
-	protected abstract boolean onHandle(Message msg);
+	public interface OnTaskFinishListener {
+		void onTaskFinish(AfHandlerTask task);
+	}
+
+//	private final int mTask;
+	protected final Handler mHandler;
+	protected OnTaskFinishListener mListener;
+
+	protected abstract boolean onHandle(/*Message msg*/);
 
 	protected AfHandlerTask() {
-		super(null);
+//		this.mTask = 0;
 		this.mHandler = new Handler(AfApplication.getLooper(),this);
 	}
 
-	protected AfHandlerTask(int task) {
-		super(null,task);
-		this.mHandler = new Handler(AfApplication.getLooper(),this);
+	public AfHandlerTask setListener(OnTaskFinishListener mListener) {
+		this.mListener = mListener;
+		return this;
 	}
 
-	protected AfHandlerTask(Handler handler) {
-		super(handler);
-	}
+	//	protected AfHandlerTask(int task) {
+//		this.mTask = task;
+//		this.mHandler = new Handler(AfApplication.getLooper(),this);
+//	}
+
+//	protected AfHandlerTask(Handler handler) {
+//		super(handler);
+//	}
 	
-	protected AfHandlerTask(Handler handler, int task) {
-		super(handler,task);
+//	protected AfHandlerTask(Handler handler, int task) {
+//		super(handler,task);
+//	}
+
+
+	@Override
+	public void run() {
+		super.run();
+		if (!mIsCanceled && mHandler != null) {
+			Message message = Message.obtain();
+			message.obj = this;
+			message.what = mResult;
+			mHandler.sendMessage(message);
+		}
 	}
 
 	@Override
 	public final boolean handleMessage(Message msg) {
 		boolean result = false;
 		try {
-			this.onHandle(msg);
+			if (mListener != null) {
+                mListener.onTaskFinish(this);
+            }
+		} catch (Exception e) {
+			String remark = "AfHandlerTask("+getClass().getName()+").handleMessage.onTaskFinish";
+			AfExceptionHandler.handler(e, remark);
+		}
+		try {
+			result = this.onHandle(/*msg*/);
 		} catch (Throwable e) {
 			String remark = "AfHandlerTask("+getClass().getName()+").handleMessage.onHandle";
 			AfExceptionHandler.handler(e, remark);

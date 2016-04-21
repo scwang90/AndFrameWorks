@@ -203,7 +203,7 @@ public abstract class AfListTask<T> extends AfHandlerTask {
 //	}
 //
 //	@Override
-//	protected boolean onHandle(Message msg) {
+//	protected boolean onHandle(/*Message msg*/) {
 //		return false;
 //	}
 //

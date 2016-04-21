@@ -1,6 +1,5 @@
 package com.andframe.thread;
 
-import android.os.Handler;
 import android.os.Message;
 
 import com.andframe.activity.framework.AfActivity;
@@ -34,6 +33,7 @@ public abstract class AfListViewTask<T> extends AfHandlerTask/* extends AfListTa
     //枚举任务类型
     public static final int TASK_NULL = 1000;    //下拉刷新
 
+    public int mTask = 0;
     public int mFirstResult = 0;
     public int mPageSize = AfListTask.PAGE_SIZE;
     public List<T> mltData = new ArrayList<T>();
@@ -64,20 +64,24 @@ public abstract class AfListViewTask<T> extends AfHandlerTask/* extends AfListTa
 //	}
 
     public AfListViewTask(int task) {
-        super(task);
+//        super(task);
+        this.mTask = task;
     }
 
-    public AfListViewTask(Handler handler, int task) {
-        super(handler, task);
-    }
+//    public AfListViewTask(Handler handler, int task) {
+//        super(handler/*, task*/);
+//        this.mTask = task;
+//    }
 
     public AfListViewTask(int task, int first) {
-        super(task);
+//        super(task);
+        this.mTask = task;
         mFirstResult = first;
     }
 
     public AfListViewTask(List<T> list) {
-        super(list != null ? TASK_MORE : TASK_LOAD);
+//        super(list != null ? TASK_MORE : TASK_LOAD);
+        mTask = list != null ? TASK_MORE : TASK_LOAD;
         if (list != null && list.size() > 0) {
             mFirstResult = list.size();
         }
@@ -85,7 +89,8 @@ public abstract class AfListViewTask<T> extends AfHandlerTask/* extends AfListTa
 
     //加载更多专用
     public AfListViewTask(AfListAdapter<T> adapter) {
-        super(adapter != null ? TASK_MORE : TASK_LOAD);
+//        super(adapter != null ? TASK_MORE : TASK_LOAD);
+        mTask = adapter != null ? TASK_MORE : TASK_LOAD;
         if (adapter != null && adapter.getCount() > 0) {
             mFirstResult = adapter.getCount();
         }
@@ -102,7 +107,7 @@ public abstract class AfListViewTask<T> extends AfHandlerTask/* extends AfListTa
     protected abstract List<T> onListByPage(Page page, int task) throws Exception;
 
     @Override
-    protected boolean onHandle(Message msg) {
+    protected boolean onHandle(/*Message msg*/) {
         boolean isfinish = isFinish();
         boolean dealerror = false;
         if (mTask == TASK_LOAD) {
@@ -194,7 +199,7 @@ public abstract class AfListViewTask<T> extends AfHandlerTask/* extends AfListTa
     }
 
     @Override
-    protected final void onWorking(Message tMessage) throws Exception {
+    protected final void onWorking(/*Message msg*/) throws Exception {
 //		AfPrivateCaches cache = AfPrivateCaches.getInstance(KEY_CACHELIST);
         switch (mTask) {
             case AfListTask.TASK_LOAD:

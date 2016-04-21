@@ -1,7 +1,5 @@
 package com.andframe.thread;
 
-import android.os.Message;
-
 /**
  * AbDataTask
  * Created by SCWANG on 2016/3/11.
@@ -31,7 +29,7 @@ public class AfData3Task<T, TT, TTT> extends AfHandlerTask {
     }
 
     @Override
-    public boolean onPrepare() {
+    protected boolean onPrepare() {
         if (handler != null) {
             return handler.onPrepare(t, tt, ttt);
         }
@@ -55,7 +53,7 @@ public class AfData3Task<T, TT, TTT> extends AfHandlerTask {
     }
 
     @Override
-    protected boolean onHandle(Message msg) {
+    protected boolean onHandle(/*Message msg*/) {
         if (handler != null) {
             return handler.onHandle(t, tt, ttt);
         }
@@ -63,7 +61,7 @@ public class AfData3Task<T, TT, TTT> extends AfHandlerTask {
     }
 
     @Override
-    protected void onWorking(Message msg) throws Exception {
+    protected void onWorking(/*Message msg*/) throws Exception {
         if (handler != null) {
             handler.onWorking(t, tt, ttt);
             return;
@@ -79,8 +77,8 @@ public class AfData3Task<T, TT, TTT> extends AfHandlerTask {
         return tt;
     }
 
-    public TT getData3() {
-        return tt;
+    public TTT getData3() {
+        return ttt;
     }
 
     public static abstract class AbData3TaskHandler<T, TT, TTT> implements OnData3TaskHandlerListener<T, TT, TTT> {

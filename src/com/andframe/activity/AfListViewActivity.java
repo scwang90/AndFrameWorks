@@ -284,8 +284,7 @@ public abstract class AfListViewActivity<T> extends AfActivity implements OnRefr
      */
     @Override
     public boolean onRefresh() {
-        postTask(new AbListViewTask(AfListTask.TASK_REFRESH));
-        return true;
+        return postTask(new AbListViewTask(AfListTask.TASK_REFRESH)).setListener(mListView).prepare();
     }
 
     /**
@@ -408,7 +407,7 @@ public abstract class AfListViewActivity<T> extends AfActivity implements OnRefr
         }
 
         @Override
-        public boolean onPrepare() {
+        protected boolean onPrepare() {
             return AfListViewActivity.this.onTaskPrepare(mTask);
         }
 

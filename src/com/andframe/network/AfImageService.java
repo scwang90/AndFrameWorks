@@ -1,15 +1,9 @@
 package com.andframe.network;
 
-import java.util.ArrayList;
-import java.util.HashMap;
-import java.util.List;
-import java.util.Locale;
-
 import android.content.Context;
 import android.graphics.Bitmap;
 import android.graphics.drawable.BitmapDrawable;
 import android.graphics.drawable.Drawable;
-import android.os.Message;
 import android.widget.ImageView;
 
 import com.andframe.application.AfAppSettings;
@@ -25,13 +19,18 @@ import com.andframe.thread.AfHandlerTask;
 import com.andframe.util.android.AfImageThumb;
 import com.andframe.util.android.AfNetwork;
 
+import java.util.ArrayList;
+import java.util.HashMap;
+import java.util.List;
+import java.util.Locale;
+
 public class AfImageService {
 
 	public interface LoadImageListener{
 		/**图片成功加载完成**/
-		boolean onImageLoaded(ImageView view,Drawable drawable);
+		boolean onImageLoaded(ImageView view, Drawable drawable);
 		/**图片加载失败**/
-		boolean onImageFailed(ImageView view,String error,Throwable ex);
+		boolean onImageFailed(ImageView view, String error, Throwable ex);
 	}
 
 	public static final int EFFECT_NONE = 0x00;
@@ -469,7 +468,7 @@ public class AfImageService {
 	}
 
 
-	protected class ImageTask extends AfHandlerTask{
+	protected class ImageTask extends AfHandlerTask {
 
 		public int mDefaultId = 0;
 		public int mEffect = EFFECT_NONE;
@@ -506,9 +505,9 @@ public class AfImageService {
 		}
 
 		@Override
-		protected boolean onHandle(Message msg) {
+		protected boolean onHandle(/*Message msg*/) {
 			// 如果任务成功执行完成
-			if (msg.what == ImageTask.RESULT_FINISH) {
+			if (isFinish()) {
 				for (ImageTask task : mltIncidentallyTask) {
 					task.mBitmap = mBitmap;
 					task.onFinish();
@@ -551,7 +550,7 @@ public class AfImageService {
 		}
 
 		@Override
-		protected void onWorking(Message msg) throws Exception {
+		protected void onWorking(/*Message msg*/) throws Exception {
 			AfApplication app = AfApplication.getApp();
 			if (mIsCanReadCaches == true) {
 				AfImageCaches caches = AfImageCaches.getInstance();
@@ -566,7 +565,7 @@ public class AfImageService {
 				endity.DownloadUrl = mLinkUrl;
 				endity.DownloadPath = AfImageCaches.getInstance().mapPath(mLinkUrl);
 				DownloadTask task = new DownloadTask(endity, null);
-				task.onPrepare();
+				task.prepare();
 				task.run();
 				AfImageCaches caches = AfImageCaches.getInstance();
 				mBitmap = caches.get(app,mLinkUrl);

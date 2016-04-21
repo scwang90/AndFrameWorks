@@ -1,18 +1,5 @@
 package com.andframe.application;
 
-import java.io.BufferedInputStream;
-import java.io.BufferedOutputStream;
-import java.io.File;
-import java.io.FileOutputStream;
-import java.io.InputStream;
-import java.net.HttpURLConnection;
-import java.net.URL;
-
-import org.apache.http.HttpEntity;
-import org.apache.http.HttpResponse;
-import org.apache.http.client.methods.HttpGet;
-import org.apache.http.impl.client.DefaultHttpClient;
-
 import android.app.NotificationManager;
 import android.app.PendingIntent;
 import android.content.Context;
@@ -32,9 +19,22 @@ import com.andframe.feature.AfIntent;
 import com.andframe.thread.AfHandlerTask;
 import com.andframe.thread.AfTask;
 
+import org.apache.http.HttpEntity;
+import org.apache.http.HttpResponse;
+import org.apache.http.client.methods.HttpGet;
+import org.apache.http.impl.client.DefaultHttpClient;
+
+import java.io.BufferedInputStream;
+import java.io.BufferedOutputStream;
+import java.io.File;
+import java.io.FileOutputStream;
+import java.io.InputStream;
+import java.net.HttpURLConnection;
+import java.net.URL;
+
 @SuppressWarnings("deprecation")
 public class AfUpdateService implements Callback {
-	
+
 	protected Builder mBuilder;
 	protected NotificationManager mManager;
 
@@ -91,7 +91,7 @@ public class AfUpdateService implements Callback {
 		try {
 			Intent intent = new Intent(Intent.ACTION_VIEW);
 			intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
-			intent.setAction(android.content.Intent.ACTION_VIEW);
+			intent.setAction(Intent.ACTION_VIEW);
 			intent.setDataAndType(Uri.fromFile(file),
 					"application/vnd.android.package-archive");
 			context.startActivity(intent);
@@ -156,7 +156,7 @@ public class AfUpdateService implements Callback {
 		}
 
 		@Override
-		protected void onWorking(Message tMessage) throws Exception {
+		protected void onWorking(/*Message msg*/) throws Exception {
 //			if (mServersion.equals("0.0.0.0")) {
 				String version = AfApplication.getVersion();
 				mServersion = mInstance.getLastApkVersion();
@@ -165,7 +165,7 @@ public class AfUpdateService implements Callback {
 		}
 
 		@Override
-		protected boolean onHandle(Message msg) {
+		protected boolean onHandle(/*Message msg*/) {
 			AfApplication app = AfApplication.getApp();
 			if (mResult == AfTask.RESULT_FINISH) {
 				app.setServerVersion(this,mServersion,mDscribe);
@@ -241,7 +241,9 @@ public class AfUpdateService implements Callback {
 	private class DownloadTask extends AfTask {
 		private static final int TASK_UPDATEPROGRESS = 1;
 		private static final int TASK_DOWNLOADFINISH = 2;
+		private final Handler mHandler;
 
+		private int mTask;
 		public int mPrecent = 0;
 		public File mTempFile = null;
 		public String mDownloadUrl = null;
@@ -249,14 +251,14 @@ public class AfUpdateService implements Callback {
 		public String mDownloadFile = null;
 
 		public DownloadTask(String url, String path, String file) {
-			super(new Handler(AfUpdateService.this));
 			mDownloadUrl = url;
 			mDownloadPath = path;
 			mDownloadFile = file;
+			mHandler = new Handler(AfUpdateService.this);
 		}
 
 		@Override
-		protected void onWorking(Message tMessage) throws Exception {
+		protected void onWorking(/*Message msg*/) throws Exception {
 			mTask = TASK_UPDATEPROGRESS;
 			mHandler.sendMessage(mHandler.obtainMessage(mResult, this));
 
@@ -308,6 +310,7 @@ public class AfUpdateService implements Callback {
 				mTempFile.delete();
 			}
 			mTask = TASK_DOWNLOADFINISH;
+			mHandler.sendMessage(mHandler.obtainMessage(mResult, this));
 		}
 
 	}

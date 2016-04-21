@@ -12,7 +12,7 @@ public class AfThreadWorker extends Thread{
     private Thread mThread;
     /**
      * Creates a worker thread with the given name. The thread
-     * then runs a {@link android.os.Looper}.
+     * then runs a {@link Looper}.
      * @param name A name for the new thread
      */
     public AfThreadWorker(String name) {
@@ -30,7 +30,7 @@ public class AfThreadWorker extends Thread{
     }
     /**
      * Creates a worker thread with the given name. The thread
-     * then runs a {@link android.os.Looper}.
+     * then runs a {@link Looper}.
      * @param mTvName A name for the new thread
      */
     public AfThreadWorker(Object obj) {
@@ -65,18 +65,18 @@ public class AfThreadWorker extends Thread{
 	}
 	
 	public void post(AfTask task) {
-		if (!task.isCanceled() && task.onPrepare()) {
+		if (!task.isCanceled() && task.prepare()) {
 			getHandler().post(task);
 		}
 	}
-	public AfTask postTask(AfTask task) {
-		if (!task.isCanceled() && task.onPrepare()) {
+	public <T extends AfTask> T postTask(T task) {
+		if (!task.isCanceled() && task.prepare()) {
 			getHandler().post(task);
 		}
 		return task;
 	}
-	public AfTask postTaskDelayed(AfTask task,long delay) {
-		if (!task.isCanceled() && task.onPrepare()) {
+	public <T extends AfTask> T postTaskDelayed(T task,long delay) {
+		if (!task.isCanceled() && task.prepare()) {
 			getHandler().postDelayed(task,delay);
 		}
 		return task;
@@ -85,21 +85,21 @@ public class AfThreadWorker extends Thread{
 	/**
 	 * 抛送带数据任务到Worker执行
 	 */
-	public <T> AfTask postDataTask(T t, AfDataTask.OnTaskHandlerListener<T> task) {
+	public <T> AfDataTask postDataTask(T t, AfDataTask.OnTaskHandlerListener<T> task) {
 		return postTask(new AfDataTask<>(t, task));
 	}
 
 	/**
 	 * 抛送带数据任务到Worker执行
 	 */
-	public <T, TT> AfTask postDataTask(T t, TT tt, AfData2Task.OnData2TaskHandlerListener<T, TT> task) {
+	public <T, TT> AfData2Task postDataTask(T t, TT tt, AfData2Task.OnData2TaskHandlerListener<T, TT> task) {
 		return postTask(new AfData2Task<>(t, tt, task));
 	}
 
 	/**
 	 * 抛送带数据任务到Worker执行
 	 */
-	public <T, TT, TTT> AfTask postDataTask(T t, TT tt, TTT ttt, AfData3Task.OnData3TaskHandlerListener<T, TT, TTT> task) {
+	public <T, TT, TTT> AfData3Task postDataTask(T t, TT tt, TTT ttt, AfData3Task.OnData3TaskHandlerListener<T, TT, TTT> task) {
 		return postTask(new AfData3Task<>(t, tt, ttt, task));
 	}
     

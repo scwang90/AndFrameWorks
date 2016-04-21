@@ -111,14 +111,14 @@ import java.util.List;
  */
 public abstract class AfActivity extends FragmentActivity implements AfPageable {
 
-    public static final String EXTRA_DATA = "EXTRA_DATA";//通用数据传递标识
-    public static final String EXTRA_INDEX = "EXTRA_INDEX";//通用下标栓地标识
-    public static final String EXTRA_RESULT = "EXTRA_RESULT";//通用返回传递标识
-    public static final String EXTRA_MAIN = "EXTRA_MAIN";//主要数据传递标识
-    public static final String EXTRA_DEPUTY = "EXTRA_DEPUTY";//主要数据传递标识
+//    public static final String EXTRA_DATA = "EXTRA_DATA";//通用数据传递标识
+//    public static final String EXTRA_INDEX = "EXTRA_INDEX";//通用下标栓地标识
+//    public static final String EXTRA_RESULT = "EXTRA_RESULT";//通用返回传递标识
+//    public static final String EXTRA_MAIN = "EXTRA_MAIN";//主要数据传递标识
+//    public static final String EXTRA_DEPUTY = "EXTRA_DEPUTY";//主要数据传递标识
 
-    public static final int LP_MP = LayoutParams.MATCH_PARENT;
-    public static final int LP_WC = LayoutParams.WRAP_CONTENT;
+//    public static final int LP_MP = LayoutParams.MATCH_PARENT;
+//    public static final int LP_WC = LayoutParams.WRAP_CONTENT;
 
     protected View mRootView = null;
     protected ProgressDialog mProgress;
@@ -416,7 +416,7 @@ public abstract class AfActivity extends FragmentActivity implements AfPageable 
     /**
      * 抛送任务到Worker执行
      */
-    public AfTask postTask(AfTask task) {
+    public <T extends AfTask> T postTask(T task) {
         if (mWorker != null) {
             return mWorker.postTask(task);
         }
@@ -426,21 +426,21 @@ public abstract class AfActivity extends FragmentActivity implements AfPageable 
     /**
      * 抛送带数据任务到Worker执行
      */
-    public <T> AfTask postDataTask(T t, AfDataTask.OnTaskHandlerListener<T> task) {
+    public <T> AfDataTask postDataTask(T t, AfDataTask.OnTaskHandlerListener<T> task) {
         return postTask(new AfDataTask<>(t, task));
     }
 
     /**
      * 抛送带数据任务到Worker执行
      */
-    public <T, TT> AfTask postDataTask(T t, TT tt, AfData2Task.OnData2TaskHandlerListener<T, TT> task) {
+    public <T, TT> AfData2Task postDataTask(T t, TT tt, AfData2Task.OnData2TaskHandlerListener<T, TT> task) {
         return postTask(new AfData2Task<>(t, tt, task));
     }
 
     /**
      * 抛送带数据任务到Worker执行
      */
-    public <T, TT, TTT> AfTask postDataTask(T t, TT tt, TTT ttt, AfData3Task.OnData3TaskHandlerListener<T, TT, TTT> task) {
+    public <T, TT, TTT> AfData3Task postDataTask(T t, TT tt, TTT ttt, AfData3Task.OnData3TaskHandlerListener<T, TT, TTT> task) {
         return postTask(new AfData3Task<>(t, tt, ttt, task));
     }
     /**

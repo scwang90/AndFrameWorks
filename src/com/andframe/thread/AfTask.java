@@ -1,11 +1,10 @@
 package com.andframe.thread;
 
-import com.andframe.exception.AfException;
-
 import android.content.DialogInterface;
 import android.content.DialogInterface.OnCancelListener;
-import android.os.Handler;
-import android.os.Message;
+
+import com.andframe.application.AfExceptionHandler;
+import com.andframe.exception.AfException;
 
 public abstract class AfTask implements Runnable, OnCancelListener {
 
@@ -15,27 +14,27 @@ public abstract class AfTask implements Runnable, OnCancelListener {
 	// Task 执行类型枚举
 	public static final int TASK_LOAD = 0; // 第一次加载数据
 
-	public int mTask = -1;
+//	public int mTask = -1;
 	public int mResult = -1;
 	public String mErrors;
 	public Throwable mException = new AfException();
 
-	protected Handler mHandler;
+	//protected Handler mHandler;
 	protected boolean mIsCanceled = false;
 
-	protected abstract void onWorking(Message msg) throws Exception;
+	protected abstract void onWorking(/*Message msg*/) throws Exception;
 
 	public AfTask() {
 	}
 	
-	protected AfTask(Handler handler) {
-		this.mHandler = handler;
-	}
-
-	protected AfTask(Handler handler, int task) {
-		this.mTask = task;
-		this.mHandler = handler;
-	}
+//	protected AfTask(Handler handler) {
+//		this.mHandler = handler;
+//	}
+//
+//	protected AfTask(Handler handler, int task) {
+//		this.mTask = task;
+//		this.mHandler = handler;
+//	}
 
 	public boolean isFinish() {
 		return mResult == RESULT_FINISH;
@@ -46,17 +45,17 @@ public abstract class AfTask implements Runnable, OnCancelListener {
 	}
 	
 	@Override
-	public final void run() {
-		Message tMessage = Message.obtain();
+	public void run() {
+		//Message tMessage = Message.obtain();
 		try {
-			tMessage.what = mResult = RESULT_FINISH;
+			/*tMessage.what = */mResult = RESULT_FINISH;
 			if (!mIsCanceled) {
-				this.onWorking(tMessage);
+				this.onWorking(/*tMessage*/);
 			}
 		} catch (Throwable e) {
 			mException = e;
 			mErrors = e.getMessage();
-			tMessage.what = mResult = RESULT_FAIL;
+			/*tMessage.what = */mResult = RESULT_FAIL;
 			if (mErrors == null || mErrors.length() == 0) {
 				mErrors = e.toString();
 			}
@@ -64,10 +63,10 @@ public abstract class AfTask implements Runnable, OnCancelListener {
 				this.onException(e);
 			}
 		}
-		if (!mIsCanceled && mHandler != null) {
-			tMessage.obj = this;
-			mHandler.sendMessage(tMessage);
-		}
+//		if (!mIsCanceled && mHandler != null) {
+//			tMessage.obj = this;
+//			mHandler.sendMessage(tMessage);
+//		}
 	}
 
 	public boolean isCanceled() {
@@ -95,11 +94,25 @@ public abstract class AfTask implements Runnable, OnCancelListener {
 	protected void onCancel() {
 	}
 
+	protected Boolean mPrepare = null;
+	public boolean prepare() {
+		if (mPrepare == null) {
+			try {
+				mPrepare = onPrepare();
+			} catch (Throwable e) {
+				e.printStackTrace();
+				String remark = "AfTask("+getClass().getName()+").onPrepare";
+				AfExceptionHandler.handler(e, remark);
+				return false;
+			}
+		}
+		return mPrepare;
+	}
 	/**
 	 * 任务准备开始 （在UI线程中）
 	 * @return 返回true 表示准备完毕 否则 false 任务将被取消
 	 */
-	public boolean onPrepare() {
+	protected boolean onPrepare() {
 		return !mIsCanceled;
 	}
 
@@ -107,29 +120,29 @@ public abstract class AfTask implements Runnable, OnCancelListener {
 		return AfException.handle(mException, tip);
 	}
 	
-	public static AfTask getTask(Message msg) {
-		if (msg.obj instanceof AfTask) {
-			return (AfTask) msg.obj;
-		}
-		return null;
-	}
-	
-	public static <T extends AfTask> T getTask(Message msg,Class<T> clazz) {
-		if (clazz.isInstance(msg.obj)) {
-			return clazz.cast(msg.obj);
-		}
-		return null;
-	}
-
-	public static Message putTask(AfTask task) {
-		Message msg = Message.obtain();
-		msg.what = task.mResult;
-		msg.obj = task;
-		return msg;
-	}
+//	public static AfTask getTask(Message msg) {
+//		if (msg.obj instanceof AfTask) {
+//			return (AfTask) msg.obj;
+//		}
+//		return null;
+//	}
+//
+//	public static <T extends AfTask> T getTask(Message msg,Class<T> clazz) {
+//		if (clazz.isInstance(msg.obj)) {
+//			return clazz.cast(msg.obj);
+//		}
+//		return null;
+//	}
+//
+//	public static Message putTask(AfTask task) {
+//		Message msg = Message.obtain();
+//		msg.what = task.mResult;
+//		msg.obj = task;
+//		return msg;
+//	}
 
 	public void reset() {
+		mPrepare = null;
 		mIsCanceled = false;
 	}
-
 }

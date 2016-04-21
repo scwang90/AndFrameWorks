@@ -1,12 +1,11 @@
 package com.andframe.feature;
 
-import android.os.Message;
 import android.widget.ImageView;
 
 import com.andframe.helper.android.AfGifHelper.GifFrame;
 import com.andframe.thread.AfTask;
 
-public class AfGifPlayer extends AfTask{
+public class AfGifPlayer extends AfTask {
 
     private int index = 0;
     private ImageView image;
@@ -36,7 +35,7 @@ public class AfGifPlayer extends AfTask{
     }
     
 	@Override
-	protected void onWorking(Message msg) throws Exception {
+	protected void onWorking(/*Message msg*/) throws Exception {
         if (!frames[index].image.isRecycled()) {
             image.setImageBitmap(frames[index].image);
         }

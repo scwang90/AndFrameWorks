@@ -1,6 +1,5 @@
 package com.andframe.activity.framework;
 
-
 import android.app.Activity;
 import android.app.AlertDialog;
 import android.content.DialogInterface.OnCancelListener;
@@ -8,6 +7,7 @@ import android.content.DialogInterface.OnClickListener;
 import android.content.Intent;
 import android.text.InputType;
 import android.view.View;
+import android.view.ViewGroup;
 import android.widget.EditText;
 
 import com.andframe.feature.AfDailog;
@@ -22,11 +22,20 @@ import java.util.Date;
  */
 public interface AfPageable extends AfViewable, AfSoftInputListener {
 
+	String EXTRA_DATA = "EXTRA_DATA";//通用数据传递标识
+	String EXTRA_INDEX = "EXTRA_INDEX";//通用下标栓地标识
+	String EXTRA_RESULT = "EXTRA_RESULT";//通用返回传递标识
+	String EXTRA_MAIN = "EXTRA_MAIN";//主要数据传递标识
+	String EXTRA_DEPUTY = "EXTRA_DEPUTY";//主要数据传递标识
+
+	int LP_MP = ViewGroup.LayoutParams.MATCH_PARENT;
+	int LP_WC = ViewGroup.LayoutParams.WRAP_CONTENT;
+
 	/**
 	 * 抛送任务到Worker执行
 	 * @param task 任务对象
 	 */
-	AfTask postTask(AfTask task);
+	<T extends AfTask> T postTask(T task);
 	/**
 	 * 判断是否被回收
 	 * @return true 已经被回收
@@ -127,32 +136,26 @@ public interface AfPageable extends AfViewable, AfSoftInputListener {
 	void startActivity(Intent intent);
 	/**
 	 * 快速启动 AfActivity
-	 * @param tclass
 	 * 	省去创建 Intent 的代码
 	 */
-	void startActivity(Class<? extends Activity> tclass);
+	void startActivity(Class<? extends Activity> clazz);
 	/**
 	 * 快速启动 AfActivity
-	 * @param tclass
 	 * 	省去创建 Intent 的代码
 	 */
-	void startActivity(Class<? extends Activity> tclass, Object... args);
+	void startActivity(Class<? extends Activity> clazz, Object... args);
 
 	/**
 	 * 快速启动 AfActivity ForResult
-	 * @param tclass
-	 * @param request
 	 * 	省去创建 Intent 的代码
 	 */
-	void startActivityForResult(Class<? extends Activity> tclass, int request);
+	void startActivityForResult(Class<? extends Activity> clazz, int request);
 
 	/**
 	 * 快速启动 AfActivity ForResult
-	 * @param tclass
-	 * @param request
 	 * 	省去创建 Intent 的代码
 	 */
-	void startActivityForResult(Class<? extends Activity> tclass, int request, Object... args);
+	void startActivityForResult(Class<? extends Activity> clazz, int request, Object... args);
 	
 
 	/**

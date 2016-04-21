@@ -1,8 +1,8 @@
 package com.andframe.thread;
 
-import java.util.TimerTask;
-
 import com.andframe.application.AfExceptionHandler;
+
+import java.util.TimerTask;
 
 public abstract class AfTimerTask extends TimerTask{
 

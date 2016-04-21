@@ -1,7 +1,5 @@
 package com.andframe.view.pulltorefresh;
 
-import java.util.Date;
-
 import android.content.Context;
 import android.graphics.Point;
 import android.os.Handler;
@@ -15,8 +13,13 @@ import android.view.animation.AccelerateDecelerateInterpolator;
 import android.view.animation.Interpolator;
 import android.widget.LinearLayout;
 
-public abstract class AfPullToRefreshBase<Target extends View> extends
-		LinearLayout {
+import com.andframe.thread.AfHandlerTask;
+
+import java.util.Date;
+
+public abstract class AfPullToRefreshBase<Target extends View>
+		extends LinearLayout
+		implements AfHandlerTask.OnTaskFinishListener {
 	// ===========================================================
 	// Constants
 	// ===========================================================
@@ -165,6 +168,11 @@ public abstract class AfPullToRefreshBase<Target extends View> extends
 		// curmode = mode;
 		// }
 
+	}
+
+	@Override
+	public void onTaskFinish(AfHandlerTask task) {
+		finishRefresh();
 	}
 
 	public void setPullHeaderLayout(AfPullHeaderLayout layout) {
@@ -708,13 +716,12 @@ public abstract class AfPullToRefreshBase<Target extends View> extends
 
 	public interface OnRefreshListener {
 		boolean onMore();
-
 		boolean onRefresh();
 	}
 
-//	public interface OnLastItemVisibleListener {
-//		void onLastItemVisible();
-//	}
+	public interface OnLastItemVisibleListener {
+		void onLastItemVisible();
+	}
 
 	private interface Smoothable {
 		boolean onSmooth(int value, int form, int to);

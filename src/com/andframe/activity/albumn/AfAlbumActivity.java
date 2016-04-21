@@ -1,10 +1,5 @@
 package com.andframe.activity.albumn;
 
-import java.util.ArrayList;
-import java.util.List;
-import java.util.Timer;
-import java.util.UUID;
-
 import android.annotation.SuppressLint;
 import android.os.Bundle;
 import android.os.Message;
@@ -25,6 +20,11 @@ import com.andframe.thread.AfHandlerTask;
 import com.andframe.thread.AfHandlerTimerTask;
 import com.andframe.util.UUIDUtil;
 import com.andframe.util.java.AfStringUtil;
+
+import java.util.ArrayList;
+import java.util.List;
+import java.util.Timer;
+import java.util.UUID;
 
 /**
  * 框架相册浏览页面
@@ -50,7 +50,7 @@ import com.andframe.util.java.AfStringUtil;
 	 * 重写 这个函数 可以实现加载网络相册
 	public List<Photo> onRequestAlbum(UUID albumID, Page page)
  */
-public abstract class AfAlbumActivity extends AfActivity 
+public abstract class AfAlbumActivity extends AfActivity
 		implements OnPageChangeListener, OnTouchListener {
 
 	// 通用信息
@@ -89,9 +89,8 @@ public abstract class AfAlbumActivity extends AfActivity
 	 * 以下是 相册必备的 View
 	 * 	获取相册的总布局
 	 */
-	protected int getAlbumLayoutId() {
-		return 0;
-	}
+	
+	protected abstract int getAlbumLayoutId();
 	/**
 	 * 获取 显示相册名称 TextView
 	 */
@@ -113,10 +112,7 @@ public abstract class AfAlbumActivity extends AfActivity
 	protected void onCreate(Bundle bundle, AfIntent intent) throws Exception {
 		super.onCreate(bundle, intent);
 
-		if (mRootView == null) {
-			setContentView(getAlbumLayoutId());
-		}
-
+		setContentView(getAlbumLayoutId());
 		mViewPager = getViewPager(this);
 		mViewPager.setOnPageChangeListener(this);
 		mViewPager.setOnTouchListener(this);
@@ -141,7 +137,7 @@ public abstract class AfAlbumActivity extends AfActivity
 			if(mPhotoName.equals("")){
 				mPhotoName = mHeader.Name;
 			}
-		} else if (!AfStringUtil.isEmpty(mPhotoName)
+		}else if (!AfStringUtil.isEmpty(mPhotoName)
 				&& !AfStringUtil.isEmpty(mDescribe)
 				&& !AfStringUtil.isEmpty(mHeadUrl)
 				&& !UUIDUtil.Empty.equals(AlbumID)) {
@@ -159,7 +155,7 @@ public abstract class AfAlbumActivity extends AfActivity
 		}
 		if(!AlbumID.equals(UUIDUtil.Empty)){
 			postTask(new LoadAlbumTask());
-		}
+		} 
 		
 		onPageSelected(0);//用第零个元素初始化界面
 		mAdapter = new AfAlbumPagerAdapter(this, mltPhoto);
@@ -223,17 +219,17 @@ public abstract class AfAlbumActivity extends AfActivity
 		this.finish();
 	}
 
-	private class LoadAlbumTask extends AfHandlerTask{
+	private class LoadAlbumTask extends AfHandlerTask {
 		
 		public List<Photo> mphotos = null;
 
 		@Override
-		protected void onWorking(Message tMessage) throws Exception {
+		protected void onWorking(/*Message msg*/) throws Exception {
 			mphotos = onRequestAlbum(AlbumID, new Page(100, mltPhoto.size()));
 		}
 
 		@Override
-		protected boolean onHandle(Message msg) {
+		protected boolean onHandle(/*Message msg*/) {
 			if(mResult == RESULT_FINISH){
 				mAdapter.AddData(mphotos);
 				onPageSelected(mViewPager.getCurrentItem());
@@ -252,7 +248,7 @@ public abstract class AfAlbumActivity extends AfActivity
 	 * @return
 	 */
 	public List<Photo> onRequestAlbum(UUID albumID, Page page) throws Exception{
-		return new ArrayList<Photo>();
+		return new ArrayList<>();
 	}
 
 	// arg0==1的时候表示正在滑动，

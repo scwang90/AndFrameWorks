@@ -1,19 +1,19 @@
 package com.andframe.util.android;
 
-import java.io.IOException;
-
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
 import android.graphics.Canvas;
 import android.graphics.Matrix;
 import android.graphics.Rect;
-import android.os.Message;
 import android.widget.ImageView;
 
 import com.andframe.application.AfApplication;
 import com.andframe.caches.AfImageCaches;
 import com.andframe.feature.AfDensity;
 import com.andframe.thread.AfHandlerTask;
+
+import java.io.IOException;
+
 /**
  * 图片压缩处理类
  * @author 树朾
@@ -34,14 +34,16 @@ public class AfImageThumb {
 		if (bitmap == null) {
 			AfApplication.postTask(new AfHandlerTask() {
 				Bitmap bitmap = null;
+
 				@Override
-				protected void onWorking(Message msg) throws Exception {
+				protected void onWorking(/*Message msg*/) throws Exception {
 					AfImageCaches caches = AfImageCaches.getInstance();
 					bitmap = revitionImageSize(image);
 					caches.put(image, bitmap);
 				}
+
 				@Override
-				protected boolean onHandle(Message msg) {
+				protected boolean onHandle(/*Message msg*/) {
 					if (bitmap != null) {
 						iv.setImageBitmap(bitmap);
 					}
