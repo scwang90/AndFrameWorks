@@ -1,8 +1,5 @@
 package com.andframe.adapter;
 
-import java.util.ArrayList;
-import java.util.List;
-
 import android.content.Context;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -13,11 +10,14 @@ import android.widget.FrameLayout.LayoutParams;
 import com.andframe.activity.framework.AfView;
 import com.andframe.application.AfExceptionHandler;
 
-public abstract class AfListAdapter<T> extends BaseAdapter {
+import java.util.ArrayList;
+import java.util.List;
 
+public abstract class AfListAdapter<T> extends BaseAdapter {
+	
 	protected static final int LP_MP = LayoutParams.MATCH_PARENT;
 	protected static final int LP_WC = LayoutParams.WRAP_CONTENT;
-
+	
 	protected LayoutInflater mInflater;
 	protected List<T> mltArray = new ArrayList<T>();
 
@@ -30,7 +30,6 @@ public abstract class AfListAdapter<T> extends BaseAdapter {
 
 	/**
 	 * 获取数据列表
-	 * @return
 	 */
 	public List<T> getList(){
 		return mltArray;
@@ -46,7 +45,6 @@ public abstract class AfListAdapter<T> extends BaseAdapter {
 
 	/**
 	 * 适配器新增 点击更多 数据追加接口
-	 * @param ltdata
 	 */
 	public void addData(List<T> ltdata) {
 		mltArray.addAll(ltdata);
@@ -55,17 +53,14 @@ public abstract class AfListAdapter<T> extends BaseAdapter {
 
 	/**
 	 * 适配器新增 数据刷新 接口
-	 * @param ltdata
 	 */
 	public void setData(List<T> ltdata) {
-		mltArray = new ArrayList<T>(ltdata);
+		mltArray = new ArrayList<>(ltdata);
 		notifyDataSetChanged();
 	}
 
 	/**
 	 * 适配器新增 单个数据刷新 接口
-	 * @param index
-	 * @param obj
 	 */
 	public void setData(int index, T obj) {
 		if (mltArray.size() > index) {
@@ -117,7 +112,7 @@ public abstract class AfListAdapter<T> extends BaseAdapter {
 	@SuppressWarnings("unchecked")
 	public View getView(int position, View view, ViewGroup parent) {
 		// 列表视图获取必须检查 view 是否为空 不能每次都 inflate 否则手机内存负载不起
-		IAfLayoutItem<T> item = null;
+		IAfLayoutItem<T> item;
 		try {
 			if (view == null) {
 				item = getItemLayout(mltArray,position);
@@ -160,17 +155,14 @@ public abstract class AfListAdapter<T> extends BaseAdapter {
 	public interface IAfLayoutItem<T> {
 		/**
 		 * 从视图中取出控件
-		 * @param view
 		 */
 		void onHandle(AfView view);
 		/**
 		 * 将数据绑定到控件显示
-		 * @param model
 		 */
-		void onBinding(T model,int index);
+		void onBinding(T model, int index);
 		/**
 		 * 获取 Item 关联的 InjectLayout ID
-		 * @return
 		 */
 		int getLayoutId();
 	}
