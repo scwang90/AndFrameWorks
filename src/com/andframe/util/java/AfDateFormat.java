@@ -20,7 +20,7 @@ public class AfDateFormat {
 	public static DateFormat FULL = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss",LOCALE);
 
 	public static String format(String format, Object date) {
-		return new SimpleDateFormat(format, Locale.ENGLISH).format(date);
+		return new SimpleDateFormat(format, LOCALE).format(date);
 	}
 
 	public static String formatDate(Date date) {
