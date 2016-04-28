@@ -7,9 +7,9 @@ import java.util.Date;
 import java.util.Locale;
 
 public class AfDateFormat {
-	
+
 	public static Locale LOCALE = Locale.ENGLISH;
-	public static DateFormat DAY = new SimpleDateFormat("M月d日",LOCALE);
+	public static DateFormat DAY = new SimpleDateFormat("M-d",LOCALE);
 	/**
 	 * 日期形式格式化
 	 * @see y-M-d
@@ -24,17 +24,23 @@ public class AfDateFormat {
 	}
 
 	public static String formatDate(Date date) {
+		if (date == null) {
+			return "";
+		}
 		Calendar calender = Calendar.getInstance();
 		int thisyear = calender.get(Calendar.YEAR);
 		calender.setTime(date);
 		int dateyear = calender.get(Calendar.YEAR);
 		if (thisyear == dateyear) {
-			return DAY.format(date);
+			return format("M月d日", date);
 		}
 		return DATE.format(date);
 	}
 
 	public static String formatTime(Date date) {
+		if (date == null) {
+			return "";
+		}
 		Calendar calender = Calendar.getInstance();
 		int thisday = calender.get(Calendar.DAY_OF_MONTH);
 		int thismonth = calender.get(Calendar.MONTH);
@@ -50,7 +56,7 @@ public class AfDateFormat {
 			if (dateyear < thisyear) {// 今年以前
 				return DATE.format(date);
 			} else if (datemonth < thismonth) {// 这个月以前
-				return SIMPLE.format(date);
+				return format("M月d日", date);
 			} else if (dateday < thisday - 2) {// 前天之前
 				return format("d号 HH:mm", date);
 			} else if (dateday < thisday - 1) {// 昨天之前
@@ -64,7 +70,7 @@ public class AfDateFormat {
 			if (dateyear > thisyear) { // 明年以后
 				return DATE.format(date);
 			} else if (datemonth > thismonth) {// 下个月以后
-				return SIMPLE.format(date);
+				return format("M月d日", date);
 			} else if (dateday > thisday + 2) {// 后天以后
 				return format("d号 HH:mm", date);
 			} else if (dateday > thisday + 1) {// 明天以后
@@ -78,6 +84,9 @@ public class AfDateFormat {
 	}
 
 	public static String formatDuration(Date begDate, Date endDate) {
+		if (begDate == null || endDate == null) {
+			return "";
+		}
 		StringBuilder builder = new StringBuilder(formatDate(begDate));
 		builder.append(" - ");
 		builder.append(formatDate(endDate));
@@ -85,6 +94,9 @@ public class AfDateFormat {
 	}
 
 	public static String formatDurationTime(Date begDate, Date endDate) {
+		if (begDate == null || endDate == null) {
+			return "";
+		}
 		StringBuilder builder = new StringBuilder(formatTime(begDate));
 		builder.append(" - ");
 		builder.append(formatTime(endDate));
