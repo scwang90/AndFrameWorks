@@ -63,7 +63,11 @@ public class AfStatusBarCompat {
     }
 
     public static View compatPadding(View root) {
-        if (Build.VERSION.SDK_INT >= 19 && root != null) {
+        return compatPadding(root,false);
+    }
+
+    public static View compatPadding(View root, boolean only19) {
+        if (Build.VERSION.SDK_INT >= 19 && root != null && (!only19 || Build.VERSION.SDK_INT < 21)) {
             int bot = root.getPaddingBottom();
             int top = root.getPaddingTop();
             int lef = root.getPaddingLeft();
@@ -80,7 +84,11 @@ public class AfStatusBarCompat {
     }
 
     public static View compatScroll(View root) {
-        if (Build.VERSION.SDK_INT >= 19 && root != null) {
+        return compatScroll(root, false);
+    }
+
+    public static View compatScroll(View root, boolean only19) {
+        if (Build.VERSION.SDK_INT >= 19 && root != null && (!only19 || Build.VERSION.SDK_INT < 21)) {
             int she = getStatusBarHeight(root.getContext());
             root.scrollTo(root.getScrollX(), root.getScrollY() - she);
         }

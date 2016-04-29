@@ -39,13 +39,17 @@ public class AfThreadWorker extends Thread{
 
 	@Override
 	public void run() {
-		synchronized (mLock) {
-			Looper.prepare();
-			mLooper = Looper.myLooper();
-			mHandler = new Handler(mLooper);
-			mLock.notifyAll();
+		try {
+			synchronized (mLock) {
+                Looper.prepare();
+                mLooper = Looper.myLooper();
+                mHandler = new Handler(mLooper);
+                mLock.notifyAll();
+            }
+			Looper.loop();
+		} catch (Throwable e) {
+			e.printStackTrace();
 		}
-		Looper.loop();
 	}
 	
     public Looper getLooperu() {

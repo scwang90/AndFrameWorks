@@ -209,7 +209,7 @@ public class AfBundle implements AfExtrater {
             if (value != null) {
                 return value;
             }
-            String name = mBundle.getString(_key + "[o]");
+            String name = mBundle.getString(_key + "[o]") + "";
             if (!clazz.getName().equals(name) && !clazz.isPrimitive()) {
                 Class<?> orgin = Class.forName(name);
                 if (clazz.isAssignableFrom(orgin) && !orgin.isAnonymousClass()) {
