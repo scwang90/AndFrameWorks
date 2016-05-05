@@ -374,12 +374,12 @@ public abstract class AfListViewFragment<T> extends AfTabFragment implements
         }
 
         @Override
-        protected List<T> onLoad() {
-            List<T> list = AfListViewFragment.this.onTaskLoad();
+        protected List<T> onLoad(boolean isCheckExpired) {
+            List<T> list = AfListViewFragment.this.onTaskLoad(isCheckExpired);
             if (!AfCollections.isEmpty(list)) {
                 return list;
             }
-            return super.onLoad();
+            return super.onLoad(isCheckExpired);
         }
 
         @Override
@@ -526,14 +526,16 @@ public abstract class AfListViewFragment<T> extends AfTabFragment implements
 
     /**
      * 加载缓存列表（不分页，在异步线程中执行，不可以更改页面操作）
+     * @param isCheckExpired 是否检测缓存过期（刷新失败时候可以加载缓存）
      *
      * @return 返回 null 可以使用框架内置缓存
      */
-    protected List<T> onTaskLoad() {
+    protected List<T> onTaskLoad(boolean isCheckExpired) {
         if (mCacheClazz != null) {
-            Date date = AfPrivateCaches.getInstance(KEY_CACHELIST).getDate(KEY_CACHETIME, new Date(0));
-            if (!AfTimeSpan.FromDate(date, new Date()).GreaterThan(mCacheSpan)) {
-                return AfPrivateCaches.getInstance(KEY_CACHELIST).getList(KEY_CACHELIST, mCacheClazz);
+            AfPrivateCaches instance = AfPrivateCaches.getInstance(KEY_CACHELIST);
+            Date date = instance.getDate(KEY_CACHETIME, new Date(0));
+            if (!isCheckExpired || !AfTimeSpan.FromDate(date, new Date()).GreaterThan(mCacheSpan)) {
+                return instance.getList(KEY_CACHELIST, mCacheClazz);
             }
         }
         return null;

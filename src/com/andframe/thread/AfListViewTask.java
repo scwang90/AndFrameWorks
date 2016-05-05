@@ -185,11 +185,10 @@ public abstract class AfListViewTask<T> extends AfHandlerTask/* extends AfListTa
 
     /**
      * 加载缓存
-     * 是否检测缓存过期（刷新失败时候可以加载缓存）
-     *
+     * @param isCheckExpired 是否检测缓存过期（刷新失败时候可以加载缓存）
      * @return 缓存数据 或 null
      */
-    protected List<T> onLoad() {
+    protected List<T> onLoad(boolean isCheckExpired) {
         return mltData;
     }
 
@@ -209,7 +208,7 @@ public abstract class AfListViewTask<T> extends AfHandlerTask/* extends AfListTa
                  * 	也可返回空List
                  * 		以防万一使用try catch 阻止异常
                  */
-                if ((mltData = onLoad()) != null && mltData.size() > 0) {
+                if ((mltData = onLoad(true)) != null && mltData.size() > 0) {
                     break;
                 }
                 mTask = TASK_REFRESH;
@@ -238,7 +237,7 @@ public abstract class AfListViewTask<T> extends AfHandlerTask/* extends AfListTa
     @Override
     protected void onException(Throwable e) {
         if (mTask == TASK_REFRESH) {
-            mltData = onLoad();
+            mltData = onLoad(false);
         }
         if (AfApplication.getNetworkStatus() == AfNetworkEnum.TYPE_NONE
                 && mTask != AfTask.TASK_LOAD) {
