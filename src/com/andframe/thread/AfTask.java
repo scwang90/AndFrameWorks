@@ -141,8 +141,9 @@ public abstract class AfTask implements Runnable, OnCancelListener {
 //		return msg;
 //	}
 
-	public void reset() {
+	public AfTask reset() {
 		mPrepare = null;
 		mIsCanceled = false;
+		return this;
 	}
 }
