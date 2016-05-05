@@ -5,18 +5,14 @@ import android.content.DialogInterface;
 import android.os.Bundle;
 import android.view.MenuItem;
 import android.view.View;
-import android.widget.AdapterView;
-import android.widget.ListView;
 
 import com.andframe.activity.AfActivity;
-import com.andframe.activity.AfListViewActivity;
 import com.andframe.application.AfExceptionHandler;
 import com.andframe.bean.Page;
 import com.andframe.exception.AfToastException;
 import com.andframe.feature.AfIntent;
 import com.andframe.thread.AfListViewTask;
 import com.andframe.thread.AfTask;
-import com.andframe.view.AfRefreshListView;
 import com.andframe.view.multichoice.AfMultiChoiceAdapter;
 import com.andframe.view.multichoice.AfMultiChoiceItem;
 import com.andframe.view.tableview.AfColumn;
@@ -29,7 +25,6 @@ import com.andoffice.domain.impl.ImplDomain;
 import com.andoffice.layoutbind.ListItem;
 import com.andoffice.layoutbind.ModuleBottombar;
 import com.andoffice.layoutbind.ModuleBottombarSelector;
-import com.andoffice.layoutbind.ModuleListView;
 import com.andoffice.layoutbind.ModuleTitlebar;
 import com.andoffice.layoutbind.ModuleTitlebarSearcher;
 import com.andoffice.layoutbind.ModuleTitlebarSearcher.SearchOptions;
@@ -611,12 +606,12 @@ public abstract class AbModeuleListActivity<T> extends AbSuperListViewActivity<T
     }
 
     @Override
-    protected List<T> onTaskLoad() {
+    protected List<T> onTaskLoad(boolean isCheckExpired) {
         if (mltSelection != null) {
             mIsPaging = false;
             return mltSelection;
         }
-        return super.onTaskLoad();
+        return super.onTaskLoad(isCheckExpired);
     }
 
     /**
