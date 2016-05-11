@@ -7,7 +7,7 @@ public interface IViewModule
 {
 	void hide();
 	void show();
-	View getTarget();
+	View getView();
 	boolean isValid();
 	boolean isVisibility();
 }

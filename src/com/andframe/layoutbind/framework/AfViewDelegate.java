@@ -51,7 +51,7 @@ public class AfViewDelegate extends View{
 		this.target = view;
 	}
 
-	public View getTarget() {
+	public View getView() {
 		return target;
 	}
 

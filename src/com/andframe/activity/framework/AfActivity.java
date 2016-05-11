@@ -176,6 +176,11 @@ public abstract class AfActivity extends FragmentActivity implements AfPageable 
         return null;
     }
 
+    @Override
+    public View getView() {
+        return mRootView;
+    }
+
     /**
      * 判断是否被回收
      *

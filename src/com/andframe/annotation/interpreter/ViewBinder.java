@@ -2,6 +2,7 @@ package com.andframe.annotation.interpreter;
 
 import android.view.View;
 import android.view.View.OnClickListener;
+import android.view.ViewGroup;
 import android.widget.AdapterView;
 import android.widget.CompoundButton;
 
@@ -40,6 +41,8 @@ import java.util.Collections;
 import java.util.Comparator;
 import java.util.List;
 import java.util.Map;
+import java.util.Queue;
+import java.util.concurrent.LinkedBlockingQueue;
 
 
 /**
@@ -164,13 +167,33 @@ public class ViewBinder {
                 BindView bind = field.getAnnotation(BindView.class);
                 List<View> list = new ArrayList<>();
                 for (int id : bind.value()) {
-                    View view = root.findViewById(id);
+                    View view = null;
+                    if (id > 0) {
+                        view = root.findViewById(id);
+                    } else {
+                        Queue<View> views = new LinkedBlockingQueue<>();
+                        views.add(root.getView());
+                        do {
+                            View cview = views.poll();
+                            if (cview != null && field.getType().isAssignableFrom(cview.getClass())) {
+                                view = cview;
+                            } else {
+                                if (cview instanceof ViewGroup) {
+                                    ViewGroup group = (ViewGroup) cview;
+                                    for (int i = 0; i < group.getChildCount(); i++) {
+                                        views.add(group.getChildAt(i));
+                                    }
+                                }
+                            }
+                        } while (view == null && !views.isEmpty());
+                    }
                     if (view != null) {
                         if (bind.click() && handler instanceof OnClickListener) {
                             view.setOnClickListener((OnClickListener) handler);
                         }
                         list.add(view);
                     }
+                    
                 }
                 if (list.size() > 0) {
                     field.setAccessible(true);

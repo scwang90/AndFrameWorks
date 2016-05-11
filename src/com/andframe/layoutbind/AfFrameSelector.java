@@ -54,7 +54,7 @@ public class AfFrameSelector extends AfViewModule {
 	public boolean selectFrame(View view) {
 		if (isValid()) {
 			if (view instanceof IViewModule) {
-				view = ((IViewModule) view).getTarget();
+				view = ((IViewModule) view).getView();
 			}
 			int count = mFrameLayout.getChildCount();
 			List<View> lthide = new ArrayList<View>();

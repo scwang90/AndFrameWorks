@@ -14,6 +14,8 @@ public interface AfViewable {
 
 	Resources getResources();
 
+	View getView();
+
 	View findViewById(int id);
 
 	<T extends View> T findViewByID(int id);

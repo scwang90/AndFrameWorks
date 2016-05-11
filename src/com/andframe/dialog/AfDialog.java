@@ -71,6 +71,10 @@ public abstract class AfDialog extends Dialog implements AfPageable, AfSoftInput
         super(context, cancelable, cancelListener);
     }
 
+    @Override
+    public View getView() {
+        return mRootView;
+    }
 
     /**
      * 获取LOG日志 TAG 是 AfActivity 的方法

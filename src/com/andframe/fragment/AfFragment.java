@@ -10,6 +10,7 @@ import android.content.DialogInterface.OnCancelListener;
 import android.content.DialogInterface.OnClickListener;
 import android.content.Intent;
 import android.os.Bundle;
+import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
 import android.text.InputType;
 import android.util.TypedValue;
@@ -133,6 +134,12 @@ public abstract class AfFragment extends Fragment implements AfPageable {
 
     protected String TAG(String tag) {
         return "AfFragment(" + getClass().getName() + ")." + tag;
+    }
+
+    @Nullable
+    @Override
+    public View getView() {
+        return mRootView;
     }
 
     /**
