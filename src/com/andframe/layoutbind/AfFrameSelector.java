@@ -6,7 +6,6 @@ import android.widget.FrameLayout;
 import com.andframe.activity.framework.AfView;
 import com.andframe.activity.framework.AfViewable;
 import com.andframe.annotation.view.BindLayout;
-import com.andframe.fragment.AfFragment;
 import com.andframe.layoutbind.framework.AfViewModule;
 import com.andframe.layoutbind.framework.IViewModule;
 import com.andframe.util.java.AfReflecter;
@@ -20,7 +19,7 @@ public class AfFrameSelector extends AfViewModule {
 
 	public AfFrameSelector(AfViewable viewable) {
 		super(viewable);
-		BindLayout layout = AfReflecter.getAnnotation(this.getClass(), AfFragment.class, BindLayout.class);
+		BindLayout layout = AfReflecter.getAnnotation(this.getClass(), AfFrameSelector.class, BindLayout.class);
 		if (layout != null) {
 			mFrameLayout = viewable.findViewById(layout.value(), FrameLayout.class);
 		}

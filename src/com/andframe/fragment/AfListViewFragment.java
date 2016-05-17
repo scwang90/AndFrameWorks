@@ -147,7 +147,7 @@ public abstract class AfListViewFragment<T> extends AfTabFragment implements
      * @return id
      */
     protected int getLayoutId() {
-        BindLayout layout = AfReflecter.getAnnotation(this.getClass(), AfFragment.class, BindLayout.class);
+        BindLayout layout = AfReflecter.getAnnotation(this.getClass(), AfListViewFragment.class, BindLayout.class);
         if (layout != null) {
             return layout.value();
         }
