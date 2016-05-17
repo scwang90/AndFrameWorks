@@ -118,9 +118,12 @@ public abstract class AfListViewFragment<T> extends AfTabFragment implements
         mListView.setOnItemClickListener(this);
         mListView.setOnItemLongClickListener(this);
 
-        // 设置banner尺寸
-        setLoading();
-        postTask(new AbListViewTask());
+        if (mAdapter == null) {
+            setLoading();
+            postTask(new AbListViewTask());
+        } else {
+            setData(mAdapter);
+        }
     }
 
     /**
