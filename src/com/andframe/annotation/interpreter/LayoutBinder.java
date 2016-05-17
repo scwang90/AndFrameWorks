@@ -5,6 +5,7 @@ import android.app.Dialog;
 
 import com.andframe.annotation.view.BindLayout;
 import com.andframe.application.AfExceptionHandler;
+import com.andframe.util.java.AfReflecter;
 
 /**
  * 布局绑定器
@@ -22,9 +23,9 @@ public class LayoutBinder {
     public static void doBind(Activity activity) {
         try{
             Class<? extends Activity> clazz = activity.getClass();
-            if (clazz.isAnnotationPresent(BindLayout.class)) {
-                BindLayout annotation = clazz.getAnnotation(BindLayout.class);
-                activity.setContentView(annotation.value());
+            BindLayout layout = AfReflecter.getAnnotation(clazz, Dialog.class, BindLayout.class);
+            if (layout != null) {
+                activity.setContentView(layout.value());
             }
         } catch (Throwable ex) {
             AfExceptionHandler.handler(ex,TAG(activity,"doBind(activity)"));
@@ -34,9 +35,9 @@ public class LayoutBinder {
     public static void doBind(Dialog dialog) {
         try{
             Class<? extends Dialog> clazz = dialog.getClass();
-            if (clazz.isAnnotationPresent(BindLayout.class)) {
-                BindLayout annotation = clazz.getAnnotation(BindLayout.class);
-                dialog.setContentView(annotation.value());
+            BindLayout layout = AfReflecter.getAnnotation(clazz, Dialog.class, BindLayout.class);
+            if (layout != null) {
+                dialog.setContentView(layout.value());
             }
         } catch (Throwable ex) {
             AfExceptionHandler.handler(ex,TAG(dialog,"doBind(dialog)"));

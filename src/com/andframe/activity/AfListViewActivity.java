@@ -20,6 +20,7 @@ import com.andframe.bean.Page;
 import com.andframe.caches.AfPrivateCaches;
 import com.andframe.exception.AfException;
 import com.andframe.feature.AfIntent;
+import com.andframe.fragment.AfFragment;
 import com.andframe.helper.java.AfTimeSpan;
 import com.andframe.layoutbind.AfFrameSelector;
 import com.andframe.layoutbind.AfModuleNodata;
@@ -159,8 +160,9 @@ public abstract class AfListViewActivity<T> extends AfActivity implements OnRefr
      * @return id
      */
     protected int getLayoutId() {
-        if (this.getClass().isAnnotationPresent(BindLayout.class)) {
-            return this.getClass().getAnnotation(BindLayout.class).value();
+        BindLayout layout = AfReflecter.getAnnotation(this.getClass(), AfListViewActivity.class, BindLayout.class);
+        if (layout != null) {
+            return layout.value();
         }
         return 0;
     }

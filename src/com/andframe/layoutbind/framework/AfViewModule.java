@@ -10,6 +10,7 @@ import com.andframe.annotation.interpreter.ViewBinder;
 import com.andframe.annotation.view.BindLayout;
 import com.andframe.application.AfApplication;
 import com.andframe.application.AfExceptionHandler;
+import com.andframe.util.java.AfReflecter;
 
 import java.lang.reflect.Constructor;
 
@@ -38,11 +39,13 @@ public class AfViewModule extends AfViewDelegate implements AfViewable, IViewMod
 	}
 
 	public static <T extends AfViewModule> T init(Class<T> clazz, AfViewable viewable){
-		if (!clazz.isAnnotationPresent(BindLayout.class)) return null;
+		BindLayout layout = AfReflecter.getAnnotation(clazz, AfViewModule.class, BindLayout.class);
+		if (layout == null) {
+			return null;
+		}
 		try {
 			T module = null;
-			int id = clazz.getAnnotation(BindLayout.class).value();
-			View view = LayoutInflater.from(viewable.getContext()).inflate(id, null);
+			View view = LayoutInflater.from(viewable.getContext()).inflate(layout.value(), null);
 			Constructor<?>[] constructors = clazz.getConstructors();
 			for (int i = 0; i < constructors.length && module == null; i++) {
 				Class<?>[] parameterTypes = constructors[i].getParameterTypes();
@@ -72,9 +75,9 @@ public class AfViewModule extends AfViewDelegate implements AfViewable, IViewMod
 
 	protected AfViewModule(AfViewable view) {
 		super(new View(view.getContext()));
-		if (this.getClass().isAnnotationPresent(BindLayout.class)) {
-			BindLayout bind = this.getClass().getAnnotation(BindLayout.class);
-			target = view.findViewById(bind.value());
+		BindLayout layout = AfReflecter.getAnnotation(this.getClass(), AfViewModule.class, BindLayout.class);
+		if (layout != null) {
+			target = view.findViewById(layout.value());
 		}
 	}
 
@@ -88,9 +91,9 @@ public class AfViewModule extends AfViewDelegate implements AfViewable, IViewMod
 	 * 子类构造函数中必须调用这个函数
 	 */
 	protected void InitializeComponent(AfViewable viewable){
-		if (this.getClass().isAnnotationPresent(BindLayout.class)) {
-			BindLayout bind = this.getClass().getAnnotation(BindLayout.class);
-			target = viewable.findViewById(bind.value());
+		BindLayout layout = AfReflecter.getAnnotation(this.getClass(), AfViewModule.class, BindLayout.class);
+		if (layout != null) {
+			target = viewable.findViewById(layout.value());
 		}
 		setTarget(viewable,target);
 	}

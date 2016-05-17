@@ -6,8 +6,10 @@ import android.widget.FrameLayout;
 import com.andframe.activity.framework.AfView;
 import com.andframe.activity.framework.AfViewable;
 import com.andframe.annotation.view.BindLayout;
+import com.andframe.fragment.AfFragment;
 import com.andframe.layoutbind.framework.AfViewModule;
 import com.andframe.layoutbind.framework.IViewModule;
+import com.andframe.util.java.AfReflecter;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -18,9 +20,9 @@ public class AfFrameSelector extends AfViewModule {
 
 	public AfFrameSelector(AfViewable viewable) {
 		super(viewable);
-		if (this.getClass().isAnnotationPresent(BindLayout.class)) {
-			BindLayout bind = this.getClass().getAnnotation(BindLayout.class);
-			mFrameLayout = viewable.findViewById(bind.value(), FrameLayout.class);
+		BindLayout layout = AfReflecter.getAnnotation(this.getClass(), AfFragment.class, BindLayout.class);
+		if (layout != null) {
+			mFrameLayout = viewable.findViewById(layout.value(), FrameLayout.class);
 		}
 	}
 
@@ -38,9 +40,9 @@ public class AfFrameSelector extends AfViewModule {
 	@Override
 	protected void onCreated(AfViewable viewable, View view) {
 		super.onCreated(viewable, view);
-		if (this.getClass().isAnnotationPresent(BindLayout.class)) {
-			BindLayout bind = this.getClass().getAnnotation(BindLayout.class);
-			mFrameLayout = viewable.findViewById(bind.value(), FrameLayout.class);
+		BindLayout layout = AfReflecter.getAnnotation(this.getClass(), AfFrameSelector.class, BindLayout.class);
+		if (layout != null) {
+			mFrameLayout = viewable.findViewById(layout.value(), FrameLayout.class);
 		}
 	}
 

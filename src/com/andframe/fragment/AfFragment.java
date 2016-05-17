@@ -43,6 +43,7 @@ import com.andframe.thread.AfData3Task;
 import com.andframe.thread.AfDataTask;
 import com.andframe.thread.AfTask;
 import com.andframe.thread.AfThreadWorker;
+import com.andframe.util.java.AfReflecter;
 
 import java.util.Date;
 import java.util.List;
@@ -290,9 +291,9 @@ public abstract class AfFragment extends Fragment implements AfPageable {
      * 自定义 View onCreateView(LayoutInflater, ViewGroup)
      */
     protected View onCreateView(LayoutInflater inflater, ViewGroup container) {
-        if (this.getClass().isAnnotationPresent(BindLayout.class)) {
-            int id = this.getClass().getAnnotation(BindLayout.class).value();
-            return inflater.inflate(id,container,false);
+        BindLayout layout = AfReflecter.getAnnotation(this.getClass(), AfFragment.class, BindLayout.class);
+        if (layout != null) {
+            return inflater.inflate(layout.value(), container, false);
         }
         return null;
     }
