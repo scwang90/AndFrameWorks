@@ -6,16 +6,15 @@ import android.view.ViewGroup;
 import android.widget.ListView;
 
 import com.andframe.activity.framework.AfPageable;
-import com.andframe.view.multichoice.AfMultiChoiceListView;
+import com.andframe.view.multichoice.AfMultiChoiceAbsListView;
 import com.andframe.view.pulltorefresh.PullRefreshFooterImpl;
 import com.andframe.view.pulltorefresh.PullRefreshHeaderImpl;
 
 /**
  * 可下拉刷新的 上啦更多的 listview 
  * @author 树朾
- *
  */
-public class AfMultiListView extends AfMultiChoiceListView{
+public class AfMultiListView extends AfMultiChoiceAbsListView<ListView>{
 	
 	private static ListView mlistView = null;
 
@@ -50,7 +49,7 @@ public class AfMultiListView extends AfMultiChoiceListView{
 	}
 
 	@Override
-	protected ListView onCreateListView(Context context, AttributeSet attrs) {
+	protected ListView onCreateTargetView(Context context, AttributeSet attrs) {
 		if (mlistView != null) {
 			if (getParent() == null && mlistView.getParent() instanceof ViewGroup) {
 				ViewGroup parent = ViewGroup.class.cast(mlistView.getParent());
@@ -67,12 +66,12 @@ public class AfMultiListView extends AfMultiChoiceListView{
 
 	@Override
 	protected ListView onCreateRefreshableView(Context context, AttributeSet attrs) {
-		mListView = onCreateListView(context,attrs);//new ListView(context)
+		mAbsListView = onCreateTargetView(context, attrs);//new ListView(context)
 		// 解决listview在拖动的时候背景图片消失变成黑色背景
-		mListView.setCacheColorHint(0);
-		mListView.setScrollingCacheEnabled(false);
+		mAbsListView.setCacheColorHint(0);
+		mAbsListView.setScrollingCacheEnabled(false);
 		// 解决listview的上边和下边有黑色的阴影
-		mListView.setFadingEdgeLength(0);
-		return mListView;
+		mAbsListView.setFadingEdgeLength(0);
+		return mAbsListView;
 	}
 }

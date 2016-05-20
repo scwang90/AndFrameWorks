@@ -4,8 +4,10 @@ import android.content.Context;
 import android.os.Bundle;
 import android.view.View;
 import android.view.View.OnClickListener;
+import android.widget.AbsListView;
 import android.widget.AdapterView;
 import android.widget.AdapterView.OnItemClickListener;
+import android.widget.GridView;
 import android.widget.ListView;
 
 import com.andframe.activity.framework.AfActivity;
@@ -20,7 +22,6 @@ import com.andframe.bean.Page;
 import com.andframe.caches.AfPrivateCaches;
 import com.andframe.exception.AfException;
 import com.andframe.feature.AfIntent;
-import com.andframe.fragment.AfFragment;
 import com.andframe.helper.java.AfTimeSpan;
 import com.andframe.layoutbind.AfFrameSelector;
 import com.andframe.layoutbind.AfModuleNodata;
@@ -29,13 +30,16 @@ import com.andframe.thread.AfListTask;
 import com.andframe.thread.AfListViewTask;
 import com.andframe.util.java.AfCollections;
 import com.andframe.util.java.AfReflecter;
+import com.andframe.view.AfGridView;
 import com.andframe.view.AfListView;
-import com.andframe.view.AfRefreshListView;
+import com.andframe.view.AfRefreshAbsListView;
 import com.andframe.view.pulltorefresh.AfPullToRefreshBase.OnRefreshListener;
 
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
+
+import static com.andframe.util.java.AfReflecter.getAnnotation;
 
 /**
  * 数据列表框架 Activity
@@ -50,8 +54,8 @@ public abstract class AfListViewActivity<T> extends AfActivity implements OnRefr
     protected AfModuleProgress mProgress;
     protected AfFrameSelector mSelector;
 
-    protected AfRefreshListView<ListView> mListView;
     protected AfListAdapter<T> mAdapter;
+    protected AfRefreshAbsListView<? extends AbsListView> mListView;
     /**
      * 是否使用分页
      */
@@ -141,7 +145,7 @@ public abstract class AfListViewActivity<T> extends AfActivity implements OnRefr
      */
     @SuppressWarnings("unchecked")
     protected AbListViewTask postTask(int task) {
-        return (AbListViewTask) postTask(new AbListViewTask(task));
+        return postTask(new AbListViewTask(task));
     }
 
     /**
@@ -150,8 +154,14 @@ public abstract class AfListViewActivity<T> extends AfActivity implements OnRefr
      * @param pageable 页面对象
      * @return 可刷新的ListView
      */
-    protected AfRefreshListView<ListView> newAfListView(AfPageable pageable) {
-        return new AfListView(findListView(pageable));
+    protected AfRefreshAbsListView<? extends AbsListView> newAfListView(AfPageable pageable) {
+        AbsListView listView = findListView(pageable);
+        if (listView instanceof ListView) {
+            return new AfListView(((ListView) listView));
+        } else if (listView instanceof GridView) {
+            return new AfGridView(((GridView) listView));
+        }
+        return new AfListView(getContext());
     }
 
     /**
@@ -160,7 +170,7 @@ public abstract class AfListViewActivity<T> extends AfActivity implements OnRefr
      * @return id
      */
     protected int getLayoutId() {
-        BindLayout layout = AfReflecter.getAnnotation(this.getClass(), AfListViewActivity.class, BindLayout.class);
+        BindLayout layout = getAnnotation(this.getClass(), AfListViewActivity.class, BindLayout.class);
         if (layout != null) {
             return layout.value();
         }
@@ -168,13 +178,13 @@ public abstract class AfListViewActivity<T> extends AfActivity implements OnRefr
     }
 
     /**
-     * /**
+     *
      * 获取列表控件
      *
      * @param pageable 页面对象
      * @return pageable.findListViewById(id)
      */
-    protected abstract ListView findListView(AfPageable pageable);
+    protected abstract AbsListView findListView(AfPageable pageable);
 
     /**
      * 新建页面选择器
@@ -299,7 +309,9 @@ public abstract class AfListViewActivity<T> extends AfActivity implements OnRefr
      */
     @Override
     public void onItemClick(AdapterView<?> parent, View view, int index, long id) {
-        index = mListView.getDataIndex(index);
+        if (mListView instanceof AfListView) {
+            index = ((AfListView) mListView).getDataIndex(index);
+        }
         if (index >= 0) {
             T model = mAdapter.getItemAt(index);
             try {
@@ -330,7 +342,9 @@ public abstract class AfListViewActivity<T> extends AfActivity implements OnRefr
      */
     @Override
     public boolean onItemLongClick(AdapterView<?> parent, View view, int index, long id) {
-        index = mListView.getDataIndex(index);
+        if (mListView instanceof AfListView) {
+            index = ((AfListView) mListView).getDataIndex(index);
+        }
         if (index >= 0) {
             T model = mAdapter.getItemAt(index);
             try {
@@ -511,11 +525,12 @@ public abstract class AfListViewActivity<T> extends AfActivity implements OnRefr
             mListView.finishRefresh();
             if (!AfCollections.isEmpty(ltdata)) {
                 setData(mAdapter = newAdapter(getActivity(), ltdata));
-                if (ltdata.size() < task.PAGE_SIZE) {
-                    mListView.removeMoreView();
-                } else if (mIsPaging) {
-                    mListView.addMoreView();
-                }
+                setMoreShow(task, ltdata);
+//                if (ltdata.size() < task.mPageSize) {
+//                    mAbsListView.removeMoreView();
+//                } else if (mIsPaging) {
+//                    mAbsListView.addMoreView();
+//                }
             } else {
                 setNodata();
             }
@@ -555,15 +570,34 @@ public abstract class AfListViewActivity<T> extends AfActivity implements OnRefr
                 mAdapter.addData(ltdata);
                 mListView.smoothScrollToPosition(count + 1);
             }
-            if (ltdata.size() < task.PAGE_SIZE) {
-                // 关闭更多选项
+            if (!setMoreShow(task, ltdata)) {
                 makeToastShort("数据全部加载完毕！");
-                mListView.removeMoreView();
             }
+//            if (ltdata.size() < task.mPageSize) {
+//                // 关闭更多选项
+//                makeToastShort("数据全部加载完毕！");
+//                mAbsListView.removeMoreView();
+//            }
         } else {
             makeToastLong(task.makeErrorToast("获取更多失败！"));
         }
         return true;
+    }
+
+    /**
+     * 设置是否现实加载更多功能
+     * @param task     完成的任务
+     * @param ltdata   任务加载的数据
+     * @return true 显示更多功能 false 数据加载结束
+     */
+    protected boolean setMoreShow(AbListViewTask task, List<T> ltdata) {
+        if (ltdata.size() < task.mPageSize) {
+            mListView.removeMoreView();
+            return false;
+        } else {
+            mListView.addMoreView();
+            return true;
+        }
     }
 
     /**

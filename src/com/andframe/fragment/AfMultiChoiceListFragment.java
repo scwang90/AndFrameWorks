@@ -1,6 +1,8 @@
 package com.andframe.fragment;
 
 import android.content.Context;
+import android.widget.AbsListView;
+import android.widget.GridView;
 import android.widget.ListView;
 
 import com.andframe.activity.framework.AfPageable;
@@ -8,11 +10,12 @@ import com.andframe.adapter.AfListAdapter;
 import com.andframe.adapter.AfListAdapter.IAfLayoutItem;
 import com.andframe.layoutbind.AfSelectorBottombar;
 import com.andframe.layoutbind.AfSelectorTitlebar;
+import com.andframe.view.AfMultiGridView;
 import com.andframe.view.AfMultiListView;
-import com.andframe.view.AfRefreshListView;
+import com.andframe.view.AfRefreshAbsListView;
+import com.andframe.view.multichoice.AfMultiChoiceAbsListView;
 import com.andframe.view.multichoice.AfMultiChoiceAdapter;
 import com.andframe.view.multichoice.AfMultiChoiceItem;
-import com.andframe.view.multichoice.AfMultiChoiceListView;
 import com.andframe.widget.popupmenu.OnMenuItemClickListener;
 
 import java.util.List;
@@ -28,8 +31,8 @@ public abstract class AfMultiChoiceListFragment<T> extends AfListViewFragment<T>
 	protected AfSelectorTitlebar mSelectorTitlebar;
 	protected AfSelectorBottombar mSelectorBottombar;
 
-	protected AfMultiChoiceListView mMultiChoiceListView;
 	protected AfMultiChoiceAdapter<T> mMultiChoiceAdapter;
+	protected AfMultiChoiceAbsListView<? extends AbsListView> mMultiChoiceListView;
 
 	public AfMultiChoiceListFragment() {
 
@@ -95,8 +98,15 @@ public abstract class AfMultiChoiceListFragment<T> extends AfListViewFragment<T>
 	}
 
 	@Override
-	protected AfRefreshListView<ListView> newAfListView(AfPageable pageable) {
-		mMultiChoiceListView = new AfMultiListView(findListView(pageable));
+	protected AfRefreshAbsListView<? extends AbsListView> newAfListView(AfPageable pageable) {
+		AbsListView listView = findListView(pageable);
+		if (listView instanceof ListView) {
+			mMultiChoiceListView = new AfMultiListView(((ListView) listView));
+		} else if (listView instanceof GridView) {
+			mMultiChoiceListView = new AfMultiGridView(((GridView) listView));
+		} else {
+			mMultiChoiceListView = new AfMultiListView(getContext());
+		}
 		mSelectorTitlebar = newSelectorTitlebar(pageable);
 		mSelectorBottombar = newSelectorBottombar(pageable);
 		if (mSelectorTitlebar != null){
@@ -114,7 +124,7 @@ public abstract class AfMultiChoiceListFragment<T> extends AfListViewFragment<T>
 	 *  ListView数据适配器（事件已经转发getItemLayout，无实际处理代码）
 	 * @author 树朾
 	 */
-	protected class AbMultiChoiceAdapter extends AfMultiChoiceAdapter<T>{
+	protected class AbMultiChoiceAdapter extends AfMultiChoiceAdapter<T> {
 
 		public AbMultiChoiceAdapter(Context context, List<T> ltdata) {
 			super(context, ltdata);

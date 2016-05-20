@@ -49,7 +49,7 @@ public class AfTreeListView extends com.andframe.view.treeview.AfTreeListView {
 //	}
 
 	@Override
-	protected ListView onCreateListView(Context context, AttributeSet attrs) {
+	protected ListView onCreateTargetView(Context context, AttributeSet attrs) {
 		if (mlistView != null) {
 			if (getParent() == null && mlistView.getParent() instanceof ViewGroup) {
 				ViewGroup parent = ViewGroup.class.cast(mlistView.getParent());
@@ -66,12 +66,12 @@ public class AfTreeListView extends com.andframe.view.treeview.AfTreeListView {
 
 	@Override
 	protected ListView onCreateRefreshableView(Context context, AttributeSet attrs) {
-		mListView = onCreateListView(context,attrs);//new ListView(context)
+		mAbsListView = onCreateTargetView(context, attrs);//new ListView(context)
 		// 解决listview在拖动的时候背景图片消失变成黑色背景
-		mListView.setCacheColorHint(0);
-		mListView.setScrollingCacheEnabled(false);
+		mAbsListView.setCacheColorHint(0);
+		mAbsListView.setScrollingCacheEnabled(false);
 		// 解决listview的上边和下边有黑色的阴影
-		mListView.setFadingEdgeLength(0);
-		return mListView;
+		mAbsListView.setFadingEdgeLength(0);
+		return mAbsListView;
 	}
 }

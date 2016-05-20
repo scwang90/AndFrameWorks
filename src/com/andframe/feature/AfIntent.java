@@ -223,7 +223,10 @@ public class AfIntent extends Intent implements AfExtrater {
             if (value != null) {
                 return value;
             }
-            String name = getStringExtra(_key + "[o]") + "";
+            String name = getStringExtra(_key + "[o]");
+            if (name == null) {
+                return defaul;
+            }
             if (!clazz.getName().equals(name) && !clazz.isPrimitive()) {
                 Class<?> orgin = Class.forName(name);
                 if (clazz.isAssignableFrom(orgin) && !orgin.isAnonymousClass()) {

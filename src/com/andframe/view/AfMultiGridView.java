@@ -6,7 +6,7 @@ import android.view.ViewGroup;
 import android.widget.GridView;
 
 import com.andframe.activity.framework.AfPageable;
-import com.andframe.view.multichoice.AfMultiChoiceGridView;
+import com.andframe.view.multichoice.AfMultiChoiceAbsListView;
 import com.andframe.view.pulltorefresh.PullRefreshFooterImpl;
 import com.andframe.view.pulltorefresh.PullRefreshHeaderImpl;
 
@@ -14,22 +14,22 @@ import com.andframe.view.pulltorefresh.PullRefreshHeaderImpl;
  * 可下拉刷新的 上啦更多的 listview 
  * @author 树朾
  */
-public class AfMultiGridView extends AfMultiChoiceGridView{
-	
-	private static GridView mGridView = null;
+public class AfMultiGridView extends AfMultiChoiceAbsListView<GridView> {
+
+	private static GridView mlistView = null;
 
 	public AfMultiGridView(GridView listView) {
-		super((mGridView=listView).getContext());
+		super((mlistView=listView).getContext());
 		setPullFooterLayout(new PullRefreshFooterImpl(listView.getContext()));
 		setPullHeaderLayout(new PullRefreshHeaderImpl(listView.getContext()));
 	}
-	
+
 	public AfMultiGridView(AfPageable viewable,int res) {
-		super((mGridView=viewable.findViewByID(res)).getContext());
+		super((mlistView=viewable.findViewByID(res)).getContext());
 		setPullFooterLayout(new PullRefreshFooterImpl(viewable.getContext()));
 		setPullHeaderLayout(new PullRefreshHeaderImpl(viewable.getContext()));
 	}
-	
+
 	public AfMultiGridView(Context context) {
 		super(context);
 		setPullFooterLayout(new PullRefreshFooterImpl(context));
@@ -49,29 +49,29 @@ public class AfMultiGridView extends AfMultiChoiceGridView{
 	}
 
 	@Override
-	protected GridView onCreateGridView(Context context, AttributeSet attrs) {
-		if (mGridView != null) {
-			if (getParent() == null && mGridView.getParent() instanceof ViewGroup) {
-				ViewGroup parent = ViewGroup.class.cast(mGridView.getParent());
-				int index = parent.indexOfChild(mGridView);
-				parent.removeView(mGridView);
-				parent.addView(this, index,mGridView.getLayoutParams());
-				mTargetView = mGridView;
-				mGridView = null;
+	protected GridView onCreateTargetView(Context context, AttributeSet attrs) {
+		if (mlistView != null) {
+			if (getParent() == null && mlistView.getParent() instanceof ViewGroup) {
+				ViewGroup parent = ViewGroup.class.cast(mlistView.getParent());
+				int index = parent.indexOfChild(mlistView);
+				parent.removeView(mlistView);
+				parent.addView(this, index,mlistView.getLayoutParams());
+				mTargetView = mlistView;
+				mlistView = null;
 			}
 			return mTargetView;
 		}
 		return new GridView(context);
 	}
 
-	@Override
-	protected GridView onCreateRefreshableView(Context context, AttributeSet attrs) {
-		mGridView = onCreateGridView(context,attrs);//new ListView(context)
-		// 解决listview在拖动的时候背景图片消失变成黑色背景
-		mGridView.setCacheColorHint(0);
-		mGridView.setScrollingCacheEnabled(false);
-		// 解决listview的上边和下边有黑色的阴影
-		mGridView.setFadingEdgeLength(0);
-		return mGridView;
-	}
+//	@Override
+//	protected GridView onCreateRefreshableView(Context context, AttributeSet attrs) {
+//		mAbsListView = onCreateTargetView(context, attrs);//new GridView(context)
+//		// 解决listview在拖动的时候背景图片消失变成黑色背景
+//		mAbsListView.setCacheColorHint(0);
+//		mAbsListView.setScrollingCacheEnabled(false);
+//		// 解决listview的上边和下边有黑色的阴影
+//		mAbsListView.setFadingEdgeLength(0);
+//		return mAbsListView;
+//	}
 }
