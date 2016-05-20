@@ -17,7 +17,6 @@ import com.andframe.helper.android.AfDeviceInfo;
 import com.andframe.model.Exceptional;
 import com.andframe.util.java.AfDateFormat;
 import com.andframe.util.java.AfDateGuid;
-import com.andframe.util.java.AfStackTrace;
 
 import java.io.FileWriter;
 import java.lang.Thread.UncaughtExceptionHandler;
@@ -88,6 +87,7 @@ public class AfExceptionHandler implements UncaughtExceptionHandler{
 
 	public static void handler(Throwable ex,String remark) {
 		if(INSTANCE != null && !(ex instanceof AfToastException)){
+			ex.printStackTrace();
 			String handlerid;
 			StackTraceElement[] stacks = ex.getStackTrace();
 			if(stacks != null && stacks.length > 0){

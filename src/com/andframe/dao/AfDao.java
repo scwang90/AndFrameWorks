@@ -1,12 +1,5 @@
 package com.andframe.dao;
 
-import java.lang.reflect.Field;
-import java.util.ArrayList;
-import java.util.Date;
-import java.util.HashMap;
-import java.util.List;
-import java.util.UUID;
-
 import android.content.Context;
 import android.database.Cursor;
 import android.database.sqlite.SQLiteDatabase;
@@ -17,6 +10,13 @@ import com.andframe.database.AfDbOpenHelper;
 import com.andframe.helper.java.AfSQLHelper;
 import com.andframe.util.UUIDUtil;
 import com.andframe.util.java.AfReflecter;
+
+import java.lang.reflect.Field;
+import java.util.ArrayList;
+import java.util.Date;
+import java.util.HashMap;
+import java.util.List;
+import java.util.UUID;
 
 public abstract class AfDao<T> {
 
@@ -96,17 +96,15 @@ public abstract class AfDao<T> {
 		StringBuilder values = new StringBuilder();
 		StringBuilder columns = new StringBuilder();
 
-		for (Field field : AfReflecter.getField(clazz)) {
-			if (Interpreter.isColumn(field)) {
-				if (isfrist == false) {
-					values.append(',');
-					columns.append(',');
-				} else {
-					isfrist = false;
-				}
-				values.append('?');
-				columns.append(Interpreter.getColumnName(field));
+		for (Field field : Interpreter.getColumns(clazz)) {
+			if (!isfrist) {
+				values.append(',');
+				columns.append(',');
+			} else {
+				isfrist = false;
 			}
+			values.append('?');
+			columns.append(Interpreter.getColumnName(field));
 		}
 		mTableValues = values.toString();
 		mTableColumns = columns.toString();
@@ -115,15 +113,13 @@ public abstract class AfDao<T> {
 	private String setValue(T obj) throws Exception {
 		boolean isfrist = true;
 		StringBuilder tColumns = new StringBuilder();
-		for (Field field : AfReflecter.getField(mClazz)) {
-			if (Interpreter.isColumn(field)) {
-				if (isfrist == false) {
-					tColumns.append(',');
-				} else {
-					isfrist = false;
-				}
-				tColumns.append(setValue(obj, field));
+		for (Field field : Interpreter.getColumns(mClazz)) {
+			if (!isfrist) {
+				tColumns.append(',');
+			} else {
+				isfrist = false;
 			}
+			tColumns.append(setValue(obj, field));
 		}
 		return tColumns.toString();
 	}
@@ -192,13 +188,10 @@ public abstract class AfDao<T> {
 	protected Object[] getObjectFromFields(T obj) throws Exception {
 		Model model = new Model(obj);
 		List<Object> list = new ArrayList<Object>();
-		Field[] fields = AfReflecter.getField(mClazz);
-		for (Field field : fields) {
-			if (Interpreter.isColumn(field)) {
-				list.add(model.getFieldObject(field));
-			}
+		for (Field field : Interpreter.getColumns(mClazz)) {
+			list.add(model.getFieldObject(field));
 		}
-		return list.toArray(new Object[0]);
+		return list.toArray(new Object[list.size()]);
 	}
 
 	/**
@@ -332,8 +325,8 @@ public abstract class AfDao<T> {
 			sql.append(column);
 			sql.append(" from ");
 			sql.append(mTableName);
-			sql.append(" order by ");
-			sql.append(order);
+			sql.append(' ');
+			sql.append(AfSQLHelper.OrderBy(order));
 			sql.append(" limit ");
 			sql.append(num);
 			sql.append(" offset ");
@@ -362,8 +355,8 @@ public abstract class AfDao<T> {
 			sql.append(mTableName);
 			sql.append(' ');
 			sql.append(AfSQLHelper.Where(where));
-			sql.append(" order by ");
-			sql.append(order);
+			sql.append(' ');
+			sql.append(AfSQLHelper.OrderBy(order));
 			sql.append(" limit ");
 			sql.append(num);
 			sql.append(" offset ");
@@ -389,8 +382,8 @@ public abstract class AfDao<T> {
 			sql.append(mTableName);
 			sql.append(' ');
 			sql.append(AfSQLHelper.Where(where));
-			sql.append(" order by ");
-			sql.append(order);
+			sql.append(' ');
+			sql.append(AfSQLHelper.OrderBy(order));
 			return getModels(mDbReadable.rawQuery(sql.toString(), null));
 		}
 	}
@@ -469,8 +462,8 @@ public abstract class AfDao<T> {
 			sql.append(column);
 			sql.append(" from ");
 			sql.append(mTableName);
-			sql.append(" order by ");
-			sql.append(order);
+			sql.append(' ');
+			sql.append(AfSQLHelper.OrderBy(order));
 			return getModels(mDbReadable.rawQuery(sql.toString(), null));
 		}
 	}

@@ -3,7 +3,7 @@ package com.andframe.helper.java;
 import java.util.Locale;
 
 public class AfSQLHelper {
-	
+
 	public String where(String where) {
 		return Where(where);
 	}
@@ -57,6 +57,22 @@ public class AfSQLHelper {
 					where = where.substring(lower.indexOf('w')+5);
 				}
 				return " or " + where;
+			}
+			return "";
+		}else{
+			return "";
+		}
+	}
+
+	public static String OrderBy(String order) {
+		if(order != null){
+			String lower = order.toLowerCase(Locale.ENGLISH);
+			String trim = lower.trim();
+			if(!trim.equals("")){
+				if(trim.startsWith("order by")){
+					return order;
+				}
+				return " order by " + order;
 			}
 			return "";
 		}else{

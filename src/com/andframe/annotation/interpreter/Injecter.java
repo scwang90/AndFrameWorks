@@ -21,11 +21,11 @@ import android.content.pm.LauncherApps;
 import android.content.res.Resources;
 import android.hardware.ConsumerIrManager;
 import android.hardware.SensorManager;
+import android.hardware.camera2.CameraManager;
 import android.hardware.display.DisplayManager;
 import android.hardware.fingerprint.FingerprintManager;
 import android.hardware.input.InputManager;
 import android.hardware.usb.UsbManager;
-import android.hardware.camera2.CameraManager;
 import android.location.LocationManager;
 import android.media.AudioManager;
 import android.media.MediaRouter;
@@ -77,6 +77,7 @@ import com.andframe.caches.AfImageCaches;
 import com.andframe.caches.AfJsonCache;
 import com.andframe.caches.AfPrivateCaches;
 import com.andframe.caches.AfSharedPreference;
+import com.andframe.dao.AfEntityDao;
 import com.andframe.exception.AfToastException;
 import com.andframe.feature.AfBundle;
 import com.andframe.feature.AfDailog;
@@ -185,6 +186,8 @@ public class Injecter {
                     value = AfApplication.getApp();
                 } else if (AfAppSettings.class.isAssignableFrom(clazz)) {
                     value = AfApplication.getApp().getAppSetting();
+                } else if (AfEntityDao.class.isAssignableFrom(clazz)) {
+                    value = clazz.getConstructor(Context.class).newInstance(context);
                 }
                 if (value != null) {
                     field.setAccessible(true);

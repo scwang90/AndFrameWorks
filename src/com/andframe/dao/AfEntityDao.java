@@ -1,16 +1,16 @@
 package com.andframe.dao;
 
-import java.lang.reflect.Field;
-import java.util.ArrayList;
-import java.util.Date;
-import java.util.List;
-import java.util.UUID;
-
 import android.content.Context;
 
 import com.andframe.annotation.db.interpreter.Interpreter;
 import com.andframe.application.AfExceptionHandler;
 import com.andframe.util.java.AfReflecter;
+
+import java.lang.reflect.Field;
+import java.util.ArrayList;
+import java.util.Date;
+import java.util.List;
+import java.util.UUID;
 
 public class AfEntityDao<T> extends AfDao<T>{
 
@@ -147,30 +147,28 @@ public class AfEntityDao<T> extends AfDao<T>{
 
 	protected T getEntity(Model model) throws Exception {
 		T entity = mClazz.newInstance();
-		for (Field field : AfReflecter.getField(mClazz)) {
-			if (Interpreter.isColumn(field)) {
-				String column = Interpreter.getColumnName(field);
-				Class<?> type = field.getType();
-				field.setAccessible(true);
-				if (type.equals(Short.class) || type.equals(short.class)) {
-					field.set(entity, model.getShort(column));
-				} else if (type.equals(Integer.class) || type.equals(int.class)) {
-					field.set(entity, model.getInt(column));
-				} else if (type.equals(Long.class) || type.equals(long.class)) {
-					field.set(entity, model.getLong(column));
-				} else if (type.equals(Float.class) || type.equals(float.class)) {
-					field.set(entity, model.getFloat(column));
-				} else if (type.equals(Double.class) || type.equals(double.class)) {
-					field.set(entity, model.getDouble(column));
-				} else if (type.equals(Boolean.class) || type.equals(boolean.class)) {
-					field.set(entity, model.getBoolean(column));
-				} else if (type.equals(Date.class)) {
-					field.set(entity, model.getDate(column));
-				} else if (type.equals(UUID.class)) {
-					field.set(entity, model.getUUID(column));
-				} else if (type.equals(String.class)) {
-					field.set(entity, model.getString(column));
-				}
+		for (Field field : Interpreter.getColumns(mClazz)) {
+			String column = Interpreter.getColumnName(field);
+			Class<?> type = field.getType();
+			field.setAccessible(true);
+			if (type.equals(Short.class) || type.equals(short.class)) {
+				field.set(entity, model.getShort(column));
+			} else if (type.equals(Integer.class) || type.equals(int.class)) {
+				field.set(entity, model.getInt(column));
+			} else if (type.equals(Long.class) || type.equals(long.class)) {
+				field.set(entity, model.getLong(column));
+			} else if (type.equals(Float.class) || type.equals(float.class)) {
+				field.set(entity, model.getFloat(column));
+			} else if (type.equals(Double.class) || type.equals(double.class)) {
+				field.set(entity, model.getDouble(column));
+			} else if (type.equals(Boolean.class) || type.equals(boolean.class)) {
+				field.set(entity, model.getBoolean(column));
+			} else if (type.equals(Date.class)) {
+				field.set(entity, model.getDate(column));
+			} else if (type.equals(UUID.class)) {
+				field.set(entity, model.getUUID(column));
+			} else if (type.equals(String.class)) {
+				field.set(entity, model.getString(column));
 			}
 		}
 		return entity;

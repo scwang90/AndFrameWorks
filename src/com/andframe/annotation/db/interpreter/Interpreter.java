@@ -20,13 +20,19 @@ public class Interpreter {
 
 	/**
 	 * 获取field是否是数据库列
-	 * @param clazz
-	 * @return
 	 */
 	public static Field[] getColumns(Class<?> clazz) {
 		List<Field> fields = new ArrayList<Field>();
+		Field[] orgfield = AfReflecter.getField(clazz);
+		boolean onlyColumn = false;
+		for (Field field : orgfield) {
+			if (field.isAnnotationPresent(Column.class)) {
+				onlyColumn = true;
+				break;
+			}
+		}
 		for (Field field : AfReflecter.getField(clazz)) {
-			if(Interpreter.isColumn(field)){
+			if(Interpreter.isColumn(field,onlyColumn)){
 				fields.add(field);
 			}
 		}
@@ -34,20 +40,23 @@ public class Interpreter {
 	}
 	/**
 	 * 获取field是否是数据库列
-	 * @param field
-	 * @return
 	 */
 	public static boolean isColumn(Field field) {
+		return isColumn(field, false);
+	}
+	/**
+	 * 获取field是否是数据库列
+	 */
+	public static boolean isColumn(Field field, boolean onlyColumn) {
 		int modify = field.getModifiers();
-		return !Modifier.isFinal(modify) && !Modifier.isStatic(modify) 
-				&& !Modifier.isTransient(modify) 
-				&& !field.isAnnotationPresent(DbIgnore.class);
+		return !Modifier.isFinal(modify) && !Modifier.isStatic(modify)
+				&& !Modifier.isTransient(modify)
+				&& !field.isAnnotationPresent(DbIgnore.class)
+				&& (!onlyColumn || field.isAnnotationPresent(Column.class) || field.isAnnotationPresent(Id.class));
 	}
 
 	/**
 	 * 获取field的列名称
-	 * @param field
-	 * @return
 	 */
 	public static String getColumnName(Field field) {
 		if (field.isAnnotationPresent(Column.class)) {
@@ -67,8 +76,6 @@ public class Interpreter {
 
 	/**
 	 * 获取clazz数据表名称
-	 * @param clazz
-	 * @return
 	 */
 	public static String getTableName(Class<?> clazz) {
 		if (clazz.isAnnotationPresent(Table.class)) {
@@ -82,8 +89,6 @@ public class Interpreter {
 
 	/**
 	 * 获取clazz的主键ID名称
-	 * @param clazz
-	 * @return
 	 */
 	public static String getIdName(Class<?> clazz) {
 		Field field = getIdField(clazz);
@@ -99,8 +104,6 @@ public class Interpreter {
 
 	/**
 	 * 获取clazz的主键ID名称
-	 * @param clazz
-	 * @return
 	 */
 	public static Field getIdField(Class<?> clazz) {
 		List<Field> fields = new ArrayList<Field>();
@@ -130,8 +133,6 @@ public class Interpreter {
 
 	/**
 	 * 判断 Field 是否为 ID字段
-	 * @param field
-	 * @return
 	 */
 	public static boolean isPrimaryKey(Field field) {
 		return field.isAnnotationPresent(Id.class)
