@@ -39,6 +39,8 @@ import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
 
+import static com.andframe.util.java.AfReflecter.getAnnotation;
+
 /**
  * 数据列表框架 Frament
  *
@@ -71,8 +73,8 @@ public abstract class AfListViewFragment<T> extends AfTabFragment implements
     protected AfTimeSpan mCacheSpan = AfListTask.CACHETIMEOUTSECOND;
 
     public AfListViewFragment() {
-        if (this.getClass().isAnnotationPresent(MarkCache.class)) {
-            MarkCache mark = this.getClass().getAnnotation(MarkCache.class);
+        MarkCache mark = getAnnotation(this.getClass(), AfListViewFragment.class, MarkCache.class);
+        if (mark != null) {
             if (mark.value().equals(MarkCache.class)) {
                 mCacheClazz = AfReflecter.getActualTypeArgument(this, AfListViewFragment.class, 0);
             } else {
@@ -159,7 +161,7 @@ public abstract class AfListViewFragment<T> extends AfTabFragment implements
      * @return id
      */
     protected int getLayoutId() {
-        BindLayout layout = AfReflecter.getAnnotation(this.getClass(), AfListViewFragment.class, BindLayout.class);
+        BindLayout layout = getAnnotation(this.getClass(), AfListViewFragment.class, BindLayout.class);
         if (layout != null) {
             return layout.value();
         }

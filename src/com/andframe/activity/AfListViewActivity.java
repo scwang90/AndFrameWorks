@@ -75,8 +75,8 @@ public abstract class AfListViewActivity<T> extends AfActivity implements OnRefr
     protected AfTimeSpan mCacheSpan = AfListTask.CACHETIMEOUTSECOND;
 
     public AfListViewActivity() {
-        if (this.getClass().isAnnotationPresent(MarkCache.class)) {
-            MarkCache mark = this.getClass().getAnnotation(MarkCache.class);
+        MarkCache mark = getAnnotation(this.getClass(), AfListViewActivity.class, MarkCache.class);
+        if (mark != null) {
             if (mark.value().equals(MarkCache.class)) {
                 mCacheClazz = AfReflecter.getActualTypeArgument(this, AfListViewActivity.class, 0);
             } else {
