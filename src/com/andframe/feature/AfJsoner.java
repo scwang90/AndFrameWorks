@@ -252,12 +252,15 @@ public class AfJsoner {
 
     /**
      * 使用json克隆model
-     * @param model
-     * @param clazz
-     * @param <T>
-     * @return
      */
     public static <T> T clone(Object model, Class<T> clazz) {
-        return AfJsoner.fromJson(AfJsoner.toJson(model),clazz);
+        return AfJsoner.fromJson(AfJsoner.toJson(model), clazz);
+    }
+
+    /**
+     * 使用json克隆list
+     */
+    public static <T> List<T> cloneList(List<? extends Object> list, Class<T> clazz) {
+        return AfJsoner.fromJsons(AfJsoner.toJson(list), clazz);
     }
 }

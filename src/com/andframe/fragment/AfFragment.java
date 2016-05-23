@@ -872,7 +872,16 @@ public abstract class AfFragment extends Fragment implements AfPageable {
     public AlertDialog doInputText(String title, int type, InputTextListener listener) {
         return doInputText(title, "", type, listener);
     }
-
+    /**
+     * 弹出一个文本输入框
+     *
+     * @param title    标题
+     * @param defaul   默认值
+     * @param listener 监听器
+     */
+    public AlertDialog doInputText(String title, String defaul, InputTextListener listener) {
+        return new AfDailog(getActivity()).doInputText(title, defaul, InputType.TYPE_CLASS_TEXT, listener);
+    }
     /**
      * 弹出一个文本输入框
      *
