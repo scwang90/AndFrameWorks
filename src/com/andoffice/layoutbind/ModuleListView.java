@@ -55,40 +55,40 @@ public class ModuleListView extends AfViewModule{
 		}
 	}
 
-	public final int getHeaderViewsCount() {
-		if (isValid()) {
-			return mListView.getHeaderViewsCount();
-		}
-		return 0;
-	}
+//	public final int getHeaderViewsCount() {
+//		if (isValid()) {
+//			return mListView.getHeaderViewsCount();
+//		}
+//		return 0;
+//	}
 
-	public final int getIndex(int index) {
-		if (isValid()) {
-			return mListView.getIndex(index);
-		}
-		return 0;
-	}
+//	public final int getIndex(int index) {
+//		if (isValid()) {
+//			return mListView.getIndex(index);
+//		}
+//		return 0;
+//	}
 
-	public final int getDataIndex(int index) {
-		if (isValid()) {
-			return mListView.getDataIndex(index);
-		}
-		return 0;
-	}
-
-	public final Object getData(int positon) {
-		if (isValid()) {
-			return mListView.getData(positon);
-		}
-		return null;
-	}
-
-	public final <E> E getData(int positon,Class<E> clazz) {
-		if (isValid()) {
-			return mListView.getData(positon,clazz);
-		}
-		return null;
-	}
+//	public final int getDataIndex(int index) {
+//		if (isValid()) {
+//			return mListView.getDataIndex(index);
+//		}
+//		return 0;
+//	}
+//
+//	public final Object getData(int positon) {
+//		if (isValid()) {
+//			return mListView.getData(positon);
+//		}
+//		return null;
+//	}
+//
+//	public final <E> E getData(int positon,Class<E> clazz) {
+//		if (isValid()) {
+//			return mListView.getData(positon,clazz);
+//		}
+//		return null;
+//	}
 
 	/**
 	 * 提交刷新完成 更新时间
