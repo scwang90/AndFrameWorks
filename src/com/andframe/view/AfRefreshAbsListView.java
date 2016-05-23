@@ -4,14 +4,20 @@ import android.annotation.SuppressLint;
 import android.content.Context;
 import android.os.Build;
 import android.util.AttributeSet;
+import android.view.View;
+import android.view.ViewGroup;
 import android.widget.AbsListView;
 import android.widget.AdapterView.OnItemClickListener;
 import android.widget.AdapterView.OnItemLongClickListener;
 import android.widget.ListAdapter;
+import android.widget.ListView;
 
 import com.andframe.view.pulltorefresh.AfPullToRefreshBase;
 
 import java.lang.reflect.Field;
+
+import static android.view.ViewGroup.LayoutParams.MATCH_PARENT;
+import static android.view.ViewGroup.LayoutParams.WRAP_CONTENT;
 
 public abstract class AfRefreshAbsListView<T extends AbsListView> extends AfPullToRefreshBase<T> {
 
@@ -197,4 +203,83 @@ public abstract class AfRefreshAbsListView<T extends AbsListView> extends AfPull
 		mTargetView.smoothScrollToPosition(position);
 	}
 
+	/**
+	 * Returns the number of header views in the list. Header views are special
+	 * views at the top of the list that should not be recycled during a layout.
+	 */
+	public int getHeaderViewsCount() {
+		if (mTargetView instanceof ListView) {
+			return ((ListView) mTargetView).getHeaderViewsCount();
+		}
+		return 0;
+	}
+
+	/**
+	 * 获取 OnItemClick 中的index 对应ListView 中的index 包含 HeaderView
+	 */
+	public int getIndex(int index) {
+		return index;//1;
+	}
+
+	/**
+	 * 获取 OnItemClick 中的index 对应Adapter 中的index
+	 * 主要用于当ListView中有Header的时候 可以排除Header产生的index偏移
+	 * @return index-headercount (小于0时代表点击的是header)
+	 */
+	public int getDataIndex(int index) {
+		if (mTargetView instanceof ListView) {
+			return index - ((ListView) mTargetView).getHeaderViewsCount();
+		}
+		return index;
+	}
+
+	public void addHeaderView(View v) {
+		addHeaderView(v, null, true);
+	}
+
+	public void addHeaderView(View v, Object data, boolean isSelectable) {
+		if (mTargetView instanceof ListView) {
+			if (!(v.getLayoutParams() instanceof ListView.LayoutParams)) {
+				ViewGroup.LayoutParams layoutParams = v.getLayoutParams();
+				if (layoutParams == null) {
+					v.setLayoutParams(new ListView.LayoutParams(MATCH_PARENT, WRAP_CONTENT));
+				} else {
+					v.setLayoutParams(new ListView.LayoutParams(layoutParams));
+				}
+			}
+			((ListView) mTargetView).addHeaderView(v, data, isSelectable);
+		}
+	}
+
+	public void addFooterView(View v) {
+		addFooterView(v, null, true);
+	}
+
+	public void addFooterView(View v, Object data, boolean isSelectable) {
+		if (mTargetView instanceof ListView) {
+			if (!(v.getLayoutParams() instanceof ListView.LayoutParams)) {
+				ViewGroup.LayoutParams layoutParams = v.getLayoutParams();
+				if (layoutParams == null) {
+					v.setLayoutParams(new ListView.LayoutParams(MATCH_PARENT, WRAP_CONTENT));
+				} else {
+					v.setLayoutParams(new ListView.LayoutParams(layoutParams));
+				}
+			}
+			((ListView) mTargetView).addFooterView(v, data, isSelectable);
+		}
+	}
+
+	public boolean removeHeaderView(View v) {
+		if (mTargetView instanceof ListView) {
+			return ((ListView) mTargetView).removeHeaderView(v);
+		}
+		return false;
+	}
+
+	public boolean removeFooterView(View v) {
+		if (mTargetView instanceof ListView) {
+			return ((ListView) mTargetView).removeFooterView(v);
+		}
+		return false;
+	}
 }

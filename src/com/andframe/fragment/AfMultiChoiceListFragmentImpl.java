@@ -57,7 +57,7 @@ public abstract class AfMultiChoiceListFragmentImpl<T> extends AfMultiChoiceList
 		mAfTitlebar = new AfModuleTitlebarImpl(this);
 		mAfTitlebar.putMenu("选择", ID_SELECT);
 		mAfTitlebar.setFunction(AfModuleTitlebar.FUNCTION_MENU);
-		mAfTitlebar.setMenuItemListener(this);
+		mAfTitlebar.setOnMenuItemListener(this);
 	}
 
 	@Override

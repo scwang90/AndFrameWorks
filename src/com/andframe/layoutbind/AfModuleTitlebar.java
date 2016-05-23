@@ -187,7 +187,7 @@ public abstract class AfModuleTitlebar extends AfModuleAlpha implements OnClickL
 		this.mMeuns.putAll(map);
 	}
 
-	public void setMenuItemListener(OnMenuItemClickListener mListener) {
+	public void setOnMenuItemListener(OnMenuItemClickListener mListener) {
 		this.mListener = mListener;
 	}
 

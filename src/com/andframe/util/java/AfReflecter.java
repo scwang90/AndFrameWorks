@@ -34,7 +34,7 @@ public class AfReflecter {
         Class<?> subclass = subobj.getClass();
         List<ParameterizedType> ptypes = new ArrayList<ParameterizedType>();
         ParameterizedType ptype = null;
-        while (!supclass.equals(subclass)) {
+        while (supclass != null && !supclass.equals(subclass)) {
             Type type = subclass.getGenericSuperclass();
             if (type == null) {
                 throw new Error("GenericSuperclass not find");
@@ -78,7 +78,7 @@ public class AfReflecter {
      */
     public static Field[] getField(Class<?> clazz, Class<?> stoptype) {
         List<Field> fields = new ArrayList<Field>();
-        while (!clazz.equals(stoptype)) {
+        while (clazz != null && !clazz.equals(stoptype)) {
             for (Field field : clazz.getDeclaredFields()) {
                 fields.add(field);
             }
@@ -109,7 +109,7 @@ public class AfReflecter {
     public static Field[] getFieldAnnotation(Class<?> type, Class<?> stoptype, Class<? extends Annotation> annot) {
         Class<?> clazz = type;
         List<Field> fields = new ArrayList<Field>();
-        while (!clazz.equals(stoptype)) {
+        while (clazz != null && !clazz.equals(stoptype)) {
             for (Field field : clazz.getDeclaredFields()) {
                 if (field.isAnnotationPresent(annot)) {
                     fields.add(field);
@@ -156,7 +156,7 @@ public class AfReflecter {
         for (List<Method> tmethods : lists) {
             methods.addAll(tmethods);
         }
-        return methods.toArray(new Method[0]);
+        return methods.toArray(new Method[methods.size()]);
     }
 
     /**
@@ -181,7 +181,7 @@ public class AfReflecter {
      * @return method or null
      */
     public static <T extends Annotation> T getMethodAnnotation(Class<?> type, Class<?> stoptype, String method, Class<T> annot) {
-        while (!type.equals(stoptype)) {
+        while (type != null && !type.equals(stoptype)) {
             for (Method dmethod : type.getDeclaredMethods()) {
                 if (dmethod.getName().equals(method)) {
                     if (dmethod.isAnnotationPresent(annot)) {
@@ -202,7 +202,7 @@ public class AfReflecter {
      * @return Annotation or null
      */
     public static <T extends Annotation> T getAnnotation(Class<?> type, Class<?> stoptype, Class<T> annot) {
-        while (!type.equals(stoptype)) {
+        while (type != null && !type.equals(stoptype)) {
             if (type.isAnnotationPresent(annot)) {
                 return type.getAnnotation(annot);
             }
@@ -219,7 +219,7 @@ public class AfReflecter {
      * @return method or null
      */
     public static Method getMethod(Class<?> type, String method) {
-        while (!type.equals(Object.class)) {
+        while (type != null && !type.equals(Object.class)) {
             for (Method dmethod : type.getDeclaredMethods()) {
                 if (dmethod.getName().equals(method)) {
                     return dmethod;
@@ -267,7 +267,7 @@ public class AfReflecter {
      * @return method or null
      */
     public static Method getMethod(Class<?> type, String method, Class<?>[] parameterTypes) {
-        while (!type.equals(Object.class)) {
+        while (type != null && !type.equals(Object.class)) {
             try {
                 return type.getDeclaredMethod(method, parameterTypes);
             } catch (NoSuchMethodException e) {
@@ -287,7 +287,7 @@ public class AfReflecter {
      * @return field or null
      */
     public static Field getField(Class<?> type, String field) {
-        while (!type.equals(Object.class)) {
+        while (type != null && !type.equals(Object.class)) {
             try {
                 return type.getDeclaredField(field);
             } catch (NoSuchFieldException e) {

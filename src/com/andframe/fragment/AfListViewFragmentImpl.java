@@ -1,6 +1,6 @@
 package com.andframe.fragment;
 
-import android.widget.ListView;
+import android.widget.AbsListView;
 
 import com.andframe.R;
 import com.andframe.activity.framework.AfPageable;
@@ -42,7 +42,7 @@ public abstract class AfListViewFragmentImpl<T> extends AfListViewFragment<T> {
 	}
 
 	@Override
-	protected ListView findListView(AfPageable pageable) {
+	protected AbsListView findListView(AfPageable pageable) {
 		return pageable.findViewByID(R.id.modulelistview_listview);
 	}
 

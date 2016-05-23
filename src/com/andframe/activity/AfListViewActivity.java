@@ -309,9 +309,7 @@ public abstract class AfListViewActivity<T> extends AfActivity implements OnRefr
      */
     @Override
     public void onItemClick(AdapterView<?> parent, View view, int index, long id) {
-        if (mListView instanceof AfListView) {
-            index = ((AfListView) mListView).getDataIndex(index);
-        }
+        index = ((AfRefreshAbsListView) mListView).getDataIndex(index);
         if (index >= 0) {
             T model = mAdapter.getItemAt(index);
             try {

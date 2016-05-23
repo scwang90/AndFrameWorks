@@ -57,7 +57,7 @@ public abstract class AfListManageActivityImpl<T> extends AfListManageActivity<T
 		mAfTitlebar = newModuleTitlebar(this);
 		mAfTitlebar.putMenu("选择", REQUEST_SELECT);
 		mAfTitlebar.setFunction(AfModuleTitlebar.FUNCTION_MENU);
-		mAfTitlebar.setMenuItemListener(this);
+		mAfTitlebar.setOnMenuItemListener(this);
 	}
 
 	protected AfModuleTitlebar newModuleTitlebar(AfPageable pageable) {

@@ -277,9 +277,7 @@ public abstract class AfListViewFragment<T> extends AfTabFragment implements
      */
     @Override
     public void onItemClick(AdapterView<?> parent, View view, int index, long id) {
-        if (mListView instanceof AfListView) {
-            index = ((AfListView) mListView).getDataIndex(index);
-        }
+        index = ((AfRefreshAbsListView) mListView).getDataIndex(index);
         if (index >= 0) {
             T model = mAdapter.getItemAt(index);
             try {

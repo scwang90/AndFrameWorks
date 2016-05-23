@@ -57,7 +57,7 @@ public abstract class AfListManageFragmentImpl<T> extends AfListManageFragment<T
 		mAfTitlebar = new AfModuleTitlebarImpl(this);
 		mAfTitlebar.putMenu("选择", REQUEST_SELECT);
 		mAfTitlebar.setFunction(AfModuleTitlebar.FUNCTION_MENU);
-		mAfTitlebar.setMenuItemListener(this);
+		mAfTitlebar.setOnMenuItemListener(this);
 	}
 
 	@Override
