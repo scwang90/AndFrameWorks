@@ -86,7 +86,7 @@ public class AfBundle implements AfExtrater {
         } else if (clazz.equals(char.class)) {
             return mBundle.getChar(_key, defaul == null ? 0 : (char) (defaul));
         } else if (clazz.equals(boolean.class)) {
-            return mBundle.getBoolean(_key, defaul != null && (boolean) (defaul));
+            return mBundle.getBoolean(_key, defaul instanceof Boolean && (boolean) (defaul));
         } else if (clazz.equals(Integer.class)) {
             return defaulOrNull(_key, mBundle.getInt(_key, defaul == null ? 0 : (int) (defaul)), defaul);
         } else if (clazz.equals(Short.class)) {
@@ -102,7 +102,7 @@ public class AfBundle implements AfExtrater {
         } else if (clazz.equals(Character.class)) {
             return defaulOrNull(_key, mBundle.getChar(_key, defaul == null ? 0 : (char) (defaul)), defaul);
         } else if (clazz.equals(Boolean.class)) {
-            return defaulOrNull(_key, getBoolean(_key, defaul != null && (boolean) (defaul)), defaul);
+            return defaulOrNull(_key, getBoolean(_key, defaul instanceof Boolean && (boolean) (defaul)), defaul);
         } else if (clazz.equals(String.class)) {
             return mBundle.getString(_key);
         } else if (clazz.equals(CharSequence.class)) {
@@ -209,7 +209,7 @@ public class AfBundle implements AfExtrater {
             if (value != null) {
                 return value;
             }
-            String name = mBundle.getString(_key + "[o]") + "";
+            String name = mBundle.getString(_key + "[o]");
             if (!clazz.getName().equals(name) && !clazz.isPrimitive()) {
                 Class<?> orgin = Class.forName(name);
                 if (clazz.isAssignableFrom(orgin) && !orgin.isAnonymousClass()) {

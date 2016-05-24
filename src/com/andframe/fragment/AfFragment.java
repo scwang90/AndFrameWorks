@@ -24,6 +24,7 @@ import android.widget.EditText;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import com.andframe.activity.framework.AfActivity;
 import com.andframe.activity.framework.AfPageable;
 import com.andframe.activity.framework.AfView;
 import com.andframe.annotation.interpreter.Injecter;
@@ -124,6 +125,19 @@ public abstract class AfFragment extends Fragment implements AfPageable {
     protected ProgressDialog mProgress = null;
     protected boolean mIsRecycled = false;
 
+    @Nullable
+    @Override
+    public View getView() {
+        return mRootView;
+    }
+
+    public AfActivity getAfActivity() {
+        if (super.getActivity() instanceof AfActivity) {
+            return ((AfActivity) super.getActivity());
+        }
+        return null;
+    }
+
     /**
      * 获取LOG日志 TAG 是 AfFragment 的方法
      * 用户也可以重写自定义TAG,这个值AfActivity在日志记录时候会使用
@@ -135,12 +149,6 @@ public abstract class AfFragment extends Fragment implements AfPageable {
 
     protected String TAG(String tag) {
         return "AfFragment(" + getClass().getName() + ")." + tag;
-    }
-
-    @Nullable
-    @Override
-    public View getView() {
-        return mRootView;
     }
 
     /**
@@ -250,7 +258,7 @@ public abstract class AfFragment extends Fragment implements AfPageable {
     /**
      * (non-Javadoc)
      *
-     * @see android.support.v4.app.FragmentActivity#onActivityResult(int, int, Intent)
+     * @see android.support.v4.app.FragmentActivity#onActivityResult(int, int, android.content.Intent)
      * final 重写 onActivityResult 使用 try-catch 调用
      * onActivityResult(AfIntent intent, int requestcode,int resultcode)
      * @see AfFragment#onActivityResult(AfIntent intent, int requestcode, int resultcode)
@@ -273,8 +281,8 @@ public abstract class AfFragment extends Fragment implements AfPageable {
      * 在onActivityResult(int requestcode, int resultCode, Intent data) 中调用
      * 并使用 try-catch 提高安全性，子类请重写这个方法
      *
-     * @see AfFragment#onActivityResult(int, int, Intent)
-     * {@link AfFragment#onActivityResult(int, int, Intent)}
+     * @see AfFragment#onActivityResult(int, int, android.content.Intent)
+     * {@link AfFragment#onActivityResult(int, int, android.content.Intent)}
      */
     protected void onActivityResult(AfIntent intent, int requestcode, int resultcode) {
         super.onActivityResult(requestcode, resultcode, intent);
@@ -326,7 +334,7 @@ public abstract class AfFragment extends Fragment implements AfPageable {
         }
         try {
             ViewBinder.doBind(this);
-            Injecter.doInject(this, getActivity());
+            Injecter.doInject(this,getActivity());
             AfSoftInputer inputer = new AfSoftInputer(getActivity());
             inputer.setBindListener(mRootView, this);
             onCreated(new AfView(mRootView), new AfBundle(getArguments()));
@@ -871,6 +879,16 @@ public abstract class AfFragment extends Fragment implements AfPageable {
      */
     public AlertDialog doInputText(String title, int type, InputTextListener listener) {
         return doInputText(title, "", type, listener);
+    }
+    /**
+     * 弹出一个文本输入框
+     *
+     * @param title    标题
+     * @param defaul   默认值
+     * @param listener 监听器
+     */
+    public AlertDialog doInputText(String title, String defaul, InputTextListener listener) {
+        return new AfDailog(getActivity()).doInputText(title, defaul, InputType.TYPE_CLASS_TEXT, listener);
     }
 
     /**
