@@ -89,6 +89,16 @@ public abstract class AfListAdapter<T> extends BaseAdapter {
 		}
 	}
 
+	/**
+	 * 适配器新增 数据插入 接口
+	 */
+	public void insert(int index, List<T> lsit) {
+		if (mltArray.size() >= index) {
+			mltArray.addAll(index, lsit);
+			notifyDataSetChanged();
+		}
+	}
+
 	@Override
 	public int getCount() {
 		return mltArray.size();
