@@ -4,7 +4,6 @@ import android.content.Context;
 
 import com.andframe.annotation.db.interpreter.Interpreter;
 import com.andframe.application.AfExceptionHandler;
-import com.andframe.util.java.AfReflecter;
 
 import java.lang.reflect.Field;
 import java.util.ArrayList;
@@ -105,7 +104,6 @@ public class AfEntityDao<T> extends AfDao<T>{
 	/**
 	 * 条件查询 带分页
 	 *
-	 * @param column
 	 * @param where
 	 * @param num
 	 * @param offset
@@ -132,15 +130,19 @@ public class AfEntityDao<T> extends AfDao<T>{
 			for (Model model : models) {
 				ltEntity.add(getEntity(model));
 			}
-		} catch (Throwable ex) {
-			AfExceptionHandler.handler(ex, "AfEntityDao.getEntitys.getEntity-Exception");
+		} catch (Throwable e) {
+			AfExceptionHandler.handler(e, "AfEntityDao.getEntitys");
 		}
 		return ltEntity;
 	}
 
-	protected T getEntity(List<Model> models) throws Exception {
-		for (Model model : models) {
-			return getEntity(model);
+	protected T getEntity(List<Model> models) {
+		try {
+			for (Model model : models) {
+				return getEntity(model);
+			}
+		} catch (Exception e) {
+			AfExceptionHandler.handler(e, "AfEntityDao.getEntity");
 		}
 		return null;
 	}
