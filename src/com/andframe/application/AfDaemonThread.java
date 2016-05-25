@@ -31,7 +31,7 @@ public class AfDaemonThread {
 	public static <T extends AfTask> T postTask(T task) {
 		return postTaskDelayed(task, 0);
 	}
-	
+
 	/**
 	 * 定时往后台抛送一个 Task 任务
 	 * 不会会在UI线程中dispatch，用于UI线程死亡的时候
@@ -64,7 +64,7 @@ public class AfDaemonThread {
 		}
 		return task;
 	}
-	
+
 	/**
 	 * 定时往后台抛送一个 Task 任务
 	 * 不会会在UI线程中dispatch，用于UI线程死亡的时候
@@ -77,7 +77,7 @@ public class AfDaemonThread {
 		synchronized (mltWorker) {
 			if (mltWorker.size() < MAXTHREADNUM) {
 				if (!task.isCanceled() && task.prepare()) {
-					ThreadWorker tWorker = new ThreadWorker(AfDateGuid.NewID(), task, delay);
+					ThreadWorker tWorker = new ThreadWorker(AfDateGuid.NewID() + "-" + task.getClass().getSimpleName(), task, delay);
 					mltWorker.add(tWorker);
 					tWorker.start();
 				}
@@ -101,7 +101,7 @@ public class AfDaemonThread {
 			}
 		}
 	}
-	
+
 	private static class ThreadWorker extends Thread {
 		private long mDelay = 0;
 		private Runnable mTask = null;
