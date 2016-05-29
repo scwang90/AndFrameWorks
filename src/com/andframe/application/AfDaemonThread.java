@@ -2,9 +2,13 @@ package com.andframe.application;
 
 import android.os.Looper;
 
+import com.andframe.thread.AfData2Task;
+import com.andframe.thread.AfData3Task;
+import com.andframe.thread.AfDataTask;
 import com.andframe.thread.AfDispatch;
 import com.andframe.thread.AfTask;
 import com.andframe.util.java.AfDateGuid;
+import com.andframe.util.java.AfReflecter;
 
 import java.util.ArrayList;
 import java.util.LinkedList;
@@ -77,7 +81,17 @@ public class AfDaemonThread {
 		synchronized (mltWorker) {
 			if (mltWorker.size() < MAXTHREADNUM) {
 				if (!task.isCanceled() && task.prepare()) {
-					ThreadWorker tWorker = new ThreadWorker(AfDateGuid.NewID() + "-" + task.getClass().getSimpleName(), task, delay);
+					String name = AfDateGuid.NewID();
+					if (AfApplication.getApp().isDebug()) {
+						name = task.getClass().getSimpleName();
+						if (task instanceof AfDataTask || task instanceof AfData2Task || task instanceof AfData3Task) {
+							Object listener = AfReflecter.getMemberNoException(task, "listener");
+							if (listener != null) {
+								name = listener.getClass().getSimpleName();
+							}
+						}
+					}
+					ThreadWorker tWorker = new ThreadWorker("AfDaemonThread-" + name, task, delay);
 					mltWorker.add(tWorker);
 					tWorker.start();
 				}

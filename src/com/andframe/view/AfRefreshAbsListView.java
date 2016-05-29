@@ -88,6 +88,7 @@ public abstract class AfRefreshAbsListView<T extends AbsListView> extends AfPull
 	protected final boolean isReadyForPullDown() {
 		// targetview.getOverScrollMode();
 		return mIsOpenRefresh
+				&& mTargetView.getFirstVisiblePosition() == 0
 				&& 5 >= Math.abs(getFirstPositionDistanceGuess(mTargetView)
 						- mTargetView.getTop());
 	}
