@@ -40,7 +40,6 @@ public class AfEntityDao<T> extends AfDao<T>{
 
 	/**
 	 * 获取全部
-	 * @return
 	 */
 	public List<T> getAll(){
 		return getEntitys(super.getModelsAll("*"));
@@ -48,9 +47,6 @@ public class AfEntityDao<T> extends AfDao<T>{
 
 	/**
 	 * 获取全部
-	 *
-	 * @param order
-	 * @return
 	 */
 	public List<T> getAll(String order) {
 		return getEntitys(super.getModelsAll("*",order));
@@ -58,9 +54,6 @@ public class AfEntityDao<T> extends AfDao<T>{
 
 	/**
 	 * 分页查询
-	 * @param num
-	 * @param offset
-	 * @return
 	 */
 	public List<T> getLimit(int num, int offset) {
 		return getEntitys(super.getModelsLimit("*", num, offset));
@@ -68,10 +61,6 @@ public class AfEntityDao<T> extends AfDao<T>{
 
 	/**
 	 * 分页查询 带排序
-	 * @param order
-	 * @param num
-	 * @param offset
-	 * @return
 	 */
 	public List<T> getLimit(String order, int num,int offset) {
 		return getEntitys(super.getModelsLimit("*",order, num, offset));
@@ -79,12 +68,6 @@ public class AfEntityDao<T> extends AfDao<T>{
 
 	/**
 	 * 分页查询 带排序 条件
-	 *
-	 * @param where
-	 * @param order
-	 * @param num
-	 * @param offset
-	 * @return
 	 */
 	public List<T> getLimit(String where, String order,
 							int num, int offset) {
@@ -93,21 +76,12 @@ public class AfEntityDao<T> extends AfDao<T>{
 
 	/**
 	 * 分页查询 带排序 条件
-	 *
-	 * @param where
-	 * @param order
-	 * @return
 	 */
 	public List<T> getWhere(String where, String order) {
-		return getEntitys(super.getModelsWhere("*",where,order));
+		return getEntitys(super.getModelsWhere("*", where, order));
 	}
 	/**
 	 * 条件查询 带分页
-	 *
-	 * @param where
-	 * @param num
-	 * @param offset
-	 * @return
 	 */
 	public List<T> getWhere(String where, int num,int offset) {
 		return getEntitys(super.getModelsWhere("*",where,num,offset));
@@ -115,12 +89,16 @@ public class AfEntityDao<T> extends AfDao<T>{
 
 	/**
 	 * 条件查询
-	 *
-	 * @param where
-	 * @return
 	 */
 	public final List<T> getWhere(String where) {
 		return getEntitys(super.getModelsWhere("*",where));
+	}
+
+	/**
+	 * 条件查询
+	 */
+	public final T getOneWhere(String where) {
+		return getEntity(super.getModelsWhere("*", where, 1, 0));
 	}
 
 
