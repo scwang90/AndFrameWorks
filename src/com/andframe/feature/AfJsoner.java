@@ -159,6 +159,9 @@ public class AfJsoner {
 
     private static <T> T allocateInstance(Class<T> clazz) {
         try {
+            if (clazz.equals(Class.class)) {
+                return null;
+            }
             return clazz.newInstance();
         } catch (Throwable e) {
         }
