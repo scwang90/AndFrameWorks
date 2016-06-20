@@ -32,6 +32,7 @@ import com.andframe.util.java.AfVersion;
 
 import java.io.ByteArrayInputStream;
 import java.io.File;
+import java.io.IOException;
 import java.security.cert.CertificateFactory;
 import java.security.cert.X509Certificate;
 import java.util.ArrayList;
@@ -44,9 +45,9 @@ import java.util.Random;
 /**
  * AfApplication 抽象类 （继承使用必须继承并使用，其他框架功能依赖于 AfApplication）
  * @author 树朾 负责 全局数据的存储 和 事件通知
- * 
+ *
  *        必须实现 指定工程中 的主页面 的类 getForegroundClass
- * 
+ *
  *        提供静态全局接口 public static getApp() 获取全局App public static getAppContext()
  *        获取App public static getLooper() 获取全局消息循环对象（用于构造UI Handler） public
  *        static postTask(AfTask task) 抛送全局任务（AfTask） public static
@@ -55,11 +56,11 @@ import java.util.Random;
  *        getDebugMode() 获取当前调试模式 public static setDebugMode(int mode) 设置调试模式
  *        public static getVersion() 获取当前App版本 public static getVersionCode()
  *        获取当前App版本Code
- * 
+ *
  *        非静态接口 public exitForeground(Object power) 退出前台 public
  *        startForeground(Activity activity) 启动前台 public getCachesPath(String
  *        type) 获取并创建缓存路径 public getWorkspacePath(String type) 获取并创建工作路径
- * 
+ *
  *        继承之后根据需要的功能 重写 相应的函数 public getExceptionHandler() //全局异常处理 public
  *        getAppSetting() //全局设置 public getImageService() //图片服务 public
  *        getFileService() //文件服务 public getUpdateService() //更新服务 public
@@ -72,22 +73,6 @@ import java.util.Random;
 public abstract class AfApplication extends Application {
 
 	/**
-	 * interface INotifyNeedUpdate
-	 * @author 树朾 需要更新通知接口
-	 */
-	public interface INotifyNeedUpdate {
-
-		void onNotifyNeedUpdate(String curver, String server);
-	}
-	/**
-	 * interface INotifyUpdate
-	 * @author 树朾 需要更新通知接口
-	 */
-	public interface INotifyUpdate {
-
-		void onNotifyUpdate(String curver, String server, String describe);
-	}
-	/**
 	 * interface INotifyNetworkStatus
 	 * @author 树朾 网络状态改变通知接口
 	 */
@@ -97,17 +82,11 @@ public abstract class AfApplication extends Application {
 	}
 	public static final int DEBUG_NONE = 0;
 
-	public static final int DEBUG_TESTDATA = 1;
-	public static final int DEBUG_TEST = 2;
 	public static final String STATE_RUNNING = "APP_CACHE_RUNNING";
 	protected static final String STATE_TIME = "STATE_TIME";
 
 	protected static final String STATE_NETWORKSTATUS = "STATE_NETWORKSTATUS";
-	protected static final String STATE_FIXEDPOSITION = "STATE_FIXEDPOSITION";
-	protected static final String STATE_DEBUGMODE = "STATE_DEBUGMODE";
 	protected static final String STATE_VERSION = "STATE_VERSION";
-	protected static final String STATE_SERVERVERSION = "STATE_SERVERVERSION";
-	protected static final String STATE_ISINITIALIZED = "STATE_ISINITIALIZED";
 	protected static final String STATE_ISFORERUNNING = "STATE_ISFORERUNNING";
 	public static AfApplication mApp = null;
 
@@ -118,10 +97,6 @@ public abstract class AfApplication extends Application {
 	public static synchronized Context getAppContext() {
 		return mApp.getApplicationContext();
 	}
-
-//	public static synchronized Looper getLooper() {
-//		return mApp.mLooper;
-//	}
 
 	public static synchronized AfTask postTask(AfTask task) {
 		if (mApp.mWorker != null) {
@@ -149,20 +124,10 @@ public abstract class AfApplication extends Application {
 
 	public static synchronized int getNetworkStatus() {
 		return AfNetwork.getNetworkState(mApp);
-		// return mApp.mNetworkStatus;
-	}
-
-	public static synchronized int getDebugMode() {
-		return mApp.mDebugMode;
-	}
-
-	public static synchronized void setDebugMode(int mode) {
-		mApp.mDebugMode = mode;
 	}
 
 	/**
 	 * 获取内部版本
-	 * @return
 	 */
 	public static synchronized String getVersion() {
 		return mApp.mVersion;
@@ -170,7 +135,6 @@ public abstract class AfApplication extends Application {
 
 	/**
 	 * 获取内部版本代码
-	 * @return
 	 */
 	public static synchronized int getVersionCode() {
 		return AfVersion.transformVersion(mApp.mVersion);
@@ -178,12 +142,8 @@ public abstract class AfApplication extends Application {
 
 	/**
 	 * 获取 activity 主页面 类
-	 * @return
 	 */
 	public abstract Class<? extends AfActivity> getForegroundClass();
-
-	// Debug Mode
-	protected int mDebugMode = DEBUG_NONE;
 
 	// 当前网络连接类型 默认为 未连接
 	protected int mNetworkStatus = AfNetwork.TYPE_NONE;
@@ -195,21 +155,13 @@ public abstract class AfApplication extends Application {
 	protected AfActivity mMainActivity = null;
 	// 当前版本
 	protected String mVersion = "0.0.0.0";
-	// 最新版本
-	protected String mServerVersion = "0.0.0.0";
-	// 最新版本描述
-	protected String mUpdateDescribe = "";
 	//随机数生成器
 	protected Random mRandom = new Random();
-	// 主程序的线程Worker
-//	protected Looper mLooper = null;
 
 	protected AfThreadWorker mWorker = null;
 
 	protected boolean mIsExiting = false;
 
-	//	protected boolean mIsGoingHome = false;
-//	protected boolean mIsInitialized = false;
 	// 标记前台是否在运行
 	protected boolean mIsForegroundRunning = false;
 	// 保存数据
@@ -219,16 +171,10 @@ public abstract class AfApplication extends Application {
 	private ApplicationInfo mApplicationInfo;
 
 	//全局单例模式MAP
-	protected Map<String,Object> mSingletonMap = new LinkedHashMap<String,Object>(); 
+	protected Map<String,Object> mSingletonMap = new LinkedHashMap<String,Object>();
 
 	public AfApplication() {
 		mApp = this;
-//		mLooper = Looper.myLooper();
-//		AfFileService.setServer("/FileService", "/FileServlet");
-//		AfSoapService.setServer("http://tempuri.org/", "MobileService.svc",
-//				"IMobileService/");
-//		AfSoapServiceOld.setServer("http://tempuri.org/", "MobileService.svc",
-//				"IMobileService/");
 	}
 
 	/**
@@ -246,7 +192,7 @@ public abstract class AfApplication extends Application {
 		super.onCreate();
 		try {
 			AfExceptionHandler.register();
-			
+
 			mRunningState = new AfSharedPreference(this, STATE_RUNNING);
 			// 初始化设备信息
 			AfDeviceInfo.initialize(getAppContext());
@@ -260,11 +206,11 @@ public abstract class AfApplication extends Application {
 			AfImageService.initialize(getAppContext());
 			// 初始化 更新服务
 //			AfUpdateService.initialize(getAppContext());
+			AfUpdateService.getInstance();
 			// App 启动的时候 检查网络相关设置
 			mNetworkStatus = AfNetwork.getNetworkState(this);
 			// 设置服务器
 			AfAppSettings set = AfAppSettings.getInstance();
-			mDebugMode = set.getDebugMode();
 			// 初始化通知中心
 			AfNotifyCenter.initailize(getAppContext());
 			// 初始化版本号
@@ -276,11 +222,11 @@ public abstract class AfApplication extends Application {
 			AfExceptionHandler.handler(e, "AfApplication.onCreate");
 		}
 	}
-	
+
 	public boolean isDebug() {
 		return BuildConfig.DEBUG;
 	}
-	
+
 	private void getPackageVersion() throws Exception {
 		int get = PackageManager.GET_CONFIGURATIONS;
 		String tPackageName = getPackageName();
@@ -407,41 +353,6 @@ public abstract class AfApplication extends Application {
 		}
 		return defvalue;
 	}
-
-	/**
-	 * 获取服务器最新版本
-	 * @return verson
-	 */
-	public String getServerVersion() {
-		return mServerVersion;
-	}
-
-	/**
-	 * 获取服务器最新版本更新描述
-	 * @return describe
-	 */
-	public String getUpdateDescribe() {
-		return mUpdateDescribe;
-	}
-
-	/**
-	 * 获取App是否 需要更新
-	 * @return need
-	 */
-	public boolean isNeedUpdate() {
-		int curver = AfVersion.transformVersion(mVersion);
-		int server = AfVersion.transformVersion(mServerVersion);
-		return curver < server;
-	}
-
-//	/**
-//	 * 获取App是否 执行过 initialize
-//	 * @deprecated 已经弃用
-//	 * @return inited
-//	 */
-//	public synchronized boolean isInitialize() {
-//		return mIsInitialized;
-//	}
 
 	/**
 	 * 获取全局单例实例
@@ -578,73 +489,6 @@ public abstract class AfApplication extends Application {
 		}
 	}
 
-	/**
-	 * 设置 服务器 App 版本
-	 * @param power
-	 *            传入this指针 用于验证权限
-	 * @param version
-	 *            服务器版本
-	 */
-	public synchronized void setServerVersion(Object power, String version) {
-		mServerVersion = version;
-		if (isNeedUpdate()) {
-			notifyNeedUpdate(mCurActivity, mVersion, mServerVersion);
-			notifyNeedUpdate(mCurFragment, mVersion, mServerVersion);
-		}
-	}
-
-	/**
-	 * 设置 服务器 App 版本 更新描述
-	 * @param power
-	 *            传入this指针 用于验证权限
-	 * @param describe
-	 *            服务器版本
-	 */
-	public synchronized void setServerVersion(Object power, String version,
-			String describe) {
-		mServerVersion = version;
-		mUpdateDescribe = describe;
-		if (isNeedUpdate()) {
-			notifyUpdate(mCurActivity, mVersion, mServerVersion, describe);
-			notifyUpdate(mCurFragment, mVersion, mServerVersion, describe);
-		}
-	}
-
-	/**
-	 * 向 power 发送 需要更新通知
-	 * @param power
-	 *            通知的对象 必须实现 INotifyNeedUpdate 接口
-	 */
-	private void notifyUpdate(Object power, String curver, String server,
-			String describe) {
-		if (power instanceof INotifyUpdate) {
-			try {
-				INotifyUpdate tINotify = (INotifyUpdate) power;
-				tINotify.onNotifyUpdate(curver, server, describe);
-			} catch (Throwable e) {
-				e.printStackTrace();// handled
-				AfExceptionHandler.handler(e, "AfApplication.notifyUpdate");
-			}
-		}
-	}
-
-	/**
-	 * 向 power 发送 需要更新通知
-	 * @param power
-	 *            通知的对象 必须实现 INotifyNeedUpdate 接口
-	 *            当前网络状态
-	 */
-	private void notifyNeedUpdate(Object power, String curver, String server) {
-		if (power instanceof INotifyNeedUpdate) {
-			try {
-				INotifyNeedUpdate tINotify = (INotifyNeedUpdate) power;
-				tINotify.onNotifyNeedUpdate(curver, server);
-			} catch (Throwable e) {
-				e.printStackTrace();// handled
-				AfExceptionHandler.handler(e, "AfApplication.notifyNeedUpdate");
-			}
-		}
-	}
 
 	/**
 	 * 向 power 发送 网络状态改变通知
@@ -669,7 +513,7 @@ public abstract class AfApplication extends Application {
 	 * 通知APP 启动天台页面
 	 */
 	public synchronized void startForeground() {
-		if (mIsForegroundRunning == false) {
+		if (!mIsForegroundRunning) {
 			mIsForegroundRunning = true;
 			mMainActivity = null;
 			Intent intent = new Intent(this, getForegroundClass());
@@ -680,24 +524,20 @@ public abstract class AfApplication extends Application {
 
 	/**
 	 * 退出前台
-	 * @param power
 	 */
 	public synchronized void exitForeground(Object power) {
 		/** (2014-7-30 注释 只有当notifyForegroundClosed时才设为false) **/
 		// mIsForegroundRunning = false;
 		if (mCurActivity != null) {
-			if (mCurActivity instanceof AfActivity) {
-				mCurActivity.finish();
-			} else {
+			mCurActivity.finish();
+			if (mMainActivity != mCurActivity) {
 				mIsExiting = true;
-				mCurActivity.finish();
 			}
 		}
 	}
 
 	/**
 	 * 获取 前台页面是否在运行
-	 * @return isforeground
 	 */
 	public synchronized boolean isForegroundRunning() {
 		return mIsForegroundRunning;
@@ -714,8 +554,6 @@ public abstract class AfApplication extends Application {
 			mCurActivity = null;
 			mMainActivity = null;
 			mCurFragment = null;
-			mServerVersion = "0.0.0.0";
-			mUpdateDescribe = "";
 			mIsForegroundRunning = false;
 		}
 	}
@@ -835,11 +673,8 @@ public abstract class AfApplication extends Application {
 	 * @param state
 	 */
 	protected void onRestoreInstanceState(AfSharedPreference state) {
-		mDebugMode = state.getInt(STATE_DEBUGMODE, mDebugMode);
 		mNetworkStatus = state.getInt(STATE_NETWORKSTATUS, mNetworkStatus);
 		mVersion = state.getString(STATE_VERSION, mVersion);
-		mServerVersion = state.getString(STATE_SERVERVERSION, mServerVersion);
-//		mIsInitialized = state.getBoolean(STATE_ISINITIALIZED, mIsInitialized);
 		mIsForegroundRunning = state.getBoolean(STATE_ISFORERUNNING,
 				mIsForegroundRunning);
 	}
@@ -870,10 +705,7 @@ public abstract class AfApplication extends Application {
 	protected void onSaveInstanceState(AfSharedPreference state) {
 		Editor editor = mRunningState.getSharePrefereEditor();
 		editor.putInt(STATE_NETWORKSTATUS, mNetworkStatus);
-		editor.putInt(STATE_DEBUGMODE, mDebugMode);
 		editor.putString(STATE_VERSION, mVersion);
-		editor.putString(STATE_SERVERVERSION, mServerVersion);
-//		editor.putBoolean(STATE_ISINITIALIZED, mIsInitialized);
 		editor.putBoolean(STATE_ISFORERUNNING, mIsForegroundRunning);
 		editor.commit();
 	}
