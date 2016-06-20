@@ -15,7 +15,7 @@ public class AfTreeEstablisher<T>{
 		mEstablishable = establishable;
 	}
 	
-	AfTreeNode<T> establish(Collection<T> collect,boolean isExpanded){
+	public AfTreeNode<T> establish(Collection<? extends T> collect,boolean isExpanded){
 		if(mNodeable != null){
 			return establish(collect,mNodeable,isExpanded);
 		}else if (mEstablishable != null) {
@@ -24,11 +24,11 @@ public class AfTreeEstablisher<T>{
 		throw new NullPointerException("AfTreeable = null");
 	}
 
-	AfTreeNode<T> establish(Collection<T> collect,AfTreeNodeable<T> able,boolean isExpanded) {
+	public AfTreeNode<T> establish(Collection<? extends T> collect,AfTreeNodeable<T> able,boolean isExpanded) {
 		return new AfTreeNode<T>(collect, able,isExpanded);
 	}
 
-	AfTreeNode<T> establish(Collection<T> collect,AfTreeEstablishable<T> able,boolean isExpanded) {
+	public AfTreeNode<T> establish(Collection<? extends T> collect,AfTreeEstablishable<T> able,boolean isExpanded) {
 		return new AfTreeNode<T>(collect, able,isExpanded);
 	}
 

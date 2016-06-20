@@ -10,7 +10,7 @@ public class AfTreeNode<T> {
 	public int level = 0;// 该节点的值
 	public boolean isExpanded = false;// 该节点是否展开
 	public List<AfTreeNode<T>> children = null;
-	
+
 	protected AfTreeNode(T model) {
 		this.value = model;
 	}
@@ -21,10 +21,10 @@ public class AfTreeNode<T> {
 		this.isExpanded = isExpanded;
 	}
 	
-	public AfTreeNode(Collection<T> collect,AfTreeEstablishable<T> able,boolean isExpanded){
+	public AfTreeNode(Collection<? extends T> collect,AfTreeEstablishable<T> able,boolean isExpanded){
 		this.level = -1;
 		this.isExpanded = true;
-		this.children = new ArrayList<AfTreeNode<T>>();
+		this.children = new ArrayList<>();
 		List<T> list = new ArrayList<T>(collect);
 		for (T model : collect) {
 			if(able.isTopNode(model)){
@@ -37,10 +37,10 @@ public class AfTreeNode<T> {
 		}
 	}
 	
-	public AfTreeNode(Collection<T> collect, AfTreeNodeable<T> able,boolean isExpanded) {
+	public AfTreeNode(Collection<? extends T> collect, AfTreeNodeable<T> able,boolean isExpanded) {
 		this.level = -1;
 		this.isExpanded = true;
-		this.children = new ArrayList<AfTreeNode<T>>();
+		this.children = new ArrayList<>();
 		for (T model : collect) {
 			children.add(new AfTreeNode<T>(this,model,able,isExpanded));
 		}
@@ -50,19 +50,19 @@ public class AfTreeNode<T> {
 		this(parent,model,isExpanded);
 		Collection<T> children = able.getChildren(model);
 		if(children != null){
-			this.children = new ArrayList<AfTreeNode<T>>();
+			this.children = new ArrayList<>();
 			for (T child : children) {
-				this.children.add(new AfTreeNode<T>(this,child,able,isExpanded));
+				this.children.add(new AfTreeNode<>(this,child,able,isExpanded));
 			}
 		}
 	}
 
-	protected void bulidChildNode(List<T> list, AfTreeEstablishable<T> able,boolean isExpanded) {
-		children = new ArrayList<AfTreeNode<T>>();
-		List<T> tlist = new ArrayList<T>(list);
+	protected void bulidChildNode(List<? extends T> list, AfTreeEstablishable<T> able,boolean isExpanded) {
+		children = new ArrayList<>();
+		List<T> tlist = new ArrayList<>(list);
 		for (T model : tlist) {
 			if(able.isChildOf(model,value)){
-				children.add(new AfTreeNode<T>(this,model,isExpanded));
+				children.add(new AfTreeNode<>(this,model,isExpanded));
 				list.remove(model);
 			}
 		}

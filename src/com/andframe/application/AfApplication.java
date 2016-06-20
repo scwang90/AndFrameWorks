@@ -209,7 +209,7 @@ public abstract class AfApplication extends Application {
 	protected boolean mIsExiting = false;
 
 	//	protected boolean mIsGoingHome = false;
-	protected boolean mIsInitialized = false;
+//	protected boolean mIsInitialized = false;
 	// 标记前台是否在运行
 	protected boolean mIsForegroundRunning = false;
 	// 保存数据
@@ -312,8 +312,10 @@ public abstract class AfApplication extends Application {
 	 */
 	public synchronized String getPrivatePath(String type) {
 		File file = new File(getCacheDir(), type);
-		if (!file.exists()) {
-			file.mkdir();
+		if (!file.exists() && !file.mkdirs()) {
+			if (isDebug()) {
+				new IOException("获取私有路径失败").printStackTrace();
+			}
 		}
 		return file.getPath();
 	}
@@ -328,8 +330,8 @@ public abstract class AfApplication extends Application {
 				Environment.MEDIA_MOUNTED)) {
 			String sdcard = Environment.getExternalStorageDirectory().getPath();
 			workspace = new File(sdcard + "/" + getAppName() + "/" + type);
-			if (!workspace.exists()) {
-				workspace.mkdir();
+			if (!workspace.exists() && !workspace.mkdirs()) {
+				return getPrivatePath(type);
 			}
 		} else {
 			return getPrivatePath(type);
@@ -344,8 +346,10 @@ public abstract class AfApplication extends Application {
 	public synchronized String getCachesPath(String type) {
 		File caches = new File(getWorkspacePath("caches"));
 		caches = new File(caches, type);
-		if (!caches.exists()) {
-			caches.mkdir();
+		if (!caches.exists() && !caches.mkdirs()) {
+			if (isDebug()) {
+				new IOException("获取缓存路径失败").printStackTrace();
+			}
 		}
 		return caches.getPath();
 	}
@@ -430,14 +434,14 @@ public abstract class AfApplication extends Application {
 		return curver < server;
 	}
 
-	/**
-	 * 获取App是否 执行过 initialize
-	 * @deprecated 已经弃用
-	 * @return inited
-	 */
-	public synchronized boolean isInitialize() {
-		return mIsInitialized;
-	}
+//	/**
+//	 * 获取App是否 执行过 initialize
+//	 * @deprecated 已经弃用
+//	 * @return inited
+//	 */
+//	public synchronized boolean isInitialize() {
+//		return mIsInitialized;
+//	}
 
 	/**
 	 * 获取全局单例实例
@@ -758,7 +762,7 @@ public abstract class AfApplication extends Application {
 	 * @return APP图标ID
 	 */
 	public int getLogoId() {
-		return android.R.drawable.zoom_plate;
+		return android.R.drawable.ic_secure;
 	}
 
 	/**
@@ -789,7 +793,6 @@ public abstract class AfApplication extends Application {
 
 	/**
 	 * 处理触发事件
-	 * @param eventId
 	 */
 	public void onEvent(String eventId) {
 		this.onEvent(eventId,new Object(),"");
@@ -797,8 +800,6 @@ public abstract class AfApplication extends Application {
 
 	/**
 	 * 处理触发事件
-	 * @param eventId
-	 * @param tag
 	 */
 	public void onEvent(String eventId, String tag) {
 		this.onEvent(eventId,new Object(),tag);
@@ -806,8 +807,6 @@ public abstract class AfApplication extends Application {
 
 	/**
 	 * 处理触发事件
-	 * @param eventId
-	 * @param tag
 	 */
 	public void onEvent(String eventId,Object tag, String remark) {
 
@@ -840,7 +839,7 @@ public abstract class AfApplication extends Application {
 		mNetworkStatus = state.getInt(STATE_NETWORKSTATUS, mNetworkStatus);
 		mVersion = state.getString(STATE_VERSION, mVersion);
 		mServerVersion = state.getString(STATE_SERVERVERSION, mServerVersion);
-		mIsInitialized = state.getBoolean(STATE_ISINITIALIZED, mIsInitialized);
+//		mIsInitialized = state.getBoolean(STATE_ISINITIALIZED, mIsInitialized);
 		mIsForegroundRunning = state.getBoolean(STATE_ISFORERUNNING,
 				mIsForegroundRunning);
 	}
@@ -874,16 +873,13 @@ public abstract class AfApplication extends Application {
 		editor.putInt(STATE_DEBUGMODE, mDebugMode);
 		editor.putString(STATE_VERSION, mVersion);
 		editor.putString(STATE_SERVERVERSION, mServerVersion);
-		editor.putBoolean(STATE_ISINITIALIZED, mIsInitialized);
+//		editor.putBoolean(STATE_ISINITIALIZED, mIsInitialized);
 		editor.putBoolean(STATE_ISFORERUNNING, mIsForegroundRunning);
 		editor.commit();
 	}
 
 	/**
 	 * 获取签值信息
-	 * @author allen
-	 * @version 2013-8-27 下午4:15:04
-	 * @return X509Certificate
 	 */
 	public X509Certificate getSignInfo() {
 		try {
@@ -939,10 +935,6 @@ public abstract class AfApplication extends Application {
 
 	/**
 	 * 用于转换接口通知
-	 * @param object
-	 * @param clazz
-	 * @param <T>
-	 * @return
 	 */
 	protected  <T> T transform(Object object, Class<T> clazz) {
 		if (clazz.isInstance(object)){
@@ -953,10 +945,6 @@ public abstract class AfApplication extends Application {
 
 	/**
 	 * 用于转换接口通知
-	 * @param objects
-	 * @param clazz
-	 * @param <T>
-	 * @return
 	 */
 	protected <T> List<T> transforms(Object[] objects, Class<T> clazz) {
 		List<T> list = new ArrayList<T>();
@@ -970,9 +958,6 @@ public abstract class AfApplication extends Application {
 
 	/**
 	 * 用于转换接口通知
-	 * @param clazz
-	 * @param <T>
-	 * @return
 	 */
 	protected <T> List<T> transformNotifys(Class<T> clazz){
 		List<Object> list = new ArrayList<Object>();
