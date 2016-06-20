@@ -1,11 +1,5 @@
 package com.andframe.view.tableview;
 
-import java.lang.reflect.Field;
-import java.text.DecimalFormat;
-import java.util.Date;
-import java.util.List;
-import java.util.Locale;
-
 import android.content.Context;
 import android.content.res.Resources.NotFoundException;
 import android.util.AttributeSet;
@@ -18,6 +12,12 @@ import android.widget.LinearLayout;
 import android.widget.TextView;
 
 import com.andframe.util.java.AfDateFormat;
+
+import java.lang.reflect.Field;
+import java.text.DecimalFormat;
+import java.util.Date;
+import java.util.List;
+import java.util.Locale;
 
 public class AfTableRow extends LinearLayout implements OnClickListener {
 

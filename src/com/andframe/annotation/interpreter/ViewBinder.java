@@ -193,7 +193,6 @@ public class ViewBinder {
                         }
                         list.add(view);
                     }
-                    
                 }
                 if (list.size() > 0) {
                     field.setAccessible(true);

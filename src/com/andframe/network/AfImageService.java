@@ -28,9 +28,9 @@ public class AfImageService {
 
 	public interface LoadImageListener{
 		/**图片成功加载完成**/
-		boolean onImageLoaded(ImageView view, Drawable drawable);
+		boolean onImageLoaded(ImageView view,Drawable drawable);
 		/**图片加载失败**/
-		boolean onImageFailed(ImageView view, String error, Throwable ex);
+		boolean onImageFailed(ImageView view,String error,Throwable ex);
 	}
 
 	public static final int EFFECT_NONE = 0x00;
@@ -468,7 +468,7 @@ public class AfImageService {
 	}
 
 
-	protected class ImageTask extends AfHandlerTask {
+	protected class ImageTask extends AfHandlerTask{
 
 		public int mDefaultId = 0;
 		public int mEffect = EFFECT_NONE;

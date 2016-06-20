@@ -40,6 +40,7 @@ import android.net.wifi.p2p.WifiP2pManager;
 import android.nfc.NfcManager;
 import android.os.BatteryManager;
 import android.os.Build;
+import android.os.Bundle;
 import android.os.DropBoxManager;
 import android.os.Message;
 import android.os.PowerManager;
@@ -399,25 +400,30 @@ public class Injecter {
                         intent = new AfIntent(((AfActivity) handler).getIntent());
                     } else if (handler instanceof AfFragment){
                         final AfFragment fragment = (AfFragment) handler;
-                        intent = new AfBundle(fragment.getArguments()){
-                            @Override
-                            public <T> T get(String _key, Class<T> clazz) {
-                                T t = super.get(_key, clazz);
-                                if (t == null && fragment.getActivity() != null) {
-                                    return new AfIntent(fragment.getActivity().getIntent()).get(_key,clazz);
+                        Bundle bundle = fragment.getArguments();
+                        if (bundle != null) {
+                            intent = new AfBundle(fragment.getArguments()) {
+                                @Override
+                                public <T> T get(String _key, Class<T> clazz) {
+                                    T t = super.get(_key, clazz);
+                                    if (t == null && fragment.getActivity() != null) {
+                                        return new AfIntent(fragment.getActivity().getIntent()).get(_key, clazz);
+                                    }
+                                    return t;
                                 }
-                                return t;
-                            }
 
-                            @Override
-                            public <T> List<T> getList(String _key, Class<T> clazz) {
-                                List<T> list = super.getList(_key, clazz);
-                                if (list == null || list.size() == 0) {
-                                    return new AfIntent(fragment.getActivity().getIntent()).getList(_key,clazz);
+                                @Override
+                                public <T> List<T> getList(String _key, Class<T> clazz) {
+                                    List<T> list = super.getList(_key, clazz);
+                                    if (list == null || list.size() == 0) {
+                                        return new AfIntent(fragment.getActivity().getIntent()).getList(_key, clazz);
+                                    }
+                                    return list;
                                 }
-                                return list;
-                            }
-                        };
+                            };
+                        } else {
+                            intent = new AfIntent(fragment.getActivity().getIntent());
+                        }
                     }
                     Object value;
                     Class<?> type = field.getType();

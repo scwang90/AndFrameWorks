@@ -78,7 +78,6 @@ public abstract class AfTreeViewItem<T> extends AfMultiChoiceItem<T> {
     }
 
     /**
-     * @param value
      * @param level      所在树的层数（树根为0）
      * @param isExpanded 树节点是否张开
      * @param status     选择状态{NONE,UNSELECT,SELECTED}

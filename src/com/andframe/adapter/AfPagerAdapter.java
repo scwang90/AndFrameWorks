@@ -1,8 +1,5 @@
 package com.andframe.adapter;
 
-import java.util.HashMap;
-import java.util.List;
-
 import android.content.Context;
 import android.os.Parcelable;
 import android.support.v4.view.PagerAdapter;
@@ -11,6 +8,9 @@ import android.view.View;
 import android.view.View.OnTouchListener;
 
 import com.andframe.application.AfExceptionHandler;
+
+import java.util.HashMap;
+import java.util.List;
 
 /**
  * AfAlbumActivity 专用适配器

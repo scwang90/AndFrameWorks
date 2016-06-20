@@ -10,14 +10,14 @@ import com.andframe.annotation.view.BindLayout;
 import com.andframe.util.java.AfReflecter;
 
 public abstract class AfListItem<T> implements IAfLayoutItem<T>{
-
+	
 	private int layoutId;
 
 	protected View mLayout;
-
+	
 	public AfListItem() {
 	}
-
+	
 	public AfListItem(int layoutId) {
 		this.layoutId = layoutId;
 	}
@@ -33,11 +33,11 @@ public abstract class AfListItem<T> implements IAfLayoutItem<T>{
 		}
 		return layoutId;
 	}
-
+	
 	@Override
 	public void onHandle(AfView view) {
-		ViewBinder.doBind(this, mLayout = view.getView());
 		Injecter.doInject(this, view.getContext());
+		ViewBinder.doBind(this, mLayout = view.getView());
 	}
 
 	public View getLayout() {

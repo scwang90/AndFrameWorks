@@ -1,9 +1,9 @@
 package com.andframe.util;
 
-import java.io.InputStream;
-
 import com.andframe.helper.android.AfGifHelper;
 import com.andframe.helper.android.AfGifHelper.GifFrame;
+
+import java.io.InputStream;
 
 public class GifUtil
 {

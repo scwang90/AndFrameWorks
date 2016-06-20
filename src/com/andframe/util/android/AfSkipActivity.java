@@ -1,14 +1,14 @@
 package com.andframe.util.android;
 
-import java.io.File;
-import java.util.Locale;
-
 import android.content.ActivityNotFoundException;
 import android.content.Context;
 import android.content.Intent;
 import android.net.Uri;
 
 import com.andframe.exception.AfException;
+
+import java.io.File;
+import java.util.Locale;
 /**
  * 封装Android系统页面跳转
  * @author 树朾
@@ -18,8 +18,8 @@ public class AfSkipActivity {
 	/**
 	 *  跳转到拨号页面
 	 * @author 树朾
-	 * @param context 上下文
-	 * @param phone 电话号码
+	 * @param context
+	 * @param phone
 	 * @throws AfException 权限不足或者找不到拨号页面
 	 */
 	public static void call(Context context, String phone) throws Exception{
@@ -31,8 +31,8 @@ public class AfSkipActivity {
 
 	/**
 	 * 在APP市场打开 packageName
-	 * @param context 上下文
-	 * @param packageName 包名
+	 * @param context
+	 * @param packageName
 	 * @throws ActivityNotFoundException 没有安装市场软件
 	 */
 	public static void openAppInMarket(Context context,String packageName) throws Exception{
@@ -43,7 +43,7 @@ public class AfSkipActivity {
 	}
 	/**
 	 * 打开文件
-	 * @param file 文件
+	 * @param file
 	 * @throws AfException 找不到相应的软件
 	 */
 	public static void openFile(Context context, File file) throws Exception {
@@ -57,7 +57,7 @@ public class AfSkipActivity {
 
 	/**
 	 * 根据文件后缀名获得对应的MIME类型。
-	 * @param file 文件
+	 * @param file
 	 */
 	public static String getMIMEType(File file) {
 		String type = "*/*";

@@ -35,7 +35,7 @@ public abstract class AfListViewTask<T> extends AfHandlerTask/* extends AfListTa
 
     public int mTask = 0;
     public int mFirstResult = 0;
-    public int mPageSize = AfListTask.PAGE_SIZE;
+    public int mPageSize = PAGE_SIZE;
     public List<T> mltData = new ArrayList<T>();
 //	/**
 //	 * 调用这个构造函数可以触发 TASK_LOAD 任务
@@ -236,6 +236,7 @@ public abstract class AfListViewTask<T> extends AfHandlerTask/* extends AfListTa
 
     @Override
     protected void onException(Throwable e) {
+        e.printStackTrace();
         if (mTask == TASK_REFRESH) {
             mltData = onLoad(false);
         }

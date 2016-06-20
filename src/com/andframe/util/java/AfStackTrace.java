@@ -145,7 +145,7 @@ public class AfStackTrace {
 		}
 		return null;
 	}
-
+	
 	/**
 	 *  判断调用isLoopCall 的方法是否已经被循环递归调用
 	 * @return true 已经递归 false 没有递归

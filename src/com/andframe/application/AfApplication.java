@@ -21,7 +21,6 @@ import com.andframe.caches.AfImageCaches;
 import com.andframe.caches.AfSharedPreference;
 import com.andframe.fragment.AfFragment;
 import com.andframe.helper.android.AfDeviceInfo;
-import com.andframe.network.AfFileService;
 import com.andframe.network.AfImageService;
 import com.andframe.thread.AfDispatch;
 import com.andframe.thread.AfTask;
@@ -45,9 +44,9 @@ import java.util.Random;
 /**
  * AfApplication 抽象类 （继承使用必须继承并使用，其他框架功能依赖于 AfApplication）
  * @author 树朾 负责 全局数据的存储 和 事件通知
- *
+ * 
  *        必须实现 指定工程中 的主页面 的类 getForegroundClass
- *
+ * 
  *        提供静态全局接口 public static getApp() 获取全局App public static getAppContext()
  *        获取App public static getLooper() 获取全局消息循环对象（用于构造UI Handler） public
  *        static postTask(AfTask task) 抛送全局任务（AfTask） public static
@@ -56,11 +55,11 @@ import java.util.Random;
  *        getDebugMode() 获取当前调试模式 public static setDebugMode(int mode) 设置调试模式
  *        public static getVersion() 获取当前App版本 public static getVersionCode()
  *        获取当前App版本Code
- *
+ * 
  *        非静态接口 public exitForeground(Object power) 退出前台 public
  *        startForeground(Activity activity) 启动前台 public getCachesPath(String
- *        type) 获取并创建缓存路劲 public getWorkspacePath(String type) 获取并创建工作路劲
- *
+ *        type) 获取并创建缓存路径 public getWorkspacePath(String type) 获取并创建工作路径
+ * 
  *        继承之后根据需要的功能 重写 相应的函数 public getExceptionHandler() //全局异常处理 public
  *        getAppSetting() //全局设置 public getImageService() //图片服务 public
  *        getFileService() //文件服务 public getUpdateService() //更新服务 public
@@ -120,9 +119,9 @@ public abstract class AfApplication extends Application {
 		return mApp.getApplicationContext();
 	}
 
-	public static synchronized Looper getLooper() {
-		return mApp.mLooper;
-	}
+//	public static synchronized Looper getLooper() {
+//		return mApp.mLooper;
+//	}
 
 	public static synchronized AfTask postTask(AfTask task) {
 		if (mApp.mWorker != null) {
@@ -139,12 +138,12 @@ public abstract class AfApplication extends Application {
 	}
 
 	public static synchronized AfDispatch dispatch(AfDispatch handle) {
-		handle.dispatch(mApp.mLooper);
+		handle.dispatch(Looper.getMainLooper());
 		return handle;
 	}
 
 	public static synchronized AfDispatch dispatch(AfDispatch handle, long delay) {
-		handle.dispatch(mApp.mLooper,delay);
+		handle.dispatch(Looper.getMainLooper(),delay);
 		return handle;
 	}
 
@@ -203,7 +202,7 @@ public abstract class AfApplication extends Application {
 	//随机数生成器
 	protected Random mRandom = new Random();
 	// 主程序的线程Worker
-	protected Looper mLooper = null;
+//	protected Looper mLooper = null;
 
 	protected AfThreadWorker mWorker = null;
 
@@ -220,12 +219,12 @@ public abstract class AfApplication extends Application {
 	private ApplicationInfo mApplicationInfo;
 
 	//全局单例模式MAP
-	protected Map<String,Object> mSingletonMap = new LinkedHashMap<String,Object>();
+	protected Map<String,Object> mSingletonMap = new LinkedHashMap<String,Object>(); 
 
 	public AfApplication() {
 		mApp = this;
-		mLooper = Looper.myLooper();
-		AfFileService.setServer("/FileService", "/FileServlet");
+//		mLooper = Looper.myLooper();
+//		AfFileService.setServer("/FileService", "/FileServlet");
 //		AfSoapService.setServer("http://tempuri.org/", "MobileService.svc",
 //				"IMobileService/");
 //		AfSoapServiceOld.setServer("http://tempuri.org/", "MobileService.svc",
@@ -247,7 +246,7 @@ public abstract class AfApplication extends Application {
 		super.onCreate();
 		try {
 			AfExceptionHandler.register();
-
+			
 			mRunningState = new AfSharedPreference(this, STATE_RUNNING);
 			// 初始化设备信息
 			AfDeviceInfo.initialize(getAppContext());
@@ -259,18 +258,12 @@ public abstract class AfApplication extends Application {
 			AfImageCaches.initialize(this, getCachesPath("image"));
 			// 初始化 图片服务
 			AfImageService.initialize(getAppContext());
-			// 初始化 文件服务
-			AfFileService.initialize(getAppContext());
 			// 初始化 更新服务
-			AfUpdateService.initialize(getAppContext());
+//			AfUpdateService.initialize(getAppContext());
 			// App 启动的时候 检查网络相关设置
 			mNetworkStatus = AfNetwork.getNetworkState(this);
 			// 设置服务器
 			AfAppSettings set = AfAppSettings.getInstance();
-			AfFileService.setServer(set.getFileServerIP(),
-					set.getFileServerPort());
-//			AfSoapService.setServer(set.getDataServerIP(),
-//					set.getDataServerPort());
 			mDebugMode = set.getDebugMode();
 			// 初始化通知中心
 			AfNotifyCenter.initailize(getAppContext());
@@ -283,11 +276,11 @@ public abstract class AfApplication extends Application {
 			AfExceptionHandler.handler(e, "AfApplication.onCreate");
 		}
 	}
-
+	
 	public boolean isDebug() {
 		return BuildConfig.DEBUG;
 	}
-
+	
 	private void getPackageVersion() throws Exception {
 		int get = PackageManager.GET_CONFIGURATIONS;
 		String tPackageName = getPackageName();
@@ -296,22 +289,22 @@ public abstract class AfApplication extends Application {
 		mVersion = mPackageInfo.versionName;
 	}
 
-	/**
-	 * 在每次程序启动的时候初始化一遍
-	 * @deprecated 已经弃用
-	 * @param power
-	 *            用于权限验证
-	 */
-	public synchronized void initialize(AfActivity power) {
-		if (power instanceof AfActivity && !mIsInitialized) {
-			try {
-				// 标识初始化完成
-				mIsInitialized = true;
-			} catch (Throwable e) {
-				AfExceptionHandler.handler(e, "AfApplication.initialize");
-			}
-		}
-	}
+//	/**
+//	 * 在每次程序启动的时候初始化一遍
+//	 * @deprecated 已经弃用
+//	 * @param power
+//	 *            用于权限验证
+//	 */
+//	public synchronized void initialize(AfActivity power) {
+//		if (!mIsInitialized) {
+//			try {
+//				// 标识初始化完成
+//				mIsInitialized = true;
+//			} catch (Throwable e) {
+//				AfExceptionHandler.handler(e, "AfApplication.initialize");
+//			}
+//		}
+//	}
 
 	/**
 	 * 获取App工作目录
@@ -406,7 +399,7 @@ public abstract class AfApplication extends Application {
 			key = String.valueOf(data);
 			return key;
 		} catch (Throwable e) {
-			AfExceptionHandler.handler(e, "AfApplication.getMetaData");
+			//AfExceptionHandler.handler(e, "AfApplication.getMetaData");
 		}
 		return defvalue;
 	}
@@ -604,7 +597,7 @@ public abstract class AfApplication extends Application {
 	 *            服务器版本
 	 */
 	public synchronized void setServerVersion(Object power, String version,
-											  String describe) {
+			String describe) {
 		mServerVersion = version;
 		mUpdateDescribe = describe;
 		if (isNeedUpdate()) {
@@ -619,7 +612,7 @@ public abstract class AfApplication extends Application {
 	 *            通知的对象 必须实现 INotifyNeedUpdate 接口
 	 */
 	private void notifyUpdate(Object power, String curver, String server,
-							  String describe) {
+			String describe) {
 		if (power instanceof INotifyUpdate) {
 			try {
 				INotifyUpdate tINotify = (INotifyUpdate) power;
@@ -748,19 +741,16 @@ public abstract class AfApplication extends Application {
 	}
 
 	/**
-	 * 获取 AfFileService
-	 * @return fileservice
-	 */
-	public AfFileService getFileService() {
-		return new AfFileService();
-	}
-
-	/**
 	 * 获取 AfUpdateService
 	 * @return updateservice
 	 */
 	public AfUpdateService getUpdateService() {
-		return new AfUpdateService(this);
+		return new AfUpdateService(this){
+			@Override
+			public ServiceVersionInfo infoFromService(String version) {
+				return new ServiceVersionInfo();
+			}
+		};
 	}
 
 	/**

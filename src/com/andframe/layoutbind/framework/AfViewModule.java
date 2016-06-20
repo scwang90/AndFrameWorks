@@ -14,7 +14,7 @@ import com.andframe.util.java.AfReflecter;
 
 import java.lang.reflect.Constructor;
 
-public class AfViewModule extends AfViewDelegate implements AfViewable, IViewModule {
+public class AfViewModule extends AfViewDelegate implements AfViewable, IViewModule{
 
 	public static <T extends AfViewModule> T init(Class<T> clazz,AfViewable viewable,int viewId){
 		try {
@@ -38,26 +38,27 @@ public class AfViewModule extends AfViewDelegate implements AfViewable, IViewMod
 		}
 	}
 
-	public static <T extends AfViewModule> T init(Class<T> clazz, AfViewable viewable){
-		BindLayout layout = AfReflecter.getAnnotation(clazz, AfViewModule.class, BindLayout.class);
-		if (layout == null) {
+	public static <T extends AfViewModule> T init(Class<T> clazz, AfViewable viewable) {
+		BindLayout annotation = AfReflecter.getAnnotation(clazz, AfViewModule.class, BindLayout.class);
+		if (annotation == null) {
 			return null;
 		}
 		try {
 			T module = null;
-			View view = LayoutInflater.from(viewable.getContext()).inflate(layout.value(), null);
+			int id = annotation.value();
+			View view = LayoutInflater.from(viewable.getContext()).inflate(id, null);
 			Constructor<?>[] constructors = clazz.getConstructors();
 			for (int i = 0; i < constructors.length && module == null; i++) {
 				Class<?>[] parameterTypes = constructors[i].getParameterTypes();
 				if (parameterTypes.length == 0) {
 					module = clazz.newInstance();
 				} else if (parameterTypes.length == 1 && AfViewable.class.isAssignableFrom(parameterTypes[0])) {
-					module = (T)constructors[i].newInstance(new AfView(view));
+					module = (T) constructors[i].newInstance(new AfView(view));
 				}
 			}
 			if (module != null) {
 				AfViewModule viewModule = module;
-				viewModule.setTarget(viewable,view);
+				viewModule.setTarget(viewable, view);
 			}
 			return module;
 		} catch (Throwable e) {

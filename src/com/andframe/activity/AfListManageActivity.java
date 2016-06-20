@@ -182,7 +182,7 @@ public abstract class AfListManageActivity<T> extends AfMultiChoiceListActivity<
 						}
 						mltArray.remove(model);
 					}
-					mMultiChoiceAdapter.setData(mltArray);
+					mMultiChoiceAdapter.set(mltArray);
 					mMultiChoiceAdapter.closeMultiChoice();
 				} else {
 					makeToastShort(task.makeErrorToast("删除失败"));

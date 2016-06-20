@@ -1,9 +1,5 @@
 package com.andframe.view;
 
-import java.util.HashMap;
-
-import com.andframe.adapter.AfContactsAdapter;
-
 import android.content.Context;
 import android.graphics.Canvas;
 import android.util.AttributeSet;
@@ -14,8 +10,12 @@ import android.widget.AbsListView;
 import android.widget.AbsListView.OnScrollListener;
 import android.widget.ExpandableListAdapter;
 import android.widget.ExpandableListView;
-import android.widget.ListAdapter;
 import android.widget.ExpandableListView.OnGroupClickListener;
+import android.widget.ListAdapter;
+
+import com.andframe.adapter.AfContactsAdapter;
+
+import java.util.HashMap;
 
 public class AfContactsListView extends ExpandableListView implements
 		OnScrollListener, OnGroupClickListener {
@@ -120,31 +120,31 @@ public class AfContactsListView extends ExpandableListView implements
 	public boolean onTouchEvent(MotionEvent ev) {
 		if (mHeaderViewVisible) {
 			switch (ev.getAction()) {
-				case MotionEvent.ACTION_DOWN:
-					mDownX = ev.getX();
-					mDownY = ev.getY();
-					if (mDownX <= mHeaderViewWidth && mDownY <= mHeaderViewHeight) {
-						return true;
+			case MotionEvent.ACTION_DOWN:
+				mDownX = ev.getX();
+				mDownY = ev.getY();
+				if (mDownX <= mHeaderViewWidth && mDownY <= mHeaderViewHeight) {
+					return true;
+				}
+				break;
+			case MotionEvent.ACTION_UP:
+				float x = ev.getX();
+				float y = ev.getY();
+				float offsetX = Math.abs(x - mDownX);
+				float offsetY = Math.abs(y - mDownY);
+				// 如果 HeaderView 是可见的 , 点击在 HeaderView 内 , 那么触发 headerClick()
+				if (x <= mHeaderViewWidth && y <= mHeaderViewHeight
+						&& offsetX <= mHeaderViewWidth
+						&& offsetY <= mHeaderViewHeight) {
+					if (mHeaderView != null) {
+						headerViewClick();
 					}
-					break;
-				case MotionEvent.ACTION_UP:
-					float x = ev.getX();
-					float y = ev.getY();
-					float offsetX = Math.abs(x - mDownX);
-					float offsetY = Math.abs(y - mDownY);
-					// 如果 HeaderView 是可见的 , 点击在 HeaderView 内 , 那么触发 headerClick()
-					if (x <= mHeaderViewWidth && y <= mHeaderViewHeight
-							&& offsetX <= mHeaderViewWidth
-							&& offsetY <= mHeaderViewHeight) {
-						if (mHeaderView != null) {
-							headerViewClick();
-						}
 
-						return true;
-					}
-					break;
-				default:
-					break;
+					return true;
+				}
+				break;
+			default:
+				break;
 			}
 		}
 
@@ -177,14 +177,14 @@ public class AfContactsListView extends ExpandableListView implements
 		mGroupStatus.clear();
 		mAdapter = adapter;
 	}
-
-
+	
+	
 	/**
 	 * 点击了 Group 触发的事件 , 要根据根据当前点击 Group 的状态来
 	 */
 	@Override
 	public boolean onGroupClick(ExpandableListView parent, View v, int group,
-								long id) {
+			long id) {
 		if (this.getGroupClickStatus(group) == 0) {
 			this.setGroupClickStatus(group, 1);
 			parent.expandGroup(group);
@@ -213,7 +213,7 @@ public class AfContactsListView extends ExpandableListView implements
 
 	@Override
 	protected void onLayout(boolean changed, int left, int top, int right,
-							int bottom) {
+			int bottom) {
 		super.onLayout(changed, left, top, right, bottom);
 		final long flat = getExpandableListPosition(getFirstVisiblePosition());
 		final int group = ExpandableListView.getPackedPositionGroup(flat);
@@ -252,52 +252,52 @@ public class AfContactsListView extends ExpandableListView implements
 		int state = /* mAdapter// */this.getQQHeaderState(group, child);
 
 		switch (state) {
-			case PINNED_HEADER_GONE: {
-				mHeaderViewVisible = false;
-				break;
+		case PINNED_HEADER_GONE: {
+			mHeaderViewVisible = false;
+			break;
+		}
+
+		case PINNED_HEADER_VISIBLE: {
+			mAdapter.bindHeader(mHeaderView, group, child, MAX_ALPHA);
+
+			if (mHeaderView.getTop() != 0) {
+				mHeaderView.layout(0, 0, mHeaderViewWidth, mHeaderViewHeight);
 			}
 
-			case PINNED_HEADER_VISIBLE: {
-				mAdapter.bindHeader(mHeaderView, group, child, MAX_ALPHA);
+			mHeaderViewVisible = true;
 
-				if (mHeaderView.getTop() != 0) {
-					mHeaderView.layout(0, 0, mHeaderViewWidth, mHeaderViewHeight);
-				}
+			break;
+		}
 
-				mHeaderViewVisible = true;
+		case PINNED_HEADER_PUSHED_UP: {
+			View firstView = getChildAt(0);
+			int bottom = firstView.getBottom();
 
-				break;
+			// intitemHeight = firstView.getHeight();
+			int headerHeight = mHeaderView.getHeight();
+
+			int y;
+
+			int alpha;
+
+			if (bottom < headerHeight) {
+				y = (bottom - headerHeight);
+				alpha = MAX_ALPHA * (headerHeight + y) / headerHeight;
+			} else {
+				y = 0;
+				alpha = MAX_ALPHA;
 			}
 
-			case PINNED_HEADER_PUSHED_UP: {
-				View firstView = getChildAt(0);
-				int bottom = firstView.getBottom();
+			mAdapter.bindHeader(mHeaderView, group, child, alpha);
 
-				// intitemHeight = firstView.getHeight();
-				int headerHeight = mHeaderView.getHeight();
-
-				int y;
-
-				int alpha;
-
-				if (bottom < headerHeight) {
-					y = (bottom - headerHeight);
-					alpha = MAX_ALPHA * (headerHeight + y) / headerHeight;
-				} else {
-					y = 0;
-					alpha = MAX_ALPHA;
-				}
-
-				mAdapter.bindHeader(mHeaderView, group, child, alpha);
-
-				if (mHeaderView.getTop() != y) {
-					mHeaderView.layout(0, y, mHeaderViewWidth, mHeaderViewHeight
-							+ y);
-				}
-
-				mHeaderViewVisible = true;
-				break;
+			if (mHeaderView.getTop() != y) {
+				mHeaderView.layout(0, y, mHeaderViewWidth, mHeaderViewHeight
+						+ y);
 			}
+
+			mHeaderViewVisible = true;
+			break;
+		}
 		}
 	}
 
@@ -315,7 +315,7 @@ public class AfContactsListView extends ExpandableListView implements
 
 	@Override
 	public void onScroll(AbsListView view, int firstVisibleItem,
-						 int visibleItemCount, int totalItemCount) {
+			int visibleItemCount, int totalItemCount) {
 		final long flat = getExpandableListPosition(firstVisibleItem);
 		int group = ExpandableListView.getPackedPositionGroup(flat);
 		int child = ExpandableListView.getPackedPositionChild(flat);

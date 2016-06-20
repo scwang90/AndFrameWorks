@@ -24,6 +24,7 @@ import android.widget.EditText;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import com.andframe.activity.framework.AfActivity;
 import com.andframe.activity.framework.AfPageable;
 import com.andframe.activity.framework.AfView;
 import com.andframe.annotation.interpreter.Injecter;
@@ -124,6 +125,19 @@ public abstract class AfFragment extends Fragment implements AfPageable {
     protected ProgressDialog mProgress = null;
     protected boolean mIsRecycled = false;
 
+    @Nullable
+    @Override
+    public View getView() {
+        return mRootView;
+    }
+
+    public AfActivity getAfActivity() {
+        if (super.getActivity() instanceof AfActivity) {
+            return ((AfActivity) super.getActivity());
+        }
+        return AfApplication.getApp().getCurActivity();
+    }
+
     /**
      * 获取LOG日志 TAG 是 AfFragment 的方法
      * 用户也可以重写自定义TAG,这个值AfActivity在日志记录时候会使用
@@ -135,12 +149,6 @@ public abstract class AfFragment extends Fragment implements AfPageable {
 
     protected String TAG(String tag) {
         return "AfFragment(" + getClass().getName() + ")." + tag;
-    }
-
-    @Nullable
-    @Override
-    public View getView() {
-        return mRootView;
     }
 
     /**
@@ -203,11 +211,11 @@ public abstract class AfFragment extends Fragment implements AfPageable {
 
     @Override
     public void startActivity(Class<? extends Activity> clazz) {
-        startActivity(new Intent(getActivity(), clazz));
+        startActivity(new Intent(getAfActivity(), clazz));
     }
 
     public void startActivity(Class<? extends Activity> clazz,Object... args) {
-        AfIntent intent = new AfIntent(getActivity(), clazz);
+        AfIntent intent = new AfIntent(getAfActivity(), clazz);
         if (args != null && args.length > 0) {
             for (int i = 0; i < args.length / 2; i++) {
                 if (args[2 * i] instanceof String) {
@@ -226,12 +234,12 @@ public abstract class AfFragment extends Fragment implements AfPageable {
     @Override
     public void startActivityForResult(Class<? extends Activity> clazz,
                                        int request) {
-        startActivityForResult(new Intent(getActivity(), clazz), request);
+        startActivityForResult(new Intent(getAfActivity(), clazz), request);
     }
 
     public void startActivityForResult(Class<? extends Activity> clazz,
                                        int request, Object... args) {
-        AfIntent intent = new AfIntent(getActivity(), clazz);
+        AfIntent intent = new AfIntent(getAfActivity(), clazz);
         if (args != null && args.length > 0) {
             for (int i = 0; i < args.length / 2; i++) {
                 if (args[2 * i] instanceof String) {
@@ -250,7 +258,7 @@ public abstract class AfFragment extends Fragment implements AfPageable {
     /**
      * (non-Javadoc)
      *
-     * @see android.support.v4.app.FragmentActivity#onActivityResult(int, int, Intent)
+     * @see android.support.v4.app.FragmentActivity#onActivityResult(int, int, android.content.Intent)
      * final 重写 onActivityResult 使用 try-catch 调用
      * onActivityResult(AfIntent intent, int requestcode,int resultcode)
      * @see AfFragment#onActivityResult(AfIntent intent, int requestcode, int resultcode)
@@ -273,8 +281,8 @@ public abstract class AfFragment extends Fragment implements AfPageable {
      * 在onActivityResult(int requestcode, int resultCode, Intent data) 中调用
      * 并使用 try-catch 提高安全性，子类请重写这个方法
      *
-     * @see AfFragment#onActivityResult(int, int, Intent)
-     * {@link AfFragment#onActivityResult(int, int, Intent)}
+     * @see AfFragment#onActivityResult(int, int, android.content.Intent)
+     * {@link AfFragment#onActivityResult(int, int, android.content.Intent)}
      */
     protected void onActivityResult(AfIntent intent, int requestcode, int resultcode) {
         super.onActivityResult(requestcode, resultcode, intent);
@@ -326,8 +334,8 @@ public abstract class AfFragment extends Fragment implements AfPageable {
         }
         try {
             ViewBinder.doBind(this);
-            Injecter.doInject(this, getActivity());
-            AfSoftInputer inputer = new AfSoftInputer(getActivity());
+            Injecter.doInject(this,getAfActivity());
+            AfSoftInputer inputer = new AfSoftInputer(getAfActivity());
             inputer.setBindListener(mRootView, this);
             onCreated(new AfView(mRootView), new AfBundle(getArguments()));
         } catch (Throwable e) {
@@ -383,22 +391,22 @@ public abstract class AfFragment extends Fragment implements AfPageable {
 
     @Override
     public boolean getSoftInputStatus() {
-        return new AfSoftInputer(getActivity()).getSoftInputStatus();
+        return new AfSoftInputer(getAfActivity()).getSoftInputStatus();
     }
 
     @Override
     public boolean getSoftInputStatus(View view) {
-        return new AfSoftInputer(getActivity()).getSoftInputStatus(view);
+        return new AfSoftInputer(getAfActivity()).getSoftInputStatus(view);
     }
 
     @Override
     public void setSoftInputEnable(EditText editview, boolean enable) {
-        new AfSoftInputer(getActivity()).setSoftInputEnable(editview, enable);
+        new AfSoftInputer(getAfActivity()).setSoftInputEnable(editview, enable);
     }
 
     @Override
     public Context getContext() {
-        Activity activity = getActivity();
+        Activity activity = getAfActivity();
         if (activity == null) {
             return AfApplication.getAppContext();
         }
@@ -490,7 +498,7 @@ public abstract class AfFragment extends Fragment implements AfPageable {
                                          int textsize) {
         try {
             hideProgressDialog();
-            mProgress = new ProgressDialog(getActivity());
+            mProgress = new ProgressDialog(getAfActivity());
             mProgress.setMessage(message);
             mProgress.setCancelable(cancel);
             mProgress.setOnCancelListener(null);
@@ -513,7 +521,7 @@ public abstract class AfFragment extends Fragment implements AfPageable {
                                          OnCancelListener listener) {
         try {
             hideProgressDialog();
-            mProgress = new ProgressDialog(getActivity());
+            mProgress = new ProgressDialog(getAfActivity());
             mProgress.setMessage(message);
             mProgress.setCancelable(true);
             mProgress.setOnCancelListener(listener);
@@ -536,7 +544,7 @@ public abstract class AfFragment extends Fragment implements AfPageable {
     public final void showProgressDialog(String message, OnCancelListener listener, int textsize) {
         try {
             hideProgressDialog();
-            mProgress = new ProgressDialog(getActivity());
+            mProgress = new ProgressDialog(getAfActivity());
             mProgress.setMessage(message);
             mProgress.setCancelable(true);
             mProgress.setOnCancelListener(listener);
@@ -698,7 +706,7 @@ public abstract class AfFragment extends Fragment implements AfPageable {
                                     String positive, OnClickListener lpositive,
                                     String neutral, OnClickListener lneutral,
                                     String negative, OnClickListener lnegative) {
-        return new AfDailog(getActivity()).doShowDialog(theme, iconres, title, message, positive, lpositive, neutral, lneutral, negative, lnegative);
+        return new AfDailog(getAfActivity()).doShowDialog(theme, iconres, title, message, positive, lpositive, neutral, lneutral, negative, lnegative);
     }
 
     /**
@@ -812,7 +820,7 @@ public abstract class AfFragment extends Fragment implements AfPageable {
                                         String positive, OnClickListener lpositive,
                                         String neutral, OnClickListener lneutral,
                                         String negative, OnClickListener lnegative) {
-        return new AfDailog(getActivity()).doShowViewDialog(theme, iconres, title, view, positive, lpositive, neutral, lneutral, negative, lnegative);
+        return new AfDailog(getAfActivity()).doShowViewDialog(theme, iconres, title, view, positive, lpositive, neutral, lneutral, negative, lnegative);
     }
 
     /**
@@ -825,7 +833,7 @@ public abstract class AfFragment extends Fragment implements AfPageable {
      */
     public AlertDialog doSelectItem(String title, String[] items, OnClickListener listener,
                                     boolean cancel) {
-        return new AfDailog(getActivity()).doSelectItem(title, items, listener, cancel);
+        return new AfDailog(getAfActivity()).doSelectItem(title, items, listener, cancel);
     }
 
     /**
@@ -838,7 +846,7 @@ public abstract class AfFragment extends Fragment implements AfPageable {
      */
     public AlertDialog doSelectItem(String title, String[] items, OnClickListener listener,
                                     final OnClickListener oncancel) {
-        return new AfDailog(getActivity()).doSelectItem(title, items, listener, oncancel);
+        return new AfDailog(getAfActivity()).doSelectItem(title, items, listener, oncancel);
     }
 
     /**
@@ -880,8 +888,9 @@ public abstract class AfFragment extends Fragment implements AfPageable {
      * @param listener 监听器
      */
     public AlertDialog doInputText(String title, String defaul, InputTextListener listener) {
-        return new AfDailog(getActivity()).doInputText(title, defaul, InputType.TYPE_CLASS_TEXT, listener);
+        return new AfDailog(getAfActivity()).doInputText(title, defaul, InputType.TYPE_CLASS_TEXT, listener);
     }
+
     /**
      * 弹出一个文本输入框
      *
@@ -891,7 +900,7 @@ public abstract class AfFragment extends Fragment implements AfPageable {
      * @param listener 监听器
      */
     public AlertDialog doInputText(String title, String defaul, int type, InputTextListener listener) {
-        return new AfDailog(getActivity()).doInputText(title, defaul, type, listener);
+        return new AfDailog(getAfActivity()).doInputText(title, defaul, type, listener);
     }
 
     /**
@@ -1028,7 +1037,7 @@ public abstract class AfFragment extends Fragment implements AfPageable {
                                     String positive, OnClickListener lpositive,
                                     String neutral, OnClickListener lneutral,
                                     String negative, OnClickListener lnegative) {
-        return new AfDailog(getActivity()).doShowDialog(key, defclick, theme, iconres, title, message, positive, lpositive, neutral, lneutral, negative, lnegative);
+        return new AfDailog(getAfActivity()).doShowDialog(key, defclick, theme, iconres, title, message, positive, lpositive, neutral, lneutral, negative, lnegative);
     }
 
     /**
@@ -1064,7 +1073,7 @@ public abstract class AfFragment extends Fragment implements AfPageable {
      * @param listener 监听器
      */
     public AlertDialog doSelectDateTime(final String title, final Date value, final AfDailog.OnDateTimeSetListener listener) {
-        return new AfDailog(getActivity()).doSelectDateTime(title, value, listener);
+        return new AfDailog(getAfActivity()).doSelectDateTime(title, value, listener);
     }
 
     /**
@@ -1100,7 +1109,7 @@ public abstract class AfFragment extends Fragment implements AfPageable {
      * @param listener 监听器
      */
     public AlertDialog doSelectTime(String title, Date value, final AfDailog.OnTimeSetListener listener) {
-        return new AfDailog(getActivity()).doSelectTime(title, value, listener);
+        return new AfDailog(getAfActivity()).doSelectTime(title, value, listener);
     }
 
     /**
@@ -1136,7 +1145,7 @@ public abstract class AfFragment extends Fragment implements AfPageable {
      * @param listener 监听器
      */
     public AlertDialog doSelectDate(String title, Date value, AfDailog.OnDateSetListener listener) {
-        return new AfDailog(getActivity()).doSelectDate(title,value, listener);
+        return new AfDailog(getAfActivity()).doSelectDate(title,value, listener);
     }
 
     protected void setProgressDialogText(ProgressDialog dialog, String text) {

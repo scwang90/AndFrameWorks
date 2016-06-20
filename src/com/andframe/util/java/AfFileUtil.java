@@ -1,5 +1,7 @@
 package com.andframe.util.java;
 
+import android.text.TextUtils;
+
 import java.io.File;
 import java.io.FileInputStream;
 import java.io.FileOutputStream;
@@ -98,17 +100,25 @@ public class AfFileUtil {
 
 	/**
 	 *  转换文件大小到String显示描述 如 648KB,5MB 整数
-	 * @author 树朾
-	 * @param size
-	 * @return
 	 */
 	public static String getFileSize(long size){
 		int index = 0;
-		String[] units = new String[]{"bt","KB","MB","GB","TB"};
-		while (index < units.length - 1 && size > 1024) {
+		float fsize = size;
+		String[] units = new String[]{"B","KB","MB","GB","TB"};
+		while (index < units.length - 1 && fsize > 1024) {
 			index++;
-			size = size/1024;
+			fsize = fsize/1024;
 		}
-		return size + units[index];
+		return String.format("%.1f%s",fsize,units[index]);//.replace(".0","");
+	}
+
+	/**
+	 * 判断文件存在
+	 */
+	public static boolean fileExist(String path){
+		if(!TextUtils.isEmpty(path)){
+			return new File(path).exists();
+		}
+		return false;
 	}
 }

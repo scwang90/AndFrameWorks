@@ -13,7 +13,6 @@ import com.andframe.feature.AfDensity;
 import com.andframe.thread.AfHandlerTask;
 
 import java.io.IOException;
-
 /**
  * 图片压缩处理类
  * @author 树朾
@@ -34,14 +33,12 @@ public class AfImageThumb {
 		if (bitmap == null) {
 			AfApplication.postTask(new AfHandlerTask() {
 				Bitmap bitmap = null;
-
 				@Override
 				protected void onWorking(/*Message msg*/) throws Exception {
 					AfImageCaches caches = AfImageCaches.getInstance();
 					bitmap = revitionImageSize(image);
 					caches.put(image, bitmap);
 				}
-
 				@Override
 				protected boolean onHandle(/*Message msg*/) {
 					if (bitmap != null) {

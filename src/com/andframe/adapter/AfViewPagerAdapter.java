@@ -13,6 +13,7 @@ public class AfViewPagerAdapter extends FragmentPagerAdapter {
     private final Class<? extends Fragment>[] clazzs;
     private final Fragment[] fragments;
 
+    @SafeVarargs
     public AfViewPagerAdapter(FragmentActivity activity, Class<? extends Fragment>... fragments) {
         super(activity.getSupportFragmentManager());
         this.clazzs = fragments;

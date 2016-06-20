@@ -93,7 +93,7 @@ public class AfJsoner {
                     field.set(model, safeValue(value,field.getType()));
                 }
             } catch (IllegalAccessException e) {
-                e.printStackTrace();
+                //e.printStackTrace();
             }
         }
         return model;
@@ -159,6 +159,9 @@ public class AfJsoner {
 
     private static <T> T allocateInstance(Class<T> clazz) {
         try {
+            if (clazz.equals(Class.class)) {
+                return null;
+            }
             return clazz.newInstance();
         } catch (Throwable e) {
         }

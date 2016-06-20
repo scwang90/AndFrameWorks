@@ -35,7 +35,7 @@ public class AfDaemonThread {
 	public static <T extends AfTask> T postTask(T task) {
 		return postTaskDelayed(task, 0);
 	}
-
+	
 	/**
 	 * 定时往后台抛送一个 Task 任务
 	 * 不会会在UI线程中dispatch，用于UI线程死亡的时候
@@ -68,7 +68,7 @@ public class AfDaemonThread {
 		}
 		return task;
 	}
-
+	
 	/**
 	 * 定时往后台抛送一个 Task 任务
 	 * 不会会在UI线程中dispatch，用于UI线程死亡的时候
@@ -115,7 +115,7 @@ public class AfDaemonThread {
 			}
 		}
 	}
-
+	
 	private static class ThreadWorker extends Thread {
 		private long mDelay = 0;
 		private Runnable mTask = null;

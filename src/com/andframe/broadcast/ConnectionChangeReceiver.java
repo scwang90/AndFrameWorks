@@ -1,12 +1,12 @@
 package com.andframe.broadcast;
 
-import com.andframe.activity.framework.AfActivity;
-import com.andframe.application.AfApplication;
-import com.andframe.util.android.AfNetwork;
-
 import android.content.BroadcastReceiver;
 import android.content.Context;
 import android.content.Intent;
+
+import com.andframe.activity.framework.AfActivity;
+import com.andframe.application.AfApplication;
+import com.andframe.util.android.AfNetwork;
 /**
  * 网络状态监听器
  * @author 树朾

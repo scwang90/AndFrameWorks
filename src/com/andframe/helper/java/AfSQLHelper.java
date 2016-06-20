@@ -3,7 +3,7 @@ package com.andframe.helper.java;
 import java.util.Locale;
 
 public class AfSQLHelper {
-
+	
 	public String where(String where) {
 		return Where(where);
 	}

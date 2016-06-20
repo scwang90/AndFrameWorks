@@ -14,7 +14,7 @@ public class AfTreeNode<T> {
 	protected AfTreeNode(T model) {
 		this.value = model;
 	}
-
+	
 	public AfTreeNode(AfTreeNode<T> parent, T model, boolean isExpanded) {
 		this.value = model;
 		this.level = parent.level + 1;

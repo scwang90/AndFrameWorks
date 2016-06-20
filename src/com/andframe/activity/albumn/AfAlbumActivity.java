@@ -50,7 +50,7 @@ import java.util.UUID;
 	 * 重写 这个函数 可以实现加载网络相册
 	public List<Photo> onRequestAlbum(UUID albumID, Page page)
  */
-public abstract class AfAlbumActivity extends AfActivity
+public abstract class AfAlbumActivity extends AfActivity 
 		implements OnPageChangeListener, OnTouchListener {
 
 	// 通用信息
@@ -137,7 +137,7 @@ public abstract class AfAlbumActivity extends AfActivity
 			if(mPhotoName.equals("")){
 				mPhotoName = mHeader.Name;
 			}
-		}else if (!AfStringUtil.isEmpty(mPhotoName)
+		}else if (!AfStringUtil.isEmpty(mPhotoName) 
 				&& !AfStringUtil.isEmpty(mDescribe)
 				&& !AfStringUtil.isEmpty(mHeadUrl)
 				&& !UUIDUtil.Empty.equals(AlbumID)) {
@@ -219,7 +219,7 @@ public abstract class AfAlbumActivity extends AfActivity
 		this.finish();
 	}
 
-	private class LoadAlbumTask extends AfHandlerTask {
+	private class LoadAlbumTask extends AfHandlerTask{
 		
 		public List<Photo> mphotos = null;
 

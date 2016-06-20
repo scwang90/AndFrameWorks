@@ -1,8 +1,5 @@
 package com.andframe.activity.albumn;
 
-import java.util.HashMap;
-import java.util.List;
-
 import android.annotation.SuppressLint;
 import android.content.Context;
 import android.os.Parcelable;
@@ -14,6 +11,9 @@ import android.view.View.OnTouchListener;
 import com.andframe.model.Photo;
 import com.andframe.network.AfImageService;
 import com.andframe.view.AfAlbumView;
+
+import java.util.HashMap;
+import java.util.List;
 
 /**
  * AfAlbumActivity 专用适配器
@@ -41,7 +41,7 @@ public class AfAlbumPagerAdapter extends PagerAdapter {
 
 	/**
 	 * 适配器新增 点击更多 数据追加接口
-	 * @param ltData
+	 * @param ltNews
 	 */
 	public void AddData(List<Photo> ltData) {
 		mltData.addAll(ltData);
@@ -50,7 +50,7 @@ public class AfAlbumPagerAdapter extends PagerAdapter {
 
 	/**
 	 * 适配器新增 数据刷新 接口
-	 * @param ltData
+	 * @param ltNews
 	 */
 	public void setData(List<Photo> ltData) {
 		mltData = ltData;

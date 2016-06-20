@@ -16,7 +16,7 @@ public abstract class AfTask implements Runnable, OnCancelListener {
 	// Task 执行类型枚举
 	public static final int TASK_LOAD = 0; // 第一次加载数据
 
-	//	public int mTask = -1;
+//	public int mTask = -1;
 	public int mResult = -1;
 	public String mErrors;
 	public Throwable mException = new AfException();
@@ -28,7 +28,7 @@ public abstract class AfTask implements Runnable, OnCancelListener {
 
 	public AfTask() {
 	}
-
+	
 //	protected AfTask(Handler handler) {
 //		this.mHandler = handler;
 //	}
@@ -45,7 +45,7 @@ public abstract class AfTask implements Runnable, OnCancelListener {
 	public boolean isFail() {
 		return mResult == RESULT_FAIL;
 	}
-
+	
 	@Override
 	public void run() {
 		//Message tMessage = Message.obtain();
@@ -124,7 +124,7 @@ public abstract class AfTask implements Runnable, OnCancelListener {
 	public String makeErrorToast(String tip) {
 		return AfException.handle(mException, tip);
 	}
-
+	
 //	public static AfTask getTask(Message msg) {
 //		if (msg.obj instanceof AfTask) {
 //			return (AfTask) msg.obj;

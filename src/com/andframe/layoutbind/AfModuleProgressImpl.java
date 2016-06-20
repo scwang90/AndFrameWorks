@@ -5,10 +5,10 @@ import android.widget.TextView;
 import com.andframe.R;
 import com.andframe.activity.framework.AfViewable;
 
-public class AfModuleProgressImpl extends AfModuleProgress {
+public class AfModuleProgressImpl extends AfModuleProgress{
 
 	public AfModuleProgressImpl(AfViewable view) {
-		super(view, R.id.module_progress_layout);
+		super(view,R.id.module_progress_layout);
 	}
 	
 	@Override

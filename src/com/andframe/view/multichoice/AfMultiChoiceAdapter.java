@@ -1,13 +1,14 @@
 package com.andframe.view.multichoice;
 
-import java.util.ArrayList;
-import java.util.List;
-
 import android.content.Context;
 import android.view.View;
 import android.view.ViewGroup;
 
 import com.andframe.adapter.AfListAdapter;
+
+import java.util.ArrayList;
+import java.util.Collection;
+import java.util.List;
 
 public abstract class AfMultiChoiceAdapter<T> extends AfListAdapter<T>{
 
@@ -19,11 +20,11 @@ public abstract class AfMultiChoiceAdapter<T> extends AfListAdapter<T>{
 	}
 
 	public interface GenericityListener{
-		void onMultiChoiceAddData(AfMultiChoiceAdapter<? extends Object> adapter,List<? extends Object> list);
+		void onMultiChoiceAddData(AfMultiChoiceAdapter<? extends Object> adapter,Collection<? extends Object> list);
 		void onMultiChoiceChanged(AfMultiChoiceAdapter<? extends Object> adapter,Object tag,boolean selected,int number);
 		void onMultiChoiceChanged(AfMultiChoiceAdapter<? extends Object> adapter,int number,int total);
 		void onMultiChoiceStarted(AfMultiChoiceAdapter<? extends Object> adapter, int number);
-		void onMultiChoiceClosed(AfMultiChoiceAdapter<? extends Object> adapter, List<? extends Object> list);
+		void onMultiChoiceClosed(AfMultiChoiceAdapter<? extends Object> adapter, Collection<? extends Object> list);
 	}
 	
 	protected int mChoiceNumber = 0;
@@ -55,67 +56,67 @@ public abstract class AfMultiChoiceAdapter<T> extends AfListAdapter<T>{
 	}
 	
 	@Override
-	public void addData(List<T> ltdata) {
+	public boolean addAll(Collection<? extends T> ltdata) {
 		if(isMultiChoiceMode() && ltdata.size() > 0){
 			boolean[] old = mIsSelecteds;
 			mIsSelecteds = new boolean[old.length+ltdata.size()];
-			for (int i = 0; i < old.length; i++) {
-				mIsSelecteds[i] = old[i];
-			}
-			super.addData(ltdata);
+			System.arraycopy(old, 0, mIsSelecteds, 0, old.length);
+			boolean ret = super.addAll(ltdata);
 			for (GenericityListener listener : mGenericityListeners) {
 				listener.onMultiChoiceAddData(this, ltdata);
 			}
+			return ret;
 		}else{
-			super.addData(ltdata);
+			return super.addAll(ltdata);
 		}
 	}
 	
 	@Override
-	public void setData(List<T> ltdata) {
+	public void set(Collection<?extends T> ltdata) {
 		if(isMultiChoiceMode()){
-			super.setData(ltdata);
+			super.set(ltdata);
 			mChoiceNumber = 0;
 			mIsSelecteds = new boolean[ltdata.size()];
 			for (GenericityListener listener : mGenericityListeners) {
 				listener.onMultiChoiceChanged(this, 0, mIsSelecteds.length);
 			}
 		}else{
-			super.setData(ltdata);
+			super.set(ltdata);
 		}
 	}
 	
 	@Override
-	public void setData(int index, T obj) {
+	public T set(int index, T obj) {
 		//closeMultiChoice();
-		super.setData(index, obj);
+		return super.set(index, obj);
 	}
 	
 	@Override
-	public void insert(int index, T object) {
+	public void add(int index, T object) {
 		if(isMultiChoiceMode()){
-			super.insert(index, object);
+			super.add(index, object);
 			mChoiceNumber = 0;
 			mIsSelecteds = new boolean[getCount()];
 			for (GenericityListener listener : mGenericityListeners) {
 				listener.onMultiChoiceChanged(this, 0, mIsSelecteds.length);
 			}
 		}else{
-			super.insert(index, object);
+			super.add(index, object);
 		}
 	}
 	
 	@Override
-	public void remove(int index) {
+	public T remove(int index) {
 		if(isMultiChoiceMode()){
-			super.remove(index);
+			T model = super.remove(index);
 			mChoiceNumber = 0;
 			mIsSelecteds = new boolean[getCount()];
 			for (GenericityListener listener : mGenericityListeners) {
 				listener.onMultiChoiceChanged(this, 0, mIsSelecteds.length);
 			}
+			return model;
 		}else{
-			super.remove(index);
+			return super.remove(index);
 		}
 	}
     
@@ -132,7 +133,7 @@ public abstract class AfMultiChoiceAdapter<T> extends AfListAdapter<T>{
 		AfMultiChoiceItem<T> mcitem = (AfMultiChoiceItem<T>)item;
 		AfMultiChoiceItem.SelectStatus status = AfMultiChoiceItem.SelectStatus.NONE;
 		if(mIsSelecteds != null){
-			if(true == mIsSelecteds[index]){
+			if(mIsSelecteds[index]){
 				status = AfMultiChoiceItem.SelectStatus.SELECTED;
 			}else{
 				status = AfMultiChoiceItem.SelectStatus.UNSELECT;
@@ -206,7 +207,7 @@ public abstract class AfMultiChoiceAdapter<T> extends AfListAdapter<T>{
 		List<T> list = new ArrayList<T>();
 		if(mIsSelecteds != null && mIsSelecteds.length == mltArray.size()){
 			for (int i = 0; i < mIsSelecteds.length; i++) {
-				if(true == mIsSelecteds[i]){
+				if(mIsSelecteds[i]){
 					list.add(mltArray.get(i));
 				}
 			}
@@ -219,7 +220,7 @@ public abstract class AfMultiChoiceAdapter<T> extends AfListAdapter<T>{
 		List<T> list = new ArrayList<T>();
 		if(mIsSelecteds != null && mIsSelecteds.length == mltArray.size()){
 			for (int i = 0; i < mIsSelecteds.length; i++) {
-				if(true == mIsSelecteds[i]){
+				if(mIsSelecteds[i]){
 					list.add(mltArray.get(i));
 				}
 			}

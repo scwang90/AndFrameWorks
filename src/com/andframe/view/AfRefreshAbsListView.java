@@ -204,6 +204,7 @@ public abstract class AfRefreshAbsListView<T extends AbsListView> extends AfPull
 		mTargetView.smoothScrollToPosition(position);
 	}
 
+
 	/**
 	 * Returns the number of header views in the list. Header views are special
 	 * views at the top of the list that should not be recycled during a layout.
@@ -283,4 +284,5 @@ public abstract class AfRefreshAbsListView<T extends AbsListView> extends AfPull
 		}
 		return false;
 	}
+
 }

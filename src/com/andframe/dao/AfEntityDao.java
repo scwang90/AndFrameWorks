@@ -98,7 +98,7 @@ public class AfEntityDao<T> extends AfDao<T>{
 	 * 条件查询
 	 */
 	public final T getOneWhere(String where) {
-		return getEntity(super.getModelsWhere("*", where, 1, 0));
+		return getEntity(super.getModelsWhere("*", where, 1,0));
 	}
 
 
@@ -117,8 +117,8 @@ public class AfEntityDao<T> extends AfDao<T>{
 	protected T getEntity(List<Model> models) {
 		try {
 			for (Model model : models) {
-				return getEntity(model);
-			}
+                return getEntity(model);
+            }
 		} catch (Exception e) {
 			AfExceptionHandler.handler(e, "AfEntityDao.getEntity");
 		}

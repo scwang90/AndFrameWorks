@@ -1,16 +1,5 @@
 package com.andframe.util.android;
 
-import java.io.BufferedReader;
-import java.io.IOException;
-import java.io.InputStreamReader;
-import java.net.MalformedURLException;
-import java.net.URL;
-import java.net.URLConnection;
-import java.util.ArrayList;
-import java.util.Date;
-import java.util.List;
-import java.util.Locale;
-
 import android.content.Context;
 import android.location.Address;
 import android.location.Criteria;
@@ -22,6 +11,17 @@ import android.os.Bundle;
 
 import com.andframe.exception.AfToastException;
 import com.andframe.helper.java.AfTimeSpan;
+
+import java.io.BufferedReader;
+import java.io.IOException;
+import java.io.InputStreamReader;
+import java.net.MalformedURLException;
+import java.net.URL;
+import java.net.URLConnection;
+import java.util.ArrayList;
+import java.util.Date;
+import java.util.List;
+import java.util.Locale;
 
 
 public class AfLocation
@@ -62,9 +62,9 @@ public class AfLocation
             mProvider = mManager.getBestProvider(tCriteria,true);
             mProvider = mProvider == null?LocationManager.NETWORK_PROVIDER:mProvider;
         }
-        /* 
-         * 第二个参数表示更新的周期，单位为毫秒；第三个参数的含义表示最小距离间隔，单位是米 
-         * 设定每30秒进行一次自动定位 
+        /*
+         * 第二个参数表示更新的周期，单位为毫秒；第三个参数的含义表示最小距离间隔，单位是米
+         * 设定每30秒进行一次自动定位
          */
         mManager.requestLocationUpdates(mProvider, 30000, 50,mListener);
 

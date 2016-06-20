@@ -1,8 +1,5 @@
 package com.andframe.caches;
 
-import java.io.File;
-import java.io.FileOutputStream;
-
 import android.content.Context;
 import android.graphics.Bitmap;
 import android.graphics.Bitmap.CompressFormat;
@@ -13,6 +10,9 @@ import android.util.Log;
 
 import com.andframe.application.AfExceptionHandler;
 import com.andframe.util.java.AfMD5;
+
+import java.io.File;
+import java.io.FileOutputStream;
 /**
  * AfImageCaches 图片缓存
  * @author 树朾
@@ -36,7 +36,7 @@ import com.andframe.util.java.AfMD5;
 				public void clear() 
 				 * 获取缓存大小
 				public int getCachesSize() 
-				 * 获取缓存路劲文件
+				 * 获取缓存路径文件
 				public File getCachePath() 
 				 * 删除指定的 图片缓存
 				 * @param key
@@ -210,7 +210,7 @@ public class AfImageCaches {
 	}
 
 	/**
-	 * 获取缓存路劲文件
+	 * 获取缓存路径文件
 	 * @return
 	 */
 	public File getCachePath() {
@@ -224,8 +224,8 @@ public class AfImageCaches {
 	public void remove(String url) {
 		try {
 			String key = AfMD5.getMD5(url.getBytes());
-			String Path = mCacheDirFile.getAbsolutePath() + File.separator
-					+ key;
+			mMemoryCache.remove(key);
+			String Path = mCacheDirFile.getAbsolutePath() + File.separator + key;
 			File file = new File(Path);
 			if(file.exists()){
 				file.delete();

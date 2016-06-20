@@ -5,7 +5,7 @@ import android.widget.ImageView;
 import com.andframe.helper.android.AfGifHelper.GifFrame;
 import com.andframe.thread.AfTask;
 
-public class AfGifPlayer extends AfTask {
+public class AfGifPlayer extends AfTask{
 
     private int index = 0;
     private ImageView image;

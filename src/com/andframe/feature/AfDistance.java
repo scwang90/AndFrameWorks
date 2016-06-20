@@ -20,14 +20,8 @@ public class AfDistance {
 
 	/**
 	 * 计算兴趣点的距离
-	 * @param lon1
-	 * @param lat1
-	 * @param lon2
-	 * @param lat2
-	 * @return
 	 */
-	public static double GetShortDistance(double lon1, double lat1,
-			double lon2, double lat2) {
+	public static double GetShortDistance(double lon1, double lat1, double lon2, double lat2) {
 		double ew1, ns1, ew2, ns2;
 		double dx, dy, dew;
 		double distance;
@@ -54,14 +48,8 @@ public class AfDistance {
 
 	/**
 	 * 计算兴趣点的距离
-	 * @param lon1
-	 * @param lat1
-	 * @param lon2
-	 * @param lat2
-	 * @return
 	 */
-	public static double GetLongDistance(double lon1, double lat1, double lon2,
-			double lat2) {
+	public static double GetLongDistance(double lon1, double lat1, double lon2, double lat2) {
 		double ew1, ns1, ew2, ns2;
 		double distance;
 		// 角度转换为弧度

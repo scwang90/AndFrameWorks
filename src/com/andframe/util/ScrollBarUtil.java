@@ -1,9 +1,9 @@
 package com.andframe.util;
 
-import java.lang.reflect.Field;
-
 import android.graphics.drawable.Drawable;
 import android.widget.AbsListView;
+
+import java.lang.reflect.Field;
 
 @SuppressWarnings("deprecation")
 public class ScrollBarUtil {

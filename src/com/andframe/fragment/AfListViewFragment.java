@@ -126,6 +126,9 @@ public abstract class AfListViewFragment<T> extends AfTabFragment implements
         if (mAdapter == null) {
             setLoading();
             postTask(new AbListViewTask());
+        } else if (mAdapter.getCount() == 0){
+            setData(mAdapter);
+            setNodata();
         } else {
             setData(mAdapter);
         }
@@ -136,7 +139,7 @@ public abstract class AfListViewFragment<T> extends AfTabFragment implements
      */
     @SuppressWarnings("unchecked")
     protected AbListViewTask postTask(int task) {
-        return (AbListViewTask) postTask(new AbListViewTask(task));
+        return postTask(new AbListViewTask(task));
     }
 
     /**
@@ -198,9 +201,9 @@ public abstract class AfListViewFragment<T> extends AfTabFragment implements
         if (mAdapter == null || mAdapter.getCount() == 0) {
             List<T> ltArray = new ArrayList<>();
             ltArray.add(value);
-            setData(newAdapter(getActivity(), ltArray));
+            setData(newAdapter(getAfActivity(), ltArray));
         } else {
-            mAdapter.insert(0, value);
+            mAdapter.add(0, value);
         }
     }
 
@@ -311,7 +314,7 @@ public abstract class AfListViewFragment<T> extends AfTabFragment implements
     @Override
     public boolean onItemLongClick(AdapterView<?> parent, View view, int index, long id) {
         if (mListView instanceof AfListView) {
-            index = ((AfListView) mListView).getDataIndex(index);
+            index = mListView.getDataIndex(index);
         }
         if (index >= 0) {
             T model = mAdapter.getItemAt(index);
@@ -482,7 +485,7 @@ public abstract class AfListViewFragment<T> extends AfTabFragment implements
             //通知列表刷新完成
             mListView.finishRefresh();
             if (!AfCollections.isEmpty(ltdata)) {
-                setData(mAdapter = newAdapter(getActivity(), ltdata));
+                setData(mAdapter = newAdapter(getAfActivity(), ltdata));
                 setMoreShow(task, ltdata);
 //                if (ltdata.size() < task.mPageSize) {
 //                    mListView.removeMoreView();
@@ -499,7 +502,7 @@ public abstract class AfListViewFragment<T> extends AfTabFragment implements
                 setData(mAdapter);
                 makeToastLong(task.makeErrorToast("刷新失败"));
             } else if (ltdata != null && ltdata.size() > 0) {
-                setData(mAdapter = newAdapter(getActivity(), ltdata));
+                setData(mAdapter = newAdapter(getAfActivity(), ltdata));
                 makeToastLong(task.makeErrorToast("刷新失败"));
             } else {
                 setLoadError(task.mException);
@@ -521,7 +524,7 @@ public abstract class AfListViewFragment<T> extends AfTabFragment implements
             if (!AfCollections.isEmpty(ltdata)) {
                 final int count = mAdapter.getCount();
                 // 更新列表
-                mAdapter.addData(ltdata);
+                mAdapter.addAll(ltdata);
                 mListView.smoothScrollToPosition(count + 1);
             }
             if (!setMoreShow(task, ltdata)) {

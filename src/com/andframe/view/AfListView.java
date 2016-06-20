@@ -16,7 +16,7 @@ import com.andframe.view.pulltorefresh.PullRefreshHeaderImpl;
  * @author 树朾
  *
  */
-public class AfListView extends AfRefreshAbsListView<ListView> {
+public class AfListView extends AfRefreshAbsListView<ListView>{
 	
 	private static ListView mlistView = null;
 
@@ -93,60 +93,5 @@ public class AfListView extends AfRefreshAbsListView<ListView> {
 //		}
 //		return mAbsListView;
 //	}
-
-	/**
-	 * Returns the number of header views in the list. Header views are special
-	 * views at the top of the list that should not be recycled during a layout.
-	 * @return
-	 */
-	public final int getHeaderViewsCount() {
-		return mTargetView.getHeaderViewsCount() - 1;
-	}
-
-	/**
-	 * 获取 OnItemClick 中的index 对应ListView 中的index 包含 HeaderView
-	 * @param index
-	 * @return
-	 */
-	public final int getIndex(int index) {
-		return index - 0;//1;
-	}
-
-	/**
-	 * 获取 OnItemClick 中的index 对应Adapter 中的index
-	 * 主要用于当ListView中有Header的时候 可以排除Header产生的index偏移
-	 * @param index
-	 * @return index-headercount (小于0时代表点击的是header)
-	 */
-	public final int getDataIndex(int index) {
-//		if (index < mTargetView.getHeaderViewsCount()) {
-//			return index;
-//		}
-		return index - mTargetView.getHeaderViewsCount();
-	}
-
-	public void addHeaderView(View v) {
-		mTargetView.addHeaderView(v);
-	}
-
-	public void addHeaderView(View v, Object data, boolean isSelectable) {
-		mTargetView.addHeaderView(v, data, isSelectable);
-	}
-
-	public void addFooterView(View v) {
-		mTargetView.addFooterView(v);
-	}
-
-	public void addFooterView(View v, Object data, boolean isSelectable) {
-		mTargetView.addFooterView(v, data, isSelectable);
-	}
-
-	public boolean removeHeaderView(View v) {
-		return mTargetView.removeHeaderView(v);
-	}
-
-	public boolean removeFooterView(View v) {
-		return mTargetView.removeFooterView(v);
-	}
 
 }

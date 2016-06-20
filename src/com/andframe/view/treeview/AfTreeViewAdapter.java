@@ -8,10 +8,11 @@ import com.andframe.view.multichoice.AfMultiChoiceAdapter;
 import com.andframe.view.multichoice.AfMultiChoiceItem;
 
 import java.util.ArrayList;
+import java.util.Collection;
 import java.util.List;
 
 public abstract class AfTreeViewAdapter<T> extends AfMultiChoiceAdapter<T> {
-
+	
 	public interface AfTreeNodeClickable<T>{
 		boolean isItemClickable(AfTreeNode<T> item);
 	}
@@ -28,7 +29,7 @@ public abstract class AfTreeViewAdapter<T> extends AfMultiChoiceAdapter<T> {
 	public AfTreeViewAdapter(Context context, List<T> ltdata, AfTreeEstablisher<T> establisher) {
 		this(context,ltdata,establisher,false);
 	}
-
+	
 	public AfTreeViewAdapter(Context context, List<T> ltdata, AfTreeEstablisher<T> establisher,boolean isExpanded) {
 		super(context, new ArrayList<T>());
 		mltOriginData = ltdata;
@@ -39,7 +40,7 @@ public abstract class AfTreeViewAdapter<T> extends AfMultiChoiceAdapter<T> {
 		//将树形显示到列表
 		establishNodeListToShow(mltArray, mNodeShow, mRootNode);
 	}
-
+	
 	public void setTreeNodeClickable(AfTreeNodeClickable<T> clickable) {
 		this.mTreeNodeClickable = clickable;
 	}
@@ -55,21 +56,21 @@ public abstract class AfTreeViewAdapter<T> extends AfMultiChoiceAdapter<T> {
 		}
 		return mTreeNodeClickable.isItemClickable(mNodeShow.get(index));//
 	}
-
+	
 	@Override
 	protected View onInflateItem(IAfLayoutItem<T> item,
-								 ViewGroup parent) {
+			ViewGroup parent) {
 		View view = super.onInflateItem(item, parent);
 		return ((AfTreeViewItem<T>)item).inflateLayout(view, this);
 	}
-
+	
 	@Override
 	protected boolean bindingItem(IAfLayoutItem<T> item, int index) {
 		AfTreeViewItem<T> tvitem = (AfTreeViewItem<T>)item;
 		tvitem.setNode(mNodeShow.get(index));
 		return super.bindingItem(item, index);
 	}
-
+	
 	@Override
 	public void onItemClick(int index) {
 		if(isMultiChoiceMode()){
@@ -87,12 +88,12 @@ public abstract class AfTreeViewAdapter<T> extends AfMultiChoiceAdapter<T> {
 			updateNodeListToShow();
 		}
 	}
-
+	
 	public void closeAll() {
 		setNodeRecursion(mRootNode,false);
 		updateNodeListToShow();
 	}
-
+	
 	public void expandAll() {
 		setNodeRecursion(mRootNode,true);
 		updateNodeListToShow();
@@ -110,45 +111,50 @@ public abstract class AfTreeViewAdapter<T> extends AfMultiChoiceAdapter<T> {
 	}
 
 	@Override
-	public void addData(List<T> ltdata) {
-		mltOriginData.addAll(ltdata);
+	public boolean addAll(Collection<? extends T> ltdata) {
+		boolean ret = mltOriginData.addAll(ltdata);
 		mRootNode = mEstablisher.establish(mltOriginData,mDefaultExpanded);
 		restoreTreeNode(mRootNode,mNodeShow);
 		updateNodeListToShow();
+		return ret;
 	}
 
 	@Override
-	public void setData(List<T> ltdata) {
-		mltOriginData = ltdata;
+	public void set(Collection<? extends T> ltdata) {
+		mltOriginData = new ArrayList<>(ltdata);
 		mRootNode = mEstablisher.establish(mltOriginData,mDefaultExpanded);
 		updateNodeListToShow();
 	}
-
+	
 	@Override
-	public void setData(int index, T obj) {
+	public T set(int index, T obj) {
 		if (mltOriginData.size() > index) {
-			mltOriginData.set(index, obj);
+			T model = mltOriginData.set(index, obj);
 			mRootNode = mEstablisher.establish(mltOriginData,mDefaultExpanded);
 			updateNodeListToShow();
+			return model;
 		}
+		return null;
 	}
-
+	
 	@Override
-	public void insert(int index, T object) {
+	public void add(int index, T object) {
 		if (mltOriginData.size() >= index) {
 			mltOriginData.add(index, object);
 			mRootNode = mEstablisher.establish(mltOriginData,mDefaultExpanded);
 			updateNodeListToShow();
 		}
 	}
-
+	
 	@Override
-	public void remove(int index) {
+	public T remove(int index) {
 		if (mltOriginData.size() > index) {
-			mltOriginData.remove(index);
+			T model = mltOriginData.remove(index);
 			mRootNode = mEstablisher.establish(mltOriginData,mDefaultExpanded);
 			updateNodeListToShow();
+			return model;
 		}
+		return null;
 	}
 
 	// 构造要展示在listview的nodeListToShow
@@ -161,7 +167,7 @@ public abstract class AfTreeViewAdapter<T> extends AfMultiChoiceAdapter<T> {
 			}
 		}
 	}
-
+	
 	protected void updateNodeListToShow() {
 		restoreTreeNode(mRootNode,mNodeShow);
 		mltArray.clear();

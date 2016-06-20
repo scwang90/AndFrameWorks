@@ -1,7 +1,5 @@
 package com.andframe.layoutbind.framework;
 
-import java.util.ArrayList;
-
 import android.annotation.SuppressLint;
 import android.content.res.Configuration;
 import android.content.res.Resources;
@@ -40,6 +38,8 @@ import android.view.accessibility.AccessibilityNodeProvider;
 import android.view.animation.Animation;
 import android.view.inputmethod.EditorInfo;
 import android.view.inputmethod.InputConnection;
+
+import java.util.ArrayList;
 
 @SuppressLint({"NewApi","deprecation"})
 public class AfViewDelegate extends View{

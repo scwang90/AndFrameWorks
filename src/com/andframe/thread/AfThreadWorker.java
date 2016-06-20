@@ -12,7 +12,7 @@ public class AfThreadWorker extends Thread{
     private Thread mThread;
     /**
      * Creates a worker thread with the given name. The thread
-     * then runs a {@link Looper}.
+     * then runs a {@link android.os.Looper}.
      * @param name A name for the new thread
      */
     public AfThreadWorker(String name) {
@@ -30,7 +30,7 @@ public class AfThreadWorker extends Thread{
     }
     /**
      * Creates a worker thread with the given name. The thread
-     * then runs a {@link Looper}.
+     * then runs a {@link android.os.Looper}.
      * @param mTvName A name for the new thread
      */
     public AfThreadWorker(Object obj) {

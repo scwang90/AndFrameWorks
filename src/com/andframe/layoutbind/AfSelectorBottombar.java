@@ -13,9 +13,9 @@ import com.andframe.widget.popupmenu.MenuEntity;
 import com.andframe.widget.popupmenu.OnMenuItemClickListener;
 import com.andframe.widget.popupmenu.PopupMenu;
 
+import java.util.Collection;
 import java.util.HashMap;
 import java.util.Iterator;
-import java.util.List;
 import java.util.Map.Entry;
 
 public abstract class AfSelectorBottombar extends AfModuleAlpha implements
@@ -126,7 +126,7 @@ public abstract class AfSelectorBottombar extends AfModuleAlpha implements
 	@Override
 	public void onMultiChoiceAddData(
 			AfMultiChoiceAdapter<? extends Object> adapter,
-			List<? extends Object> list) {
+			Collection<? extends Object> list) {
 		
 	}
 
@@ -141,7 +141,7 @@ public abstract class AfSelectorBottombar extends AfModuleAlpha implements
 	@Override
 	public void onMultiChoiceClosed(
 			AfMultiChoiceAdapter<? extends Object> adapter,
-			List<? extends Object> list) {
+			Collection<? extends Object> list) {
 		if (function > 0) {
 			this.hide();
 		}

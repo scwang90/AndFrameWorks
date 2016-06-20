@@ -133,7 +133,7 @@ public abstract class AfServiceNotify<T> {
 		if(!handled && notify){
 			if (mSingleNotify) {
 				for (T t : list) {
-					AfNotifyCenter.notify(getNotification(t), 1000 + rand.nextInt(1000));
+					AfNotifyCenter.notify(getNotification(t), 1000+rand.nextInt(1000));
 				}
 			}else {
 				AfNotifyCenter.notify(getNotification(list), notifyid);
@@ -141,7 +141,7 @@ public abstract class AfServiceNotify<T> {
 		}
 	}
 	
-	private class ServiceTask extends AfHandlerTask {
+	private class ServiceTask extends AfHandlerTask{
 
 		private UUID tID = null;
 		private List<T> tltNotify = null;

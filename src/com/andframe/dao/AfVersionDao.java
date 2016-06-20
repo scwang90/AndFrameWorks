@@ -1,10 +1,10 @@
 package com.andframe.dao;
 
-import java.util.List;
-
 import android.content.Context;
 
 import com.andframe.entity.VersionEntity;
+
+import java.util.List;
 
 public class AfVersionDao extends AfDao<VersionEntity> {
 	

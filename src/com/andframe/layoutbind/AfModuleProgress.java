@@ -10,7 +10,7 @@ import com.andframe.layoutbind.framework.AfViewModule;
  * @author 树朾
  *
  */
-public abstract class AfModuleProgress extends AfViewModule {
+public abstract class AfModuleProgress extends AfViewModule{
 
 	public TextView mTvDescription = null;
 

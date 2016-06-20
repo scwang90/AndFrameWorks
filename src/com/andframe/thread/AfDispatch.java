@@ -18,7 +18,7 @@ public abstract class AfDispatch implements Runnable, Callback{
 			AfExceptionHandler.handler(e, remark);
 		}
 	}
-
+	
 	@Override
 	public boolean handleMessage(Message msg) {
 		this.run();
@@ -32,7 +32,7 @@ public abstract class AfDispatch implements Runnable, Callback{
 	}
 
 	public void dispatch(Looper looper, long delay) {
-		new Handler(looper,this).postDelayed(this, delay);
+		new Handler(looper,this).postDelayed(this,delay);
 	}
-
+	
 }

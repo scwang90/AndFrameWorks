@@ -15,7 +15,7 @@ import android.view.WindowManager;
  * 页面化的对话框
  * Created by Administrator on 2016/3/5 0005.
  */
-public class AfPageDialog extends AfDialog{
+public class AfPageDialog extends AfDialog {
 
     public AfPageDialog(Context context) {
         super(context);
@@ -43,7 +43,7 @@ public class AfPageDialog extends AfDialog{
         p.height = WindowManager.LayoutParams.MATCH_PARENT;
         getWindow().setAttributes(p);
         getWindow().setGravity(Gravity.TOP);
-        getWindow().setBackgroundDrawable(null);
+//        getWindow().setBackgroundDrawable(null);
     }
 
     @Override

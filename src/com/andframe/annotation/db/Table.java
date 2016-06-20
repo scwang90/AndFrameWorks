@@ -32,5 +32,5 @@ public @interface Table {
 	 *
 	 * @return the string
 	 */
-	String value() default "";
+	public String value() default "";
 }

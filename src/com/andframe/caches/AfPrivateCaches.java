@@ -1,8 +1,8 @@
 package com.andframe.caches;
 
-import java.util.HashMap;
-
 import com.andframe.application.AfApplication;
+
+import java.util.HashMap;
 
 public class AfPrivateCaches  extends AfJsonCache
 {

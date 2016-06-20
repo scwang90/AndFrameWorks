@@ -108,12 +108,16 @@ public abstract class AfMultiChoiceItem<T> extends AfListItem<T> implements OnCl
 		lpcheck.width = LayoutParams.WRAP_CONTENT;
 		lpcheck.weight = 0;
 		lpcheck.setMargins(margin, margin, margin, margin);
-		mMultiChoiceCheckBox = new CheckBox(view.getContext());
-		mMultiChoiceCheckBox.setOnClickListener(this);
-		mMultiChoiceCheckBox.setFocusable(false);
-		mMultiChoiceCheckBox.setVisibility(View.GONE);
-		
-		mMultiChoiceLayout.addView(mMultiChoiceCheckBox,lpcheck);
+		try {
+			mMultiChoiceCheckBox = new CheckBox(view.getContext());
+			mMultiChoiceCheckBox.setOnClickListener(this);
+			mMultiChoiceCheckBox.setFocusable(false);
+			mMultiChoiceCheckBox.setVisibility(View.GONE);
+
+			mMultiChoiceLayout.addView(mMultiChoiceCheckBox,lpcheck);
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
 		view.setBackgroundResource(0);
 		return mMultiChoiceLayout;
 	}

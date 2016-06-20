@@ -125,6 +125,7 @@ public abstract class AfActivity extends FragmentActivity implements AfPageable 
     protected AfThreadWorker mWorker = null;
 
     protected boolean mIsRecycled = false;
+    protected boolean mIsResume = true;
 
     /**
      * 获取LOG日志 TAG 是 AfActivity 的方法
@@ -156,11 +157,18 @@ public abstract class AfActivity extends FragmentActivity implements AfPageable 
     @Override
     protected void onSaveInstanceState(Bundle outState) {
         try {
+            this.mIsResume = false;
             AfApplication.getApp().onSaveInstanceState();
             super.onSaveInstanceState(outState);
         } catch (Throwable e) {
             AfExceptionHandler.handler(e, "AfActivity.onSaveInstanceState");
         }
+    }
+
+    @Override
+    protected void onStop() {
+        super.onStop();
+        this.mIsResume = false;
     }
 
     /**
@@ -179,6 +187,33 @@ public abstract class AfActivity extends FragmentActivity implements AfPageable 
     @Override
     public View getView() {
         return mRootView;
+    }
+
+    public boolean isResume() {
+        return mIsResume;
+    }
+
+    public void dispatchAfterResume(AfDispatch dispatch) {
+        if (isResume()) {
+            AfApplication.dispatch(dispatch);
+        } else {
+            postDataTask(dispatch, new AfDataTask.AbDataTaskHandler<AfDispatch>() {
+                @Override
+                public void onTaskBackground(AfDispatch dispatch) throws Exception {
+                    while (!isResume() && !isRecycled()) {
+                        Thread.sleep(1000);
+                    }
+                }
+
+                @Override
+                public boolean onTaskHandle(AfDispatch dispatch, AfDataTask task) {
+                    if (isResume() && !isRecycled()) {
+                        AfApplication.dispatch(dispatch);
+                    }
+                    return false;
+                }
+            });
+        }
     }
 
     /**
@@ -223,7 +258,7 @@ public abstract class AfActivity extends FragmentActivity implements AfPageable 
     public void setContentView(View view, LayoutParams params) {
         super.setContentView(view, params);
         mRootView = view;
-        ViewBinder.doBind(this, view);
+        ViewBinder.doBind(this,view);
         AfSoftInputer inputer = new AfSoftInputer(this);
         inputer.setBindListener(view, this);
     }
@@ -246,6 +281,7 @@ public abstract class AfActivity extends FragmentActivity implements AfPageable 
     protected void onResume() {
         super.onResume();
         try {
+            this.mIsResume = true;
             getAfApplication().setCurActivity(this, this);
             Injecter.doInjectQueryChanged(this);
             this.onQueryChanged();
@@ -259,6 +295,7 @@ public abstract class AfActivity extends FragmentActivity implements AfPageable 
         super.onDestroy();
         try {
             getAfApplication().setCurActivity(this, null);
+            mIsResume = false;
             mIsRecycled = true;
             if (mWorker != null) {
                 mWorker.quit();
@@ -340,7 +377,7 @@ public abstract class AfActivity extends FragmentActivity implements AfPageable 
         startActivityForResult(intent, request);
     }
 
-    protected void setResultOk(Object... args) {
+    public void setResultOk(Object... args) {
         AfIntent intent = new AfIntent();
         if (args != null && args.length > 0) {
             for (int i = 0; i < args.length / 2; i++) {
@@ -859,6 +896,7 @@ public abstract class AfActivity extends FragmentActivity implements AfPageable 
     public AlertDialog doInputText(String title, int type, InputTextListener listener) {
         return doInputText(title, "", type, listener);
     }
+
     /**
      * 弹出一个文本输入框
      *
@@ -869,6 +907,7 @@ public abstract class AfActivity extends FragmentActivity implements AfPageable 
     public AlertDialog doInputText(String title, String defaul, InputTextListener listener) {
         return new AfDailog(this).doInputText(title, defaul, InputType.TYPE_CLASS_TEXT, listener);
     }
+
     /**
      * 弹出一个文本输入框
      *
@@ -1321,7 +1360,7 @@ public abstract class AfActivity extends FragmentActivity implements AfPageable 
     /**
      * (non-Javadoc)
      *
-     * @see android.support.v4.app.FragmentActivity#onActivityResult(int, int, Intent)
+     * @see android.support.v4.app.FragmentActivity#onActivityResult(int, int, android.content.Intent)
      * final 重写 onActivityResult 使用 try-catch 调用
      * onActivityResult(AfIntent intent, int requestcode,int resultcode)
      * @see AfActivity#onActivityResult(AfIntent intent, int requestcode, int resultcode)
@@ -1349,7 +1388,7 @@ public abstract class AfActivity extends FragmentActivity implements AfPageable 
      * @param intent      Intent 的子类 支持对象持久化
      * @param requestcode 请求码
      * @param resultcode  返回码
-     * @see AfActivity#onActivityResult(int, int, Intent)
+     * @see AfActivity#onActivityResult(int, int, android.content.Intent)
      */
     protected void onActivityResult(AfIntent intent, int requestcode, int resultcode) throws Exception{
         super.onActivityResult(requestcode, resultcode, intent);

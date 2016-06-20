@@ -11,7 +11,7 @@ public class AfModuleNodataImpl extends AfModuleNodata {
 	public static final int ID_BUTTON = R.id.module_nodata_button;
 
 	public AfModuleNodataImpl(AfViewable view) {
-		super(view, R.id.module_nodata_layout);
+		super(view,R.id.module_nodata_layout);
 	}
 	
 	@Override

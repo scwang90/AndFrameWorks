@@ -50,7 +50,7 @@ public class AfSoftInputer implements OnGlobalLayoutListener {
 					mPageListener .onSoftInputHiden();
 				}
 			}
-			lastdiff = diff;
+			lastdiff = diff;	
 		}
 //		if (diff > 100) {
 //			// 大小超过100时，一般为显示虚拟键盘事件
@@ -61,7 +61,7 @@ public class AfSoftInputer implements OnGlobalLayoutListener {
 //		}
 
 	}
-
+	
 
 	/**
 	 * 获取软键盘大打开状态

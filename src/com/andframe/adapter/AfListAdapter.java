@@ -1,6 +1,7 @@
 package com.andframe.adapter;
 
 import android.content.Context;
+import android.support.annotation.NonNull;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -11,9 +12,12 @@ import com.andframe.activity.framework.AfView;
 import com.andframe.application.AfExceptionHandler;
 
 import java.util.ArrayList;
+import java.util.Collection;
+import java.util.Iterator;
 import java.util.List;
+import java.util.ListIterator;
 
-public abstract class AfListAdapter<T> extends BaseAdapter {
+public abstract class AfListAdapter<T> extends BaseAdapter implements List<T> {
 	
 	protected static final int LP_MP = LayoutParams.MATCH_PARENT;
 	protected static final int LP_WC = LayoutParams.WRAP_CONTENT;
@@ -38,23 +42,25 @@ public abstract class AfListAdapter<T> extends BaseAdapter {
 	/**
 	 * 适配器新增 点击更多 数据追加接口
 	 */
-	public void addData(T data) {
-		mltArray.add(data);
+	public boolean add(T data) {
+		boolean ret = mltArray.add(data);
 		notifyDataSetChanged();
+		return ret;
 	}
 
 	/**
 	 * 适配器新增 点击更多 数据追加接口
 	 */
-	public void addData(List<T> ltdata) {
-		mltArray.addAll(ltdata);
+	public boolean addAll(Collection<? extends T> ltdata) {
+		boolean ret = mltArray.addAll(ltdata);
 		notifyDataSetChanged();
+		return ret;
 	}
 
 	/**
 	 * 适配器新增 数据刷新 接口
 	 */
-	public void setData(List<T> ltdata) {
+	public void set(Collection<? extends T> ltdata) {
 		mltArray = new ArrayList<>(ltdata);
 		notifyDataSetChanged();
 	}
@@ -62,27 +68,67 @@ public abstract class AfListAdapter<T> extends BaseAdapter {
 	/**
 	 * 适配器新增 单个数据刷新 接口
 	 */
-	public void setData(int index, T obj) {
+	public T set(int index, T obj) {
 		if (mltArray.size() > index) {
-			mltArray.set(index, obj);
+			T model = mltArray.set(index, obj);
 			notifyDataSetChanged();
+			return model;
 		}
+		return null;
 	}
 
 	/**
 	 * 适配器新增 数据删除 接口
 	 */
-	public void remove(int index) {
+	public T remove(int index) {
 		if (mltArray.size() > index) {
-			mltArray.remove(index);
+			T remove = mltArray.remove(index);
 			notifyDataSetChanged();
+			return remove;
 		}
+		return null;
+	}
+
+	@Override
+	public boolean remove(Object object) {
+		if (mltArray.remove(object)) {
+			notifyDataSetChanged();
+			return true;
+		}
+		return false;
+	}
+
+	@Override
+	public boolean removeAll(Collection<?> collection) {
+		return mltArray.removeAll(collection);
+	}
+
+	@Override
+	public boolean retainAll(Collection<?> collection) {
+		return mltArray.retainAll(collection);
+	}
+
+	@Override
+	public int size() {
+		return mltArray.size();
+	}
+
+	@NonNull
+	@Override
+	public List<T> subList(int start, int end) {
+		return mltArray.subList(start, end);
+	}
+
+	@NonNull
+	@Override
+	public Object[] toArray() {
+		return mltArray.toArray();
 	}
 
 	/**
 	 * 适配器新增 数据插入 接口
 	 */
-	public void insert(int index, T object) {
+	public void add(int index, T object) {
 		if (mltArray.size() >= index) {
 			mltArray.add(index, object);
 			notifyDataSetChanged();
@@ -92,11 +138,13 @@ public abstract class AfListAdapter<T> extends BaseAdapter {
 	/**
 	 * 适配器新增 数据插入 接口
 	 */
-	public void insert(int index, List<T> lsit) {
+	public boolean addAll(int index,  Collection<? extends T> collection) {
 		if (mltArray.size() >= index) {
-			mltArray.addAll(index, lsit);
+			boolean ret = mltArray.addAll(index, collection);
 			notifyDataSetChanged();
+			return ret;
 		}
+		return false;
 	}
 
 	@Override
@@ -170,10 +218,74 @@ public abstract class AfListAdapter<T> extends BaseAdapter {
 		/**
 		 * 将数据绑定到控件显示
 		 */
-		void onBinding(T model, int index);
+		void onBinding(T model,int index);
 		/**
 		 * 获取 Item 关联的 InjectLayout ID
 		 */
 		int getLayoutId();
+	}
+
+	@NonNull
+	@Override
+	public <T1> T1[] toArray(T1[] array) {
+		return mltArray.toArray(array);
+	}
+
+	@Override
+	public void clear() {
+		mltArray.clear();
+		notifyDataSetChanged();
+	}
+
+	@Override
+	public boolean contains(Object object) {
+		return mltArray.contains(object);
+	}
+
+	@Override
+	public boolean containsAll(Collection<?> collection) {
+		return mltArray.containsAll(collection);
+	}
+
+	@Override
+	public T get(int location) {
+		return mltArray.get(location);
+	}
+
+	@Override
+	public int hashCode() {
+		return mltArray.hashCode();
+	}
+
+	@Override
+	public int indexOf(Object object) {
+		return mltArray.indexOf(object);
+	}
+
+	@Override
+	public boolean isEmpty() {
+		return mltArray.isEmpty();
+	}
+
+	@NonNull
+	@Override
+	public Iterator<T> iterator() {
+		return mltArray.iterator();
+	}
+
+	@Override
+	public int lastIndexOf(Object object) {
+		return mltArray.lastIndexOf(object);
+	}
+
+	@Override
+	public ListIterator<T> listIterator() {
+		return mltArray.listIterator();
+	}
+
+	@NonNull
+	@Override
+	public ListIterator<T> listIterator(int location) {
+		return mltArray.listIterator(location);
 	}
 }

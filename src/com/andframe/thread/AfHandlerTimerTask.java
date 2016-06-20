@@ -2,9 +2,9 @@ package com.andframe.thread;
 
 import android.os.Handler;
 import android.os.Handler.Callback;
+import android.os.Looper;
 import android.os.Message;
 
-import com.andframe.application.AfApplication;
 import com.andframe.application.AfExceptionHandler;
 
 public abstract class AfHandlerTimerTask extends AfTimerTask implements Callback{
@@ -14,7 +14,7 @@ public abstract class AfHandlerTimerTask extends AfTimerTask implements Callback
 	protected abstract boolean onHandleTimer(Message msg);
 
 	protected AfHandlerTimerTask() {
-		this.mHandler = new Handler(AfApplication.getLooper(),this);
+		this.mHandler = new Handler(Looper.getMainLooper(),this);
 	}
 
 	@Override

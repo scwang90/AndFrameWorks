@@ -35,7 +35,6 @@ public abstract class AfListManageFragment<T> extends AfMultiChoiceListFragment<
 
 	/**
 	 * 使用缓存必须调用这个构造函数
-	 * @param clazz
 	 */
 	public AfListManageFragment(Class<T> clazz) {
 		super(clazz);
@@ -44,7 +43,6 @@ public abstract class AfListManageFragment<T> extends AfMultiChoiceListFragment<
 	/**
 	 * 使用缓存必须调用这个构造函数
 	 * 	可以自定义缓存标识
-	 * @param clazz
 	 */
 	public AfListManageFragment(Class<T> clazz, String KEY_CACHELIST) {
 		super(clazz,KEY_CACHELIST);
@@ -62,8 +60,6 @@ public abstract class AfListManageFragment<T> extends AfMultiChoiceListFragment<
 
 	/**
 	 * 菜单事件处理
-	 * @param item
-	 * @return
 	 */
 	@Override
 	public boolean onMenuItemClick(MenuItem item) {
@@ -98,8 +94,6 @@ public abstract class AfListManageFragment<T> extends AfMultiChoiceListFragment<
 
 	/**
 	 * 列表项被点击
-	 * @param model
-	 * @param index
 	 */
 	@Override
 	protected void onItemClick(T model, int index) {
@@ -112,7 +106,6 @@ public abstract class AfListManageFragment<T> extends AfMultiChoiceListFragment<
 	 * 任务准备开始 （在UI线程中）
 	 * @return 返回true 表示准备完毕 否则 false 任务将被取消
 	 * @param task 任务ID
-	 * @return
 	 */
 	@Override
 	protected boolean onTaskPrepare(int task) {
@@ -130,9 +123,6 @@ public abstract class AfListManageFragment<T> extends AfMultiChoiceListFragment<
 
 	/**
 	 * 任务执行分流（异步线程）
-	 * @param task
-	 * @return
-	 * @throws Exception
 	 */
 	@Override
 	protected boolean onTaskWorking(int task) throws Exception{
@@ -151,8 +141,6 @@ public abstract class AfListManageFragment<T> extends AfMultiChoiceListFragment<
 
 	/**
 	 * 标记已读任务（异步线程）
-	 * @param model
-	 * @throws Exception
 	 */
 	protected void onTaskRead(T model) throws Exception {
 		Thread.sleep(1000);
@@ -160,8 +148,6 @@ public abstract class AfListManageFragment<T> extends AfMultiChoiceListFragment<
 
 	/**
 	 * 删除任务（异步线程）
-	 * @param ltdelete
-	 * @throws Exception
 	 */
 	protected void onTaskDelete(List<T> ltdelete) throws Exception {
 		Thread.sleep(1000);
@@ -182,7 +168,7 @@ public abstract class AfListManageFragment<T> extends AfMultiChoiceListFragment<
 						}
 						mltArray.remove(model);
 					}
-					mMultiChoiceAdapter.setData(mltArray);
+					mMultiChoiceAdapter.set(mltArray);
 					mMultiChoiceAdapter.closeMultiChoice();
 				} else {
 					makeToastShort(task.makeErrorToast("删除失败"));
@@ -209,7 +195,6 @@ public abstract class AfListManageFragment<T> extends AfMultiChoiceListFragment<
 
 	/**
 	 * 数据已经被删除
-	 * @param model
 	 */
 	protected void onDataDeleted(T model) {
 

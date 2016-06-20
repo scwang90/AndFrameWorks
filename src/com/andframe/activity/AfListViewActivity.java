@@ -221,7 +221,7 @@ public abstract class AfListViewActivity<T> extends AfActivity implements OnRefr
             ltArray.add(value);
             setData(newAdapter(this, ltArray));
         } else {
-            mAdapter.insert(0, value);
+            mAdapter.add(0, value);
         }
     }
 
@@ -565,7 +565,7 @@ public abstract class AfListViewActivity<T> extends AfActivity implements OnRefr
             if (!AfCollections.isEmpty(ltdata)) {
                 final int count = mAdapter.getCount();
                 // 更新列表
-                mAdapter.addData(ltdata);
+                mAdapter.addAll(ltdata);
                 mListView.smoothScrollToPosition(count + 1);
             }
             if (!setMoreShow(task, ltdata)) {

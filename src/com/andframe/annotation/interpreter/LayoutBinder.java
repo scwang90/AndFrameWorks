@@ -23,7 +23,7 @@ public class LayoutBinder {
     public static void doBind(Activity activity) {
         try{
             Class<? extends Activity> clazz = activity.getClass();
-            BindLayout layout = AfReflecter.getAnnotation(clazz, Dialog.class, BindLayout.class);
+            BindLayout layout = AfReflecter.getAnnotation(clazz, Activity.class, BindLayout.class);
             if (layout != null) {
                 activity.setContentView(layout.value());
             }

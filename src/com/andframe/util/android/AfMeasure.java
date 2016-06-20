@@ -2,8 +2,8 @@ package com.andframe.util.android;
 
 import android.graphics.Point;
 import android.view.View;
-import android.view.ViewGroup;
 import android.view.View.MeasureSpec;
+import android.view.ViewGroup;
 import android.widget.LinearLayout.LayoutParams;
 /**
  * 视图测量工具

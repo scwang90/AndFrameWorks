@@ -1,12 +1,12 @@
 package com.andframe.adapter;
 
-import java.util.List;
-
 import android.view.View;
 
 import com.andframe.activity.framework.AfView;
 import com.andframe.view.AfContactsListView;
 import com.andframe.view.AfContactsRefreshView;
+
+import java.util.List;
 
 public abstract class AfContactsAdapter<G, C> extends AfExpandableAdapter<G, C>{
 

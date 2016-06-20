@@ -1,8 +1,5 @@
 package com.andframe.util;
 
-import java.io.File;
-import java.io.IOException;
-
 import android.annotation.SuppressLint;
 import android.content.Context;
 import android.database.sqlite.SQLiteDatabase;
@@ -12,6 +9,9 @@ import android.os.Build.VERSION;
 import com.andframe.dao.AfVersionDao;
 import com.andframe.database.AfDbOpenHelper;
 import com.andframe.entity.VersionEntity;
+
+import java.io.File;
+import java.io.IOException;
 
 public class DatabaseUtil
 {

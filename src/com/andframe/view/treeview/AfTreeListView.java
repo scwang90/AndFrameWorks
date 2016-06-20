@@ -7,8 +7,8 @@ import android.widget.AdapterView;
 import android.widget.ListAdapter;
 import android.widget.ListView;
 
-import com.andframe.view.multichoice.AfMultiChoiceAbsListView;
 import com.andframe.view.multichoice.AfMultiChoiceAdapter;
+import com.andframe.view.multichoice.AfMultiChoiceAbsListView;
 
 public class AfTreeListView extends AfMultiChoiceAbsListView<ListView> {
 

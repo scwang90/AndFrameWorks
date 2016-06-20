@@ -10,12 +10,14 @@ import android.os.Handler;
 import android.os.Looper;
 import android.os.Message;
 import android.support.v4.app.NotificationCompat.Builder;
+import android.text.TextUtils;
 
 import com.andframe.application.AfApplication;
+import com.andframe.application.AfDaemonThread;
 import com.andframe.application.AfExceptionHandler;
 import com.andframe.feature.AfIntent;
 import com.andframe.util.java.AfFileUtil;
-import com.andframe.util.java.AfStringUtil;
+import com.andframe.util.java.AfMD5;
 
 import org.apache.http.HttpEntity;
 import org.apache.http.HttpResponse;
@@ -55,7 +57,7 @@ public class AfDownloader {
         entity.Name = name;
         entity.DownloadUrl = url;
         entity.DownloadPath = path;
-        AfApplication.postTask(new DownloadTask(entity, null));
+        AfDaemonThread.postTask(new DownloadTask(entity, null));
     }
 
     /**
@@ -67,7 +69,7 @@ public class AfDownloader {
         DownloadEntity entity = new DownloadEntity();
         entity.DownloadUrl = url;
         entity.DownloadPath = path;
-        AfApplication.postTask(new DownloadTask(entity, null));
+        AfDaemonThread.postTask(new DownloadTask(entity, null));
     }
 
     /**
@@ -79,7 +81,7 @@ public class AfDownloader {
         DownloadEntity entity = new DownloadEntity();
         entity.DownloadUrl = url;
         entity.DownloadPath = path;
-        AfApplication.postTask(new DownloadTask(entity, listener));
+        AfDaemonThread.postTask(new DownloadTask(entity, listener));
     }
 
     /**
@@ -87,7 +89,7 @@ public class AfDownloader {
      * @param entity 下载配置实体
      */
     public static void download(DownloadEntity entity) {
-        AfApplication.postTask(new DownloadTask(entity, null));
+        AfDaemonThread.postTask(new DownloadTask(entity, null));
     }
 
     /**
@@ -96,7 +98,7 @@ public class AfDownloader {
      * @param listener 加载进度监听器
      */
     public static void download(DownloadEntity entity, DownloadListener listener) {
-        AfApplication.postTask(new DownloadTask(entity, listener));
+        AfDaemonThread.postTask(new DownloadTask(entity, listener));
     }
 
     /**
@@ -114,12 +116,9 @@ public class AfDownloader {
      * @return true 正在下载 false 没有在下载
      */
     public static boolean isDownloading(String url) {
-//		for (DownloadTask task : DownloadTask.mltDownloading) {
         for (int i = 0; i < DownloadTask.mltDownloading.size(); i++) {
             DownloadTask task = DownloadTask.mltDownloading.get(i);
-
-//			}
-            if (AfStringUtil.equals(task.mEndityUrl, url)) {
+            if (TextUtils.equals(task.mEndityUrl, url)) {
                 return true;
             }
         }
@@ -132,11 +131,8 @@ public class AfDownloader {
      * @return true 正在下载 false 没有在下载
      */
     public static boolean isDownloading(Object tag) {
-//		for (DownloadTask task : DownloadTask.mltDownloading) {
         for (int i = 0; i < DownloadTask.mltDownloading.size(); i++) {
             DownloadTask task = DownloadTask.mltDownloading.get(i);
-
-//			}
             if (task.mEndity.tag == tag) {
                 return true;
             }
@@ -158,7 +154,7 @@ public class AfDownloader {
 
     /**
      * 新的绑定进度监听器
-     * @param url      下载路劲
+     * @param url      下载路径
      * @param listener 加载进度监听器
      * @return 返回最新的监听器
      * 如果等于 传入的监听器 绑定成功 否则 上一个监听器拒绝新的绑定
@@ -167,13 +163,13 @@ public class AfDownloader {
     public static DownloadListener setListener(String url, DownloadListener listener) {
         for (int i = 0; i < DownloadTask.mltDownloading.size(); i++) {
             DownloadTask task = DownloadTask.mltDownloading.get(i);
-            if (listener != null && AfStringUtil.equals(task.mEndityUrl, url)) {
+            if (listener != null && TextUtils.equals(task.mEndityUrl, url)) {
                 DownloadListener cListener = task.setDownloadListener(listener);
                 if (cListener != listener && cListener instanceof DownloadManagerListener
                         && listener instanceof DownloadViewerListener) {
                     DownloadViewerListener vListener = (DownloadViewerListener) listener;
                     DownloadManagerListener mListener = (DownloadManagerListener) cListener;
-                    if (mListener.setDownloadListener(vListener)) {
+                    if (mListener.setDownloadListener(task.mEndity, vListener)) {
                         return vListener;
                     }
                 }
@@ -229,8 +225,11 @@ public class AfDownloader {
          * 下载后的文件名，影响 DownloadPath的意义
          */
         public String Name = "";
-        public String Size = "";
         public String DownloadUrl = "";
+        /**
+         * 大小，开始下载时下载器赋值，传入时忽略
+         */
+        public String Size = "";
         /**
          * 当 Name 有值时候 表示目录,否则全路径
          */
@@ -251,7 +250,7 @@ public class AfDownloader {
 
         public boolean isDownloaded() {
             return isDownloaded;
-        } 
+        }
 
         void setDownloaded() {
             isDownloaded = true;
@@ -282,7 +281,7 @@ public class AfDownloader {
          * 获取下载目录
          */
         public String getDir() {
-            if (AfStringUtil.isNotEmpty(Name)) {
+            if (!TextUtils.isEmpty(Name)) {
                 return DownloadPath;
             } else {
                 return new File(DownloadPath).getParent();
@@ -293,25 +292,31 @@ public class AfDownloader {
          * 获取下载全路径
          */
         public String getFullPath() {
-            if (AfStringUtil.isNotEmpty(Name)) {
+            if (!TextUtils.isEmpty(Name)) {
                 return DownloadPath + "/" + Name;
             } else {
                 return DownloadPath;
             }
         }
+        /**
+         * 获取唯一ID
+         */
+        public String getId() {
+            return AfMD5.getMD5(DownloadUrl + DownloadPath + Name);
+        }
     }
 
     public interface DownloadListener {
         /**
-         * @Description 下载开始
+         * 下载开始
          */
-        void onDownloadStart();
+        void onDownloadStart(DownloadEntity entity);
 
         /**
+         * 接口脱离
          * @return false 拒绝脱离 true 同意脱离
-         * @Description 接口脱离
          */
-        boolean onBreakAway();
+        boolean onBreakAway(DownloadEntity entity);
 
         /**
          * 下载进度
@@ -320,7 +325,7 @@ public class AfDownloader {
          * @param loaded 已下载长度
          * @param total  文件总大小
          */
-        void onDownloadProgress(float rate, long loaded, long total);
+        void onDownloadProgress(DownloadEntity entity,float rate, long loaded, long total);
 
         /**
          * 通知栏点击事件
@@ -334,7 +339,7 @@ public class AfDownloader {
          *
          * @return true 已经处理 false 没有处理（影响到notifyClick）
          */
-        boolean onDownloadFinish();
+        boolean onDownloadFinish(DownloadEntity entity);
 
         /**
          * 下载失败
@@ -343,7 +348,7 @@ public class AfDownloader {
          * @param e     错误异常
          * @return true 已经处理 false 没有处理（影响到notifyClick）
          */
-        boolean onDownloadFail(String error, Throwable e);
+        boolean onDownloadFail(DownloadEntity entity,String error, Throwable e);
     }
 
     /**
@@ -352,12 +357,12 @@ public class AfDownloader {
     public static abstract class DownloadViewerListener implements DownloadListener {
 
         @Override
-        public void onDownloadStart() {
+        public void onDownloadStart(DownloadEntity entity) {
 
         }
 
         @Override
-        public boolean onBreakAway() {
+        public boolean onBreakAway(DownloadEntity entity) {
             return true;//同意脱离
         }
 
@@ -367,12 +372,12 @@ public class AfDownloader {
         }
 
         @Override
-        public boolean onDownloadFinish() {
+        public boolean onDownloadFinish(DownloadEntity entity) {
             return false;
         }
 
         @Override
-        public boolean onDownloadFail(String error, Throwable e) {
+        public boolean onDownloadFail(DownloadEntity entity,String error, Throwable e) {
             return false;
         }
 
@@ -394,32 +399,32 @@ public class AfDownloader {
         }
 
         @Override
-        public void onDownloadStart() {
+        public void onDownloadStart(DownloadEntity entity) {
             if (listener != null) {
-                listener.onDownloadStart();
+                listener.onDownloadStart(entity);
             }
         }
 
         @Override
-        public boolean onBreakAway() {
+        public boolean onBreakAway(DownloadEntity entity) {
             return false;//同意脱离
         }
 
         @Override
-        public void onDownloadProgress(float rate, long loaded, long total) {
+        public void onDownloadProgress(DownloadEntity entity, float rate, long loaded, long total) {
             if (listener != null) {
-                listener.onDownloadProgress(rate, loaded, total);
+                listener.onDownloadProgress(entity, rate, loaded, total);
             }
         }
 
         @Override
-        public boolean onDownloadFinish() {
-            return listener != null && listener.onDownloadFinish();
+        public boolean onDownloadFinish(DownloadEntity entity) {
+            return listener != null && listener.onDownloadFinish(entity);
         }
 
         @Override
-        public boolean onDownloadFail(String error, Throwable e) {
-            return listener != null && listener.onDownloadFail(error, e);
+        public boolean onDownloadFail(DownloadEntity entity, String error, Throwable e) {
+            return listener != null && listener.onDownloadFail(entity, error, e);
         }
 
         /**
@@ -427,8 +432,8 @@ public class AfDownloader {
          *
          * @return true 绑定成功 false 上一个监听器 拒绝
          */
-        public boolean setDownloadListener(DownloadViewerListener listener) {
-            if (this.listener == null || this.listener.onBreakAway()) {
+        boolean setDownloadListener(DownloadEntity entity, DownloadViewerListener listener) {
+            if (this.listener == null || this.listener.onBreakAway(entity)) {
                 this.listener = listener;
                 return true;
             }
@@ -548,10 +553,10 @@ public class AfDownloader {
          * 如果等于 传入的监听器 绑定成功 否则 上一个监听器拒绝新的绑定
          */
         public DownloadListener setDownloadListener(DownloadListener listener) {
-            if (mListener == null || mListener.onBreakAway()) {
+            if (mListener == null || mListener.onBreakAway(mEndity)) {
                 mListener = listener;
                 if (mListener != null) {
-                    mListener.onDownloadStart();
+                    mListener.onDownloadStart(mEndity);
                 }
             }
             return mListener;
@@ -566,13 +571,13 @@ public class AfDownloader {
                 mNotifier.notifyStart();
             }
             if (mListener != null) {
-                mListener.onDownloadStart();
+                mListener.onDownloadStart(mEndity);
             }
             return super.onPrepare();
         }
 
         @Override
-        protected void onWorking(/*Message msg*/) throws Exception {
+        protected void onWorking() throws Exception {
             if (!mEndity.isDownloaded()) {
 
                 HttpGet get = new HttpGet(mEndityUrl);
@@ -642,10 +647,6 @@ public class AfDownloader {
             }
         }
 
-//        @Override
-//        protected boolean onHandle(/*Message msg*/) {
-//        }
-
         public void notifyClick() {
             if (mListener != null) {
                 mListener.notifyClick(mEndity);
@@ -654,20 +655,20 @@ public class AfDownloader {
 
         @Override
         public boolean handleMessage(Message msg) {
-            if (mResult == AfTask.RESULT_FINISH) {
+            if (isFinish()) {
                 if (msg.what == DOWNLOAD_PROGRESS) {
                     // 更新状态栏上的下载进度信息
                     if (mNotifier != null) {
                         mNotifier.notifyProgress(100, mPrecent, false);
                     }
                     if (mListener != null) {
-                        mListener.onDownloadProgress(0.01f * mPrecent, mCount, mTotal);
+                        mListener.onDownloadProgress(mEndity, 0.01f * mPrecent, mCount, mTotal);
                     }
                 } else if (msg.what == DOWNLOAD_FINISH) {
                     mEndity.setDownloaded();
                     mltDownloading.remove(this);
                     boolean neednotify = true;
-                    if (mListener != null && mListener.onDownloadFinish()) {
+                    if (mListener != null && mListener.onDownloadFinish(mEndity)) {
                         neednotify = false;
                     }
                     if (mNotifier != null) {
@@ -679,10 +680,10 @@ public class AfDownloader {
                         }
                     }
                 }
-            } else if (mResult == AfTask.RESULT_FAIL) {
+            } else {
                 mltDownloading.remove(this);
                 boolean neednotify = true;
-                if (mListener != null && mListener.onDownloadFail(mErrors, mException)) {
+                if (mListener != null && mListener.onDownloadFail(mEndity, mErrors, mException)) {
                     neednotify = false;
                 }
                 if (mNotifier != null) {
@@ -714,12 +715,6 @@ public class AfDownloader {
                         task.notifyClick();
                         DownloadTask.mNotifyMap.remove(Url);
                     }
-//					for (DownloadTask task : DownloadTask.mltDownloading) {
-//						if (AfStringUtil.equals(task.mEndityUrl, Url)) {
-//							task.notifyClick();
-//							break;
-//						}
-//					}
                 }
             } catch (Throwable e) {
                 AfExceptionHandler.handler(e, "DownloadBroadcast.onReceive");
@@ -734,7 +729,7 @@ public class AfDownloader {
             DownloadBroadcast receiver = new DownloadBroadcast();
             AfApplication.getApp().registerReceiver(receiver, filter);
         } catch (Throwable e) {
-            AfExceptionHandler.handleAttach(e, "DownloadBroadcast.registerReceiver error");
+            AfExceptionHandler.handler(e, "DownloadBroadcast.registerReceiver error");
         }
     }
 }

@@ -12,7 +12,6 @@ import android.os.Handler;
 import android.os.Looper;
 import android.support.v4.view.ViewPager;
 import android.util.AttributeSet;
-import android.util.FloatMath;
 import android.view.MotionEvent;
 import android.view.View;
 import android.view.View.OnClickListener;
@@ -454,12 +453,12 @@ public class AfAlbumView extends ImageView implements OnClickListener {
 		}
 	};
 
-	public interface Smoothable {
-		void onStart(int from, int to);
+	public static interface Smoothable {
+		public void onStart(int from, int to);
 
-		void onFinish(int from, int to);
+		public void onFinish(int from, int to);
 
-		boolean onSmooth(int value, float percent, int from, int to);
+		public boolean onSmooth(int value, float percent, int from, int to);
 	}
 
 	public class SmoothRunnable implements Runnable {

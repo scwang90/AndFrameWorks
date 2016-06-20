@@ -1,20 +1,20 @@
 package com.andframe.caches;
 
-import java.io.File;
-import java.lang.reflect.Field;
-import java.util.Date;
-import java.util.List;
-import java.util.Set;
-
-import com.google.gson.Gson;
-import com.andframe.exception.AfException;
-
 import android.annotation.SuppressLint;
 import android.content.Context;
 import android.content.ContextWrapper;
 import android.content.SharedPreferences;
 import android.content.SharedPreferences.Editor;
 import android.os.Build.VERSION;
+
+import com.andframe.exception.AfException;
+import com.google.gson.Gson;
+
+import java.io.File;
+import java.lang.reflect.Field;
+import java.util.Date;
+import java.util.List;
+import java.util.Set;
 
 /**
  * AfSharedPreference
@@ -40,7 +40,7 @@ public class AfSharedPreference {
 	 * 1.动态缓存路径 path 可以指定保存到SD卡中
 	 * @param context
 	 * @param path
-	 *            保存路劲
+	 *            保存路径
 	 * @param name
 	 * @throws Exception
 	 *             转换路径失败异常（SD卡被占用）

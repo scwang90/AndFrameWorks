@@ -12,9 +12,8 @@ import com.andframe.view.multichoice.AfMultiChoiceAdapter.GenericityListener;
 import com.andframe.widget.popupmenu.OnMenuItemClickListener;
 import com.andframe.widget.popupmenu.PopupMenu;
 
+import java.util.Collection;
 import java.util.HashMap;
-import java.util.Iterator;
-import java.util.List;
 import java.util.Map.Entry;
 
 public abstract class AfSelectorTitlebar extends AfModuleAlpha
@@ -116,11 +115,9 @@ public abstract class AfSelectorTitlebar extends AfModuleAlpha
 			pm.getMenu().add(0,ID_SELECTALL,0,"全选");
 			pm.getMenu().add(0,ID_INVERT,1,"反选");
 			pm.getMenu().add(0,ID_UNSELECT,2,"全不选");
-			
-			Iterator<Entry<String, Integer>> iter = mMeuns.entrySet().iterator();  
-			while (iter.hasNext()) {  
-				Entry<String, Integer> entry = iter.next();  
-				pm.getMenu().add(1,entry.getValue(),2,entry.getKey());
+
+			for (Entry<String, Integer> entry : mMeuns.entrySet()) {
+				pm.getMenu().add(1, entry.getValue(), 2, entry.getKey());
 			}  
 			
 			pm.setOnMenuItemClickListener(this);
@@ -135,20 +132,17 @@ public abstract class AfSelectorTitlebar extends AfModuleAlpha
 	@Override
 	public boolean onMenuItemClick(MenuItem item) {
 		switch (item.getItemId()) {
-		case ID_SELECTALL:
-			mAdapter.selectAll();
-			return true;
-		case ID_INVERT:
-			mAdapter.selectInvert();
-			return true;
-		case ID_UNSELECT:
-			mAdapter.selectNone();
-			return true;
+			case ID_SELECTALL:
+				mAdapter.selectAll();
+				return true;
+			case ID_INVERT:
+				mAdapter.selectInvert();
+				return true;
+			case ID_UNSELECT:
+				mAdapter.selectNone();
+				return true;
 		}
-		if(mListener != null){
-			return mListener.onMenuItemClick(item);
-		}
-		return false;
+		return mListener != null && mListener.onMenuItemClick(item);
 	}
 	
 	@Override
@@ -170,14 +164,14 @@ public abstract class AfSelectorTitlebar extends AfModuleAlpha
 	@Override
 	public void onMultiChoiceAddData(
 			AfMultiChoiceAdapter<? extends Object> adapter,
-			List<? extends Object> list) {
+			Collection<? extends Object> list) {
 		mTvText.setText(String.format(TEXT_FORMAT, adapter.getChoiceNumber(),adapter.getCount()));
 	}
 
 	@Override
 	public void onMultiChoiceClosed(
 			AfMultiChoiceAdapter<? extends Object> adapter,
-			List<? extends Object> list) {
+			Collection<? extends Object> list) {
 		this.hide();
 	}
 	

@@ -1,10 +1,10 @@
 package com.andframe.bean;
 
+import com.andframe.util.UUIDUtil;
+
 import java.io.Serializable;
 import java.util.Date;
 import java.util.UUID;
-
-import com.andframe.util.UUIDUtil;
 
 /**
  * 版本标识

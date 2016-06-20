@@ -1,9 +1,9 @@
 package com.andframe.model;
 
-import java.util.UUID;
-
 import com.andframe.model.framework.AfModel;
 import com.andframe.util.UUIDUtil;
+
+import java.util.UUID;
 
 @SuppressWarnings("serial")
 public class Exceptional extends AfModel {

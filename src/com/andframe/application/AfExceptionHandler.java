@@ -27,7 +27,7 @@ public class AfExceptionHandler implements UncaughtExceptionHandler{
 
 	protected static final String DURABLE_HANDLER = "63214261915190904102";
 	protected static final String DURABLE_UNCAUGHT = "02589350915190904102";
-
+	
 	protected static boolean mIsShowDialog = false;
 	protected static AfExceptionHandler INSTANCE = null;
 	protected Thread.UncaughtExceptionHandler mDefaultHandler;
@@ -36,7 +36,7 @@ public class AfExceptionHandler implements UncaughtExceptionHandler{
 		mDefaultHandler = Thread.getDefaultUncaughtExceptionHandler();
 		Thread.setDefaultUncaughtExceptionHandler(this);
 	}
-
+	
 	public static void register() {
 		if(INSTANCE == null){
 			INSTANCE = AfApplication.getApp().getExceptionHandler();
@@ -50,11 +50,11 @@ public class AfExceptionHandler implements UncaughtExceptionHandler{
 	public static Exceptional getHandler(Throwable ex,String remark) {
 		return getHandler(Thread.currentThread(),ex,remark);
 	}
-
+	
 	public static Exceptional getHandler(Thread thread,Throwable ex,String remark) {
 		Exceptional ehandler = new Exceptional();
 		ehandler.Thread = "异常线程：" + thread;
-
+		
 		ehandler.Remark = remark;
 		ehandler.Name = getExceptionName(ex);
 		ehandler.Message = getExceptionMessage(ex);
@@ -64,7 +64,7 @@ public class AfExceptionHandler implements UncaughtExceptionHandler{
 
 		return ehandler;
 	}
-
+	
 	public static void handleAttach(Throwable ex,String remark) {
 		if(INSTANCE != null && !(ex instanceof AfToastException)){
 			String handlerid;
@@ -81,7 +81,7 @@ public class AfExceptionHandler implements UncaughtExceptionHandler{
 	public static void handler(String message,String remark) {
 		if(INSTANCE != null){
 			String handlerid = ""+(message+remark).hashCode();
-			INSTANCE.onHandlerException(new Exception(message), remark, handlerid);
+			INSTANCE.onHandlerException(new Exception(message),remark,handlerid);
 		}
 	}
 
@@ -103,19 +103,19 @@ public class AfExceptionHandler implements UncaughtExceptionHandler{
 		try {
 			String msg = "时间:" + AfDateFormat.FULL.format(new Date()) +
 					"\r\n\r\n备注:\r\n" + "Attach-"+remark +
-					"\r\n\r\n异常:\r\n" + getExceptionName(ex) +
-					"\r\n\r\n信息:\r\n" + getExceptionMessage(ex) +
-					"\r\n\r\n快捷:\r\n" + getPackageStackTraceInfo(ex) +
+					"\r\n\r\n异常:\r\n" + getExceptionName(ex) + 
+					"\r\n\r\n信息:\r\n" + getExceptionMessage(ex) + 
+					"\r\n\r\n快捷:\r\n" + getPackageStackTraceInfo(ex) + 
 					"\r\n\r\n堆栈:\r\n" + getStackTraceInfo(ex);
 			AfDurableCache dc = AfDurableCache.getInstance("attach");
 			dc.put(AfDateGuid.NewID(), msg);
-
-
+			
+			
 			AfActivity activity = AfApplication.getApp().getCurActivity();
 			if (activity != null && mIsShowDialog) {
 				doShowDialog(activity,"异常捕捉",msg,handlerid);
 			}
-
+			
 			String path = AfDurableCache.getPath();
 			FileWriter writer = new FileWriter(path+"/attach-"+AfDateFormat.format("y-M-d$HH-mm-ss",new Date())+".txt");
 			writer.write(msg);
@@ -128,18 +128,18 @@ public class AfExceptionHandler implements UncaughtExceptionHandler{
 		try {
 			String msg = "时间:" + AfDateFormat.FULL.format(new Date()) +
 					"\r\n\r\n备注:\r\n" + remark +
-					"\r\n\r\n异常:\r\n" + getExceptionName(ex) +
-					"\r\n\r\n信息:\r\n" + getExceptionMessage(ex) +
-					"\r\n\r\n快捷:\r\n" + getPackageStackTraceInfo(ex) +
+					"\r\n\r\n异常:\r\n" + getExceptionName(ex) + 
+					"\r\n\r\n信息:\r\n" + getExceptionMessage(ex) + 
+					"\r\n\r\n快捷:\r\n" + getPackageStackTraceInfo(ex) + 
 					"\r\n\r\n堆栈:\r\n" + getStackTraceInfo(ex);
 			AfDurableCache dc = AfDurableCache.getInstance("handler");
 			dc.put(AfDateGuid.NewID(), msg);
-
+			
 			AfActivity activity = AfApplication.getApp().getCurActivity();
 			if (activity != null && mIsShowDialog) {
 				doShowDialog(activity,"异常捕捉",msg,handlerid);
 			}
-
+			
 			String path = AfDurableCache.getPath();
 			FileWriter writer = new FileWriter(path+"/handler-"+AfDateFormat.format("y-M-d$HH-mm-ss",new Date())+".txt");
 			writer.write(msg);
@@ -152,15 +152,15 @@ public class AfExceptionHandler implements UncaughtExceptionHandler{
 	public void uncaughtException(final Thread thread, final Throwable ex) {
 		try {
 			ex.printStackTrace();
-			String msg = "日期:" +AfDateFormat.FULL.format(new Date()) +
+			String msg = "日期:" +AfDateFormat.FULL.format(new Date()) + 
 					"\r\n\r\n备注:\r\n" + "程序崩溃" +
-					"\r\n\r\n异常:\r\n" + getExceptionName(ex) +
-					"\r\n\r\n信息:\r\n" + getExceptionMessage(ex) +
-					"\r\n\r\n快捷:\r\n" + getPackageStackTraceInfo(ex) +
+					"\r\n\r\n异常:\r\n" + getExceptionName(ex) + 
+					"\r\n\r\n信息:\r\n" + getExceptionMessage(ex) + 
+					"\r\n\r\n快捷:\r\n" + getPackageStackTraceInfo(ex) + 
 					"\r\n\r\n堆栈:\r\n" + getStackTraceInfo(ex);
 			AfDurableCache dc = AfDurableCache.getInstance("error");
 			dc.put(AfDateGuid.NewID(), msg);
-
+			
 			AfActivity activity = AfApplication.getApp().getCurActivity();
 			if (activity != null && mIsShowDialog) {
 				doShowDialog(activity, "程序崩溃了", msg,new Handler.Callback() {
@@ -181,11 +181,11 @@ public class AfExceptionHandler implements UncaughtExceptionHandler{
 		} catch (Throwable e) {
 			e.printStackTrace();
 		}
-
+		
 		if(mDefaultHandler != null){
 			mDefaultHandler.uncaughtException(thread, ex);
 		}else{
-
+			
 		}
 	}
 
@@ -235,7 +235,7 @@ public class AfExceptionHandler implements UncaughtExceptionHandler{
 		}
 		return TraceInfo;
 	}
-
+	
 	public static String getStackTraceInfo(Throwable ex) {
 		StringBuilder builder = new StringBuilder();
 		builder.append(ex.getClass().toString());
@@ -252,19 +252,19 @@ public class AfExceptionHandler implements UncaughtExceptionHandler{
 		}
 		return TraceInfo;
 	}
-
+	
 	public static HashMap<String, String> mDialogMap = new HashMap<String, String>();
 
 	public static synchronized void doShowDialog(Context activity, String title, String msg,Callback callback, Looper looper,String id) {
 		if(mDialogMap.containsKey(id)){
 			return;
 		}
-		final String tid = id;
-		final String ttitle = title;
+		final String tid = id; 
+		final String ttitle = title; 
 		final String tmsg = msg;
 		final Callback tcallback = callback;
-		final Context tactivity = activity;
-		final Looper tLooper = looper;
+		final Context tactivity = activity; 
+		final Looper tLooper = looper; 
 		new Thread(){
 			public void run() {
 				try {
@@ -274,27 +274,27 @@ public class AfExceptionHandler implements UncaughtExceptionHandler{
 					dialog.setTitle(ttitle);
 					dialog.setCancelable(false);
 					dialog.setMessage(tmsg);
-					dialog.setNeutralButton("我知道了",
-							new OnClickListener() {
-								@Override
-								@SuppressLint("HandlerLeak")
-								public void onClick(DialogInterface dialog, int which) {
-									dialog.dismiss();
-									mDialogMap.remove(tid);
-									if(tLooper != null && tcallback != null){
-										new Handler(tLooper, tcallback).sendMessage(Message.obtain());
-									}else if(tcallback != null){
-										tcallback.handleMessage(Message.obtain());
-									}
-									Handler handler = new Handler(){
-										@Override
-										public void handleMessage(Message msg) {
-											Looper.myLooper().quit();
-										}
-									};
-									handler.sendMessageDelayed(Message.obtain(), 300);
+					dialog.setNeutralButton("我知道了", 
+						new OnClickListener() {
+							@Override
+							@SuppressLint("HandlerLeak")
+							public void onClick(DialogInterface dialog, int which) {
+								dialog.dismiss();
+								mDialogMap.remove(tid);
+								if(tLooper != null && tcallback != null){
+									new Handler(tLooper, tcallback).sendMessage(Message.obtain());
+								}else if(tcallback != null){
+									tcallback.handleMessage(Message.obtain());
 								}
-							});
+								Handler handler = new Handler(){
+									@Override
+									public void handleMessage(Message msg) {
+										Looper.myLooper().quit();
+									}
+								};
+								handler.sendMessageDelayed(Message.obtain(), 300);
+							}
+						});
 					dialog.show();
 					Looper.loop();
 				} catch (Throwable e) {
@@ -303,15 +303,15 @@ public class AfExceptionHandler implements UncaughtExceptionHandler{
 			};
 		}.start();
 	}
-
+	
 	public static void doShowDialog(Context activity, String title, String msg,String id) {
 		doShowDialog(activity, title, msg, null,null,id);
 	}
-
+	
 	public static void doShowDialog(Context activity, String title, String msg,Callback callback) {
 		doShowDialog(activity, title, msg, callback,null,AfDateGuid.NewID());
 	}
-
+	
 	public static void doShowDialog(Context activity, String title, String msg,Callback callback,String id) {
 		doShowDialog(activity, title, msg, callback,null,id);
 	}

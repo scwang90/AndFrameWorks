@@ -1,13 +1,13 @@
 package com.andframe.caches;
 
+import android.content.Context;
+
+import com.google.gson.Gson;
+
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.HashSet;
 import java.util.List;
-
-import android.content.Context;
-
-import com.google.gson.Gson;
 
 /**
  * AfJsonCache

@@ -2,9 +2,9 @@ package com.andframe.thread;
 
 import android.os.Handler;
 import android.os.Handler.Callback;
+import android.os.Looper;
 import android.os.Message;
 
-import com.andframe.application.AfApplication;
 import com.andframe.application.AfExceptionHandler;
 
 public abstract class AfHandlerTask extends AfTask implements Callback{
@@ -21,7 +21,7 @@ public abstract class AfHandlerTask extends AfTask implements Callback{
 
 	protected AfHandlerTask() {
 //		this.mTask = 0;
-		this.mHandler = new Handler(AfApplication.getLooper(),this);
+		this.mHandler = new Handler(Looper.getMainLooper(),this);
 	}
 
 	public AfHandlerTask setListener(OnTaskFinishListener mListener) {

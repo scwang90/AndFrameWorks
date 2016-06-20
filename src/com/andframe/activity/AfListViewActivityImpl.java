@@ -20,7 +20,7 @@ import com.andframe.layoutbind.AfModuleTitlebarImpl;
  * @param <T> 列表数据实体类
  */
 public abstract class AfListViewActivityImpl<T> extends AfListViewActivity<T>{
-	
+
 	protected AfModuleTitlebar mAfTitlebar;
 
 	public AfListViewActivityImpl() {

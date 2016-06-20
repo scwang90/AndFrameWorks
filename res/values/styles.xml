@@ -1,6 +1,6 @@
 <resources>
 
-    <style name="AndFrame" parent="@android:style/Theme.Black.NoTitleBar">
+    <style name="AndFrame">
     </style>
 
     <style name="AndFrame.Divison">
@@ -28,9 +28,6 @@
     <style name="AndFrame.Label.Title">
         <item name="android:textColor">@color/af_text_title</item>
         <item name="android:textSize">@dimen/af_textsize_title</item>
-    </style>
-
-    <style name="AndFrame.Label.Title.Bold">
         <item name="android:textStyle">bold</item>
     </style>
 

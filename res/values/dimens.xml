@@ -9,13 +9,13 @@
     <dimen name="af_division_panel">25dp</dimen>
 
     <dimen name="af_textsize_edittext">16sp</dimen>
-    <dimen name="af_textsize_button">18sp</dimen>
+    <dimen name="af_textsize_button">20sp</dimen>
 
-    <dimen name="af_textsize_small">12sp</dimen>
-    <dimen name="af_textsize_content">14sp</dimen>
-    <dimen name="af_textsize_titlesmall">16sp</dimen>
-    <dimen name="af_textsize_title">18sp</dimen>
-    <dimen name="af_textsize_titlelarge">20sp</dimen>
+    <dimen name="af_textsize_small">13sp</dimen>
+    <dimen name="af_textsize_content">16sp</dimen>
+    <dimen name="af_textsize_titlesmall">18sp</dimen>
+    <dimen name="af_textsize_title">20sp</dimen>
+    <dimen name="af_textsize_titlelarge">22sp</dimen>
     <dimen name="af_textsize_titlebar">22sp</dimen>
 
 </resources>

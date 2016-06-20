@@ -1,7 +1,5 @@
 package com.andframe.util.android;
 
-import java.io.File;
-
 import android.app.Activity;
 import android.content.ActivityNotFoundException;
 import android.content.Context;
@@ -11,6 +9,8 @@ import android.net.Uri;
 import android.provider.MediaStore;
 import android.provider.MediaStore.Images.Media;
 import android.widget.Toast;
+
+import java.io.File;
 /**
  * 调用系统文件选择或者照片选择
  * AfFileSelector

@@ -2,7 +2,7 @@ package com.andframe.exception;
 
 import com.andframe.application.AfApplication;
 
-public class AfException extends Exception{
+public class AfException extends RuntimeException{
 
 	private static final long serialVersionUID = -2299984118501502745L;
 
@@ -44,7 +44,8 @@ public class AfException extends Exception{
 				message = e.getClass().getName();
 			}
 			if(tip != null && !tip.equals("")){
-				return String.format("%s:%s",tip,message);
+				return tip;
+//				return String.format("%s:%s",tip,message);
 			}
 		}
 		return message;

@@ -1,11 +1,11 @@
 package com.andframe.helper.android;
 
+import android.graphics.Bitmap;
+import android.graphics.Bitmap.Config;
+
 import java.io.InputStream;
 import java.util.Locale;
 import java.util.Vector;
-
-import android.graphics.Bitmap;
-import android.graphics.Bitmap.Config;
 
 //Handler for read & extract Bitmap from *.gif
 public class AfGifHelper {
