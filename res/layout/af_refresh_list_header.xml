@@ -3,14 +3,14 @@
     android:id="@+id/refresh_list_header_lty"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
-    android:orientation="vertical" 
+    android:orientation="vertical"
     android:background="@color/transparent">
 
     <RelativeLayout
         android:id="@+id/refresh_list_header"
         android:layout_width="match_parent"
-    	android:layout_height="80dip"
-    	android:background="@color/transparent">
+        android:layout_height="80dip"
+        android:background="@color/transparent">
 
         <ProgressBar
             style="?android:attr/progressBarStyle"
@@ -57,7 +57,7 @@
                 android:layout_marginRight="20dip"
                 android:layout_gravity="center_horizontal"
                 android:text="@string/refresh_header_pulldown"
-                android:textColor="@color/green_dark"
+                android:textColor="@color/gray_dark"
                 android:textSize="22sp" />
 
             <TextView

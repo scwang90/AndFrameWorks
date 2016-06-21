@@ -6,7 +6,6 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.BaseAdapter;
-import android.widget.FrameLayout.LayoutParams;
 
 import com.andframe.activity.framework.AfView;
 import com.andframe.application.AfExceptionHandler;
@@ -18,12 +17,9 @@ import java.util.List;
 import java.util.ListIterator;
 
 public abstract class AfListAdapter<T> extends BaseAdapter implements List<T> {
-	
-	protected static final int LP_MP = LayoutParams.MATCH_PARENT;
-	protected static final int LP_WC = LayoutParams.WRAP_CONTENT;
-	
+
 	protected LayoutInflater mInflater;
-	protected List<T> mltArray = new ArrayList<T>();
+	protected List<T> mltArray = new ArrayList<>();
 
 	protected abstract IAfLayoutItem<T> getItemLayout(T data);
 
@@ -51,7 +47,8 @@ public abstract class AfListAdapter<T> extends BaseAdapter implements List<T> {
 	/**
 	 * 适配器新增 点击更多 数据追加接口
 	 */
-	public boolean addAll(Collection<? extends T> ltdata) {
+	@Override
+	public boolean addAll(@NonNull Collection<? extends T> ltdata) {
 		boolean ret = mltArray.addAll(ltdata);
 		notifyDataSetChanged();
 		return ret;
@@ -99,13 +96,21 @@ public abstract class AfListAdapter<T> extends BaseAdapter implements List<T> {
 	}
 
 	@Override
-	public boolean removeAll(Collection<?> collection) {
-		return mltArray.removeAll(collection);
+	public boolean removeAll(@NonNull Collection<?> collection) {
+		if (mltArray.removeAll(collection)) {
+			notifyDataSetChanged();
+			return true;
+		}
+		return false;
 	}
 
 	@Override
-	public boolean retainAll(Collection<?> collection) {
-		return mltArray.retainAll(collection);
+	public boolean retainAll(@NonNull Collection<?> collection) {
+		if (mltArray.retainAll(collection)) {
+			notifyDataSetChanged();
+			return true;
+		}
+		return false;
 	}
 
 	@Override
@@ -138,7 +143,7 @@ public abstract class AfListAdapter<T> extends BaseAdapter implements List<T> {
 	/**
 	 * 适配器新增 数据插入 接口
 	 */
-	public boolean addAll(int index,  Collection<? extends T> collection) {
+	public boolean addAll(int index,  @NonNull Collection<? extends T> collection) {
 		if (mltArray.size() >= index) {
 			boolean ret = mltArray.addAll(index, collection);
 			notifyDataSetChanged();
@@ -172,7 +177,7 @@ public abstract class AfListAdapter<T> extends BaseAdapter implements List<T> {
 		// 列表视图获取必须检查 view 是否为空 不能每次都 inflate 否则手机内存负载不起
 		IAfLayoutItem<T> item;
 		try {
-			if (view == null) {
+			if (view == null || !(view.getTag() instanceof IAfLayoutItem)) {
 				item = getItemLayout(mltArray,position);
 				item.onHandle(new AfView(view = onInflateItem(item, parent)));
 				view.setTag(item);
@@ -198,7 +203,7 @@ public abstract class AfListAdapter<T> extends BaseAdapter implements List<T> {
 	}
 
 	protected IAfLayoutItem<T> getItemLayout(List<T> ltarray, int position) {
-		return getItemLayout(getItemAt(position));
+		return getItemLayout(ltarray.get(position));
 	}
 
 	protected View onInflateItem(IAfLayoutItem<T> item, ViewGroup parent) {
@@ -227,9 +232,15 @@ public abstract class AfListAdapter<T> extends BaseAdapter implements List<T> {
 
 	@NonNull
 	@Override
-	public <T1> T1[] toArray(T1[] array) {
+	public <T1> T1[] toArray(@NonNull T1[] array) {
 		return mltArray.toArray(array);
 	}
+
+	//	@NonNull
+//	@Override
+//	public <T1> T1[] toArray(@NonNull T1[] array) {
+//		return mltArray.toArray(array);
+//	}
 
 	@Override
 	public void clear() {
@@ -243,7 +254,7 @@ public abstract class AfListAdapter<T> extends BaseAdapter implements List<T> {
 	}
 
 	@Override
-	public boolean containsAll(Collection<?> collection) {
+	public boolean containsAll(@NonNull Collection<?> collection) {
 		return mltArray.containsAll(collection);
 	}
 

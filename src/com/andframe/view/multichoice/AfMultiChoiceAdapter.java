@@ -1,6 +1,7 @@
 package com.andframe.view.multichoice;
 
 import android.content.Context;
+import android.support.annotation.NonNull;
 import android.view.View;
 import android.view.ViewGroup;
 
@@ -20,20 +21,20 @@ public abstract class AfMultiChoiceAdapter<T> extends AfListAdapter<T>{
 	}
 
 	public interface GenericityListener{
-		void onMultiChoiceAddData(AfMultiChoiceAdapter<? extends Object> adapter,Collection<? extends Object> list);
-		void onMultiChoiceChanged(AfMultiChoiceAdapter<? extends Object> adapter,Object tag,boolean selected,int number);
-		void onMultiChoiceChanged(AfMultiChoiceAdapter<? extends Object> adapter,int number,int total);
-		void onMultiChoiceStarted(AfMultiChoiceAdapter<? extends Object> adapter, int number);
-		void onMultiChoiceClosed(AfMultiChoiceAdapter<? extends Object> adapter, Collection<? extends Object> list);
+		void onMultiChoiceAddData(AfMultiChoiceAdapter<?> adapter,Collection<?> list);
+		void onMultiChoiceChanged(AfMultiChoiceAdapter<?> adapter,Object tag,boolean selected,int number);
+		void onMultiChoiceChanged(AfMultiChoiceAdapter<?> adapter,int number,int total);
+		void onMultiChoiceStarted(AfMultiChoiceAdapter<?> adapter, int number);
+		void onMultiChoiceClosed(AfMultiChoiceAdapter<?> adapter, Collection<?> list);
 	}
-	
+
 	protected int mChoiceNumber = 0;
 	protected Context mContext = null;
 	protected boolean mIsSingle = false;
 	protected boolean[] mIsSelecteds = null;
-	protected List<MultiChoiceListener<T>> mListeners = new ArrayList<MultiChoiceListener<T>>();
-	protected List<GenericityListener> mGenericityListeners = new ArrayList<GenericityListener>();
-	
+	protected List<MultiChoiceListener<T>> mListeners = new ArrayList<>();
+	protected List<GenericityListener> mGenericityListeners = new ArrayList<>();
+
 	public AfMultiChoiceAdapter(Context context, List<T> ltdata) {
 		super(context, ltdata);
 		mContext = context;
@@ -44,19 +45,19 @@ public abstract class AfMultiChoiceAdapter<T> extends AfListAdapter<T>{
 			mListeners.add(listener);
 		}
 	}
-	
+
 	public void addGenericityListener(GenericityListener listener) {
-		if(mListeners.indexOf(listener) < 0){
+		if(mGenericityListeners.indexOf(listener) < 0){
 			mGenericityListeners.add(listener);
 		}
 	}
-	
+
 	public int getChoiceNumber() {
 		return mChoiceNumber;
 	}
-	
+
 	@Override
-	public boolean addAll(Collection<? extends T> ltdata) {
+	public boolean addAll(@NonNull Collection<? extends T> ltdata) {
 		if(isMultiChoiceMode() && ltdata.size() > 0){
 			boolean[] old = mIsSelecteds;
 			mIsSelecteds = new boolean[old.length+ltdata.size()];
@@ -70,7 +71,7 @@ public abstract class AfMultiChoiceAdapter<T> extends AfListAdapter<T>{
 			return super.addAll(ltdata);
 		}
 	}
-	
+
 	@Override
 	public void set(Collection<?extends T> ltdata) {
 		if(isMultiChoiceMode()){
@@ -84,13 +85,13 @@ public abstract class AfMultiChoiceAdapter<T> extends AfListAdapter<T>{
 			super.set(ltdata);
 		}
 	}
-	
+
 	@Override
 	public T set(int index, T obj) {
 		//closeMultiChoice();
 		return super.set(index, obj);
 	}
-	
+
 	@Override
 	public void add(int index, T object) {
 		if(isMultiChoiceMode()){
@@ -104,7 +105,7 @@ public abstract class AfMultiChoiceAdapter<T> extends AfListAdapter<T>{
 			super.add(index, object);
 		}
 	}
-	
+
 	@Override
 	public T remove(int index) {
 		if(isMultiChoiceMode()){
@@ -119,12 +120,12 @@ public abstract class AfMultiChoiceAdapter<T> extends AfListAdapter<T>{
 			return super.remove(index);
 		}
 	}
-    
+
 	@Override
 	protected final IAfLayoutItem<T> getItemLayout(T data) {
 		return getMultiChoiceItem(data);
 	}
-	
+
 	protected abstract AfMultiChoiceItem<T> getMultiChoiceItem(T data);
 
 	@Override
@@ -158,15 +159,15 @@ public abstract class AfMultiChoiceAdapter<T> extends AfListAdapter<T>{
 			for (MultiChoiceListener<T> listener : mListeners) {
 				listener.onMultiChoiceStarted(this,mChoiceNumber);
 			}
-			
+
 		}
 		return true;
 	}
-	
+
 	public boolean beginMultiChoice() {
 		return beginMultiChoice(true);
 	}
-	
+
 	public boolean beginMultiChoice(boolean notify) {
 		if(mIsSelecteds == null && getCount() > 0){
 			mIsSelecteds = new boolean[getCount()];
@@ -182,11 +183,11 @@ public abstract class AfMultiChoiceAdapter<T> extends AfListAdapter<T>{
 		}
 		return true;
 	}
-	
+
 	public boolean isMultiChoiceMode() {
 		return mIsSelecteds != null;
 	}
-	
+
 	public boolean closeMultiChoice() {
 		if(mIsSelecteds != null){
 			for (GenericityListener listener : mGenericityListeners) {
@@ -204,7 +205,7 @@ public abstract class AfMultiChoiceAdapter<T> extends AfListAdapter<T>{
 	}
 
 	public List<T> getSelectedItems() {
-		List<T> list = new ArrayList<T>();
+		List<T> list = new ArrayList<>();
 		if(mIsSelecteds != null && mIsSelecteds.length == mltArray.size()){
 			for (int i = 0; i < mIsSelecteds.length; i++) {
 				if(mIsSelecteds[i]){
@@ -217,7 +218,7 @@ public abstract class AfMultiChoiceAdapter<T> extends AfListAdapter<T>{
 	}
 
 	public List<T> peekSelectedItems() {
-		List<T> list = new ArrayList<T>();
+		List<T> list = new ArrayList<>();
 		if(mIsSelecteds != null && mIsSelecteds.length == mltArray.size()){
 			for (int i = 0; i < mIsSelecteds.length; i++) {
 				if(mIsSelecteds[i]){
@@ -273,7 +274,7 @@ public abstract class AfMultiChoiceAdapter<T> extends AfListAdapter<T>{
 			}
 		}
 	}
-	
+
 	@Override
 	protected View onInflateItem(IAfLayoutItem<T> item, ViewGroup parent) {
 		View view = super.onInflateItem(item, parent);
@@ -301,7 +302,7 @@ public abstract class AfMultiChoiceAdapter<T> extends AfListAdapter<T>{
 			}
 		}
 	}
-	
+
 	void setSelect(T tag, boolean checked) {
 		this.onItemClick(mltArray.indexOf(tag));
 //		int index = mltData.indexOf(tag);
@@ -323,9 +324,9 @@ public abstract class AfMultiChoiceAdapter<T> extends AfListAdapter<T>{
 //			}
 //		}
 	}
-	
+
 	public void setSingle(boolean single) {
-		mIsSingle  = single; 
+		mIsSingle  = single;
 	}
 
 }

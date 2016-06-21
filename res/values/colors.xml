@@ -1,28 +1,53 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
-    
-    <color name="red">#E53333</color>
-    <color name="green">#00FF00</color>
-    <color name="green_dark">#192F06</color>
-    <color name="blue">#33B5E5</color>
-    <color name="blue_dark">#1288b3</color>
-    <color name="white">#FFFFFFFF</color>
-    <color name="black">#000000</color>
-    <color name="gray">#7c7c7c</color>
-    <color name="gray_dark">#FF666666</color> 
-    <color name="gray_white">#ebebeb</color>
-    <color name="gray_light">#acacac</color>
-    <color name="gray_black">#2e2e2e</color>
-    <color name="yellow">#FFFC00</color>
-    <color name="pink">#FF87EF</color>
-    <color name="orange">#ff6200</color>
-    <color name="transparent">#00000000</color>
-
 
     <color name="af_divison">#b8b8b8</color>
 
     <color name="af_text_title">#444444</color>
     <color name="af_text_content">#555555</color>
     <color name="af_text_assistant">#888888</color>
+
+    <color name="white">#FFFFFF</color>
+    <color name="black">#000000</color>
+    <color name="transparent">#00000000</color>
+
+    <color name="red">#FF0000</color>
+    <color name="green">#00FF00</color>
+    <color name="blue">#0000FF</color>
+
+    <color name="yellow">#FFFF00</color>
+    <color name="orange">#ff6200</color>
+    <color name="pink">#FF87EF</color>
+    <color name="purple">#AA00EF</color>
+
+    <color name="gray">#7c7c7c</color>
+    <color name="gray_dark">#FF666666</color>
+    <color name="gray_white">#ebebeb</color>
+    <color name="gray_light">#acacac</color>
+    <color name="gray_black">#2e2e2e</color>
+
+    <color name="redPrimary">#e64759</color>
+    <color name="redPrimaryDark">#cd4352</color>
+    <color name="redPrimaryLight">#ed7e8a</color>
+
+    <color name="bluePrimary">#12b7f5</color>
+    <color name="bluePrimaryDark">#0fa3db</color>
+    <color name="bluePrimaryLight">#12b7f5</color>
+
+    <color name="greenPrimary">#1bc98e</color>
+    <color name="greenPrimaryDark">#18ab79</color>
+    <color name="greenPrimaryLight">#5fd9b0</color>
+
+    <color name="yellowPrimary">#e4d836</color>
+    <color name="yellowPrimaryDark">#c6bc31</color>
+    <color name="yellowPrimaryLight">#ece472</color>
+
+    <color name="purplePrimary">#9f86ff</color>
+    <color name="purplePrimaryDark">#856edd</color>
+    <color name="purplePrimaryLight">#bcaaff</color>
+
+    <color name="orangePrimary">#f48327</color>
+    <color name="orangePrimaryDark">#dd7522</color>
+    <color name="orangePrimaryLight">#ef9d5a</color>
 
 </resources>

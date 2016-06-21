@@ -191,6 +191,9 @@ public abstract class AfApplication extends Application {
 	public void onCreate() {
 		super.onCreate();
 		try {
+			// 初始化版本号
+			getPackageVersion();
+
 			AfExceptionHandler.register();
 
 			mRunningState = new AfSharedPreference(this, STATE_RUNNING);
@@ -213,8 +216,6 @@ public abstract class AfApplication extends Application {
 			AfAppSettings set = AfAppSettings.getInstance();
 			// 初始化通知中心
 			AfNotifyCenter.initailize(getAppContext());
-			// 初始化版本号
-			getPackageVersion();
 			// 检查数据库
 			new DatabaseUtil(getAppContext()).checkDataBaseVersion();
 		} catch (Throwable e) {

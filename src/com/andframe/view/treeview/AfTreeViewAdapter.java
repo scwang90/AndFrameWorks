@@ -1,6 +1,7 @@
 package com.andframe.view.treeview;
 
 import android.content.Context;
+import android.support.annotation.NonNull;
 import android.view.View;
 import android.view.ViewGroup;
 
@@ -12,7 +13,7 @@ import java.util.Collection;
 import java.util.List;
 
 public abstract class AfTreeViewAdapter<T> extends AfMultiChoiceAdapter<T> {
-	
+
 	public interface AfTreeNodeClickable<T>{
 		boolean isItemClickable(AfTreeNode<T> item);
 	}
@@ -22,14 +23,14 @@ public abstract class AfTreeViewAdapter<T> extends AfMultiChoiceAdapter<T> {
 	protected AfTreeNode<T> mRootNode = null;
 	protected AfTreeEstablisher<T> mEstablisher = null;
 	protected AfTreeNodeClickable<T> mTreeNodeClickable = null;
-	protected List<AfTreeNode<T>> mNodeShow = new ArrayList<AfTreeNode<T>>();
+	protected List<AfTreeNode<T>> mNodeShow = new ArrayList<>();
 
 	protected abstract AfTreeViewItem<T> getTreeViewItem(T data);
 
 	public AfTreeViewAdapter(Context context, List<T> ltdata, AfTreeEstablisher<T> establisher) {
 		this(context,ltdata,establisher,false);
 	}
-	
+
 	public AfTreeViewAdapter(Context context, List<T> ltdata, AfTreeEstablisher<T> establisher,boolean isExpanded) {
 		super(context, new ArrayList<T>());
 		mltOriginData = ltdata;
@@ -40,7 +41,7 @@ public abstract class AfTreeViewAdapter<T> extends AfMultiChoiceAdapter<T> {
 		//将树形显示到列表
 		establishNodeListToShow(mltArray, mNodeShow, mRootNode);
 	}
-	
+
 	public void setTreeNodeClickable(AfTreeNodeClickable<T> clickable) {
 		this.mTreeNodeClickable = clickable;
 	}
@@ -56,21 +57,21 @@ public abstract class AfTreeViewAdapter<T> extends AfMultiChoiceAdapter<T> {
 		}
 		return mTreeNodeClickable.isItemClickable(mNodeShow.get(index));//
 	}
-	
+
 	@Override
 	protected View onInflateItem(IAfLayoutItem<T> item,
-			ViewGroup parent) {
+								 ViewGroup parent) {
 		View view = super.onInflateItem(item, parent);
 		return ((AfTreeViewItem<T>)item).inflateLayout(view, this);
 	}
-	
+
 	@Override
 	protected boolean bindingItem(IAfLayoutItem<T> item, int index) {
 		AfTreeViewItem<T> tvitem = (AfTreeViewItem<T>)item;
 		tvitem.setNode(mNodeShow.get(index));
 		return super.bindingItem(item, index);
 	}
-	
+
 	@Override
 	public void onItemClick(int index) {
 		if(isMultiChoiceMode()){
@@ -88,12 +89,12 @@ public abstract class AfTreeViewAdapter<T> extends AfMultiChoiceAdapter<T> {
 			updateNodeListToShow();
 		}
 	}
-	
+
 	public void closeAll() {
 		setNodeRecursion(mRootNode,false);
 		updateNodeListToShow();
 	}
-	
+
 	public void expandAll() {
 		setNodeRecursion(mRootNode,true);
 		updateNodeListToShow();
@@ -111,7 +112,7 @@ public abstract class AfTreeViewAdapter<T> extends AfMultiChoiceAdapter<T> {
 	}
 
 	@Override
-	public boolean addAll(Collection<? extends T> ltdata) {
+	public boolean addAll(@NonNull Collection<? extends T> ltdata) {
 		boolean ret = mltOriginData.addAll(ltdata);
 		mRootNode = mEstablisher.establish(mltOriginData,mDefaultExpanded);
 		restoreTreeNode(mRootNode,mNodeShow);
@@ -125,7 +126,7 @@ public abstract class AfTreeViewAdapter<T> extends AfMultiChoiceAdapter<T> {
 		mRootNode = mEstablisher.establish(mltOriginData,mDefaultExpanded);
 		updateNodeListToShow();
 	}
-	
+
 	@Override
 	public T set(int index, T obj) {
 		if (mltOriginData.size() > index) {
@@ -136,7 +137,7 @@ public abstract class AfTreeViewAdapter<T> extends AfMultiChoiceAdapter<T> {
 		}
 		return null;
 	}
-	
+
 	@Override
 	public void add(int index, T object) {
 		if (mltOriginData.size() >= index) {
@@ -145,7 +146,7 @@ public abstract class AfTreeViewAdapter<T> extends AfMultiChoiceAdapter<T> {
 			updateNodeListToShow();
 		}
 	}
-	
+
 	@Override
 	public T remove(int index) {
 		if (mltOriginData.size() > index) {
@@ -167,7 +168,7 @@ public abstract class AfTreeViewAdapter<T> extends AfMultiChoiceAdapter<T> {
 			}
 		}
 	}
-	
+
 	protected void updateNodeListToShow() {
 		restoreTreeNode(mRootNode,mNodeShow);
 		mltArray.clear();
