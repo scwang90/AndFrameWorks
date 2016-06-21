@@ -520,7 +520,7 @@ public abstract class AbModeuleListActivity<T> extends AbSuperListViewActivity<T
         int index = mltArray.indexOf(oldv);
         if (index >= 0) {
             mltArray.set(index, newv);
-            mAdapter.setData(mltArray);
+            mAdapter.set(mltArray);
         }
     }
 
@@ -666,7 +666,7 @@ public abstract class AbModeuleListActivity<T> extends AbSuperListViewActivity<T
                         onDataDeleted(model);
                         mltArray.remove(model);
                     }
-                    mMultiChoiceAdapter.setData(mltArray);
+                    mMultiChoiceAdapter.set(mltArray);
                     mMultiChoiceAdapter.closeMultiChoice();
                 } else {
                     makeToastShort(task.makeErrorToast("删除失败"));

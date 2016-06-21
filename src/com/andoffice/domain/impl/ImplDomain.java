@@ -1,10 +1,10 @@
 package com.andoffice.domain.impl;
 
-import com.andframe.application.AfApplication;
 import com.andframe.bean.Page;
 import com.andframe.helper.java.AfSQLHelper;
 import com.andframe.model.framework.AfModel;
 import com.andframe.util.java.AfReflecter;
+import com.andoffice.application.AbApplication;
 import com.andoffice.domain.IDomain;
 
 import java.util.ArrayList;
@@ -94,7 +94,7 @@ public class ImplDomain<T>
 
 	@Override
 	public boolean Insert(T model) throws Exception {
-		if(AfApplication.getDebugMode() == AfApplication.DEBUG_TESTDATA){
+		if(AbApplication.getDebugMode() == AbApplication.DEBUG_TESTDATA){
 			Thread.sleep(1000);
 			getTestData().add(model);
 			return true;
@@ -104,7 +104,7 @@ public class ImplDomain<T>
 
 	@Override
 	public boolean Update(T model) throws Exception {
-		if(AfApplication.getDebugMode() == AfApplication.DEBUG_TESTDATA){
+		if(AbApplication.getDebugMode() == AbApplication.DEBUG_TESTDATA){
 			Thread.sleep(1000);
 			List<T> ltTest =  getTestData();
 			for (int i = 0; i < ltTest.size(); i++) {
@@ -124,7 +124,7 @@ public class ImplDomain<T>
 
 	@Override
 	public boolean Delete(T model) throws Exception {
-		if(AfApplication.getDebugMode() == AfApplication.DEBUG_TESTDATA){
+		if(AbApplication.getDebugMode() == AbApplication.DEBUG_TESTDATA){
 			Thread.sleep(1000);
 			List<T> ltTest =  getTestData();
 			for (int i = 0; i < ltTest.size(); i++) {
@@ -144,7 +144,7 @@ public class ImplDomain<T>
 
 	@Override
 	public boolean DeleteList(List<T> list) throws Exception {
-		if(AfApplication.getDebugMode() == AfApplication.DEBUG_TESTDATA){
+		if(AbApplication.getDebugMode() == AbApplication.DEBUG_TESTDATA){
 			Thread.sleep(1000);
 			List<T> tlist = new ArrayList<T>(list);
 			List<T> ltTest =  getTestData();
@@ -169,7 +169,7 @@ public class ImplDomain<T>
 
 	@Override
 	public boolean UpdateList(List<T> list) throws Exception {
-		if(AfApplication.getDebugMode() == AfApplication.DEBUG_TESTDATA){
+		if(AbApplication.getDebugMode() == AbApplication.DEBUG_TESTDATA){
 			Thread.sleep(1000);
 			List<T> tlist = new ArrayList<T>(list);
 			List<T> ltTest =  getTestData();
@@ -193,7 +193,7 @@ public class ImplDomain<T>
 
 	@Override
 	public boolean DeleteByID(UUID id) throws Exception {
-		if(AfApplication.getDebugMode() == AfApplication.DEBUG_TESTDATA){
+		if(AbApplication.getDebugMode() == AbApplication.DEBUG_TESTDATA){
 			Thread.sleep(1000);
 			List<T> ltTest =  getTestData();
 			for (int i = 0; i < ltTest.size(); i++) {
@@ -212,7 +212,7 @@ public class ImplDomain<T>
 	}
 
 	public T GetByID(UUID id) throws Exception {
-		if(AfApplication.getDebugMode() == AfApplication.DEBUG_TESTDATA){
+		if(AbApplication.getDebugMode() == AbApplication.DEBUG_TESTDATA){
 			Thread.sleep(1000);
 			for (T model : getTestData( "")) {
 				if (model instanceof AfModel) {
@@ -236,7 +236,7 @@ public class ImplDomain<T>
 	}
 
 	public boolean Exists(UUID id) throws Exception {
-		if(AfApplication.getDebugMode() == AfApplication.DEBUG_TESTDATA){
+		if(AbApplication.getDebugMode() == AbApplication.DEBUG_TESTDATA){
 			Thread.sleep(1000);
 			for (T model : getTestData( "")) {
 				if (model instanceof AfModel) {
@@ -255,7 +255,7 @@ public class ImplDomain<T>
 	}
 
 	public List<T> GetListByPage(String where, Page page) throws Exception {
-		if(AfApplication.getDebugMode() == AfApplication.DEBUG_TESTDATA){
+		if(AbApplication.getDebugMode() == AbApplication.DEBUG_TESTDATA){
 			Thread.sleep(1000);
 			return getTestData( where,page);
 		}
@@ -267,7 +267,7 @@ public class ImplDomain<T>
 	}
 
 	public long GetRecordCount(String where) throws Exception {
-		if(AfApplication.getDebugMode() == AfApplication.DEBUG_TESTDATA){
+		if(AbApplication.getDebugMode() == AbApplication.DEBUG_TESTDATA){
 			Thread.sleep(1000);
 			return getTestData( where).size();
 		}
@@ -279,7 +279,7 @@ public class ImplDomain<T>
 
 	public List<T> GetListWhere(String where, String order, String asc)
 			throws Exception {
-		if(AfApplication.getDebugMode() == AfApplication.DEBUG_TESTDATA){
+		if(AbApplication.getDebugMode() == AbApplication.DEBUG_TESTDATA){
 			Thread.sleep(1000);
 			return getTestData( where);
 		}
