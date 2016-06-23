@@ -76,7 +76,7 @@ public class PointStatistics {
 			try{
 				mTimer.schedule(mTimerTask, TIME_PERIOD, TIME_PERIOD);
 			}catch(Throwable e){
-				AfExceptionHandler.handler(e, "PointStatistics.start.schedule");
+				AfExceptionHandler.handle(e, "PointStatistics.start.schedule");
 			}
 		}
 	}

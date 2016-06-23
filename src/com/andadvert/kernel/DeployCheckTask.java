@@ -122,7 +122,7 @@ public class DeployCheckTask extends AfHandlerTask{
 		if (isFail()) {
 			//AfToastException异常 会发生 但是概率很低 1% 关闭通知
 			if (!(mException instanceof AfToastException)) {
-				AfExceptionHandler.handler(mException, "WapsCheckDeploy error");
+				AfExceptionHandler.handle(mException, "WapsCheckDeploy error");
 			}
 			mAdapter.helper.onCheckOnlineHideFail(mException);
 		}else if(AfApplication.getApp().isDebug()){

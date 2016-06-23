@@ -1,11 +1,10 @@
 package com.andadvert;
 
-import java.util.Locale;
-
 import android.content.Context;
 
 import com.andframe.application.AfExceptionHandler;
-import com.andadvert.AdvertAdapter;
+
+import java.util.Locale;
 
 public class OnlineKey {
 	
@@ -35,7 +34,6 @@ public class OnlineKey {
 	 * @param key
 	 * @param defaul 默认值
 	 * @param detail 获取内容描述
-	 * @return
 	 */
 	public static boolean getBoolean(Context context, String key,boolean defaul,String detail) {
 		String bool = AdvertAdapter.getInstance().getConfig(context, key, "");
@@ -43,7 +41,7 @@ public class OnlineKey {
 			try {
 				return "true".equals(bool.toLowerCase(Locale.ENGLISH));
 			} catch (Throwable e) {
-				AfExceptionHandler.handler(e, "获取服务器【"+detail+"】出现异常");
+				AfExceptionHandler.handle(e, "获取服务器【"+detail+"】出现异常");
 			}
 		}
 		return defaul;
@@ -55,7 +53,6 @@ public class OnlineKey {
 	 * @param key
 	 * @param defaul 默认值
 	 * @param detail 获取内容描述
-	 * @return
 	 */
 	public static int getInteger(Context context, String key,int defaul,String detail) {
 		String integer = AdvertAdapter.getInstance().getConfig(context,key, "");
@@ -63,7 +60,7 @@ public class OnlineKey {
 			try {
 				return Integer.valueOf(integer);
 			} catch (Throwable e) {
-				AfExceptionHandler.handler(e, "获取服务器【"+detail+"】出现异常");
+				AfExceptionHandler.handle(e, "获取服务器【"+detail+"】出现异常");
 			}
 		}
 		return defaul;
@@ -75,7 +72,6 @@ public class OnlineKey {
 	 * @param key
 	 * @param defaul 默认值
 	 * @param detail 获取内容描述
-	 * @return
 	 */
 	public static double getDouble(Context context, String key,double defaul,String detail) {
 		String integer = AdvertAdapter.getInstance().getConfig(context,key, "");
@@ -83,7 +79,7 @@ public class OnlineKey {
 			try {
 				return Double.valueOf(integer);
 			} catch (Throwable e) {
-				AfExceptionHandler.handler(e, "获取服务器【"+detail+"】出现异常");
+				AfExceptionHandler.handle(e, "获取服务器【"+detail+"】出现异常");
 			}
 		}
 		return defaul;
@@ -95,7 +91,6 @@ public class OnlineKey {
 	 * @param key
 	 * @param defaul 默认值
 	 * @param detail 获取内容描述
-	 * @return
 	 */
 	public static String getHttp(Context context, String key,String defaul,String detail) {
 		String http = AdvertAdapter.getInstance().getConfig(context,key, "");
@@ -111,7 +106,6 @@ public class OnlineKey {
 	 * @param key
 	 * @param defaul 默认值
 	 * @param detail 获取内容描述
-	 * @return
 	 */
 	public static String getString(Context context, String key,String defaul,String detail) {
 		String value = AdvertAdapter.getInstance().getConfig(context,key, "");
