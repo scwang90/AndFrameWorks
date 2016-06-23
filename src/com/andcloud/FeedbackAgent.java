@@ -64,7 +64,7 @@ public class FeedbackAgent {
 				}
 			});
 		} catch (Throwable e) {
-			AfExceptionHandler.handler(e, ("FeedbackAgent.FeedbackThread.sync"));
+			AfExceptionHandler.handle(e, ("FeedbackAgent.FeedbackThread.sync"));
 		}
 	}
 }

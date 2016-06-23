@@ -23,26 +23,26 @@ public class AbActivity extends AfActivity {
 		try {
 			AVAnalytics.onPause(context);
 		} catch (Throwable e) {
-			AfExceptionHandler.handler(e, "AbActivity.pause.AVAnalytics");
+			AfExceptionHandler.handle(e, "AbActivity.pause.AVAnalytics");
 		}
 		try {
 			MobclickAgent.onPageEnd( context.getClass().getSimpleName());
 			MobclickAgent.onPause(context);
 		} catch (Throwable e) {
-			AfExceptionHandler.handler(e, "AbActivity.pause.MobclickAgent");
+			AfExceptionHandler.handle(e, "AbActivity.pause.MobclickAgent");
 		}
 	}
 	public static void resume(Context context) {
 		try {
 			AVAnalytics.onResume(context);
 		} catch (Throwable e) {
-			AfExceptionHandler.handler(e, "AbActivity.resume.AVAnalytics");
+			AfExceptionHandler.handle(e, "AbActivity.resume.AVAnalytics");
 		}
 		try {
 			MobclickAgent.onPageStart(context.getClass().getSimpleName());
 			MobclickAgent.onResume(context);
 		} catch (Throwable e) {
-			AfExceptionHandler.handler(e, "AbActivity.resume.MobclickAgent");
+			AfExceptionHandler.handle(e, "AbActivity.resume.MobclickAgent");
 		}
 	}
 
@@ -51,12 +51,12 @@ public class AbActivity extends AfActivity {
 			eventId = eventId.replace('.', '_');
 			AVAnalytics.onEvent(context, eventId);
 		} catch (Throwable e) {
-			AfExceptionHandler.handler(e, "AbActivity.event.AVAnalytics");
+			AfExceptionHandler.handle(e, "AbActivity.event.AVAnalytics");
 		}
 		try {
 			MobclickAgent.onEvent(context, eventId);
 		} catch (Throwable e) {
-			AfExceptionHandler.handler(e, "AbActivity.event.MobclickAgent");
+			AfExceptionHandler.handle(e, "AbActivity.event.MobclickAgent");
 		}
 	}
 
@@ -65,12 +65,12 @@ public class AbActivity extends AfActivity {
 			eventId = eventId.replace('.', '_');
 			AVAnalytics.onEvent(context, eventId,tag);
 		} catch (Throwable e) {
-			AfExceptionHandler.handler(e, "AbActivity.event.AVAnalytics.tag");
+			AfExceptionHandler.handle(e, "AbActivity.event.AVAnalytics.tag");
 		}
 		try {
 			MobclickAgent.onEvent(context, eventId,tag);
 		} catch (Throwable e) {
-			AfExceptionHandler.handler(e, "AbActivity.event.MobclickAgent.tag");
+			AfExceptionHandler.handle(e, "AbActivity.event.MobclickAgent.tag");
 		}
 	}
 	
