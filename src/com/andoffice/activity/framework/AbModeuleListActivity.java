@@ -638,7 +638,7 @@ public abstract class AbModeuleListActivity<T> extends AbSuperListViewActivity<T
                     try {
                         throw new AfToastException("mltDelete 为空");
                     } catch (Throwable e) {
-                        AfExceptionHandler.handler(e, remark);
+                        AfExceptionHandler.handle(e, remark);
                     }
                 }
                 return true;

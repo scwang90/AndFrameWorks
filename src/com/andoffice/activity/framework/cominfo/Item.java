@@ -176,7 +176,7 @@ public class Item {
 				ivalue = (int) dvalue;
 				fvalue = (float) dvalue;
 			} catch (Throwable ex) {
-				AfExceptionHandler.handler(ex, "Item.Double.valueOf 出现异常");
+				AfExceptionHandler.handle(ex, "Item.Double.valueOf 出现异常");
 			}
 		}
 	}
@@ -190,7 +190,7 @@ public class Item {
 				ivalue = (int) dvalue;
 				fvalue = (float) dvalue;
 			} catch (Throwable ex) {
-				AfExceptionHandler.handler(ex, "Item.Double.valueOf 出现异常");
+				AfExceptionHandler.handle(ex, "Item.Double.valueOf 出现异常");
 			}
 		}
 	}

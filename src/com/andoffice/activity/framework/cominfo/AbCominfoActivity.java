@@ -564,7 +564,7 @@ public abstract class AbCominfoActivity extends AfActivity implements
 							item.ivalue = (int) item.dvalue;
 							item.fvalue = (float) item.dvalue;
 						} catch (Throwable ex) {
-							AfExceptionHandler.handler(ex,"AbCommonActivity.doInputText.onClick.valueOf 出现异常");
+							AfExceptionHandler.handle(ex,"AbCommonActivity.doInputText.onClick.valueOf 出现异常");
 						}
 					}else if(item.type == Item.PASSWORD){
 						item.value = AbApplication.getApp().encryptionPassword(text);
