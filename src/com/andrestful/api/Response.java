@@ -23,6 +23,9 @@ public abstract class Response {
 	protected String orgbody;
 	protected String body;
 
+	public Response() {
+	}
+
 	public Response(int statusCode) {
 		this.statusCode = statusCode;
 	}
