@@ -1,16 +1,15 @@
 package com.andaddress;
 
-import android.os.Message;
 
 import com.andframe.application.AfApplication;
 import com.andframe.helper.android.AfDesHelper;
 import com.andframe.thread.AfTask;
 import com.andframe.util.java.AfMD5;
-import com.andrestrequest.AndRestConfig;
-import com.andrestrequest.http.DefaultRequestHandler;
-import com.andrestrequest.http.DefaultResponseHandler;
-import com.andrestrequest.http.Response;
-import com.andrestrequest.http.api.HttpMethod;
+import com.andrestful.api.HttpMethod;
+import com.andrestful.api.RequestHandler;
+import com.andrestful.api.Response;
+import com.andrestful.config.Config;
+import com.andrestful.http.MultiRequestHandler;
 
 import java.io.IOException;
 import java.util.regex.Matcher;
@@ -67,29 +66,24 @@ public class AddressKernel {
 	 * @throws IOException
 	 */
 	public static String work() throws Exception {
-		String charset = AndRestConfig.getCharset();
-		try {
-			AndRestConfig.setCharset("GBK");
-			DefaultRequestHandler handler = new DefaultRequestHandler(new DefaultResponseHandler(false));
-			HttpMethod method = HttpMethod.GET;
-			Response response = handler.doRequest(method , url);
-			Pattern compile = Pattern.compile("<iframe\\s*src=[\"|'](\\S*)[\"|']");
-			Matcher matcher = compile.matcher(response.getBody());
-			if(matcher.find()){
-				String url = matcher.group(1);
-				response = handler.doRequest(method , url);
-				compile = Pattern.compile(">.*\\[(.+)\\].*：([\\u4e00-\\u9fa5]+)\\s*([\\u4e00-\\u9fa5]+)\\s*<");
-				matcher = compile.matcher(response.getBody());
-				if(matcher.find()){
-					address = matcher.group(1);
-					city = matcher.group(2);
-					operator = matcher.group(3);
-					found = true;
-					return city;
-				}
+		Config config = new Config();
+		config.charset = "GBK";
+		RequestHandler handler = MultiRequestHandler.getInstance(config);
+		Response response = handler.doRequest(HttpMethod.GET, url);
+		Pattern compile = Pattern.compile("<iframe\\s*src=[\"|'](\\S*)[\"|']");
+		Matcher matcher = compile.matcher(response.getBody());
+		if (matcher.find()) {
+			String url = matcher.group(1);
+			response = handler.doRequest(HttpMethod.GET, url);
+			compile = Pattern.compile(">.*\\[(.+)\\].*：([\\u4e00-\\u9fa5]+)\\s*([\\u4e00-\\u9fa5]+)\\s*<");
+			matcher = compile.matcher(response.getBody());
+			if (matcher.find()) {
+				address = matcher.group(1);
+				city = matcher.group(2);
+				operator = matcher.group(3);
+				found = true;
+				return city;
 			}
-		} finally{
-			AndRestConfig.setCharset(charset);
 		}
 		return "获取失败";
 	}
