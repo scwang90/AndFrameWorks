@@ -22,11 +22,7 @@ public abstract class Response {
 	protected Map<String, String> headers;
 	protected String orgbody;
 	protected String body;
-	private String orgObject;
 
-	public Response() {
-	}
-	
 	public Response(int statusCode) {
 		this.statusCode = statusCode;
 	}
@@ -57,6 +53,9 @@ public abstract class Response {
 
 	public String getBody() {
 		parser();
+		if (body == null) {
+			return orgbody;
+		}
 		return body;
 	}
 
