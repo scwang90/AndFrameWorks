@@ -1,11 +1,11 @@
 package com.andstatistics.kernel;
 
-import java.io.File;
-
 import android.os.Environment;
 
 import com.andframe.application.AfApplication;
 import com.andframe.caches.AfJsonCache;
+
+import java.io.File;
 
 public class UniqueCache extends AfJsonCache
 {
@@ -24,7 +24,7 @@ public class UniqueCache extends AfJsonCache
 			try {
 				mDurableCache = new UniqueCache(name);
 			} catch (Throwable e) {
-//				AfExceptionHandler.handler(e, "获取持久缓存失败");
+//				AfExceptionHandler.handle(e, "获取持久缓存失败");
 			}
 		}
 		return mDurableCache;

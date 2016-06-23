@@ -5,8 +5,6 @@ import android.content.Context;
 import com.andframe.application.AfApplication;
 import com.andframe.application.AfExceptionHandler;
 import com.andframe.model.Exceptional;
-import com.andrestrequest.AndRestConfig;
-import com.andrestrequest.http.DefaultResponseHandler;
 import com.andstatistics.kernel.DeviceKernel;
 import com.andstatistics.kernel.UniqueKernel;
 import com.andstatistics.model.DsApplication;
@@ -21,6 +19,7 @@ import com.andstatistics.thread.ExceptionalTask;
 import com.andstatistics.thread.FeedbackTask;
 
 /**
+ * AndStatistics
  * Created by SCWANG on 2015-07-29.
  */
 public class AndStatistics implements LoadDeployListener {
@@ -177,13 +176,13 @@ public class AndStatistics implements LoadDeployListener {
     };
 
     static{
-        AndRestConfig.setPort("9080");
-        AndRestConfig.setIP("222.85.149.6");
-//        AndRestConfig.setPort("8080");
-//        AndRestConfig.setIP("192.168.31.203");
-        AndRestConfig.setVersion("DataStatistics");
-        DefaultResponseHandler.RESULT = "result";
-        DefaultResponseHandler.STATUS = "status";
-        DefaultResponseHandler.STATUS_OK = true;
+//        AndRestConfig.setPort("9080");
+//        AndRestConfig.setIP("222.85.149.6");
+////        AndRestConfig.setPort("8080");
+////        AndRestConfig.setIP("192.168.31.203");
+//        AndRestConfig.setVersion("DataStatistics");
+//        DefaultResponseHandler.RESULT = "result";
+//        DefaultResponseHandler.STATUS = "status";
+//        DefaultResponseHandler.STATUS_OK = true;
     }
 }

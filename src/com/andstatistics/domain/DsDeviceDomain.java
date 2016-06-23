@@ -1,6 +1,6 @@
 package com.andstatistics.domain;
 
-import com.andrestrequest.http.api.HttpMethod;
+import com.andrestful.api.HttpMethod;
 import com.andstatistics.domain.base.BaseDomain;
 import com.andstatistics.model.DsDevice;
 
@@ -8,7 +8,7 @@ import com.andstatistics.model.DsDevice;
  * 设备
  * Created by SCWANG on 2015-07-29.
  */
-public class DsDeviceDomain extends BaseDomain<DsDevice> {
+public class DsDeviceDomain extends BaseDomain {
 
     public DsDeviceDomain(){
         super("DsDevice");

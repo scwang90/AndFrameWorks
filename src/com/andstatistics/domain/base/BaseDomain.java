@@ -1,20 +1,20 @@
 package com.andstatistics.domain.base;
 
-import java.util.HashMap;
-import java.util.Map;
-
 import com.andframe.helper.android.AfDesHelper;
 import com.andframe.util.java.AfDateGuid;
 import com.andframe.util.java.AfMD5;
-import com.andrestrequest.http.Response;
-import com.andrestrequest.http.api.HttpMethod;
-import com.andrestrequest.impl.AbstractRequester;
+import com.andrestful.api.AbstractRequester;
+import com.andrestful.api.HttpMethod;
+import com.andrestful.api.Response;
+
+import java.util.HashMap;
+import java.util.Map;
 
 /**
  * 基类
  * Created by SCWANG on 2015-07-29.
  */
-public class BaseDomain<T> extends AbstractRequester {
+public class BaseDomain extends AbstractRequester {
 
     protected String controller;
 
@@ -27,30 +27,30 @@ public class BaseDomain<T> extends AbstractRequester {
 
     public Response doRequest(HttpMethod method, String path, Map<String, String> headers, Map<String, Object> params) throws Exception {
         headers = buildToken(headers);
-        return handler.doRequest(method,"/"+controller+ path, headers, params);
+        return impl.handler.doRequest(method,"/"+controller+ path, headers, params);
     }
 
     public Response doRequest(HttpMethod method, String path) throws Exception {
-        return handler.doRequest(method,"/"+controller+ path,buildToken(),null,null);
+        return impl.handler.doRequest(method,"/"+controller+ path,buildToken(),null,null);
     }
 
     public Response doRequest(HttpMethod method, String path, Object body) throws Exception {
-        return handler.doRequest(method,"/"+controller+ path, buildToken(), body, null);
+        return impl.handler.doRequest(method,"/"+controller+ path, buildToken(), body, null);
     }
 
     public Response doRequest(HttpMethod method, String path, Map<String, String> headers) throws Exception {
         headers = buildToken(headers);
-        return handler.doRequest(method,"/"+controller+ path, headers);
+        return impl.handler.doRequest(method,"/"+controller+ path, headers);
     }
 
     public Response doRequest(HttpMethod method, String path, Map<String, String> headers, Object body) throws Exception {
         headers = buildToken(headers);
-        return handler.doRequest(method,"/"+controller+ path, headers, body);
+        return impl.handler.doRequest(method,"/"+controller+ path, headers, body);
     }
 
     public Response doRequest(HttpMethod method, String path, Map<String, String> headers, Object body, Map<String, Object> params) throws Exception {
         headers = buildToken(headers);
-        return handler.doRequest(method,"/"+controller+ path, headers, body, params);
+        return impl.handler.doRequest(method,"/"+controller+ path, headers, body, params);
     }
 
     private Map<String, String> buildToken() throws Exception {
