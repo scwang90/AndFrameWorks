@@ -270,7 +270,7 @@ public abstract class AfFragment extends Fragment implements AfPageable {
             onActivityResult(new AfIntent(data), requestcode, resultcode);
         } catch (Throwable e) {
             if (!(e instanceof AfToastException)) {
-                AfExceptionHandler.handler(e, TAG("onActivityResult"));
+                AfExceptionHandler.handle(e, TAG("onActivityResult"));
             }
             makeToastLong("反馈信息读取错误！", e);
         }
@@ -313,7 +313,7 @@ public abstract class AfFragment extends Fragment implements AfPageable {
             Injecter.doInjectQueryChanged(this);
             this.onQueryChanged();
         } catch (Throwable ex) {
-            AfExceptionHandler.handler(ex, "AfFragment.onResume");
+            AfExceptionHandler.handle(ex, "AfFragment.onResume");
         }
     }
 
@@ -340,7 +340,7 @@ public abstract class AfFragment extends Fragment implements AfPageable {
             onCreated(new AfView(mRootView), new AfBundle(getArguments()));
         } catch (Throwable e) {
             if (!(e instanceof AfToastException)) {
-                AfExceptionHandler.handler(e, TAG("onCreateView"));
+                AfExceptionHandler.handle(e, TAG("onCreateView"));
             }
             makeToastLong("页面初始化异常！", e);
         }
@@ -435,7 +435,7 @@ public abstract class AfFragment extends Fragment implements AfPageable {
 
     @Override
     public void makeToastLong(String tip, Throwable e) {
-        tip = AfException.handle(e, tip);
+        tip = AfExceptionHandler.tip(e, tip);
         Toast.makeText(getContext(), tip, Toast.LENGTH_LONG).show();
     }
 
@@ -463,7 +463,7 @@ public abstract class AfFragment extends Fragment implements AfPageable {
         try {
             return (T) findViewById(id);
         } catch (Throwable e) {
-            AfExceptionHandler.handler(e, TAG("findViewByID"));
+            AfExceptionHandler.handle(e, TAG("findViewByID"));
         }
         return null;
     }
@@ -507,7 +507,7 @@ public abstract class AfFragment extends Fragment implements AfPageable {
             setDialogFontSize(mProgress, textsize);
         } catch (Throwable e) {
             //进过日志验证，这个异常会发送，但是概率非常小，注释掉异常通知
-//			AfExceptionHandler.handler(e, "AfActivity.showProgressDialog");
+//			AfExceptionHandler.handle(e, "AfActivity.showProgressDialog");
         }
     }
 
@@ -530,7 +530,7 @@ public abstract class AfFragment extends Fragment implements AfPageable {
             setDialogFontSize(mProgress, 25);
         } catch (Throwable e) {
             //进过日志验证，这个异常会发送，但是概率非常小，注释掉异常通知
-//			AfExceptionHandler.handler(e, "AfActivity.showProgressDialog");
+//			AfExceptionHandler.handle(e, "AfActivity.showProgressDialog");
         }
     }
 
@@ -553,7 +553,7 @@ public abstract class AfFragment extends Fragment implements AfPageable {
             setDialogFontSize(mProgress, textsize);
         } catch (Throwable e) {
             //进过日志验证，这个异常会发送，但是概率非常小，注释掉异常通知
-//			AfExceptionHandler.handler(e, "AfActivity.showProgressDialog");
+//			AfExceptionHandler.handle(e, "AfActivity.showProgressDialog");
         }
     }
 
@@ -575,7 +575,7 @@ public abstract class AfFragment extends Fragment implements AfPageable {
                 mProgress = null;
             }
         } catch (Throwable e) {
-            AfExceptionHandler.handler(e, "AfActivity.hideProgressDialog");
+            AfExceptionHandler.handle(e, "AfActivity.hideProgressDialog");
         }
     }
 

@@ -113,7 +113,7 @@ public abstract class AfUpdateService {
 			intent.setDataAndType(Uri.fromFile(file),"application/vnd.android.package-archive");
 			context.startActivity(intent);
 		} catch (Throwable e) {
-			AfExceptionHandler.handler(e, "更新服务，Instanll 调用安装失败");
+			AfExceptionHandler.handle(e, "更新服务，Instanll 调用安装失败");
 		}
 	}
 

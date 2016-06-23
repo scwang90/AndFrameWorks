@@ -147,7 +147,7 @@ public class AfImageCaches {
 			return bitmap;
 		} catch (Throwable e) {
 			e.printStackTrace();// handled
-//			AfExceptionHandler.handler(e, "图片缓存，get 出现异常");
+//			AfExceptionHandler.handle(e, "图片缓存，get 出现异常");
 		}
 		return null;
 	}
@@ -232,7 +232,7 @@ public class AfImageCaches {
 			}
 		} catch (Throwable e) {
 			e.printStackTrace();
-			AfExceptionHandler.handler(e, "AfImageCaches.remove.Exception");
+			AfExceptionHandler.handle(e, "AfImageCaches.remove.Exception");
 		}
 	}
 
@@ -259,7 +259,7 @@ public class AfImageCaches {
 			tFileOutputStream.close();
 		} catch (Throwable e) {
 			e.printStackTrace();// handled
-//			AfExceptionHandler.handler(e, "图片缓存，putToFile 出现异常");
+//			AfExceptionHandler.handle(e, "图片缓存，putToFile 出现异常");
 		}
 	}
 

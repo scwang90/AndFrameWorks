@@ -30,7 +30,7 @@ public abstract class AfHandlerTimerTask extends AfTimerTask implements Callback
 			result = this.onHandleTimer(msg);
 		} catch (Throwable e) {
 			String remark = "AfHandlerTimerTask("+getClass().getName()+").handleMessage.onHandleTimer";
-			AfExceptionHandler.handler(e, remark);
+			AfExceptionHandler.handle(e, remark);
 		}
 		return result;
 	}

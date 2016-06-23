@@ -121,7 +121,7 @@ public class AfDbOpenHelper extends SQLiteOpenHelper {
 		try {
 			db.execSQL(sql.toString());
 		} catch (Throwable e) {
-			AfExceptionHandler.handler(e, "AfDbOpenHelper.createTable");
+			AfExceptionHandler.handle(e, "AfDbOpenHelper.createTable");
 		}
 	}
 

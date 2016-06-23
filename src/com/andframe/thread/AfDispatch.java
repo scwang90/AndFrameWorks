@@ -15,7 +15,7 @@ public abstract class AfDispatch implements Runnable, Callback{
 			this.onDispatch();
 		} catch (Throwable e) {
 			String remark = "AfDispatch("+getClass().getName()+").run.onDispatch";
-			AfExceptionHandler.handler(e, remark);
+			AfExceptionHandler.handle(e, remark);
 		}
 	}
 	

@@ -139,7 +139,7 @@ public class AfDaemonThread {
 				mTask.run();
 				onTaskFinish(this);
 			} catch (Throwable e) {
-				AfExceptionHandler.handler(e, "AfDaemonThread.ThreadWorker.run");
+				AfExceptionHandler.handle(e, "AfDaemonThread.ThreadWorker.run");
 			}
 		}
 

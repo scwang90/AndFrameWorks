@@ -34,12 +34,12 @@ public abstract class AfHandlerTask extends AfTask implements Callback{
 //		this.mHandler = new Handler(AfApplication.getLooper(),this);
 //	}
 
-//	protected AfHandlerTask(Handler handler) {
-//		super(handler);
+//	protected AfHandlerTask(Handler handle) {
+//		super(handle);
 //	}
 	
-//	protected AfHandlerTask(Handler handler, int task) {
-//		super(handler,task);
+//	protected AfHandlerTask(Handler handle, int task) {
+//		super(handle,task);
 //	}
 
 
@@ -63,13 +63,13 @@ public abstract class AfHandlerTask extends AfTask implements Callback{
             }
 		} catch (Exception e) {
 			String remark = "AfHandlerTask("+getClass().getName()+").handleMessage.onTaskFinish";
-			AfExceptionHandler.handler(e, remark);
+			AfExceptionHandler.handle(e, remark);
 		}
 		try {
 			result = this.onHandle(/*msg*/);
 		} catch (Throwable e) {
 			String remark = "AfHandlerTask("+getClass().getName()+").handleMessage.onHandle";
-			AfExceptionHandler.handler(e, remark);
+			AfExceptionHandler.handle(e, remark);
 		}
 		return result;
 	}

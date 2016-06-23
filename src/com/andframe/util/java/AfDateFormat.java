@@ -1,13 +1,14 @@
 package com.andframe.util.java;
 
 import java.text.DateFormat;
+import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.Calendar;
 import java.util.Date;
 import java.util.Locale;
 
 public class AfDateFormat {
-	
+
 	public static Locale LOCALE = Locale.ENGLISH;
 	public static DateFormat DAY = new SimpleDateFormat("M-d",LOCALE);
 	/**
@@ -101,5 +102,18 @@ public class AfDateFormat {
 		builder.append(" - ");
 		builder.append(formatTime(endDate));
 		return builder.toString();
+	}
+
+	public static Date parser(int year, int month, int day) {
+		Calendar calender = Calendar.getInstance();
+		calender.set(Calendar.YEAR, year);
+		calender.set(Calendar.DAY_OF_MONTH, month);
+		calender.set(Calendar.MONTH, day);
+		try {
+			return DATE.parse(DATE.format(calender.getTime()));
+		} catch (ParseException e) {
+			e.printStackTrace();
+			return new Date(0);
+		}
 	}
 }

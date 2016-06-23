@@ -14,7 +14,7 @@ public abstract class AfTimerTask extends TimerTask{
 			this.onTimer();
 		} catch (Throwable e) {
 			String remark = "AfTimerTask("+getClass().getName()+").run.onTimer";
-			AfExceptionHandler.handler(e, remark);
+			AfExceptionHandler.handle(e, remark);
 		}
 	}
 }

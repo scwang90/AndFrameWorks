@@ -109,18 +109,18 @@ public class AfEntityDao<T> extends AfDao<T>{
 				ltEntity.add(getEntity(model));
 			}
 		} catch (Throwable e) {
-			AfExceptionHandler.handler(e, "AfEntityDao.getEntitys");
+			AfExceptionHandler.handle(e, "AfEntityDao.getEntitys");
 		}
 		return ltEntity;
 	}
 
 	protected T getEntity(List<Model> models) {
 		try {
-			for (Model model : models) {
-                return getEntity(model);
-            }
+			if (models != null && models.size() > 0) {
+				return getEntity(models.get(0));
+			}
 		} catch (Exception e) {
-			AfExceptionHandler.handler(e, "AfEntityDao.getEntity");
+			AfExceptionHandler.handle(e, "AfEntityDao.getEntity");
 		}
 		return null;
 	}

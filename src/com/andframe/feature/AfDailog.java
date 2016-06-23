@@ -755,7 +755,7 @@ public class AfDailog {
                         try {
                             listener.onDateTimeSet(year, month, day, hour, minute);
                         } catch (Throwable e) {
-                            AfExceptionHandler.handler(e, "doSelectDateTime.listener.onDateTimeSet");
+                            AfExceptionHandler.handle(e, "doSelectDateTime.listener.onDateTimeSet");
                         }
                     }
                 }, hour, minute, true);
@@ -839,7 +839,7 @@ public class AfDailog {
                 try {
                     listener.onTimeSet(hour, minute);
                 } catch (Throwable e) {
-                    AfExceptionHandler.handler(e, "doSelectTime.listener.onTimeSet");
+                    AfExceptionHandler.handle(e, "doSelectTime.listener.onTimeSet");
                 }
             }
         }, hour, minute, true);
@@ -918,7 +918,7 @@ public class AfDailog {
                 try {
                     listener.onDateSet(year, month, day);
                 } catch (Throwable e) {
-                    AfExceptionHandler.handler(e, "doSelectDate.listener.onDateSet");
+                    AfExceptionHandler.handle(e, "doSelectDate.listener.onDateSet");
                 }
             }
         }, year, month, day);

@@ -256,15 +256,31 @@ public class AfLocation
                     isDisableGps = true;
                 }
             }
-            if(isDisableNet == false){
+            if(!isDisableNet){
                 mProvider = LocationManager.NETWORK_PROVIDER;
-            }else if(isDisableGps == false){
+            }else if(!isDisableGps){
                 mProvider = LocationManager.GPS_PROVIDER;
             }else{
                 mProvider = null;
             }
         }
     };
+
+    public static String getBestProbider(Context context) {
+        //使用标准集合，让系统自动选择可用的最佳位置提供器，提供位置
+        Criteria tCriteria = new Criteria();
+        tCriteria.setAccuracy(Criteria.ACCURACY_FINE);   //高精度
+        tCriteria.setAltitudeRequired(false);    //不要求海拔
+        tCriteria.setBearingRequired(false); //不要求方位
+        tCriteria.setCostAllowed(false); //不允许有话费
+        tCriteria.setPowerRequirement(Criteria.POWER_LOW);   //低功耗
+
+        LocationManager manager = (LocationManager)context.getSystemService(Context.LOCATION_SERVICE);
+
+        String provider = manager.getBestProvider(tCriteria,true);
+        provider = provider == null ? LocationManager.NETWORK_PROVIDER : provider;
+        return provider;
+    }
 
     /**
      * 请求等待 异常

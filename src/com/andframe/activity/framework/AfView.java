@@ -80,7 +80,7 @@ public class AfView implements AfViewable {
 		try {
 			return (T)findViewById(id);
 		} catch (Throwable e) {
-			AfExceptionHandler.handler(e, "AfView.findViewByID");
+			AfExceptionHandler.handle(e, "AfView.findViewByID");
 		}
 		return null;
 	}

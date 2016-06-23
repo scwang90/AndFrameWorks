@@ -141,7 +141,7 @@ public class Injecter {
                 if (init.value()){
                     throw new RuntimeException("调用查询失败",e);
                 }
-                AfExceptionHandler.handler(e, TAG(handler, "doInjectQueryChanged.invokeMethod.")+method.getName());
+                AfExceptionHandler.handle(e, TAG(handler, "doInjectQueryChanged.invokeMethod.") + method.getName());
             }
         }
     }
@@ -195,7 +195,7 @@ public class Injecter {
                     field.set(handler, value);
                 }
             } catch (Throwable e) {
-                AfExceptionHandler.handler(e,TAG(handler, "doInject.Inject")+ field.getName());
+                AfExceptionHandler.handle(e, TAG(handler, "doInject.Inject") + field.getName());
             }
         }
     }
@@ -330,7 +330,7 @@ public class Injecter {
                     field.set(handler, value);
                 }
             } catch (Throwable e) {
-                AfExceptionHandler.handler(e,TAG(handler, "doInject.injectSystem")+ field.getName());
+                AfExceptionHandler.handle(e, TAG(handler, "doInject.injectSystem") + field.getName());
             }
         }
     }
@@ -358,7 +358,7 @@ public class Injecter {
                     }
                 }, bind.value());
             } catch (Throwable e) {
-                AfExceptionHandler.handler(e, TAG(handler, "doInjectDelayed.") + method.getName());
+                AfExceptionHandler.handle(e, TAG(handler, "doInjectDelayed.") + method.getName());
             }
         }
     }
@@ -370,7 +370,7 @@ public class Injecter {
                 ((AfActivity) handler).setContentView(layout.value());
             }catch(Throwable e){
                 e.printStackTrace();
-                AfExceptionHandler.handler(e,TAG(handler, "doInjectLayout.setContentView"));
+                AfExceptionHandler.handle(e, TAG(handler, "doInjectLayout.setContentView"));
             }
         }
     }
@@ -385,7 +385,7 @@ public class Injecter {
                 if (init.value()){
                     throw new RuntimeException("调用初始化失败",e);
                 }
-                AfExceptionHandler.handler(e,TAG(handler, "doInjectInit.invokeMethod.")+method.getName());
+                AfExceptionHandler.handle(e, TAG(handler, "doInjectInit.invokeMethod.") + method.getName());
             }
         }
     }
@@ -455,7 +455,7 @@ public class Injecter {
                 if (inject.necessary()){
                     throw new RuntimeException("缺少必须参数",e);
                 }
-                AfExceptionHandler.handler(e,TAG(handler, "doInject.InjectExtra.")+ field.getName());
+                AfExceptionHandler.handle(e, TAG(handler, "doInject.InjectExtra.") + field.getName());
             }
         }
     }

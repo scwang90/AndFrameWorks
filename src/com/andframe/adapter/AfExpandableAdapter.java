@@ -213,7 +213,7 @@ public abstract class AfExpandableAdapter<G, C> extends
             if (cview != null && cview.getContext() != null) {
                 remark += "class = " + cview.getContext().getClass().toString();
             }
-            AfExceptionHandler.handler(e, remark);
+            AfExceptionHandler.handle(e, remark);
         }
         return view;
     }
@@ -268,7 +268,7 @@ public abstract class AfExpandableAdapter<G, C> extends
             if (cview != null && cview.getContext() != null) {
                 remark += "class = " + cview.getContext().getClass().toString();
             }
-            AfExceptionHandler.handler(e, remark);
+            AfExceptionHandler.handle(e, remark);
         }
         return view;
     }

@@ -67,8 +67,8 @@ public abstract class AfListTask<T> extends AfHandlerTask {
 //		super(task);
 //	}
 //
-//	public AfListTask(Handler handler, int task) {
-//		super(handler, task);
+//	public AfListTask(Handler handle, int task) {
+//		super(handle, task);
 //	}
 //
 //	public AfListTask(int task,int first) {

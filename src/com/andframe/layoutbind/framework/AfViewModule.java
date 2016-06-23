@@ -148,7 +148,7 @@ public class AfViewModule extends AfViewDelegate implements AfViewable, IViewMod
 		try {
 			return (T)target.findViewById(id);
 		} catch (Throwable e) {
-			AfExceptionHandler.handler(e, "AfViewModule.findViewByID");
+			AfExceptionHandler.handle(e, "AfViewModule.findViewByID");
 		}
 		return null;
 	}

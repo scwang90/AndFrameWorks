@@ -47,120 +47,48 @@ public class AfExceptionHandler implements UncaughtExceptionHandler{
 		return INSTANCE;
 	}
 
-	public static Exceptional getHandler(Throwable ex,String remark) {
-		return getHandler(Thread.currentThread(),ex,remark);
-	}
-	
-	public static Exceptional getHandler(Thread thread,Throwable ex,String remark) {
-		Exceptional ehandler = new Exceptional();
-		ehandler.Thread = "异常线程：" + thread;
-		
-		ehandler.Remark = remark;
-		ehandler.Name = getExceptionName(ex);
-		ehandler.Message = getExceptionMessage(ex);
-		ehandler.Stack = getAllStackTraceInfo(ex);
-		ehandler.Version = AfApplication.getVersion();
-		ehandler.Device = AfDeviceInfo.detDeviceMessage();
-
-		return ehandler;
-	}
-	
-	public static void handleAttach(Throwable ex,String remark) {
-		if(INSTANCE != null && !(ex instanceof AfToastException)){
-			String handlerid;
-			StackTraceElement[] stacks = ex.getStackTrace();
-			if(stacks != null && stacks.length > 0){
-				handlerid = stacks[0].toString();
-			}else{
-				handlerid = AfDateGuid.NewID();
+	public String onHandleTip(Throwable e, String tip) {
+		int index = 0;
+		Throwable ex = e;
+		while (!(ex instanceof AfToastException) && ex.getCause() != null && ++index < 5) {
+			ex = e.getCause();
+		}
+		if(ex instanceof AfToastException){
+			return ex.getMessage();
+		}
+		String message = e.getMessage();
+		boolean debug = AfApplication.getApp().isDebug();
+		if (debug) {
+			message = "内容:" + message;
+			message = String.format("异常:%s\r\n%s",e.getClass().getName(),message);
+			if(tip != null && !tip.equals("")){
+				return String.format("消息:%s\r\n%s",tip,message);
 			}
-			INSTANCE.onHandlerAttachException(ex,remark,handlerid);
-		}
-	}
-
-	public static void handler(String message,String remark) {
-		if(INSTANCE != null){
-			String handlerid = ""+(message+remark).hashCode();
-			INSTANCE.onHandlerException(new Exception(message),remark,handlerid);
-		}
-	}
-
-	public static void handler(Throwable ex,String remark) {
-		if(INSTANCE != null && !(ex instanceof AfToastException)){
-			ex.printStackTrace();
-			String handlerid;
-			StackTraceElement[] stacks = ex.getStackTrace();
-			if(stacks != null && stacks.length > 0){
-				handlerid = stacks[0].toString();
-			}else{
-				handlerid = AfDateGuid.NewID();
+		}else {
+			if(message == null || message.trim().equals("")){
+				message = e.getClass().getName();
 			}
-			INSTANCE.onHandlerException(ex,remark,handlerid);
-		}
-	}
-
-	protected void onHandlerAttachException(Throwable ex, String remark,String handlerid) {
-		try {
-			String msg = "时间:" + AfDateFormat.FULL.format(new Date()) +
-					"\r\n\r\n备注:\r\n" + "Attach-"+remark +
-					"\r\n\r\n异常:\r\n" + getExceptionName(ex) + 
-					"\r\n\r\n信息:\r\n" + getExceptionMessage(ex) + 
-					"\r\n\r\n快捷:\r\n" + getPackageStackTraceInfo(ex) + 
-					"\r\n\r\n堆栈:\r\n" + getStackTraceInfo(ex);
-			AfDurableCache dc = AfDurableCache.getInstance("attach");
-			dc.put(AfDateGuid.NewID(), msg);
-			
-			
-			AfActivity activity = AfApplication.getApp().getCurActivity();
-			if (activity != null && mIsShowDialog) {
-				doShowDialog(activity,"异常捕捉",msg,handlerid);
+			if(tip != null && !tip.equals("")){
+				return tip;
+//				return String.format("%s:%s",tip,message);
 			}
-			
-			String path = AfDurableCache.getPath();
-			FileWriter writer = new FileWriter(path+"/attach-"+AfDateFormat.format("y-M-d$HH-mm-ss",new Date())+".txt");
-			writer.write(msg);
-			writer.close();
-		} catch (Throwable e) {
 		}
-	}
-
-	protected void onHandlerException(Throwable ex, String remark, String handlerid) {
-		try {
-			String msg = "时间:" + AfDateFormat.FULL.format(new Date()) +
-					"\r\n\r\n备注:\r\n" + remark +
-					"\r\n\r\n异常:\r\n" + getExceptionName(ex) + 
-					"\r\n\r\n信息:\r\n" + getExceptionMessage(ex) + 
-					"\r\n\r\n快捷:\r\n" + getPackageStackTraceInfo(ex) + 
-					"\r\n\r\n堆栈:\r\n" + getStackTraceInfo(ex);
-			AfDurableCache dc = AfDurableCache.getInstance("handler");
-			dc.put(AfDateGuid.NewID(), msg);
-			
-			AfActivity activity = AfApplication.getApp().getCurActivity();
-			if (activity != null && mIsShowDialog) {
-				doShowDialog(activity,"异常捕捉",msg,handlerid);
-			}
-			
-			String path = AfDurableCache.getPath();
-			FileWriter writer = new FileWriter(path+"/handler-"+AfDateFormat.format("y-M-d$HH-mm-ss",new Date())+".txt");
-			writer.write(msg);
-			writer.close();
-		} catch (Throwable e) {
-		}
+		return message;
 	}
 
 	@Override
 	public void uncaughtException(final Thread thread, final Throwable ex) {
 		try {
 			ex.printStackTrace();
-			String msg = "日期:" +AfDateFormat.FULL.format(new Date()) + 
+			String msg = "日期:" +AfDateFormat.FULL.format(new Date()) +
 					"\r\n\r\n备注:\r\n" + "程序崩溃" +
-					"\r\n\r\n异常:\r\n" + getExceptionName(ex) + 
-					"\r\n\r\n信息:\r\n" + getExceptionMessage(ex) + 
-					"\r\n\r\n快捷:\r\n" + getPackageStackTraceInfo(ex) + 
+					"\r\n\r\n异常:\r\n" + getExceptionName(ex) +
+					"\r\n\r\n信息:\r\n" + getExceptionMessage(ex) +
+					"\r\n\r\n快捷:\r\n" + getPackageStackTraceInfo(ex) +
 					"\r\n\r\n堆栈:\r\n" + getStackTraceInfo(ex);
 			AfDurableCache dc = AfDurableCache.getInstance("error");
 			dc.put(AfDateGuid.NewID(), msg);
-			
+
 			AfActivity activity = AfApplication.getApp().getCurActivity();
 			if (activity != null && mIsShowDialog) {
 				doShowDialog(activity, "程序崩溃了", msg,new Handler.Callback() {
@@ -181,11 +109,117 @@ public class AfExceptionHandler implements UncaughtExceptionHandler{
 		} catch (Throwable e) {
 			e.printStackTrace();
 		}
-		
+
 		if(mDefaultHandler != null){
 			mDefaultHandler.uncaughtException(thread, ex);
-		}else{
-			
+		}
+	}
+
+	protected void onHandleAttachException(Throwable ex, String remark, String handlerid) {
+		try {
+			String msg = "时间:" + AfDateFormat.FULL.format(new Date()) +
+					"\r\n\r\n备注:\r\n" + "Attach-"+remark +
+					"\r\n\r\n异常:\r\n" + getExceptionName(ex) +
+					"\r\n\r\n信息:\r\n" + getExceptionMessage(ex) +
+					"\r\n\r\n快捷:\r\n" + getPackageStackTraceInfo(ex) +
+					"\r\n\r\n堆栈:\r\n" + getStackTraceInfo(ex);
+			AfDurableCache dc = AfDurableCache.getInstance("attach");
+			dc.put(AfDateGuid.NewID(), msg);
+
+
+			AfActivity activity = AfApplication.getApp().getCurActivity();
+			if (activity != null && mIsShowDialog) {
+				doShowDialog(activity, "异常捕捉", msg, handlerid);
+			}
+
+			String path = AfDurableCache.getPath();
+			FileWriter writer = new FileWriter(path+"/attach-"+AfDateFormat.format("y-M-d$HH-mm-ss",new Date())+".txt");
+			writer.write(msg);
+			writer.close();
+		} catch (Throwable e) {
+		}
+	}
+
+	protected void onHandleException(Throwable ex, String remark, String handlerid) {
+		try {
+			String msg = "时间:" + AfDateFormat.FULL.format(new Date()) +
+					"\r\n\r\n备注:\r\n" + remark +
+					"\r\n\r\n异常:\r\n" + getExceptionName(ex) +
+					"\r\n\r\n信息:\r\n" + getExceptionMessage(ex) +
+					"\r\n\r\n快捷:\r\n" + getPackageStackTraceInfo(ex) +
+					"\r\n\r\n堆栈:\r\n" + getStackTraceInfo(ex);
+			AfDurableCache dc = AfDurableCache.getInstance("handler");
+			dc.put(AfDateGuid.NewID(), msg);
+
+			AfActivity activity = AfApplication.getApp().getCurActivity();
+			if (activity != null && mIsShowDialog) {
+				doShowDialog(activity,"异常捕捉",msg,handlerid);
+			}
+
+			String path = AfDurableCache.getPath();
+			FileWriter writer = new FileWriter(path+"/handler-"+AfDateFormat.format("y-M-d$HH-mm-ss",new Date())+".txt");
+			writer.write(msg);
+			writer.close();
+		} catch (Throwable e) {
+		}
+	}
+
+	public static Exceptional getHandler(Throwable ex,String remark) {
+		return getHandler(Thread.currentThread(),ex,remark);
+	}
+	
+	public static Exceptional getHandler(Thread thread,Throwable ex,String remark) {
+		Exceptional ehandler = new Exceptional();
+		ehandler.Thread = "异常线程：" + thread;
+		
+		ehandler.Remark = remark;
+		ehandler.Name = getExceptionName(ex);
+		ehandler.Message = getExceptionMessage(ex);
+		ehandler.Stack = getAllStackTraceInfo(ex);
+		ehandler.Version = AfApplication.getVersion();
+		ehandler.Device = AfDeviceInfo.detDeviceMessage();
+
+		return ehandler;
+	}
+
+	public static String tip(Throwable e, String tip) {
+		if (INSTANCE != null) {
+			return INSTANCE.onHandleTip(e, tip);
+		}
+		return tip;
+	}
+	
+	public static void handleAttach(Throwable ex,String remark) {
+		if(INSTANCE != null && !(ex instanceof AfToastException)){
+			String handlerid;
+			StackTraceElement[] stacks = ex.getStackTrace();
+			if(stacks != null && stacks.length > 0){
+				handlerid = stacks[0].toString();
+			}else{
+				handlerid = AfDateGuid.NewID();
+			}
+			INSTANCE.onHandleAttachException(ex, remark, handlerid);
+		}
+	}
+
+	public static void handle(String message, String remark) {
+		if(INSTANCE != null){
+			String handlerid = ""+(message+remark).hashCode();
+			INSTANCE.onHandleException(new Exception(message), remark, handlerid);
+		}
+	}
+
+	public static void handle(Throwable ex, String remark) {
+		if(INSTANCE != null && !(ex instanceof AfToastException)){
+			ex.printStackTrace();
+			String handlerid;
+			StackTraceElement[] stacks = ex.getStackTrace();
+			if(stacks != null && stacks.length > 0){
+				handlerid = stacks[0].toString();
+			}else{
+				handlerid = AfDateGuid.NewID();
+			}
+			INSTANCE.onHandleException(ex, remark, handlerid);
 		}
 	}
 

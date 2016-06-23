@@ -46,7 +46,7 @@ public class AfTableAdapter extends AfListAdapter<Object> {
 			row.Binding(mTable, mltArray, position);
 		} catch (Throwable e) {
 			String remark = "AfTableAdapter("+getClass().getName()+").getView";
-			AfExceptionHandler.handler(e, remark);
+			AfExceptionHandler.handle(e, remark);
 		}
 		return view;
 	}

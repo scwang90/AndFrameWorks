@@ -29,7 +29,7 @@ public class AfDurableCache extends AfJsonCache
 			try {
 				mInstance = new AfDurableCache();
 			} catch (Throwable e) {
-//				AfExceptionHandler.handler(e, "获取持久缓存失败");
+//				AfExceptionHandler.handle(e, "获取持久缓存失败");
 			}
 		}
 		return mInstance;

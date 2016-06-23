@@ -17,7 +17,7 @@ import java.util.List;
 import java.util.ListIterator;
 
 public abstract class AfListAdapter<T> extends BaseAdapter implements List<T> {
-
+	
 	protected LayoutInflater mInflater;
 	protected List<T> mltArray = new ArrayList<>();
 
@@ -197,7 +197,7 @@ public abstract class AfListAdapter<T> extends BaseAdapter implements List<T> {
 			if (view == null) {
 				view = new View(mInflater.getContext());
 			}
-			AfExceptionHandler.handler(e, remark);
+			AfExceptionHandler.handle(e, remark);
 		}
 		return view;
 	}

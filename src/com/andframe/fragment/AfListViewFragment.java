@@ -250,7 +250,7 @@ public abstract class AfListViewFragment<T> extends AfTabFragment implements
      * 错误信息处理
      */
     public void setLoadError(Throwable ex) {
-        mNodata.setDescription(AfException.handle(ex, "数据加载出现异常"));
+        mNodata.setDescription(AfExceptionHandler.tip(ex, "数据加载出现异常"));
         mNodata.setOnRefreshListener(mNodataRefreshListener);
         mSelector.selectFrame(mNodata);
     }
@@ -288,7 +288,7 @@ public abstract class AfListViewFragment<T> extends AfTabFragment implements
             try {
                 onItemClick(model, index);
             } catch (Throwable e) {
-                AfExceptionHandler.handler(e, TAG("onItemClick"));
+                AfExceptionHandler.handle(e, TAG("onItemClick"));
             }
         }
     }
@@ -321,7 +321,7 @@ public abstract class AfListViewFragment<T> extends AfTabFragment implements
             try {
                 return onItemLongClick(model, index);
             } catch (Throwable e) {
-                AfExceptionHandler.handler(e, TAG("onItemLongClick"));
+                AfExceptionHandler.handle(e, TAG("onItemLongClick"));
             }
         }
         return false;

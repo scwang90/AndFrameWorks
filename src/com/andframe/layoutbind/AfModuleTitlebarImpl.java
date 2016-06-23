@@ -56,14 +56,14 @@ public class AfModuleTitlebarImpl extends AfModuleTitlebar {
                 try {
                     mBtOkClickListener.onClick(v);
                 } catch (Throwable e) {
-                    AfExceptionHandler.handler(e, "AfModuleTitlebarImpl.mBtOK.onClick");
+                    AfExceptionHandler.handle(e, "AfModuleTitlebarImpl.mBtOK.onClick");
                 }
                 return;
             } else if (mFunction == FUNCTION_ADD && mBtAddClickListener != null) {
                 try {
                     mBtAddClickListener.onClick(v);
                 } catch (Throwable e) {
-                    AfExceptionHandler.handler(e, "AfModuleTitlebarImpl.mBtAdd.onClick");
+                    AfExceptionHandler.handle(e, "AfModuleTitlebarImpl.mBtAdd.onClick");
                 }
                 return;
             }

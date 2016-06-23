@@ -4,7 +4,7 @@ import android.content.Context;
 import android.widget.Toast;
 
 import com.andframe.application.AfApplication;
-import com.andframe.exception.AfException;
+import com.andframe.application.AfExceptionHandler;
 
 /**
  * Created by Administrator on 2015/8/17.
@@ -35,7 +35,7 @@ public class AfToast {
     }
 
     public static void makeToastLong(String tip,Throwable e) {
-        tip = AfException.handle(e, tip);
+        tip = AfExceptionHandler.tip(e, tip);
         Toast.makeText(getContext(), tip, Toast.LENGTH_LONG).show();
     }
 

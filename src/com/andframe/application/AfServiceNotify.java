@@ -127,7 +127,7 @@ public abstract class AfServiceNotify<T> {
 			try {
 				handled = listener.onNotify(list) || handled;
 			} catch (Throwable e) {
-				AfExceptionHandler.handler(e, "AfServiceNotify.notify - Exception");
+				AfExceptionHandler.handle(e, "AfServiceNotify.notify - Exception");
 			}
 		}
 		if(!handled && notify){

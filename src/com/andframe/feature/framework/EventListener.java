@@ -88,7 +88,7 @@ public class EventListener implements OnClickListener, OnLongClickListener, OnIt
 				return method.invoke(handler, paramAllot(method, params));
 			} catch (Throwable e) {
 				e.printStackTrace();
-				AfExceptionHandler.handler(e, "EventListener.invokeMethod");
+				AfExceptionHandler.handle(e, "EventListener.invokeMethod");
 			}
 		}
 		return null;

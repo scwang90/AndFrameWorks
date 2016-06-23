@@ -5,7 +5,7 @@ import android.support.v4.view.ViewPager;
 import android.util.AttributeSet;
 import android.view.MotionEvent;
 
-import com.andframe.exception.AfException;
+import com.andframe.application.AfExceptionHandler;
 
 public class AfAlbumViewPager extends ViewPager{
 
@@ -35,7 +35,7 @@ public class AfAlbumViewPager extends ViewPager{
 		try {
 			return super.onInterceptTouchEvent(arg0);
 		} catch (Throwable e) {
-			AfException.handle(e, "AfAlbumViewPager.onInterceptTouchEvent 捕捉异常！");
+			AfExceptionHandler.tip(e, "AfAlbumViewPager.onInterceptTouchEvent 捕捉异常！");
 			return false;
 		}
 	}

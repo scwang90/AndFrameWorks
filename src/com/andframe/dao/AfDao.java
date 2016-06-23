@@ -213,7 +213,7 @@ public abstract class AfDao<T> {
 				return true;
 			} catch (Throwable e) {
 				String remark = "AfDao("+getClass().getName()+").update("+obj+","+where+")\r\n";
-				AfExceptionHandler.handler(e, remark);
+				AfExceptionHandler.handle(e, remark);
 			}
 			return false;
 		}
@@ -485,7 +485,7 @@ public abstract class AfDao<T> {
 
 	protected List<Model> getModels(Cursor cursor) {
 		try {
-			List<Model> models = new ArrayList<AfDao.Model>();
+			List<Model> models = new ArrayList<>();
 			while (cursor.moveToNext()) {
 				Model model = new Model();
 				int count = cursor.getColumnCount();
@@ -529,7 +529,7 @@ public abstract class AfDao<T> {
 		}
 
 		public boolean getBoolean(String column) {
-			return Boolean.valueOf(getString(column));
+			return Boolean.valueOf(getString(column)) || "1".equals(getString(column));
 		}
 
 		public double getDouble(String column) {

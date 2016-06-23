@@ -717,7 +717,7 @@ public class AfDownloader {
                     }
                 }
             } catch (Throwable e) {
-                AfExceptionHandler.handler(e, "DownloadBroadcast.onReceive");
+                AfExceptionHandler.handle(e, "DownloadBroadcast.onReceive");
             }
         }
     }
@@ -729,7 +729,7 @@ public class AfDownloader {
             DownloadBroadcast receiver = new DownloadBroadcast();
             AfApplication.getApp().registerReceiver(receiver, filter);
         } catch (Throwable e) {
-            AfExceptionHandler.handler(e, "DownloadBroadcast.registerReceiver error");
+            AfExceptionHandler.handle(e, "DownloadBroadcast.registerReceiver error");
         }
     }
 }

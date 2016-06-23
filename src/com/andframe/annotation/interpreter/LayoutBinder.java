@@ -28,7 +28,7 @@ public class LayoutBinder {
                 activity.setContentView(layout.value());
             }
         } catch (Throwable ex) {
-            AfExceptionHandler.handler(ex,TAG(activity,"doBind(activity)"));
+            AfExceptionHandler.handle(ex, TAG(activity, "doBind(activity)"));
         }
     }
 
@@ -40,7 +40,7 @@ public class LayoutBinder {
                 dialog.setContentView(layout.value());
             }
         } catch (Throwable ex) {
-            AfExceptionHandler.handler(ex,TAG(dialog,"doBind(dialog)"));
+            AfExceptionHandler.handle(ex, TAG(dialog, "doBind(dialog)"));
         }
     }
 }

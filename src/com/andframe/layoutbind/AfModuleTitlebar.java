@@ -149,7 +149,7 @@ public abstract class AfModuleTitlebar extends AfModuleAlpha implements OnClickL
 				try {
 					mBtCustomClickListener.onClick(v);
 				} catch (Throwable e) {
-					AfExceptionHandler.handler(e, "AfModuleTitlebarImpl.mBtAdd.onClick");
+					AfExceptionHandler.handle(e, "AfModuleTitlebarImpl.mBtAdd.onClick");
 				}
 			}
 		}
@@ -198,7 +198,7 @@ public abstract class AfModuleTitlebar extends AfModuleAlpha implements OnClickL
 				try {
 					listener.onClick(v);
 				} catch (Throwable e) {
-					AfExceptionHandler.handler(e, "AfModuleTitlebar.mBtGoBack.onClick");
+					AfExceptionHandler.handle(e, "AfModuleTitlebar.mBtGoBack.onClick");
 				}
 			}
 		});
@@ -238,7 +238,7 @@ public abstract class AfModuleTitlebar extends AfModuleAlpha implements OnClickL
 			try {
 				mListener.onMenuItemClick(item);
 			} catch (Throwable e) {
-				AfExceptionHandler.handler(e, "AfModuleTitlebar.onMenuItemClick");
+				AfExceptionHandler.handle(e, "AfModuleTitlebar.onMenuItemClick");
 			}
 		}
 		return false;

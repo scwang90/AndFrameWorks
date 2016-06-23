@@ -105,7 +105,7 @@ public abstract class AfDialog extends Dialog implements AfPageable, AfSoftInput
                 new Timer().schedule(new TimerTask() {
                     @Override
                     public void run() {
-                        AfExceptionHandler.handler(e, TAG() + ".onCreate");
+                        AfExceptionHandler.handle(e, TAG() + ".onCreate");
                     }
                 }, 500);
             }
@@ -333,7 +333,7 @@ public abstract class AfDialog extends Dialog implements AfPageable, AfSoftInput
 
     @Override
     public void makeToastLong(String tip, Throwable e) {
-        tip = AfException.handle(e, tip);
+        tip = AfExceptionHandler.tip(e, tip);
         Toast.makeText(getContext(), tip, Toast.LENGTH_LONG).show();
     }
 
@@ -366,7 +366,7 @@ public abstract class AfDialog extends Dialog implements AfPageable, AfSoftInput
         try {
             return (T) findViewById(id);
         } catch (Throwable e) {
-            AfExceptionHandler.handler(e, TAG("findViewByID"));
+            AfExceptionHandler.handle(e, TAG("findViewByID"));
         }
         return null;
     }
@@ -409,7 +409,7 @@ public abstract class AfDialog extends Dialog implements AfPageable, AfSoftInput
             setDialogFontSize(mProgress, textsize);
         } catch (Throwable e) {
             //进过日志验证，这个异常会发送，但是概率非常小，注释掉异常通知
-//			AfExceptionHandler.handler(e, "AfActivity.showProgressDialog");
+//			AfExceptionHandler.handle(e, "AfActivity.showProgressDialog");
         }
     }
 
@@ -431,7 +431,7 @@ public abstract class AfDialog extends Dialog implements AfPageable, AfSoftInput
             setDialogFontSize(mProgress, 25);
         } catch (Throwable e) {
             //进过日志验证，这个异常会发送，但是概率非常小，注释掉异常通知
-//			AfExceptionHandler.handler(e, "AfActivity.showProgressDialog");
+//			AfExceptionHandler.handle(e, "AfActivity.showProgressDialog");
         }
     }
 
@@ -453,7 +453,7 @@ public abstract class AfDialog extends Dialog implements AfPageable, AfSoftInput
             setDialogFontSize(mProgress, textsize);
         } catch (Throwable e) {
             //进过日志验证，这个异常会发送，但是概率非常小，注释掉异常通知
-//			AfExceptionHandler.handler(e, "AfActivity.showProgressDialog");
+//			AfExceptionHandler.handle(e, "AfActivity.showProgressDialog");
         }
     }
 
@@ -467,7 +467,7 @@ public abstract class AfDialog extends Dialog implements AfPageable, AfSoftInput
                 mProgress = null;
             }
         } catch (Throwable e) {
-            AfExceptionHandler.handler(e, "AfActivity.hideProgressDialog");
+            AfExceptionHandler.handle(e, "AfActivity.hideProgressDialog");
         }
     }
 

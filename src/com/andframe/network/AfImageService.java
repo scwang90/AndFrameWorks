@@ -583,7 +583,7 @@ public class AfImageService {
 			try {
 				AfImageCaches.getInstance().put(mLinkUrl, mBitmap);
 			} catch (Throwable e) {
-				AfExceptionHandler.handler(e, "图片服务缓存到本地失败");
+				AfExceptionHandler.handle(e, "图片服务缓存到本地失败");
 			}
 		}
 

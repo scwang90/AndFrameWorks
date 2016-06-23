@@ -105,7 +105,7 @@ public abstract class AfModuleNodata extends AfViewModule implements OnClickList
                 mListener.onClick(v);
             }
         } catch (Throwable ex) {
-            AfExceptionHandler.handler(ex, "AfModuleNodata.onClick");
+            AfExceptionHandler.handle(ex, "AfModuleNodata.onClick");
         }
     }
 }

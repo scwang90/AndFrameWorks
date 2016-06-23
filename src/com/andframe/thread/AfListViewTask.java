@@ -68,8 +68,8 @@ public abstract class AfListViewTask<T> extends AfHandlerTask/* extends AfListTa
         this.mTask = task;
     }
 
-//    public AfListViewTask(Handler handler, int task) {
-//        super(handler/*, task*/);
+//    public AfListViewTask(Handler handle, int task) {
+//        super(handle/*, task*/);
 //        this.mTask = task;
 //    }
 

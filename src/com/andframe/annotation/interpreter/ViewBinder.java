@@ -94,7 +94,7 @@ public class ViewBinder {
                     view.setOnClickListener(new EventListener(handler).click(method));
                 }
             } catch (Throwable e) {
-                AfExceptionHandler.handler(e, TAG(handler, "doBindClick.") + method.getName());
+                AfExceptionHandler.handle(e, TAG(handler, "doBindClick.") + method.getName());
             }
         }
     }
@@ -108,7 +108,7 @@ public class ViewBinder {
                     view.setOnLongClickListener(new EventListener(handler).longClick(method));
                 }
             } catch (Throwable e) {
-                AfExceptionHandler.handler(e, TAG(handler, "doBindLongClick.") + method.getName());
+                AfExceptionHandler.handle(e, TAG(handler, "doBindLongClick.") + method.getName());
             }
         }
     }
@@ -124,7 +124,7 @@ public class ViewBinder {
                     }
                 }
             } catch (Throwable e) {
-                AfExceptionHandler.handler(e, TAG(handler, "doBindLongClick.") + method.getName());
+                AfExceptionHandler.handle(e, TAG(handler, "doBindLongClick.") + method.getName());
             }
         }
     }
@@ -140,7 +140,7 @@ public class ViewBinder {
                     }
                 }
             } catch (Throwable e) {
-                AfExceptionHandler.handler(e, TAG(handler, "doBindLongClick.") + method.getName());
+                AfExceptionHandler.handle(e, TAG(handler, "doBindLongClick.") + method.getName());
             }
         }
     }
@@ -156,7 +156,7 @@ public class ViewBinder {
                     }
                 }
             } catch (Throwable e) {
-                AfExceptionHandler.handler(e, TAG(handler, "doBindLongClick.") + method.getName());
+                AfExceptionHandler.handle(e, TAG(handler, "doBindLongClick.") + method.getName());
             }
         }
     }
@@ -207,7 +207,7 @@ public class ViewBinder {
                     }
                 }
             } catch (Throwable e) {
-                AfExceptionHandler.handler(e, TAG(handler, "doBindView.") + field.getName());
+                AfExceptionHandler.handle(e, TAG(handler, "doBindView.") + field.getName());
             }
         }
     }
@@ -267,7 +267,7 @@ public class ViewBinder {
                     }
                 }
             } catch (Throwable e) {
-                AfExceptionHandler.handler(e, TAG(handler, "doBindViewModule.") + field.getName());
+                AfExceptionHandler.handle(e, TAG(handler, "doBindViewModule.") + field.getName());
             }
         }
     }
@@ -292,7 +292,7 @@ public class ViewBinder {
                 if (!entry.getValue().exception()) {
                     throw new RuntimeException("调用视图初始化失败", e);
                 }
-                AfExceptionHandler.handler(e, TAG(handler, "doBindView.") + entry.getKey().getName());
+                AfExceptionHandler.handle(e, TAG(handler, "doBindView.") + entry.getKey().getName());
             }
         }
     }

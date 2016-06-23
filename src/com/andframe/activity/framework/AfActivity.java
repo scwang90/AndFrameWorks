@@ -149,7 +149,7 @@ public abstract class AfActivity extends FragmentActivity implements AfPageable 
             super.onRestoreInstanceState(savedInstanceState);
         } catch (Throwable e) {
             if (AfApplication.getApp().isDebug()) {
-                AfExceptionHandler.handler(e, "AfActivity.onRestoreInstanceState");
+                AfExceptionHandler.handle(e, "AfActivity.onRestoreInstanceState");
             }
         }
     }
@@ -161,7 +161,7 @@ public abstract class AfActivity extends FragmentActivity implements AfPageable 
             AfApplication.getApp().onSaveInstanceState();
             super.onSaveInstanceState(outState);
         } catch (Throwable e) {
-            AfExceptionHandler.handler(e, "AfActivity.onSaveInstanceState");
+            AfExceptionHandler.handle(e, "AfActivity.onSaveInstanceState");
         }
     }
 
@@ -286,7 +286,7 @@ public abstract class AfActivity extends FragmentActivity implements AfPageable 
             Injecter.doInjectQueryChanged(this);
             this.onQueryChanged();
         } catch (Throwable ex) {
-            AfExceptionHandler.handler(ex, "AfActivity.onResume");
+            AfExceptionHandler.handle(ex, "AfActivity.onResume");
         }
     }
 
@@ -301,7 +301,7 @@ public abstract class AfActivity extends FragmentActivity implements AfPageable 
                 mWorker.quit();
             }
         } catch (Throwable ex) {
-            AfExceptionHandler.handler(ex, "AfActivity.onDestroy");
+            AfExceptionHandler.handle(ex, "AfActivity.onDestroy");
         }
     }
 
@@ -431,7 +431,7 @@ public abstract class AfActivity extends FragmentActivity implements AfPageable 
 
     @Override
     public void makeToastLong(String tip, Throwable e) {
-        tip = AfException.handle(e, tip);
+        tip = AfExceptionHandler.tip(e, tip);
         Toast.makeText(this, tip, Toast.LENGTH_LONG).show();
     }
 
@@ -450,7 +450,7 @@ public abstract class AfActivity extends FragmentActivity implements AfPageable 
         try {
             return (T) findViewById(id);
         } catch (Throwable e) {
-            AfExceptionHandler.handler(e, TAG("findViewByID"));
+            AfExceptionHandler.handle(e, TAG("findViewByID"));
         }
         return null;
     }
@@ -526,7 +526,7 @@ public abstract class AfActivity extends FragmentActivity implements AfPageable 
             setDialogFontSize(mProgress, textsize);
         } catch (Throwable e) {
             //进过日志验证，这个异常会发送，但是概率非常小，注释掉异常通知
-//			AfExceptionHandler.handler(e, "AfActivity.showProgressDialog");
+//			AfExceptionHandler.handle(e, "AfActivity.showProgressDialog");
         }
     }
 
@@ -551,7 +551,7 @@ public abstract class AfActivity extends FragmentActivity implements AfPageable 
             setDialogFontSize(mProgress, 25);
         } catch (Throwable e) {
             //进过日志验证，这个异常会发送，但是概率非常小，注释掉异常通知
-//			AfExceptionHandler.handler(e, "AfActivity.showProgressDialog");
+//			AfExceptionHandler.handle(e, "AfActivity.showProgressDialog");
         }
     }
 
@@ -577,7 +577,7 @@ public abstract class AfActivity extends FragmentActivity implements AfPageable 
             setDialogFontSize(mProgress, textsize);
         } catch (Throwable e) {
             //进过日志验证，这个异常会发送，但是概率非常小，注释掉异常通知
-//			AfExceptionHandler.handler(e, "AfActivity.showProgressDialog");
+//			AfExceptionHandler.handle(e, "AfActivity.showProgressDialog");
         }
     }
 
@@ -591,7 +591,7 @@ public abstract class AfActivity extends FragmentActivity implements AfPageable 
                 mProgress = null;
             }
         } catch (Throwable e) {
-            AfExceptionHandler.handler(e, "AfActivity.hideProgressDialog");
+            AfExceptionHandler.handle(e, "AfActivity.hideProgressDialog");
         }
     }
 
@@ -639,8 +639,8 @@ public abstract class AfActivity extends FragmentActivity implements AfPageable 
      * @param lnegative 点击  拒绝 按钮 响应事件
      */
     public AlertDialog doShowDialog(String title, String message,
-                                    String positive, OnClickListener lpositive, String negative,
-                                    OnClickListener lnegative) {
+                             String positive, OnClickListener lpositive, String negative,
+                             OnClickListener lnegative) {
         return doShowDialog(0, title, message, positive, lpositive, negative, lnegative);
     }
 
@@ -658,9 +658,9 @@ public abstract class AfActivity extends FragmentActivity implements AfPageable 
      */
     @Override
     public AlertDialog doShowDialog(String title, String message,
-                                    String positive, OnClickListener lpositive,
-                                    String neutral, OnClickListener lneutral,
-                                    String negative, OnClickListener lnegative) {
+                             String positive, OnClickListener lpositive,
+                             String neutral, OnClickListener lneutral,
+                             String negative, OnClickListener lnegative) {
         return doShowDialog(0, title, message, positive, lpositive, neutral, lneutral, negative, lnegative);
     }
 
@@ -676,8 +676,8 @@ public abstract class AfActivity extends FragmentActivity implements AfPageable 
      * @param lnegative 点击  拒绝 按钮 响应事件
      */
     public AlertDialog doShowDialog(int iconres, String title, String message,
-                                    String positive, OnClickListener lpositive, String negative,
-                                    OnClickListener lnegative) {
+                             String positive, OnClickListener lpositive, String negative,
+                             OnClickListener lnegative) {
         return doShowDialog(iconres, title, message, positive, lpositive, "", null, negative, lnegative);
     }
 
@@ -695,9 +695,9 @@ public abstract class AfActivity extends FragmentActivity implements AfPageable 
      * @param lnegative 点击  拒绝 按钮 响应事件
      */
     public AlertDialog doShowDialog(int iconres, String title, String message,
-                                    String positive, OnClickListener lpositive,
-                                    String neutral, OnClickListener lneutral,
-                                    String negative, OnClickListener lnegative) {
+                             String positive, OnClickListener lpositive,
+                             String neutral, OnClickListener lneutral,
+                             String negative, OnClickListener lnegative) {
         return doShowDialog(-1, iconres, title, message, positive, lpositive, neutral, lneutral, negative, lnegative);
     }
 
@@ -718,10 +718,10 @@ public abstract class AfActivity extends FragmentActivity implements AfPageable 
     @Override
     @SuppressLint("NewApi")
     public AlertDialog doShowDialog(int theme, int iconres,
-                                    String title, String message,
-                                    String positive, OnClickListener lpositive,
-                                    String neutral, OnClickListener lneutral,
-                                    String negative, OnClickListener lnegative) {
+                             String title, String message,
+                             String positive, OnClickListener lpositive,
+                             String neutral, OnClickListener lneutral,
+                             String negative, OnClickListener lnegative) {
         return new AfDailog(this).doShowDialog(theme, iconres, title, message, positive, lpositive, neutral, lneutral, negative, lnegative);
     }
 
@@ -735,7 +735,7 @@ public abstract class AfActivity extends FragmentActivity implements AfPageable 
      */
     @Override
     public AlertDialog doShowViewDialog(String title, View view, String positive,
-                                        OnClickListener lpositive) {
+                                 OnClickListener lpositive) {
         return doShowViewDialog(title, view, positive, lpositive, "", null);
     }
 
@@ -751,8 +751,8 @@ public abstract class AfActivity extends FragmentActivity implements AfPageable 
      */
     @Override
     public AlertDialog doShowViewDialog(String title, View view, String positive,
-                                        OnClickListener lpositive, String negative,
-                                        OnClickListener lnegative) {
+                                 OnClickListener lpositive, String negative,
+                                 OnClickListener lnegative) {
         return doShowViewDialog(0, title, view, positive, lpositive, negative, lnegative);
     }
 
@@ -770,9 +770,9 @@ public abstract class AfActivity extends FragmentActivity implements AfPageable 
      */
     @Override
     public AlertDialog doShowViewDialog(String title, View view,
-                                        String positive, OnClickListener lpositive,
-                                        String neutral, OnClickListener lneutral,
-                                        String negative, OnClickListener lnegative) {
+                                 String positive, OnClickListener lpositive,
+                                 String neutral, OnClickListener lneutral,
+                                 String negative, OnClickListener lnegative) {
         return doShowViewDialog(0, title, view, positive, lpositive, neutral, lneutral, negative, lnegative);
     }
 
@@ -789,8 +789,8 @@ public abstract class AfActivity extends FragmentActivity implements AfPageable 
      */
     @Override
     public AlertDialog doShowViewDialog(int iconres, String title, View view,
-                                        String positive, OnClickListener lpositive,
-                                        String negative, OnClickListener lnegative) {
+                                 String positive, OnClickListener lpositive,
+                                 String negative, OnClickListener lnegative) {
         return doShowViewDialog(0, title, view, positive, lpositive, "", null, negative, lnegative);
     }
 
@@ -809,9 +809,9 @@ public abstract class AfActivity extends FragmentActivity implements AfPageable 
      */
     @Override
     public AlertDialog doShowViewDialog(int iconres, String title, View view,
-                                        String positive, OnClickListener lpositive,
-                                        String neutral, OnClickListener lneutral,
-                                        String negative, OnClickListener lnegative) {
+                                 String positive, OnClickListener lpositive,
+                                 String neutral, OnClickListener lneutral,
+                                 String negative, OnClickListener lnegative) {
         return doShowViewDialog(-1, iconres, title, view, positive, lpositive, neutral, lneutral, negative, lnegative);
     }
 
@@ -832,10 +832,10 @@ public abstract class AfActivity extends FragmentActivity implements AfPageable 
     @SuppressLint("NewApi")
     @Override
     public AlertDialog doShowViewDialog(int theme,
-                                        int iconres, String title, View view,
-                                        String positive, OnClickListener lpositive,
-                                        String neutral, OnClickListener lneutral,
-                                        String negative, OnClickListener lnegative) {
+                                 int iconres, String title, View view,
+                                 String positive, OnClickListener lpositive,
+                                 String neutral, OnClickListener lneutral,
+                                 String negative, OnClickListener lnegative) {
         return new AfDailog(this).doShowViewDialog(theme, iconres, title, view, positive, lpositive, neutral, lneutral, negative, lnegative);
     }
 
@@ -848,7 +848,7 @@ public abstract class AfActivity extends FragmentActivity implements AfPageable 
      * @param cancel   取消选择监听器
      */
     public AlertDialog doSelectItem(String title, String[] items, OnClickListener listener,
-                                    boolean cancel) {
+                             boolean cancel) {
         return new AfDailog(this).doSelectItem(title, items, listener, cancel);
     }
 
@@ -861,7 +861,7 @@ public abstract class AfActivity extends FragmentActivity implements AfPageable 
      * @param oncancel 取消选择监听器
      */
     public AlertDialog doSelectItem(String title, String[] items, OnClickListener listener,
-                                    final OnClickListener oncancel) {
+                             final OnClickListener oncancel) {
         return new AfDailog(this).doSelectItem(title, items, listener, oncancel);
     }
 
@@ -957,9 +957,9 @@ public abstract class AfActivity extends FragmentActivity implements AfPageable 
      * @param lnegative 点击  拒绝 按钮 响应事件
      */
     public AlertDialog doShowDialog(String key, int defclick,
-                                    String title, String message,
-                                    String positive, OnClickListener lpositive,
-                                    String negative, OnClickListener lnegative) {
+                             String title, String message,
+                             String positive, OnClickListener lpositive,
+                             String negative, OnClickListener lnegative) {
         return doShowDialog(key, defclick, 0, title, message, positive, lpositive, negative, lnegative);
     }
 
@@ -978,10 +978,10 @@ public abstract class AfActivity extends FragmentActivity implements AfPageable 
      * @param lnegative 点击  拒绝 按钮 响应事件
      */
     public AlertDialog doShowDialog(String key, int defclick,
-                                    String title, String message,
-                                    String positive, OnClickListener lpositive,
-                                    String neutral, OnClickListener lneutral,
-                                    String negative, OnClickListener lnegative) {
+                             String title, String message,
+                             String positive, OnClickListener lpositive,
+                             String neutral, OnClickListener lneutral,
+                             String negative, OnClickListener lnegative) {
         return doShowDialog(key, defclick, 0, title, message, positive, lpositive, neutral, lneutral, negative, lnegative);
     }
 
@@ -999,9 +999,9 @@ public abstract class AfActivity extends FragmentActivity implements AfPageable 
      * @param lnegative 点击  拒绝 按钮 响应事件
      */
     public AlertDialog doShowDialog(String key, int defclick,
-                                    int iconres, String title, String message,
-                                    String positive, OnClickListener lpositive,
-                                    String negative, OnClickListener lnegative) {
+                             int iconres, String title, String message,
+                             String positive, OnClickListener lpositive,
+                             String negative, OnClickListener lnegative) {
         if (defclick == 1) {
             defclick = 2;
         }
@@ -1024,10 +1024,10 @@ public abstract class AfActivity extends FragmentActivity implements AfPageable 
      * @param lnegative 点击  拒绝 按钮 响应事件
      */
     public AlertDialog doShowDialog(String key, int defclick,
-                                    int iconres, String title, String message,
-                                    String positive, OnClickListener lpositive,
-                                    String neutral, OnClickListener lneutral,
-                                    String negative, OnClickListener lnegative) {
+                             int iconres, String title, String message,
+                             String positive, OnClickListener lpositive,
+                             String neutral, OnClickListener lneutral,
+                             String negative, OnClickListener lnegative) {
         return doShowDialog(key, defclick, -1, iconres, title, message, positive, lpositive, neutral, lneutral, negative, lnegative);
     }
 
@@ -1049,11 +1049,11 @@ public abstract class AfActivity extends FragmentActivity implements AfPageable 
      * @param lnegative 点击  拒绝 按钮 响应事件
      */
     public AlertDialog doShowDialog(String key, int defclick,
-                                    int theme, int iconres,
-                                    String title, String message,
-                                    String positive, OnClickListener lpositive,
-                                    String neutral, OnClickListener lneutral,
-                                    String negative, OnClickListener lnegative) {
+                             int theme, int iconres,
+                             String title, String message,
+                             String positive, OnClickListener lpositive,
+                             String neutral, OnClickListener lneutral,
+                             String negative, OnClickListener lnegative) {
         return new AfDailog(this).doShowDialog(key, defclick, theme, iconres, title, message, positive, lpositive, neutral, lneutral, negative, lnegative);
     }
 
@@ -1311,14 +1311,14 @@ public abstract class AfActivity extends FragmentActivity implements AfPageable 
             Injecter.doInject(this);
             LayoutBinder.doBind(this);
         } catch (final Throwable e) {
-            //handler 可能会根据 Activity 弹窗提示错误信息
+            //handle 可能会根据 Activity 弹窗提示错误信息
             //当前 Activity 即将关闭，提示窗口也会关闭
             //用定时器 等到原始 Activity 再提示弹窗
             if (!(e instanceof AfToastException)) {
                 AfApplication.dispatch(new AfDispatch() {
                     @Override
                     protected void onDispatch() {
-                        AfExceptionHandler.handler(e, TAG() + ".onCreate");
+                        AfExceptionHandler.handle(e, TAG() + ".onCreate");
                     }
                 }, 500);
             }
@@ -1334,7 +1334,7 @@ public abstract class AfActivity extends FragmentActivity implements AfPageable 
                 AfApplication.dispatch(new AfDispatch() {
                     @Override
                     protected void onDispatch() {
-                        AfExceptionHandler.handler(e, TAG() + ".onCreate");
+                        AfExceptionHandler.handle(e, TAG() + ".onCreate");
                     }
                 }, 500);
             }
@@ -1375,7 +1375,7 @@ public abstract class AfActivity extends FragmentActivity implements AfPageable 
             }
             onActivityResult(new AfIntent(data), requestcode, resultcode);
         } catch (Throwable e) {
-            AfExceptionHandler.handler(e, TAG() + ".onActivityResult");
+            AfExceptionHandler.handle(e, TAG() + ".onActivityResult");
             makeToastLong("反馈信息读取错误！", e);
         }
     }

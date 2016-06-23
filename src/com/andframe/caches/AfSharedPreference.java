@@ -7,7 +7,7 @@ import android.content.SharedPreferences;
 import android.content.SharedPreferences.Editor;
 import android.os.Build.VERSION;
 
-import com.andframe.exception.AfException;
+import com.andframe.application.AfExceptionHandler;
 import com.google.gson.Gson;
 
 import java.io.File;
@@ -52,7 +52,7 @@ public class AfSharedPreference {
 			mShared = context.getSharedPreferences(name, Context.MODE_PRIVATE);
 			setPreferencesPath(context, file);
 		} catch (Throwable e) {
-			AfException.handle(e, "缓存转换路径出错 mShared="
+			AfExceptionHandler.tip(e, "缓存转换路径出错 mShared="
 					+ (mShared == null ? "null" : mShared.toString()));
 			throw new Exception(e);
 		}

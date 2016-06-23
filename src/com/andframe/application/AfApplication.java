@@ -220,7 +220,7 @@ public abstract class AfApplication extends Application {
 			new DatabaseUtil(getAppContext()).checkDataBaseVersion();
 		} catch (Throwable e) {
 			e.printStackTrace();// handled
-			AfExceptionHandler.handler(e, "AfApplication.onCreate");
+			AfExceptionHandler.handle(e, "AfApplication.onCreate");
 		}
 	}
 
@@ -248,7 +248,7 @@ public abstract class AfApplication extends Application {
 //				// 标识初始化完成
 //				mIsInitialized = true;
 //			} catch (Throwable e) {
-//				AfExceptionHandler.handler(e, "AfApplication.initialize");
+//				AfExceptionHandler.handle(e, "AfApplication.initialize");
 //			}
 //		}
 //	}
@@ -324,7 +324,7 @@ public abstract class AfApplication extends Application {
 			try {
 				mApplicationInfo = manager.getApplicationInfo(name, type);
 			} catch (Throwable e) {
-				AfExceptionHandler.handler(e, "PackageManager.getApplicationInfo");
+				AfExceptionHandler.handle(e, "PackageManager.getApplicationInfo");
 			}
 //			}
 		}
@@ -350,7 +350,7 @@ public abstract class AfApplication extends Application {
 			key = String.valueOf(data);
 			return key;
 		} catch (Throwable e) {
-			//AfExceptionHandler.handler(e, "AfApplication.getMetaData");
+			//AfExceptionHandler.handle(e, "AfApplication.getMetaData");
 		}
 		return defvalue;
 	}
@@ -365,7 +365,7 @@ public abstract class AfApplication extends Application {
 		try {
 			singleton = (T) mSingletonMap.get(key);
 		} catch (Throwable e) {
-			AfExceptionHandler.handler(e, "AfApplication.getSingleton");
+			AfExceptionHandler.handle(e, "AfApplication.getSingleton");
 		}
 		return singleton;
 	}
@@ -505,7 +505,7 @@ public abstract class AfApplication extends Application {
 				tINotify.onNetworkStatusChanged(networkState);
 			} catch (Throwable e) {
 				e.printStackTrace();// handled
-				AfExceptionHandler.handler(e, "AfApplication.notifyNetworkStatus");
+				AfExceptionHandler.handle(e, "AfApplication.notifyNetworkStatus");
 			}
 		}
 	}
@@ -561,7 +561,7 @@ public abstract class AfApplication extends Application {
 
 	/**
 	 * 获取 ExceptionHandler
-	 * @return handler
+	 * @return handle
 	 */
 	public AfExceptionHandler getExceptionHandler() {
 		return new AfExceptionHandler();

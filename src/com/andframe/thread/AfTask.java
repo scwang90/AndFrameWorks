@@ -16,27 +16,13 @@ public abstract class AfTask implements Runnable, OnCancelListener {
 	// Task 执行类型枚举
 	public static final int TASK_LOAD = 0; // 第一次加载数据
 
-//	public int mTask = -1;
 	public int mResult = -1;
 	public String mErrors;
 	public Throwable mException = new AfException();
 
-	//protected Handler mHandler;
 	protected boolean mIsCanceled = false;
 
-	protected abstract void onWorking(/*Message msg*/) throws Exception;
-
-	public AfTask() {
-	}
-	
-//	protected AfTask(Handler handler) {
-//		this.mHandler = handler;
-//	}
-//
-//	protected AfTask(Handler handler, int task) {
-//		this.mTask = task;
-//		this.mHandler = handler;
-//	}
+	protected abstract void onWorking() throws Exception;
 
 	public boolean isFinish() {
 		return mResult == RESULT_FINISH;
@@ -48,16 +34,15 @@ public abstract class AfTask implements Runnable, OnCancelListener {
 	
 	@Override
 	public void run() {
-		//Message tMessage = Message.obtain();
 		try {
-			/*tMessage.what = */mResult = RESULT_FINISH;
+			mResult = RESULT_FINISH;
 			if (!mIsCanceled) {
-				this.onWorking(/*tMessage*/);
+				this.onWorking();
 			}
 		} catch (Throwable e) {
 			mException = e;
 			mErrors = e.getMessage();
-			/*tMessage.what = */mResult = RESULT_FAIL;
+			mResult = RESULT_FAIL;
 			if (mErrors == null || mErrors.length() == 0) {
 				mErrors = e.toString();
 			}
@@ -65,10 +50,6 @@ public abstract class AfTask implements Runnable, OnCancelListener {
 				this.onException(e);
 			}
 		}
-//		if (!mIsCanceled && mHandler != null) {
-//			tMessage.obj = this;
-//			mHandler.sendMessage(tMessage);
-//		}
 	}
 
 	public boolean isCanceled() {
@@ -84,7 +65,6 @@ public abstract class AfTask implements Runnable, OnCancelListener {
 	/**
 	 * Task任务执行过程中捕捉到的异常，并对异常信息做处理
 	 * 	之后 isFinish() 将会返回 false
-	 * @param e
 	 */
 	protected void onException(Throwable e) {
 		if (AfApplication.getApp() != null && AfApplication.getApp().isDebug() && !(e instanceof AfToastException)) {
@@ -107,7 +87,7 @@ public abstract class AfTask implements Runnable, OnCancelListener {
 			} catch (Throwable e) {
 				e.printStackTrace();
 				String remark = "AfTask("+getClass().getName()+").onPrepare";
-				AfExceptionHandler.handler(e, remark);
+				AfExceptionHandler.handle(e, remark);
 				return false;
 			}
 		}
@@ -122,29 +102,8 @@ public abstract class AfTask implements Runnable, OnCancelListener {
 	}
 
 	public String makeErrorToast(String tip) {
-		return AfException.handle(mException, tip);
+		return AfExceptionHandler.tip(mException, tip);
 	}
-	
-//	public static AfTask getTask(Message msg) {
-//		if (msg.obj instanceof AfTask) {
-//			return (AfTask) msg.obj;
-//		}
-//		return null;
-//	}
-//
-//	public static <T extends AfTask> T getTask(Message msg,Class<T> clazz) {
-//		if (clazz.isInstance(msg.obj)) {
-//			return clazz.cast(msg.obj);
-//		}
-//		return null;
-//	}
-//
-//	public static Message putTask(AfTask task) {
-//		Message msg = Message.obtain();
-//		msg.what = task.mResult;
-//		msg.obj = task;
-//		return msg;
-//	}
 
 	public AfTask reset() {
 		mPrepare = null;
