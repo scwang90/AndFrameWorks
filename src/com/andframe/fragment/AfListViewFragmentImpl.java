@@ -38,17 +38,17 @@ public abstract class AfListViewFragmentImpl<T> extends AfListViewFragment<T> {
 		if (super.getLayoutId() > 0) {
 			return super.getLayoutId();
 		}
-		return R.layout.af_module_listview;
+		return R.layout.af_module_listcontent;
 	}
 
 	@Override
 	protected AbsListView findListView(AfPageable pageable) {
-		return pageable.findViewByID(R.id.modulelistview_listview);
+		return pageable.findViewByID(R.id.listcontent_list);
 	}
 
 	@Override
 	protected AfFrameSelector newAfFrameSelector(AfPageable pageable) {
-		return new AfFrameSelector(this, R.id.modulelistview_contentframe);
+		return new AfFrameSelector(this, R.id.listcontent_contentframe);
 	}
 
 	@Override

@@ -2,7 +2,8 @@
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:orientation="vertical" >
+    android:orientation="vertical"
+    android:background="@color/colorBackgroud">
 
     <FrameLayout
         android:layout_width="match_parent"
@@ -16,7 +17,7 @@
         android:layout_width="match_parent"
         android:layout_height="0dp"
         android:layout_weight="1.0"
-        layout="@layout/af_module_listview" />
+        layout="@layout/af_module_listcontent" />
 
     <include layout="@layout/af_module_bottombar_select"
         android:visibility="gone"/>

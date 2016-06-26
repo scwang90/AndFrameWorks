@@ -13,6 +13,7 @@ import com.andframe.application.AfApplication;
 import com.andframe.application.AfExceptionHandler;
 import com.andframe.widget.popupmenu.OnMenuItemClickListener;
 import com.andframe.widget.popupmenu.PopupMenu;
+import com.google.gson.internal.LinkedHashTreeMap;
 
 import java.lang.ref.WeakReference;
 import java.util.HashMap;
@@ -33,7 +34,7 @@ public abstract class AfModuleTitlebar extends AfModuleAlpha implements OnClickL
 	 */
 	protected int mFunction = FUNCTION_NONE;
 
-	protected Map<String, Integer> mMeuns = new HashMap<>();
+	protected Map<Integer, String> mMeuns = new LinkedHashTreeMap<>();
 	protected OnMenuItemClickListener mListener = null;
 	protected WeakReference<Dialog> mWeakRefDialog = null;
 	protected WeakReference<Activity> mWeakRefActivity = null;
@@ -139,8 +140,8 @@ public abstract class AfModuleTitlebar extends AfModuleAlpha implements OnClickL
 			if (mFunction == FUNCTION_MENU) {
 				PopupMenu pm = new PopupMenu(v.getContext(), v);
 				if (pm.isValid()) {
-					for (Map.Entry<String, Integer> entry : mMeuns.entrySet()) {
-						pm.getMenu().add(1, entry.getValue(), 0, entry.getKey());
+					for (Map.Entry<Integer, String> entry : mMeuns.entrySet()) {
+						pm.getMenu().add(1, entry.getKey(), 0, entry.getValue());
 					}
 					pm.setOnMenuItemClickListener(this);
 					pm.show();
@@ -183,7 +184,7 @@ public abstract class AfModuleTitlebar extends AfModuleAlpha implements OnClickL
 		setOnCustomListener(listener);
 	}
 
-	public void addMeuns(Map<String, Integer> map) {
+	public void addMeuns(Map<Integer, String> map) {
 		this.mMeuns.putAll(map);
 	}
 
@@ -229,7 +230,7 @@ public abstract class AfModuleTitlebar extends AfModuleAlpha implements OnClickL
 	}
 
 	public void putMenu(String text, int id) {
-		this.mMeuns.put(text, id);
+		this.mMeuns.put(id, text);
 	}
 
 	@Override

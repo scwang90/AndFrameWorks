@@ -9,6 +9,7 @@ import android.view.ViewGroup;
 import android.widget.AbsListView;
 import android.widget.AdapterView.OnItemClickListener;
 import android.widget.AdapterView.OnItemLongClickListener;
+import android.widget.GridView;
 import android.widget.ListAdapter;
 import android.widget.ListView;
 
@@ -37,10 +38,14 @@ public abstract class AfRefreshAbsListView<T extends AbsListView> extends AfPull
 	public AfRefreshAbsListView(Context context, AttributeSet attrs, int defStyle) {
 		super(context, attrs, defStyle);
 	}
-	
+
 	public void setAdapter(ListAdapter adapter) {
 		if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.HONEYCOMB) {
 			mTargetView.setAdapter(mAdapter = adapter);
+		} else if (mTargetView instanceof ListView) {
+			((ListView) mTargetView).setAdapter(mAdapter);
+		} else if (mTargetView instanceof GridView) {
+			((GridView) mTargetView).setAdapter(mAdapter);
 		}
 	}
 
@@ -69,7 +74,7 @@ public abstract class AfRefreshAbsListView<T extends AbsListView> extends AfPull
 	public void setRefreshable(boolean able) {
 		mIsOpenRefresh = able;
 	}
-	
+
 //	@Override
 //	protected final boolean isReadyForPullDown() {
 //		return mIsOpenRefresh 
@@ -83,21 +88,21 @@ public abstract class AfRefreshAbsListView<T extends AbsListView> extends AfPull
 //				mTargetView.getLastVisiblePosition() 
 //				== mTargetView.getCount() - 1;
 //	}
-	
+
 	@Override
 	protected final boolean isReadyForPullDown() {
 		// targetview.getOverScrollMode();
 		return mIsOpenRefresh
 				&& mTargetView.getFirstVisiblePosition() == 0
 				&& 5 >= Math.abs(getFirstPositionDistanceGuess(mTargetView)
-						- mTargetView.getTop());
+				- mTargetView.getTop());
 	}
 
 	@Override
 	protected final boolean isReadyForPullUp() {
 		return mIsNeedFooter
 				&& 5 >= Math.abs(getLastPositionDistanceGuess(mTargetView)
-						- mTargetView.getBottom());
+				- mTargetView.getBottom());
 	}
 
 	int getFirstPositionDistanceGuess(AbsListView view) {
@@ -186,7 +191,7 @@ public abstract class AfRefreshAbsListView<T extends AbsListView> extends AfPull
 //		}
 //		return false;
 //	}
-	
+
 	public final void addMoreView() {
 		mIsNeedFooter = true;
 	}

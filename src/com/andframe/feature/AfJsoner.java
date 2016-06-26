@@ -236,14 +236,14 @@ public class AfJsoner {
     }
 
     private static Field[] getJsonField(Object obj) {
-        Class<?> clazz = null;
+        Class<?> clazz;
         if (obj instanceof Class){
             clazz = ((Class) obj);
         } else {
             clazz = obj.getClass();
         }
-        List<Field> fileds = new ArrayList<Field>();
-        for (Field field : clazz.getFields()) {
+        List<Field> fileds = new ArrayList<>();
+        for (Field field : AfReflecter.getField(clazz)) {
             int modifiers = field.getModifiers();
             if (!Modifier.isStatic(modifiers) &&
                     !Modifier.isTransient(modifiers)){

@@ -18,7 +18,11 @@ import android.bluetooth.BluetoothManager;
 import android.content.Context;
 import android.content.RestrictionsManager;
 import android.content.pm.LauncherApps;
+import android.content.res.ColorStateList;
 import android.content.res.Resources;
+import android.content.res.XmlResourceParser;
+import android.graphics.Movie;
+import android.graphics.drawable.Drawable;
 import android.hardware.ConsumerIrManager;
 import android.hardware.SensorManager;
 import android.hardware.camera2.CameraManager;
@@ -69,6 +73,7 @@ import com.andframe.annotation.inject.InjectExtra;
 import com.andframe.annotation.inject.InjectInit;
 import com.andframe.annotation.inject.InjectLayout;
 import com.andframe.annotation.inject.InjectQueryChanged;
+import com.andframe.annotation.inject.InjectRes;
 import com.andframe.annotation.inject.InjectSystem;
 import com.andframe.application.AfAppSettings;
 import com.andframe.application.AfApplication;
@@ -124,6 +129,7 @@ public class Injecter {
 
     public static void doInject(Object handler, Context context) {
         inject(handler, context);
+        injectRes(handler, context);
         injectSystem(handler, context);
         injectExtra(handler, context);
         injectLayout(handler, context);
@@ -196,6 +202,43 @@ public class Injecter {
                 }
             } catch (Throwable e) {
                 AfExceptionHandler.handle(e, TAG(handler, "doInject.Inject") + field.getName());
+            }
+        }
+    }
+
+    private static void injectRes(Object handler, Context context) {
+        for (Field field : AfReflecter.getFieldAnnotation(handler.getClass(), InjectRes.class)) {
+            try {
+                Object value = null;
+                Class<?> clazz = field.getType();
+                InjectRes inject = field.getAnnotation(InjectRes.class);
+                if (clazz.equals(String.class)) {
+                    value = context.getResources().getString(inject.value());
+                } else if (clazz.equals(String[].class)) {
+                    value = context.getResources().getStringArray(inject.value());
+                } else if (clazz.equals(Float.class) || clazz.equals(float.class)) {
+                    value = context.getResources().getDimension(inject.value());
+                } else if (clazz.equals(Boolean.class) || clazz.equals(boolean.class)) {
+                    value = context.getResources().getBoolean(inject.value());
+                } else if (clazz.equals(Integer.class) || clazz.equals(int.class)) {
+                    value = context.getResources().getColor(inject.value());
+                } else if (clazz.equals(Integer[].class) || clazz.equals(int[].class)) {
+                    value = context.getResources().getIntArray(inject.value());
+                } else if (clazz.equals(Drawable.class)) {
+                    value = context.getResources().getDrawable(inject.value());
+                } else if (clazz.equals(Movie.class)) {
+                    value = context.getResources().getMovie(inject.value());
+                } else if (clazz.equals(XmlResourceParser.class)) {
+                    value = context.getResources().getXml(inject.value());
+                } else if (clazz.equals(ColorStateList.class)) {
+                    value = context.getResources().getColorStateList(inject.value());
+                }
+                if (value != null) {
+                    field.setAccessible(true);
+                    field.set(handler, value);
+                }
+            } catch (Exception e) {
+                AfExceptionHandler.handle(e, TAG(handler, "doInject.injectRes") + field.getName());
             }
         }
     }

@@ -60,12 +60,12 @@ public abstract class AfListViewActivityImpl<T> extends AfListViewActivity<T>{
 
 	@Override
 	protected ListView findListView(AfPageable pageable) {
-		return pageable.findViewByID(R.id.modulelistview_listview);
+		return pageable.findViewByID(R.id.listcontent_list);
 	}
 
 	@Override
 	protected AfFrameSelector newAfFrameSelector(AfPageable pageable) {
-		return new AfFrameSelector(this, R.id.modulelistview_contentframe);
+		return new AfFrameSelector(this, R.id.listcontent_contentframe);
 	}
 
 	@Override

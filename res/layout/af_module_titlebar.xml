@@ -2,8 +2,8 @@
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:id="@+id/af_titlebar_other_layout"
     android:layout_width="match_parent"
-    android:layout_height="45dip"
-    android:background="#222222" >
+    android:layout_height="@dimen/height_titlebar"
+    android:background="@color/colorPrimary" >
     <RelativeLayout
         android:layout_width="match_parent"
         android:layout_height="45dip"
@@ -27,7 +27,6 @@
             android:singleLine="true"
             android:textColor="#FFFFFFFF"
             android:textSize="22sp" />
-
         <ImageView
             android:id="@+id/af_titlebar_right_img"
             android:layout_width="70dip"

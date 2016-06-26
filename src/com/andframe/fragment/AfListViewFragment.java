@@ -20,7 +20,6 @@ import com.andframe.annotation.view.BindLayout;
 import com.andframe.application.AfExceptionHandler;
 import com.andframe.bean.Page;
 import com.andframe.caches.AfPrivateCaches;
-import com.andframe.exception.AfException;
 import com.andframe.feature.AfBundle;
 import com.andframe.helper.java.AfTimeSpan;
 import com.andframe.layoutbind.AfFrameSelector;
@@ -501,7 +500,7 @@ public abstract class AfListViewFragment<T> extends AfTabFragment implements
             if (mAdapter != null && mAdapter.getCount() > 0) {
                 setData(mAdapter);
                 makeToastLong(task.makeErrorToast("刷新失败"));
-            } else if (ltdata != null && ltdata.size() > 0) {
+            } else if (ltdata != null && ltdata.size() > 0) {// 虽然刷新失败，但是从缓存读取的 可能不为空
                 setData(mAdapter = newAdapter(getAfActivity(), ltdata));
                 makeToastLong(task.makeErrorToast("刷新失败"));
             } else {
