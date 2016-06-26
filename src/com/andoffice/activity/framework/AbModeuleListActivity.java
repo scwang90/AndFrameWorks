@@ -11,6 +11,7 @@ import com.andframe.application.AfExceptionHandler;
 import com.andframe.bean.Page;
 import com.andframe.exception.AfToastException;
 import com.andframe.feature.AfIntent;
+import com.andframe.layoutbind.AfModuleTitlebarImpl;
 import com.andframe.thread.AfListViewTask;
 import com.andframe.thread.AfTask;
 import com.andframe.view.multichoice.AfMultiChoiceAdapter;
@@ -25,7 +26,6 @@ import com.andoffice.domain.impl.ImplDomain;
 import com.andoffice.layoutbind.ListItem;
 import com.andoffice.layoutbind.ModuleBottombar;
 import com.andoffice.layoutbind.ModuleBottombarSelector;
-import com.andoffice.layoutbind.ModuleTitlebar;
 import com.andoffice.layoutbind.ModuleTitlebarSearcher;
 import com.andoffice.layoutbind.ModuleTitlebarSearcher.SearchOptions;
 import com.andoffice.layoutbind.ModuleTitlebarSearcher.SearcherListener;
@@ -189,11 +189,11 @@ public abstract class AbModeuleListActivity<T> extends AbSuperListViewActivity<T
 
     protected void buildAddFunction() {
         if (mClazzAdd != null) {
-            HashMap<String, Integer> map = new HashMap<String, Integer>();
-            map.put("添加", REQUEST_ADD);
+            HashMap<Integer,String> map = new HashMap<>();
+            map.put(REQUEST_ADD,"添加");
             mTitlebar.addMeuns(map);
-            mTitlebar.setMenuItemListener(this);
-            mTitlebar.setFunction(ModuleTitlebar.FUNCTION_MENU);
+            mTitlebar.setOnMenuItemListener(this);
+            mTitlebar.setFunction(AfModuleTitlebarImpl.FUNCTION_MENU);
 
             mBottombar.setFunction(ModuleBottombar.ID_ADD, true);
             mBottombar.setAddListener(this);
@@ -201,11 +201,11 @@ public abstract class AbModeuleListActivity<T> extends AbSuperListViewActivity<T
     }
 
     protected void buildSearch(List<Entry<String, String>> options) {
-        HashMap<String, Integer> map = new HashMap<String, Integer>();
-        map.put("搜索", REQUEST_SEARCH);
+        HashMap<Integer,String> map = new HashMap<>();
+        map.put(REQUEST_SEARCH,"搜索");
         mTitlebar.addMeuns(map);
-        mTitlebar.setMenuItemListener(this);
-        mTitlebar.setFunction(ModuleTitlebar.FUNCTION_MENU);
+        mTitlebar.setOnMenuItemListener(this);
+        mTitlebar.setFunction(AfModuleTitlebarImpl.FUNCTION_MENU);
 
         mBottombar.setFunction(ModuleBottombar.ID_SEARCH, true);
         mBottombar.setSearchListener(this);
@@ -214,16 +214,7 @@ public abstract class AbModeuleListActivity<T> extends AbSuperListViewActivity<T
     }
 
     protected void buildSearch() {
-        HashMap<String, Integer> map = new HashMap<String, Integer>();
-        map.put("搜索", REQUEST_SEARCH);
-        mTitlebar.addMeuns(map);
-        mTitlebar.setMenuItemListener(this);
-        mTitlebar.setFunction(ModuleTitlebar.FUNCTION_MENU);
-
-        mBottombar.setFunction(ModuleBottombar.ID_SEARCH, true);
-        mBottombar.setSearchListener(this);
-
-        mTitlebarSearcher.setOptions(onBuildSearchItem());
+        buildSearch(onBuildSearchItem());
     }
 
     /**
@@ -238,11 +229,11 @@ public abstract class AbModeuleListActivity<T> extends AbSuperListViewActivity<T
     }
 
     protected void buildTableView() {
-        HashMap<String, Integer> map = new HashMap<String, Integer>();
-        map.put("表格视图", REQUEST_TABLE);
+        HashMap<Integer, String> map = new HashMap<>();
+        map.put(REQUEST_TABLE, "表格视图");
         mTitlebar.addMeuns(map);
-        mTitlebar.setMenuItemListener(this);
-        mTitlebar.setFunction(ModuleTitlebar.FUNCTION_MENU);
+        mTitlebar.setOnMenuItemListener(this);
+        mTitlebar.setFunction(AfModuleTitlebarImpl.FUNCTION_MENU);
 
         mBottombar.setFunction(ModuleBottombar.ID_TABLE, true);
         mBottombar.setTableListener(this);
@@ -257,7 +248,7 @@ public abstract class AbModeuleListActivity<T> extends AbSuperListViewActivity<T
 
     protected void buildModifyFunction() {
         if (mClazzAdd != null) {
-            HashMap<String, Integer> map = new HashMap<String, Integer>();
+            HashMap<String, Integer> map = new HashMap<>();
             map.put("编辑", REQUEST_EDIT);
             mTitlebarSelector.addMeuns(map);
             mTitlebarSelector.setMenuItemListener(this);
@@ -437,7 +428,7 @@ public abstract class AbModeuleListActivity<T> extends AbSuperListViewActivity<T
             super.onClick(v);
             return;
         }
-        if (v.getId() == ModuleTitlebar.ID_ADD) {
+        if (v.getId() == mTitlebar.getRightImgId()) {
             this.doStartAddActivity();
             return;
         }

@@ -15,12 +15,12 @@
 
     <include
         android:id="@+id/result_listview_nodata"
-        layout="@layout/module_nodata"
+        layout="@layout/af_module_nodata"
         android:visibility="gone" />
 
     <include
         android:id="@+id/result_listview_progress"
-        layout="@layout/module_progress"
+        layout="@layout/af_module_progress"
         android:visibility="gone" />
 
 </FrameLayout>

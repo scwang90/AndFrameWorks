@@ -5,7 +5,7 @@
     android:background="@color/gray_white"
     android:orientation="vertical" >
 
-    <include layout="@layout/module_titlebar_other" />
+    <include layout="@layout/af_module_titlebar" />
 
     <ScrollView
         android:layout_width="match_parent"

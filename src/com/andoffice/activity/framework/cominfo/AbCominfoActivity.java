@@ -10,7 +10,6 @@ import android.app.TimePickerDialog;
 import android.app.TimePickerDialog.OnTimeSetListener;
 import android.content.DialogInterface;
 import android.os.Bundle;
-import android.os.Message;
 import android.text.InputType;
 import android.util.TypedValue;
 import android.view.View;
@@ -31,6 +30,7 @@ import com.andframe.application.AfExceptionHandler;
 import com.andframe.feature.AfDensity;
 import com.andframe.feature.AfIntent;
 import com.andframe.layoutbind.AfLayoutCheckBox;
+import com.andframe.layoutbind.AfModuleTitlebarImpl;
 import com.andframe.model.framework.AfModel;
 import com.andframe.thread.AfHandlerTask;
 import com.andframe.util.android.AfFileSelector;
@@ -41,7 +41,6 @@ import com.andoffice.application.AbApplication;
 import com.andoffice.bean.Permission;
 import com.andoffice.domain.IDomain;
 import com.andoffice.domain.impl.ImplDomain;
-import com.andoffice.layoutbind.ModuleTitlebar;
 
 import java.io.File;
 import java.util.ArrayList;
@@ -68,7 +67,7 @@ public abstract class AbCominfoActivity extends AfActivity implements
 	}
 
 	/** 标题控件 */
-	protected ModuleTitlebar mTitlebar = null;
+	protected AfModuleTitlebarImpl mTitlebar = null;
 
 	/** 原控件样本 */
 	protected View mViewDivider = null;
@@ -98,7 +97,6 @@ public abstract class AbCominfoActivity extends AfActivity implements
 
 	/**
 	 * 主要用于 附件等附带属性绑定 ModelID
-	 * @return
 	 */
 	protected AfModel getModel() {
 		return new AfModel();
@@ -106,7 +104,6 @@ public abstract class AbCominfoActivity extends AfActivity implements
 
 	/**
 	 * 获取当前的模式 添加 编辑 查看
-	 * @return
 	 */
 	public Mode getMode(){
 		return mMode[0];
@@ -125,7 +122,7 @@ public abstract class AbCominfoActivity extends AfActivity implements
 		setContentView(R.layout.layout_commonpanel);
 
 		mMode[0] = Mode.EDIT;
-		mTitlebar = new ModuleTitlebar(this);
+		mTitlebar = new AfModuleTitlebarImpl(this);
 
 		mBtFinish = findViewByID(R.id.button_finish);
 		mLayout = findViewByID(R.id.commonpanel_layout);
@@ -156,7 +153,7 @@ public abstract class AbCominfoActivity extends AfActivity implements
 		doBuildLayout(projects.toArray(new Project[0]));
 
 		if (mMode[0] != Mode.VIEW && mBtFinish.getVisibility() == View.VISIBLE) {
-			mTitlebar.setFunction(ModuleTitlebar.FUNCTION_OK);
+			mTitlebar.setFunction(AfModuleTitlebarImpl.FUNCTION_OK);
 			mTitlebar.setOnOkListener(this);
 		}
 	}
@@ -420,7 +417,7 @@ public abstract class AbCominfoActivity extends AfActivity implements
 	
 	@Override
 	public void onClick(View v) {
-		if (v != null &&(v.getId() == ModuleTitlebar.ID_OK
+		if (v != null &&(v.getId() == mTitlebar.getRightImgId()
 				|| v.getId() == R.id.button_finish)) {
 			doSubmit();
 			return;

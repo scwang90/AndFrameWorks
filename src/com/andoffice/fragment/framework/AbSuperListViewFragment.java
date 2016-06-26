@@ -11,7 +11,11 @@ import com.andframe.bean.Page;
 import com.andframe.feature.AfBundle;
 import com.andframe.fragment.AfListViewFragment;
 import com.andframe.layoutbind.AfModuleNodata;
+import com.andframe.layoutbind.AfModuleNodataImpl;
 import com.andframe.layoutbind.AfModuleProgress;
+import com.andframe.layoutbind.AfModuleProgressImpl;
+import com.andframe.layoutbind.AfModuleTitlebar;
+import com.andframe.layoutbind.AfModuleTitlebarImpl;
 import com.andframe.model.framework.AfModel;
 import com.andframe.view.multichoice.AfMultiChoiceAdapter;
 import com.andframe.view.multichoice.AfMultiChoiceAdapter.MultiChoiceListener;
@@ -20,9 +24,6 @@ import com.andframe.widget.popupmenu.OnMenuItemClickListener;
 import com.andoffice.R;
 import com.andoffice.layoutbind.ModuleBottombar;
 import com.andoffice.layoutbind.ModuleBottombarSelector;
-import com.andoffice.layoutbind.ModuleNodata;
-import com.andoffice.layoutbind.ModuleProgress;
-import com.andoffice.layoutbind.ModuleTitlebar;
 import com.andoffice.layoutbind.ModuleTitlebarSearcher;
 import com.andoffice.layoutbind.ModuleTitlebarSelector;
 
@@ -40,7 +41,7 @@ public abstract class AbSuperListViewFragment<T extends AfModel> extends AfListV
 
     private static final int REQUEST_SELECT = 1;
 
-    protected ModuleTitlebar mTitlebar = null;
+    protected AfModuleTitlebar mTitlebar = null;
     protected ModuleBottombar mBottombar = null;
     protected ModuleTitlebarSelector mTitlebarSelector = null;
     protected ModuleTitlebarSearcher mTitlebarSearcher = null;
@@ -55,7 +56,7 @@ public abstract class AbSuperListViewFragment<T extends AfModel> extends AfListV
     @Override
     protected void onCreated(AfBundle bundle, AfView view) throws Exception {
         super.onCreated(bundle, view);
-        mTitlebar = new ModuleTitlebar(this);
+        mTitlebar = new AfModuleTitlebarImpl(this);
         mBottombar = new ModuleBottombar(this);
         mTitlebarSelector = new ModuleTitlebarSelector(this);
         mTitlebarSearcher = new ModuleTitlebarSearcher(this);
@@ -63,11 +64,9 @@ public abstract class AbSuperListViewFragment<T extends AfModel> extends AfListV
 
         mBottombar.setSelectListener(this);
         mBottombar.setFunction(ModuleBottombar.ID_SELECT, true);
-        HashMap<String, Integer> map = new HashMap<String, Integer>();
-        map.put("选择", REQUEST_SELECT);
-        mTitlebar.addMeuns(map);
-        mTitlebar.setMenuItemListener(this);
-        mTitlebar.setFunction(ModuleTitlebar.FUNCTION_MENU);
+        mTitlebar.putMenu("选择", REQUEST_SELECT);
+        mTitlebar.setOnMenuItemListener(this);
+        mTitlebar.setFunction(AfModuleTitlebarImpl.FUNCTION_MENU);
     }
 
     @Override
@@ -77,12 +76,12 @@ public abstract class AbSuperListViewFragment<T extends AfModel> extends AfListV
 
     @Override
     protected AfModuleNodata newModuleNodata(AfPageable pageable) {
-        return new ModuleNodata(pageable);
+        return new AfModuleNodataImpl(pageable);
     }
 
     @Override
     protected AfModuleProgress newModuleProgress(AfPageable pageable) {
-        return new ModuleProgress(pageable);
+        return new AfModuleProgressImpl(pageable);
     }
 
     @Override
@@ -117,8 +116,8 @@ public abstract class AbSuperListViewFragment<T extends AfModel> extends AfListV
             } else {
                 makeToastShort("还没有数据喔~");
             }
-        } else if (v.getId() == ModuleNodata.ID_BUTTON
-                || v.getId() == ModuleNodata.TEXT_TOREFRESH) {
+        } else if (v.getId() == AfModuleNodataImpl.ID_BUTTON
+                /*|| v.getId() == ModuleNodata.TEXT_TOREFRESH*/) {
             postRefreshTask(true);
         } else {
             super.onClick(v);
@@ -157,9 +156,9 @@ public abstract class AbSuperListViewFragment<T extends AfModel> extends AfListV
         mBottombar.setSelectListener(this);
         mBottombar.setFunction(ModuleBottombar.ID_SELECT, true);
 
-        mTitlebar.setMenuItemListener(this);
+        mTitlebar.setOnMenuItemListener(this);
         mTitlebar.putMenu("选择", REQUEST_SELECT);
-        mTitlebar.setFunction(ModuleTitlebar.FUNCTION_MENU);
+        mTitlebar.setFunction(AfModuleTitlebarImpl.FUNCTION_MENU);
         //返回适配器到父类
         return mMultiChoiceAdapter;
     }

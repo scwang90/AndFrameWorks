@@ -12,7 +12,7 @@
             android:id="@+id/listview_topframe"
 	        android:layout_width="match_parent"
 	        android:layout_height="wrap_content">
-	        <include layout="@layout/module_titlebar_other" />
+	        <include layout="@layout/af_module_titlebar" />
 	        <include layout="@layout/module_titlebar_main" android:visibility="gone" />
 	        <include layout="@layout/module_titlebar_select" android:visibility="gone" />
 	        <include layout="@layout/module_titlebar_search" android:visibility="gone" />
