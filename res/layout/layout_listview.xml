@@ -14,7 +14,7 @@
 	        android:layout_height="wrap_content">
 	        <include layout="@layout/af_module_titlebar" />
 	        <include layout="@layout/module_titlebar_main" android:visibility="gone" />
-	        <include layout="@layout/module_titlebar_select" android:visibility="gone" />
+	        <include layout="@layout/af_module_titlebar_select" android:visibility="gone" />
 	        <include layout="@layout/module_titlebar_search" android:visibility="gone" />
         </FrameLayout>
         <include layout="@layout/module_listview"
@@ -26,7 +26,7 @@
 	        android:layout_width="match_parent"
 	        android:layout_height="wrap_content">
         	<include layout="@layout/module_bottombar" android:visibility="gone"/>
-        	<include layout="@layout/module_bottombar_select" android:visibility="gone"/>
+        	<include layout="@layout/af_module_bottombar_select" android:visibility="gone"/>
         </FrameLayout>
     </LinearLayout>
     

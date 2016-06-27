@@ -1,17 +1,33 @@
 package com.andoffice.activity.framework;
 
 import android.app.AlertDialog.Builder;
+import android.content.Context;
 import android.content.DialogInterface;
 import android.os.Bundle;
 import android.view.MenuItem;
 import android.view.View;
+import android.widget.ListView;
 
 import com.andframe.activity.AfActivity;
+import com.andframe.activity.AfListManageActivity;
+import com.andframe.activity.AfListViewActivity;
+import com.andframe.activity.framework.AfPageable;
+import com.andframe.adapter.AfListAdapter;
 import com.andframe.application.AfExceptionHandler;
 import com.andframe.bean.Page;
 import com.andframe.exception.AfToastException;
 import com.andframe.feature.AfIntent;
+import com.andframe.layoutbind.AfFrameSelector;
+import com.andframe.layoutbind.AfModuleNodata;
+import com.andframe.layoutbind.AfModuleNodataImpl;
+import com.andframe.layoutbind.AfModuleProgress;
+import com.andframe.layoutbind.AfModuleProgressImpl;
+import com.andframe.layoutbind.AfModuleTitlebar;
 import com.andframe.layoutbind.AfModuleTitlebarImpl;
+import com.andframe.layoutbind.AfSelectorBottombar;
+import com.andframe.layoutbind.AfSelectorBottombarImpl;
+import com.andframe.layoutbind.AfSelectorTitlebar;
+import com.andframe.layoutbind.AfSelectorTitlebarImpl;
 import com.andframe.thread.AfListViewTask;
 import com.andframe.thread.AfTask;
 import com.andframe.view.multichoice.AfMultiChoiceAdapter;
@@ -25,7 +41,6 @@ import com.andoffice.domain.IDomain;
 import com.andoffice.domain.impl.ImplDomain;
 import com.andoffice.layoutbind.ListItem;
 import com.andoffice.layoutbind.ModuleBottombar;
-import com.andoffice.layoutbind.ModuleBottombarSelector;
 import com.andoffice.layoutbind.ModuleTitlebarSearcher;
 import com.andoffice.layoutbind.ModuleTitlebarSearcher.SearchOptions;
 import com.andoffice.layoutbind.ModuleTitlebarSearcher.SearcherListener;
@@ -36,7 +51,7 @@ import java.util.List;
 import java.util.Map;
 import java.util.Map.Entry;
 
-public abstract class AbModeuleListActivity<T> extends AbSuperListViewActivity<T> implements SearcherListener {
+public abstract class AbModeuleListActivity<T> extends AfListManageActivity<T> implements SearcherListener, AfMultiChoiceAdapter.MultiChoiceListener<T> {
 
     /**
      * 列表选择模式 控制传递常量
@@ -55,6 +70,7 @@ public abstract class AbModeuleListActivity<T> extends AbSuperListViewActivity<T
     protected static final int REQUEST_TABLE = 40;
     protected static final int REQUEST_SEARCH = 50;
     protected static final int REQUEST_FINISH = 60;
+    protected static final int REQUEST_SELECT = 70;
     /**
      * 模块列表 任务类型枚举
      */
@@ -86,6 +102,10 @@ public abstract class AbModeuleListActivity<T> extends AbSuperListViewActivity<T
     protected boolean mIsSingle = false;
     protected boolean mIsSelection = false;
     protected List<T> mltSelection = null;
+
+    protected AfModuleTitlebar mTitlebar = null;
+    protected ModuleBottombar mBottombar = null;
+    protected ModuleTitlebarSearcher mTitlebarSearcher = null;
 
     public AbModeuleListActivity(Class<T> clazz) {
         mClazzModel = clazz;
@@ -129,9 +149,20 @@ public abstract class AbModeuleListActivity<T> extends AbSuperListViewActivity<T
         mClazzAdd = clazzadd;
     }
 
+
+
     @Override
     protected void onCreate(Bundle bundle, AfIntent intent) throws Exception {
         super.onCreate(bundle, intent);
+
+        mTitlebar = new AfModuleTitlebarImpl(this);
+        mTitlebar.putMenu("选择", REQUEST_SELECT);
+        mTitlebar.setFunction(AfModuleTitlebar.FUNCTION_MENU);
+        mTitlebar.setOnMenuItemListener(this);
+
+        mBottombar = new ModuleBottombar(this);
+        mTitlebarSearcher = new ModuleTitlebarSearcher(this);
+
         //根据传递值设置标题
         mTitlebar.setTitle(intent.getString(EXTRA_TITLE, getString(R.string.app_name)));
         //判断调用模式
@@ -141,17 +172,18 @@ public abstract class AbModeuleListActivity<T> extends AbSuperListViewActivity<T
             //设置权限为只读
             mIsSelection = true;
             mPermission = new Permission(true, false, false, false);
+            mListView.setRefreshable(false);
             //mModuleListView.getAfRefreshableView().setRefreshable(false);
-            //mBottombar.setFunction(ModuleBottombar.ID_CONFIRM, true);
-            HashMap<String, Integer> map = new HashMap<String, Integer>();
+            mBottombar.setFunction(ModuleBottombar.ID_CONFIRM, true);
+            HashMap<String, Integer> map = new HashMap<>();
             map.put("搜索", REQUEST_SEARCH);
-            mTitlebarSelector.addMeuns(map);
-            mTitlebarSelector.setMenuItemListener(this);
+            mSelectorTitlebar.addMeuns(map);
+            mSelectorTitlebar.setMenuItemListener(this);
 
-            int imageid = ModuleBottombarSelector.ID_OK;
-            String deldetail = ModuleBottombarSelector.DETAIL_OK;
-            mBottombarSelector.addFunction(REQUEST_FINISH, imageid, deldetail);
-            mBottombarSelector.setMenuItemListener(this);
+            int imageid = AfSelectorBottombarImpl.ID_OK;
+            String deldetail = AfSelectorBottombarImpl.DETAIL_OK;
+            mSelectorBottombar.addFunction(REQUEST_FINISH, imageid, deldetail);
+            mSelectorBottombar.setMenuItemListener(this);
         } else {
             mPermission = intent.get(EXTRA_PERMISSION, Permission.class);
             if (mPermission == null) {
@@ -165,6 +197,57 @@ public abstract class AbModeuleListActivity<T> extends AbSuperListViewActivity<T
             }
         }
         onCreate(bundle, intent, mPermission);
+    }
+
+    @Override
+    protected int getLayoutId() {
+        return R.layout.layout_listview;
+    }
+
+    @Override
+    protected ListView findListView(AfPageable pageable) {
+        return pageable.findViewByID(R.id.module_listview);
+    }
+
+    @Override
+    protected AfSelectorBottombar newSelectorBottombar(AfPageable pageable) {
+        return new AfSelectorBottombarImpl(pageable);
+    }
+
+    @Override
+    protected AfSelectorTitlebar newSelectorTitlebar(AfPageable pageable) {
+        return new AfSelectorTitlebarImpl(pageable);
+    }
+
+    @Override
+    protected AfFrameSelector newAfFrameSelector(AfPageable pageable) {
+        return new AfFrameSelector(pageable,R.id.module_listview_frame);
+    }
+
+    @Override
+    protected AfModuleNodata newModuleNodata(AfPageable pageable) {
+        return new AfModuleNodataImpl(pageable);
+    }
+
+    @Override
+    protected AfModuleProgress newModuleProgress(AfPageable pageable) {
+        return new AfModuleProgressImpl(pageable);
+    }
+
+    @Override
+    protected AfListAdapter<T> newAdapter(Context context, List<T> ltdata) {
+        //获取并创建适配器监听器
+        mMultiChoiceAdapter =  new AbMultiChoiceAdapter(getContext(), ltdata);//getMultiChoiceAdapter(ltdata);
+        mMultiChoiceAdapter.addListener(this);
+        //添加选择按钮状态
+        mBottombar.setSelectListener(this);
+        mBottombar.setFunction(ModuleBottombar.ID_SELECT, true);
+
+        mTitlebar.setOnMenuItemListener(this);
+        mTitlebar.putMenu("选择", REQUEST_SELECT);
+        mTitlebar.setFunction(AfModuleTitlebarImpl.FUNCTION_MENU);
+        //返回适配器到父类
+        return mMultiChoiceAdapter;
     }
 
     protected void onCreate(Bundle bundle, AfIntent intent, Permission permission) throws Exception {
@@ -250,26 +333,26 @@ public abstract class AbModeuleListActivity<T> extends AbSuperListViewActivity<T
         if (mClazzAdd != null) {
             HashMap<String, Integer> map = new HashMap<>();
             map.put("编辑", REQUEST_EDIT);
-            mTitlebarSelector.addMeuns(map);
-            mTitlebarSelector.setMenuItemListener(this);
+            mSelectorTitlebar.addMeuns(map);
+            mSelectorTitlebar.setMenuItemListener(this);
 
-            int delimageid = ModuleBottombarSelector.ID_EDIT;
-            String deldetail = ModuleBottombarSelector.DETAIL_EDIT;
-            mBottombarSelector.addFunction(REQUEST_EDIT, delimageid, deldetail);
-            mBottombarSelector.setMenuItemListener(this);
+            int delimageid = AfSelectorBottombarImpl.ID_EDIT;
+            String deldetail = AfSelectorBottombarImpl.DETAIL_EDIT;
+            mSelectorBottombar.addFunction(REQUEST_EDIT, delimageid, deldetail);
+            mSelectorBottombar.setMenuItemListener(this);
         }
     }
 
     protected void buildMultiDelete() {
         HashMap<String, Integer> map = new HashMap<String, Integer>();
         map.put("删除", REQUEST_DELETE);
-        mTitlebarSelector.addMeuns(map);
-        mTitlebarSelector.setMenuItemListener(this);
+        mSelectorTitlebar.addMeuns(map);
+        mSelectorTitlebar.setMenuItemListener(this);
 
-        int delimageid = ModuleBottombarSelector.ID_DELETE;
-        String deldetail = ModuleBottombarSelector.DETAIL_DELETE;
-        mBottombarSelector.addFunction(REQUEST_DELETE, delimageid, deldetail);
-        mBottombarSelector.setMenuItemListener(this);
+        int delimageid = AfSelectorBottombarImpl.ID_DELETE;
+        String deldetail = AfSelectorBottombarImpl.DETAIL_DELETE;
+        mSelectorBottombar.addFunction(REQUEST_DELETE, delimageid, deldetail);
+        mSelectorBottombar.setMenuItemListener(this);
     }
 
     /**
@@ -422,33 +505,43 @@ public abstract class AbModeuleListActivity<T> extends AbSuperListViewActivity<T
         return "";
     }
 
+
     @Override
     public void onClick(View v) {
         if (v == null) {
             super.onClick(v);
             return;
         }
-        if (v.getId() == mTitlebar.getRightImgId()) {
+        if (v.getId() == ModuleBottombar.ID_SELECT) {
+            if (mMultiChoiceAdapter != null) {
+                mMultiChoiceAdapter.beginMultiChoice();
+            } else {
+                makeToastShort("还没有数据喔~");
+            }
+        } else if (v.getId() == AfModuleNodataImpl.ID_BUTTON
+                /*|| v.getId() == AfModuleNodataImpl.TEXT_TOREFRESH*/) {
+            postRefreshTask(true);
+        } else if (v.getId() == mTitlebar.getRightImgId()) {
             this.doStartAddActivity();
-            return;
-        }
-        switch (v.getId()) {
-            case ModuleBottombar.ID_ADD:
-                this.doStartAddActivity();
-                break;
-            case ModuleBottombar.ID_TABLE:
-                this.doShowTableView();
-                break;
-            case ModuleBottombar.ID_SEARCH:
-                if (mTitlebarSearcher.isVisibility()) {
-                    this.doSearchHide();
-                } else {
-                    this.doSearchShow();
-                }
-                break;
-            default:
-                super.onClick(v);
-                break;
+        } else {
+            switch (v.getId()) {
+                case ModuleBottombar.ID_ADD:
+                    this.doStartAddActivity();
+                    break;
+                case ModuleBottombar.ID_TABLE:
+                    this.doShowTableView();
+                    break;
+                case ModuleBottombar.ID_SEARCH:
+                    if (mTitlebarSearcher.isVisibility()) {
+                        this.doSearchHide();
+                    } else {
+                        this.doSearchShow();
+                    }
+                    break;
+                default:
+                    super.onClick(v);
+                    break;
+            }
         }
     }
 
@@ -605,14 +698,29 @@ public abstract class AbModeuleListActivity<T> extends AbSuperListViewActivity<T
         return super.onTaskLoad(isCheckExpired);
     }
 
-    /**
-     * 异步线程加载数据（使用 Domain）
-     */
     @Override
-    protected List<T> onTaskListFromDomain(int task, Page page) throws Exception {
+    protected List<T> onTaskListByPage(Page page, int task) throws Exception {
         String where = getWhere();
         return mDomain.GetListByPage(where, page);
     }
+
+    @Override
+    protected boolean onRefreshed(AbListViewTask task, boolean isfinish, List<T> ltdata) {
+        boolean ret = super.onRefreshed(task, isfinish, ltdata);
+        if (mIsSelection && mMultiChoiceAdapter != null && !mMultiChoiceAdapter.isEmpty()) {
+            mMultiChoiceAdapter.beginMultiChoice();
+        }
+        return ret;
+    }
+
+    //    /**
+//     * 异步线程加载数据（使用 Domain）
+//     */
+//    @Override
+//    protected List<T> onTaskListFromDomain(int task, Page page) throws Exception {
+//        String where = getWhere();
+//        return mDomain.GetListByPage(where, page);
+//    }
 
     @Override
     protected boolean onTaskWorking(int task) throws Exception {
@@ -682,9 +790,39 @@ public abstract class AbModeuleListActivity<T> extends AbSuperListViewActivity<T
         return super.onTaskWorked(task, isfinish, ltdata);
     }
 
+//    @Override
+//    public void onMultiChoiceClosed(AfMultiChoiceAdapter<T> adapter,
+//                                    List<T> list) {
+//        super.onMultiChoiceClosed(adapter, list);
+//    }
+
+    /**
+     * 发送刷新任务
+     *
+     * @param progress 是否显示正在加载页面
+     */
+    protected void postRefreshTask(boolean progress) {
+        onRefresh();
+        if (progress) {
+            setLoading();
+        }
+    }
+
     @Override
-    public void onMultiChoiceClosed(AfMultiChoiceAdapter<T> adapter,
-                                    List<T> list) {
-        super.onMultiChoiceClosed(adapter, list);
+    public void onMultiChoiceChanged(AfMultiChoiceAdapter<T> adapter, int number, int total) {
+    }
+
+    @Override
+    public void onMultiChoiceChanged(AfMultiChoiceAdapter<T> adapter, T tag,boolean selected, int number) {
+    }
+
+    @Override
+    public void onMultiChoiceClosed(AfMultiChoiceAdapter<T> adapter,List<T> list) {
+        mBottombar.show();
+    }
+
+    @Override
+    public void onMultiChoiceStarted(AfMultiChoiceAdapter<T> adapter, int number) {
+        mBottombar.hide();
     }
 }

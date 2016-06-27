@@ -23,11 +23,8 @@ import com.andframe.view.multichoice.AfMultiChoiceItem;
 import com.andframe.widget.popupmenu.OnMenuItemClickListener;
 import com.andoffice.R;
 import com.andoffice.layoutbind.ModuleBottombar;
-import com.andoffice.layoutbind.ModuleBottombarSelector;
 import com.andoffice.layoutbind.ModuleTitlebarSearcher;
-import com.andoffice.layoutbind.ModuleTitlebarSelector;
 
-import java.util.HashMap;
 import java.util.List;
 
 /**
@@ -43,9 +40,9 @@ public abstract class AbSuperListViewFragment<T extends AfModel> extends AfListV
 
     protected AfModuleTitlebar mTitlebar = null;
     protected ModuleBottombar mBottombar = null;
-    protected ModuleTitlebarSelector mTitlebarSelector = null;
+//    protected ModuleTitlebarSelector mTitlebarSelector = null;
     protected ModuleTitlebarSearcher mTitlebarSearcher = null;
-    protected ModuleBottombarSelector mBottombarSelector = null;
+//    protected ModuleBottombarSelector mBottombarSelector = null;
 
     protected AfMultiChoiceAdapter<T> mMultiChoiceAdapter = null;
 
@@ -58,9 +55,9 @@ public abstract class AbSuperListViewFragment<T extends AfModel> extends AfListV
         super.onCreated(bundle, view);
         mTitlebar = new AfModuleTitlebarImpl(this);
         mBottombar = new ModuleBottombar(this);
-        mTitlebarSelector = new ModuleTitlebarSelector(this);
+//        mTitlebarSelector = new ModuleTitlebarSelector(this);
         mTitlebarSearcher = new ModuleTitlebarSearcher(this);
-        mBottombarSelector = new ModuleBottombarSelector(this);
+//        mBottombarSelector = new ModuleBottombarSelector(this);
 
         mBottombar.setSelectListener(this);
         mBottombar.setFunction(ModuleBottombar.ID_SELECT, true);
