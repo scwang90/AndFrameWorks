@@ -1,6 +1,5 @@
 package com.andframe.layoutbind.framework;
 
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 
@@ -18,34 +17,23 @@ import java.lang.reflect.Constructor;
 public class AfViewModule extends AfViewDelegate implements AfViewable, IViewModule{
 
 	public static <T extends AfViewModule> T init(Class<T> clazz,AfViewable viewable,int viewId) {
-		Log.d("AfViewModule.init", "开始");
 		try {
 			T module = null;
-			Log.d("AfViewModule.init", "开始");
 			Constructor<?>[] constructors = clazz.getConstructors();
-			Log.d("AfViewModule.init", "获取构造函数 len = " + constructors.length);
 			for (int i = 0; i < constructors.length && module == null; i++) {
 				Class<?>[] parameterTypes = constructors[i].getParameterTypes();
-				Log.d("AfViewModule.init", "第" + i + "个构造函数有" + parameterTypes.length + "个参数");
 				if (parameterTypes.length == 0) {
-					Log.d("AfViewModule.init", "匹配到0个参数构造函数，开始创建");
 					module = clazz.newInstance();
-					Log.d("AfViewModule.init", "匹配到0个参数构造函数，创建 = " + module);
 				} else if (parameterTypes.length == 1 && AfViewable.class.isAssignableFrom(parameterTypes[0])) {
-					Log.d("AfViewModule.init", "匹配到AfViewable构造函数，开始创建");
 					module = (T)constructors[i].newInstance(viewable);
-					Log.d("AfViewModule.init", "匹配到AfViewable构造函数，开始创建 = " + module);
 				}
 			}
 			if (module != null) {
-				Log.d("AfViewModule.init", "创建成功 调用 setTarget");
 				AfViewModule viewModule = module;
 				viewModule.setTarget(viewable, viewable.findViewByID(viewId));
 			}
-			Log.d("AfViewModule.init", "返回" + module);
 			return module;
 		} catch (Throwable e) {
-			Log.d("AfViewModule.init", "异常" + e);
 			throw new RuntimeException(e);
 		}
 	}
