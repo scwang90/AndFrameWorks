@@ -85,4 +85,7 @@ public abstract class AfTreeViewItem<T> extends AfMultiChoiceItem<T> {
      */
     protected abstract boolean onBinding(T model, int index, int level, boolean isExpanded, SelectStatus status);
 
+    public boolean isCanSelect(T value, int index) {
+        return mNode == null || mNode.children == null || mNode.children.size() == 0;
+    }
 }

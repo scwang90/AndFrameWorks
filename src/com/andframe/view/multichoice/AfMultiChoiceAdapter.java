@@ -144,22 +144,31 @@ public abstract class AfMultiChoiceAdapter<T> extends AfListAdapter<T>{
 		return super.bindingItem(mcitem, index);
 	}
 
-
-	public boolean beginMultiChoice(int index) {
-		if(getCount() > 0){
+	public void restoreSelect() {
+		if (mIsSelecteds != null) {
+			mChoiceNumber = 0;
 			mIsSelecteds = new boolean[getCount()];
-			if(index > -1){
+			notifyDataSetChanged();
+		}
+	}
+
+	public boolean beginMultiChoice(int index, boolean notify) {
+		if (mIsSelecteds == null && getCount() > 0) {
+			mIsSelecteds = new boolean[getCount()];
+			if (index > -1) {
 				mIsSelecteds[index] = true;
 				mChoiceNumber = 1;
 			}
-			notifyDataSetChanged();
+			if(notify){
+				notifyDataSetChanged();
+			}
 			for (GenericityListener listener : mGenericityListeners) {
-				listener.onMultiChoiceStarted(this,mChoiceNumber);
+				listener.onMultiChoiceStarted(this, mChoiceNumber);
 			}
 			for (MultiChoiceListener<T> listener : mListeners) {
-				listener.onMultiChoiceStarted(this,mChoiceNumber);
+				listener.onMultiChoiceStarted(this, mChoiceNumber);
 			}
-			
+
 		}
 		return true;
 	}
@@ -167,21 +176,13 @@ public abstract class AfMultiChoiceAdapter<T> extends AfListAdapter<T>{
 	public boolean beginMultiChoice() {
 		return beginMultiChoice(true);
 	}
-	
+
 	public boolean beginMultiChoice(boolean notify) {
-		if(mIsSelecteds == null && getCount() > 0){
-			mIsSelecteds = new boolean[getCount()];
-			if(notify){
-				notifyDataSetChanged();
-			}
-			for (GenericityListener listener : mGenericityListeners) {
-				listener.onMultiChoiceStarted(this,0);
-			}
-			for (MultiChoiceListener<T> listener : mListeners) {
-				listener.onMultiChoiceStarted(this,0);
-			}
-		}
-		return true;
+		return beginMultiChoice(-1, notify);
+	}
+
+	public boolean beginMultiChoice(int index) {
+		return beginMultiChoice(index, true);
 	}
 	
 	public boolean isMultiChoiceMode() {

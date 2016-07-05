@@ -1,5 +1,6 @@
 package com.andframe.annotation.interpreter;
 
+import android.util.Log;
 import android.view.View;
 import android.view.View.OnClickListener;
 import android.view.ViewGroup;
@@ -213,8 +214,10 @@ public class ViewBinder {
     }
 
     private static void bindViewModule(Object handler, AfViewable root) {
+        Log.d(TAG(handler, "bindViewModule"), "开始");
         for (Field field : AfReflecter.getFieldAnnotation(handler.getClass(), getStopType(handler), BindViewModule.class)) {
             try {
+                Log.d(TAG(handler, "bindViewModule"), "发现" + field.getType() + "-" + field.getName());
                 Class<?> clazz = field.getType();
                 BindViewModule bind = field.getAnnotation(BindViewModule.class);
                 List<Object> list = new ArrayList<>();
@@ -229,7 +232,7 @@ public class ViewBinder {
                     } else if (clazz.equals(AfModuleProgress.class) && root != null) {
                         value = new AfModuleProgressImpl(root);
                     } else if (clazz.equals(AfContactsRefreshView.class) && root != null) {
-                        value = new AfContactsRefreshView(root,bind.value()[0]);
+                        value = new AfContactsRefreshView(root, bind.value()[0]);
                     } else if (root != null
                             && (field.getType().isAnnotationPresent(BindLayout.class) || id > 0)
                             /*&& AfViewModule.class.isAssignableFrom(field.getType())*/) {
@@ -246,7 +249,9 @@ public class ViewBinder {
                             Class<?> type = (Class<?>) parameterized.getActualTypeArguments()[0];
                             value = AfViewModule.init((Class<? extends AfViewModule>) type, root, id);
                         } else {
+                            Log.d(TAG(handler, "bindViewModule"), "AfViewModule.init");
                             value = AfViewModule.init((Class<? extends AfViewModule>) field.getType(), root, id);
+                            Log.d(TAG(handler, "bindViewModule"), "AfViewModule.init = " + value);
                         }
                     }
                     if (value != null) {
@@ -255,6 +260,7 @@ public class ViewBinder {
                 }
 
                 if (list.size() > 0) {
+                    Log.d(TAG(handler, "bindViewModule"), "创建 " + list.size() + " 个对象");
                     field.setAccessible(true);
                     if (field.getType().isArray()) {
                         Class<?> componentType = field.getType().getComponentType();
@@ -267,9 +273,11 @@ public class ViewBinder {
                     }
                 }
             } catch (Throwable e) {
+                Log.d(TAG(handler, "bindViewModule"), "出现异常" + e);
                 AfExceptionHandler.handle(e, TAG(handler, "doBindViewModule.") + field.getName());
             }
         }
+        Log.d(TAG(handler, "bindViewModule"), "结束");
     }
 
     public static void bindAfterView(Object handler, AfViewable root) {

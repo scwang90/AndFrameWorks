@@ -41,6 +41,7 @@ import java.util.LinkedHashMap;
 import java.util.List;
 import java.util.Map;
 import java.util.Random;
+import java.util.Stack;
 
 /**
  * AfApplication 抽象类 （继承使用必须继承并使用，其他框架功能依赖于 AfApplication）
@@ -77,7 +78,6 @@ public abstract class AfApplication extends Application {
 	 * @author 树朾 网络状态改变通知接口
 	 */
 	public interface INotifyNetworkStatus {
-
 		void onNetworkStatusChanged(int networkStatus);
 	}
 	public static final int DEBUG_NONE = 0;
@@ -87,7 +87,6 @@ public abstract class AfApplication extends Application {
 
 	protected static final String STATE_NETWORKSTATUS = "STATE_NETWORKSTATUS";
 	protected static final String STATE_VERSION = "STATE_VERSION";
-	protected static final String STATE_ISFORERUNNING = "STATE_ISFORERUNNING";
 	public static AfApplication mApp = null;
 
 	public static synchronized AfApplication getApp() {
@@ -148,7 +147,7 @@ public abstract class AfApplication extends Application {
 	// 当前网络连接类型 默认为 未连接
 	protected int mNetworkStatus = AfNetwork.TYPE_NONE;
 	// 当前主页面
-	protected AfActivity mCurActivity = null;
+	private Stack<AfActivity> mStackActivity = new Stack<>();
 	// 当前主页面
 	protected AfFragment mCurFragment = null;
 	// 主页面
@@ -160,10 +159,6 @@ public abstract class AfApplication extends Application {
 
 	protected AfThreadWorker mWorker = null;
 
-	protected boolean mIsExiting = false;
-
-	// 标记前台是否在运行
-	protected boolean mIsForegroundRunning = false;
 	// 保存数据
 	protected Date mStateTime = new Date();
 	protected AfSharedPreference mRunningState = null;
@@ -288,7 +283,6 @@ public abstract class AfApplication extends Application {
 
 	/**
 	 * 获取caches目录
-	 * @param type
 	 */
 	public synchronized String getCachesPath(String type) {
 		File caches = new File(getWorkspacePath("caches"));
@@ -357,7 +351,6 @@ public abstract class AfApplication extends Application {
 
 	/**
 	 * 获取全局单例实例
-	 * @param key
 	 */
 	@SuppressWarnings("unchecked")
 	public synchronized <T> T getSingleton(String key){
@@ -372,8 +365,6 @@ public abstract class AfApplication extends Application {
 
 	/**
 	 * 设置全局单例实例
-	 * @param key
-	 * @param value
 	 */
 	public synchronized void setSingleton(String key,Object value){
 		mSingletonMap.put(key, value);
@@ -384,7 +375,10 @@ public abstract class AfApplication extends Application {
 	 * @return AfActivity or null
 	 */
 	public synchronized AfActivity getCurActivity() {
-		return mCurActivity;
+		if (mStackActivity.isEmpty()) {
+			return null;
+		}
+		return mStackActivity.peek();
 	}
 
 	/**
@@ -410,7 +404,6 @@ public abstract class AfApplication extends Application {
 	 */
 	public synchronized void setMainActivity(AfActivity activity) {
 		mMainActivity = activity;
-		mIsForegroundRunning = true;
 	}
 
 	/**
@@ -422,36 +415,14 @@ public abstract class AfApplication extends Application {
 	 */
 	public synchronized void setCurActivity(Object power, AfActivity activity) {
 		if (power instanceof AfActivity) {
-			//AfActivity 退出
-			if (activity == null){
-				if (power == mMainActivity){
-					notifyForegroundClosed(mMainActivity);
-				} else if (power == mCurActivity) {
-					mCurActivity = null;
+			if (activity != null) {
+				if (!mStackActivity.contains(activity)) {
+					mStackActivity.push(activity);
 				}
-				return;
-			}
-			// 如果正在返回主页面
-			else if (mIsExiting) {
-				// 如果已经到达主页面
-				mCurActivity = activity;
-				if (getForegroundClass().isInstance(activity)) {
-					// 关闭返回主页面功能
-					if (mIsExiting) {
-						activity.finish();
-					}
-					mIsExiting = false;
-				} else {
-					// 关不当前页面回到主页面
-					activity.finish();
-					return;
-				}
-				//如果是主页面
-			} if(getForegroundClass().isInstance(activity) && mMainActivity==null){
-				setMainActivity(activity);
-				mCurActivity = activity;
 			} else {
-				mCurActivity = activity;
+				if (mStackActivity.contains(power)) {
+					mStackActivity.remove(power);
+				}
 			}
 		}
 	}
@@ -480,7 +451,7 @@ public abstract class AfApplication extends Application {
 		if (power instanceof ConnectionChangeReceiver) {
 			mNetworkStatus = networkState;
 
-			notifyNetworkStatus(mCurActivity, networkState);
+			notifyNetworkStatus(getCurActivity(), networkState);
 			notifyNetworkStatus(mCurFragment, networkState);
 
 			// 如果网络连接上
@@ -514,12 +485,24 @@ public abstract class AfApplication extends Application {
 	 * 通知APP 启动天台页面
 	 */
 	public synchronized void startForeground() {
-		if (!mIsForegroundRunning) {
-			mIsForegroundRunning = true;
-			mMainActivity = null;
-			Intent intent = new Intent(this, getForegroundClass());
-			intent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
-			this.startActivity(intent);
+		Class<? extends AfActivity> foregroundClass = getForegroundClass();
+		if (foregroundClass != null) {
+			while (!mStackActivity.empty()) {
+				AfActivity activity = mStackActivity.peek();
+				if (activity == null || activity.isRecycled()) {
+					mStackActivity.pop();
+				} else if (getForegroundClass().isAssignableFrom(activity.getClass())) {
+					break;
+				} else {
+					mStackActivity.pop();
+					activity.finish();
+				}
+			}
+			if (mStackActivity.isEmpty()) {
+				Intent intent = new Intent(this, foregroundClass);
+				intent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
+				this.startActivity(intent);
+			}
 		}
 	}
 
@@ -528,11 +511,10 @@ public abstract class AfApplication extends Application {
 	 */
 	public synchronized void exitForeground(Object power) {
 		/** (2014-7-30 注释 只有当notifyForegroundClosed时才设为false) **/
-		// mIsForegroundRunning = false;
-		if (mCurActivity != null) {
-			mCurActivity.finish();
-			if (mMainActivity != mCurActivity) {
-				mIsExiting = true;
+		while (!mStackActivity.empty()) {
+			AfActivity activity = mStackActivity.pop();
+			if (activity != null && !activity.isRecycled()) {
+				activity.finish();
 			}
 		}
 	}
@@ -541,7 +523,7 @@ public abstract class AfApplication extends Application {
 	 * 获取 前台页面是否在运行
 	 */
 	public synchronized boolean isForegroundRunning() {
-		return mIsForegroundRunning;
+		return !mStackActivity.empty();
 	}
 
 	/**
@@ -550,12 +532,9 @@ public abstract class AfApplication extends Application {
 	 *            权限对象 传入this
 	 */
 	public synchronized void notifyForegroundClosed(AfActivity activity) {
-		if (activity == mMainActivity && mIsForegroundRunning) {
-			// 清空相关信息
-			mCurActivity = null;
+		if (activity == mMainActivity ) {
 			mMainActivity = null;
 			mCurFragment = null;
-			mIsForegroundRunning = false;
 		}
 	}
 
@@ -676,8 +655,6 @@ public abstract class AfApplication extends Application {
 	protected void onRestoreInstanceState(AfSharedPreference state) {
 		mNetworkStatus = state.getInt(STATE_NETWORKSTATUS, mNetworkStatus);
 		mVersion = state.getString(STATE_VERSION, mVersion);
-		mIsForegroundRunning = state.getBoolean(STATE_ISFORERUNNING,
-				mIsForegroundRunning);
 	}
 
 	/**
@@ -707,7 +684,6 @@ public abstract class AfApplication extends Application {
 		Editor editor = mRunningState.getSharePrefereEditor();
 		editor.putInt(STATE_NETWORKSTATUS, mNetworkStatus);
 		editor.putString(STATE_VERSION, mVersion);
-		editor.putBoolean(STATE_ISFORERUNNING, mIsForegroundRunning);
 		editor.commit();
 	}
 
@@ -794,19 +770,10 @@ public abstract class AfApplication extends Application {
 	 */
 	protected <T> List<T> transformNotifys(Class<T> clazz){
 		List<Object> list = new ArrayList<Object>();
-		if (mMainActivity != mCurActivity
-				&& mMainActivity != null
-				&& !mMainActivity.isRecycled()){
-			list.add(mMainActivity);
-		}
-		if (mCurActivity != null
-				&& !mCurActivity.isRecycled()){
-			list.add(mCurActivity);
-		}
 		if (mCurFragment != null
 				&& !mCurFragment.isRecycled()){
 			list.add(mCurFragment);
 		}
-		return transforms(list.toArray(new Object[0]),clazz);
+		return transforms(list.toArray(new Object[list.size()]),clazz);
 	}
 }

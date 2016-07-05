@@ -13,7 +13,8 @@ import java.util.Collection;
 import java.util.List;
 
 public abstract class AfTreeViewAdapter<T> extends AfMultiChoiceAdapter<T> {
-	
+
+
 	public interface AfTreeNodeClickable<T>{
 		boolean isItemClickable(AfTreeNode<T> item);
 	}
@@ -21,6 +22,7 @@ public abstract class AfTreeViewAdapter<T> extends AfMultiChoiceAdapter<T> {
 	protected List<T> mltOriginData = null;
 	protected boolean mDefaultExpanded = false;
 	protected AfTreeNode<T> mRootNode = null;
+	protected AfTreeNode<T> mLastSelectNode = null;
 	protected AfTreeEstablisher<T> mEstablisher = null;
 	protected AfTreeNodeClickable<T> mTreeNodeClickable = null;
 	protected List<AfTreeNode<T>> mNodeShow = new ArrayList<>();
@@ -28,7 +30,7 @@ public abstract class AfTreeViewAdapter<T> extends AfMultiChoiceAdapter<T> {
 	protected abstract AfTreeViewItem<T> getTreeViewItem(T data);
 
 	public AfTreeViewAdapter(Context context, List<T> ltdata, AfTreeEstablisher<T> establisher) {
-		this(context,ltdata,establisher,false);
+		this(context, ltdata, establisher, false);
 	}
 	
 	public AfTreeViewAdapter(Context context, List<T> ltdata, AfTreeEstablisher<T> establisher,boolean isExpanded) {
@@ -68,16 +70,54 @@ public abstract class AfTreeViewAdapter<T> extends AfMultiChoiceAdapter<T> {
 	@Override
 	protected boolean bindingItem(IAfLayoutItem<T> item, int index) {
 		AfTreeViewItem<T> tvitem = (AfTreeViewItem<T>)item;
-		tvitem.setNode(mNodeShow.get(index));
-		return super.bindingItem(item, index);
+		AfTreeNode<T> node = mNodeShow.get(index);
+		tvitem.setNode(node);
+//		return super.bindingItem(item, index);
+		/**
+		 * 添加树形多选 2016-7-1
+		 */
+		AfMultiChoiceItem.SelectStatus status = AfMultiChoiceItem.SelectStatus.NONE;
+		if(isMultiChoiceMode()){
+			if(node.isSelected){
+				status = AfMultiChoiceItem.SelectStatus.SELECTED;
+			}else{
+				status = AfMultiChoiceItem.SelectStatus.UNSELECT;
+			}
+		}
+		tvitem.setSelectStatus(node.value, status);
+		tvitem.onBinding(node.value, index);
+		return true;
 	}
 	
 	@Override
 	public void onItemClick(int index) {
-		if(isMultiChoiceMode()){
-			super.onItemClick(index);
-		}else{
-			AfTreeNode<T> node = mNodeShow.get(index);
+		AfTreeNode<T> node = mNodeShow.get(index);
+		if (isMultiChoiceMode()) {
+			/**
+			 * 添加树形多选 2016-7-1
+			 */
+			AfTreeViewItem<T> item = getTreeViewItem(node.value);
+			item.setNode(node);
+			if (item.isCanSelect(node.value, index)) {
+				int count = mChoiceNumber;
+				if (mIsSingle) {
+					if (mLastSelectNode != null) {
+						mLastSelectNode.isSelected = false;
+					}
+					count = 1;
+					mLastSelectNode = node;
+					mLastSelectNode.isSelected = true;
+				} else {
+					node.isSelected = !node.isSelected;
+					count += node.isSelected ? 1 : -1;
+				}
+				super.onItemClick(index);
+				mChoiceNumber = count;
+			} else {
+				node.isExpanded = !node.isExpanded;
+				updateNodeListToShow();
+			}
+		} else {
 			node.isExpanded = !node.isExpanded;
 			updateNodeListToShow();
 		}
@@ -115,7 +155,7 @@ public abstract class AfTreeViewAdapter<T> extends AfMultiChoiceAdapter<T> {
 	public boolean addAll(@NonNull Collection<? extends T> ltdata) {
 		boolean ret = mltOriginData.addAll(ltdata);
 		mRootNode = mEstablisher.establish(mltOriginData,mDefaultExpanded);
-		restoreTreeNode(mRootNode,mNodeShow);
+		restoreTreeNode(mRootNode, mNodeShow);
 		updateNodeListToShow();
 		return ret;
 	}
@@ -173,9 +213,16 @@ public abstract class AfTreeViewAdapter<T> extends AfMultiChoiceAdapter<T> {
 		restoreTreeNode(mRootNode,mNodeShow);
 		mltArray.clear();
 		mNodeShow.clear();
-		closeMultiChoice();
-		establishNodeListToShow(mltArray,mNodeShow,mRootNode);
-		notifyDataSetChanged();
+		/**
+		 * 添加树形多选 2016-7-1
+		 */
+//		closeMultiChoice();
+		establishNodeListToShow(mltArray, mNodeShow, mRootNode);
+		if (isMultiChoiceMode()) {
+			super.restoreSelect();
+		} else {
+			notifyDataSetChanged();
+		}
 	}
 
 	protected void restoreTreeNode(AfTreeNode<T> root,List<AfTreeNode<T>> nodes) {
@@ -192,9 +239,84 @@ public abstract class AfTreeViewAdapter<T> extends AfMultiChoiceAdapter<T> {
 		}
 		if(root.children != null && root.children.size() > 0){
 			for (AfTreeNode<T> child : root.children) {
-				restoreTreeNode(child,remain);
+				restoreTreeNode(child, remain);
 			}
 		}
 	}
+
+
+	//region 树形多选
+	/**
+	 * 添加树形多选 2016-7-1
+	 */
+
+	@Override
+	public void restoreSelect() {
+		if (isMultiChoiceMode()) {
+			restoreSelect(mRootNode);
+		}
+		super.restoreSelect();
+	}
+
+	private void restoreSelect(AfTreeNode<T> node) {
+		node.isSelected = false;
+		if (node.children != null && node.children.size() > 0) {
+			for (AfTreeNode<T> child : node.children) {
+				restoreSelect(child);
+			}
+		}
+	}
+
+	public boolean beginMultiChoice(int index, boolean notify) {
+		if (!isMultiChoiceMode() && getCount() > 0) {
+			restoreSelect(mRootNode);
+			if (index > -1 && index < mNodeShow.size()) {
+				AfTreeNode<T> node = mNodeShow.get(index);
+				node.isSelected = true;
+				mChoiceNumber = 1;
+			}
+		}
+		return super.beginMultiChoice(index, notify);
+	}
+
+	@Override
+	public boolean closeMultiChoice() {
+		if (super.closeMultiChoice()) {
+			mLastSelectNode = null;
+			return true;
+		}
+		return false;
+	}
+
+	@Override
+	public List<T> getSelectedItems() {
+		List<T> list = new ArrayList<>();
+		if(isMultiChoiceMode()) {
+			peekSelectedItems(list, mRootNode);
+			closeMultiChoice();
+		}
+		return list;
+	}
+
+	@Override
+	public List<T> peekSelectedItems() {
+		List<T> list = new ArrayList<>();
+		if(isMultiChoiceMode()) {
+			peekSelectedItems(list, mRootNode);
+		}
+		return list;
+	}
+
+	private void peekSelectedItems(List<T> list, AfTreeNode<T> node) {
+		if (node.isSelected) {
+			list.add(node.value);
+		}
+		if (node.children != null && node.children.size() > 0) {
+			for (AfTreeNode<T> child : node.children) {
+				peekSelectedItems(list, child);
+			}
+		}
+	}
+	//endregion
 
 }

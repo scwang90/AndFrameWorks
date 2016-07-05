@@ -38,6 +38,13 @@ public class AfView implements AfViewable {
 		return null;
 	}
 
+	public AfView getParentView() {
+		if (mRootView != null) {
+			return new AfView((View)mRootView.getParent());
+		}
+		return null;
+	}
+
 	@Override
 	public Context getContext() {
 		if (mRootView != null) {
@@ -57,7 +64,7 @@ public class AfView implements AfViewable {
 	public View getView() {
 		return mRootView;
 	}
-	
+
 	@Override
 	public View findViewById(int id) {
 		if (mRootView != null) {

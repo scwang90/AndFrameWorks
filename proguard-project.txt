@@ -43,8 +43,10 @@
     @com.andframe.annotation.view.BindViewModule *;
 
     @com.andframe.annotation.inject.Inject *;
+    @com.andframe.annotation.inject.InjectRes *;
     @com.andframe.annotation.inject.InjectInit *;
     @com.andframe.annotation.inject.InjectExtra *;
+    @com.andframe.annotation.inject.InjectSystem *;
     @com.andframe.annotation.inject.InjectDelayed *;
     @com.andframe.annotation.inject.InjectLayout *;
     @com.andframe.annotation.inject.InjectQueryChanged *;

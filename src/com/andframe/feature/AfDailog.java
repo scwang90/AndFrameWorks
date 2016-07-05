@@ -404,7 +404,7 @@ public class AfDailog {
      * @param type     android.text.InputType
      * @param listener 监听器
      */
-    public AlertDialog doInputText(String title, String defaul, int type, InputTextListener listener) {
+    public AlertDialog doInputText(String title, final String defaul, int type, InputTextListener listener) {
         final EditText input = new EditText(mContext);
         final int defaullength = defaul != null ? defaul.length() : 0;
         final InputTextListener flistener = listener;
@@ -438,7 +438,11 @@ public class AfDailog {
         dialog.setOnShowListener(new DialogInterface.OnShowListener() {
             public void onShow(DialogInterface dialog) {
                 new AfSoftInputer(mContext).setSoftInputEnable(input, true);
-                input.setSelection(0, defaullength);
+                if (defaullength > 3 && defaul.matches("[^.]+\\.[a-zA-Z]\\w{1,3}")) {
+                    input.setSelection(0, defaul.lastIndexOf('.'));
+                } else {
+                    input.setSelection(0, defaullength);
+                }
             }
         });
         dialog.show();

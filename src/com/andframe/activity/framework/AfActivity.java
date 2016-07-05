@@ -31,7 +31,6 @@ import com.andframe.annotation.interpreter.ViewBinder;
 import com.andframe.application.AfApplication;
 import com.andframe.application.AfDaemonThread;
 import com.andframe.application.AfExceptionHandler;
-import com.andframe.exception.AfException;
 import com.andframe.exception.AfToastException;
 import com.andframe.feature.AfDailog;
 import com.andframe.feature.AfIntent;
@@ -491,7 +490,7 @@ public abstract class AfActivity extends FragmentActivity implements AfPageable 
      * @param message 消息
      */
     public void showProgressDialog(String message) {
-        showProgressDialog(message, false, 25);
+        showProgressDialog(message, false, 20);
     }
 
     /**
@@ -501,7 +500,7 @@ public abstract class AfActivity extends FragmentActivity implements AfPageable 
      * @param cancel  是否可取消
      */
     public void showProgressDialog(String message, boolean cancel) {
-        showProgressDialog(message, cancel, 25);
+        showProgressDialog(message, cancel, 20);
     }
 
     /**
@@ -548,7 +547,7 @@ public abstract class AfActivity extends FragmentActivity implements AfPageable 
             mProgress.setOnCancelListener(listener);
             mProgress.show();
 
-            setDialogFontSize(mProgress, 25);
+            setDialogFontSize(mProgress, 20);
         } catch (Throwable e) {
             //进过日志验证，这个异常会发送，但是概率非常小，注释掉异常通知
 //			AfExceptionHandler.handle(e, "AfActivity.showProgressDialog");

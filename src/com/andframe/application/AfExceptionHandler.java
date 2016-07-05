@@ -15,6 +15,7 @@ import com.andframe.caches.AfDurableCache;
 import com.andframe.exception.AfToastException;
 import com.andframe.helper.android.AfDeviceInfo;
 import com.andframe.model.Exceptional;
+import com.andframe.thread.AfDispatch;
 import com.andframe.util.java.AfDateFormat;
 import com.andframe.util.java.AfDateGuid;
 
@@ -80,7 +81,7 @@ public class AfExceptionHandler implements UncaughtExceptionHandler{
 	public void uncaughtException(final Thread thread, final Throwable ex) {
 		try {
 			ex.printStackTrace();
-			String msg = "日期:" +AfDateFormat.FULL.format(new Date()) +
+			final String msg = "日期:" +AfDateFormat.FULL.format(new Date()) +
 					"\r\n\r\n备注:\r\n" + "程序崩溃" +
 					"\r\n\r\n异常:\r\n" + getExceptionName(ex) +
 					"\r\n\r\n信息:\r\n" + getExceptionMessage(ex) +
@@ -89,15 +90,20 @@ public class AfExceptionHandler implements UncaughtExceptionHandler{
 			AfDurableCache dc = AfDurableCache.getInstance("error");
 			dc.put(AfDateGuid.NewID(), msg);
 
-			AfActivity activity = AfApplication.getApp().getCurActivity();
+			final AfActivity activity = AfApplication.getApp().getCurActivity();
 			if (activity != null && mIsShowDialog) {
-				doShowDialog(activity, "程序崩溃了", msg,new Handler.Callback() {
+				AfApplication.dispatch(new AfDispatch() {
 					@Override
-					public boolean handleMessage(Message msg) {
-						mDefaultHandler.uncaughtException(thread, ex);
-						return false;
+					protected void onDispatch() {
+						doShowDialog(AfApplication.getApp().getCurActivity(), "程序崩溃了", msg,new Handler.Callback() {
+							@Override
+							public boolean handleMessage(Message msg) {
+								mDefaultHandler.uncaughtException(thread, ex);
+								return false;
+							}
+						});
 					}
-				});
+				},1000);
 			}else{
 				mDefaultHandler.uncaughtException(thread, ex);
 			}
@@ -115,9 +121,9 @@ public class AfExceptionHandler implements UncaughtExceptionHandler{
 		}
 	}
 
-	protected void onHandleAttachException(Throwable ex, String remark, String handlerid) {
+	protected void onHandleAttachException(Throwable ex, String remark, final String handlerid) {
 		try {
-			String msg = "时间:" + AfDateFormat.FULL.format(new Date()) +
+			final String msg = "时间:" + AfDateFormat.FULL.format(new Date()) +
 					"\r\n\r\n备注:\r\n" + "Attach-"+remark +
 					"\r\n\r\n异常:\r\n" + getExceptionName(ex) +
 					"\r\n\r\n信息:\r\n" + getExceptionMessage(ex) +
@@ -129,7 +135,12 @@ public class AfExceptionHandler implements UncaughtExceptionHandler{
 
 			AfActivity activity = AfApplication.getApp().getCurActivity();
 			if (activity != null && mIsShowDialog) {
-				doShowDialog(activity, "异常捕捉", msg, handlerid);
+				AfApplication.dispatch(new AfDispatch() {
+					@Override
+					protected void onDispatch() {
+						doShowDialog(AfApplication.getApp().getCurActivity(), "异常捕捉", msg, handlerid);
+					}
+				},1000);
 			}
 
 			String path = AfDurableCache.getPath();
@@ -140,9 +151,9 @@ public class AfExceptionHandler implements UncaughtExceptionHandler{
 		}
 	}
 
-	protected void onHandleException(Throwable ex, String remark, String handlerid) {
+	protected void onHandleException(Throwable ex, String remark, final String handlerid) {
 		try {
-			String msg = "时间:" + AfDateFormat.FULL.format(new Date()) +
+			final String msg = "时间:" + AfDateFormat.FULL.format(new Date()) +
 					"\r\n\r\n备注:\r\n" + remark +
 					"\r\n\r\n异常:\r\n" + getExceptionName(ex) +
 					"\r\n\r\n信息:\r\n" + getExceptionMessage(ex) +
@@ -153,7 +164,12 @@ public class AfExceptionHandler implements UncaughtExceptionHandler{
 
 			AfActivity activity = AfApplication.getApp().getCurActivity();
 			if (activity != null && mIsShowDialog) {
-				doShowDialog(activity,"异常捕捉",msg,handlerid);
+				AfApplication.dispatch(new AfDispatch() {
+					@Override
+					protected void onDispatch() {
+						doShowDialog(AfApplication.getApp().getCurActivity(),"异常捕捉",msg,handlerid);
+					}
+				}, 1000);
 			}
 
 			String path = AfDurableCache.getPath();
@@ -205,7 +221,9 @@ public class AfExceptionHandler implements UncaughtExceptionHandler{
 	public static void handle(String message, String remark) {
 		if(INSTANCE != null){
 			String handlerid = ""+(message+remark).hashCode();
-			INSTANCE.onHandleException(new Exception(message), remark, handlerid);
+			Throwable ex = new Exception(message);
+			ex.printStackTrace();
+			INSTANCE.onHandleException(ex, remark, handlerid);
 		}
 	}
 

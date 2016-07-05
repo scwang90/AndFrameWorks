@@ -44,7 +44,7 @@ public class AfDownloader {
     /**
      * 广播接收
      */
-    public static final String FILE_NOTIFICATION = "FILE_NOTIFICATION";
+    public static final String FILE_NOTIFICATION = "com.andframe.thread.AfDownloader";
 
     /**
      * 异步下载 url 到 path 文件名为 name
