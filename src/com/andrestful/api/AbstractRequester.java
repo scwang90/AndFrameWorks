@@ -42,40 +42,59 @@ public class AbstractRequester {
         public RequestHandler handler = new MultiRequestHandler();
 
         public Response doRequest() throws Exception {
-            HttpRequest request = impl.getHttpRequest();
+            HttpRequest request = getHttpRequest();
             return handler.doRequest(request.method, request.path, null, null, null);
         }
 
         public Response doRequestBody(Object body) throws Exception {
-            HttpRequest request = impl.getHttpRequest();
+            HttpRequest request = getHttpRequest();
             return handler.doRequest(request.method, request.path, null, body, null);
         }
 
-        public Response doRequestParam(Object... param) throws Exception {
-            HttpRequest request = impl.getHttpRequest();
-            return handler.doRequest(request.method, request.path, null, null, impl.paramPackage(param));
+        public Response doRequestBody(Object... keyvalue) throws Exception {
+            HttpRequest request = getHttpRequest();
+            return handler.doRequest(request.method, request.path, null, keyValueToMap(keyvalue), null);
         }
 
-        public Response doRequestBodyParam(Object body, Object... param) throws Exception {
-            HttpRequest request = impl.getHttpRequest();
-            return handler.doRequest(request.method, request.path, null, body, impl.paramPackage(param));
+        public Response doRequestParam(Object... keyvalue) throws Exception {
+            HttpRequest request = getHttpRequest();
+            return handler.doRequest(request.method, request.path, null, null, keyValueToMap(keyvalue));
+        }
+
+        public Response doRequestBodyParam(Object body, Object... keyvalue) throws Exception {
+            HttpRequest request = getHttpRequest();
+            return handler.doRequest(request.method, request.path, null, body, keyValueToMap(keyvalue));
+        }
+
+        public Response doUploadParam(String file, Object... keyvalue) throws Exception {
+            HttpRequest request = getHttpRequest();
+            return handler.doUpload(request.path, null, keyValueToMap(keyvalue), file);
+        }
+
+        public Response doUploadParam(String file1, String file2, Object... keyvalue) throws Exception {
+            HttpRequest request = getHttpRequest();
+            return handler.doUpload(request.path, null, keyValueToMap(keyvalue), file1, file2);
         }
 
         /**
          * 打包参数到MAP
          */
-        public Map<String, Object> paramPackage(Object... args) {
-            Map<String, Object> params = new LinkedHashMap<>();
-            if (args != null && args.length > 0) {
-                for (int i = 0; i < args.length / 2; i++) {
-                    if (args[2 * i] instanceof String) {
-                        Object arg = args[2 * i + 1];
-                        params.put((String) args[2 * i], arg);
+        public Map<String, Object> keyValueToMap(Object... keyvalue) {
+            return keyValueToMap(new LinkedHashMap<String, Object>(), keyvalue);
+        }
+
+        public Map<String, Object> keyValueToMap(Map<String, Object> map, Object... keyvalue) {
+            if (keyvalue != null && keyvalue.length > 0) {
+                for (int i = 0; i < keyvalue.length / 2; i++) {
+                    if (keyvalue[2 * i] instanceof String) {
+                        Object arg = keyvalue[2 * i + 1];
+                        map.put((String) keyvalue[2 * i], arg);
                     }
                 }
             }
-            return params;
+            return map;
         }
+
         /**
          * 统一获取API注解
          */

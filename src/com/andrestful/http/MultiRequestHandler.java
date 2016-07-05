@@ -97,6 +97,7 @@ public class MultiRequestHandler extends RequestHandler {
         if (DEBUD) {
             Log.d(TAG, "//上传开始------------------------------------------------------------------");
             Log.d(TAG, "//上传url:" + url);
+            Log.d(TAG, "//上传cookie:" + getCookie());
             Log.d(TAG, "//上传headers:" + headers);
             Log.d(TAG, "//上传params:" + params);
             Log.d(TAG, "//上传file:" + file);
@@ -172,6 +173,7 @@ public class MultiRequestHandler extends RequestHandler {
         if (DEBUD) {
             Log.d(TAG, "//上传开始------------------------------------------------------------------");
             Log.d(TAG, "//上传url:" + url);
+            Log.d(TAG, "//上传cookie:" + getCookie());
             Log.d(TAG, "//上传headers:" + headers);
             Log.d(TAG, "//上传params:" + params);
             Log.d(TAG, "//上传files:" + Arrays.toString(files));
@@ -243,13 +245,22 @@ public class MultiRequestHandler extends RequestHandler {
         if (DEBUD) {
             Log.d(TAG, "//请求开始------------------------------------------------------------------");
             Log.d(TAG, "//请求url:" + url);
+            Log.d(TAG, "//请求cookie:" + getCookie());
             Log.d(TAG, "//请求headers:" + headers);
+
+            Map<String, List<String>> headerFields = http.getRequestProperties();
+            for (Map.Entry<String, List<String>> entry : headerFields.entrySet()) {
+                for (String value : entry.getValue()) {
+                    Log.d(TAG, "//请求headers:" + entry.getKey() + " = " + value);
+                }
+            }
+
             Log.d(TAG, "//请求params:" + params);
-            Log.d(TAG, "//请求body:" + body);
+            Log.d(TAG, "//请求body:" + getEntity(body));
             Log.d(TAG, "//请求结束------------------------------------------------------------------");
         }
 
-        if (HttpMethod.POST.equals(method)) {
+        if (HttpMethod.POST.equals(method) || HttpMethod.PUT.equals(method)) {
             http.setDoOutput(true);
             if (body != null) {
                 byte[] entity = getHttpBody(body);
@@ -297,7 +308,7 @@ public class MultiRequestHandler extends RequestHandler {
                 return toFormString(body);
             }
         }
-        return "";
+        return "" + body;
     }
 
     protected String buildUri(String path, Map<String, Object> params) throws UnsupportedEncodingException {
