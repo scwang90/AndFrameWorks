@@ -350,6 +350,10 @@ public abstract class AfListViewFragment<T> extends AfTabFragment implements
         }
     }
 
+    protected void clearCache() {
+        putCache(new ArrayList<T>());
+    }
+
     protected void putCache(List<T> list) {
         onTaskPutCache(list);
     }

@@ -33,7 +33,7 @@ public abstract class AfTreeViewAdapter<T> extends AfMultiChoiceAdapter<T> {
 		this(context, ltdata, establisher, false);
 	}
 	
-	public AfTreeViewAdapter(Context context, List<T> ltdata, AfTreeEstablisher<T> establisher,boolean isExpanded) {
+	public AfTreeViewAdapter(Context context, List<T> ltdata, AfTreeEstablisher<T> establisher, boolean isExpanded) {
 		super(context, new ArrayList<T>());
 		mltOriginData = ltdata;
 		mEstablisher = establisher;
@@ -161,7 +161,7 @@ public abstract class AfTreeViewAdapter<T> extends AfMultiChoiceAdapter<T> {
 	}
 
 	@Override
-	public void set(Collection<? extends T> ltdata) {
+	public void set(List<T> ltdata) {
 		mltOriginData = new ArrayList<>(ltdata);
 		mRootNode = mEstablisher.establish(mltOriginData,mDefaultExpanded);
 		updateNodeListToShow();

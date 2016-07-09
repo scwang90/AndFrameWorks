@@ -1,21 +1,23 @@
 package com.andframe.adapter;
 
 import android.support.v4.app.Fragment;
-import android.support.v4.app.FragmentActivity;
-import android.support.v4.app.FragmentPagerAdapter;
+import android.support.v4.app.FragmentManager;
+import android.support.v4.app.FragmentStatePagerAdapter;
+import android.view.View;
+import android.view.ViewGroup;
 
 /**
  * ViewPagerAdapter
  * Created by Administrator on 2016/2/24 0024.
  */
-public class AfViewPagerAdapter extends FragmentPagerAdapter {
+public class AfViewPagerAdapter extends FragmentStatePagerAdapter {
 
     private final Class<? extends Fragment>[] clazzs;
     private final Fragment[] fragments;
 
     @SafeVarargs
-    public AfViewPagerAdapter(FragmentActivity activity, Class<? extends Fragment>... fragments) {
-        super(activity.getSupportFragmentManager());
+    public AfViewPagerAdapter(FragmentManager manager, Class<? extends Fragment>... fragments) {
+        super(manager);
         this.clazzs = fragments;
         this.fragments = new Fragment[fragments.length];
     }
@@ -31,6 +33,17 @@ public class AfViewPagerAdapter extends FragmentPagerAdapter {
             e.printStackTrace();
         }
         return null;
+    }
+
+    public void destroyItem(View container, int position, Object object) {
+        super.destroyItem(container, position, object);
+        fragments[position] = null;
+    }
+
+    @Override
+    public void destroyItem(ViewGroup container, int position, Object object) {
+        super.destroyItem(container, position, object);
+        fragments[position] = null;
     }
 
     @Override

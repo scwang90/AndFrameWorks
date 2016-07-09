@@ -11,19 +11,19 @@ import java.util.ArrayList;
 import java.util.Collection;
 import java.util.List;
 
-public abstract class AfMultiChoiceAdapter<T> extends AfListAdapter<T>{
+public abstract class AfMultiChoiceAdapter<T> extends AfListAdapter<T> {
 
 	public interface MultiChoiceListener<T>{
-		void onMultiChoiceChanged(AfMultiChoiceAdapter<T> adapter,T tag,boolean selected,int number);
-		void onMultiChoiceChanged(AfMultiChoiceAdapter<T> adapter,int number,int total);
+		void onMultiChoiceChanged(AfMultiChoiceAdapter<T> adapter, T tag, boolean selected, int number);
+		void onMultiChoiceChanged(AfMultiChoiceAdapter<T> adapter, int number, int total);
 		void onMultiChoiceStarted(AfMultiChoiceAdapter<T> adapter, int number);
 		void onMultiChoiceClosed(AfMultiChoiceAdapter<T> adapter, List<T> list);
 	}
 
 	public interface GenericityListener{
-		void onMultiChoiceAddData(AfMultiChoiceAdapter<?> adapter,Collection<?> list);
-		void onMultiChoiceChanged(AfMultiChoiceAdapter<?> adapter,Object tag,boolean selected,int number);
-		void onMultiChoiceChanged(AfMultiChoiceAdapter<?> adapter,int number,int total);
+		void onMultiChoiceAddData(AfMultiChoiceAdapter<?> adapter, Collection<?> list);
+		void onMultiChoiceChanged(AfMultiChoiceAdapter<?> adapter, Object tag, boolean selected, int number);
+		void onMultiChoiceChanged(AfMultiChoiceAdapter<?> adapter, int number, int total);
 		void onMultiChoiceStarted(AfMultiChoiceAdapter<?> adapter, int number);
 		void onMultiChoiceClosed(AfMultiChoiceAdapter<?> adapter, Collection<?> list);
 	}
@@ -37,6 +37,11 @@ public abstract class AfMultiChoiceAdapter<T> extends AfListAdapter<T>{
 	
 	public AfMultiChoiceAdapter(Context context, List<T> ltdata) {
 		super(context, ltdata);
+		mContext = context;
+	}
+
+	public AfMultiChoiceAdapter(Context context, List<T> ltdata, boolean dataSync) {
+		super(context, ltdata, dataSync);
 		mContext = context;
 	}
 
@@ -73,7 +78,7 @@ public abstract class AfMultiChoiceAdapter<T> extends AfListAdapter<T>{
 	}
 	
 	@Override
-	public void set(Collection<?extends T> ltdata) {
+	public void set(List<T> ltdata) {
 		if(isMultiChoiceMode()){
 			super.set(ltdata);
 			mChoiceNumber = 0;

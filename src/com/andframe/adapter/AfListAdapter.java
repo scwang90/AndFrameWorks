@@ -17,22 +17,39 @@ import java.util.List;
 import java.util.ListIterator;
 
 public abstract class AfListAdapter<T> extends BaseAdapter implements List<T> {
-	
+
+	protected boolean mDataSync;
 	protected LayoutInflater mInflater;
 	protected List<T> mltArray = new ArrayList<>();
 
 	protected abstract IAfLayoutItem<T> getItemLayout(T data);
 
 	public AfListAdapter(Context context, List<T> ltdata) {
-		mltArray = ltdata;
+		this(context, ltdata, true);
+	}
+
+	/**
+	 * @param dataSync 数据同步（true） 适配器的数据和外部的list同步 （false）适配器的数据独立管理
+	 */
+	public AfListAdapter(Context context, List<T> ltdata, boolean dataSync) {
+		if (dataSync) {
+			mltArray = ltdata;
+		} else {
+			mltArray = new ArrayList<>(ltdata);
+		}
+		mDataSync = dataSync;
 		mInflater = LayoutInflater.from(context);
 	}
 
 	/**
 	 * 获取数据列表
 	 */
-	public List<T> getList(){
-		return mltArray;
+	public List<T> getList() {
+		if (mDataSync) {
+			return mltArray;
+		} else {
+			return new ArrayList<>(mltArray);
+		}
 	}
 
 	/**
@@ -57,8 +74,12 @@ public abstract class AfListAdapter<T> extends BaseAdapter implements List<T> {
 	/**
 	 * 适配器新增 数据刷新 接口
 	 */
-	public void set(Collection<? extends T> ltdata) {
-		mltArray = new ArrayList<>(ltdata);
+	public void set(List<T> ltdata) {
+		if (mDataSync) {
+			mltArray = ltdata;
+		} else {
+			mltArray = new ArrayList<>(ltdata);
+		}
 		notifyDataSetChanged();
 	}
 
@@ -223,7 +244,7 @@ public abstract class AfListAdapter<T> extends BaseAdapter implements List<T> {
 		/**
 		 * 将数据绑定到控件显示
 		 */
-		void onBinding(T model,int index);
+		void onBinding(T model, int index);
 		/**
 		 * 获取 Item 关联的 InjectLayout ID
 		 */
@@ -235,12 +256,6 @@ public abstract class AfListAdapter<T> extends BaseAdapter implements List<T> {
 	public <T1> T1[] toArray(@NonNull T1[] array) {
 		return mltArray.toArray(array);
 	}
-
-	//	@NonNull
-//	@Override
-//	public <T1> T1[] toArray(@NonNull T1[] array) {
-//		return mltArray.toArray(array);
-//	}
 
 	@Override
 	public void clear() {
