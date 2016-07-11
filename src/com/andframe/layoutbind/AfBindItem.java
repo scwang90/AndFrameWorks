@@ -40,6 +40,12 @@ public class AfBindItem<T> extends AfTreeViewItem<T> {
     @Override
     public void onHandle(AfView view) {
         super.onHandle(view);
+        if (mTreeViewContent != null) {
+            view = new AfView(mTreeViewContent);
+        }
+        if (mMultiChoiceContent != null) {
+            view = new AfView(mMultiChoiceContent);
+        }
         int index = 0;
         bindViews = new View[bindMap.size()];
         for (Entry<String, Integer> entry : bindMap.entrySet()) {

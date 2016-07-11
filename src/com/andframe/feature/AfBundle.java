@@ -49,7 +49,9 @@ public class AfBundle implements AfExtrater {
     }
 
     public Object getOrgin(String _key, Object defaul, Class<?> clazz) {
-        if (clazz.equals(int[].class)) {
+        if (!mBundle.containsKey(_key)) {
+            return null;
+        } else if (clazz.equals(int[].class)) {
             return mBundle.getIntArray(_key);
         } else if (clazz.equals(short[].class)) {
             return mBundle.getShortArray(_key);

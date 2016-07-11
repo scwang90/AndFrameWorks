@@ -1,6 +1,7 @@
 package com.andframe.annotation.interpreter;
 
 import android.accounts.AccountManager;
+import android.app.Activity;
 import android.app.ActivityManager;
 import android.app.AlarmManager;
 import android.app.AppOpsManager;
@@ -53,6 +54,7 @@ import android.os.Vibrator;
 import android.os.storage.StorageManager;
 import android.print.PrintManager;
 import android.service.wallpaper.WallpaperService;
+import android.support.v4.app.Fragment;
 import android.telecom.TelecomManager;
 import android.telephony.CarrierConfigManager;
 import android.telephony.SubscriptionManager;
@@ -66,7 +68,6 @@ import android.view.inputmethod.InputMethodManager;
 import android.view.textservice.TextServicesManager;
 
 import com.andframe.activity.framework.AfActivity;
-import com.andframe.activity.framework.AfPageable;
 import com.andframe.annotation.inject.Inject;
 import com.andframe.annotation.inject.InjectDelayed;
 import com.andframe.annotation.inject.InjectExtra;
@@ -92,7 +93,6 @@ import com.andframe.feature.AfDistance;
 import com.andframe.feature.AfIntent;
 import com.andframe.feature.AfSoftInputer;
 import com.andframe.feature.framework.AfExtrater;
-import com.andframe.fragment.AfFragment;
 import com.andframe.helper.android.AfDesHelper;
 import com.andframe.helper.android.AfDeviceInfo;
 import com.andframe.helper.android.AfGifHelper;
@@ -437,61 +437,59 @@ public class Injecter {
         for (Field field : AfReflecter.getFieldAnnotation(handler.getClass(),InjectExtra.class)) {
             InjectExtra inject = field.getAnnotation(InjectExtra.class);
             try {
-                if (handler instanceof AfPageable){
-                    AfExtrater intent = new AfIntent();
-                    if (handler instanceof AfActivity){
-                        intent = new AfIntent(((AfActivity) handler).getIntent());
-                    } else if (handler instanceof AfFragment){
-                        final AfFragment fragment = (AfFragment) handler;
-                        Bundle bundle = fragment.getArguments();
-                        if (bundle != null) {
-                            intent = new AfBundle(fragment.getArguments()) {
-                                @Override
-                                public <T> T get(String _key, Class<T> clazz) {
-                                    T t = super.get(_key, clazz);
-                                    if (t == null && fragment.getActivity() != null) {
-                                        return new AfIntent(fragment.getActivity().getIntent()).get(_key, clazz);
-                                    }
-                                    return t;
+                AfExtrater intent = new AfIntent();
+                if (handler instanceof Activity){
+                    intent = new AfIntent(((Activity) handler).getIntent());
+                } else if (handler instanceof Fragment){
+                    final Fragment fragment = (Fragment) handler;
+                    Bundle bundle = fragment.getArguments();
+                    if (bundle != null) {
+                        intent = new AfBundle(fragment.getArguments()) {
+                            @Override
+                            public <T> T get(String _key, Class<T> clazz) {
+                                T t = super.get(_key, clazz);
+                                if (t == null && fragment.getActivity() != null) {
+                                    return new AfIntent(fragment.getActivity().getIntent()).get(_key, clazz);
                                 }
+                                return t;
+                            }
 
-                                @Override
-                                public <T> List<T> getList(String _key, Class<T> clazz) {
-                                    List<T> list = super.getList(_key, clazz);
-                                    if (list == null || list.size() == 0) {
-                                        return new AfIntent(fragment.getActivity().getIntent()).getList(_key, clazz);
-                                    }
-                                    return list;
+                            @Override
+                            public <T> List<T> getList(String _key, Class<T> clazz) {
+                                List<T> list = super.getList(_key, clazz);
+                                if (list == null || list.size() == 0) {
+                                    return new AfIntent(fragment.getActivity().getIntent()).getList(_key, clazz);
                                 }
-                            };
-                        } else {
-                            intent = new AfIntent(fragment.getActivity().getIntent());
-                        }
-                    }
-                    Object value;
-                    Class<?> type = field.getType();
-                    Type generic = field.getGenericType();
-                    if (type.isArray()) {
-                        type = type.getComponentType();
-                        List<?> list = intent.getList(inject.value(), type);
-                        value = Array.newInstance(type, list.size());
-                        value = list.toArray((Object[]) value);
-                    } else if (List.class.equals(type)) {
-                        ParameterizedType parameterized = (ParameterizedType) generic;
-                        type = (Class<?>) parameterized.getActualTypeArguments()[0];
-                        value = intent.getList(inject.value(), type);
+                                return list;
+                            }
+                        };
                     } else {
-                        value = intent.get(inject.value(), type);
+                        intent = new AfIntent(fragment.getActivity().getIntent());
                     }
-                    if (value != null) {
-                        field.setAccessible(true);
-                        field.set(handler, value);
-                    } else if (inject.necessary()) {
-                        if (inject.remark() != null && inject.remark().length() > 0) {
-                            throw new AfToastException("缺少必须参数" + inject.remark());
-                        } else {
-                            throw new AfToastException("缺少必须参数" + inject.value());
-                        }
+                }
+                Object value;
+                Class<?> type = field.getType();
+                Type generic = field.getGenericType();
+                if (type.isArray()) {
+                    type = type.getComponentType();
+                    List<?> list = intent.getList(inject.value(), type);
+                    value = Array.newInstance(type, list.size());
+                    value = list.toArray((Object[]) value);
+                } else if (List.class.equals(type)) {
+                    ParameterizedType parameterized = (ParameterizedType) generic;
+                    type = (Class<?>) parameterized.getActualTypeArguments()[0];
+                    value = intent.getList(inject.value(), type);
+                } else {
+                    value = intent.get(inject.value(), type);
+                }
+                if (value != null) {
+                    field.setAccessible(true);
+                    field.set(handler, value);
+                } else if (inject.necessary()) {
+                    if (inject.remark() != null && inject.remark().length() > 0) {
+                        throw new AfToastException("缺少必须参数" + inject.remark());
+                    } else {
+                        throw new AfToastException("缺少必须参数" + inject.value());
                     }
                 }
             } catch (Throwable e) {

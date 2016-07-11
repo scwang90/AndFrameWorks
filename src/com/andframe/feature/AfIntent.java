@@ -66,7 +66,9 @@ public class AfIntent extends Intent implements AfExtrater {
     }
 
     public Object getOrgin(String _key, Object defaul, Class<?> clazz) {
-        if (clazz.equals(int[].class)) {
+        if (!hasExtra(_key)) {
+            return null;
+        } else if (clazz.equals(int[].class)) {
             return getIntArrayExtra(_key);
         } else if (clazz.equals(short[].class)) {
             return getShortArrayExtra(_key);

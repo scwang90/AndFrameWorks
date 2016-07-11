@@ -28,17 +28,17 @@
     <color name="colorTextContent">#444444</color>
     <color name="colorTextAssistant">#999999</color>
 
-    <color name="colorPrimary">#12b7f5</color>
-    <color name="colorPrimaryDark">#0fa3db</color>
-    <color name="colorPrimaryLight">#12b7f5</color>
+    <color name="colorPrimary">#33B5E5</color>
+    <color name="colorPrimaryDark">#22A4D4</color>
+    <color name="colorPrimaryLight">#44C6F6</color>
 
-    <color name="redPrimary">#e64759</color>
-    <color name="redPrimaryDark">#cd4352</color>
-    <color name="redPrimaryLight">#ed7e8a</color>
+    <color name="redPrimary">#EE4444</color>
+    <color name="redPrimaryDark">#CC3344</color>
+    <color name="redPrimaryLight">#FF5555</color>
 
-    <color name="bluePrimary">#12b7f5</color>
-    <color name="bluePrimaryDark">#0fa3db</color>
-    <color name="bluePrimaryLight">#12b7f5</color>
+    <color name="bluePrimary">#33B5E5</color>
+    <color name="bluePrimaryDark">#22A4D4</color>
+    <color name="bluePrimaryLight">#44C6F6</color>
 
     <color name="greenPrimary">#1bc98e</color>
     <color name="greenPrimaryDark">#18ab79</color>
@@ -48,12 +48,12 @@
     <color name="yellowPrimaryDark">#c6bc31</color>
     <color name="yellowPrimaryLight">#ece472</color>
 
-    <color name="purplePrimary">#9f86ff</color>
-    <color name="purplePrimaryDark">#856edd</color>
-    <color name="purplePrimaryLight">#bcaaff</color>
+    <color name="purplePrimary">#AA66CC</color>
+    <color name="purplePrimaryDark">#9955BB</color>
+    <color name="purplePrimaryLight">#BB77DD</color>
 
-    <color name="orangePrimary">#f47327</color>
-    <color name="orangePrimaryDark">#dd7522</color>
-    <color name="orangePrimaryLight">#ef9d5a</color>
+    <color name="orangePrimary">#EE8822</color>
+    <color name="orangePrimaryDark">#DD7711</color>
+    <color name="orangePrimaryLight">#FF9933</color>
 
 </resources>

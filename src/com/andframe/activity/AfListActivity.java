@@ -50,18 +50,20 @@ public abstract class AfListActivity<T> extends AfActivity implements OnItemClic
 
     @BindAfterViews
     protected void onInitFrameWork() throws Exception {
-        mListView = findListView(this);
-        mListView.setOnItemClickListener(this);
-        mListView.setOnItemLongClickListener(this);
         if (mAdapter == null) {
             mAdapter = newAdapter(this, new ArrayList<T>());
         }
-        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.HONEYCOMB) {
-            mListView.setAdapter(mAdapter);
-        } else if (mListView instanceof ListView) {
-            ((ListView) mListView).setAdapter(mAdapter);
-        } else if (mListView instanceof GridView) {
-            ((GridView) mListView).setAdapter(mAdapter);
+        mListView = findListView(this);
+        if (mListView != null) {
+            mListView.setOnItemClickListener(this);
+            mListView.setOnItemLongClickListener(this);
+            if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.HONEYCOMB) {
+                mListView.setAdapter(mAdapter);
+            } else if (mListView instanceof ListView) {
+                ((ListView) mListView).setAdapter(mAdapter);
+            } else if (mListView instanceof GridView) {
+                ((GridView) mListView).setAdapter(mAdapter);
+            }
         }
     }
 
