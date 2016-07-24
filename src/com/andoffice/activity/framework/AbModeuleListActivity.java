@@ -566,7 +566,7 @@ public abstract class AbModeuleListActivity<T> extends AfListManageActivity<T> i
         if (keyword.equals("")) {
             this.doSearchHide();
         } else {
-            mSeaechEntry = new HashMap<String, String>();
+            mSeaechEntry = new HashMap<>();
             mSeaechEntry.put("Key", option);
             mSeaechEntry.put("Value", keyword);
             this.postRefreshTask(true);
@@ -575,8 +575,8 @@ public abstract class AbModeuleListActivity<T> extends AfListManageActivity<T> i
     }
 
     @Override
-    protected AfMultiChoiceItem<T> getItemLayout(T data) {
-        return new ListItem<T>();
+    protected AfListAdapter.IListItem<T> getListItem(T data) {
+        return new ListItem<>();
     }
 
     @Override
