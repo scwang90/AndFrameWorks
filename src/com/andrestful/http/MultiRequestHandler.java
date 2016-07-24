@@ -6,6 +6,7 @@ import com.andrestful.api.ErrorMessage;
 import com.andrestful.api.HttpMethod;
 import com.andrestful.api.RequestHandler;
 import com.andrestful.api.Response;
+import com.andrestful.config.AcceptedMediaType;
 import com.andrestful.config.Config;
 import com.andrestful.config.Loader;
 import com.andrestful.exception.HttpException;
@@ -302,9 +303,9 @@ public class MultiRequestHandler extends RequestHandler {
         if (body instanceof JSONObject || body instanceof String) {
             return body.toString();
         } else if (body != null) {
-            if (config.requestMediaType == Config.AcceptedMediaType.json) {
+            if (config.requestMediaType == AcceptedMediaType.json) {
                 return toJsonString(body);
-            } else if (config.requestMediaType == Config.AcceptedMediaType.form) {
+            } else if (config.requestMediaType == AcceptedMediaType.form) {
                 return toFormString(body);
             }
         }
@@ -367,7 +368,7 @@ public class MultiRequestHandler extends RequestHandler {
         }
         is.close();
 
-        Response response = new MultiResponse(http.getResponseCode());
+        Response response = newResponse(http);
         response.setOrgbody(buffer.toString().replaceAll("new Date\\(|\\+\\d{4}\\)",""));
         Map<String, String> reheaders = new HashMap<>();
         for (Entry<String, List<String>> header : http.getHeaderFields().entrySet()) {
@@ -385,6 +386,10 @@ public class MultiRequestHandler extends RequestHandler {
             throw new HttpException("HTTP " + statusCode, statusCode, response.getBody());
         }
         return response;
+    }
+
+    protected MultiResponse newResponse(HttpURLConnection http) throws IOException {
+        return new MultiResponse(http.getResponseCode());
     }
 
     protected class MultiResponse extends Response{

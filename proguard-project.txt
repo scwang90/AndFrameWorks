@@ -18,3 +18,7 @@
 #-keepclassmembers class fqcn.of.javascript.interface.for.webview {
 #   public *;
 #}
+
+-keep enum com.andrestful.** {*;}
+#-keep class com.andrestful.api.HttpMethod {*;}
+#-keep class com.andrestful.config.AcceptedMediaType {*;}

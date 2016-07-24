@@ -112,11 +112,11 @@ public class AbstractRequester {
             HttpPut put = StackTraceUtil.getCurrentMethodAnnotation(HttpPut.class, 1 + level);
 
             if (get != null) {
-                return new HttpRequest(get.method(),get.value());
+                return new HttpRequest(get.method(), get.value());
             } else if (post != null) {
-                return new HttpRequest(post.method(),post.value());
+                return new HttpRequest(post.method(), post.value());
             } else if (delete != null) {
-                return new HttpRequest(delete.method(),delete.value());
+                return new HttpRequest(delete.method(), delete.value());
             } else if (put != null) {
                 return new HttpRequest(put.method(), put.value());
             } else {
