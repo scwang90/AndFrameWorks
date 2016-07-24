@@ -52,6 +52,7 @@ public abstract class AfPullHeaderLayout extends FrameLayout
         super(context);
         this.initailize(context);
         this.setLastUpdateTime(new Date());
+        this.reset();
     }
     
     public AfPullHeaderLayout(Context context, AttributeSet attrs)
@@ -60,6 +61,7 @@ public abstract class AfPullHeaderLayout extends FrameLayout
         this.initailize(context);
         this.initAttributeSet(context,attrs);
         this.setLastUpdateTime(new Date());
+        this.reset();
     }
 
     private void initAttributeSet(Context context, AttributeSet attrs)
@@ -156,7 +158,7 @@ public abstract class AfPullHeaderLayout extends FrameLayout
     {
         if(mUpdateText != null && mSimpleDateFormat != null){
             String UpdateText = getString(getContext(), EnumString.header_updatetime);
-            mUpdateText.setText(UpdateText+mSimpleDateFormat.format(tDate));
+            mUpdateText.setText(UpdateText + " " + mSimpleDateFormat.format(tDate));
         }
     }
 }

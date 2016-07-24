@@ -13,7 +13,7 @@ import android.widget.ListView;
 import com.andframe.activity.framework.AfActivity;
 import com.andframe.activity.framework.AfPageable;
 import com.andframe.adapter.AfListAdapter;
-import com.andframe.adapter.AfListAdapter.IAfLayoutItem;
+import com.andframe.adapter.AfListAdapter.IListItem;
 import com.andframe.annotation.view.BindAfterViews;
 import com.andframe.annotation.view.BindLayout;
 import com.andframe.application.AfExceptionHandler;
@@ -161,10 +161,10 @@ public abstract class AfListActivity<T> extends AfActivity implements OnItemClic
      * 如果重写 newAdapter 之后，本方法将无效
      *
      * @param data 对应的数据
-     * @return 实现 布局接口 IAfLayoutItem 的Item兑现
-     * new LayoutItem implements IAfLayoutItem<T>(){}
+     * @return 实现 布局接口 IListItem 的Item兑现
+     * new LayoutItem implements IListItem<T>(){}
      */
-    protected abstract IAfLayoutItem<T> getItemLayout(T data);
+    protected abstract IListItem<T> getListItem(T data);
 
     /**
      * 根据数据ltdata新建一个 适配器 重写这个方法之后getItemLayout方法将失效
@@ -190,9 +190,8 @@ public abstract class AfListActivity<T> extends AfActivity implements OnItemClic
          * 转发事件到 AfListViewActivity.this.getItemLayout(data);
          */
         @Override
-        protected IAfLayoutItem<T> getItemLayout(T data) {
-            return AfListActivity.this.getItemLayout(data);
+        protected IListItem<T> getListItem(T data) {
+            return AfListActivity.this.getListItem(data);
         }
-
     }
 }

@@ -11,30 +11,30 @@ import java.util.ArrayList;
 import java.util.Collection;
 import java.util.List;
 
-public abstract class AfMultiChoiceAdapter<T> extends AfListAdapter<T> {
+public abstract class AfMultiChoiceAdapter<T> extends AfListAdapter<T>{
 
 	public interface MultiChoiceListener<T>{
-		void onMultiChoiceChanged(AfMultiChoiceAdapter<T> adapter, T tag, boolean selected, int number);
-		void onMultiChoiceChanged(AfMultiChoiceAdapter<T> adapter, int number, int total);
+		void onMultiChoiceChanged(AfMultiChoiceAdapter<T> adapter,T tag,boolean selected,int number);
+		void onMultiChoiceChanged(AfMultiChoiceAdapter<T> adapter,int number,int total);
 		void onMultiChoiceStarted(AfMultiChoiceAdapter<T> adapter, int number);
 		void onMultiChoiceClosed(AfMultiChoiceAdapter<T> adapter, List<T> list);
 	}
 
 	public interface GenericityListener{
-		void onMultiChoiceAddData(AfMultiChoiceAdapter<?> adapter, Collection<?> list);
-		void onMultiChoiceChanged(AfMultiChoiceAdapter<?> adapter, Object tag, boolean selected, int number);
-		void onMultiChoiceChanged(AfMultiChoiceAdapter<?> adapter, int number, int total);
+		void onMultiChoiceAddData(AfMultiChoiceAdapter<?> adapter,Collection<?> list);
+		void onMultiChoiceChanged(AfMultiChoiceAdapter<?> adapter,Object tag,boolean selected,int number);
+		void onMultiChoiceChanged(AfMultiChoiceAdapter<?> adapter,int number,int total);
 		void onMultiChoiceStarted(AfMultiChoiceAdapter<?> adapter, int number);
 		void onMultiChoiceClosed(AfMultiChoiceAdapter<?> adapter, Collection<?> list);
 	}
-
+	
 	protected int mChoiceNumber = 0;
 	protected Context mContext = null;
 	protected boolean mIsSingle = false;
 	protected boolean[] mIsSelecteds = null;
 	protected List<MultiChoiceListener<T>> mListeners = new ArrayList<>();
 	protected List<GenericityListener> mGenericityListeners = new ArrayList<>();
-
+	
 	public AfMultiChoiceAdapter(Context context, List<T> ltdata) {
 		super(context, ltdata);
 		mContext = context;
@@ -50,17 +50,17 @@ public abstract class AfMultiChoiceAdapter<T> extends AfListAdapter<T> {
 			mListeners.add(listener);
 		}
 	}
-
+	
 	public void addGenericityListener(GenericityListener listener) {
 		if(mGenericityListeners.indexOf(listener) < 0){
 			mGenericityListeners.add(listener);
 		}
 	}
-
+	
 	public int getChoiceNumber() {
 		return mChoiceNumber;
 	}
-
+	
 	@Override
 	public boolean addAll(@NonNull Collection<? extends T> ltdata) {
 		if(isMultiChoiceMode() && ltdata.size() > 0){
@@ -76,7 +76,7 @@ public abstract class AfMultiChoiceAdapter<T> extends AfListAdapter<T> {
 			return super.addAll(ltdata);
 		}
 	}
-
+	
 	@Override
 	public void set(List<T> ltdata) {
 		if(isMultiChoiceMode()){
@@ -90,13 +90,13 @@ public abstract class AfMultiChoiceAdapter<T> extends AfListAdapter<T> {
 			super.set(ltdata);
 		}
 	}
-
+	
 	@Override
 	public T set(int index, T obj) {
 		//closeMultiChoice();
 		return super.set(index, obj);
 	}
-
+	
 	@Override
 	public void add(int index, T object) {
 		if(isMultiChoiceMode()){
@@ -110,7 +110,7 @@ public abstract class AfMultiChoiceAdapter<T> extends AfListAdapter<T> {
 			super.add(index, object);
 		}
 	}
-
+	
 	@Override
 	public T remove(int index) {
 		if(isMultiChoiceMode()){
@@ -127,14 +127,14 @@ public abstract class AfMultiChoiceAdapter<T> extends AfListAdapter<T> {
 	}
 
 	@Override
-	protected final IAfLayoutItem<T> getItemLayout(T data) {
+	protected IListItem<T> getListItem(T data) {
 		return getMultiChoiceItem(data);
 	}
-
+	
 	protected abstract AfMultiChoiceItem<T> getMultiChoiceItem(T data);
 
 	@Override
-	protected boolean bindingItem(IAfLayoutItem<T> item, int index) {
+	protected boolean bindingItem(IListItem<T> item, int index) {
 		//return super.bindingItem(item, index);
 		AfMultiChoiceItem<T> mcitem = (AfMultiChoiceItem<T>)item;
 		AfMultiChoiceItem.SelectStatus status = AfMultiChoiceItem.SelectStatus.NONE;
@@ -177,7 +177,7 @@ public abstract class AfMultiChoiceAdapter<T> extends AfListAdapter<T> {
 		}
 		return true;
 	}
-
+	
 	public boolean beginMultiChoice() {
 		return beginMultiChoice(true);
 	}
@@ -189,11 +189,11 @@ public abstract class AfMultiChoiceAdapter<T> extends AfListAdapter<T> {
 	public boolean beginMultiChoice(int index) {
 		return beginMultiChoice(index, true);
 	}
-
+	
 	public boolean isMultiChoiceMode() {
 		return mIsSelecteds != null;
 	}
-
+	
 	public boolean closeMultiChoice() {
 		if(mIsSelecteds != null){
 			for (GenericityListener listener : mGenericityListeners) {
@@ -280,9 +280,9 @@ public abstract class AfMultiChoiceAdapter<T> extends AfListAdapter<T> {
 			}
 		}
 	}
-
+	
 	@Override
-	protected View onInflateItem(IAfLayoutItem<T> item, ViewGroup parent) {
+	protected View onInflateItem(IListItem<T> item, ViewGroup parent) {
 		View view = super.onInflateItem(item, parent);
 		return ((AfMultiChoiceItem<T>)item).inflateLayout(view,this);
 	}
@@ -308,7 +308,7 @@ public abstract class AfMultiChoiceAdapter<T> extends AfListAdapter<T> {
 			}
 		}
 	}
-
+	
 	void setSelect(T tag, boolean checked) {
 		this.onItemClick(mltArray.indexOf(tag));
 //		int index = mltData.indexOf(tag);
@@ -330,9 +330,9 @@ public abstract class AfMultiChoiceAdapter<T> extends AfListAdapter<T> {
 //			}
 //		}
 	}
-
+	
 	public void setSingle(boolean single) {
-		mIsSingle  = single;
+		mIsSingle  = single; 
 	}
 
 }

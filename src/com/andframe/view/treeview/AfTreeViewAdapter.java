@@ -33,7 +33,7 @@ public abstract class AfTreeViewAdapter<T> extends AfMultiChoiceAdapter<T> {
 		this(context, ltdata, establisher, false);
 	}
 	
-	public AfTreeViewAdapter(Context context, List<T> ltdata, AfTreeEstablisher<T> establisher, boolean isExpanded) {
+	public AfTreeViewAdapter(Context context, List<T> ltdata, AfTreeEstablisher<T> establisher,boolean isExpanded) {
 		super(context, new ArrayList<T>());
 		mltOriginData = ltdata;
 		mEstablisher = establisher;
@@ -61,14 +61,13 @@ public abstract class AfTreeViewAdapter<T> extends AfMultiChoiceAdapter<T> {
 	}
 	
 	@Override
-	protected View onInflateItem(IAfLayoutItem<T> item,
-			ViewGroup parent) {
+	protected View onInflateItem(IListItem<T> item,ViewGroup parent) {
 		View view = super.onInflateItem(item, parent);
 		return ((AfTreeViewItem<T>)item).inflateLayout(view, this);
 	}
 	
 	@Override
-	protected boolean bindingItem(IAfLayoutItem<T> item, int index) {
+	protected boolean bindingItem(IListItem<T> item, int index) {
 		AfTreeViewItem<T> tvitem = (AfTreeViewItem<T>)item;
 		AfTreeNode<T> node = mNodeShow.get(index);
 		tvitem.setNode(node);

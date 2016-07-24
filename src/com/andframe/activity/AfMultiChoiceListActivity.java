@@ -7,7 +7,7 @@ import android.widget.ListView;
 
 import com.andframe.activity.framework.AfPageable;
 import com.andframe.adapter.AfListAdapter;
-import com.andframe.adapter.AfListAdapter.IAfLayoutItem;
+import com.andframe.adapter.AfListAdapter.IListItem;
 import com.andframe.layoutbind.AfSelectorBottombar;
 import com.andframe.layoutbind.AfSelectorTitlebar;
 import com.andframe.view.AfMultiGridView;
@@ -81,7 +81,7 @@ public abstract class AfMultiChoiceListActivity<T> extends AfListViewActivity<T>
 	}
 
 	@Override
-	protected IAfLayoutItem<T> getItemLayout(T data) {
+	protected IListItem<T> getListItem(T data) {
 		return getMultiChoiceItemLayout(data);
 	}
 

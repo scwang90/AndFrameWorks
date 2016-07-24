@@ -140,7 +140,7 @@ public class AfStackTrace {
 			if (clazz.isAnnotationPresent(annotation)) {
 				return clazz.getAnnotation(annotation);
 			}
-		} catch (ClassNotFoundException e) {
+		} catch (Throwable e) {
 			e.printStackTrace();
 		}
 		return null;

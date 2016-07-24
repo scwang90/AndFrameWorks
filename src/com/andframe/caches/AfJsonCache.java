@@ -42,12 +42,16 @@ public class AfJsonCache
 	}
 
 	public void put(String key, Object value) {
-		if (value.getClass().isArray()) {
-			putList(key, (Object[]) value);
-		} else if (value instanceof List ) {
-			putList(key, (List<?>) value);
+		if (value != null) {
+			if (value.getClass().isArray()) {
+				putList(key, (Object[]) value);
+			} else if (value instanceof List) {
+				putList(key, (List<?>) value);
+			} else {
+				put(key, value, value.getClass());
+			}
 		} else {
-			put(key, value,value.getClass());
+			mShared.putString(key, "");
 		}
 	}
 

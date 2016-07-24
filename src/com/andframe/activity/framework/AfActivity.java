@@ -282,10 +282,14 @@ public abstract class AfActivity extends FragmentActivity implements AfPageable 
         try {
             this.mIsResume = true;
             getAfApplication().setCurActivity(this, this);
-            Injecter.doInjectQueryChanged(this);
             this.onQueryChanged();
         } catch (Throwable ex) {
             AfExceptionHandler.handle(ex, "AfActivity.onResume");
+        }
+        try {
+            Injecter.doInjectQueryChanged(this);
+        } catch (Throwable ex) {
+            AfExceptionHandler.handle(ex, "AfActivity.doInjectQueryChanged");
         }
     }
 

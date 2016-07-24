@@ -28,6 +28,10 @@ public class AfData3Task<T, TT, TTT> extends AfHandlerTask {
         }
     }
 
+    public OnData3TaskHandlerListener<T, TT, TTT> getListener() {
+        return listener;
+    }
+
     @Override
     protected boolean onPrepare() {
         if (handler != null) {

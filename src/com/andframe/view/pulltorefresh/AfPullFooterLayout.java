@@ -24,12 +24,14 @@ public abstract class AfPullFooterLayout extends AfPullHeaderLayout
     {
         super(context);
         this.initailize(context);
+        this.reset();
     }
     
     public AfPullFooterLayout(Context context, AttributeSet attrs)
     {
         super(context, attrs);
         this.initailize(context);
+        this.reset();
     }
     
     private void initailize(Context context)

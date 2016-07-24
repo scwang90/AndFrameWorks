@@ -79,7 +79,7 @@ public abstract class AfListViewActivityImpl<T> extends AfListViewActivity<T>{
 	}
 
 //	@Override
-//	protected IAfLayoutItem<T> getItemLayout(T data) {
+//	protected IListItem<T> getItemLayout(T data) {
 //		return null;
 //	}
 

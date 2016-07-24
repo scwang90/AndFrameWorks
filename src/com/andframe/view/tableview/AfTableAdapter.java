@@ -10,12 +10,15 @@ import com.andframe.application.AfExceptionHandler;
 import java.util.ArrayList;
 import java.util.List;
 
+/**
+ * 表格适配器
+ */
 public class AfTableAdapter extends AfListAdapter<Object> {
 
 	protected AfTable mTable = null;
 
 	public AfTableAdapter(Context context, AfTable table, List<?> ltdata) {
-		super(context, new ArrayList<Object>(ltdata));
+		super(context, new ArrayList<>(ltdata));
 		mTable = table;
 	}
 
@@ -28,7 +31,7 @@ public class AfTableAdapter extends AfListAdapter<Object> {
 	 * @deprecated
 	 */
 	@Override
-	protected final IAfLayoutItem<Object> getItemLayout(Object data) {
+	protected IListItem<Object> getListItem(Object data) {
 		return null;
 	}
 

@@ -24,9 +24,9 @@
     <color name="colorBackgroudDark">#f2f2f2</color>
     <color name="colorDivison">#b8b8b8</color>
 
-    <color name="colorTextTitle">#333333</color>
-    <color name="colorTextContent">#444444</color>
-    <color name="colorTextAssistant">#999999</color>
+    <color name="colorTextTitle">#222222</color>
+    <color name="colorTextContent">#333333</color>
+    <color name="colorTextAssistant">#888888</color>
 
     <color name="colorPrimary">#33B5E5</color>
     <color name="colorPrimaryDark">#22A4D4</color>

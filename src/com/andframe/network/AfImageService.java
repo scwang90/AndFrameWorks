@@ -265,16 +265,16 @@ public class AfImageService {
 	 * @param sdefault 默认图片 缓存连接
 	 */
 	protected void doBind(String url, ImageView view, String sdefault,int effect, boolean enable) {
-		if (bindNoImage(view,null, sdefault,effect)) {
+		if (bindNoImage(url, view,null, sdefault,effect)) {
 			if (url != null && url.length() > 0) {
 				// 先从图片缓冲中读取图片
 				if (!bindCaches(url,view,null,enable,effect)) {
 					// 如果失败从网络上加载数据
-					bindDefault(view,null, sdefault, getImageLoading(),effect);
+					bindDefault(url, view,null, sdefault, getImageLoading(),effect);
 					postTask(new ImageTask(url, view,null, sdefault,effect));
 				}
 			}else {
-				bindDefault(view,null, sdefault, getImageNotFind(),effect);
+				bindDefault(url, view,null, sdefault, getImageNotFind(),effect);
 			}
 		}
 	}
@@ -286,16 +286,16 @@ public class AfImageService {
 	 * @param sdefault 默认图片 缓存连接
 	 */
 	protected void doBind(String url, ImageView view,LoadImageListener listener, String sdefault,int effect, boolean enable) {
-		if (bindNoImage(view,listener, sdefault,effect)) {
+		if (bindNoImage(url, view,listener, sdefault,effect)) {
 			if (url != null && url.length() > 0) {
 				// 先从图片缓冲中读取图片
 				if (!bindCaches(url,view,listener,enable,effect)) {
 					// 如果失败从网络上加载数据
-					bindDefault(view,null, sdefault, getImageLoading(),effect);
+					bindDefault(url, view,null, sdefault, getImageLoading(),effect);
 					postTask(new ImageTask(url, view,listener, sdefault,effect));
 				}
 			}else {
-				bindDefault(view,listener, sdefault, getImageNotFind(),effect);
+				bindDefault(url, view,listener, sdefault, getImageNotFind(),effect);
 			}
 		}
 	}
@@ -308,16 +308,16 @@ public class AfImageService {
 	 * @param enable 是否使用缓存
 	 */
 	protected void doBind(String url, ImageView view, int idefault,int effect, boolean enable){
-		if (bindNoImage(view,null, idefault,effect)) {
+		if (bindNoImage(url,view,null, idefault,effect)) {
 			if (url != null && url.length() > 0) {
 				// 先从图片缓冲中读取图片
 				if (!bindCaches(url,view,null,enable,effect)) {
 					// 如果失败从网络上加载数据
-					bindDefault(view,null, idefault, getImageLoading(),effect);
+					bindDefault(url, view,null, idefault, getImageLoading(),effect);
 					postTask(new ImageTask(url, view,null, idefault,effect));
 				}
 			} else {
-				bindDefault(view,null, idefault, getImageNotFind(),effect);
+				bindDefault(url, view, null, idefault, getImageNotFind(), effect);
 			}
 		}
 	}
@@ -401,50 +401,54 @@ public class AfImageService {
 		return (network == AfNetwork.TYPE_MOBILE && setting.isNoImage());
 	}
 
-	protected boolean bindNoImage(ImageView view,LoadImageListener listener, int idefault,int effect) {
+	protected boolean bindNoImage(String url,ImageView view,LoadImageListener listener, int idefault,int effect) {
 		if (isSettingNoImage()) {
-			bindDefault(view,listener, idefault, getImageNotFind(),effect);
+			bindDefault(url, view,listener, idefault, getImageNotFind(),effect);
 			return false;
 		}
 		return true;
 	}
 
-	protected boolean bindNoImage(ImageView view,LoadImageListener listener, String idefault,int effect) {
+	protected boolean bindNoImage(String url,ImageView view,LoadImageListener listener, String idefault,int effect) {
 		if (isSettingNoImage()) {
-			bindDefault(view,listener, idefault, getImageNotFind(),effect);
+			bindDefault(url, view, listener, idefault, getImageNotFind(), effect);
 			return false;
 		}
 		return true;
 	}
 
-	protected void bindDefault(ImageView view,LoadImageListener listener, int idefault, BitmapDrawable image,int effect) {
+	protected void bindDefault(String url, ImageView view,LoadImageListener listener, int idefault, BitmapDrawable image,int effect) {
 		// 如果失败从网络上加载数据
-		if (idefault == 0 && image != null) {
-			bindImageBitmap(view,listener,image,effect);
-		} else if (idefault > 0) {
-			if (effect == 0) {
-				view.setImageResource(idefault);
-			} else {
-				AfApplication app = AfApplication.getApp();
-				Drawable drawable = app.getResources().getDrawable(idefault);
-				BitmapDrawable bitmap = (BitmapDrawable) drawable;
-				bindImageBitmap(view,listener,bitmap,effect);
+		if (!bindCaches(url,view,listener,true,effect)) {
+			if (idefault == 0 && image != null) {
+				bindImageBitmap(view, listener, image, effect);
+			} else if (idefault > 0) {
+				if (effect == 0) {
+					view.setImageResource(idefault);
+				} else {
+					AfApplication app = AfApplication.getApp();
+					Drawable drawable = app.getResources().getDrawable(idefault);
+					BitmapDrawable bitmap = (BitmapDrawable) drawable;
+					bindImageBitmap(view, listener, bitmap, effect);
+				}
 			}
 		}
 	}
 
-	protected void bindDefault(ImageView view,LoadImageListener listener, String idefault,BitmapDrawable image,int effect) {
+	protected void bindDefault(String url, ImageView view,LoadImageListener listener, String idefault,BitmapDrawable image,int effect) {
 		// 如果失败从网络上加载数据
-		if (idefault == null && image != null) {
-			bindImageBitmap(view,listener,image,effect);
-		} else if (idefault != null){
-			AfApplication app = AfApplication.getApp();
-			AfImageCaches imagecaches = AfImageCaches.getInstance();
-			BitmapDrawable bitmap = imagecaches.get(app,idefault);
-			if (bitmap != null) {
-				bindImageBitmap(view,listener,bitmap,effect);
-			} else {
+		if (!bindCaches(url,view,listener,true,effect)) {
+			if (idefault == null && image != null) {
 				bindImageBitmap(view,listener,image,effect);
+			} else if (idefault != null){
+				AfApplication app = AfApplication.getApp();
+				AfImageCaches imagecaches = AfImageCaches.getInstance();
+				BitmapDrawable bitmap = imagecaches.get(app,idefault);
+				if (bitmap != null) {
+					bindImageBitmap(view,listener,bitmap,effect);
+				} else {
+					bindImageBitmap(view,listener,image,effect);
+				}
 			}
 		}
 	}
@@ -532,9 +536,9 @@ public class AfImageService {
 				if (mImageView != null && mImageView.getTag() == this && getImageGetFail() != null) {
 					if (mDefaultId > 0)
 						//view.setImageResource(mDefaultId);
-						bindDefault(mImageView,null, mDefaultId, getImageGetFail(),mEffect);
+						bindDefault(mLinkUrl, mImageView,null, mDefaultId, getImageGetFail(),mEffect);
 					else if (mDefaultUrl != null && mDefaultUrl.length() > 0)
-						bindDefault(mImageView,null, mDefaultUrl, getImageGetFail(),mEffect);
+						bindDefault(mLinkUrl, mImageView,null, mDefaultUrl, getImageGetFail(),mEffect);
 					else
 						bindImageBitmap(mImageView,null, getImageGetFail(),mEffect);
 				}

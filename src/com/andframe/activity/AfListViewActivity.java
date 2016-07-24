@@ -1,6 +1,7 @@
 package com.andframe.activity;
 
 import android.content.Context;
+import android.database.DataSetObserver;
 import android.os.Bundle;
 import android.view.View;
 import android.view.View.OnClickListener;
@@ -13,14 +14,13 @@ import android.widget.ListView;
 import com.andframe.activity.framework.AfActivity;
 import com.andframe.activity.framework.AfPageable;
 import com.andframe.adapter.AfListAdapter;
-import com.andframe.adapter.AfListAdapter.IAfLayoutItem;
+import com.andframe.adapter.AfListAdapter.IListItem;
 import com.andframe.annotation.mark.MarkCache;
 import com.andframe.annotation.view.BindAfterViews;
 import com.andframe.annotation.view.BindLayout;
 import com.andframe.application.AfExceptionHandler;
 import com.andframe.bean.Page;
 import com.andframe.caches.AfPrivateCaches;
-import com.andframe.exception.AfException;
 import com.andframe.feature.AfIntent;
 import com.andframe.helper.java.AfTimeSpan;
 import com.andframe.layoutbind.AfFrameSelector;
@@ -72,6 +72,7 @@ public abstract class AfListViewActivity<T> extends AfActivity implements OnRefr
      */
     public String KEY_CACHETIME = "KEY_CACHETIME";
     public String KEY_CACHELIST = this.getClass().getName();
+
     protected AfTimeSpan mCacheSpan = AfListTask.CACHETIMEOUTSECOND;
 
     public AfListViewActivity() {
@@ -135,7 +136,7 @@ public abstract class AfListViewActivity<T> extends AfActivity implements OnRefr
 
         // 设置banner尺寸
         setLoading();
-        postTask(new AbListViewTask());
+        onLoad();
     }
 
     /**
@@ -226,16 +227,40 @@ public abstract class AfListViewActivity<T> extends AfActivity implements OnRefr
     }
 
     /**
+     * 监听适配器改变，自动更新页面显示切换（子类要重写请重新赋值新对象）
+     */
+    protected DataSetObserver mDataSetObserver = new DataSetObserver() {
+        @Override
+        public void onChanged() {
+            if(mAdapter == null || mAdapter.getCount() == 0){
+                setNodata();
+            } else{
+                setData(mAdapter);
+            }
+        }
+    };
+
+    /**
      * 显示数据页面
      *
      * @param adapter 适配器数据
      */
     public void setData(AfListAdapter<T> adapter) {
         mAdapter = adapter;
-        mListView.setAdapter(adapter);
+        if (mListView.getRefreshableView().getAdapter() != adapter) {
+            mListView.setAdapter(adapter);
+            mAdapter.registerDataSetObserver(mDataSetObserver);
+        }
         mSelector.selectFrame(mListView);
     }
 
+    @Override
+    protected void onDestroy() {
+        super.onDestroy();
+        if (mAdapter != null) {
+            mAdapter.unregisterDataSetObserver(mDataSetObserver);
+        }
+    }
 
     /**
      * 正在加载数据提示
@@ -276,6 +301,13 @@ public abstract class AfListViewActivity<T> extends AfActivity implements OnRefr
         mNodata.setDescription(AfExceptionHandler.tip(ex, "数据加载出现异常"));
         mNodata.setOnRefreshListener(mNodataRefreshListener);
         mSelector.selectFrame(mNodata);
+    }
+
+    /**
+     * 加载数据（缓存优先）
+     */
+    protected void onLoad() {
+        postTask(new AbListViewTask());
     }
 
     /**
@@ -530,6 +562,9 @@ public abstract class AfListViewActivity<T> extends AfActivity implements OnRefr
 //                    mAbsListView.addMoreView();
 //                }
             } else {
+                if (mAdapter != null) {
+                    mAdapter.set(new ArrayList<T>());
+                }
                 setNodata();
             }
         } else {
@@ -603,10 +638,10 @@ public abstract class AfListViewActivity<T> extends AfActivity implements OnRefr
      * 如果重写 newAdapter 之后，本方法将无效
      *
      * @param data 对应的数据
-     * @return 实现 布局接口 IAfLayoutItem 的Item兑现
-     * new LayoutItem implements IAfLayoutItem<T>(){}
+     * @return 实现 布局接口 IListItem 的Item兑现
+     * new LayoutItem implements IListItem<T>(){}
      */
-    protected abstract IAfLayoutItem<T> getItemLayout(T data);
+    protected abstract IListItem<T> getListItem(T data);
 
     /**
      * 加载缓存列表（不分页，在异步线程中执行，不可以更改页面操作）
@@ -698,9 +733,8 @@ public abstract class AfListViewActivity<T> extends AfActivity implements OnRefr
          * 转发事件到 AfListViewActivity.this.getItemLayout(data);
          */
         @Override
-        protected IAfLayoutItem<T> getItemLayout(T data) {
-            return AfListViewActivity.this.getItemLayout(data);
+        protected IListItem<T> getListItem(T data) {
+            return AfListViewActivity.this.getListItem(data);
         }
-
     }
 }

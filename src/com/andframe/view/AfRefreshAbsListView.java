@@ -101,6 +101,7 @@ public abstract class AfRefreshAbsListView<T extends AbsListView> extends AfPull
 	@Override
 	protected final boolean isReadyForPullUp() {
 		return mIsNeedFooter
+				&& mTargetView.getLastVisiblePosition() == mTargetView.getCount() - 1
 				&& 5 >= Math.abs(getLastPositionDistanceGuess(mTargetView)
 				- mTargetView.getBottom());
 	}

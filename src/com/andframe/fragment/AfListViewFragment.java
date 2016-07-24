@@ -1,6 +1,7 @@
 package com.andframe.fragment;
 
 import android.content.Context;
+import android.database.DataSetObserver;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.View.OnClickListener;
@@ -14,7 +15,7 @@ import android.widget.ListView;
 import com.andframe.activity.framework.AfPageable;
 import com.andframe.activity.framework.AfView;
 import com.andframe.adapter.AfListAdapter;
-import com.andframe.adapter.AfListAdapter.IAfLayoutItem;
+import com.andframe.adapter.AfListAdapter.IListItem;
 import com.andframe.annotation.mark.MarkCache;
 import com.andframe.annotation.view.BindLayout;
 import com.andframe.application.AfExceptionHandler;
@@ -124,7 +125,7 @@ public abstract class AfListViewFragment<T> extends AfTabFragment implements
 
         if (mAdapter == null) {
             setLoading();
-            postTask(new AbListViewTask());
+            onLoad();
         } else if (mAdapter.getCount() == 0){
             setData(mAdapter);
             setNodata();
@@ -207,11 +208,28 @@ public abstract class AfListViewFragment<T> extends AfTabFragment implements
     }
 
     /**
+     * 监听适配器改变，自动更新页面显示切换（子类要重写请重新赋值新对象）
+     */
+    protected DataSetObserver mDataSetObserver = new DataSetObserver() {
+        @Override
+        public void onChanged() {
+            if(mAdapter == null || mAdapter.getCount() == 0){
+                setNodata();
+            } else{
+                setData(mAdapter);
+            }
+        }
+    };
+
+    /**
      * 显示数据页面
      */
     public void setData(AfListAdapter<T> adapter) {
         mAdapter = adapter;
-        mListView.setAdapter(adapter);
+        if (mListView.getRefreshableView().getAdapter() != adapter) {
+            mListView.setAdapter(adapter);
+            mAdapter.registerDataSetObserver(mDataSetObserver);
+        }
         mSelector.selectFrame(mListView);
     }
 
@@ -252,6 +270,13 @@ public abstract class AfListViewFragment<T> extends AfTabFragment implements
         mNodata.setDescription(AfExceptionHandler.tip(ex, "数据加载出现异常"));
         mNodata.setOnRefreshListener(mNodataRefreshListener);
         mSelector.selectFrame(mNodata);
+    }
+
+    /**
+     * 加载数据（缓存优先）
+     */
+    protected void onLoad() {
+        postTask(new AbListViewTask());
     }
 
     /**
@@ -496,6 +521,9 @@ public abstract class AfListViewFragment<T> extends AfTabFragment implements
 //                    mListView.addMoreView();
 //                }
             } else {
+                if (mAdapter != null) {
+                    mAdapter.set(new ArrayList<T>());
+                }
                 setNodata();
             }
         } else {
@@ -565,10 +593,10 @@ public abstract class AfListViewFragment<T> extends AfTabFragment implements
      * 如果重写 newAdapter 之后，本方法将无效
      *
      * @param data 对应的数据
-     * @return 实现 布局接口 IAfLayoutItem 的Item兑现
-     * new LayoutItem implements IAfLayoutItem<T>(){}
+     * @return 实现 布局接口 IListItem 的Item兑现
+     * new LayoutItem implements IListItem<T>(){}
      */
-    protected abstract IAfLayoutItem<T> getItemLayout(T data);
+    protected abstract IListItem<T> getListItem(T data);
 
     /**
      * 加载缓存列表（不分页，在异步线程中执行，不可以更改页面操作）
@@ -587,6 +615,10 @@ public abstract class AfListViewFragment<T> extends AfTabFragment implements
         return null;
     }
 
+    /**
+     * 覆盖文件缓存
+     * @param list 数据
+     */
     protected void onTaskPushCache(List<T> list) {
         if (mCacheClazz != null) {
             AfPrivateCaches cache = AfPrivateCaches.getInstance(KEY_CACHELIST);
@@ -594,6 +626,10 @@ public abstract class AfListViewFragment<T> extends AfTabFragment implements
         }
     }
 
+    /**
+     * 追加文件缓存
+     * @param list 数据
+     */
     protected void onTaskPutCache(List<T> list) {
         if (mCacheClazz != null) {
             AfPrivateCaches cache = AfPrivateCaches.getInstance(KEY_CACHELIST);
@@ -631,7 +667,7 @@ public abstract class AfListViewFragment<T> extends AfTabFragment implements
      * 根据数据ltdata新建一个 适配器 重写这个方法之后getItemLayout方法将失效
      */
     protected AfListAdapter<T> newAdapter(Context context, List<T> ltdata) {
-        return new AbListViewAdapter(getContext(), ltdata);
+        return new AbListViewAdapter(getContext(), ltdata, true);
     }
 
     /**
@@ -639,16 +675,17 @@ public abstract class AfListViewFragment<T> extends AfTabFragment implements
      */
     protected class AbListViewAdapter extends AfListAdapter<T> {
 
-        public AbListViewAdapter(Context context, List<T> ltdata) {
-            super(context, ltdata);
+        public AbListViewAdapter(Context context, List<T> ltdata, boolean dataSync) {
+            super(context, ltdata, dataSync);
         }
+
 
         /**
          * 转发事件到 AfListViewFragment.this.getItemLayout(data);
          */
         @Override
-        protected IAfLayoutItem<T> getItemLayout(T data) {
-            return AfListViewFragment.this.getItemLayout(data);
+        protected IListItem<T> getListItem(T data) {
+            return AfListViewFragment.this.getListItem(data);
         }
 
     }

@@ -26,6 +26,10 @@ public class AfData2Task<T, TT> extends AfHandlerTask {
         }
     }
 
+    public OnData2TaskHandlerListener<T, TT> getListener() {
+        return listener;
+    }
+
     @Override
     protected boolean onPrepare() {
         if (handler != null) {
