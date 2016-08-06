@@ -10,6 +10,7 @@ import android.app.TimePickerDialog;
 import android.app.TimePickerDialog.OnTimeSetListener;
 import android.content.DialogInterface;
 import android.os.Bundle;
+import android.support.annotation.NonNull;
 import android.text.InputType;
 import android.util.TypedValue;
 import android.view.View;
@@ -25,7 +26,7 @@ import android.widget.RelativeLayout;
 import android.widget.TextView;
 import android.widget.TimePicker;
 
-import com.andframe.activity.AfActivity;
+import com.andframe.activity.framework.AfActivity;
 import com.andframe.application.AfExceptionHandler;
 import com.andframe.feature.AfDensity;
 import com.andframe.feature.AfIntent;
@@ -62,8 +63,8 @@ public abstract class AbCominfoActivity extends AfActivity implements
 	protected static final int REQUEST_FILECHOOSER = 1;
 
 	
-	public static enum Mode {
-		ADD,VIEW,EDIT;
+	public enum Mode {
+		ADD,VIEW,EDIT
 	}
 
 	/** 标题控件 */
@@ -86,8 +87,7 @@ public abstract class AbCominfoActivity extends AfActivity implements
 	/** 布局资源 */
 	protected Integer type = TypedValue.COMPLEX_UNIT_PX;
 	/** 布局数据接口 */
-	//protected List<Project> mltProject = new ArrayList<Project>();
-	protected List<DynamicProject> mltDynamic = new ArrayList<DynamicProject>();
+	protected List<DynamicProject> mltDynamic = new ArrayList<>();
 
 	protected Item requestitem;
 	protected TextView requesttext;
@@ -119,10 +119,12 @@ public abstract class AbCominfoActivity extends AfActivity implements
 	@SuppressLint("HandlerLeak")
 	protected final void onCreate(Bundle bundle, AfIntent intent) throws Exception {
 		super.onCreate(bundle, intent);
-		setContentView(R.layout.layout_commonpanel);
+		if (mRootView == null) {
+			setContentView(R.layout.layout_commonpanel);
+		}
 
 		mMode[0] = Mode.EDIT;
-		mTitlebar = new AfModuleTitlebarImpl(this);
+		mTitlebar = newModuleTitlebar();
 
 		mBtFinish = findViewByID(R.id.button_finish);
 		mLayout = findViewByID(R.id.commonpanel_layout);
@@ -138,7 +140,7 @@ public abstract class AbCominfoActivity extends AfActivity implements
 		
 		mBtFinish.setText("完成");
 
-		List<Project> projects = new ArrayList<Project>();
+		List<Project> projects = new ArrayList<>();
 		onCreate(intent, projects, mMode);
 		
 		//根据权限把编辑改为查看
@@ -149,8 +151,10 @@ public abstract class AbCominfoActivity extends AfActivity implements
 				mMode[0] = Mode.VIEW;
 			}
 		}
-		
-		doBuildLayout(projects.toArray(new Project[0]));
+
+		if (projects.size() > 0) {
+			doBuildLayout(projects);
+		}
 
 		if (mMode[0] != Mode.VIEW && mBtFinish.getVisibility() == View.VISIBLE) {
 			mTitlebar.setFunction(AfModuleTitlebarImpl.FUNCTION_OK);
@@ -158,10 +162,13 @@ public abstract class AbCominfoActivity extends AfActivity implements
 		}
 	}
 
+	@NonNull
+	protected AfModuleTitlebarImpl newModuleTitlebar() {
+		return new AfModuleTitlebarImpl(this);
+	}
+
 	/**
 	 * 不可编辑的 如果是编辑模式的话 返回 Item.DISABLE
-	 * @param type
-	 * @return
 	 */
 	protected int DisEdit(int type) {
 		if(mMode[0] == Mode.EDIT){
@@ -172,8 +179,6 @@ public abstract class AbCominfoActivity extends AfActivity implements
 
 	/**
 	 * 不可编辑的 如果是编辑模式的话 返回 Item.DISABLE
-	 * @param item
-	 * @return
 	 */
 	protected Item DisEdit(Item item) {
 		if(mMode[0] == Mode.EDIT){
@@ -202,7 +207,7 @@ public abstract class AbCominfoActivity extends AfActivity implements
 		}
 	}
 
-	private void doBuildLayout(Project[] projects) {
+	protected void doBuildLayout(List<Project> projects) {
 		mLayout.removeAllViews();
 		for (Project project : projects) {
 			doBuildProject(project, mLayout);
@@ -212,7 +217,7 @@ public abstract class AbCominfoActivity extends AfActivity implements
 		}
 	}
 
-	private void doBuildProject(Project project, LinearLayout layout) {
+	protected void doBuildProject(Project project, LinearLayout layout) {
 		DynamicProject dynamic = new DynamicProject(project);
 		dynamic.mTvTitle = new TextView(this);
 		dynamic.mTvTitle.setText(project.name);
@@ -228,9 +233,9 @@ public abstract class AbCominfoActivity extends AfActivity implements
 		dynamic.mLayout.setOrientation(LinearLayout.VERTICAL);
 		layout.addView(dynamic.mLayout);
 		if (project.type == Project.TEXTBOX) {
-			Item[] items = project.items.toArray(new Item[0]);
-			for (int i = 0; i < items.length; i++) {
-				doBuildTextBoxItem(items[i], dynamic.mLayout);
+			Item[] items = project.items.toArray(new Item[project.items.size()]);
+			for (Item item : items) {
+				doBuildTextBoxItem(item, dynamic.mLayout);
 			}
 		}else if (project.type == Project.CUSTOM) {
 			if(project.mLayoutParams != null){
@@ -241,22 +246,22 @@ public abstract class AbCominfoActivity extends AfActivity implements
 			dynamic.mLayout.setBackgroundResource(R.drawable.frame_selectbar);
 			dynamic.mLayout.setLayoutParams(mLayoutProject.getLayoutParams());
 
-			Item[] items = project.items.toArray(new Item[0]);
-			for (int i = 0; i < items.length; i++) {
-				if(items[i].type == Item.BUTTON){
+			Item[] items = project.items.toArray(new Item[project.items.size()]);
+			for (Item item : items) {
+				if (item.type == Item.BUTTON) {
 					Button bt = new Button(this);
-					bt.setText(items[i].value);
-					bt.setContentDescription(items[i].name);
+					bt.setText(item.value);
+					bt.setContentDescription(item.name);
 					bt.setLayoutParams(mBtFinish.getLayoutParams());
 					bt.setBackgroundResource(R.drawable.selector_button_finish);
 					bt.setOnClickListener(this);
 					bt.setTextColor(mBtFinish.getTextColors());
-					bt.setTextSize(type,mBtFinish.getTextSize());
+					bt.setTextSize(type, mBtFinish.getTextSize());
 					bt.setTag(project);
 					layout.addView(bt);
-					return ;
-				}else{
-					doBuildSelectbarItem(items[i], dynamic.mLayout);
+					return;
+				} else {
+					doBuildSelectbarItem(item, dynamic.mLayout);
 				}
 			}
 		}
@@ -292,7 +297,7 @@ public abstract class AbCominfoActivity extends AfActivity implements
 	}
 
 	@SuppressWarnings("deprecation")
-	private void doBuildTextBoxItem(Item item, LinearLayout layout) {
+	protected void doBuildTextBoxItem(Item item, LinearLayout layout) {
 		if(mMode[0] == Mode.VIEW || item.type == Item.DISABLE){
 			item.mTextView = new TextView(this);
 		}else{
@@ -340,7 +345,7 @@ public abstract class AbCominfoActivity extends AfActivity implements
 	}
 
 	@SuppressWarnings("deprecation")
-	private void doBuildSelectbarItem(Item item, LinearLayout projectlayout) {
+	protected void doBuildSelectbarItem(Item item, LinearLayout projectlayout) {
 		if (projectlayout.getChildCount() > 0) {
 			View divider = new View(this);
 			divider.setBackgroundDrawable(mViewDivider.getBackground());
@@ -429,7 +434,6 @@ public abstract class AbCominfoActivity extends AfActivity implements
 				this.onSubmitProject(project,(Button)v,mMode[0]);
 			} catch (Throwable e) {
 				makeToastLong("",e);
-				return;
 			}
 		}else if (v instanceof TextView && v.getTag() instanceof Item) {
 			Item item = (Item) v.getTag();
@@ -609,7 +613,7 @@ public abstract class AbCominfoActivity extends AfActivity implements
 			private boolean fdealwith = false;
 			@Override
 			public void onDateSet(DatePicker view, final int year, final int month,final int day) {
-				if(fdealwith == true){
+				if(fdealwith){
 					return ;
 				}
 				fdealwith = true;
@@ -619,7 +623,7 @@ public abstract class AbCominfoActivity extends AfActivity implements
 					private boolean fdealwith = false;
 					@Override
 					public void onTimeSet(TimePicker view, int hour, int minute) {
-						if(fdealwith == true){
+						if(fdealwith){
 							return ;
 						}
 						fdealwith = true;
@@ -645,7 +649,7 @@ public abstract class AbCominfoActivity extends AfActivity implements
 			private boolean fdealwith = false;
 			@Override
 			public void onTimeSet(TimePicker view, int hour, int minute) {
-				if(fdealwith == true){
+				if(fdealwith){
 					return ;
 				}
 				fdealwith = true;
@@ -668,7 +672,7 @@ public abstract class AbCominfoActivity extends AfActivity implements
 			private boolean fdealwith = false;
 			@Override
 			public void onDateSet(DatePicker view, final int year, final int month,final int day) {
-				if(fdealwith == true){
+				if(fdealwith){
 					return ;
 				}
 				fdealwith = true;
@@ -732,21 +736,21 @@ public abstract class AbCominfoActivity extends AfActivity implements
 	}
 
 
-	public class DynamicProject extends Project{
+	protected class DynamicProject extends Project{
 	
-		Project mProject;
-		TextView mTvTitle;
-		LinearLayout mLayout;
-		
-		boolean mIsShown = true;
-		
-		DynamicProject(Project project) {
+		public Project mProject;
+		public TextView mTvTitle;
+		public LinearLayout mLayout;
+
+		public boolean mIsShown = true;
+
+		public DynamicProject(Project project) {
 			super(project);
 			mProject = project;
 		}
 	
 		public void dynHide() {
-			if(mIsShown == true){
+			if(mIsShown){
 				mIsShown = false;
 				mLayout.setVisibility(View.GONE);
 				mTvTitle.setVisibility(View.GONE);
@@ -754,7 +758,7 @@ public abstract class AbCominfoActivity extends AfActivity implements
 		}
 		
 		public void dynShow() {
-			if(mIsShown == false){
+			if(!mIsShown){
 				mIsShown = true;
 				mLayout.setVisibility(View.VISIBLE);
 				setFocusableInTouchMode(mLayout,true);
@@ -802,8 +806,6 @@ public abstract class AbCominfoActivity extends AfActivity implements
 		}
 		/**
 		 * 检查内部 Item 是否全部为非空 
-		 * @return true 全部非空 false 还有若干 为空
-		 * @throws Exception 
 		 */
 		@Override
 		public void doCheckNotnull() throws Exception {

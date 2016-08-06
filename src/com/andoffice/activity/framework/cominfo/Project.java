@@ -1,12 +1,13 @@
 package com.andoffice.activity.framework.cominfo;
 
-import java.util.ArrayList;
-import java.util.List;
+import android.view.View;
+import android.widget.LinearLayout.LayoutParams;
 
 import com.andframe.exception.AfToastException;
 
-import android.view.View;
-import android.widget.LinearLayout.LayoutParams;
+import java.util.ArrayList;
+import java.util.Arrays;
+import java.util.List;
 
 public class Project {
 
@@ -17,7 +18,7 @@ public class Project {
 	public int type = SELECTBAR;
 	public String name = "";
 	public View custom = null;
-	public List<Item> items = new ArrayList<Item>();
+	public List<Item> items = new ArrayList<>();
 	public LayoutParams mLayoutParams = null; 
 
 	public Project() {
@@ -25,6 +26,11 @@ public class Project {
 
 	public Project(String name) {
 		this.name = name;
+	}
+
+	public Project(String name, Item... items) {
+		this.name = name;
+		this.items.addAll(Arrays.asList(items));
 	}
 
 	public Project(String name, int type) {

@@ -3,11 +3,11 @@
 
     <color name="theme_color">#FF33CCFF</color>
     <color name="theme_color_dark">#FF22AADD</color>
-    <color name="theme_orange">#FFFF9900</color>
-    <color name="theme_cyan">#FF00CCCC</color>
-    <color name="theme_green">#FF66CC00</color>
-    <color name="theme_red">#FFFF3333</color>
-    <color name="theme_purple">#FFFF3366</color>
+    <!--<color name="theme_orange">#FFFF9900</color>-->
+    <!--<color name="theme_cyan">#FF00CCCC</color>-->
+    <!--<color name="theme_green">#FF66CC00</color>-->
+    <!--<color name="theme_red">#FFFF3333</color>-->
+    <!--<color name="theme_purple">#FFFF3366</color>-->
     <color name="theme_gray">#FFEEEEEE</color>
     <color name="theme_gray_dark">#FFDDDDDD</color>
     <color name="theme_background">#FFF5F5F5</color>
@@ -27,21 +27,21 @@
     <color name="cover_light">#33FFFFFF</color>
     <color name="cover_dark">#33000000</color>
     
-    <color name="red">#FF0000</color>
-    <color name="green">#00FF00</color>
-    <color name="green_dark">#192F06</color>
-    <color name="blue">#33B5E5</color>
-    <color name="white">#FFFFFFFF</color>
-    <color name="black">#000000</color>
-    <color name="gray">#7c7c7c</color>
-    <color name="gray_dark">#FF666666</color> 
-    <color name="gray_white">#ebebeb</color>
-    <color name="gray_light">#887c7c7c</color>
-    <color name="gray_black">#2e2e2e</color>
-    <color name="yellow">#FFFC00</color>
-    <color name="pink">#FF87EF</color>
-    <color name="orange">#ff6200</color>
-    <color name="transparent">#00000000</color>
+    <!--<color name="red">#FF0000</color>-->
+    <!--<color name="green">#00FF00</color>-->
+    <!--<color name="green_dark">#192F06</color>-->
+    <!--<color name="blue">#33B5E5</color>-->
+    <!--<color name="white">#FFFFFFFF</color>-->
+    <!--<color name="black">#000000</color>-->
+    <!--<color name="gray">#7c7c7c</color>-->
+    <!--<color name="gray_dark">#FF666666</color> -->
+    <!--<color name="gray_white">#ebebeb</color>-->
+    <!--<color name="gray_light">#887c7c7c</color>-->
+    <!--<color name="gray_black">#2e2e2e</color>-->
+    <!--<color name="yellow">#FFFC00</color>-->
+    <!--<color name="pink">#FF87EF</color>-->
+    <!--<color name="orange">#ff6200</color>-->
+    <!--<color name="transparent">#00000000</color>-->
     
     <color name="viewfinder_mask">#60000000</color>
     <color name="viewfinder_frame">#ff000000</color>
