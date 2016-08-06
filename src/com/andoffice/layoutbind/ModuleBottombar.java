@@ -35,14 +35,14 @@ public class ModuleBottombar extends AfModuleAlpha {
 				mViews[i].setVisibility(View.GONE);
 				mViews[i].setId(i);
 			}
-			target.setVisibility(View.GONE);
+			wrapped.setVisibility(View.GONE);
 		}
 	}
 	
 	public void setFunction(int id ,boolean value){
 		if(id >= 0 && id < ID_All){
-			if(value && target.getVisibility() != View.VISIBLE){
-				target.setVisibility(View.VISIBLE);
+			if(value && wrapped.getVisibility() != View.VISIBLE){
+				wrapped.setVisibility(View.VISIBLE);
 			}
 			mViews[id].setVisibility(value?View.VISIBLE:View.GONE);
 		}
@@ -51,9 +51,9 @@ public class ModuleBottombar extends AfModuleAlpha {
 	public void setHighLightMode(boolean value){
 		if(isValid()){
 			if(value){
-				target.setBackgroundResource(R.color.theme_titlebar_selcet_dg);
+				wrapped.setBackgroundResource(R.color.theme_titlebar_selcet_dg);
 			}else{
-				target.setBackgroundResource(R.color.gray_dark);
+				wrapped.setBackgroundResource(R.color.gray_dark);
 			}	
 		}
 	}
