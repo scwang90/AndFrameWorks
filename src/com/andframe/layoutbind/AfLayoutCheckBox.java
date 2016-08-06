@@ -23,7 +23,7 @@ public class AfLayoutCheckBox extends AfViewModule implements OnClickListener{
         mButton = checkbox;
         if (isValid()) {
             mButton.setClickable(false);
-            target.setOnClickListener(this);
+            wrapped.setOnClickListener(this);
         }
     }
 
@@ -32,7 +32,7 @@ public class AfLayoutCheckBox extends AfViewModule implements OnClickListener{
         mButton = view.findViewByID(id);
         if (isValid()) {
             mButton.setClickable(false);
-            target.setOnClickListener(this);
+            wrapped.setOnClickListener(this);
         }
     }
 
@@ -42,14 +42,14 @@ public class AfLayoutCheckBox extends AfViewModule implements OnClickListener{
         if (view instanceof CompoundButton) {
             mButton = ((CompoundButton) view);
             mButton.setClickable(false);
-            target = (View) view.getParent();
-            target.setOnClickListener(this);
+            wrapped = (View) view.getParent();
+            wrapped.setOnClickListener(this);
         } else if (view instanceof ViewGroup) {
             mButton = findCompoundButton(((ViewGroup) view));
             if (mButton != null) {
-                target = view;
+                wrapped = view;
                 mButton.setClickable(false);
-                target.setOnClickListener(this);
+                wrapped.setOnClickListener(this);
             }
         }
     }

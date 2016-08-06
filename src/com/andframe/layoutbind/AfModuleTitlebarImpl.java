@@ -3,6 +3,7 @@ package com.andframe.layoutbind;
 import android.view.View;
 
 import com.andframe.R;
+import com.andframe.activity.framework.AfView;
 import com.andframe.activity.framework.AfViewable;
 import com.andframe.application.AfExceptionHandler;
 
@@ -17,8 +18,12 @@ public class AfModuleTitlebarImpl extends AfModuleTitlebar {
     private View.OnClickListener mBtOkClickListener;
     private View.OnClickListener mBtAddClickListener;
 
+    protected AfModuleTitlebarImpl(AfViewable viewable,boolean override) {
+        super(override ? viewable: new AfView(viewable.getView()));
+    }
+
     public AfModuleTitlebarImpl(AfViewable viewable) {
-        super(viewable,R.id.af_titlebar_other_layout);
+        super(viewable, R.id.af_titlebar_other_layout);
     }
 
     public AfModuleTitlebarImpl(AfViewable viewable, int function) {

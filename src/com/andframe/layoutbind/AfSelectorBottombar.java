@@ -40,7 +40,7 @@ public abstract class AfSelectorBottombar extends AfModuleAlpha implements
 			mContaint = getFunctionLayout(view);
 			mContaint.removeAllViews();
 			mMore.setOnClickListener(this);
-			target.setVisibility(View.GONE);
+			wrapped.setVisibility(View.GONE);
 		}
 	}
 	

@@ -31,7 +31,7 @@ import com.andframe.layoutbind.AfModuleProgress;
 import com.andframe.layoutbind.AfModuleProgressImpl;
 import com.andframe.layoutbind.AfModuleTitlebar;
 import com.andframe.layoutbind.AfModuleTitlebarImpl;
-import com.andframe.layoutbind.framework.AfViewDelegate;
+import com.andframe.layoutbind.framework.AfViewWrapper;
 import com.andframe.layoutbind.framework.AfViewModule;
 import com.andframe.util.java.AfReflecter;
 import com.andframe.view.AfContactsRefreshView;
@@ -70,7 +70,7 @@ public class ViewBinder {
     }
 
     public static void doBind(Object handler, View root) {
-        doBind(handler, new AfView(root));
+        doBind(handler, (AfViewable)new AfView(root));
     }
 
     public static void doBind(Object handler, AfViewable root) {
@@ -86,8 +86,8 @@ public class ViewBinder {
     }
 
     private static Class<?> getStopType(Object handler) {
-        if (handler instanceof AfViewDelegate) {
-            return AfViewDelegate.class;
+        if (handler instanceof AfViewWrapper) {
+            return AfViewWrapper.class;
         }
         if (handler instanceof Activity) {
             return Activity.class;

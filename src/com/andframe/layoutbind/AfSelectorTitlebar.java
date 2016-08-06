@@ -102,7 +102,7 @@ public abstract class AfSelectorTitlebar extends AfModuleAlpha
 	}
 
 	public View getLayout() {
-		return target;
+		return wrapped;
 	}
 
 	@Override

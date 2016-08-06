@@ -7,6 +7,7 @@ import android.view.View;
 import android.widget.AbsListView;
 import android.widget.AdapterView;
 import android.widget.AdapterView.OnItemClickListener;
+import android.widget.AdapterView.OnItemLongClickListener;
 import android.widget.GridView;
 import android.widget.ListView;
 
@@ -29,7 +30,7 @@ import static com.andframe.util.java.AfReflecter.getAnnotation;
  * @param <T> 列表数据实体类
  * @author 树朾
  */
-public abstract class AfListActivity<T> extends AfActivity implements OnItemClickListener, AdapterView.OnItemLongClickListener {
+public abstract class AfListActivity<T> extends AfActivity implements OnItemClickListener, OnItemLongClickListener {
 
     protected AbsListView mListView;
     protected AfListAdapter<T> mAdapter;
@@ -48,6 +49,9 @@ public abstract class AfListActivity<T> extends AfActivity implements OnItemClic
         }
     }
 
+    /**
+     * 初始化页面
+     */
     @BindAfterViews
     protected void onInitFrameWork() throws Exception {
         if (mAdapter == null) {
@@ -57,13 +61,22 @@ public abstract class AfListActivity<T> extends AfActivity implements OnItemClic
         if (mListView != null) {
             mListView.setOnItemClickListener(this);
             mListView.setOnItemLongClickListener(this);
-            if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.HONEYCOMB) {
-                mListView.setAdapter(mAdapter);
-            } else if (mListView instanceof ListView) {
-                ((ListView) mListView).setAdapter(mAdapter);
-            } else if (mListView instanceof GridView) {
-                ((GridView) mListView).setAdapter(mAdapter);
-            }
+            bindAdapter(mListView, mAdapter);
+        }
+    }
+
+    /**
+     * 绑定适配器
+     * @param listView 列表
+     * @param adapter 适配器
+     */
+    protected void bindAdapter(AbsListView listView, AfListAdapter<T> adapter) {
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.HONEYCOMB) {
+            listView.setAdapter(adapter);
+        } else if (listView instanceof ListView) {
+            ((ListView) listView).setAdapter(adapter);
+        } else if (listView instanceof GridView) {
+            ((GridView) listView).setAdapter(adapter);
         }
     }
 

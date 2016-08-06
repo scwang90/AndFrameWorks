@@ -58,27 +58,27 @@ public abstract class AfModuleAlpha extends AfViewModule implements AnimationLis
 	}
 
 	public void hide() {
-		if (target != null && target.getVisibility() == View.VISIBLE) {
+		if (wrapped != null && wrapped.getVisibility() == View.VISIBLE) {
 			mAnimationHide = new AlphaAnimation(1, 0);
 			mAnimationHide.setDuration(DURATION);
 			mAnimationHide.setAnimationListener(this);
 			AnimationSet animationSet = new AnimationSet(true);
 			animationSet.addAnimation(mAnimationHide);
-			target.clearAnimation();
-			target.setAnimation(animationSet);
+			wrapped.clearAnimation();
+			wrapped.setAnimation(animationSet);
 		}
 	}
 
 	public void show() {
-		if (target != null && target.getVisibility() != View.VISIBLE) {
-			target.setVisibility(View.VISIBLE);
+		if (wrapped != null && wrapped.getVisibility() != View.VISIBLE) {
+			wrapped.setVisibility(View.VISIBLE);
 			mAnimationShow = new AlphaAnimation(0, 1);
 			mAnimationShow.setDuration(DURATION);
 			mAnimationShow.setAnimationListener(this);
 			AnimationSet animationSet = new AnimationSet(true);
 			animationSet.addAnimation(mAnimationShow);
-			target.clearAnimation();
-			target.setAnimation(animationSet);
+			wrapped.clearAnimation();
+			wrapped.setAnimation(animationSet);
 		}
 	}
 	
@@ -104,7 +104,7 @@ public abstract class AfModuleAlpha extends AfViewModule implements AnimationLis
     public void onAnimationEnd(Animation animation) {
     	mHasStarted = false;
     	if(animation == mAnimationHide){
-    		target.setVisibility(View.GONE);
+    		wrapped.setVisibility(View.GONE);
     	}else if(animation == mAnimationShow){
 			
 		}

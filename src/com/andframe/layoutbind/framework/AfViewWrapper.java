@@ -41,373 +41,373 @@ import android.view.inputmethod.InputConnection;
 
 import java.util.ArrayList;
 
-@SuppressLint({"NewApi","deprecation"})
-public class AfViewDelegate extends View{
+@SuppressLint({"NewApi", "deprecation", "ViewConstructor"})
+public class AfViewWrapper extends View {
 
-	protected View target;
+	protected View wrapped;
 
-	public AfViewDelegate(View view) {
+	public AfViewWrapper(View view) {
 		super(view.getContext());
-		this.target = view;
+		this.wrapped = view;
 	}
 
 	public View getView() {
-		return target;
+		return wrapped;
 	}
 
 	@Override
 	public void addChildrenForAccessibility(ArrayList<View> children) {
-		if (this.target == null) {
+		if (this.wrapped == null) {
 			super.addChildrenForAccessibility(children);
 		}
-		this.target.addChildrenForAccessibility(children);
+		this.wrapped.addChildrenForAccessibility(children);
 	}
 
 	@Override
 	public void addFocusables(ArrayList<View> views, int direction,
 			int focusableMode) {
-		if (this.target == null) {
+		if (this.wrapped == null) {
 			return;
 		}
-		this.target.addFocusables(views, direction, focusableMode);
+		this.wrapped.addFocusables(views, direction, focusableMode);
 	}
 
 	@Override
 	public void addFocusables(ArrayList<View> views, int direction) {
-		if (this.target == null) {
+		if (this.wrapped == null) {
 			return;
 		}
-		this.target.addFocusables(views, direction);
+		this.wrapped.addFocusables(views, direction);
 	}
 
 	@Override
 	public void addOnAttachStateChangeListener(
 			OnAttachStateChangeListener listener) {
-		if (this.target == null) {
+		if (this.wrapped == null) {
 			return;
 		}
-		this.target.addOnAttachStateChangeListener(listener);
+		this.wrapped.addOnAttachStateChangeListener(listener);
 	}
 
 	@Override
 	public void addOnLayoutChangeListener(OnLayoutChangeListener listener) {
-		if (this.target == null) {
+		if (this.wrapped == null) {
 			return;
 		}
-		this.target.addOnLayoutChangeListener(listener);
+		this.wrapped.addOnLayoutChangeListener(listener);
 	}
 
 	@Override
 	public void addTouchables(ArrayList<View> views) {
-		if (this.target == null) {
+		if (this.wrapped == null) {
 			return;
 		}
-		this.target.addTouchables(views);
+		this.wrapped.addTouchables(views);
 	}
 
 	@Override
 	public ViewPropertyAnimator animate() {
-		if (this.target == null) {
+		if (this.wrapped == null) {
 			return super.animate();
 		}
-		return this.target.animate();
+		return this.wrapped.animate();
 	}
 
 	@Override
 	public void announceForAccessibility(CharSequence text) {
-		if (this.target == null) {
+		if (this.wrapped == null) {
 			return;
 		}
-		this.target.announceForAccessibility(text);
+		this.wrapped.announceForAccessibility(text);
 	}
 
 	@Override
 	public void bringToFront() {
-		if (this.target == null) {
+		if (this.wrapped == null) {
 			return;
 		}
-		this.target.bringToFront();
+		this.wrapped.bringToFront();
 	}
 
 	@Override
 	public void buildDrawingCache() {
-		if (this.target == null) {
+		if (this.wrapped == null) {
 			return;
 		}
-		this.target.buildDrawingCache();
+		this.wrapped.buildDrawingCache();
 	}
 
 	@Override
 	public void buildDrawingCache(boolean autoScale) {
-		if (this.target == null) {
+		if (this.wrapped == null) {
 			return;
 		}
-		this.target.buildDrawingCache(autoScale);
+		this.wrapped.buildDrawingCache(autoScale);
 	}
 
 	@Override
 	public void buildLayer() {
-		if (this.target == null) {
+		if (this.wrapped == null) {
 			return;
 		}
-		this.target.buildLayer();
+		this.wrapped.buildLayer();
 	}
 
 	@Override
 	public boolean callOnClick() {
-		if (this.target == null) {
+		if (this.wrapped == null) {
 			return super.callOnClick();
 		}
-		return this.target.callOnClick();
+		return this.wrapped.callOnClick();
 	}
 
 	@Override
 	public boolean canResolveLayoutDirection() {
-		if (this.target == null) {
+		if (this.wrapped == null) {
 			return super.canResolveLayoutDirection();
 		}
-		return this.target.canResolveLayoutDirection();
+		return this.wrapped.canResolveLayoutDirection();
 	}
 
 	@Override
 	public boolean canResolveTextAlignment() {
-		if (this.target == null) {
+		if (this.wrapped == null) {
 			return super.canResolveTextAlignment();
 		}
-		return this.target.canResolveTextAlignment();
+		return this.wrapped.canResolveTextAlignment();
 	}
 
 	@Override
 	public boolean canResolveTextDirection() {
-		if (this.target == null) {
+		if (this.wrapped == null) {
 			return super.canResolveTextDirection();
 		}
-		return this.target.canResolveTextDirection();
+		return this.wrapped.canResolveTextDirection();
 	}
 
 	@Override
 	public boolean canScrollHorizontally(int direction) {
-		if (this.target == null) {
+		if (this.wrapped == null) {
 			return super.canScrollHorizontally(direction);
 		}
-		return this.target.canScrollHorizontally(direction);
+		return this.wrapped.canScrollHorizontally(direction);
 	}
 
 	@Override
 	public boolean canScrollVertically(int direction) {
-		if (this.target == null) {
+		if (this.wrapped == null) {
 			return super.canScrollVertically(direction);
 		}
-		return this.target.canScrollVertically(direction);
+		return this.wrapped.canScrollVertically(direction);
 	}
 
 	@Override
 	public void cancelLongPress() {
-		if (this.target == null) {
+		if (this.wrapped == null) {
 			return;
 		}
-		this.target.cancelLongPress();
+		this.wrapped.cancelLongPress();
 	}
 
 	@Override
 	public boolean checkInputConnectionProxy(View view) {
-		if (this.target == null) {
+		if (this.wrapped == null) {
 			return super.checkInputConnectionProxy(view);
 		}
-		return this.target.checkInputConnectionProxy(view);
+		return this.wrapped.checkInputConnectionProxy(view);
 	}
 
 	@Override
 	public void clearAnimation() {
-		if (this.target == null) {
+		if (this.wrapped == null) {
 			return;
 		}
-		this.target.clearAnimation();
+		this.wrapped.clearAnimation();
 	}
 
 	@Override
 	public void clearFocus() {
-		if (this.target == null) {
+		if (this.wrapped == null) {
 			return;
 		}
-		this.target.clearFocus();
+		this.wrapped.clearFocus();
 	}
 
 	@Override
 	public void computeScroll() {
-		if (this.target == null) {
+		if (this.wrapped == null) {
 			return;
 		}
-		this.target.computeScroll();
+		this.wrapped.computeScroll();
 	}
 
 	@Override
 	public AccessibilityNodeInfo createAccessibilityNodeInfo() {
-		if (this.target == null) {
+		if (this.wrapped == null) {
 			return super.createAccessibilityNodeInfo();
 		}
-		return this.target.createAccessibilityNodeInfo();
+		return this.wrapped.createAccessibilityNodeInfo();
 	}
 
 	@Override
 	public void createContextMenu(ContextMenu menu) {
-		if (this.target == null) {
+		if (this.wrapped == null) {
 			return;
 		}
-		this.target.createContextMenu(menu);
+		this.wrapped.createContextMenu(menu);
 	}
 
 	@Override
 	public void destroyDrawingCache() {
-		if (this.target == null) {
+		if (this.wrapped == null) {
 			return;
 		}
-		this.target.destroyDrawingCache();
+		this.wrapped.destroyDrawingCache();
 	}
 
 	@Override
 	public WindowInsets dispatchApplyWindowInsets(WindowInsets insets) {
-		if (this.target == null) {
+		if (this.wrapped == null) {
 			return super.dispatchApplyWindowInsets(insets);
 		}
-		return this.target.dispatchApplyWindowInsets(insets);
+		return this.wrapped.dispatchApplyWindowInsets(insets);
 	}
 
 	@Override
 	public void dispatchConfigurationChanged(Configuration newConfig) {
-		if (this.target == null) {
+		if (this.wrapped == null) {
 			return;
 		}
-		this.target.dispatchConfigurationChanged(newConfig);
+		this.wrapped.dispatchConfigurationChanged(newConfig);
 	}
 
 	@Override
 	public void dispatchDisplayHint(int hint) {
-		if (this.target == null) {
+		if (this.wrapped == null) {
 			return;
 		}
-		this.target.dispatchDisplayHint(hint);
+		this.wrapped.dispatchDisplayHint(hint);
 	}
 
 	@Override
 	public boolean dispatchDragEvent(DragEvent event) {
-		if (this.target == null) {
+		if (this.wrapped == null) {
 			return super.dispatchDragEvent(event);
 		}
-		return this.target.dispatchDragEvent(event);
+		return this.wrapped.dispatchDragEvent(event);
 	}
 
 	@Override
 	public boolean dispatchGenericMotionEvent(MotionEvent event) {
-		if (this.target == null) {
+		if (this.wrapped == null) {
 			return super.dispatchGenericMotionEvent(event);
 		}
-		return this.target.dispatchGenericMotionEvent(event);
+		return this.wrapped.dispatchGenericMotionEvent(event);
 	}
 
 	@Override
 	public boolean dispatchKeyEvent(KeyEvent event) {
-		if (this.target == null) {
+		if (this.wrapped == null) {
 			return super.dispatchKeyEvent(event);
 		}
-		return this.target.dispatchKeyEvent(event);
+		return this.wrapped.dispatchKeyEvent(event);
 	}
 
 	@Override
 	public boolean dispatchKeyEventPreIme(KeyEvent event) {
-		if (this.target == null) {
+		if (this.wrapped == null) {
 			return super.dispatchKeyEventPreIme(event);
 		}
-		return this.target.dispatchKeyEventPreIme(event);
+		return this.wrapped.dispatchKeyEventPreIme(event);
 	}
 
 	@Override
 	public boolean dispatchKeyShortcutEvent(KeyEvent event) {
-		if (this.target == null) {
+		if (this.wrapped == null) {
 			return super.dispatchKeyShortcutEvent(event);
 		}
-		return this.target.dispatchKeyShortcutEvent(event);
+		return this.wrapped.dispatchKeyShortcutEvent(event);
 	}
 
 	@Override
 	public boolean dispatchPopulateAccessibilityEvent(AccessibilityEvent event) {
-		if (this.target == null) {
+		if (this.wrapped == null) {
 			return super.dispatchPopulateAccessibilityEvent(event);
 		}
-		return this.target.dispatchPopulateAccessibilityEvent(event);
+		return this.wrapped.dispatchPopulateAccessibilityEvent(event);
 	}
 
 	@Override
 	public void dispatchSystemUiVisibilityChanged(int visibility) {
-		if (this.target == null) {
+		if (this.wrapped == null) {
 			return;
 		}
-		this.target.dispatchSystemUiVisibilityChanged(visibility);
+		this.wrapped.dispatchSystemUiVisibilityChanged(visibility);
 	}
 
 	@Override
 	public boolean dispatchTouchEvent(MotionEvent event) {
-		if (this.target == null) {
+		if (this.wrapped == null) {
 			return super.dispatchTrackballEvent(event);
 		}
-		return this.target.dispatchTouchEvent(event);
+		return this.wrapped.dispatchTouchEvent(event);
 	}
 
 	@Override
 	public boolean dispatchTrackballEvent(MotionEvent event) {
-		if (this.target == null) {
+		if (this.wrapped == null) {
 			return super.dispatchTrackballEvent(event);
 		}
-		return this.target.dispatchTrackballEvent(event);
+		return this.wrapped.dispatchTrackballEvent(event);
 	}
 
 	@Override
 	public boolean dispatchUnhandledMove(View focused, int direction) {
-		if (this.target == null) {
+		if (this.wrapped == null) {
 			return super.dispatchUnhandledMove(focused, direction);
 		}
-		return this.target.dispatchUnhandledMove(focused, direction);
+		return this.wrapped.dispatchUnhandledMove(focused, direction);
 	}
 
 	@Override
 	public void dispatchWindowFocusChanged(boolean hasFocus) {
-		if (this.target == null) {
+		if (this.wrapped == null) {
 			return;
 		}
-		this.target.dispatchWindowFocusChanged(hasFocus);
+		this.wrapped.dispatchWindowFocusChanged(hasFocus);
 	}
 
 	@Override
 	public void dispatchWindowSystemUiVisiblityChanged(int visible) {
-		if (this.target == null) {
+		if (this.wrapped == null) {
 			return;
 		}
-		this.target.dispatchWindowSystemUiVisiblityChanged(visible);
+		this.wrapped.dispatchWindowSystemUiVisiblityChanged(visible);
 	}
 
 	@Override
 	public void dispatchWindowVisibilityChanged(int visibility) {
-		if (this.target == null) {
+		if (this.wrapped == null) {
 			return;
 		}
-		this.target.dispatchWindowVisibilityChanged(visibility);
+		this.wrapped.dispatchWindowVisibilityChanged(visibility);
 	}
 
 	@Override
 	public void draw(Canvas canvas) {
-		if (this.target == null) {
+		if (this.wrapped == null) {
 			super.draw(canvas);
 			return;
 		}
-		this.target.draw(canvas);
+		this.wrapped.draw(canvas);
 	}
 
 	@Override
 	public View findFocus() {
-		if (this.target == null) {
+		if (this.wrapped == null) {
 			return super.findFocus();
 		}
-		return this.target.findFocus();
+		return this.wrapped.findFocus();
 	}
 
 	
@@ -415,239 +415,239 @@ public class AfViewDelegate extends View{
 	@Override
 	public void findViewsWithText(ArrayList<View> outViews,
 			CharSequence searched, int flags) {
-		if (this.target == null) {
+		if (this.wrapped == null) {
 			return;
 		}
-		this.target.findViewsWithText(outViews, searched, flags);
+		this.wrapped.findViewsWithText(outViews, searched, flags);
 	}
 
 	@Override
 	public View focusSearch(int direction) {
-		if (this.target == null) {
+		if (this.wrapped == null) {
 			return super.focusSearch(direction);
 		}
-		return this.target.focusSearch(direction);
+		return this.wrapped.focusSearch(direction);
 	}
 
 	@Override
 	public void forceLayout() {
-		if (this.target == null) {
+		if (this.wrapped == null) {
 			return;
 		}
-		this.target.forceLayout();
+		this.wrapped.forceLayout();
 	}
 
 	@Override
 	public int getAccessibilityLiveRegion() {
-		if (this.target == null) {
+		if (this.wrapped == null) {
 			return super.getAccessibilityLiveRegion();
 		}
-		return this.target.getAccessibilityLiveRegion();
+		return this.wrapped.getAccessibilityLiveRegion();
 	}
 
 	@Override
 	public AccessibilityNodeProvider getAccessibilityNodeProvider() {
-		if (this.target == null) {
+		if (this.wrapped == null) {
 			return super.getAccessibilityNodeProvider();
 		}
-		return this.target.getAccessibilityNodeProvider();
+		return this.wrapped.getAccessibilityNodeProvider();
 	}
 
 	@Override
 	//@ExportedProperty(category = "drawing")
 	public float getAlpha() {
-		if (this.target == null) {
+		if (this.wrapped == null) {
 			return super.getAlpha();
 		}
-		return this.target.getAlpha();
+		return this.wrapped.getAlpha();
 	}
 
 	@Override
 	public Animation getAnimation() {
-		if (this.target == null) {
+		if (this.wrapped == null) {
 			return super.getAnimation();
 		}
-		return this.target.getAnimation();
+		return this.wrapped.getAnimation();
 	}
 
 	@Override
 	public IBinder getApplicationWindowToken() {
-		if (this.target == null) {
+		if (this.wrapped == null) {
 			return super.getApplicationWindowToken();
 		}
-		return this.target.getApplicationWindowToken();
+		return this.wrapped.getApplicationWindowToken();
 	}
 
 	@Override
 	public Drawable getBackground() {
-		if (this.target == null) {
+		if (this.wrapped == null) {
 			return super.getBackground();
 		}
-		return this.target.getBackground();
+		return this.wrapped.getBackground();
 	}
 
 	@Override
 	//@ExportedProperty(category = "layout")
 	public int getBaseline() {
-		if (this.target == null) {
+		if (this.wrapped == null) {
 			return super.getBaseline();
 		}
-		return this.target.getBaseline();
+		return this.wrapped.getBaseline();
 	}
 
 	@Override
 	public float getCameraDistance() {
-		if (this.target == null) {
+		if (this.wrapped == null) {
 			return super.getCameraDistance();
 		}
-		return this.target.getCameraDistance();
+		return this.wrapped.getCameraDistance();
 	}
 
 	@Override
 	public Rect getClipBounds() {
-		if (this.target == null) {
+		if (this.wrapped == null) {
 			return super.getClipBounds();
 		}
-		return this.target.getClipBounds();
+		return this.wrapped.getClipBounds();
 	}
 
 	@Override
 	//@ExportedProperty(category = "accessibility")
 	public CharSequence getContentDescription() {
-		if (this.target == null) {
+		if (this.wrapped == null) {
 			return super.getContentDescription();
 		}
-		return this.target.getContentDescription();
+		return this.wrapped.getContentDescription();
 	}
 
 	@Override
 	public Display getDisplay() {
-		if (this.target == null) {
+		if (this.wrapped == null) {
 			return super.getDisplay();
 		}
-		return this.target.getDisplay();
+		return this.wrapped.getDisplay();
 	}
 
 	@Override
 	public Bitmap getDrawingCache() {
-		if (this.target == null) {
+		if (this.wrapped == null) {
 			return super.getDrawingCache();
 		}
-		return this.target.getDrawingCache();
+		return this.wrapped.getDrawingCache();
 	}
 
 	@Override
 	public Bitmap getDrawingCache(boolean autoScale) {
-		if (this.target == null) {
+		if (this.wrapped == null) {
 			return super.getDrawingCache(autoScale);
 		}
-		return this.target.getDrawingCache(autoScale);
+		return this.wrapped.getDrawingCache(autoScale);
 	}
 
 	@Override
 	public int getDrawingCacheBackgroundColor() {
-		if (this.target == null) {
+		if (this.wrapped == null) {
 			return super.getDrawingCacheBackgroundColor();
 		}
-		return this.target.getDrawingCacheBackgroundColor();
+		return this.wrapped.getDrawingCacheBackgroundColor();
 	}
 
 	@Override
 	public int getDrawingCacheQuality() {
-		if (this.target == null) {
+		if (this.wrapped == null) {
 			return super.getDrawingCacheQuality();
 		}
-		return this.target.getDrawingCacheQuality();
+		return this.wrapped.getDrawingCacheQuality();
 	}
 
 	@Override
 	public void getDrawingRect(Rect outRect) {
-		if (this.target == null) {
+		if (this.wrapped == null) {
 			return;
 		}
-		this.target.getDrawingRect(outRect);
+		this.wrapped.getDrawingRect(outRect);
 	}
 
 	@Override
 	public long getDrawingTime() {
-		if (this.target == null) {
+		if (this.wrapped == null) {
 			return super.getDrawingTime();
 		}
-		return this.target.getDrawingTime();
+		return this.wrapped.getDrawingTime();
 	}
 
 	@Override
 	//@ExportedProperty
 	public boolean getFilterTouchesWhenObscured() {
-		if (this.target == null) {
+		if (this.wrapped == null) {
 			return super.getFilterTouchesWhenObscured();
 		}
-		return this.target.getFilterTouchesWhenObscured();
+		return this.wrapped.getFilterTouchesWhenObscured();
 	}
 
 	@Override
 	public boolean getFitsSystemWindows() {
-		if (this.target == null) {
+		if (this.wrapped == null) {
 			return super.getFitsSystemWindows();
 		}
-		return this.target.getFitsSystemWindows();
+		return this.wrapped.getFitsSystemWindows();
 	}
 
 	@Override
 	public ArrayList<View> getFocusables(int direction) {
-		if (this.target == null) {
+		if (this.wrapped == null) {
 			return super.getFocusables(direction);
 		}
-		return this.target.getFocusables(direction);
+		return this.wrapped.getFocusables(direction);
 	}
 
 	@Override
 	public void getFocusedRect(Rect r) {
-		if (this.target == null) {
+		if (this.wrapped == null) {
 			return;
 		}
-		this.target.getFocusedRect(r);
+		this.wrapped.getFocusedRect(r);
 	}
 
 	@Override
 	public boolean getGlobalVisibleRect(Rect r, Point globalOffset) {
-		if (this.target == null) {
+		if (this.wrapped == null) {
 			return super.getGlobalVisibleRect(r, globalOffset);
 		}
-		return this.target.getGlobalVisibleRect(r, globalOffset);
+		return this.wrapped.getGlobalVisibleRect(r, globalOffset);
 	}
 
 	@Override
 	public Handler getHandler() {
-		if (this.target == null) {
+		if (this.wrapped == null) {
 			return super.getHandler();
 		}
-		return this.target.getHandler();
+		return this.wrapped.getHandler();
 	}
 
 	@Override
 	public void getHitRect(Rect outRect) {
-		if (this.target == null) {
+		if (this.wrapped == null) {
 			return;
 		}
-		this.target.getHitRect(outRect);
+		this.wrapped.getHitRect(outRect);
 	}
 
 	@Override
 	public int getHorizontalFadingEdgeLength() {
-		if (this.target == null) {
+		if (this.wrapped == null) {
 			return super.getHorizontalFadingEdgeLength();
 		}
-		return this.target.getHorizontalFadingEdgeLength();
+		return this.wrapped.getHorizontalFadingEdgeLength();
 	}
 
 	@Override
 	//@CapturedViewProperty
 	public int getId() {
-		if (this.target == null) {
+		if (this.wrapped == null) {
 			return super.getId();
 		}
-		return this.target.getId();
+		return this.wrapped.getId();
 	}
 
 	@Override
@@ -657,43 +657,43 @@ public class AfViewDelegate extends View{
 			//@IntToString(from = 2, to = "no"),
 			//@IntToString(from = 4, to = "noHideDescendants") })
 	public int getImportantForAccessibility() {
-		if (this.target == null) {
+		if (this.wrapped == null) {
 			return super.getImportantForAccessibility();
 		}
-		return this.target.getImportantForAccessibility();
+		return this.wrapped.getImportantForAccessibility();
 	}
 
 	@Override
 	public boolean getKeepScreenOn() {
-		if (this.target == null) {
+		if (this.wrapped == null) {
 			return super.getKeepScreenOn();
 		}
-		return this.target.getKeepScreenOn();
+		return this.wrapped.getKeepScreenOn();
 	}
 
 	@Override
 	public DispatcherState getKeyDispatcherState() {
-		if (this.target == null) {
+		if (this.wrapped == null) {
 			return super.getKeyDispatcherState();
 		}
-		return this.target.getKeyDispatcherState();
+		return this.wrapped.getKeyDispatcherState();
 	}
 
 	@Override
 	//@ExportedProperty(category = "accessibility")
 	public int getLabelFor() {
-		if (this.target == null) {
+		if (this.wrapped == null) {
 			return super.getLabelFor();
 		}
-		return this.target.getLabelFor();
+		return this.wrapped.getLabelFor();
 	}
 
 	@Override
 	public int getLayerType() {
-		if (this.target == null) {
+		if (this.wrapped == null) {
 			return super.getLayerType();
 		}
-		return this.target.getLayerType();
+		return this.wrapped.getLayerType();
 	}
 
 	@Override
@@ -701,282 +701,282 @@ public class AfViewDelegate extends View{
 			//@IntToString(from = 0, to = "RESOLVED_DIRECTION_LTR"),
 			//@IntToString(from = 1, to = "RESOLVED_DIRECTION_RTL") })
 	public int getLayoutDirection() {
-		if (this.target == null) {
+		if (this.wrapped == null) {
 			return super.getLayoutDirection();
 		}
-		return this.target.getLayoutDirection();
+		return this.wrapped.getLayoutDirection();
 	}
 
 	@Override
 	//@ExportedProperty(deepExport = true, prefix = "layout_")
 	public LayoutParams getLayoutParams() {
-		if (this.target == null) {
+		if (this.wrapped == null) {
 			return super.getLayoutParams();
 		}
-		return this.target.getLayoutParams();
+		return this.wrapped.getLayoutParams();
 	}
 
 	@Override
 	public void getLocationInWindow(int[] location) {
-		if (this.target == null) {
+		if (this.wrapped == null) {
 			return;
 		}
-		this.target.getLocationInWindow(location);
+		this.wrapped.getLocationInWindow(location);
 	}
 
 	@Override
 	public void getLocationOnScreen(int[] location) {
-		if (this.target == null) {
+		if (this.wrapped == null) {
 			return;
 		}
-		this.target.getLocationOnScreen(location);
+		this.wrapped.getLocationOnScreen(location);
 	}
 
 	@Override
 	public Matrix getMatrix() {
-		if (this.target == null) {
+		if (this.wrapped == null) {
 			return super.getMatrix();
 		}
-		return this.target.getMatrix();
+		return this.wrapped.getMatrix();
 	}
 
 	@Override
 	public int getMinimumHeight() {
-		if (this.target == null) {
+		if (this.wrapped == null) {
 			return super.getMinimumHeight();
 		}
-		return this.target.getMinimumHeight();
+		return this.wrapped.getMinimumHeight();
 	}
 
 	@Override
 	public int getMinimumWidth() {
-		if (this.target == null) {
+		if (this.wrapped == null) {
 			return super.getMinimumWidth();
 		}
-		return this.target.getMinimumWidth();
+		return this.wrapped.getMinimumWidth();
 	}
 
 	@Override
 	public int getNextFocusDownId() {
-		if (this.target == null) {
+		if (this.wrapped == null) {
 			return super.getNextFocusDownId();
 		}
-		return this.target.getNextFocusDownId();
+		return this.wrapped.getNextFocusDownId();
 	}
 
 	@Override
 	public int getNextFocusForwardId() {
-		if (this.target == null) {
+		if (this.wrapped == null) {
 			return super.getNextFocusForwardId();
 		}
-		return this.target.getNextFocusForwardId();
+		return this.wrapped.getNextFocusForwardId();
 	}
 
 	@Override
 	public int getNextFocusLeftId() {
-		if (this.target == null) {
+		if (this.wrapped == null) {
 			return super.getNextFocusLeftId();
 		}
-		return this.target.getNextFocusLeftId();
+		return this.wrapped.getNextFocusLeftId();
 	}
 
 	@Override
 	public int getNextFocusRightId() {
-		if (this.target == null) {
+		if (this.wrapped == null) {
 			return super.getNextFocusRightId();
 		}
-		return this.target.getNextFocusRightId();
+		return this.wrapped.getNextFocusRightId();
 	}
 
 	@Override
 	public int getNextFocusUpId() {
-		if (this.target == null) {
+		if (this.wrapped == null) {
 			return super.getNextFocusUpId();
 		}
-		return this.target.getNextFocusUpId();
+		return this.wrapped.getNextFocusUpId();
 	}
 
 	@Override
 	public OnFocusChangeListener getOnFocusChangeListener() {
-		if (this.target == null) {
+		if (this.wrapped == null) {
 			return super.getOnFocusChangeListener();
 		}
-		return this.target.getOnFocusChangeListener();
+		return this.wrapped.getOnFocusChangeListener();
 	}
 
 	@Override
 	public int getOverScrollMode() {
-		if (this.target == null) {
+		if (this.wrapped == null) {
 			return super.getOverScrollMode();
 		}
-		return this.target.getOverScrollMode();
+		return this.wrapped.getOverScrollMode();
 	}
 
 	@Override
 	public ViewOverlay getOverlay() {
-		if (this.target == null) {
+		if (this.wrapped == null) {
 			return super.getOverlay();
 		}
-		return this.target.getOverlay();
+		return this.wrapped.getOverlay();
 	}
 
 	@Override
 	public int getPaddingBottom() {
-		if (this.target == null) {
+		if (this.wrapped == null) {
 			return super.getPaddingBottom();
 		}
-		return this.target.getPaddingBottom();
+		return this.wrapped.getPaddingBottom();
 	}
 
 	@Override
 	public int getPaddingEnd() {
-		if (this.target == null) {
+		if (this.wrapped == null) {
 			return super.getPaddingEnd();
 		}
-		return this.target.getPaddingEnd();
+		return this.wrapped.getPaddingEnd();
 	}
 
 	@Override
 	public int getPaddingLeft() {
-		if (this.target == null) {
+		if (this.wrapped == null) {
 			return super.getPaddingLeft();
 		}
-		return this.target.getPaddingLeft();
+		return this.wrapped.getPaddingLeft();
 	}
 
 	@Override
 	public int getPaddingRight() {
-		if (this.target == null) {
+		if (this.wrapped == null) {
 			return super.getPaddingRight();
 		}
-		return this.target.getPaddingRight();
+		return this.wrapped.getPaddingRight();
 	}
 
 	@Override
 	public int getPaddingStart() {
-		if (this.target == null) {
+		if (this.wrapped == null) {
 			return super.getPaddingStart();
 		}
-		return this.target.getPaddingStart();
+		return this.wrapped.getPaddingStart();
 	}
 
 	@Override
 	public int getPaddingTop() {
-		if (this.target == null) {
+		if (this.wrapped == null) {
 			return super.getPaddingTop();
 		}
-		return this.target.getPaddingTop();
+		return this.wrapped.getPaddingTop();
 	}
 
 	@Override
 	public ViewParent getParentForAccessibility() {
-		if (this.target == null) {
+		if (this.wrapped == null) {
 			return super.getParentForAccessibility();
 		}
-		return this.target.getParentForAccessibility();
+		return this.wrapped.getParentForAccessibility();
 	}
 
 	@Override
 	//@ExportedProperty(category = "drawing")
 	public float getPivotX() {
-		if (this.target == null) {
+		if (this.wrapped == null) {
 			return super.getPivotX();
 		}
-		return this.target.getPivotX();
+		return this.wrapped.getPivotX();
 	}
 
 	@Override
 	//@ExportedProperty(category = "drawing")
 	public float getPivotY() {
-		if (this.target == null) {
+		if (this.wrapped == null) {
 			return super.getPivotY();
 		}
-		return this.target.getPivotY();
+		return this.wrapped.getPivotY();
 	}
 
 	@Override
 	public Resources getResources() {
-		if (this.target == null) {
+		if (this.wrapped == null) {
 			return super.getResources();
 		}
-		return this.target.getResources();
+		return this.wrapped.getResources();
 	}
 
 	@Override
 	public View getRootView() {
-		if (this.target == null) {
+		if (this.wrapped == null) {
 			return super.getRootView();
 		}
-		return this.target.getRootView();
+		return this.wrapped.getRootView();
 	}
 
 	@Override
 	//@ExportedProperty(category = "drawing")
 	public float getRotation() {
-		if (this.target == null) {
+		if (this.wrapped == null) {
 			return super.getRotation();
 		}
-		return this.target.getRotation();
+		return this.wrapped.getRotation();
 	}
 
 	@Override
 	//@ExportedProperty(category = "drawing")
 	public float getRotationX() {
-		if (this.target == null) {
+		if (this.wrapped == null) {
 			return super.getRotationX();
 		}
-		return this.target.getRotationX();
+		return this.wrapped.getRotationX();
 	}
 
 	@Override
 	//@ExportedProperty(category = "drawing")
 	public float getRotationY() {
-		if (this.target == null) {
+		if (this.wrapped == null) {
 			return super.getRotationY();
 		}
-		return this.target.getRotationY();
+		return this.wrapped.getRotationY();
 	}
 
 	@Override
 	//@ExportedProperty(category = "drawing")
 	public float getScaleX() {
-		if (this.target == null) {
+		if (this.wrapped == null) {
 			return super.getScaleY();
 		}
-		return this.target.getScaleX();
+		return this.wrapped.getScaleX();
 	}
 
 	@Override
 	//@ExportedProperty(category = "drawing")
 	public float getScaleY() {
-		if (this.target == null) {
+		if (this.wrapped == null) {
 			return super.getScaleY();
 		}
-		return this.target.getScaleY();
+		return this.wrapped.getScaleY();
 	}
 
 	@Override
 	public int getScrollBarDefaultDelayBeforeFade() {
-		if (this.target == null) {
+		if (this.wrapped == null) {
 			return super.getScrollBarDefaultDelayBeforeFade();
 		}
-		return this.target.getScrollBarDefaultDelayBeforeFade();
+		return this.wrapped.getScrollBarDefaultDelayBeforeFade();
 	}
 
 	@Override
 	public int getScrollBarFadeDuration() {
-		if (this.target == null) {
+		if (this.wrapped == null) {
 			return super.getScrollBarFadeDuration();
 		}
-		return this.target.getScrollBarFadeDuration();
+		return this.wrapped.getScrollBarFadeDuration();
 	}
 
 	@Override
 	public int getScrollBarSize() {
-		if (this.target == null) {
+		if (this.wrapped == null) {
 			return super.getScrollBarSize();
 		}
-		return this.target.getScrollBarSize();
+		return this.wrapped.getScrollBarSize();
 	}
 
 	@Override
@@ -986,44 +986,44 @@ public class AfViewDelegate extends View{
 			//@IntToString(from = 33554432, to = "OUTSIDE_OVERLAY"),
 			//@IntToString(from = 50331648, to = "OUTSIDE_INSET") })
 	public int getScrollBarStyle() {
-		if (this.target == null) {
+		if (this.wrapped == null) {
 			return super.getScrollBarStyle();
 		}
-		return this.target.getScrollBarStyle();
+		return this.wrapped.getScrollBarStyle();
 	}
 
 	@Override
 	//@ExportedProperty(category = "drawing")
 	public int getSolidColor() {
-		if (this.target == null) {
+		if (this.wrapped == null) {
 			return super.getSolidColor();
 		}
-		return this.target.getSolidColor();
+		return this.wrapped.getSolidColor();
 	}
 
 	@Override
 	public int getSystemUiVisibility() {
-		if (this.target == null) {
+		if (this.wrapped == null) {
 			return super.getSystemUiVisibility();
 		}
-		return this.target.getSystemUiVisibility();
+		return this.wrapped.getSystemUiVisibility();
 	}
 
 	@Override
 	//@ExportedProperty
 	public Object getTag() {
-		if (this.target == null) {
+		if (this.wrapped == null) {
 			return super.getTag();
 		}
-		return this.target.getTag();
+		return this.wrapped.getTag();
 	}
 
 	@Override
 	public Object getTag(int key) {
-		if (this.target == null) {
+		if (this.wrapped == null) {
 			return super.getTag(key);
 		}
-		return this.target.getTag(key);
+		return this.wrapped.getTag(key);
 	}
 
 	@Override
@@ -1036,10 +1036,10 @@ public class AfViewDelegate extends View{
 			//@IntToString(from = 5, to = "VIEW_START"),
 			//@IntToString(from = 6, to = "VIEW_END") })
 	public int getTextAlignment() {
-		if (this.target == null) {
+		if (this.wrapped == null) {
 			return super.getTextAlignment();
 		}
-		return this.target.getTextAlignment();
+		return this.wrapped.getTextAlignment();
 	}
 
 	@Override
@@ -1051,76 +1051,76 @@ public class AfViewDelegate extends View{
 			//@IntToString(from = 4, to = "RTL"),
 			//@IntToString(from = 5, to = "LOCALE") })
 	public int getTextDirection() {
-		if (this.target == null) {
+		if (this.wrapped == null) {
 			return super.getTextDirection();
 		}
-		return this.target.getTextDirection();
+		return this.wrapped.getTextDirection();
 	}
 
 	@Override
 	public TouchDelegate getTouchDelegate() {
-		if (this.target == null) {
+		if (this.wrapped == null) {
 			return super.getTouchDelegate();
 		}
-		return this.target.getTouchDelegate();
+		return this.wrapped.getTouchDelegate();
 	}
 
 	@Override
 	public ArrayList<View> getTouchables() {
-		if (this.target == null) {
+		if (this.wrapped == null) {
 			return super.getTouchables();
 		}
-		return this.target.getTouchables();
+		return this.wrapped.getTouchables();
 	}
 
 	@Override
 	//@ExportedProperty(category = "drawing")
 	public float getTranslationX() {
-		if (this.target == null) {
+		if (this.wrapped == null) {
 			return super.getTranslationX();
 		}
-		return this.target.getTranslationX();
+		return this.wrapped.getTranslationX();
 	}
 
 	@Override
 	//@ExportedProperty(category = "drawing")
 	public float getTranslationY() {
-		if (this.target == null) {
+		if (this.wrapped == null) {
 			return super.getTranslationY();
 		}
-		return this.target.getTranslationY();
+		return this.wrapped.getTranslationY();
 	}
 
 	@Override
 	public int getVerticalFadingEdgeLength() {
-		if (this.target == null) {
+		if (this.wrapped == null) {
 			return super.getVerticalFadingEdgeLength();
 		}
-		return this.target.getVerticalFadingEdgeLength();
+		return this.wrapped.getVerticalFadingEdgeLength();
 	}
 
 	@Override
 	public int getVerticalScrollbarPosition() {
-		if (this.target == null) {
+		if (this.wrapped == null) {
 			return super.getVerticalScrollbarPosition();
 		}
-		return this.target.getVerticalScrollbarPosition();
+		return this.wrapped.getVerticalScrollbarPosition();
 	}
 
 	@Override
 	public int getVerticalScrollbarWidth() {
-		if (this.target == null) {
+		if (this.wrapped == null) {
 			return super.getVerticalScrollbarWidth();
 		}
-		return this.target.getVerticalScrollbarWidth();
+		return this.wrapped.getVerticalScrollbarWidth();
 	}
 
 	@Override
 	public ViewTreeObserver getViewTreeObserver() {
-		if (this.target == null) {
+		if (this.wrapped == null) {
 			return super.getViewTreeObserver();
 		}
-		return this.target.getViewTreeObserver();
+		return this.wrapped.getViewTreeObserver();
 	}
 
 	@Override
@@ -1128,441 +1128,441 @@ public class AfViewDelegate extends View{
 			//@IntToString(from = 4, to = "INVISIBLE"),
 			//@IntToString(from = 8, to = "GONE") })
 	public int getVisibility() {
-		if (this.target == null) {
+		if (this.wrapped == null) {
 			return super.getVisibility();
 		}
-		return this.target.getVisibility();
+		return this.wrapped.getVisibility();
 	}
 
 	@Override
 	public WindowId getWindowId() {
-		if (this.target == null) {
+		if (this.wrapped == null) {
 			return super.getWindowId();
 		}
-		return this.target.getWindowId();
+		return this.wrapped.getWindowId();
 	}
 
 	@Override
 	public int getWindowSystemUiVisibility() {
-		if (this.target == null) {
+		if (this.wrapped == null) {
 			return super.getWindowSystemUiVisibility();
 		}
-		return this.target.getWindowSystemUiVisibility();
+		return this.wrapped.getWindowSystemUiVisibility();
 	}
 
 	@Override
 	public IBinder getWindowToken() {
-		if (this.target == null) {
+		if (this.wrapped == null) {
 			return super.getWindowToken();
 		}
-		return this.target.getWindowToken();
+		return this.wrapped.getWindowToken();
 	}
 
 	@Override
 	public int getWindowVisibility() {
-		if (this.target == null) {
+		if (this.wrapped == null) {
 			return super.getWindowVisibility();
 		}
-		return this.target.getWindowVisibility();
+		return this.wrapped.getWindowVisibility();
 	}
 
 	@Override
 	public void getWindowVisibleDisplayFrame(Rect outRect) {
-		if (this.target == null) {
+		if (this.wrapped == null) {
 			return;
 		}
-		this.target.getWindowVisibleDisplayFrame(outRect);
+		this.wrapped.getWindowVisibleDisplayFrame(outRect);
 	}
 
 	@Override
 	//@ExportedProperty(category = "drawing")
 	public float getX() {
-		if (this.target == null) {
+		if (this.wrapped == null) {
 			return super.getX();
 		}
-		return this.target.getX();
+		return this.wrapped.getX();
 	}
 
 	@Override
 	//@ExportedProperty(category = "drawing")
 	public float getY() {
-		if (this.target == null) {
+		if (this.wrapped == null) {
 			return super.getY();
 		}
-		return this.target.getY();
+		return this.wrapped.getY();
 	}
 
 	@Override
 	//@ExportedProperty(category = "focus")
 	public boolean hasFocus() {
-		if (this.target == null) {
+		if (this.wrapped == null) {
 			return super.hasFocus();
 		}
-		return this.target.hasFocus();
+		return this.wrapped.hasFocus();
 	}
 
 	@Override
 	public boolean hasFocusable() {
-		if (this.target == null) {
+		if (this.wrapped == null) {
 			return super.hasFocusable();
 		}
-		return this.target.hasFocusable();
+		return this.wrapped.hasFocusable();
 	}
 
 	@Override
 	public boolean hasOnClickListeners() {
-		if (this.target == null) {
+		if (this.wrapped == null) {
 			return super.hasOnClickListeners();
 		}
-		return this.target.hasOnClickListeners();
+		return this.wrapped.hasOnClickListeners();
 	}
 
 	@Override
 	public boolean hasOverlappingRendering() {
-		if (this.target == null) {
+		if (this.wrapped == null) {
 			return super.hasOverlappingRendering();
 		}
-		return this.target.hasOverlappingRendering();
+		return this.wrapped.hasOverlappingRendering();
 	}
 
 	@Override
 	//@ExportedProperty(category = "layout")
 	public boolean hasTransientState() {
-		if (this.target == null) {
+		if (this.wrapped == null) {
 			return super.hasTransientState();
 		}
-		return this.target.hasTransientState();
+		return this.wrapped.hasTransientState();
 	}
 
 	@Override
 	public boolean hasWindowFocus() {
-		if (this.target == null) {
+		if (this.wrapped == null) {
 			return super.hasWindowFocus();
 		}
-		return this.target.hasWindowFocus();
+		return this.wrapped.hasWindowFocus();
 	}
 
 	@Override
 	public void invalidate() {
-		if (this.target == null) {
+		if (this.wrapped == null) {
 			return;
 		}
-		this.target.invalidate();
+		this.wrapped.invalidate();
 	}
 
 	@Override
 	public void invalidate(int l, int t, int r, int b) {
-		if (this.target == null) {
+		if (this.wrapped == null) {
 			return;
 		}
-		this.target.invalidate(l, t, r, b);
+		this.wrapped.invalidate(l, t, r, b);
 	}
 
 	@Override
 	public void invalidate(Rect dirty) {
-		if (this.target == null) {
+		if (this.wrapped == null) {
 			return;
 		}
-		this.target.invalidate(dirty);
+		this.wrapped.invalidate(dirty);
 	}
 
 	@Override
 	public void invalidateDrawable(Drawable drawable) {
-		if (this.target == null) {
+		if (this.wrapped == null) {
 			return;
 		}
-		this.target.invalidateDrawable(drawable);
+		this.wrapped.invalidateDrawable(drawable);
 	}
 
 	@Override
 	//@ExportedProperty
 	public boolean isActivated() {
-		if (this.target == null) {
+		if (this.wrapped == null) {
 			return super.isActivated();
 		}
-		return this.target.isActivated();
+		return this.wrapped.isActivated();
 	}
 
 	@Override
 	public boolean isAttachedToWindow() {
-		if (this.target == null) {
+		if (this.wrapped == null) {
 			return super.isAttachedToWindow();
 		}
-		return this.target.isAttachedToWindow();
+		return this.wrapped.isAttachedToWindow();
 	}
 
 	@Override
 	//@ExportedProperty
 	public boolean isClickable() {
-		if (this.target == null) {
+		if (this.wrapped == null) {
 			return super.isClickable();
 		}
-		return this.target.isClickable();
+		return this.wrapped.isClickable();
 	}
 
 	@Override
 	public boolean isDirty() {
-		if (this.target == null) {
+		if (this.wrapped == null) {
 			return super.isDirty();
 		}
-		return this.target.isDirty();
+		return this.wrapped.isDirty();
 	}
 
 	@Override
 	//@ExportedProperty(category = "drawing")
 	public boolean isDrawingCacheEnabled() {
-		if (this.target == null) {
+		if (this.wrapped == null) {
 			return super.isDrawingCacheEnabled();
 		}
-		return this.target.isDrawingCacheEnabled();
+		return this.wrapped.isDrawingCacheEnabled();
 	}
 
 	@Override
 	public boolean isDuplicateParentStateEnabled() {
-		if (this.target == null) {
+		if (this.wrapped == null) {
 			return super.isDuplicateParentStateEnabled();
 		}
-		return this.target.isDuplicateParentStateEnabled();
+		return this.wrapped.isDuplicateParentStateEnabled();
 	}
 
 	@Override
 	//@ExportedProperty
 	public boolean isEnabled() {
-		if (this.target == null) {
+		if (this.wrapped == null) {
 			return super.isEnabled();
 		}
-		return this.target.isEnabled();
+		return this.wrapped.isEnabled();
 	}
 
 	@Override
 	//@ExportedProperty(category = "focus")
 	public boolean isFocused() {
-		if (this.target == null) {
+		if (this.wrapped == null) {
 			return super.isFocused();
 		}
-		return this.target.isFocused();
+		return this.wrapped.isFocused();
 	}
 
 	@Override
 	//@ExportedProperty
 	public boolean isHapticFeedbackEnabled() {
-		if (this.target == null) {
+		if (this.wrapped == null) {
 			return super.isHapticFeedbackEnabled();
 		}
-		return this.target.isHapticFeedbackEnabled();
+		return this.wrapped.isHapticFeedbackEnabled();
 	}
 
 	@Override
 	public boolean isHardwareAccelerated() {
-		if (this.target == null) {
+		if (this.wrapped == null) {
 			return super.isHardwareAccelerated();
 		}
-		return this.target.isHardwareAccelerated();
+		return this.wrapped.isHardwareAccelerated();
 	}
 
 	@Override
 	public boolean isHorizontalFadingEdgeEnabled() {
-		if (this.target == null) {
+		if (this.wrapped == null) {
 			return super.isHorizontalFadingEdgeEnabled();
 		}
-		return this.target.isHorizontalFadingEdgeEnabled();
+		return this.wrapped.isHorizontalFadingEdgeEnabled();
 	}
 
 	@Override
 	public boolean isHorizontalScrollBarEnabled() {
-		if (this.target == null) {
+		if (this.wrapped == null) {
 			return super.isHorizontalScrollBarEnabled();
 		}
-		return this.target.isHorizontalScrollBarEnabled();
+		return this.wrapped.isHorizontalScrollBarEnabled();
 	}
 
 	@Override
 	//@ExportedProperty
 	public boolean isHovered() {
-		if (this.target == null) {
+		if (this.wrapped == null) {
 			return super.isHovered();
 		}
-		return this.target.isHovered();
+		return this.wrapped.isHovered();
 	}
 
 	@Override
 	public boolean isInEditMode() {
-		if (this.target == null) {
+		if (this.wrapped == null) {
 			return super.isInLayout();
 		}
-		return this.target.isInEditMode();
+		return this.wrapped.isInEditMode();
 	}
 
 	@Override
 	public boolean isInLayout() {
-		if (this.target == null) {
+		if (this.wrapped == null) {
 			return super.isInLayout();
 		}
-		return this.target.isInLayout();
+		return this.wrapped.isInLayout();
 	}
 
 	@Override
 	//@ExportedProperty
 	public boolean isInTouchMode() {
-		if (this.target == null) {
+		if (this.wrapped == null) {
 			return super.isInTouchMode();
 		}
-		return this.target.isInTouchMode();
+		return this.wrapped.isInTouchMode();
 	}
 
 	@Override
 	public boolean isLaidOut() {
-		if (this.target == null) {
+		if (this.wrapped == null) {
 			return super.isLaidOut();
 		}
-		return this.target.isLaidOut();
+		return this.wrapped.isLaidOut();
 	}
 
 	@Override
 	public boolean isLayoutDirectionResolved() {
-		if (this.target == null) {
+		if (this.wrapped == null) {
 			return super.isLayoutDirectionResolved();
 		}
-		return this.target.isLayoutDirectionResolved();
+		return this.wrapped.isLayoutDirectionResolved();
 	}
 
 	@Override
 	public boolean isLayoutRequested() {
-		if (this.target == null) {
+		if (this.wrapped == null) {
 			return super.isLayoutRequested();
 		}
-		return this.target.isLayoutRequested();
+		return this.wrapped.isLayoutRequested();
 	}
 
 	@Override
 	public boolean isLongClickable() {
-		if (this.target == null) {
+		if (this.wrapped == null) {
 			return super.isLongClickable();
 		}
-		return this.target.isLongClickable();
+		return this.wrapped.isLongClickable();
 	}
 
 	@Override
 	//@ExportedProperty(category = "drawing")
 	public boolean isOpaque() {
-		if (this.target == null) {
+		if (this.wrapped == null) {
 			return super.isOpaque();
 		}
-		return this.target.isOpaque();
+		return this.wrapped.isOpaque();
 	}
 
 	@Override
 	public boolean isPaddingRelative() {
-		if (this.target == null) {
+		if (this.wrapped == null) {
 			return super.isPaddingRelative();
 		}
-		return this.target.isPaddingRelative();
+		return this.wrapped.isPaddingRelative();
 	}
 
 	@Override
 	public boolean isPressed() {
-		if (this.target == null) {
+		if (this.wrapped == null) {
 			return super.isPressed();
 		}
-		return this.target.isPressed();
+		return this.wrapped.isPressed();
 	}
 
 	@Override
 	public boolean isSaveEnabled() {
-		if (this.target == null) {
+		if (this.wrapped == null) {
 			return super.isSaveEnabled();
 		}
-		return this.target.isSaveEnabled();
+		return this.wrapped.isSaveEnabled();
 	}
 
 	@Override
 	public boolean isSaveFromParentEnabled() {
-		if (this.target == null) {
+		if (this.wrapped == null) {
 			return super.isSaveFromParentEnabled();
 		}
-		return this.target.isSaveFromParentEnabled();
+		return this.wrapped.isSaveFromParentEnabled();
 	}
 
 	@Override
 	public boolean isScrollContainer() {
-		if (this.target == null) {
+		if (this.wrapped == null) {
 			return super.isScrollContainer();
 		}
-		return this.target.isScrollContainer();
+		return this.wrapped.isScrollContainer();
 	}
 
 	@Override
 	public boolean isScrollbarFadingEnabled() {
-		if (this.target == null) {
+		if (this.wrapped == null) {
 			return super.isScrollbarFadingEnabled();
 		}
-		return this.target.isScrollbarFadingEnabled();
+		return this.wrapped.isScrollbarFadingEnabled();
 	}
 
 	@Override
 	//@ExportedProperty
 	public boolean isSelected() {
-		if (this.target == null) {
+		if (this.wrapped == null) {
 			return super.isSelected();
 		}
-		return this.target.isSelected();
+		return this.wrapped.isSelected();
 	}
 
 	@Override
 	public boolean isShown() {
-		if (this.target == null) {
+		if (this.wrapped == null) {
 			return super.isShown();
 		}
-		return this.target.isShown();
+		return this.wrapped.isShown();
 	}
 
 	@Override
 	//@ExportedProperty
 	public boolean isSoundEffectsEnabled() {
-		if (this.target == null) {
+		if (this.wrapped == null) {
 			return super.isSoundEffectsEnabled();
 		}
-		return this.target.isSoundEffectsEnabled();
+		return this.wrapped.isSoundEffectsEnabled();
 	}
 
 	@Override
 	public boolean isTextAlignmentResolved() {
-		if (this.target == null) {
+		if (this.wrapped == null) {
 			return super.isTextAlignmentResolved();
 		}
-		return this.target.isTextAlignmentResolved();
+		return this.wrapped.isTextAlignmentResolved();
 	}
 
 	@Override
 	public boolean isTextDirectionResolved() {
-		if (this.target == null) {
+		if (this.wrapped == null) {
 			return super.isTextDirectionResolved();
 		}
-		return this.target.isTextDirectionResolved();
+		return this.wrapped.isTextDirectionResolved();
 	}
 
 	@Override
 	public boolean isVerticalFadingEdgeEnabled() {
-		if (this.target == null) {
+		if (this.wrapped == null) {
 			return super.isVerticalFadingEdgeEnabled();
 		}
-		return this.target.isVerticalFadingEdgeEnabled();
+		return this.wrapped.isVerticalFadingEdgeEnabled();
 	}
 
 	@Override
 	public boolean isVerticalScrollBarEnabled() {
-		if (this.target == null) {
+		if (this.wrapped == null) {
 			return super.isVerticalScrollBarEnabled();
 		}
-		return this.target.isVerticalScrollBarEnabled();
+		return this.wrapped.isVerticalScrollBarEnabled();
 	}
 
 	@Override
 	public void jumpDrawablesToCurrentState() {
-		if (this.target == null) {
+		if (this.wrapped == null) {
 			return;
 		}
-		this.target.jumpDrawablesToCurrentState();
+		this.wrapped.jumpDrawablesToCurrentState();
 	}
 
 	//@Override
@@ -1576,1329 +1576,1329 @@ public class AfViewDelegate extends View{
 	@Override
 	protected void onLayout(boolean changed, int left, int top, int right,
 			int bottom) {
-		if (this.target == null) {
+		if (this.wrapped == null) {
 			super.onLayout(changed, left, top, right, bottom);
 		}
-		this.target.layout(left, top, right, bottom);
+		this.wrapped.layout(left, top, right, bottom);
 	}
 
 	@Override
 	public void offsetLeftAndRight(int offset) {
-		if (this.target == null) {
+		if (this.wrapped == null) {
 			return;
 		}
-		this.target.offsetLeftAndRight(offset);
+		this.wrapped.offsetLeftAndRight(offset);
 	}
 
 	@Override
 	public void offsetTopAndBottom(int offset) {
-		if (this.target == null) {
+		if (this.wrapped == null) {
 			return;
 		}
-		this.target.offsetTopAndBottom(offset);
+		this.wrapped.offsetTopAndBottom(offset);
 	}
 
 	@Override
 	public WindowInsets onApplyWindowInsets(WindowInsets insets) {
-		if (this.target == null) {
+		if (this.wrapped == null) {
 			return super.onApplyWindowInsets(insets);
 		}
-		return this.target.onApplyWindowInsets(insets);
+		return this.wrapped.onApplyWindowInsets(insets);
 	}
 
 	@Override
 	public void onCancelPendingInputEvents() {
-		if (this.target == null) {
+		if (this.wrapped == null) {
 			return;
 		}
-		this.target.onCancelPendingInputEvents();
+		this.wrapped.onCancelPendingInputEvents();
 	}
 
 	@Override
 	public boolean onCheckIsTextEditor() {
-		if (this.target == null) {
+		if (this.wrapped == null) {
 			return super.onCheckIsTextEditor();
 		}
-		return this.target.onCheckIsTextEditor();
+		return this.wrapped.onCheckIsTextEditor();
 	}
 
 	@Override
 	public InputConnection onCreateInputConnection(EditorInfo outAttrs) {
-		if (this.target == null) {
+		if (this.wrapped == null) {
 			return super.onCreateInputConnection(outAttrs);
 		}
-		return this.target.onCreateInputConnection(outAttrs);
+		return this.wrapped.onCreateInputConnection(outAttrs);
 	}
 
 	@Override
 	public boolean onDragEvent(DragEvent event) {
-		if (this.target == null) {
+		if (this.wrapped == null) {
 			return super.onDragEvent(event);
 		}
-		return this.target.onDragEvent(event);
+		return this.wrapped.onDragEvent(event);
 	}
 
 	@Override
 	public boolean onFilterTouchEventForSecurity(MotionEvent event) {
-		if (this.target == null) {
+		if (this.wrapped == null) {
 			return super.onFilterTouchEventForSecurity(event);
 		}
-		return this.target.onFilterTouchEventForSecurity(event);
+		return this.wrapped.onFilterTouchEventForSecurity(event);
 	}
 
 	@Override
 	public void onFinishTemporaryDetach() {
-		if (this.target == null) {
+		if (this.wrapped == null) {
 			return;
 		}
-		this.target.onFinishTemporaryDetach();
+		this.wrapped.onFinishTemporaryDetach();
 	}
 
 	@Override
 	public boolean onGenericMotionEvent(MotionEvent event) {
-		if (this.target == null) {
+		if (this.wrapped == null) {
 			return super.onGenericMotionEvent(event);
 		}
-		return this.target.onGenericMotionEvent(event);
+		return this.wrapped.onGenericMotionEvent(event);
 	}
 
 	@Override
 	public void onHoverChanged(boolean hovered) {
-		if (this.target == null) {
+		if (this.wrapped == null) {
 			return;
 		}
-		this.target.onHoverChanged(hovered);
+		this.wrapped.onHoverChanged(hovered);
 	}
 
 	@Override
 	public boolean onHoverEvent(MotionEvent event) {
-		if (this.target == null) {
+		if (this.wrapped == null) {
 			return super.onHoverEvent(event);
 		}
-		return this.target.onHoverEvent(event);
+		return this.wrapped.onHoverEvent(event);
 	}
 
 	@Override
 	public void onInitializeAccessibilityEvent(AccessibilityEvent event) {
 		super.onInitializeAccessibilityEvent(event);
-		if (this.target == null) {
+		if (this.wrapped == null) {
 			return;
 		}
-		this.target.onInitializeAccessibilityEvent(event);
+		this.wrapped.onInitializeAccessibilityEvent(event);
 	}
 
 	@Override
 	public void onInitializeAccessibilityNodeInfo(AccessibilityNodeInfo info) {
 		super.onInitializeAccessibilityNodeInfo(info);
-		if (this.target == null) {
+		if (this.wrapped == null) {
 			return;
 		}
-		this.target.onInitializeAccessibilityNodeInfo(info);
+		this.wrapped.onInitializeAccessibilityNodeInfo(info);
 	}
 
 	@Override
 	public boolean onKeyDown(int keyCode, KeyEvent event) {
-		if (this.target == null) {
+		if (this.wrapped == null) {
 			return super.onKeyDown(keyCode, event);
 		}
-		return this.target.onKeyDown(keyCode, event);
+		return this.wrapped.onKeyDown(keyCode, event);
 	}
 
 	@Override
 	public boolean onKeyLongPress(int keyCode, KeyEvent event) {
-		if (this.target == null) {
+		if (this.wrapped == null) {
 			return super.onKeyLongPress(keyCode, event);
 		}
-		return this.target.onKeyLongPress(keyCode, event);
+		return this.wrapped.onKeyLongPress(keyCode, event);
 	}
 
 	@Override
 	public boolean onKeyMultiple(int keyCode, int repeatCount, KeyEvent event) {
-		if (this.target == null) {
+		if (this.wrapped == null) {
 			return super.onKeyMultiple(keyCode, repeatCount, event);
 		}
-		return this.target.onKeyMultiple(keyCode, repeatCount, event);
+		return this.wrapped.onKeyMultiple(keyCode, repeatCount, event);
 	}
 
 	@Override
 	public boolean onKeyPreIme(int keyCode, KeyEvent event) {
-		if (this.target == null) {
+		if (this.wrapped == null) {
 			return super.onKeyPreIme(keyCode, event);
 		}
-		return this.target.onKeyPreIme(keyCode, event);
+		return this.wrapped.onKeyPreIme(keyCode, event);
 	}
 
 	@Override
 	public boolean onKeyShortcut(int keyCode, KeyEvent event) {
-		if (this.target == null) {
+		if (this.wrapped == null) {
 			return super.onKeyShortcut(keyCode, event);
 		}
-		return this.target.onKeyShortcut(keyCode, event);
+		return this.wrapped.onKeyShortcut(keyCode, event);
 	}
 
 	@Override
 	public boolean onKeyUp(int keyCode, KeyEvent event) {
-		if (this.target == null) {
+		if (this.wrapped == null) {
 			return super.onKeyUp(keyCode, event);
 		}
-		return this.target.onKeyUp(keyCode, event);
+		return this.wrapped.onKeyUp(keyCode, event);
 	}
 
 	@Override
 	public void onPopulateAccessibilityEvent(AccessibilityEvent event) {
 		super.onPopulateAccessibilityEvent(event);
-		if (this.target == null) {
+		if (this.wrapped == null) {
 			return;
 		}
-		this.target.onPopulateAccessibilityEvent(event);
+		this.wrapped.onPopulateAccessibilityEvent(event);
 	}
 
 	@Override
 	public void onRtlPropertiesChanged(int layoutDirection) {
-		if (this.target == null) {
+		if (this.wrapped == null) {
 			return;
 		}
-		this.target.onRtlPropertiesChanged(layoutDirection);
+		this.wrapped.onRtlPropertiesChanged(layoutDirection);
 	}
 
 	@Override
 	public void onScreenStateChanged(int screenState) {
-		if (this.target == null) {
+		if (this.wrapped == null) {
 			return;
 		}
-		this.target.onScreenStateChanged(screenState);
+		this.wrapped.onScreenStateChanged(screenState);
 	}
 
 	@Override
 	public void onStartTemporaryDetach() {
-		if (this.target == null) {
+		if (this.wrapped == null) {
 			return;
 		}
-		this.target.onStartTemporaryDetach();
+		this.wrapped.onStartTemporaryDetach();
 	}
 
 	@Override
 	public boolean onTouchEvent(MotionEvent event) {
-		if (this.target == null) {
+		if (this.wrapped == null) {
 			return super.onTouchEvent(event);
 		}
-		return this.target.onTouchEvent(event);
+		return this.wrapped.onTouchEvent(event);
 	}
 
 	@Override
 	public boolean onTrackballEvent(MotionEvent event) {
-		if (this.target == null) {
+		if (this.wrapped == null) {
 			return super.onTrackballEvent(event);
 		}
-		return this.target.onTrackballEvent(event);
+		return this.wrapped.onTrackballEvent(event);
 	}
 
 	@Override
 	public void onWindowFocusChanged(boolean hasWindowFocus) {
-		if (this.target == null) {
+		if (this.wrapped == null) {
 			return;
 		}
-		this.target.onWindowFocusChanged(hasWindowFocus);
+		this.wrapped.onWindowFocusChanged(hasWindowFocus);
 	}
 
 	@Override
 	public void onWindowSystemUiVisibilityChanged(int visible) {
-		if (this.target == null) {
+		if (this.wrapped == null) {
 			return;
 		}
-		this.target.onWindowSystemUiVisibilityChanged(visible);
+		this.wrapped.onWindowSystemUiVisibilityChanged(visible);
 	}
 
 	@Override
 	public boolean performAccessibilityAction(int action, Bundle arguments) {
-		if (this.target == null) {
+		if (this.wrapped == null) {
 			return super.performAccessibilityAction(action, arguments);
 		}
-		return this.target.performAccessibilityAction(action, arguments);
+		return this.wrapped.performAccessibilityAction(action, arguments);
 	}
 
 	@Override
 	public boolean performClick() {
-		if (this.target == null) {
+		if (this.wrapped == null) {
 			return super.performClick();
 		}
-		return this.target.performClick();
+		return this.wrapped.performClick();
 	}
 
 	@Override
 	public boolean performHapticFeedback(int feedbackConstant, int flags) {
-		if (this.target == null) {
+		if (this.wrapped == null) {
 			return super.performHapticFeedback(feedbackConstant, flags);
 		}
-		return this.target.performHapticFeedback(feedbackConstant, flags);
+		return this.wrapped.performHapticFeedback(feedbackConstant, flags);
 	}
 
 	@Override
 	public boolean performHapticFeedback(int feedbackConstant) {
-		if (this.target == null) {
+		if (this.wrapped == null) {
 			return super.performHapticFeedback(feedbackConstant);
 		}
-		return this.target.performHapticFeedback(feedbackConstant);
+		return this.wrapped.performHapticFeedback(feedbackConstant);
 	}
 
 	@Override
 	public boolean performLongClick() {
-		if (this.target == null) {
+		if (this.wrapped == null) {
 			return super.performLongClick();
 		}
-		return this.target.performLongClick();
+		return this.wrapped.performLongClick();
 	}
 
 	@Override
 	public void playSoundEffect(int soundConstant) {
-		if (this.target == null) {
+		if (this.wrapped == null) {
 			return;
 		}
-		this.target.playSoundEffect(soundConstant);
+		this.wrapped.playSoundEffect(soundConstant);
 	}
 
 	@Override
 	public boolean post(Runnable action) {
-		if (this.target == null) {
+		if (this.wrapped == null) {
 			return super.post(action);
 		}
-		return this.target.post(action);
+		return this.wrapped.post(action);
 	}
 
 	@Override
 	public boolean postDelayed(Runnable action, long delayMillis) {
-		if (this.target == null) {
+		if (this.wrapped == null) {
 			return super.postDelayed(action, delayMillis);
 		}
-		return this.target.postDelayed(action, delayMillis);
+		return this.wrapped.postDelayed(action, delayMillis);
 	}
 
 	@Override
 	public void postInvalidate() {
-		if (this.target == null) {
+		if (this.wrapped == null) {
 			return;
 		}
-		this.target.postInvalidate();
+		this.wrapped.postInvalidate();
 	}
 
 	@Override
 	public void postInvalidate(int left, int top, int right, int bottom) {
-		if (this.target == null) {
+		if (this.wrapped == null) {
 			return;
 		}
-		this.target.postInvalidate(left, top, right, bottom);
+		this.wrapped.postInvalidate(left, top, right, bottom);
 	}
 
 	@Override
 	public void postInvalidateDelayed(long delayMilliseconds, int left,
 			int top, int right, int bottom) {
-		if (this.target == null) {
+		if (this.wrapped == null) {
 			return;
 		}
-		this.target.postInvalidateDelayed(delayMilliseconds, left, top, right, bottom);
+		this.wrapped.postInvalidateDelayed(delayMilliseconds, left, top, right, bottom);
 	}
 
 	@Override
 	public void postInvalidateDelayed(long delayMilliseconds) {
-		if (this.target == null) {
+		if (this.wrapped == null) {
 			return;
 		}
-		this.target.postInvalidateDelayed(delayMilliseconds);
+		this.wrapped.postInvalidateDelayed(delayMilliseconds);
 	}
 
 	@Override
 	public void postInvalidateOnAnimation() {
-		if (this.target == null) {
+		if (this.wrapped == null) {
 			return;
 		}
-		this.target.postInvalidateOnAnimation();
+		this.wrapped.postInvalidateOnAnimation();
 	}
 
 	@Override
 	public void postInvalidateOnAnimation(int left, int top, int right,
 			int bottom) {
-		if (this.target == null) {
+		if (this.wrapped == null) {
 			return;
 		}
-		this.target.postInvalidateOnAnimation(left, top, right, bottom);
+		this.wrapped.postInvalidateOnAnimation(left, top, right, bottom);
 	}
 
 	@Override
 	public void postOnAnimation(Runnable action) {
-		if (this.target == null) {
+		if (this.wrapped == null) {
 			return;
 		}
-		this.target.postOnAnimation(action);
+		this.wrapped.postOnAnimation(action);
 	}
 
 	@Override
 	public void postOnAnimationDelayed(Runnable action, long delayMillis) {
-		if (this.target == null) {
+		if (this.wrapped == null) {
 			return;
 		}
-		this.target.postOnAnimationDelayed(action, delayMillis);
+		this.wrapped.postOnAnimationDelayed(action, delayMillis);
 	}
 
 	@Override
 	public void refreshDrawableState() {
-		if (this.target == null) {
+		if (this.wrapped == null) {
 			return;
 		}
-		this.target.refreshDrawableState();
+		this.wrapped.refreshDrawableState();
 	}
 
 	@Override
 	public boolean removeCallbacks(Runnable action) {
-		if (this.target == null) {
+		if (this.wrapped == null) {
 			return super.removeCallbacks(action);
 		}
-		return this.target.removeCallbacks(action);
+		return this.wrapped.removeCallbacks(action);
 	}
 
 	@Override
 	public void removeOnAttachStateChangeListener(
 			OnAttachStateChangeListener listener) {
-		if (this.target == null) {
+		if (this.wrapped == null) {
 			return;
 		}
-		this.target.removeOnAttachStateChangeListener(listener);
+		this.wrapped.removeOnAttachStateChangeListener(listener);
 	}
 
 	@Override
 	public void removeOnLayoutChangeListener(OnLayoutChangeListener listener) {
-		if (this.target == null) {
+		if (this.wrapped == null) {
 			return;
 		}
-		this.target.removeOnLayoutChangeListener(listener);
+		this.wrapped.removeOnLayoutChangeListener(listener);
 	}
 
 	@Override
 	public void requestApplyInsets() {
-		if (this.target == null) {
+		if (this.wrapped == null) {
 			return;
 		}
-		this.target.requestApplyInsets();
+		this.wrapped.requestApplyInsets();
 	}
 
 	@Override
 	@Deprecated
 	public void requestFitSystemWindows() {
-		if (this.target == null) {
+		if (this.wrapped == null) {
 			return;
 		}
-		this.target.requestFitSystemWindows();
+		this.wrapped.requestFitSystemWindows();
 	}
 
 	@Override
 	public boolean requestFocus(int direction, Rect previouslyFocusedRect) {
-		if (this.target == null) {
+		if (this.wrapped == null) {
 			return super.requestFocus(direction, previouslyFocusedRect);
 		}
-		return this.target.requestFocus(direction, previouslyFocusedRect);
+		return this.wrapped.requestFocus(direction, previouslyFocusedRect);
 	}
 
 	@Override
 	public void requestLayout() {
 		super.requestLayout();
-		if (this.target == null) {
+		if (this.wrapped == null) {
 			return;
 		}
-		this.target.requestLayout();
+		this.wrapped.requestLayout();
 	}
 
 	@Override
 	public boolean requestRectangleOnScreen(Rect rectangle, boolean immediate) {
-		if (this.target == null) {
+		if (this.wrapped == null) {
 			return super.requestRectangleOnScreen(rectangle, immediate);
 		}
-		return this.target.requestRectangleOnScreen(rectangle, immediate);
+		return this.wrapped.requestRectangleOnScreen(rectangle, immediate);
 	}
 
 	@Override
 	public boolean requestRectangleOnScreen(Rect rectangle) {
-		if (this.target == null) {
+		if (this.wrapped == null) {
 			return super.requestRectangleOnScreen(rectangle);
 		}
-		return this.target.requestRectangleOnScreen(rectangle);
+		return this.wrapped.requestRectangleOnScreen(rectangle);
 	}
 
 	@Override
 	public void restoreHierarchyState(SparseArray<Parcelable> container) {
-		if (this.target == null) {
+		if (this.wrapped == null) {
 			return;
 		}
-		this.target.restoreHierarchyState(container);
+		this.wrapped.restoreHierarchyState(container);
 	}
 
 	@Override
 	public void saveHierarchyState(SparseArray<Parcelable> container) {
-		if (this.target == null) {
+		if (this.wrapped == null) {
 			return;
 		}
-		this.target.saveHierarchyState(container);
+		this.wrapped.saveHierarchyState(container);
 	}
 
 	@Override
 	public void scheduleDrawable(Drawable who, Runnable what, long when) {
-		if (this.target == null) {
+		if (this.wrapped == null) {
 			return;
 		}
-		this.target.scheduleDrawable(who, what, when);
+		this.wrapped.scheduleDrawable(who, what, when);
 	}
 
 	@Override
 	public void scrollBy(int x, int y) {
-		if (this.target == null) {
+		if (this.wrapped == null) {
 			return;
 		}
-		this.target.scrollBy(x, y);
+		this.wrapped.scrollBy(x, y);
 	}
 
 	@Override
 	public void scrollTo(int x, int y) {
-		if (this.target == null) {
+		if (this.wrapped == null) {
 			return;
 		}
-		this.target.scrollTo(x, y);
+		this.wrapped.scrollTo(x, y);
 	}
 
 	@Override
 	public void sendAccessibilityEvent(int eventType) {
-		if (this.target == null) {
+		if (this.wrapped == null) {
 			return;
 		}
-		this.target.sendAccessibilityEvent(eventType);
+		this.wrapped.sendAccessibilityEvent(eventType);
 	}
 
 	@Override
 	public void sendAccessibilityEventUnchecked(AccessibilityEvent event) {
-		if (this.target == null) {
+		if (this.wrapped == null) {
 			return;
 		}
-		this.target.sendAccessibilityEventUnchecked(event);
+		this.wrapped.sendAccessibilityEventUnchecked(event);
 	}
 
 	@Override
 	public void setAccessibilityDelegate(AccessibilityDelegate delegate) {
-		if (this.target == null) {
+		if (this.wrapped == null) {
 			return;
 		}
-		this.target.setAccessibilityDelegate(delegate);
+		this.wrapped.setAccessibilityDelegate(delegate);
 	}
 
 	@Override
 	public void setAccessibilityLiveRegion(int mode) {
-		if (this.target == null) {
+		if (this.wrapped == null) {
 			return;
 		}
-		this.target.setAccessibilityLiveRegion(mode);
+		this.wrapped.setAccessibilityLiveRegion(mode);
 	}
 
 	@Override
 	public void setActivated(boolean activated) {
-		if (this.target == null) {
+		if (this.wrapped == null) {
 			return;
 		}
-		this.target.setActivated(activated);
+		this.wrapped.setActivated(activated);
 	}
 
 	@Override
 	public void setAlpha(float alpha) {
-		if (this.target == null) {
+		if (this.wrapped == null) {
 			return;
 		}
-		this.target.setAlpha(alpha);
+		this.wrapped.setAlpha(alpha);
 	}
 
 	@Override
 	public void setAnimation(Animation animation) {
-		if (this.target == null) {
+		if (this.wrapped == null) {
 			return;
 		}
-		this.target.setAnimation(animation);
+		this.wrapped.setAnimation(animation);
 	}
 
 	@Override
 	public void setBackground(Drawable background) {
-		if (this.target == null) {
+		if (this.wrapped == null) {
 			return;
 		}
-		this.target.setBackground(background);
+		this.wrapped.setBackground(background);
 	}
 
 	@Override
 	public void setBackgroundColor(int color) {
-		if (this.target == null) {
+		if (this.wrapped == null) {
 			return;
 		}
-		this.target.setBackgroundColor(color);
+		this.wrapped.setBackgroundColor(color);
 	}
 
 	@Override
 	@Deprecated
 	public void setBackgroundDrawable(Drawable background) {
-		if (this.target == null) {
+		if (this.wrapped == null) {
 			return;
 		}
-		this.target.setBackgroundDrawable(background);
+		this.wrapped.setBackgroundDrawable(background);
 	}
 
 	@Override
 	public void setBackgroundResource(int resid) {
-		if (this.target == null) {
+		if (this.wrapped == null) {
 			return;
 		}
-		this.target.setBackgroundResource(resid);
+		this.wrapped.setBackgroundResource(resid);
 	}
 
 	@Override
 	public void setCameraDistance(float distance) {
-		if (this.target == null) {
+		if (this.wrapped == null) {
 			return;
 		}
-		this.target.setCameraDistance(distance);
+		this.wrapped.setCameraDistance(distance);
 	}
 
 	@Override
 	public void setClickable(boolean clickable) {
-		if (this.target == null) {
+		if (this.wrapped == null) {
 			return;
 		}
-		this.target.setClickable(clickable);
+		this.wrapped.setClickable(clickable);
 	}
 
 	@Override
 	public void setClipBounds(Rect clipBounds) {
-		if (this.target == null) {
+		if (this.wrapped == null) {
 			return;
 		}
-		this.target.setClipBounds(clipBounds);
+		this.wrapped.setClipBounds(clipBounds);
 	}
 
 	@Override
 	public void setContentDescription(CharSequence contentDescription) {
-		if (this.target == null) {
+		if (this.wrapped == null) {
 			return;
 		}
-		this.target.setContentDescription(contentDescription);
+		this.wrapped.setContentDescription(contentDescription);
 	}
 
 	@Override
 	public void setDrawingCacheBackgroundColor(int color) {
-		if (this.target == null) {
+		if (this.wrapped == null) {
 			return;
 		}
-		this.target.setDrawingCacheBackgroundColor(color);
+		this.wrapped.setDrawingCacheBackgroundColor(color);
 	}
 
 	@Override
 	public void setDrawingCacheEnabled(boolean enabled) {
-		if (this.target == null) {
+		if (this.wrapped == null) {
 			return;
 		}
-		this.target.setDrawingCacheEnabled(enabled);
+		this.wrapped.setDrawingCacheEnabled(enabled);
 	}
 
 	@Override
 	public void setDrawingCacheQuality(int quality) {
-		if (this.target == null) {
+		if (this.wrapped == null) {
 			return;
 		}
-		this.target.setDrawingCacheQuality(quality);
+		this.wrapped.setDrawingCacheQuality(quality);
 	}
 
 	@Override
 	public void setDuplicateParentStateEnabled(boolean enabled) {
-		if (this.target == null) {
+		if (this.wrapped == null) {
 			return;
 		}
-		this.target.setDuplicateParentStateEnabled(enabled);
+		this.wrapped.setDuplicateParentStateEnabled(enabled);
 	}
 
 	@Override
 	public void setEnabled(boolean enabled) {
-		if (this.target == null) {
+		if (this.wrapped == null) {
 			return;
 		}
-		this.target.setEnabled(enabled);
+		this.wrapped.setEnabled(enabled);
 	}
 
 	@Override
 	public void setFadingEdgeLength(int length) {
-		if (this.target == null) {
+		if (this.wrapped == null) {
 			return;
 		}
-		this.target.setFadingEdgeLength(length);
+		this.wrapped.setFadingEdgeLength(length);
 	}
 
 	@Override
 	public void setFilterTouchesWhenObscured(boolean enabled) {
-		if (this.target == null) {
+		if (this.wrapped == null) {
 			return;
 		}
-		this.target.setFilterTouchesWhenObscured(enabled);
+		this.wrapped.setFilterTouchesWhenObscured(enabled);
 	}
 
 	@Override
 	public void setFitsSystemWindows(boolean fitSystemWindows) {
-		if (this.target == null) {
+		if (this.wrapped == null) {
 			return;
 		}
-		this.target.setFitsSystemWindows(fitSystemWindows);
+		this.wrapped.setFitsSystemWindows(fitSystemWindows);
 	}
 
 	@Override
 	public void setFocusable(boolean focusable) {
-		if (this.target == null) {
+		if (this.wrapped == null) {
 			return;
 		}
-		this.target.setFocusable(focusable);
+		this.wrapped.setFocusable(focusable);
 	}
 
 	@Override
 	public void setFocusableInTouchMode(boolean focusableInTouchMode) {
-		if (this.target == null) {
+		if (this.wrapped == null) {
 			return;
 		}
-		this.target.setFocusableInTouchMode(focusableInTouchMode);
+		this.wrapped.setFocusableInTouchMode(focusableInTouchMode);
 	}
 
 	@Override
 	public void setHapticFeedbackEnabled(boolean hapticFeedbackEnabled) {
-		if (this.target == null) {
+		if (this.wrapped == null) {
 			return;
 		}
-		this.target.setHapticFeedbackEnabled(hapticFeedbackEnabled);
+		this.wrapped.setHapticFeedbackEnabled(hapticFeedbackEnabled);
 	}
 
 	@Override
 	public void setHasTransientState(boolean hasTransientState) {
-		if (this.target == null) {
+		if (this.wrapped == null) {
 			return;
 		}
-		this.target.setHasTransientState(hasTransientState);
+		this.wrapped.setHasTransientState(hasTransientState);
 	}
 
 	@Override
 	public void setHorizontalFadingEdgeEnabled(
 			boolean horizontalFadingEdgeEnabled) {
-		if (this.target == null) {
+		if (this.wrapped == null) {
 			return;
 		}
-		this.target.setHorizontalFadingEdgeEnabled(horizontalFadingEdgeEnabled);
+		this.wrapped.setHorizontalFadingEdgeEnabled(horizontalFadingEdgeEnabled);
 	}
 
 	@Override
 	public void setHorizontalScrollBarEnabled(boolean horizontalScrollBarEnabled) {
-		if (this.target == null) {
+		if (this.wrapped == null) {
 			return;
 		}
-		this.target.setHorizontalScrollBarEnabled(horizontalScrollBarEnabled);
+		this.wrapped.setHorizontalScrollBarEnabled(horizontalScrollBarEnabled);
 	}
 
 	@Override
 	public void setHovered(boolean hovered) {
-		if (this.target == null) {
+		if (this.wrapped == null) {
 			return;
 		}
-		this.target.setHovered(hovered);
+		this.wrapped.setHovered(hovered);
 	}
 
 	@Override
 	public void setId(int id) {
-		if (this.target == null) {
+		if (this.wrapped == null) {
 			return;
 		}
-		this.target.setId(id);
+		this.wrapped.setId(id);
 	}
 
 	@Override
 	public void setImportantForAccessibility(int mode) {
-		if (this.target == null) {
+		if (this.wrapped == null) {
 			return;
 		}
-		this.target.setImportantForAccessibility(mode);
+		this.wrapped.setImportantForAccessibility(mode);
 	}
 
 	@Override
 	public void setKeepScreenOn(boolean keepScreenOn) {
-		if (this.target == null) {
+		if (this.wrapped == null) {
 			return;
 		}
-		this.target.setKeepScreenOn(keepScreenOn);
+		this.wrapped.setKeepScreenOn(keepScreenOn);
 	}
 
 	@Override
 	public void setLabelFor(int id) {
-		if (this.target == null) {
+		if (this.wrapped == null) {
 			return;
 		}
-		this.target.setLabelFor(id);
+		this.wrapped.setLabelFor(id);
 	}
 
 	@Override
 	public void setLayerPaint(Paint paint) {
-		if (this.target == null) {
+		if (this.wrapped == null) {
 			return;
 		}
-		this.target.setLayerPaint(paint);
+		this.wrapped.setLayerPaint(paint);
 	}
 
 	@Override
 	public void setLayerType(int layerType, Paint paint) {
-		if (this.target == null) {
+		if (this.wrapped == null) {
 			return;
 		}
-		this.target.setLayerType(layerType, paint);
+		this.wrapped.setLayerType(layerType, paint);
 	}
 
 	@Override
 	public void setLayoutDirection(int layoutDirection) {
-		if (this.target == null) {
+		if (this.wrapped == null) {
 			return;
 		}
-		this.target.setLayoutDirection(layoutDirection);
+		this.wrapped.setLayoutDirection(layoutDirection);
 	}
 
 	@Override
 	public void setLayoutParams(LayoutParams params) {
-		if (this.target == null) {
+		if (this.wrapped == null) {
 			return;
 		}
-		this.target.setLayoutParams(params);
+		this.wrapped.setLayoutParams(params);
 	}
 
 	@Override
 	public void setLongClickable(boolean longClickable) {
-		if (this.target == null) {
+		if (this.wrapped == null) {
 			return;
 		}
-		this.target.setLongClickable(longClickable);
+		this.wrapped.setLongClickable(longClickable);
 	}
 
 	@Override
 	public void setMinimumHeight(int minHeight) {
-		if (this.target == null) {
+		if (this.wrapped == null) {
 			return;
 		}
-		this.target.setMinimumHeight(minHeight);
+		this.wrapped.setMinimumHeight(minHeight);
 	}
 
 	@Override
 	public void setMinimumWidth(int minWidth) {
-		if (this.target == null) {
+		if (this.wrapped == null) {
 			return;
 		}
-		this.target.setMinimumWidth(minWidth);
+		this.wrapped.setMinimumWidth(minWidth);
 	}
 
 	@Override
 	public void setNextFocusDownId(int nextFocusDownId) {
-		if (this.target == null) {
+		if (this.wrapped == null) {
 			return;
 		}
-		this.target.setNextFocusDownId(nextFocusDownId);
+		this.wrapped.setNextFocusDownId(nextFocusDownId);
 	}
 
 	@Override
 	public void setNextFocusForwardId(int nextFocusForwardId) {
-		if (this.target == null) {
+		if (this.wrapped == null) {
 			return;
 		}
-		this.target.setNextFocusForwardId(nextFocusForwardId);
+		this.wrapped.setNextFocusForwardId(nextFocusForwardId);
 	}
 
 	@Override
 	public void setNextFocusLeftId(int nextFocusLeftId) {
-		if (this.target == null) {
+		if (this.wrapped == null) {
 			return;
 		}
-		this.target.setNextFocusLeftId(nextFocusLeftId);
+		this.wrapped.setNextFocusLeftId(nextFocusLeftId);
 	}
 
 	@Override
 	public void setNextFocusRightId(int nextFocusRightId) {
-		if (this.target == null) {
+		if (this.wrapped == null) {
 			return;
 		}
-		this.target.setNextFocusRightId(nextFocusRightId);
+		this.wrapped.setNextFocusRightId(nextFocusRightId);
 	}
 
 	@Override
 	public void setNextFocusUpId(int nextFocusUpId) {
-		if (this.target == null) {
+		if (this.wrapped == null) {
 			return;
 		}
-		this.target.setNextFocusUpId(nextFocusUpId);
+		this.wrapped.setNextFocusUpId(nextFocusUpId);
 	}
 
 	@Override
 	public void setOnApplyWindowInsetsListener(
 			OnApplyWindowInsetsListener listener) {
-		if (this.target == null) {
+		if (this.wrapped == null) {
 			return;
 		}
-		this.target.setOnApplyWindowInsetsListener(listener);
+		this.wrapped.setOnApplyWindowInsetsListener(listener);
 	}
 
 	@Override
 	public void setOnClickListener(OnClickListener l) {
-		if (this.target == null) {
+		if (this.wrapped == null) {
 			return;
 		}
-		this.target.setOnClickListener(l);
+		this.wrapped.setOnClickListener(l);
 	}
 
 	@Override
 	public void setOnCreateContextMenuListener(OnCreateContextMenuListener l) {
-		if (this.target == null) {
+		if (this.wrapped == null) {
 			return;
 		}
-		this.target.setOnCreateContextMenuListener(l);
+		this.wrapped.setOnCreateContextMenuListener(l);
 	}
 
 	@Override
 	public void setOnDragListener(OnDragListener l) {
-		if (this.target == null) {
+		if (this.wrapped == null) {
 			return;
 		}
-		this.target.setOnDragListener(l);
+		this.wrapped.setOnDragListener(l);
 	}
 
 	@Override
 	public void setOnFocusChangeListener(OnFocusChangeListener l) {
-		if (this.target == null) {
+		if (this.wrapped == null) {
 			return;
 		}
-		this.target.setOnFocusChangeListener(l);
+		this.wrapped.setOnFocusChangeListener(l);
 	}
 
 	@Override
 	public void setOnGenericMotionListener(OnGenericMotionListener l) {
-		if (this.target == null) {
+		if (this.wrapped == null) {
 			return;
 		}
-		this.target.setOnGenericMotionListener(l);
+		this.wrapped.setOnGenericMotionListener(l);
 	}
 
 	@Override
 	public void setOnHoverListener(OnHoverListener l) {
-		if (this.target == null) {
+		if (this.wrapped == null) {
 			return;
 		}
-		this.target.setOnHoverListener(l);
+		this.wrapped.setOnHoverListener(l);
 	}
 
 	@Override
 	public void setOnKeyListener(OnKeyListener l) {
-		if (this.target == null) {
+		if (this.wrapped == null) {
 			return;
 		}
-		this.target.setOnKeyListener(l);
+		this.wrapped.setOnKeyListener(l);
 	}
 
 	@Override
 	public void setOnLongClickListener(OnLongClickListener l) {
-		if (this.target == null) {
+		if (this.wrapped == null) {
 			return;
 		}
-		this.target.setOnLongClickListener(l);
+		this.wrapped.setOnLongClickListener(l);
 	}
 
 	@Override
 	public void setOnSystemUiVisibilityChangeListener(
 			OnSystemUiVisibilityChangeListener l) {
-		if (this.target == null) {
+		if (this.wrapped == null) {
 			return;
 		}
-		this.target.setOnSystemUiVisibilityChangeListener(l);
+		this.wrapped.setOnSystemUiVisibilityChangeListener(l);
 	}
 
 	@Override
 	public void setOnTouchListener(OnTouchListener l) {
-		if (this.target == null) {
+		if (this.wrapped == null) {
 			return;
 		}
-		this.target.setOnTouchListener(l);
+		this.wrapped.setOnTouchListener(l);
 	}
 
 	@Override
 	public void setOverScrollMode(int overScrollMode) {
-		if (this.target == null) {
+		if (this.wrapped == null) {
 			return;
 		}
-		this.target.setOverScrollMode(overScrollMode);
+		this.wrapped.setOverScrollMode(overScrollMode);
 	}
 
 	@Override
 	public void setPadding(int left, int top, int right, int bottom) {
-		if (this.target == null) {
+		if (this.wrapped == null) {
 			return;
 		}
-		this.target.setPadding(left, top, right, bottom);
+		this.wrapped.setPadding(left, top, right, bottom);
 	}
 
 	@Override
 	public void setPaddingRelative(int start, int top, int end, int bottom) {
-		if (this.target == null) {
+		if (this.wrapped == null) {
 			return;
 		}
-		this.target.setPaddingRelative(start, top, end, bottom);
+		this.wrapped.setPaddingRelative(start, top, end, bottom);
 	}
 
 	@Override
 	public void setPivotX(float pivotX) {
-		if (this.target == null) {
+		if (this.wrapped == null) {
 			return;
 		}
-		this.target.setPivotX(pivotX);
+		this.wrapped.setPivotX(pivotX);
 	}
 
 	@Override
 	public void setPivotY(float pivotY) {
-		if (this.target == null) {
+		if (this.wrapped == null) {
 			return;
 		}
-		this.target.setPivotY(pivotY);
+		this.wrapped.setPivotY(pivotY);
 	}
 
 	@Override
 	public void setPressed(boolean pressed) {
-		if (this.target == null) {
+		if (this.wrapped == null) {
 			return;
 		}
-		this.target.setPressed(pressed);
+		this.wrapped.setPressed(pressed);
 	}
 
 	@Override
 	public void setRotation(float rotation) {
-		if (this.target == null) {
+		if (this.wrapped == null) {
 			return;
 		}
-		this.target.setRotation(rotation);
+		this.wrapped.setRotation(rotation);
 	}
 
 	@Override
 	public void setRotationX(float rotationX) {
-		if (this.target == null) {
+		if (this.wrapped == null) {
 			return;
 		}
-		this.target.setRotationX(rotationX);
+		this.wrapped.setRotationX(rotationX);
 	}
 
 	@Override
 	public void setRotationY(float rotationY) {
-		if (this.target == null) {
+		if (this.wrapped == null) {
 			return;
 		}
-		this.target.setRotationY(rotationY);
+		this.wrapped.setRotationY(rotationY);
 	}
 
 	@Override
 	public void setSaveEnabled(boolean enabled) {
-		if (this.target == null) {
+		if (this.wrapped == null) {
 			return;
 		}
-		this.target.setSaveEnabled(enabled);
+		this.wrapped.setSaveEnabled(enabled);
 	}
 
 	@Override
 	public void setSaveFromParentEnabled(boolean enabled) {
-		if (this.target == null) {
+		if (this.wrapped == null) {
 			return;
 		}
-		this.target.setSaveFromParentEnabled(enabled);
+		this.wrapped.setSaveFromParentEnabled(enabled);
 	}
 
 	@Override
 	public void setScaleX(float scaleX) {
-		if (this.target == null) {
+		if (this.wrapped == null) {
 			return;
 		}
-		this.target.setScaleX(scaleX);
+		this.wrapped.setScaleX(scaleX);
 	}
 
 	@Override
 	public void setScaleY(float scaleY) {
-		if (this.target == null) {
+		if (this.wrapped == null) {
 			return;
 		}
-		this.target.setScaleY(scaleY);
+		this.wrapped.setScaleY(scaleY);
 	}
 
 	@Override
 	public void setScrollBarDefaultDelayBeforeFade(
 			int scrollBarDefaultDelayBeforeFade) {
-		if (this.target == null) {
+		if (this.wrapped == null) {
 			return;
 		}
-		this.target.setScrollBarDefaultDelayBeforeFade(scrollBarDefaultDelayBeforeFade);
+		this.wrapped.setScrollBarDefaultDelayBeforeFade(scrollBarDefaultDelayBeforeFade);
 	}
 
 	@Override
 	public void setScrollBarFadeDuration(int scrollBarFadeDuration) {
-		if (this.target == null) {
+		if (this.wrapped == null) {
 			return;
 		}
-		this.target.setScrollBarFadeDuration(scrollBarFadeDuration);
+		this.wrapped.setScrollBarFadeDuration(scrollBarFadeDuration);
 	}
 
 	@Override
 	public void setScrollBarSize(int scrollBarSize) {
-		if (this.target == null) {
+		if (this.wrapped == null) {
 			return;
 		}
-		this.target.setScrollBarSize(scrollBarSize);
+		this.wrapped.setScrollBarSize(scrollBarSize);
 	}
 
 	@Override
 	public void setScrollBarStyle(int style) {
-		if (this.target == null) {
+		if (this.wrapped == null) {
 			return;
 		}
-		this.target.setScrollBarStyle(style);
+		this.wrapped.setScrollBarStyle(style);
 	}
 
 	@Override
 	public void setScrollContainer(boolean isScrollContainer) {
-		if (this.target == null) {
+		if (this.wrapped == null) {
 			return;
 		}
-		this.target.setScrollContainer(isScrollContainer);
+		this.wrapped.setScrollContainer(isScrollContainer);
 	}
 
 	@Override
 	public void setScrollX(int value) {
-		if (this.target == null) {
+		if (this.wrapped == null) {
 			return;
 		}
-		this.target.setScrollX(value);
+		this.wrapped.setScrollX(value);
 	}
 
 	@Override
 	public void setScrollY(int value) {
-		if (this.target == null) {
+		if (this.wrapped == null) {
 			return;
 		}
-		this.target.setScrollY(value);
+		this.wrapped.setScrollY(value);
 	}
 
 	@Override
 	public void setScrollbarFadingEnabled(boolean fadeScrollbars) {
-		if (this.target == null) {
+		if (this.wrapped == null) {
 			return;
 		}
-		this.target.setScrollbarFadingEnabled(fadeScrollbars);
+		this.wrapped.setScrollbarFadingEnabled(fadeScrollbars);
 	}
 
 	@Override
 	public void setSelected(boolean selected) {
-		if (this.target == null) {
+		if (this.wrapped == null) {
 			return;
 		}
-		this.target.setSelected(selected);
+		this.wrapped.setSelected(selected);
 	}
 
 	@Override
 	public void setSoundEffectsEnabled(boolean soundEffectsEnabled) {
-		if (this.target == null) {
+		if (this.wrapped == null) {
 			return;
 		}
-		this.target.setSoundEffectsEnabled(soundEffectsEnabled);
+		this.wrapped.setSoundEffectsEnabled(soundEffectsEnabled);
 	}
 
 	@Override
 	public void setSystemUiVisibility(int visibility) {
-		if (this.target == null) {
+		if (this.wrapped == null) {
 			return;
 		}
-		this.target.setSystemUiVisibility(visibility);
+		this.wrapped.setSystemUiVisibility(visibility);
 	}
 
 	@Override
 	public void setTag(int key, Object tag) {
-		if (this.target == null) {
+		if (this.wrapped == null) {
 			return;
 		}
-		this.target.setTag(key, tag);
+		this.wrapped.setTag(key, tag);
 	}
 
 	@Override
 	public void setTag(Object tag) {
-		if (this.target == null) {
+		if (this.wrapped == null) {
 			return;
 		}
-		this.target.setTag(tag);
+		this.wrapped.setTag(tag);
 	}
 
 	@Override
 	public void setTextAlignment(int textAlignment) {
-		if (this.target == null) {
+		if (this.wrapped == null) {
 			return;
 		}
-		this.target.setTextAlignment(textAlignment);
+		this.wrapped.setTextAlignment(textAlignment);
 	}
 
 	@Override
 	public void setTextDirection(int textDirection) {
-		if (this.target == null) {
+		if (this.wrapped == null) {
 			return;
 		}
-		this.target.setTextDirection(textDirection);
+		this.wrapped.setTextDirection(textDirection);
 	}
 
 	@Override
 	public void setTouchDelegate(TouchDelegate delegate) {
-		if (this.target == null) {
+		if (this.wrapped == null) {
 			return;
 		}
-		this.target.setTouchDelegate(delegate);
+		this.wrapped.setTouchDelegate(delegate);
 	}
 
 	@Override
 	public void setTranslationX(float translationX) {
-		if (this.target == null) {
+		if (this.wrapped == null) {
 			return;
 		}
-		this.target.setTranslationX(translationX);
+		this.wrapped.setTranslationX(translationX);
 	}
 
 	@Override
 	public void setTranslationY(float translationY) {
-		if (this.target == null) {
+		if (this.wrapped == null) {
 			return;
 		}
-		this.target.setTranslationY(translationY);
+		this.wrapped.setTranslationY(translationY);
 	}
 
 	@Override
 	public void setVerticalFadingEdgeEnabled(boolean verticalFadingEdgeEnabled) {
-		if (this.target == null) {
+		if (this.wrapped == null) {
 			return;
 		}
-		this.target.setVerticalFadingEdgeEnabled(verticalFadingEdgeEnabled);
+		this.wrapped.setVerticalFadingEdgeEnabled(verticalFadingEdgeEnabled);
 	}
 
 	@Override
 	public void setVerticalScrollBarEnabled(boolean verticalScrollBarEnabled) {
-		if (this.target == null) {
+		if (this.wrapped == null) {
 			return;
 		}
-		this.target.setVerticalScrollBarEnabled(verticalScrollBarEnabled);
+		this.wrapped.setVerticalScrollBarEnabled(verticalScrollBarEnabled);
 	}
 
 	@Override
 	public void setVerticalScrollbarPosition(int position) {
-		if (this.target == null) {
+		if (this.wrapped == null) {
 			return;
 		}
-		this.target.setVerticalScrollbarPosition(position);
+		this.wrapped.setVerticalScrollbarPosition(position);
 	}
 
 	@Override
 	public void setVisibility(int visibility) {
-		if (this.target == null) {
+		if (this.wrapped == null) {
 			return;
 		}
-		this.target.setVisibility(visibility);
+		this.wrapped.setVisibility(visibility);
 	}
 
 	@Override
 	public void setWillNotCacheDrawing(boolean willNotCacheDrawing) {
-		if (this.target == null) {
+		if (this.wrapped == null) {
 			return;
 		}
-		this.target.setWillNotCacheDrawing(willNotCacheDrawing);
+		this.wrapped.setWillNotCacheDrawing(willNotCacheDrawing);
 	}
 
 	@Override
 	public void setWillNotDraw(boolean willNotDraw) {
-		if (this.target == null) {
+		if (this.wrapped == null) {
 			return;
 		}
-		this.target.setWillNotDraw(willNotDraw);
+		this.wrapped.setWillNotDraw(willNotDraw);
 	}
 
 	@Override
 	public void setX(float x) {
-		if (this.target == null) {
+		if (this.wrapped == null) {
 			return;
 		}
-		this.target.setX(x);
+		this.wrapped.setX(x);
 	}
 
 	@Override
 	public void setY(float y) {
-		if (this.target == null) {
+		if (this.wrapped == null) {
 			return;
 		}
-		this.target.setY(y);
+		this.wrapped.setY(y);
 	}
 
 	@Override
 	public boolean showContextMenu() {
-		if (this.target == null) {
+		if (this.wrapped == null) {
 			return super.showContextMenu();
 		}
-		return this.target.showContextMenu();
+		return this.wrapped.showContextMenu();
 	}
 
 	@Override
 	public ActionMode startActionMode(Callback callback) {
-		if (this.target == null) {
+		if (this.wrapped == null) {
 			return super.startActionMode(callback);
 		}
-		return this.target.startActionMode(callback);
+		return this.wrapped.startActionMode(callback);
 	}
 
 	@Override
 	public void startAnimation(Animation animation) {
-		if (this.target == null) {
+		if (this.wrapped == null) {
 			return;
 		}
-		this.target.startAnimation(animation);
+		this.wrapped.startAnimation(animation);
 	}
 
 	@Override
 	public String toString() {
-		if (this.target == null) {
+		if (this.wrapped == null) {
 			return super.toString();
 		}
-		return this.target.toString();
+		return this.wrapped.toString();
 	}
 
 	@Override
 	public void unscheduleDrawable(Drawable who, Runnable what) {
-		if (this.target == null) {
+		if (this.wrapped == null) {
 			return;
 		}
-		this.target.unscheduleDrawable(who, what);
+		this.wrapped.unscheduleDrawable(who, what);
 	}
 
 	@Override
 	public void unscheduleDrawable(Drawable who) {
-		if (this.target == null) {
+		if (this.wrapped == null) {
 			return;
 		}
-		this.target.unscheduleDrawable(who);
+		this.wrapped.unscheduleDrawable(who);
 	}
 
 	@Override
 	//@ExportedProperty(category = "drawing")
 	public boolean willNotCacheDrawing() {
-		if (this.target == null) {
+		if (this.wrapped == null) {
 			return super.willNotCacheDrawing();
 		}
-		return this.target.willNotCacheDrawing();
+		return this.wrapped.willNotCacheDrawing();
 	}
 
 	@Override
 	//@ExportedProperty(category = "drawing")
 	public boolean willNotDraw() {
-		if (this.target == null) {
+		if (this.wrapped == null) {
 			return super.willNotDraw();
 		}
-		return this.target.willNotDraw();
+		return this.wrapped.willNotDraw();
 	}
 
 }

@@ -8,6 +8,11 @@ import com.andframe.view.AfContactsRefreshView;
 
 import java.util.List;
 
+/**
+ * 联系人分组列表专用适配器
+ * @param <G>
+ * @param <C>
+ */
 public abstract class AfContactsAdapter<G, C> extends AfExpandableAdapter<G, C>{
 
 	private IAfGroupItem<G> mHeader = null;

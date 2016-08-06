@@ -107,12 +107,15 @@ public class AfDateFormat {
 	public static Date parser(int year, int month, int day) {
 		Calendar calender = Calendar.getInstance();
 		calender.set(Calendar.YEAR, year);
-		calender.set(Calendar.DAY_OF_MONTH, month);
-		calender.set(Calendar.MONTH, day);
+		calender.set(Calendar.MONTH, month);
+		calender.set(Calendar.DAY_OF_MONTH, day);
+		return roundDate(calender.getTime());
+	}
+
+	public static Date roundDate(Date date) {
 		try {
-			return DATE.parse(DATE.format(calender.getTime()));
+			return DATE.parse(DATE.format(date));
 		} catch (ParseException e) {
-			e.printStackTrace();
 			return new Date(0);
 		}
 	}

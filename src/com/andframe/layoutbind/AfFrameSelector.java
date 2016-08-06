@@ -32,7 +32,7 @@ public class AfFrameSelector extends AfViewModule {
 
 	public AfFrameSelector(FrameLayout frameLayout) {
 		super(new AfView(frameLayout),0);
-		target = frameLayout;
+		wrapped = frameLayout;
 		mFrameLayout = frameLayout;
 	}
 

@@ -40,6 +40,10 @@ public abstract class AfModuleTitlebar extends AfModuleAlpha implements OnClickL
 	protected WeakReference<Activity> mWeakRefActivity = null;
 	protected OnClickListener mBtCustomClickListener;
 
+	protected AfModuleTitlebar(AfViewable view) {
+		super(view);
+	}
+
 	public AfModuleTitlebar(AfViewable view, int id) {
 		this(view, FUNCTION_NONE, id);
 	}
@@ -50,9 +54,8 @@ public abstract class AfModuleTitlebar extends AfModuleAlpha implements OnClickL
 	}
 	public AfModuleTitlebar(AfViewable view, int function, int id) {
 		super(view, id);
-		if (isValid()) {
-			initView(view, function);
-		}
+		mFunction = function;
+		initializeComponent(view);
 	}
 
 	private void bindWeakReference(AfViewable view) {
@@ -60,26 +63,15 @@ public abstract class AfModuleTitlebar extends AfModuleAlpha implements OnClickL
 			mWeakRefDialog = new WeakReference<>(((Dialog) view));
 		} else if (view instanceof Activity) {
 			mWeakRefActivity = new WeakReference<>(((Activity) view));
-		} else if (target != null && target.getContext() instanceof Activity) {
-			mWeakRefActivity = new WeakReference<>(((Activity) target.getContext()));
+		} else if (wrapped != null && wrapped.getContext() instanceof Activity) {
+			mWeakRefActivity = new WeakReference<>(((Activity) wrapped.getContext()));
 		}
 	}
 
 	@Override
 	protected void onCreated(AfViewable viewable, View view) {
 		super.onCreated(viewable, view);
-		if (target != null) {
-			bindWeakReference(viewable);
-			mBtGoBack = viewable.findViewById(getBtGoBackId());
-			mBtRightImg = viewable.findViewById(getRightImgId(), ImageView.class);
-			mBtRightTxt = viewable.findViewById(getRightTxtId(), TextView.class);
-			mTvTitle = viewable.findViewById(getTitleTextId(), TextView.class);
-			mMeuns = new HashMap<>();
-			mBtRightImg.setOnClickListener(this);
-			mBtGoBack.setOnClickListener(this);
-			mBtRightTxt.setOnClickListener(this);
-			setFunction(FUNCTION_NONE);
-		}
+		initView(viewable, mFunction);
 	}
 
 	protected void initView(AfViewable view, int function) {

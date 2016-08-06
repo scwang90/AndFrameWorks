@@ -17,8 +17,7 @@ import com.andframe.util.java.AfReflecter;
 import java.util.ArrayList;
 import java.util.List;
 
-public abstract class AfExpandableAdapter<G, C> extends
-        BaseExpandableListAdapter {
+public abstract class AfExpandableAdapter<G, C> extends BaseExpandableListAdapter {
 
     public static class AfChild<T> {
 

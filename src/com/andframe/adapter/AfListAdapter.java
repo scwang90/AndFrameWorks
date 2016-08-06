@@ -76,15 +76,19 @@ public abstract class AfListAdapter<T> extends BaseAdapter implements List<T> {
 			}
 		}
 	};
+	@Override
 	public void registerDataSetObserver(DataSetObserver observer) {
 		mDataSetObservable.registerObserver(observer);
 	}
+	@Override
 	public void unregisterDataSetObserver(DataSetObserver observer) {
 		mDataSetObservable.unregisterObserver(observer);
 	}
+	@Override
 	public void notifyDataSetChanged() {
 		mDataSetObservable.notifyChanged();
 	}
+	@Override
 	public void notifyDataSetInvalidated() {
 		mDataSetObservable.notifyInvalidated();
 	}

@@ -6,7 +6,6 @@ import android.app.Application;
 import android.content.ComponentName;
 import android.content.Context;
 import android.content.Intent;
-import android.content.SharedPreferences.Editor;
 import android.content.pm.ApplicationInfo;
 import android.content.pm.PackageInfo;
 import android.content.pm.PackageManager;
@@ -18,7 +17,7 @@ import com.andframe.BuildConfig;
 import com.andframe.activity.framework.AfActivity;
 import com.andframe.broadcast.ConnectionChangeReceiver;
 import com.andframe.caches.AfImageCaches;
-import com.andframe.caches.AfSharedPreference;
+import com.andframe.caches.AfJsonCache;
 import com.andframe.fragment.AfFragment;
 import com.andframe.helper.android.AfDeviceInfo;
 import com.andframe.network.AfImageService;
@@ -161,7 +160,7 @@ public abstract class AfApplication extends Application {
 
 	// 保存数据
 	protected Date mStateTime = new Date();
-	protected AfSharedPreference mRunningState = null;
+	protected AfJsonCache mRunningState = null;
 	private PackageInfo mPackageInfo;
 	private ApplicationInfo mApplicationInfo;
 
@@ -191,7 +190,7 @@ public abstract class AfApplication extends Application {
 
 			AfExceptionHandler.register();
 
-			mRunningState = new AfSharedPreference(this, STATE_RUNNING);
+			mRunningState = new AfJsonCache(this, STATE_RUNNING);
 			// 初始化设备信息
 			AfDeviceInfo.initialize(getAppContext());
 			// 初始化震动控制台
@@ -641,7 +640,7 @@ public abstract class AfApplication extends Application {
 	 * 当APP被临时销毁时保存App 状态 在AfActivity 中调用
 	 */
 	public final void onRestoreInstanceState() {
-		Date date = mRunningState.getDate(STATE_TIME);
+		Date date = mRunningState.getDate(STATE_TIME,null);
 		if (date != null) {
 			onRestoreInstanceState(mRunningState);
 			mRunningState.clear();
@@ -652,7 +651,7 @@ public abstract class AfApplication extends Application {
 	 * 当APP被临时销毁时保存App 状态 在onRestoreInstanceState() 中调用
 	 * @param state
 	 */
-	protected void onRestoreInstanceState(AfSharedPreference state) {
+	protected void onRestoreInstanceState(AfJsonCache state) {
 		mNetworkStatus = state.getInt(STATE_NETWORKSTATUS, mNetworkStatus);
 		mVersion = state.getString(STATE_VERSION, mVersion);
 	}
@@ -669,22 +668,24 @@ public abstract class AfApplication extends Application {
 	 */
 	public final void onSaveInstanceState() {
 		// 如果保存时间标记一直，则不用保存
-		Date date = mRunningState.getDate(STATE_TIME);
+		Date date = mRunningState.getDate(STATE_TIME, null);
 		if (date != null && date.equals(mStateTime)) {
 			return;
 		}
-		mRunningState.putDate(STATE_TIME, mStateTime);
+		mRunningState.put(STATE_TIME, mStateTime);
 		onSaveInstanceState(mRunningState);
 	}
 
 	/**
 	 * 当APP被还原时候还原原来状态 在AfActivity 中调用
 	 */
-	protected void onSaveInstanceState(AfSharedPreference state) {
-		Editor editor = mRunningState.getSharePrefereEditor();
-		editor.putInt(STATE_NETWORKSTATUS, mNetworkStatus);
-		editor.putString(STATE_VERSION, mVersion);
-		editor.commit();
+	protected void onSaveInstanceState(AfJsonCache state) {
+		state.put(STATE_VERSION, mVersion);
+		state.put(STATE_NETWORKSTATUS, mNetworkStatus);
+//		Editor editor = mRunningState.getSharePrefereEditor();
+//		editor.putInt(STATE_NETWORKSTATUS, mNetworkStatus);
+//		editor.putString(STATE_VERSION, mVersion);
+//		editor.commit();
 	}
 
 	/**
@@ -769,7 +770,7 @@ public abstract class AfApplication extends Application {
 	 * 用于转换接口通知
 	 */
 	protected <T> List<T> transformNotifys(Class<T> clazz){
-		List<Object> list = new ArrayList<Object>();
+		List<Object> list = new ArrayList<>();
 		if (mCurFragment != null
 				&& !mCurFragment.isRecycled()){
 			list.add(mCurFragment);

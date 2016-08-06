@@ -97,7 +97,7 @@ import com.andframe.helper.android.AfDesHelper;
 import com.andframe.helper.android.AfDeviceInfo;
 import com.andframe.helper.android.AfGifHelper;
 import com.andframe.helper.android.AfImageHelper;
-import com.andframe.layoutbind.framework.AfViewDelegate;
+import com.andframe.layoutbind.framework.AfViewWrapper;
 import com.andframe.thread.AfHandlerTimerTask;
 import com.andframe.util.java.AfReflecter;
 
@@ -510,8 +510,8 @@ public class Injecter {
     }
 
     private static Class<?> getStopType(Object handler){
-        if (handler instanceof AfViewDelegate){
-            return AfViewDelegate.class;
+        if (handler instanceof AfViewWrapper){
+            return AfViewWrapper.class;
         }
         return Object.class;
     }
