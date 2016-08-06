@@ -36,9 +36,8 @@ public class Permission extends AfModel{
 	@Override
 	public boolean equals(Object o) {
 		if(o instanceof Permission){
-			boolean equal = true;
 			Permission obj = (Permission)o;
-			equal = equal && ID.equals(obj.ID);
+			boolean equal = ID.equals(obj.ID);
 			equal = equal && IsAdd == obj.IsAdd;
 			equal = equal && IsRead == obj.IsRead;
 			equal = equal && IsModify == obj.IsModify;

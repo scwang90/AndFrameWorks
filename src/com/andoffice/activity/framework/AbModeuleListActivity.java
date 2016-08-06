@@ -4,13 +4,13 @@ import android.app.AlertDialog.Builder;
 import android.content.Context;
 import android.content.DialogInterface;
 import android.os.Bundle;
+import android.support.annotation.NonNull;
 import android.view.MenuItem;
 import android.view.View;
 import android.widget.ListView;
 
-import com.andframe.activity.AfActivity;
+import com.andframe.activity.framework.AfActivity;
 import com.andframe.activity.AfListManageActivity;
-import com.andframe.activity.AfListViewActivity;
 import com.andframe.activity.framework.AfPageable;
 import com.andframe.adapter.AfListAdapter;
 import com.andframe.application.AfExceptionHandler;
@@ -31,7 +31,6 @@ import com.andframe.layoutbind.AfSelectorTitlebarImpl;
 import com.andframe.thread.AfListViewTask;
 import com.andframe.thread.AfTask;
 import com.andframe.view.multichoice.AfMultiChoiceAdapter;
-import com.andframe.view.multichoice.AfMultiChoiceItem;
 import com.andframe.view.tableview.AfColumn;
 import com.andframe.view.tableview.AfTable;
 import com.andoffice.R;
@@ -155,7 +154,7 @@ public abstract class AbModeuleListActivity<T> extends AfListManageActivity<T> i
     protected void onCreate(Bundle bundle, AfIntent intent) throws Exception {
         super.onCreate(bundle, intent);
 
-        mTitlebar = new AfModuleTitlebarImpl(this);
+        mTitlebar = newModuleTitlebar();
         mTitlebar.putMenu("选择", REQUEST_SELECT);
         mTitlebar.setFunction(AfModuleTitlebar.FUNCTION_MENU);
         mTitlebar.setOnMenuItemListener(this);
@@ -197,6 +196,11 @@ public abstract class AbModeuleListActivity<T> extends AfListManageActivity<T> i
             }
         }
         onCreate(bundle, intent, mPermission);
+    }
+
+    @NonNull
+    protected AfModuleTitlebarImpl newModuleTitlebar() {
+        return new AfModuleTitlebarImpl(this);
     }
 
     @Override
@@ -353,6 +357,17 @@ public abstract class AbModeuleListActivity<T> extends AfListManageActivity<T> i
         String deldetail = AfSelectorBottombarImpl.DETAIL_DELETE;
         mSelectorBottombar.addFunction(REQUEST_DELETE, delimageid, deldetail);
         mSelectorBottombar.setMenuItemListener(this);
+    }
+
+    /**
+     * 显示选择状态
+     */
+    protected void doShowSelect() {
+        if (mMultiChoiceAdapter != null) {
+            mMultiChoiceAdapter.beginMultiChoice();
+        } else {
+            makeToastShort("还没有数据喔~");
+        }
     }
 
     /**
@@ -513,11 +528,7 @@ public abstract class AbModeuleListActivity<T> extends AfListManageActivity<T> i
             return;
         }
         if (v.getId() == ModuleBottombar.ID_SELECT) {
-            if (mMultiChoiceAdapter != null) {
-                mMultiChoiceAdapter.beginMultiChoice();
-            } else {
-                makeToastShort("还没有数据喔~");
-            }
+            this.doShowSelect();
         } else if (v.getId() == AfModuleNodataImpl.ID_BUTTON
                 /*|| v.getId() == AfModuleNodataImpl.TEXT_TOREFRESH*/) {
             postRefreshTask(true);
@@ -618,6 +629,9 @@ public abstract class AbModeuleListActivity<T> extends AfListManageActivity<T> i
     @Override
     public boolean onMenuItemClick(MenuItem menu) {
         switch (menu.getItemId()) {
+            case REQUEST_SELECT:
+                this.doShowSelect();
+                break;
             case REQUEST_DELETE:
                 this.doReauestDelete();
                 break;

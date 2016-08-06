@@ -10,14 +10,13 @@ import com.andoffice.domain.IDomain;
 import java.util.ArrayList;
 import java.util.LinkedHashMap;
 import java.util.List;
-import java.util.UUID;
 
 //import com.andsoap.domain.AfSoapDomain;
 
 public class ImplDomain<T> 
 		/*extends AfSoapDomain<T, UUID> */implements IDomain<T> {
 
-	protected UUID AuthIdValue = UUID.fromString("eb74b4b4-4607-486b-9f78-c46e31dee30a");//UUIDUtil.Empty;
+//	protected UUID AuthIdValue = UUID.fromString("eb74b4b4-4607-486b-9f78-c46e31dee30a");//UUIDUtil.Empty;
 	protected static LinkedHashMap<String, Object> mltTestMap = new LinkedHashMap<String, Object>();
 
 	protected List<T> buildTestData(){
@@ -27,7 +26,7 @@ public class ImplDomain<T>
 
 	@SuppressWarnings("unchecked")
 	public ImplDomain(){
-		mClass = (Class<T>)AfReflecter.getActualTypeArgument(this,ImplDomain.class,0);
+		mClass = AfReflecter.getActualTypeArgument(this,ImplDomain.class,0);
 	}
 	
 	@SuppressWarnings("unchecked")
@@ -122,25 +121,25 @@ public class ImplDomain<T>
 		return false;//super.Update(AuthIdValue, model);
 	}
 
-	@Override
-	public boolean Delete(T model) throws Exception {
-		if(AbApplication.getDebugMode() == AbApplication.DEBUG_TESTDATA){
-			Thread.sleep(1000);
-			List<T> ltTest =  getTestData();
-			for (int i = 0; i < ltTest.size(); i++) {
-				T tmodel = ltTest.get(i);
-				if (tmodel instanceof AfModel) {
-					AfModel amodel = AfModel.class.cast(model);
-					if(amodel.ID.equals(AfModel.class.cast(model).ID)){
-						ltTest.remove(i);
-						return true;
-					}
-				}
-			}
-			return false;
-		}
-		return false;//super.Delete(AuthIdValue, model);
-	}
+//	@Override
+//	public boolean Delete(T model) throws Exception {
+//		if(AbApplication.getDebugMode() == AbApplication.DEBUG_TESTDATA){
+//			Thread.sleep(1000);
+//			List<T> ltTest =  getTestData();
+//			for (int i = 0; i < ltTest.size(); i++) {
+//				T tmodel = ltTest.get(i);
+//				if (tmodel instanceof AfModel) {
+//					AfModel amodel = AfModel.class.cast(model);
+//					if(amodel.ID.equals(AfModel.class.cast(model).ID)){
+//						ltTest.remove(i);
+//						return true;
+//					}
+//				}
+//			}
+//			return false;
+//		}
+//		return false;//super.Delete(AuthIdValue, model);
+//	}
 
 	@Override
 	public boolean DeleteList(List<T> list) throws Exception {
@@ -167,92 +166,92 @@ public class ImplDomain<T>
 		return false;//super.DeleteList(AuthIdValue, list);
 	}
 
-	@Override
-	public boolean UpdateList(List<T> list) throws Exception {
-		if(AbApplication.getDebugMode() == AbApplication.DEBUG_TESTDATA){
-			Thread.sleep(1000);
-			List<T> tlist = new ArrayList<T>(list);
-			List<T> ltTest =  getTestData();
-			for (int i = 0; i < ltTest.size() && tlist.size() > 0; i++) {
-				T model = ltTest.get(i);
-				if (model instanceof AfModel) {
-					AfModel amodel = AfModel.class.cast(model);
-					for (int j = 0; j < tlist.size(); j++) {
-						AfModel date = AfModel.class.cast(tlist.get(j));
-						if(amodel.ID.equals(date.ID)){
-							ltTest.set(i, tlist.get(j));
-							tlist.remove(j);
-						}
-					}
-				}
-			}
-			return true;
-		}
-		return false;//super.UpdateList(AuthIdValue, list);
-	}
+//	@Override
+//	public boolean UpdateList(List<T> list) throws Exception {
+//		if(AbApplication.getDebugMode() == AbApplication.DEBUG_TESTDATA){
+//			Thread.sleep(1000);
+//			List<T> tlist = new ArrayList<T>(list);
+//			List<T> ltTest =  getTestData();
+//			for (int i = 0; i < ltTest.size() && tlist.size() > 0; i++) {
+//				T model = ltTest.get(i);
+//				if (model instanceof AfModel) {
+//					AfModel amodel = AfModel.class.cast(model);
+//					for (int j = 0; j < tlist.size(); j++) {
+//						AfModel date = AfModel.class.cast(tlist.get(j));
+//						if(amodel.ID.equals(date.ID)){
+//							ltTest.set(i, tlist.get(j));
+//							tlist.remove(j);
+//						}
+//					}
+//				}
+//			}
+//			return true;
+//		}
+//		return false;//super.UpdateList(AuthIdValue, list);
+//	}
 
-	@Override
-	public boolean DeleteByID(UUID id) throws Exception {
-		if(AbApplication.getDebugMode() == AbApplication.DEBUG_TESTDATA){
-			Thread.sleep(1000);
-			List<T> ltTest =  getTestData();
-			for (int i = 0; i < ltTest.size(); i++) {
-				T model = ltTest.get(i);
-				if (model instanceof AfModel) {
-					AfModel amodel = AfModel.class.cast(model);
-					if(amodel.ID.equals(id)){
-						ltTest.remove(i);
-						return true;
-					}
-				}
-			}
-			return false;
-		}
-		return false;//super.DeleteByID(AuthIdValue, id);
-	}
-
-	public T GetByID(UUID id) throws Exception {
-		if(AbApplication.getDebugMode() == AbApplication.DEBUG_TESTDATA){
-			Thread.sleep(1000);
-			for (T model : getTestData( "")) {
-				if (model instanceof AfModel) {
-					AfModel amodel = AfModel.class.cast(model);
-					if(amodel.ID.equals(id)){
-						return model;
-					}
-				}
-			}
-			return null;
-		}
-//		LinkedHashMap<String, String> properties = new LinkedHashMap<String, String>();
-//		properties.put("authid", mGson.toJson(AuthIdValue));
-//		properties.put("id", mGson.toJson(id));
-
-//		String[][] properties = new String[][] {
-//				new String[] { "authid", mGson.toJson(AuthIdValue)},
-//				new String[] {"id", mGson.toJson(id)} };
-		
-		return null;//getModel("GetByID", properties);
-	}
-
-	public boolean Exists(UUID id) throws Exception {
-		if(AbApplication.getDebugMode() == AbApplication.DEBUG_TESTDATA){
-			Thread.sleep(1000);
-			for (T model : getTestData( "")) {
-				if (model instanceof AfModel) {
-					AfModel amodel = AfModel.class.cast(model);
-					if(amodel.ID.equals(id)){
-						return true;
-					}
-				}
-			}
-			return false;
-		}
-//		LinkedHashMap<String, String> properties = new LinkedHashMap<String, String>();
-//		properties.put("authid", mGson.toJson(AuthIdValue));
-//		properties.put("id", mGson.toJson(id));
-		return false;//getBoolean("Exists", properties);
-	}
+//	@Override
+//	public boolean DeleteByID(UUID id) throws Exception {
+//		if(AbApplication.getDebugMode() == AbApplication.DEBUG_TESTDATA){
+//			Thread.sleep(1000);
+//			List<T> ltTest =  getTestData();
+//			for (int i = 0; i < ltTest.size(); i++) {
+//				T model = ltTest.get(i);
+//				if (model instanceof AfModel) {
+//					AfModel amodel = AfModel.class.cast(model);
+//					if(amodel.ID.equals(id)){
+//						ltTest.remove(i);
+//						return true;
+//					}
+//				}
+//			}
+//			return false;
+//		}
+//		return false;//super.DeleteByID(AuthIdValue, id);
+//	}
+//
+//	public T GetByID(UUID id) throws Exception {
+//		if(AbApplication.getDebugMode() == AbApplication.DEBUG_TESTDATA){
+//			Thread.sleep(1000);
+//			for (T model : getTestData( "")) {
+//				if (model instanceof AfModel) {
+//					AfModel amodel = AfModel.class.cast(model);
+//					if(amodel.ID.equals(id)){
+//						return model;
+//					}
+//				}
+//			}
+//			return null;
+//		}
+////		LinkedHashMap<String, String> properties = new LinkedHashMap<String, String>();
+////		properties.put("authid", mGson.toJson(AuthIdValue));
+////		properties.put("id", mGson.toJson(id));
+//
+////		String[][] properties = new String[][] {
+////				new String[] { "authid", mGson.toJson(AuthIdValue)},
+////				new String[] {"id", mGson.toJson(id)} };
+//
+//		return null;//getModel("GetByID", properties);
+//	}
+//
+//	public boolean Exists(UUID id) throws Exception {
+//		if(AbApplication.getDebugMode() == AbApplication.DEBUG_TESTDATA){
+//			Thread.sleep(1000);
+//			for (T model : getTestData( "")) {
+//				if (model instanceof AfModel) {
+//					AfModel amodel = AfModel.class.cast(model);
+//					if(amodel.ID.equals(id)){
+//						return true;
+//					}
+//				}
+//			}
+//			return false;
+//		}
+////		LinkedHashMap<String, String> properties = new LinkedHashMap<String, String>();
+////		properties.put("authid", mGson.toJson(AuthIdValue));
+////		properties.put("id", mGson.toJson(id));
+//		return false;//getBoolean("Exists", properties);
+//	}
 
 	public List<T> GetListByPage(String where, Page page) throws Exception {
 		if(AbApplication.getDebugMode() == AbApplication.DEBUG_TESTDATA){
@@ -266,40 +265,40 @@ public class ImplDomain<T>
 		return new ArrayList<T>();//getList("GetListByPage", properties);
 	}
 
-	public long GetRecordCount(String where) throws Exception {
-		if(AbApplication.getDebugMode() == AbApplication.DEBUG_TESTDATA){
-			Thread.sleep(1000);
-			return getTestData( where).size();
-		}
-//		LinkedHashMap<String, String> properties = new LinkedHashMap<String, String>();
-//		properties.put("authid", mGson.toJson(AuthIdValue));
-//		properties.put("where", where);
-		return 0;//getLong("GetRecordCount", properties);
-	}
-
-	public List<T> GetListWhere(String where, String order, String asc)
-			throws Exception {
-		if(AbApplication.getDebugMode() == AbApplication.DEBUG_TESTDATA){
-			Thread.sleep(1000);
-			return getTestData( where);
-		}
-//		LinkedHashMap<String, String> properties = new LinkedHashMap<String, String>();
-//		properties.put("authid", mGson.toJson(AuthIdValue));
-//		properties.put("where", where);
-//		properties.put("order", order);
-//		properties.put("asc", asc);
-		return new ArrayList<T>();//getList("GetListWhere", properties);
-	}
+//	public long GetRecordCount(String where) throws Exception {
+//		if(AbApplication.getDebugMode() == AbApplication.DEBUG_TESTDATA){
+//			Thread.sleep(1000);
+//			return getTestData( where).size();
+//		}
+////		LinkedHashMap<String, String> properties = new LinkedHashMap<String, String>();
+////		properties.put("authid", mGson.toJson(AuthIdValue));
+////		properties.put("where", where);
+//		return 0;//getLong("GetRecordCount", properties);
+//	}
+//
+//	public List<T> GetListWhere(String where, String order, String asc)
+//			throws Exception {
+//		if(AbApplication.getDebugMode() == AbApplication.DEBUG_TESTDATA){
+//			Thread.sleep(1000);
+//			return getTestData( where);
+//		}
+////		LinkedHashMap<String, String> properties = new LinkedHashMap<String, String>();
+////		properties.put("authid", mGson.toJson(AuthIdValue));
+////		properties.put("where", where);
+////		properties.put("order", order);
+////		properties.put("asc", asc);
+//		return new ArrayList<T>();//getList("GetListWhere", properties);
+//	}
 	
 	protected String where(String where) {
 		return AfSQLHelper.Where(where);
 	}
 
-	protected String andwhere(String where) {
-		return AfSQLHelper.andWhere(where);
-	}
-
-	protected String orwhere(String where) {
-		return AfSQLHelper.orWhere(where);
-	}
+//	protected String andwhere(String where) {
+//		return AfSQLHelper.andWhere(where);
+//	}
+//
+//	protected String orwhere(String where) {
+//		return AfSQLHelper.orWhere(where);
+//	}
 }

@@ -23,17 +23,14 @@ public abstract class AbModeuleActivity extends AfActivity {
 		mPermission = intent.get(EXTRA_PERMISSION, Permission.class);
 		if(mPermission == null){
 			throw new AfToastException("没有设置模块权限！");
-		}else if(mPermission.IsRead == false){
-//			throw new AfToastException("您没有权限浏览本模块！");
-			//throw new AfToastException("您没有权限浏览本模块！");
-			doShowDialog("警告提示", "您已经被管理员取消本模块的使用权限！", 
+		}else if(!mPermission.IsRead){
+			doShowDialog("警告提示", "您已经被管理员取消本模块的使用权限！",
 					new DialogInterface.OnClickListener() {
 				@Override
 				public void onClick(DialogInterface dialog, int index) {
 					getActivity().finish();
 				}
 			});
-			return ;
 		}
 	}
 
