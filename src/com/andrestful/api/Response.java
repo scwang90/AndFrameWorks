@@ -117,4 +117,15 @@ public abstract class Response {
 	}
 
 	public abstract Response parser();
+
+	@Override
+	public String toString() {
+		final StringBuilder sb = new StringBuilder("Response{");
+		sb.append("statusCode=").append(statusCode);
+		sb.append(", body='").append(body).append('\'');
+		sb.append(", orgbody='").append(orgbody).append('\'');
+		sb.append(", headers=").append(headers);
+		sb.append('}');
+		return sb.toString();
+	}
 }
