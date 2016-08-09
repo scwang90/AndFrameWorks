@@ -8,7 +8,7 @@ import android.view.View;
 
 import com.andframe.activity.framework.AfView;
 import com.andframe.activity.framework.AfViewable;
-import com.andframe.feature.AfDailog;
+import com.andframe.feature.AfDialogBuilder;
 import com.andwidget.R;
 import com.andwidget.holocolorpicker.ColorPicker;
 import com.andwidget.holocolorpicker.OpacityBar;
@@ -47,12 +47,13 @@ public class AwColorPicker {
 	public void show(String title,
 			String positive, OnClickListener lpositive,
 			String negative,OnClickListener lnegative) {
-		AfDailog dailog = new AfDailog(mLayout.getContext());
+		AfDialogBuilder dailog = new AfDialogBuilder(mLayout.getContext());
 		dailog.doShowViewDialog(android.R.style.Theme_Translucent,0,
 				title, mLayout, positive,lpositive, null, null, negative, lnegative);
 	}
 	
 	protected View findLayout(AfViewable iview) {
+
 		if (iview instanceof AfView) {
 			AfView view = AfView.class.cast(iview);
 			mColorPicker = (ColorPicker) view.findViewById(R.id.colorPicker);
