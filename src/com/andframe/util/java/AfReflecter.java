@@ -32,8 +32,8 @@ public class AfReflecter {
     @SuppressWarnings("unchecked")
     public static <T> Class<T> getActualTypeArgument(Object subobj, Class<?> supclass, int index) {
         Class<?> subclass = subobj.getClass();
-        List<ParameterizedType> ptypes = new ArrayList<>();
-        ParameterizedType ptype;
+        List<ParameterizedType> ptypes = new ArrayList<ParameterizedType>();
+        ParameterizedType ptype = null;
         while (supclass != null && !supclass.equals(subclass)) {
             Type type = subclass.getGenericSuperclass();
             if (type == null) {
@@ -51,7 +51,7 @@ public class AfReflecter {
                 throw new Error("GenericSuperclass not case");
             }
         }
-        Type type;
+        Type type = null;
         do {
             type = ptypes.get(ptypes.size() - 1).getActualTypeArguments()[index];
             ptypes.remove(ptypes.size() - 1);

@@ -7,7 +7,7 @@ import android.content.Intent;
 import android.net.Uri;
 
 import com.andframe.activity.framework.AfActivity;
-import com.andframe.feature.AfDailog;
+import com.andframe.feature.AfDialogBuilder;
 import com.andframe.thread.AfDataTask;
 import com.andframe.thread.AfDownloader;
 import com.andframe.thread.AfDownloader.DownloadEntity;
@@ -170,7 +170,7 @@ public abstract class AfUpdateService {
 							"    更新版本：%s\r\n" +
 							"    当前版本：%s\r\n\r\n%s",
 					mVersionInfo.serviceVersion, mVersion, mVersionInfo.updateDscribe);
-			AfDailog dialog = new AfDailog(activity);
+			AfDialogBuilder dialog = new AfDialogBuilder(activity);
 			dialog.doShowDialog("可用更新", message,"暂不更新",null,
 					"下载更新", new OnClickListener() {
 						@Override

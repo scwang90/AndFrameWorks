@@ -101,7 +101,7 @@ public class AfJsonCache
 		try {
 			String svalue = mShared.getString(key, "");
 			value = mJson.fromJson(svalue, clazz);
-		} catch (Throwable e) {
+		} catch (Throwable ignored) {
 		}
 		return value == null ? defaul : value;
 	}

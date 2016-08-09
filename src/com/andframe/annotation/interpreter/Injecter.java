@@ -87,7 +87,7 @@ import com.andframe.caches.AfSharedPreference;
 import com.andframe.dao.AfEntityDao;
 import com.andframe.exception.AfToastException;
 import com.andframe.feature.AfBundle;
-import com.andframe.feature.AfDailog;
+import com.andframe.feature.AfDialogBuilder;
 import com.andframe.feature.AfDensity;
 import com.andframe.feature.AfDistance;
 import com.andframe.feature.AfIntent;
@@ -163,8 +163,8 @@ public class Injecter {
                     value = new Random();
                 } else if (clazz.equals(AfSoftInputer.class)) {
                     value = new AfSoftInputer(context);
-                } else if (clazz.equals(AfDailog.class)) {
-                    value = new AfDailog(context);
+                } else if (clazz.equals(AfDialogBuilder.class)) {
+                    value = new AfDialogBuilder(context);
                 } else if (clazz.equals(AfDensity.class)) {
                     value = new AfDensity(context);
                 } else if (clazz.equals(AfReflecter.class)) {

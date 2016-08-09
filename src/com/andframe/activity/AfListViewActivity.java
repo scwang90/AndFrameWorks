@@ -56,10 +56,6 @@ public abstract class AfListViewActivity<T> extends AfActivity implements OnRefr
 
     protected AfListAdapter<T> mAdapter;
     protected AfRefreshAbsListView<? extends AbsListView> mListView;
-    /**
-     * 是否使用分页
-     */
-    protected boolean mIsPaging = true;
 
     /**
      * 缓存使用的 class 对象（json要用到）
@@ -75,6 +71,7 @@ public abstract class AfListViewActivity<T> extends AfActivity implements OnRefr
 
     protected AfTimeSpan mCacheSpan = AfListTask.CACHETIMEOUTSECOND;
 
+    @SuppressWarnings("unchecked")
     public AfListViewActivity() {
         MarkCache mark = getAnnotation(this.getClass(), AfListViewActivity.class, MarkCache.class);
         if (mark != null) {
@@ -216,6 +213,7 @@ public abstract class AfListViewActivity<T> extends AfActivity implements OnRefr
      *
      * @param value 添加的数据
      */
+    @SuppressWarnings("unused")
     public void addData(T value) {
         if (mAdapter == null || mAdapter.getCount() == 0) {
             List<T> ltArray = new ArrayList<>();
@@ -372,9 +370,7 @@ public abstract class AfListViewActivity<T> extends AfActivity implements OnRefr
      */
     @Override
     public boolean onItemLongClick(AdapterView<?> parent, View view, int index, long id) {
-        if (mListView instanceof AfListView) {
-            index = ((AfListView) mListView).getDataIndex(index);
-        }
+        index = mListView.getDataIndex(index);
         if (index >= 0) {
             T model = mAdapter.getItemAt(index);
             try {
@@ -392,6 +388,7 @@ public abstract class AfListViewActivity<T> extends AfActivity implements OnRefr
      * @param model 被点击的数据model
      * @param index 被点击的index
      */
+    @SuppressWarnings("UnusedParameters")
     protected boolean onItemLongClick(T model, int index) {
         return false;
     }
@@ -404,6 +401,7 @@ public abstract class AfListViewActivity<T> extends AfActivity implements OnRefr
 //		}
     }
 
+    @SuppressWarnings("unused")
     protected void putCache() {
         if (mAdapter != null && AfCollections.isNotEmpty(mAdapter.getList())) {
             putCache(mAdapter.getList());

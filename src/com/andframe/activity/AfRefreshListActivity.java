@@ -67,6 +67,7 @@ public abstract class AfRefreshListActivity<T> extends AfListActivity<T> impleme
 
     protected AfTimeSpan mCacheSpan = AfListTask.CACHETIMEOUTSECOND;
 
+    @SuppressWarnings("unchecked")
     public AfRefreshListActivity() {
         MarkCache mark = getAnnotation(this.getClass(), AfRefreshListActivity.class, MarkCache.class);
         if (mark != null) {
@@ -86,6 +87,7 @@ public abstract class AfRefreshListActivity<T> extends AfListActivity<T> impleme
      *
      * @param clazz 缓存使用的 class 对象（json要用到）
      */
+    @SuppressWarnings("unused")
     public AfRefreshListActivity(Class<T> clazz) {
         this.mCacheClazz = clazz;
     }
@@ -96,6 +98,7 @@ public abstract class AfRefreshListActivity<T> extends AfListActivity<T> impleme
      *
      * @param clazz 缓存使用的 class 对象（json要用到）
      */
+    @SuppressWarnings("unused")
     public AfRefreshListActivity(Class<T> clazz, String KEY_CACHELIST) {
         this.mCacheClazz = clazz;
         this.KEY_CACHELIST = KEY_CACHELIST;
@@ -111,10 +114,15 @@ public abstract class AfRefreshListActivity<T> extends AfListActivity<T> impleme
         mProgress = newModuleProgress(this);
         mSelector = newAfFrameSelector(this);
 
-        mListView = newAfListView(this);
-        mListView.setOnRefreshListener(this);
-        mListView.setOnItemClickListener(this);
-        mListView.setOnItemLongClickListener(this);
+        if (mListView == null) {
+            mListView = newAfListView(null);
+            mListView.setOnRefreshListener(this);
+            mListView.setOnItemClickListener(this);
+            mListView.setOnItemLongClickListener(this);
+            if (mAdapter != null) {
+                mListView.setAdapter(mAdapter);
+            }
+        }
 
         showLoading();
         onLoad();
@@ -125,7 +133,6 @@ public abstract class AfRefreshListActivity<T> extends AfListActivity<T> impleme
      *
      * @param task 任务标识
      */
-    @SuppressWarnings("unchecked")
     protected AbListViewTask postTask(int task) {
         return postTask(new AbListViewTask(task));
     }
@@ -133,11 +140,10 @@ public abstract class AfRefreshListActivity<T> extends AfListActivity<T> impleme
     /**
      * 创建新的AfListView
      *
-     * @param pageable 页面对象
+     * @param listView ListView对象
      * @return 可刷新的ListView
      */
-    protected AfRefreshAbsListView<? extends AbsListView> newAfListView(AfPageable pageable) {
-        AbsListView listView = findListView(pageable);
+    protected AfRefreshAbsListView<? extends AbsListView> newAfListView(AbsListView listView) {
         if (listView instanceof ListView) {
             return new AfListView(((ListView) listView));
         } else if (listView instanceof GridView) {
@@ -181,7 +187,7 @@ public abstract class AfRefreshListActivity<T> extends AfListActivity<T> impleme
     }
 
     @Override
-    protected void onDestroy() {
+    public void onDestroy() {
         super.onDestroy();
         if (mAdapter != null) {
             mAdapter.unregisterDataSetObserver(mDataSetObserver);
@@ -292,9 +298,7 @@ public abstract class AfRefreshListActivity<T> extends AfListActivity<T> impleme
      */
     @Override
     public boolean onItemLongClick(AdapterView<?> parent, View view, int index, long id) {
-        if (mListView instanceof AfListView) {
-            index = ((AfListView) mListView).getDataIndex(index);
-        }
+        index = mListView.getDataIndex(index);
         if (index >= 0) {
             T model = mAdapter.getItemAt(index);
             try {
@@ -324,12 +328,20 @@ public abstract class AfRefreshListActivity<T> extends AfListActivity<T> impleme
 //		}
     }
 
+    /**
+     * 更新缓存
+     */
+    @SuppressWarnings("unused")
     protected void putCache() {
         if (mAdapter != null && AfCollections.isNotEmpty(mAdapter.getList())) {
             putCache(mAdapter.getList());
         }
     }
 
+    /**
+     * 更新缓存
+     * @param list 要缓存的数据
+     */
     protected void putCache(List<T> list) {
         onTaskPutCache(list);
     }
@@ -344,99 +356,11 @@ public abstract class AfRefreshListActivity<T> extends AfListActivity<T> impleme
     }
 
     /**
-     * 数据加载内部任务类（数据加载事件已经转发，无实际处理代码）
-     *
-     * @author 树朾
-     */
-    protected class AbListViewTask extends AfListViewTask<T> {
-
-        public AbListViewTask() {
-            super(TASK_LOAD);
-        }
-
-        /**
-         * 可以触发加载更多（分页）任务 （传空null可以触发刷新任务）
-         *
-         * @param adapter 适配器，用于统计当前条数计算分页（传空null可以触发刷新任务）
-         */
-        public AbListViewTask(AfListAdapter<T> adapter) {
-            super(adapter);
-        }
-
-        /**
-         * 自定义任务 触发 onWorking 和 onTaskWorking
-         *
-         * @param task 任务标识
-         */
-        public AbListViewTask(int task) {
-            super(task);
-        }
-
-        @Override
-        protected boolean onPrepare() {
-            return AfRefreshListActivity.this.onTaskPrepare(mTask);
-        }
-
-        @Override
-        protected List<T> onLoad(boolean isCheckExpired) {
-            List<T> list = AfRefreshListActivity.this.onTaskLoad(isCheckExpired);
-            if (!AfCollections.isEmpty(list)) {
-                return list;
-            }
-            return super.onLoad(isCheckExpired);
-        }
-
-        @Override
-        protected void onPutCache(List<T> list) {
-            AfRefreshListActivity.this.onTaskPutCache(list);
-        }
-
-        @Override
-        protected void onPushCache(List<T> list) {
-            AfRefreshListActivity.this.onTaskPushCache(list);
-        }
-
-        //事件转发 参考 AfListViewFragment.onListByPage
-        @Override
-        protected List<T> onListByPage(Page page, int task) throws Exception {
-            return AfRefreshListActivity.this.onTaskListByPage(page, task);
-        }
-
-        @Override
-        protected boolean onWorking(int task) throws Exception {
-            return AfRefreshListActivity.this.onTaskWorking(task);
-        }
-
-        //事件转发 参考 AfListViewFragment.onLoaded
-        @Override
-        protected boolean onLoaded(boolean isfinish, List<T> ltdata) {
-            return AfRefreshListActivity.this.onLoaded(this, isfinish, ltdata, getCacheTime());
-        }
-
-        //事件转发 参考 AfListViewFragment.onRefreshed
-        @Override
-        protected boolean onRefreshed(boolean isfinish, List<T> ltdata) {
-            return AfRefreshListActivity.this.onRefreshed(this, isfinish, ltdata);
-        }
-
-        //事件转发 参考 AfListViewFragment.onMored
-        @Override
-        protected boolean onMored(boolean isfinish, List<T> ltdata,
-                                  boolean ended) {
-            return AfRefreshListActivity.this.onMored(this, isfinish, ltdata);
-        }
-
-        @Override
-        protected boolean onWorked(int task, boolean isfinish, List<T> ltdata) {
-            return AfRefreshListActivity.this.onTaskWorked(this, isfinish, ltdata);
-        }
-    }
-
-    /**
      * 任务准备开始 （在UI线程中）
      *
      * @return 返回true 表示准备完毕 否则 false 任务将被取消
      */
+    @SuppressWarnings("UnusedParameters")
     protected boolean onTaskPrepare(int task) {
         return true;
     }
@@ -468,14 +392,15 @@ public abstract class AfRefreshListActivity<T> extends AfListActivity<T> impleme
      * @param ltdata   完成加载数据
      * @return 返回true 已经做好错误页面显示 返回false 框架会做好默认错误反馈
      */
-    @SuppressWarnings("static-access")
     protected boolean onRefreshed(AbListViewTask task, boolean isfinish, List<T> ltdata) {
         if (isfinish) {
             //通知列表刷新完成
             mListView.finishRefresh();
             if (!AfCollections.isEmpty(ltdata)) {
                 mAdapter.set(ltdata);
-                setMoreShow(task, ltdata);
+                if (mIsPaging) {
+                    setMoreShow(task, ltdata);
+                }
             } else {
                 mAdapter.set(ltdata == null ? new ArrayList<T>() : ltdata);
                 showNodata();
@@ -505,7 +430,6 @@ public abstract class AfRefreshListActivity<T> extends AfListActivity<T> impleme
      * @param ltdata   完成加载数据
      * @return 返回true 已经做好错误页面显示 返回false 框架会做好默认错误反馈
      */
-    @SuppressWarnings("static-access")
     protected boolean onMored(AbListViewTask task, boolean isfinish, List<T> ltdata) {
         // 通知列表刷新完成
         mListView.finishLoadMore();
@@ -515,7 +439,7 @@ public abstract class AfRefreshListActivity<T> extends AfListActivity<T> impleme
                 mAdapter.addAll(ltdata);
                 mListView.smoothScrollToPosition(mAdapter.getCount() + 1);
             }
-            if (!setMoreShow(task, ltdata)) {
+            if (mIsPaging && !setMoreShow(task, ltdata)) {
                 makeToastShort("数据全部加载完毕！");
             }
         } else {
@@ -612,6 +536,7 @@ public abstract class AfRefreshListActivity<T> extends AfListActivity<T> impleme
      * @param ltdata         完成加载数据
      * @return 返回true 已经做好错误页面显示 返回false 框架会做好默认错误反馈
      */
+    @SuppressWarnings("UnusedParameters")
     protected boolean onTaskWorked(AbListViewTask abListViewTask, boolean isfinish, List<T> ltdata) {
         return false;
     }
@@ -624,7 +549,11 @@ public abstract class AfRefreshListActivity<T> extends AfListActivity<T> impleme
     @Override
     protected void bindAdapter(AbsListView listView, AfListAdapter<T> adapter) {
         adapter.registerDataSetObserver(mDataSetObserver);
-        super.bindAdapter(listView, adapter);
+        mListView = newAfListView(listView);
+        mListView.setAdapter(adapter);
+        mListView.setOnRefreshListener(this);
+        mListView.setOnItemClickListener(this);
+        mListView.setOnItemLongClickListener(this);
     }
 
     /**
@@ -653,4 +582,94 @@ public abstract class AfRefreshListActivity<T> extends AfListActivity<T> impleme
             showLoading();
         }
     };
+
+    /**
+     * 数据加载内部任务类（数据加载事件已经转发，无实际处理代码）
+     *
+     * @author 树朾
+     */
+    protected class AbListViewTask extends AfListViewTask<T> {
+
+        public AbListViewTask() {
+            super(TASK_LOAD);
+        }
+
+        /**
+         * 可以触发加载更多（分页）任务 （传空null可以触发刷新任务）
+         *
+         * @param adapter 适配器，用于统计当前条数计算分页（传空null可以触发刷新任务）
+         */
+        public AbListViewTask(AfListAdapter<T> adapter) {
+            super(adapter);
+        }
+
+        /**
+         * 自定义任务 触发 onWorking 和 onTaskWorking
+         *
+         * @param task 任务标识
+         */
+        public AbListViewTask(int task) {
+            super(task);
+        }
+
+        @Override
+        protected boolean onPrepare() {
+            return AfRefreshListActivity.this.onTaskPrepare(mTask);
+        }
+
+        @Override
+        protected List<T> onLoad(boolean isCheckExpired) {
+            List<T> list = AfRefreshListActivity.this.onTaskLoad(isCheckExpired);
+            if (!AfCollections.isEmpty(list)) {
+                return list;
+            }
+            return super.onLoad(isCheckExpired);
+        }
+
+        @Override
+        protected void onPutCache(List<T> list) {
+            AfRefreshListActivity.this.onTaskPutCache(list);
+        }
+
+        @Override
+        protected void onPushCache(List<T> list) {
+            AfRefreshListActivity.this.onTaskPushCache(list);
+        }
+
+        //事件转发 参考 AfListViewFragment.onListByPage
+        @Override
+        protected List<T> onListByPage(Page page, int task) throws Exception {
+            return AfRefreshListActivity.this.onTaskListByPage(page, task);
+        }
+
+        @Override
+        protected boolean onWorking(int task) throws Exception {
+            return AfRefreshListActivity.this.onTaskWorking(task);
+        }
+
+        //事件转发 参考 AfListViewFragment.onLoaded
+        @Override
+        protected boolean onLoaded(boolean isfinish, List<T> ltdata) {
+            return AfRefreshListActivity.this.onLoaded(this, isfinish, ltdata, getCacheTime());
+        }
+
+        //事件转发 参考 AfListViewFragment.onRefreshed
+        @Override
+        protected boolean onRefreshed(boolean isfinish, List<T> ltdata) {
+            return AfRefreshListActivity.this.onRefreshed(this, isfinish, ltdata);
+        }
+
+        //事件转发 参考 AfListViewFragment.onMored
+        @Override
+        protected boolean onMored(boolean isfinish, List<T> ltdata,
+                                  boolean ended) {
+            return AfRefreshListActivity.this.onMored(this, isfinish, ltdata);
+        }
+
+        @Override
+        protected boolean onWorked(int task, boolean isfinish, List<T> ltdata) {
+            return AfRefreshListActivity.this.onTaskWorked(this, isfinish, ltdata);
+        }
+    }
+
 }

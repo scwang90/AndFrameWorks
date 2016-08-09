@@ -26,11 +26,11 @@ public class AfTreeNode<T> {
 		this.level = -1;
 		this.isExpanded = true;
 		this.children = new ArrayList<>();
-		List<T> list = new ArrayList<T>(collect);
+		List<T> list = new ArrayList<>(collect);
 		for (T model : collect) {
 			if(able.isTopNode(model)){
 				list.remove(model);
-				children.add(new AfTreeNode<T>(this,model,isExpanded));
+				children.add(new AfTreeNode<>(this,model,isExpanded));
 			}
 		}
 		for (AfTreeNode<T> child : children) {
@@ -43,7 +43,7 @@ public class AfTreeNode<T> {
 		this.isExpanded = true;
 		this.children = new ArrayList<>();
 		for (T model : collect) {
-			children.add(new AfTreeNode<T>(this,model,able,isExpanded));
+			children.add(new AfTreeNode<>(this,model,able,isExpanded));
 		}
 	}
 

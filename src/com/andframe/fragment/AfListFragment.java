@@ -7,6 +7,8 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.AbsListView;
 import android.widget.AdapterView;
+import android.widget.AdapterView.OnItemClickListener;
+import android.widget.AdapterView.OnItemLongClickListener;
 import android.widget.GridView;
 import android.widget.ListView;
 
@@ -27,33 +29,45 @@ import static com.andframe.util.java.AfReflecter.getAnnotation;
  * @param <T> 列表数据实体类
  * @author 树朾
  */
-public abstract class AfListFragment<T> extends AfTabFragment implements AdapterView.OnItemClickListener, AdapterView.OnItemLongClickListener {
+public abstract class AfListFragment<T> extends AfTabFragment implements OnItemClickListener, OnItemLongClickListener {
 
     protected AbsListView mListView;
     protected AfListAdapter<T> mAdapter;
-
-    @BindAfterViews
-    protected void onInitFrameWork() throws Exception {
-        mListView = findListView(this);
-        mListView.setOnItemClickListener(this);
-        mListView.setOnItemLongClickListener(this);
-        if (mAdapter == null) {
-            mAdapter = newAdapter(getAfActivity(), new ArrayList<T>());
-        }
-        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.HONEYCOMB) {
-            mListView.setAdapter(mAdapter);
-        } else if (mListView instanceof ListView) {
-            ((ListView) mListView).setAdapter(mAdapter);
-        } else if (mListView instanceof GridView) {
-            ((GridView) mListView).setAdapter(mAdapter);
-        }
-    }
 
     /**
      * 自定义 View onCreateView(LayoutInflater, ViewGroup)
      */
     protected View onCreateView(LayoutInflater inflater, ViewGroup container) {
         return inflater.inflate(getLayoutId(), container, false);
+    }
+
+    @BindAfterViews
+    protected void onInitFrameWork() throws Exception {
+        if (mAdapter == null) {
+            mAdapter = newAdapter(getContext(), new ArrayList<T>());
+        }
+        mListView = findListView(this);
+        if (mListView != null) {
+            mListView.setOnItemClickListener(this);
+            mListView.setOnItemLongClickListener(this);
+            bindAdapter(mListView, mAdapter);
+        }
+    }
+
+    /**
+     * 绑定适配器
+     * @param listView 列表
+     * @param adapter 适配器
+     */
+    @SuppressWarnings("RedundantCast")
+    protected void bindAdapter(AbsListView listView, AfListAdapter<T> adapter) {
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.HONEYCOMB) {
+            listView.setAdapter(adapter);
+        } else if (listView instanceof ListView) {
+            ((ListView) listView).setAdapter(adapter);
+        } else if (listView instanceof GridView) {
+            ((GridView) listView).setAdapter(adapter);
+        }
     }
 
     /**
@@ -107,6 +121,7 @@ public abstract class AfListFragment<T> extends AfTabFragment implements Adapter
      * @param model 被点击的数据model
      * @param index 被点击的index
      */
+    @SuppressWarnings("UnusedParameters")
     protected void onItemClick(T model, int index) {
 
     }
@@ -141,6 +156,7 @@ public abstract class AfListFragment<T> extends AfTabFragment implements Adapter
      * @param model 被点击的数据model
      * @param index 被点击的index
      */
+    @SuppressWarnings("UnusedParameters")
     protected boolean onItemLongClick(T model, int index) {
         return false;
     }

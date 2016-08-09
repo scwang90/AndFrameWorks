@@ -9,7 +9,7 @@ public class AfPrivateCaches  extends AfJsonCache
 	private static final String CACHE_NAME = "private";
 
 	private static AfPrivateCaches mInstance = null;
-	private static HashMap<String, AfPrivateCaches> mHashMap = new HashMap<String, AfPrivateCaches>();
+	private static HashMap<String, AfPrivateCaches> mHashMap = new HashMap<>();
 
 	private AfPrivateCaches() {
 		super(AfApplication.getApp(), CACHE_NAME);
