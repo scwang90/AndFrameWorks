@@ -706,7 +706,7 @@ public abstract class AbModeuleListActivity<T> extends AfListManageActivity<T> i
     @Override
     protected List<T> onTaskLoad(boolean isCheckExpired) {
         if (mltSelection != null) {
-            mIsPaging = false;
+//            mIsPaging = false;
             return mltSelection;
         }
         return super.onTaskLoad(isCheckExpired);
