@@ -48,7 +48,7 @@ public class AwColorPicker {
 			String positive, OnClickListener lpositive,
 			String negative,OnClickListener lnegative) {
 		AfDialogBuilder dailog = new AfDialogBuilder(mLayout.getContext());
-		dailog.doShowViewDialog(android.R.style.Theme_Translucent,0,
+		dailog.showViewDialog(android.R.style.Theme_Translucent,0,
 				title, mLayout, positive,lpositive, null, null, negative, lnegative);
 	}
 	
