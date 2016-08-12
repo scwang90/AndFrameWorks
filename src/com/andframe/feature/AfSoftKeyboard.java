@@ -44,7 +44,7 @@ public class AfSoftKeyboard {
      * 	页面需要设置 <activity android:windowSoftInputMode="adjustResize" …… />
      * 	@param rootView 页面根视图
      */
-    public void bindSoftKeyboardToggleListener(final View rootView, final OnSoftKeyboardToggleListener toggleListener) {
+    public static void bindSoftKeyboardToggleListener(final View rootView, final OnSoftKeyboardToggleListener toggleListener) {
         if (rootView != null && toggleListener != null) {
             if (rootView.getContext() instanceof Activity) {
                 Activity activity = (Activity) rootView.getContext();
@@ -77,6 +77,19 @@ public class AfSoftKeyboard {
         if (view != null) {
             InputMethodManager imm = (InputMethodManager) view.getContext().getSystemService(Context.INPUT_METHOD_SERVICE);
             imm.hideSoftInputFromWindow(view.getWindowToken(), 0);
+        }
+    }
+
+    /**
+     * 隐藏软键盘
+     */
+    public static void hideSoftKeyboard(Context context) {
+        if (context instanceof Activity) {
+            InputMethodManager imm = (InputMethodManager) context.getSystemService(Context.INPUT_METHOD_SERVICE);
+            View view = ((Activity) context).getCurrentFocus();
+            if (view != null) {
+                imm.hideSoftInputFromWindow(view.getWindowToken(), 0);
+            }
         }
     }
 
