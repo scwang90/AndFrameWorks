@@ -14,6 +14,7 @@ import android.content.Context;
 import android.content.DialogInterface;
 import android.content.DialogInterface.OnCancelListener;
 import android.content.DialogInterface.OnClickListener;
+import android.content.DialogInterface.OnShowListener;
 import android.os.Build;
 import android.text.InputType;
 import android.util.TypedValue;
@@ -48,6 +49,8 @@ public class AfDialogBuilder {
 
     protected Context mContext;
     protected Dialog mProgress = null;
+    protected int mBuildDelayed = 0;
+    protected boolean mBuildNative = false;
 
     public AfDialogBuilder(Context context) {
         mContext = context;
@@ -427,24 +430,36 @@ public class AfDialogBuilder {
         input.setText(defaul);
         input.clearFocus();
         input.setInputType(type);
-        Builder builder = new AlertDialog.Builder(mContext);
-        builder.setView(input);
-        builder.setCancelable(false);
-        builder.setTitle(title);
-        builder.setPositiveButton("确定", new SafeOnClickListener());
-        builder.setNegativeButton("取消", new SafeOnClickListener(new OnClickListener() {
+
+        final String oKey = "确定";
+        final String msgKey = "$inputText$";
+
+        OnClickListener cancleListener = new OnClickListener() {
             @Override
             public void onClick(DialogInterface dialog, int which) {
                 AfSoftKeyboard.hideSoftKeyboard(input);
                 if (listener instanceof InputTextCancelable) {
                     ((InputTextCancelable) listener).onInputTextCancel(input);
                 }
-                dialog.dismiss();
+                if (dialog != null) {
+                    dialog.dismiss();
+                }
             }
-        }));
-        final AlertDialog dialog = builder.create();
-        dialog.setOnShowListener(new DialogInterface.OnShowListener() {
-            public void onShow(DialogInterface dialog) {
+        };
+        final OnClickListener okListener = new OnClickListener() {
+            @Override
+            public void onClick(DialogInterface dialog, int which) {
+                if (listener.onInputTextComfirm(input, input.getText().toString())) {
+                    AfSoftKeyboard.hideSoftKeyboard(input);
+                    if (dialog != null) {
+                        dialog.dismiss();
+                    }
+                }
+            }
+        };
+        final OnShowListener showListener = new OnShowListener() {
+            @Override
+            public void onShow(final DialogInterface dialog) {
                 AfSoftKeyboard.showSoftkeyboard(input);
                 if (defaullength > 3 && defaul.matches("[^.]+\\.[a-zA-Z]\\w{1,3}")) {
                     input.setSelection(0, defaul.lastIndexOf('.'));
@@ -452,18 +467,49 @@ public class AfDialogBuilder {
                     input.setSelection(0, defaullength);
                 }
             }
-        });
-        dialog.show();
-        dialog.getButton(AlertDialog.BUTTON_POSITIVE).setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                if (listener.onInputTextComfirm(input, input.getText().toString())) {
-                    AfSoftKeyboard.hideSoftKeyboard(input);
-                    dialog.dismiss();
+        };
+
+        if (mBuildNative) {
+            Builder builder = new AlertDialog.Builder(mContext);
+            builder.setView(input);
+            builder.setCancelable(false);
+            builder.setTitle(title);
+            builder.setPositiveButton("确定", new SafeOnClickListener());
+            builder.setNegativeButton("取消", cancleListener);
+            final AlertDialog dialog = builder.create();
+            dialog.setOnShowListener(showListener);
+            dialog.show();
+            dialog.getButton(AlertDialog.BUTTON_POSITIVE).setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
+                    new SafeOnClickListener(okListener).onClick(dialog, 0);
                 }
-            }
-        });
-        return dialog;
+            });
+            return dialog;
+        } else {
+            final Dialog dialog = showDialog(title, msgKey, oKey, okListener, "取消", cancleListener);
+            dialog.getWindow().getDecorView().postDelayed(new Runnable() {
+                @Override
+                public void run() {
+                    FindTextViewWithText builderHelper = FindTextViewWithText.invoke((ViewGroup) dialog.getWindow().getDecorView(), msgKey);
+                    if (builderHelper != null) {
+                        builderHelper.parent.removeViewAt(builderHelper.index);
+                        builderHelper.parent.addView(input,builderHelper.index,builderHelper.textView.getLayoutParams());
+                        showListener.onShow(dialog);
+                        builderHelper = FindTextViewWithText.invoke((ViewGroup) dialog.getWindow().getDecorView(), oKey);
+                        if (builderHelper != null) {
+                            builderHelper.textView.setOnClickListener(new View.OnClickListener() {
+                                @Override
+                                public void onClick(View v) {
+                                    new SafeOnClickListener(okListener).onClick(dialog, 0);
+                                }
+                            });
+                        }
+                    }
+                }
+            }, mBuildDelayed);
+            return dialog;
+        }
     }
 
     /**
@@ -584,7 +630,7 @@ public class AfDialogBuilder {
     @TargetApi(Build.VERSION_CODES.HONEYCOMB)
     public Dialog showKeyDialog(final String key, final int defclick,
                                 int theme, int iconres,
-                                String title, String message, String positive, OnClickListener lpositive, String negative, OnClickListener lnegative, String neutral, OnClickListener lneutral) {
+                                String title, final String message, String positive, OnClickListener lpositive, String negative, OnClickListener lnegative, String neutral, OnClickListener lneutral) {
         if (AfStringUtil.isNotEmpty(key) && defclick > -1) {
             int click = AfPrivateCaches.getInstance(key).getInt(key, -1);
             if (click == defclick) {
@@ -597,78 +643,64 @@ public class AfDialogBuilder {
                 return null;
             }
         }
-        Dialog dialog = showDialog(theme, iconres, title, message, positive, lpositive, negative, lnegative, neutral, lneutral);
+        final Dialog dialog = showDialog(theme, iconres, title, message, positive, lpositive, negative, lnegative, neutral, lneutral);
         if (dialog != null && AfStringUtil.isNotEmpty(key)) {
-            View decor = dialog.getWindow().getDecorView();
-            Stack<ViewGroup> stack = new Stack<>();
-            stack.add((ViewGroup) decor);
-            int iMessage = -1;
-            TextView tvMessage = null;
-            ViewGroup vgMessage = null;
-            while (tvMessage == null && !stack.empty()) {
-                ViewGroup pop = stack.pop();
-                int count = pop.getChildCount();
-                for (int i = 0; i < count; i++) {
-                    View childAt = pop.getChildAt(i);
-                    if (childAt instanceof ViewGroup) {
-                        stack.push((ViewGroup) childAt);
-                    } else if (childAt instanceof TextView) {
-                        TextView tv = (TextView) childAt;
-                        if (tv.getText().equals(message)) {
-                            iMessage = i;
-                            tvMessage = tv;
-                            vgMessage = pop;
-                            break;
+            final View decor = dialog.getWindow().getDecorView();
+            decor.postDelayed(new Runnable() {
+                @Override
+                public void run() {
+                    CheckBox cbTip = null;
+                    FindTextViewWithText builderHelper = FindTextViewWithText.invoke((ViewGroup) decor, message);
+                    if (builderHelper != null) {
+                        int index = builderHelper.index;
+                        ViewGroup parent = builderHelper.parent;
+                        TextView textView = builderHelper.textView;
+                        parent.removeView(textView);
+                        LinearLayout ll = new LinearLayout(mContext);
+                        ll.setOrientation(LinearLayout.VERTICAL);
+                        LinearLayout.LayoutParams lp;
+                        LayoutParams olp = textView.getLayoutParams();
+                        if (olp instanceof ViewGroup.MarginLayoutParams) {
+                            lp = new LinearLayout.LayoutParams((ViewGroup.MarginLayoutParams)olp);
+                        } else {
+                            lp = new LinearLayout.LayoutParams(olp);
                         }
-                    }
-                }
-            }
-            CheckBox cbTip = null;
-            if (tvMessage != null) {
-                vgMessage.removeView(tvMessage);
-                LinearLayout ll = new LinearLayout(mContext);
-                ll.setOrientation(LinearLayout.VERTICAL);
-                LinearLayout.LayoutParams lp;
-                LayoutParams olp = tvMessage.getLayoutParams();
-                if (olp instanceof ViewGroup.MarginLayoutParams) {
-                    lp = new LinearLayout.LayoutParams((ViewGroup.MarginLayoutParams)olp);
-                } else {
-                    lp = new LinearLayout.LayoutParams(olp);
-                }
-                ll.setPadding(tvMessage.getPaddingLeft(),tvMessage.getPaddingTop(),tvMessage.getPaddingRight(),tvMessage.getPaddingBottom());
-                tvMessage.setPadding(0,0,0,0);
-                ll.addView(tvMessage, lp);
-                cbTip = new CheckBox(mContext);
-                cbTip.setText(TXT_NOMORESHOW);
-                if (olp instanceof ViewGroup.MarginLayoutParams) {
-                    lp = new LinearLayout.LayoutParams((ViewGroup.MarginLayoutParams)olp);
-                    Integer leftMargin = AfReflecter.getMemberNoException(lp, "leftMargin", int.class);
-                    Integer topMargin = AfReflecter.getMemberNoException(lp, "topMargin", int.class);
-                    Integer rightMargin = AfReflecter.getMemberNoException(lp, "rightMargin", int.class);
-                    Integer bottomMargin = AfReflecter.getMemberNoException(lp, "bottomMargin", int.class);
-                    if (leftMargin != null && topMargin != null && rightMargin != null && bottomMargin != null) {
-                        lp.setMargins(leftMargin, topMargin + tvMessage.getPaddingTop(), rightMargin, bottomMargin);
-                    } else {
-                        lp.setMargins(0, tvMessage.getPaddingTop(), 0, 0);
-                    }
-                } else {
-                    lp = new LinearLayout.LayoutParams(olp);
-                    lp.setMargins(0, tvMessage.getPaddingTop(), 0, 0);
-                }
-                ll.addView(cbTip, lp);
-                vgMessage.addView(ll, iMessage, olp);
-            }
-            if (cbTip != null) {
-                final CheckBox finalCbTip = cbTip;
-                dialog.setOnDismissListener(new DialogInterface.OnDismissListener() {
-                    @Override
-                    public void onDismiss(DialogInterface dialog) {
-                        if (finalCbTip.isChecked()) {
-                            AfPrivateCaches.getInstance(key).put(key, defclick);
+                        ll.setPadding(textView.getPaddingLeft(),textView.getPaddingTop(),textView.getPaddingRight(),textView.getPaddingBottom());
+                        textView.setPadding(0,0,0,0);
+                        ll.addView(textView, lp);
+                        cbTip = new CheckBox(mContext);
+                        cbTip.setText(TXT_NOMORESHOW);
+                        if (olp instanceof ViewGroup.MarginLayoutParams) {
+                            lp = new LinearLayout.LayoutParams((ViewGroup.MarginLayoutParams)olp);
+                            Integer leftMargin = AfReflecter.getMemberNoException(lp, "leftMargin", int.class);
+                            Integer topMargin = AfReflecter.getMemberNoException(lp, "topMargin", int.class);
+                            Integer rightMargin = AfReflecter.getMemberNoException(lp, "rightMargin", int.class);
+                            Integer bottomMargin = AfReflecter.getMemberNoException(lp, "bottomMargin", int.class);
+                            if (leftMargin != null && topMargin != null && rightMargin != null && bottomMargin != null) {
+                                lp.setMargins(leftMargin, topMargin + textView.getPaddingTop(), rightMargin, bottomMargin);
+                            } else {
+                                lp.setMargins(0, textView.getPaddingTop(), 0, 0);
+                            }
+                        } else {
+                            lp = new LinearLayout.LayoutParams(olp);
+                            lp.setMargins(0, textView.getPaddingTop(), 0, 0);
                         }
+                        ll.addView(cbTip, lp);
+                        parent.addView(ll, index, olp);
                     }
-                });
-            }
+                    if (cbTip != null) {
+                        final CheckBox finalCbTip = cbTip;
+                        dialog.setOnDismissListener(new DialogInterface.OnDismissListener() {
+                            @Override
+                            public void onDismiss(DialogInterface dialog) {
+                                if (finalCbTip.isChecked()) {
+                                    AfPrivateCaches.getInstance(key).put(key, defclick);
+                                }
+                            }
+                        });
+                    }
+                }
+            }, mBuildDelayed);
         }
         return dialog;
     }
@@ -1130,5 +1162,45 @@ public class AfDialogBuilder {
         }
 
         protected abstract void onDateTimeSet(Date time, int year, int month, int day, int hour, int minute);
+    }
+
+    /**
+     * 根据 文本信息 匹配在布局中找出 相匹配的 TextView
+     */
+    protected static class FindTextViewWithText {
+        public int index;
+        public TextView textView;
+        public ViewGroup parent;
+
+        public static FindTextViewWithText invoke(ViewGroup root,String text) {
+            FindTextViewWithText helper = new FindTextViewWithText();
+            Stack<ViewGroup> stack = new Stack<>();
+            stack.add(root);
+            helper.index = -1;
+            helper.textView = null;
+            helper.parent = null;
+            while (helper.textView == null && !stack.empty()) {
+                ViewGroup pop = stack.pop();
+                int count = pop.getChildCount();
+                for (int i = 0; i < count; i++) {
+                    View childAt = pop.getChildAt(i);
+                    if (childAt instanceof ViewGroup) {
+                        stack.push((ViewGroup) childAt);
+                    } else if (childAt instanceof TextView) {
+                        TextView tv = (TextView) childAt;
+                        if (tv.getText().equals(text)) {
+                            helper.index = i;
+                            helper.textView = tv;
+                            helper.parent = pop;
+                            break;
+                        }
+                    }
+                }
+            }
+            if (helper.textView == null) {
+                return null;
+            }
+            return helper;
+        }
     }
 }
