@@ -30,6 +30,7 @@ import com.andframe.activity.framework.AfActivity;
 import com.andframe.application.AfExceptionHandler;
 import com.andframe.feature.AfDensity;
 import com.andframe.feature.AfIntent;
+import com.andframe.feature.AfSoftKeyboard;
 import com.andframe.layoutbind.AfLayoutCheckBox;
 import com.andframe.layoutbind.AfModuleTitlebarImpl;
 import com.andframe.model.framework.AfModel;
@@ -554,7 +555,7 @@ public abstract class AbCominfoActivity extends AfActivity implements
 		builder.setPositiveButton("确定", new DialogInterface.OnClickListener() {
 			@Override
 			public void onClick(DialogInterface dialog, int which) {
-				setSoftInputEnable(input, false);
+				AfSoftKeyboard.hideSoftKeyboard(input);
 				String text = input.getText().toString();
 				if (!text.equals("")) {
 					item.value = text;
@@ -585,14 +586,14 @@ public abstract class AbCominfoActivity extends AfActivity implements
 		builder.setNegativeButton("取消", new DialogInterface.OnClickListener() {
 			@Override
 			public void onClick(DialogInterface dialog, int which) {
-				setSoftInputEnable(input, false);
+				AfSoftKeyboard.hideSoftKeyboard(input);
 				dialog.dismiss();
 			}
 		});
 		final AlertDialog dialog = builder.create();
 		dialog.setOnShowListener(new DialogInterface.OnShowListener() {
 			public void onShow(DialogInterface dialog) {
-				setSoftInputEnable(input, true);
+				AfSoftKeyboard.showSoftkeyboard(input);
 				if(item.type != Item.PASSWORD){
 					input.setSelection(0,item.value.length());
 				}
@@ -847,8 +848,8 @@ public abstract class AbCominfoActivity extends AfActivity implements
 		@Override
 		public boolean onPrepare() {
 			showProgressDialog("正在提交请求...");
-			if(getSoftInputStatus()){
-				setSoftInputEnable(null, false);
+			if(AfSoftKeyboard.isSoftkeyboardActive(getContext())){
+				AfSoftKeyboard.hideSoftKeyboard(getActivity());
 			}
 			return super.onPrepare();
 		}

@@ -1,14 +1,5 @@
 package com.andoffice.layoutbind;
 
-import java.util.AbstractMap;
-import java.util.AbstractMap.SimpleEntry;
-import java.util.ArrayList;
-import java.util.Collection;
-import java.util.HashMap;
-import java.util.Iterator;
-import java.util.List;
-import java.util.Map.Entry;
-
 import android.view.KeyEvent;
 import android.view.MenuItem;
 import android.view.View;
@@ -21,8 +12,18 @@ import android.widget.TextView;
 import android.widget.TextView.OnEditorActionListener;
 
 import com.andframe.activity.framework.AfPageable;
+import com.andframe.feature.AfSoftKeyboard;
 import com.andframe.layoutbind.AfModuleAlpha;
 import com.andoffice.R;
+
+import java.util.AbstractMap;
+import java.util.AbstractMap.SimpleEntry;
+import java.util.ArrayList;
+import java.util.Collection;
+import java.util.HashMap;
+import java.util.Iterator;
+import java.util.List;
+import java.util.Map.Entry;
 
 public class ModuleTitlebarSearcher extends AfModuleAlpha implements OnClickListener, OnEditorActionListener, OnMenuItemClickListener {
 	
@@ -80,7 +81,7 @@ public class ModuleTitlebarSearcher extends AfModuleAlpha implements OnClickList
 			if(mListener.onSearch(this, mEyOption.getKey(), keyword)){
 				this.hide();
 			}else if(!keyword.equals("")){
-				mPage.setSoftInputEnable(mEtKeyword, false);
+				AfSoftKeyboard.hideSoftKeyboard(mEtKeyword);
 			}
 		}
 	}
@@ -92,7 +93,7 @@ public class ModuleTitlebarSearcher extends AfModuleAlpha implements OnClickList
 			if(mListener.onSearch(this, mEyOption.getKey(), keyword)){
 				this.hide();
 			}else if(!keyword.equals("")){
-				mPage.setSoftInputEnable(mEtKeyword, false);
+				AfSoftKeyboard.hideSoftKeyboard(mEtKeyword);
 			}
 		}else if(EditorInfo.IME_ACTION_DONE == actionId){
 			mPage.makeToastShort("IME_ACTION_DONE");
@@ -143,7 +144,7 @@ public class ModuleTitlebarSearcher extends AfModuleAlpha implements OnClickList
 	public void show() {
 		if(isValid()){
 			super.show();
-			mPage.setSoftInputEnable(mEtKeyword, true);
+			AfSoftKeyboard.showSoftkeyboard(mEtKeyword);
 		}
 	}
 	
@@ -151,7 +152,7 @@ public class ModuleTitlebarSearcher extends AfModuleAlpha implements OnClickList
 	public void hide() {
 		if(isValid()){
 			super.hide();
-			mPage.setSoftInputEnable(mEtKeyword, false);
+			AfSoftKeyboard.hideSoftKeyboard(mEtKeyword);
 		}
 	}
 }

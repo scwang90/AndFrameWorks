@@ -7,6 +7,7 @@ import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.view.MenuItem;
 import android.view.View;
+import android.view.ViewGroup;
 import android.widget.ListView;
 
 import com.andframe.activity.framework.AfActivity;
@@ -17,6 +18,8 @@ import com.andframe.application.AfExceptionHandler;
 import com.andframe.bean.Page;
 import com.andframe.exception.AfToastException;
 import com.andframe.feature.AfIntent;
+import com.andframe.feature.AfSoftKeyboard;
+import com.andframe.feature.AfSoftKeyboard.OnSoftKeyboardToggleListener;
 import com.andframe.layoutbind.AfFrameSelector;
 import com.andframe.layoutbind.AfModuleNodata;
 import com.andframe.layoutbind.AfModuleNodataImpl;
@@ -31,6 +34,7 @@ import com.andframe.layoutbind.AfSelectorTitlebarImpl;
 import com.andframe.thread.AfListViewTask;
 import com.andframe.thread.AfTask;
 import com.andframe.view.multichoice.AfMultiChoiceAdapter;
+import com.andframe.view.multichoice.AfMultiChoiceAdapter.MultiChoiceListener;
 import com.andframe.view.tableview.AfColumn;
 import com.andframe.view.tableview.AfTable;
 import com.andoffice.R;
@@ -50,7 +54,7 @@ import java.util.List;
 import java.util.Map;
 import java.util.Map.Entry;
 
-public abstract class AbModeuleListActivity<T> extends AfListManageActivity<T> implements SearcherListener, AfMultiChoiceAdapter.MultiChoiceListener<T> {
+public abstract class AbModeuleListActivity<T> extends AfListManageActivity<T> implements SearcherListener, MultiChoiceListener<T>,OnSoftKeyboardToggleListener {
 
     /**
      * 列表选择模式 控制传递常量
@@ -269,6 +273,13 @@ public abstract class AbModeuleListActivity<T> extends AfListManageActivity<T> i
         }
     }
 
+    @Override
+    public void setContentView(View view, ViewGroup.LayoutParams params) {
+        super.setContentView(view, params);
+        AfSoftKeyboard.bindSoftKeyboardToggleListener(view,this);
+    }
+
+    @SuppressWarnings("unused")
     protected void buildAddFunction(Class<? extends AfActivity> clazz) {
         mClazzAdd = clazz;
         buildAddFunction();
@@ -300,6 +311,7 @@ public abstract class AbModeuleListActivity<T> extends AfListManageActivity<T> i
         mTitlebarSearcher.setOptions(options);
     }
 
+    @SuppressWarnings("unused")
     protected void buildSearch() {
         buildSearch(onBuildSearchItem());
     }
@@ -315,6 +327,7 @@ public abstract class AbModeuleListActivity<T> extends AfListManageActivity<T> i
         return entitys;
     }
 
+    @SuppressWarnings("unused")
     protected void buildTableView() {
         HashMap<Integer, String> map = new HashMap<>();
         map.put(REQUEST_TABLE, "表格视图");
@@ -328,6 +341,7 @@ public abstract class AbModeuleListActivity<T> extends AfListManageActivity<T> i
         getTableColumn();
     }
 
+    @SuppressWarnings("unused")
     protected void buildModifyFunction(Class<? extends AfActivity> clazz) {
         mClazzAdd = clazz;
         buildModifyFunction();
@@ -372,8 +386,6 @@ public abstract class AbModeuleListActivity<T> extends AfListManageActivity<T> i
 
     /**
      * 响应返回选择器
-     *
-     * @param list
      */
     protected void doResultSelection(List<T> list) {
         if (mIsSelection) {
@@ -481,8 +493,6 @@ public abstract class AbModeuleListActivity<T> extends AfListManageActivity<T> i
 
     /**
      * 点击编辑按钮，启动编辑页面
-     *
-     * @param model
      */
     protected void doStartEditActivity(T model) {
         AfIntent intent = new AfIntent(this, mClazzView);
@@ -492,15 +502,12 @@ public abstract class AbModeuleListActivity<T> extends AfListManageActivity<T> i
 
     /**
      * 当 调用 buildTableView() 会获取 TableView 的配置列
-     *
-     * @return
      */
     protected AfColumn[] getTableColumn() {
-        AfColumn[] list = new AfColumn[]{
+        return new AfColumn[]{
                 new AfColumn("名称", "Name", 0.333f, AfColumn.STRING),
                 new AfColumn("备注", "Remark", 0.333f, AfColumn.STRING),
                 new AfColumn("日期", "RegDate", 0.333f, "y-M-d HH:mm")};
-        return list;
     }
 
     protected Object getModel(T model) {
@@ -527,6 +534,7 @@ public abstract class AbModeuleListActivity<T> extends AfListManageActivity<T> i
             super.onClick(v);
             return;
         }
+        //noinspection ResourceType
         if (v.getId() == ModuleBottombar.ID_SELECT) {
             this.doShowSelect();
         } else if (v.getId() == AfModuleNodataImpl.ID_BUTTON
@@ -557,8 +565,7 @@ public abstract class AbModeuleListActivity<T> extends AfListManageActivity<T> i
     }
 
     @Override
-    public void onSoftInputHiden() {
-        super.onSoftInputHiden();
+    public void onSoftKeyboardHide() {
         mBottombar.show();
         if (mTitlebarSearcher.isVisibility() && mSeaechEntry == null) {
             this.doSearchHide();
@@ -566,8 +573,7 @@ public abstract class AbModeuleListActivity<T> extends AfListManageActivity<T> i
     }
 
     @Override
-    public void onSoftInputShown() {
-        super.onSoftInputShown();
+    public void onSoftKeyboardShow() {
         mBottombar.hide();
     }
 
