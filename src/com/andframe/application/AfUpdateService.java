@@ -7,7 +7,7 @@ import android.content.Intent;
 import android.net.Uri;
 
 import com.andframe.activity.framework.AfActivity;
-import com.andframe.feature.AfDialogBuilder;
+import com.andframe.feature.AfDailog;
 import com.andframe.thread.AfDataTask;
 import com.andframe.thread.AfDownloader;
 import com.andframe.thread.AfDownloader.DownloadEntity;
