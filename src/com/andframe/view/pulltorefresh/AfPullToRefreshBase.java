@@ -1,5 +1,6 @@
 package com.andframe.view.pulltorefresh;
 
+import android.annotation.TargetApi;
 import android.content.Context;
 import android.graphics.Point;
 import android.os.Handler;
@@ -83,6 +84,7 @@ public abstract class AfPullToRefreshBase<Target extends View>
 		this.initialized(context, attrs);
 	}
 
+	@TargetApi(11)
 	public AfPullToRefreshBase(Context context, AttributeSet attrs, int defStyle) {
 		super(context, attrs, defStyle);
 		this.initialized(context, attrs);
@@ -172,7 +174,11 @@ public abstract class AfPullToRefreshBase<Target extends View>
 
 	@Override
 	public void onTaskFinish(AfHandlerTask task) {
-		finishRefresh();
+		if (task.isFinish()) {
+			finishRefresh();
+		} else {
+			finishRefreshFail();
+		}
 	}
 
 	public void setPullHeaderLayout(AfPullHeaderLayout layout) {

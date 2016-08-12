@@ -1,39 +1,30 @@
 package com.andframe.dialog;
 
-import android.annotation.SuppressLint;
 import android.app.Activity;
-import android.app.AlertDialog;
+import android.app.DatePickerDialog;
 import android.app.Dialog;
-import android.app.ProgressDialog;
+import android.app.TimePickerDialog;
 import android.content.Context;
 import android.content.Intent;
-import android.content.res.Resources;
 import android.os.Bundle;
-import android.text.InputType;
-import android.util.TypedValue;
+import android.support.annotation.NonNull;
 import android.view.KeyEvent;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.view.Window;
-import android.widget.EditText;
-import android.widget.TextView;
 import android.widget.Toast;
 
 import com.andframe.activity.framework.AfPageable;
-import com.andframe.activity.framework.AfSoftInputListener;
 import com.andframe.annotation.interpreter.Injecter;
 import com.andframe.annotation.interpreter.LayoutBinder;
 import com.andframe.annotation.interpreter.ViewBinder;
 import com.andframe.application.AfApplication;
 import com.andframe.application.AfDaemonThread;
 import com.andframe.application.AfExceptionHandler;
-import com.andframe.exception.AfException;
 import com.andframe.exception.AfToastException;
 import com.andframe.feature.AfBundle;
-import com.andframe.feature.AfDailog;
+import com.andframe.feature.AfDialogBuilder;
 import com.andframe.feature.AfIntent;
-import com.andframe.feature.AfSoftInputer;
 import com.andframe.thread.AfData2Task;
 import com.andframe.thread.AfData3Task;
 import com.andframe.thread.AfDataTask;
@@ -50,27 +41,33 @@ import java.util.TimerTask;
  * AfDialog
  * Created by Administrator on 2016/3/5 0005.
  */
-public abstract class AfDialog extends Dialog implements AfPageable, AfSoftInputListener {
+public abstract class AfDialog extends Dialog implements AfPageable {
 
+    //<editor-fold desc="属性字段">
     // 根视图
     protected View mRootView = null;
 
     protected AfThreadWorker mWorker = null;
-    protected ProgressDialog mProgress = null;
+    protected AfDialogBuilder mDialogBuilder;
     protected boolean mIsRecycled = false;
+    //</editor-fold>
 
+    //<editor-fold desc="构造方法">
     public AfDialog(Context context) {
         super(context);
+        mDialogBuilder = newDialogBuilder();
     }
 
     public AfDialog(Context context, int themeResId) {
         super(context, themeResId);
+        mDialogBuilder = newDialogBuilder();
     }
 
     public AfDialog(Context context, boolean cancelable, OnCancelListener cancelListener) {
         super(context, cancelable, cancelListener);
+        mDialogBuilder = newDialogBuilder();
     }
-
+    //</editor-fold>
 
     /**
      * 获取LOG日志 TAG 是 AfActivity 的方法
@@ -85,11 +82,7 @@ public abstract class AfDialog extends Dialog implements AfPageable, AfSoftInput
         return "AfDialog(" + getClass().getName() + ")." + tag;
     }
 
-    @Override
-    public View getView() {
-        return mRootView;
-    }
-
+    //<editor-fold desc="生命周期">
     @Override
     protected void onCreate(Bundle bundle) {
         try {
@@ -128,7 +121,25 @@ public abstract class AfDialog extends Dialog implements AfPageable, AfSoftInput
         }
     }
 
+    /**
+     * 查询系统数据变动
+     */
+    @Override
+    public void onQueryChanged() {
+    }
 
+    /**
+     * 判断是否被回收
+     *
+     * @return true 已经被回收
+     */
+    @Override
+    public boolean isRecycled() {
+        return mIsRecycled;
+    }
+    //</editor-fold>
+
+    //<editor-fold desc="重写布局">
     /**
      * 为了实现对软键盘输入法显示和隐藏 的监听重写了 setContentView
      * 子类在对 setContentView 重写的时候请调用
@@ -162,55 +173,15 @@ public abstract class AfDialog extends Dialog implements AfPageable, AfSoftInput
         super.setContentView(view, params);
         mRootView = view;
         ViewBinder.doBind(this, this);
-        AfSoftInputer inputer = new AfSoftInputer(getContext());
-        inputer.setBindListener(view, this);
     }
+    //</editor-fold>
 
-    @Override
-    public void onSoftInputShown() {
-
-    }
-
-    @Override
-    public void onSoftInputHiden() {
-
-    }
-
-    /**
-     * 查询系统数据变动
-     */
-    @Override
-    public void onQueryChanged() {
-    }
-
-    @Override
-    public Activity getActivity() {
-        Context context = getContext();
-        if (context instanceof Activity) {
-            return ((Activity) context);
-        }
-        return AfApplication.getApp().getCurActivity();
-    }
-
-    @Override
-    public String getString(int resid) {
-        return getActivity().getString(resid);
-    }
-
-    /**
-     * 判断是否被回收
-     *
-     * @return true 已经被回收
-     */
-    @Override
-    public boolean isRecycled() {
-        return mIsRecycled;
-    }
-
+    //<editor-fold desc="任务封装">
     /**
      * 为本页面开启一个独立后台线程 供 postTask 的 任务(AfTask)运行 注意：开启线程之后 postTask
      * 任何任务都会在该线程中运行。 如果 postTask 前一个任务未完成，后一个任务将等待
      */
+    @SuppressWarnings("unused")
     protected void buildThreadWorker() {
         if (mWorker == null) {
             mWorker = new AfThreadWorker(this.getClass().getSimpleName());
@@ -248,6 +219,13 @@ public abstract class AfDialog extends Dialog implements AfPageable, AfSoftInput
     public <T, TT, TTT> AfData3Task postDataTask(T t, TT tt, TTT ttt, AfData3Task.OnData3TaskHandlerListener<T, TT, TTT> task) {
         return postTask(new AfData3Task<>(t, tt, ttt, task));
     }
+    //</editor-fold>
+
+    //<editor-fold desc="页面跳转">
+    @Override
+    public void startActivity(Intent intent) {
+        getActivity().startActivity(intent);
+    }
 
     @Override
     public void startActivity(Class<? extends Activity> clazz) {
@@ -261,7 +239,7 @@ public abstract class AfDialog extends Dialog implements AfPageable, AfSoftInput
                 if (args[2 * i] instanceof String) {
                     Object arg = args[2 * i + 1];
                     if (arg != null && arg instanceof List) {
-                        intent.putList((String) args[2 * i], (List<? extends Object>)arg);
+                        intent.putList((String) args[2 * i], (List<?>)arg);
                     } else {
                         intent.put((String) args[2 * i], arg);
                     }
@@ -272,20 +250,18 @@ public abstract class AfDialog extends Dialog implements AfPageable, AfSoftInput
     }
 
     @Override
-    public void startActivityForResult(Class<? extends Activity> clazz,
-                                       int request) {
+    public void startActivityForResult(Class<? extends Activity> clazz, int request) {
         getActivity().startActivityForResult(new Intent(getActivity(), clazz), request);
     }
 
-    public void startActivityForResult(Class<? extends Activity> clazz,
-                                       int request, Object... args) {
+    public void startActivityForResult(Class<? extends Activity> clazz, int request, Object... args) {
         AfIntent intent = new AfIntent(getActivity(), clazz);
         if (args != null && args.length > 0) {
             for (int i = 0; i < args.length / 2; i++) {
                 if (args[2 * i] instanceof String) {
                     Object arg = args[2 * i + 1];
                     if (arg != null && arg instanceof List) {
-                        intent.putList((String) args[2 * i], (List<? extends Object>)arg);
+                        intent.putList((String) args[2 * i], (List<?>)arg);
                     } else {
                         intent.put((String) args[2 * i], arg);
                     }
@@ -294,23 +270,9 @@ public abstract class AfDialog extends Dialog implements AfPageable, AfSoftInput
         }
         getActivity().startActivityForResult(intent, request);
     }
+    //</editor-fold>
 
-
-    @Override
-    public boolean getSoftInputStatus() {
-        return new AfSoftInputer(getActivity()).getSoftInputStatus();
-    }
-
-    @Override
-    public boolean getSoftInputStatus(View view) {
-        return new AfSoftInputer(getActivity()).getSoftInputStatus(view);
-    }
-
-    @Override
-    public void setSoftInputEnable(EditText editview, boolean enable) {
-        new AfSoftInputer(getActivity()).setSoftInputEnable(editview, enable);
-    }
-
+    //<editor-fold desc="气泡提示">
     @Override
     public void makeToastLong(String tip) {
         Toast.makeText(getContext(), tip, Toast.LENGTH_LONG).show();
@@ -336,11 +298,22 @@ public abstract class AfDialog extends Dialog implements AfPageable, AfSoftInput
         tip = AfExceptionHandler.tip(e, tip);
         Toast.makeText(getContext(), tip, Toast.LENGTH_LONG).show();
     }
+    //</editor-fold>
 
+    //<editor-fold desc="接口实现">
 
     @Override
-    public Resources getResources() {
-        return getActivity().getResources();
+    public Activity getActivity() {
+        Context context = getContext();
+        if (context instanceof Activity) {
+            return ((Activity) context);
+        }
+        return AfApplication.getApp().getCurActivity();
+    }
+
+    @Override
+    public View getView() {
+        return mRootView;
     }
 
     @Override
@@ -370,14 +343,25 @@ public abstract class AfDialog extends Dialog implements AfPageable, AfSoftInput
         }
         return null;
     }
+    //</editor-fold>
 
+    //<editor-fold desc="对话框封装">
+    /**
+     * 创建对话框构建器
+     */
+    @NonNull
+    protected AfDialogBuilder newDialogBuilder() {
+        return new AfDialogBuilder(getContext());
+    }
+
+    //<editor-fold desc="进度对话框">
     /**
      * 显示 进度对话框
      *
      * @param message 消息
      */
-    public final void showProgressDialog(String message) {
-        showProgressDialog(message, false, 25);
+    public Dialog showProgressDialog(String message) {
+        return showProgressDialog(message, false, 20);
     }
 
     /**
@@ -386,8 +370,8 @@ public abstract class AfDialog extends Dialog implements AfPageable, AfSoftInput
      * @param message 消息
      * @param cancel  是否可取消
      */
-    public final void showProgressDialog(String message, boolean cancel) {
-        showProgressDialog(message, cancel, 25);
+    public Dialog showProgressDialog(String message, boolean cancel) {
+        return showProgressDialog(message, cancel, 20);
     }
 
     /**
@@ -397,93 +381,58 @@ public abstract class AfDialog extends Dialog implements AfPageable, AfSoftInput
      * @param cancel   是否可取消
      * @param textsize 字体大小
      */
-    public final void showProgressDialog(String message, boolean cancel,
-                                         int textsize) {
-        try {
-            mProgress = new ProgressDialog(getActivity());
-            mProgress.setMessage(message);
-            mProgress.setCancelable(cancel);
-            mProgress.setOnCancelListener(null);
-            mProgress.show();
-
-            setDialogFontSize(mProgress, textsize);
-        } catch (Throwable e) {
-            //进过日志验证，这个异常会发送，但是概率非常小，注释掉异常通知
-//			AfExceptionHandler.handle(e, "AfActivity.showProgressDialog");
-        }
+    public Dialog showProgressDialog(String message, boolean cancel, int textsize) {
+        return mDialogBuilder.showProgressDialog(message, cancel, textsize);
     }
 
     /**
      * 显示 进度对话框
      *
      * @param message  消息
-     * @param listener 字体大小
+     * @param listener 取消监听器
      */
-    public final void showProgressDialog(String message,
-                                         OnCancelListener listener) {
-        try {
-            mProgress = new ProgressDialog(getActivity());
-            mProgress.setMessage(message);
-            mProgress.setCancelable(true);
-            mProgress.setOnCancelListener(listener);
-            mProgress.show();
-
-            setDialogFontSize(mProgress, 25);
-        } catch (Throwable e) {
-            //进过日志验证，这个异常会发送，但是概率非常小，注释掉异常通知
-//			AfExceptionHandler.handle(e, "AfActivity.showProgressDialog");
-        }
+    public Dialog showProgressDialog(String message, OnCancelListener listener) {
+        return mDialogBuilder.showProgressDialog(message, listener);
     }
 
     /**
      * 显示 进度对话框
      *
      * @param message  消息
-     * @param listener 是否可取消
+     * @param listener 取消监听器
      * @param textsize 字体大小
      */
-    public final void showProgressDialog(String message, OnCancelListener listener, int textsize) {
-        try {
-            mProgress = new ProgressDialog(getActivity());
-            mProgress.setMessage(message);
-            mProgress.setCancelable(true);
-            mProgress.setOnCancelListener(listener);
-            mProgress.show();
-
-            setDialogFontSize(mProgress, textsize);
-        } catch (Throwable e) {
-            //进过日志验证，这个异常会发送，但是概率非常小，注释掉异常通知
-//			AfExceptionHandler.handle(e, "AfActivity.showProgressDialog");
-        }
+    public Dialog showProgressDialog(String message, OnCancelListener listener, int textsize) {
+        return mDialogBuilder.showProgressDialog(message, listener, textsize);
     }
 
     /**
      * 隐藏 进度对话框
      */
-    public final void hideProgressDialog() {
-        try {
-            if (mProgress != null && !isRecycled()) {
-                mProgress.dismiss();
-                mProgress = null;
-            }
-        } catch (Throwable e) {
-            AfExceptionHandler.handle(e, "AfActivity.hideProgressDialog");
-        }
+    public void hideProgressDialog() {
+        mDialogBuilder.hideProgressDialog();
     }
 
-    @Override
-    public void startActivity(Intent intent) {
-
+    /**
+     * 动态改变对话框的文本
+     *
+     * @param text 文本
+     */
+    @SuppressWarnings("unused")
+    protected void setProgressDialogText(String text) {
+        mDialogBuilder.setProgressDialogText(text);
     }
+    //</editor-fold>
 
+    //<editor-fold desc="通用对话框">
     /**
      * 显示对话框 并添加默认按钮 "我知道了"
      *
      * @param title   显示标题
      * @param message 显示内容
      */
-    public AlertDialog doShowDialog(String title, String message) {
-        return doShowDialog(0, title, message, "我知道了", null, "", null);
+    public Dialog doShowDialog(String title, String message) {
+        return mDialogBuilder.showDialog(title, message);
     }
 
     /**
@@ -493,8 +442,8 @@ public abstract class AfDialog extends Dialog implements AfPageable, AfSoftInput
      * @param message   显示内容
      * @param lpositive 点击  "我知道了" 响应事件
      */
-    public AlertDialog doShowDialog(String title, String message, OnClickListener lpositive) {
-        return doShowDialog(0, title, message, "我知道了", lpositive, "", null);
+    public Dialog doShowDialog(String title, String message, OnClickListener lpositive) {
+        return mDialogBuilder.showDialog(title, message, lpositive);
     }
 
     /**
@@ -505,8 +454,8 @@ public abstract class AfDialog extends Dialog implements AfPageable, AfSoftInput
      * @param positive  确认 按钮显示信息
      * @param lpositive 点击  确认 按钮 响应事件
      */
-    public AlertDialog doShowDialog(String title, String message, String positive, OnClickListener lpositive) {
-        return doShowDialog(0, title, message, positive, lpositive, "", null);
+    public Dialog doShowDialog(String title, String message, String positive, OnClickListener lpositive) {
+        return mDialogBuilder.showDialog(title, message, positive, lpositive);
     }
 
     /**
@@ -519,10 +468,8 @@ public abstract class AfDialog extends Dialog implements AfPageable, AfSoftInput
      * @param negative  按钮显示信息
      * @param lnegative 点击  拒绝 按钮 响应事件
      */
-    public AlertDialog doShowDialog(String title, String message,
-                                    String positive, OnClickListener lpositive, String negative,
-                                    OnClickListener lnegative) {
-        return doShowDialog(0, title, message, positive, lpositive, negative, lnegative);
+    public Dialog doShowDialog(String title, String message, String positive, OnClickListener lpositive, String negative, OnClickListener lnegative) {
+        return mDialogBuilder.showDialog(title, message, positive, lpositive, negative, lnegative);
     }
 
     /**
@@ -538,11 +485,8 @@ public abstract class AfDialog extends Dialog implements AfPageable, AfSoftInput
      * @param lnegative 点击  拒绝 按钮 响应事件
      */
     @Override
-    public AlertDialog doShowDialog(String title, String message,
-                                    String positive, OnClickListener lpositive,
-                                    String neutral, OnClickListener lneutral,
-                                    String negative, OnClickListener lnegative) {
-        return doShowDialog(0, title, message, positive, lpositive, neutral, lneutral, negative, lnegative);
+    public Dialog doShowDialog(String title, String message, String positive, OnClickListener lpositive, String negative, OnClickListener lnegative, String neutral, OnClickListener lneutral) {
+        return mDialogBuilder.showDialog(title, message, positive, lpositive, negative, lnegative, neutral, lneutral);
     }
 
     /**
@@ -556,10 +500,8 @@ public abstract class AfDialog extends Dialog implements AfPageable, AfSoftInput
      * @param negative  按钮显示信息
      * @param lnegative 点击  拒绝 按钮 响应事件
      */
-    public AlertDialog doShowDialog(int iconres, String title, String message,
-                                    String positive, OnClickListener lpositive, String negative,
-                                    OnClickListener lnegative) {
-        return doShowDialog(iconres, title, message, positive, lpositive, "", null, negative, lnegative);
+    public Dialog doShowDialog(int iconres, String title, String message, String positive, OnClickListener lpositive, String negative, OnClickListener lnegative) {
+        return mDialogBuilder.showDialog(iconres, title, message, positive, lpositive, negative, lnegative);
     }
 
     /**
@@ -575,11 +517,8 @@ public abstract class AfDialog extends Dialog implements AfPageable, AfSoftInput
      * @param negative  按钮显示信息
      * @param lnegative 点击  拒绝 按钮 响应事件
      */
-    public AlertDialog doShowDialog(int iconres, String title, String message,
-                                    String positive, OnClickListener lpositive,
-                                    String neutral, OnClickListener lneutral,
-                                    String negative, OnClickListener lnegative) {
-        return doShowDialog(-1, iconres, title, message, positive, lpositive, neutral, lneutral, negative, lnegative);
+    public Dialog doShowDialog(int iconres, String title, String message,String positive, OnClickListener lpositive, String negative, OnClickListener lnegative, String neutral, OnClickListener lneutral) {
+        return mDialogBuilder.showDialog(iconres, title, message, positive, lpositive, negative, lnegative, neutral, lneutral);
     }
 
     /**
@@ -597,15 +536,13 @@ public abstract class AfDialog extends Dialog implements AfPageable, AfSoftInput
      * @param lnegative 点击  拒绝 按钮 响应事件
      */
     @Override
-    @SuppressLint("NewApi")
-    public AlertDialog doShowDialog(int theme, int iconres,
-                                    String title, String message,
-                                    String positive, OnClickListener lpositive,
-                                    String neutral, OnClickListener lneutral,
-                                    String negative, OnClickListener lnegative) {
-        return new AfDailog(getActivity()).doShowDialog(theme, iconres, title, message, positive, lpositive, neutral, lneutral, negative, lnegative);
+    public Dialog doShowDialog(int theme, int iconres,
+                               String title, String message,String positive, OnClickListener lpositive, String negative, OnClickListener lnegative, String neutral, OnClickListener lneutral) {
+        return mDialogBuilder.showDialog(theme, iconres, title, message, positive, lpositive, negative, lnegative, neutral, lneutral);
     }
+    //</editor-fold>
 
+    //<editor-fold desc="自定对话框">
     /**
      * 显示视图对话框
      *
@@ -615,9 +552,8 @@ public abstract class AfDialog extends Dialog implements AfPageable, AfSoftInput
      * @param lpositive 点击  确认 按钮 响应事件
      */
     @Override
-    public AlertDialog doShowViewDialog(String title, View view, String positive,
-                                        OnClickListener lpositive) {
-        return doShowViewDialog(title, view, positive, lpositive, "", null);
+    public Dialog doShowViewDialog(String title, View view, String positive, OnClickListener lpositive) {
+        return mDialogBuilder.showViewDialog(title, view, positive, lpositive);
     }
 
     /**
@@ -631,10 +567,8 @@ public abstract class AfDialog extends Dialog implements AfPageable, AfSoftInput
      * @param lnegative 点击  拒绝 按钮 响应事件
      */
     @Override
-    public AlertDialog doShowViewDialog(String title, View view, String positive,
-                                        OnClickListener lpositive, String negative,
-                                        OnClickListener lnegative) {
-        return doShowViewDialog(0, title, view, positive, lpositive, negative, lnegative);
+    public Dialog doShowViewDialog(String title, View view, String positive, OnClickListener lpositive, String negative, OnClickListener lnegative) {
+        return mDialogBuilder.showViewDialog(title, view, positive, lpositive, negative, lnegative);
     }
 
     /**
@@ -650,11 +584,8 @@ public abstract class AfDialog extends Dialog implements AfPageable, AfSoftInput
      * @param lnegative 点击  拒绝 按钮 响应事件
      */
     @Override
-    public AlertDialog doShowViewDialog(String title, View view,
-                                        String positive, OnClickListener lpositive,
-                                        String neutral, OnClickListener lneutral,
-                                        String negative, OnClickListener lnegative) {
-        return doShowViewDialog(0, title, view, positive, lpositive, neutral, lneutral, negative, lnegative);
+    public Dialog doShowViewDialog(String title, View view,String positive, OnClickListener lpositive, String negative, OnClickListener lnegative, String neutral, OnClickListener lneutral) {
+        return mDialogBuilder.showViewDialog(title, view, positive, lpositive, negative, lnegative, neutral, lneutral);
     }
 
     /**
@@ -669,10 +600,8 @@ public abstract class AfDialog extends Dialog implements AfPageable, AfSoftInput
      * @param lnegative 点击  拒绝 按钮 响应事件
      */
     @Override
-    public AlertDialog doShowViewDialog(int iconres, String title, View view,
-                                        String positive, OnClickListener lpositive,
-                                        String negative, OnClickListener lnegative) {
-        return doShowViewDialog(0, title, view, positive, lpositive, "", null, negative, lnegative);
+    public Dialog doShowViewDialog(int iconres, String title, View view, String positive, OnClickListener lpositive, String negative, OnClickListener lnegative) {
+        return mDialogBuilder.showViewDialog(iconres, title, view, positive, lpositive, negative, lnegative);
     }
 
     /**
@@ -689,11 +618,8 @@ public abstract class AfDialog extends Dialog implements AfPageable, AfSoftInput
      * @param lnegative 点击  拒绝 按钮 响应事件
      */
     @Override
-    public AlertDialog doShowViewDialog(int iconres, String title, View view,
-                                        String positive, OnClickListener lpositive,
-                                        String neutral, OnClickListener lneutral,
-                                        String negative, OnClickListener lnegative) {
-        return doShowViewDialog(-1, iconres, title, view, positive, lpositive, neutral, lneutral, negative, lnegative);
+    public Dialog doShowViewDialog(int iconres, String title, View view,String positive, OnClickListener lpositive, String negative, OnClickListener lnegative, String neutral, OnClickListener lneutral) {
+        return mDialogBuilder.showViewDialog(iconres, title, view, positive, lpositive, negative, lnegative, neutral, lneutral);
     }
 
     /**
@@ -710,16 +636,14 @@ public abstract class AfDialog extends Dialog implements AfPageable, AfSoftInput
      * @param negative  按钮显示信息
      * @param lnegative 点击  拒绝 按钮 响应事件
      */
-    @SuppressLint("NewApi")
     @Override
-    public AlertDialog doShowViewDialog(int theme,
-                                        int iconres, String title, View view,
-                                        String positive, OnClickListener lpositive,
-                                        String neutral, OnClickListener lneutral,
-                                        String negative, OnClickListener lnegative) {
-        return new AfDailog(getActivity()).doShowViewDialog(theme, iconres, title, view, positive, lpositive, neutral, lneutral, negative, lnegative);
+    public Dialog doShowViewDialog(int theme,
+                                   int iconres, String title, View view,String positive, OnClickListener lpositive, String negative, OnClickListener lnegative, String neutral, OnClickListener lneutral) {
+        return mDialogBuilder.showViewDialog(theme, iconres, title, view, positive, lpositive, negative, lnegative, neutral, lneutral);
     }
+    //</editor-fold>
 
+    //<editor-fold desc="多选对话框">
     /**
      * 显示一个单选对话框 （设置可取消）
      *
@@ -728,9 +652,8 @@ public abstract class AfDialog extends Dialog implements AfPageable, AfSoftInput
      * @param listener 选择监听器
      * @param cancel   取消选择监听器
      */
-    public AlertDialog doSelectItem(String title, String[] items, OnClickListener listener,
-                                    boolean cancel) {
-        return new AfDailog(getActivity()).doSelectItem(title, items, listener, cancel);
+    public Dialog doSelectItem(String title, String[] items, OnClickListener listener, boolean cancel) {
+        return mDialogBuilder.selectItem(title, items, listener, cancel);
     }
 
     /**
@@ -741,9 +664,8 @@ public abstract class AfDialog extends Dialog implements AfPageable, AfSoftInput
      * @param listener 选择监听器
      * @param oncancel 取消选择监听器
      */
-    public AlertDialog doSelectItem(String title, String[] items, OnClickListener listener,
-                                    final OnClickListener oncancel) {
-        return new AfDailog(getActivity()).doSelectItem(title, items, listener, oncancel);
+    public Dialog doSelectItem(String title, String[] items, OnClickListener listener, OnCancelListener oncancel) {
+        return mDialogBuilder.selectItem(title, items, listener, oncancel);
     }
 
     /**
@@ -753,18 +675,19 @@ public abstract class AfDialog extends Dialog implements AfPageable, AfSoftInput
      * @param items    选择菜单项
      * @param listener 选择监听器
      */
-    public AlertDialog doSelectItem(String title, String[] items, OnClickListener listener) {
-        return doSelectItem(title, items, listener, null);
+    public Dialog doSelectItem(String title, String[] items, OnClickListener listener) {
+        return mDialogBuilder.selectItem(title, items, listener);
     }
+    //</editor-fold>
 
+    //<editor-fold desc="输入对话框">
     /**
      * 弹出一个文本输入框
-     *
-     * @param title    标题
+     *  @param title    标题
      * @param listener 监听器
      */
-    public void doInputText(String title, InputTextListener listener) {
-        doInputText(title, "", InputType.TYPE_CLASS_TEXT, listener);
+    public Dialog doInputText(String title, InputTextListener listener) {
+        return mDialogBuilder.inputText(title, listener);
     }
 
     /**
@@ -774,8 +697,19 @@ public abstract class AfDialog extends Dialog implements AfPageable, AfSoftInput
      * @param type     android.text.InputType
      * @param listener 监听器
      */
-    public AlertDialog doInputText(String title, int type, InputTextListener listener) {
-        return doInputText(title, "", type, listener);
+    public Dialog doInputText(String title, int type, InputTextListener listener) {
+        return mDialogBuilder.inputText(title, type, listener);
+    }
+
+    /**
+     * 弹出一个文本输入框
+     *
+     * @param title    标题
+     * @param defaul   默认值
+     * @param listener 监听器
+     */
+    public Dialog doInputText(String title, String defaul, InputTextListener listener) {
+        return mDialogBuilder.inputText(title, defaul, listener);
     }
 
     /**
@@ -786,23 +720,25 @@ public abstract class AfDialog extends Dialog implements AfPageable, AfSoftInput
      * @param type     android.text.InputType
      * @param listener 监听器
      */
-    public AlertDialog doInputText(String title, String defaul, int type, InputTextListener listener) {
-        return new AfDailog(getActivity()).doInputText(title, defaul, type, listener);
+    public Dialog doInputText(String title, String defaul, int type, InputTextListener listener) {
+        return mDialogBuilder.inputText(title, defaul, type, listener);
     }
+    //</editor-fold>
 
+    //<editor-fold desc="记忆对话框">
     /**
-     * 显示对话框 并添加默认按钮 "我知道了"
+     * 显示对话框(不再提示) 并添加默认按钮 "我知道了"
      *
      * @param key     不再显示KEY
      * @param title   显示标题
      * @param message 显示内容
      */
-    public AlertDialog doShowDialog(String key, String title, String message) {
-        return doShowDialog(key, 0, 0, title, message, "我知道了", null, "", null);
+    public Dialog doShowDialog(String key, String title, String message) {
+        return mDialogBuilder.showKeyDialog(key, title, message);
     }
 
     /**
-     * 显示对话框
+     * 显示对话框(不再提示)
      *
      * @param key       不再显示KEY
      * @param title     显示标题
@@ -810,12 +746,12 @@ public abstract class AfDialog extends Dialog implements AfPageable, AfSoftInput
      * @param positive  确认 按钮显示信息
      * @param lpositive 点击  确认 按钮 响应事件
      */
-    public AlertDialog doShowDialog(String key, String title, String message, String positive, OnClickListener lpositive) {
-        return doShowDialog(key, 0, 0, title, message, positive, lpositive, "", null);
+    public Dialog doShowDialog(String key, String title, String message, String positive, OnClickListener lpositive) {
+        return mDialogBuilder.showKeyDialog(key, title, message, positive, lpositive);
     }
 
     /**
-     * 显示对话框
+     * 显示对话框(不再提示)
      *
      * @param key       不再显示KEY
      * @param defclick  不再显示之后默认执行index
@@ -826,15 +762,13 @@ public abstract class AfDialog extends Dialog implements AfPageable, AfSoftInput
      * @param negative  按钮显示信息
      * @param lnegative 点击  拒绝 按钮 响应事件
      */
-    public AlertDialog doShowDialog(String key, int defclick,
-                                    String title, String message,
-                                    String positive, OnClickListener lpositive,
-                                    String negative, OnClickListener lnegative) {
-        return doShowDialog(key, defclick, 0, title, message, positive, lpositive, negative, lnegative);
+    public Dialog doShowDialog(String key, int defclick,
+                               String title, String message, String positive, OnClickListener lpositive, String negative, OnClickListener lnegative) {
+        return mDialogBuilder.showKeyDialog(key, defclick, title, message, positive, lpositive, negative, lnegative);
     }
 
     /**
-     * 显示对话框
+     * 显示对话框(不再提示)
      *
      * @param key       不再显示KEY
      * @param defclick  不再显示之后默认执行index
@@ -847,16 +781,13 @@ public abstract class AfDialog extends Dialog implements AfPageable, AfSoftInput
      * @param negative  按钮显示信息
      * @param lnegative 点击  拒绝 按钮 响应事件
      */
-    public AlertDialog doShowDialog(String key, int defclick,
-                                    String title, String message,
-                                    String positive, OnClickListener lpositive,
-                                    String neutral, OnClickListener lneutral,
-                                    String negative, OnClickListener lnegative) {
-        return doShowDialog(key, defclick, 0, title, message, positive, lpositive, neutral, lneutral, negative, lnegative);
+    public Dialog doShowDialog(String key, int defclick,
+                               String title, String message, String positive, OnClickListener lpositive, String negative, OnClickListener lnegative, String neutral, OnClickListener lneutral) {
+        return mDialogBuilder.showKeyDialog(key, defclick, title, message, positive, lpositive, negative, lnegative, neutral, lneutral);
     }
 
     /**
-     * 显示对话框
+     * 显示对话框(不再提示)
      *
      * @param key       不再显示KEY
      * @param defclick  不再显示之后默认执行index
@@ -868,18 +799,13 @@ public abstract class AfDialog extends Dialog implements AfPageable, AfSoftInput
      * @param negative  按钮显示信息
      * @param lnegative 点击  拒绝 按钮 响应事件
      */
-    public AlertDialog doShowDialog(String key, int defclick,
-                                    int iconres, String title, String message,
-                                    String positive, OnClickListener lpositive,
-                                    String negative, OnClickListener lnegative) {
-        if (defclick == 1) {
-            defclick = 2;
-        }
-        return doShowDialog(key, defclick, iconres, title, message, positive, lpositive, "", null, negative, lnegative);
+    public Dialog doShowDialog(String key, int defclick,
+                               int iconres, String title, String message, String positive, OnClickListener lpositive, String negative, OnClickListener lnegative) {
+        return mDialogBuilder.showKeyDialog(key, defclick, iconres, title, message, positive, lpositive, negative, lnegative);
     }
 
     /**
-     * 显示对话框
+     * 显示对话框(不再提示)
      *
      * @param key       不再显示KEY
      * @param defclick  不再显示之后默认执行index
@@ -893,17 +819,14 @@ public abstract class AfDialog extends Dialog implements AfPageable, AfSoftInput
      * @param negative  按钮显示信息
      * @param lnegative 点击  拒绝 按钮 响应事件
      */
-    public AlertDialog doShowDialog(String key, int defclick,
-                                    int iconres, String title, String message,
-                                    String positive, OnClickListener lpositive,
-                                    String neutral, OnClickListener lneutral,
-                                    String negative, OnClickListener lnegative) {
-        return doShowDialog(key, defclick, -1, iconres, title, message, positive, lpositive, neutral, lneutral, negative, lnegative);
+    public Dialog doShowDialog(String key, int defclick,
+                               int iconres, String title, String message, String positive, OnClickListener lpositive, String negative, OnClickListener lnegative, String neutral, OnClickListener lneutral) {
+        return mDialogBuilder.showKeyDialog(key, defclick, iconres, title, message, positive, lpositive, negative, lnegative, neutral, lneutral);
     }
 
 
     /**
-     * 显示视图对话框
+     * 显示视图对话框(不再提示)
      *
      * @param key       不再显示KEY
      * @param defclick  不再显示之后默认执行index
@@ -918,20 +841,19 @@ public abstract class AfDialog extends Dialog implements AfPageable, AfSoftInput
      * @param negative  按钮显示信息
      * @param lnegative 点击  拒绝 按钮 响应事件
      */
-    public AlertDialog doShowDialog(String key, int defclick,
-                                    int theme, int iconres,
-                                    String title, String message,
-                                    String positive, OnClickListener lpositive,
-                                    String neutral, OnClickListener lneutral,
-                                    String negative, OnClickListener lnegative) {
-        return new AfDailog(getActivity()).doShowDialog(key, defclick, theme, iconres, title, message, positive, lpositive, neutral, lneutral, negative, lnegative);
+    public Dialog doShowDialog(String key, int defclick,
+                               int theme, int iconres,
+                               String title, String message, String positive, OnClickListener lpositive, String negative, OnClickListener lnegative, String neutral, OnClickListener lneutral) {
+        return mDialogBuilder.showKeyDialog(key, defclick, theme, iconres, title, message, positive, lpositive, negative, lnegative, neutral, lneutral);
     }
+    //</editor-fold>
 
+    //<editor-fold desc="时间对话框">
     /**
      * 选择日期时间
      * @param listener 监听器
      */
-    public AlertDialog doSelectDateTime(AfDailog.OnDateTimeSetListener listener) {
+    public Dialog doSelectDateTime(AfDialogBuilder.OnDateTimeSetListener listener) {
         return doSelectDateTime("", new Date(), listener);
     }
 
@@ -940,7 +862,7 @@ public abstract class AfDialog extends Dialog implements AfPageable, AfSoftInput
      * @param title 标题
      * @param listener 监听器
      */
-    public AlertDialog doSelectDateTime(String title, AfDailog.OnDateTimeSetListener listener) {
+    public Dialog doSelectDateTime(String title, AfDialogBuilder.OnDateTimeSetListener listener) {
         return doSelectDateTime(title, new Date(), listener);
     }
 
@@ -949,7 +871,7 @@ public abstract class AfDialog extends Dialog implements AfPageable, AfSoftInput
      * @param value 默认时间
      * @param listener 监听器
      */
-    public AlertDialog doSelectDateTime(Date value, AfDailog.OnDateTimeSetListener listener) {
+    public Dialog doSelectDateTime(Date value, AfDialogBuilder.OnDateTimeSetListener listener) {
         return doSelectDateTime("", value, listener);
     }
 
@@ -959,15 +881,15 @@ public abstract class AfDialog extends Dialog implements AfPageable, AfSoftInput
      * @param value 默认时间
      * @param listener 监听器
      */
-    public AlertDialog doSelectDateTime(final String title, final Date value, final AfDailog.OnDateTimeSetListener listener) {
-        return new AfDailog(getActivity()).doSelectDateTime(title, value, listener);
+    public Dialog doSelectDateTime(final String title, final Date value, final AfDialogBuilder.OnDateTimeSetListener listener) {
+        return mDialogBuilder.selectDateTime(title, value, listener);
     }
 
     /**
      * 选择时间
      * @param listener 监听器
      */
-    public AlertDialog doSelectTime(AfDailog.OnTimeSetListener listener) {
+    public Dialog doSelectTime(TimePickerDialog.OnTimeSetListener listener) {
         return doSelectTime("", new Date(), listener);
     }
 
@@ -976,7 +898,7 @@ public abstract class AfDialog extends Dialog implements AfPageable, AfSoftInput
      * @param title 标题
      * @param listener 监听器
      */
-    public AlertDialog doSelectTime(String title, AfDailog.OnTimeSetListener listener) {
+    public Dialog doSelectTime(String title, TimePickerDialog.OnTimeSetListener listener) {
         return doSelectTime(title, new Date(), listener);
     }
 
@@ -985,7 +907,7 @@ public abstract class AfDialog extends Dialog implements AfPageable, AfSoftInput
      * @param value 默认时间
      * @param listener 监听器
      */
-    public AlertDialog doSelectTime(Date value, AfDailog.OnTimeSetListener listener) {
+    public Dialog doSelectTime(Date value, TimePickerDialog.OnTimeSetListener listener) {
         return doSelectTime("", value, listener);
     }
 
@@ -995,15 +917,15 @@ public abstract class AfDialog extends Dialog implements AfPageable, AfSoftInput
      * @param value 默认时间
      * @param listener 监听器
      */
-    public AlertDialog doSelectTime(String title, Date value, final AfDailog.OnTimeSetListener listener) {
-        return new AfDailog(getActivity()).doSelectTime(title, value, listener);
+    public Dialog doSelectTime(String title, Date value, final TimePickerDialog.OnTimeSetListener listener) {
+        return mDialogBuilder.selectTime(title, value, listener);
     }
 
     /**
      * 选择日期
      * @param listener 监听器
      */
-    public AlertDialog doSelectDate(AfDailog.OnDateSetListener listener) {
+    public Dialog doSelectDate(DatePickerDialog.OnDateSetListener listener) {
         return doSelectDate("", new Date(), listener);
     }
 
@@ -1012,7 +934,7 @@ public abstract class AfDialog extends Dialog implements AfPageable, AfSoftInput
      * @param title 标题
      * @param listener 监听器
      */
-    public AlertDialog doSelectDate(String title, AfDailog.OnDateSetListener listener) {
+    public Dialog doSelectDate(String title, DatePickerDialog.OnDateSetListener listener) {
         return doSelectDate(title, new Date(), listener);
     }
 
@@ -1021,7 +943,7 @@ public abstract class AfDialog extends Dialog implements AfPageable, AfSoftInput
      * @param value 默认时间
      * @param listener 监听器
      */
-    public AlertDialog doSelectDate(Date value, AfDailog.OnDateSetListener listener) {
+    public Dialog doSelectDate(Date value, DatePickerDialog.OnDateSetListener listener) {
         return doSelectDate("", value, listener);
     }
 
@@ -1031,57 +953,21 @@ public abstract class AfDialog extends Dialog implements AfPageable, AfSoftInput
      * @param value 默认时间
      * @param listener 监听器
      */
-    public AlertDialog doSelectDate(String title, Date value, AfDailog.OnDateSetListener listener) {
-        return new AfDailog(getActivity()).doSelectDate(title,value, listener);
+    public Dialog doSelectDate(String title, Date value, DatePickerDialog.OnDateSetListener listener) {
+        return mDialogBuilder.selectDate(title,value, listener);
     }
+    //</editor-fold>
 
-    protected void setProgressDialogText(ProgressDialog dialog, String text) {
-        Window window = dialog.getWindow();
-        View view = window.getDecorView();
-        setViewFontText(view, text);
-    }
+    //</editor-fold>
 
-    private void setViewFontText(View view, String text) {
-        if (view instanceof ViewGroup) {
-            ViewGroup parent = (ViewGroup) view;
-            int count = parent.getChildCount();
-            for (int i = 0; i < count; i++) {
-                setViewFontText(parent.getChildAt(i), text);
-            }
-        } else if (view instanceof TextView) {
-            TextView textview = (TextView) view;
-            textview.setText(text);
-        }
-    }
-
-    private void setDialogFontSize(Dialog dialog, int size) {
-        Window window = dialog.getWindow();
-        View view = window.getDecorView();
-        setViewFontSize(view, size);
-    }
-
-    private void setViewFontSize(View view, int size) {
-        if (view instanceof ViewGroup) {
-            ViewGroup parent = (ViewGroup) view;
-            int count = parent.getChildCount();
-            for (int i = 0; i < count; i++) {
-                setViewFontSize(parent.getChildAt(i), size);
-            }
-        } else if (view instanceof TextView) {
-            TextView textview = (TextView) view;
-            textview.setTextSize(TypedValue.COMPLEX_UNIT_SP, size);
-        }
-    }
+    //<editor-fold desc="新建事件">
 
     /**
      * 按下返回按键
-     *
-     * @return 返回 true 表示已经处理 否则 Activity 会处理
      */
     public void onBackPressed() {
 
     }
-
     /**
      * 按键按下事件
      *
@@ -1126,5 +1012,6 @@ public abstract class AfDialog extends Dialog implements AfPageable, AfSoftInput
     public boolean onKeyLongPress(int keyCode, KeyEvent event) {
         return false;
     }
+    //</editor-fold>
 
 }

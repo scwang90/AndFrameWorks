@@ -31,10 +31,14 @@ public class AfUpdateAdapter<T> extends AfListAdapterWrapper<T> {
             if (index > -1 && index < getCount()) {
                 T itemModel = getItemAt(index);
                 if (model == null || itemModel == model) {
-                    entry.getKey().onBinding(itemModel, index);
+                    onUpdate(entry.getKey(), index, itemModel);
                 }
             }
         }
+    }
+
+    protected void onUpdate(IListItem<T> item, int index, T model) {
+        item.onBinding(model, index);
     }
 
 }

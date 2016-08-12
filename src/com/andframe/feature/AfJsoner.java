@@ -131,7 +131,7 @@ public class AfJsoner {
     }
 
     public static <T> List<T> fromJsons(JSONArray array,Class<T> clazz){
-        List<T> list = new ArrayList<T>();
+        List<T> list = new ArrayList<>();
         for (int i = 0; i < array.length() ; i++) {
             Object value = array.opt(i);
             if (value instanceof JSONObject){
@@ -144,8 +144,8 @@ public class AfJsoner {
                     value = Array.newInstance(type, tlist.size());
                     value = tlist.toArray((Object[]) value);
                     list.add((T)value);
-                } else if (List.class.equals(type)){
-                    type.toString();
+//                } else if (List.class.equals(type)){
+//                    type.toString();
 //                    ParameterizedType generic = (ParameterizedType) field.getGenericType();
 //                    type = (Class<?>)generic.getActualTypeArguments()[0];
 //                    value = fromJsons((JSONArray) value,type);
@@ -163,11 +163,11 @@ public class AfJsoner {
                 return null;
             }
             return clazz.newInstance();
-        } catch (Throwable e) {
+        } catch (Throwable ignored) {
         }
         try {
-            return (T) UnsafeAllocator.create().newInstance(clazz);
-        } catch (Throwable e) {
+            return UnsafeAllocator.create().newInstance(clazz);
+        } catch (Throwable ignored) {
         }
         return null;
     }
@@ -178,7 +178,7 @@ public class AfJsoner {
         } else if (value instanceof Map){
             return builderMap((Map)value);
         } else if (value instanceof Collection){
-            return builderArray(((Collection) value).toArray(new Object[0]));
+            return builderArray(((Collection) value).toArray(new Object[((Collection) value).size()]));
         } else if(value.getClass().isArray()){
             return builderArray((Object[])value);
         } else {
@@ -214,7 +214,7 @@ public class AfJsoner {
         JSONArray array = new JSONArray();
         for (Object obj : objs) {
             if (obj == null){
-                array.put(obj);
+                array.put(null);
             } else {
                 array.put(builderJson(obj));
             }
@@ -250,7 +250,7 @@ public class AfJsoner {
                 fileds.add(field);
             }
         }
-        return fileds.toArray(new Field[0]);
+        return fileds.toArray(new Field[fileds.size()]);
     }
 
     /**
@@ -263,7 +263,7 @@ public class AfJsoner {
     /**
      * 使用json克隆list
      */
-    public static <T> List<T> cloneList(List<? extends Object> list, Class<T> clazz) {
+    public static <T> List<T> cloneList(List<?> list, Class<T> clazz) {
         return AfJsoner.fromJsons(AfJsoner.toJson(list), clazz);
     }
 }

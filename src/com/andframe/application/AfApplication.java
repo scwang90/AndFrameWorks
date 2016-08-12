@@ -267,8 +267,7 @@ public abstract class AfApplication extends Application {
 	 */
 	public synchronized String getWorkspacePath(String type) {
 		File workspace = null;
-		if (Environment.getExternalStorageState().equals(
-				Environment.MEDIA_MOUNTED)) {
+		if (Environment.getExternalStorageState().equals(Environment.MEDIA_MOUNTED)) {
 			String sdcard = Environment.getExternalStorageDirectory().getPath();
 			workspace = new File(sdcard + "/" + getAppName() + "/" + type);
 			if (!workspace.exists() && !workspace.mkdirs()) {

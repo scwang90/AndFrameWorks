@@ -67,6 +67,15 @@ public abstract class AfMultiChoiceAbsListView<T extends AbsListView> extends Af
     @SuppressWarnings("unchecked")
     public void setAdapter(ListAdapter adapter) {
         super.setAdapter(adapter);
+        bindAdapter(adapter);
+    }
+
+    public void setAdapter(AfMultiChoiceAdapter<? extends Object> adapter) {
+        super.setAdapter(adapter);
+        bindAdapter(adapter);
+    }
+
+    public void bindAdapter(ListAdapter adapter) {
         if (adapter instanceof AfMultiChoiceAdapter) {
             mAdapter = (AfMultiChoiceAdapter<? extends Object>) adapter;
             if (mSelectorTitlebar != null) {
@@ -75,17 +84,6 @@ public abstract class AfMultiChoiceAbsListView<T extends AbsListView> extends Af
             if (mSelectorBottombar != null) {
                 mSelectorBottombar.setAdapter(mAdapter);
             }
-        }
-    }
-
-    public void setAdapter(AfMultiChoiceAdapter<? extends Object> adapter) {
-        super.setAdapter(adapter);
-        mAdapter = adapter;
-        if (mSelectorTitlebar != null) {
-            mSelectorTitlebar.setAdapter(adapter);
-        }
-        if (mSelectorBottombar != null) {
-            mSelectorBottombar.setAdapter(mAdapter);
         }
     }
 

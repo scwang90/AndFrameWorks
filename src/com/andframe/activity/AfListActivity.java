@@ -14,11 +14,11 @@ import android.widget.ListView;
 import com.andframe.activity.framework.AfActivity;
 import com.andframe.activity.framework.AfPageable;
 import com.andframe.adapter.AfListAdapter;
-import com.andframe.adapter.AfListAdapter.IListItem;
 import com.andframe.annotation.view.BindAfterViews;
 import com.andframe.annotation.view.BindLayout;
 import com.andframe.application.AfExceptionHandler;
 import com.andframe.feature.AfIntent;
+import com.andframe.fragment.AfListFragment;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -70,6 +70,7 @@ public abstract class AfListActivity<T> extends AfActivity implements OnItemClic
      * @param listView 列表
      * @param adapter 适配器
      */
+    @SuppressWarnings("RedundantCast")
     protected void bindAdapter(AbsListView listView, AfListAdapter<T> adapter) {
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.HONEYCOMB) {
             listView.setAdapter(adapter);
@@ -131,6 +132,7 @@ public abstract class AfListActivity<T> extends AfActivity implements OnItemClic
      * @param model 被点击的数据model
      * @param index 被点击的index
      */
+    @SuppressWarnings("UnusedParameters")
     protected void onItemClick(T model, int index) {
 
     }
@@ -165,6 +167,7 @@ public abstract class AfListActivity<T> extends AfActivity implements OnItemClic
      * @param model 被点击的数据model
      * @param index 被点击的index
      */
+    @SuppressWarnings("UnusedParameters")
     protected boolean onItemLongClick(T model, int index) {
         return false;
     }
@@ -177,7 +180,7 @@ public abstract class AfListActivity<T> extends AfActivity implements OnItemClic
      * @return 实现 布局接口 IListItem 的Item兑现
      * new LayoutItem implements IListItem<T>(){}
      */
-    protected abstract IListItem<T> getListItem(T data);
+    protected abstract AfListAdapter.IListItem<T> getListItem(T data);
 
     /**
      * 根据数据ltdata新建一个 适配器 重写这个方法之后getItemLayout方法将失效
@@ -187,7 +190,7 @@ public abstract class AfListActivity<T> extends AfActivity implements OnItemClic
      * @return 新的适配器
      */
     protected AfListAdapter<T> newAdapter(Context context, List<T> ltdata) {
-        return new AbListAdapter(getContext(), ltdata);
+        return new AbListAdapter(context, ltdata);
     }
 
     /**
@@ -207,4 +210,5 @@ public abstract class AfListActivity<T> extends AfActivity implements OnItemClic
             return AfListActivity.this.getListItem(data);
         }
     }
+
 }

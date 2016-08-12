@@ -50,8 +50,7 @@ import java.util.UUID;
 	 * 重写 这个函数 可以实现加载网络相册
 	public List<Photo> onRequestAlbum(UUID albumID, Page page)
  */
-public abstract class AfAlbumActivity extends AfActivity 
-		implements OnPageChangeListener, OnTouchListener {
+public abstract class AfAlbumActivity extends AfActivity implements OnPageChangeListener, OnTouchListener {
 
 	// 通用信息
 	public static final String EXTRA_STRING_NAME = "EXTRA_NAME";

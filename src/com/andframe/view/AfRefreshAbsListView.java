@@ -22,7 +22,7 @@ import static android.view.ViewGroup.LayoutParams.WRAP_CONTENT;
 
 public abstract class AfRefreshAbsListView<T extends AbsListView> extends AfPullToRefreshBase<T> {
 
-	protected ListAdapter mAdapter = null;
+//	protected ListAdapter mAdapter = null;
 	protected boolean mIsNeedFooter = false;
 	protected boolean mIsOpenRefresh = true;
 	protected T mAbsListView;
@@ -41,11 +41,11 @@ public abstract class AfRefreshAbsListView<T extends AbsListView> extends AfPull
 
 	public void setAdapter(ListAdapter adapter) {
 		if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.HONEYCOMB) {
-			mTargetView.setAdapter(mAdapter = adapter);
+			mTargetView.setAdapter(/*mAdapter = */adapter);
 		} else if (mTargetView instanceof ListView) {
-			((ListView) mTargetView).setAdapter(mAdapter);
+			((ListView) mTargetView).setAdapter(adapter);
 		} else if (mTargetView instanceof GridView) {
-			((GridView) mTargetView).setAdapter(mAdapter);
+			((GridView) mTargetView).setAdapter(adapter);
 		}
 	}
 

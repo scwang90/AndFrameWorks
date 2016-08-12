@@ -17,15 +17,21 @@ public abstract class AfModuleNodata extends AfViewModule implements OnClickList
 
     public AfModuleNodata(AfViewable view, int id) {
         super(view, id);
-        initialize(view);
+        initializeComponent(view);
     }
 
     public AfModuleNodata(AfViewable view) {
         super(view);
-        initialize(view);
+        initializeComponent(view);
     }
 
-    private void initialize(AfViewable view) {
+    @Override
+    protected void onCreated(AfViewable viewable, View view) {
+        super.onCreated(viewable, view);
+        initView(viewable);
+    }
+
+    private void initView(AfViewable view) {
         if (isValid()) {
             mButton = findRefreshButton(view);
             mTvDescription = findDescription(view);
@@ -67,6 +73,7 @@ public abstract class AfModuleNodata extends AfViewModule implements OnClickList
         }
     }
 
+    @SuppressWarnings("unused")
     public void setButtonText(int id) {
         if (isValid()) {
             mButton.setId(id);
@@ -87,6 +94,7 @@ public abstract class AfModuleNodata extends AfViewModule implements OnClickList
         }
     }
 
+    @SuppressWarnings("unused")
     public int getButtonId() {
         if (!isValid()) {
             return 0;

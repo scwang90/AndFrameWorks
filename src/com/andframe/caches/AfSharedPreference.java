@@ -80,42 +80,52 @@ public class AfSharedPreference {
 		return oldfile;
 	}
 
+	@SuppressWarnings("unused")
 	public SharedPreferences getSharedPreferences() {
 		return mShared;
 	}
 
+	@SuppressWarnings("unused")
 	public Editor getSharePrefereEditor() {
 		return mShared.edit();
 	}
 
+	@SuppressWarnings("unused")
 	public boolean getBoolean(String key, boolean value) {
 		return mShared.getBoolean(key, value);
 	}
 
+	@SuppressWarnings("unused")
 	public String getString(String key, String value) {
 		return mShared.getString(key, value);
 	}
 
+	@SuppressWarnings("unused")
 	public float getFloat(String key, float value) {
 		return mShared.getFloat(key, value);
 	}
 
+	@SuppressWarnings("unused")
 	public int getInt(String key, int value) {
 		return mShared.getInt(key, value);
 	}
 
+	@SuppressWarnings("unused")
 	public long getLong(String key, long value) {
 		return mShared.getLong(key, value);
 	}
 
+	@SuppressWarnings("unused")
 	public Date getDate(String key) {
 		return getDate(key, null);
 	}
 
+	@SuppressWarnings("unused")
 	public Date getDate(String key, long value) {
 		return new Date(getLong(key, value));
 	}
 
+	@SuppressWarnings("unused")
 	public Date getDate(String key, Date value) {
 		long time = getLong(key, -1);
 		return time == -1 ? value : new Date(time);
@@ -132,7 +142,7 @@ public class AfSharedPreference {
 			try {
 				Gson json = new Gson();
 				value = json.fromJson(jvalue, value.getClass());
-			} catch (Throwable e) {
+			} catch (Throwable ignored) {
 			}
 			return value;
 		}
@@ -147,7 +157,7 @@ public class AfSharedPreference {
 			try {
 				Gson json = new Gson();
 				jvalue = json.toJson(value);
-			} catch (Throwable e) {
+			} catch (Throwable ignored) {
 			}
 			editor.putString(key, jvalue);
 		} else {
@@ -165,53 +175,60 @@ public class AfSharedPreference {
 		try {
 			Gson json = new Gson();
 			value = json.fromJson(jvalue, value.getClass());
-		} catch (Throwable e) {
+		} catch (Throwable ignored) {
 		}
 		return value;
 	}
 
+	@SuppressWarnings("unused")
 	public void putStringList(String key, List<String> value) {
 		Editor editor = getSharePrefereEditor();
 		String jvalue = "";
 		try {
 			Gson json = new Gson();
 			jvalue = json.toJson(value);
-		} catch (Throwable e) {
+		} catch (Throwable ignored) {
 		}
 		editor.putString(key, jvalue);
 		editor.commit();
 	}
 
+	@SuppressWarnings("unused")
 	public void putBoolean(String key, boolean value) {
 		Editor editor = getSharePrefereEditor();
 		editor.putBoolean(key, value);
 		editor.commit();
 	}
 
+	@SuppressWarnings("unused")
 	public void putString(String key, String value) {
 		Editor editor = getSharePrefereEditor();
 		editor.putString(key, value);
 		editor.commit();
 	}
 
+	@SuppressWarnings("unused")
 	public void putFloat(String key, float value) {
 		Editor editor = getSharePrefereEditor();
 		editor.putFloat(key, value);
 		editor.commit();
 	}
 
+	@SuppressWarnings("unused")
 	public void putInt(String key, int value) {
 		Editor editor = getSharePrefereEditor();
 		editor.putInt(key, value);
 		editor.commit();
 	}
 
+	@SuppressWarnings("unused")
 	public void putLong(String key, long value) {
 		Editor editor = getSharePrefereEditor();
 		editor.putLong(key, value);
 		editor.commit();
 	}
 
+	@SuppressWarnings("unused")
 	public void putDate(String key, Date date) {
 		putLong(key, date.getTime());
 	}

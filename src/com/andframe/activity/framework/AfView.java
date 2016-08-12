@@ -1,7 +1,6 @@
 package com.andframe.activity.framework;
 
 import android.content.Context;
-import android.content.res.Resources;
 import android.view.View;
 import android.view.ViewGroup;
 import android.view.ViewParent;
@@ -38,6 +37,7 @@ public class AfView implements AfViewable {
 		return null;
 	}
 
+	@SuppressWarnings("unused")
 	public AfView getParentView() {
 		if (mRootView != null) {
 			return new AfView((View)mRootView.getParent());
@@ -49,14 +49,6 @@ public class AfView implements AfViewable {
 	public Context getContext() {
 		if (mRootView != null) {
 			return mRootView.getContext();
-		}
-		return null;
-	}
-
-	@Override
-	public Resources getResources() {
-		if (mRootView != null) {
-			return mRootView.getResources();
 		}
 		return null;
 	}

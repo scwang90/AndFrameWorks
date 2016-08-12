@@ -1,7 +1,6 @@
 package com.andframe.activity.framework;
 
 import android.content.Context;
-import android.content.res.Resources;
 import android.view.View;
 /**
  * AfViewable 框架视图接口
@@ -11,8 +10,6 @@ import android.view.View;
 public interface AfViewable {
 
 	Context getContext();
-
-	Resources getResources();
 
 	View getView();
 

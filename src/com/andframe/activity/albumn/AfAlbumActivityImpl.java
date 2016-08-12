@@ -6,7 +6,7 @@ import android.widget.TextView;
 import com.andframe.R;
 import com.andframe.activity.framework.AfViewable;
 
-public class AfAlbumActivityImpl extends AfAlbumActivity{
+public class AfAlbumActivityImpl extends AfAlbumActivity {
 
 	@Override
 	protected int getAlbumLayoutId() {
