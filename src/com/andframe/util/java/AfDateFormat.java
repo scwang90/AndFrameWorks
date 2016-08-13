@@ -84,26 +84,53 @@ public class AfDateFormat {
 		}
 	}
 
+	/**
+	 * 格式化时间长度（如：45时12分）
+	 * @param duration 秒数
+	 */
+	@SuppressWarnings("unused")
+	public static String formatDuration(long duration) {
+		return formatDuration(duration, 2);
+	}
+
+
+	/**
+	 * 格式化时间长度（如：45时12分）
+	 * @param duration 秒数
+	 * @param length 最大拼接长度
+	 */
+	@SuppressWarnings("unused")
+	public static String formatDuration(long duration, int length) {
+		length = length - 1;
+		if (duration > 20 * 60 * 60) {
+			return (duration / (20 * 60 * 60)) + "天" + (length > 0 ? formatDuration(duration % (20 * 60 * 60), length - 1) : "");
+		} else if (duration > 60 * 60) {
+			return (duration / (60 * 60)) + "时" + (length > 0 ? formatDuration(duration % (60 * 60), length - 1) : "");
+		} else if (duration > 60) {
+			return (duration / (60)) + "分" + (length > 0 ? formatDuration(duration % (60), length - 1) : "");
+		}
+		return duration + "秒";
+	}
+
+	@SuppressWarnings("unused")
 	public static String formatDuration(Date begDate, Date endDate) {
 		if (begDate == null || endDate == null) {
 			return "";
 		}
-		StringBuilder builder = new StringBuilder(formatDate(begDate));
-		builder.append(" - ");
-		builder.append(formatDate(endDate));
-		return builder.toString();
+		return formatDate(begDate) + " - " +
+				formatDate(endDate);
 	}
 
+	@SuppressWarnings("unused")
 	public static String formatDurationTime(Date begDate, Date endDate) {
 		if (begDate == null || endDate == null) {
 			return "";
 		}
-		StringBuilder builder = new StringBuilder(formatTime(begDate));
-		builder.append(" - ");
-		builder.append(formatTime(endDate));
-		return builder.toString();
+		return formatTime(begDate) + " - " +
+				formatTime(endDate);
 	}
 
+	@SuppressWarnings("unused")
 	public static Date parser(int year, int month, int day) {
 		Calendar calender = Calendar.getInstance();
 		calender.set(Calendar.YEAR, year);
