@@ -37,6 +37,7 @@ public abstract class AfSelectorTitlebar extends AfModuleAlpha
 		private static final long serialVersionUID = -8159583806449123914L;
 		public MenuMap() {
 		}
+		@SuppressWarnings("unused")
 		public MenuMap(HashMap<String, Integer> map) {
 			super(map);
 		}
@@ -91,12 +92,14 @@ public abstract class AfSelectorTitlebar extends AfModuleAlpha
 		this.mMeuns.putAll(map);
 	}
 
+	@SuppressWarnings("unused")
 	public void setFinishOnClickListener(OnClickListener listener) {
 		if(isValid()){
 			mBtFinish.setOnClickListener(listener);
 		}
 	}
 
+	@SuppressWarnings("unused")
 	public void setOperateOnClickListener(OnClickListener listener) {
 		if(isValid()){
 			mOperate.setOnClickListener(listener);
@@ -149,32 +152,30 @@ public abstract class AfSelectorTitlebar extends AfModuleAlpha
 	}
 	
 	@Override
-	public void onMultiChoiceStarted(AfMultiChoiceAdapter<? extends Object> adapter,
+	public void onMultiChoiceStarted(AfMultiChoiceAdapter<?> adapter,
 			int number) {
 		this.show();
 		mTvText.setText(String.format(TEXT_FORMAT, adapter.getChoiceNumber(),adapter.getCount()));
 	}
 	@Override
-	public void onMultiChoiceChanged(AfMultiChoiceAdapter<? extends Object> adapter,
+	public void onMultiChoiceChanged(AfMultiChoiceAdapter<?> adapter,
 			Object tag, boolean selected, int number) {
 		mTvText.setText(String.format(TEXT_FORMAT, number,adapter.getCount()));
 	}
 	@Override
-	public void onMultiChoiceChanged(AfMultiChoiceAdapter<? extends Object> adapter,
+	public void onMultiChoiceChanged(AfMultiChoiceAdapter<?> adapter,
 			int number, int total) {
 		mTvText.setText(String.format(TEXT_FORMAT, number,total));
 	}
 	@Override
-	public void onMultiChoiceAddData(
-			AfMultiChoiceAdapter<? extends Object> adapter,
-			Collection<? extends Object> list) {
+	public void onMultiChoiceAddData(AfMultiChoiceAdapter<?> adapter, Collection<?> list) {
 		mTvText.setText(String.format(TEXT_FORMAT, adapter.getChoiceNumber(),adapter.getCount()));
 	}
 
 	@Override
 	public void onMultiChoiceClosed(
-			AfMultiChoiceAdapter<? extends Object> adapter,
-			Collection<? extends Object> list) {
+			AfMultiChoiceAdapter<?> adapter,
+			Collection<?> list) {
 		this.hide();
 	}
 	
