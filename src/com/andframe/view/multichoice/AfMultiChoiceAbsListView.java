@@ -9,6 +9,7 @@ import android.widget.AdapterView.OnItemClickListener;
 import android.widget.AdapterView.OnItemLongClickListener;
 import android.widget.ListAdapter;
 import android.widget.ListView;
+import android.widget.WrapperListAdapter;
 
 import com.andframe.layoutbind.AfSelectorBottombar;
 import com.andframe.layoutbind.AfSelectorTitlebar;
@@ -76,6 +77,9 @@ public abstract class AfMultiChoiceAbsListView<T extends AbsListView> extends Af
     }
 
     public void bindAdapter(ListAdapter adapter) {
+        while (adapter instanceof WrapperListAdapter && !(adapter instanceof AfMultiChoiceAbsListView)) {
+            adapter = ((WrapperListAdapter) adapter).getWrappedAdapter();
+        }
         if (adapter instanceof AfMultiChoiceAdapter) {
             mAdapter = (AfMultiChoiceAdapter<? extends Object>) adapter;
             if (mSelectorTitlebar != null) {
@@ -89,10 +93,16 @@ public abstract class AfMultiChoiceAbsListView<T extends AbsListView> extends Af
 
     public void setSelector(AfSelectorTitlebar selector) {
         this.mSelectorTitlebar = selector;
+        if (mAdapter != null && selector != null) {
+            mSelectorTitlebar.setAdapter(mAdapter);
+        }
     }
 
     public void setSelector(AfSelectorBottombar selector) {
         this.mSelectorBottombar = selector;
+        if (mAdapter != null && selector != null) {
+            mSelectorBottombar.setAdapter(mAdapter);
+        }
     }
 
     @Override

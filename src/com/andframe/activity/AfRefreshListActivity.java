@@ -6,6 +6,7 @@ import android.view.View.OnClickListener;
 import android.widget.AbsListView;
 import android.widget.AdapterView;
 import android.widget.GridView;
+import android.widget.ListAdapter;
 import android.widget.ListView;
 
 import com.andframe.activity.framework.AfPageable;
@@ -547,7 +548,7 @@ public abstract class AfRefreshListActivity<T> extends AfListActivity<T> impleme
      * @param adapter 适配器
      */
     @Override
-    protected void bindAdapter(AbsListView listView, AfListAdapter<T> adapter) {
+    protected void bindAdapter(AbsListView listView, ListAdapter adapter) {
         adapter.registerDataSetObserver(mDataSetObserver);
         mListView = newAfListView(listView);
         mListView.setAdapter(adapter);

@@ -87,6 +87,9 @@ public abstract class AfActivity extends FragmentActivity implements AfPageable 
         return "AfActivity(" + getClass().getName() + ")." + tag;
     }
 
+    protected AfView $(int id) {
+        return new AfView(mRootView).id(id);
+    }
     /**
      * 获取 Application 的 AfApplication实例
      *

@@ -15,6 +15,7 @@ import android.view.ViewGroup;
 import android.widget.Toast;
 
 import com.andframe.activity.framework.AfPageable;
+import com.andframe.activity.framework.AfView;
 import com.andframe.annotation.interpreter.Injecter;
 import com.andframe.annotation.interpreter.LayoutBinder;
 import com.andframe.annotation.interpreter.ViewBinder;
@@ -80,6 +81,10 @@ public abstract class AfDialog extends Dialog implements AfPageable {
 
     protected String TAG(String tag) {
         return "AfDialog(" + getClass().getName() + ")." + tag;
+    }
+
+    protected AfView $(int id) {
+        return new AfView(mRootView).id(id);
     }
 
     //<editor-fold desc="生命周期">

@@ -10,6 +10,7 @@ import android.widget.AdapterView;
 import android.widget.AdapterView.OnItemClickListener;
 import android.widget.AdapterView.OnItemLongClickListener;
 import android.widget.GridView;
+import android.widget.ListAdapter;
 import android.widget.ListView;
 
 import com.andframe.activity.framework.AfPageable;
@@ -60,7 +61,7 @@ public abstract class AfListFragment<T> extends AfTabFragment implements OnItemC
      * @param adapter 适配器
      */
     @SuppressWarnings("RedundantCast")
-    protected void bindAdapter(AbsListView listView, AfListAdapter<T> adapter) {
+    protected void bindAdapter(AbsListView listView, ListAdapter adapter) {
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.HONEYCOMB) {
             listView.setAdapter(adapter);
         } else if (listView instanceof ListView) {

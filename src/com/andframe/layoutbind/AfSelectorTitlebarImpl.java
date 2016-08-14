@@ -4,7 +4,6 @@ import android.view.View;
 import android.widget.TextView;
 
 import com.andframe.R;
-import com.andframe.activity.framework.AfPageable;
 import com.andframe.activity.framework.AfViewable;
 
 public class AfSelectorTitlebarImpl extends AfSelectorTitlebar {
@@ -12,9 +11,14 @@ public class AfSelectorTitlebarImpl extends AfSelectorTitlebar {
 	public static final int ID_FINISH = R.id.af_titlebar_select_finish;
 	public static final int ID_OPERATE = R.id.af_titlebar_select_operate;
 
-	public AfSelectorTitlebarImpl(AfPageable page) {
+	@SuppressWarnings("unused")
+	protected AfSelectorTitlebarImpl() {
+	}
+
+	public AfSelectorTitlebarImpl(AfViewable page) {
 		super(page,R.id.af_titlebar_select);
 	}
+
 	@Override
 	protected View findTitleSelectBtFinish(AfViewable view) {
 		return view.findViewById(R.id.af_titlebar_select_finish);

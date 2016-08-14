@@ -22,6 +22,7 @@ public class AfBindItem<T> extends AfTreeViewItem<T> {
     View[] bindViews = null;
     BindItemMap bindMap;
 
+    @SuppressWarnings("unused")
     public AfBindItem(int layoutId, BindItemMap bindMap) {
         super(layoutId);
         this.bindMap = bindMap;
@@ -29,12 +30,7 @@ public class AfBindItem<T> extends AfTreeViewItem<T> {
 
     public AfBindItem(int layoutId, Object... binds) {
         super(layoutId);
-        this.bindMap = new BindItemMap();
-        for (int i = 0; i < binds.length / 2; i++) {
-            if (binds[2 * i] instanceof String && binds[2 * i + 1] instanceof Integer) {
-                bindMap.putBindMap((String) binds[2 * i], (Integer) binds[2 * i + 1]);
-            }
-        }
+        this.bindMap = new BindItemMap(binds);
     }
 
     @Override
@@ -121,15 +117,16 @@ public class AfBindItem<T> extends AfTreeViewItem<T> {
 
         LinkedHashMap<String, Integer> bindMap;
 
+        @SuppressWarnings("unused")
         public BindItemMap() {
-            this.bindMap = new LinkedHashMap<String, Integer>();
+            this.bindMap = new LinkedHashMap<>();
         }
 
         public BindItemMap(Object... args) {
-            this.bindMap = new LinkedHashMap<String, Integer>();
+            this.bindMap = new LinkedHashMap<>();
             for (int i = 0; i < args.length / 2; i++) {
                 if (args[2 * i] instanceof String && args[2 * i + 1] instanceof Integer) {
-                    bindMap.put((String) args[2 * i], (Integer) args[2 * i + 1]);
+                    putBindMap((String) args[2 * i], (Integer) args[2 * i + 1]);
                 }
             }
         }

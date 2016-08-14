@@ -21,9 +21,9 @@ public abstract class AfMultiChoiceAdapter<T> extends AfListAdapter<T>{
 	}
 
 	public interface GenericityListener{
-		void onMultiChoiceAddData(AfMultiChoiceAdapter<?> adapter,Collection<?> list);
-		void onMultiChoiceChanged(AfMultiChoiceAdapter<?> adapter,Object tag,boolean selected,int number);
-		void onMultiChoiceChanged(AfMultiChoiceAdapter<?> adapter,int number,int total);
+		void onMultiChoiceAddData(AfMultiChoiceAdapter<?> adapter, Collection<?> list);
+		void onMultiChoiceChanged(AfMultiChoiceAdapter<?> adapter, Object tag, boolean selected, int number);
+		void onMultiChoiceChanged(AfMultiChoiceAdapter<?> adapter, int number, int total);
 		void onMultiChoiceStarted(AfMultiChoiceAdapter<?> adapter, int number);
 		void onMultiChoiceClosed(AfMultiChoiceAdapter<?> adapter, Collection<?> list);
 	}
@@ -148,6 +148,14 @@ public abstract class AfMultiChoiceAdapter<T> extends AfListAdapter<T>{
 		mcitem.setSelectStatus(mltArray.get(index), status);
 		return super.bindingItem(mcitem, index);
 	}
+
+	public boolean isChoiced(int index) {
+		if (mIsSelecteds != null && index < mIsSelecteds.length && index >= 0) {
+			return mIsSelecteds[index];
+		}
+		return false;
+	}
+
 
 	public void restoreSelect() {
 		if (mIsSelecteds != null) {

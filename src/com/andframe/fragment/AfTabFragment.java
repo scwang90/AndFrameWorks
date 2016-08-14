@@ -1,8 +1,13 @@
 package com.andframe.fragment;
 
+import android.support.v4.app.Fragment;
+
 import com.andframe.activity.framework.AfView;
 import com.andframe.application.AfApplication;
 import com.andframe.feature.AfBundle;
+
+import java.util.ArrayList;
+import java.util.List;
 
 public abstract class AfTabFragment extends AfFragment {
 
@@ -98,4 +103,20 @@ public abstract class AfTabFragment extends AfFragment {
     public void onQueryChanged() {
         super.onQueryChanged();
     }
+
+
+    @Override
+    public boolean onBackPressed() {
+        boolean isHandled = false;
+        List<Fragment> fragments = getChildFragmentManager().getFragments();
+        fragments = fragments == null ? new ArrayList<Fragment>() : fragments;
+        for (Fragment fragment : fragments) {
+            if (fragment.getUserVisibleHint() && fragment instanceof AfFragment) {
+                AfFragment afment = (AfFragment) fragment;
+                isHandled = afment.onBackPressed() || isHandled;
+            }
+        }
+        return isHandled || super.onBackPressed();
+    }
+
 }

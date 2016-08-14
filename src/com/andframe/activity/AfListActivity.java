@@ -9,6 +9,7 @@ import android.widget.AdapterView;
 import android.widget.AdapterView.OnItemClickListener;
 import android.widget.AdapterView.OnItemLongClickListener;
 import android.widget.GridView;
+import android.widget.ListAdapter;
 import android.widget.ListView;
 
 import com.andframe.activity.framework.AfActivity;
@@ -18,7 +19,6 @@ import com.andframe.annotation.view.BindAfterViews;
 import com.andframe.annotation.view.BindLayout;
 import com.andframe.application.AfExceptionHandler;
 import com.andframe.feature.AfIntent;
-import com.andframe.fragment.AfListFragment;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -71,7 +71,7 @@ public abstract class AfListActivity<T> extends AfActivity implements OnItemClic
      * @param adapter 适配器
      */
     @SuppressWarnings("RedundantCast")
-    protected void bindAdapter(AbsListView listView, AfListAdapter<T> adapter) {
+    protected void bindAdapter(AbsListView listView, ListAdapter adapter) {
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.HONEYCOMB) {
             listView.setAdapter(adapter);
         } else if (listView instanceof ListView) {

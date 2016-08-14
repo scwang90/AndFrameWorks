@@ -1,14 +1,13 @@
 package com.andframe.feature;
 
 import android.content.Context;
+import android.content.res.Resources;
 import android.util.DisplayMetrics;
 
 public class AfDensity {
 
 	/**
 	 * dip 转换成 像素（px）
-	 * @param dipValue
-	 * @return
 	 */
 	public static int dip2px(Context context, float dipValue) {
 		final float scale = context.getResources().getDisplayMetrics().density;
@@ -17,15 +16,26 @@ public class AfDensity {
 
 	/**
 	 * 像素（px）转换成dip
-	 * @param pxValue
-	 * @return
 	 */
 	public static int px2dip(Context context, float pxValue) {
 		final float scale = context.getResources().getDisplayMetrics().density;
 		return (int) (pxValue / scale + 0.5f);
 	}
+
+	/**
+	 * 像素（px）转换成dip
+	 */
+	@SuppressWarnings("unused")
+	public static float px2dip(int pxValue) {
+		final float scale = Resources.getSystem().getDisplayMetrics().density;
+		return (pxValue / scale + 0.5f);
+	}
 	
 	protected DisplayMetrics mDisplayMetrics = null;
+
+	public AfDensity() {
+		mDisplayMetrics = Resources.getSystem().getDisplayMetrics();
+	}
 
 	public AfDensity(Context context) {
 		mDisplayMetrics = context.getResources().getDisplayMetrics();
@@ -37,7 +47,6 @@ public class AfDensity {
 
 	/**
 	 * dip 转换成 像素（px）
-	 * @param dipValue
 	 * @return 像素（px）
 	 */
 	public int dip2px(float dipValue) {
@@ -47,7 +56,6 @@ public class AfDensity {
 
 	/**
 	 * 像素（px）转换成dip
-	 * @param pxValue
 	 * @return dip
 	 */
 	public int px2dip(float pxValue) {
@@ -57,7 +65,6 @@ public class AfDensity {
 
 	/**
 	 * 获取屏幕像素宽度的 ratio 百分比
-	 * @param ratio
 	 * @return 百分比
 	 */
 	public int proportion(float ratio) {
@@ -69,7 +76,6 @@ public class AfDensity {
 
 	/**
 	 * 获取屏幕像素宽度的 ratio 百分比（offset 屏幕像素偏移量）
-	 * @param ratio
 	 * @param offset 用于布局没有占满屏幕（带边框），
 	 * 		那么 offset = 0 - 边框
 	 * @return proportion

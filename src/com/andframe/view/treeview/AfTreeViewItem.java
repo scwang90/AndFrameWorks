@@ -4,7 +4,6 @@ import android.annotation.SuppressLint;
 import android.os.Build.VERSION;
 import android.view.Gravity;
 import android.view.View;
-import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.LinearLayout.LayoutParams;
 
@@ -12,16 +11,18 @@ import com.andframe.activity.framework.AfView;
 import com.andframe.feature.AfDensity;
 import com.andframe.view.multichoice.AfMultiChoiceItem;
 
+import static android.view.ViewGroup.LayoutParams.MATCH_PARENT;
+
 
 public abstract class AfTreeViewItem<T> extends AfMultiChoiceItem<T> {
 
-    public static final int LP_MP = LayoutParams.MATCH_PARENT;
-    public static final int LP_WC = LayoutParams.WRAP_CONTENT;
+//    public static final int LP_MP = LayoutParams.MATCH_PARENT;
+//    public static final int LP_WC = LayoutParams.WRAP_CONTENT;
 
     protected int retract = 35;
     protected AfTreeNode<T> mNode = null;
     protected View mTreeViewContent = null;
-    protected ImageView mTreeViewExpanded = null;
+//    protected ImageView mTreeViewExpanded = null;
     protected LinearLayout mTreeViewLayout = null;
     protected AfTreeViewAdapter<T> mTreeViewAdapter = null;
 
@@ -58,7 +59,7 @@ public abstract class AfTreeViewItem<T> extends AfMultiChoiceItem<T> {
         }
         view.setBackgroundResource(android.R.color.transparent);
         //包装View
-        LayoutParams lpView = new LayoutParams(LP_MP, LP_MP);
+        LayoutParams lpView = new LayoutParams(MATCH_PARENT, MATCH_PARENT);
         mTreeViewLayout.addView(view, lpView);
 
         return mTreeViewLayout;
@@ -77,6 +78,10 @@ public abstract class AfTreeViewItem<T> extends AfMultiChoiceItem<T> {
         mNode = node;
     }
 
+    public boolean isCanSelect(T value, int index) {
+        return mNode == null || mNode.children == null || mNode.children.size() == 0;
+    }
+
     /**
      * @param level      所在树的层数（树根为0）
      * @param isExpanded 树节点是否张开
@@ -85,7 +90,5 @@ public abstract class AfTreeViewItem<T> extends AfMultiChoiceItem<T> {
      */
     protected abstract boolean onBinding(T model, int index, int level, boolean isExpanded, SelectStatus status);
 
-    public boolean isCanSelect(T value, int index) {
-        return mNode == null || mNode.children == null || mNode.children.size() == 0;
-    }
+
 }

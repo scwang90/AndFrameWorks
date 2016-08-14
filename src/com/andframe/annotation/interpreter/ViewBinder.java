@@ -31,6 +31,10 @@ import com.andframe.layoutbind.AfModuleProgress;
 import com.andframe.layoutbind.AfModuleProgressImpl;
 import com.andframe.layoutbind.AfModuleTitlebar;
 import com.andframe.layoutbind.AfModuleTitlebarImpl;
+import com.andframe.layoutbind.AfSelectorBottombar;
+import com.andframe.layoutbind.AfSelectorBottombarImpl;
+import com.andframe.layoutbind.AfSelectorTitlebar;
+import com.andframe.layoutbind.AfSelectorTitlebarImpl;
 import com.andframe.layoutbind.framework.AfViewWrapper;
 import com.andframe.layoutbind.framework.AfViewModule;
 import com.andframe.util.java.AfReflecter;
@@ -249,6 +253,10 @@ public class ViewBinder {
                     Object value = null;
                     if (clazz.equals(AfModuleTitlebar.class) && root != null) {
                         value = new AfModuleTitlebarImpl(root);
+                    } else if (clazz.equals(AfSelectorTitlebar.class) && root != null) {
+                        value = new AfSelectorTitlebarImpl(root);
+                    } else if (clazz.equals(AfSelectorBottombar.class) && root != null) {
+                        value = new AfSelectorBottombarImpl(root);
                     } else if (clazz.equals(AfFrameSelector.class) && root != null) {
                         value = new AfFrameSelector(root, id);
                     } else if (clazz.equals(AfModuleNodata.class) && root != null) {

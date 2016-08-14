@@ -54,6 +54,11 @@ public abstract class AfListItem<T> implements IListItem<T> {
 
 	@Override
 	public View onCreateView(LayoutInflater inflater, ViewGroup parent) {
-		return inflater.inflate(getLayoutId(), parent, false);
+		return mLayout = inflater.inflate(getLayoutId(), parent, false);
 	}
+
+	protected AfView $(int id) {
+		return new AfView(mLayout).id(id);
+	}
+
 }
