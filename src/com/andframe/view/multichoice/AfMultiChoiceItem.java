@@ -44,8 +44,8 @@ public abstract class AfMultiChoiceItem<T> extends AfListItem<T> implements OnCl
 	}
 
 	@Override
-	public void onBinding(T model,int index) {
-		if(!onBinding(mModel = model,index,mSelectStatus) && mMultiChoiceCheckBox!=null){
+	public void onBinding(T model, int index) {
+		if(!onBinding(mModel = model,index,mSelectStatus) && mMultiChoiceCheckBox!=null) {
 			if(mSelectDisplay == SD_CHECK){
 				switch (mSelectStatus) {
 				case NONE:
@@ -147,5 +147,5 @@ public abstract class AfMultiChoiceItem<T> extends AfListItem<T> implements OnCl
 	 * @param status 选择状态{NONE,UNSELECT,SELECTED}
 	 * @return 绘制选择状态 返回 TRUE 否则 FALSE
 	 */
-	protected abstract boolean onBinding(T model,int index,SelectStatus status);
+	protected abstract boolean onBinding(T model, int index, SelectStatus status);
 }

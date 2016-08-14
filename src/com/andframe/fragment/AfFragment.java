@@ -90,6 +90,10 @@ public abstract class AfFragment extends Fragment implements AfPageable {
     protected boolean mIsRecycled = false;
     //</editor-fold>
 
+    protected AfView $(int id) {
+        return new AfView(mRootView).id(id);
+    }
+
     public AfActivity getAfActivity() {
         if (super.getActivity() instanceof AfActivity) {
             return ((AfActivity) super.getActivity());

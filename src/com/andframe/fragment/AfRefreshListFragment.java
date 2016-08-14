@@ -1,4 +1,4 @@
-package com.andframe.activity;
+package com.andframe.fragment;
 
 import android.database.DataSetObserver;
 import android.view.View;
@@ -42,7 +42,7 @@ import static com.andframe.util.java.AfReflecter.getAnnotation;
  * @param <T> 列表数据实体类
  * @author 树朾
  */
-public abstract class AfRefreshListActivity<T> extends AfListActivity<T> implements OnRefreshListener {
+public abstract class AfRefreshListFragment<T> extends AfListFragment<T> implements OnRefreshListener {
 
     protected AfModuleNodata mNodata;
     protected AfModuleProgress mProgress;
@@ -69,11 +69,11 @@ public abstract class AfRefreshListActivity<T> extends AfListActivity<T> impleme
     protected AfTimeSpan mCacheSpan = AfListTask.CACHETIMEOUTSECOND;
 
     @SuppressWarnings("unchecked")
-    public AfRefreshListActivity() {
-        MarkCache mark = getAnnotation(this.getClass(), AfRefreshListActivity.class, MarkCache.class);
+    public AfRefreshListFragment() {
+        MarkCache mark = getAnnotation(this.getClass(), AfRefreshListFragment.class, MarkCache.class);
         if (mark != null) {
             if (mark.value().equals(MarkCache.class)) {
-                mCacheClazz = AfReflecter.getActualTypeArgument(this, AfRefreshListActivity.class, 0);
+                mCacheClazz = AfReflecter.getActualTypeArgument(this, AfRefreshListFragment.class, 0);
             } else {
                 mCacheClazz = (Class<T>) mark.value();
             }
@@ -89,7 +89,7 @@ public abstract class AfRefreshListActivity<T> extends AfListActivity<T> impleme
      * @param clazz 缓存使用的 class 对象（json要用到）
      */
     @SuppressWarnings("unused")
-    public AfRefreshListActivity(Class<T> clazz) {
+    public AfRefreshListFragment(Class<T> clazz) {
         this.mCacheClazz = clazz;
     }
 
@@ -100,7 +100,7 @@ public abstract class AfRefreshListActivity<T> extends AfListActivity<T> impleme
      * @param clazz 缓存使用的 class 对象（json要用到）
      */
     @SuppressWarnings("unused")
-    public AfRefreshListActivity(Class<T> clazz, String KEY_CACHELIST) {
+    public AfRefreshListFragment(Class<T> clazz, String KEY_CACHELIST) {
         this.mCacheClazz = clazz;
         this.KEY_CACHELIST = KEY_CACHELIST;
     }
@@ -181,6 +181,7 @@ public abstract class AfRefreshListActivity<T> extends AfListActivity<T> impleme
      * 添加一条数据到显示列表
      * @param value 添加的数据
      */
+    @SuppressWarnings("unused")
     public void addData(T value) {
         if (mAdapter != null) {
             mAdapter.add(0, value);
@@ -615,12 +616,12 @@ public abstract class AfRefreshListActivity<T> extends AfListActivity<T> impleme
 
         @Override
         protected boolean onPrepare() {
-            return AfRefreshListActivity.this.onTaskPrepare(mTask);
+            return AfRefreshListFragment.this.onTaskPrepare(mTask);
         }
 
         @Override
         protected List<T> onLoad(boolean isCheckExpired) {
-            List<T> list = AfRefreshListActivity.this.onTaskLoad(isCheckExpired);
+            List<T> list = AfRefreshListFragment.this.onTaskLoad(isCheckExpired);
             if (!AfCollections.isEmpty(list)) {
                 return list;
             }
@@ -629,47 +630,47 @@ public abstract class AfRefreshListActivity<T> extends AfListActivity<T> impleme
 
         @Override
         protected void onPutCache(List<T> list) {
-            AfRefreshListActivity.this.onTaskPutCache(list);
+            AfRefreshListFragment.this.onTaskPutCache(list);
         }
 
         @Override
         protected void onPushCache(List<T> list) {
-            AfRefreshListActivity.this.onTaskPushCache(list);
+            AfRefreshListFragment.this.onTaskPushCache(list);
         }
 
         //事件转发 参考 AfListViewFragment.onListByPage
         @Override
         protected List<T> onListByPage(Page page, int task) throws Exception {
-            return AfRefreshListActivity.this.onTaskListByPage(page, task);
+            return AfRefreshListFragment.this.onTaskListByPage(page, task);
         }
 
         @Override
         protected boolean onWorking(int task) throws Exception {
-            return AfRefreshListActivity.this.onTaskWorking(task);
+            return AfRefreshListFragment.this.onTaskWorking(task);
         }
 
         //事件转发 参考 AfListViewFragment.onLoaded
         @Override
         protected boolean onLoaded(boolean isfinish, List<T> ltdata) {
-            return AfRefreshListActivity.this.onLoaded(this, isfinish, ltdata, getCacheTime());
+            return AfRefreshListFragment.this.onLoaded(this, isfinish, ltdata, getCacheTime());
         }
 
         //事件转发 参考 AfListViewFragment.onRefreshed
         @Override
         protected boolean onRefreshed(boolean isfinish, List<T> ltdata) {
-            return AfRefreshListActivity.this.onRefreshed(this, isfinish, ltdata);
+            return AfRefreshListFragment.this.onRefreshed(this, isfinish, ltdata);
         }
 
         //事件转发 参考 AfListViewFragment.onMored
         @Override
         protected boolean onMored(boolean isfinish, List<T> ltdata,
                                   boolean ended) {
-            return AfRefreshListActivity.this.onMored(this, isfinish, ltdata);
+            return AfRefreshListFragment.this.onMored(this, isfinish, ltdata);
         }
 
         @Override
         protected boolean onWorked(int task, boolean isfinish, List<T> ltdata) {
-            return AfRefreshListActivity.this.onTaskWorked(this, isfinish, ltdata);
+            return AfRefreshListFragment.this.onTaskWorked(this, isfinish, ltdata);
         }
     }
 

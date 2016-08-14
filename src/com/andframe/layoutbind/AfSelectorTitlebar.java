@@ -42,8 +42,11 @@ public abstract class AfSelectorTitlebar extends AfModuleAlpha
 			super(map);
 		}
 	}
-	
-	public AfSelectorTitlebar(AfViewable view,int viewid) {
+
+	protected AfSelectorTitlebar() {
+	}
+
+	protected AfSelectorTitlebar(AfViewable view, int viewid) {
 		super(view,viewid);
 		mTvText = findTitleSelectTvText(view);
 		mBtFinish = findTitleSelectBtFinish(view);

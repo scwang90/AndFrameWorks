@@ -341,7 +341,13 @@ public abstract class AfListAdapter<T> extends BaseAdapter implements List<T> {
 		}
 	}
 
+	/**
+	 * 获取model 比get安全（不会数组越界）
+     */
 	public T getItemAt(int index) {
+		if (index < 0 || mltArray.size() <= index) {
+			return null;
+		}
 		return mltArray.get(index);
 	}
 

@@ -25,6 +25,10 @@ public class AfUpdateAdapter<T> extends AfListAdapterWrapper<T> {
         update(null);
     }
 
+    public void update(int index) {
+        update(getItemAt(index));
+    }
+
     public void update(T model) {
         for (Entry<IListItem<T>, Integer> entry : itemTMap.entrySet()) {
             int index = entry.getValue();

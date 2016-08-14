@@ -14,8 +14,8 @@ public abstract class AfModuleAlpha extends AfViewModule implements AnimationLis
 
 	private static final long DURATION = 500;
 
-	protected AlphaAnimation mAnimationHide = new AlphaAnimation(1, 0);
-	protected AlphaAnimation mAnimationShow = new AlphaAnimation(0, 1);
+	protected AlphaAnimation mAnimationHide = null;//new AlphaAnimation(1, 0);
+	protected AlphaAnimation mAnimationShow = null;//new AlphaAnimation(0, 1);
 
 	protected boolean mHasStarted;
 
@@ -24,16 +24,17 @@ public abstract class AfModuleAlpha extends AfViewModule implements AnimationLis
 
 	public AfModuleAlpha(AfViewable view) {
 		super(view);
-		mAnimationHide.setDuration(DURATION);
-		mAnimationShow.setDuration(DURATION);
+//		mAnimationHide.setDuration(DURATION);
+//		mAnimationShow.setDuration(DURATION);
 	}
 
 	public AfModuleAlpha(AfViewable view, int viewid) {
 		super(view,viewid);
-		mAnimationHide.setDuration(DURATION);
-		mAnimationShow.setDuration(DURATION);
+//		mAnimationHide.setDuration(DURATION);
+//		mAnimationShow.setDuration(DURATION);
 	}
 
+	@SuppressWarnings("unused")
 	public void setBackgroundAlpha(int alpha) {
 		Drawable drawable = getBackground();
 		if (drawable != null) {

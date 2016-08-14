@@ -5,7 +5,7 @@
     android:layout_height="wrap_content">
     <RelativeLayout
         android:layout_width="match_parent"
-        android:layout_height="45dip"
+        android:layout_height="@dimen/height_titlebar"
         android:background="#FF005983" >
         <View
             android:layout_width="match_parent"

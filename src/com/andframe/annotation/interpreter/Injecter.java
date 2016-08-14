@@ -111,11 +111,12 @@ import java.util.Timer;
 
 /**
  * annotation.inject 解释器
+ *
  * @author 树朾
  */
 public class Injecter {
 
-    protected static String TAG(Object obj,String tag) {
+    protected static String TAG(Object obj, String tag) {
         if (obj == null) {
             return "Injecter." + tag;
         }
@@ -140,11 +141,11 @@ public class Injecter {
         for (Method method : AfReflecter.getMethodAnnotation(handler.getClass(), getStopType(handler), InjectQueryChanged.class)) {
             InjectQueryChanged init = method.getAnnotation(InjectQueryChanged.class);
             try {
-                invokeMethod(handler,method);
-            }catch(Throwable e){
+                invokeMethod(handler, method);
+            } catch (Throwable e) {
                 e.printStackTrace();
-                if (init.value()){
-                    throw new RuntimeException("调用查询失败",e);
+                if (init.value()) {
+                    throw new RuntimeException("调用查询失败", e);
                 }
                 AfExceptionHandler.handle(e, TAG(handler, "doInjectQueryChanged.invokeMethod.") + method.getName());
             }
@@ -177,13 +178,13 @@ public class Injecter {
                 } else if (clazz.equals(AfImageHelper.class)) {
                     value = new AfImageHelper();
                 } else if (clazz.equals(AfSharedPreference.class)) {
-                    value = new AfSharedPreference(context,field.getAnnotation(Inject.class).value());
+                    value = new AfSharedPreference(context, field.getAnnotation(Inject.class).value());
                 } else if (clazz.equals(AfDurableCache.class)) {
                     value = AfDurableCache.getInstance(field.getAnnotation(Inject.class).value());
                 } else if (clazz.equals(AfPrivateCaches.class)) {
                     value = AfPrivateCaches.getInstance(field.getAnnotation(Inject.class).value());
                 } else if (clazz.equals(AfJsonCache.class)) {
-                    value = new AfJsonCache(context,field.getAnnotation(Inject.class).value());
+                    value = new AfJsonCache(context, field.getAnnotation(Inject.class).value());
                 } else if (clazz.equals(AfImageCaches.class)) {
                     value = AfImageCaches.getInstance();
                 } else if (AfApplication.class.isAssignableFrom(clazz)) {
@@ -408,7 +409,7 @@ public class Injecter {
         if (handler instanceof AfActivity && layout != null) {
             try {
                 ((AfActivity) handler).setContentView(layout.value());
-            }catch(Throwable e){
+            } catch (Throwable e) {
                 e.printStackTrace();
                 AfExceptionHandler.handle(e, TAG(handler, "doInjectLayout.setContentView"));
             }
@@ -419,11 +420,11 @@ public class Injecter {
         for (Method method : AfReflecter.getMethodAnnotation(handler.getClass(), getStopType(handler), InjectInit.class)) {
             InjectInit init = method.getAnnotation(InjectInit.class);
             try {
-                invokeMethod(handler,method);
-            }catch(Throwable e){
+                invokeMethod(handler, method);
+            } catch (Throwable e) {
                 e.printStackTrace();
-                if (init.value()){
-                    throw new RuntimeException("调用初始化失败",e);
+                if (init.value()) {
+                    throw new RuntimeException("调用初始化失败", e);
                 }
                 AfExceptionHandler.handle(e, TAG(handler, "doInjectInit.invokeMethod.") + method.getName());
             }
@@ -431,13 +432,13 @@ public class Injecter {
     }
 
     private static void injectExtra(Object handler, Context context) {
-        for (Field field : AfReflecter.getFieldAnnotation(handler.getClass(),InjectExtra.class)) {
+        for (Field field : AfReflecter.getFieldAnnotation(handler.getClass(), InjectExtra.class)) {
             InjectExtra inject = field.getAnnotation(InjectExtra.class);
             try {
                 AfExtrater intent = new AfIntent();
-                if (handler instanceof Activity){
+                if (handler instanceof Activity) {
                     intent = new AfIntent(((Activity) handler).getIntent());
-                } else if (handler instanceof Fragment){
+                } else if (handler instanceof Fragment) {
                     final Fragment fragment = (Fragment) handler;
                     Bundle bundle = fragment.getArguments();
                     if (bundle != null) {
@@ -490,8 +491,8 @@ public class Injecter {
                     }
                 }
             } catch (Throwable e) {
-                if (inject.necessary()){
-                    throw new RuntimeException("缺少必须参数",e);
+                if (inject.necessary()) {
+                    throw new RuntimeException("缺少必须参数", e);
                 }
                 AfExceptionHandler.handle(e, TAG(handler, "doInject.InjectExtra.") + field.getName());
             }
@@ -499,15 +500,15 @@ public class Injecter {
     }
 
     private static Object invokeMethod(Object handler, Method method, Object... params) throws Exception {
-        if (handler != null && method != null){
+        if (handler != null && method != null) {
             method.setAccessible(true);
             return method.invoke(handler, params);
         }
         return null;
     }
 
-    private static Class<?> getStopType(Object handler){
-        if (handler instanceof AfViewWrapper){
+    private static Class<?> getStopType(Object handler) {
+        if (handler instanceof AfViewWrapper) {
             return AfViewWrapper.class;
         }
         return Object.class;

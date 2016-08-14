@@ -1,6 +1,9 @@
 package com.andframe.util.java;
 
 import android.text.TextUtils;
+import android.text.format.Formatter;
+
+import com.andframe.application.AfApplication;
 
 import java.io.File;
 import java.io.FileInputStream;
@@ -100,16 +103,19 @@ public class AfFileUtil {
 
 	/**
 	 *  转换文件大小到String显示描述 如 648KB,5MB 整数
+	 *  @deprecated use Formatter.formatFileSize
 	 */
+	@Deprecated
 	public static String getFileSize(long size){
-		int index = 0;
-		float fsize = size;
-		String[] units = new String[]{"B","KB","MB","GB","TB"};
-		while (index < units.length - 1 && fsize > 1024) {
-			index++;
-			fsize = fsize/1024;
-		}
-		return String.format("%.1f%s",fsize,units[index]);//.replace(".0","");
+		return Formatter.formatFileSize(AfApplication.getApp(), size);
+//		int index = 0;
+//		float fsize = size;
+//		String[] units = new String[]{"B","KB","MB","GB","TB"};
+//		while (index < units.length - 1 && fsize > 1024) {
+//			index++;
+//			fsize = fsize/1024;
+//		}
+//		return String.format("%.1f%s",fsize,units[index]);//.replace(".0","");
 	}
 
 	/**

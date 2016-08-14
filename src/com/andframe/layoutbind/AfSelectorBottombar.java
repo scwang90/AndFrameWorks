@@ -27,49 +27,78 @@ public abstract class AfSelectorBottombar extends AfModuleAlpha implements
 	protected ImageView mMore;
 	protected LinearLayout mContaint;
 	protected OnMenuItemClickListener mListener;
-	protected HashMap<String, Integer> mMeuns = new HashMap<String, Integer>();
+	protected HashMap<String, Integer> mMeuns = new HashMap<>();
 
 	protected abstract int getSelectorDrawableResId();
 	protected abstract ImageView getFunctionViewMore(AfViewable view);
 	protected abstract LinearLayout getFunctionLayout(AfViewable view);
-	
-	public AfSelectorBottombar(AfViewable view,int viewid) {
+
+	protected AfSelectorBottombar() {
+	}
+
+	protected AfSelectorBottombar(AfViewable view, int viewid) {
 		super(view,viewid);
-		if (isValid()) {
-			mMore = getFunctionViewMore(view);
-			mContaint = getFunctionLayout(view);
-			mContaint.removeAllViews();
-			mMore.setOnClickListener(this);
-			wrapped.setVisibility(View.GONE);
-		}
+		initializeComponent(view);
+//		if (isValid()) {
+//			initView(view);
+//		}
 	}
-	
+
+	private void initView(AfViewable view) {
+		mMore = getFunctionViewMore(view);
+		mMore.setVisibility(GONE);
+		mContaint = getFunctionLayout(view);
+//			mContaint.removeAllViews();
+		mMore.setOnClickListener(this);
+		wrapped.setVisibility(View.GONE);
+	}
+
+	@Override
+	protected void onCreated(AfViewable viewable, View view) {
+		super.onCreated(viewable, view);
+		initView(viewable);
+	}
+
 	public void addFunction(int id, int imageid, String detail) {
-		function++;
-		if (function < MAX_ICON) {
-			ImageView view = new ImageView(mMore.getContext());
-			int backid = getSelectorDrawableResId();
-			view.setId(id);
-			view.setScaleType(mMore.getScaleType());
-			view.setLayoutParams(mMore.getLayoutParams());
-			view.setImageResource(imageid);
-			view.setBackgroundResource(backid);
-			view.setContentDescription(detail);
-			view.setOnClickListener(this);
-			mContaint.addView(view);
-		} else {
-			if (function == MAX_ICON) {
-				mContaint.addView(mMore);
+		if (mContaint.findViewById(id) == null) {
+			if (function < MAX_ICON) {
+				ImageView view = new ImageView(mMore.getContext());
+				int backid = getSelectorDrawableResId();
+				view.setId(id);
+				view.setScaleType(mMore.getScaleType());
+				view.setLayoutParams(mMore.getLayoutParams());
+				view.setImageResource(imageid);
+				view.setBackgroundResource(backid);
+				view.setContentDescription(detail);
+				view.setOnClickListener(this);
+				mContaint.addView(view, mContaint.indexOfChild(mMore));
+				if (function == MAX_ICON - 1) {
+					putMeun(id, detail);
+				}
+			} else {
+				if (mMore.getVisibility() != VISIBLE) {
+					mMore.setVisibility(VISIBLE);
+					mContaint.removeViewAt(mContaint.indexOfChild(mMore) - 1);
+	//				mContaint.addView(mMore);
+				}
+				putMeun(id, detail);
 			}
-			mMeuns.put(detail, id);
+			function++;
 		}
 	}
-	
+
+	private void putMeun(int id, String detail) {
+		if (mMeuns == null) {
+            mMeuns = new HashMap<>();
+        }
+		mMeuns.put(detail, id);
+	}
+
 	public void setMenuItemListener(OnMenuItemClickListener listener) {
 		mListener = listener;
 	}
 	
-	public void setAdapter(AfMultiChoiceAdapter<? extends Object> adapter) {
+	public void setAdapter(AfMultiChoiceAdapter<?> adapter) {
 		if (adapter != null){
 			adapter.addGenericityListener(this);
 			if (adapter.isMultiChoiceMode()!=isVisibility()){
@@ -98,7 +127,8 @@ public abstract class AfSelectorBottombar extends AfModuleAlpha implements
 			pm.setOnMenuItemClickListener(this);
 			pm.show();
 		} else if (mListener != null) {
-			mListener.onMenuItemClick(new MenuEntity(v.getId(), v.getContentDescription()));
+			onMenuItemClick(new MenuEntity(v.getId(), v.getContentDescription()));
+//			mListener.onMenuItemClick(new MenuEntity(v.getId(), v.getContentDescription()));
 		}
 	}
 
