@@ -389,7 +389,7 @@ public class AfView implements AfViewable {
 	 */
 
 	public AfView image(String url){
-		if (mTargetView instanceof ImageView) {
+		if (mTargetView instanceof ImageView && url != null) {
 			((ImageView) mTargetView).setImageURI(Uri.parse(url));
 		}
 		return self();

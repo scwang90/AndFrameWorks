@@ -128,4 +128,24 @@ public class AfData3Task<T, TT, TTT> extends AfHandlerTask {
 
         }
     }
+
+    @SuppressWarnings("unused")
+    public static abstract class AbData2TaskResultHandler<T,TT,TTT,Result> extends AbData3TaskHandler<T,TT,TTT> {
+
+        protected Result result;
+
+        @Override
+        public void onTaskBackground(T t, TT tt, TTT ttt) throws Exception {
+            result = onTaskBackgroundResult(t, tt, ttt);
+        }
+
+        protected abstract Result onTaskBackgroundResult(T t, TT tt, TTT ttt);
+
+        @Override
+        public boolean onTaskHandle(T t, TT tt, TTT ttt, AfData3Task task) {
+            return onTaskHandle(result, t, tt, ttt, task);
+        }
+
+        protected abstract boolean onTaskHandle(Result result, T t, TT tt, TTT ttt, AfData3Task task);
+    }
 }

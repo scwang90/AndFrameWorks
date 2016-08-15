@@ -75,7 +75,7 @@ public class AfDataTask <T> extends AfHandlerTask {
 
     public static abstract class AbDataTaskHandler<T> implements OnTaskHandlerListener<T> {
 
-        AfDataTask<T> task;
+        protected AfDataTask<T> task;
 
         private void setTask(AfDataTask<T> task) {
             this.task = task;
@@ -115,5 +115,25 @@ public class AfDataTask <T> extends AfHandlerTask {
         public void onException(T t, Throwable e) {
 
         }
+    }
+
+    @SuppressWarnings("unused")
+    public static abstract class AbDataTaskResultHandler<T,Result> extends AbDataTaskHandler<T> {
+
+        protected Result result;
+
+        @Override
+        public void onTaskBackground(T t) throws Exception {
+            result = onTaskBackgroundResult(t);
+        }
+
+        protected abstract Result onTaskBackgroundResult(T t) throws Exception;
+
+        @Override
+        public boolean onTaskHandle(T t, AfDataTask task) {
+            return onTaskHandle(result, t, task);
+        }
+
+        protected abstract boolean onTaskHandle(Result result, T t, AfDataTask task);
     }
 }
