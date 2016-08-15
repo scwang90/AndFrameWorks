@@ -28,7 +28,7 @@ public class AfAlbumPagerAdapter extends PagerAdapter {
 
 	public AfAlbumPagerAdapter(Context context, List<Photo> ltData) {
 		mltData = ltData;
-		mHashMap = new HashMap<String, AlbumPagerItem>();
+		mHashMap = new HashMap<>();
 	}
 
 	public void setOnTouchListener(OnTouchListener listener) {
@@ -50,7 +50,6 @@ public class AfAlbumPagerAdapter extends PagerAdapter {
 
 	/**
 	 * 适配器新增 数据刷新 接口
-	 * @param ltNews
 	 */
 	public void setData(List<Photo> ltData) {
 		mltData = ltData;

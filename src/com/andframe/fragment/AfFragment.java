@@ -220,8 +220,8 @@ public abstract class AfFragment extends Fragment implements AfPageable {
             mRootView = super.onCreateView(inflater, container, bundle);
         }
         try {
+            Injecter.doInject(this, getContext());
             ViewBinder.doBind(this);
-            Injecter.doInject(this,getAfActivity());
             onCreated(new AfView(mRootView), new AfBundle(getArguments()));
         } catch (Throwable e) {
             if (!(e instanceof AfToastException)) {
