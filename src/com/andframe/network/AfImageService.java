@@ -481,7 +481,7 @@ public class AfImageService {
 		public String mDefaultUrl;
 		public BitmapDrawable mBitmap;
 		public ImageView mImageView;
-		public List<ImageTask> mltIncidentallyTask = new ArrayList<ImageTask>();
+		public List<ImageTask> mltIncidentallyTask = new ArrayList<>();
 
 		// 标识是否可以不用下载直接读取缓存
 		private Boolean mIsCanReadCaches = false;
@@ -593,7 +593,6 @@ public class AfImageService {
 
 		/**
 		 * 两个Task的任务相同情况下，让前一个顺便帮后一个处理 取消后一个Task
-		 * @param imageTask
 		 */
 		private void incidentallyTake(ImageTask imageTask) {
 			mltIncidentallyTask.add(imageTask);
