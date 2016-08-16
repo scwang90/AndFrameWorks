@@ -80,7 +80,7 @@ public abstract class AfAlbumActivity extends AfActivity implements OnPageChange
 	protected String mHeadUrl = "";
 
 	protected Photo mHeader = null;
-	protected List<Photo> mltPhoto = new ArrayList<Photo>();
+	protected List<Photo> mltPhoto = new ArrayList<>();
 
 	protected AfAlbumPagerAdapter mAdapter = null;
 
@@ -110,8 +110,9 @@ public abstract class AfAlbumActivity extends AfActivity implements OnPageChange
 	@Override
 	protected void onCreate(Bundle bundle, AfIntent intent) throws Exception {
 		super.onCreate(bundle, intent);
-
-		setContentView(getAlbumLayoutId());
+		if (mRootView == null) {
+			setContentView(getAlbumLayoutId());
+		}
 		mViewPager = getViewPager(this);
 		mViewPager.setOnPageChangeListener(this);
 		mViewPager.setOnTouchListener(this);
@@ -223,12 +224,12 @@ public abstract class AfAlbumActivity extends AfActivity implements OnPageChange
 		public List<Photo> mphotos = null;
 
 		@Override
-		protected void onWorking(/*Message msg*/) throws Exception {
-			mphotos = onRequestAlbum(AlbumID, new Page(100, mltPhoto.size()));
+		protected void onWorking() throws Exception {
+			mphotos = onRequestAlbum(AlbumID, new Page(50, mltPhoto.size()));
 		}
 
 		@Override
-		protected boolean onHandle(/*Message msg*/) {
+		protected boolean onHandle() {
 			if(mResult == RESULT_FINISH){
 				mAdapter.AddData(mphotos);
 				onPageSelected(mViewPager.getCurrentItem());
@@ -244,12 +245,12 @@ public abstract class AfAlbumActivity extends AfActivity implements OnPageChange
 	 * 重写 这个函数 可以实现加载网络相册
 	 * @param albumID	相册ID
 	 * @param page 分页对象
-	 * @return
 	 */
-	public List<Photo> onRequestAlbum(UUID albumID, Page page) throws Exception{
+	protected List<Photo> onRequestAlbum(UUID albumID, Page page) throws Exception{
 		return new ArrayList<>();
 	}
 
+	//<editor-fold desc="页面滑动事件">
 	// arg0==1的时候表示正在滑动，
 	// arg0==2的时候表示滑动完毕了，
 	// arg0==0的时候表示什么都没做，就是停在那。
@@ -270,18 +271,23 @@ public abstract class AfAlbumActivity extends AfActivity implements OnPageChange
 	public void onPageSelected(int currPage) {
 		if (mltPhoto.size() > currPage) {
 			Photo photo = mltPhoto.get(currPage);
-			if (photo.Describe != null && photo.Describe.length() > 0) {
-				mTvDetail.setText(photo.Describe);
-			}else{
-				mTvDetail.setText(mDescribe);
-			}
-			if (photo.Name != null && photo.Name.length() > 0) {
-				mTvName.setText(photo.Name);
-			}else{
-				mTvName.setText(mPhotoName);
-			}
-			mTvSize.setText((1 + currPage) + "/" + mltPhoto.size());
+			bindPhoto(currPage, photo);
 		}
 	}
+	//</editor-fold>
 
+
+	protected void bindPhoto(int currPage, Photo photo) {
+		if (photo.Describe != null && photo.Describe.length() > 0) {
+			mTvDetail.setText(photo.Describe);
+		}else{
+			mTvDetail.setText(mDescribe);
+		}
+		if (photo.Name != null && photo.Name.length() > 0) {
+			mTvName.setText(photo.Name);
+		}else{
+			mTvName.setText(mPhotoName);
+		}
+		mTvSize.setText((1 + currPage) + "/" + mltPhoto.size());
+	}
 }
