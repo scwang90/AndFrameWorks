@@ -5,7 +5,7 @@ import android.os.Looper;
 import com.andframe.thread.AfData2Task;
 import com.andframe.thread.AfData3Task;
 import com.andframe.thread.AfDataTask;
-import com.andframe.thread.AfDispatch;
+import com.andframe.thread.AfDispatcher;
 import com.andframe.thread.AfTask;
 import com.andframe.util.java.AfDateGuid;
 import com.andframe.util.java.AfReflecter;
@@ -59,9 +59,9 @@ public class AfDaemonThread {
 		if (Looper.getMainLooper().equals(Looper.myLooper())) {
 			postTaskDelayedNoDispatch(task, delay);
 		} else {
-			AfApplication.dispatch(new AfDispatch() {
+			AfDispatcher.dispatch(new Runnable() {
 				@Override
-				protected void onDispatch() {
+				public void run() {
 					postTaskDelayedNoDispatch(task, delay);
 				}
 			});

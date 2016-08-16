@@ -33,7 +33,7 @@ import com.andframe.fragment.AfFragment;
 import com.andframe.thread.AfData2Task;
 import com.andframe.thread.AfData3Task;
 import com.andframe.thread.AfDataTask;
-import com.andframe.thread.AfDispatch;
+import com.andframe.thread.AfDispatcher;
 import com.andframe.thread.AfTask;
 import com.andframe.thread.AfThreadWorker;
 import com.andframe.util.java.AfStackTrace;
@@ -103,22 +103,23 @@ public abstract class AfActivity extends FragmentActivity implements AfPageable 
         return null;
     }
 
-    public void dispatchAfterResume(AfDispatch dispatch) {
+    @SuppressWarnings("unused")
+    public void dispatchAfterResume(Runnable runnable) {
         if (isResume()) {
-            AfApplication.dispatch(dispatch);
+            AfDispatcher.dispatch(runnable);
         } else {
-            postDataTask(dispatch, new AfDataTask.AbDataTaskHandler<AfDispatch>() {
+            postDataTask(runnable, new AfDataTask.AbDataTaskHandler<Runnable>() {
                 @Override
-                public void onTaskBackground(AfDispatch dispatch) throws Exception {
+                public void onTaskBackground(Runnable runnable) throws Exception {
                     while (!isResume() && !isRecycled()) {
                         Thread.sleep(1000);
                     }
                 }
 
                 @Override
-                public boolean onTaskHandle(AfDispatch dispatch, AfDataTask task) {
+                public boolean onTaskHandle(Runnable runnable, AfDataTask task) {
                     if (isResume() && !isRecycled()) {
-                        AfApplication.dispatch(dispatch);
+                        AfDispatcher.dispatch(runnable);
                     }
                     return false;
                 }
@@ -194,9 +195,9 @@ public abstract class AfActivity extends FragmentActivity implements AfPageable 
             //当前 Activity 即将关闭，提示窗口也会关闭
             //用定时器 等到原始 Activity 再提示弹窗
             if (!(e instanceof AfToastException)) {
-                AfApplication.dispatch(new AfDispatch() {
+                AfDispatcher.dispatch(new Runnable() {
                     @Override
-                    protected void onDispatch() {
+                    public void run() {
                         AfExceptionHandler.handle(e, TAG() + ".onCreate");
                     }
                 }, 500);
@@ -210,9 +211,9 @@ public abstract class AfActivity extends FragmentActivity implements AfPageable 
             this.onCreate(bundle, new AfIntent(getIntent()));
         } catch (final Exception e) {
             if (!(e instanceof AfToastException)) {
-                AfApplication.dispatch(new AfDispatch() {
+                AfDispatcher.dispatch(new Runnable() {
                     @Override
-                    protected void onDispatch() {
+                    public void run() {
                         AfExceptionHandler.handle(e, TAG() + ".onCreate");
                     }
                 }, 500);
@@ -1161,7 +1162,7 @@ public abstract class AfActivity extends FragmentActivity implements AfPageable 
         List<Fragment> fragments = getSupportFragmentManager().getFragments();
         fragments = fragments == null ? new ArrayList<Fragment>() : fragments;
         for (Fragment fragment : fragments) {
-            if (fragment.getUserVisibleHint() && fragment instanceof AfFragment) {
+            if (fragment != null && fragment.getUserVisibleHint() && fragment instanceof AfFragment) {
                 AfFragment afment = (AfFragment) fragment;
                 isHandled = afment.onBackPressed() || isHandled;
             }
@@ -1178,7 +1179,7 @@ public abstract class AfActivity extends FragmentActivity implements AfPageable 
         List<Fragment> fragments = getSupportFragmentManager().getFragments();
         fragments = fragments == null ? new ArrayList<Fragment>() : fragments;
         for (Fragment fragment : fragments) {
-            if (fragment.getUserVisibleHint() && fragment instanceof AfFragment) {
+            if (fragment != null && fragment.getUserVisibleHint() && fragment instanceof AfFragment) {
                 AfFragment afment = (AfFragment) fragment;
                 isHandled = afment.onKeyLongPress(keyCode, event) || isHandled;
             }
@@ -1196,7 +1197,7 @@ public abstract class AfActivity extends FragmentActivity implements AfPageable 
         List<Fragment> fragments = getSupportFragmentManager().getFragments();
         fragments = fragments == null ? new ArrayList<Fragment>() : fragments;
         for (Fragment fragment : fragments) {
-            if (fragment.getUserVisibleHint() && fragment instanceof AfFragment) {
+            if (fragment != null && fragment.getUserVisibleHint() && fragment instanceof AfFragment) {
                 AfFragment afment = (AfFragment) fragment;
                 isHandled = afment.onKeyShortcut(keyCode, event) || isHandled;
             }
@@ -1213,7 +1214,7 @@ public abstract class AfActivity extends FragmentActivity implements AfPageable 
         List<Fragment> fragments = getSupportFragmentManager().getFragments();
         fragments = fragments == null ? new ArrayList<Fragment>() : fragments;
         for (Fragment fragment : fragments) {
-            if (fragment.getUserVisibleHint() && fragment instanceof AfFragment) {
+            if (fragment != null && fragment.getUserVisibleHint() && fragment instanceof AfFragment) {
                 AfFragment afment = (AfFragment) fragment;
                 isHandled = afment.onKeyMultiple(keyCode, repeatCount, event) || isHandled;
             }
@@ -1231,7 +1232,7 @@ public abstract class AfActivity extends FragmentActivity implements AfPageable 
         List<Fragment> fragments = getSupportFragmentManager().getFragments();
         fragments = fragments == null ? new ArrayList<Fragment>() : fragments;
         for (Fragment fragment : fragments) {
-            if (fragment.getUserVisibleHint() && fragment instanceof AfFragment) {
+            if (fragment != null && fragment.getUserVisibleHint() && fragment instanceof AfFragment) {
                 AfFragment afment = (AfFragment) fragment;
                 isHandled = afment.onKeyUp(keyCode, event) || isHandled;
             }
@@ -1248,7 +1249,7 @@ public abstract class AfActivity extends FragmentActivity implements AfPageable 
         List<Fragment> fragments = getSupportFragmentManager().getFragments();
         fragments = fragments == null ? new ArrayList<Fragment>() : fragments;
         for (Fragment fragment : fragments) {
-            if (fragment.getUserVisibleHint() && fragment instanceof AfFragment) {
+            if (fragment != null && fragment.getUserVisibleHint() && fragment instanceof AfFragment) {
                 AfFragment afment = (AfFragment) fragment;
                 isHandled = afment.onKeyDown(keyCode, event) || isHandled;
             }

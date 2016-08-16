@@ -197,6 +197,16 @@ public class AfReflecter {
     /**
      * 获取类型 type 的 Annotation (包括父类)
      * @param type   对象类型
+     * @param annot  Annotation
+     * @return Annotation or null
+     */
+    public static <T extends Annotation> T getAnnotation(Class<?> type, Class<T> annot) {
+        return getAnnotation(type, Object.class, annot);
+    }
+
+    /**
+     * 获取类型 type 的 Annotation (包括父类)
+     * @param type   对象类型
      * @param stoptype 停止扫描类型
      * @param annot  Annotation
      * @return Annotation or null

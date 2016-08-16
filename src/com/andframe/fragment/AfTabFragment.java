@@ -111,7 +111,7 @@ public abstract class AfTabFragment extends AfFragment {
         List<Fragment> fragments = getChildFragmentManager().getFragments();
         fragments = fragments == null ? new ArrayList<Fragment>() : fragments;
         for (Fragment fragment : fragments) {
-            if (fragment.getUserVisibleHint() && fragment instanceof AfFragment) {
+            if (fragment != null && fragment.getUserVisibleHint() && fragment instanceof AfFragment) {
                 AfFragment afment = (AfFragment) fragment;
                 isHandled = afment.onBackPressed() || isHandled;
             }

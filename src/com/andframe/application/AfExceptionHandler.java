@@ -15,7 +15,7 @@ import com.andframe.caches.AfDurableCache;
 import com.andframe.exception.AfToastException;
 import com.andframe.helper.android.AfDeviceInfo;
 import com.andframe.model.Exceptional;
-import com.andframe.thread.AfDispatch;
+import com.andframe.thread.AfDispatcher;
 import com.andframe.util.java.AfDateFormat;
 import com.andframe.util.java.AfDateGuid;
 
@@ -96,10 +96,10 @@ public class AfExceptionHandler implements UncaughtExceptionHandler{
 
 			final AfActivity activity = AfApplication.getApp().getCurActivity();
 			if (activity != null && mIsShowDialog) {
-				AfApplication.dispatch(new AfDispatch() {
+				AfDispatcher.dispatch(new Runnable() {
 					@Override
-					protected void onDispatch() {
-						doShowDialog(AfApplication.getApp().getCurActivity(), "程序崩溃了", msg,new Handler.Callback() {
+					public void run() {
+						doShowDialog(AfApplication.getApp().getCurActivity(), "程序崩溃了", msg, new Handler.Callback() {
 							@Override
 							public boolean handleMessage(Message msg) {
 								mDefaultHandler.uncaughtException(thread, ex);
@@ -107,7 +107,7 @@ public class AfExceptionHandler implements UncaughtExceptionHandler{
 							}
 						});
 					}
-				},1000);
+				}, 1000);
 			}else{
 				mDefaultHandler.uncaughtException(thread, ex);
 			}
@@ -139,9 +139,9 @@ public class AfExceptionHandler implements UncaughtExceptionHandler{
 
 			AfActivity activity = AfApplication.getApp().getCurActivity();
 			if (activity != null && mIsShowDialog) {
-				AfApplication.dispatch(new AfDispatch() {
+				AfDispatcher.dispatch(new Runnable() {
 					@Override
-					protected void onDispatch() {
+					public void run() {
 						doShowDialog(AfApplication.getApp().getCurActivity(), "异常捕捉", msg, handlerid);
 					}
 				},1000);
@@ -168,12 +168,12 @@ public class AfExceptionHandler implements UncaughtExceptionHandler{
 
 			AfActivity activity = AfApplication.getApp().getCurActivity();
 			if (activity != null && mIsShowDialog) {
-				AfApplication.dispatch(new AfDispatch() {
+				AfDispatcher.dispatch(new Runnable() {
 					@Override
-					protected void onDispatch() {
+					public void run() {
 						doShowDialog(AfApplication.getApp().getCurActivity(),"异常捕捉",msg,handlerid);
 					}
-				}, 1000);
+				});
 			}
 
 		} catch (Throwable ignored) {

@@ -105,9 +105,23 @@ public class AfStackTrace {
 		try {
 			StackTraceElement stack = new Throwable().getStackTrace()[1 + level];
 			String methodName = stack.getMethodName();
-			for (Method method : Class.forName(stack.getClassName()).getDeclaredMethods()) {
-				if (method.getName().endsWith(methodName)) {
-					return method.getAnnotation(annotation);
+			Class clazz = null;
+			try {
+				clazz = Class.forName(stack.getClassName());
+			} catch (ClassNotFoundException e) {
+				String tag = ".override";
+				String clazzName = stack.getClassName();
+				if (clazzName.endsWith(tag)) {
+					clazz = Class.forName(clazzName.substring(0, clazzName.length() - tag.length()));
+				} else {
+					e.printStackTrace();
+				}
+			}
+			if (clazz != null) {
+				for (Method method : clazz.getDeclaredMethods()) {
+					if (method.getName().endsWith(methodName)) {
+						return method.getAnnotation(annotation);
+					}
 				}
 			}
 		} catch (ClassNotFoundException e) {

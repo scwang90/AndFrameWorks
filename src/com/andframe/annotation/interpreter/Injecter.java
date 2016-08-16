@@ -60,6 +60,7 @@ import android.telephony.CarrierConfigManager;
 import android.telephony.SubscriptionManager;
 import android.telephony.TelephonyManager;
 import android.text.ClipboardManager;
+import android.text.TextUtils;
 import android.view.LayoutInflater;
 import android.view.WindowManager;
 import android.view.accessibility.AccessibilityManager;
@@ -71,6 +72,7 @@ import com.andframe.activity.framework.AfActivity;
 import com.andframe.annotation.inject.Inject;
 import com.andframe.annotation.inject.InjectDelayed;
 import com.andframe.annotation.inject.InjectExtra;
+import com.andframe.annotation.inject.InjectExtraInvalid;
 import com.andframe.annotation.inject.InjectInit;
 import com.andframe.annotation.inject.InjectLayout;
 import com.andframe.annotation.inject.InjectQueryChanged;
@@ -432,8 +434,24 @@ public class Injecter {
     }
 
     private static void injectExtra(Object handler, Context context) {
+        InjectExtraInvalid invalid = AfReflecter.getAnnotation(handler.getClass(), InjectExtraInvalid.class);
+        if (invalid != null && invalid.value().length == 0) {
+            return;
+        }
         for (Field field : AfReflecter.getFieldAnnotation(handler.getClass(), InjectExtra.class)) {
             InjectExtra inject = field.getAnnotation(InjectExtra.class);
+            if (invalid != null) {
+                boolean find = false;
+                for (String extra : invalid.value()) {
+                    if (TextUtils.equals(extra, inject.value())) {
+                        find = true;
+                        break;
+                    }
+                }
+                if (find) {
+                    continue;
+                }
+            }
             try {
                 AfExtrater intent = new AfIntent();
                 if (handler instanceof Activity) {

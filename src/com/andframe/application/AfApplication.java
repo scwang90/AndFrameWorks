@@ -11,7 +11,6 @@ import android.content.pm.PackageInfo;
 import android.content.pm.PackageManager;
 import android.content.pm.Signature;
 import android.os.Environment;
-import android.os.Looper;
 
 import com.andframe.BuildConfig;
 import com.andframe.activity.framework.AfActivity;
@@ -21,7 +20,6 @@ import com.andframe.caches.AfJsonCache;
 import com.andframe.fragment.AfFragment;
 import com.andframe.helper.android.AfDeviceInfo;
 import com.andframe.network.AfImageService;
-import com.andframe.thread.AfDispatch;
 import com.andframe.thread.AfTask;
 import com.andframe.thread.AfThreadWorker;
 import com.andframe.util.DatabaseUtil;
@@ -108,16 +106,6 @@ public abstract class AfApplication extends Application {
 			return mApp.mWorker.postTaskDelayed(task, delay);
 		}
 		return AfDaemonThread.postTaskDelayed(task, delay);
-	}
-
-	public static synchronized AfDispatch dispatch(AfDispatch handle) {
-		handle.dispatch(Looper.getMainLooper());
-		return handle;
-	}
-
-	public static synchronized AfDispatch dispatch(AfDispatch handle, long delay) {
-		handle.dispatch(Looper.getMainLooper(),delay);
-		return handle;
 	}
 
 	public static synchronized int getNetworkStatus() {
