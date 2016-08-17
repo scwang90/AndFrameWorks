@@ -22,9 +22,11 @@ import android.widget.Toast;
 import com.andframe.activity.framework.AfActivity;
 import com.andframe.activity.framework.AfPageable;
 import com.andframe.activity.framework.AfView;
+import com.andframe.activity.framework.IViewQuery;
 import com.andframe.annotation.interpreter.Injecter;
 import com.andframe.annotation.interpreter.ViewBinder;
 import com.andframe.annotation.view.BindLayout;
+import com.andframe.application.AfApp;
 import com.andframe.application.AfApplication;
 import com.andframe.application.AfDaemonThread;
 import com.andframe.application.AfExceptionHandler;
@@ -90,8 +92,16 @@ public abstract class AfFragment extends Fragment implements AfPageable {
     protected boolean mIsRecycled = false;
     //</editor-fold>
 
-    protected AfView $(int id) {
-        return new AfView(mRootView).id(id);
+    /**
+     * 开始 IViewQuery 查询
+     * @param id 控件Id
+     */
+    protected IViewQuery $(int... id) {
+        IViewQuery query = AfApp.get().getViewQuery(mRootView);
+        if (id == null || id.length == 0) {
+            return query;
+        }
+        return query.id(id[0]);
     }
 
     public AfActivity getAfActivity() {

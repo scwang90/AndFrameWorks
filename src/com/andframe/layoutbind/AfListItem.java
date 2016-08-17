@@ -5,10 +5,12 @@ import android.view.View;
 import android.view.ViewGroup;
 
 import com.andframe.activity.framework.AfView;
+import com.andframe.activity.framework.IViewQuery;
 import com.andframe.adapter.AfListAdapter.IListItem;
 import com.andframe.annotation.interpreter.Injecter;
 import com.andframe.annotation.interpreter.ViewBinder;
 import com.andframe.annotation.view.BindLayout;
+import com.andframe.application.AfApp;
 import com.andframe.util.java.AfReflecter;
 
 /**
@@ -57,8 +59,16 @@ public abstract class AfListItem<T> implements IListItem<T> {
 		return mLayout = inflater.inflate(getLayoutId(), parent, false);
 	}
 
-	protected AfView $(int id) {
-		return new AfView(mLayout).id(id);
+	/**
+	 * 开始 IViewQuery 查询
+	 * @param id 控件Id
+	 */
+	protected IViewQuery $(int... id) {
+		IViewQuery query = AfApp.get().getViewQuery(mLayout);
+		if (id == null || id.length == 0) {
+			return query;
+		}
+		return query.id(id[0]);
 	}
 
 }
