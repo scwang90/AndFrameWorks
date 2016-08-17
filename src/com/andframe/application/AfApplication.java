@@ -10,7 +10,9 @@ import android.content.pm.ApplicationInfo;
 import android.content.pm.PackageInfo;
 import android.content.pm.PackageManager;
 import android.content.pm.Signature;
+import android.os.Build;
 import android.os.Environment;
+import android.util.Log;
 
 import com.andframe.BuildConfig;
 import com.andframe.activity.framework.AfActivity;
@@ -254,7 +256,7 @@ public abstract class AfApplication extends Application {
 	 * @param type
 	 */
 	public synchronized String getWorkspacePath(String type) {
-		File workspace = null;
+		File workspace;
 		if (Environment.getExternalStorageState().equals(Environment.MEDIA_MOUNTED)) {
 			String sdcard = Environment.getExternalStorageDirectory().getPath();
 			workspace = new File(sdcard + "/" + getAppName() + "/" + type);
@@ -279,6 +281,48 @@ public abstract class AfApplication extends Application {
 			}
 		}
 		return caches.getPath();
+	}
+
+	public boolean hasExternalStorage() {
+		if (Environment.MEDIA_MOUNTED.equals(Environment.getExternalStorageState())) {
+			return true;
+		}
+		if (Build.VERSION.SDK_INT > 8 && !Environment.isExternalStorageRemovable()) {
+			return true;
+		}
+		return false;
+	}
+
+	@Override
+	public File getExternalCacheDir() {
+		File path;
+		if (hasExternalStorage()) {
+			path = super.getExternalCacheDir();
+		} else {
+			path = super.getCacheDir();
+		}
+		if (path != null && !path.exists() && !path.mkdirs() && isDebug()) {
+			Log.w(AfApplication.class.getName(), "getExternalCacheDir.mkdirs fail");
+		} else if (path == null) {
+			Log.w(AfApplication.class.getName(), "path = null");
+		}
+		return path;
+	}
+
+	@Override
+	public File getExternalFilesDir(String type) {
+		File path;
+		if (hasExternalStorage()) {
+			path = super.getExternalFilesDir(type);
+		} else {
+			path = new File(super.getCacheDir(), type);
+		}
+		if (path != null && !path.exists() && !path.mkdirs() && isDebug()) {
+			Log.w(AfApplication.class.getName(), "getExternalCacheDir.mkdirs fail");
+		} else if (path == null) {
+			Log.w(AfApplication.class.getName(), "path = null");
+		}
+		return path;
 	}
 
 	/**
