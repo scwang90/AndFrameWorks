@@ -5,7 +5,6 @@ import com.google.gson.internal.UnsafeAllocator;
 import java.lang.annotation.Annotation;
 import java.lang.reflect.Field;
 import java.lang.reflect.GenericArrayType;
-import java.lang.reflect.InvocationTargetException;
 import java.lang.reflect.Method;
 import java.lang.reflect.ParameterizedType;
 import java.lang.reflect.Type;
@@ -18,6 +17,7 @@ import java.util.List;
  *
  * @author 树朾
  */
+@SuppressWarnings("unused")
 public class AfReflecter {
 
 
@@ -32,8 +32,8 @@ public class AfReflecter {
     @SuppressWarnings("unchecked")
     public static <T> Class<T> getActualTypeArgument(Object subobj, Class<?> supclass, int index) {
         Class<?> subclass = subobj.getClass();
-        List<ParameterizedType> ptypes = new ArrayList<ParameterizedType>();
-        ParameterizedType ptype = null;
+        List<ParameterizedType> ptypes = new ArrayList<>();
+        ParameterizedType ptype;
         while (supclass != null && !supclass.equals(subclass)) {
             Type type = subclass.getGenericSuperclass();
             if (type == null) {
@@ -51,11 +51,12 @@ public class AfReflecter {
                 throw new Error("GenericSuperclass not case");
             }
         }
-        Type type = null;
+        Type type;
         do {
             type = ptypes.get(ptypes.size() - 1).getActualTypeArguments()[index];
             ptypes.remove(ptypes.size() - 1);
         } while (!(type instanceof Class) && ptypes.size() > 0);
+        //noinspection ConstantConditions
         return (Class<T>) type;
     }
 
@@ -77,14 +78,12 @@ public class AfReflecter {
      * @return Field[]
      */
     public static Field[] getField(Class<?> clazz, Class<?> stoptype) {
-        List<Field> fields = new ArrayList<Field>();
+        List<Field> fields = new ArrayList<>();
         while (clazz != null && !clazz.equals(stoptype)) {
-            for (Field field : clazz.getDeclaredFields()) {
-                fields.add(field);
-            }
+            Collections.addAll(fields, clazz.getDeclaredFields());
             clazz = clazz.getSuperclass();
         }
-        return fields.toArray(new Field[0]);
+        return fields.toArray(new Field[fields.size()]);
     }
 
     /**
@@ -108,7 +107,7 @@ public class AfReflecter {
      */
     public static Field[] getFieldAnnotation(Class<?> type, Class<?> stoptype, Class<? extends Annotation> annot) {
         Class<?> clazz = type;
-        List<Field> fields = new ArrayList<Field>();
+        List<Field> fields = new ArrayList<>();
         while (clazz != null && !clazz.equals(stoptype)) {
             for (Field field : clazz.getDeclaredFields()) {
                 if (field.isAnnotationPresent(annot)) {
@@ -117,7 +116,7 @@ public class AfReflecter {
             }
             clazz = clazz.getSuperclass();
         }
-        return fields.toArray(new Field[0]);
+        return fields.toArray(new Field[fields.size()]);
     }
 
     /**
@@ -520,9 +519,7 @@ public class AfReflecter {
     public static <T> Object doStaticMethod(Class<?> type, Method method, Object... args) {
         try {
             return method.invoke(type, args);
-        } catch (IllegalAccessException e) {
-            e.printStackTrace();
-        } catch (InvocationTargetException e) {
+        } catch (Throwable e) {
             e.printStackTrace();
         }
         return null;
@@ -538,11 +535,11 @@ public class AfReflecter {
     public static <T> T newInstance(Class<T> type) {
         try {
             return type.newInstance();
-        } catch (Throwable e) {
+        } catch (Throwable ignored) {
         }
         try {
-            return (T) UnsafeAllocator.create().newInstance(type);
-        } catch (Throwable e) {
+            return UnsafeAllocator.create().newInstance(type);
+        } catch (Throwable ignored) {
         }
         return null;
     }
