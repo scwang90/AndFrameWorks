@@ -46,7 +46,7 @@ public class AfSkipActivity {
 	 * @param file
 	 * @throws AfException 找不到相应的软件
 	 */
-	public static void openFile(Context context, File file) throws Exception {
+	public static void openFile(Context context, File file) throws ActivityNotFoundException {
 		Intent intent = new Intent();
 		intent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
 		intent.setAction(Intent.ACTION_VIEW);
