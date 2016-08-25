@@ -36,9 +36,9 @@
     <color name="redPrimaryDark">#CC3344</color>
     <color name="redPrimaryLight">#FF5555</color>
 
-    <color name="bluePrimary">#33B5E5</color>
-    <color name="bluePrimaryDark">#22A4D4</color>
-    <color name="bluePrimaryLight">#44C6F6</color>
+    <color name="bluePrimary">#1177EE</color>
+    <color name="bluePrimaryDark">#0066DD</color>
+    <color name="bluePrimaryLight">#2277FF</color>
 
     <color name="greenPrimary">#1bc98e</color>
     <color name="greenPrimaryDark">#18ab79</color>
@@ -48,9 +48,9 @@
     <color name="yellowPrimaryDark">#c6bc31</color>
     <color name="yellowPrimaryLight">#ece472</color>
 
-    <color name="purplePrimary">#AA66CC</color>
-    <color name="purplePrimaryDark">#9955BB</color>
-    <color name="purplePrimaryLight">#BB77DD</color>
+    <color name="purplePrimary">#8A6DE9</color>
+    <color name="purplePrimaryDark">#795CD8</color>
+    <color name="purplePrimaryLight">#9B7EFA</color>
 
     <color name="orangePrimary">#EE8822</color>
     <color name="orangePrimaryDark">#DD7711</color>
