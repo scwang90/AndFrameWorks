@@ -45,7 +45,7 @@ import java.util.Stack;
 @SuppressWarnings("unused")
 public class AfDialogBuilder {
 
-    public String TXT_NOMORESHOW = "不再提示";
+    public CharSequence TXT_NOMORESHOW = "不再提示";
 
     protected Context mContext;
     protected Dialog mProgress = null;
@@ -62,7 +62,7 @@ public class AfDialogBuilder {
      * @param title   显示标题
      * @param message 显示内容
      */
-    public Dialog showDialog(String title, String message) {
+    public Dialog showDialog(CharSequence title, CharSequence message) {
         return showDialog(title, message, "我知道了", null);
     }
 
@@ -73,7 +73,7 @@ public class AfDialogBuilder {
      * @param message   显示内容
      * @param lpositive 点击  "我知道了" 响应事件
      */
-    public Dialog showDialog(String title, String message, OnClickListener lpositive) {
+    public Dialog showDialog(CharSequence title, CharSequence message, OnClickListener lpositive) {
         return showDialog(title, message, "我知道了", lpositive);
     }
 
@@ -85,7 +85,7 @@ public class AfDialogBuilder {
      * @param positive  确认 按钮显示信息
      * @param lpositive 点击  确认 按钮 响应事件
      */
-    public Dialog showDialog(String title, String message, String positive, OnClickListener lpositive) {
+    public Dialog showDialog(CharSequence title, CharSequence message, CharSequence positive, OnClickListener lpositive) {
         return showDialog(title, message, positive, lpositive, "", null);
     }
 
@@ -99,7 +99,7 @@ public class AfDialogBuilder {
      * @param negative  按钮显示信息
      * @param lnegative 点击  拒绝 按钮 响应事件
      */
-    public Dialog showDialog(String title, String message, String positive, OnClickListener lpositive, String negative, OnClickListener lnegative) {
+    public Dialog showDialog(CharSequence title, CharSequence message, CharSequence positive, OnClickListener lpositive, CharSequence negative, OnClickListener lnegative) {
         return showDialog(title, message, positive, lpositive, negative, lnegative, "", null);
     }
 
@@ -115,7 +115,7 @@ public class AfDialogBuilder {
      * @param negative  按钮显示信息
      * @param lnegative 点击  拒绝 按钮 响应事件
      */
-    public Dialog showDialog(String title, String message, String positive, OnClickListener lpositive, String negative, OnClickListener lnegative, String neutral, OnClickListener lneutral) {
+    public Dialog showDialog(CharSequence title, CharSequence message, CharSequence positive, OnClickListener lpositive, CharSequence negative, OnClickListener lnegative, CharSequence neutral, OnClickListener lneutral) {
         return showDialog(0, title, message, positive, lpositive, negative, lnegative, neutral, lneutral);
     }
 
@@ -130,7 +130,7 @@ public class AfDialogBuilder {
      * @param negative  按钮显示信息
      * @param lnegative 点击  拒绝 按钮 响应事件
      */
-    public Dialog showDialog(int iconres, String title, String message, String positive, OnClickListener lpositive, String negative, OnClickListener lnegative) {
+    public Dialog showDialog(int iconres, CharSequence title, CharSequence message, CharSequence positive, OnClickListener lpositive, CharSequence negative, OnClickListener lnegative) {
         return showDialog(iconres, title, message, positive, lpositive, negative, lnegative, "", null);
     }
 
@@ -147,7 +147,7 @@ public class AfDialogBuilder {
      * @param negative  按钮显示信息
      * @param lnegative 点击  拒绝 按钮 响应事件
      */
-    public Dialog showDialog(int iconres, String title, String message, String positive, OnClickListener lpositive, String negative, OnClickListener lnegative, String neutral, OnClickListener lneutral) {
+    public Dialog showDialog(int iconres, CharSequence title, CharSequence message, CharSequence positive, OnClickListener lpositive, CharSequence negative, OnClickListener lnegative, CharSequence neutral, OnClickListener lneutral) {
         return showDialog(-1, iconres, title, message, positive, lpositive, negative, lnegative, neutral, lneutral);
     }
 
@@ -167,7 +167,7 @@ public class AfDialogBuilder {
      */
     @TargetApi(Build.VERSION_CODES.HONEYCOMB)
     public Dialog showDialog(int theme, int iconres,
-                             String title, String message, String positive, OnClickListener lpositive, String negative, OnClickListener lnegative, String neutral, OnClickListener lneutral) {
+                             CharSequence title, CharSequence message, CharSequence positive, OnClickListener lpositive, CharSequence negative, OnClickListener lnegative, CharSequence neutral, OnClickListener lneutral) {
         Builder builder = null;
         if (theme > 0) {
             try {
@@ -209,7 +209,7 @@ public class AfDialogBuilder {
      * @param positive  确认 按钮显示信息
      * @param lpositive 点击  确认 按钮 响应事件
      */
-    public Dialog showViewDialog(String title, View view, String positive, OnClickListener lpositive) {
+    public Dialog showViewDialog(CharSequence title, View view, CharSequence positive, OnClickListener lpositive) {
         return showViewDialog(title, view, positive, lpositive, "", null);
     }
 
@@ -223,7 +223,7 @@ public class AfDialogBuilder {
      * @param negative  按钮显示信息
      * @param lnegative 点击  拒绝 按钮 响应事件
      */
-    public Dialog showViewDialog(String title, View view, String positive, OnClickListener lpositive, String negative, OnClickListener lnegative) {
+    public Dialog showViewDialog(CharSequence title, View view, CharSequence positive, OnClickListener lpositive, CharSequence negative, OnClickListener lnegative) {
         return showViewDialog(title, view, positive, lpositive, negative, lnegative, "", null);
     }
 
@@ -239,7 +239,7 @@ public class AfDialogBuilder {
      * @param negative  按钮显示信息
      * @param lnegative 点击  拒绝 按钮 响应事件
      */
-    public Dialog showViewDialog(String title, View view, String positive, OnClickListener lpositive, String negative, OnClickListener lnegative, String neutral, OnClickListener lneutral) {
+    public Dialog showViewDialog(CharSequence title, View view, CharSequence positive, OnClickListener lpositive, CharSequence negative, OnClickListener lnegative, CharSequence neutral, OnClickListener lneutral) {
         return showViewDialog(0, title, view, positive, lpositive, negative, lnegative, neutral, lneutral);
     }
 
@@ -254,7 +254,7 @@ public class AfDialogBuilder {
      * @param negative  按钮显示信息
      * @param lnegative 点击  拒绝 按钮 响应事件
      */
-    public Dialog showViewDialog(int iconres, String title, View view, String positive, OnClickListener lpositive, String negative, OnClickListener lnegative) {
+    public Dialog showViewDialog(int iconres, CharSequence title, View view, CharSequence positive, OnClickListener lpositive, CharSequence negative, OnClickListener lnegative) {
         return showViewDialog(iconres, title, view, positive, lpositive, negative, lnegative, "", null);
     }
 
@@ -271,7 +271,7 @@ public class AfDialogBuilder {
      * @param negative  按钮显示信息
      * @param lnegative 点击  拒绝 按钮 响应事件
      */
-    public Dialog showViewDialog(int iconres, String title, View view, String positive, OnClickListener lpositive, String negative, OnClickListener lnegative, String neutral, OnClickListener lneutral) {
+    public Dialog showViewDialog(int iconres, CharSequence title, View view, CharSequence positive, OnClickListener lpositive, CharSequence negative, OnClickListener lnegative, CharSequence neutral, OnClickListener lneutral) {
         return showViewDialog(-1, iconres, title, view, positive, lpositive, negative, lnegative, neutral, lneutral);
     }
 
@@ -291,7 +291,7 @@ public class AfDialogBuilder {
      */
     @SuppressLint("NewApi")
     public Dialog showViewDialog(int theme,
-                                 int iconres, String title, View view, String positive, OnClickListener lpositive, String negative, OnClickListener lnegative, String neutral, OnClickListener lneutral) {
+                                 int iconres, CharSequence title, View view, CharSequence positive, OnClickListener lpositive, CharSequence negative, OnClickListener lnegative, CharSequence neutral, OnClickListener lneutral) {
         Builder builder = null;
         if (theme > 0) {
             try {
@@ -338,7 +338,7 @@ public class AfDialogBuilder {
      * @param listener 选择监听器
      * @param cancel   取消选择监听器
      */
-    public Dialog selectItem(String title, String[] items, OnClickListener listener, boolean cancel) {
+    public Dialog selectItem(CharSequence title, CharSequence[] items, OnClickListener listener, boolean cancel) {
         return selectItem(title, items, listener, cancel ? new SafeOnCancelListener() : null);
     }
 
@@ -350,7 +350,7 @@ public class AfDialogBuilder {
      * @param listener 选择监听器
      * @param oncancel 取消选择监听器
      */
-    public Dialog selectItem(String title, String[] items, OnClickListener listener, final OnCancelListener oncancel) {
+    public Dialog selectItem(CharSequence title, CharSequence[] items, OnClickListener listener, final OnCancelListener oncancel) {
         Builder dialog = new Builder(mContext);
         if (title != null) {
             dialog.setTitle(title);
@@ -380,7 +380,7 @@ public class AfDialogBuilder {
      * @param items    选择菜单项
      * @param listener 选择监听器
      */
-    public Dialog selectItem(String title, String[] items, OnClickListener listener) {
+    public Dialog selectItem(CharSequence title, CharSequence[] items, OnClickListener listener) {
         return selectItem(title, items, listener, true);
     }
 
@@ -390,7 +390,7 @@ public class AfDialogBuilder {
      * @param title    标题
      * @param listener 监听器
      */
-    public Dialog inputText(String title, InputTextListener listener) {
+    public Dialog inputText(CharSequence title, InputTextListener listener) {
         return inputText(title, "", InputType.TYPE_CLASS_TEXT, listener);
     }
 
@@ -401,7 +401,7 @@ public class AfDialogBuilder {
      * @param type     android.text.InputType
      * @param listener 监听器
      */
-    public Dialog inputText(String title, int type, InputTextListener listener) {
+    public Dialog inputText(CharSequence title, int type, InputTextListener listener) {
         return inputText(title, "", type, listener);
     }
 
@@ -412,7 +412,7 @@ public class AfDialogBuilder {
      * @param defaul   默认值
      * @param listener 监听器
      */
-    public Dialog inputText(String title, String defaul, InputTextListener listener) {
+    public Dialog inputText(CharSequence title, CharSequence defaul, InputTextListener listener) {
         return inputText(title, defaul, InputType.TYPE_CLASS_TEXT, listener);
     }
 
@@ -424,15 +424,15 @@ public class AfDialogBuilder {
      * @param type     android.text.InputType
      * @param listener 监听器
      */
-    public Dialog inputText(String title, final String defaul, int type, final InputTextListener listener) {
+    public Dialog inputText(CharSequence title, final CharSequence defaul, int type, final InputTextListener listener) {
         final EditText input = new EditText(mContext);
         final int defaullength = defaul != null ? defaul.length() : 0;
         input.setText(defaul);
         input.clearFocus();
         input.setInputType(type);
 
-        final String oKey = "确定";
-        final String msgKey = "$inputText$";
+        final CharSequence oKey = "确定";
+        final CharSequence msgKey = "$inputText$";
 
         OnClickListener cancleListener = new OnClickListener() {
             @Override
@@ -461,8 +461,8 @@ public class AfDialogBuilder {
             @Override
             public void onShow(final DialogInterface dialog) {
                 AfSoftKeyboard.showSoftkeyboard(input);
-                if (defaullength > 3 && defaul.matches("[^.]+\\.[a-zA-Z]\\w{1,3}")) {
-                    input.setSelection(0, defaul.lastIndexOf('.'));
+                if (defaullength > 3 && defaul.toString().matches("[^.]+\\.[a-zA-Z]\\w{1,3}")) {
+                    input.setSelection(0, defaul.toString().lastIndexOf('.'));
                 } else {
                     input.setSelection(0, defaullength);
                 }
@@ -519,7 +519,7 @@ public class AfDialogBuilder {
      * @param title   显示标题
      * @param message 显示内容
      */
-    public Dialog showKeyDialog(String key, String title, String message) {
+    public Dialog showKeyDialog(String key, CharSequence title, CharSequence message) {
         return showKeyDialog(key, title, message, "我知道了", null);
     }
 
@@ -532,7 +532,7 @@ public class AfDialogBuilder {
      * @param positive  确认 按钮显示信息
      * @param lpositive 点击  确认 按钮 响应事件
      */
-    public Dialog showKeyDialog(String key, String title, String message, String positive, OnClickListener lpositive) {
+    public Dialog showKeyDialog(String key, CharSequence title, CharSequence message, CharSequence positive, OnClickListener lpositive) {
         return showKeyDialog(key, 0, title, message, positive, lpositive, "", null);
     }
 
@@ -549,7 +549,7 @@ public class AfDialogBuilder {
      * @param lnegative 点击  拒绝 按钮 响应事件
      */
     public Dialog showKeyDialog(String key, int defclick,
-                                String title, String message, String positive, OnClickListener lpositive, String negative, OnClickListener lnegative) {
+                                CharSequence title, CharSequence message, CharSequence positive, OnClickListener lpositive, CharSequence negative, OnClickListener lnegative) {
         return showKeyDialog(key, defclick, title, message, positive, lpositive, negative, lnegative, "", null);
     }
 
@@ -568,7 +568,7 @@ public class AfDialogBuilder {
      * @param lnegative 点击  拒绝 按钮 响应事件
      */
     public Dialog showKeyDialog(String key, int defclick,
-                                String title, String message, String positive, OnClickListener lpositive, String negative, OnClickListener lnegative, String neutral, OnClickListener lneutral) {
+                                CharSequence title, CharSequence message, CharSequence positive, OnClickListener lpositive, CharSequence negative, OnClickListener lnegative, CharSequence neutral, OnClickListener lneutral) {
         return showKeyDialog(key, defclick, 0, title, message, positive, lpositive, negative, lnegative, neutral, lneutral);
     }
 
@@ -586,7 +586,7 @@ public class AfDialogBuilder {
      * @param lnegative 点击  拒绝 按钮 响应事件
      */
     public Dialog showKeyDialog(String key, int defclick,
-                                int iconres, String title, String message, String positive, OnClickListener lpositive, String negative, OnClickListener lnegative) {
+                                int iconres, CharSequence title, CharSequence message, CharSequence positive, OnClickListener lpositive, CharSequence negative, OnClickListener lnegative) {
         return showKeyDialog(key, defclick, iconres, title, message, positive, lpositive, negative, lnegative, "", null);
     }
 
@@ -606,7 +606,7 @@ public class AfDialogBuilder {
      * @param lnegative 点击  拒绝 按钮 响应事件
      */
     public Dialog showKeyDialog(String key, int defclick,
-                                int iconres, String title, String message, String positive, OnClickListener lpositive, String negative, OnClickListener lnegative, String neutral, OnClickListener lneutral) {
+                                int iconres, CharSequence title, CharSequence message, CharSequence positive, OnClickListener lpositive, CharSequence negative, OnClickListener lnegative, CharSequence neutral, OnClickListener lneutral) {
         return showKeyDialog(key, defclick, -1, iconres, title, message, positive, lpositive, negative, lnegative, neutral, lneutral);
     }
 
@@ -630,7 +630,7 @@ public class AfDialogBuilder {
     @TargetApi(Build.VERSION_CODES.HONEYCOMB)
     public Dialog showKeyDialog(final String key, final int defclick,
                                 int theme, int iconres,
-                                String title, final String message, String positive, OnClickListener lpositive, String negative, OnClickListener lnegative, String neutral, OnClickListener lneutral) {
+                                CharSequence title, final CharSequence message, CharSequence positive, OnClickListener lpositive, CharSequence negative, OnClickListener lnegative, CharSequence neutral, OnClickListener lneutral) {
         if (AfStringUtil.isNotEmpty(key) && defclick > -1) {
             int click = AfPrivateCaches.getInstance(key).getInt(key, -1);
             if (click == defclick) {
@@ -718,7 +718,7 @@ public class AfDialogBuilder {
      * @param title 标题
      * @param listener 监听器
      */
-    public Dialog selectDateTime(String title, OnDateTimeSetListener listener) {
+    public Dialog selectDateTime(CharSequence title, OnDateTimeSetListener listener) {
         return selectDateTime(title, new Date(), listener);
     }
 
@@ -737,7 +737,7 @@ public class AfDialogBuilder {
      * @param value 默认时间
      * @param listener 监听器
      */
-    public Dialog selectDateTime(final String title, final Date value, final OnDateTimeSetListener listener) {
+    public Dialog selectDateTime(final CharSequence title, final Date value, final OnDateTimeSetListener listener) {
         final Calendar calender = Calendar.getInstance();
         calender.setTime(value);
         int year = calender.get(Calendar.YEAR);
@@ -782,7 +782,7 @@ public class AfDialogBuilder {
      * @param title 标题
      * @param listener 监听器
      */
-    public Dialog selectTime(String title, OnTimeSetListener listener) {
+    public Dialog selectTime(CharSequence title, OnTimeSetListener listener) {
         return selectTime(title, new Date(), listener);
     }
 
@@ -801,7 +801,7 @@ public class AfDialogBuilder {
      * @param value 默认时间
      * @param listener 监听器
      */
-    public Dialog selectTime(String title, Date value, final OnTimeSetListener listener) {
+    public Dialog selectTime(CharSequence title, Date value, final OnTimeSetListener listener) {
         Calendar calender = Calendar.getInstance();
         calender.setTime(value);
         int hour = calender.get(Calendar.HOUR_OF_DAY);
@@ -828,7 +828,7 @@ public class AfDialogBuilder {
      * @param title 标题
      * @param listener 监听器
      */
-    public Dialog selectDate(String title, OnDateSetListener listener) {
+    public Dialog selectDate(CharSequence title, OnDateSetListener listener) {
         return selectDate(title, new Date(), listener);
     }
 
@@ -847,7 +847,7 @@ public class AfDialogBuilder {
      * @param value 默认时间
      * @param listener 监听器
      */
-    public Dialog selectDate(String title, Date value, final OnDateSetListener listener) {
+    public Dialog selectDate(CharSequence title, Date value, final OnDateSetListener listener) {
         Calendar calender = Calendar.getInstance();
         calender.setTime(value);
         int year = calender.get(Calendar.YEAR);
@@ -868,7 +868,7 @@ public class AfDialogBuilder {
      *
      * @param message 消息
      */
-    public Dialog showProgressDialog(String message) {
+    public Dialog showProgressDialog(CharSequence message) {
         return showProgressDialog(message, false, 25);
     }
 
@@ -878,7 +878,7 @@ public class AfDialogBuilder {
      * @param message 消息
      * @param cancel  是否可取消
      */
-    public Dialog showProgressDialog(String message, boolean cancel) {
+    public Dialog showProgressDialog(CharSequence message, boolean cancel) {
         return showProgressDialog(message, cancel, 25);
     }
 
@@ -889,7 +889,7 @@ public class AfDialogBuilder {
      * @param cancel   是否可取消
      * @param textsize 字体大小
      */
-    public Dialog showProgressDialog(String message, boolean cancel, int textsize) {
+    public Dialog showProgressDialog(CharSequence message, boolean cancel, int textsize) {
         return showProgressDialog(message, cancel ? new SafeOnCancelListener() : null, 25);
     }
 
@@ -899,7 +899,7 @@ public class AfDialogBuilder {
      * @param message  消息
      * @param listener 字体大小
      */
-    public Dialog showProgressDialog(String message, OnCancelListener listener) {
+    public Dialog showProgressDialog(CharSequence message, OnCancelListener listener) {
         return showProgressDialog(message, listener, 25);
     }
 
@@ -910,7 +910,7 @@ public class AfDialogBuilder {
      * @param listener 是否可取消
      * @param textsize 字体大小
      */
-    public Dialog showProgressDialog(String message, OnCancelListener listener, int textsize) {
+    public Dialog showProgressDialog(CharSequence message, OnCancelListener listener, int textsize) {
         try {
             ProgressDialog progress = new ProgressDialog(mContext);
             progress.setMessage(message);
@@ -951,7 +951,7 @@ public class AfDialogBuilder {
      *
      * @param text   更新的文字
      */
-    public void setProgressDialogText(String text) {
+    public void setProgressDialogText(CharSequence text) {
         if (mProgress != null) {
             setProgressDialogText(mProgress, text);
         }
@@ -963,13 +963,13 @@ public class AfDialogBuilder {
      * @param dialog 等待对话框
      * @param text   更新的文字
      */
-    public void setProgressDialogText(Dialog dialog, String text) {
+    public void setProgressDialogText(Dialog dialog, CharSequence text) {
         Window window = dialog.getWindow();
         View view = window.getDecorView();
         setViewFontText(view, text);
     }
 
-    public static void setViewFontText(View view, String text) {
+    public static void setViewFontText(View view, CharSequence text) {
         if (view instanceof ViewGroup) {
             ViewGroup parent = (ViewGroup) view;
             int count = parent.getChildCount();
@@ -1172,7 +1172,7 @@ public class AfDialogBuilder {
         public TextView textView;
         public ViewGroup parent;
 
-        public static FindTextViewWithText invoke(ViewGroup root,String text) {
+        public static FindTextViewWithText invoke(ViewGroup root,CharSequence text) {
             FindTextViewWithText helper = new FindTextViewWithText();
             Stack<ViewGroup> stack = new Stack<>();
             stack.add(root);

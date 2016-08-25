@@ -73,6 +73,9 @@ public class AfStackTrace {
 		try {
 			StackTraceElement stack = new Throwable().getStackTrace()[1 + level];
 			String methodName = stack.getMethodName();
+			if (methodName.endsWith("$override")) {
+				methodName = methodName.substring(0,methodName.length()-"$override".length());
+			}
 			for (Method method : Class.forName(stack.getClassName()).getDeclaredMethods()) {
 				if (method.getName().endsWith(methodName)) {
 					return method;

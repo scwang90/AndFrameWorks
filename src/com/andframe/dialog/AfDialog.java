@@ -288,12 +288,12 @@ public abstract class AfDialog extends Dialog implements AfPageable {
 
     //<editor-fold desc="气泡提示">
     @Override
-    public void makeToastLong(String tip) {
+    public void makeToastLong(CharSequence tip) {
         Toast.makeText(getContext(), tip, Toast.LENGTH_LONG).show();
     }
 
     @Override
-    public void makeToastShort(String tip) {
+    public void makeToastShort(CharSequence tip) {
         Toast.makeText(getContext(), tip, Toast.LENGTH_SHORT).show();
     }
 
@@ -308,8 +308,8 @@ public abstract class AfDialog extends Dialog implements AfPageable {
     }
 
     @Override
-    public void makeToastLong(String tip, Throwable e) {
-        tip = AfExceptionHandler.tip(e, tip);
+    public void makeToastLong(CharSequence tip, Throwable e) {
+        tip = AfExceptionHandler.tip(e, tip.toString());
         Toast.makeText(getContext(), tip, Toast.LENGTH_LONG).show();
     }
     //</editor-fold>
@@ -374,7 +374,7 @@ public abstract class AfDialog extends Dialog implements AfPageable {
      *
      * @param message 消息
      */
-    public Dialog showProgressDialog(String message) {
+    public Dialog showProgressDialog(CharSequence message) {
         return showProgressDialog(message, false, 20);
     }
 
@@ -384,7 +384,7 @@ public abstract class AfDialog extends Dialog implements AfPageable {
      * @param message 消息
      * @param cancel  是否可取消
      */
-    public Dialog showProgressDialog(String message, boolean cancel) {
+    public Dialog showProgressDialog(CharSequence message, boolean cancel) {
         return showProgressDialog(message, cancel, 20);
     }
 
@@ -395,7 +395,7 @@ public abstract class AfDialog extends Dialog implements AfPageable {
      * @param cancel   是否可取消
      * @param textsize 字体大小
      */
-    public Dialog showProgressDialog(String message, boolean cancel, int textsize) {
+    public Dialog showProgressDialog(CharSequence message, boolean cancel, int textsize) {
         return mDialogBuilder.showProgressDialog(message, cancel, textsize);
     }
 
@@ -405,7 +405,7 @@ public abstract class AfDialog extends Dialog implements AfPageable {
      * @param message  消息
      * @param listener 取消监听器
      */
-    public Dialog showProgressDialog(String message, OnCancelListener listener) {
+    public Dialog showProgressDialog(CharSequence message, OnCancelListener listener) {
         return mDialogBuilder.showProgressDialog(message, listener);
     }
 
@@ -416,7 +416,7 @@ public abstract class AfDialog extends Dialog implements AfPageable {
      * @param listener 取消监听器
      * @param textsize 字体大小
      */
-    public Dialog showProgressDialog(String message, OnCancelListener listener, int textsize) {
+    public Dialog showProgressDialog(CharSequence message, OnCancelListener listener, int textsize) {
         return mDialogBuilder.showProgressDialog(message, listener, textsize);
     }
 
@@ -433,7 +433,7 @@ public abstract class AfDialog extends Dialog implements AfPageable {
      * @param text 文本
      */
     @SuppressWarnings("unused")
-    protected void setProgressDialogText(String text) {
+    protected void setProgressDialogText(CharSequence text) {
         mDialogBuilder.setProgressDialogText(text);
     }
     //</editor-fold>
@@ -445,7 +445,7 @@ public abstract class AfDialog extends Dialog implements AfPageable {
      * @param title   显示标题
      * @param message 显示内容
      */
-    public Dialog doShowDialog(String title, String message) {
+    public Dialog doShowDialog(CharSequence title, CharSequence message) {
         return mDialogBuilder.showDialog(title, message);
     }
 
@@ -456,7 +456,7 @@ public abstract class AfDialog extends Dialog implements AfPageable {
      * @param message   显示内容
      * @param lpositive 点击  "我知道了" 响应事件
      */
-    public Dialog doShowDialog(String title, String message, OnClickListener lpositive) {
+    public Dialog doShowDialog(CharSequence title, CharSequence message, OnClickListener lpositive) {
         return mDialogBuilder.showDialog(title, message, lpositive);
     }
 
@@ -468,7 +468,7 @@ public abstract class AfDialog extends Dialog implements AfPageable {
      * @param positive  确认 按钮显示信息
      * @param lpositive 点击  确认 按钮 响应事件
      */
-    public Dialog doShowDialog(String title, String message, String positive, OnClickListener lpositive) {
+    public Dialog doShowDialog(CharSequence title, CharSequence message, CharSequence positive, OnClickListener lpositive) {
         return mDialogBuilder.showDialog(title, message, positive, lpositive);
     }
 
@@ -482,7 +482,7 @@ public abstract class AfDialog extends Dialog implements AfPageable {
      * @param negative  按钮显示信息
      * @param lnegative 点击  拒绝 按钮 响应事件
      */
-    public Dialog doShowDialog(String title, String message, String positive, OnClickListener lpositive, String negative, OnClickListener lnegative) {
+    public Dialog doShowDialog(CharSequence title, CharSequence message, CharSequence positive, OnClickListener lpositive, CharSequence negative, OnClickListener lnegative) {
         return mDialogBuilder.showDialog(title, message, positive, lpositive, negative, lnegative);
     }
 
@@ -499,7 +499,7 @@ public abstract class AfDialog extends Dialog implements AfPageable {
      * @param lnegative 点击  拒绝 按钮 响应事件
      */
     @Override
-    public Dialog doShowDialog(String title, String message, String positive, OnClickListener lpositive, String negative, OnClickListener lnegative, String neutral, OnClickListener lneutral) {
+    public Dialog doShowDialog(CharSequence title, CharSequence message, CharSequence positive, OnClickListener lpositive, CharSequence negative, OnClickListener lnegative, CharSequence neutral, OnClickListener lneutral) {
         return mDialogBuilder.showDialog(title, message, positive, lpositive, negative, lnegative, neutral, lneutral);
     }
 
@@ -514,7 +514,7 @@ public abstract class AfDialog extends Dialog implements AfPageable {
      * @param negative  按钮显示信息
      * @param lnegative 点击  拒绝 按钮 响应事件
      */
-    public Dialog doShowDialog(int iconres, String title, String message, String positive, OnClickListener lpositive, String negative, OnClickListener lnegative) {
+    public Dialog doShowDialog(int iconres, CharSequence title, CharSequence message, CharSequence positive, OnClickListener lpositive, CharSequence negative, OnClickListener lnegative) {
         return mDialogBuilder.showDialog(iconres, title, message, positive, lpositive, negative, lnegative);
     }
 
@@ -531,7 +531,7 @@ public abstract class AfDialog extends Dialog implements AfPageable {
      * @param negative  按钮显示信息
      * @param lnegative 点击  拒绝 按钮 响应事件
      */
-    public Dialog doShowDialog(int iconres, String title, String message,String positive, OnClickListener lpositive, String negative, OnClickListener lnegative, String neutral, OnClickListener lneutral) {
+    public Dialog doShowDialog(int iconres, CharSequence title, CharSequence message,CharSequence positive, OnClickListener lpositive, CharSequence negative, OnClickListener lnegative, CharSequence neutral, OnClickListener lneutral) {
         return mDialogBuilder.showDialog(iconres, title, message, positive, lpositive, negative, lnegative, neutral, lneutral);
     }
 
@@ -551,7 +551,7 @@ public abstract class AfDialog extends Dialog implements AfPageable {
      */
     @Override
     public Dialog doShowDialog(int theme, int iconres,
-                               String title, String message,String positive, OnClickListener lpositive, String negative, OnClickListener lnegative, String neutral, OnClickListener lneutral) {
+                               CharSequence title, CharSequence message,CharSequence positive, OnClickListener lpositive, CharSequence negative, OnClickListener lnegative, CharSequence neutral, OnClickListener lneutral) {
         return mDialogBuilder.showDialog(theme, iconres, title, message, positive, lpositive, negative, lnegative, neutral, lneutral);
     }
     //</editor-fold>
@@ -566,7 +566,7 @@ public abstract class AfDialog extends Dialog implements AfPageable {
      * @param lpositive 点击  确认 按钮 响应事件
      */
     @Override
-    public Dialog doShowViewDialog(String title, View view, String positive, OnClickListener lpositive) {
+    public Dialog doShowViewDialog(CharSequence title, View view, CharSequence positive, OnClickListener lpositive) {
         return mDialogBuilder.showViewDialog(title, view, positive, lpositive);
     }
 
@@ -581,7 +581,7 @@ public abstract class AfDialog extends Dialog implements AfPageable {
      * @param lnegative 点击  拒绝 按钮 响应事件
      */
     @Override
-    public Dialog doShowViewDialog(String title, View view, String positive, OnClickListener lpositive, String negative, OnClickListener lnegative) {
+    public Dialog doShowViewDialog(CharSequence title, View view, CharSequence positive, OnClickListener lpositive, CharSequence negative, OnClickListener lnegative) {
         return mDialogBuilder.showViewDialog(title, view, positive, lpositive, negative, lnegative);
     }
 
@@ -598,7 +598,7 @@ public abstract class AfDialog extends Dialog implements AfPageable {
      * @param lnegative 点击  拒绝 按钮 响应事件
      */
     @Override
-    public Dialog doShowViewDialog(String title, View view,String positive, OnClickListener lpositive, String negative, OnClickListener lnegative, String neutral, OnClickListener lneutral) {
+    public Dialog doShowViewDialog(CharSequence title, View view,CharSequence positive, OnClickListener lpositive, CharSequence negative, OnClickListener lnegative, CharSequence neutral, OnClickListener lneutral) {
         return mDialogBuilder.showViewDialog(title, view, positive, lpositive, negative, lnegative, neutral, lneutral);
     }
 
@@ -614,7 +614,7 @@ public abstract class AfDialog extends Dialog implements AfPageable {
      * @param lnegative 点击  拒绝 按钮 响应事件
      */
     @Override
-    public Dialog doShowViewDialog(int iconres, String title, View view, String positive, OnClickListener lpositive, String negative, OnClickListener lnegative) {
+    public Dialog doShowViewDialog(int iconres, CharSequence title, View view, CharSequence positive, OnClickListener lpositive, CharSequence negative, OnClickListener lnegative) {
         return mDialogBuilder.showViewDialog(iconres, title, view, positive, lpositive, negative, lnegative);
     }
 
@@ -632,7 +632,7 @@ public abstract class AfDialog extends Dialog implements AfPageable {
      * @param lnegative 点击  拒绝 按钮 响应事件
      */
     @Override
-    public Dialog doShowViewDialog(int iconres, String title, View view,String positive, OnClickListener lpositive, String negative, OnClickListener lnegative, String neutral, OnClickListener lneutral) {
+    public Dialog doShowViewDialog(int iconres, CharSequence title, View view,CharSequence positive, OnClickListener lpositive, CharSequence negative, OnClickListener lnegative, CharSequence neutral, OnClickListener lneutral) {
         return mDialogBuilder.showViewDialog(iconres, title, view, positive, lpositive, negative, lnegative, neutral, lneutral);
     }
 
@@ -652,7 +652,7 @@ public abstract class AfDialog extends Dialog implements AfPageable {
      */
     @Override
     public Dialog doShowViewDialog(int theme,
-                                   int iconres, String title, View view,String positive, OnClickListener lpositive, String negative, OnClickListener lnegative, String neutral, OnClickListener lneutral) {
+                                   int iconres, CharSequence title, View view,CharSequence positive, OnClickListener lpositive, CharSequence negative, OnClickListener lnegative, CharSequence neutral, OnClickListener lneutral) {
         return mDialogBuilder.showViewDialog(theme, iconres, title, view, positive, lpositive, negative, lnegative, neutral, lneutral);
     }
     //</editor-fold>
@@ -666,7 +666,7 @@ public abstract class AfDialog extends Dialog implements AfPageable {
      * @param listener 选择监听器
      * @param cancel   取消选择监听器
      */
-    public Dialog doSelectItem(String title, String[] items, OnClickListener listener, boolean cancel) {
+    public Dialog doSelectItem(CharSequence title, CharSequence[] items, OnClickListener listener, boolean cancel) {
         return mDialogBuilder.selectItem(title, items, listener, cancel);
     }
 
@@ -678,7 +678,7 @@ public abstract class AfDialog extends Dialog implements AfPageable {
      * @param listener 选择监听器
      * @param oncancel 取消选择监听器
      */
-    public Dialog doSelectItem(String title, String[] items, OnClickListener listener, OnCancelListener oncancel) {
+    public Dialog doSelectItem(CharSequence title, CharSequence[] items, OnClickListener listener, OnCancelListener oncancel) {
         return mDialogBuilder.selectItem(title, items, listener, oncancel);
     }
 
@@ -689,7 +689,7 @@ public abstract class AfDialog extends Dialog implements AfPageable {
      * @param items    选择菜单项
      * @param listener 选择监听器
      */
-    public Dialog doSelectItem(String title, String[] items, OnClickListener listener) {
+    public Dialog doSelectItem(CharSequence title, CharSequence[] items, OnClickListener listener) {
         return mDialogBuilder.selectItem(title, items, listener);
     }
     //</editor-fold>
@@ -700,7 +700,7 @@ public abstract class AfDialog extends Dialog implements AfPageable {
      *  @param title    标题
      * @param listener 监听器
      */
-    public Dialog doInputText(String title, InputTextListener listener) {
+    public Dialog doInputText(CharSequence title, InputTextListener listener) {
         return mDialogBuilder.inputText(title, listener);
     }
 
@@ -711,7 +711,7 @@ public abstract class AfDialog extends Dialog implements AfPageable {
      * @param type     android.text.InputType
      * @param listener 监听器
      */
-    public Dialog doInputText(String title, int type, InputTextListener listener) {
+    public Dialog doInputText(CharSequence title, int type, InputTextListener listener) {
         return mDialogBuilder.inputText(title, type, listener);
     }
 
@@ -722,7 +722,7 @@ public abstract class AfDialog extends Dialog implements AfPageable {
      * @param defaul   默认值
      * @param listener 监听器
      */
-    public Dialog doInputText(String title, String defaul, InputTextListener listener) {
+    public Dialog doInputText(CharSequence title, CharSequence defaul, InputTextListener listener) {
         return mDialogBuilder.inputText(title, defaul, listener);
     }
 
@@ -734,7 +734,7 @@ public abstract class AfDialog extends Dialog implements AfPageable {
      * @param type     android.text.InputType
      * @param listener 监听器
      */
-    public Dialog doInputText(String title, String defaul, int type, InputTextListener listener) {
+    public Dialog doInputText(CharSequence title, CharSequence defaul, int type, InputTextListener listener) {
         return mDialogBuilder.inputText(title, defaul, type, listener);
     }
     //</editor-fold>
@@ -747,7 +747,7 @@ public abstract class AfDialog extends Dialog implements AfPageable {
      * @param title   显示标题
      * @param message 显示内容
      */
-    public Dialog doShowDialog(String key, String title, String message) {
+    public Dialog doShowDialog(String key, CharSequence title, CharSequence message) {
         return mDialogBuilder.showKeyDialog(key, title, message);
     }
 
@@ -760,7 +760,7 @@ public abstract class AfDialog extends Dialog implements AfPageable {
      * @param positive  确认 按钮显示信息
      * @param lpositive 点击  确认 按钮 响应事件
      */
-    public Dialog doShowDialog(String key, String title, String message, String positive, OnClickListener lpositive) {
+    public Dialog doShowDialog(String key, CharSequence title, CharSequence message, CharSequence positive, OnClickListener lpositive) {
         return mDialogBuilder.showKeyDialog(key, title, message, positive, lpositive);
     }
 
@@ -777,7 +777,7 @@ public abstract class AfDialog extends Dialog implements AfPageable {
      * @param lnegative 点击  拒绝 按钮 响应事件
      */
     public Dialog doShowDialog(String key, int defclick,
-                               String title, String message, String positive, OnClickListener lpositive, String negative, OnClickListener lnegative) {
+                               CharSequence title, CharSequence message, CharSequence positive, OnClickListener lpositive, CharSequence negative, OnClickListener lnegative) {
         return mDialogBuilder.showKeyDialog(key, defclick, title, message, positive, lpositive, negative, lnegative);
     }
 
@@ -796,7 +796,7 @@ public abstract class AfDialog extends Dialog implements AfPageable {
      * @param lnegative 点击  拒绝 按钮 响应事件
      */
     public Dialog doShowDialog(String key, int defclick,
-                               String title, String message, String positive, OnClickListener lpositive, String negative, OnClickListener lnegative, String neutral, OnClickListener lneutral) {
+                               CharSequence title, CharSequence message, CharSequence positive, OnClickListener lpositive, CharSequence negative, OnClickListener lnegative, CharSequence neutral, OnClickListener lneutral) {
         return mDialogBuilder.showKeyDialog(key, defclick, title, message, positive, lpositive, negative, lnegative, neutral, lneutral);
     }
 
@@ -814,7 +814,7 @@ public abstract class AfDialog extends Dialog implements AfPageable {
      * @param lnegative 点击  拒绝 按钮 响应事件
      */
     public Dialog doShowDialog(String key, int defclick,
-                               int iconres, String title, String message, String positive, OnClickListener lpositive, String negative, OnClickListener lnegative) {
+                               int iconres, CharSequence title, CharSequence message, CharSequence positive, OnClickListener lpositive, CharSequence negative, OnClickListener lnegative) {
         return mDialogBuilder.showKeyDialog(key, defclick, iconres, title, message, positive, lpositive, negative, lnegative);
     }
 
@@ -834,7 +834,7 @@ public abstract class AfDialog extends Dialog implements AfPageable {
      * @param lnegative 点击  拒绝 按钮 响应事件
      */
     public Dialog doShowDialog(String key, int defclick,
-                               int iconres, String title, String message, String positive, OnClickListener lpositive, String negative, OnClickListener lnegative, String neutral, OnClickListener lneutral) {
+                               int iconres, CharSequence title, CharSequence message, CharSequence positive, OnClickListener lpositive, CharSequence negative, OnClickListener lnegative, CharSequence neutral, OnClickListener lneutral) {
         return mDialogBuilder.showKeyDialog(key, defclick, iconres, title, message, positive, lpositive, negative, lnegative, neutral, lneutral);
     }
 
@@ -857,7 +857,7 @@ public abstract class AfDialog extends Dialog implements AfPageable {
      */
     public Dialog doShowDialog(String key, int defclick,
                                int theme, int iconres,
-                               String title, String message, String positive, OnClickListener lpositive, String negative, OnClickListener lnegative, String neutral, OnClickListener lneutral) {
+                               CharSequence title, CharSequence message, CharSequence positive, OnClickListener lpositive, CharSequence negative, OnClickListener lnegative, CharSequence neutral, OnClickListener lneutral) {
         return mDialogBuilder.showKeyDialog(key, defclick, theme, iconres, title, message, positive, lpositive, negative, lnegative, neutral, lneutral);
     }
     //</editor-fold>
@@ -876,7 +876,7 @@ public abstract class AfDialog extends Dialog implements AfPageable {
      * @param title 标题
      * @param listener 监听器
      */
-    public Dialog doSelectDateTime(String title, AfDialogBuilder.OnDateTimeSetListener listener) {
+    public Dialog doSelectDateTime(CharSequence title, AfDialogBuilder.OnDateTimeSetListener listener) {
         return doSelectDateTime(title, new Date(), listener);
     }
 
@@ -895,7 +895,7 @@ public abstract class AfDialog extends Dialog implements AfPageable {
      * @param value 默认时间
      * @param listener 监听器
      */
-    public Dialog doSelectDateTime(final String title, final Date value, final AfDialogBuilder.OnDateTimeSetListener listener) {
+    public Dialog doSelectDateTime(final CharSequence title, final Date value, final AfDialogBuilder.OnDateTimeSetListener listener) {
         return mDialogBuilder.selectDateTime(title, value, listener);
     }
 
@@ -912,7 +912,7 @@ public abstract class AfDialog extends Dialog implements AfPageable {
      * @param title 标题
      * @param listener 监听器
      */
-    public Dialog doSelectTime(String title, TimePickerDialog.OnTimeSetListener listener) {
+    public Dialog doSelectTime(CharSequence title, TimePickerDialog.OnTimeSetListener listener) {
         return doSelectTime(title, new Date(), listener);
     }
 
@@ -931,7 +931,7 @@ public abstract class AfDialog extends Dialog implements AfPageable {
      * @param value 默认时间
      * @param listener 监听器
      */
-    public Dialog doSelectTime(String title, Date value, final TimePickerDialog.OnTimeSetListener listener) {
+    public Dialog doSelectTime(CharSequence title, Date value, final TimePickerDialog.OnTimeSetListener listener) {
         return mDialogBuilder.selectTime(title, value, listener);
     }
 
@@ -948,7 +948,7 @@ public abstract class AfDialog extends Dialog implements AfPageable {
      * @param title 标题
      * @param listener 监听器
      */
-    public Dialog doSelectDate(String title, DatePickerDialog.OnDateSetListener listener) {
+    public Dialog doSelectDate(CharSequence title, DatePickerDialog.OnDateSetListener listener) {
         return doSelectDate(title, new Date(), listener);
     }
 
@@ -967,7 +967,7 @@ public abstract class AfDialog extends Dialog implements AfPageable {
      * @param value 默认时间
      * @param listener 监听器
      */
-    public Dialog doSelectDate(String title, Date value, DatePickerDialog.OnDateSetListener listener) {
+    public Dialog doSelectDate(CharSequence title, Date value, DatePickerDialog.OnDateSetListener listener) {
         return mDialogBuilder.selectDate(title,value, listener);
     }
     //</editor-fold>

@@ -48,11 +48,11 @@ public interface AfPageable extends AfViewable {
 	 */
 	Activity getActivity();
 	
-	void makeToastLong(String tip);
+	void makeToastLong(CharSequence tip);
 
-	void makeToastShort(String tip);
+	void makeToastShort(CharSequence tip);
 
-	void makeToastLong(String tip, Throwable e);
+	void makeToastLong(CharSequence tip, Throwable e);
 	/**
 	 * 显示 资源ID 为 resid 的 Toast
 	 */
@@ -67,35 +67,35 @@ public interface AfPageable extends AfViewable {
 	 * @param message
 	 *            消息
 	 */
-	Dialog showProgressDialog(String message);
+	Dialog showProgressDialog(CharSequence message);
 
 	/**
 	 * 显示 进度对话框
 	 * @param message 消息
 	 * @param cancel 是否可取消
 	 */
-	Dialog showProgressDialog(String message, boolean cancel);
+	Dialog showProgressDialog(CharSequence message, boolean cancel);
 	/**
 	 * 显示 进度对话框
 	 * @param message 消息
 	 * @param cancel 是否可取消
 	 * @param textsize 字体大小
 	 */
-	Dialog showProgressDialog(String message, boolean cancel,
+	Dialog showProgressDialog(CharSequence message, boolean cancel,
 			int textsize);
 
 	/**
 	 * 显示 进度对话框
 	 * @param message 消息
 	 */
-	Dialog showProgressDialog(String message, OnCancelListener listener);
+	Dialog showProgressDialog(CharSequence message, OnCancelListener listener);
 
 	/**
 	 * 显示 进度对话框
 	 * @param message 消息
 	 * @param textsize 字体大小
 	 */
-	Dialog showProgressDialog(String message, OnCancelListener listener, int textsize);
+	Dialog showProgressDialog(CharSequence message, OnCancelListener listener, int textsize);
 
 	/**
 	 * 隐藏 进度对话框
@@ -135,14 +135,14 @@ public interface AfPageable extends AfViewable {
 	 * @param title 显示标题
 	 * @param message 显示内容
 	 */
-	Dialog doShowDialog(String title, String message);
+	Dialog doShowDialog(CharSequence title, CharSequence message);
 	/**
 	 * 显示对话框 并添加默认按钮 "我知道了"
 	 * @param title 显示标题
 	 * @param message 显示内容
 	 * @param lpositive 点击  "我知道了" 响应事件
 	 */
-	Dialog doShowDialog(String title, String message,OnClickListener lpositive);
+	Dialog doShowDialog(CharSequence title, CharSequence message,OnClickListener lpositive);
 	/**
 	 * 显示对话框 
 	 * @param title 显示标题
@@ -150,7 +150,7 @@ public interface AfPageable extends AfViewable {
 	 * @param positive 确认 按钮显示信息
 	 * @param lpositive 点击  确认 按钮 响应事件
 	 */
-	Dialog doShowDialog(String title, String message,String positive,OnClickListener lpositive);
+	Dialog doShowDialog(CharSequence title, CharSequence message,CharSequence positive,OnClickListener lpositive);
 	/**
 	 * 显示对话框 
 	 * @param title 显示标题
@@ -160,7 +160,7 @@ public interface AfPageable extends AfViewable {
 	 * @param negative 按钮显示信息
 	 * @param lnegative 点击  拒绝 按钮 响应事件
 	 */
-	Dialog doShowDialog(String title, String message, String positive, OnClickListener lpositive, String negative, OnClickListener lnegative) ;
+	Dialog doShowDialog(CharSequence title, CharSequence message, CharSequence positive, OnClickListener lpositive, CharSequence negative, OnClickListener lnegative) ;
 
 	/**
 	 * 显示对话框 
@@ -172,7 +172,7 @@ public interface AfPageable extends AfViewable {
 	 * @param negative 按钮显示信息
 	 * @param lnegative 点击  拒绝 按钮 响应事件
 	 */
-	Dialog doShowDialog(int iconres, String title, String message, String positive, OnClickListener lpositive, String negative, OnClickListener lnegative);
+	Dialog doShowDialog(int iconres, CharSequence title, CharSequence message, CharSequence positive, OnClickListener lpositive, CharSequence negative, OnClickListener lnegative);
 
 	/**
 	 * 显示对话框 
@@ -185,7 +185,7 @@ public interface AfPageable extends AfViewable {
 	 * @param negative 按钮显示信息
 	 * @param lnegative 点击  拒绝 按钮 响应事件
 	 */
-	Dialog doShowDialog(String title, String message,String positive, OnClickListener lpositive, String negative, OnClickListener lnegative, String neutral, OnClickListener lneutral);
+	Dialog doShowDialog(CharSequence title, CharSequence message,CharSequence positive, OnClickListener lpositive, CharSequence negative, OnClickListener lnegative, CharSequence neutral, OnClickListener lneutral);
 	
 	/**
 	 * 显示对话框 
@@ -199,7 +199,7 @@ public interface AfPageable extends AfViewable {
 	 * @param negative 按钮显示信息
 	 * @param lnegative 点击  拒绝 按钮 响应事件
 	 */
-	Dialog doShowDialog(int iconres, String title, String message,String positive, OnClickListener lpositive, String negative, OnClickListener lnegative, String neutral, OnClickListener lneutral);
+	Dialog doShowDialog(int iconres, CharSequence title, CharSequence message,CharSequence positive, OnClickListener lpositive, CharSequence negative, OnClickListener lnegative, CharSequence neutral, OnClickListener lneutral);
 
 	/**
 	 * 显示对话框 
@@ -214,7 +214,7 @@ public interface AfPageable extends AfViewable {
 	 * @param negative 按钮显示信息
 	 * @param lnegative 点击  拒绝 按钮 响应事件
 	 */
-	Dialog doShowDialog(int theme,int iconres, String title, String message,String positive, OnClickListener lpositive, String negative, OnClickListener lnegative, String neutral, OnClickListener lneutral);
+	Dialog doShowDialog(int theme,int iconres, CharSequence title, CharSequence message,CharSequence positive, OnClickListener lpositive, CharSequence negative, OnClickListener lnegative, CharSequence neutral, OnClickListener lneutral);
 	
 	/**
 	 * 显示视图对话框 
@@ -223,7 +223,7 @@ public interface AfPageable extends AfViewable {
 	 * @param positive 确认 按钮显示信息
 	 * @param lpositive 点击  确认 按钮 响应事件
 	 */
-	Dialog doShowViewDialog(String title, View view,String positive, OnClickListener lpositive);
+	Dialog doShowViewDialog(CharSequence title, View view,CharSequence positive, OnClickListener lpositive);
 	
 	/**
 	 * 显示视图对话框 
@@ -234,7 +234,7 @@ public interface AfPageable extends AfViewable {
 	 * @param negative 按钮显示信息
 	 * @param lnegative 点击  拒绝 按钮 响应事件
 	 */
-	Dialog doShowViewDialog(String title, View view, String positive, OnClickListener lpositive, String negative, OnClickListener lnegative);
+	Dialog doShowViewDialog(CharSequence title, View view, CharSequence positive, OnClickListener lpositive, CharSequence negative, OnClickListener lnegative);
 	
 	/**
 	 * 显示视图对话框 
@@ -247,7 +247,7 @@ public interface AfPageable extends AfViewable {
 	 * @param negative 按钮显示信息
 	 * @param lnegative 点击  拒绝 按钮 响应事件
 	 */
-	Dialog doShowViewDialog(String title, View view,String positive, OnClickListener lpositive, String negative, OnClickListener lnegative, String neutral, OnClickListener lneutral) ;
+	Dialog doShowViewDialog(CharSequence title, View view,CharSequence positive, OnClickListener lpositive, CharSequence negative, OnClickListener lnegative, CharSequence neutral, OnClickListener lneutral) ;
 	/**
 	 * 显示视图对话框 
 	 * @param iconres 对话框图标
@@ -258,7 +258,7 @@ public interface AfPageable extends AfViewable {
 	 * @param negative 按钮显示信息
 	 * @param lnegative 点击  negative 按钮 响应事件
 	 */
-	Dialog doShowViewDialog(int iconres, String title, View view, String positive, OnClickListener lpositive, String negative, OnClickListener lnegative);
+	Dialog doShowViewDialog(int iconres, CharSequence title, View view, CharSequence positive, OnClickListener lpositive, CharSequence negative, OnClickListener lnegative);
 
 	/**
 	 * 显示视图对话框 
@@ -272,7 +272,7 @@ public interface AfPageable extends AfViewable {
 	 * @param negative 按钮显示信息
 	 * @param lnegative 点击  拒绝 按钮 响应事件
 	 */
-	Dialog doShowViewDialog(int iconres, String title, View view,String positive, OnClickListener lpositive, String negative, OnClickListener lnegative, String neutral, OnClickListener lneutral) ;
+	Dialog doShowViewDialog(int iconres, CharSequence title, View view,CharSequence positive, OnClickListener lpositive, CharSequence negative, OnClickListener lnegative, CharSequence neutral, OnClickListener lneutral) ;
 
 	/**
 	 * 显示视图对话框 
@@ -287,7 +287,7 @@ public interface AfPageable extends AfViewable {
 	 * @param negative 按钮显示信息
 	 * @param lnegative 点击  拒绝 按钮 响应事件
 	 */
-	Dialog doShowViewDialog(int theme,int iconres, String title, View view,String positive, OnClickListener lpositive, String negative, OnClickListener lnegative, String neutral, OnClickListener lneutral) ;
+	Dialog doShowViewDialog(int theme,int iconres, CharSequence title, View view,CharSequence positive, OnClickListener lpositive, CharSequence negative, OnClickListener lnegative, CharSequence neutral, OnClickListener lneutral) ;
 
 	/**
 	 * 显示一个单选对话框 
@@ -296,7 +296,7 @@ public interface AfPageable extends AfViewable {
 	 * @param listener 选择监听器
 	 * @param oncancel 取消选择监听器
 	 */
-	Dialog doSelectItem(String title,String[] items,OnClickListener listener, OnCancelListener oncancel);
+	Dialog doSelectItem(CharSequence title,CharSequence[] items,OnClickListener listener, OnCancelListener oncancel);
 
 	/**
 	 * 显示一个单选对话框 （默认可取消）
@@ -304,7 +304,7 @@ public interface AfPageable extends AfViewable {
 	 * @param items 选择菜单项
 	 * @param listener 选择监听器
 	 */
-	Dialog doSelectItem(String title,String[] items,OnClickListener listener);
+	Dialog doSelectItem(CharSequence title,CharSequence[] items,OnClickListener listener);
 	
 	/**
 	 * 显示一个单选对话框 （设置可取消）
@@ -313,7 +313,7 @@ public interface AfPageable extends AfViewable {
 	 * @param listener 选择监听器
 	 * @param cancel 是否可以取消
 	 */
-	Dialog doSelectItem(String title,String[] items,OnClickListener listener,boolean cancel);
+	Dialog doSelectItem(CharSequence title,CharSequence[] items,OnClickListener listener,boolean cancel);
 	
 
 	/**
@@ -327,7 +327,7 @@ public interface AfPageable extends AfViewable {
 	 * 可取消的 InputTextListener
 	 */
 	abstract class InputTextCancelable implements InputTextListener{
-		public void onInputTextCancel(EditText input) {};
+		public void onInputTextCancel(EditText input) {}
 	}
 
 	/**
@@ -340,7 +340,7 @@ public interface AfPageable extends AfViewable {
 	 * @param title 标题
 	 * @param listener 监听器
 	 */
-	Dialog doInputText(String title, InputTextListener listener);
+	Dialog doInputText(CharSequence title, InputTextListener listener);
 
 	/**
 	 * 弹出一个文本输入框
@@ -348,7 +348,7 @@ public interface AfPageable extends AfViewable {
 	 * @param type android.text.InputType
 	 * @param listener 监听器
 	 */
-	Dialog doInputText(String title,int type,InputTextListener listener);
+	Dialog doInputText(CharSequence title,int type,InputTextListener listener);
 
 	/**
 	 * 弹出一个文本输入框
@@ -357,7 +357,7 @@ public interface AfPageable extends AfViewable {
 	 * @param defaul   默认值
 	 * @param listener 监听器
 	 */
-	Dialog doInputText(String title, String defaul, InputTextListener listener);
+	Dialog doInputText(CharSequence title, CharSequence defaul, InputTextListener listener);
 
 	/**
 	 * 弹出一个文本输入框
@@ -366,7 +366,7 @@ public interface AfPageable extends AfViewable {
 	 * @param type android.text.InputType
 	 * @param listener 监听器
 	 */
-	Dialog doInputText(String title,String defaul,int type,InputTextListener listener);
+	Dialog doInputText(CharSequence title,CharSequence defaul,int type,InputTextListener listener);
 
 	/**
 	 * 显示对话框 并添加默认按钮 "我知道了"
@@ -375,7 +375,7 @@ public interface AfPageable extends AfViewable {
 	 * @param title   显示标题
 	 * @param message 显示内容
 	 */
-	Dialog doShowDialog(String key, String title, String message) ;
+	Dialog doShowDialog(String key, CharSequence title, CharSequence message) ;
 
 	/**
 	 * 显示对话框
@@ -386,7 +386,7 @@ public interface AfPageable extends AfViewable {
 	 * @param positive  确认 按钮显示信息
 	 * @param lpositive 点击  确认 按钮 响应事件
 	 */
-	Dialog doShowDialog(String key, String title, String message, String positive, OnClickListener lpositive) ;
+	Dialog doShowDialog(String key, CharSequence title, CharSequence message, CharSequence positive, OnClickListener lpositive) ;
 
 	/**
 	 * 显示对话框
@@ -401,7 +401,7 @@ public interface AfPageable extends AfViewable {
 	 * @param lnegative 点击  拒绝 按钮 响应事件
 	 */
 	Dialog doShowDialog(String key, int defclick,
-							 String title, String message, String positive, OnClickListener lpositive, String negative, OnClickListener lnegative) ;
+							 CharSequence title, CharSequence message, CharSequence positive, OnClickListener lpositive, CharSequence negative, OnClickListener lnegative) ;
 
 	/**
 	 * 显示对话框
@@ -418,7 +418,7 @@ public interface AfPageable extends AfViewable {
 	 * @param lnegative 点击  拒绝 按钮 响应事件
 	 */
 	Dialog doShowDialog(String key, int defclick,
-							 String title, String message,String positive, OnClickListener lpositive, String negative, OnClickListener lnegative, String neutral, OnClickListener lneutral) ;
+							 CharSequence title, CharSequence message,CharSequence positive, OnClickListener lpositive, CharSequence negative, OnClickListener lnegative, CharSequence neutral, OnClickListener lneutral) ;
 
 	/**
 	 * 显示对话框
@@ -434,7 +434,7 @@ public interface AfPageable extends AfViewable {
 	 * @param lnegative 点击  拒绝 按钮 响应事件
 	 */
 	Dialog doShowDialog(String key, int defclick,
-							 int iconres, String title, String message, String positive, OnClickListener lpositive, String negative, OnClickListener lnegative) ;
+							 int iconres, CharSequence title, CharSequence message, CharSequence positive, OnClickListener lpositive, CharSequence negative, OnClickListener lnegative) ;
 
 	/**
 	 * 显示对话框
@@ -452,7 +452,7 @@ public interface AfPageable extends AfViewable {
 	 * @param lnegative 点击  拒绝 按钮 响应事件
 	 */
 	Dialog doShowDialog(String key, int defclick,
-							 int iconres, String title, String message,String positive, OnClickListener lpositive, String negative, OnClickListener lnegative, String neutral, OnClickListener lneutral);
+							 int iconres, CharSequence title, CharSequence message,CharSequence positive, OnClickListener lpositive, CharSequence negative, OnClickListener lnegative, CharSequence neutral, OnClickListener lneutral);
 
 
 	/**
@@ -473,7 +473,7 @@ public interface AfPageable extends AfViewable {
 	 */
 	Dialog doShowDialog(String key, int defclick,
 							 int theme, int iconres,
-							 String title, String message,String positive, OnClickListener lpositive, String negative, OnClickListener lnegative, String neutral, OnClickListener lneutral);
+							 CharSequence title, CharSequence message,CharSequence positive, OnClickListener lpositive, CharSequence negative, OnClickListener lnegative, CharSequence neutral, OnClickListener lneutral);
 
 
 	/**
@@ -487,7 +487,7 @@ public interface AfPageable extends AfViewable {
 	 * @param title 标题
 	 * @param listener 监听器
 	 */
-	Dialog doSelectDateTime(String title, AfDialogBuilder.OnDateTimeSetListener listener);
+	Dialog doSelectDateTime(CharSequence title, AfDialogBuilder.OnDateTimeSetListener listener);
 
 	/**
 	 * 选择日期时间
@@ -502,7 +502,7 @@ public interface AfPageable extends AfViewable {
 	 * @param value 默认时间
 	 * @param listener 监听器
 	 */
-	Dialog doSelectDateTime(final String title, final Date value, final AfDialogBuilder.OnDateTimeSetListener listener);
+	Dialog doSelectDateTime(final CharSequence title, final Date value, final AfDialogBuilder.OnDateTimeSetListener listener);
 
 	/**
 	 * 选择时间
@@ -515,7 +515,7 @@ public interface AfPageable extends AfViewable {
 	 * @param title 标题
 	 * @param listener 监听器
 	 */
-	Dialog doSelectTime(String title, TimePickerDialog.OnTimeSetListener listener);
+	Dialog doSelectTime(CharSequence title, TimePickerDialog.OnTimeSetListener listener);
 
 	/**
 	 * 选择时间
@@ -530,7 +530,7 @@ public interface AfPageable extends AfViewable {
 	 * @param value 默认时间
 	 * @param listener 监听器
 	 */
-	Dialog doSelectTime(String title, Date value, final TimePickerDialog.OnTimeSetListener listener);
+	Dialog doSelectTime(CharSequence title, Date value, final TimePickerDialog.OnTimeSetListener listener);
 
 	/**
 	 * 选择日期
@@ -543,7 +543,7 @@ public interface AfPageable extends AfViewable {
 	 * @param title 标题
 	 * @param listener 监听器
 	 */
-	Dialog doSelectDate(String title, DatePickerDialog.OnDateSetListener listener);
+	Dialog doSelectDate(CharSequence title, DatePickerDialog.OnDateSetListener listener);
 
 	/**
 	 * 选择日期
@@ -558,5 +558,5 @@ public interface AfPageable extends AfViewable {
 	 * @param value 默认时间
 	 * @param listener 监听器
 	 */
-	Dialog doSelectDate(String title, Date value, DatePickerDialog.OnDateSetListener listener);
+	Dialog doSelectDate(CharSequence title, Date value, DatePickerDialog.OnDateSetListener listener);
 }
