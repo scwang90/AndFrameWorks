@@ -9,9 +9,9 @@ import android.content.DialogInterface.OnClickListener;
 import android.content.Intent;
 import android.text.InputType;
 import android.view.View;
-import android.view.ViewGroup;
 import android.widget.EditText;
 
+import com.andframe.constant.AfPageConstant;
 import com.andframe.feature.AfDialogBuilder;
 
 import java.util.Date;
@@ -22,16 +22,7 @@ import java.util.Date;
  * 继承了 AfViewable 
  */
 @SuppressWarnings("unused")
-public interface AfPageable extends AfViewable {
-
-	String EXTRA_DATA = "EXTRA_DATA";//通用数据传递标识
-	String EXTRA_INDEX = "EXTRA_INDEX";//通用下标栓地标识
-	String EXTRA_RESULT = "EXTRA_RESULT";//通用返回传递标识
-	String EXTRA_MAIN = "EXTRA_MAIN";//主要数据传递标识
-	String EXTRA_DEPUTY = "EXTRA_DEPUTY";//主要数据传递标识
-
-	int LP_MP = ViewGroup.LayoutParams.MATCH_PARENT;
-	int LP_WC = ViewGroup.LayoutParams.WRAP_CONTENT;
+public interface AfPageable extends AfViewable, AfPageConstant {
 
 	/**
 	 * 判断是否被回收

@@ -74,7 +74,7 @@ public class ViewBinder {
     }
 
     public static void doBind(Object handler, View root) {
-        doBind(handler, (AfViewable)new AfView(root));
+        doBind(handler, new AfView(root));
     }
 
     public static void doBind(Object handler, AfViewable root) {
