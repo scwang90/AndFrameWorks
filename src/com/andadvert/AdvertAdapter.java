@@ -1,9 +1,5 @@
 package com.andadvert;
 
-import java.util.ArrayList;
-import java.util.Date;
-import java.util.List;
-
 import android.content.Context;
 import android.telephony.TelephonyManager;
 import android.util.DisplayMetrics;
@@ -18,6 +14,7 @@ import com.andadvert.kernel.DeployCheckTask;
 import com.andadvert.listener.IBusiness;
 import com.andadvert.listener.PointsNotifier;
 import com.andadvert.model.AdCustom;
+import com.andadvert.model.AdNative;
 import com.andadvert.model.OnlineDeploy;
 import com.andadvert.util.DS;
 import com.andframe.application.AfApplication;
@@ -30,11 +27,16 @@ import com.andframe.util.android.AfNetwork;
 import com.andframe.util.java.AfDateFormat;
 import com.andframe.util.java.AfStringUtil;
 
+import java.util.ArrayList;
+import java.util.Date;
+import java.util.List;
+
 /**
  * 广告适配器
  * @author 树朾
  * 适配不同的广告平台
  */
+@SuppressWarnings("unused")
 public class AdvertAdapter {
 
 	/** 单例Key */
@@ -232,7 +234,14 @@ public class AdvertAdapter {
 	 * 获取广自定义广告列表
 	 */
 	public List<AdCustom> getAdCustomList(Context context){
-		return new ArrayList<AdCustom>();
+		return new ArrayList<>();
+	}
+
+	/**
+	 * 获取原生广告
+	 */
+	public List<AdNative> getNativeAdList(Context context) {
+		return new ArrayList<>();
 	}
 
 	/**
