@@ -14,7 +14,6 @@ import com.andadvert.kernel.DeployCheckTask;
 import com.andadvert.listener.IBusiness;
 import com.andadvert.listener.PointsNotifier;
 import com.andadvert.model.AdCustom;
-import com.andadvert.model.AdNative;
 import com.andadvert.model.OnlineDeploy;
 import com.andadvert.util.DS;
 import com.andframe.application.AfApplication;
@@ -234,13 +233,6 @@ public class AdvertAdapter {
 	 * 获取广自定义广告列表
 	 */
 	public List<AdCustom> getAdCustomList(Context context){
-		return new ArrayList<>();
-	}
-
-	/**
-	 * 获取原生广告
-	 */
-	public List<AdNative> getNativeAdList(Context context) {
 		return new ArrayList<>();
 	}
 

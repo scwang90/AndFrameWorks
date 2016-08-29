@@ -15,5 +15,6 @@ public class AdCustom{
 	public String Version = "";
 	public String Description = "";
 	public String[] ImageUrls = null;
+	public String IconUrl;//Icon 的补充扩展
 }
 
