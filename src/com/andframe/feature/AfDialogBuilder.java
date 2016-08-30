@@ -912,6 +912,9 @@ public class AfDialogBuilder {
      */
     public Dialog showProgressDialog(CharSequence message, OnCancelListener listener, int textsize) {
         try {
+            if (mProgress != null) {
+                hideProgressDialog();
+            }
             ProgressDialog progress = new ProgressDialog(mContext);
             progress.setMessage(message);
             if (listener != null) {
