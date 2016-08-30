@@ -1,10 +1,9 @@
 package com.andoffice.application;
 
+import com.andframe.application.AfApp;
 import com.andoffice.R;
-import com.andframe.application.AfApplication;
 
-public abstract class AbApplication extends AfApplication {
-
+public abstract class AbApplication extends AfApp {
 
 	public static final int DEBUG_TESTDATA = 0;
 	public static final int DEBUG_TEST = 1;
