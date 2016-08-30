@@ -572,4 +572,6 @@ public interface IViewQuery<T extends IViewQuery<T>> {
 
     T height(int height, boolean dip);
 
+
+    View view();
 }
