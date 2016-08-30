@@ -70,6 +70,9 @@ public class AfViewQuery<T extends AfViewQuery<T>> implements IViewQuery<T> {
         return mTargetView;
     }
 
+    public View view() {
+        return mTargetView;
+    }
 
     /**
      * Points the current operating view to the first view found with the id under the root.

@@ -9,6 +9,7 @@ import java.lang.reflect.Method;
  * 2.可以判断当前函数是否已经递归调用
  * @author 树朾
  */
+@SuppressWarnings("unused")
 public class AfStackTrace {
 
 	/**

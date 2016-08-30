@@ -92,12 +92,17 @@ public abstract class AfActivity extends FragmentActivity implements AfPageable 
      * 开始 IViewQuery 查询
      * @param id 控件Id
      */
+    @SuppressWarnings("unused")
     protected IViewQuery $(int... id) {
         IViewQuery query = AfApp.get().getViewQuery(mRootView);
         if (id == null || id.length == 0) {
             return query;
         }
         return query.id(id[0]);
+    }
+    @SuppressWarnings("unused")
+    protected IViewQuery $(View view) {
+        return AfApp.get().getViewQuery(view);
     }
     /**
      * 获取 Application 的 AfApplication实例

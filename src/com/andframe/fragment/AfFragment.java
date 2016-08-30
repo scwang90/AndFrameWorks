@@ -103,6 +103,10 @@ public abstract class AfFragment extends Fragment implements AfPageable {
         }
         return query.id(id[0]);
     }
+    @SuppressWarnings("unused")
+    protected IViewQuery $(View view) {
+        return AfApp.get().getViewQuery(view);
+    }
 
     public AfActivity getAfActivity() {
         if (super.getActivity() instanceof AfActivity) {

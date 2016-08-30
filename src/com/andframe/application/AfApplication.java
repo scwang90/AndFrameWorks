@@ -802,9 +802,18 @@ public abstract class AfApplication extends Application {
 	 */
 	protected <T> List<T> transformNotifys(Class<T> clazz){
 		List<Object> list = new ArrayList<>();
+//		if (mMainActivity != null
+//				&& !mMainActivity.isRecycled()){
+//			list.add(mMainActivity);
+//		}
 		if (mCurFragment != null
 				&& !mCurFragment.isRecycled()){
 			list.add(mCurFragment);
+		}
+		for (AfActivity activity : mStackActivity) {
+			if (!activity.isRecycled()) {
+				list.add(activity);
+			}
 		}
 		return transforms(list.toArray(new Object[list.size()]),clazz);
 	}

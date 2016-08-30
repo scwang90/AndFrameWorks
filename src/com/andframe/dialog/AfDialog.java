@@ -88,12 +88,17 @@ public abstract class AfDialog extends Dialog implements AfPageable {
      * 开始 IViewQuery 查询
      * @param id 控件Id
      */
+    @SuppressWarnings("unused")
     protected IViewQuery $(int... id) {
         IViewQuery query = AfApp.get().getViewQuery(mRootView);
         if (id == null || id.length == 0) {
             return query;
         }
         return query.id(id[0]);
+    }
+    @SuppressWarnings("unused")
+    protected IViewQuery $(View view) {
+        return AfApp.get().getViewQuery(view);
     }
 
     //<editor-fold desc="生命周期">
