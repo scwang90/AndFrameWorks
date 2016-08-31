@@ -154,6 +154,70 @@ public class MultiRequestHandler extends RequestHandler {
     }
 
     @Override
+    public Response doUpload(String path, Map<String, String> headers, Map<String, Object> params, String name, InputStream input) throws Exception {
+        String end = "\r\n";
+        String twoHyphens = "--";
+        String boundary = "******";
+
+        URL url = new URL(buildUri(path,params));
+        HttpURLConnection http = (HttpURLConnection) url.openConnection();
+        http.setDoInput(true);
+        http.setDoOutput(true);
+        http.setUseCaches(false);
+        http.setRequestMethod("POST");
+        http.setRequestProperty("Cookie", getCookie());
+        http.setRequestProperty("Connection", "Keep-Alive");
+        http.setRequestProperty("Charset", config.charset);
+        http.setRequestProperty("Content-Type", "multipart/form-data;boundary=" + boundary);
+
+        if (headers != null && !headers.isEmpty()) {
+            for (Entry<String, String> header : headers.entrySet()) {
+                http.setRequestProperty(header.getKey(), header.getValue());
+            }
+        }
+
+        if (DEBUD) {
+            Log.d(TAG, "//上传开始------------------------------------------------------------------");
+            Log.d(TAG, "//上传url:" + url);
+            Log.d(TAG, "//上传cookie:" + getCookie());
+            Log.d(TAG, "//上传headers:" + headers);
+            Log.d(TAG, "//上传params:" + params);
+            Log.d(TAG, "//上传name:" + name);
+            Log.d(TAG, "//上传结束------------------------------------------------------------------");
+        }
+
+        DataOutputStream dos = new DataOutputStream(http.getOutputStream());
+
+        dos.writeBytes(twoHyphens + boundary + end);
+        dos.writeBytes("Content-Disposition: form-data; name=\"FileName\"; filename=\"" + name + "\"" + end);
+        dos.writeBytes(end);
+
+//        FileInputStream fis = new FileInputStream(file);
+        byte[] bytes = new byte[8192]; // 8k
+        for (int count; (count = input.read(bytes)) != -1; ) {
+            dos.write(bytes, 0, count);
+        }
+//        fis.close();
+        dos.writeBytes(end);
+
+        dos.writeBytes(twoHyphens + boundary + twoHyphens + end);
+        dos.flush();
+        dos.close();
+
+        if (DEBUD) {
+            Response response = getResponse(http);
+            Log.d(TAG, "//服务器返回------------------------------------------------------------------");
+            Log.d(TAG, "//返回StatusCode:" + response.getStatusCode());
+            Log.d(TAG, "//返回Body:" + response.getOrgbody());
+            Log.d(TAG, "//返回Headers:" + response.getHeaders());
+            Log.d(TAG, "//服务器结束------------------------------------------------------------------");
+            return response;
+        }
+
+        return getResponse(http);
+    }
+
+    @Override
     public Response doUpload(String path, Map<String, String> headers, Map<String, Object> params , Object... files) throws Exception {
         String end = "\r\n";
         String twoHyphens = "--";

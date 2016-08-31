@@ -5,10 +5,11 @@ package com.andrestful.api;
 import android.content.Context;
 import android.content.SharedPreferences;
 
+import java.io.InputStream;
 import java.util.LinkedHashMap;
 import java.util.Map;
 
-@SuppressWarnings("unused")
+@SuppressWarnings({"deprecation", "unused"})
 public abstract class RequestHandler {
 
 	private static RequestHandler instance;
@@ -65,7 +66,13 @@ public abstract class RequestHandler {
 		return doUpload(path, null, params, files);
 	}
 
+	public Response doUpload(String path, Map<String, Object> params, String name, InputStream input) throws Exception {
+		return doUpload(path, null, params, name, input);
+	}
+
 	public abstract Response doUpload(String path, Map<String, String> headers, Map<String, Object> params, Object... files) throws Exception;
+
+	public abstract Response doUpload(String path, Map<String, String> headers, Map<String, Object> params, String name, InputStream input) throws Exception;
 
 	public abstract Response doRequest(HttpMethod method, String path, Map<String, String> headers, Object body, Map<String, Object> params) throws Exception ;
 
