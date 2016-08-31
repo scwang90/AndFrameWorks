@@ -35,6 +35,7 @@ public class AbstractRequester {
     /**
      * 实现者
      */
+    @SuppressWarnings("unused")
     protected static class Implementer {
         /**
          * http 执行器
@@ -68,12 +69,12 @@ public class AbstractRequester {
 
         public Response doUploadParam(String file, Object... keyvalue) throws Exception {
             HttpRequest request = getHttpRequest();
-            return handler.doUpload(request.path, null, keyValueToMap(keyvalue), file);
+            return handler.doUpload(request.path, (Map<String, Object>)null, keyValueToMap(keyvalue), file);
         }
 
         public Response doUploadParam(String file1, String file2, Object... keyvalue) throws Exception {
             HttpRequest request = getHttpRequest();
-            return handler.doUpload(request.path, null, keyValueToMap(keyvalue), file1, file2);
+            return handler.doUpload(request.path, (Map<String, Object>)null, keyValueToMap(keyvalue), file1, file2);
         }
 
         /**

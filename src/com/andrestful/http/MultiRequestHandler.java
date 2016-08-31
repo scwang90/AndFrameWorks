@@ -6,7 +6,6 @@ import com.andrestful.api.ErrorMessage;
 import com.andrestful.api.HttpMethod;
 import com.andrestful.api.RequestHandler;
 import com.andrestful.api.Response;
-import com.andrestful.config.AcceptedMediaType;
 import com.andrestful.config.Config;
 import com.andrestful.config.Loader;
 import com.andrestful.exception.HttpException;
@@ -19,6 +18,7 @@ import org.json.JSONObject;
 
 import java.io.BufferedReader;
 import java.io.DataOutputStream;
+import java.io.File;
 import java.io.FileInputStream;
 import java.io.IOException;
 import java.io.InputStream;
@@ -29,6 +29,8 @@ import java.io.UnsupportedEncodingException;
 import java.net.HttpURLConnection;
 import java.net.URL;
 import java.net.URLEncoder;
+import java.security.InvalidParameterException;
+import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.HashMap;
 import java.util.List;
@@ -60,19 +62,22 @@ public class MultiRequestHandler extends RequestHandler {
         config = Loader.load(properties);
     }
 
+    @SuppressWarnings("unused")
     public static MultiRequestHandler getInstance() {
         return new MultiRequestHandler();
     }
 
+    @SuppressWarnings("unused")
     public static MultiRequestHandler getInstance(String properties) {
         return new MultiRequestHandler(properties);
     }
 
+    @SuppressWarnings("unused")
     public static MultiRequestHandler getInstance(Config config) {
         return new MultiRequestHandler(config);
     }
 
-    @Override
+    @SuppressWarnings("unused")
     public Response doUpload(String path, Map<String, String> headers, Map<String, Object> params, String file, long start, long len) throws Exception {
         String end = "\r\n";
         String twoHyphens = "--";
@@ -149,10 +154,12 @@ public class MultiRequestHandler extends RequestHandler {
     }
 
     @Override
-    public Response doUpload(String path, Map<String, String> headers, Map<String, Object> params , String... files) throws Exception {
+    public Response doUpload(String path, Map<String, String> headers, Map<String, Object> params , Object... files) throws Exception {
         String end = "\r\n";
         String twoHyphens = "--";
         String boundary = "******";
+
+        List<String> fileList = checkFiles(files);
 
         URL url = new URL(buildUri(path,params));
         HttpURLConnection http = (HttpURLConnection) url.openConnection();
@@ -183,7 +190,7 @@ public class MultiRequestHandler extends RequestHandler {
 
         DataOutputStream dos = new DataOutputStream(http.getOutputStream());
 
-        for (String file : files) {
+        for (String file : fileList) {
             String filename = file.substring(file.lastIndexOf("/") + 1);
             dos.writeBytes(twoHyphens + boundary + end);
             dos.writeBytes("Content-Disposition: form-data; name=\"FileName\"; filename=\"" + filename + "\"" + end);
@@ -213,6 +220,25 @@ public class MultiRequestHandler extends RequestHandler {
         }
 
         return getResponse(http);
+    }
+
+    private List<String> checkFiles(Object[] files) {
+        List<String> list = new ArrayList<>();
+        for (Object item : files) {
+            File file;
+            if (item instanceof String) {
+                file = new File((String) item);
+            } else if (item instanceof File) {
+                file = (File) item;
+            } else {
+                throw new InvalidParameterException("无效的文件参数");
+            }
+            if (!file.exists()) {
+                throw new InvalidParameterException("文件" + file + "不存在");
+            }
+            list.add(file.getAbsolutePath());
+        }
+        return list;
     }
 
     /**
@@ -303,9 +329,9 @@ public class MultiRequestHandler extends RequestHandler {
         if (body instanceof JSONObject || body instanceof String) {
             return body.toString();
         } else if (body != null) {
-            if (config.requestMediaType == AcceptedMediaType.json) {
+            if (config.requestMediaType == Config.AcceptedMediaType.json) {
                 return toJsonString(body);
-            } else if (config.requestMediaType == AcceptedMediaType.form) {
+            } else if (config.requestMediaType == Config.AcceptedMediaType.form) {
                 return toFormString(body);
             }
         }
