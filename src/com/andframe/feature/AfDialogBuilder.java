@@ -369,7 +369,7 @@ public class AfDialogBuilder {
         } else {
             dialog.setCancelable(false);
         }
-        dialog.setItems(items, listener);
+        dialog.setItems(items, new SafeOnClickListener(listener));
         return dialog.show();
     }
 
