@@ -19,6 +19,9 @@ import com.andframe.annotation.view.BindAfterViews;
 import com.andframe.annotation.view.BindLayout;
 import com.andframe.application.AfExceptionHandler;
 import com.andframe.feature.AfIntent;
+import com.andframe.thread.AfDispatcher;
+import com.andframe.thread.AfHandlerTask;
+import com.andframe.util.java.AfCollections;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -63,6 +66,12 @@ public abstract class AfListActivity<T> extends AfActivity implements OnItemClic
             mListView.setOnItemLongClickListener(this);
             bindAdapter(mListView, mAdapter);
         }
+        AfDispatcher.dispatch(new Runnable() {
+            @Override
+            public void run() {
+                postTask(new AbLoadListTask());
+            }
+        });
     }
 
     /**
@@ -209,6 +218,29 @@ public abstract class AfListActivity<T> extends AfActivity implements OnItemClic
         protected IListItem<T> getListItem(T data) {
             return AfListActivity.this.getListItem(data);
         }
+    }
+
+    protected class AbLoadListTask extends AfHandlerTask {
+        private List<T> list;
+        @Override
+        protected void onWorking() throws Exception {
+            list = AfListActivity.this.onTaskLoadList();
+        }
+        @Override
+        protected boolean onHandle() {
+            return AfListActivity.this.onTaskLoaded(this, list);
+        }
+    }
+
+    private boolean onTaskLoaded(@SuppressWarnings("UnusedParameters") AfHandlerTask task, List<T> list) {
+        if (AfCollections.isNotEmpty(list)) {
+            mAdapter.set(list);
+        }
+        return false;
+    }
+
+    protected List<T> onTaskLoadList() {
+        return null;
     }
 
 }

@@ -126,7 +126,7 @@ public abstract class AfRefreshListActivity<T> extends AfListActivity<T> impleme
         }
 
         showLoading();
-        onLoad();
+//        onLoad();
     }
 
     /**
@@ -233,6 +233,7 @@ public abstract class AfRefreshListActivity<T> extends AfListActivity<T> impleme
     /**
      * 加载数据（缓存优先）
      */
+    @SuppressWarnings("unused")
     protected void onLoad() {
         postTask(new AbListViewTask());
     }
@@ -366,6 +367,14 @@ public abstract class AfRefreshListActivity<T> extends AfListActivity<T> impleme
         return true;
     }
 
+    @Override
+    protected final List<T> onTaskLoadList() {
+        AbListViewTask task = new AbListViewTask();
+        task.run();
+        return super.onTaskLoadList();
+    }
+
+
     /**
      * 缓存加载结束处理时间（框架默认调用onRefreshed事件处理）
      *
@@ -375,8 +384,7 @@ public abstract class AfRefreshListActivity<T> extends AfListActivity<T> impleme
      * @param cachetime 缓存时间
      * @return 返回true 已经做好错误页面显示 返回false 框架会做好默认错误反馈
      */
-    protected boolean onLoaded(AbListViewTask task, boolean isfinish,
-                               List<T> ltdata, Date cachetime) {
+    protected boolean onLoaded(AbListViewTask task, boolean isfinish, List<T> ltdata, Date cachetime) {
         boolean deal = onRefreshed(task, isfinish, ltdata);
         if (isfinish && !AfCollections.isEmpty(ltdata)) {
             //设置上次刷新缓存时间
