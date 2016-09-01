@@ -20,6 +20,7 @@ import com.andframe.helper.java.AfTimeSpan;
 import com.andframe.layoutbind.AfFrameSelector;
 import com.andframe.layoutbind.AfModuleNodata;
 import com.andframe.layoutbind.AfModuleProgress;
+import com.andframe.thread.AfHandlerTask;
 import com.andframe.thread.AfListTask;
 import com.andframe.thread.AfListViewTask;
 import com.andframe.util.java.AfCollections;
@@ -367,13 +368,23 @@ public abstract class AfRefreshListActivity<T> extends AfListActivity<T> impleme
         return true;
     }
 
+    /**
+     * 可刷新列表页有新的数据加载模式，需要 final 父类数据加载方法
+     */
     @Override
-    protected final List<T> onTaskLoadList() {
+    protected final List<T> onTaskLoadList() throws Exception {
         AbListViewTask task = new AbListViewTask();
         task.run();
         return super.onTaskLoadList();
     }
 
+    /**
+     * 可刷新列表页有新的数据加载模式，需要 final 父类数据加载方法
+     */
+    @Override
+    protected final boolean onTaskLoaded(@SuppressWarnings("UnusedParameters") AfHandlerTask task, List<T> list) {
+        return super.onTaskLoaded(task, list);
+    }
 
     /**
      * 缓存加载结束处理时间（框架默认调用onRefreshed事件处理）

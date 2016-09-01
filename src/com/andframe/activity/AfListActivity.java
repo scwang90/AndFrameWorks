@@ -232,14 +232,20 @@ public abstract class AfListActivity<T> extends AfActivity implements OnItemClic
         }
     }
 
-    private boolean onTaskLoaded(@SuppressWarnings("UnusedParameters") AfHandlerTask task, List<T> list) {
-        if (AfCollections.isNotEmpty(list)) {
-            mAdapter.set(list);
+    protected boolean onTaskLoaded(@SuppressWarnings("UnusedParameters") AfHandlerTask task, List<T> list) {
+        if (task.isFinish()) {
+            if (AfCollections.isNotEmpty(list)) {
+                mAdapter.set(list);
+//            } else {
+//                makeToastLong("暂无数据");
+            }
+        } else {
+            makeToastShort(task.makeErrorToast("数据加载失败"));
         }
         return false;
     }
 
-    protected List<T> onTaskLoadList() {
+    protected List<T> onTaskLoadList() throws Exception {
         return null;
     }
 
