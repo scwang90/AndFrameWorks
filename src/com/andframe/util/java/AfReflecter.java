@@ -388,7 +388,7 @@ public class AfReflecter {
      * @throws Exception 数组越界
      */
     public static void setMember(Object obj, String field, Object value) throws Exception {
-        invokeMember(obj.getClass(), field.split("\\."), obj, value, 0);
+        invokeMember(obj instanceof Class ? (Class<?>) obj: obj.getClass(), field.split("\\."), obj, value, 0);
     }
 
     /**
@@ -400,7 +400,7 @@ public class AfReflecter {
      */
     public static boolean setMemberNoException(Object obj, String field, Object value) {
         try {
-            invokeMember(obj.getClass(), field.split("\\."), obj, value, 0);
+            invokeMember(obj instanceof Class ? (Class<?>) obj: obj.getClass(), field.split("\\."), obj, value, 0);
             return true;
         } catch (Throwable e) {
             return false;
@@ -416,7 +416,7 @@ public class AfReflecter {
      * @throws Exception 数组越界
      */
     public static Object getMember(Object obj, String field) throws Exception {
-        return invokeMember(obj.getClass(), field.split("\\."), obj, 0);
+        return invokeMember(obj instanceof Class ? (Class<?>) obj: obj.getClass(), field.split("\\."), obj, 0);
     }
 
     /**
@@ -428,7 +428,7 @@ public class AfReflecter {
      */
     public static Object getMemberNoException(Object obj, String field) {
         try {
-            return invokeMember(obj.getClass(), field.split("\\."), obj, 0);
+            return invokeMember(obj instanceof Class ? (Class<?>) obj: obj.getClass(), field.split("\\."), obj, 0);
         } catch (Throwable e) {
             return null;
         }
@@ -443,7 +443,7 @@ public class AfReflecter {
      * @throws Exception 数组越界
      */
     public static <T> T getMember(Object obj, String field, Class<T> type) throws Exception {
-        obj = invokeMember(obj.getClass(), field.split("\\."), obj, 0);
+        obj = invokeMember(obj instanceof Class ? (Class<?>) obj: obj.getClass(), field.split("\\."), obj, 0);
         if (type.isInstance(obj)) {
             type.cast(obj);
         }
@@ -459,7 +459,7 @@ public class AfReflecter {
      */
     public static <T> T getMemberNoException(Object obj, String field, Class<T> type) {
         try {
-            return type.cast(invokeMember(obj.getClass(), field.split("\\."), obj, 0));
+            return type.cast(invokeMember(obj instanceof Class ? (Class<?>) obj: obj.getClass(), field.split("\\."), obj, 0));
         } catch (Throwable e) {
             return null;
         }
