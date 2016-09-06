@@ -22,6 +22,7 @@ import android.widget.ImageView;
 import android.widget.ListView;
 import android.widget.ProgressBar;
 import android.widget.RatingBar;
+import android.widget.ScrollView;
 import android.widget.SeekBar;
 import android.widget.Spinner;
 import android.widget.TextView;
@@ -575,6 +576,7 @@ public interface ViewQuery<T extends ViewQuery<T>> {
     /**
      * 自定义扩展接口
      */
+    ScrollView getScrollView();
     View view(int... indexs);
     int gravity();
     T gravity(int gravity);
@@ -589,6 +591,7 @@ public interface ViewQuery<T extends ViewQuery<T>> {
 
     <TTT> TTT foreach(ViewReturnEacher<View,TTT> eacher);
     <TT,TTT> TTT foreach(Class<TT> clazz, ViewReturnEacher<TT,TTT> eacher);
+
 
     interface ViewEacher<TT> {
         void each(TT view);

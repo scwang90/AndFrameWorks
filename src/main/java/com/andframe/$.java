@@ -6,27 +6,27 @@ import android.support.annotation.MainThread;
 import android.support.annotation.NonNull;
 import android.view.View;
 
+import com.andframe.adapter.listitem.AfListItem;
+import com.andframe.api.DialogBuilder;
 import com.andframe.api.ModelConvertor;
 import com.andframe.api.Pager;
-import com.andframe.api.DialogBuilder;
+import com.andframe.api.TaskExecutor;
 import com.andframe.api.ViewModuler;
 import com.andframe.api.ViewQuery;
-import com.andframe.api.TaskExecutor;
 import com.andframe.application.AfApp;
-import com.andframe.adapter.listitem.AfListItem;
 import com.andframe.module.AfViewModule;
 
 import java.lang.reflect.InvocationHandler;
 import java.lang.reflect.Method;
 import java.lang.reflect.Proxy;
 import java.util.ArrayList;
-import java.util.Collection;
 import java.util.List;
 
 /**
  *
  * Created by SCWANG on 2016/9/2.
  */
+@SuppressWarnings("unused")
 public class $ {
 
     private static InvocationHandler handler = new $$$();
@@ -34,7 +34,7 @@ public class $ {
     private static Object[] lastWiths;
 
     public interface $$ {
-        <From,To> List<To> convertList(@NonNull Collection<From> froms, @NonNull ModelConvertor<From,To> convertor);
+        <From,To> List<To> convertList(@NonNull Iterable<From> froms, @NonNull ModelConvertor<From,To> convertor);
     }
 
 
@@ -99,12 +99,13 @@ public class $ {
         }
 
         @Override
-        public <From, To> List<To> convertList(@NonNull Collection<From> froms, @NonNull ModelConvertor<From, To> convertor) {
+        public <From, To> List<To> convertList(@NonNull Iterable<From> froms, @NonNull ModelConvertor<From, To> convertor) {
             List<To> tos = new ArrayList<>();
             for (From from : froms) {
                 tos.add(convertor.convert(from));
             }
             return tos;
         }
+
     }
 }

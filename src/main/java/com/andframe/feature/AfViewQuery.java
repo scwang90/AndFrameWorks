@@ -28,6 +28,7 @@ import android.widget.LinearLayout;
 import android.widget.ListView;
 import android.widget.ProgressBar;
 import android.widget.RatingBar;
+import android.widget.ScrollView;
 import android.widget.SeekBar;
 import android.widget.Spinner;
 import android.widget.TextView;
@@ -138,6 +139,11 @@ public class AfViewQuery<T extends AfViewQuery<T>> implements ViewQuery<T> {
 
     public View view(int... indexs) {
         return getView(indexs);
+    }
+
+    @Override
+    public ScrollView getScrollView() {
+        return foreach(ScrollView.class, view -> view);
     }
 
     @Override
