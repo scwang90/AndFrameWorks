@@ -5,6 +5,7 @@ import android.support.annotation.StyleRes;
 import android.view.View;
 
 import com.andpack.annotation.BindStatusBarMode;
+import com.andpack.api.ApPager;
 import com.andpack.constant.StatusBarMode;
 import com.andpack.impl.ApActivityHelper;
 import com.andframe.activity.AfListActivity;
@@ -17,7 +18,7 @@ import com.andframe.module.AfModuleTitlebar;
  * Created by SCWANG on 2016/7/11.
  */
 @BindStatusBarMode(StatusBarMode.translucent)
-public abstract class ApListActivity<T> extends AfListActivity<T> {
+public abstract class ApListActivity<T> extends AfListActivity<T> implements ApPager {
 
     @BindViewModule
     protected AfModuleTitlebar mTitlebar;
@@ -58,6 +59,16 @@ public abstract class ApListActivity<T> extends AfListActivity<T> {
         super.finish();
     }
 
+    //<editor-fold desc="下拉刷新">
+    @Override
+    public boolean onMore() {
+        return false;
+    }
+
+    @Override
+    public boolean onRefresh() {
+        return false;
+    }
     //</editor-fold>
 
 }
