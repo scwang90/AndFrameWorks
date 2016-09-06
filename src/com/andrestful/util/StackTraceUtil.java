@@ -103,9 +103,19 @@ public class StackTraceUtil {
 	 */
 	public static <T extends Annotation> T getCurrentMethodAnnotation(Class<T> annotation, int level) {
 		try {
-			StackTraceElement stack = new Throwable().getStackTrace()[1 + level];
-			String methodName = stack.getMethodName();
-			for (Method method : Class.forName(stack.getClassName()).getMethods()) {
+			level = level + 1;
+			StackTraceElement[] stacks = new Throwable().getStackTrace();//[1 + level];
+			for (int i = 0; i < stacks.length; i++) {
+				if (i < level) {
+					if (stacks[i].getClassName().endsWith("$override")) {
+						level++;
+					}
+				} else {
+					break;
+				}
+			}
+			String methodName = stacks[level].getMethodName();
+			for (Method method : Class.forName(stacks[level].getClassName()).getMethods()) {
 				if (method.getName().endsWith(methodName)) {
 					return method.getAnnotation(annotation);
 				}
