@@ -153,7 +153,7 @@ public abstract class AfViewModule extends AfViewWrapper implements Viewer, View
 	 */
 	@SuppressWarnings("unused")
 	protected ViewQuery $(int... id) {
-		ViewQuery query = AfApp.get().getViewQuery(getView());
+		ViewQuery query = AfApp.get().newViewQuery(getView());
 		if (id == null || id.length == 0) {
 			return query;
 		}
@@ -161,7 +161,7 @@ public abstract class AfViewModule extends AfViewWrapper implements Viewer, View
 	}
 	@SuppressWarnings("unused")
 	protected ViewQuery $(View view, View... views) {
-		return AfApp.get().getViewQuery(getView()).id(view,views);
+		return AfApp.get().newViewQuery(getView()).id(view,views);
 	}
 
 

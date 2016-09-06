@@ -585,6 +585,8 @@ public interface ViewQuery<T extends ViewQuery<T>> {
     T margin(float Dip);
     T padding(float Dip);
     T padding(float leftDip, float topDip, float rightDip, float bottomDip);
+    T progress(int progress);
+
 
     T foreach(ViewEacher<View> eacher);
     <TT> T foreach(Class<TT> clazz, ViewEacher<TT> eacher);

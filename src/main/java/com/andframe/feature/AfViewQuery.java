@@ -192,6 +192,11 @@ public class AfViewQuery<T extends AfViewQuery<T>> implements ViewQuery<T> {
         });
     }
 
+    @Override
+    public T progress(int progress) {
+        return foreach(ProgressBar.class,(ViewEacher<ProgressBar>) (view) -> view.setProgress(progress));
+    }
+
     public View getView(int... indexs) {
         if (mTargetViews != null && mTargetViews.length >= 0) {
             if (indexs != null && indexs.length > 0 && indexs[0] < mTargetViews.length) {

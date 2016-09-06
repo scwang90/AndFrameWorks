@@ -87,11 +87,11 @@ public class $ {
         @Override
         public Object invoke(Object proxy, Method method, Object[] objects) throws Throwable {
             if (method.getDeclaringClass().isAssignableFrom(TaskExecutor.class)) {
-                return method.invoke(AfApp.get().getTaskExecutor(), objects);
+                return method.invoke(AfApp.get().newTaskExecutor(), objects);
             } else if (method.getDeclaringClass().isAssignableFrom(DialogBuilder.class)) {
-                return method.invoke(AfApp.get().getDialogBuilder(getLastContext()), objects);
+                return method.invoke(AfApp.get().newDialogBuilder(getLastContext()), objects);
             } else if (method.getDeclaringClass().isAssignableFrom(ViewQuery.class)) {
-                return method.invoke(AfApp.get().getViewQuery(getLastView()), objects);
+                return method.invoke(AfApp.get().newViewQuery(getLastView()), objects);
             } else if (method.getDeclaringClass().isAssignableFrom($$.class)) {
                 return method.invoke(this, objects);
             }

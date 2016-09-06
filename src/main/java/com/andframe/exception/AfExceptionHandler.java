@@ -42,7 +42,7 @@ public class AfExceptionHandler implements UncaughtExceptionHandler {
 
     public static void register() {
         if (INSTANCE == null) {
-            INSTANCE = AfApp.get().getExceptionHandler();
+            INSTANCE = AfApp.get().newExceptionHandler();
         }
     }
 

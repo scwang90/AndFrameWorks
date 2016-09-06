@@ -452,19 +452,19 @@ public abstract class AfApp extends Application {
 	 * 获取 ExceptionHandler
 	 * @return handle
 	 */
-	public AfExceptionHandler getExceptionHandler() {
+	public AfExceptionHandler newExceptionHandler() {
 		return new AfExceptionHandler();
 	}
 
-	public ViewQuery getViewQuery(View view) {
+	public ViewQuery newViewQuery(View view) {
 		return new AfView(view);
 	}
 
-	public TaskExecutor getTaskExecutor() {
+	public TaskExecutor newTaskExecutor() {
 		return AfTaskExecutor.getInstance();
 	}
 
-	public DialogBuilder getDialogBuilder(Context context) {
+	public DialogBuilder newDialogBuilder(Context context) {
 		return new AfDialogBuilder(context);
 	}
 	//</editor-fold>

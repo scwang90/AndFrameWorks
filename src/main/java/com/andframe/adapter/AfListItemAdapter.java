@@ -37,7 +37,7 @@ public abstract class AfListItemAdapter<T> extends AfListAdapter<T> implements L
 
     @Override
     public void onBinding(View view, T model, int index) {
-        AfListItemAdapter.this.onBinding(AfApp.get().getViewQuery(view), model, index);
+        AfListItemAdapter.this.onBinding(AfApp.get().newViewQuery(view), model, index);
     }
 
     /**

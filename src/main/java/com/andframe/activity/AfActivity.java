@@ -65,7 +65,7 @@ public class AfActivity extends AppCompatActivity implements Pager {
      */
     @SuppressWarnings("unused")
     protected ViewQuery $(int... id) {
-        ViewQuery query = AfApp.get().getViewQuery(mRootView);
+        ViewQuery query = AfApp.get().newViewQuery(mRootView);
         if (id == null || id.length == 0) {
             return query;
         }
@@ -73,7 +73,7 @@ public class AfActivity extends AppCompatActivity implements Pager {
     }
     @SuppressWarnings("unused")
     protected ViewQuery $(View view, View... views) {
-        return AfApp.get().getViewQuery(mRootView).id(view, views);
+        return AfApp.get().newViewQuery(mRootView).id(view, views);
     }
 
     @SuppressWarnings("unused")

@@ -67,7 +67,7 @@ public abstract class AfListItem<T> implements ListItem<T> {
 	 */
 	@SuppressWarnings("unused")
 	protected ViewQuery $(int... id) {
-		ViewQuery query = AfApp.get().getViewQuery(getLayout());
+		ViewQuery query = AfApp.get().newViewQuery(getLayout());
 		if (id == null || id.length == 0) {
 			return query;
 		}
@@ -75,7 +75,7 @@ public abstract class AfListItem<T> implements ListItem<T> {
 	}
 	@SuppressWarnings("unused")
 	protected ViewQuery $(View view, View... views) {
-		return AfApp.get().getViewQuery(getLayout()).id(view,views);
+		return AfApp.get().newViewQuery(getLayout()).id(view,views);
 	}
 
 }
