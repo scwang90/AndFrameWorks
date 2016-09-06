@@ -7,6 +7,10 @@ import java.lang.reflect.Field;
 import java.lang.reflect.Modifier;
 import java.net.URLDecoder;
 import java.net.URLEncoder;
+import java.text.DateFormat;
+import java.text.SimpleDateFormat;
+import java.util.Date;
+import java.util.Locale;
 import java.util.Map;
 import java.util.Set;
 
@@ -57,7 +61,11 @@ public class FormUtil {
 
 
     public static class Formater {
+        public static DateFormat FULL = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss", Locale.CHINESE);
         public String toString(Object object){
+            if (object instanceof Date) {
+                return FULL.format(((Date) object));
+            }
             return String.valueOf(object);
         }
     }

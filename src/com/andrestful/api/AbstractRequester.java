@@ -8,6 +8,7 @@ import com.andrestful.exception.RestfulException;
 import com.andrestful.http.MultiRequestHandler;
 import com.andrestful.util.StackTraceUtil;
 
+import java.lang.reflect.Method;
 import java.util.LinkedHashMap;
 import java.util.Map;
 
@@ -27,14 +28,40 @@ public class AbstractRequester {
         }
     }
 
+
+    /**
+     * 打包参数到MAP
+     */
+    public static Map<String, Object> keyValueToMap(Object... keyvalue) {
+        return keyValueToMap(new LinkedHashMap<String, Object>(), keyvalue);
+    }
+
+    /**
+     * 打包参数到MAP
+     */
+    public static Map<String, Object> keyValueToMap(Map<String, Object> map, Object... keyvalue) {
+        if (keyvalue != null && keyvalue.length > 0) {
+            for (int i = 0; i < keyvalue.length / 2; i++) {
+                if (keyvalue[2 * i] instanceof String) {
+                    Object arg = keyvalue[2 * i + 1];
+                    map.put((String) keyvalue[2 * i], arg);
+                }
+            }
+        }
+        return map;
+    }
+
+
     /**
      * http 封装实现者
      */
+    @SuppressWarnings("unused")
     protected static Implementer impl = new Implementer();
 
     /**
      * 实现者
      */
+    @SuppressWarnings("unused")
     protected static class Implementer {
         /**
          * http 执行器
@@ -68,31 +95,12 @@ public class AbstractRequester {
 
         public Response doUploadParam(String file, Object... keyvalue) throws Exception {
             HttpRequest request = getHttpRequest();
-            return handler.doUpload(request.path, null, keyValueToMap(keyvalue), file);
+            return handler.doUpload(request.path, (Map<String, Object>)null, keyValueToMap(keyvalue), file);
         }
 
         public Response doUploadParam(String file1, String file2, Object... keyvalue) throws Exception {
             HttpRequest request = getHttpRequest();
-            return handler.doUpload(request.path, null, keyValueToMap(keyvalue), file1, file2);
-        }
-
-        /**
-         * 打包参数到MAP
-         */
-        public Map<String, Object> keyValueToMap(Object... keyvalue) {
-            return keyValueToMap(new LinkedHashMap<String, Object>(), keyvalue);
-        }
-
-        public Map<String, Object> keyValueToMap(Map<String, Object> map, Object... keyvalue) {
-            if (keyvalue != null && keyvalue.length > 0) {
-                for (int i = 0; i < keyvalue.length / 2; i++) {
-                    if (keyvalue[2 * i] instanceof String) {
-                        Object arg = keyvalue[2 * i + 1];
-                        map.put((String) keyvalue[2 * i], arg);
-                    }
-                }
-            }
-            return map;
+            return handler.doUpload(request.path, (Map<String, Object>)null, keyValueToMap(keyvalue), file1, file2);
         }
 
         /**
@@ -120,7 +128,11 @@ public class AbstractRequester {
             } else if (put != null) {
                 return new HttpRequest(put.method(), put.value());
             } else {
-                throw new RestfulException("访问API没有设置HttpRequest");
+                Method method = StackTraceUtil.getCurrentMethod(1 + level);
+                if (method == null) {
+                    throw new RestfulException("访问API没有设置HttpRequest");
+                }
+                throw new RestfulException(method.getDeclaringClass().getSimpleName()+"."+method.getName()+" 没有设置HttpRequest");
             }
         }
     }

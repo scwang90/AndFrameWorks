@@ -5,10 +5,11 @@ package com.andrestful.api;
 import android.content.Context;
 import android.content.SharedPreferences;
 
+import java.io.InputStream;
 import java.util.LinkedHashMap;
 import java.util.Map;
 
-@SuppressWarnings("deprecation")
+@SuppressWarnings({"deprecation", "unused"})
 public abstract class RequestHandler {
 
 	private static RequestHandler instance;
@@ -16,7 +17,6 @@ public abstract class RequestHandler {
 
 	protected Map<String, String> cookies = null;
 	protected SharedPreferences mCookiePreferences;
-
 
 	public RequestHandler enableCookie(Context context) {
 		this.mCookiePreferences = context.getSharedPreferences(KEY_COOKIE, Context.MODE_PRIVATE);
@@ -58,17 +58,21 @@ public abstract class RequestHandler {
 		return doRequest(method, path,headers,null, params);
 	}
 
-	public Response doUpload(String path, String... files) throws Exception {
+	public Response doUpload(String path, Object... files) throws Exception {
 		return doUpload(path, null, null, files);
 	}
 
-	public Response doUpload(String path, Map<String, Object> params, String... files) throws Exception {
+	public Response doUpload(String path, Map<String, Object> params, Object... files) throws Exception {
 		return doUpload(path, null, params, files);
 	}
 
-	public abstract Response doUpload(String path, Map<String, String> headers, Map<String, Object> params, String... files) throws Exception;
+	public Response doUpload(String path, Map<String, Object> params, String name, InputStream input) throws Exception {
+		return doUpload(path, null, params, name, input);
+	}
 
-	public abstract Response doUpload(String path, Map<String, String> headers, Map<String, Object> params, String file, long start, long len) throws Exception;
+	public abstract Response doUpload(String path, Map<String, String> headers, Map<String, Object> params, Object... files) throws Exception;
+
+	public abstract Response doUpload(String path, Map<String, String> headers, Map<String, Object> params, String name, InputStream input) throws Exception;
 
 	public abstract Response doRequest(HttpMethod method, String path, Map<String, String> headers, Object body, Map<String, Object> params) throws Exception ;
 
