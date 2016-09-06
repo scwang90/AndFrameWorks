@@ -1,0 +1,11 @@
+<?xml version="1.0" encoding="utf-8"?>
+<shape xmlns:android="http://schemas.android.com/apk/res/android"
+    android:shape="line">
+    <stroke
+        android:width="@dimen/division_line"
+        android:color="@color/colorDivison"
+        android:dashGap="2dp"
+        android:dashWidth="6dp" />
+    <!-- 虚线的高度 -->
+    <size android:height="@dimen/division_line" />
+</shape>
