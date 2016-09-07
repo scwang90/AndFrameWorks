@@ -139,7 +139,7 @@ public abstract class AfListViewTask<T> extends AfHandlerTask {
      * @param ltdata   刷新的数据
      * @return 返回 true 表示 isfinish=false 时候 已经做了失败提示处理 将不在调用 onDealError
      */
-    protected boolean onLoaded(boolean isfinish, List<T> ltdata/*,Date cachetime*/) {
+    protected boolean onLoaded(boolean isfinish, List<T> ltdata) {
         return onRefreshed(isfinish, ltdata);
     }
 
@@ -187,11 +187,17 @@ public abstract class AfListViewTask<T> extends AfHandlerTask {
         }
     }
 
+    /**
+     * 缓存追加
+     */
     @SuppressWarnings("UnusedParameters")
     protected void onPushCache(List<T> list) {
 
     }
 
+    /**
+     * 缓存覆盖
+     */
     @SuppressWarnings("UnusedParameters")
     protected void onPutCache(List<T> list) {
 

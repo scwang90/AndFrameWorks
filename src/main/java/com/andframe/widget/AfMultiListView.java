@@ -5,7 +5,7 @@ import android.util.AttributeSet;
 import android.view.ViewGroup;
 import android.widget.ListView;
 
-import com.andframe.api.Pager;
+import com.andframe.api.page.Pager;
 import com.andframe.widget.multichoice.AfMultiChoiceAbsListView;
 import com.andframe.widget.pulltorefresh.PullRefreshFooterImpl;
 import com.andframe.widget.pulltorefresh.PullRefreshHeaderImpl;

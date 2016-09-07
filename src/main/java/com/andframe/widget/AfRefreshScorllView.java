@@ -6,7 +6,7 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ScrollView;
 
-import com.andframe.api.Pager;
+import com.andframe.api.page.Pager;
 import com.andframe.widget.pulltorefresh.AfPullToRefreshBase;
 import com.andframe.widget.pulltorefresh.PullRefreshFooterImpl;
 import com.andframe.widget.pulltorefresh.PullRefreshHeaderImpl;

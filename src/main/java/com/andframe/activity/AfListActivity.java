@@ -16,7 +16,7 @@ import com.andframe.adapter.AfListAdapter;
 import com.andframe.annotation.view.BindAfterViews;
 import com.andframe.annotation.view.BindLayout;
 import com.andframe.api.ListItem;
-import com.andframe.api.Pager;
+import com.andframe.api.page.Pager;
 import com.andframe.exception.AfExceptionHandler;
 import com.andframe.feature.AfIntent;
 import com.andframe.task.AfDispatcher;

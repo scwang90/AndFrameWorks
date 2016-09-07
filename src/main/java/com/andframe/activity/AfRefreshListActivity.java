@@ -12,7 +12,7 @@ import android.widget.ListView;
 import com.andframe.adapter.AfListAdapter;
 import com.andframe.annotation.mark.MarkCache;
 import com.andframe.api.ListItem;
-import com.andframe.api.Pager;
+import com.andframe.api.page.Pager;
 import com.andframe.caches.AfPrivateCaches;
 import com.andframe.exception.AfExceptionHandler;
 import com.andframe.model.Page;

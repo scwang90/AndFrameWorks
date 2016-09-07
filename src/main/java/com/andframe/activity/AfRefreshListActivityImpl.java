@@ -3,7 +3,7 @@ package com.andframe.activity;
 import android.widget.ListView;
 
 import com.andframe.R;
-import com.andframe.api.Pager;
+import com.andframe.api.page.Pager;
 import com.andframe.module.AfFrameSelector;
 import com.andframe.module.AfModuleNodata;
 import com.andframe.module.AfModuleNodataImpl;

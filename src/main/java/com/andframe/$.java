@@ -9,10 +9,10 @@ import android.view.View;
 import com.andframe.adapter.listitem.AfListItem;
 import com.andframe.api.DialogBuilder;
 import com.andframe.api.ModelConvertor;
-import com.andframe.api.Pager;
 import com.andframe.api.TaskExecutor;
 import com.andframe.api.ViewModuler;
 import com.andframe.api.ViewQuery;
+import com.andframe.api.page.Pager;
 import com.andframe.application.AfApp;
 import com.andframe.module.AfViewModule;
 

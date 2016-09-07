@@ -6,13 +6,13 @@
     android:background="@color/transparent" >
 
     <ListView
+        style="@style/AndFrame.Divison"
         android:id="@+id/listcontent_list"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:divider="#d9d9d9"
-        android:dividerHeight="0.5dp"
         android:fadingEdge="none"
         android:listSelector="@drawable/af_background_listitem"
+        android:background="@color/transparent"
         android:visibility="visible" />
 
     <include layout="@layout/af_module_progress" />

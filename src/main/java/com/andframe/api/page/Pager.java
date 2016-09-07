@@ -1,7 +1,9 @@
-package com.andframe.api;
+package com.andframe.api.page;
 
 import android.app.Activity;
 
+import com.andframe.api.Constanter;
+import com.andframe.api.Viewer;
 import com.andframe.task.AfData2Task;
 import com.andframe.task.AfData3Task;
 import com.andframe.task.AfDataTask;
@@ -12,7 +14,7 @@ import com.andframe.task.AfTask;
  * Created by SCWANG on 2016/9/1.
  */
 @SuppressWarnings("unused")
-public interface Pager extends Viewer,Constanter {
+public interface Pager extends Viewer, Constanter {
     boolean isRecycled();
 
     Activity getActivity();

@@ -27,13 +27,17 @@ public class AfViewPagerAdapter extends FragmentStatePagerAdapter {
     public Fragment getItem(int position) {
         try {
             if (fragments[position] == null) {
-                fragments[position] = clazzs[position].newInstance();
+                fragments[position] = newFragment(position);
             }
             return fragments[position];
         } catch (Exception e) {
             e.printStackTrace();
         }
         return null;
+    }
+
+    protected Fragment newFragment(int position) throws InstantiationException, IllegalAccessException {
+        return clazzs[position].newInstance();
     }
 
     @Deprecated
