@@ -1,6 +1,6 @@
 package com.andpack.api;
 
-import com.andframe.api.Pager;
+import com.andframe.api.page.Pager;
 import com.andframe.widget.pulltorefresh.AfPullToRefreshBase.OnRefreshListener;
 
 /**
