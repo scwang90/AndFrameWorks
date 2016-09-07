@@ -46,6 +46,7 @@ import java.lang.reflect.Method;
 import java.lang.reflect.ParameterizedType;
 import java.lang.reflect.Type;
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.Collections;
 import java.util.HashSet;
 import java.util.List;
@@ -201,22 +202,22 @@ public class ViewBinder {
                     View view = null;
                     if (id > 0) {
                         view = root.findViewById(id);
+                    } else if (bind.value().length > 1 || (!field.getType().isArray() && !List.class.equals(field.getType()))) {
+                        View[] receiveViews = findViewByType(root.getView(), field.getType(), 1);
+                        if (receiveViews.length > 0) {
+                            view = receiveViews[0];
+                        }
                     } else {
-                        Queue<View> views = new LinkedBlockingQueue<>();
-                        views.add(root.getView());
-                        do {
-                            View cview = views.poll();
-                            if (cview != null && field.getType().isAssignableFrom(cview.getClass())) {
-                                view = cview;
-                            } else {
-                                if (cview instanceof ViewGroup) {
-                                    ViewGroup group = (ViewGroup) cview;
-                                    for (int i = 0; i < group.getChildCount(); i++) {
-                                        views.add(group.getChildAt(i));
-                                    }
-                                }
-                            }
-                        } while (view == null && !views.isEmpty());
+                        field.setAccessible(true);
+                        Object original = field.get(handler);
+                        View[] receiveViews;
+                        if (original != null && field.getType().isArray()) {
+                            Object[] objects = (Object[]) original;
+                            receiveViews = findViewByType(root.getView(), field.getType(), objects.length);
+                        } else {
+                            receiveViews = findViewByType(root.getView(), field.getType(), 0);
+                        }
+                        list.addAll(Arrays.asList(receiveViews));
                     }
                     if (view != null) {
                         if (bind.click() && handler instanceof OnClickListener) {
@@ -241,6 +242,31 @@ public class ViewBinder {
                 AfExceptionHandler.handle(e, TAG(handler, "doBindView.") + field.getName());
             }
         }
+    }
+
+    private static View[] findViewByType(View rootview, Class<?> type, int count) {
+        if (type.isArray()) {
+            type = type.getComponentType();
+        }
+        count = count <= 0 ? Integer.MAX_VALUE : count;
+
+        Queue<View> views = new LinkedBlockingQueue<>(Collections.singletonList(rootview));
+        List<View> list = new ArrayList<>(count == Integer.MAX_VALUE ? 0 : count);
+        do {
+            View cview = views.poll();
+            if (cview != null && type.isAssignableFrom(cview.getClass())) {
+                list.add(cview);
+            } else {
+                if (cview instanceof ViewGroup) {
+                    ViewGroup group = (ViewGroup) cview;
+                    for (int j = 0; j < group.getChildCount(); j++) {
+                        views.add(group.getChildAt(j));
+                    }
+                }
+            }
+        } while (!views.isEmpty() && list.size() < count);
+
+        return list.toArray(new View[list.size()]);
     }
 
     @SuppressWarnings("unchecked")
