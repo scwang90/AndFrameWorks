@@ -10,6 +10,7 @@ import android.os.Build;
 import android.text.Editable;
 import android.text.Spanned;
 import android.text.TextWatcher;
+import android.util.TypedValue;
 import android.view.View;
 import android.view.ViewGroup;
 import android.webkit.WebView;
@@ -264,12 +265,17 @@ public class AfViewQuery<T extends AfViewQuery<T>> implements ViewQuery<T> {
     }
 
     @Override
+    public T textSizeId(int id) {
+        return foreach(TextView.class,(ViewEacher<TextView>) (view) -> view.setTextSize(TypedValue.COMPLEX_UNIT_PX,view.getResources().getDimension(id)));
+    }
+
+    @Override
     public T progress(int progress) {
         return foreach(ProgressBar.class,(ViewEacher<ProgressBar>) (view) -> view.setProgress(progress));
     }
 
     public View getView(int... indexs) {
-        if (mTargetViews != null && mTargetViews.length >= 0) {
+        if (mTargetViews != null && mTargetViews.length > 0) {
             if (indexs != null && indexs.length > 0 && indexs[0] < mTargetViews.length) {
                 return mTargetViews[indexs[0]];
             } else {

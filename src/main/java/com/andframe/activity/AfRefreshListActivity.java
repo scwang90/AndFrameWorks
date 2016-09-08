@@ -107,8 +107,8 @@ public abstract class AfRefreshListActivity<T> extends AfListActivity<T> impleme
      * 初始化页面
      */
     @Override
-    protected void onInitFrameWork() throws Exception {
-        super.onInitFrameWork();
+    protected void onAfterViews() throws Exception {
+        super.onAfterViews();
         mNodata = newModuleNodata(this);
         mProgress = newModuleProgress(this);
         mSelector = newAfFrameSelector(this);

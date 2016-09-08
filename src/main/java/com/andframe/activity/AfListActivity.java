@@ -55,7 +55,7 @@ public abstract class AfListActivity<T> extends AfActivity implements OnItemClic
      * 初始化页面
      */
     @BindAfterViews
-    protected void onInitFrameWork() throws Exception {
+    protected void onAfterViews() throws Exception {
         if (mAdapter == null) {
             mAdapter = newAdapter(this, new ArrayList<>());
         }

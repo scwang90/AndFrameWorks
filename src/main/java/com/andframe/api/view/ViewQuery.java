@@ -590,7 +590,7 @@ public interface ViewQuery<T extends ViewQuery<T>> {
     T padding(float leftDip, float topDip, float rightDip, float bottomDip);
     T progress(int progress);
     T visibility(boolean isvisibe);
-
+    T textSizeId(int id);
 
     T foreach(ViewEacher<View> eacher);
     <TT> T foreach(Class<TT> clazz, ViewEacher<TT> eacher);

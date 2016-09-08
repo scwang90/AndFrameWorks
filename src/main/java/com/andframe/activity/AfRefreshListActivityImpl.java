@@ -47,8 +47,8 @@ public abstract class AfRefreshListActivityImpl<T> extends AfRefreshListActivity
     }
 
     @Override
-    protected void onInitFrameWork() throws Exception {
-        super.onInitFrameWork();
+    protected void onAfterViews() throws Exception {
+        super.onAfterViews();
         mTitlebar = newModuleTitlebar(this);
     }
 
