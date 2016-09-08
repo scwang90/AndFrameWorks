@@ -4,7 +4,7 @@ import android.content.Context;
 import android.view.View;
 
 import com.andframe.api.DialogBuilder;
-import com.andframe.api.ViewQuery;
+import com.andframe.api.view.ViewQuery;
 import com.andframe.application.AfApp;
 import com.andframe.exception.AfExceptionHandler;
 import com.andpack.impl.ApDialogBuilder;
