@@ -5,7 +5,7 @@ import android.view.View;
 import android.view.ViewGroup;
 
 import com.andframe.api.ListItem;
-import com.andframe.api.ViewQuery;
+import com.andframe.api.view.ViewQuery;
 import com.andframe.application.AfApp;
 
 import java.util.List;

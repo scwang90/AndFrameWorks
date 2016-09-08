@@ -33,7 +33,7 @@ import android.widget.SeekBar;
 import android.widget.Spinner;
 import android.widget.TextView;
 
-import com.andframe.api.ViewQuery;
+import com.andframe.api.view.ViewQuery;
 
 import java.util.ArrayList;
 import java.util.Arrays;
@@ -142,6 +142,15 @@ public class AfViewQuery<T extends AfViewQuery<T>> implements ViewQuery<T> {
     }
 
     @Override
+    public <TT extends View> TT view(Class<TT> clazz, int... indexs) {
+        View view = getView(indexs);
+        if (view != null && clazz.isInstance(view)) {
+            return clazz.cast(view);
+        }
+        return null;
+    }
+
+    @Override
     public ScrollView getScrollView() {
         return foreach(ScrollView.class, view -> view);
     }
@@ -190,6 +199,11 @@ public class AfViewQuery<T extends AfViewQuery<T>> implements ViewQuery<T> {
             int bottom = (int) (scale * bottomDip + 0.5f);
             view.setPadding(left, top, right, bottom);
         });
+    }
+
+    @Override
+    public T visibility(boolean isvisibe) {
+        return visibility(isvisibe ? View.VISIBLE : View.GONE);
     }
 
     @Override

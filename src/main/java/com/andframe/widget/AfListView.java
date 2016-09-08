@@ -6,7 +6,7 @@ import android.view.ViewGroup;
 import android.widget.ListAdapter;
 import android.widget.ListView;
 
-import com.andframe.api.Viewer;
+import com.andframe.api.view.Viewer;
 import com.andframe.widget.pulltorefresh.PullRefreshFooterImpl;
 import com.andframe.widget.pulltorefresh.PullRefreshHeaderImpl;
 

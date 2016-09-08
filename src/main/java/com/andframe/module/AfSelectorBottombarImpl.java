@@ -4,7 +4,7 @@ import android.widget.ImageView;
 import android.widget.LinearLayout;
 
 import com.andframe.R;
-import com.andframe.api.Viewer;
+import com.andframe.api.view.Viewer;
 
 public class AfSelectorBottombarImpl extends AfSelectorBottombar {
 

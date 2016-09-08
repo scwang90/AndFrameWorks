@@ -5,8 +5,8 @@ import android.view.View;
 import android.widget.FrameLayout;
 
 import com.andframe.annotation.view.BindLayout;
-import com.andframe.api.Viewer;
-import com.andframe.api.ViewModuler;
+import com.andframe.api.view.Viewer;
+import com.andframe.api.view.ViewModuler;
 import com.andframe.feature.AfView;
 import com.andframe.util.java.AfReflecter;
 
@@ -15,7 +15,7 @@ import java.util.List;
 
 @SuppressLint("ViewConstructor")
 @SuppressWarnings("unused")
-public class AfFrameSelector extends AfViewModule {
+public class AfFrameSelector extends AfViewModuler {
 
 	private FrameLayout mFrameLayout = null;
 

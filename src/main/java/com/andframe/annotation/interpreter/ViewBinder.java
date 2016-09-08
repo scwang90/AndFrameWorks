@@ -21,7 +21,7 @@ import com.andframe.annotation.view.BindLongClick;
 import com.andframe.annotation.view.BindTouch;
 import com.andframe.annotation.view.BindView;
 import com.andframe.annotation.view.BindViewModule;
-import com.andframe.api.Viewer;
+import com.andframe.api.view.Viewer;
 import com.andframe.exception.AfExceptionHandler;
 import com.andframe.feature.AfView;
 import com.andframe.module.AfFrameSelector;
@@ -35,7 +35,7 @@ import com.andframe.module.AfSelectorBottombar;
 import com.andframe.module.AfSelectorBottombarImpl;
 import com.andframe.module.AfSelectorTitlebar;
 import com.andframe.module.AfSelectorTitlebarImpl;
-import com.andframe.module.AfViewModule;
+import com.andframe.module.AfViewModuler;
 import com.andframe.module.AfViewWrapper;
 import com.andframe.util.java.AfReflecter;
 import com.andframe.widget.AfContactsRefreshView;
@@ -301,14 +301,14 @@ public class ViewBinder {
                         //Class<? extends AfViewModule> type = (Class<? extends AfViewModule>) field.getType();
                         if (field.getType().isArray()) {
                             Class<?> type = field.getType().getComponentType();
-                            value = AfViewModule.init((Class<? extends AfViewModule>) type, root, id);
+                            value = AfViewModuler.init((Class<? extends AfViewModuler>) type, root, id);
                         } else if (List.class.isAssignableFrom(field.getType())) {
                             Type generic = field.getGenericType();
                             ParameterizedType parameterized = (ParameterizedType) generic;
                             Class<?> type = (Class<?>) parameterized.getActualTypeArguments()[0];
-                            value = AfViewModule.init((Class<? extends AfViewModule>) type, root, id);
+                            value = AfViewModuler.init((Class<? extends AfViewModuler>) type, root, id);
                         } else {
-                            value = AfViewModule.init((Class<? extends AfViewModule>) field.getType(), root, id);
+                            value = AfViewModuler.init((Class<? extends AfViewModuler>) field.getType(), root, id);
                         }
                     }
                     if (value != null) {

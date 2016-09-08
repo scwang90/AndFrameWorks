@@ -17,7 +17,7 @@ import android.view.View;
 import com.andframe.BuildConfig;
 import com.andframe.activity.AfActivity;
 import com.andframe.api.DialogBuilder;
-import com.andframe.api.ViewQuery;
+import com.andframe.api.view.ViewQuery;
 import com.andframe.api.TaskExecutor;
 import com.andframe.caches.AfJsonCache;
 import com.andframe.exception.AfExceptionHandler;

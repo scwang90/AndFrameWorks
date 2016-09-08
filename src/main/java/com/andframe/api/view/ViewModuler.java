@@ -1,4 +1,4 @@
-package com.andframe.api;
+package com.andframe.api.view;
 
 import android.view.View;
 

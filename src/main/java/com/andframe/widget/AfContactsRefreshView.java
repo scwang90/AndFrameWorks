@@ -8,7 +8,7 @@ import android.widget.ExpandableListView.OnChildClickListener;
 import android.widget.ListAdapter;
 
 import com.andframe.adapter.AfContactsAdapter;
-import com.andframe.api.Viewer;
+import com.andframe.api.view.Viewer;
 import com.andframe.widget.pulltorefresh.PullRefreshFooterImpl;
 import com.andframe.widget.pulltorefresh.PullRefreshHeaderImpl;
 

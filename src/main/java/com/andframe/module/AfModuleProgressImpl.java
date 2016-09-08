@@ -3,7 +3,7 @@ package com.andframe.module;
 import android.widget.TextView;
 
 import com.andframe.R;
-import com.andframe.api.Viewer;
+import com.andframe.api.view.Viewer;
 
 public class AfModuleProgressImpl extends AfModuleProgress{
 

@@ -4,11 +4,11 @@ import android.view.View;
 import android.view.View.OnClickListener;
 import android.widget.TextView;
 
-import com.andframe.api.Viewer;
+import com.andframe.api.view.Viewer;
 import com.andframe.exception.AfExceptionHandler;
 
 @SuppressWarnings("unused")
-public abstract class AfModuleNodata extends AfViewModule implements OnClickListener {
+public abstract class AfModuleNodata extends AfViewModuler implements OnClickListener {
 
     protected View mButton = null;
     protected TextView mTvButton = null;

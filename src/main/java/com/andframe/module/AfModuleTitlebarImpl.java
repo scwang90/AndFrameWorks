@@ -3,7 +3,7 @@ package com.andframe.module;
 import android.view.View;
 
 import com.andframe.R;
-import com.andframe.api.Viewer;
+import com.andframe.api.view.Viewer;
 import com.andframe.exception.AfExceptionHandler;
 import com.andframe.feature.AfView;
 

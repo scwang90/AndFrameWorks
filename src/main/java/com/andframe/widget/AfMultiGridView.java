@@ -5,7 +5,7 @@ import android.util.AttributeSet;
 import android.view.ViewGroup;
 import android.widget.GridView;
 
-import com.andframe.api.Viewer;
+import com.andframe.api.view.Viewer;
 import com.andframe.widget.multichoice.AfMultiChoiceAbsListView;
 import com.andframe.widget.pulltorefresh.PullRefreshFooterImpl;
 import com.andframe.widget.pulltorefresh.PullRefreshHeaderImpl;

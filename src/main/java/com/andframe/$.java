@@ -10,11 +10,11 @@ import com.andframe.adapter.listitem.AfListItem;
 import com.andframe.api.DialogBuilder;
 import com.andframe.api.ModelConvertor;
 import com.andframe.api.TaskExecutor;
-import com.andframe.api.ViewModuler;
-import com.andframe.api.ViewQuery;
+import com.andframe.api.view.ViewModuler;
+import com.andframe.api.view.ViewQuery;
 import com.andframe.api.page.Pager;
 import com.andframe.application.AfApp;
-import com.andframe.module.AfViewModule;
+import com.andframe.module.AfViewModuler;
 
 import java.lang.reflect.InvocationHandler;
 import java.lang.reflect.Method;
@@ -76,8 +76,8 @@ public class $ {
                 return ((Pager) lastWiths[0]).getContext();
             } else if (lastWiths[0] instanceof AfListItem) {
                 return ((AfListItem) lastWiths[0]).getLayout().getContext();
-            } else if (lastWiths[0] instanceof AfViewModule) {
-                return ((AfViewModule) lastWiths[0]).getView().getContext();
+            } else if (lastWiths[0] instanceof AfViewModuler) {
+                return ((AfViewModuler) lastWiths[0]).getView().getContext();
             }
         }
         return null;

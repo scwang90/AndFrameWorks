@@ -1,4 +1,4 @@
-package com.andframe.api;
+package com.andframe.api.view;
 
 import android.content.Context;
 import android.graphics.Bitmap;
@@ -578,6 +578,7 @@ public interface ViewQuery<T extends ViewQuery<T>> {
      */
     ScrollView getScrollView();
     View view(int... indexs);
+    <TT extends View> TT view(Class<TT> clazz ,int... indexs);
     int gravity();
     T gravity(int gravity);
     T $(int... id);
@@ -586,6 +587,7 @@ public interface ViewQuery<T extends ViewQuery<T>> {
     T padding(float Dip);
     T padding(float leftDip, float topDip, float rightDip, float bottomDip);
     T progress(int progress);
+    T visibility(boolean isvisibe);
 
 
     T foreach(ViewEacher<View> eacher);

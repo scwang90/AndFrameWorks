@@ -4,7 +4,7 @@ import android.view.View;
 import android.widget.TextView;
 
 import com.andframe.R;
-import com.andframe.api.Viewer;
+import com.andframe.api.view.Viewer;
 
 public class AfModuleNodataImpl extends AfModuleNodata {
 	

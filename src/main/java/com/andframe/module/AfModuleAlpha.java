@@ -7,10 +7,10 @@ import android.view.animation.Animation;
 import android.view.animation.Animation.AnimationListener;
 import android.view.animation.AnimationSet;
 
-import com.andframe.api.Viewer;
+import com.andframe.api.view.Viewer;
 
 @SuppressWarnings("unused")
-public abstract class AfModuleAlpha extends AfViewModule implements AnimationListener {
+public abstract class AfModuleAlpha extends AfViewModuler implements AnimationListener {
 
 	private static final long DURATION = 500;
 

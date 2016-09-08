@@ -10,7 +10,7 @@ import android.view.View.OnClickListener;
 import android.widget.ImageView;
 import android.widget.TextView;
 
-import com.andframe.api.Viewer;
+import com.andframe.api.view.Viewer;
 import com.andframe.application.AfApp;
 import com.andframe.exception.AfExceptionHandler;
 

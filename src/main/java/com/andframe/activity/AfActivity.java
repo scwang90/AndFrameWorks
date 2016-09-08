@@ -16,13 +16,15 @@ import android.widget.Toast;
 import com.andframe.annotation.interpreter.Injecter;
 import com.andframe.annotation.interpreter.LayoutBinder;
 import com.andframe.annotation.interpreter.ViewBinder;
-import com.andframe.api.ViewQuery;
+import com.andframe.api.view.ViewQuery;
 import com.andframe.api.page.Pager;
+import com.andframe.api.view.ViewQueryHelper;
 import com.andframe.application.AfApp;
 import com.andframe.exception.AfExceptionHandler;
 import com.andframe.exception.AfToastException;
 import com.andframe.feature.AfIntent;
 import com.andframe.fragment.AfFragment;
+import com.andframe.impl.helper.AfViewQueryHelper;
 import com.andframe.task.AfTaskExecutor;
 import com.andframe.task.AfData2Task;
 import com.andframe.task.AfData3Task;
@@ -38,8 +40,7 @@ import java.util.List;
  * 框架 Activity
  * Created by SCWANG on 2016/9/1.
  */
-public class AfActivity extends AppCompatActivity implements Pager {
-
+public class AfActivity extends AppCompatActivity implements Pager, ViewQueryHelper {
 
     protected View mRootView = null;
 
@@ -59,46 +60,30 @@ public class AfActivity extends AppCompatActivity implements Pager {
         return "AfActivity(" + getClass().getName() + ")." + tag;
     }
 
+    //<editor-fold desc="ViewQuery 集成">
+    ViewQueryHelper mViewQueryHelper = new AfViewQueryHelper(this);
+
     /**
      * 开始 ViewQuery 查询
+     *
      * @param id 控件Id
      */
-    @SuppressWarnings("unused")
-    protected ViewQuery $(int... id) {
-        ViewQuery query = AfApp.get().newViewQuery(mRootView);
-        if (id == null || id.length == 0) {
-            return query;
-        }
-        return query.id(id);
-    }
-    @SuppressWarnings("unused")
-    protected ViewQuery $(View view, View... views) {
-        return AfApp.get().newViewQuery(mRootView).id(view, views);
+    @Override
+    public ViewQuery $(int... id) {
+        return mViewQueryHelper.$(id);
     }
 
-    @SuppressWarnings("unused")
-    public void dispatchAfterResume(Runnable runnable) {
-        if (isResume()) {
-            AfDispatcher.dispatch(runnable);
-        } else {
-            postDataTask(runnable, new AfDataTask.AbDataTaskHandler<Runnable>() {
-                @Override
-                public void onTaskBackground(Runnable runnable) throws Exception {
-                    while (!isResume() && !isRecycled()) {
-                        Thread.sleep(1000);
-                    }
-                }
-
-                @Override
-                public boolean onTaskHandle(Runnable runnable, AfDataTask task) {
-                    if (isResume() && !isRecycled()) {
-                        AfDispatcher.dispatch(runnable);
-                    }
-                    return false;
-                }
-            });
-        }
+    /**
+     * 开始 ViewQuery 查询
+     *
+     * @param view  至少一个 View
+     * @param views 可选的多个 View
+     */
+    @Override
+    public ViewQuery $(View view, View... views) {
+        return mViewQueryHelper.$(view, views);
     }
+    //</editor-fold>
 
     /**
      * 判断是否被回收
@@ -111,6 +96,7 @@ public class AfActivity extends AppCompatActivity implements Pager {
     }
 
     //<editor-fold desc="重写布局">
+
     /**
      * 为了实现对软键盘输入法显示和隐藏 的监听重写了 setContentView
      * 子类在对 setContentView 重写的时候请调用
@@ -143,7 +129,7 @@ public class AfActivity extends AppCompatActivity implements Pager {
     public void setContentView(View view, ViewGroup.LayoutParams params) {
         super.setContentView(view, params);
         mRootView = view;
-        ViewBinder.doBind(this,view);
+        ViewBinder.doBind(this, view);
     }
     //</editor-fold>
 
@@ -296,7 +282,7 @@ public class AfActivity extends AppCompatActivity implements Pager {
      * @param resultcode  返回码
      * @see AfActivity#onActivityResult(int, int, android.content.Intent)
      */
-    protected void onActivityResult(AfIntent intent, int requestcode, int resultcode) throws Exception{
+    protected void onActivityResult(AfIntent intent, int requestcode, int resultcode) throws Exception {
         super.onActivityResult(requestcode, resultcode, intent);
     }
 
@@ -358,7 +344,7 @@ public class AfActivity extends AppCompatActivity implements Pager {
                 if (args[2 * i] instanceof String) {
                     Object arg = args[2 * i + 1];
                     if (arg != null && arg instanceof List) {
-                        intent.putList((String) args[2 * i], (List<?>)arg);
+                        intent.putList((String) args[2 * i], (List<?>) arg);
                     } else {
                         intent.put((String) args[2 * i], arg);
                     }
@@ -382,7 +368,7 @@ public class AfActivity extends AppCompatActivity implements Pager {
                 if (args[2 * i] instanceof String) {
                     Object arg = args[2 * i + 1];
                     if (arg != null && arg instanceof List) {
-                        intent.putList((String) args[2 * i], (List<?>)arg);
+                        intent.putList((String) args[2 * i], (List<?>) arg);
                     } else {
                         intent.put((String) args[2 * i], arg);
                     }
@@ -399,7 +385,7 @@ public class AfActivity extends AppCompatActivity implements Pager {
                 if (args[2 * i] instanceof String) {
                     Object arg = args[2 * i + 1];
                     if (arg != null && arg instanceof List) {
-                        intent.putList((String) args[2 * i], (List<?>)arg);
+                        intent.putList((String) args[2 * i], (List<?>) arg);
                     } else {
                         intent.put((String) args[2 * i], arg);
                     }
@@ -439,6 +425,7 @@ public class AfActivity extends AppCompatActivity implements Pager {
     //</editor-fold>
 
     //<editor-fold desc="任务封装">
+
     /**
      * 抛送任务到Worker执行
      */
@@ -592,7 +579,6 @@ public class AfActivity extends AppCompatActivity implements Pager {
         return isHandled || super.onKeyDown(keyCode, event);
     }
     //</editor-fold>
-
 
 
 }

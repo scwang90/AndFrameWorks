@@ -2,7 +2,7 @@ package com.andframe.module;
 
 import android.widget.TextView;
 
-import com.andframe.api.Viewer;
+import com.andframe.api.view.Viewer;
 
 /**
  * 框架加载组件
@@ -10,7 +10,7 @@ import com.andframe.api.Viewer;
  *
  */
 @SuppressWarnings("unused")
-public abstract class AfModuleProgress extends AfViewModule{
+public abstract class AfModuleProgress extends AfViewModuler {
 
 	public TextView mTvDescription = null;
 

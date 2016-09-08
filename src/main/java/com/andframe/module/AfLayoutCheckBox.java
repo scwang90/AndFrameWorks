@@ -6,10 +6,10 @@ import android.view.ViewDebug;
 import android.view.ViewGroup;
 import android.widget.CompoundButton;
 
-import com.andframe.api.Viewer;
+import com.andframe.api.view.Viewer;
 
 @SuppressWarnings("unused")
-public class AfLayoutCheckBox extends AfViewModule implements OnClickListener{
+public class AfLayoutCheckBox extends AfViewModuler implements OnClickListener{
 
     private OnClickListener mListener;
     private CompoundButton mButton = null;

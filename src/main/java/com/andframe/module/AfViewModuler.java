@@ -6,11 +6,13 @@ import android.view.View;
 import com.andframe.annotation.interpreter.Injecter;
 import com.andframe.annotation.interpreter.ViewBinder;
 import com.andframe.annotation.view.BindLayout;
-import com.andframe.api.ViewQuery;
-import com.andframe.api.Viewer;
-import com.andframe.api.ViewModuler;
+import com.andframe.api.view.ViewQuery;
+import com.andframe.api.view.ViewQueryHelper;
+import com.andframe.api.view.Viewer;
+import com.andframe.api.view.ViewModuler;
 import com.andframe.application.AfApp;
 import com.andframe.exception.AfExceptionHandler;
+import com.andframe.impl.helper.AfViewQueryHelper;
 import com.andframe.util.java.AfReflecter;
 
 /**
@@ -18,9 +20,9 @@ import com.andframe.util.java.AfReflecter;
  */
 @SuppressLint("ViewConstructor")
 @SuppressWarnings("unused")
-public abstract class AfViewModule extends AfViewWrapper implements Viewer, ViewModuler {
+public abstract class AfViewModuler extends AfViewWrapper implements Viewer, ViewModuler, ViewQueryHelper {
 
-	public static <T extends AfViewModule> T init(Class<T> clazz, Viewer viewable, int viewId) {
+	public static <T extends AfViewModuler> T init(Class<T> clazz, Viewer viewable, int viewId) {
 		try {
 			T module = AfReflecter.newUnsafeInstance(clazz);
 //            Constructor<?>[] constructors = clazz.getConstructors();
@@ -33,7 +35,7 @@ public abstract class AfViewModule extends AfViewWrapper implements Viewer, View
 //                }
 //            }
 			if (module != null && !module.isValid()) {
-				AfViewModule viewModule = module;
+				AfViewModuler viewModule = module;
 				viewModule.setTarget(viewable, viewable.findViewByID(viewId));
 			}
 			return module;
@@ -42,25 +44,25 @@ public abstract class AfViewModule extends AfViewWrapper implements Viewer, View
 		}
 	}
 
-	public static <T extends AfViewModule> T init(Class<T> clazz, Viewer viewable) {
-		BindLayout annotation = AfReflecter.getAnnotation(clazz, AfViewModule.class, BindLayout.class);
+	public static <T extends AfViewModuler> T init(Class<T> clazz, Viewer viewable) {
+		BindLayout annotation = AfReflecter.getAnnotation(clazz, AfViewModuler.class, BindLayout.class);
 		if (annotation == null) {
 			return null;
 		}
 		return init(clazz, viewable, annotation.value());
 	}
 
-	protected AfViewModule(){
+	protected AfViewModuler(){
 		super(new View(AfApp.get()));
 	}
 
-	protected AfViewModule(View view) {
+	protected AfViewModuler(View view) {
 		super(view);
 	}
 
-	protected AfViewModule(Viewer view) {
+	protected AfViewModuler(Viewer view) {
 		super(new View(view.getContext()));
-		BindLayout layout = AfReflecter.getAnnotation(this.getClass(), AfViewModule.class, BindLayout.class);
+		BindLayout layout = AfReflecter.getAnnotation(this.getClass(), AfViewModuler.class, BindLayout.class);
 		if (layout != null) {
 			wrapped = view.findViewById(layout.value());
 		} else {
@@ -68,7 +70,7 @@ public abstract class AfViewModule extends AfViewWrapper implements Viewer, View
 		}
 	}
 
-	protected AfViewModule(Viewer view, int id) {
+	protected AfViewModuler(Viewer view, int id) {
 		super(new View(view.getContext()));
 		wrapped = view.findViewById(id);
 	}
@@ -78,7 +80,7 @@ public abstract class AfViewModule extends AfViewWrapper implements Viewer, View
 	 * 子类构造函数中必须调用这个函数
 	 */
 	protected void initializeComponent(Viewer viewable){
-		BindLayout layout = AfReflecter.getAnnotation(this.getClass(), AfViewModule.class, BindLayout.class);
+		BindLayout layout = AfReflecter.getAnnotation(this.getClass(), AfViewModuler.class, BindLayout.class);
 		if (wrapped == null && layout != null) {
 			wrapped = viewable.findViewById(layout.value());
 		}
@@ -147,22 +149,25 @@ public abstract class AfViewModule extends AfViewWrapper implements Viewer, View
 		return null;
 	}
 
+	//<editor-fold desc="ViewQuery 集成">
+	ViewQueryHelper mViewQueryHelper = new AfViewQueryHelper(this);
 	/**
 	 * 开始 ViewQuery 查询
 	 * @param id 控件Id
 	 */
-	@SuppressWarnings("unused")
-	protected ViewQuery $(int... id) {
-		ViewQuery query = AfApp.get().newViewQuery(getView());
-		if (id == null || id.length == 0) {
-			return query;
-		}
-		return query.id(id);
+	@Override
+	public ViewQuery $(int... id) {
+		return mViewQueryHelper.$(id);
 	}
-	@SuppressWarnings("unused")
-	protected ViewQuery $(View view, View... views) {
-		return AfApp.get().newViewQuery(getView()).id(view,views);
+	/**
+	 * 开始 ViewQuery 查询
+	 * @param view 至少一个 View
+	 * @param views 可选的多个 View
+	 */
+	@Override
+	public ViewQuery $(View view, View... views) {
+		return mViewQueryHelper.$(view, views);
 	}
-
+	//</editor-fold>
 
 }

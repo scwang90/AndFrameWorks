@@ -9,15 +9,18 @@ import com.andframe.annotation.interpreter.Injecter;
 import com.andframe.annotation.interpreter.ViewBinder;
 import com.andframe.annotation.view.BindLayout;
 import com.andframe.api.ListItem;
-import com.andframe.api.ViewQuery;
-import com.andframe.application.AfApp;
+import com.andframe.api.view.ViewQuery;
+import com.andframe.api.view.ViewQueryHelper;
+import com.andframe.api.view.Viewer;
+import com.andframe.feature.AfView;
+import com.andframe.impl.helper.AfViewQueryHelper;
 import com.andframe.util.java.AfReflecter;
 
 /**
  * 通用列表ITEM
  * @param <T>
  */
-public abstract class AfListItem<T> implements ListItem<T> {
+public abstract class AfListItem<T> implements ListItem<T>, Viewer, ViewQueryHelper {
 	
 	private int layoutId;
 
@@ -61,21 +64,52 @@ public abstract class AfListItem<T> implements ListItem<T> {
 		return mLayout;
 	}
 
+
+	//<editor-fold desc="ViewQuery 集成">
+	ViewQueryHelper mViewQueryHelper = new AfViewQueryHelper(this);
 	/**
 	 * 开始 ViewQuery 查询
 	 * @param id 控件Id
 	 */
-	@SuppressWarnings("unused")
-	protected ViewQuery $(int... id) {
-		ViewQuery query = AfApp.get().newViewQuery(getLayout());
-		if (id == null || id.length == 0) {
-			return query;
-		}
-		return query.id(id);
+	@Override
+	public ViewQuery $(int... id) {
+		return mViewQueryHelper.$(id);
 	}
-	@SuppressWarnings("unused")
-	protected ViewQuery $(View view, View... views) {
-		return AfApp.get().newViewQuery(getLayout()).id(view,views);
+	/**
+	 * 开始 ViewQuery 查询
+	 * @param view 至少一个 View
+	 * @param views 可选的多个 View
+	 */
+	@Override
+	public ViewQuery $(View view, View... views) {
+		return mViewQueryHelper.$(view, views);
+	}
+	//</editor-fold>
+
+	//<editor-fold desc="Viewr 接口实现">
+	@Override
+	public Context getContext() {
+		return mLayout == null ? null : mLayout.getContext();
 	}
 
+	@Override
+	public View getView() {
+		return mLayout;
+	}
+
+	@Override
+	public View findViewById(int id) {
+		return mLayout == null ? null : mLayout.findViewById(id);
+	}
+
+	@Override
+	public <TT extends View> TT findViewByID(int id) {
+		return mLayout == null ? null : new AfView(mLayout).findViewByID(id);
+	}
+
+	@Override
+	public <TT extends View> TT findViewById(int id, Class<TT> clazz) {
+		return mLayout == null ? null : new AfView(mLayout).findViewById(id, clazz);
+	}
+	//</editor-fold>
 }

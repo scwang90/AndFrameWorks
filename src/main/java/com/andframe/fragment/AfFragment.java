@@ -16,14 +16,16 @@ import com.andframe.activity.AfActivity;
 import com.andframe.annotation.interpreter.Injecter;
 import com.andframe.annotation.interpreter.ViewBinder;
 import com.andframe.annotation.view.BindLayout;
-import com.andframe.api.ViewQuery;
+import com.andframe.api.view.ViewQuery;
 import com.andframe.api.page.Pager;
+import com.andframe.api.view.ViewQueryHelper;
 import com.andframe.application.AfApp;
 import com.andframe.exception.AfExceptionHandler;
 import com.andframe.exception.AfToastException;
 import com.andframe.feature.AfBundle;
 import com.andframe.feature.AfIntent;
 import com.andframe.feature.AfView;
+import com.andframe.impl.helper.AfViewQueryHelper;
 import com.andframe.task.AfData2Task;
 import com.andframe.task.AfData3Task;
 import com.andframe.task.AfDataTask;
@@ -37,7 +39,7 @@ import java.util.List;
  * 框架 AfFragment
  * @author 树朾
  */
-public abstract class AfFragment extends Fragment implements Pager {
+public abstract class AfFragment extends Fragment implements Pager, ViewQueryHelper {
 
     //<editor-fold desc="属性字段">
     // 根视图
@@ -45,23 +47,26 @@ public abstract class AfFragment extends Fragment implements Pager {
     protected boolean mIsRecycled = false;
     //</editor-fold>
 
+    //<editor-fold desc="ViewQuery 集成">
+    ViewQueryHelper mViewQueryHelper = new AfViewQueryHelper(this);
     /**
      * 开始 ViewQuery 查询
      * @param id 控件Id
      */
-    @SuppressWarnings("unused")
-    protected ViewQuery $(int... id) {
-        ViewQuery query = AfApp.get().newViewQuery(mRootView);
-        if (id == null || id.length == 0) {
-            return query;
-        }
-        return query.id(id);
+    @Override
+    public ViewQuery $(int... id) {
+        return mViewQueryHelper.$(id);
     }
-
-    @SuppressWarnings("unused")
-    protected ViewQuery $(View view, View... views) {
-        return AfApp.get().newViewQuery(mRootView).id(view, views);
+    /**
+     * 开始 ViewQuery 查询
+     * @param view 至少一个 View
+     * @param views 可选的多个 View
+     */
+    @Override
+    public ViewQuery $(View view, View... views) {
+        return mViewQueryHelper.$(view, views);
     }
+    //</editor-fold>
 
     public AfActivity getAfActivity() {
         if (super.getActivity() instanceof AfActivity) {

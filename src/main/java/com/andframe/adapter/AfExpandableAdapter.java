@@ -9,7 +9,7 @@ import android.widget.BaseExpandableListAdapter;
 import com.andframe.annotation.interpreter.Injecter;
 import com.andframe.annotation.interpreter.ViewBinder;
 import com.andframe.annotation.view.BindLayout;
-import com.andframe.api.Viewer;
+import com.andframe.api.view.Viewer;
 import com.andframe.exception.AfExceptionHandler;
 import com.andframe.feature.AfView;
 import com.andframe.util.java.AfReflecter;
