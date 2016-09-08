@@ -8,7 +8,6 @@ import android.widget.ScrollView;
 import com.andframe.$;
 import com.andframe.activity.AfActivity;
 import com.andframe.exception.AfExceptionHandler;
-import com.andframe.feature.AfIntent;
 import com.andframe.task.AfHandlerTask;
 import com.andframe.util.java.AfReflecter;
 import com.andframe.widget.AfRefreshScorllView;
@@ -44,7 +43,7 @@ public class ApActivityHelper implements AfPullToRefreshBase.OnRefreshListener {
         mIsUsingSwipeBack = resid == R.style.AppTheme_SwipeBack;
     }
 
-    public void onCreate(Bundle bundle, AfIntent intent) {
+    public void onCreate() {
         if (mIsUsingSwipeBack) {
             mSwipeBackHelper = new SwipeBackActivityHelper(pager.getActivity());
             mSwipeBackHelper.onActivityCreate();
@@ -64,7 +63,8 @@ public class ApActivityHelper implements AfPullToRefreshBase.OnRefreshListener {
                     break;
                 case translucent_white:
                     SystemBarHelper.setStatusBarDarkMode(pager.getActivity());
-                    SystemBarHelper.tintStatusBar(pager.getActivity(), 0XFFEAEAEA, 0);
+//                    SystemBarHelper.tintStatusBar(pager.getActivity(), 0XFFEAEAEA, 0);
+                    SystemBarHelper.tintStatusBar(pager.getActivity(), 0XFFFFFFFF, 0);
                     break;
             }
         }

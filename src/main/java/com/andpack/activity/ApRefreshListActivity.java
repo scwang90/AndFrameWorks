@@ -33,7 +33,7 @@ public abstract class ApRefreshListActivity<T> extends AfRefreshListActivityImpl
 
     @Override
     protected void onCreate(Bundle bundle, AfIntent intent) throws Exception {
-        mHelper.onCreate(bundle, intent);
+        mHelper.onCreate();
         super.onCreate(bundle, intent);
     }
 
@@ -58,17 +58,5 @@ public abstract class ApRefreshListActivity<T> extends AfRefreshListActivityImpl
         }
         super.finish();
     }
-
-    //<editor-fold desc="下拉刷新">
-    @Override
-    public boolean onMore() {
-        return false;
-    }
-
-    @Override
-    public boolean onRefresh() {
-        return false;
-    }
-    //</editor-fold>
 
 }

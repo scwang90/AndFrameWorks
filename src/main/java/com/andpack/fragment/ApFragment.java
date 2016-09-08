@@ -21,7 +21,7 @@ public class ApFragment extends AfTabFragment implements ApPager {
 
     @Override
     protected void onCreated(AfBundle bundle, AfView view) throws Exception {
-        mHelper.onCreate(bundle.getBundle(), null);
+        mHelper.onCreate();
         super.onCreated(bundle, view);
     }
 

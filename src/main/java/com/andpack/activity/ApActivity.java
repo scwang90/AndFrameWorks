@@ -33,7 +33,7 @@ public class ApActivity extends AfActivity implements ApPager {
 
     @Override
     protected void onCreate(Bundle bundle, AfIntent intent) throws Exception {
-        mHelper.onCreate(bundle,intent);
+        mHelper.onCreate();
         super.onCreate(bundle, intent);
     }
 
