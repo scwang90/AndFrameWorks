@@ -5,11 +5,12 @@ import android.support.annotation.StyleRes;
 import android.view.View;
 
 import com.andframe.activity.AfActivity;
+import com.andframe.annotation.view.BindAfterViews;
 import com.andframe.annotation.view.BindViewModule;
 import com.andframe.feature.AfIntent;
 import com.andframe.module.AfModuleTitlebar;
 import com.andpack.api.ApPager;
-import com.andpack.impl.ApActivityHelper;
+import com.andpack.impl.ApPagerHelper;
 
 /**
  * 通用页面基类
@@ -20,7 +21,7 @@ public class ApActivity extends AfActivity implements ApPager {
     @BindViewModule
     protected AfModuleTitlebar mTitlebar;
 
-    protected ApActivityHelper mHelper = new ApActivityHelper(this);
+    protected ApPagerHelper mHelper = new ApPagerHelper(this);
 
     @Override
     public void setTheme(@StyleRes int resid) {
@@ -33,6 +34,12 @@ public class ApActivity extends AfActivity implements ApPager {
         mHelper.onCreate();
         super.onCreate(bundle, intent);
     }
+
+    @BindAfterViews
+    protected void onAfterViews() throws Exception {
+        mHelper.onAfterViews();
+    }
+
 
     @Override
     public View findViewById(int id) {

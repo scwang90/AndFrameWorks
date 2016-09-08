@@ -2,12 +2,19 @@ package com.andpack.activity;
 
 import android.os.Bundle;
 import android.support.annotation.StyleRes;
+import android.support.v4.app.Fragment;
 import android.view.View;
 
+import com.andframe.activity.AfActivity;
 import com.andframe.activity.AfFragmentActivity;
+import com.andframe.application.AfApp;
 import com.andframe.feature.AfIntent;
 import com.andpack.api.ApPager;
-import com.andpack.impl.ApActivityHelper;
+import com.andpack.impl.ApPagerHelper;
+
+import java.util.ArrayList;
+import java.util.Arrays;
+import java.util.List;
 
 /**
  * 通用页面基类
@@ -15,7 +22,7 @@ import com.andpack.impl.ApActivityHelper;
  */
 public class ApFragmentActivity extends AfFragmentActivity implements ApPager {
 
-    protected ApActivityHelper mHelper = new ApActivityHelper(this);
+    protected ApPagerHelper mHelper = new ApPagerHelper(this);
 
     static {
         activityClazz = ApFragmentActivity.class;
@@ -64,6 +71,28 @@ public class ApFragmentActivity extends AfFragmentActivity implements ApPager {
     @Override
     public boolean onRefresh() {
         return false;
+    }
+    //</editor-fold>
+
+
+    //<editor-fold desc="FragmentActivity启动">
+    public static void startFragment(Class<? extends Fragment> clazz, Object... params){
+        AfActivity activity = AfApp.get().getCurActivity();
+        if (activity != null) {
+            List<Object> list = new ArrayList<>(Arrays.asList(params));
+            list.add(0,clazz.getName());
+            list.add(0,EXTRA_FRAGMENT);
+            activity.startActivity(ApFragmentActivity.class, list.toArray());
+        }
+    }
+    public static void startFragmentForResult(Class<? extends Fragment> clazz,int request, Object... params){
+        AfActivity activity = AfApp.get().getCurActivity();
+        if (activity != null) {
+            List<Object> list = new ArrayList<>(Arrays.asList(params));
+            list.add(0,clazz.getName());
+            list.add(0,EXTRA_FRAGMENT);
+            activity.startActivityForResult(activityClazz, request, list.toArray());
+        }
     }
     //</editor-fold>
 }

@@ -9,5 +9,5 @@ import android.support.annotation.FloatRange;
  */
 public @interface StatusBarTranslucent {
     @FloatRange(from = 0.0, to = 1.0) float value() default 0f;//alpha
-    @ColorRes int color() default android.R.color.black ;
+    @ColorRes int color() default android.R.color.transparent ;
 }

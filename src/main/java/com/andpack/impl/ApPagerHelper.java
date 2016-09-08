@@ -2,6 +2,7 @@ package com.andpack.impl;
 
 import android.os.Bundle;
 import android.support.annotation.StyleRes;
+import android.support.v7.widget.Toolbar;
 import android.view.View;
 import android.widget.ScrollView;
 
@@ -25,7 +26,7 @@ import me.imid.swipebacklayout.lib.app.SwipeBackActivityHelper;
  * 页面基类帮助类
  * Created by SCWANG on 2016/9/3.
  */
-public class ApActivityHelper implements AfPullToRefreshBase.OnRefreshListener {
+public class ApPagerHelper implements AfPullToRefreshBase.OnRefreshListener {
 
     private ApPager pager;
 
@@ -36,7 +37,7 @@ public class ApActivityHelper implements AfPullToRefreshBase.OnRefreshListener {
     protected boolean mIsUsingSwipeBack = false;
     //</editor-fold>
 
-    public ApActivityHelper(ApPager pager) {
+    public ApPagerHelper(ApPager pager) {
         this.pager = pager;
     }
 
@@ -45,40 +46,55 @@ public class ApActivityHelper implements AfPullToRefreshBase.OnRefreshListener {
     }
 
     public void onCreate() {
-        if (mIsUsingSwipeBack) {
-            mSwipeBackHelper = new SwipeBackActivityHelper(pager.getActivity());
-            mSwipeBackHelper.onActivityCreate();
-        }
-        if (!StatusBarInterpreter.interpreter(pager)) {
-            BindStatusBarMode mode = AfReflecter.getAnnotation(pager.getClass(), AfActivity.class, BindStatusBarMode.class);
-            if (mode != null) {
-                switch (mode.value()) {
-                    case normal:
-                        break;
-                    case translucent:
-                        SystemBarHelper.immersiveStatusBar(pager.getActivity(), 0);
-                        View top = pager.findViewById(R.id.af_titlebar_layout);
-                        if (top != null) {
-                            SystemBarHelper.setHeightAndPadding(pager.getContext(), top);
-                        }
-                        //$.with(pager).id(R.id.af_titlebar_layout).view()
-                        break;
-                    case translucent_white:
-                        SystemBarHelper.setStatusBarDarkMode(pager.getActivity());
-//                    SystemBarHelper.tintStatusBar(pager.getActivity(), 0XFFEAEAEA, 0);
-                        SystemBarHelper.tintStatusBar(pager.getActivity(), 0XFFFFFFFF, 0);
-                        break;
+        try {
+            if (mIsUsingSwipeBack) {
+                mSwipeBackHelper = new SwipeBackActivityHelper(pager.getActivity());
+                mSwipeBackHelper.onActivityCreate();
+            }
+            if (!StatusBarInterpreter.interpreter(pager)) {
+                BindStatusBarMode mode = AfReflecter.getAnnotation(pager.getClass(), AfActivity.class, BindStatusBarMode.class);
+                if (mode != null) {
+                    switch (mode.value()) {
+                        case normal:
+                            break;
+                        case translucent:
+                            SystemBarHelper.immersiveStatusBar(pager.getActivity(), 0);
+                            View top = pager.findViewById(R.id.af_titlebar_layout);
+                            if (top != null) {
+                                SystemBarHelper.setHeightAndPadding(pager.getContext(), top);
+                            }
+                            //$.with(pager).id(R.id.af_titlebar_layout).view()
+                            break;
+                        case translucent_white:
+                            SystemBarHelper.setStatusBarDarkMode(pager.getActivity());
+    //                    SystemBarHelper.tintStatusBar(pager.getActivity(), 0XFFEAEAEA, 0);
+                            SystemBarHelper.tintStatusBar(pager.getActivity(), 0XFFFFFFFF, 0);
+                            break;
+                    }
                 }
             }
-        }
-        if (pager.getClass().isAnnotationPresent(BindScorllView.class)) {
-            BindScorllView bind = pager.getClass().getAnnotation(BindScorllView.class);
-            ScrollView scrollView = pager.findViewById(bind.value(), ScrollView.class);
-            if (scrollView != null) {
-                mRfScorllView = new AfRefreshScorllView(pager, bind.value());
-                mRfScorllView.setOnRefreshListener(this);
-                mRfScorllView.getHeaderLayout().setBackgroundResource(R.color.gray_white);
+            if (pager.getClass().isAnnotationPresent(BindScorllView.class)) {
+                BindScorllView bind = pager.getClass().getAnnotation(BindScorllView.class);
+                ScrollView scrollView = pager.findViewById(bind.value(), ScrollView.class);
+                if (scrollView != null) {
+                    mRfScorllView = new AfRefreshScorllView(pager, bind.value());
+                    mRfScorllView.setOnRefreshListener(this);
+                    mRfScorllView.getHeaderLayout().setBackgroundResource(R.color.gray_white);
+                }
             }
+        } catch (Throwable e) {
+            AfExceptionHandler.handle(e, ("ApPagerHelper.onCreate 失败"));
+        }
+    }
+
+    public void onAfterViews() {
+        try {
+            Toolbar toolbar = (Toolbar) $.with(pager).$(Toolbar.class).view();
+            if (toolbar != null) {
+                toolbar.setNavigationOnClickListener(v -> pager.getActivity().finish());
+            }
+        } catch (Throwable e) {
+            AfExceptionHandler.handle(e, ("ApPagerHelper.onAfterViews 失败"));
         }
     }
 
@@ -86,7 +102,7 @@ public class ApActivityHelper implements AfPullToRefreshBase.OnRefreshListener {
         if (mSwipeBackHelper != null) {
             try {
                 return mSwipeBackHelper.findViewById(id);
-            } catch (Exception e) {
+            } catch (Throwable e) {
                 AfExceptionHandler.handle(e, ("SwipeBackActivityHelper.findViewById 失败"));
             }
         }
@@ -110,7 +126,7 @@ public class ApActivityHelper implements AfPullToRefreshBase.OnRefreshListener {
                 mSwipeBackHelper = null;
                 return true;
             }
-        } catch (Exception e) {
+        } catch (Throwable e) {
             AfExceptionHandler.handle(e, ("SwipeBackActivityHelper.scrollToFinishActivity 失败"));
         }
         return false;
@@ -135,5 +151,7 @@ public class ApActivityHelper implements AfPullToRefreshBase.OnRefreshListener {
             }
         }).setListener(mRfScorllView).prepare();
     }
+
     //</editor-fold>
+
 }

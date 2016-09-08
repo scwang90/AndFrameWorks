@@ -9,7 +9,7 @@ import com.andframe.annotation.view.BindViewModule;
 import com.andframe.feature.AfIntent;
 import com.andframe.module.AfModuleTitlebar;
 import com.andpack.api.ApPager;
-import com.andpack.impl.ApActivityHelper;
+import com.andpack.impl.ApPagerHelper;
 
 /**
  * 滑动关闭
@@ -20,7 +20,7 @@ public abstract class ApRefreshListActivity<T> extends AfRefreshListActivityImpl
     @BindViewModule
     protected AfModuleTitlebar mTitlebar;
 
-    protected ApActivityHelper mHelper = new ApActivityHelper(this);
+    protected ApPagerHelper mHelper = new ApPagerHelper(this);
 
     @Override
     public void setTheme(@StyleRes int resid) {
@@ -32,6 +32,12 @@ public abstract class ApRefreshListActivity<T> extends AfRefreshListActivityImpl
     protected void onCreate(Bundle bundle, AfIntent intent) throws Exception {
         mHelper.onCreate();
         super.onCreate(bundle, intent);
+    }
+
+    @Override
+    protected void onAfterViews() throws Exception {
+        mHelper.onAfterViews();
+        super.onAfterViews();
     }
 
     @Override
