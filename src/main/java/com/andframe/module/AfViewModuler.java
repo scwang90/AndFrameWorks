@@ -23,8 +23,9 @@ import com.andframe.util.java.AfReflecter;
 public abstract class AfViewModuler extends AfViewWrapper implements Viewer, ViewModuler, ViewQueryHelper {
 
 	public static <T extends AfViewModuler> T init(Class<T> clazz, Viewer viewable, int viewId) {
+		T module = null;
 		try {
-			T module = AfReflecter.newUnsafeInstance(clazz);
+			module = AfReflecter.newUnsafeInstance(clazz);
 //            Constructor<?>[] constructors = clazz.getConstructors();
 //            for (int i = 0; i < constructors.length && module == null; i++) {
 //                Class<?>[] parameterTypes = constructors[i].getParameterTypes();
@@ -40,8 +41,9 @@ public abstract class AfViewModuler extends AfViewWrapper implements Viewer, Vie
 			}
 			return module;
 		} catch (Throwable e) {
-			throw new RuntimeException(e);
+			AfExceptionHandler.handle(e, "AfViewModuler.init");
 		}
+		return module;
 	}
 
 	public static <T extends AfViewModuler> T init(Class<T> clazz, Viewer viewable) {
@@ -95,6 +97,9 @@ public abstract class AfViewModuler extends AfViewWrapper implements Viewer, Vie
 	}
 
 	protected void onCreated(Viewer viewable, View view) {
+		if (mViewQueryHelper == null) {
+			mViewQueryHelper = new AfViewQueryHelper(this);
+		}
 		this.doInject();
 	}
 
