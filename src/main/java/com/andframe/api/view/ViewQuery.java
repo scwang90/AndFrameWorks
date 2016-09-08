@@ -582,6 +582,8 @@ public interface ViewQuery<T extends ViewQuery<T>> {
     int gravity();
     T gravity(int gravity);
     T $(int... id);
+    T $(String idvalue, String... idvalues);
+    T $(Class<? extends View> type, Class<? extends View>... types);
     T $(View view, View... views);
     T margin(float Dip);
     T padding(float Dip);
@@ -595,6 +597,7 @@ public interface ViewQuery<T extends ViewQuery<T>> {
 
     <TTT> TTT foreach(ViewReturnEacher<View,TTT> eacher);
     <TT,TTT> TTT foreach(Class<TT> clazz, ViewReturnEacher<TT,TTT> eacher);
+
 
 
     interface ViewEacher<TT> {

@@ -1,6 +1,7 @@
 package com.andframe.feature;
 
 import android.content.Context;
+import android.content.res.Resources;
 import android.graphics.Bitmap;
 import android.graphics.Typeface;
 import android.graphics.drawable.Drawable;
@@ -37,6 +38,10 @@ import com.andframe.api.view.ViewQuery;
 
 import java.util.ArrayList;
 import java.util.Arrays;
+import java.util.Collections;
+import java.util.List;
+import java.util.Queue;
+import java.util.concurrent.LinkedBlockingQueue;
 
 /**
  * 安卓版 JQuery 实现
@@ -130,6 +135,58 @@ public class AfViewQuery<T extends AfViewQuery<T>> implements ViewQuery<T> {
     @Override
     public T $(int... id) {
         return id(id);
+    }
+
+    @Override
+    public T $(String idvalue, String... idvalues) {
+        if (mRootView == null) {
+            return self();
+        }
+        List<Integer> listId = new ArrayList<>(idvalues.length + 1);
+        String packageName = getContext().getPackageName();
+        Resources resources = mRootView.getResources();
+        if (idvalue != null) {
+            listId.add(resources.getIdentifier(idvalue,"id",packageName));
+        }
+        if (idvalues.length > 0) {
+            for (String value : idvalues) {
+                listId.add(resources.getIdentifier(value,"id",packageName));
+            }
+        }
+        int[] ids = new int[listId.size()];
+        for (int i = 0; i < ids.length; i++) {
+            ids[i] = listId.get(i);
+        }
+        return id(ids);
+    }
+
+    @Override
+    public T $(Class<? extends View> type, Class<? extends View>... types) {
+        Queue<View> views = new LinkedBlockingQueue<>(Collections.singletonList(mRootView));
+        List<View> list = new ArrayList<>();
+        do {
+            View cview = views.poll();
+            if (cview != null) {
+                if (type != null && type.isAssignableFrom(cview.getClass())) {
+                    list.add(cview);
+                } else if (types.length > 0) {
+                    for (Class<? extends View> ttype : types) {
+                        if (ttype.isAssignableFrom(cview.getClass())) {
+                            list.add(cview);
+                            break;
+                        }
+                    }
+                }
+                if (cview instanceof ViewGroup) {
+                    ViewGroup group = (ViewGroup) cview;
+                    for (int j = 0; j < group.getChildCount(); j++) {
+                        views.add(group.getChildAt(j));
+                    }
+                }
+            }
+        } while (!views.isEmpty());
+        mTargetViews = list.toArray(new View[list.size()]);
+        return self();
     }
 
     @Override
@@ -229,9 +286,13 @@ public class AfViewQuery<T extends AfViewQuery<T>> implements ViewQuery<T> {
      * @return self
      */
     public T id(int... id) {
-        this.mTargetViews = new View[id.length];
-        for (int i = 0; i < id.length; i++) {
-            mTargetViews[i] = findViewById(id[i]);
+        if (id.length == 0) {
+            mTargetViews = new View[]{mRootView};
+        } else {
+            this.mTargetViews = new View[id.length];
+            for (int i = 0; i < id.length; i++) {
+                mTargetViews[i] = findViewById(id[i]);
+            }
         }
         return self();
     }

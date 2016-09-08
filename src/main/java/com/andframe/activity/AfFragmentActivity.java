@@ -23,7 +23,8 @@ import static android.R.id.widget_frame;
 @SuppressWarnings("unused")
 public class AfFragmentActivity extends AfActivity {
 
-    private static final String EXTRA_FRAGMENT = "EXTRA_FRAGMENT";
+    protected static final String EXTRA_FRAGMENT = "EXTRA_FRAGMENT";
+    protected static Class<? extends AfFragmentActivity> activityClazz = AfFragmentActivity.class;
 
     public static void startFragment(Class<? extends Fragment> clazz, Object... params){
 //        mFragmentClazz = clazz;
@@ -32,7 +33,7 @@ public class AfFragmentActivity extends AfActivity {
             List<Object> list = new ArrayList<>(Arrays.asList(params));
             list.add(0,clazz.getName());
             list.add(0,EXTRA_FRAGMENT);
-            activity.startActivity(AfFragmentActivity.class, list.toArray());
+            activity.startActivity(activityClazz, list.toArray());
         }
     }
 
@@ -43,7 +44,7 @@ public class AfFragmentActivity extends AfActivity {
             List<Object> list = new ArrayList<>(Arrays.asList(params));
             list.add(0,clazz.getName());
             list.add(0,EXTRA_FRAGMENT);
-            activity.startActivityForResult(AfFragmentActivity.class, request, list.toArray());
+            activity.startActivityForResult(activityClazz, request, list.toArray());
         }
     }
 
