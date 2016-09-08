@@ -4,20 +4,17 @@ import android.os.Bundle;
 import android.support.annotation.StyleRes;
 import android.view.View;
 
-import com.andpack.annotation.BindStatusBarMode;
-import com.andpack.api.ApPager;
-import com.andpack.constant.StatusBarMode;
-import com.andpack.impl.ApActivityHelper;
 import com.andframe.activity.AfListActivity;
 import com.andframe.annotation.view.BindViewModule;
 import com.andframe.feature.AfIntent;
 import com.andframe.module.AfModuleTitlebar;
+import com.andpack.api.ApPager;
+import com.andpack.impl.ApActivityHelper;
 
 /**
  * 滑动关闭
  * Created by SCWANG on 2016/7/11.
  */
-@BindStatusBarMode(StatusBarMode.translucent)
 public abstract class ApListActivity<T> extends AfListActivity<T> implements ApPager {
 
     @BindViewModule

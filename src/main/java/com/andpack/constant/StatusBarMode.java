@@ -5,5 +5,9 @@ package com.andpack.constant;
  * Created by SCWANG on 2016/9/3.
  */
 public enum StatusBarMode {
-    normal,translucent,translucent_white
+    normal,translucent,translucent_white;
+
+    public StatusBarMode tag() {
+        return normal;
+    }
 }

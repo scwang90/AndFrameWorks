@@ -15,6 +15,7 @@ import com.andframe.widget.pulltorefresh.AfPullToRefreshBase;
 import com.andpack.R;
 import com.andpack.annotation.BindScorllView;
 import com.andpack.annotation.BindStatusBarMode;
+import com.andpack.annotation.interpreter.StatusBarInterpreter;
 import com.andpack.api.ApPager;
 import com.flyco.systembar.SystemBarHelper;
 
@@ -48,24 +49,26 @@ public class ApActivityHelper implements AfPullToRefreshBase.OnRefreshListener {
             mSwipeBackHelper = new SwipeBackActivityHelper(pager.getActivity());
             mSwipeBackHelper.onActivityCreate();
         }
-        BindStatusBarMode mode = AfReflecter.getAnnotation(pager.getClass(), AfActivity.class, BindStatusBarMode.class);
-        if (mode != null) {
-            switch (mode.value()) {
-                case normal:
-                    break;
-                case translucent:
-                    SystemBarHelper.immersiveStatusBar(pager.getActivity(), 0);
-                    View top = pager.findViewById(R.id.af_titlebar_layout);
-                    if (top != null) {
-                        SystemBarHelper.setHeightAndPadding(pager.getContext(), top);
-                    }
-                    //$.with(pager).id(R.id.af_titlebar_layout).view()
-                    break;
-                case translucent_white:
-                    SystemBarHelper.setStatusBarDarkMode(pager.getActivity());
+        if (!StatusBarInterpreter.interpreter(pager)) {
+            BindStatusBarMode mode = AfReflecter.getAnnotation(pager.getClass(), AfActivity.class, BindStatusBarMode.class);
+            if (mode != null) {
+                switch (mode.value()) {
+                    case normal:
+                        break;
+                    case translucent:
+                        SystemBarHelper.immersiveStatusBar(pager.getActivity(), 0);
+                        View top = pager.findViewById(R.id.af_titlebar_layout);
+                        if (top != null) {
+                            SystemBarHelper.setHeightAndPadding(pager.getContext(), top);
+                        }
+                        //$.with(pager).id(R.id.af_titlebar_layout).view()
+                        break;
+                    case translucent_white:
+                        SystemBarHelper.setStatusBarDarkMode(pager.getActivity());
 //                    SystemBarHelper.tintStatusBar(pager.getActivity(), 0XFFEAEAEA, 0);
-                    SystemBarHelper.tintStatusBar(pager.getActivity(), 0XFFFFFFFF, 0);
-                    break;
+                        SystemBarHelper.tintStatusBar(pager.getActivity(), 0XFFFFFFFF, 0);
+                        break;
+                }
             }
         }
         if (pager.getClass().isAnnotationPresent(BindScorllView.class)) {

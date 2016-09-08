@@ -6,19 +6,20 @@ import android.view.View;
 
 import com.andframe.activity.AfFragmentActivity;
 import com.andframe.feature.AfIntent;
-import com.andpack.annotation.BindStatusBarMode;
 import com.andpack.api.ApPager;
-import com.andpack.constant.StatusBarMode;
 import com.andpack.impl.ApActivityHelper;
 
 /**
  * 通用页面基类
  * Created by SCWANG on 2016/9/1.
  */
-@BindStatusBarMode(StatusBarMode.translucent)
 public class ApFragmentActivity extends AfFragmentActivity implements ApPager {
 
     protected ApActivityHelper mHelper = new ApActivityHelper(this);
+
+    static {
+        activityClazz = ApFragmentActivity.class;
+    }
 
     @Override
     public void setTheme(@StyleRes int resid) {
