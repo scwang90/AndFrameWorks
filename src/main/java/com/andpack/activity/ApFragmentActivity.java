@@ -20,6 +20,7 @@ import java.util.List;
  * 通用页面基类
  * Created by SCWANG on 2016/9/1.
  */
+@SuppressWarnings("unused")
 public class ApFragmentActivity extends AfFragmentActivity implements ApPager {
 
     protected ApPagerHelper mHelper = new ApPagerHelper(this);
@@ -76,6 +77,12 @@ public class ApFragmentActivity extends AfFragmentActivity implements ApPager {
 
 
     //<editor-fold desc="FragmentActivity启动">
+    public static void start(Class<? extends Fragment> clazz, Object... params){
+        startFragment(clazz, params);
+    }
+    public static void startResult(Class<? extends Fragment> clazz,int request, Object... params){
+        startFragmentForResult(clazz, request, params);
+    }
     public static void startFragment(Class<? extends Fragment> clazz, Object... params){
         AfActivity activity = AfApp.get().getCurActivity();
         if (activity != null) {
