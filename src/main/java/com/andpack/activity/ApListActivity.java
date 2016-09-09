@@ -30,7 +30,7 @@ public abstract class ApListActivity<T> extends AfListActivity<T> implements ApP
 
     @Override
     protected void onCreate(Bundle bundle, AfIntent intent) throws Exception {
-        mHelper.onCreate();
+        mHelper.onCreate(mTitlebar);
         super.onCreate(bundle, intent);
     }
 

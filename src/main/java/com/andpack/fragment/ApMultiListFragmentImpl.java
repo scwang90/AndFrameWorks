@@ -21,7 +21,7 @@ public abstract class ApMultiListFragmentImpl<T> extends AfMultiListFragmentImpl
 
     @Override
     protected void onCreated(AfBundle bundle, AfView view) throws Exception {
-        mHelper.onCreate();
+        mHelper.onCreate(mTitlebar);
         super.onCreated(bundle, view);
     }
 

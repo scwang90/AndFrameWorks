@@ -37,7 +37,7 @@ public class ApFragmentActivity extends AfFragmentActivity implements ApPager {
 
     @Override
     protected void onCreate(Bundle bundle, AfIntent intent) throws Exception {
-        mHelper.onCreate();
+        mHelper.onCreate(null);
         super.onCreate(bundle, intent);
     }
 
