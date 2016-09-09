@@ -1,0 +1,22 @@
+<?xml version="1.0" encoding="utf-8"?>
+<FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:id="@+id/listcontent_contentframe"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="@color/transparent" >
+
+    <GridView
+        style="@style/AndFrame.Divison"
+        android:id="@+id/listcontent_list"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:fadingEdge="none"
+        android:listSelector="@drawable/af_background_listitem"
+        android:background="@color/white"
+        android:visibility="visible" />
+
+    <include layout="@layout/af_module_progress" />
+
+    <include layout="@layout/af_module_nodata" />
+
+</FrameLayout>
