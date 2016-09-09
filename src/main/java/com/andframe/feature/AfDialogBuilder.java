@@ -24,17 +24,19 @@ import android.view.ViewGroup;
 import android.view.ViewGroup.LayoutParams;
 import android.view.Window;
 import android.widget.CheckBox;
-import android.widget.DatePicker;
 import android.widget.EditText;
 import android.widget.LinearLayout;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
-import android.widget.TimePicker;
 
 import com.andframe.activity.AfActivity;
 import com.andframe.api.DialogBuilder;
 import com.andframe.caches.AfPrivateCaches;
 import com.andframe.exception.AfExceptionHandler;
+import com.andframe.listener.SafeOnCancelListener;
+import com.andframe.listener.SafeOnClickListener;
+import com.andframe.listener.SafeOnDateSetListener;
+import com.andframe.listener.SafeOnTimeSetListener;
 import com.andframe.util.java.AfReflecter;
 
 import java.util.Calendar;
@@ -1051,164 +1053,7 @@ public class AfDialogBuilder implements DialogBuilder {
 
     //</editor-fold>
 
-    //<editor-fold desc="安全监听器">
-
-    /**
-     * 安全点击监听器
-     */
-    public static class SafeOnClickListener implements OnClickListener{
-
-        private OnClickListener listener;
-
-        public SafeOnClickListener() {
-
-        }
-
-        public SafeOnClickListener(OnClickListener listener) {
-            this.listener = listener;
-        }
-
-        @Override
-        public void onClick(DialogInterface dialog, int which) {
-            try {
-                if (listener != null) {
-                    listener.onClick(dialog, which);
-                }
-            } catch (Throwable e) {
-                AfExceptionHandler.handle(e, "AfDialogBuilder.SafeOnClickListener.onClick");
-            }
-        }
-    }
-
-    /**
-     * 安全取消监听器
-     */
-    public static class SafeOnCancelListener implements OnCancelListener{
-
-        private OnCancelListener listener;
-
-        public SafeOnCancelListener() {
-        }
-
-        public SafeOnCancelListener(OnCancelListener listener) {
-            this.listener = listener;
-        }
-        @Override
-        public void onCancel(DialogInterface dialog) {
-            try {
-                if (listener != null) {
-                    listener.onCancel(dialog);
-                }
-            } catch (Throwable e) {
-                AfExceptionHandler.handle(e, "AfDialogBuilder.SafeOnCancelListener.onCancel");
-            }
-        }
-    }
-
-    /**
-     * 安全日期监听器
-     */
-    public static class SafeOnDateSetListener implements OnDateSetListener {
-
-        private boolean fdealwith = false;
-        private OnDateSetListener listener;
-
-        public SafeOnDateSetListener(OnDateSetListener listener) {
-            this.listener = listener;
-        }
-
-        @Override
-        public void onDateSet(DatePicker view, int year, int month, int day) {
-            if(!fdealwith && listener != null){
-                fdealwith = true;
-                try {
-                    listener.onDateSet(view, year, month, day);
-                } catch (Throwable e) {
-                    AfExceptionHandler.handle(e, "AfDialogBuilder.SafeOnDateSetListener.onDateSet");
-                }
-            }
-        }
-    }
-
-    /**
-     * 简单时间监听器
-     */
-    public static abstract class OnSimpleDateSetListener implements OnDateSetListener{
-        @Override
-        public void onDateSet(DatePicker view, int year, int month, int day) {
-            if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.HONEYCOMB_MR1 && view != null) {
-                onDateSet(new Date(view.getCalendarView().getDate()), year, month, day);
-            } else {
-                Calendar calender = Calendar.getInstance();
-                calender.setTime(new Date(0));
-                calender.set(Calendar.YEAR, year);
-                calender.set(Calendar.MONTH, month);
-                calender.set(Calendar.DAY_OF_MONTH, day);
-                onDateSet(calender.getTime(), year, month, day);
-            }
-        }
-        protected abstract void onDateSet(Date date, int year, int month, int day);
-    }
-
-    /**
-     * 安全时间监听器
-     */
-    private class SafeOnTimeSetListener implements OnTimeSetListener {
-
-        private boolean fdealwith = false;
-        private OnTimeSetListener listener;
-
-        public SafeOnTimeSetListener(OnTimeSetListener listener) {
-            this.listener = listener;
-        }
-
-        @Override
-        public void onTimeSet(TimePicker view, int hour, int minute) {
-            if(!fdealwith && listener != null){
-                fdealwith = true;
-                try {
-                    listener.onTimeSet(view, hour, minute);
-                } catch (Throwable e) {
-                    AfExceptionHandler.handle(e, "AfDialogBuilder.SafeOnTimeSetListener.onTimeSet");
-                }
-            }
-        }
-    }
-
-    /**
-     * 简单时间监听器
-     */
-    public static abstract class OnSimpleTimeSetListener implements OnTimeSetListener{
-        @Override
-        public void onTimeSet(TimePicker view, int hour, int minute) {
-            Calendar calender = Calendar.getInstance();
-            calender.setTime(new Date(0));
-            calender.set(Calendar.HOUR_OF_DAY, hour);
-            calender.set(Calendar.MINUTE, minute);
-            onTimeSet(calender.getTime(), hour, minute);
-        }
-        protected abstract void onTimeSet(Date time, int hour, int minute);
-    }
-
-    /**
-     * 简单日期时间监听器
-     */
-    public static abstract class OnSimpleDateTimeSetListener implements OnDateTimeSetListener{
-        @Override
-        public void onDateTimeSet(int year, int month, int day, int hour, int minute) {
-            Calendar calender = Calendar.getInstance();
-            calender.setTime(new Date(0));
-            calender.set(Calendar.YEAR, year);
-            calender.set(Calendar.MONTH, month);
-            calender.set(Calendar.DAY_OF_MONTH, day);
-            calender.set(Calendar.HOUR_OF_DAY, hour);
-            calender.set(Calendar.MINUTE,minute);
-            onDateTimeSet(calender.getTime(), year, month, day, hour, minute);
-        }
-
-        protected abstract void onDateTimeSet(Date time, int year, int month, int day, int hour, int minute);
-    }
-
+    //<editor-fold desc="内部类">
     /**
      * 根据 文本信息 匹配在布局中找出 相匹配的 TextView
      */
