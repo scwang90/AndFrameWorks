@@ -8,7 +8,8 @@
 
         <activity android:name=".activity.ApFragmentActivity"
             android:screenOrientation="portrait"
-            android:theme="@style/AppTheme.SwipeBack"/>
+            android:theme="@style/AppTheme.SwipeBack"
+            android:windowSoftInputMode="stateHidden|adjustPan"/>
     </application>
 
 </manifest>

@@ -1,8 +1,11 @@
 package com.andpack.application;
 
+import android.app.Activity;
 import android.content.Context;
 import android.view.View;
+import android.widget.ImageView;
 
+import com.andframe.$;
 import com.andframe.api.DialogBuilder;
 import com.andframe.api.view.ViewQuery;
 import com.andframe.application.AfApp;
@@ -11,6 +14,7 @@ import com.andpack.impl.ApDialogBuilder;
 import com.andpack.impl.ApExceptionHandler;
 import com.andpack.impl.ApViewQuery;
 import com.andrestful.http.MultiRequestHandler;
+import com.lzy.imagepicker.ImagePicker;
 import com.nostra13.universalimageloader.cache.disc.impl.ext.ApDiskCache;
 import com.nostra13.universalimageloader.cache.disc.naming.Md5FileNameGenerator;
 import com.nostra13.universalimageloader.core.DisplayImageOptions;
@@ -32,7 +36,21 @@ public class ApApp extends AfApp {
     protected void initApp() throws Exception {
         super.initApp();
         initImageLoader(this);
+        initImagePicker(this);
         MultiRequestHandler.DEBUD = isDebug();
+    }
+
+    private void initImagePicker(Context context) {
+        ImagePicker picker = ImagePicker.getInstance();
+        picker.setImageLoader(new com.lzy.imagepicker.loader.ImageLoader() {
+            @Override
+            public void displayImage(Activity activity, String path, ImageView imageView, int width, int height) {
+                $.query(imageView).image(path);
+            }
+            @Override
+            public void clearMemoryCache() {
+            }
+        });
     }
 
     protected void initImageLoader(Context context) {
