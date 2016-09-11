@@ -71,11 +71,10 @@ public abstract class AfListFragment<T> extends AfTabFragment implements ListPag
      * 获取列表项布局Item
      * 如果重写 newAdapter 之后，本方法将无效
      *
-     * @param model 对应的数据
      * @return 实现 布局接口 ListItem 的Item兑现
      * new LayoutItem implements ListItem<T>(){}
      */
-    public abstract ListItem<T> newListItem(T model);
+    public abstract ListItem<T> newListItem();
     //</editor-fold>
 
     //<editor-fold desc="原始事件">

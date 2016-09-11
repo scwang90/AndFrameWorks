@@ -271,7 +271,7 @@ public abstract class AfRefreshListActivity<T> extends AfListActivity<T> impleme
     public void onItemClick(AdapterView<?> parent, View view, int index, long id) {
         index = ((AfRefreshAbsListView) mListView).getDataIndex(index);
         if (index >= 0) {
-            T model = mAdapter.getItemAt(index);
+            T model = mAdapter.get(index);
             try {
                 onItemClick(model, index);
             } catch (Throwable e) {
@@ -302,7 +302,7 @@ public abstract class AfRefreshListActivity<T> extends AfListActivity<T> impleme
     public boolean onItemLongClick(AdapterView<?> parent, View view, int index, long id) {
         index = mListView.getDataIndex(index);
         if (index >= 0) {
-            T model = mAdapter.getItemAt(index);
+            T model = mAdapter.get(index);
             try {
                 return onItemLongClick(model, index);
             } catch (Throwable e) {

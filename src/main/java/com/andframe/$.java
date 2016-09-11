@@ -1,20 +1,17 @@
 package com.andframe;
 
-import android.app.Activity;
 import android.content.Context;
 import android.support.annotation.MainThread;
 import android.support.annotation.NonNull;
 import android.view.View;
 
-import com.andframe.adapter.listitem.AfListItem;
 import com.andframe.api.DialogBuilder;
 import com.andframe.api.ModelConvertor;
 import com.andframe.api.TaskExecutor;
 import com.andframe.api.view.ViewModuler;
 import com.andframe.api.view.ViewQuery;
-import com.andframe.api.page.Pager;
+import com.andframe.api.view.Viewer;
 import com.andframe.application.AfApp;
-import com.andframe.module.AfViewModuler;
 
 import java.lang.reflect.InvocationHandler;
 import java.lang.reflect.Method;
@@ -42,9 +39,39 @@ public class $ {
     }
 
     @MainThread
+    public static Api $(Object... withs) {
+        lastWiths = withs;
+        return api;
+    }
+
+    @MainThread
     public static Api with(Object... withs) {
         lastWiths = withs;
         return api;
+    }
+
+    @MainThread
+    public static DialogBuilder dialog(Context context) {
+        return AfApp.get().newDialogBuilder(context);
+    }
+
+    @MainThread
+    public static DialogBuilder dialog(Viewer viewer) {
+        return AfApp.get().newDialogBuilder(viewer.getContext());
+    }
+
+    @MainThread
+    public static ViewQuery query(Viewer viewer) {
+        return AfApp.get().newViewQuery(viewer.getView());
+    }
+
+    @MainThread
+    public static ViewQuery query(View view) {
+        return AfApp.get().newViewQuery(view);
+    }
+
+    public static TaskExecutor task() {
+        return AfApp.get().newTaskExecutor();
     }
 
     public static Api get() {
@@ -57,12 +84,12 @@ public class $ {
                 return ((ViewModuler) lastWiths[0]).getView();
             } else if (lastWiths[0] instanceof View) {
                 return ((View) lastWiths[0]);
-            } else if (lastWiths[0] instanceof Pager) {
-                return ((Pager) lastWiths[0]).getView();
-            } else if (lastWiths[0] instanceof AfListItem) {
-                return ((AfListItem) lastWiths[0]).getLayout();
-            } else if (lastWiths[0] instanceof Activity) {
-                return ((Activity) lastWiths[0]).getWindow().getDecorView().findViewById(android.R.id.content);
+            } else if (lastWiths[0] instanceof Viewer) {
+                return ((Viewer) lastWiths[0]).getView();
+//            } else if (lastWiths[0] instanceof AfListItem) {
+//                return ((AfListItem) lastWiths[0]).getLayout();
+//            } else if (lastWiths[0] instanceof Activity) {
+//                return ((Activity) lastWiths[0]).getWindow().getDecorView().findViewById(android.R.id.content);
             }
         }
         return null;
@@ -72,12 +99,12 @@ public class $ {
         if (lastWiths != null && lastWiths.length > 0) {
             if (lastWiths[0] instanceof Context) {
                 return ((Context) lastWiths[0]);
-            } else if (lastWiths[0] instanceof Pager) {
-                return ((Pager) lastWiths[0]).getContext();
-            } else if (lastWiths[0] instanceof AfListItem) {
-                return ((AfListItem) lastWiths[0]).getLayout().getContext();
-            } else if (lastWiths[0] instanceof AfViewModuler) {
-                return ((AfViewModuler) lastWiths[0]).getView().getContext();
+            } else if (lastWiths[0] instanceof Viewer) {
+                return ((Viewer) lastWiths[0]).getContext();
+//            } else if (lastWiths[0] instanceof AfListItem) {
+//                return ((AfListItem) lastWiths[0]).getLayout().getContext();
+//            } else if (lastWiths[0] instanceof AfViewModuler) {
+//                return ((AfViewModuler) lastWiths[0]).getView().getContext();
             }
         }
         return null;

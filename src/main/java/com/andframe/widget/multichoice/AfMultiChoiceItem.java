@@ -44,7 +44,7 @@ public abstract class AfMultiChoiceItem<T> extends AfListItem<T> implements OnCl
 	}
 
 	@Override
-	public void onBinding(View view, T model, int index) {
+	public void onBinding(T model, int index) {
 		if(!onBinding(mModel = model,index,mSelectStatus) && mMultiChoiceCheckBox!=null) {
 			if(mSelectDisplay == SD_CHECK){
 				switch (mSelectStatus) {

@@ -236,8 +236,9 @@ public class AfJsoner {
         List<Field> fileds = new ArrayList<>();
         for (Field field : AfReflecter.getField(clazz)) {
             int modifiers = field.getModifiers();
-            if (!Modifier.isStatic(modifiers) &&
-                    !Modifier.isTransient(modifiers)){
+            if (!Modifier.isStatic(modifiers)
+                    && !Modifier.isTransient(modifiers)
+                    && !field.getName().startsWith("this$")){
                 fileds.add(field);
             }
         }

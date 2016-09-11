@@ -21,7 +21,7 @@ public class AfViewQueryHelper implements ViewQueryHelper {
     }
 
     protected ViewQuery getmLayout() {
-        if (mViewQuery == null) {
+        if (mViewQuery == null || mViewQuery.$().view() != viewer.getView()) {
             mViewQuery = AfApp.get().newViewQuery(viewer.getView());
         }
         return mViewQuery;

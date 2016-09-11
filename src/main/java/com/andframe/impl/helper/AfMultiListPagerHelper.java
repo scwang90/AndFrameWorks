@@ -205,8 +205,8 @@ public class AfMultiListPagerHelper<T> extends AfListPagerHelper<T> implements M
                     mMultiListPager.setMoreShow(task, list);
                 }
             } else {
-                mAdapter.set(list == null ? new ArrayList<>() : list);
                 mMultiListPager.showNodata();
+                mAdapter.set(list == null ? new ArrayList<>() : list);
             }
         } else {
             //通知列表刷新失败

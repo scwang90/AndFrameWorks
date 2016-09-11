@@ -100,7 +100,7 @@ public class AfListPagerHelper<T> implements ListPagerHelper<T> {
             index -= ((ListView) mListView).getHeaderViewsCount();
         }
         if (index >= 0) {
-            T model = mAdapter.getItemAt(index);
+            T model = mAdapter.get(index);
             try {
                 mListPager.onItemClick(model, index);
             } catch (Throwable e) {
@@ -115,7 +115,7 @@ public class AfListPagerHelper<T> implements ListPagerHelper<T> {
             index -= ((ListView) mListView).getHeaderViewsCount();
         }
         if (index >= 0) {
-            T model = mAdapter.getItemAt(index);
+            T model = mAdapter.get(index);
             try {
                 return mListPager.onItemLongClick(model, index);
             } catch (Throwable e) {
@@ -138,8 +138,8 @@ public class AfListPagerHelper<T> implements ListPagerHelper<T> {
          * 转发事件到 AfListViewActivity.this.getItemLayout(data);
          */
         @Override
-        protected ListItem<T> newListItem(T data) {
-            return mListPager.newListItem(data);
+        protected ListItem<T> newListItem() {
+            return mListPager.newListItem();
         }
     }
 

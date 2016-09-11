@@ -1,5 +1,6 @@
 package com.andframe.activity;
 
+import android.content.Intent;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentManager;
@@ -25,6 +26,8 @@ public class AfFragmentActivity extends AfActivity {
 
     protected static final String EXTRA_FRAGMENT = "EXTRA_FRAGMENT";
     protected static Class<? extends AfFragmentActivity> activityClazz = AfFragmentActivity.class;
+
+    private Fragment mFragment;
 
     public static void startFragment(Class<? extends Fragment> clazz, Object... params){
 //        mFragmentClazz = clazz;
@@ -58,13 +61,21 @@ public class AfFragmentActivity extends AfActivity {
         FrameLayout frameLayout = new FrameLayout(this);
         frameLayout.setId(widget_frame);
         setContentView(frameLayout);
-        Fragment fragment = (Fragment)Class.forName(mFragmentClazz).newInstance();
+        mFragment = (Fragment)Class.forName(mFragmentClazz).newInstance();
         FragmentManager manager = getSupportFragmentManager();
         FragmentTransaction transaction = manager.beginTransaction();
-        transaction.replace(widget_frame, fragment);
+        transaction.replace(widget_frame, mFragment);
         transaction.commit();
     }
+
     //</editor-fold>
 
 
+    //<editor-fold desc="事件转发">
+    @Override
+    protected void onActivityResult(int requestcode, int resultcode, Intent data) {
+        //super.onActivityResult(requestcode, resultcode, data);
+        mFragment.onActivityResult(requestcode, resultcode, data);
+    }
+    //</editor-fold>
 }

@@ -36,6 +36,7 @@ import android.widget.Spinner;
 import android.widget.TextView;
 
 import com.andframe.api.view.ViewQuery;
+import com.andframe.listener.SafeOnClickListener;
 
 import java.util.ArrayList;
 import java.util.Arrays;
@@ -238,23 +239,40 @@ public class AfViewQuery<T extends AfViewQuery<T>> implements ViewQuery<T> {
     }
 
     @Override
-    public T margin(float Dip) {
-        return margin(Dip,Dip,Dip,Dip);
+    public T margin(float dp) {
+        return margin(dp,dp,dp,dp);
     }
 
     @Override
-    public T padding(float Dip) {
-        return padding(Dip,Dip,Dip,Dip);
+    public T margin(int px) {
+        return margin(px,px,px,px);
+    }
+
+    @Override
+    public T padding(float dp) {
+        return padding(dp,dp,dp,dp);
+    }
+
+    @Override
+    public T padding(int px) {
+        return padding(px,px,px,px);
     }
 
     @Override
     public T padding(float leftDip, float topDip, float rightDip, float bottomDip) {
-        return foreach(TextView.class, view -> {
+        return foreach(view -> {
             float scale = getContext().getResources().getDisplayMetrics().density;
             int left = (int) (scale * leftDip + 0.5f);
             int top = (int) (scale * topDip + 0.5f);
             int right = (int) (scale * rightDip + 0.5f);
             int bottom = (int) (scale * bottomDip + 0.5f);
+            view.setPadding(left, top, right, bottom);
+        });
+    }
+
+    @Override
+    public T padding(int left, int top, int right, int bottom) {
+        return foreach(view -> {
             view.setPadding(left, top, right, bottom);
         });
     }
@@ -919,7 +937,7 @@ public class AfViewQuery<T extends AfViewQuery<T>> implements ViewQuery<T> {
      * @return self
      */
     public T clicked(View.OnClickListener listener) {
-        return foreach((ViewEacher<View>) view -> view.setOnClickListener(listener));
+        return foreach((ViewEacher<View>) view -> view.setOnClickListener(new SafeOnClickListener(listener)));
     }
 
     /**
@@ -983,9 +1001,9 @@ public class AfViewQuery<T extends AfViewQuery<T>> implements ViewQuery<T> {
      * @param bottomDip the bottom dip
      * @return self
      */
-    @SuppressWarnings("unused")
+    @Override
     public T margin(float leftDip, float topDip, float rightDip, float bottomDip) {
-        return foreach(TextView.class, view -> {
+        return foreach(view -> {
             ViewGroup.LayoutParams lp = view.getLayoutParams();
             if (lp instanceof ViewGroup.MarginLayoutParams) {
                 Context context = getContext();
@@ -1001,6 +1019,26 @@ public class AfViewQuery<T extends AfViewQuery<T>> implements ViewQuery<T> {
     }
 
     /**
+     * Set the margin of a mTargetViews. Notes all parameters are in DIP, not in pixel.
+     *
+     * @param left   the left
+     * @param top    the top
+     * @param right  the right
+     * @param bottom the bottom
+     * @return self
+     */
+    @Override
+    public T margin(int left, int top, int right, int bottom) {
+        return foreach(view -> {
+            ViewGroup.LayoutParams lp = view.getLayoutParams();
+            if (lp instanceof ViewGroup.MarginLayoutParams) {
+                ((ViewGroup.MarginLayoutParams) lp).setMargins(left, top, right, bottom);
+                view.setLayoutParams(lp);
+            }
+        });
+    }
+
+    /**
      * Set the width of a mTargetViews in dip.
      * Can also be ViewGroup.LayoutParams.FILL_PARENT, ViewGroup.LayoutParams.WRAP_CONTENT, or ViewGroup.LayoutParams.MATCH_PARENT.
      *
@@ -1008,8 +1046,23 @@ public class AfViewQuery<T extends AfViewQuery<T>> implements ViewQuery<T> {
      * @return self
      */
 
-    public T width(int dip) {
+    @Override
+    public T width(float dip) {
         size(true, dip, true);
+        return self();
+    }
+
+    /**
+     * Set the width of a mTargetViews in dip.
+     * Can also be ViewGroup.LayoutParams.FILL_PARENT, ViewGroup.LayoutParams.WRAP_CONTENT, or ViewGroup.LayoutParams.MATCH_PARENT.
+     *
+     * @param width width in px
+     * @return self
+     */
+
+    @Override
+    public T width(int width) {
+        size(true, width, false);
         return self();
     }
 
@@ -1021,52 +1074,38 @@ public class AfViewQuery<T extends AfViewQuery<T>> implements ViewQuery<T> {
      * @return self
      */
 
-    public T height(int dip) {
+    @Override
+    public T height(float dip) {
         size(false, dip, true);
         return self();
     }
 
     /**
-     * Set the width of a mTargetViews in dip or pixel.
+     * Set the height of a mTargetViews in dip.
      * Can also be ViewGroup.LayoutParams.FILL_PARENT, ViewGroup.LayoutParams.WRAP_CONTENT, or ViewGroup.LayoutParams.MATCH_PARENT.
      *
-     * @param width width
-     * @param dip   dip or pixel
+     * @param height height in px
      * @return self
      */
-
-    public T width(int width, boolean dip) {
-        size(true, width, dip);
+    @Override
+    public T height(int height) {
+        size(false, height, false);
         return self();
     }
 
-    /**
-     * Set the height of a mTargetViews in dip or pixel.
-     * Can also be ViewGroup.LayoutParams.FILL_PARENT, ViewGroup.LayoutParams.WRAP_CONTENT, or ViewGroup.LayoutParams.MATCH_PARENT.
-     *
-     * @param height height
-     * @param dip    dip or pixel
-     * @return self
-     */
-
-    public T height(int height, boolean dip) {
-        size(false, height, dip);
-        return self();
-    }
-
-    private T size(boolean width, int n, boolean dip) {
+    private T size(boolean width, float n, boolean dip) {
         return foreach(view -> {
             ViewGroup.LayoutParams lp = view.getLayoutParams();
             Context context = getContext();
-            int tn = n;
+            float tn = n;
             if (tn > 0 && dip) {
                 float scale = context.getResources().getDisplayMetrics().density;
                 tn = (int) (scale * tn + 0.5f);
             }
             if (width) {
-                lp.width = tn;
+                lp.width = (int)tn;
             } else {
-                lp.height = tn;
+                lp.height = (int)tn;
             }
             view.setLayoutParams(lp);
         });

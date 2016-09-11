@@ -21,7 +21,7 @@ public interface ListPager<T> extends Pager, OnItemClickListener, OnItemLongClic
     void onTaskLoaded(AfHandlerTask task, List<T> list);
     List<T> onTaskLoadList() throws Exception;
 
-    ListItem<T> newListItem(T model);
+    ListItem<T> newListItem();
     AbsListView findListView(ListPager<T> pager);
     AfListAdapter<T> newAdapter(Context context, List<T> list);
     void bindAdapter(AbsListView listView, ListAdapter adapter);

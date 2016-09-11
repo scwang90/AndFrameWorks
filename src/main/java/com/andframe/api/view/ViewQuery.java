@@ -552,28 +552,6 @@ public interface ViewQuery<T extends ViewQuery<T>> {
     T height(int dip);
 
     /**
-     * Set the width of a View in dip or pixel.
-     * Can also be ViewGroup.LayoutParams.FILL_PARENT, ViewGroup.LayoutParams.WRAP_CONTENT, or ViewGroup.LayoutParams.MATCH_PARENT.
-     *
-     * @param width width
-     * @param dip   dip or pixel
-     * @return self
-     */
-
-    T width(int width, boolean dip);
-
-    /**
-     * Set the height of a View in dip or pixel.
-     * Can also be ViewGroup.LayoutParams.FILL_PARENT, ViewGroup.LayoutParams.WRAP_CONTENT, or ViewGroup.LayoutParams.MATCH_PARENT.
-     *
-     * @param height height
-     * @param dip    dip or pixel
-     * @return self
-     */
-
-    T height(int height, boolean dip);
-
-    /**
      * 自定义扩展接口
      */
     ScrollView getScrollView();
@@ -585,8 +563,14 @@ public interface ViewQuery<T extends ViewQuery<T>> {
     T $(String idvalue, String... idvalues);
     T $(Class<? extends View> type, Class<? extends View>... types);
     T $(View view, View... views);
-    T margin(float Dip);
-    T padding(float Dip);
+    T width(float dp);
+    T height(float dp);
+    T margin(int px);
+    T padding(int px);
+    T margin(float dp);
+    T padding(float dp);
+    T padding(int left, int top, int right, int bottom);
+    T margin(int left, int top, int right, int bottom);
     T padding(float leftDip, float topDip, float rightDip, float bottomDip);
     T progress(int progress);
     T visibility(boolean isvisibe);

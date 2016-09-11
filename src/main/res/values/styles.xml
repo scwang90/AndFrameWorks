@@ -28,6 +28,7 @@
     <style name="AndFrame.Label">
         <item name="android:layout_width">wrap_content</item>
         <item name="android:layout_height">wrap_content</item>
+        <item name="android:gravity">center_vertical</item>
         <item name="android:singleLine">true</item>
         <item name="android:textSize">@dimen/textsize_content</item>
         <item name="android:textColor">@color/colorTextContent</item>
@@ -52,6 +53,7 @@
     </style>
 
     <style name="AndFrame.Label.Discription">
+        <item name="android:gravity">top</item>
         <item name="android:lineSpacingExtra">5dp</item>
         <item name="android:textSize">@dimen/textsize_content</item>
         <item name="android:singleLine">false</item>

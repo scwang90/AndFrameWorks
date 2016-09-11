@@ -120,7 +120,7 @@ public abstract class AfListActivity<T> extends AfActivity implements OnItemClic
             index -= ((ListView) mListView).getHeaderViewsCount();
         }
         if (index >= 0) {
-            T model = mAdapter.getItemAt(index);
+            T model = mAdapter.get(index);
             try {
                 onItemClick(model, index);
             } catch (Throwable e) {
@@ -154,7 +154,7 @@ public abstract class AfListActivity<T> extends AfActivity implements OnItemClic
             index -= ((ListView) mListView).getHeaderViewsCount();
         }
         if (index >= 0) {
-            T model = mAdapter.getItemAt(index);
+            T model = mAdapter.get(index);
             try {
                 return onItemLongClick(model, index);
             } catch (Throwable e) {
@@ -178,12 +178,10 @@ public abstract class AfListActivity<T> extends AfActivity implements OnItemClic
     /**
      * 获取列表项布局Item
      * 如果重写 newAdapter 之后，本方法将无效
-     *
-     * @param data 对应的数据
      * @return 实现 布局接口 ListItem 的Item兑现
      * new LayoutItem implements ListItem<T>(){}
      */
-    protected abstract ListItem<T> getListItem(T data);
+    protected abstract ListItem<T> getListItem();
 
     /**
      * 根据数据ltdata新建一个 适配器 重写这个方法之后getItemLayout方法将失效
@@ -209,8 +207,8 @@ public abstract class AfListActivity<T> extends AfActivity implements OnItemClic
          * 转发事件到 AfListViewActivity.this.getItemLayout(data);
          */
         @Override
-        protected ListItem<T> newListItem(T data) {
-            return AfListActivity.this.getListItem(data);
+        protected ListItem<T> newListItem() {
+            return AfListActivity.this.getListItem();
         }
     }
 

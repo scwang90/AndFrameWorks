@@ -1,22 +1,31 @@
 package com.andframe.adapter;
 
+import android.annotation.TargetApi;
 import android.database.DataSetObserver;
 import android.support.annotation.NonNull;
+import android.support.v7.widget.RecyclerView;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ListAdapter;
 import android.widget.WrapperListAdapter;
 
+import com.andframe.adapter.recycler.DataSetObservable;
+import com.andframe.adapter.recycler.ViewHolderItem;
 import com.andframe.api.ListItem;
-import com.andframe.exception.AfExceptionHandler;
 
 import java.util.Collection;
+import java.util.Comparator;
 import java.util.Iterator;
 import java.util.List;
 import java.util.ListIterator;
+import java.util.Spliterator;
+import java.util.function.Consumer;
+import java.util.function.Predicate;
+import java.util.function.UnaryOperator;
+import java.util.stream.Stream;
 
 
-@SuppressWarnings("unused")
+@SuppressWarnings({"unused", "unchecked"})
 public class AfListAdapterWrapper<T> extends AfListAdapter<T> implements WrapperListAdapter {
 
 	protected AfListAdapter<T> wrapped;
@@ -24,11 +33,176 @@ public class AfListAdapterWrapper<T> extends AfListAdapter<T> implements Wrapper
 	public AfListAdapterWrapper(AfListAdapter<T> wrapped) {
 		super(wrapped.mContext, null);
 		this.wrapped = wrapped;
+		//为特殊 Warpper 做准备
+		mDataSetObservable = new DataSetObservableWrapper(this);
 	}
 
 	@Override
 	public ListAdapter getWrappedAdapter() {
 		return wrapped;
+	}
+
+	//<editor-fold desc="由于Final导致的特殊Wrapper">
+
+	protected class DataSetObservableWrapper extends DataSetObservable{
+		public DataSetObservableWrapper(RecyclerView.Adapter adapter) {
+			super(adapter);
+		}
+		public void notifyChanged() {
+			wrapped.notifyDataSetChanged();
+		}
+	}
+
+	@Override
+	public void setHasStableIds(boolean hasStableIds) {
+		wrapped.setHasStableIds(hasStableIds);
+		super.setHasStableIds(hasStableIds);
+	}
+
+	@Override
+	public void unregisterAdapterDataObserver(RecyclerView.AdapterDataObserver observer) {
+		wrapped.unregisterAdapterDataObserver(observer);
+	}
+
+//	@Override
+//	public void notifyDataSetChanged() {
+//		wrapped.notifyDataSetChanged();
+//	}
+//	@Override
+//	public boolean hasStableIds() {
+//		return wrapped.hasStableIds();
+//	}
+	//</editor-fold>
+
+	//<editor-fold desc="Wrapper API-24 && JAVA_8">
+	@Override @TargetApi(24)
+	public Spliterator<T> spliterator() {
+		return wrapped.spliterator();
+	}
+
+	@Override @TargetApi(24)
+	public void replaceAll(UnaryOperator<T> operator) {
+		wrapped.replaceAll(operator);
+	}
+
+	@Override @TargetApi(24)
+	public void sort(Comparator<? super T> c) {
+		wrapped.sort(c);
+	}
+
+	@Override @TargetApi(24)
+	public boolean removeIf(Predicate<? super T> filter) {
+		return wrapped.removeIf(filter);
+	}
+
+	@Override @TargetApi(24)
+	public Stream<T> stream() {
+		return wrapped.stream();
+	}
+
+	@Override @TargetApi(24)
+	public Stream<T> parallelStream() {
+		return wrapped.parallelStream();
+	}
+
+	@Override @TargetApi(24)
+	public void forEach(Consumer<? super T> action) {
+		wrapped.forEach(action);
+	}
+	//</editor-fold>
+
+	//<editor-fold desc="Wrapper AfListAdapter">
+
+	@Override
+	protected boolean bindingItem(View view, ListItem<T> item, int index) {
+		return wrapped.bindingItem(view, item, index);
+	}
+
+	@Override
+	public int getItemCount() {
+		return wrapped.getItemCount();
+	}
+
+	@Override
+	public List<T> getList() {
+		return wrapped.getList();
+	}
+
+	@Override
+	public boolean isDataSync() {
+		return wrapped.isDataSync();
+	}
+
+	@Override
+	protected ListItem<T> newListItem() {
+		return wrapped.newListItem();
+	}
+
+	@Override
+	protected ListItem<T> newListItem(List<T> ltarray, int position) {
+		return wrapped.newListItem(ltarray, position);
+	}
+
+	@Override
+	public void onBindViewHolder(ViewHolderItem<T> holder, int position) {
+		wrapped.onBindViewHolder(holder, position);
+	}
+
+	@Override
+	public ViewHolderItem<T> onCreateViewHolder(ViewGroup parent, int viewType) {
+		return wrapped.onCreateViewHolder(parent, viewType);
+	}
+
+	@Override
+	protected View onInflateItem(ListItem<T> item, ViewGroup parent) {
+		return wrapped.onInflateItem(item, parent);
+	}
+
+	@Override
+	public void set(List<T> list) {
+		wrapped.set(list);
+	}
+	//</editor-fold>
+
+	//<editor-fold desc="Wrapper BaseAdapter">
+	@Override
+	public boolean areAllItemsEnabled() {
+		return wrapped.areAllItemsEnabled();
+	}
+
+	@Override
+	public int getCount() {
+		return wrapped.getCount();
+	}
+
+	@Override
+	public Object getItem(int i) {
+		return wrapped.getItem(i);
+	}
+
+	@Override
+	public int getItemViewType(int position) {
+		return wrapped.getItemViewType(position);
+	}
+
+	@Override
+	public View getView(int i, View view, ViewGroup viewGroup) {
+		return wrapped.getView(i, view, viewGroup);
+	}
+
+	@Override
+	public int getViewTypeCount() {
+		return wrapped.getViewTypeCount();
+	}
+
+	@Override
+	public boolean isEnabled(int position) {
+		return wrapped.isEnabled(position);
+	}
+
+	@Override
+	public void notifyDataSetInvalidated() {
+		wrapped.notifyDataSetInvalidated();
 	}
 
 	@Override
@@ -40,72 +214,59 @@ public class AfListAdapterWrapper<T> extends AfListAdapter<T> implements Wrapper
 	public void unregisterDataSetObserver(DataSetObserver observer) {
 		wrapped.unregisterDataSetObserver(observer);
 	}
+	//</editor-fold>
 
+	//<editor-fold desc="Wrapper Recycler.Adapter">
 	@Override
-	public void notifyDataSetChanged() {
-		wrapped.notifyDataSetChanged();
+	public long getItemId(int position) {
+		return wrapped.getItemId(position);
 	}
 
 	@Override
-	public void notifyDataSetInvalidated() {
-		wrapped.notifyDataSetInvalidated();
+	public void onAttachedToRecyclerView(RecyclerView recyclerView) {
+		wrapped.onAttachedToRecyclerView(recyclerView);
 	}
 
+	@Override
+	public void onBindViewHolder(ViewHolderItem<T> holder, int position, List<Object> payloads) {
+		wrapped.onBindViewHolder(holder, position, payloads);
+	}
+
+	@Override
+	public void onDetachedFromRecyclerView(RecyclerView recyclerView) {
+		wrapped.onDetachedFromRecyclerView(recyclerView);
+	}
+
+	@Override
+	public boolean onFailedToRecycleView(ViewHolderItem<T> holder) {
+		return wrapped.onFailedToRecycleView(holder);
+	}
+
+	@Override
+	public void onViewAttachedToWindow(ViewHolderItem<T> holder) {
+		wrapped.onViewAttachedToWindow(holder);
+	}
+
+	@Override
+	public void onViewDetachedFromWindow(ViewHolderItem<T> holder) {
+		wrapped.onViewDetachedFromWindow(holder);
+	}
+
+	@Override
+	public void onViewRecycled(ViewHolderItem<T> holder) {
+		wrapped.onViewRecycled(holder);
+	}
+
+	@Override
+	public void registerAdapterDataObserver(RecyclerView.AdapterDataObserver observer) {
+		wrapped.registerAdapterDataObserver(observer);
+	}
+	//</editor-fold>
+
+	//<editor-fold desc="Wrapper List">
 	@Override
 	public boolean add(T data) {
 		return wrapped.add(data);
-	}
-
-	@Override
-	public boolean addAll(@NonNull Collection<? extends T> ltdata) {
-		return wrapped.addAll(ltdata);
-	}
-
-	@Override
-	public void set(List<T> ltdata) {
-		wrapped.set(ltdata);
-	}
-
-	@Override
-	public T set(int index, T obj) {
-		return wrapped.set(index, obj);
-	}
-
-	@Override
-	public T remove(int index) {
-		return wrapped.remove(index);
-	}
-
-	@Override
-	public boolean remove(Object object) {
-		return wrapped.remove(object);
-	}
-
-	@Override
-	public boolean removeAll(@NonNull Collection<?> collection) {
-		return wrapped.removeAll(collection);
-	}
-
-	@Override
-	public boolean retainAll(@NonNull Collection<?> collection) {
-		return wrapped.retainAll(collection);
-	}
-
-	@Override
-	public int size() {
-		return wrapped.size();
-	}
-
-	@NonNull
-	@Override
-	public List<T> subList(int start, int end) {
-		return wrapped.subList(start, end);
-	}
-
-	@NonNull
-	@Override
-	public Object[] toArray() {
-		return wrapped.toArray();
 	}
 
 	@Override
@@ -118,11 +279,9 @@ public class AfListAdapterWrapper<T> extends AfListAdapter<T> implements Wrapper
 		return wrapped.addAll(index, collection);
 	}
 
-	@NonNull
 	@Override
-	public <T1> T1[] toArray(@NonNull T1[] array) {
-		//noinspection SuspiciousToArrayCall
-		return wrapped.toArray(array);
+	public boolean addAll(@NonNull Collection<? extends T> list) {
+		return wrapped.addAll(list);
 	}
 
 	@Override
@@ -183,110 +342,53 @@ public class AfListAdapterWrapper<T> extends AfListAdapter<T> implements Wrapper
 	}
 
 	@Override
-	public int getCount() {
-		return wrapped.getCount();
+	public T remove(int index) {
+		return wrapped.remove(index);
 	}
 
 	@Override
-	public Object getItem(int arg0) {
-		return wrapped.getItem(arg0);
+	public boolean remove(Object object) {
+		return wrapped.remove(object);
 	}
 
 	@Override
-	public long getItemId(int arg0) {
-		return wrapped.getItemId(arg0);
+	public boolean removeAll(@NonNull Collection<?> collection) {
+		return wrapped.removeAll(collection);
 	}
 
 	@Override
-	public View getView(int position, View view, ViewGroup parent) {
-//		return wrapped.getView(position, view, parent);
-		// 列表视图获取必须检查 view 是否为空 不能每次都 inflate 否则手机内存负载不起
-		ListItem<T> item;
-		try {
-			if (view == null || !(view.getTag() instanceof ListItem)) {
-				item = newListItem(wrapped.mltArray, position);
-				view = onInflateItem(item, parent);
-//				item.onHandle(new AfView(view = onInflateItem(item, parent)));
-				view.setTag(item);
-			} else {
-				//noinspection unchecked
-				item = (ListItem<T>) view.getTag();
-			}
-			bindingItem(view, item, position);
-		} catch (Throwable e) {
-			String remark = "AfListAdapter("+wrapped.getClass().getName()+").getView\r\n";
-			View cview = view;
-			if (parent != null){
-				cview = parent;
-			}
-			if (cview != null && cview.getContext() != null){
-				remark += "class = " + cview.getContext().getClass().toString();
-			}
-			if (view == null) {
-				view = new View(wrapped.mContext);
-			}
-			AfExceptionHandler.handle(e, remark);
-		}
-		return view;
+	public boolean retainAll(@NonNull Collection<?> collection) {
+		return wrapped.retainAll(collection);
 	}
 
 	@Override
-	public List<T> getList() {
-		return wrapped.getList();
+	public T set(int index, T obj) {
+		return wrapped.set(index, obj);
 	}
 
-	@Override
-	public T getItemAt(int index) {
-		return wrapped.getItemAt(index);
-	}
 
 	@Override
-	protected ListItem<T> newListItem(List<T> ltarray, int position) {
-		return wrapped.newListItem(ltarray, position);
+	public int size() {
+		return wrapped.size();
 	}
 
+	@NonNull
 	@Override
-	protected View onInflateItem(ListItem<T> item, ViewGroup parent) {
-		return wrapped.onInflateItem(item, parent);
+	public List<T> subList(int start, int end) {
+		return wrapped.subList(start, end);
 	}
 
+	@NonNull
 	@Override
-	protected boolean bindingItem(View view, ListItem<T> item, int index) {
-		return wrapped.bindingItem(view, item, index);
+	public Object[] toArray() {
+		return wrapped.toArray();
 	}
 
+	@NonNull
 	@Override
-	public ListItem<T> newListItem(T data) {
-		return wrapped.newListItem(data);
+	public <T1> T1[] toArray(@NonNull T1[] array) {
+		return wrapped.toArray(array);
 	}
+	//</editor-fold>
 
-	@Override
-	public boolean hasStableIds() {
-		return wrapped.hasStableIds();
-	}
-
-	@Override
-	public boolean areAllItemsEnabled() {
-		return wrapped.areAllItemsEnabled();
-	}
-
-	@Override
-	public boolean isEnabled(int position) {
-		return wrapped.isEnabled(position);
-	}
-
-	@Override
-	public View getDropDownView(int position, View convertView, ViewGroup parent) {
-		return wrapped.getDropDownView(position, convertView, parent);
-	}
-
-	@Override
-	public int getItemViewType(int position) {
-		return wrapped.getItemViewType(position);
-	}
-
-	@Override
-	public int getViewTypeCount() {
-		return wrapped.getViewTypeCount();
-	}
 }

@@ -32,7 +32,7 @@ public class AfTableAdapter extends AfListAdapter<Object> {
 	 * @deprecated
 	 */
 	@Override
-	protected ListItem<Object> newListItem(Object data) {
+	protected ListItem<Object> newListItem() {
 		return null;
 	}
 

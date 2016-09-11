@@ -129,11 +129,11 @@ public abstract class AfMultiChoiceAdapter<T> extends AfListAdapter<T>{
 	}
 
 	@Override
-	protected ListItem<T> newListItem(T data) {
-		return getMultiChoiceItem(data);
+	protected ListItem<T> newListItem() {
+		return getMultiChoiceItem();
 	}
 	
-	protected abstract AfMultiChoiceItem<T> getMultiChoiceItem(T data);
+	protected abstract AfMultiChoiceItem<T> getMultiChoiceItem();
 
 	@Override
 	protected boolean bindingItem(View view, ListItem<T> item, int index) {

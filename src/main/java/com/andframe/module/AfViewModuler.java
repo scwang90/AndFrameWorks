@@ -3,13 +3,15 @@ package com.andframe.module;
 import android.annotation.SuppressLint;
 import android.view.View;
 
+import com.andframe.activity.AfActivity;
 import com.andframe.annotation.interpreter.Injecter;
 import com.andframe.annotation.interpreter.ViewBinder;
 import com.andframe.annotation.view.BindLayout;
+import com.andframe.api.page.Pager;
+import com.andframe.api.view.ViewModuler;
 import com.andframe.api.view.ViewQuery;
 import com.andframe.api.view.ViewQueryHelper;
 import com.andframe.api.view.Viewer;
-import com.andframe.api.view.ViewModuler;
 import com.andframe.application.AfApp;
 import com.andframe.exception.AfExceptionHandler;
 import com.andframe.impl.helper.AfViewQueryHelper;
@@ -75,6 +77,13 @@ public abstract class AfViewModuler extends AfViewWrapper implements Viewer, Vie
 	protected AfViewModuler(Viewer view, int id) {
 		super(new View(view.getContext()));
 		wrapped = view.findViewById(id);
+	}
+
+	protected Pager getPager() {
+		if (getContext() instanceof AfActivity) {
+			return ((AfActivity) getContext());
+		}
+		return AfApp.get().getCurActivity();
 	}
 
 	/**
@@ -173,6 +182,7 @@ public abstract class AfViewModuler extends AfViewWrapper implements Viewer, Vie
 	public ViewQuery $(View view, View... views) {
 		return mViewQueryHelper.$(view, views);
 	}
+
 	//</editor-fold>
 
 }

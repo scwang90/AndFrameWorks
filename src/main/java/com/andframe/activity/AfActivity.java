@@ -482,7 +482,7 @@ public class AfActivity extends AppCompatActivity implements Pager, ViewQueryHel
     protected boolean onBackKeyPressed() {
         boolean isHandled = false;
         List<Fragment> fragments = getSupportFragmentManager().getFragments();
-        fragments = fragments == null ? new ArrayList<Fragment>() : fragments;
+        fragments = fragments == null ? new ArrayList<>() : fragments;
         for (Fragment fragment : fragments) {
             if (fragment != null && fragment.getUserVisibleHint() && fragment instanceof AfFragment) {
                 AfFragment afment = (AfFragment) fragment;
