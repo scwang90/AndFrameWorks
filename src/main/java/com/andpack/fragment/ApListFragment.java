@@ -21,13 +21,13 @@ public abstract class ApListFragment<T> extends AfListFragment<T> implements ApP
 
     @Override
     protected void onCreated(AfBundle bundle, AfView view) throws Exception {
-        mHelper.onCreate(mTitlebar);
+        mHelper.onCreate();
         super.onCreated(bundle, view);
     }
 
     @Override
     public void onAfterViews() throws Exception {
-        mHelper.onAfterViews();
+        mHelper.onAfterViews(mTitlebar);
         super.onAfterViews();
     }
 

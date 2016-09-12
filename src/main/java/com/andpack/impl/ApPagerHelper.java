@@ -47,12 +47,19 @@ public class ApPagerHelper implements AfPullToRefreshBase.OnRefreshListener {
         mIsUsingSwipeBack = resid == R.style.AppTheme_SwipeBack;
     }
 
-    public void onCreate(AfModuleTitlebar titlebar) {
+    public void onCreate() {
         try {
             if (mIsUsingSwipeBack) {
                 mSwipeBackHelper = new SwipeBackActivityHelper(pager.getActivity());
                 mSwipeBackHelper.onActivityCreate();
             }
+        } catch (Throwable e) {
+            AfExceptionHandler.handle(e, ("ApPagerHelper.onCreate 失败"));
+        }
+    }
+
+    public void onAfterViews(AfModuleTitlebar titlebar) {
+        try {
             if (!StatusBarInterpreter.interpreter(pager)) {
                 BindStatusBarMode mode = AfReflecter.getAnnotation(pager.getClass(), AfActivity.class, BindStatusBarMode.class);
                 if (mode != null) {
@@ -65,11 +72,10 @@ public class ApPagerHelper implements AfPullToRefreshBase.OnRefreshListener {
                             if (top != null) {
                                 SystemBarHelper.setHeightAndPadding(pager.getContext(), top);
                             }
-                            //$.with(pager).id(R.id.af_titlebar_layout).view()
                             break;
                         case translucent_white:
                             SystemBarHelper.setStatusBarDarkMode(pager.getActivity());
-    //                    SystemBarHelper.tintStatusBar(pager.getActivity(), 0XFFEAEAEA, 0);
+                            //                    SystemBarHelper.tintStatusBar(pager.getActivity(), 0XFFEAEAEA, 0);
                             SystemBarHelper.tintStatusBar(pager.getActivity(), 0XFFFFFFFF, 0);
                             break;
                     }
@@ -90,13 +96,6 @@ public class ApPagerHelper implements AfPullToRefreshBase.OnRefreshListener {
                     titlebar.setTitle(bind.value());
                 }
             }
-        } catch (Throwable e) {
-            AfExceptionHandler.handle(e, ("ApPagerHelper.onCreate 失败"));
-        }
-    }
-
-    public void onAfterViews() {
-        try {
             Toolbar toolbar = (Toolbar) $.with(pager).$(Toolbar.class).view();
             if (toolbar != null) {
                 toolbar.setNavigationOnClickListener(v -> pager.getActivity().finish());

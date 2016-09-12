@@ -30,13 +30,13 @@ public abstract class ApRefreshListActivity<T> extends AfRefreshListActivityImpl
 
     @Override
     protected void onCreate(Bundle bundle, AfIntent intent) throws Exception {
-        mHelper.onCreate(mTitlebar);
+        mHelper.onCreate();
         super.onCreate(bundle, intent);
     }
 
     @Override
     protected void onAfterViews() throws Exception {
-        mHelper.onAfterViews();
+        mHelper.onAfterViews(mTitlebar);
         super.onAfterViews();
     }
 

@@ -22,13 +22,13 @@ public class ApFragment extends AfTabFragment implements ApPager {
 
     @Override
     protected void onCreated(AfBundle bundle, AfView view) throws Exception {
-        mHelper.onCreate(mTitlebar);
+        mHelper.onCreate();
         super.onCreated(bundle, view);
     }
 
     @BindAfterViews
     protected void onAfterViews() throws Exception {
-        mHelper.onAfterViews();
+        mHelper.onAfterViews(mTitlebar);
     }
 
     //<editor-fold desc="下拉刷新">

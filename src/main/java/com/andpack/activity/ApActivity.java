@@ -31,13 +31,13 @@ public class ApActivity extends AfActivity implements ApPager {
 
     @Override
     protected void onCreate(Bundle bundle, AfIntent intent) throws Exception {
-        mHelper.onCreate(mTitlebar);
+        mHelper.onCreate();
         super.onCreate(bundle, intent);
     }
 
     @BindAfterViews
     protected void onAfterViews() throws Exception {
-        mHelper.onAfterViews();
+        mHelper.onAfterViews(mTitlebar);
     }
 
 
