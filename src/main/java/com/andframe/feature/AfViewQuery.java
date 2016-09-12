@@ -163,7 +163,7 @@ public class AfViewQuery<T extends AfViewQuery<T>> implements ViewQuery<T> {
     }
 
     @Override
-    public T $(Class<? extends View> type, Class<? extends View>... types) {
+    public T $(Class<?> type, Class<?>... types) {
         Queue<View> views = new LinkedBlockingQueue<>(Collections.singletonList(mRootView));
         List<View> list = new ArrayList<>();
         do {
@@ -172,7 +172,7 @@ public class AfViewQuery<T extends AfViewQuery<T>> implements ViewQuery<T> {
                 if (type != null && type.isAssignableFrom(cview.getClass())) {
                     list.add(cview);
                 } else if (types.length > 0) {
-                    for (Class<? extends View> ttype : types) {
+                    for (Class<?> ttype : types) {
                         if (ttype.isAssignableFrom(cview.getClass())) {
                             list.add(cview);
                             break;

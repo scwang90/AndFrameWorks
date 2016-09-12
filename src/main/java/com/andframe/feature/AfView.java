@@ -27,12 +27,32 @@ public class AfView extends AfViewQuery<AfView> implements Viewer {
 		if (mTargetViews != null && mTargetViews.length > 0) {
 			ViewParent parent = mTargetViews[0].getParent();
 			if (parent instanceof ViewGroup) {
-				ViewGroup group = ViewGroup.class.cast(parent);
-				group.removeView(mTargetViews[0]);
+				((ViewGroup) parent).removeView(mTargetViews[0]);
 				return mTargetViews[0];
 			}
 		}
 		return null;
+	}
+
+	/**
+	 * 替换调 View 中的 id 为 item
+     */
+	public boolean replace(int id, View target) {
+		View viewById = findViewById(id);
+		if (viewById != null) {
+			ViewGroup parent = (ViewGroup)viewById.getParent();
+			if (parent != null) {
+				ViewParent viewParent = target.getParent();
+				if (viewParent instanceof ViewGroup) {
+					((ViewGroup) viewParent).removeView(target);
+				}
+
+				int i = parent.indexOfChild(viewById);
+				parent.removeViewAt(i);
+				parent.addView(target, i, target.getLayoutParams());
+			}
+		}
+		return false;
 	}
 
 	@SuppressWarnings("unused")
