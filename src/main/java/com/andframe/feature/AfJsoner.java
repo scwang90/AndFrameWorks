@@ -171,7 +171,30 @@ public class AfJsoner {
         } else if (value instanceof Collection){
             return builderArray(((Collection) value).toArray(new Object[((Collection) value).size()]));
         } else if(value.getClass().isArray()){
-            return builderArray((Object[])value);
+            Class<?> componentType = value.getClass().getComponentType();
+            if (componentType != null && componentType.isPrimitive()) {
+                if (int.class.equals(componentType)) {
+                    return builderArray((int[]) value);
+                } else if (short.class.equals(componentType)) {
+                    return builderArray((short[]) value);
+                } else if (byte.class.equals(componentType)) {
+                    return builderArray((byte[]) value);
+                } else if (char.class.equals(componentType)) {
+                    return builderArray((char[]) value);
+                } else if (long.class.equals(componentType)) {
+                    return builderArray((long[]) value);
+                } else if (float.class.equals(componentType)) {
+                    return builderArray((float[]) value);
+                } else if (double.class.equals(componentType)) {
+                    return builderArray((double[]) value);
+                } else if (boolean.class.equals(componentType)) {
+                    return builderArray((boolean[]) value);
+                } else {
+                    return new JSONObject();
+                }
+            } else {
+                return builderArray((Object[])value);
+            }
         } else {
             final Class<?> type = value.getClass();
             if (type.isPrimitive() || Integer.class.equals(type) || Short.class.equals(type) ||
@@ -204,6 +227,103 @@ public class AfJsoner {
     private static JSONArray builderArray(Object[] objs) throws JSONException {
         JSONArray array = new JSONArray();
         for (Object obj : objs) {
+            if (obj == null){
+                array.put(null);
+            } else {
+                array.put(builderJson(obj));
+            }
+        }
+        return array;
+    }
+
+
+    private static JSONArray builderArray(boolean[] values) throws JSONException {
+        JSONArray array = new JSONArray();
+        for (Object obj : values) {
+            if (obj == null){
+                array.put(null);
+            } else {
+                array.put(builderJson(obj));
+            }
+        }
+        return array;
+    }
+
+    private static JSONArray builderArray(double[] values) throws JSONException  {
+        JSONArray array = new JSONArray();
+        for (Object obj : values) {
+            if (obj == null){
+                array.put(null);
+            } else {
+                array.put(builderJson(obj));
+            }
+        }
+        return array;
+    }
+
+    private static JSONArray builderArray(float[] values) throws JSONException  {
+        JSONArray array = new JSONArray();
+        for (Object obj : values) {
+            if (obj == null){
+                array.put(null);
+            } else {
+                array.put(builderJson(obj));
+            }
+        }
+        return array;
+    }
+
+    private static JSONArray builderArray(long[] values) throws JSONException  {
+        JSONArray array = new JSONArray();
+        for (Object obj : values) {
+            if (obj == null){
+                array.put(null);
+            } else {
+                array.put(builderJson(obj));
+            }
+        }
+        return array;
+    }
+
+    private static JSONArray builderArray(char[] values) throws JSONException  {
+        JSONArray array = new JSONArray();
+        for (Object obj : values) {
+            if (obj == null){
+                array.put(null);
+            } else {
+                array.put(builderJson(obj));
+            }
+        }
+        return array;
+    }
+
+    private static JSONArray builderArray(byte[] values) throws JSONException  {
+        JSONArray array = new JSONArray();
+        for (Object obj : values) {
+            if (obj == null){
+                array.put(null);
+            } else {
+                array.put(builderJson(obj));
+            }
+        }
+        return array;
+    }
+
+    private static JSONArray builderArray(short[] values) throws JSONException  {
+        JSONArray array = new JSONArray();
+        for (Object obj : values) {
+            if (obj == null){
+                array.put(null);
+            } else {
+                array.put(builderJson(obj));
+            }
+        }
+        return array;
+    }
+
+    private static JSONArray builderArray(int[] values) throws JSONException  {
+        JSONArray array = new JSONArray();
+        for (Object obj : values) {
             if (obj == null){
                 array.put(null);
             } else {

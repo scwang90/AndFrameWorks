@@ -556,6 +556,8 @@ public interface ViewQuery<T extends ViewQuery<T>> {
      */
     ScrollView getScrollView();
     View view(int... indexs);
+    View[] views();
+    <TT extends View> TT[] views(Class<TT> clazz);
     <TT extends View> TT view(Class<TT> clazz ,int... indexs);
     int gravity();
     T gravity(int gravity);

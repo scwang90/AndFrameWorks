@@ -42,7 +42,7 @@ public abstract class RecyclerListAdapter<T> extends RecyclerBaseAdapter<ViewHol
 	//</editor-fold>
 
 	//<editor-fold desc="子类实现">
-	protected abstract ListItem<T> newListItem(T data);
+	protected abstract ListItem<T> newListItem();
 	//</editor-fold>
 
 	//<editor-fold desc="集合操作">
@@ -246,7 +246,8 @@ public abstract class RecyclerListAdapter<T> extends RecyclerBaseAdapter<ViewHol
 
 	@Override
 	public ViewHolderItem<T> onCreateViewHolder(ViewGroup parent, int viewType) {
-		return new ViewHolderItem<>(newListItem(null), parent.getContext(), parent);
+		ListItem<T> item = newListItem();
+		return new ViewHolderItem<>(item, item.onCreateView(parent.getContext(), parent));
 	}
 
 	@Override

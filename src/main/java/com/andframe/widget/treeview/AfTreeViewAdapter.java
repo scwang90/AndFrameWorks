@@ -4,6 +4,7 @@ import android.content.Context;
 import android.support.annotation.NonNull;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.AdapterView;
 
 import com.andframe.api.ListItem;
 import com.andframe.widget.multichoice.AfMultiChoiceAdapter;
@@ -14,8 +15,7 @@ import java.util.Collection;
 import java.util.List;
 
 @SuppressWarnings("unused")
-public abstract class AfTreeViewAdapter<T> extends AfMultiChoiceAdapter<T> {
-
+public abstract class AfTreeViewAdapter<T> extends AfMultiChoiceAdapter<T> implements AdapterView.OnItemClickListener {
 
 	public interface AfTreeNodeClickable<T>{
 		boolean isItemClickable(AfTreeNode<T> item);
@@ -85,6 +85,12 @@ public abstract class AfTreeViewAdapter<T> extends AfMultiChoiceAdapter<T> {
 		tvitem.setSelectStatus(node.value, status);
 		tvitem.onBinding(view, node.value, index);
 		return true;
+	}
+
+
+	@Override
+	public void onItemClick(AdapterView<?> adapterView, View view, int i, long l) {
+		onItemClick(i);
 	}
 	
 	@Override

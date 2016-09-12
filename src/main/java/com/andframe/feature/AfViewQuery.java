@@ -201,6 +201,25 @@ public class AfViewQuery<T extends AfViewQuery<T>> implements ViewQuery<T> {
     }
 
     @Override
+    public View[] views() {
+        return mTargetViews == null ? new View[0] : mTargetViews;
+    }
+
+    @Override
+    public <TT extends View> TT[] views(Class<TT> clazz) {
+        List<TT> list = new ArrayList<>();
+        if (mTargetViews != null) {
+            for (View view : mTargetViews) {
+                if (view != null && clazz.isInstance(view)) {
+                    list.add(clazz.cast(view));
+                }
+            }
+        }
+        //noinspection unchecked
+        return (TT[])list.toArray();
+    }
+
+    @Override
     public <TT extends View> TT view(Class<TT> clazz, int... indexs) {
         View view = getView(indexs);
         if (view != null && clazz.isInstance(view)) {

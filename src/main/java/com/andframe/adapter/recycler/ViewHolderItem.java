@@ -1,8 +1,7 @@
 package com.andframe.adapter.recycler;
 
-import android.content.Context;
 import android.support.v7.widget.RecyclerView;
-import android.view.ViewGroup;
+import android.view.View;
 
 import com.andframe.api.ListItem;
 
@@ -14,8 +13,8 @@ public class ViewHolderItem<T> extends RecyclerView.ViewHolder {
 
     private final ListItem<T> item;
 
-    public ViewHolderItem(ListItem<T> item, Context context, ViewGroup parent) {
-        super(item.onCreateView(context, parent));
+    public ViewHolderItem(ListItem<T> item, View view) {
+        super(view);
         this.item = item;
     }
 

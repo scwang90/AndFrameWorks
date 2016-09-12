@@ -259,7 +259,9 @@ public abstract class AfListAdapter<T> extends RecyclerBaseAdapter<ViewHolderIte
 
     @Override
     public ViewHolderItem<T> onCreateViewHolder(ViewGroup parent, int viewType) {
-        return new ViewHolderItem<>(newListItem(), parent.getContext(), parent);
+        ListItem<T> item = newListItem();
+        View view = onInflateItem(item, parent);
+        return new ViewHolderItem<>(item, view);
     }
 
     @Override

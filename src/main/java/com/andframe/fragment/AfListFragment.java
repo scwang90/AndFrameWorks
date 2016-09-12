@@ -144,6 +144,16 @@ public abstract class AfListFragment<T> extends AfTabFragment implements ListPag
     public AfListAdapter<T> newAdapter(Context context, List<T> list) {
         return mListHelper.newAdapter(context, list);
     }
+
+    /**
+     * 为列表添加 Header 和 Footer
+     * （在bindAdapter之前执行）
+     */
+    @Override
+    public void bindListHeaderAndFooter() {
+
+    }
+
     /**
      * 绑定适配器
      * @param listView 列表

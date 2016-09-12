@@ -61,14 +61,10 @@ public class AfListPagerHelper<T> implements ListPagerHelper<T> {
         if (mListView != null) {
             mListView.setOnItemClickListener(mListPager);
             mListView.setOnItemLongClickListener(mListPager);
-//            mListPager.bindAdapter(mListView, mAdapter);
+            mListPager.bindListHeaderAndFooter();
+            mListPager.bindAdapter(mListView, mAdapter);
         }
-        AfDispatcher.dispatch(() -> {
-            if (mListView != null) {
-                mListPager.bindAdapter(mListView, mAdapter);
-            }
-            mListPager.postTask(new AbLoadListTask());
-        });
+        AfDispatcher.dispatch(() -> mListPager.postTask(new AbLoadListTask()));
     }
 
     @Override

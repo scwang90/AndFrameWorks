@@ -24,8 +24,10 @@ public interface ListPager<T> extends Pager, OnItemClickListener, OnItemLongClic
     ListItem<T> newListItem();
     AbsListView findListView(ListPager<T> pager);
     AfListAdapter<T> newAdapter(Context context, List<T> list);
+    void bindListHeaderAndFooter();
     void bindAdapter(AbsListView listView, ListAdapter adapter);
 
     boolean onItemLongClick(T model, int index);
     void onItemClick(T model, int index);
+
 }
