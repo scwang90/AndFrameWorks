@@ -10,9 +10,11 @@ import android.widget.Adapter;
 import android.widget.AdapterView;
 import android.widget.CompoundButton;
 import android.widget.ListView;
+import android.widget.RadioGroup;
 
 import com.andframe.annotation.view.BindAfterViews;
 import com.andframe.annotation.view.BindCheckedChange;
+import com.andframe.annotation.view.BindCheckedChangeGroup;
 import com.andframe.annotation.view.BindClick;
 import com.andframe.annotation.view.BindItemClick;
 import com.andframe.annotation.view.BindItemLongClick;
@@ -85,6 +87,7 @@ public class ViewBinder {
         bindItemClick(handler, root);
         bindItemLongClick(handler, root);
         bindCheckedChange(handler, root);
+        bindCheckedChangeGroup(handler, root);
         bindView(handler, root);
         bindViewModule(handler, root);
         bindAfterView(handler);
@@ -185,6 +188,22 @@ public class ViewBinder {
                     CompoundButton view = root.findViewByID(id);
                     if (view != null) {
                         view.setOnCheckedChangeListener(new EventListener(handler).checkedChange(method));
+                    }
+                }
+            } catch (Throwable e) {
+                AfExceptionHandler.handle(e, TAG(handler, "doBindLongClick.") + method.getName());
+            }
+        }
+    }
+
+    private static void bindCheckedChangeGroup(Object handler, Viewer root) {
+        for (Method method : AfReflecter.getMethodAnnotation(handler.getClass(), getStopType(handler), BindCheckedChangeGroup.class)) {
+            try {
+                BindCheckedChangeGroup bind = method.getAnnotation(BindCheckedChangeGroup.class);
+                for (int id : bind.value()) {
+                    RadioGroup view = root.findViewByID(id);
+                    if (view != null) {
+                        view.setOnCheckedChangeListener(new EventListener(handler).checkedChangeGroup(method));
                     }
                 }
             } catch (Throwable e) {
@@ -391,7 +410,8 @@ public class ViewBinder {
             View.OnLongClickListener,
             AdapterView.OnItemClickListener,
             AdapterView.OnItemLongClickListener,
-            CompoundButton.OnCheckedChangeListener, View.OnTouchListener {
+            CompoundButton.OnCheckedChangeListener,
+            RadioGroup.OnCheckedChangeListener, View.OnTouchListener {
 
         private Object handler;
 
@@ -401,6 +421,7 @@ public class ViewBinder {
         private Method itemClickMethod;
         private Method itemLongClickMehtod;
         private Method checkedChangedMehtod;
+        private Method checkedChangedMehtodGroup;
 
         public EventListener(Object handler) {
             this.handler = handler;
@@ -436,6 +457,11 @@ public class ViewBinder {
             return this;
         }
 
+        public RadioGroup.OnCheckedChangeListener checkedChangeGroup(Method method) {
+            this.checkedChangedMehtodGroup = method;
+            return this;
+        }
+
         @Override
         public boolean onTouch(View v, MotionEvent event) {
             return Boolean.valueOf(true).equals(invokeMethod(handler, touchMethod, v, event));
@@ -458,9 +484,15 @@ public class ViewBinder {
         public boolean onItemLongClick(AdapterView<?> parent, View view, int position, long id) {
             return Boolean.valueOf(true).equals(invokeMethod(handler, itemLongClickMehtod, parent, view, position, id));
         }
+
         @Override
         public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
             invokeMethod(handler, checkedChangedMehtod, buttonView, isChecked);
+        }
+
+        @Override
+        public void onCheckedChanged(RadioGroup radioGroup, int i) {
+            invokeMethod(handler, checkedChangedMehtodGroup, radioGroup, i);
         }
 
         private Object invokeMethod(Object handler, Method method, Object... params) {

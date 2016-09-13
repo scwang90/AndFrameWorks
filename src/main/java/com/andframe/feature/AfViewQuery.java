@@ -1119,18 +1119,20 @@ public class AfViewQuery<T extends AfViewQuery<T>> implements ViewQuery<T> {
     private T size(boolean width, float n, boolean dip) {
         return foreach(view -> {
             ViewGroup.LayoutParams lp = view.getLayoutParams();
-            Context context = getContext();
-            float tn = n;
-            if (tn > 0 && dip) {
-                float scale = context.getResources().getDisplayMetrics().density;
-                tn = (int) (scale * tn + 0.5f);
+            if (lp != null) {
+                Context context = getContext();
+                float tn = n;
+                if (tn > 0 && dip) {
+                    float scale = context.getResources().getDisplayMetrics().density;
+                    tn = (int) (scale * tn + 0.5f);
+                }
+                if (width) {
+                    lp.width = (int)tn;
+                } else {
+                    lp.height = (int)tn;
+                }
+                view.setLayoutParams(lp);
             }
-            if (width) {
-                lp.width = (int)tn;
-            } else {
-                lp.height = (int)tn;
-            }
-            view.setLayoutParams(lp);
         });
     }
 }

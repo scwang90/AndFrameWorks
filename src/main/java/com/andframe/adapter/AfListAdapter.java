@@ -9,6 +9,7 @@ import com.andframe.adapter.recycler.RecyclerBaseAdapter;
 import com.andframe.adapter.recycler.ViewHolderItem;
 import com.andframe.api.ListItem;
 import com.andframe.api.ListItemAdapter;
+import com.andframe.exception.AfExceptionHandler;
 
 import java.util.ArrayList;
 import java.util.Collection;
@@ -259,14 +260,23 @@ public abstract class AfListAdapter<T> extends RecyclerBaseAdapter<ViewHolderIte
 
     @Override
     public ViewHolderItem<T> onCreateViewHolder(ViewGroup parent, int viewType) {
-        ListItem<T> item = newListItem();
-        View view = onInflateItem(item, parent);
-        return new ViewHolderItem<>(item, view);
+        try {
+            ListItem<T> item = newListItem();
+            View view = onInflateItem(item, parent);
+            return new ViewHolderItem<>(item, view);
+        } catch (Throwable e) {
+            AfExceptionHandler.handle(e, "AfListAdapter.onCreateViewHolder");
+            return new ViewHolderItem<>(null, new View(parent.getContext()));
+        }
     }
 
     @Override
     public void onBindViewHolder(ViewHolderItem<T> holder, int position) {
-        bindingItem(holder.itemView, holder.getItem(), position);
+        try {
+            bindingItem(holder.itemView, holder.getItem(), position);
+        } catch (Throwable e) {
+            AfExceptionHandler.handle(e, "AfListAdapter.onBindViewHolder.bindingItem");
+        }
     }
 
     @Override
