@@ -456,7 +456,7 @@ public abstract class AfApp extends Application {
 		return new AfExceptionHandler();
 	}
 
-	public ViewQuery newViewQuery(View view) {
+	public ViewQuery<? extends ViewQuery> newViewQuery(View view) {
 		return new AfView(view);
 	}
 

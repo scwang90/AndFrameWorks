@@ -163,7 +163,7 @@ public class AfViewQuery<T extends AfViewQuery<T>> implements ViewQuery<T> {
     }
 
     @Override
-    public T $(Class<?> type, Class<?>... types) {
+    public T $(Class<? extends View> type, Class<?>... types) {
         Queue<View> views = new LinkedBlockingQueue<>(Collections.singletonList(mRootView));
         List<View> list = new ArrayList<>();
         do {
@@ -926,7 +926,9 @@ public class AfViewQuery<T extends AfViewQuery<T>> implements ViewQuery<T> {
 //                }
 //            }
 //        }
-        return foreach(AdapterView.class, (ViewReturnEacher<AdapterView, Object>) view -> view.getSelectedItem());
+//        return foreach(AdapterView.class, (ViewReturnEacher<AdapterView, Object>) view -> view.getSelectedItem());
+        //noinspection RedundantCast
+        return foreach(AdapterView.class, (ViewReturnEacher<AdapterView, Object>) AdapterView::getSelectedItem);
     }
 
 
@@ -946,7 +948,9 @@ public class AfViewQuery<T extends AfViewQuery<T>> implements ViewQuery<T> {
 //                }
 //            }
 //        }
-        return foreach(AdapterView.class, (ViewReturnEacher<AdapterView, Integer>) view -> view.getSelectedItemPosition());
+//        return foreach(AdapterView.class, (ViewReturnEacher<AdapterView, Integer>) view -> view.getSelectedItemPosition());
+        //noinspection RedundantCast
+        return foreach(AdapterView.class, (ViewReturnEacher<AdapterView, Integer>) AdapterView::getSelectedItemPosition);
     }
 
     /**

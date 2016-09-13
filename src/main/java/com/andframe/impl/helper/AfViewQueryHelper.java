@@ -14,13 +14,13 @@ import com.andframe.application.AfApp;
 public class AfViewQueryHelper implements ViewQueryHelper {
 
     protected Viewer viewer;
-    protected ViewQuery mViewQuery;
+    protected ViewQuery<? extends ViewQuery> mViewQuery;
 
     public AfViewQueryHelper(Viewer viewer) {
         this.viewer = viewer;
     }
 
-    protected ViewQuery getmLayout() {
+    protected ViewQuery<? extends ViewQuery> getQuery() {
         if (mViewQuery == null || mViewQuery.$().view() != viewer.getView()) {
             mViewQuery = AfApp.get().newViewQuery(viewer.getView());
         }
@@ -33,7 +33,7 @@ public class AfViewQueryHelper implements ViewQueryHelper {
      */
     @SuppressWarnings("unused")
     public ViewQuery $(int... id) {
-        ViewQuery query = getmLayout();
+        ViewQuery<? extends ViewQuery> query = getQuery();
         if (id == null || id.length == 0) {
             return query;
         }
@@ -46,7 +46,7 @@ public class AfViewQueryHelper implements ViewQueryHelper {
      */
     @SuppressWarnings("unused")
     public ViewQuery $(View view, View... views) {
-        return getmLayout().$(view, views);
+        return getQuery().$(view, views);
     }
 
 }

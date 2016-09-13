@@ -563,7 +563,7 @@ public interface ViewQuery<T extends ViewQuery<T>> {
     T gravity(int gravity);
     T $(int... id);
     T $(String idvalue, String... idvalues);
-    T $(Class<?> type, Class<?>... types);
+    T $(Class<? extends View> type, Class<?>... types);
     T $(View view, View... views);
     T width(float dp);
     T height(float dp);

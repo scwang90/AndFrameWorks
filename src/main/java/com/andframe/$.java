@@ -34,10 +34,10 @@ public class $ {
         <From,To> List<To> convertList(@NonNull Iterable<From> froms, @NonNull ModelConvertor<From,To> convertor);
     }
 
-
     public interface Api extends $$,TaskExecutor, DialogBuilder, ViewQuery {
     }
 
+    @SuppressWarnings("MethodNameSameAsClassName")
     @MainThread
     public static Api $(Object... withs) {
         lastWiths = withs;
@@ -61,12 +61,12 @@ public class $ {
     }
 
     @MainThread
-    public static ViewQuery query(Viewer viewer) {
+    public static ViewQuery<? extends ViewQuery> query(Viewer viewer) {
         return AfApp.get().newViewQuery(viewer.getView());
     }
 
     @MainThread
-    public static ViewQuery query(View view) {
+    public static ViewQuery<? extends ViewQuery> query(View view) {
         return AfApp.get().newViewQuery(view);
     }
 
