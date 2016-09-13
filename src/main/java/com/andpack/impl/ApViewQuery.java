@@ -18,13 +18,16 @@ public class ApViewQuery extends AfViewQuery<ApViewQuery> {
 
     @Override
     public ApViewQuery image(String url) {
-        if (url.startsWith("/")) {
-            url = "file://" + url;
+        if (url != null) {
+            if (url.startsWith("/")) {
+                url = "file://" + url;
+            }
+            String furl = url;
+            return foreach(ImageView.class, (view)-> {
+                ImageLoader.getInstance().displayImage(furl,view);
+            });
         }
-        String furl = url;
-        return foreach(ImageView.class, (view)-> {
-            ImageLoader.getInstance().displayImage(furl,view);
-        });
+        return self();
     }
 
 }

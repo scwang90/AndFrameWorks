@@ -9,6 +9,7 @@ import android.widget.ScrollView;
 import com.andframe.$;
 import com.andframe.activity.AfActivity;
 import com.andframe.exception.AfExceptionHandler;
+import com.andframe.listener.SafeOnClickListener;
 import com.andframe.module.AfModuleTitlebar;
 import com.andframe.task.AfHandlerTask;
 import com.andframe.util.java.AfReflecter;
@@ -96,9 +97,12 @@ public class ApPagerHelper implements AfPullToRefreshBase.OnRefreshListener {
                     titlebar.setTitle(bind.value());
                 }
             }
-            Toolbar toolbar = (Toolbar) $.with(pager).$(Toolbar.class).view();
-            if (toolbar != null) {
-                toolbar.setNavigationOnClickListener(v -> pager.getActivity().finish());
+
+            if (pager.getView() != null) {
+                Toolbar toolbar = (Toolbar) $.with(pager.getView()).$(Toolbar.class).view();
+                if (toolbar != null) {
+                    toolbar.setNavigationOnClickListener(new SafeOnClickListener(v -> pager.getActivity().finish()));
+                }
             }
         } catch (Throwable e) {
             AfExceptionHandler.handle(e, ("ApPagerHelper.onAfterViews 失败"));

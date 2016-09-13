@@ -44,38 +44,38 @@ public class StatusBarInterpreter {
         if (padding != null) {
             ret = true;
             defaultTranslucent(pager, translucent, translucentDark);
-            $.with(pager).$(padding.value()).foreach((ViewQuery.ViewEacher<View>)view -> SystemBarHelper.setPadding(activity,view));
+            $.query(pager).$(padding.value()).foreach((ViewQuery.ViewEacher<View>)view -> SystemBarHelper.setPadding(activity,view));
         }
         StatusBarPaddingH paddingH = AfReflecter.getAnnotation(pager.getClass(), Activity.class, StatusBarPaddingH.class);
         if (paddingH != null) {
             ret = true;
             defaultTranslucent(pager, translucent, translucentDark);
-            $.with(pager).$(paddingH.value()).foreach((ViewQuery.ViewEacher<View>)view -> SystemBarHelper.setHeightAndPadding(activity,view));
+            $.query(pager).$(paddingH.value()).foreach((ViewQuery.ViewEacher<View>)view -> SystemBarHelper.setHeightAndPadding(activity,view));
         }
         StatusBarPaddingType paddingType = AfReflecter.getAnnotation(pager.getClass(), Activity.class, StatusBarPaddingType.class);
         if (paddingType != null && paddingType.value().length > 0) {
             ret = true;
             defaultTranslucent(pager, translucent, translucentDark);
-            $.with(pager).$(null,paddingType.value()).foreach((ViewQuery.ViewEacher<View>)view -> SystemBarHelper.setPadding(activity,view));
+            $.query(pager).$(null,paddingType.value()).foreach((ViewQuery.ViewEacher<View>)view -> SystemBarHelper.setPadding(activity,view));
         }
         StatusBarPaddingHType paddingHType = AfReflecter.getAnnotation(pager.getClass(), Activity.class, StatusBarPaddingHType.class);
         if (paddingHType != null && paddingHType.value().length > 0) {
             ret = true;
             defaultTranslucent(pager, translucent, translucentDark);
-            $.with(pager).$(null,paddingHType.value()).foreach((ViewQuery.ViewEacher<View>)view -> SystemBarHelper.setHeightAndPadding(activity,view));
+            $.query(pager).$(null,paddingHType.value()).foreach((ViewQuery.ViewEacher<View>)view -> SystemBarHelper.setHeightAndPadding(activity,view));
         }
 
         StatusBarPaddingS paddingS = AfReflecter.getAnnotation(pager.getClass(), Activity.class, StatusBarPaddingS.class);
         if (paddingS != null && paddingS.value().length > 0) {
             ret = true;
             defaultTranslucent(pager, translucent, translucentDark);
-            $.with(pager).$(null,paddingS.value()).foreach((ViewQuery.ViewEacher<View>)view ->SystemBarHelper.setPadding(activity,view));
+            $.query(pager).$(null,paddingS.value()).foreach((ViewQuery.ViewEacher<View>)view ->SystemBarHelper.setPadding(activity,view));
         }
         StatusBarPaddingHS paddingHS = AfReflecter.getAnnotation(pager.getClass(), Activity.class, StatusBarPaddingHS.class);
         if (paddingHS != null && paddingHS.value().length > 0) {
             ret = true;
             defaultTranslucent(pager, translucent, translucentDark);
-            $.with(pager).$(null,paddingHS.value()).foreach((ViewQuery.ViewEacher<View>)view -> SystemBarHelper.setHeightAndPadding(activity,view));
+            $.query(pager).$(null,paddingHS.value()).foreach((ViewQuery.ViewEacher<View>)view -> SystemBarHelper.setHeightAndPadding(activity,view));
         }
         return ret;
     }
