@@ -50,7 +50,7 @@ public abstract class AfListAdapter<T> extends RecyclerBaseAdapter<ViewHolderIte
     //</editor-fold>
 
     //<editor-fold desc="子类实现">
-    protected abstract ListItem<T> newListItem();
+    protected abstract ListItem<T> newListItem(int viewType);
     //</editor-fold>
 
     //<editor-fold desc="集合操作">
@@ -261,7 +261,7 @@ public abstract class AfListAdapter<T> extends RecyclerBaseAdapter<ViewHolderIte
     @Override
     public ViewHolderItem<T> onCreateViewHolder(ViewGroup parent, int viewType) {
         try {
-            ListItem<T> item = newListItem();
+            ListItem<T> item = newListItem(viewType);
             View view = onInflateItem(item, parent);
             return new ViewHolderItem<>(item, view);
         } catch (Throwable e) {
@@ -289,9 +289,9 @@ public abstract class AfListAdapter<T> extends RecyclerBaseAdapter<ViewHolderIte
         return mltArray.size();
     }
 
-    protected ListItem<T> newListItem(List<T> ltarray, int position) {
-        return newListItem();
-    }
+//    protected ListItem<T> newListItem(List<T> ltarray, int position) {
+//        return newListItem();
+//    }
 
     protected View onInflateItem(ListItem<T> item, ViewGroup parent) {
         return item.onCreateView(mContext, parent);

@@ -140,7 +140,7 @@ public class AfListPagerHelper<T> implements ListPagerHelper<T> {
          * 转发事件到 AfListViewActivity.this.getItemLayout(data);
          */
         @Override
-        protected ListItem<T> newListItem() {
+        protected ListItem<T> newListItem(int viewType) {
             return mListPager.newListItem();
         }
     }

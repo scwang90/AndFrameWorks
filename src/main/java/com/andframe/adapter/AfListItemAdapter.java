@@ -26,7 +26,7 @@ public abstract class AfListItemAdapter<T> extends AfListAdapter<T> implements L
     }
 
     @Override
-    protected ListItem<T> newListItem() {
+    protected ListItem<T> newListItem(int viewType) {
         return this;
     }
 
