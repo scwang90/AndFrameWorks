@@ -2,17 +2,17 @@ package com.andframe.impl.helper;
 
 import android.database.DataSetObserver;
 import android.view.View;
-import android.widget.AbsListView;
-import android.widget.GridView;
 import android.widget.ListAdapter;
-import android.widget.ListView;
 
 import com.andframe.adapter.AfListAdapter;
 import com.andframe.annotation.mark.MarkCache;
 import com.andframe.api.page.MultiListPager;
 import com.andframe.api.page.MultiListPagerHelper;
+import com.andframe.api.view.ItemsViewer;
 import com.andframe.caches.AfPrivateCaches;
 import com.andframe.exception.AfExceptionHandler;
+import com.andframe.impl.viewer.ItemsGridViewWrapper;
+import com.andframe.impl.viewer.ItemsListViewWrapper;
 import com.andframe.model.Page;
 import com.andframe.module.AfFrameSelector;
 import com.andframe.module.AfModuleNodata;
@@ -42,7 +42,7 @@ public class AfMultiListPagerHelper<T> extends AfListPagerHelper<T> implements M
     protected AfModuleProgress mProgress;
     protected AfFrameSelector mSelector;
 
-    protected AfRefreshAbsListView<? extends AbsListView> mListView;
+    protected AfRefreshAbsListView<?> mListView;
     /**
      * 是否使用分页
      */
@@ -108,11 +108,11 @@ public class AfMultiListPagerHelper<T> extends AfListPagerHelper<T> implements M
     }
 
     @Override
-    public AfRefreshAbsListView<? extends AbsListView> newAfListView(AbsListView listView) {
-        if (listView instanceof ListView) {
-            return new AfListView(((ListView) listView));
-        } else if (listView instanceof GridView) {
-            return new AfGridView(((GridView) listView));
+    public AfRefreshAbsListView<?> newAfListView(ItemsViewer listView) {
+        if (listView instanceof ItemsListViewWrapper) {
+            return new AfListView(((ItemsListViewWrapper) listView).getItemsView());
+        } else if (listView instanceof ItemsGridViewWrapper) {
+            return new AfGridView(((ItemsGridViewWrapper) listView).getItemsView());
         }
         return new AfListView(mMultiListPager.getContext());
     }
@@ -296,7 +296,7 @@ public class AfMultiListPagerHelper<T> extends AfListPagerHelper<T> implements M
     }
 
     @Override
-    public void bindAdapter(AbsListView listView, ListAdapter adapter) {
+    public void bindAdapter(ItemsViewer listView, ListAdapter adapter) {
         adapter.registerDataSetObserver(mDataSetObserver);
         mListView = mMultiListPager.newAfListView(listView);
         mListView.setAdapter(adapter);

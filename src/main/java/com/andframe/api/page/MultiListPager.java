@@ -1,7 +1,6 @@
 package com.andframe.api.page;
 
-import android.widget.AbsListView;
-
+import com.andframe.api.view.ItemsViewer;
 import com.andframe.model.Page;
 import com.andframe.module.AfFrameSelector;
 import com.andframe.module.AfModuleNodata;
@@ -24,7 +23,7 @@ public interface MultiListPager<T> extends ListPager<T>, OnRefreshListener {
      * @param listView ListView对象
      * @return 可刷新的ListView
      */
-    AfRefreshAbsListView<? extends AbsListView> newAfListView(AbsListView listView);
+    AfRefreshAbsListView<?> newAfListView(ItemsViewer listView);
 
     /**
      * 新建页面选择器

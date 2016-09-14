@@ -2,7 +2,6 @@ package com.andframe.impl.helper;
 
 import android.content.Context;
 import android.view.View;
-import android.widget.AbsListView;
 import android.widget.AdapterView;
 import android.widget.ListAdapter;
 import android.widget.ListView;
@@ -12,6 +11,7 @@ import com.andframe.annotation.view.BindLayout;
 import com.andframe.api.ListItem;
 import com.andframe.api.page.ListPagerHelper;
 import com.andframe.api.page.ListPager;
+import com.andframe.api.view.ItemsViewer;
 import com.andframe.exception.AfExceptionHandler;
 import com.andframe.task.AfDispatcher;
 import com.andframe.task.AfHandlerTask;
@@ -29,7 +29,8 @@ public class AfListPagerHelper<T> implements ListPagerHelper<T> {
 
     protected ListPager<T> mListPager;
 
-    protected AbsListView mListView;
+//    protected AbsListView mListView;
+    protected ItemsViewer mListView;
     protected AfListAdapter<T> mAdapter;
 
     protected String TAG(String tag) {
@@ -68,7 +69,7 @@ public class AfListPagerHelper<T> implements ListPagerHelper<T> {
     }
 
     @Override
-    public void bindAdapter(AbsListView listView, ListAdapter adapter) {
+    public void bindAdapter(ItemsViewer listView, ListAdapter adapter) {
         listView.setAdapter(adapter);
     }
 

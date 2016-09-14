@@ -5,7 +5,6 @@ import android.support.annotation.NonNull;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.AbsListView;
 import android.widget.AdapterView;
 import android.widget.ListAdapter;
 
@@ -14,6 +13,7 @@ import com.andframe.annotation.view.BindAfterViews;
 import com.andframe.api.ListItem;
 import com.andframe.api.page.ListPagerHelper;
 import com.andframe.api.page.ListPager;
+import com.andframe.api.view.ItemsViewer;
 import com.andframe.impl.helper.AfListPagerHelper;
 import com.andframe.task.AfHandlerTask;
 
@@ -64,7 +64,7 @@ public abstract class AfListFragment<T> extends AfTabFragment implements ListPag
      * @return pager.findListViewById(id)
      */
     @Override
-    public abstract AbsListView findListView(ListPager<T> pager);
+    public abstract ItemsViewer findListView(ListPager<T> pager);
 
 
     /**
@@ -160,7 +160,7 @@ public abstract class AfListFragment<T> extends AfTabFragment implements ListPag
      * @param adapter 适配器
      */
     @Override
-    public void bindAdapter(AbsListView listView, ListAdapter adapter) {
+    public void bindAdapter(ItemsViewer listView, ListAdapter adapter) {
         mListHelper.bindAdapter(listView, adapter);
     }
 

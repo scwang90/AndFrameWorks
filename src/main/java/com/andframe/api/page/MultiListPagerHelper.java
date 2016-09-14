@@ -1,7 +1,6 @@
 package com.andframe.api.page;
 
-import android.widget.AbsListView;
-
+import com.andframe.api.view.ItemsViewer;
 import com.andframe.task.AfListViewTask;
 import com.andframe.widget.AfRefreshAbsListView;
 
@@ -166,7 +165,7 @@ public interface MultiListPagerHelper<T> extends ListPagerHelper<T> {
      * @param listView ListView对象
      * @return 可刷新的ListView
      */
-    AfRefreshAbsListView<? extends AbsListView> newAfListView(AbsListView listView);
+    AfRefreshAbsListView<?> newAfListView(ItemsViewer listView);
 
     void addData(T value);
 

@@ -1,10 +1,9 @@
 package com.andframe.fragment;
 
-import android.widget.AbsListView;
-
 import com.andframe.R;
 import com.andframe.api.page.ListPager;
 import com.andframe.api.page.MultiListPager;
+import com.andframe.api.view.ItemsViewer;
 import com.andframe.module.AfFrameSelector;
 import com.andframe.module.AfModuleNodata;
 import com.andframe.module.AfModuleNodataImpl;
@@ -49,7 +48,7 @@ public abstract class AfMultiListFragmentImpl<T> extends AfMultiListFragment<T> 
     }
 
     @Override
-    public AbsListView findListView(ListPager<T> pager) {
+    public ItemsViewer findListView(ListPager<T> pager) {
         return pager.findViewByID(R.id.listcontent_list);
     }
 

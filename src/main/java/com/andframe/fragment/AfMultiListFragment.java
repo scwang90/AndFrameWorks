@@ -1,12 +1,12 @@
 package com.andframe.fragment;
 
 import android.support.annotation.NonNull;
-import android.widget.AbsListView;
 import android.widget.ListAdapter;
 
 import com.andframe.api.page.ListPagerHelper;
 import com.andframe.api.page.MultiListPager;
 import com.andframe.api.page.MultiListPagerHelper;
+import com.andframe.api.view.ItemsViewer;
 import com.andframe.impl.helper.AfMultiListPagerHelper;
 import com.andframe.model.Page;
 import com.andframe.module.AfFrameSelector;
@@ -61,7 +61,7 @@ public abstract class AfMultiListFragment<T> extends AfListFragment<T> implement
      * @param listView ListView对象
      * @return 可刷新的ListView
      */
-    public AfRefreshAbsListView<? extends AbsListView> newAfListView(AbsListView listView) {
+    public AfRefreshAbsListView<?> newAfListView(ItemsViewer listView) {
         return mMultiListHelper.newAfListView(listView);
     }
 
@@ -318,7 +318,7 @@ public abstract class AfMultiListFragment<T> extends AfListFragment<T> implement
      * @param adapter 适配器
      */
     @Override
-    public void bindAdapter(AbsListView listView, ListAdapter adapter) {
+    public void bindAdapter(ItemsViewer listView, ListAdapter adapter) {
         mMultiListHelper.bindAdapter(listView, adapter);
     }
 
