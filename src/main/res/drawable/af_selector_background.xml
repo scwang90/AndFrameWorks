@@ -5,4 +5,9 @@
             <solid android:color="#33888888"/>
         </shape>
     </item>
+    <item android:state_checked="true">
+        <shape >
+            <solid android:color="#33888888"/>
+        </shape>
+    </item>
 </selector>
