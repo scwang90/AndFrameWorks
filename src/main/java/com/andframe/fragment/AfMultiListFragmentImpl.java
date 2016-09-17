@@ -1,9 +1,17 @@
 package com.andframe.fragment;
 
+import android.support.v7.widget.RecyclerView;
+import android.view.View;
+import android.widget.GridView;
+import android.widget.ListView;
+
 import com.andframe.R;
 import com.andframe.api.page.ListPager;
 import com.andframe.api.page.MultiListPager;
 import com.andframe.api.view.ItemsViewer;
+import com.andframe.impl.viewer.ItemsGridViewWrapper;
+import com.andframe.impl.viewer.ItemsListViewWrapper;
+import com.andframe.impl.viewer.ItemsRecyclerViewWrapper;
 import com.andframe.module.AfFrameSelector;
 import com.andframe.module.AfModuleNodata;
 import com.andframe.module.AfModuleNodataImpl;
@@ -49,7 +57,15 @@ public abstract class AfMultiListFragmentImpl<T> extends AfMultiListFragment<T> 
 
     @Override
     public ItemsViewer findListView(ListPager<T> pager) {
-        return pager.findViewByID(R.id.listcontent_list);
+        View view = pager.findViewByID(R.id.listcontent_list);
+        if (view instanceof ListView) {
+            return new ItemsListViewWrapper(((ListView) view));
+        } else if (view instanceof GridView) {
+            return new ItemsGridViewWrapper(((GridView) view));
+        } else if (view instanceof RecyclerView) {
+            return new ItemsRecyclerViewWrapper(((RecyclerView) view));
+        }
+        return null;
     }
 
     @Override
