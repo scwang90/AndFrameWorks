@@ -56,7 +56,7 @@ public abstract class AfMultiListFragmentImpl<T> extends AfMultiListFragment<T> 
     }
 
     @Override
-    public ItemsViewer findListView(ListPager<T> pager) {
+    public ItemsViewer findItemsViewer(ListPager<T> pager) {
         View view = pager.findViewByID(R.id.listcontent_list);
         if (view instanceof ListView) {
             return new ItemsListViewWrapper(((ListView) view));

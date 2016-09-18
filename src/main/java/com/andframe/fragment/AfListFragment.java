@@ -64,7 +64,7 @@ public abstract class AfListFragment<T> extends AfTabFragment implements ListPag
      * @return pager.findListViewById(id)
      */
     @Override
-    public abstract ItemsViewer findListView(ListPager<T> pager);
+    public abstract ItemsViewer findItemsViewer(ListPager<T> pager);
 
 
     /**

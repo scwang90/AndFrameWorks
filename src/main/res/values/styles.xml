@@ -25,6 +25,12 @@
         <item name="android:background">@color/colorDivison</item>
     </style>
 
+    <style name="AndFrame.Divison.Vertical.Dash">
+        <item name="android:layout_width">2dp</item>
+        <item name="android:background">@drawable/af_dashline_divison_vertical</item>
+        <item name="android:layerType">software</item>
+    </style>
+
     <style name="AndFrame.Label">
         <item name="android:layout_width">wrap_content</item>
         <item name="android:layout_height">wrap_content</item>

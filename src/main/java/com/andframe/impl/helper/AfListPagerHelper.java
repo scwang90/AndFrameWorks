@@ -58,7 +58,7 @@ public class AfListPagerHelper<T> implements ListPagerHelper<T> {
         if (mAdapter == null) {
             mAdapter = mListPager.newAdapter(mListPager.getContext(), new ArrayList<>());
         }
-        mListView = mListPager.findListView(mListPager);
+        mListView = mListPager.findItemsViewer(mListPager);
         if (mListView != null) {
             mListView.setOnItemClickListener(mListPager);
             mListView.setOnItemLongClickListener(mListPager);

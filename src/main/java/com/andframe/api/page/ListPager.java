@@ -22,7 +22,7 @@ public interface ListPager<T> extends Pager, OnItemClickListener, OnItemLongClic
     List<T> onTaskLoadList() throws Exception;
 
     ListItem<T> newListItem();
-    ItemsViewer findListView(ListPager<T> pager);
+    ItemsViewer findItemsViewer(ListPager<T> pager);
     AfListAdapter<T> newAdapter(Context context, List<T> list);
     void bindListHeaderAndFooter();
     void bindAdapter(ItemsViewer listView, ListAdapter adapter);

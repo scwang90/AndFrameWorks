@@ -1,0 +1,15 @@
+<?xml version="1.0" encoding="utf-8"?>
+<rotate xmlns:android="http://schemas.android.com/apk/res/android"
+    android:fromDegrees="90"
+    android:toDegrees="90">
+    <shape android:shape="line">
+        <stroke
+            android:width="2dp"
+            android:color="@color/colorDivison"
+            android:dashWidth="6dp"
+            android:dashGap="2dp"
+            />
+        <!-- 虚线的高度 -->
+        <size android:height="@dimen/division_line" />
+    </shape>
+</rotate>
