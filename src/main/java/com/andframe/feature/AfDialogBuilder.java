@@ -14,6 +14,7 @@ import android.content.Context;
 import android.content.DialogInterface;
 import android.content.DialogInterface.OnCancelListener;
 import android.content.DialogInterface.OnClickListener;
+import android.content.DialogInterface.OnMultiChoiceClickListener;
 import android.content.DialogInterface.OnShowListener;
 import android.os.Build;
 import android.text.InputType;
@@ -36,6 +37,7 @@ import com.andframe.exception.AfExceptionHandler;
 import com.andframe.listener.SafeOnCancelListener;
 import com.andframe.listener.SafeOnClickListener;
 import com.andframe.listener.SafeOnDateSetListener;
+import com.andframe.listener.SafeOnMultiChoiceClickListener;
 import com.andframe.listener.SafeOnTimeSetListener;
 import com.andframe.util.java.AfReflecter;
 
@@ -411,6 +413,52 @@ public class AfDialogBuilder implements DialogBuilder {
         return selectItem(title, items, listener, true);
     }
     //</editor-fold>
+
+    /**
+     * 显示一个多选对话框 （默认可取消）
+     *
+     * @param title    对话框标题
+     * @param items    选择菜单项
+     * @param listener 选择监听器
+     */
+    @Override
+    public Dialog multiChoice(CharSequence title, CharSequence[] items, OnMultiChoiceClickListener listener) {
+        return multiChoice(title,items,new boolean[items.length],listener);
+    }
+
+    /**
+     * 显示一个多选对话框 （默认可取消）
+     *
+     * @param title         对话框标题
+     * @param items         选择菜单项
+     * @param checkedItems  选择结果
+     * @param listener      选择监听器
+     */
+    @Override
+    public Dialog multiChoice(CharSequence title, CharSequence[] items, boolean[] checkedItems, OnMultiChoiceClickListener listener) {
+        Builder dialog = new Builder(mContext);
+        if (title != null) {
+            dialog.setTitle(title);
+            dialog.setNegativeButton("确定", null);
+//            if (oncancel != null) {
+//                dialog.setNegativeButton("取消", new SafeOnClickListener() {
+//                    @Override
+//                    public void onClick(DialogInterface dialog, int which) {
+//                        oncancel.onCancel(dialog);
+//                    }
+//                });
+//            }
+        }
+//        if (oncancel != null) {
+//            dialog.setCancelable(true);
+//            dialog.setOnCancelListener(new SafeOnCancelListener(oncancel));
+//        } else {
+//            dialog.setCancelable(false);
+//        }
+        dialog.setMultiChoiceItems(items, checkedItems, new SafeOnMultiChoiceClickListener(listener));
+        return dialog.show();
+    }
+
 
     //<editor-fold desc="输入对话框">
     /**
