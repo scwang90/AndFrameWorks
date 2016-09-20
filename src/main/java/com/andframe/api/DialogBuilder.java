@@ -512,7 +512,7 @@ public interface DialogBuilder {
      * @param value 默认时间
      * @param listener 监听器
      */
-    Dialog selectDate(CharSequence title, Date value, final DatePickerDialog.OnDateSetListener listener);
+    Dialog selectDate(CharSequence title, Date value, DatePickerDialog.OnDateSetListener listener);
     //</editor-fold>
 
     //<editor-fold desc="进度显示对话框">
