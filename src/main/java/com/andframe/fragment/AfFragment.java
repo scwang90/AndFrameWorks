@@ -33,6 +33,7 @@ import com.andframe.task.AfTask;
 import com.andframe.task.AfTaskExecutor;
 import com.andframe.util.java.AfReflecter;
 
+import java.util.ArrayList;
 import java.util.List;
 
 /**
@@ -264,6 +265,14 @@ public abstract class AfFragment extends Fragment implements Pager, ViewQueryHel
      */
     protected void onActivityResult(AfIntent intent, int requestcode, int resultcode) {
         super.onActivityResult(requestcode, resultcode, intent);
+        List<Fragment> fragments = getChildFragmentManager().getFragments();
+        fragments = fragments == null ? new ArrayList<>() : fragments;
+        for (Fragment fragment : fragments) {
+            if (fragment != null && fragment.getUserVisibleHint() && fragment instanceof AfFragment) {
+                AfFragment afment = (AfFragment) fragment;
+                afment.onActivityResult(intent, requestcode, resultcode);
+            }
+        }
     }
 
     @Override

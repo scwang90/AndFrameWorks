@@ -295,6 +295,7 @@ public class AfActivity extends AppCompatActivity implements Pager, ViewQueryHel
         return mRootView;
     }
 
+    @SuppressWarnings("unused")
     public boolean isResume() {
         return mIsResume;
     }
@@ -378,6 +379,7 @@ public class AfActivity extends AppCompatActivity implements Pager, ViewQueryHel
         startActivityForResult(intent, request);
     }
 
+    @SuppressWarnings("unused")
     public void setResultOk(Object... args) {
         AfIntent intent = new AfIntent();
         if (args != null && args.length > 0) {
@@ -499,7 +501,7 @@ public class AfActivity extends AppCompatActivity implements Pager, ViewQueryHel
     public boolean onKeyLongPress(int keyCode, KeyEvent event) {
         boolean isHandled = false;
         List<Fragment> fragments = getSupportFragmentManager().getFragments();
-        fragments = fragments == null ? new ArrayList<Fragment>() : fragments;
+        fragments = fragments == null ? new ArrayList<>() : fragments;
         for (Fragment fragment : fragments) {
             if (fragment != null && fragment.getUserVisibleHint() && fragment instanceof AfFragment) {
                 AfFragment afment = (AfFragment) fragment;
@@ -517,7 +519,7 @@ public class AfActivity extends AppCompatActivity implements Pager, ViewQueryHel
     public boolean onKeyShortcut(int keyCode, KeyEvent event) {
         boolean isHandled = false;
         List<Fragment> fragments = getSupportFragmentManager().getFragments();
-        fragments = fragments == null ? new ArrayList<Fragment>() : fragments;
+        fragments = fragments == null ? new ArrayList<>() : fragments;
         for (Fragment fragment : fragments) {
             if (fragment != null && fragment.getUserVisibleHint() && fragment instanceof AfFragment) {
                 AfFragment afment = (AfFragment) fragment;
@@ -534,7 +536,7 @@ public class AfActivity extends AppCompatActivity implements Pager, ViewQueryHel
     public boolean onKeyMultiple(int keyCode, int repeatCount, KeyEvent event) {
         boolean isHandled = false;
         List<Fragment> fragments = getSupportFragmentManager().getFragments();
-        fragments = fragments == null ? new ArrayList<Fragment>() : fragments;
+        fragments = fragments == null ? new ArrayList<>() : fragments;
         for (Fragment fragment : fragments) {
             if (fragment != null && fragment.getUserVisibleHint() && fragment instanceof AfFragment) {
                 AfFragment afment = (AfFragment) fragment;
@@ -552,7 +554,7 @@ public class AfActivity extends AppCompatActivity implements Pager, ViewQueryHel
     public boolean onKeyUp(int keyCode, KeyEvent event) {
         boolean isHandled = false;
         List<Fragment> fragments = getSupportFragmentManager().getFragments();
-        fragments = fragments == null ? new ArrayList<Fragment>() : fragments;
+        fragments = fragments == null ? new ArrayList<>() : fragments;
         for (Fragment fragment : fragments) {
             if (fragment != null && fragment.getUserVisibleHint() && fragment instanceof AfFragment) {
                 AfFragment afment = (AfFragment) fragment;
@@ -569,7 +571,7 @@ public class AfActivity extends AppCompatActivity implements Pager, ViewQueryHel
     public boolean onKeyDown(int keyCode, KeyEvent event) {
         boolean isHandled = false;
         List<Fragment> fragments = getSupportFragmentManager().getFragments();
-        fragments = fragments == null ? new ArrayList<Fragment>() : fragments;
+        fragments = fragments == null ? new ArrayList<>() : fragments;
         for (Fragment fragment : fragments) {
             if (fragment != null && fragment.getUserVisibleHint() && fragment instanceof AfFragment) {
                 AfFragment afment = (AfFragment) fragment;
