@@ -1,6 +1,7 @@
 package com.andframe.api.page;
 
 import android.app.Activity;
+import android.app.Dialog;
 
 import com.andframe.api.Constanter;
 import com.andframe.api.view.Viewer;
@@ -52,4 +53,26 @@ public interface Pager extends Viewer, Constanter {
 
     <T, TT, TTT> AfData3Task postDataTask(T t, TT tt, TTT ttt, AfData3Task.OnData3TaskHandlerListener<T, TT, TTT> task);
     //</editor-fold>
+
+    //<editor-fold desc="进度显示对话框">
+    /**
+     * 显示 进度对话框
+     *
+     * @param message 消息
+     */
+    Dialog showProgressDialog(CharSequence message);
+
+    /**
+     * 动态改变等待对话框的文字
+     *
+     * @param text   更新的文字
+     */
+    void setProgressDialogText(CharSequence text);
+
+    /**
+     * 隐藏 进度对话框
+     */
+    void hideProgressDialog();
+    //</editor-fold>
+
 }

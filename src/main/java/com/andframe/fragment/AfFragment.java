@@ -1,6 +1,7 @@
 package com.andframe.fragment;
 
 import android.app.Activity;
+import android.app.Dialog;
 import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
@@ -16,6 +17,7 @@ import com.andframe.activity.AfActivity;
 import com.andframe.annotation.interpreter.Injecter;
 import com.andframe.annotation.interpreter.ViewBinder;
 import com.andframe.annotation.view.BindLayout;
+import com.andframe.api.DialogBuilder;
 import com.andframe.api.view.ViewQuery;
 import com.andframe.api.page.Pager;
 import com.andframe.api.view.ViewQueryHelper;
@@ -439,6 +441,41 @@ public abstract class AfFragment extends Fragment implements Pager, ViewQueryHel
     @SuppressWarnings("UnusedParameters")
     public boolean onKeyLongPress(int keyCode, KeyEvent event) {
         return false;
+    }
+    //</editor-fold>
+
+    //<editor-fold desc="进度显示对话框">
+    DialogBuilder dialogBuilder;
+    /**
+     * 显示 进度对话框
+     *
+     * @param message 消息
+     */
+    public Dialog showProgressDialog(CharSequence message) {
+        if (dialogBuilder == null) {
+            dialogBuilder = AfApp.get().newDialogBuilder(getContext());
+        }
+        return dialogBuilder.showProgressDialog(message);
+    }
+    /**
+     * 动态改变等待对话框的文字
+     *
+     * @param text   更新的文字
+     */
+    public void setProgressDialogText(CharSequence text) {
+        if (dialogBuilder == null) {
+            return;
+        }
+        dialogBuilder.setProgressDialogText(text);
+    }
+    /**
+     * 隐藏 进度对话框
+     */
+    public void hideProgressDialog() {
+        if (dialogBuilder == null) {
+            return;
+        }
+        dialogBuilder.hideProgressDialog();
     }
     //</editor-fold>
 

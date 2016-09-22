@@ -11,6 +11,11 @@
         <item name="android:dividerHeight">@dimen/division_line</item>
     </style>
 
+    <style name="AndFrame.Divison.Middle">
+        <item name="android:layout_marginLeft">@dimen/padding_common</item>
+        <!--<item name="android:layout_marginStart">@dimen/padding_common</item>-->
+    </style>
+
     <style name="AndFrame.Divison.Dash">
         <item name="android:layout_height">2dp</item>
         <item name="android:dividerHeight">2dp</item>

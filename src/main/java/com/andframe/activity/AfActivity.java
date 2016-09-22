@@ -2,6 +2,7 @@ package com.andframe.activity;
 
 import android.annotation.SuppressLint;
 import android.app.Activity;
+import android.app.Dialog;
 import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
@@ -16,6 +17,7 @@ import android.widget.Toast;
 import com.andframe.annotation.interpreter.Injecter;
 import com.andframe.annotation.interpreter.LayoutBinder;
 import com.andframe.annotation.interpreter.ViewBinder;
+import com.andframe.api.DialogBuilder;
 import com.andframe.api.view.ViewQuery;
 import com.andframe.api.page.Pager;
 import com.andframe.api.view.ViewQueryHelper;
@@ -582,5 +584,30 @@ public class AfActivity extends AppCompatActivity implements Pager, ViewQueryHel
     }
     //</editor-fold>
 
+    //<editor-fold desc="进度显示对话框">
+    DialogBuilder dialogBuilder = AfApp.get().newDialogBuilder(this);
+    /**
+     * 显示 进度对话框
+     *
+     * @param message 消息
+     */
+    public Dialog showProgressDialog(CharSequence message) {
+        return dialogBuilder.showProgressDialog(message);
+    }
+    /**
+     * 动态改变等待对话框的文字
+     *
+     * @param text   更新的文字
+     */
+    public void setProgressDialogText(CharSequence text) {
+        dialogBuilder.setProgressDialogText(text);
+    }
+    /**
+     * 隐藏 进度对话框
+     */
+    public void hideProgressDialog() {
+        dialogBuilder.hideProgressDialog();
+    }
+    //</editor-fold>
 
 }
