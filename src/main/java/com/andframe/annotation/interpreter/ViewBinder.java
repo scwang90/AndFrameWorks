@@ -18,7 +18,7 @@ import com.andframe.annotation.view.BindCheckedChangeGroup;
 import com.andframe.annotation.view.BindClick;
 import com.andframe.annotation.view.BindItemClick;
 import com.andframe.annotation.view.BindItemLongClick;
-import com.andframe.annotation.view.BindLayout;
+import com.andframe.annotation.pager.BindLayout;
 import com.andframe.annotation.view.BindLongClick;
 import com.andframe.annotation.view.BindTouch;
 import com.andframe.annotation.view.BindView;

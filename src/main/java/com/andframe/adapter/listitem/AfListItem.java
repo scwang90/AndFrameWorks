@@ -7,7 +7,7 @@ import android.view.ViewGroup;
 
 import com.andframe.annotation.interpreter.Injecter;
 import com.andframe.annotation.interpreter.ViewBinder;
-import com.andframe.annotation.view.BindLayout;
+import com.andframe.annotation.pager.BindLayout;
 import com.andframe.api.ListItem;
 import com.andframe.api.view.ViewQuery;
 import com.andframe.api.view.ViewQueryHelper;

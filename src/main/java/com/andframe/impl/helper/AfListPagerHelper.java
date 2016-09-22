@@ -7,7 +7,7 @@ import android.widget.ListAdapter;
 import android.widget.ListView;
 
 import com.andframe.adapter.AfListAdapter;
-import com.andframe.annotation.view.BindLayout;
+import com.andframe.annotation.pager.BindLayout;
 import com.andframe.api.ListItem;
 import com.andframe.api.page.ListPagerHelper;
 import com.andframe.api.page.ListPager;

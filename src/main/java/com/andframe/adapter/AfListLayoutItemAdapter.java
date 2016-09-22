@@ -5,7 +5,7 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 
-import com.andframe.annotation.view.BindLayout;
+import com.andframe.annotation.pager.BindLayout;
 import com.andframe.util.java.AfReflecter;
 
 import java.util.List;

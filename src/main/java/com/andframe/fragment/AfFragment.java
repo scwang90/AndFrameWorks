@@ -16,7 +16,7 @@ import android.widget.Toast;
 import com.andframe.activity.AfActivity;
 import com.andframe.annotation.interpreter.Injecter;
 import com.andframe.annotation.interpreter.ViewBinder;
-import com.andframe.annotation.view.BindLayout;
+import com.andframe.annotation.pager.BindLayout;
 import com.andframe.api.DialogBuilder;
 import com.andframe.api.view.ViewQuery;
 import com.andframe.api.page.Pager;

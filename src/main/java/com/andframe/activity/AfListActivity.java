@@ -14,7 +14,7 @@ import android.widget.ListView;
 
 import com.andframe.adapter.AfListAdapter;
 import com.andframe.annotation.view.BindAfterViews;
-import com.andframe.annotation.view.BindLayout;
+import com.andframe.annotation.pager.BindLayout;
 import com.andframe.api.ListItem;
 import com.andframe.api.page.Pager;
 import com.andframe.exception.AfExceptionHandler;

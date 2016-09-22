@@ -3,7 +3,7 @@ package com.andframe.annotation.interpreter;
 import android.app.Activity;
 import android.app.Dialog;
 
-import com.andframe.annotation.view.BindLayout;
+import com.andframe.annotation.pager.BindLayout;
 import com.andframe.exception.AfExceptionHandler;
 import com.andframe.util.java.AfReflecter;
 
