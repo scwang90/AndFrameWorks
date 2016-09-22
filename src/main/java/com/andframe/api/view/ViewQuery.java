@@ -565,6 +565,7 @@ public interface ViewQuery<T extends ViewQuery<T>> {
     T $(String idvalue, String... idvalues);
     T $(Class<? extends View> type, Class<?>... types);
     T $(View view, View... views);
+    T toggel();
     T width(float dp);
     T height(float dp);
     T margin(int px);

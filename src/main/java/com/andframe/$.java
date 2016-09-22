@@ -30,7 +30,7 @@ public class $ {
     private static Api api = (Api) Proxy.newProxyInstance($$$.class.getClassLoader(), new Class[]{Api.class}, handler );
     private static Object[] lastWiths;
 
-    public interface $$ {
+    interface $$ {
         <From,To> List<To> convertList(@NonNull Iterable<From> froms, @NonNull ModelConvertor<From,To> convertor);
     }
 
@@ -78,7 +78,7 @@ public class $ {
         return api;
     }
 
-    protected static View getLastView() {
+    private static View getLastView() {
         if (lastWiths != null && lastWiths.length > 0) {
             if (lastWiths[0] instanceof ViewModuler) {
                 return ((ViewModuler) lastWiths[0]).getView();
@@ -95,7 +95,7 @@ public class $ {
         return null;
     }
 
-    protected static Context getLastContext() {
+    private static Context getLastContext() {
         if (lastWiths != null && lastWiths.length > 0) {
             if (lastWiths[0] instanceof Context) {
                 return ((Context) lastWiths[0]);
@@ -110,7 +110,7 @@ public class $ {
         return null;
     }
 
-    protected static class $$$ implements InvocationHandler,$$ {
+    private static class $$$ implements InvocationHandler,$$ {
         @Override
         public Object invoke(Object proxy, Method method, Object[] objects) throws Throwable {
             if (method.getDeclaringClass().isAssignableFrom(TaskExecutor.class)) {
