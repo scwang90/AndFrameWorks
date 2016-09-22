@@ -44,13 +44,13 @@ public class AfViewPagerAdapter extends FragmentStatePagerAdapter {
     @SuppressWarnings("deprecation")
     public void destroyItem(View container, int position, Object object) {
         super.destroyItem(container, position, object);
-        fragments[position] = null;
+//        fragments[position] = null;
     }
 
     @Override
     public void destroyItem(ViewGroup container, int position, Object object) {
         super.destroyItem(container, position, object);
-        fragments[position] = null;
+//        fragments[position] = null;
     }
 
     @Override
