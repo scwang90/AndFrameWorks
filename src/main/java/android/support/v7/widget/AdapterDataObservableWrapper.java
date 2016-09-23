@@ -12,7 +12,7 @@ import java.lang.reflect.Field;
  */
 public class AdapterDataObservableWrapper extends RecyclerView.AdapterDataObservable {
 
-    protected RecyclerView.AdapterDataObservable wrapped = new RecyclerView.AdapterDataObservable();
+    RecyclerView.AdapterDataObservable wrapped = new RecyclerView.AdapterDataObservable();
 
     public AdapterDataObservableWrapper(RecyclerView.Adapter adapter) {
         bindAdapter(adapter);

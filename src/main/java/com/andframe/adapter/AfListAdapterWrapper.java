@@ -25,7 +25,7 @@ import java.util.function.UnaryOperator;
 import java.util.stream.Stream;
 
 
-@SuppressWarnings({"unused", "unchecked"})
+@SuppressWarnings({"unused", "unchecked", "WeakerAccess"})
 public class AfListAdapterWrapper<T> extends AfListAdapter<T> implements WrapperListAdapter {
 
 	protected AfListAdapter<T> wrapped;
@@ -44,13 +44,14 @@ public class AfListAdapterWrapper<T> extends AfListAdapter<T> implements Wrapper
 
 	//<editor-fold desc="由于Final导致的特殊Wrapper">
 
-	protected class DataSetObservableWrapper extends DataSetObservable{
+	protected class DataSetObservableWrapper extends DataSetObservable {
 		public DataSetObservableWrapper(RecyclerView.Adapter adapter) {
 			super(adapter);
 		}
 		public void notifyChanged() {
 			wrapped.notifyDataSetChanged();
 		}
+
 	}
 
 	@Override
