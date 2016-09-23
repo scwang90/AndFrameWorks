@@ -1,41 +1,41 @@
 package com.andframe.activity;
 
 import android.content.Context;
-import android.os.Build;
 import android.os.Bundle;
+import android.support.annotation.NonNull;
 import android.view.View;
-import android.widget.AbsListView;
 import android.widget.AdapterView;
-import android.widget.AdapterView.OnItemClickListener;
-import android.widget.AdapterView.OnItemLongClickListener;
-import android.widget.GridView;
 import android.widget.ListAdapter;
-import android.widget.ListView;
 
 import com.andframe.adapter.AfListAdapter;
 import com.andframe.annotation.view.BindAfterViews;
-import com.andframe.annotation.pager.BindLayout;
 import com.andframe.api.ListItem;
-import com.andframe.api.page.Pager;
-import com.andframe.exception.AfExceptionHandler;
+import com.andframe.api.page.ListPager;
+import com.andframe.api.page.ListPagerHelper;
+import com.andframe.api.view.ItemsViewer;
 import com.andframe.feature.AfIntent;
-import com.andframe.task.AfDispatcher;
+import com.andframe.impl.helper.AfListPagerHelper;
 import com.andframe.task.AfHandlerTask;
 
-import java.util.ArrayList;
 import java.util.List;
-
-import static com.andframe.util.java.AfReflecter.getAnnotation;
 
 /**
  * 数据列表框架 Activity
  * @param <T> 列表数据实体类
  * @author 树朾
  */
-public abstract class AfListActivity<T> extends AfActivity implements OnItemClickListener, OnItemLongClickListener {
+public abstract class AfListActivity<T> extends AfActivity implements ListPager<T> {
 
-    protected AbsListView mListView;
-    protected AfListAdapter<T> mAdapter;
+//    protected AbsListView mListView;
+//    protected AfListAdapter<T> mAdapter;
+
+    protected ListPagerHelper<T> mListHelper = newListPagerHelper();
+
+    //<editor-fold desc="初始化">
+    @NonNull
+    protected ListPagerHelper<T> newListPagerHelper() {
+        return new AfListPagerHelper<>(this);
+    }
 
     /**
      * 创建方法
@@ -56,47 +56,11 @@ public abstract class AfListActivity<T> extends AfActivity implements OnItemClic
      */
     @BindAfterViews
     protected void onAfterViews() throws Exception {
-        if (mAdapter == null) {
-            mAdapter = newAdapter(this, new ArrayList<>());
-        }
-        mListView = findListView(this);
-        if (mListView != null) {
-            mListView.setOnItemClickListener(this);
-            mListView.setOnItemLongClickListener(this);
-            bindAdapter(mListView, mAdapter);
-        }
-        AfDispatcher.dispatch(() -> postTask(new AbLoadListTask()));
+        mListHelper.onAfterViews();
     }
+    //</editor-fold>
 
-    /**
-     * 绑定适配器
-     * @param listView 列表
-     * @param adapter 适配器
-     */
-    @SuppressWarnings("RedundantCast")
-    protected void bindAdapter(AbsListView listView, ListAdapter adapter) {
-        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.HONEYCOMB) {
-            listView.setAdapter(adapter);
-        } else if (listView instanceof ListView) {
-            ((ListView) listView).setAdapter(adapter);
-        } else if (listView instanceof GridView) {
-            ((GridView) listView).setAdapter(adapter);
-        }
-    }
-
-    /**
-     * 获取setContentView的id
-     *
-     * @return id
-     */
-    protected int getLayoutId() {
-        BindLayout layout = getAnnotation(this.getClass(), AfListActivity.class, BindLayout.class);
-        if (layout != null) {
-            return layout.value();
-        }
-        return 0;
-    }
-
+    //<editor-fold desc="子类实现">
     /**
      *
      * 获取列表控件
@@ -104,8 +68,21 @@ public abstract class AfListActivity<T> extends AfActivity implements OnItemClic
      * @param pager 页面对象
      * @return pager.findListViewById(id)
      */
-    protected abstract AbsListView findListView(Pager pager);
+    @Override
+    public abstract ItemsViewer findItemsViewer(ListPager<T> pager);
 
+
+    /**
+     * 获取列表项布局Item
+     * 如果重写 newAdapter 之后，本方法将无效
+     *
+     * @return 实现 布局接口 ListItem 的Item兑现
+     * new LayoutItem implements ListItem<T>(){}
+     */
+    public abstract ListItem<T> newListItem();
+    //</editor-fold>
+
+    //<editor-fold desc="原始事件">
     /**
      * 数据列表点击事件
      *
@@ -116,30 +93,8 @@ public abstract class AfListActivity<T> extends AfActivity implements OnItemClic
      */
     @Override
     public void onItemClick(AdapterView<?> parent, View view, int index, long id) {
-        if (mListView instanceof ListView) {
-            index -= ((ListView) mListView).getHeaderViewsCount();
-        }
-        if (index >= 0) {
-            T model = mAdapter.get(index);
-            try {
-                onItemClick(model, index);
-            } catch (Throwable e) {
-                AfExceptionHandler.handle(e, TAG("onItemClick"));
-            }
-        }
+        mListHelper.onItemClick(parent, view, index, id);
     }
-
-    /**
-     * onItemClick 事件的 包装 一般情况下子类可以重写这个方法
-     *
-     * @param model 被点击的数据model
-     * @param index 被点击的index
-     */
-    @SuppressWarnings("UnusedParameters")
-    protected void onItemClick(T model, int index) {
-
-    }
-
     /**
      * 数据列表点击事件
      *
@@ -150,94 +105,80 @@ public abstract class AfListActivity<T> extends AfActivity implements OnItemClic
      */
     @Override
     public boolean onItemLongClick(AdapterView<?> parent, View view, int index, long id) {
-        if (mListView instanceof ListView) {
-            index -= ((ListView) mListView).getHeaderViewsCount();
-        }
-        if (index >= 0) {
-            T model = mAdapter.get(index);
-            try {
-                return onItemLongClick(model, index);
-            } catch (Throwable e) {
-                AfExceptionHandler.handle(e, TAG("onItemLongClick"));
-            }
-        }
-        return false;
+        return mListHelper.onItemLongClick(parent, view, index, id);
     }
+    //</editor-fold>
 
+    //<editor-fold desc="子类重写">
+    /**
+     * 获取setContentView的id
+     *
+     * @return id
+     */
+    protected int getLayoutId() {
+        return mListHelper.getLayoutId();
+    }
+    /**
+     * onItemClick 事件的 包装 一般情况下子类可以重写这个方法
+     *
+     * @param model 被点击的数据model
+     * @param index 被点击的index
+     */
+    @Override
+    public void onItemClick(T model, int index) {
+
+    }
     /**
      * onItemLongClick 事件的 包装 一般情况下子类可以重写这个方法
      *
      * @param model 被点击的数据model
      * @param index 被点击的index
      */
-    @SuppressWarnings("UnusedParameters")
-    protected boolean onItemLongClick(T model, int index) {
+    @Override
+    public boolean onItemLongClick(T model, int index) {
         return false;
     }
-
-    /**
-     * 获取列表项布局Item
-     * 如果重写 newAdapter 之后，本方法将无效
-     * @return 实现 布局接口 ListItem 的Item兑现
-     * new LayoutItem implements ListItem<T>(){}
-     */
-    protected abstract ListItem<T> getListItem();
-
     /**
      * 根据数据ltdata新建一个 适配器 重写这个方法之后getItemLayout方法将失效
      *
      * @param context Context对象
-     * @param ltdata  完成加载数据
+     * @param list  完成加载数据
      * @return 新的适配器
      */
-    protected AfListAdapter<T> newAdapter(Context context, List<T> ltdata) {
-        return new AbListAdapter(context, ltdata);
+    @Override
+    public AfListAdapter<T> newAdapter(Context context, List<T> list) {
+        return mListHelper.newAdapter(context, list);
     }
 
     /**
-     * ListView数据适配器（事件已经转发getItemLayout，无实际处理代码）
+     * 为列表添加 Header 和 Footer
+     * （在bindAdapter之前执行）
      */
-    protected class AbListAdapter extends AfListAdapter<T> {
+    @Override
+    public void bindListHeaderAndFooter() {
 
-        public AbListAdapter(Context context, List<T> ltdata) {
-            super(context, ltdata);
-        }
-
-        /**
-         * 转发事件到 AfListViewActivity.this.getItemLayout(data);
-         */
-        @Override
-        protected ListItem<T> newListItem(int viewType) {
-            return AfListActivity.this.getListItem();
-        }
     }
 
-    protected class AbLoadListTask extends AfHandlerTask {
-        private List<T> list;
-        @Override
-        protected void onWorking() throws Exception {
-            list = AfListActivity.this.onTaskLoadList();
-        }
-        @Override
-        protected void onHandle() {
-            AfListActivity.this.onTaskLoaded(this, list);
-        }
+    /**
+     * 绑定适配器
+     * @param listView 列表
+     * @param adapter 适配器
+     */
+    @Override
+    public void bindAdapter(ItemsViewer listView, ListAdapter adapter) {
+        mListHelper.bindAdapter(listView, adapter);
     }
 
-    protected void onTaskLoaded(@SuppressWarnings("UnusedParameters") AfHandlerTask task, List<T> list) {
-        if (task.isFinish()) {
-            if (list != null && !list.isEmpty()) {
-                mAdapter.set(list);
-//            } else {
-//                makeToastLong("暂无数据");
-            }
-        } else {
-            makeToastShort(task.makeErrorToast("数据加载失败"));
-        }
+    @Override
+    public void onTaskLoaded(AfHandlerTask task, List<T> list) {
+        mListHelper.onTaskLoaded(task, list);
     }
 
-    protected List<T> onTaskLoadList() throws Exception {
-        return null;
+    @Override
+    public List<T> onTaskLoadList() throws Exception {
+        return mListHelper.onTaskLoadList();
     }
+    //</editor-fold>
+
 
 }
