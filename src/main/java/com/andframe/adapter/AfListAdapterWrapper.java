@@ -139,11 +139,6 @@ public class AfListAdapterWrapper<T> extends AfListAdapter<T> implements Wrapper
 		return wrapped.newListItem(viewType);
 	}
 
-//	@Override
-//	protected ListItem<T> newListItem(List<T> ltarray, int position) {
-//		return wrapped.newListItem(ltarray, position);
-//	}
-
 	@Override
 	public void onBindViewHolder(ViewHolderItem<T> holder, int position) {
 		wrapped.onBindViewHolder(holder, position);
