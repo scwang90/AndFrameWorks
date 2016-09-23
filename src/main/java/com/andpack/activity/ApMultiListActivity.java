@@ -4,7 +4,7 @@ import android.os.Bundle;
 import android.support.annotation.StyleRes;
 import android.view.View;
 
-import com.andframe.activity.AfRefreshListActivityImpl;
+import com.andframe.activity.AfMultiListActivity;
 import com.andframe.annotation.view.BindViewModule;
 import com.andframe.feature.AfIntent;
 import com.andframe.module.AfModuleTitlebar;
@@ -15,7 +15,7 @@ import com.andpack.impl.ApPagerHelper;
  * 滑动关闭
  * Created by SCWANG on 2016/7/11.
  */
-public abstract class ApRefreshListActivity<T> extends AfRefreshListActivityImpl<T> implements ApPager {
+public abstract class ApMultiListActivity<T> extends AfMultiListActivity<T> implements ApPager {
 
     @BindViewModule
     protected AfModuleTitlebar mTitlebar;

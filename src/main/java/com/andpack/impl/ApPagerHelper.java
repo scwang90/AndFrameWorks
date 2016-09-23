@@ -49,14 +49,6 @@ public class ApPagerHelper implements AfPullToRefreshBase.OnRefreshListener {
     }
 
     public void onCreate() {
-        try {
-            if (mIsUsingSwipeBack) {
-                mSwipeBackHelper = new SwipeBackActivityHelper(pager.getActivity());
-                mSwipeBackHelper.onActivityCreate();
-            }
-        } catch (Throwable e) {
-            AfExceptionHandler.handle(e, ("ApPagerHelper.onCreate 失败"));
-        }
     }
 
     public void onAfterViews(AfModuleTitlebar titlebar) {
@@ -99,7 +91,7 @@ public class ApPagerHelper implements AfPullToRefreshBase.OnRefreshListener {
             }
 
             if (pager.getView() != null) {
-                Toolbar toolbar = (Toolbar) $.with(pager.getView()).$(Toolbar.class).view();
+                Toolbar toolbar = (Toolbar) $.query(pager.getView()).$(Toolbar.class).view();
                 if (toolbar != null) {
                     toolbar.setNavigationOnClickListener(new SafeOnClickListener(v -> pager.getActivity().finish()));
                 }
@@ -122,7 +114,9 @@ public class ApPagerHelper implements AfPullToRefreshBase.OnRefreshListener {
 
     public void onPostCreate(Bundle bundle) {
         try {
-            if (mSwipeBackHelper != null) {
+            if (mIsUsingSwipeBack) {
+                mSwipeBackHelper = new SwipeBackActivityHelper(pager.getActivity());
+                mSwipeBackHelper.onActivityCreate();
                 mSwipeBackHelper.onPostCreate();
             }
         } catch (Throwable e) {
