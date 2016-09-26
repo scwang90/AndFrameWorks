@@ -5,6 +5,7 @@ import android.support.annotation.MainThread;
 import android.support.annotation.NonNull;
 import android.view.View;
 
+import com.andframe.activity.AfActivity;
 import com.andframe.api.DialogBuilder;
 import com.andframe.api.ModelConvertor;
 import com.andframe.api.TaskExecutor;
@@ -61,8 +62,18 @@ public class $ {
     }
 
     @MainThread
+    public static DialogBuilder dialog(AfActivity activity) {
+        return AfApp.get().newDialogBuilder(activity.getContext());
+    }
+
+    @MainThread
     public static ViewQuery<? extends ViewQuery> query(Viewer viewer) {
         return AfApp.get().newViewQuery(viewer.getView());
+    }
+
+    @MainThread
+    public static ViewQuery<? extends ViewQuery> query(AfActivity activity) {
+        return AfApp.get().newViewQuery(activity.getView());
     }
 
     @MainThread
