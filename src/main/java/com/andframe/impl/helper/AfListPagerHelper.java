@@ -9,6 +9,7 @@ import android.widget.ListView;
 import com.andframe.adapter.AfListAdapter;
 import com.andframe.annotation.pager.BindLayout;
 import com.andframe.api.ListItem;
+import com.andframe.api.ListItemAdapter;
 import com.andframe.api.page.ListPagerHelper;
 import com.andframe.api.page.ListPager;
 import com.andframe.api.view.ItemsViewer;
@@ -31,7 +32,7 @@ public class AfListPagerHelper<T> implements ListPagerHelper<T> {
 
 //    protected AbsListView mListView;
     protected ItemsViewer mListView;
-    protected AfListAdapter<T> mAdapter;
+    protected ListItemAdapter<T> mAdapter;
 
     protected String TAG(String tag) {
         if (mListPager == null) {

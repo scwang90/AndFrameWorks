@@ -1,7 +1,6 @@
 package com.andframe.task;
 
 import com.andframe.activity.AfActivity;
-import com.andframe.adapter.AfListAdapter;
 import com.andframe.application.AfApp;
 import com.andframe.model.Page;
 
@@ -41,14 +40,6 @@ public abstract class AfListViewTask<T> extends AfHandlerTask {
         mTask = list != null ? TASK_MORE : TASK_LOAD;
         if (list != null && list.size() > 0) {
             mFirstResult = list.size();
-        }
-    }
-
-    //加载更多专用
-    public AfListViewTask(AfListAdapter<T> adapter) {
-        mTask = adapter != null ? TASK_MORE : TASK_LOAD;
-        if (adapter != null && adapter.getCount() > 0) {
-            mFirstResult = adapter.getCount();
         }
     }
 
