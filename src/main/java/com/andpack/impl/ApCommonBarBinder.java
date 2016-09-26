@@ -3,6 +3,7 @@ package com.andpack.impl;
 import android.app.Activity;
 import android.app.DatePickerDialog;
 import android.content.DialogInterface;
+import android.support.v4.app.Fragment;
 import android.text.InputType;
 import android.text.TextUtils;
 import android.view.View;
@@ -13,10 +14,17 @@ import com.andframe.$;
 import com.andframe.api.DialogBuilder;
 import com.andframe.api.page.Pager;
 import com.andframe.api.view.ViewQuery;
+import com.andframe.feature.AfIntent;
 import com.andframe.util.java.AfDateFormat;
+import com.andpack.activity.ApFragmentActivity;
+import com.lzy.imagepicker.ImagePicker;
+import com.lzy.imagepicker.bean.ImageItem;
+import com.lzy.imagepicker.ui.ImageGridActivity;
 
 import java.text.DateFormat;
+import java.util.ArrayList;
 import java.util.Date;
+import java.util.List;
 
 public class ApCommonBarBinder {
 
@@ -65,8 +73,12 @@ public class ApCommonBarBinder {
         return new ActivityBinder(idvalue, clazz);
     }
 
-    public <T> ImageBinder image(int idimage, T defaul) {
-        return new ImageBinder<T>(idimage, defaul);
+    public FragmentBinder fragment(int idvalue, Class<? extends Fragment> clazz) {
+        return new FragmentBinder(idvalue, clazz);
+    }
+
+    public ImageBinder image(int idimage) {
+        return new ImageBinder(idimage);
     }
 
     public interface SelectLambda {
@@ -87,6 +99,10 @@ public class ApCommonBarBinder {
 
     public interface CheckLambda {
         void check(Binder binder, boolean isChecked);
+    }
+
+    public interface ImageLambda {
+        void image(Binder binder, String path);
     }
 
     public interface DateDefaulter {
@@ -223,7 +239,7 @@ public class ApCommonBarBinder {
         private int type = InputType.TYPE_CLASS_TEXT;
         private TextLambda lambda;
         private String valueSuffix = "";
-        private TextDefaulter defaulter = () -> "";
+        private TextDefaulter defaulter = () -> $.query(pager).id(idvalue).getText();
 
         TextBinder(int idvalue) {
             super(idvalue);
@@ -348,7 +364,28 @@ public class ApCommonBarBinder {
 
     }
 
-    public class ImageBinder<T> extends Binder<ImageBinder> {
+    public class FragmentBinder extends Binder<FragmentBinder> {
+
+        private Class<? extends Fragment> fragment;
+
+        FragmentBinder(int idvalue, Class<? extends Fragment> fragment) {
+            super(idvalue);
+            this.fragment = fragment;
+        }
+
+        @Override
+        public void start() {
+            ApFragmentActivity.start(fragment);
+        }
+
+    }
+
+    public class ImageBinder extends Binder<ImageBinder> {
+
+        private int outPutX = 0;           //裁剪保存宽度
+        private int outPutY = 0;           //裁剪保存高度
+        private int request_image = 1000;
+        private ImageLambda lambda;
 
         ImageBinder(int idimage) {
             super(idimage);
@@ -356,7 +393,56 @@ public class ApCommonBarBinder {
 
         @Override
         protected void start() {
+            ImagePicker picker = ImagePicker.getInstance();
+            picker.setMultiMode(false);
+            picker.setShowCamera(true);
+            if (outPutX > 0 && outPutY > 0) {
+                picker.setOutPutX(outPutX);
+                picker.setOutPutY(outPutY);
+                picker.setCrop(true);
+            } else {
+                picker.setCrop(false);
+            }
+            pager.startActivityForResult(ImageGridActivity.class,request_image);
+        }
 
+        public ImageBinder image(String url) {
+            $.query(pager).id(idvalue).image(url);
+            return self();
+        }
+
+        public ImageBinder cut(int... xy) {
+            if (xy.length == 0) {
+                outPutX = 800;
+                outPutY = 800;
+            } else if (xy.length == 1) {
+                outPutX = xy[0];
+                outPutY = xy[0];
+            } else {
+                outPutX = xy[0];
+                outPutY = xy[1];
+            }
+            return self();
+        }
+
+        public void onActivityResult(AfIntent intent, int requestcode, int resultcode) {
+            if (requestcode == request_image /*&& resultcode == Activity.RESULT_OK*/) {
+                //noinspection unchecked
+                List<ImageItem> images = (ArrayList<ImageItem>) intent.getSerializableExtra(ImagePicker.EXTRA_RESULT_ITEMS);
+                if (images != null && images.size() > 0) {
+                    $.query(pager).id(idvalue).image(images.get(0).path);
+                    if (lambda != null) {
+                        lambda.image(this, images.get(0).path);
+                    }
+                } else {
+                    pager.makeToastShort("没有数据");
+                }
+            }
+        }
+
+        public ImageBinder lambda(ImageLambda lambda) {
+            this.lambda = lambda;
+            return self();
         }
 
     }
