@@ -1,12 +1,11 @@
 package com.andframe.api.page;
 
 import android.content.Context;
-import android.widget.AbsListView;
 import android.widget.AdapterView.OnItemClickListener;
 import android.widget.AdapterView.OnItemLongClickListener;
 import android.widget.ListAdapter;
 
-import com.andframe.adapter.AfListAdapter;
+import com.andframe.api.ListItemAdapter;
 import com.andframe.api.view.ItemsViewer;
 import com.andframe.task.AfHandlerTask;
 
@@ -20,7 +19,7 @@ public interface ListPagerHelper<T> extends OnItemClickListener, OnItemLongClick
     int getLayoutId();
     void onAfterViews();
     void bindAdapter(ItemsViewer listView, ListAdapter adapter);
-    AfListAdapter<T> newAdapter(Context context, List<T> list);
+    ListItemAdapter<T> newAdapter(Context context, List<T> list);
     void onTaskLoaded(AfHandlerTask task, List<T> list);
     List<T> onTaskLoadList();
 }

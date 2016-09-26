@@ -5,8 +5,8 @@ import android.widget.AdapterView.OnItemClickListener;
 import android.widget.AdapterView.OnItemLongClickListener;
 import android.widget.ListAdapter;
 
-import com.andframe.adapter.AfListAdapter;
 import com.andframe.api.ListItem;
+import com.andframe.api.ListItemAdapter;
 import com.andframe.api.view.ItemsViewer;
 import com.andframe.task.AfHandlerTask;
 
@@ -23,7 +23,7 @@ public interface ListPager<T> extends Pager, OnItemClickListener, OnItemLongClic
 
     ListItem<T> newListItem();
     ItemsViewer findItemsViewer(ListPager<T> pager);
-    AfListAdapter<T> newAdapter(Context context, List<T> list);
+    ListItemAdapter<T> newAdapter(Context context, List<T> list);
     void bindListHeaderAndFooter();
     void bindAdapter(ItemsViewer listView, ListAdapter adapter);
 

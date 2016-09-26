@@ -8,11 +8,11 @@ import android.view.ViewGroup;
 import android.widget.AdapterView;
 import android.widget.ListAdapter;
 
-import com.andframe.adapter.AfListAdapter;
 import com.andframe.annotation.view.BindAfterViews;
 import com.andframe.api.ListItem;
-import com.andframe.api.page.ListPagerHelper;
+import com.andframe.api.ListItemAdapter;
 import com.andframe.api.page.ListPager;
+import com.andframe.api.page.ListPagerHelper;
 import com.andframe.api.view.ItemsViewer;
 import com.andframe.impl.helper.AfListPagerHelper;
 import com.andframe.task.AfHandlerTask;
@@ -32,6 +32,7 @@ public abstract class AfListFragment<T> extends AfTabFragment implements ListPag
 //    protected AfListAdapter<T> mAdapter;
 
     protected ListPagerHelper<T> mListHelper = newListPagerHelper();
+    protected ListItemAdapter<T> mAdapter;
 
     //<editor-fold desc="初始化">
     @NonNull
@@ -141,8 +142,8 @@ public abstract class AfListFragment<T> extends AfTabFragment implements ListPag
      * @return 新的适配器
      */
     @Override
-    public AfListAdapter<T> newAdapter(Context context, List<T> list) {
-        return mListHelper.newAdapter(context, list);
+    public ListItemAdapter<T> newAdapter(Context context, List<T> list) {
+        return mAdapter = mListHelper.newAdapter(context, list);
     }
 
     /**

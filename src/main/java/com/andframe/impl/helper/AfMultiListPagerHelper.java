@@ -4,8 +4,8 @@ import android.database.DataSetObserver;
 import android.view.View;
 import android.widget.ListAdapter;
 
-import com.andframe.adapter.AfListAdapter;
 import com.andframe.annotation.mark.MarkCache;
+import com.andframe.api.ListItemAdapter;
 import com.andframe.api.page.MultiListPager;
 import com.andframe.api.page.MultiListPagerHelper;
 import com.andframe.api.view.ItemsViewer;
@@ -371,7 +371,7 @@ public class AfMultiListPagerHelper<T> extends AfListPagerHelper<T> implements M
          *
          * @param adapter 适配器，用于统计当前条数计算分页（传空null可以触发刷新任务）
          */
-        public AbListViewTask(AfListAdapter<T> adapter) {
+        public AbListViewTask(ListItemAdapter<T> adapter) {
             super(adapter);
         }
 
