@@ -26,7 +26,7 @@ public class ApDetailFragment<T> extends AfDetailFragment<T> implements ApPager 
     }
 
     @Override
-    protected void onAfterViews() {
+    protected void onAfterViews() throws Exception {
         mHelper.onAfterViews(mTitlebar);
         super.onAfterViews();
     }
