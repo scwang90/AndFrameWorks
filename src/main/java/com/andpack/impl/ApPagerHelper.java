@@ -8,7 +8,9 @@ import android.widget.ScrollView;
 
 import com.andframe.$;
 import com.andframe.activity.AfActivity;
+import com.andframe.annotation.pager.BindScorllView;
 import com.andframe.exception.AfExceptionHandler;
+import com.andframe.fragment.AfDetailFragment;
 import com.andframe.listener.SafeOnClickListener;
 import com.andframe.module.AfModuleTitlebar;
 import com.andframe.task.AfHandlerTask;
@@ -16,7 +18,6 @@ import com.andframe.util.java.AfReflecter;
 import com.andframe.widget.AfRefreshScorllView;
 import com.andframe.widget.pulltorefresh.AfPullToRefreshBase;
 import com.andpack.R;
-import com.andpack.annotation.BindScorllView;
 import com.andpack.annotation.BindStatusBarMode;
 import com.andpack.annotation.BindTitle;
 import com.andpack.annotation.interpreter.StatusBarInterpreter;
@@ -74,7 +75,8 @@ public class ApPagerHelper implements AfPullToRefreshBase.OnRefreshListener {
                     }
                 }
             }
-            if (pager.getClass().isAnnotationPresent(BindScorllView.class)) {
+            if (pager.getClass().isAnnotationPresent(BindScorllView.class)
+                    && !(pager instanceof AfDetailFragment)) {
                 BindScorllView bind = pager.getClass().getAnnotation(BindScorllView.class);
                 ScrollView scrollView = pager.findViewById(bind.value(), ScrollView.class);
                 if (scrollView != null) {
