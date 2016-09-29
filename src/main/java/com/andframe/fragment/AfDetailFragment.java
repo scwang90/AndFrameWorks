@@ -29,7 +29,7 @@ public abstract class AfDetailFragment<T> extends AfTabFragment implements AfPul
     protected AfRefreshScorllView mRfScorllView;
 
     @BindAfterViews
-    protected void onAfterViews() {
+    protected void onAfterViews() throws Exception{
         BindScorllView scorll = AfReflecter.getAnnotation(getClass(), AfDetailFragment.class, BindScorllView.class);
         if (scorll != null) {
             ScrollView scrollView = findViewById(scorll.value(), ScrollView.class);
