@@ -5,7 +5,6 @@ import android.app.DatePickerDialog;
 import android.content.DialogInterface;
 import android.support.v4.app.Fragment;
 import android.text.InputType;
-import android.text.TextUtils;
 import android.view.View;
 import android.widget.DatePicker;
 import android.widget.EditText;
@@ -14,6 +13,7 @@ import com.andframe.$;
 import com.andframe.api.DialogBuilder;
 import com.andframe.api.page.Pager;
 import com.andframe.api.view.ViewQuery;
+import com.andframe.caches.AfPrivateCaches;
 import com.andframe.feature.AfIntent;
 import com.andframe.util.java.AfDateFormat;
 import com.andpack.activity.ApFragmentActivity;
@@ -23,6 +23,7 @@ import com.lzy.imagepicker.ui.ImageGridActivity;
 
 import java.text.DateFormat;
 import java.util.ArrayList;
+import java.util.Calendar;
 import java.util.Date;
 import java.util.List;
 
@@ -31,10 +32,12 @@ public class ApCommonBarBinder {
     private Pager pager;
     private ViewQuery query;
     private String hintPrefix = "";
+    private AfPrivateCaches caches;
 
     public ApCommonBarBinder(Pager pager) {
         this.pager = pager;
         this.query = $.query(pager);
+        this.caches = AfPrivateCaches.getInstance(pager.getClass().getName());
     }
 
     public void setHintPrefix(String hintPrefix) {
@@ -57,10 +60,6 @@ public class ApCommonBarBinder {
         return new CheckBinder(idvalue);
     }
 
-    public CheckBinder check(int idvalue, boolean isChecked) {
-        return new CheckBinder(idvalue, isChecked);
-    }
-
     public DateBinder date(int idvalue) {
         return new DateBinder(idvalue);
     }
@@ -69,12 +68,12 @@ public class ApCommonBarBinder {
         return new MultiChoiceBinder(idvalue, items);
     }
 
-    public ActivityBinder activity(int idvalue, Class<? extends Activity> clazz) {
-        return new ActivityBinder(idvalue, clazz);
+    public ActivityBinder activity(int idvalue, Class<? extends Activity> clazz, Object... args) {
+        return new ActivityBinder(idvalue, clazz, args);
     }
 
-    public FragmentBinder fragment(int idvalue, Class<? extends Fragment> clazz) {
-        return new FragmentBinder(idvalue, clazz);
+    public FragmentBinder fragment(int idvalue, Class<? extends Fragment> clazz, Object... args) {
+        return new FragmentBinder(idvalue, clazz, args);
     }
 
     public ImageBinder image(int idimage) {
@@ -105,18 +104,12 @@ public class ApCommonBarBinder {
         void image(Binder binder, String path);
     }
 
-    public interface DateDefaulter {
-        Date date();
-    }
-
-    public interface TextDefaulter {
-        CharSequence text();
-    }
-
-    public abstract class Binder<T extends Binder> implements View.OnClickListener{
+    public abstract class Binder<T extends Binder, LASTVAL> implements View.OnClickListener{
         int idvalue;
+        public String key = null;
         public CharSequence hint = "请输入";
         public Binder next;
+        public LASTVAL lastval;
 
         Binder(int idvalue) {
             this.idvalue = idvalue;
@@ -138,6 +131,22 @@ public class ApCommonBarBinder {
             return self();
         }
 
+        public T cache(Object... keys) {
+            if (keys.length == 0) {
+                key = String.valueOf(idvalue);
+            } else {
+                key = String.valueOf(keys[0]);
+            }
+            onRestoreCache(key);
+            return self();
+        }
+
+        @SuppressWarnings("unused")
+        public void onRestoreCache(String key) {
+
+        }
+
+        @SuppressWarnings("unused")
         public <Next extends Binder> Next next(Next next) {
             this.next = next;
             return next;
@@ -163,7 +172,7 @@ public class ApCommonBarBinder {
         }
     }
 
-    public class SelectBinder extends Binder<SelectBinder> implements DialogInterface.OnClickListener {
+    public class SelectBinder extends Binder<SelectBinder, Void> implements DialogInterface.OnClickListener {
 
         private SelectLambda lambda;
         private final CharSequence[] items;
@@ -179,8 +188,19 @@ public class ApCommonBarBinder {
         }
 
         @Override
+        public void onRestoreCache(String key) {
+            int i = caches.getInt(key, -1);
+            if (i >= 0 && i < items.length) {
+                onClick(null, i);
+            }
+        }
+
+        @Override
         public void onClick(DialogInterface dialog, int which) {
             $(idvalue).text(items[which]);
+            if (key != null && dialog != null) {
+                caches.put(key, which);
+            }
             if (lambda != null) {
                 lambda.text(this, items[which].toString(), which);
             }
@@ -192,10 +212,10 @@ public class ApCommonBarBinder {
         }
     }
 
-    public class MultiChoiceBinder extends Binder<MultiChoiceBinder> implements DialogInterface.OnMultiChoiceClickListener {
+    public class MultiChoiceBinder extends Binder<MultiChoiceBinder, Void> implements DialogInterface.OnMultiChoiceClickListener {
 
-        private final boolean[] checkedItems;
-        private final CharSequence[] items;
+        private boolean[] checkedItems;
+        private CharSequence[] items;
         private MultiChoiceLambda lambda;
 
         MultiChoiceBinder(int idvalue, CharSequence[] items) {
@@ -207,6 +227,22 @@ public class ApCommonBarBinder {
         @Override
         public void start() {
             $.dialog(pager).multiChoice(hint, items, checkedItems, this);
+        }
+
+        @Override
+        public void onRestoreCache(String key) {
+            List<Boolean> list = caches.getList(key, Boolean.class);
+            if (list != null && list.size() == checkedItems.length) {
+                for (int i = 0; i < checkedItems.length; i++) {
+                    checkedItems[i] = list.get(i);
+                }
+                onClick(null, 0, checkedItems[0]);
+            }
+//            boolean[] booleen = caches.get(key, null, boolean[].class);
+//            if (booleen != null && booleen.length == items.length) {
+//                checkedItems = booleen;
+//                onClick(null, 0, booleen[0]);
+//            }
         }
 
         @Override
@@ -223,6 +259,14 @@ public class ApCommonBarBinder {
             } else {
                 $(idvalue).text("");
             }
+            if (key != null && dialog != null) {
+                List<Boolean> list = new ArrayList<>(checkedItems.length);
+                for (boolean bool : checkedItems) {
+                    list.add(bool);
+                }
+                caches.putList(key, list);
+//                caches.put(key, checkedItems);
+            }
             if (lambda != null) {
                 lambda.text(this, builder.toString(), checkedItems);
             }
@@ -234,12 +278,11 @@ public class ApCommonBarBinder {
         }
     }
 
-    public class TextBinder extends Binder<TextBinder> implements DialogBuilder.InputTextListener {
+    public class TextBinder extends Binder<TextBinder, String> implements DialogBuilder.InputTextListener {
 
         private int type = InputType.TYPE_CLASS_TEXT;
         private TextLambda lambda;
         private String valueSuffix = "";
-        private TextDefaulter defaulter = () -> $.query(pager).id(idvalue).getText();
 
         TextBinder(int idvalue) {
             super(idvalue);
@@ -247,12 +290,29 @@ public class ApCommonBarBinder {
 
         @Override
         public void start() {
-            $.dialog(pager).inputText(hint, defaulter.text(), type, this);
+            $.dialog(pager).inputText(hint, lastval == null ? "" : lastval, type, this);
+        }
+
+        public TextBinder value(String text) {
+            onInputTextComfirm($(idvalue).getEditText(), text);
+            return self();
+        }
+
+        @Override
+        public void onRestoreCache(String key) {
+            String text = caches.getString(key, null);
+            if (text != null) {
+                onInputTextComfirm(null, text);
+            }
         }
 
         @Override
         public boolean onInputTextComfirm(EditText input, String value) {
+            lastval = value;
             $(idvalue).text(value + valueSuffix);
+            if (key != null && input != null) {
+                caches.put(key, value);
+            }
             if (lambda != null) {
                 lambda.text(this, value);
             }
@@ -261,11 +321,6 @@ public class ApCommonBarBinder {
 
         public TextBinder type(int type) {
             this.type = type;
-            return self();
-        }
-
-        public TextBinder defaulter(TextDefaulter defaulter) {
-            this.defaulter = () -> TextUtils.isEmpty(defaulter.text())?"":defaulter.text();
             return self();
         }
 
@@ -280,11 +335,10 @@ public class ApCommonBarBinder {
         }
     }
 
-    public class DateBinder extends Binder<DateBinder> implements DatePickerDialog.OnDateSetListener {
+    public class DateBinder extends Binder<DateBinder, Date> implements DatePickerDialog.OnDateSetListener {
 
         private DateLambda lambda;
         private DateFormat format = AfDateFormat.DATE;
-        private DateDefaulter defaulter = Date::new;
 
         DateBinder(int idvalue) {
             super(idvalue);
@@ -292,7 +346,18 @@ public class ApCommonBarBinder {
 
         @Override
         public void start() {
-            $.dialog(pager).selectDate(hint, defaulter.date(), this);
+            $.dialog(pager).selectDate(hint, lastval == null ? new Date() : lastval, this);
+        }
+
+        @SuppressWarnings("unused")
+        public void initNow() {
+            value(new Date());
+        }
+
+        private void value(Date date) {
+            Calendar now = Calendar.getInstance();
+            now.setTime(date);
+            onDateSet(null, now.get(Calendar.YEAR), now.get(Calendar.MONTH), now.get(Calendar.DAY_OF_MONTH));
         }
 
         public DateBinder format(DateFormat format) {
@@ -300,17 +365,12 @@ public class ApCommonBarBinder {
             return self();
         }
 
-        public DateBinder defaulter(DateDefaulter defaulter) {
-            this.defaulter = () -> defaulter.date() == null ? new Date() : defaulter.date();
-            return self();
-        }
-
         @Override
         public void onDateSet(DatePicker view, int year, int month, int day) {
-            Date date = AfDateFormat.parser(year, month, day);
-            $(idvalue).text(format.format(date));
+            lastval = AfDateFormat.parser(year, month, day);
+            $(idvalue).text(format.format(lastval));
             if (lambda != null) {
-                lambda.text(this, date);
+                lambda.text(this, lastval);
             }
         }
 
@@ -320,7 +380,7 @@ public class ApCommonBarBinder {
         }
     }
 
-    public class CheckBinder extends Binder<CheckBinder> {
+    public class CheckBinder extends Binder<CheckBinder, Boolean> {
 
         private CheckLambda lambda;
 
@@ -328,17 +388,31 @@ public class ApCommonBarBinder {
             super(idvalue);
         }
 
-        CheckBinder(int idvalue, boolean isChecked) {
-            super(idvalue);
+        @Override
+        public void onRestoreCache(String key) {
+            Boolean bool = caches.get(key, null, Boolean.class);
+            if (bool != null) {
+                value(bool);
+            }
+        }
+
+        public CheckBinder value(boolean isChecked) {
+            lastval = isChecked;
             $(idvalue).checked(isChecked);
+            if (lambda != null) {
+                lambda.check(this, isChecked);
+            }
+            return self();
         }
 
         @Override
         public void start() {
+            lastval = $(idvalue).toggel().isChecked();
+            if (key != null) {
+                caches.put(key, lastval);
+            }
             if (lambda != null) {
-                lambda.check(this, $(idvalue).toggel().isChecked());
-            } else {
-                $(idvalue).toggel();
+                lambda.check(this, lastval);
             }
         }
 
@@ -348,39 +422,43 @@ public class ApCommonBarBinder {
         }
     }
 
-    public class ActivityBinder extends Binder<ActivityBinder> {
+    public class ActivityBinder extends Binder<ActivityBinder, Void> {
 
+        private final Object[] args;
         private Class<? extends Activity> activity;
 
-        ActivityBinder(int idvalue, Class<? extends Activity> activity) {
+        ActivityBinder(int idvalue, Class<? extends Activity> activity, Object... args) {
             super(idvalue);
+            this.args = args;
             this.activity = activity;
         }
 
         @Override
         public void start() {
-            pager.startActivity(activity);
+            pager.startActivity(activity, args);
         }
 
     }
 
-    public class FragmentBinder extends Binder<FragmentBinder> {
+    public class FragmentBinder extends Binder<FragmentBinder, Void> {
 
+        private final Object[] args;
         private Class<? extends Fragment> fragment;
 
-        FragmentBinder(int idvalue, Class<? extends Fragment> fragment) {
+        FragmentBinder(int idvalue, Class<? extends Fragment> fragment, Object... args) {
             super(idvalue);
+            this.args = args;
             this.fragment = fragment;
         }
 
         @Override
         public void start() {
-            ApFragmentActivity.start(fragment);
+            ApFragmentActivity.start(fragment,args);
         }
 
     }
 
-    public class ImageBinder extends Binder<ImageBinder> {
+    public class ImageBinder extends Binder<ImageBinder, Void> {
 
         private int outPutX = 0;           //裁剪保存宽度
         private int outPutY = 0;           //裁剪保存高度
