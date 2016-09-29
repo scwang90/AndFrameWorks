@@ -551,32 +551,19 @@ public class AfDialogBuilder implements DialogBuilder {
             final AlertDialog dialog = builder.create();
             dialog.setOnShowListener(showListener);
             dialog.show();
-            dialog.getButton(AlertDialog.BUTTON_POSITIVE).setOnClickListener(new View.OnClickListener() {
-                @Override
-                public void onClick(View v) {
-                    new SafeOnClickListener(okListener).onClick(dialog, 0);
-                }
-            });
+            dialog.getButton(AlertDialog.BUTTON_POSITIVE).setOnClickListener(v -> new SafeOnClickListener(okListener).onClick(dialog, 0));
             return dialog;
         } else {
             final Dialog dialog = showDialog(title, msgKey, oKey, okListener, "取消", cancleListener);
-            dialog.getWindow().getDecorView().postDelayed(new Runnable() {
-                @Override
-                public void run() {
-                    FindTextViewWithText builderHelper = FindTextViewWithText.invoke((ViewGroup) dialog.getWindow().getDecorView(), msgKey);
+            dialog.getWindow().getDecorView().postDelayed(() -> {
+                FindTextViewWithText builderHelper = FindTextViewWithText.invoke((ViewGroup) dialog.getWindow().getDecorView(), msgKey);
+                if (builderHelper != null) {
+                    builderHelper.parent.removeViewAt(builderHelper.index);
+                    builderHelper.parent.addView(input,builderHelper.index,builderHelper.textView.getLayoutParams());
+                    showListener.onShow(dialog);
+                    builderHelper = FindTextViewWithText.invoke((ViewGroup) dialog.getWindow().getDecorView(), oKey);
                     if (builderHelper != null) {
-                        builderHelper.parent.removeViewAt(builderHelper.index);
-                        builderHelper.parent.addView(input,builderHelper.index,builderHelper.textView.getLayoutParams());
-                        showListener.onShow(dialog);
-                        builderHelper = FindTextViewWithText.invoke((ViewGroup) dialog.getWindow().getDecorView(), oKey);
-                        if (builderHelper != null) {
-                            builderHelper.textView.setOnClickListener(new View.OnClickListener() {
-                                @Override
-                                public void onClick(View v) {
-                                    new SafeOnClickListener(okListener).onClick(dialog, 0);
-                                }
-                            });
-                        }
+                        builderHelper.textView.setOnClickListener(v -> new SafeOnClickListener(okListener).onClick(dialog, 0));
                     }
                 }
             }, mBuildDelayed);
