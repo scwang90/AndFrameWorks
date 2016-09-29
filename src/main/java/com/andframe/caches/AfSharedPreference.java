@@ -137,7 +137,7 @@ public class AfSharedPreference {
 			return value;
 		}
 		try {
-			value = AfJsoner.fromJson(jvalue, value.getClass());
+			value = AfJsoner.fromJsons(jvalue, String.class);
 		} catch (Throwable ignored) {
 		}
 		return value;

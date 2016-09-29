@@ -163,7 +163,7 @@ public class AfViewQuery<T extends AfViewQuery<T>> implements ViewQuery<T> {
     }
 
     @Override
-    public T $(Class<? extends View> type, Class<?>... types) {
+    public T $(Class<?> type, Class<?>... types) {
         Queue<View> views = new LinkedBlockingQueue<>(Collections.singletonList(mRootView));
         List<View> list = new ArrayList<>();
         do {

@@ -58,6 +58,10 @@ public class AfJsoner {
             } else if (String.class.equals(clazz)) {
                 return (T) json;
             }
+            if (clazz.isArray()) {
+                List<?> list = fromJsons(new JSONArray(json), clazz.getComponentType());
+                return (T)list.toArray();
+            }
             return fromJson(new JSONObject(json), clazz);
         } catch (JSONException e) {
             throw new RuntimeException(e);
@@ -131,7 +135,7 @@ public class AfJsoner {
     }
 
     public static <T> List<T> fromJsons(JSONArray array, Class<T> clazz) {
-        List<T> list = new ArrayList<>();
+        List<T> list = new ArrayList<>(array.length());
         for (int i = 0; i < array.length(); i++) {
             Object value = array.opt(i);
             if (value instanceof JSONObject) {

@@ -318,7 +318,7 @@ public abstract class AfFragment extends Fragment implements Pager, ViewQueryHel
 
     @Override
     public void makeToastShort(CharSequence tip) {
-        Toast.makeText(getContext(), tip, Toast.LENGTH_SHORT).show();
+        Toast.makeText(AfApp.get(), tip, Toast.LENGTH_SHORT).show();
     }
 
     @Override
