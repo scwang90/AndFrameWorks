@@ -290,7 +290,7 @@ public class ApCommonBarBinder {
 
         @Override
         public void start() {
-            $.dialog(pager).inputText(hint, lastval == null ? "" : lastval, type, this);
+            $.dialog(pager).inputText(hint, lastval == null ? $(idvalue).getText() : lastval, type, this);
         }
 
         public TextBinder value(String text) {
