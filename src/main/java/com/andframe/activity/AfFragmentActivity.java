@@ -74,8 +74,8 @@ public class AfFragmentActivity extends AfActivity {
     //<editor-fold desc="事件转发">
     @Override
     protected void onActivityResult(int requestcode, int resultcode, Intent data) {
-        //super.onActivityResult(requestcode, resultcode, data);
-        mFragment.onActivityResult(requestcode, resultcode, data);
+        super.onActivityResult(requestcode, resultcode, data);
+        //mFragment.onActivityResult(requestcode, resultcode, data);
     }
     //</editor-fold>
 }
