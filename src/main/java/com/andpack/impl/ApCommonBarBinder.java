@@ -104,8 +104,18 @@ public class ApCommonBarBinder {
         void image(Binder binder, String path);
     }
 
+    public interface TextVerify {
+        void verify(String text) throws VerifyException;
+    }
+
+    public static class VerifyException extends Exception {
+        public VerifyException(String message) {
+            super(message);
+        }
+    }
+
     public abstract class Binder<T extends Binder, LASTVAL> implements View.OnClickListener{
-        int idvalue;
+        public int idvalue;
         public String key = null;
         public CharSequence hint = "请输入";
         public Binder next;
@@ -282,6 +292,7 @@ public class ApCommonBarBinder {
 
         private int type = InputType.TYPE_CLASS_TEXT;
         private TextLambda lambda;
+        private TextVerify verify;
         private String valueSuffix = "";
 
         TextBinder(int idvalue) {
@@ -308,6 +319,14 @@ public class ApCommonBarBinder {
 
         @Override
         public boolean onInputTextComfirm(EditText input, String value) {
+            if (verify != null && input != null) {
+                try {
+                    verify.verify(value);
+                } catch (VerifyException e) {
+                    pager.makeToastShort(e.getMessage());
+                    return false;
+                }
+            }
             lastval = value;
             $(idvalue).text(value + valueSuffix);
             if (key != null && input != null) {
@@ -331,6 +350,11 @@ public class ApCommonBarBinder {
 
         public TextBinder lambda(TextLambda lambda) {
             this.lambda = lambda;
+            return self();
+        }
+
+        public TextBinder verify(TextVerify verify) {
+            this.verify = verify;
             return self();
         }
     }
