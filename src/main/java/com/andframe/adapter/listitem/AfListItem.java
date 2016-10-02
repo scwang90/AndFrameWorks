@@ -24,8 +24,10 @@ public abstract class AfListItem<T> implements ListItem<T>, Viewer, ViewQueryHel
 	
 	private int layoutId;
 
+	protected T mModel;
+	protected int mIndex;
 	protected View mLayout;
-	
+
 	public AfListItem() {
 	}
 	
@@ -67,6 +69,8 @@ public abstract class AfListItem<T> implements ListItem<T>, Viewer, ViewQueryHel
 	@Override
 	public void onBinding(View view, T model, int index) {
 		mLayout = view;
+		mIndex = index;
+		mModel = model;
 		onBinding(model,index);
 	}
 

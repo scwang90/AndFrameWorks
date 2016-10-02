@@ -559,6 +559,7 @@ public interface ViewQuery<T extends ViewQuery<T>> {
     View[] views();
     <TT extends View> TT[] views(Class<TT> clazz);
     <TT extends View> TT view(Class<TT> clazz ,int... indexs);
+    boolean isVisible();
     int gravity();
     T gravity(int gravity);
     T $(int... id);
@@ -584,8 +585,6 @@ public interface ViewQuery<T extends ViewQuery<T>> {
 
     <TTT> TTT foreach(ViewReturnEacher<View,TTT> eacher);
     <TT,TTT> TTT foreach(Class<TT> clazz, ViewReturnEacher<TT,TTT> eacher);
-
-
 
     interface ViewEacher<TT> {
         void each(TT view);

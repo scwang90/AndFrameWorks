@@ -27,6 +27,7 @@ public abstract class AfDetailFragment<T> extends AfTabFragment implements AfPul
 
     protected AfFrameSelector mFrameSelector;
     protected AfRefreshScorllView mRfScorllView;
+    protected boolean loadOnAfterViews = true;
 
     @BindAfterViews
     protected void onAfterViews() throws Exception{
@@ -43,6 +44,9 @@ public abstract class AfDetailFragment<T> extends AfTabFragment implements AfPul
         if (frame != null) {
             mFrameSelector = new AfFrameSelector(this, frame.value());
             mNodata.setOnRefreshListener(view -> onRefresh());
+        }
+
+        if (loadOnAfterViews) {
             onRefresh();
         }
 
@@ -69,7 +73,14 @@ public abstract class AfDetailFragment<T> extends AfTabFragment implements AfPul
             @Override
             protected void onHandle() {
                 if (isFinish()) {
-                    onTaskLoaded(data);
+                    boolean loaded = onTaskLoaded(data);
+                    if (mFrameSelector != null) {
+                        if (loaded) {
+                            mFrameSelector.selectFrame(mRfScorllView);
+                        } else {
+                            mFrameSelector.selectFrame(mNodata);
+                        }
+                    }
                 } else {
                     onTaskFailed(this);
                 }
@@ -91,10 +102,8 @@ public abstract class AfDetailFragment<T> extends AfTabFragment implements AfPul
         }
     }
 
-    protected void onTaskLoaded(T data) {
-        if (mFrameSelector != null) {
-            mFrameSelector.selectFrame(mRfScorllView);
-        }
+    protected boolean onTaskLoaded(T data) {
+        return data != null;
     }
 
     protected T onTaskLoading() throws Exception {
