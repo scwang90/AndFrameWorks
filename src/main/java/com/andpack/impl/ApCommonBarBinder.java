@@ -120,6 +120,7 @@ public class ApCommonBarBinder {
         public CharSequence hint = "请输入";
         public Binder next;
         public LASTVAL lastval;
+        public Runnable start;
 
         Binder(int idvalue) {
             this.idvalue = idvalue;
@@ -168,10 +169,19 @@ public class ApCommonBarBinder {
         }
 
         private void performStart() {
-            start();
+            if (start == null) {
+                start();
+            } else {
+                start.run();
+            }
             if (next != null) {
                 next.performStart();
             }
+        }
+
+        public T start(Runnable start) {
+            this.start = start;
+            return self();
         }
 
         protected abstract void start();

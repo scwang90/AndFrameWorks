@@ -10,6 +10,7 @@ import com.andframe.api.DialogBuilder;
 import com.andframe.api.view.ViewQuery;
 import com.andframe.application.AfApp;
 import com.andframe.exception.AfExceptionHandler;
+import com.andframe.exception.AfToastException;
 import com.andpack.impl.ApDialogBuilder;
 import com.andpack.impl.ApExceptionHandler;
 import com.andpack.impl.ApViewQuery;
@@ -25,15 +26,22 @@ import com.nostra13.universalimageloader.core.assist.QueueProcessingType;
 import java.io.File;
 import java.io.IOException;
 
-//import com.lzy.imagepicker.ImagePicker;
-
 /**
  *
  * Created by SCWANG on 2016/9/6.
  */
 public class ApApp extends AfApp {
 
+    public static ApApp getApApp() {
+        return (ApApp)get();
+    }
+
+    public boolean isUserLogined() {
+        throw new AfToastException("App.isUserLogined必须由子类实现");
+    }
+
     //<editor-fold desc="初始化">
+
     @Override
     protected void initApp() throws Exception {
         super.initApp();
@@ -95,6 +103,16 @@ public class ApApp extends AfApp {
     public AfExceptionHandler newExceptionHandler() {
         return new ApExceptionHandler();
     }
+
+    public ApUpdateService getUpdateService() {
+        return new ApUpdateService(this) {
+            @Override
+            protected ServiceVersionInfo infoFromService(String version) throws Exception {
+                return null;
+            }
+        };
+    }
+
     //</editor-fold>
 
 }
