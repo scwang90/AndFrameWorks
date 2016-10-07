@@ -152,7 +152,9 @@ public class ViewBinder {
         for (Method method : AfReflecter.getMethodAnnotation(handler.getClass(), getStopType(handler), BindItemClick.class)) {
             try {
                 BindItemClick bind = method.getAnnotation(BindItemClick.class);
-                for (int id : bind.value()) {
+                if (bind.value().length == 0) {
+                    new AfView(root.getView()).$(AdapterView.class).itemClicked(new EventListener(handler).itemClick(method));
+                } else for (int id : bind.value()) {
                     AdapterView<?> view = root.findViewByID(id);
                     if (view != null) {
                         view.setOnItemClickListener(new EventListener(handler).itemClick(method));
@@ -168,7 +170,9 @@ public class ViewBinder {
         for (Method method : AfReflecter.getMethodAnnotation(handler.getClass(), getStopType(handler), BindItemLongClick.class)) {
             try {
                 BindItemLongClick bind = method.getAnnotation(BindItemLongClick.class);
-                for (int id : bind.value()) {
+                if (bind.value().length == 0) {
+                    new AfView(root.getView()).$(AdapterView.class).itemLongClicked((new EventListener(handler).itemLongClick(method)));
+                } else for (int id : bind.value()) {
                     AdapterView<?> view = root.findViewByID(id);
                     if (view != null) {
                         view.setOnItemLongClickListener(new EventListener(handler).itemLongClick(method));
@@ -253,7 +257,7 @@ public class ViewBinder {
                         field.set(handler, array);
                     } else if (List.class.equals(field.getType())) {
                         field.set(handler, list);
-                    } else if(list.get(0) != null){
+                    } else if (list.get(0) != null) {
                         field.set(handler, list.get(0));
                     }
                 }
@@ -532,7 +536,7 @@ public class ViewBinder {
                     list.add(obj);
                 }
             }
-            return paramAllot(method,list.toArray(new Object[list.size()]),params);
+            return paramAllot(method, list.toArray(new Object[list.size()]), params);
         }
 
         /**

@@ -51,9 +51,9 @@ public class AfFragmentActivity extends AfActivity {
         }
     }
 
-    //<editor-fold desc="初始方法">
+    //<editor-fold desc=方法">
     @InjectExtra(value = EXTRA_FRAGMENT,remark = "页面信息丢失")
-    private String mFragmentClazz = null;
+    protected String mFragmentClazz = null;
 
     @Override
     protected void onCreate(Bundle bundle, AfIntent intent) throws Exception {
@@ -61,6 +61,14 @@ public class AfFragmentActivity extends AfActivity {
         FrameLayout frameLayout = new FrameLayout(this);
         frameLayout.setId(widget_frame);
         setContentView(frameLayout);
+        replaceFragment();
+    }
+
+    /**
+     * 替换 Fragment
+     * @throws Exception
+     */
+    protected void replaceFragment() throws Exception {
         mFragment = (Fragment)Class.forName(mFragmentClazz).newInstance();
         FragmentManager manager = getSupportFragmentManager();
         FragmentTransaction transaction = manager.beginTransaction();
@@ -75,7 +83,9 @@ public class AfFragmentActivity extends AfActivity {
     @Override
     protected void onActivityResult(int requestcode, int resultcode, Intent data) {
         super.onActivityResult(requestcode, resultcode, data);
-        //mFragment.onActivityResult(requestcode, resultcode, data);
+        if (requestcode>>16 == 0) {
+            mFragment.onActivityResult(requestcode, resultcode, data);
+        }
     }
     //</editor-fold>
 }

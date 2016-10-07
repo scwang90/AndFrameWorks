@@ -102,6 +102,10 @@ public abstract class AfDetailFragment<T> extends AfTabFragment implements AfPul
         }
     }
 
+    /**
+     * @param data 加载的数据
+     * @return 数据是否为非空，用于框架自动显示空数据页面
+     */
     protected boolean onTaskLoaded(T data) {
         return data != null;
     }

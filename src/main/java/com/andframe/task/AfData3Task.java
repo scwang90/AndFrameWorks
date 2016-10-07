@@ -132,7 +132,7 @@ public class AfData3Task<T, TT, TTT> extends AfHandlerTask {
     }
 
     @SuppressWarnings("unused")
-    public static abstract class AbData2TaskResultHandler<T,TT,TTT,Result> extends AbData3TaskHandler<T,TT,TTT> {
+    public static abstract class AbData3TaskResultHandler<T,TT,TTT,Result> extends AbData3TaskHandler<T,TT,TTT> {
 
         protected Result result;
 
