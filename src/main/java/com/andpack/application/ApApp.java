@@ -14,7 +14,6 @@ import com.andframe.exception.AfToastException;
 import com.andpack.impl.ApDialogBuilder;
 import com.andpack.impl.ApExceptionHandler;
 import com.andpack.impl.ApViewQuery;
-import com.andrestful.http.MultiRequestHandler;
 import com.lzy.imagepicker.ImagePicker;
 import com.nostra13.universalimageloader.cache.disc.impl.ext.ApDiskCache;
 import com.nostra13.universalimageloader.cache.disc.naming.Md5FileNameGenerator;
@@ -47,7 +46,6 @@ public class ApApp extends AfApp {
         super.initApp();
         initImageLoader(this);
         initImagePicker(this);
-        MultiRequestHandler.DEBUD = isDebug();
     }
 
     private void initImagePicker(Context context) {

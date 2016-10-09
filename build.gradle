@@ -34,5 +34,5 @@ dependencies {
     compile 'com.nostra13.universalimageloader:universal-image-loader:1.9.5'
     compile 'me.imid.swipebacklayout.lib:library:1.0.0'
     compile project(':andframe-v14')
-    compile project(':andrestful')
+//    compile project(':andrestful')
 }
