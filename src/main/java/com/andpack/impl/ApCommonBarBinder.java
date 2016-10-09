@@ -2,6 +2,7 @@ package com.andpack.impl;
 
 import android.app.Activity;
 import android.app.DatePickerDialog;
+import android.app.Dialog;
 import android.content.DialogInterface;
 import android.support.v4.app.Fragment;
 import android.text.InputType;
@@ -85,7 +86,7 @@ public class ApCommonBarBinder {
     }
 
     public interface MultiChoiceLambda {
-        void text(Binder binder, String text, boolean[] checkedItems);
+        void text(Binder binder, String text, int count, boolean[] checkedItems);
     }
 
     public interface TextLambda {
@@ -106,6 +107,10 @@ public class ApCommonBarBinder {
 
     public interface TextVerify {
         void verify(String text) throws VerifyException;
+    }
+
+    public interface MultiChoiceVerify {
+        void verify(int count, boolean[] checkedItems) throws VerifyException;
     }
 
     public static class VerifyException extends Exception {
@@ -232,11 +237,12 @@ public class ApCommonBarBinder {
         }
     }
 
-    public class MultiChoiceBinder extends Binder<MultiChoiceBinder, Void> implements DialogInterface.OnMultiChoiceClickListener {
+    public class MultiChoiceBinder extends Binder<MultiChoiceBinder, Void> implements DialogInterface.OnClickListener {
 
         private boolean[] checkedItems;
         private CharSequence[] items;
         private MultiChoiceLambda lambda;
+        private MultiChoiceVerify verify;
 
         MultiChoiceBinder(int idvalue, CharSequence[] items) {
             super(idvalue);
@@ -244,9 +250,14 @@ public class ApCommonBarBinder {
             this.checkedItems = new boolean[items.length];
         }
 
+        public MultiChoiceBinder verify(MultiChoiceVerify verify) {
+            this.verify = verify;
+            return self();
+        }
+
         @Override
         public void start() {
-            $.dialog(pager).multiChoice(hint, items, checkedItems, this);
+            $.dialog(pager).multiChoice(hint, items, checkedItems, null, this);
         }
 
         @Override
@@ -256,45 +267,63 @@ public class ApCommonBarBinder {
                 for (int i = 0; i < checkedItems.length; i++) {
                     checkedItems[i] = list.get(i);
                 }
-                onClick(null, 0, checkedItems[0]);
+                onClick(null, 0);
             }
-//            boolean[] booleen = caches.get(key, null, boolean[].class);
-//            if (booleen != null && booleen.length == items.length) {
-//                checkedItems = booleen;
-//                onClick(null, 0, booleen[0]);
-//            }
+        }
+
+        public MultiChoiceBinder value(String text) {
+            for (int i = 0; i < items.length && text != null; i++) {
+                checkedItems[i] = text.contains(items[i]);
+                onClick(null, 0);
+            }
+            return self();
+        }
+
+        public MultiChoiceBinder value(boolean... checkedItems) {
+            if (checkedItems.length == this.checkedItems.length) {
+                this.checkedItems = checkedItems;
+                onClick(new Dialog(pager.getContext()), 0);
+            }
+            return self();
+        }
+
+        public MultiChoiceBinder lambda(MultiChoiceLambda lambda) {
+            this.lambda = lambda;
+            return self();
         }
 
         @Override
-        public void onClick(DialogInterface dialog, int which, boolean isChecked) {
+        public void onClick(DialogInterface dialog, int which) {
+            int count = 0;
             StringBuilder builder = new StringBuilder();
             for (int i = 0; i < items.length; i++) {
                 if (checkedItems[i]) {
-                    builder.append(',');
+                    count++;
+                    if (builder.length() > 0) {
+                        builder.append(',');
+                    }
                     builder.append(items[i].toString());
                 }
             }
-            if (builder.length() > 0) {
-                $(idvalue).text(builder.substring(1));
-            } else {
-                $(idvalue).text("");
+            if (verify != null) {
+                try {
+                    verify.verify(count, checkedItems);
+                } catch (VerifyException e) {
+                    pager.makeToastShort(e.getMessage());
+                    return;
+                }
             }
+            $(idvalue).text(builder);
             if (key != null && dialog != null) {
                 List<Boolean> list = new ArrayList<>(checkedItems.length);
                 for (boolean bool : checkedItems) {
                     list.add(bool);
                 }
                 caches.putList(key, list);
-//                caches.put(key, checkedItems);
             }
             if (lambda != null) {
-                lambda.text(this, builder.toString(), checkedItems);
+                lambda.text(this, builder.toString(), count, checkedItems);
             }
-        }
-
-        public MultiChoiceBinder lambda(MultiChoiceLambda lambda) {
-            this.lambda = lambda;
-            return self();
         }
     }
 
@@ -420,6 +449,7 @@ public class ApCommonBarBinder {
 
         CheckBinder(int idvalue) {
             super(idvalue);
+            lastval = $(idvalue).isChecked();
         }
 
         @Override
@@ -440,8 +470,16 @@ public class ApCommonBarBinder {
         }
 
         @Override
+        public void onClick(View v) {
+            if (v != null && v.getId() != idvalue) {
+                lastval = $(idvalue).toggel().isChecked();
+            }
+            super.onClick(v);
+        }
+
+        @Override
         public void start() {
-            lastval = $(idvalue).toggel().isChecked();
+            lastval = $(idvalue).isChecked();
             if (key != null) {
                 caches.put(key, lastval);
             }

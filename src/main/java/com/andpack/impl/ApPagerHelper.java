@@ -70,7 +70,7 @@ public class ApPagerHelper implements AfPullToRefreshBase.OnRefreshListener {
                         case translucent_white:
                             SystemBarHelper.setStatusBarDarkMode(pager.getActivity());
                             //                    SystemBarHelper.tintStatusBar(pager.getActivity(), 0XFFEAEAEA, 0);
-                            SystemBarHelper.tintStatusBar(pager.getActivity(), 0XFFFFFFFF, 0);
+                            SystemBarHelper.tintStatusBar(pager.getActivity(), 0XFFFFFFFF, 1);
                             break;
                     }
                 }
