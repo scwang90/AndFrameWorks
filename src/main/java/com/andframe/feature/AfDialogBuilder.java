@@ -436,25 +436,25 @@ public class AfDialogBuilder implements DialogBuilder {
      */
     @Override
     public Dialog multiChoice(CharSequence title, CharSequence[] items, boolean[] checkedItems, OnMultiChoiceClickListener listener) {
+        return multiChoice(title, items, new boolean[items.length], listener, null);
+    }
+
+    /**
+     * 显示一个多选对话框 （默认可取消）
+     *
+     * @param title         对话框标题
+     * @param items         选择菜单项
+     * @param checkedItems  选择结果
+     * @param listener      选择监听器
+     * @param lpositive     完成选择器
+     */
+    @Override
+    public Dialog multiChoice(CharSequence title, CharSequence[] items, boolean[] checkedItems, OnMultiChoiceClickListener listener, OnClickListener lpositive) {
         Builder dialog = new Builder(mContext);
         if (title != null) {
             dialog.setTitle(title);
-            dialog.setNegativeButton("确定", null);
-//            if (oncancel != null) {
-//                dialog.setNegativeButton("取消", new SafeOnClickListener() {
-//                    @Override
-//                    public void onClick(DialogInterface dialog, int which) {
-//                        oncancel.onCancel(dialog);
-//                    }
-//                });
-//            }
+            dialog.setNegativeButton("确定", new SafeOnClickListener(lpositive));
         }
-//        if (oncancel != null) {
-//            dialog.setCancelable(true);
-//            dialog.setOnCancelListener(new SafeOnCancelListener(oncancel));
-//        } else {
-//            dialog.setCancelable(false);
-//        }
         dialog.setMultiChoiceItems(items, checkedItems, new SafeOnMultiChoiceClickListener(listener));
         return dialog.show();
     }

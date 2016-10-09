@@ -275,6 +275,16 @@ public interface DialogBuilder {
      * @param listener      选择监听器
      */
     Dialog multiChoice(CharSequence title, CharSequence[] items, boolean[] checkedItems, DialogInterface.OnMultiChoiceClickListener listener);
+    /**
+     * 显示一个多选对话框 （默认可取消）
+     *
+     * @param title         对话框标题
+     * @param items         选择菜单项
+     * @param checkedItems  选择结果
+     * @param listener      选择监听器
+     * @param lpositive     完成选择器
+     */
+    Dialog multiChoice(CharSequence title, CharSequence[] items, boolean[] checkedItems, DialogInterface.OnMultiChoiceClickListener listener, DialogInterface.OnClickListener lpositive);
 
         //</editor-fold>
 
