@@ -12,15 +12,17 @@
 
     <style name="AppTheme.SwipeBack" parent="AppTheme">
         <item name="android:windowIsTranslucent">true</item>
-        <!--<item name="android:windowBackground">@android:color/transparent</item>-->
         <item name="android:windowAnimationStyle">@style/activityAnimation</item>
+        <!--<item name="android:windowBackground">@android:color/transparent</item>-->
     </style>
 
     <style name="activityAnimation" parent="@android:style/Animation">
-        <!--<item name="android:activityOpenEnterAnimation">@anim/page_enter</item>-->
-        <!--<item name="android:activityOpenExitAnimation">@anim/slide_out_left</item>-->
-        <!--<item name="android:activityCloseEnterAnimation">@anim/slide_in_left</item>-->
-        <!--<item name="android:activityCloseExitAnimation">@anim/page_exit</item>-->
+        <item name="android:windowEnterAnimation">@anim/page_enter</item>
+        <item name="android:windowExitAnimation">@anim/page_exit</item>
+        <item name="android:activityOpenEnterAnimation">@anim/page_enter</item>
+        <item name="android:activityOpenExitAnimation">@anim/slide_out_left</item>
+        <item name="android:activityCloseEnterAnimation">@anim/slide_in_left</item>
+        <item name="android:activityCloseExitAnimation">@anim/page_exit</item>
     </style>
 
 </resources>
