@@ -4,8 +4,10 @@ import android.app.Activity;
 import android.app.DatePickerDialog;
 import android.app.Dialog;
 import android.content.DialogInterface;
+import android.content.res.Resources;
 import android.support.v4.app.Fragment;
 import android.text.InputType;
+import android.util.DisplayMetrics;
 import android.view.View;
 import android.widget.DatePicker;
 import android.widget.EditText;
@@ -21,6 +23,7 @@ import com.andpack.activity.ApFragmentActivity;
 import com.lzy.imagepicker.ImagePicker;
 import com.lzy.imagepicker.bean.ImageItem;
 import com.lzy.imagepicker.ui.ImageGridActivity;
+import com.lzy.imagepicker.view.CropImageView;
 
 import java.text.DateFormat;
 import java.util.ArrayList;
@@ -536,6 +539,7 @@ public class ApCommonBarBinder {
         private int outPutY = 0;           //裁剪保存高度
         private int request_image = 1000;
         private ImageLambda lambda;
+        private CropImageView.Style style = CropImageView.Style.RECTANGLE;
 
         ImageBinder(int idimage) {
             super(idimage);
@@ -546,10 +550,24 @@ public class ApCommonBarBinder {
             ImagePicker picker = ImagePicker.getInstance();
             picker.setMultiMode(false);
             picker.setShowCamera(true);
+            picker.setStyle(style);
             if (outPutX > 0 && outPutY > 0) {
+                picker.setCrop(true);
                 picker.setOutPutX(outPutX);
                 picker.setOutPutY(outPutY);
-                picker.setCrop(true);
+
+                DisplayMetrics metrics = Resources.getSystem().getDisplayMetrics();
+
+                int focusWidth = metrics.widthPixels * 3 / 4;
+                int focusHeight = focusWidth * outPutY / outPutX;
+
+                if (focusHeight > metrics.heightPixels * 3 / 4) {
+                    focusHeight = metrics.heightPixels * 3 / 4;
+                    focusWidth = focusHeight * outPutX / outPutY;
+                }
+
+                picker.setFocusWidth(focusWidth);
+                picker.setFocusHeight(focusHeight);
             } else {
                 picker.setCrop(false);
             }
@@ -558,6 +576,11 @@ public class ApCommonBarBinder {
 
         public ImageBinder image(String url) {
             $.query(pager).id(idvalue).image(url);
+            return self();
+        }
+
+        public ImageBinder circle() {
+            style = CropImageView.Style.CIRCLE;
             return self();
         }
 
