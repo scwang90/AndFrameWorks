@@ -32,6 +32,7 @@ public class $ {
     private static Object[] lastWiths;
 
     interface $$ {
+        <From,To> To[] convertArray(@NonNull From[] froms, @NonNull ModelConvertor<From,To> convertor);
         <From,To> List<To> convertList(@NonNull Iterable<From> froms, @NonNull ModelConvertor<From,To> convertor);
     }
 
@@ -134,6 +135,16 @@ public class $ {
                 return method.invoke(this, objects);
             }
             return null;
+        }
+
+        @Override
+        public <From, To> To[] convertArray(@NonNull From[] froms, @NonNull ModelConvertor<From, To> convertor) {
+            Object[] tos = new Object[froms.length];
+            for (int i = 0; i < froms.length; i++) {
+                tos[i] = convertor.convert(froms[i]);
+            }
+            //noinspection unchecked
+            return (To[])tos;
         }
 
         @Override
