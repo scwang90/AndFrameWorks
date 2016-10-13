@@ -3,13 +3,14 @@ package com.andframe.task;
 import android.content.DialogInterface;
 import android.content.DialogInterface.OnCancelListener;
 
+import com.andframe.api.Task;
 import com.andframe.application.AfApp;
 import com.andframe.exception.AfException;
 import com.andframe.exception.AfExceptionHandler;
 import com.andframe.exception.AfToastException;
 
 @SuppressWarnings("unused")
-public abstract class AfTask implements Runnable, OnCancelListener {
+public abstract class AfTask implements Task, OnCancelListener {
 
 	// Task 执行状态枚举
 	public static final int RESULT_FAIL = 0;
@@ -60,7 +61,6 @@ public abstract class AfTask implements Runnable, OnCancelListener {
 
 	@Override
 	public final void onCancel(DialogInterface dialog) {
-		mIsCanceled = true;
 		this.onCancel();
 	}
 
@@ -78,7 +78,8 @@ public abstract class AfTask implements Runnable, OnCancelListener {
 	 * Task任务被取消 将不会被调用 mHandler
 	 * 	这个方法可能在异步线程中执行
 	 */
-	protected void onCancel() {
+	public void onCancel() {
+		mIsCanceled = true;
 	}
 
 	protected Boolean mPrepare = null;

@@ -13,6 +13,7 @@ import android.text.TextWatcher;
 import android.util.TypedValue;
 import android.view.View;
 import android.view.ViewGroup;
+import android.view.animation.Animation;
 import android.webkit.WebView;
 import android.widget.Adapter;
 import android.widget.AdapterView;
@@ -309,6 +310,11 @@ public class AfViewQuery<T extends AfViewQuery<T>> implements ViewQuery<T> {
     @Override
     public T textSizeId(int id) {
         return foreach(TextView.class,(ViewEacher<TextView>) (view) -> view.setTextSize(TypedValue.COMPLEX_UNIT_PX,view.getResources().getDimension(id)));
+    }
+
+    @Override
+    public T animation(Animation animation) {
+        return foreach((ViewEacher<View>) view -> view.setAnimation(animation));
     }
 
     @Override

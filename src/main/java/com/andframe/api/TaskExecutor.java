@@ -18,7 +18,7 @@ import com.andframe.task.AfTask;
 public interface TaskExecutor {
 
     @MainThread
-    void execute(Runnable runnable);
+    void execute(Tasker runnable);
 
     @MainThread
     void execute(AfTask task);

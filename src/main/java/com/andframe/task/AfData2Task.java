@@ -40,7 +40,7 @@ public class AfData2Task<T, TT> extends AfHandlerTask {
     }
 
     @Override
-    protected void onCancel() {
+    public void onCancel() {
         super.onCancel();
         if (handler != null) {
             handler.onCancel(t, tt);

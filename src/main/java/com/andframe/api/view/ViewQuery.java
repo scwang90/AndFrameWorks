@@ -8,6 +8,7 @@ import android.text.Editable;
 import android.text.Spanned;
 import android.text.TextWatcher;
 import android.view.View;
+import android.view.animation.Animation;
 import android.webkit.WebView;
 import android.widget.Adapter;
 import android.widget.AdapterView;
@@ -535,21 +536,21 @@ public interface ViewQuery<T extends ViewQuery<T>> {
      * Set the width of a View in dip.
      * Can also be ViewGroup.LayoutParams.FILL_PARENT, ViewGroup.LayoutParams.WRAP_CONTENT, or ViewGroup.LayoutParams.MATCH_PARENT.
      *
-     * @param dip width in dip
+     * @param px width in px
      * @return self
      */
 
-    T width(int dip);
+    T width(int px);
 
     /**
      * Set the height of a View in dip.
      * Can also be ViewGroup.LayoutParams.FILL_PARENT, ViewGroup.LayoutParams.WRAP_CONTENT, or ViewGroup.LayoutParams.MATCH_PARENT.
      *
-     * @param dip height in dip
+     * @param px height in px
      * @return self
      */
 
-    T height(int dip);
+    T height(int px);
 
     /**
      * 自定义扩展接口
@@ -579,6 +580,7 @@ public interface ViewQuery<T extends ViewQuery<T>> {
     T progress(int progress);
     T visibility(boolean isvisibe);
     T textSizeId(int id);
+    T animation(Animation animation);
 
     T foreach(ViewEacher<View> eacher);
     <TT> T foreach(Class<TT> clazz, ViewEacher<TT> eacher);

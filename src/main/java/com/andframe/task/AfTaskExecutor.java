@@ -4,6 +4,7 @@ import android.os.Looper;
 import android.support.annotation.MainThread;
 
 import com.andframe.api.TaskExecutor;
+import com.andframe.api.Tasker;
 import com.andframe.application.AfApp;
 import com.andframe.util.java.AfDateGuid;
 import com.andframe.util.java.AfReflecter;
@@ -79,8 +80,13 @@ public class AfTaskExecutor implements TaskExecutor {
      * information on the order of execution.
      */
     @MainThread
-    public void execute(Runnable runnable) {
-        sDefaultExecutor.execute(runnable);
+    public void execute(Tasker runnable) {
+        sDefaultExecutor.execute(new AfTask() {
+            @Override
+            protected void onWorking() throws Exception {
+                runnable.onWorking();
+            }
+        });
     }
 
     @MainThread
