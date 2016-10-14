@@ -15,11 +15,12 @@ import android.widget.Toast;
 
 import com.andframe.activity.AfActivity;
 import com.andframe.annotation.interpreter.Injecter;
+import com.andframe.annotation.interpreter.LifeCycleInjecter;
 import com.andframe.annotation.interpreter.ViewBinder;
 import com.andframe.annotation.pager.BindLayout;
 import com.andframe.api.DialogBuilder;
-import com.andframe.api.view.ViewQuery;
 import com.andframe.api.page.Pager;
+import com.andframe.api.view.ViewQuery;
 import com.andframe.api.view.ViewQueryHelper;
 import com.andframe.application.AfApp;
 import com.andframe.exception.AfExceptionHandler;
@@ -216,6 +217,7 @@ public abstract class AfFragment extends Fragment implements Pager, ViewQueryHel
         super.onCreate(bundle);
         try {
             Injecter.doInject(this, getContext());
+            LifeCycleInjecter.injectOnCreate(this, bundle);
         } catch (Throwable e) {
             AfExceptionHandler.handle(e, TAG("onCreate.doInject"));
             makeToastLong("页面初始化异常！", e);
@@ -226,15 +228,40 @@ public abstract class AfFragment extends Fragment implements Pager, ViewQueryHel
     public void onResume() {
         try {
             super.onResume();
+            LifeCycleInjecter.injectOnResume(this);
         } catch (Throwable ex) {
             AfExceptionHandler.handle(ex, "AfFragment.onResume");
         }
     }
 
     @Override
+    public void onStart() {
+        try {
+            super.onStart();
+            LifeCycleInjecter.injectOnStart(this);
+        } catch (Throwable ex) {
+            AfExceptionHandler.handle(ex, "AfFragment.onStart");
+        }
+    }
+
+    @Override
+    public void onStop() {
+        try {
+            super.onStop();
+            LifeCycleInjecter.injectOnStop(this);
+        } catch (Throwable ex) {
+            AfExceptionHandler.handle(ex, "AfFragment.onStop");
+        }
+    }
+
+    @Override
     public void onAttach(Context context) {
-        super.onAttach(context);
-//        mDialogBuilder = newDialogBuilder();
+        try {
+            super.onAttach(context);
+            LifeCycleInjecter.injectOnAttach(this);
+        } catch (Throwable ex) {
+            AfExceptionHandler.handle(ex, "AfFragment.onAttach");
+        }
     }
     /**
      * (non-Javadoc)
@@ -279,14 +306,24 @@ public abstract class AfFragment extends Fragment implements Pager, ViewQueryHel
 
     @Override
     public void onDestroyView() {
-        super.onDestroyView();
-//		mRootView = null;
+        try {
+            super.onDestroyView();
+//		    mRootView = null;
+            LifeCycleInjecter.injectOnDestroyView(this);
+        } catch (Throwable ex) {
+            AfExceptionHandler.handle(ex, "AfFragment.onDestroyView");
+        }
     }
 
     @Override
     public void onDestroy() {
-        super.onDestroy();
-        mIsRecycled = true;
+        try {
+            super.onDestroy();
+            mIsRecycled = true;
+            LifeCycleInjecter.injectOnDestroy(this);
+        } catch (Throwable ex) {
+            AfExceptionHandler.handle(ex, "AfFragment.onDestroy");
+        }
     }
 
     /**

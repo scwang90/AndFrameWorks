@@ -103,6 +103,7 @@ public abstract class AfDetailFragment<T> extends AfTabFragment implements AfPul
     }
 
     /**
+     * 任务加载完成
      * @param data 加载的数据
      * @return 数据是否为非空，用于框架自动显示空数据页面
      */
@@ -110,6 +111,12 @@ public abstract class AfDetailFragment<T> extends AfTabFragment implements AfPul
         return data != null;
     }
 
+    /**
+     *
+     * 任务加载（异步线程，由框架自动发出执行）
+     * @return 加载的数据
+     * @throws Exception
+     */
     protected T onTaskLoading() throws Exception {
         Thread.sleep(1000);
         return null;

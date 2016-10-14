@@ -16,6 +16,7 @@ import android.widget.Toast;
 
 import com.andframe.annotation.interpreter.Injecter;
 import com.andframe.annotation.interpreter.LayoutBinder;
+import com.andframe.annotation.interpreter.LifeCycleInjecter;
 import com.andframe.annotation.interpreter.ViewBinder;
 import com.andframe.api.DialogBuilder;
 import com.andframe.api.view.ViewQuery;
@@ -145,7 +146,7 @@ public class AfActivity extends AppCompatActivity implements Pager, ViewQueryHel
     protected void onCreate(Bundle bundle) {
         try {
             AfApp.get().setCurActivity(this, this);
-            this.onQueryChanged();
+//            this.onQueryChanged();
         } catch (Throwable ex) {
             AfExceptionHandler.handle(ex, "AfActivity.setCurActivity");
         }
@@ -170,6 +171,7 @@ public class AfActivity extends AppCompatActivity implements Pager, ViewQueryHel
             return;
         }
         try {
+            LifeCycleInjecter.injectOnCreate(this, bundle);
             this.onCreate(bundle, new AfIntent(getIntent()));
         } catch (final Exception e) {
             if (!(e instanceof AfToastException)) {
@@ -199,12 +201,32 @@ public class AfActivity extends AppCompatActivity implements Pager, ViewQueryHel
     protected void onResume() {
         super.onResume();
         this.mIsResume = true;
+        LifeCycleInjecter.injectOnResume(this);
+    }
+
+    @Override
+    protected void onPause() {
+        super.onPause();
+        LifeCycleInjecter.injectOnPause(this);
+    }
+
+    @Override
+    protected void onStart() {
+        super.onStart();
+        LifeCycleInjecter.injectOnStart(this);
+    }
+
+    @Override
+    protected void onRestart() {
+        super.onRestart();
+        LifeCycleInjecter.injectOnRestart(this);
     }
 
     @Override
     protected void onStop() {
         super.onStop();
         this.mIsResume = false;
+        LifeCycleInjecter.injectOnStop(this);
     }
 
     @Override
@@ -214,17 +236,18 @@ public class AfActivity extends AppCompatActivity implements Pager, ViewQueryHel
             AfApp.get().setCurActivity(this, null);
             mIsResume = false;
             mIsRecycled = true;
+            LifeCycleInjecter.injectOnDestroy(this);
         } catch (Throwable ex) {
             AfExceptionHandler.handle(ex, "AfActivity.onDestroy");
         }
     }
 
-    /**
-     * 查询系统数据变动
-     */
-    public void onQueryChanged() {
-
-    }
+//    /**
+//     * 查询系统数据变动
+//     */
+//    public void onQueryChanged() {
+//
+//    }
 
     /**
      * 保证在还原数据时不会崩溃
