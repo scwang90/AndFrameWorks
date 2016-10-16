@@ -5,8 +5,8 @@ import android.view.View;
 import android.widget.FrameLayout;
 
 import com.andframe.annotation.pager.BindLayout;
-import com.andframe.api.view.Viewer;
 import com.andframe.api.view.ViewModuler;
+import com.andframe.api.view.Viewer;
 import com.andframe.feature.AfView;
 import com.andframe.util.java.AfReflecter;
 
@@ -95,4 +95,25 @@ public class AfFrameSelector extends AfViewModuler {
 		return false;
 	}
 
+	public boolean isCurrent(View view) {
+		if (isValid()) {
+			if (view instanceof ViewModuler) {
+				view = ((ViewModuler) view).getView();
+			}
+			Boolean find = false;
+			int count = mFrameLayout.getChildCount();
+			for (int i = 0; i < count; i++) {
+				View tView = mFrameLayout.getChildAt(i);
+				if (tView.getVisibility() == View.VISIBLE) {
+					if (tView != view) {
+						return false;
+					} else {
+						find = true;
+					}
+				}
+			}
+			return find;
+		}
+		return false;
+	}
 }

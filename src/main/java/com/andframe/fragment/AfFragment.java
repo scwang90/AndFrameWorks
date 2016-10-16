@@ -53,22 +53,25 @@ public abstract class AfFragment extends Fragment implements Pager, ViewQueryHel
 
     //<editor-fold desc="ViewQuery 集成">
     ViewQueryHelper mViewQueryHelper = new AfViewQueryHelper(this);
+
     /**
      * 开始 ViewQuery 查询
+     *
      * @param id 控件Id
      */
     @Override
-    public ViewQuery $(int... id) {
-        return mViewQueryHelper.$(id);
+    public ViewQuery $(int id, int... ids) {
+        return mViewQueryHelper.$(id, ids);
     }
+
     /**
      * 开始 ViewQuery 查询
-     * @param view 至少一个 View
+     *
      * @param views 可选的多个 View
      */
     @Override
-    public ViewQuery $(View view, View... views) {
-        return mViewQueryHelper.$(view, views);
+    public ViewQuery $(View... views) {
+        return mViewQueryHelper.$(views);
     }
     //</editor-fold>
 

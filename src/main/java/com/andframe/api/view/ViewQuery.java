@@ -2,6 +2,7 @@ package com.andframe.api.view;
 
 import android.content.Context;
 import android.graphics.Bitmap;
+import android.graphics.Point;
 import android.graphics.Typeface;
 import android.graphics.drawable.Drawable;
 import android.text.Editable;
@@ -42,14 +43,6 @@ public interface ViewQuery<T extends ViewQuery<T>> {
      * @return self
      */
     T id(int... id);
-
-    /**
-     * Points the current operating view to the specified view.
-     *
-     * @return self
-     */
-    T id(View view, View... views);
-
 
     /**
      * Set the rating of a RatingBar.
@@ -563,10 +556,11 @@ public interface ViewQuery<T extends ViewQuery<T>> {
     boolean isVisible();
     int gravity();
     T gravity(int gravity);
-    T $(int... id);
+    T $(int id, int... ids);
     T $(String idvalue, String... idvalues);
     T $(Class<?> type, Class<?>... types);
-    T $(View view, View... views);
+    T $(View... views);
+    T id(View view, View... views);
     T toggel();
     T width(float dp);
     T height(float dp);
@@ -581,12 +575,25 @@ public interface ViewQuery<T extends ViewQuery<T>> {
     T visibility(boolean isvisibe);
     T textSizeId(int id);
     T animation(Animation animation);
+    T addView(View... views);
+    T toChild(int index);
+    T toChilds();
+    View breakView();
+    View[] breakViews();
+    View[] childs();
+    View[] breakChilds();
+    View childAt(int index);
+    int childCount();
+    boolean replace(View view);
+    Point measure();
+
 
     T foreach(ViewEacher<View> eacher);
     <TT> T foreach(Class<TT> clazz, ViewEacher<TT> eacher);
 
     <TTT> TTT foreach(ViewReturnEacher<View,TTT> eacher);
     <TT,TTT> TTT foreach(Class<TT> clazz, ViewReturnEacher<TT,TTT> eacher);
+    <TT,TTT> TTT foreach(Class<TT> clazz, ViewReturnEacher<TT,TTT> eacherm, TTT defvalue);
 
     interface ViewEacher<TT> {
         void each(TT view);

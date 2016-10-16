@@ -9,6 +9,8 @@ import com.andframe.annotation.view.BindViewModule;
 import com.andframe.module.AfFrameSelector;
 import com.andframe.module.AfModuleNodata;
 import com.andframe.module.AfModuleProgress;
+import com.andframe.task.AfDispatcher;
+import com.andframe.task.AfHandlerDataTask;
 import com.andframe.task.AfHandlerTask;
 import com.andframe.util.java.AfReflecter;
 import com.andframe.widget.AfRefreshScorllView;
@@ -20,6 +22,9 @@ import com.andframe.widget.pulltorefresh.AfPullToRefreshBase;
  */
 public abstract class AfDetailFragment<T> extends AfTabFragment implements AfPullToRefreshBase.OnRefreshListener {
 
+    //<editor-fold desc="属性字段">
+    protected T mData;
+
     @BindViewModule
     protected AfModuleNodata mNodata;
     @BindViewModule
@@ -28,7 +33,9 @@ public abstract class AfDetailFragment<T> extends AfTabFragment implements AfPul
     protected AfFrameSelector mFrameSelector;
     protected AfRefreshScorllView mRfScorllView;
     protected boolean loadOnAfterViews = true;
+    //</editor-fold>
 
+    //<editor-fold desc="初始方法">
     @BindAfterViews
     protected void onAfterViews() throws Exception{
         BindScorllView scorll = AfReflecter.getAnnotation(getClass(), AfDetailFragment.class, BindScorllView.class);
@@ -46,12 +53,18 @@ public abstract class AfDetailFragment<T> extends AfTabFragment implements AfPul
             mNodata.setOnRefreshListener(view -> onRefresh());
         }
 
-        if (loadOnAfterViews) {
+        if (loadOnAfterViews && mData == null) {
+            loadOnAfterViews = false;
             onRefresh();
+        } else if (mData != null) {
+            onTaskFinish(mData);
+        } else {
+            showNoData();
         }
-
     }
+    //</editor-fold>
 
+    //<editor-fold desc="数据加载">
     @Override
     public boolean onMore() {
         return false;
@@ -59,47 +72,34 @@ public abstract class AfDetailFragment<T> extends AfTabFragment implements AfPul
 
     @Override
     public boolean onRefresh() {
-        return postTask(new AfHandlerTask() {
-            T data;
-
+        return postTask(new AfHandlerDataTask<T>() {
             @Override
-            protected boolean onPrepare() {
-                if (mFrameSelector != null) {
-                    mFrameSelector.selectFrame(mProgress);
-                }
-                return super.onPrepare();
-            }
-
-            @Override
-            protected void onHandle() {
+            protected void onHandle(T data) {
                 if (isFinish()) {
-                    boolean loaded = onTaskLoaded(data);
-                    if (mFrameSelector != null) {
-                        if (loaded) {
-                            mFrameSelector.selectFrame(mRfScorllView);
-                        } else {
-                            mFrameSelector.selectFrame(mNodata);
-                        }
-                    }
+                    onTaskFinish(data);
                 } else {
                     onTaskFailed(this);
                 }
             }
-
             @Override
-            protected void onWorking() throws Exception {
-                data = onTaskLoading();
+            protected T onLoadData() throws Exception {
+                AfDispatcher.dispatch(() -> showLoading());
+                return mData = onTaskLoading();
             }
         }).setListener(mRfScorllView).prepare();
     }
 
-    protected void onTaskFailed(AfHandlerTask task) {
-        if (mFrameSelector != null) {
-            mNodata.setDescription(task.makeErrorToast("加载失败"));
-            mFrameSelector.selectFrame(mNodata);
+    protected void onTaskFinish(T data) {
+        boolean loaded = onTaskLoaded(data);
+        if (loaded) {
+            showData();
         } else {
-            makeToastShort(task.makeErrorToast("加载失败"));
+            showNoData();
         }
+    }
+
+    protected void onTaskFailed(AfHandlerTask task) {
+        showError(task.makeErrorToast("加载失败"));
     }
 
     /**
@@ -121,4 +121,44 @@ public abstract class AfDetailFragment<T> extends AfTabFragment implements AfPul
         Thread.sleep(1000);
         return null;
     }
+    //</editor-fold>
+
+    //<editor-fold desc="页面状态">
+    protected void showNoData() {
+        if (mFrameSelector != null) {
+            mFrameSelector.selectFrame(mNodata);
+        } else if ((mRfScorllView == null || !mRfScorllView.isRefreshing())) {
+            hideProgressDialog();
+        }
+    }
+
+    protected void showData() {
+        if (mFrameSelector != null) {
+            mFrameSelector.selectFrame(mRfScorllView);
+        } else if ((mRfScorllView == null || !mRfScorllView.isRefreshing())) {
+            hideProgressDialog();
+        }
+    }
+
+    protected void showLoading() {
+        if ((mRfScorllView == null || !mRfScorllView.isRefreshing())) {
+            if (mFrameSelector != null) {
+                mFrameSelector.selectFrame(mProgress);
+            } else {
+                showProgressDialog("正在加载...");
+            }
+        }
+    }
+
+    protected void showError(String error) {
+        hideProgressDialog();
+        if (mFrameSelector != null) {
+            mNodata.setDescription(error);
+            mFrameSelector.selectFrame(mNodata);
+        } else {
+            makeToastShort(error);
+        }
+    }
+    //</editor-fold>
+
 }

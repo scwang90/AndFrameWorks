@@ -12,11 +12,10 @@ public interface ViewQueryHelper {
      * 开始 ViewQuery 查询
      * @param id 控件Id
      */
-    ViewQuery $(int... id);
+    ViewQuery $(int id, int... ids);
     /**
      * 开始 ViewQuery 查询
-     * @param view 至少一个 View
      * @param views 可选的多个 View
      */
-    ViewQuery $(View view, View... views);
+    ViewQuery $(View... views);
 }

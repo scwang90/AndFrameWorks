@@ -19,8 +19,8 @@ import com.andframe.annotation.interpreter.LayoutBinder;
 import com.andframe.annotation.interpreter.LifeCycleInjecter;
 import com.andframe.annotation.interpreter.ViewBinder;
 import com.andframe.api.DialogBuilder;
-import com.andframe.api.view.ViewQuery;
 import com.andframe.api.page.Pager;
+import com.andframe.api.view.ViewQuery;
 import com.andframe.api.view.ViewQueryHelper;
 import com.andframe.application.AfApp;
 import com.andframe.exception.AfExceptionHandler;
@@ -28,12 +28,12 @@ import com.andframe.exception.AfToastException;
 import com.andframe.feature.AfIntent;
 import com.andframe.fragment.AfFragment;
 import com.andframe.impl.helper.AfViewQueryHelper;
-import com.andframe.task.AfTaskExecutor;
 import com.andframe.task.AfData2Task;
 import com.andframe.task.AfData3Task;
 import com.andframe.task.AfDataTask;
 import com.andframe.task.AfDispatcher;
 import com.andframe.task.AfTask;
+import com.andframe.task.AfTaskExecutor;
 import com.andframe.util.java.AfStackTrace;
 
 import java.util.ArrayList;
@@ -72,19 +72,18 @@ public class AfActivity extends AppCompatActivity implements Pager, ViewQueryHel
      * @param id 控件Id
      */
     @Override
-    public ViewQuery $(int... id) {
-        return mViewQueryHelper.$(id);
+    public ViewQuery $(int id, int... ids) {
+        return mViewQueryHelper.$(id, ids);
     }
 
     /**
      * 开始 ViewQuery 查询
      *
-     * @param view  至少一个 View
      * @param views 可选的多个 View
      */
     @Override
-    public ViewQuery $(View view, View... views) {
-        return mViewQueryHelper.$(view, views);
+    public ViewQuery $(View... views) {
+        return mViewQueryHelper.$(views);
     }
     //</editor-fold>
 

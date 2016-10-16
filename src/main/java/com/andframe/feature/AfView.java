@@ -36,20 +36,25 @@ public class AfView extends AfViewQuery<AfView> implements Viewer {
 
 	/**
 	 * 替换调 View 中的 id 为 item
-     */
+	 */
 	public boolean replace(int id, View target) {
-		View viewById = findViewById(id);
-		if (viewById != null) {
-			ViewGroup parent = (ViewGroup)viewById.getParent();
+		return replace(findViewById(id), target);
+	}
+	/**
+	 * 替换调 view 为 item
+	 */
+	public boolean replace(View view, View target) {
+		if (view != null) {
+			ViewGroup parent = (ViewGroup)view.getParent();
 			if (parent != null) {
 				ViewParent viewParent = target.getParent();
 				if (viewParent instanceof ViewGroup) {
 					((ViewGroup) viewParent).removeView(target);
 				}
 
-				int i = parent.indexOfChild(viewById);
+				int i = parent.indexOfChild(view);
 				parent.removeViewAt(i);
-				parent.addView(target, i, target.getLayoutParams());
+				parent.addView(target, i, view.getLayoutParams());
 			}
 		}
 		return false;

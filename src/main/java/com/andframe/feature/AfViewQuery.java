@@ -3,6 +3,7 @@ package com.andframe.feature;
 import android.content.Context;
 import android.content.res.Resources;
 import android.graphics.Bitmap;
+import android.graphics.Point;
 import android.graphics.Typeface;
 import android.graphics.drawable.Drawable;
 import android.net.Uri;
@@ -13,6 +14,7 @@ import android.text.TextWatcher;
 import android.util.TypedValue;
 import android.view.View;
 import android.view.ViewGroup;
+import android.view.ViewParent;
 import android.view.animation.Animation;
 import android.webkit.WebView;
 import android.widget.Adapter;
@@ -38,6 +40,7 @@ import android.widget.TextView;
 
 import com.andframe.api.view.ViewQuery;
 import com.andframe.listener.SafeOnClickListener;
+import com.andframe.util.android.AfMeasure;
 
 import java.util.ArrayList;
 import java.util.Arrays;
@@ -122,6 +125,11 @@ public class AfViewQuery<T extends AfViewQuery<T>> implements ViewQuery<T> {
 
     @Override
     public <TT, TTT> TTT foreach(Class<TT> clazz, ViewReturnEacher<TT, TTT> eacher) {
+        return foreach(clazz, eacher, null);
+    }
+
+    @Override
+    public <TT, TTT> TTT foreach(Class<TT> clazz, ViewReturnEacher<TT, TTT> eacher, TTT defvalue) {
         if (mTargetViews != null) {
             for (View view : mTargetViews) {
                 if (view != null && clazz.isInstance(view)) {
@@ -132,12 +140,17 @@ public class AfViewQuery<T extends AfViewQuery<T>> implements ViewQuery<T> {
                 }
             }
         }
-        return null;
+        return defvalue;
     }
 
     @Override
-    public T $(int... id) {
-        return id(id);
+    public T $(int id, int... ids) {
+        this.mTargetViews = new View[ids.length + 1];
+        this.mTargetViews[0] = findViewById(id);
+        for (int i = 0; i < ids.length; i++) {
+            mTargetViews[i + 1] = findViewById(ids[i]);
+        }
+        return self();
     }
 
     @Override
@@ -193,8 +206,8 @@ public class AfViewQuery<T extends AfViewQuery<T>> implements ViewQuery<T> {
     }
 
     @Override
-    public T $(View view, View... views) {
-        return id(view, views);
+    public T $(View... views) {
+        return id(null, views);
     }
 
     public View view(int... indexs) {
@@ -318,6 +331,19 @@ public class AfViewQuery<T extends AfViewQuery<T>> implements ViewQuery<T> {
     }
 
     @Override
+    public T addView(View... views) {
+        return foreach(ViewGroup.class, group -> {
+            for (View view : views) {
+                ViewParent viewParent = view.getParent();
+                if (viewParent instanceof ViewGroup) {
+                    ((ViewGroup) viewParent).removeView(view);
+                }
+                group.addView(view);
+            }
+        });
+    }
+
+    @Override
     public T progress(int progress) {
         return foreach(ProgressBar.class,(ViewEacher<ProgressBar>) (view) -> view.setProgress(progress));
     }
@@ -325,6 +351,106 @@ public class AfViewQuery<T extends AfViewQuery<T>> implements ViewQuery<T> {
     @Override
     public T toggel() {
         return foreach(CheckBox.class,(ViewEacher<CheckBox>) (view) -> view.setChecked(!view.isChecked()));
+    }
+
+    @Override
+    public View childAt(int index) {
+        return foreach(ViewGroup.class, (ViewReturnEacher<ViewGroup, View>) view -> view.getChildAt(index));
+    }
+
+    @Override
+    public View[] childs() {
+        return foreach(ViewGroup.class, view -> {
+            View[] views = new View[view.getChildCount()];
+            for (int i = 0; i < views.length; i++) {
+                views[i] = view.getChildAt(i);
+            }
+            return views;
+        }, new View[0]);
+    }
+
+    @Override
+    public View[] breakChilds() {
+        return $(childs()).foreach(view -> {
+            ViewParent parent = view.getParent();
+            if (parent instanceof ViewGroup) {
+                ((ViewGroup) parent).removeView(view);
+            }
+        }).views();
+    }
+
+    @Override
+    public View breakView() {
+        return foreach(view -> {
+            ViewParent parent = view.getParent();
+            if (parent instanceof ViewGroup) {
+                ((ViewGroup) parent).removeView(view);
+                return view;
+            }
+            return null;
+        });
+    }
+
+    @Override
+    public View[] breakViews() {
+        return foreach(view -> {
+            ViewParent parent = view.getParent();
+            if (parent instanceof ViewGroup) {
+                ((ViewGroup) parent).removeView(view);
+            }
+        }).views();
+    }
+
+    @Override
+    public T toChild(int index) {
+        if (mTargetViews != null) {
+            for (int i = 0; i < mTargetViews.length; i++) {
+                if (mTargetViews[i] instanceof ViewGroup) {
+                    ViewGroup view = (ViewGroup) mTargetViews[i];
+                    if (view.getChildCount() > index) {
+                        mTargetViews[i] = view.getChildAt(index);
+                    } else {
+                        mTargetViews[i] = null;
+                    }
+                } else {
+                    mTargetViews[i] = null;
+                }
+            }
+        }
+        return self();
+    }
+
+    @Override
+    public T toChilds() {
+        return $(childs());
+    }
+
+    @Override
+    public int childCount() {
+        return foreach(ViewGroup.class, ViewGroup::getChildCount);
+    }
+
+    @Override
+    public boolean replace(View target) {
+        return foreach(view -> {
+            ViewGroup parent = (ViewGroup)view.getParent();
+            if (parent != null) {
+                ViewParent viewParent = target.getParent();
+                if (viewParent instanceof ViewGroup) {
+                    ((ViewGroup) viewParent).removeView(target);
+                }
+                int i = parent.indexOfChild(view);
+                parent.removeViewAt(i);
+                parent.addView(target, i, view.getLayoutParams());
+                return true;
+            }
+            return false;
+        });
+    }
+
+    @Override
+    public Point measure() {
+        return foreach(AfMeasure::measureView);
     }
 
     public View getView(int... indexs) {
@@ -364,8 +490,12 @@ public class AfViewQuery<T extends AfViewQuery<T>> implements ViewQuery<T> {
     public T id(View view, View... views) {
         if (view == null) {
             this.mTargetViews = views;
+        } else if (views.length == 0) {
+            this.mTargetViews = new View[]{view};
         } else {
-            this.mTargetViews = new ArrayList<View>(Arrays.asList(views)){{add(view);}}.toArray(new View[views.length+1]);
+            this.mTargetViews = new ArrayList<View>(Arrays.asList(views)) {{
+                add(view);
+            }}.toArray(new View[views.length + 1]);
         }
         return self();
     }

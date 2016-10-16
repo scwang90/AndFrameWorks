@@ -32,21 +32,20 @@ public class AfViewQueryHelper implements ViewQueryHelper {
      * @param id 控件Id
      */
     @SuppressWarnings("unused")
-    public ViewQuery $(int... id) {
-        ViewQuery<? extends ViewQuery> query = getQuery();
-        if (id == null || id.length == 0) {
-            return query;
-        }
-        return query.id(id);
+    public ViewQuery $(int id, int... ids) {
+        return getQuery().$(id, ids);
     }
     /**
      * 开始 ViewQuery 查询
-     * @param view 至少一个 View
      * @param views 可选的多个 View
      */
     @SuppressWarnings("unused")
-    public ViewQuery $(View view, View... views) {
-        return getQuery().$(view, views);
+    public ViewQuery $(View... views) {
+        ViewQuery<? extends ViewQuery> query = getQuery();
+        if (views == null || views.length == 0) {
+            return query;
+        }
+        return query.$(views);
     }
 
 }
