@@ -44,13 +44,13 @@ public class StatusBarInterpreter {
         if (padding != null) {
             ret = true;
             defaultTranslucent(pager, translucent, translucentDark);
-            $.query(pager).$(padding.value()).foreach((ViewQuery.ViewEacher<View>)view -> SystemBarHelper.setPadding(activity,view));
+            $.query(pager).id(padding.value()).foreach((ViewQuery.ViewEacher<View>)view -> SystemBarHelper.setPadding(activity,view));
         }
         StatusBarPaddingH paddingH = AfReflecter.getAnnotation(pager.getClass(), Activity.class, StatusBarPaddingH.class);
         if (paddingH != null) {
             ret = true;
             defaultTranslucent(pager, translucent, translucentDark);
-            $.query(pager).$(paddingH.value()).foreach((ViewQuery.ViewEacher<View>)view -> SystemBarHelper.setHeightAndPadding(activity,view));
+            $.query(pager).id(paddingH.value()).foreach((ViewQuery.ViewEacher<View>)view -> SystemBarHelper.setHeightAndPadding(activity,view));
         }
         StatusBarPaddingType paddingType = AfReflecter.getAnnotation(pager.getClass(), Activity.class, StatusBarPaddingType.class);
         if (paddingType != null && paddingType.value().length > 0) {
