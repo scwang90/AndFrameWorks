@@ -114,7 +114,7 @@ public abstract class AfMultiChoiceListActivity<T> extends AfListViewActivity<T>
 	}
 
 	/**
-	 *  ListView数据适配器（事件已经转发getItemLayout，无实际处理代码）
+	 *  ListView数据适配器（事件已经转发getListItem，无实际处理代码）
 	 */
 	protected class AbMultiChoiceAdapter extends AfMultiChoiceAdapter<T>{
 
@@ -122,7 +122,7 @@ public abstract class AfMultiChoiceListActivity<T> extends AfListViewActivity<T>
 			super(context, ltdata);
 		}
 		/**
-		 *  转发事件到 AfListViewActivity.this.getItemLayout(data);
+		 *  转发事件到 AfListViewActivity.this.getListItem(data);
 		 */
 		@Override
 		protected AfMultiChoiceItem<T> getMultiChoiceItem(T data) {

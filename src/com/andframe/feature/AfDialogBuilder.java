@@ -48,7 +48,7 @@ public class AfDialogBuilder {
     public CharSequence TXT_NOMORESHOW = "不再提示";
 
     protected Context mContext;
-    protected Dialog mProgress = null;
+    public Dialog mProgress = null;
     protected int mBuildDelayed = 0;
     protected boolean mBuildNative = false;
 

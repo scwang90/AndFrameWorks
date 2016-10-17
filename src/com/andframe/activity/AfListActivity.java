@@ -192,7 +192,7 @@ public abstract class AfListActivity<T> extends AfActivity implements OnItemClic
     protected abstract AfListAdapter.IListItem<T> getListItem(T data);
 
     /**
-     * 根据数据ltdata新建一个 适配器 重写这个方法之后getItemLayout方法将失效
+     * 根据数据ltdata新建一个 适配器 重写这个方法之后getListItem方法将失效
      *
      * @param context Context对象
      * @param ltdata  完成加载数据
@@ -203,7 +203,7 @@ public abstract class AfListActivity<T> extends AfActivity implements OnItemClic
     }
 
     /**
-     * ListView数据适配器（事件已经转发getItemLayout，无实际处理代码）
+     * ListView数据适配器（事件已经转发getListItem，无实际处理代码）
      */
     protected class AbListAdapter extends AfListAdapter<T> {
 
@@ -212,7 +212,7 @@ public abstract class AfListActivity<T> extends AfActivity implements OnItemClic
         }
 
         /**
-         * 转发事件到 AfListViewActivity.this.getItemLayout(data);
+         * 转发事件到 AfListViewActivity.this.getListItem(data);
          */
         @Override
         protected IListItem<T> getListItem(T data) {
