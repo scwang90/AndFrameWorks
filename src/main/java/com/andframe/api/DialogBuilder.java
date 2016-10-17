@@ -578,6 +578,11 @@ public interface DialogBuilder {
      * @param text   更新的文字
      */
     void setProgressDialogText(CharSequence text);
+
+    /**
+     * 是否正在显示进度对话框
+     */
+    boolean isProgressDialogShowing();
     //</editor-fold>
 
 }

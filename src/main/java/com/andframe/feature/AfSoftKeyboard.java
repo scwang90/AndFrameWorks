@@ -105,8 +105,8 @@ public class AfSoftKeyboard {
      */
     public static void showSoftkeyboard(View view, ResultReceiver resultReceiver) {
         if (view != null) {
-            Configuration config = view.getContext().getResources().getConfiguration();
-            if (config.hardKeyboardHidden == Configuration.HARDKEYBOARDHIDDEN_YES) {
+//            Configuration config = view.getContext().getResources().getConfiguration();
+//            if (config.hardKeyboardHidden == Configuration.HARDKEYBOARDHIDDEN_YES) {
                 InputMethodManager imm = (InputMethodManager) view.getContext().getSystemService(Context.INPUT_METHOD_SERVICE);
                 view.setFocusable(true);
                 view.setFocusableInTouchMode(true);
@@ -116,7 +116,7 @@ public class AfSoftKeyboard {
                 } else {
                     imm.showSoftInput(view, InputMethodManager.SHOW_IMPLICIT);
                 }
-            }
+//            }
         }
     }
     /**

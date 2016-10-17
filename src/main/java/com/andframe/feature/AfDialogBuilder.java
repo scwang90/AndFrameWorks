@@ -54,7 +54,7 @@ public class AfDialogBuilder implements DialogBuilder {
     protected Context mContext;
     protected Dialog mProgress = null;
     protected int mBuildDelayed = 0;
-    protected boolean mBuildNative = false;
+    protected boolean mBuildNative = true;
     //</editor-fold>
 
     //<editor-fold desc="构造方法">
@@ -1039,6 +1039,15 @@ public class AfDialogBuilder implements DialogBuilder {
             setProgressDialogText(mProgress, text);
         }
     }
+
+    /**
+     * 是否正在显示进度对话框
+     */
+    @Override
+    public boolean isProgressDialogShowing() {
+        return mProgress != null && mProgress.isShowing();
+    }
+
     //</editor-fold>
 
     //<editor-fold desc="对话框功能">
