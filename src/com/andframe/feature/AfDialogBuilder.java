@@ -50,7 +50,7 @@ public class AfDialogBuilder {
     protected Context mContext;
     public Dialog mProgress = null;
     protected int mBuildDelayed = 0;
-    protected boolean mBuildNative = false;
+    protected boolean mBuildNative = true;
 
     public AfDialogBuilder(Context context) {
         mContext = context;

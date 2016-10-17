@@ -2,7 +2,6 @@ package com.andframe.feature;
 
 import android.app.Activity;
 import android.content.Context;
-import android.content.res.Configuration;
 import android.os.ResultReceiver;
 import android.view.View;
 import android.view.ViewTreeObserver;
@@ -105,16 +104,15 @@ public class AfSoftKeyboard {
      */
     public static void showSoftkeyboard(View view, ResultReceiver resultReceiver) {
         if (view != null) {
-            Configuration config = view.getContext().getResources().getConfiguration();
-            if (config.hardKeyboardHidden == Configuration.HARDKEYBOARDHIDDEN_YES) {
+//            Configuration config = view.getContext().getResources().getConfiguration();
+//            if (config.hardKeyboardHidden == Configuration.HARDKEYBOARDHIDDEN_YES) {
                 InputMethodManager imm = (InputMethodManager) view.getContext().getSystemService(Context.INPUT_METHOD_SERVICE);
-
                 if (resultReceiver != null) {
                     imm.showSoftInput(view, InputMethodManager.SHOW_IMPLICIT, resultReceiver);
                 } else {
                     imm.showSoftInput(view, InputMethodManager.SHOW_IMPLICIT);
                 }
-            }
+//            }
         }
     }
     /**
