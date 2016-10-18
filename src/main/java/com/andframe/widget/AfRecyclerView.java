@@ -37,16 +37,17 @@ public class AfRecyclerView extends ItemsRecyclerViewWrapper implements ItemsRef
             recyclerView.setLayoutManager(new LinearLayoutManager(recyclerView.getContext()));
         }
 
-        ViewGroup parent = ViewGroup.class.cast(recyclerView.getParent());
-        int index = parent.indexOfChild(recyclerView);
-        parent.removeView(recyclerView);
-
-
         mSwipeRefreshLayout = new SwipeRefreshLayout(recyclerView.getContext());
-        mSwipeRefreshLayout.addView(recyclerView);
         mSwipeRefreshLayout.setColorSchemeResources(holo_blue_light, holo_red_light, holo_orange_light, holo_green_light);
 
-        parent.addView(mSwipeRefreshLayout, index, recyclerView.getLayoutParams());
+        ViewGroup parent = ViewGroup.class.cast(recyclerView.getParent());
+        if (parent != null) {
+            int index = parent.indexOfChild(recyclerView);
+            parent.removeView(recyclerView);
+            parent.addView(mSwipeRefreshLayout, index, recyclerView.getLayoutParams());
+        }
+
+        mSwipeRefreshLayout.addView(recyclerView);
     }
 
     @Override
