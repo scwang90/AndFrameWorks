@@ -1087,16 +1087,16 @@ public class AfDialogBuilder {
     public static abstract class OnSimpleDateSetListener implements OnDateSetListener{
         @Override
         public void onDateSet(DatePicker view, int year, int month, int day) {
-            if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.HONEYCOMB_MR1 && view != null) {
-                onDateSet(new Date(view.getCalendarView().getDate()), year, month, day);
-            } else {
+//            if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.HONEYCOMB_MR1 && view != null) {
+//                onDateSet(new Date(view.getCalendarView().getDate()), year, month, day);
+//            } else {
                 Calendar calender = Calendar.getInstance();
                 calender.setTime(new Date(0));
                 calender.set(Calendar.YEAR, year);
                 calender.set(Calendar.MONTH, month);
                 calender.set(Calendar.DAY_OF_MONTH, day);
                 onDateSet(calender.getTime(), year, month, day);
-            }
+//            }
         }
         protected abstract void onDateSet(Date date, int year, int month, int day);
     }
