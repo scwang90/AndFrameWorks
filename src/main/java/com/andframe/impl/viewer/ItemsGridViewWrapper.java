@@ -1,40 +1,48 @@
 package com.andframe.impl.viewer;
 
 import android.widget.AdapterView;
-import android.widget.ListAdapter;
 import android.widget.GridView;
+import android.widget.ListAdapter;
 
 import com.andframe.api.view.ItemsViewer;
+import com.andframe.feature.AfView;
 
 /**
  * GridView
  * Created by SCWANG on 2016/9/14.
  */
-public class ItemsGridViewWrapper implements ItemsViewer<GridView> {
+public class ItemsGridViewWrapper extends AfView implements ItemsViewer<GridView> {
 
-    protected GridView mGridView;
+    protected GridView mItemsView;
 
-    public ItemsGridViewWrapper(GridView mGridView) {
-        this.mGridView = mGridView;
+    public ItemsGridViewWrapper(GridView gridView) {
+        super(gridView);
+        this.mItemsView = gridView;
+    }
+
+    @Override
+    public void smoothScrollToPosition(int index) {
+        mItemsView.smoothScrollToPosition(index);
     }
 
     @Override
     public void setOnItemClickListener(AdapterView.OnItemClickListener listener) {
-        mGridView.setOnItemClickListener(listener);
+        mItemsView.setOnItemClickListener(listener);
     }
 
     @Override
     public void setOnItemLongClickListener(AdapterView.OnItemLongClickListener listener) {
-        mGridView.setOnItemLongClickListener(listener);
+        mItemsView.setOnItemLongClickListener(listener);
     }
 
     @Override
     public void setAdapter(ListAdapter adapter) {
-        mGridView.setAdapter(adapter);
+        mItemsView.setAdapter(adapter);
     }
 
     @Override
     public GridView getItemsView() {
-        return mGridView;
+        return mItemsView;
     }
+
 }

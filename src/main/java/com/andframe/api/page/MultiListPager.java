@@ -1,12 +1,12 @@
 package com.andframe.api.page;
 
+import com.andframe.api.view.ItemsRefreshableViewer;
 import com.andframe.api.view.ItemsViewer;
 import com.andframe.model.Page;
 import com.andframe.module.AfFrameSelector;
 import com.andframe.module.AfModuleNodata;
 import com.andframe.module.AfModuleProgress;
 import com.andframe.task.AfListViewTask;
-import com.andframe.widget.AfRefreshAbsListView;
 import com.andframe.widget.pulltorefresh.AfPullToRefreshBase.OnRefreshListener;
 
 import java.util.Date;
@@ -23,7 +23,7 @@ public interface MultiListPager<T> extends ListPager<T>, OnRefreshListener {
      * @param listView ListView对象
      * @return 可刷新的ListView
      */
-    AfRefreshAbsListView<?> newAfListView(ItemsViewer listView);
+    ItemsRefreshableViewer<?> newAfListView(ItemsViewer listView);
 
     /**
      * 新建页面选择器

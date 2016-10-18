@@ -6,6 +6,7 @@ import android.widget.ListAdapter;
 import com.andframe.api.page.ListPagerHelper;
 import com.andframe.api.page.MultiListPager;
 import com.andframe.api.page.MultiListPagerHelper;
+import com.andframe.api.view.ItemsRefreshableViewer;
 import com.andframe.api.view.ItemsViewer;
 import com.andframe.impl.helper.AfMultiListPagerHelper;
 import com.andframe.model.Page;
@@ -13,7 +14,6 @@ import com.andframe.module.AfFrameSelector;
 import com.andframe.module.AfModuleNodata;
 import com.andframe.module.AfModuleProgress;
 import com.andframe.task.AfListViewTask;
-import com.andframe.widget.AfRefreshAbsListView;
 
 import java.util.Date;
 import java.util.List;
@@ -61,7 +61,7 @@ public abstract class AfMultiListActivity<T> extends AfListActivity<T> implement
      * @param listView ListView对象
      * @return 可刷新的ListView
      */
-    public AfRefreshAbsListView<?> newAfListView(ItemsViewer listView) {
+    public ItemsRefreshableViewer<?> newAfListView(ItemsViewer listView) {
         return mMultiListHelper.newAfListView(listView);
     }
 

@@ -8,11 +8,13 @@ import com.andframe.annotation.mark.MarkCache;
 import com.andframe.api.ListItemAdapter;
 import com.andframe.api.page.MultiListPager;
 import com.andframe.api.page.MultiListPagerHelper;
+import com.andframe.api.view.ItemsRefreshableViewer;
 import com.andframe.api.view.ItemsViewer;
 import com.andframe.caches.AfPrivateCaches;
 import com.andframe.exception.AfExceptionHandler;
 import com.andframe.impl.viewer.ItemsGridViewWrapper;
 import com.andframe.impl.viewer.ItemsListViewWrapper;
+import com.andframe.impl.viewer.ItemsRecyclerViewWrapper;
 import com.andframe.model.Page;
 import com.andframe.module.AfFrameSelector;
 import com.andframe.module.AfModuleNodata;
@@ -21,7 +23,7 @@ import com.andframe.task.AfListViewTask;
 import com.andframe.util.java.AfReflecter;
 import com.andframe.widget.AfGridView;
 import com.andframe.widget.AfListView;
-import com.andframe.widget.AfRefreshAbsListView;
+import com.andframe.widget.AfRecyclerView;
 
 import java.util.ArrayList;
 import java.util.Date;
@@ -42,7 +44,7 @@ public class AfMultiListPagerHelper<T> extends AfListPagerHelper<T> implements M
     protected AfModuleProgress mProgress;
     protected AfFrameSelector mSelector;
 
-    protected AfRefreshAbsListView<?> mListView;
+    protected ItemsRefreshableViewer<?> mListView;
     /**
      * 是否使用分页
      */
@@ -108,11 +110,15 @@ public class AfMultiListPagerHelper<T> extends AfListPagerHelper<T> implements M
     }
 
     @Override
-    public AfRefreshAbsListView<?> newAfListView(ItemsViewer listView) {
-        if (listView instanceof ItemsListViewWrapper) {
-            return new AfListView(((ItemsListViewWrapper) listView).getItemsView());
-        } else if (listView instanceof ItemsGridViewWrapper) {
-            return new AfGridView(((ItemsGridViewWrapper) listView).getItemsView());
+    public ItemsRefreshableViewer<?> newAfListView(ItemsViewer itemsViewer) {
+        if (itemsViewer instanceof ItemsRefreshableViewer) {
+            return ((ItemsRefreshableViewer) itemsViewer);
+        } else if (itemsViewer instanceof ItemsListViewWrapper) {
+            return new AfListView(((ItemsListViewWrapper) itemsViewer).getItemsView());
+        } else if (itemsViewer instanceof ItemsGridViewWrapper) {
+            return new AfGridView(((ItemsGridViewWrapper) itemsViewer).getItemsView());
+        } else if (itemsViewer instanceof ItemsRecyclerViewWrapper) {
+            return new AfRecyclerView(((ItemsRecyclerViewWrapper) itemsViewer).getItemsView());
         }
         return new AfListView(mMultiListPager.getContext());
     }
@@ -149,12 +155,20 @@ public class AfMultiListPagerHelper<T> extends AfListPagerHelper<T> implements M
 
     @Override
     public boolean onMore() {
-        return mMultiListPager.postTask(new AbListViewTask(mAdapter)).setListener(mListView).prepare();
+        return mMultiListPager.postTask(new AbListViewTask(mAdapter))
+                .setListener(task -> mListView.finishLoadMore())
+                .prepare();
     }
 
     @Override
     public boolean onRefresh() {
-        return mMultiListPager.postTask(new AbListViewTask(AfListViewTask.TASK_REFRESH)).setListener(mListView).prepare();
+        return mMultiListPager.postTask(new AbListViewTask(AfListViewTask.TASK_REFRESH))
+                .setListener(task -> {
+                    if (task.isFinish())
+                        mListView.finishRefresh();
+                    else
+                        mListView.finishRefreshFail();
+                }).prepare();
     }
 
     @Override

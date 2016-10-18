@@ -289,10 +289,6 @@ public abstract class AfListAdapter<T> extends RecyclerBaseAdapter<ViewHolderIte
         return mltArray.size();
     }
 
-//    protected ListItem<T> newListItem(List<T> ltarray, int position) {
-//        return newListItem();
-//    }
-
     protected View onInflateItem(ListItem<T> item, ViewGroup parent) {
         return item.onCreateView(mContext, parent);
     }
