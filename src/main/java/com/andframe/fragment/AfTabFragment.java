@@ -33,12 +33,10 @@ public abstract class AfTabFragment extends AfFragment {
         onCreated(bundle, rootView);
         if (mIsNeedSwitch) {
             mIsNeedSwitch = false;
-//            AfApp.get().setCurFragment(this, this);
             if (mSwitchCount == 0) {
                 this.onFirstSwitchOver();
             }
             this.onSwitchOver(mSwitchCount++);
-//            this.onQueryChanged();
         }
     }
 
@@ -50,9 +48,7 @@ public abstract class AfTabFragment extends AfFragment {
                 if (mSwitchCount == 0) {
                     this.onFirstSwitchOver();
                 }
-//                AfApp.get().setCurFragment(this, this);
                 this.onSwitchOver(mSwitchCount++);
-//                this.onQueryChanged();
             } else {
                 mIsNeedSwitch = true;
             }
@@ -66,14 +62,6 @@ public abstract class AfTabFragment extends AfFragment {
         super.onDestroyView();
         mIsCreateView = false;
         mIsNeedSwitch = false;
-    }
-
-    @Override
-    public void onDestroy() {
-        super.onDestroy();
-//        if (AfApp.get().getCurFragment() == this) {
-//            AfApp.get().setCurFragment(this, null);
-//        }
     }
 
     /**
@@ -98,14 +86,6 @@ public abstract class AfTabFragment extends AfFragment {
     protected void onSwitchLeave() {
         super.onSwitchLeave();
     }
-
-//    /**
-//     * 查询系统数据变动
-//     */
-//    public void onQueryChanged() {
-//        super.onQueryChanged();
-//    }
-
 
     @Override
     public boolean onBackPressed() {

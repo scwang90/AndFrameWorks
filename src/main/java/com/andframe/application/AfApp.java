@@ -11,6 +11,7 @@ import android.content.pm.PackageManager;
 import android.content.res.Resources;
 import android.os.Bundle;
 import android.os.Environment;
+import android.support.annotation.CallSuper;
 import android.util.Log;
 import android.view.View;
 
@@ -112,6 +113,7 @@ public abstract class AfApp extends Application {
 		}
 	}
 
+	@CallSuper
 	protected void initApp() throws Exception {
 		AfExceptionHandler.register();
 		mRunningState = new AfJsonCache(this, STATE_RUNNING);

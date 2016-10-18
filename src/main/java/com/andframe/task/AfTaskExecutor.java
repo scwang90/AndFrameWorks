@@ -2,6 +2,7 @@ package com.andframe.task;
 
 import android.os.Looper;
 import android.support.annotation.MainThread;
+import android.support.annotation.NonNull;
 
 import com.andframe.api.TaskExecutor;
 import com.andframe.api.Tasker;
@@ -32,7 +33,7 @@ public class AfTaskExecutor implements TaskExecutor {
     private static final ThreadFactory sThreadFactory = new ThreadFactory() {
         private final AtomicInteger mCount = new AtomicInteger(1);
 
-        public Thread newThread(Runnable r) {
+        public Thread newThread(@NonNull Runnable r) {
             if (r instanceof AfTask) {
                 AfTask task = (AfTask) r;
                 String name = AfDateGuid.NewID();
