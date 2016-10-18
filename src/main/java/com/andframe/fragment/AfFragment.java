@@ -17,6 +17,7 @@ import com.andframe.activity.AfActivity;
 import com.andframe.annotation.interpreter.Injecter;
 import com.andframe.annotation.interpreter.LifeCycleInjecter;
 import com.andframe.annotation.interpreter.ViewBinder;
+import com.andframe.annotation.lifecycle.OnCreateView;
 import com.andframe.annotation.pager.BindLayout;
 import com.andframe.api.DialogBuilder;
 import com.andframe.api.page.Pager;
@@ -181,11 +182,16 @@ public abstract class AfFragment extends Fragment implements Pager, ViewQueryHel
      */
     @Override
     public final View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle bundle) {
-        mRootView = onCreateView(inflater, container);
-        if (mRootView == null) {
-            mRootView = super.onCreateView(inflater, container, bundle);
-        }
         try {
+            Object view = LifeCycleInjecter.injectLifeCycle(this, OnCreateView.class, inflater, container, bundle);
+            if (view instanceof View) {
+                mRootView = (View) view;
+            } else {
+                mRootView = onCreateView(inflater, container);
+                if (mRootView == null) {
+                    mRootView = super.onCreateView(inflater, container, bundle);
+                }
+            }
             ViewBinder.doBind(this);
             onCreated(new AfView(mRootView), new AfBundle(getArguments()));
         } catch (Throwable e) {
@@ -324,6 +330,17 @@ public abstract class AfFragment extends Fragment implements Pager, ViewQueryHel
             super.onDestroy();
             mIsRecycled = true;
             LifeCycleInjecter.injectOnDestroy(this);
+        } catch (Throwable ex) {
+            AfExceptionHandler.handle(ex, "AfFragment.onDestroy");
+        }
+    }
+
+    @Override
+    public void onDetach() {
+        try {
+            super.onDetach();
+            mIsRecycled = true;
+            LifeCycleInjecter.injectonDetach(this);
         } catch (Throwable ex) {
             AfExceptionHandler.handle(ex, "AfFragment.onDestroy");
         }

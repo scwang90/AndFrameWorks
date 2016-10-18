@@ -6,6 +6,7 @@ import com.andframe.annotation.lifecycle.OnAttach;
 import com.andframe.annotation.lifecycle.OnCreate;
 import com.andframe.annotation.lifecycle.OnDestroy;
 import com.andframe.annotation.lifecycle.OnDestroyView;
+import com.andframe.annotation.lifecycle.OnDetach;
 import com.andframe.annotation.lifecycle.OnPause;
 import com.andframe.annotation.lifecycle.OnRestart;
 import com.andframe.annotation.lifecycle.OnResume;
@@ -14,6 +15,7 @@ import com.andframe.annotation.lifecycle.OnStop;
 import com.andframe.exception.AfExceptionHandler;
 import com.andframe.util.java.AfReflecter;
 
+import java.lang.annotation.Annotation;
 import java.lang.reflect.Method;
 
 import static com.andframe.annotation.interpreter.SmartInvoke.invokeMethod;
@@ -30,6 +32,20 @@ public class LifeCycleInjecter {
             return "LifeCycleInjecter." + tag;
         }
         return "LifeCycleInjecter(" + obj.getClass().getName() + ")." + tag;
+    }
+
+    public static Object injectLifeCycle(Object handler, Class<? extends Annotation> annotation, Object... params) {
+        for (Method method : AfReflecter.getMethodAnnotation(handler.getClass(), SmartInvoke.getStopType(handler), annotation)) {
+            try {
+                Object retvalue = invokeMethod(handler, method, params);
+                if (retvalue != null) {
+                    return retvalue;
+                }
+            } catch (Throwable e) {
+                AfExceptionHandler.handle(e, TAG(handler, "injectOnCreate.invokeMethod.") + method.getName());
+            }
+        }
+        return true;
     }
 
     public static void injectOnCreate(Object handler, Bundle bundle) {
@@ -118,6 +134,16 @@ public class LifeCycleInjecter {
                 invokeMethod(handler, method);
             } catch (Throwable e) {
                 AfExceptionHandler.handle(e, TAG(handler, "injectOnDestroyView.invokeMethod.") + method.getName());
+            }
+        }
+    }
+
+    public static void injectonDetach(Object handler) {
+        for (Method method : AfReflecter.getMethodAnnotation(handler.getClass(), SmartInvoke.getStopType(handler), OnDetach.class)) {
+            try {
+                invokeMethod(handler, method);
+            } catch (Throwable e) {
+                AfExceptionHandler.handle(e, TAG(handler, "injectonDetach.invokeMethod.") + method.getName());
             }
         }
     }
