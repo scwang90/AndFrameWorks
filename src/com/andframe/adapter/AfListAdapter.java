@@ -352,6 +352,9 @@ public abstract class AfListAdapter<T> extends BaseAdapter implements List<T> {
 	}
 
 	protected IListItem<T> getListItem(List<T> ltarray, int position) {
+		if (ltarray == null || position >= ltarray.size()) {
+			return getListItem(null);
+		}
 		return getListItem(ltarray.get(position));
 	}
 
