@@ -8,6 +8,7 @@ import android.graphics.Typeface;
 import android.graphics.drawable.Drawable;
 import android.net.Uri;
 import android.os.Build;
+import android.support.annotation.LayoutRes;
 import android.text.Editable;
 import android.text.Spanned;
 import android.text.TextWatcher;
@@ -38,6 +39,7 @@ import android.widget.SeekBar;
 import android.widget.Spinner;
 import android.widget.TextView;
 
+import com.andframe.adapter.AfListLayoutItemAdapter;
 import com.andframe.api.view.ViewQuery;
 import com.andframe.listener.SafeOnClickListener;
 import com.andframe.util.android.AfMeasure;
@@ -463,6 +465,18 @@ public class AfViewQuery<T extends AfViewQuery<T>> implements ViewQuery<T> {
         }
         return null;
     }
+
+    @SuppressWarnings("unchecked")
+    @Override
+    public <TT> T adapter(@LayoutRes int id, List<TT> list, AdapterItemer<TT> itemer) {
+        return foreach(AdapterView.class, (ViewEacher<AdapterView>) (view) -> view.setAdapter(new AfListLayoutItemAdapter<TT>(id,view.getContext(),list) {
+            @Override
+            protected void onBinding(ViewQuery $, TT model, int index) {
+                itemer.onBinding($, model, index);
+            }
+        }));
+    }
+
     //</editor-fold>
     /**
      * Points the current operating view to the first view found with the id under the root.

@@ -1,6 +1,7 @@
 package com.andframe.adapter;
 
 import android.content.Context;
+import android.support.annotation.LayoutRes;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -29,7 +30,7 @@ public abstract class AfListLayoutItemAdapter<T> extends AfListItemAdapter<T> {
         initLayout();
     }
 
-    public AfListLayoutItemAdapter(int layoutId, Context context, List<T> ltdata) {
+    public AfListLayoutItemAdapter(@LayoutRes int layoutId, Context context, List<T> ltdata) {
         super(context, ltdata);
         mLayoutId = layoutId;
     }

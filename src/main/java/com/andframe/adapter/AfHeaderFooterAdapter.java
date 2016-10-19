@@ -65,6 +65,12 @@ public class AfHeaderFooterAdapter<T> extends AfListAdapterWrapper<T> {
 
     //<editor-fold desc="功能实现">
 
+
+    @Override
+    public int getCount() {
+        return this.getItemCount();
+    }
+
     @Override
     public int getItemCount() {
         return super.getItemCount() + mHeaders.size() + mFooters.size();
@@ -143,7 +149,7 @@ public class AfHeaderFooterAdapter<T> extends AfListAdapterWrapper<T> {
 
     public boolean addFooter(ListItem<T> item) {
         if (item != null) {
-            mHeaders.add(item);
+            mFooters.add(item);
         }
         return item != null;
     }

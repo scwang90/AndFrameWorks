@@ -5,6 +5,7 @@ import android.graphics.Bitmap;
 import android.graphics.Point;
 import android.graphics.Typeface;
 import android.graphics.drawable.Drawable;
+import android.support.annotation.LayoutRes;
 import android.text.Editable;
 import android.text.Spanned;
 import android.text.TextWatcher;
@@ -28,6 +29,8 @@ import android.widget.ScrollView;
 import android.widget.SeekBar;
 import android.widget.Spinner;
 import android.widget.TextView;
+
+import java.util.List;
 
 /**
  * 安卓版 JQuery 接口
@@ -587,6 +590,11 @@ public interface ViewQuery<T extends ViewQuery<T>> {
     boolean replace(View view);
     Point measure();
 
+    <TT> T adapter(@LayoutRes int id, List<TT> list, AdapterItemer<TT> itemer);
+
+    interface AdapterItemer<T> {
+        void onBinding(ViewQuery $, T model, int index);
+    }
 
     T foreach(ViewEacher<View> eacher);
     <TT> T foreach(Class<TT> clazz, ViewEacher<TT> eacher);
