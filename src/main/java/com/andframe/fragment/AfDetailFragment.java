@@ -1,5 +1,6 @@
 package com.andframe.fragment;
 
+import android.support.annotation.CallSuper;
 import android.widget.ScrollView;
 
 import com.andframe.annotation.pager.BindFrameLayout;
@@ -36,7 +37,7 @@ public abstract class AfDetailFragment<T> extends AfTabFragment implements AfPul
     //</editor-fold>
 
     //<editor-fold desc="初始方法">
-    @BindAfterViews
+    @BindAfterViews@CallSuper
     protected void onAfterViews() throws Exception{
         BindScorllView scorll = AfReflecter.getAnnotation(getClass(), AfDetailFragment.class, BindScorllView.class);
         if (scorll != null) {

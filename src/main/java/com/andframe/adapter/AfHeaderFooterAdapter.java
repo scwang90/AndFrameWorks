@@ -67,6 +67,21 @@ public class AfHeaderFooterAdapter<T> extends AfListAdapterWrapper<T> {
 
 
     @Override
+    public T get(int position) {
+        if (position < mHeaders.size()) {
+            return null;
+        } else if (position - mHeaders.size() - super.getItemCount() >= 0){
+            return null;
+        }
+        return super.get(position - mHeaders.size());
+    }
+
+    @Override
+    public Object getItem(int i) {
+        return get(i);
+    }
+
+    @Override
     public int getCount() {
         return this.getItemCount();
     }
@@ -88,7 +103,7 @@ public class AfHeaderFooterAdapter<T> extends AfListAdapterWrapper<T> {
         } else if (position - mHeaders.size() - super.getItemCount() >= 0){
             return super.getViewTypeCount() + mHeaders.size() + (position - mHeaders.size() - super.getItemCount());
         }
-        return super.getItemViewType(position);
+        return super.getItemViewType(position - mHeaders.size());
     }
 
     @Override
@@ -107,11 +122,12 @@ public class AfHeaderFooterAdapter<T> extends AfListAdapterWrapper<T> {
     }
 
     protected boolean bindingItem(View view, ListItem<T> item, int index) {
-        T t = null;
-        if (index >= mHeaders.size() && index < mHeaders.size() + super.getItemCount()) {
-            t = get(index - mHeaders.size());
-        }
-        item.onBinding(view, t, index);
+//        T t = null;
+//        if (index >= mHeaders.size() && index < mHeaders.size() + super.getItemCount()) {
+//            t = get(index - mHeaders.size());
+//        }
+//        item.onBinding(view, t, index);
+        item.onBinding(view, get(index), index);
         return true;
     }
 
