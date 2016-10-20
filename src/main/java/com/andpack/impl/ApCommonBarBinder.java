@@ -475,7 +475,7 @@ public class ApCommonBarBinder {
         @Override
         public void onClick(View v) {
             if (v != null && v.getId() != idvalue) {
-                lastval = $(idvalue).toggel().isChecked();
+                lastval = $(idvalue).toggle().isChecked();
             }
             super.onClick(v);
         }
