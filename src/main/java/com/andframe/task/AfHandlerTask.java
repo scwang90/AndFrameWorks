@@ -1,13 +1,11 @@
 package com.andframe.task;
 
 import android.os.Handler;
-import android.os.Handler.Callback;
 import android.os.Looper;
-import android.os.Message;
 
 import com.andframe.exception.AfExceptionHandler;
 
-public abstract class AfHandlerTask extends AfTask implements Callback {
+public abstract class AfHandlerTask extends AfTask {
 
 	public interface OnTaskFinishListener {
 		void onTaskFinish(AfHandlerTask task);
@@ -26,7 +24,7 @@ public abstract class AfHandlerTask extends AfTask implements Callback {
 	@Override
 	public void run() {
 		if (Looper.getMainLooper().getThread() == Thread.currentThread()) {
-			handleMessage(null);
+			handleMessage();
 		} else {
 			super.run();
 			if (!mIsCanceled && mHandler != null) {
@@ -35,8 +33,7 @@ public abstract class AfHandlerTask extends AfTask implements Callback {
 		}
 	}
 
-	@Override
-	public final boolean handleMessage(Message msg) {
+	public final boolean handleMessage() {
 		try {
 			if (mListener != null) {
                 mListener.onTaskFinish(this);

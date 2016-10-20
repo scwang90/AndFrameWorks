@@ -33,6 +33,7 @@ public abstract class AfMultiChoiceItem<T> extends AfListItem<T> implements OnCl
 	protected CheckBox mMultiChoiceCheckBox = null;
 	protected LinearLayout mMultiChoiceLayout = null;
 	protected AfMultiChoiceAdapter<T> mAdapter = null;
+	protected int mSelectedColor = Color.parseColor("#FF0099E5");
 
 	protected int mSelectDisplay = SD_BACKGROUNG;
 	
@@ -67,8 +68,7 @@ public abstract class AfMultiChoiceItem<T> extends AfListItem<T> implements OnCl
 					mMultiChoiceLayout.setBackgroundColor(0);
 					break;
 				case SELECTED:
-					int color = Color.parseColor("#FF0099E5");
-					mMultiChoiceLayout.setBackgroundColor(color);
+					mMultiChoiceLayout.setBackgroundColor(mSelectedColor);
 					break;
 				}
 			}
