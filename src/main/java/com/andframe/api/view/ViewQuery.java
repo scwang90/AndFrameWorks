@@ -565,6 +565,7 @@ public interface ViewQuery<T extends ViewQuery<T>> {
     T $(View... views);
     T id(View view, View... views);
     T toggle();
+    T text(String format, Object... args);
     T html(String format, Object... args);
     T width(float dp);
     T height(float dp);
@@ -579,6 +580,7 @@ public interface ViewQuery<T extends ViewQuery<T>> {
     T visibility(boolean isvisibe);
     T textSizeId(int id);
     T animation(Animation animation);
+    T rotation(float rotation);
     T addView(View... views);
     T toChild(int index);
     T toChilds();
@@ -592,6 +594,7 @@ public interface ViewQuery<T extends ViewQuery<T>> {
     Point measure();
 
     <TT> T adapter(@LayoutRes int id, List<TT> list, AdapterItemer<TT> itemer);
+
 
     interface AdapterItemer<T> {
         void onBinding(ViewQuery $, T model, int index);

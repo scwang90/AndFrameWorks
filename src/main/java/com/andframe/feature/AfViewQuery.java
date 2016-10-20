@@ -334,6 +334,11 @@ public class AfViewQuery<T extends AfViewQuery<T>> implements ViewQuery<T> {
     }
 
     @Override
+    public T rotation(float rotation) {
+        return foreach((ViewEacher<View>) view -> view.setRotation(rotation));
+    }
+
+    @Override
     public T addView(View... views) {
         return foreach(ViewGroup.class, group -> {
             for (View view : views) {
@@ -354,6 +359,11 @@ public class AfViewQuery<T extends AfViewQuery<T>> implements ViewQuery<T> {
     @Override
     public T toggle() {
         return foreach(CheckBox.class,(ViewEacher<CheckBox>) (view) -> view.setChecked(!view.isChecked()));
+    }
+
+    @Override
+    public T text(String format, Object... args) {
+        return foreach(TextView.class, (ViewEacher<TextView>) (view) -> view.setText(String.format(format, args)));
     }
 
     @Override
