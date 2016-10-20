@@ -564,7 +564,8 @@ public interface ViewQuery<T extends ViewQuery<T>> {
     T $(Class<?> type, Class<?>... types);
     T $(View... views);
     T id(View view, View... views);
-    T toggel();
+    T toggle();
+    T html(String format, Object... args);
     T width(float dp);
     T height(float dp);
     T margin(int px);

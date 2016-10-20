@@ -10,6 +10,7 @@ import android.net.Uri;
 import android.os.Build;
 import android.support.annotation.LayoutRes;
 import android.text.Editable;
+import android.text.Html;
 import android.text.Spanned;
 import android.text.TextWatcher;
 import android.util.TypedValue;
@@ -351,8 +352,36 @@ public class AfViewQuery<T extends AfViewQuery<T>> implements ViewQuery<T> {
     }
 
     @Override
-    public T toggel() {
+    public T toggle() {
         return foreach(CheckBox.class,(ViewEacher<CheckBox>) (view) -> view.setChecked(!view.isChecked()));
+    }
+
+    @Override
+    public T html(String format, Object... args) {
+        if (args.length == 0) {
+            return foreach(TextView.class, (ViewEacher<TextView>) (view) -> view.setText(Html.fromHtml(format)));
+        }
+        Resources resources = null;
+        for (int i = 0, len = format.length(), index = 0; i < len; i++) {
+            if (format.charAt(i) == '%' && i < len - 1) {
+                if (format.charAt(i + 1) == 's') {
+                    if (index < args.length && args[index] instanceof Integer) {
+                        int color = ((Integer) args[index]);
+                        try {
+                            if (resources == null) {
+                                resources = mRootView.getResources();
+                            }
+                            color = resources.getColor(color);
+                        } catch (Resources.NotFoundException ignored) {
+                        }
+                        args[index] = Integer.toHexString(0x00FFFFFF & color);
+                    }
+                }
+                i++;
+                index++;
+            }
+        }
+        return foreach(TextView.class, (ViewEacher<TextView>) (view) -> view.setText(Html.fromHtml(String.format(format, args))));
     }
 
     @Override
