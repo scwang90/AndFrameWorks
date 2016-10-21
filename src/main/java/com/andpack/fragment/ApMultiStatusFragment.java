@@ -1,21 +1,23 @@
 package com.andpack.fragment;
 
 import android.content.Context;
+import android.view.View;
 
 import com.andframe.api.multistatus.RefreshLayouter;
 import com.andframe.feature.AfBundle;
 import com.andframe.feature.AfView;
-import com.andframe.fragment.AfMultiItemsFragment;
+import com.andframe.fragment.AfMultiStatusFragment;
 import com.andpack.api.ApPager;
-import com.andpack.impl.ApListPagerHelper;
+import com.andpack.impl.ApStatusPagerHelper;
 
 /**
- *
- * Created by SCWANG on 2016/9/7.
+ * 多状态页面支持
+ * Created by SCWANG on 2016/10/21.
  */
-public abstract class ApMultiItemsFragment<T> extends AfMultiItemsFragment<T> implements ApPager {
 
-    protected ApListPagerHelper mHelper = new ApListPagerHelper(this);
+public class ApMultiStatusFragment<T> extends AfMultiStatusFragment<T> implements ApPager {
+
+    protected ApStatusPagerHelper mHelper = new ApStatusPagerHelper(this);
 
     @Override
     protected void onCreated(AfBundle bundle, AfView view) throws Exception {
@@ -30,6 +32,15 @@ public abstract class ApMultiItemsFragment<T> extends AfMultiItemsFragment<T> im
     }
 
     @Override
+    protected View findContentView() {
+        View view = mHelper.findContentView();
+        if (view != null) {
+            return view;
+        }
+        return super.findContentView();
+    }
+
+    @Override
     protected RefreshLayouter createRefreshLayouter(Context context) {
         RefreshLayouter layouter = mHelper.createRefreshLayouter(context);
         if (layouter != null) {
@@ -38,4 +49,8 @@ public abstract class ApMultiItemsFragment<T> extends AfMultiItemsFragment<T> im
         return super.createRefreshLayouter(context);
     }
 
+    @Override
+    public boolean onMore() {
+        return false;
+    }
 }

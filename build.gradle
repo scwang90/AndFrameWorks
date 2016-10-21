@@ -1,6 +1,12 @@
 apply plugin: 'com.android.library'
 apply plugin: 'me.tatarka.retrolambda'
 
+repositories {
+    maven {
+        //ExpandableLayout
+        url "https://jitpack.io"
+    }
+}
 
 android {
     compileSdkVersion 24
@@ -35,4 +41,6 @@ dependencies {
     compile 'me.imid.swipebacklayout.lib:library:1.0.0'
     compile project(':andframe-v14')
 //    compile project(':andrestful')
+    compile 'com.yalantis:phoenix:1.2.3'
+//    compile 'com.github.recruit-lifestyle:WaveSwipeRefreshLayout:1.6'
 }

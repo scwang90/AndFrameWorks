@@ -33,7 +33,7 @@ import me.imid.swipebacklayout.lib.app.SwipeBackActivityHelper;
  */
 public class ApPagerHelper implements AfPullToRefreshBase.OnRefreshListener {
 
-    private ApPager pager;
+    protected ApPager pager;
 
     private AfRefreshScorllView mRfScorllView;
 

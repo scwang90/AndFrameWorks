@@ -19,7 +19,7 @@ import com.andpack.fragment.ApListFragment;
  * 页面基类帮助类
  * Created by SCWANG on 2016/9/3.
  */
-public class ApListPagerHelper extends ApPagerHelper {
+public class ApListPagerHelper extends ApStatusPagerHelper {
 
     public ApListPagerHelper(ApPager pager) {
         super(pager);
