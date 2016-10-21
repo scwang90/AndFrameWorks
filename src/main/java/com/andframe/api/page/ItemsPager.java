@@ -13,6 +13,7 @@ import com.andframe.api.view.ItemsViewer;
 import com.andframe.model.Page;
 import com.andframe.task.AfHandlerTask;
 
+import java.util.Date;
 import java.util.List;
 
 /**
@@ -25,9 +26,10 @@ public interface ItemsPager<T> extends Pager, OnItemClickListener, OnItemLongCli
     ItemsViewer findItemsViewer(ItemsPager<T> pager);
     ListItemAdapter<T> newAdapter(Context context, List<T> list);
 
+    List<T> onTaskLoadCache(boolean isCheckExpired);
     List<T> onTaskLoadList(Page page) throws Exception;
-    void onTaskLoaded(AfHandlerTask task, List<T> list);
-    void onTaskMoreLoaded(AfHandlerTask task, List<T> list);
+    void onTaskLoadedCache(AfHandlerTask task, List<T> list);
+    void onTaskLoadedMore(AfHandlerTask task, List<T> list);
 
     void bindListHeaderAndFooter();
     void bindAdapter(ItemsViewer listView, ListAdapter adapter);
@@ -42,4 +44,20 @@ public interface ItemsPager<T> extends Pager, OnItemClickListener, OnItemLongCli
     void showContent();
     void showError(String errorToast);
     void showEmpty();
+    void showProgress();
+
+    void onTaskLoadedRefresh(AfHandlerTask task, List<T> list);
+    void onTaskPutCache(List<T> list);
+    void onTaskPushCache(List<T> list);
+
+    void finishRefresh();
+    void finishRefreshFail();
+    void setLastRefreshTime(Date time);
+
+    void initCache();
+    void putCache();
+    void putCache(List<T> list);
+    void clearCache();
+
+    Date getCacheTime();
 }

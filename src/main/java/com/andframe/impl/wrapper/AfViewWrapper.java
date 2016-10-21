@@ -1,4 +1,4 @@
-package com.andframe.module;
+package com.andframe.impl.wrapper;
 
 import android.annotation.SuppressLint;
 import android.content.res.Configuration;

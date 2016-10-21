@@ -5,7 +5,7 @@ import android.widget.Adapter;
 import android.widget.AdapterView;
 import android.widget.ListView;
 
-import com.andframe.module.AfViewWrapper;
+import com.andframe.impl.wrapper.AfViewWrapper;
 
 import java.lang.reflect.Method;
 import java.util.ArrayList;

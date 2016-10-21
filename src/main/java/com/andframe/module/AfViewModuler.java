@@ -15,6 +15,7 @@ import com.andframe.api.view.Viewer;
 import com.andframe.application.AfApp;
 import com.andframe.exception.AfExceptionHandler;
 import com.andframe.impl.helper.AfViewQueryHelper;
+import com.andframe.impl.wrapper.AfViewWrapper;
 import com.andframe.util.java.AfReflecter;
 
 /**

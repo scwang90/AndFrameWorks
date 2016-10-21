@@ -76,7 +76,7 @@ public class AfFrameSelector extends AfViewModuler {
 			}
 			if (lthide.size() + 1 == count) {
 				for (View hide : lthide) {
-					hide.setVisibility(View.GONE);
+					hide.setVisibility(View.INVISIBLE);
 				}
 				return true;
 			}

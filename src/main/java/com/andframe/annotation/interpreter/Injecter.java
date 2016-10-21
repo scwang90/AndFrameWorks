@@ -86,7 +86,7 @@ import com.andframe.exception.AfExceptionHandler;
 import com.andframe.exception.AfToastException;
 import com.andframe.feature.AfBundle;
 import com.andframe.feature.AfIntent;
-import com.andframe.module.AfViewWrapper;
+import com.andframe.impl.wrapper.AfViewWrapper;
 import com.andframe.task.AfDispatcher;
 import com.andframe.util.java.AfReflecter;
 

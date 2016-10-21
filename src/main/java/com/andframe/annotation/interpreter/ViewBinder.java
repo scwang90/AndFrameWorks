@@ -36,7 +36,7 @@ import com.andframe.module.AfSelectorBottombarImpl;
 import com.andframe.module.AfSelectorTitlebar;
 import com.andframe.module.AfSelectorTitlebarImpl;
 import com.andframe.module.AfViewModuler;
-import com.andframe.module.AfViewWrapper;
+import com.andframe.impl.wrapper.AfViewWrapper;
 import com.andframe.util.java.AfReflecter;
 import com.andframe.widget.AfContactsRefreshView;
 

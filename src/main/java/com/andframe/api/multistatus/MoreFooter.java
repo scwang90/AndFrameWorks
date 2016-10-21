@@ -9,8 +9,6 @@ import com.andframe.api.ListItem;
 
 public interface MoreFooter<T> extends ListItem<T> {
     void setOnMoreListener(OnMoreListener listener);
-
+    void setAllLoadFinish(boolean finish);
     void finishLoadMore();
-
-    void setLoadAllFinish(boolean finish);
 }

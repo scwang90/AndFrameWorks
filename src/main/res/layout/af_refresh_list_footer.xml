@@ -1,27 +1,24 @@
 <?xml version="1.0" encoding="utf-8"?>
-<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:id="@+id/refresh_list_footer_lyt"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
-    android:background="@color/transparent"
-    android:gravity="center">
-    <ProgressBar android:id="@+id/refresh_list_footer_progressbar"
+    android:background="@color/transparent">
+    <TextView style="@style/AndFrame.Label.Assistant"
+        android:id="@+id/refresh_list_footer_text"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_gravity="center"
+        android:layout_centerInParent="true"
+        android:gravity="center"
+        android:padding="16dip"
+        android:text="@string/refresh_footer_more"/>
+    <ProgressBar android:id="@+id/refresh_list_footer_progressbar"
         style="?android:attr/progressBarStyleSmall"
-        android:visibility="gone">
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_toLeftOf="@+id/refresh_list_footer_text"
+        android:layout_toStartOf="@+id/refresh_list_footer_text"
+        android:layout_centerVertical="true"
+        android:visibility="visible">
     </ProgressBar>
-    <RelativeLayout android:layout_width="180dip"
-        android:layout_height="wrap_content">
-        <TextView android:id="@+id/refresh_list_footer_text"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:gravity="center"
-            android:layout_alignParentTop="true"
-            android:textSize="22sp"
-            android:textColor="#192F06"
-            android:padding="16dip"
-            android:text="@string/refresh_footer_more"/>
-    </RelativeLayout>
-</LinearLayout>
+</RelativeLayout>

@@ -8,6 +8,8 @@ import android.view.ViewGroup;
 import com.andframe.api.multistatus.OnRefreshListener;
 import com.andframe.api.multistatus.RefreshLayouter;
 
+import java.util.Date;
+
 /**
  * 可进行刷新操作的布局
  * Created by SCWANG on 2016/10/20.
@@ -17,10 +19,12 @@ public class DefaultRefreshLayouter implements RefreshLayouter, SwipeRefreshLayo
 
     private final SwipeRefreshLayout mRefreshLayout;
     private OnRefreshListener mOnRefreshListener;
+    private View mContentView;
 
     public DefaultRefreshLayouter(Context context) {
         mRefreshLayout = new SwipeRefreshLayout(context);
         mRefreshLayout.setOnRefreshListener(this);
+        mRefreshLayout.setColorSchemeResources(android.R.color.holo_red_light,android.R.color.holo_green_light,android.R.color.holo_blue_light,android.R.color.holo_orange_light);
     }
 
     @Override
@@ -30,14 +34,19 @@ public class DefaultRefreshLayouter implements RefreshLayouter, SwipeRefreshLayo
 
     @Override
     public void setContenView(View content) {
-        if (mRefreshLayout.getChildCount() > 0) {
-            mRefreshLayout.removeAllViews();
+        if (mContentView != null) {
+            mRefreshLayout.removeView(mContentView);
         }
-        mRefreshLayout.addView(content);
+        mRefreshLayout.addView(mContentView = content);
     }
 
     public void setOnRefreshListener(OnRefreshListener listener) {
         this.mOnRefreshListener = listener;
+    }
+
+    @Override
+    public void setLastRefreshTime(Date date) {
+
     }
 
     @Override

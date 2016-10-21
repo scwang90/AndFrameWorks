@@ -17,6 +17,6 @@ import java.lang.annotation.Target;
 public @interface MultiStatusLayout {
     @LayoutRes int progress();
     @LayoutRes int empty();
-    @LayoutRes int error();
+    @LayoutRes int error() default -1;
     @LayoutRes int invalidnet() default -1;
 }

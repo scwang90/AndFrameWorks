@@ -15,6 +15,7 @@ import com.andframe.impl.helper.AfItemsPagerHelper;
 import com.andframe.model.Page;
 import com.andframe.task.AfHandlerTask;
 
+import java.util.Date;
 import java.util.List;
 
 /**
@@ -55,7 +56,9 @@ public abstract class AfMultiItemsFragment<T> extends AfMultiStatusFragment<List
      * @return pager.findListViewById(id)
      */
     @Override
-    public abstract ItemsViewer findItemsViewer(ItemsPager<T> pager);
+    public ItemsViewer findItemsViewer(ItemsPager<T> pager) {
+        return mItemsHelper.findItemsViewer(pager);
+    }
 
 
     /**
@@ -99,9 +102,71 @@ public abstract class AfMultiItemsFragment<T> extends AfMultiStatusFragment<List
         return mItemsHelper.onMore();
     }
 
+    @Override
+    public boolean onRefresh() {
+        return mItemsHelper.onRefresh();
+    }
+
+    //</editor-fold>
+
+    //<editor-fold desc="页面状态">
+    @Override
+    public void finishRefresh() {
+        if (mRefreshLayouter != null && mRefreshLayouter.isRefreshing()) {
+            mRefreshLayouter.setRefreshing(false);
+            mRefreshLayouter.setLastRefreshTime(new Date());
+        } else if (mStatusLayouter == null || !mStatusLayouter.isProgress()) {
+            hideProgressDialog();
+        }
+    }
+
+    @Override
+    public void finishRefreshFail() {
+        if (mRefreshLayouter != null && mRefreshLayouter.isRefreshing()) {
+            mRefreshLayouter.setRefreshing(false);
+        } else if (mStatusLayouter == null || !mStatusLayouter.isProgress()) {
+            hideProgressDialog();
+        }
+    }
+
+    @Override
+    public void setLastRefreshTime(Date time) {
+        if (mRefreshLayouter != null) {
+            mRefreshLayouter.setLastRefreshTime(time);
+        }
+    }
+
     //</editor-fold>
 
     //<editor-fold desc="子类重写">
+
+    //<editor-fold desc="缓存功能">
+    @Override
+    public void initCache() {
+        mItemsHelper.initCache();
+    }
+
+    @Override
+    public void putCache() {
+        mItemsHelper.putCache();
+    }
+
+    @Override
+    public void clearCache() {
+        mItemsHelper.clearCache();
+    }
+
+    @Override
+    public Date getCacheTime() {
+        return mItemsHelper.getCacheTime();
+    }
+
+    @Override
+    public void putCache(List<T> list) {
+        mItemsHelper.putCache(list);
+    }
+
+    //</editor-fold>
 
     /**
      * 创建加载更多的视图
@@ -148,7 +213,6 @@ public abstract class AfMultiItemsFragment<T> extends AfMultiStatusFragment<List
     public ListItemAdapter<T> newAdapter(Context context, List<T> list) {
         return mAdapter = mItemsHelper.newAdapter(context, list);
     }
-
     /**
      * 为列表添加 Header 和 Footer
      * （在bindAdapter之前执行）
@@ -169,19 +233,40 @@ public abstract class AfMultiItemsFragment<T> extends AfMultiStatusFragment<List
     }
 
     @Override
-    public void onTaskLoaded(AfHandlerTask task, List<T> list) {
-        mItemsHelper.onTaskLoaded(task, list);
+    public void onTaskPutCache(List<T> list) {
+        mItemsHelper.onTaskPutCache(list);
     }
 
     @Override
-    public void onTaskMoreLoaded(AfHandlerTask task, List<T> list) {
-        mItemsHelper.onTaskMoreLoaded(task, list);
+    public void onTaskPushCache(List<T> list) {
+        mItemsHelper.onTaskPushCache(list);
+    }
+
+    @Override
+    public List<T> onTaskLoadCache(boolean isCheckExpired) {
+        return mItemsHelper.onTaskLoadCache(isCheckExpired);
     }
 
     @Override
     public List<T> onTaskLoadList(Page page) throws Exception {
         return mItemsHelper.onTaskLoadList(page);
     }
+
+    @Override
+    public void onTaskLoadedCache(AfHandlerTask task, List<T> list) {
+        mItemsHelper.onTaskLoadedCache(task, list);
+    }
+
+    @Override
+    public void onTaskLoadedRefresh(AfHandlerTask task, List<T> list) {
+        mItemsHelper.onTaskLoadedRefresh(task, list);
+    }
+
+    @Override
+    public void onTaskLoadedMore(AfHandlerTask task, List<T> list) {
+        mItemsHelper.onTaskLoadedMore(task, list);
+    }
+
     //</editor-fold>
 
 }

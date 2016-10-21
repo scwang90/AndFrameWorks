@@ -7,6 +7,7 @@ import android.view.ViewGroup;
 import android.widget.FrameLayout;
 
 import com.andframe.R;
+import com.andframe.api.multistatus.OnRefreshListener;
 import com.andframe.api.multistatus.StatusLayouter;
 import com.andframe.module.AfFrameSelector;
 
@@ -20,14 +21,30 @@ public class DefaultStatusLayouter implements StatusLayouter {
     private final FrameLayout mFrameLayout;
     private final AfFrameSelector mFrameSelector;
     private View mContentView;
-    private View mProgressLayout;
     private View mEmptyLayout;
     private View mErrorLayout;
+    private View mProgressLayout;
     private View mInvalidnetLayout;
+    private OnRefreshListener mOnRefreshListener;
+    private View.OnClickListener mOnRefreshClickListener = new View.OnClickListener() {
+        @Override
+        public void onClick(View v) {
+            if (mOnRefreshListener != null && mOnRefreshListener.onRefresh()) {
+                showProgress();
+            }
+        }
+    };
 
     public DefaultStatusLayouter(Context content) {
-        mFrameLayout = new FrameLayout(content);
-        mFrameSelector = new AfFrameSelector(mFrameLayout);
+        this(new FrameLayout(content));
+    }
+
+    public DefaultStatusLayouter(FrameLayout frameLayout) {
+        mFrameLayout = frameLayout;
+        mFrameSelector = new AfFrameSelector(frameLayout);
+        if (mFrameLayout.getChildCount() > 0) {
+            mContentView = mFrameLayout.getChildAt(0);
+        }
     }
 
     @Override
@@ -46,6 +63,11 @@ public class DefaultStatusLayouter implements StatusLayouter {
     }
 
     @Override
+    public void setOnRefreshListener(OnRefreshListener listener) {
+        mOnRefreshListener = listener;
+    }
+
+    @Override
     public void setProgressLayoutId(int progressLayoutId) {
         if (mProgressLayout != null) {
             mFrameLayout.removeView(mProgressLayout);
@@ -61,8 +83,8 @@ public class DefaultStatusLayouter implements StatusLayouter {
             mFrameLayout.removeView(mEmptyLayout);
         }
         mEmptyLayout = LayoutInflater.from(mFrameLayout.getContext()).inflate(emptyLayoutId, null);
+        mEmptyLayout.setOnClickListener(mOnRefreshClickListener);
         mFrameLayout.addView(mEmptyLayout);
-//        mEmptyLayout = View.inflate(mFrameLayout.getContext(), emptyLayoutId, mFrameLayout);
     }
 
     @Override
@@ -71,8 +93,8 @@ public class DefaultStatusLayouter implements StatusLayouter {
             mFrameLayout.removeView(mErrorLayout);
         }
         mErrorLayout = LayoutInflater.from(mFrameLayout.getContext()).inflate(errorLayoutId, null);
+        mErrorLayout.setOnClickListener(mOnRefreshClickListener);
         mFrameLayout.addView(mErrorLayout);
-//        mErrorLayout = View.inflate(mFrameLayout.getContext(), errorLayoutId, mFrameLayout);
     }
 
     @Override
@@ -81,8 +103,8 @@ public class DefaultStatusLayouter implements StatusLayouter {
             mFrameLayout.removeView(mInvalidnetLayout);
         }
         mInvalidnetLayout = LayoutInflater.from(mFrameLayout.getContext()).inflate(invalidnetLayoutId, null);
+        mInvalidnetLayout.setOnClickListener(mOnRefreshClickListener);
         mFrameLayout.addView(mInvalidnetLayout);
-//        mInvalidnetLayout = View.inflate(mFrameLayout.getContext(), invalidnetLayoutId, mFrameLayout);
     }
 
     @Override
@@ -126,6 +148,11 @@ public class DefaultStatusLayouter implements StatusLayouter {
         if (mErrorLayout != null) {
             mFrameSelector.selectFrame(mErrorLayout);
         }
+    }
+
+    @Override
+    public boolean isProgress() {
+        return mProgressLayout != null && mFrameSelector.isCurrent(mProgressLayout);
     }
     //</editor-fold>
 }

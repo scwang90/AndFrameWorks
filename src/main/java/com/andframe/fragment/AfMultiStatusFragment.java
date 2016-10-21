@@ -2,7 +2,12 @@ package com.andframe.fragment;
 
 import android.content.Context;
 import android.support.annotation.CallSuper;
+import android.support.v7.widget.RecyclerView;
 import android.view.View;
+import android.view.ViewGroup;
+import android.widget.GridView;
+import android.widget.ListView;
+import android.widget.ScrollView;
 
 import com.andframe.$;
 import com.andframe.annotation.multistatus.MultiContentViewId;
@@ -17,6 +22,10 @@ import com.andframe.task.AfDispatcher;
 import com.andframe.task.AfHandlerDataTask;
 import com.andframe.task.AfHandlerTask;
 import com.andframe.util.java.AfReflecter;
+
+import java.util.Collections;
+import java.util.Queue;
+import java.util.concurrent.LinkedBlockingQueue;
 
 /**
  * 多状态页面支持
@@ -42,6 +51,9 @@ public class AfMultiStatusFragment<T> extends AfTabFragment implements OnRefresh
             } else {
                 mStatusLayouter = initStatusLayout(content);
             }
+            if (mStatusLayouter != null) {
+                mStatusLayouter.setOnRefreshListener(this);
+            }
         }
 
         if (mLoadOnViewCreated && mModel == null) {
@@ -60,6 +72,25 @@ public class AfMultiStatusFragment<T> extends AfTabFragment implements OnRefresh
         if (id != null) {
             return findViewById(id.value());
         }
+
+        Queue<View> views = new LinkedBlockingQueue<>(Collections.singletonList(mRootView));
+        do {
+            View view = views.poll();
+            if (view != null) {
+                if (view instanceof ListView
+                        || view instanceof GridView
+                        || view instanceof RecyclerView
+                        || view instanceof ScrollView) {
+                    return view;
+                } else if (view instanceof ViewGroup) {
+                    ViewGroup group = (ViewGroup) view;
+                    for (int j = 0; j < group.getChildCount(); j++) {
+                        views.add(group.getChildAt(j));
+                    }
+                }
+            }
+        } while (!views.isEmpty());
+
         return null;
     }
 
@@ -79,7 +110,9 @@ public class AfMultiStatusFragment<T> extends AfTabFragment implements OnRefresh
         if (status != null) {
             layouter.setProgressLayoutId(status.progress());
             layouter.setEmptyLayoutId(status.empty());
-            layouter.setErrorLayoutId(status.error());
+            if (status.error() > 0) {
+                layouter.setErrorLayoutId(status.error());
+            }
             if (status.invalidnet() > 0) {
                 layouter.setInvalidnetLayoutId(status.invalidnet());
             }
@@ -162,7 +195,7 @@ public class AfMultiStatusFragment<T> extends AfTabFragment implements OnRefresh
     }
 
     public void showContent() {
-        if (mStatusLayouter != null) {
+        if (mStatusLayouter != null && mStatusLayouter.isProgress()) {
             mStatusLayouter.showContent();
         } else if ((mRefreshLayouter == null || !mRefreshLayouter.isRefreshing())) {
             hideProgressDialog();
@@ -172,7 +205,8 @@ public class AfMultiStatusFragment<T> extends AfTabFragment implements OnRefresh
     public void showProgress() {
         if ((mRefreshLayouter == null || !mRefreshLayouter.isRefreshing())) {
             if (mStatusLayouter != null) {
-                mStatusLayouter.showProgress();
+                if (!mStatusLayouter.isProgress())
+                    mStatusLayouter.showProgress();
             } else {
                 showProgressDialog("正在加载...");
             }

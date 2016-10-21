@@ -11,6 +11,7 @@ import android.view.ViewGroup;
 public interface StatusLayouter {
     ViewGroup getLayout();
     void setContenView(View content);
+    void setOnRefreshListener(OnRefreshListener listener);
     void setProgressLayoutId(int progressLayoutId);
     void setEmptyLayoutId(int emptyLayoutId);
     void setErrorLayoutId(int errorLayoutId);
@@ -20,4 +21,6 @@ public interface StatusLayouter {
     void showContent();
     void showProgress();
     void showError(String error);
+
+    boolean isProgress();
 }
