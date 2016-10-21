@@ -61,13 +61,13 @@ public class AfItemsPagerHelper<T> extends AfMultiStatusHelper<List<T>> implemen
      * 缓存使用的 class 对象（json要用到）
      * 设置 并且任务为 TASK_LOAD AfListTask 将自动使用缓存功能
      */
-    public Class<T> mCacheClazz = null;
+    protected Class<T> mCacheClazz = null;
     /**
      * 缓存使用的 KEY_CACHELIST = this.getClass().getName()
      * KEY_CACHELIST 为缓存的标识
      */
-    public String KEY_CACHETIME = "KEY_CACHETIME";
-    public String KEY_CACHELIST = this.getClass().getName();
+    protected String KEY_CACHETIME = "KEY_CACHETIME";
+    protected String KEY_CACHELIST = this.getClass().getName();
 
     protected int mCacheSpan = AfListViewTask.CACHETIMEOUTSECOND;
     //</editor-fold>

@@ -48,6 +48,12 @@ public class AfMultiStatusHelper<T> implements MultiStatusHelper<T> {
         this.mPager = pager;
     }
 
+    @Override
+    public void setLoadOnViewCreated(boolean loadOrNot) {
+        mLoadOnViewCreated = loadOrNot;
+    }
+
+
     @CallSuper
     public void onViewCreated() throws Exception {
         View content = mPager.findContentView();

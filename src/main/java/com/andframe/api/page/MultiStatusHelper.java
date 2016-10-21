@@ -42,4 +42,6 @@ public interface MultiStatusHelper<T> {
     void showProgress();
 
     void showError(String error);
+
+    void setLoadOnViewCreated(boolean loadOrNot);
 }
