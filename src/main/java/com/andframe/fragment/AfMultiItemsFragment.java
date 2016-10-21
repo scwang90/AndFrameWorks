@@ -42,6 +42,10 @@ public abstract class AfMultiItemsFragment<T> extends AfMultiStatusFragment<List
 
     @Override
     protected View findContentView() {
+        View view = super.findContentView();
+        if (view != null) {
+            return view;
+        }
         return mItemsViewer != null ? mItemsViewer.getItemsView() : null;
     }
 
