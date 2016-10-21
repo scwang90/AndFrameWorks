@@ -193,7 +193,7 @@ public abstract class AfFragment extends Fragment implements Pager, ViewQueryHel
                 }
             }
             ViewBinder.doBind(this);
-            onCreated(new AfView(mRootView), new AfBundle(getArguments()));
+            onCreate(new AfView(mRootView), new AfBundle(getArguments()));
         } catch (Throwable e) {
             if (!(e instanceof AfToastException)) {
                 AfExceptionHandler.handle(e, TAG("onCreateView"));
@@ -217,7 +217,7 @@ public abstract class AfFragment extends Fragment implements Pager, ViewQueryHel
     /**
      * 自定义 View onCreate(Bundle)
      */
-    protected void onCreated(AfView rootView, AfBundle bundle) throws Exception {
+    protected void onCreate(AfView rootView, AfBundle bundle) throws Exception {
 
     }
 

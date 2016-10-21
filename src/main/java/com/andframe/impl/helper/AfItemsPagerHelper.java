@@ -188,7 +188,7 @@ public class AfItemsPagerHelper<T> extends AfMultiStatusHelper<List<T>> implemen
             if (list != null && list.size() > 0) {
                 // 更新列表
                 mAdapter.addAll(list);
-                mItemsViewer.smoothScrollToPosition(mAdapter.getCount() + 1);
+//                mItemsViewer.smoothScrollToPosition(mAdapter.getCount() + 1);
             }
             if (!mItemsPager.setMoreShow(task, list)) {
                 mItemsPager.makeToastShort("数据全部加载完毕！");

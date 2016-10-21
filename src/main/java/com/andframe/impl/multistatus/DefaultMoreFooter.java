@@ -26,6 +26,7 @@ public class DefaultMoreFooter<T> extends AfListItem<T> implements MoreFooter<T>
     @BindView
     protected ProgressBar mProgressBar;
     protected boolean mAllLoadFinish = false;
+    protected boolean mIsLoading = false;
 
     public DefaultMoreFooter() {
         super(R.layout.af_refresh_list_footer);
@@ -38,21 +39,21 @@ public class DefaultMoreFooter<T> extends AfListItem<T> implements MoreFooter<T>
 
     @Override
     public void finishLoadMore() {
-        $(mProgressBar).gone().$(mTextView).text("点击查看更多");
+        mIsLoading = false;
+        onBinding(null, 0);
     }
 
     @Override
     public void setAllLoadFinish(boolean finish) {
         mAllLoadFinish = finish;
-        if (finish) {
-            $(mProgressBar, mTextView).gone();
-        } else {
-            finishLoadMore();
-        }
+        mIsLoading = false;
+        onBinding(null, 0);
     }
 
     protected void setLoading() {
-        $(mProgressBar).visible().$(mTextView).text("正在加载...");
+        mIsLoading = true;
+        mAllLoadFinish = false;
+        onBinding(null, 0);
     }
 
     @Override
@@ -68,10 +69,12 @@ public class DefaultMoreFooter<T> extends AfListItem<T> implements MoreFooter<T>
 
     @Override
     public void onBinding(T model, int index) {
-//        if (!mAllLoadFinish && listener != null && listener.onMore()) {
-//            $(mProgressBar).visible().$(mTextView).text("正在加载...");
-//        } else {
-//            $(mProgressBar).gone().$(mTextView).text("已经全部加载");
-//        }
+        if (mIsLoading) {
+            $(mProgressBar).visible().$(mTextView).text("正在加载...");
+        } else if (mAllLoadFinish) {
+            $(mProgressBar, mTextView).gone();
+        } else {
+            $(mProgressBar).gone().$(mTextView).text("点击查看更多");
+        }
     }
 }

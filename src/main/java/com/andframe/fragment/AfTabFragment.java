@@ -23,14 +23,14 @@ public abstract class AfTabFragment extends AfFragment {
     /**
      * 自定义 View onCreate(Bundle)
      */
-    protected void onCreated(AfBundle bundle, AfView view) throws Exception {
+    protected void onCreate(AfBundle bundle, AfView view) throws Exception {
 
     }
 
     @Override
-    protected final void onCreated(AfView rootView, AfBundle bundle) throws Exception {
+    protected final void onCreate(AfView rootView, AfBundle bundle) throws Exception {
         mIsCreateView = true;
-        onCreated(bundle, rootView);
+        onCreate(bundle, rootView);
         if (mIsNeedSwitch) {
             mIsNeedSwitch = false;
             if (mSwitchCount == 0) {
