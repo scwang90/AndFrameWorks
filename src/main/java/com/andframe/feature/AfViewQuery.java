@@ -472,7 +472,7 @@ public class AfViewQuery<T extends AfViewQuery<T>> implements ViewQuery<T> {
     }
 
     @Override
-    public boolean replace(View target) {
+    public T replace(View target) {
         return foreach(view -> {
             ViewGroup parent = (ViewGroup)view.getParent();
             if (parent != null) {
@@ -483,9 +483,7 @@ public class AfViewQuery<T extends AfViewQuery<T>> implements ViewQuery<T> {
                 int i = parent.indexOfChild(view);
                 parent.removeViewAt(i);
                 parent.addView(target, i, view.getLayoutParams());
-                return true;
             }
-            return false;
         });
     }
 

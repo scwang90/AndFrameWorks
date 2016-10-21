@@ -82,15 +82,15 @@ public class AfMultiListPagerHelper<T> extends AfListPagerHelper<T> implements M
     }
 
     @Override
-    public void onAfterViews() {
-        super.onAfterViews();
+    public ItemsViewer onViewCreated() {
+        super.onViewCreated();
         mNodata = mMultiListPager.newModuleNodata(mMultiListPager);
         mProgress = mMultiListPager.newModuleProgress(mMultiListPager);
         mSelector = mMultiListPager.newAfFrameSelector(mMultiListPager);
 
 //        if (mListView == null) {
 //            /**
-//             * 在 super.onAfterViews(); 没有成功获取 ListView
+//             * 在 super.onViewCreated(); 没有成功获取 ListView
 //             *
 //             */
 //            mListView = mMultiListPager.newAfListView(null);
@@ -107,6 +107,7 @@ public class AfMultiListPagerHelper<T> extends AfListPagerHelper<T> implements M
          * 父类会执行一个普通的加载任务，可以替代这个 onLoad
          */
 //        mMultiListPager.onLoad();
+        return mListView;
     }
 
     @Override
@@ -249,7 +250,7 @@ public class AfMultiListPagerHelper<T> extends AfListPagerHelper<T> implements M
                 mAdapter.addAll(list);
                 mListView.smoothScrollToPosition(mAdapter.getCount() + 1);
             }
-            if (mIsPaging && !setMoreShow(task, list)) {
+            if (mIsPaging && !mMultiListPager.setMoreShow(task, list)) {
                 mMultiListPager.makeToastShort("数据全部加载完毕！");
             }
         } else {

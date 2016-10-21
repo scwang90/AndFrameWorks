@@ -5,7 +5,7 @@ import android.widget.ScrollView;
 
 import com.andframe.annotation.pager.BindFrameLayout;
 import com.andframe.annotation.pager.BindScorllView;
-import com.andframe.annotation.view.BindAfterViews;
+import com.andframe.annotation.view.BindViewCreated;
 import com.andframe.annotation.view.BindViewModule;
 import com.andframe.module.AfFrameSelector;
 import com.andframe.module.AfModuleNodata;
@@ -33,12 +33,13 @@ public abstract class AfDetailFragment<T> extends AfTabFragment implements AfPul
 
     protected AfFrameSelector mFrameSelector;
     protected AfRefreshScorllView mRfScorllView;
-    protected boolean loadOnAfterViews = true;
+    protected boolean loadOnViewCreated = true;
     //</editor-fold>
 
     //<editor-fold desc="初始方法">
-    @BindAfterViews@CallSuper
-    protected void onAfterViews() throws Exception{
+    @BindViewCreated
+    @CallSuper
+    protected void onViewCreated() throws Exception{
         BindScorllView scorll = AfReflecter.getAnnotation(getClass(), AfDetailFragment.class, BindScorllView.class);
         if (scorll != null) {
             ScrollView scrollView = findViewById(scorll.value(), ScrollView.class);
@@ -54,8 +55,8 @@ public abstract class AfDetailFragment<T> extends AfTabFragment implements AfPul
             mNodata.setOnRefreshListener(view -> onRefresh());
         }
 
-        if (loadOnAfterViews && mData == null) {
-            loadOnAfterViews = false;
+        if (loadOnViewCreated && mData == null) {
+            loadOnViewCreated = false;
             onRefresh();
         } else if (mData != null) {
             onTaskFinish(mData);

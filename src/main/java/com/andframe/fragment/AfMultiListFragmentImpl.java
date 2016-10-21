@@ -37,8 +37,8 @@ public abstract class AfMultiListFragmentImpl<T> extends AfMultiListFragment<T> 
     }
 
     @Override
-    public void onAfterViews() throws Exception {
-        super.onAfterViews();
+    public void onViewCreated() throws Exception {
+        super.onViewCreated();
         mTitlebar = newModuleTitlebar(this);
     }
 

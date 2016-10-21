@@ -8,13 +8,13 @@ import java.lang.annotation.Target;
 
 /**
  * 控件注入之后执行<br>
-    @ BindAfterViews()
+    @ BindViewCreated()
     public void onInit() {
     }
  */
 @Target(ElementType.METHOD)
 @Retention(RetentionPolicy.RUNTIME)
-public @interface BindAfterViews {
+public @interface BindViewCreated {
     /**
      * 和其BindAfterView标记的方法的执行序号
      */

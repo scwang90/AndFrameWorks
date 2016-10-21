@@ -1,64 +1,49 @@
-package com.andframe.activity;
+package com.andframe.fragment;
 
 import android.content.Context;
-import android.os.Bundle;
-import android.support.annotation.NonNull;
 import android.view.View;
 import android.widget.AdapterView;
 import android.widget.ListAdapter;
 
-import com.andframe.annotation.view.BindViewCreated;
 import com.andframe.api.ListItem;
 import com.andframe.api.ListItemAdapter;
-import com.andframe.api.page.ListPager;
-import com.andframe.api.page.ListPagerHelper;
+import com.andframe.api.multistatus.MoreFooter;
+import com.andframe.api.page.ItemsPager;
+import com.andframe.api.page.ItemsPagerHelper;
 import com.andframe.api.view.ItemsViewer;
-import com.andframe.feature.AfIntent;
-import com.andframe.impl.helper.AfListPagerHelper;
+import com.andframe.impl.helper.AfItemsPagerHelper;
+import com.andframe.model.Page;
 import com.andframe.task.AfHandlerTask;
 
 import java.util.List;
 
 /**
- * 数据列表框架 Activity
- * @param <T> 列表数据实体类
- * @author 树朾
+ * 多项数据页面
+ * Created by SCWANG on 2016/10/21.
  */
-public abstract class AfListActivity<T> extends AfActivity implements ListPager<T> {
 
-//    protected AbsListView mListView;
-//    protected AfListAdapter<T> mAdapter;
+public abstract class AfMultiItemsFragment<T> extends AfMultiStatusFragment<List<T>> implements ItemsPager<T> {
 
-    protected ListPagerHelper<T> mListHelper = newListPagerHelper();
+    protected ItemsViewer mItemsViewer;
     protected ListItemAdapter<T> mAdapter;
+    protected ItemsPagerHelper<T> mItemsHelper = new AfItemsPagerHelper<>(this);
 
     //<editor-fold desc="初始化">
-    @NonNull
-    protected ListPagerHelper<T> newListPagerHelper() {
-        return new AfListPagerHelper<>(this);
-    }
-
-    /**
-     * 创建方法
-     *
-     * @param bundle 源Bundle
-     * @param intent 框架AfIntent
-     */
-    @Override
-    protected void onCreate(Bundle bundle, AfIntent intent) throws Exception {
-        super.onCreate(bundle, intent);
-        if (mRootView == null) {
-            setContentView(getLayoutId());
-        }
-    }
-
     /**
      * 初始化页面
      */
-    @BindViewCreated
-    protected void onAfterViews() throws Exception {
-        mListHelper.onViewCreated();
+    @Override
+    protected void onViewCreated() throws Exception {
+        mLoadOnViewCreated = false;
+        mItemsViewer = mItemsHelper.onViewCreated();
+        super.onViewCreated();
     }
+
+    @Override
+    protected View findContentView() {
+        return mItemsViewer.getItemsView();
+    }
+
     //</editor-fold>
 
     //<editor-fold desc="子类实现">
@@ -70,7 +55,7 @@ public abstract class AfListActivity<T> extends AfActivity implements ListPager<
      * @return pager.findListViewById(id)
      */
     @Override
-    public abstract ItemsViewer findItemsViewer(ListPager<T> pager);
+    public abstract ItemsViewer findItemsViewer(ItemsPager<T> pager);
 
 
     /**
@@ -94,7 +79,7 @@ public abstract class AfListActivity<T> extends AfActivity implements ListPager<
      */
     @Override
     public void onItemClick(AdapterView<?> parent, View view, int index, long id) {
-        mListHelper.onItemClick(parent, view, index, id);
+        mItemsHelper.onItemClick(parent, view, index, id);
     }
     /**
      * 数据列表点击事件
@@ -106,19 +91,31 @@ public abstract class AfListActivity<T> extends AfActivity implements ListPager<
      */
     @Override
     public boolean onItemLongClick(AdapterView<?> parent, View view, int index, long id) {
-        return mListHelper.onItemLongClick(parent, view, index, id);
+        return mItemsHelper.onItemLongClick(parent, view, index, id);
     }
+
+    @Override
+    public boolean onMore() {
+        return mItemsHelper.onMore();
+    }
+
     //</editor-fold>
 
     //<editor-fold desc="子类重写">
+
     /**
-     * 获取setContentView的id
-     *
-     * @return id
+     * 创建加载更多的视图
      */
-    protected int getLayoutId() {
-        return mListHelper.getLayoutId();
+    @Override
+    public MoreFooter<T> newMoreFooter() {
+        return mItemsHelper.newMoreFooter();
     }
+
+    @Override
+    public boolean setMoreShow(AfHandlerTask task, List<T> list) {
+        return mItemsHelper.setMoreShow(task, list);
+    }
+
     /**
      * onItemClick 事件的 包装 一般情况下子类可以重写这个方法
      *
@@ -129,6 +126,7 @@ public abstract class AfListActivity<T> extends AfActivity implements ListPager<
     public void onItemClick(T model, int index) {
 
     }
+
     /**
      * onItemLongClick 事件的 包装 一般情况下子类可以重写这个方法
      *
@@ -148,7 +146,7 @@ public abstract class AfListActivity<T> extends AfActivity implements ListPager<
      */
     @Override
     public ListItemAdapter<T> newAdapter(Context context, List<T> list) {
-        return mAdapter = mListHelper.newAdapter(context, list);
+        return mAdapter = mItemsHelper.newAdapter(context, list);
     }
 
     /**
@@ -167,19 +165,23 @@ public abstract class AfListActivity<T> extends AfActivity implements ListPager<
      */
     @Override
     public void bindAdapter(ItemsViewer listView, ListAdapter adapter) {
-        mListHelper.bindAdapter(listView, adapter);
+        mItemsHelper.bindAdapter(listView, adapter);
     }
 
     @Override
     public void onTaskLoaded(AfHandlerTask task, List<T> list) {
-        mListHelper.onTaskLoaded(task, list);
+        mItemsHelper.onTaskLoaded(task, list);
     }
 
     @Override
-    public List<T> onTaskLoadList() throws Exception {
-        return mListHelper.onTaskLoadList();
+    public void onTaskMoreLoaded(AfHandlerTask task, List<T> list) {
+        mItemsHelper.onTaskMoreLoaded(task, list);
+    }
+
+    @Override
+    public List<T> onTaskLoadList(Page page) throws Exception {
+        return mItemsHelper.onTaskLoadList(page);
     }
     //</editor-fold>
-
 
 }

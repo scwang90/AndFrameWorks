@@ -582,6 +582,7 @@ public interface ViewQuery<T extends ViewQuery<T>> {
     T animation(Animation animation);
     T rotation(float rotation);
     T addView(View... views);
+    T replace(View view);
     T toChild(int index);
     T toChilds();
     View breakView();
@@ -590,7 +591,6 @@ public interface ViewQuery<T extends ViewQuery<T>> {
     View[] breakChilds();
     View childAt(int index);
     int childCount();
-    boolean replace(View view);
     Point measure();
 
     <TT> T adapter(@LayoutRes int id, List<TT> list, AdapterItemer<TT> itemer);

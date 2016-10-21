@@ -5,7 +5,7 @@ import android.widget.ScrollView;
 
 import com.andframe.annotation.pager.BindFrameLayout;
 import com.andframe.annotation.pager.BindScorllView;
-import com.andframe.annotation.view.BindAfterViews;
+import com.andframe.annotation.view.BindViewCreated;
 import com.andframe.annotation.view.BindViewModule;
 import com.andframe.module.AfFrameSelector;
 import com.andframe.module.AfModuleNodata;
@@ -37,7 +37,8 @@ public abstract class AfDetailActivity<T> extends AfActivity implements AfPullTo
     //</editor-fold>
 
     //<editor-fold desc="初始方法">
-    @BindAfterViews@CallSuper
+    @BindViewCreated
+    @CallSuper
     protected void onAfterViews() throws Exception{
         BindScorllView scorll = AfReflecter.getAnnotation(getClass(), AfDetailActivity.class, BindScorllView.class);
         if (scorll != null) {

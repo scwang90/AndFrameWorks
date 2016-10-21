@@ -6,7 +6,10 @@ import android.widget.AdapterView.OnItemLongClickListener;
 import android.widget.ListAdapter;
 
 import com.andframe.api.ListItemAdapter;
+import com.andframe.api.multistatus.MoreFooter;
+import com.andframe.api.multistatus.OnMoreListener;
 import com.andframe.api.view.ItemsViewer;
+import com.andframe.model.Page;
 import com.andframe.task.AfHandlerTask;
 
 import java.util.List;
@@ -15,11 +18,16 @@ import java.util.List;
  * 基本列表页帮助类接口
  * Created by SCWANG on 2016/9/7.
  */
-public interface ListPagerHelper<T> extends OnItemClickListener, OnItemLongClickListener {
+public interface ItemsPagerHelper<T> extends OnItemClickListener, OnItemLongClickListener, OnMoreListener {
     int getLayoutId();
-    ItemsViewer onViewCreated();
     void bindAdapter(ItemsViewer listView, ListAdapter adapter);
-    ListItemAdapter<T> newAdapter(Context context, List<T> list);
     void onTaskLoaded(AfHandlerTask task, List<T> list);
-    List<T> onTaskLoadList();
+    void onTaskMoreLoaded(AfHandlerTask task, List<T> list);
+    ListItemAdapter<T> newAdapter(Context context, List<T> list);
+    ItemsViewer onViewCreated();
+    List<T> onTaskLoadList(Page page);
+
+    MoreFooter<T> newMoreFooter();
+
+    boolean setMoreShow(AfHandlerTask task, List<T> list);
 }

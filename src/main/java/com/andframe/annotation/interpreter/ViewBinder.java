@@ -11,7 +11,7 @@ import android.widget.CompoundButton;
 import android.widget.RadioGroup;
 
 import com.andframe.annotation.pager.BindLayout;
-import com.andframe.annotation.view.BindAfterViews;
+import com.andframe.annotation.view.BindViewCreated;
 import com.andframe.annotation.view.BindCheckedChange;
 import com.andframe.annotation.view.BindCheckedChangeGroup;
 import com.andframe.annotation.view.BindClick;
@@ -357,8 +357,8 @@ public class ViewBinder {
 
     public static void bindAfterView(Object handler) {
         List<SimpleEntry> methods = new ArrayList<>();
-        for (Method method : AfReflecter.getMethodAnnotation(handler.getClass(), getStopType(handler), BindAfterViews.class)) {
-            BindAfterViews annotation = method.getAnnotation(BindAfterViews.class);
+        for (Method method : AfReflecter.getMethodAnnotation(handler.getClass(), getStopType(handler), BindViewCreated.class)) {
+            BindViewCreated annotation = method.getAnnotation(BindViewCreated.class);
             methods.add(new SimpleEntry(method, annotation));
         }
         Collections.sort(methods, (lhs, rhs) -> lhs.getValue().value() - rhs.getValue().value());
@@ -386,9 +386,9 @@ public class ViewBinder {
     public static class SimpleEntry {
 
         private final Method key;
-        private BindAfterViews value;
+        private BindViewCreated value;
 
-        public SimpleEntry(Method theKey, BindAfterViews theValue) {
+        public SimpleEntry(Method theKey, BindViewCreated theValue) {
             key = theKey;
             value = theValue;
         }
@@ -397,7 +397,7 @@ public class ViewBinder {
             return key;
         }
 
-        public BindAfterViews getValue() {
+        public BindViewCreated getValue() {
             return value;
         }
 

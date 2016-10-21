@@ -1,5 +1,6 @@
 package com.andframe.impl.viewer;
 
+import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.widget.AdapterView;
 import android.widget.ListAdapter;
@@ -38,6 +39,9 @@ public class ItemsRecyclerViewWrapper extends AfView implements ItemsViewer<Recy
     @Override
     public void setAdapter(ListAdapter adapter) {
         if (adapter instanceof RecyclerView.Adapter) {
+            if (mItemsView.getLayoutManager() == null) {
+                mItemsView.setLayoutManager(new LinearLayoutManager(mItemsView.getContext()));
+            }
             mItemsView.setAdapter(((RecyclerView.Adapter) adapter));
         }
     }

@@ -55,7 +55,7 @@ public class AfListPagerHelper<T> implements ListPagerHelper<T> {
     }
 
     @Override
-    public void onAfterViews() {
+    public ItemsViewer onViewCreated() {
         if (mAdapter == null) {
             mAdapter = mListPager.newAdapter(mListPager.getContext(), new ArrayList<>());
         }
@@ -67,6 +67,7 @@ public class AfListPagerHelper<T> implements ListPagerHelper<T> {
             mListPager.bindAdapter(mListView, mAdapter);
         }
         AfDispatcher.dispatch(() -> mListPager.postTask(new AbLoadListTask()));
+        return mListView;
     }
 
     @Override

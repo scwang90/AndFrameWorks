@@ -8,7 +8,7 @@ import android.view.ViewGroup;
 import android.widget.AdapterView;
 import android.widget.ListAdapter;
 
-import com.andframe.annotation.view.BindAfterViews;
+import com.andframe.annotation.view.BindViewCreated;
 import com.andframe.api.ListItem;
 import com.andframe.api.ListItemAdapter;
 import com.andframe.api.page.ListPager;
@@ -50,9 +50,9 @@ public abstract class AfListFragment<T> extends AfTabFragment implements ListPag
     /**
      * 初始化页面
      */
-    @BindAfterViews
-    protected void onAfterViews() throws Exception {
-        mListHelper.onAfterViews();
+    @BindViewCreated
+    protected void onViewCreated() throws Exception {
+        mListHelper.onViewCreated();
     }
     //</editor-fold>
 
