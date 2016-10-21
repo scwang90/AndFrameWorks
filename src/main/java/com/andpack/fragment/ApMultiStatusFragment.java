@@ -17,23 +17,23 @@ import com.andpack.impl.ApStatusPagerHelper;
 
 public class ApMultiStatusFragment<T> extends AfMultiStatusFragment<T> implements ApPager {
 
-    protected ApStatusPagerHelper mHelper = new ApStatusPagerHelper(this);
+    protected ApStatusPagerHelper mApHelper = new ApStatusPagerHelper(this);
 
     @Override
     protected void onCreated(AfBundle bundle, AfView view) throws Exception {
-        mHelper.onCreate();
+        mApHelper.onCreate();
         super.onCreated(bundle, view);
     }
 
     @Override
     public void onViewCreated() throws Exception {
-        mHelper.onViewCreated(null);
+        mApHelper.onViewCreated(null);
         super.onViewCreated();
     }
 
     @Override
     public View findContentView() {
-        View view = mHelper.findContentView();
+        View view = mApHelper.findContentView();
         if (view != null) {
             return view;
         }
@@ -42,7 +42,7 @@ public class ApMultiStatusFragment<T> extends AfMultiStatusFragment<T> implement
 
     @Override
     public RefreshLayouter createRefreshLayouter(Context context) {
-        RefreshLayouter layouter = mHelper.createRefreshLayouter(context);
+        RefreshLayouter layouter = mApHelper.createRefreshLayouter(context);
         if (layouter != null) {
             return layouter;
         }
