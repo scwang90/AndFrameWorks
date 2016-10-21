@@ -17,17 +17,17 @@ public abstract class ApMultiListFragmentImpl<T> extends AfMultiListFragmentImpl
     @BindViewModule
     protected AfModuleTitlebar mTitlebar;
 
-    protected ApPagerHelper mHelper = new ApPagerHelper(this);
+    protected ApPagerHelper mApHelper = new ApPagerHelper(this);
 
     @Override
     protected void onCreated(AfBundle bundle, AfView view) throws Exception {
-        mHelper.onCreate();
+        mApHelper.onCreate();
         super.onCreated(bundle, view);
     }
 
     @Override
     public void onViewCreated() throws Exception {
-        mHelper.onViewCreated(mTitlebar);
+        mApHelper.onViewCreated(mTitlebar);
         super.onViewCreated();
     }
 

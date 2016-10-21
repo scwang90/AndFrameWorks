@@ -8,7 +8,7 @@ import com.andframe.feature.AfView;
 import com.andframe.fragment.AfListFragment;
 import com.andframe.module.AfModuleTitlebar;
 import com.andpack.api.ApPager;
-import com.andpack.impl.ApListPagerHelper;
+import com.andpack.impl.ApListHelper;
 
 /**
  *
@@ -19,23 +19,23 @@ public abstract class ApListFragment<T> extends AfListFragment<T> implements ApP
     @BindViewModule
     protected AfModuleTitlebar mTitlebar;
 
-    protected ApListPagerHelper mHelper = new ApListPagerHelper(this);
+    protected ApListHelper mApHelper = new ApListHelper(this);
 
     @Override
     protected void onCreated(AfBundle bundle, AfView view) throws Exception {
-        mHelper.onCreate();
+        mApHelper.onCreate();
         super.onCreated(bundle, view);
     }
 
     @Override
     public void onViewCreated() throws Exception {
-        mHelper.onViewCreated(mTitlebar);
+        mApHelper.onViewCreated(mTitlebar);
         super.onViewCreated();
     }
 
     @Override
     public ItemsViewer findItemsViewer(ListPager<T> pager) {
-        return mHelper.findItemsViewer(pager);
+        return mApHelper.findItemsViewer(pager);
     }
 
     //<editor-fold desc="下拉刷新">

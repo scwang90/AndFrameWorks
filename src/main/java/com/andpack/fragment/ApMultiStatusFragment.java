@@ -32,7 +32,7 @@ public class ApMultiStatusFragment<T> extends AfMultiStatusFragment<T> implement
     }
 
     @Override
-    protected View findContentView() {
+    public View findContentView() {
         View view = mHelper.findContentView();
         if (view != null) {
             return view;
@@ -41,7 +41,7 @@ public class ApMultiStatusFragment<T> extends AfMultiStatusFragment<T> implement
     }
 
     @Override
-    protected RefreshLayouter createRefreshLayouter(Context context) {
+    public RefreshLayouter createRefreshLayouter(Context context) {
         RefreshLayouter layouter = mHelper.createRefreshLayouter(context);
         if (layouter != null) {
             return layouter;

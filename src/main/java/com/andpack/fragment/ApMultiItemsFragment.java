@@ -7,7 +7,7 @@ import com.andframe.feature.AfBundle;
 import com.andframe.feature.AfView;
 import com.andframe.fragment.AfMultiItemsFragment;
 import com.andpack.api.ApPager;
-import com.andpack.impl.ApListPagerHelper;
+import com.andpack.impl.ApListHelper;
 
 /**
  *
@@ -15,7 +15,7 @@ import com.andpack.impl.ApListPagerHelper;
  */
 public abstract class ApMultiItemsFragment<T> extends AfMultiItemsFragment<T> implements ApPager {
 
-    protected ApListPagerHelper mHelper = new ApListPagerHelper(this);
+    protected ApListHelper mHelper = new ApListHelper(this);
 
     @Override
     protected void onCreated(AfBundle bundle, AfView view) throws Exception {
@@ -30,7 +30,7 @@ public abstract class ApMultiItemsFragment<T> extends AfMultiItemsFragment<T> im
     }
 
     @Override
-    protected RefreshLayouter createRefreshLayouter(Context context) {
+    public RefreshLayouter createRefreshLayouter(Context context) {
         RefreshLayouter layouter = mHelper.createRefreshLayouter(context);
         if (layouter != null) {
             return layouter;
