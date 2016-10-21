@@ -7,12 +7,14 @@ import android.widget.ImageView;
 
 import com.andframe.$;
 import com.andframe.api.DialogBuilder;
+import com.andframe.api.multistatus.RefreshLayouter;
 import com.andframe.api.view.ViewQuery;
 import com.andframe.application.AfApp;
 import com.andframe.exception.AfExceptionHandler;
 import com.andframe.exception.AfToastException;
 import com.andpack.impl.ApDialogBuilder;
 import com.andpack.impl.ApExceptionHandler;
+import com.andpack.impl.ApRefreshLayout;
 import com.andpack.impl.ApViewQuery;
 import com.lzy.imagepicker.ImagePicker;
 import com.nostra13.universalimageloader.cache.disc.impl.ext.ApDiskCache;
@@ -93,13 +95,18 @@ public class ApApp extends AfApp {
     }
 
     @Override
-    public ViewQuery newViewQuery(View view) {
+    public ViewQuery<? extends ViewQuery> newViewQuery(View view) {
         return new ApViewQuery(view);
     }
 
     @Override
     public AfExceptionHandler newExceptionHandler() {
         return new ApExceptionHandler();
+    }
+
+    @Override
+    public RefreshLayouter newRefreshLayouter(Context context) {
+        return new ApRefreshLayout(context);
     }
 
     public ApUpdateService getUpdateService() {
