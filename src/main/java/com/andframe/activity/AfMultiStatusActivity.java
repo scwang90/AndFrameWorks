@@ -1,4 +1,4 @@
-package com.andframe.fragment;
+package com.andframe.activity;
 
 import android.content.Context;
 import android.support.annotation.CallSuper;
@@ -18,7 +18,7 @@ import com.andframe.task.AfHandlerTask;
  * Created by SCWANG on 2016/10/20.
  */
 
-public class AfMultiStatusFragment<T> extends AfTabFragment implements MultiStatusPager<T> {
+public class AfMultiStatusActivity<T> extends AfActivity implements MultiStatusPager<T> {
 
     protected MultiStatusHelper<T> mHelper = newHelper();
 

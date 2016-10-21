@@ -5,7 +5,7 @@ import android.widget.ListAdapter;
 
 import com.andframe.api.page.ListPagerHelper;
 import com.andframe.api.page.MultiListPager;
-import com.andframe.api.page.MultiListPagerHelper;
+import com.andframe.api.page.MultiListHelper;
 import com.andframe.api.view.ItemsRefreshableViewer;
 import com.andframe.api.view.ItemsViewer;
 import com.andframe.impl.helper.AfMultiListPagerHelper;
@@ -29,20 +29,20 @@ import java.util.List;
 public abstract class AfMultiListFragment<T> extends AfListFragment<T> implements MultiListPager<T> {
 
     //<editor-fold desc="帮助类">
-    protected MultiListPagerHelper<T> mMultiListHelper = newMultiListPagerHelper();
+    protected MultiListHelper<T> mMultiHelper = newMultiHelper();
 
     @NonNull
-    protected MultiListPagerHelper<T> newMultiListPagerHelper() {
-        if (mListHelper instanceof MultiListPagerHelper) {
-            return ((MultiListPagerHelper<T>) mListHelper);
+    protected MultiListHelper<T> newMultiHelper() {
+        if (mHelper instanceof MultiListHelper) {
+            return ((MultiListHelper<T>) mHelper);
         }
         return new AfMultiListPagerHelper<>(this);
     }
 
     @NonNull
     @Override
-    protected ListPagerHelper<T> newListPagerHelper() {
-        return mMultiListHelper = newMultiListPagerHelper();
+    protected ListPagerHelper<T> newListHelper() {
+        return mMultiHelper = newMultiHelper();
     }
     //</editor-fold>
 
@@ -52,7 +52,7 @@ public abstract class AfMultiListFragment<T> extends AfListFragment<T> implement
      * @param task 任务标识
      */
     protected AfListViewTask postTask(int task) {
-        return mMultiListHelper.postTask(task);
+        return mMultiHelper.postTask(task);
     }
 
     /**
@@ -62,7 +62,7 @@ public abstract class AfMultiListFragment<T> extends AfListFragment<T> implement
      * @return 可刷新的ListView
      */
     public ItemsRefreshableViewer<?> newAfListView(ItemsViewer listView) {
-        return mMultiListHelper.newAfListView(listView);
+        return mMultiHelper.newAfListView(listView);
     }
 
     /**
@@ -95,34 +95,34 @@ public abstract class AfMultiListFragment<T> extends AfListFragment<T> implement
      */
     @SuppressWarnings("unused")
     public void addData(T value) {
-        mMultiListHelper.addData(value);
+        mMultiHelper.addData(value);
     }
 
     @Override
     public void onDestroy() {
         super.onDestroy();
-        mMultiListHelper.onDestroy();
+        mMultiHelper.onDestroy();
     }
 
     /**
      * 显示数据页面
      */
     public void showData() {
-        mMultiListHelper.showData();
+        mMultiHelper.showData();
     }
 
     /**
      * 正在加载数据提示
      */
     public void showLoading() {
-        mMultiListHelper.showLoading();
+        mMultiHelper.showLoading();
     }
 
     /**
      * 处理空数据
      */
     public void showNodata() {
-        mMultiListHelper.showNodata();
+        mMultiHelper.showNodata();
     }
 
     /**
@@ -131,14 +131,14 @@ public abstract class AfMultiListFragment<T> extends AfListFragment<T> implement
      * @param ex 异常对象
      */
     public void showLoadError(Throwable ex) {
-        mMultiListHelper.showLoadError(ex);
+        mMultiHelper.showLoadError(ex);
     }
 
     /**
      * 加载数据（缓存优先）
      */
     public void onLoad() {
-        mMultiListHelper.onLoad();
+        mMultiHelper.onLoad();
     }
 
     /**
@@ -148,7 +148,7 @@ public abstract class AfMultiListFragment<T> extends AfListFragment<T> implement
      */
     @Override
     public boolean onMore() {
-        return mMultiListHelper.onMore();
+        return mMultiHelper.onMore();
     }
 
     /**
@@ -158,21 +158,21 @@ public abstract class AfMultiListFragment<T> extends AfListFragment<T> implement
      */
     @Override
     public boolean onRefresh() {
-        return mMultiListHelper.onRefresh();
+        return mMultiHelper.onRefresh();
     }
 
     /**
      * 更新缓存
      */
     public void putCache() {
-        mMultiListHelper.putCache();
+        mMultiHelper.putCache();
     }
 
     /**
      * 清空缓存
      */
     public void clearCache() {
-        mMultiListHelper.clearCache();
+        mMultiHelper.clearCache();
     }
 
     /**
@@ -180,7 +180,7 @@ public abstract class AfMultiListFragment<T> extends AfListFragment<T> implement
      * @param list 要缓存的数据
      */
     public void putCache(List<T> list) {
-        mMultiListHelper.putCache(list);
+        mMultiHelper.putCache(list);
     }
 
     /**
@@ -189,7 +189,7 @@ public abstract class AfMultiListFragment<T> extends AfListFragment<T> implement
      * @return 如果没有缓存 返回 null
      */
     public Date getCacheTime() {
-        return mMultiListHelper.getCacheTime();
+        return mMultiHelper.getCacheTime();
     }
 
     /**
@@ -198,7 +198,7 @@ public abstract class AfMultiListFragment<T> extends AfListFragment<T> implement
      * @return 返回true 表示准备完毕 否则 false 任务将被取消
      */
     public boolean onTaskPrepare(int task) {
-        return mMultiListHelper.onTaskPrepare(task);
+        return mMultiHelper.onTaskPrepare(task);
     }
 
     /**
@@ -211,7 +211,7 @@ public abstract class AfMultiListFragment<T> extends AfListFragment<T> implement
      * @return 返回true 已经做好错误页面显示 返回false 框架会做好默认错误反馈
      */
     public boolean onLoaded(AfListViewTask task, boolean isfinish, List<T> list, Date cachetime) {
-        return mMultiListHelper.onLoaded(task, isfinish, list, cachetime);
+        return mMultiHelper.onLoaded(task, isfinish, list, cachetime);
     }
 
     /**
@@ -223,7 +223,7 @@ public abstract class AfMultiListFragment<T> extends AfListFragment<T> implement
      * @return 返回true 已经做好错误页面显示 返回false 框架会做好默认错误反馈
      */
     public boolean onRefreshed(AfListViewTask task, boolean isfinish, List<T> list) {
-        return mMultiListHelper.onRefreshed(task, isfinish, list);
+        return mMultiHelper.onRefreshed(task, isfinish, list);
     }
 
     /**
@@ -235,7 +235,7 @@ public abstract class AfMultiListFragment<T> extends AfListFragment<T> implement
      * @return 返回true 已经做好错误页面显示 返回false 框架会做好默认错误反馈
      */
     public boolean onMored(AfListViewTask task, boolean isfinish, List<T> list) {
-        return mMultiListHelper.onMored(task, isfinish, list);
+        return mMultiHelper.onMored(task, isfinish, list);
     }
 
     /**
@@ -245,7 +245,7 @@ public abstract class AfMultiListFragment<T> extends AfListFragment<T> implement
      * @return true 显示更多功能 false 数据加载结束
      */
     public boolean setMoreShow(AfListViewTask task, List<T> list) {
-        return mMultiListHelper.setMoreShow(task, list);
+        return mMultiHelper.setMoreShow(task, list);
     }
 
     /**
@@ -255,28 +255,28 @@ public abstract class AfMultiListFragment<T> extends AfListFragment<T> implement
      * @return 返回 null 可以使用框架内置缓存
      */
     public List<T> onTaskLoad(boolean isCheckExpired) {
-        return mMultiListHelper.onTaskLoad(isCheckExpired);
+        return mMultiHelper.onTaskLoad(isCheckExpired);
     }
 
     /**
      * 缓存追加
      */
     public void onTaskPushCache(List<T> list) {
-        mMultiListHelper.onTaskPushCache(list);
+        mMultiHelper.onTaskPushCache(list);
     }
 
     /**
      * 缓存覆盖
      */
     public void onTaskPutCache(List<T> list) {
-        mMultiListHelper.onTaskPutCache(list);
+        mMultiHelper.onTaskPutCache(list);
     }
     /**
      * 可刷新列表页有新的数据加载模式，需要 final 父类数据加载方法
      */
     @Override
     public final List<T> onTaskLoadList() throws Exception {
-        return mMultiListHelper.onTaskLoadList();
+        return mMultiHelper.onTaskLoadList();
     }
 
     /**
@@ -297,7 +297,7 @@ public abstract class AfMultiListFragment<T> extends AfListFragment<T> implement
      * @return 是否成功执行
      */
     public boolean onTaskWorking(int task) throws Exception {
-        return mMultiListHelper.onTaskWorking(task);
+        return mMultiHelper.onTaskWorking(task);
     }
 
     /**
@@ -309,7 +309,7 @@ public abstract class AfMultiListFragment<T> extends AfListFragment<T> implement
      * @return 返回true 已经做好错误页面显示 返回false 框架会做好默认错误反馈
      */
     public boolean onTaskWorked(AfListViewTask task, boolean isfinish, List<T> list) {
-        return mMultiListHelper.onTaskWorked(task, isfinish, list);
+        return mMultiHelper.onTaskWorked(task, isfinish, list);
     }
 
     /**
@@ -319,7 +319,7 @@ public abstract class AfMultiListFragment<T> extends AfListFragment<T> implement
      */
     @Override
     public void bindAdapter(ItemsViewer listView, ListAdapter adapter) {
-        mMultiListHelper.bindAdapter(listView, adapter);
+        mMultiHelper.bindAdapter(listView, adapter);
     }
 
 

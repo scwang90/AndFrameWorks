@@ -47,12 +47,12 @@ import static com.andframe.util.java.AfReflecter.getAnnotation;
  *
  * Created by SCWANG on 2016/9/7.
  */
-public class AfItemsPagerHelper<T> implements ItemsPagerHelper<T> {
+public class AfItemsPagerHelper<T> extends AfMultiStatusHelper<List<T>> implements ItemsPagerHelper<T> {
 
     //<editor-fold desc="属性字段">
     protected ItemsPager<T> mItemsPager;
 
-    protected ItemsViewer mListView;
+    protected ItemsViewer mItemsViewer;
     protected ListItemAdapter<T> mAdapter;
     protected MoreFooter<T> mMoreFooter;
 
@@ -81,11 +81,14 @@ public class AfItemsPagerHelper<T> implements ItemsPagerHelper<T> {
     }
 
     public AfItemsPagerHelper(ItemsPager<T> itemsPager) {
+        super(itemsPager);
         this.mItemsPager = itemsPager;
     }
 
     @Override
-    public ItemsViewer onViewCreated() {
+    public void onViewCreated() throws Exception{
+        mLoadOnViewCreated = false;
+        super.onViewCreated();
         mItemsPager.initCache();
         if (mAdapter == null) {
             mAdapter = mItemsPager.newAdapter(mItemsPager.getContext(), new ArrayList<>());
@@ -96,19 +99,27 @@ public class AfItemsPagerHelper<T> implements ItemsPagerHelper<T> {
                 mAdapter = adapter;
             }
         }
-        mListView = mItemsPager.findItemsViewer(mItemsPager);
-        if (mListView != null) {
-            mListView.setOnItemClickListener(mItemsPager);
-            mListView.setOnItemLongClickListener(mItemsPager);
+        mItemsViewer = mItemsPager.findItemsViewer(mItemsPager);
+        if (mItemsViewer != null) {
+            mItemsViewer.setOnItemClickListener(mItemsPager);
+            mItemsViewer.setOnItemLongClickListener(mItemsPager);
             mItemsPager.bindListHeaderAndFooter();
-            mItemsPager.bindAdapter(mListView, mAdapter);
+            mItemsPager.bindAdapter(mItemsViewer, mAdapter);
         }
         if (mCacheClazz != null) {
             AfDispatcher.dispatch(() -> mItemsPager.postTask(new AbLoadListTask()));
         } else {
             AfDispatcher.dispatch(() -> mItemsPager.postTask(new AbRefreshListTask()));
         }
-        return mListView;
+    }
+
+    @Override
+    public View findContentView() {
+        View view = super.findContentView();
+        if (view != null) {
+            return view;
+        }
+        return mItemsViewer != null ? mItemsViewer.getItemsView() : null;
     }
 
     @Override
@@ -177,7 +188,7 @@ public class AfItemsPagerHelper<T> implements ItemsPagerHelper<T> {
             if (list != null && list.size() > 0) {
                 // 更新列表
                 mAdapter.addAll(list);
-                mListView.smoothScrollToPosition(mAdapter.getCount() + 1);
+                mItemsViewer.smoothScrollToPosition(mAdapter.getCount() + 1);
             }
             if (!mItemsPager.setMoreShow(task, list)) {
                 mItemsPager.makeToastShort("数据全部加载完毕！");
@@ -233,6 +244,32 @@ public class AfItemsPagerHelper<T> implements ItemsPagerHelper<T> {
             AfPrivateCaches cache = AfPrivateCaches.getInstance(KEY_CACHELIST);
             list.addAll(0, cache.getList(KEY_CACHELIST, mCacheClazz));
             cache.putList(KEY_CACHELIST, list);
+        }
+    }
+
+    @Override
+    public void finishRefresh() {
+        if (mRefreshLayouter != null && mRefreshLayouter.isRefreshing()) {
+            mRefreshLayouter.setRefreshing(false);
+            mRefreshLayouter.setLastRefreshTime(new Date());
+        } else if (mStatusLayouter == null || !mStatusLayouter.isProgress()) {
+            mItemsPager.hideProgressDialog();
+        }
+    }
+
+    @Override
+    public void finishRefreshFail() {
+        if (mRefreshLayouter != null && mRefreshLayouter.isRefreshing()) {
+            mRefreshLayouter.setRefreshing(false);
+        } else if (mStatusLayouter == null || !mStatusLayouter.isProgress()) {
+            mItemsPager.hideProgressDialog();
+        }
+    }
+
+    @Override
+    public void setLastRefreshTime(Date time) {
+        if (mRefreshLayouter != null) {
+            mRefreshLayouter.setLastRefreshTime(time);
         }
     }
 
@@ -322,8 +359,8 @@ public class AfItemsPagerHelper<T> implements ItemsPagerHelper<T> {
     //<editor-fold desc="原生事件">
     @Override
     public void onItemClick(AdapterView<?> adapterView, View view, int index, long id) {
-        if (mListView instanceof ListView) {
-            index -= ((ListView) mListView).getHeaderViewsCount();
+        if (mItemsViewer instanceof ListView) {
+            index -= ((ListView) mItemsViewer).getHeaderViewsCount();
         }
         if (index >= 0) {
             T model = mAdapter.get(index);
@@ -337,8 +374,8 @@ public class AfItemsPagerHelper<T> implements ItemsPagerHelper<T> {
 
     @Override
     public boolean onItemLongClick(AdapterView<?> adapterView, View view, int index, long id) {
-        if (mListView instanceof ListView) {
-            index -= ((ListView) mListView).getHeaderViewsCount();
+        if (mItemsViewer instanceof ListView) {
+            index -= ((ListView) mItemsViewer).getHeaderViewsCount();
         }
         if (index >= 0) {
             T model = mAdapter.get(index);

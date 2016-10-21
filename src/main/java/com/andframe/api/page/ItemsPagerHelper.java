@@ -20,13 +20,13 @@ import java.util.List;
  * 基本列表页帮助类接口
  * Created by SCWANG on 2016/9/7.
  */
-public interface ItemsPagerHelper<T> extends OnItemClickListener, OnItemLongClickListener, OnRefreshListener, OnMoreListener {
+public interface ItemsPagerHelper<T> extends MultiStatusHelper<List<T>>, OnItemClickListener, OnItemLongClickListener, OnRefreshListener, OnMoreListener {
 
     void bindAdapter(ItemsViewer listView, ListAdapter adapter);
     void onTaskLoadedCache(AfHandlerTask task, List<T> list);
     void onTaskLoadedRefresh(AfHandlerTask task, List<T> list);
     void onTaskLoadedMore(AfHandlerTask task, List<T> list);
-    ItemsViewer onViewCreated();
+    void onViewCreated() throws Exception;
     ListItemAdapter<T> newAdapter(Context context, List<T> list);
     List<T> onTaskLoadList(Page page);
     List<T> onTaskLoadCache(boolean isCheckExpired);
@@ -45,4 +45,9 @@ public interface ItemsPagerHelper<T> extends OnItemClickListener, OnItemLongClic
     void onTaskPutCache(List<T> list);
     void onTaskPushCache(List<T> list);
 
+    void finishRefresh();
+
+    void finishRefreshFail();
+
+    void setLastRefreshTime(Date time);
 }

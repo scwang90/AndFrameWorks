@@ -11,7 +11,7 @@ import java.util.List;
  * 多功能列表页帮助类接口
  * Created by SCWANG on 2016/9/7.
  */
-public interface MultiListPagerHelper<T> extends ListPagerHelper<T> {
+public interface MultiListHelper<T> extends ListPagerHelper<T> {
 
     /**
      * 显示数据页面

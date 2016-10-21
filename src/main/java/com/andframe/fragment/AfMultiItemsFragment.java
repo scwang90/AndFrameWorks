@@ -1,6 +1,7 @@
 package com.andframe.fragment;
 
 import android.content.Context;
+import android.support.annotation.NonNull;
 import android.view.View;
 import android.widget.AdapterView;
 import android.widget.ListAdapter;
@@ -10,6 +11,7 @@ import com.andframe.api.ListItemAdapter;
 import com.andframe.api.multistatus.MoreFooter;
 import com.andframe.api.page.ItemsPager;
 import com.andframe.api.page.ItemsPagerHelper;
+import com.andframe.api.page.MultiStatusHelper;
 import com.andframe.api.view.ItemsViewer;
 import com.andframe.impl.helper.AfItemsPagerHelper;
 import com.andframe.model.Page;
@@ -25,29 +27,25 @@ import java.util.List;
 
 public abstract class AfMultiItemsFragment<T> extends AfMultiStatusFragment<List<T>> implements ItemsPager<T> {
 
-    protected ItemsViewer mItemsViewer;
     protected ListItemAdapter<T> mAdapter;
-    protected ItemsPagerHelper<T> mItemsHelper = new AfItemsPagerHelper<>(this);
+    protected ItemsPagerHelper<T> mItemsHelper = newItemsHelper();
+
+    @NonNull
+    @Override
+    protected MultiStatusHelper<List<T>> newHelper() {
+        return mItemsHelper = newItemsHelper();
+    }
+
+    @NonNull
+    protected ItemsPagerHelper<T> newItemsHelper() {
+        if (mHelper instanceof ItemsPagerHelper) {
+            return ((ItemsPagerHelper<T>) mHelper);
+        }
+        return new AfItemsPagerHelper<>(this);
+    }
+
 
     //<editor-fold desc="初始化">
-    /**
-     * 初始化页面
-     */
-    @Override
-    protected void onViewCreated() throws Exception {
-        mLoadOnViewCreated = false;
-        mItemsViewer = mItemsHelper.onViewCreated();
-        super.onViewCreated();
-    }
-
-    @Override
-    protected View findContentView() {
-        View view = super.findContentView();
-        if (view != null) {
-            return view;
-        }
-        return mItemsViewer != null ? mItemsViewer.getItemsView() : null;
-    }
 
     //</editor-fold>
 
@@ -116,28 +114,17 @@ public abstract class AfMultiItemsFragment<T> extends AfMultiStatusFragment<List
     //<editor-fold desc="页面状态">
     @Override
     public void finishRefresh() {
-        if (mRefreshLayouter != null && mRefreshLayouter.isRefreshing()) {
-            mRefreshLayouter.setRefreshing(false);
-            mRefreshLayouter.setLastRefreshTime(new Date());
-        } else if (mStatusLayouter == null || !mStatusLayouter.isProgress()) {
-            hideProgressDialog();
-        }
+        mItemsHelper.finishRefresh();
     }
 
     @Override
     public void finishRefreshFail() {
-        if (mRefreshLayouter != null && mRefreshLayouter.isRefreshing()) {
-            mRefreshLayouter.setRefreshing(false);
-        } else if (mStatusLayouter == null || !mStatusLayouter.isProgress()) {
-            hideProgressDialog();
-        }
+        mItemsHelper.finishRefreshFail();
     }
 
     @Override
     public void setLastRefreshTime(Date time) {
-        if (mRefreshLayouter != null) {
-            mRefreshLayouter.setLastRefreshTime(time);
-        }
+        mItemsHelper.setLastRefreshTime(time);
     }
 
     //</editor-fold>
@@ -281,22 +268,22 @@ public abstract class AfMultiItemsFragment<T> extends AfMultiStatusFragment<List
 
     //<editor-fold desc="父类任务">
     @Override
-    protected final void onTaskFailed(AfHandlerTask task) {
+    public final void onTaskFailed(AfHandlerTask task) {
         super.onTaskFailed(task);
     }
 
     @Override
-    protected final void onTaskFinish(List<T> data) {
+    public final void onTaskFinish(List<T> data) {
         super.onTaskFinish(data);
     }
 
     @Override
-    protected final List<T> onTaskLoading() throws Exception {
+    public final List<T> onTaskLoading() throws Exception {
         return super.onTaskLoading();
     }
 
     @Override
-    protected final boolean onTaskLoaded(List<T> data) {
+    public final boolean onTaskLoaded(List<T> data) {
         return super.onTaskLoaded(data);
     }
     //</editor-fold>

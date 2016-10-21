@@ -31,12 +31,12 @@ public abstract class AfListFragment<T> extends AfTabFragment implements ListPag
 //    protected AbsListView mListView;
 //    protected AfListAdapter<T> mAdapter;
 
-    protected ListPagerHelper<T> mListHelper = newListPagerHelper();
+    protected ListPagerHelper<T> mHelper = newListHelper();
     protected ListItemAdapter<T> mAdapter;
 
     //<editor-fold desc="初始化">
     @NonNull
-    protected ListPagerHelper<T> newListPagerHelper() {
+    protected ListPagerHelper<T> newListHelper() {
         return new AfListPagerHelper<>(this);
     }
 
@@ -52,7 +52,7 @@ public abstract class AfListFragment<T> extends AfTabFragment implements ListPag
      */
     @BindViewCreated
     protected void onViewCreated() throws Exception {
-        mListHelper.onViewCreated();
+        mHelper.onViewCreated();
     }
     //</editor-fold>
 
@@ -89,7 +89,7 @@ public abstract class AfListFragment<T> extends AfTabFragment implements ListPag
      */
     @Override
     public void onItemClick(AdapterView<?> parent, View view, int index, long id) {
-        mListHelper.onItemClick(parent, view, index, id);
+        mHelper.onItemClick(parent, view, index, id);
     }
     /**
      * 数据列表点击事件
@@ -101,7 +101,7 @@ public abstract class AfListFragment<T> extends AfTabFragment implements ListPag
      */
     @Override
     public boolean onItemLongClick(AdapterView<?> parent, View view, int index, long id) {
-        return mListHelper.onItemLongClick(parent, view, index, id);
+        return mHelper.onItemLongClick(parent, view, index, id);
     }
     //</editor-fold>
 
@@ -112,7 +112,7 @@ public abstract class AfListFragment<T> extends AfTabFragment implements ListPag
      * @return id
      */
     protected int getLayoutId() {
-        return mListHelper.getLayoutId();
+        return mHelper.getLayoutId();
     }
     /**
      * onItemClick 事件的 包装 一般情况下子类可以重写这个方法
@@ -143,7 +143,7 @@ public abstract class AfListFragment<T> extends AfTabFragment implements ListPag
      */
     @Override
     public ListItemAdapter<T> newAdapter(Context context, List<T> list) {
-        return mAdapter = mListHelper.newAdapter(context, list);
+        return mAdapter = mHelper.newAdapter(context, list);
     }
 
     /**
@@ -162,17 +162,17 @@ public abstract class AfListFragment<T> extends AfTabFragment implements ListPag
      */
     @Override
     public void bindAdapter(ItemsViewer listView, ListAdapter adapter) {
-        mListHelper.bindAdapter(listView, adapter);
+        mHelper.bindAdapter(listView, adapter);
     }
 
     @Override
     public void onTaskLoaded(AfHandlerTask task, List<T> list) {
-        mListHelper.onTaskLoaded(task, list);
+        mHelper.onTaskLoaded(task, list);
     }
 
     @Override
     public List<T> onTaskLoadList() throws Exception {
-        return mListHelper.onTaskLoadList();
+        return mHelper.onTaskLoadList();
     }
     //</editor-fold>
 

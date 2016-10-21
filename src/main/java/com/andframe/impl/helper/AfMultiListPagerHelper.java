@@ -7,7 +7,7 @@ import android.widget.ListAdapter;
 import com.andframe.annotation.mark.MarkCache;
 import com.andframe.api.ListItemAdapter;
 import com.andframe.api.page.MultiListPager;
-import com.andframe.api.page.MultiListPagerHelper;
+import com.andframe.api.page.MultiListHelper;
 import com.andframe.api.view.ItemsRefreshableViewer;
 import com.andframe.api.view.ItemsViewer;
 import com.andframe.caches.AfPrivateCaches;
@@ -35,7 +35,7 @@ import static com.andframe.util.java.AfReflecter.getAnnotation;
  * 多功能列表页面帮助类
  * Created by SCWANG on 2016/9/7.
  */
-public class AfMultiListPagerHelper<T> extends AfListPagerHelper<T> implements MultiListPagerHelper<T> {
+public class AfMultiListPagerHelper<T> extends AfListPagerHelper<T> implements MultiListHelper<T> {
 
     protected MultiListPager<T> mMultiListPager;
 

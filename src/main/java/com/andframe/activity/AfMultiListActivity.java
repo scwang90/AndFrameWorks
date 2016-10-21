@@ -5,7 +5,7 @@ import android.widget.ListAdapter;
 
 import com.andframe.api.page.ListPagerHelper;
 import com.andframe.api.page.MultiListPager;
-import com.andframe.api.page.MultiListPagerHelper;
+import com.andframe.api.page.MultiListHelper;
 import com.andframe.api.view.ItemsRefreshableViewer;
 import com.andframe.api.view.ItemsViewer;
 import com.andframe.impl.helper.AfMultiListPagerHelper;
@@ -29,12 +29,12 @@ import java.util.List;
 public abstract class AfMultiListActivity<T> extends AfListActivity<T> implements MultiListPager<T> {
 
     //<editor-fold desc="帮助类">
-    protected MultiListPagerHelper<T> mMultiListHelper = newMultiListPagerHelper();
+    protected MultiListHelper<T> mMultiListHelper = newMultiListPagerHelper();
 
     @NonNull
-    protected MultiListPagerHelper<T> newMultiListPagerHelper() {
-        if (mListHelper instanceof MultiListPagerHelper) {
-            return ((MultiListPagerHelper<T>) mListHelper);
+    protected MultiListHelper<T> newMultiListPagerHelper() {
+        if (mListHelper instanceof MultiListHelper) {
+            return ((MultiListHelper<T>) mListHelper);
         }
         return new AfMultiListPagerHelper<>(this);
     }
