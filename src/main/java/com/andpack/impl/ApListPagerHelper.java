@@ -5,7 +5,7 @@ import android.view.View;
 import android.widget.GridView;
 import android.widget.ListView;
 
-import com.andframe.api.page.ListPager;
+import com.andframe.api.page.Pager;
 import com.andframe.api.view.ItemsViewer;
 import com.andframe.impl.viewer.ItemsGridViewWrapper;
 import com.andframe.impl.viewer.ItemsListViewWrapper;
@@ -25,7 +25,7 @@ public class ApListPagerHelper extends ApPagerHelper {
         super(pager);
     }
 
-    public <T> ItemsViewer findItemsViewer(ListPager<T> listPager) {
+    public <T> ItemsViewer findItemsViewer(Pager listPager) {
         BindItemsViewer viewer = AfReflecter.getAnnotation(listPager.getClass(), ApListFragment.class, BindItemsViewer.class);
         if (viewer == null) {
             throw new RuntimeException("请为页面添加 BindItemsViewer 注解");

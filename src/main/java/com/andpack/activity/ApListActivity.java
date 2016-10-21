@@ -36,7 +36,7 @@ public abstract class ApListActivity<T> extends AfListActivity<T> implements ApP
 
     @Override
     protected void onAfterViews() throws Exception {
-        mHelper.onAfterViews(mTitlebar);
+        mHelper.onViewCreated(mTitlebar);
         super.onAfterViews();
     }
 

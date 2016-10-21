@@ -36,7 +36,7 @@ public abstract class ApMultiListActivityImpl<T> extends AfMultiListActivityImpl
 
     @Override
     protected void onAfterViews() throws Exception {
-        mHelper.onAfterViews(mTitlebar);
+        mHelper.onViewCreated(mTitlebar);
         super.onAfterViews();
     }
 

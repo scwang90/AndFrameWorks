@@ -5,7 +5,7 @@ import android.support.annotation.StyleRes;
 import android.view.View;
 
 import com.andframe.activity.AfActivity;
-import com.andframe.annotation.view.BindAfterViews;
+import com.andframe.annotation.view.BindViewCreated;
 import com.andframe.annotation.view.BindViewModule;
 import com.andframe.module.AfModuleTitlebar;
 import com.andpack.api.ApPager;
@@ -34,9 +34,9 @@ public class ApActivity extends AfActivity implements ApPager {
         super.onCreate(bundle);
     }
 
-    @BindAfterViews
+    @BindViewCreated
     protected void onAfterViews() throws Exception {
-        mHelper.onAfterViews(mTitlebar);
+        mHelper.onViewCreated(mTitlebar);
     }
 
 

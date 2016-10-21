@@ -53,7 +53,7 @@ public class ApPagerHelper implements AfPullToRefreshBase.OnRefreshListener {
     public void onCreate() {
     }
 
-    public void onAfterViews(AfModuleTitlebar titlebar) {
+    public void onViewCreated(AfModuleTitlebar titlebar) {
         try {
             if (!StatusBarInterpreter.interpreter(pager)) {
                 BindStatusBarMode mode = AfReflecter.getAnnotation(pager.getClass(), AfActivity.class, BindStatusBarMode.class);
@@ -100,7 +100,7 @@ public class ApPagerHelper implements AfPullToRefreshBase.OnRefreshListener {
                 }
             }
         } catch (Throwable e) {
-            AfExceptionHandler.handle(e, ("ApPagerHelper.onAfterViews 失败"));
+            AfExceptionHandler.handle(e, ("ApPagerHelper.onViewCreated 失败"));
         }
     }
 

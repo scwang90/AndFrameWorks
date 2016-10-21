@@ -26,9 +26,9 @@ public abstract class ApMultiListFragment<T> extends AfMultiListFragment<T> impl
     }
 
     @Override
-    public void onAfterViews() throws Exception {
-        mHelper.onAfterViews(mTitlebar);
-        super.onAfterViews();
+    public void onViewCreated() throws Exception {
+        mHelper.onViewCreated(mTitlebar);
+        super.onViewCreated();
     }
 
 }

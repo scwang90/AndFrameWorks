@@ -1,6 +1,6 @@
 package com.andpack.fragment;
 
-import com.andframe.annotation.view.BindAfterViews;
+import com.andframe.annotation.view.BindViewCreated;
 import com.andframe.annotation.view.BindViewModule;
 import com.andframe.feature.AfBundle;
 import com.andframe.feature.AfView;
@@ -26,9 +26,9 @@ public class ApFragment extends AfTabFragment implements ApPager {
         super.onCreated(bundle, view);
     }
 
-    @BindAfterViews
+    @BindViewCreated
     protected void onAfterViews() throws Exception {
-        mHelper.onAfterViews(mTitlebar);
+        mHelper.onViewCreated(mTitlebar);
     }
 
     //<editor-fold desc="下拉刷新">

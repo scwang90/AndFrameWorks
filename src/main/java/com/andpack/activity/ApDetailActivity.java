@@ -35,7 +35,7 @@ public class ApDetailActivity<T> extends AfDetailActivity<T> implements ApPager 
 
     @Override
     protected void onAfterViews() throws Exception {
-        mHelper.onAfterViews(mTitlebar);
+        mHelper.onViewCreated(mTitlebar);
         super.onAfterViews();
     }
 
