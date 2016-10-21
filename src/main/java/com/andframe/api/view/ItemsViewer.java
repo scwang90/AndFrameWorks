@@ -9,7 +9,7 @@ import android.widget.ListAdapter;
  * Created by SCWANG on 2016/9/14.
  */
 public interface ItemsViewer<T extends ViewGroup> {
-//    void smoothScrollToPosition(int index);
+    void smoothScrollToPosition(int index);
     void setOnItemClickListener(AdapterView.OnItemClickListener listener);
     void setOnItemLongClickListener(AdapterView.OnItemLongClickListener listener);
     void setAdapter(ListAdapter adapter);

@@ -119,10 +119,12 @@ public class DefaultStatusLayouter implements StatusLayouter {
         if (mEmptyLayout == null) {
             setEmptyLayoutId(R.layout.af_module_nodata);
             mModuleEmpty = new AfModuleNodataImpl(new AfView(mEmptyLayout));
+            mModuleEmpty.setOnRefreshListener(mOnRefreshClickListener);
         }
         if (mErrorLayout == null) {
             setErrorLayoutId(R.layout.af_module_nodata);
             mModuleError = new AfModuleNodataImpl(new AfView(mErrorLayout));
+            mModuleError.setOnRefreshListener(mOnRefreshClickListener);
         }
         if (mProgressLayout == null) {
             setProgressLayoutId(R.layout.af_module_progress);
