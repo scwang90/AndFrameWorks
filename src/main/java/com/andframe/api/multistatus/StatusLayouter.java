@@ -18,9 +18,12 @@ public interface StatusLayouter {
     void setInvalidnetLayoutId(int invalidnetLayoutId);
     void autoCompletedLayout();
     void showEmpty();
+    void showEmpty(String empty);
     void showContent();
     void showProgress();
+    void showProgress(String message);
     void showError(String error);
 
     boolean isProgress();
+    boolean isContent();
 }

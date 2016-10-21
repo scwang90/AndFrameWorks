@@ -42,7 +42,7 @@ public abstract class AfMultiItemsFragment<T> extends AfMultiStatusFragment<List
 
     @Override
     protected View findContentView() {
-        return mItemsViewer.getItemsView();
+        return mItemsViewer != null ? mItemsViewer.getItemsView() : null;
     }
 
     //</editor-fold>
@@ -232,6 +232,9 @@ public abstract class AfMultiItemsFragment<T> extends AfMultiStatusFragment<List
         mItemsHelper.bindAdapter(listView, adapter);
     }
 
+    //<editor-fold desc="任务相关">
+
+    //<editor-fold desc="缓存数据">
     @Override
     public void onTaskPutCache(List<T> list) {
         mItemsHelper.onTaskPutCache(list);
@@ -241,7 +244,9 @@ public abstract class AfMultiItemsFragment<T> extends AfMultiStatusFragment<List
     public void onTaskPushCache(List<T> list) {
         mItemsHelper.onTaskPushCache(list);
     }
+    //</editor-fold>
 
+    //<editor-fold desc="任务加载">
     @Override
     public List<T> onTaskLoadCache(boolean isCheckExpired) {
         return mItemsHelper.onTaskLoadCache(isCheckExpired);
@@ -251,7 +256,9 @@ public abstract class AfMultiItemsFragment<T> extends AfMultiStatusFragment<List
     public List<T> onTaskLoadList(Page page) throws Exception {
         return mItemsHelper.onTaskLoadList(page);
     }
+    //</editor-fold>
 
+    //<editor-fold desc="任务完成">
     @Override
     public void onTaskLoadedCache(AfHandlerTask task, List<T> list) {
         mItemsHelper.onTaskLoadedCache(task, list);
@@ -266,6 +273,31 @@ public abstract class AfMultiItemsFragment<T> extends AfMultiStatusFragment<List
     public void onTaskLoadedMore(AfHandlerTask task, List<T> list) {
         mItemsHelper.onTaskLoadedMore(task, list);
     }
+    //</editor-fold>
+
+    //<editor-fold desc="父类任务">
+    @Override
+    protected final void onTaskFailed(AfHandlerTask task) {
+        super.onTaskFailed(task);
+    }
+
+    @Override
+    protected final void onTaskFinish(List<T> data) {
+        super.onTaskFinish(data);
+    }
+
+    @Override
+    protected final List<T> onTaskLoading() throws Exception {
+        return super.onTaskLoading();
+    }
+
+    @Override
+    protected final boolean onTaskLoaded(List<T> data) {
+        return super.onTaskLoaded(data);
+    }
+    //</editor-fold>
+
+    //</editor-fold>
 
     //</editor-fold>
 

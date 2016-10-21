@@ -39,7 +39,7 @@ public abstract class AfHandlerTask extends AfTask {
                 mListener.onTaskFinish(this);
             }
 		} catch (Exception e) {
-			String remark = "AfHandlerTask("+getClass().getName()+").handleMessage.onTaskFinish";
+			String remark = "AfHandlerTask("+mListener.getClass().getName()+").handleMessage.onTaskFinish";
 			AfExceptionHandler.handle(e, remark);
 		}
 		try {

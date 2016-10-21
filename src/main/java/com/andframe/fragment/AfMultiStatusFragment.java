@@ -16,8 +16,7 @@ import com.andframe.annotation.view.BindViewCreated;
 import com.andframe.api.multistatus.OnRefreshListener;
 import com.andframe.api.multistatus.RefreshLayouter;
 import com.andframe.api.multistatus.StatusLayouter;
-import com.andframe.impl.multistatus.DefaultRefreshLayouter;
-import com.andframe.impl.multistatus.DefaultStatusLayouter;
+import com.andframe.application.AfApp;
 import com.andframe.task.AfDispatcher;
 import com.andframe.task.AfHandlerDataTask;
 import com.andframe.task.AfHandlerTask;
@@ -121,12 +120,12 @@ public class AfMultiStatusFragment<T> extends AfTabFragment implements OnRefresh
         return layouter;
     }
 
-    protected StatusLayouter createStatusLayouter(Context content) {
-        return new DefaultStatusLayouter(content);
+    protected StatusLayouter createStatusLayouter(Context context) {
+        return AfApp.get().newStatusLayouter(context);
     }
 
     protected RefreshLayouter createRefreshLayouter(Context context) {
-        return new DefaultRefreshLayouter(context);
+        return AfApp.get().newRefreshLayouter(context);
     }
     //</editor-fold>
 
@@ -148,7 +147,7 @@ public class AfMultiStatusFragment<T> extends AfTabFragment implements OnRefresh
                 AfDispatcher.dispatch(() -> showProgress());
                 return mModel = onTaskLoading();
             }
-        }).setListener(task -> mRefreshLayouter.setRefreshing(false)).prepare();
+        })/*.setListener(task -> mRefreshLayouter.setRefreshing(false))*/.prepare();
     }
 
     protected void onTaskFinish(T data) {
@@ -161,7 +160,12 @@ public class AfMultiStatusFragment<T> extends AfTabFragment implements OnRefresh
     }
 
     protected void onTaskFailed(AfHandlerTask task) {
-        showError(task.makeErrorToast("加载失败"));
+        if (mModel != null) {
+            showContent();
+            makeToastShort(task.makeErrorToast("加载失败"));
+        } else {
+            showError(task.makeErrorToast("加载失败"));
+        }
     }
 
     /**
@@ -195,9 +199,11 @@ public class AfMultiStatusFragment<T> extends AfTabFragment implements OnRefresh
     }
 
     public void showContent() {
-        if (mStatusLayouter != null && mStatusLayouter.isProgress()) {
+        if (mStatusLayouter != null && !mStatusLayouter.isContent()) {
             mStatusLayouter.showContent();
-        } else if ((mRefreshLayouter == null || !mRefreshLayouter.isRefreshing())) {
+        } else if (mRefreshLayouter != null && mRefreshLayouter.isRefreshing()) {
+            mRefreshLayouter.setRefreshing(false);
+        } else {
             hideProgressDialog();
         }
     }
@@ -214,7 +220,11 @@ public class AfMultiStatusFragment<T> extends AfTabFragment implements OnRefresh
     }
 
     public void showError(String error) {
-        hideProgressDialog();
+        if (mRefreshLayouter != null && mRefreshLayouter.isRefreshing()) {
+            mRefreshLayouter.setRefreshing(false);
+        } else if (mStatusLayouter == null || !mStatusLayouter.isProgress()) {
+            hideProgressDialog();
+        }
         if (mStatusLayouter != null) {
             mStatusLayouter.showError(error);
         } else {

@@ -9,7 +9,10 @@ import android.widget.FrameLayout;
 import com.andframe.R;
 import com.andframe.api.multistatus.OnRefreshListener;
 import com.andframe.api.multistatus.StatusLayouter;
+import com.andframe.feature.AfView;
 import com.andframe.module.AfFrameSelector;
+import com.andframe.module.AfModuleNodata;
+import com.andframe.module.AfModuleNodataImpl;
 
 /**
  * 可切换状态页面的布局
@@ -34,6 +37,10 @@ public class DefaultStatusLayouter implements StatusLayouter {
             }
         }
     };
+
+    private AfModuleNodata mModuleEmpty;
+    private AfModuleNodata mModuleError;
+    private AfModuleNodata mModuleProgress;
 
     public DefaultStatusLayouter(Context content) {
         this(new FrameLayout(content));
@@ -111,12 +118,15 @@ public class DefaultStatusLayouter implements StatusLayouter {
     public void autoCompletedLayout() {
         if (mEmptyLayout == null) {
             setEmptyLayoutId(R.layout.af_module_nodata);
+            mModuleEmpty = new AfModuleNodataImpl(new AfView(mEmptyLayout));
         }
         if (mErrorLayout == null) {
-            mErrorLayout = mEmptyLayout;
+            setErrorLayoutId(R.layout.af_module_nodata);
+            mModuleError = new AfModuleNodataImpl(new AfView(mErrorLayout));
         }
         if (mProgressLayout == null) {
             setProgressLayoutId(R.layout.af_module_progress);
+            mModuleProgress = new AfModuleNodataImpl(new AfView(mProgressLayout));
         }
     }
     //</editor-fold>
@@ -126,6 +136,16 @@ public class DefaultStatusLayouter implements StatusLayouter {
     public void showEmpty() {
         if (mEmptyLayout != null) {
             mFrameSelector.selectFrame(mEmptyLayout);
+        }
+    }
+
+    @Override
+    public void showEmpty(String empty) {
+        if (mEmptyLayout != null) {
+            mFrameSelector.selectFrame(mEmptyLayout);
+            if (mModuleEmpty != null) {
+                mModuleEmpty.setDescription(empty);
+            }
         }
     }
 
@@ -144,15 +164,33 @@ public class DefaultStatusLayouter implements StatusLayouter {
     }
 
     @Override
+    public void showProgress(String message) {
+        if (mProgressLayout != null) {
+            mFrameSelector.selectFrame(mProgressLayout);
+            if (mModuleProgress != null) {
+                mModuleProgress.setDescription(message);
+            }
+        }
+    }
+
+    @Override
     public void showError(String error) {
         if (mErrorLayout != null) {
             mFrameSelector.selectFrame(mErrorLayout);
+            if (mModuleError != null) {
+                mModuleError.setDescription(error);
+            }
         }
     }
 
     @Override
     public boolean isProgress() {
         return mProgressLayout != null && mFrameSelector.isCurrent(mProgressLayout);
+    }
+
+    @Override
+    public boolean isContent() {
+        return mContentView != null && mFrameSelector.isCurrent(mContentView);
     }
     //</editor-fold>
 }

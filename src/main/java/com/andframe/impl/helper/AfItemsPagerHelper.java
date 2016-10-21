@@ -388,7 +388,9 @@ public class AfItemsPagerHelper<T> implements ItemsPagerHelper<T> {
             if (list != null && list.size() > 0) {
                 return list;
             }
-            return mItemsPager.onTaskLoadList(new Page(AfListViewTask.PAGE_SIZE, 0));
+            data = mItemsPager.onTaskLoadList(new Page(AfListViewTask.PAGE_SIZE, 0));
+            mItemsPager.onTaskPutCache(data);
+            return data;
         }
     }
 

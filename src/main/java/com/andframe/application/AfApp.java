@@ -18,12 +18,16 @@ import android.view.View;
 import com.andframe.BuildConfig;
 import com.andframe.activity.AfActivity;
 import com.andframe.api.DialogBuilder;
+import com.andframe.api.multistatus.RefreshLayouter;
+import com.andframe.api.multistatus.StatusLayouter;
 import com.andframe.api.view.ViewQuery;
 import com.andframe.api.TaskExecutor;
 import com.andframe.caches.AfJsonCache;
 import com.andframe.exception.AfExceptionHandler;
 import com.andframe.feature.AfDialogBuilder;
 import com.andframe.feature.AfView;
+import com.andframe.impl.multistatus.DefaultRefreshLayouter;
+import com.andframe.impl.multistatus.DefaultStatusLayouter;
 import com.andframe.task.AfTaskExecutor;
 import com.andframe.util.java.AfReflecter;
 
@@ -468,6 +472,13 @@ public abstract class AfApp extends Application {
 
 	public DialogBuilder newDialogBuilder(Context context) {
 		return new AfDialogBuilder(context);
+	}
+
+	public RefreshLayouter newRefreshLayouter(Context context) {
+		return new DefaultRefreshLayouter(context);
+	}
+	public StatusLayouter newStatusLayouter(Context context) {
+		return new DefaultStatusLayouter(context);
 	}
 	//</editor-fold>
 
