@@ -6,10 +6,12 @@ import android.view.ViewGroup;
 
 import com.andframe.api.multistatus.OnRefreshListener;
 import com.andframe.api.multistatus.RefreshLayouter;
-import com.baoyz.widget.PullRefreshLayout;
+import com.cjj.MaterialRefreshLayout;
+import com.cjj.MaterialRefreshListener;
 
 import java.util.Date;
-import java.util.Random;
+
+import static com.andframe.R.*;
 
 /**
  * 使用第三方刷新控件 PullRefreshLayout
@@ -18,12 +20,12 @@ import java.util.Random;
 
 public class ApRefreshLayout implements RefreshLayouter {
 
-    private PullRefreshLayout mRefreshLayout;
+    private MaterialRefreshLayout mRefreshLayout;
     private boolean isRefreshing = false;
 
     public ApRefreshLayout(Context context) {
-        this.mRefreshLayout = new PullRefreshLayout(context);
-        this.mRefreshLayout.setRefreshStyle(new Random().nextInt(5));
+        this.mRefreshLayout = new MaterialRefreshLayout(context);
+        this.mRefreshLayout.setWaveColor(context.getResources().getColor(color.colorPrimary));
     }
 
     @Override
@@ -39,23 +41,29 @@ public class ApRefreshLayout implements RefreshLayouter {
     @Override
     public void setRefreshing(boolean refreshing) {
         isRefreshing = refreshing;
-        mRefreshLayout.setRefreshing(refreshing);
+        if (refreshing) {
+            mRefreshLayout.autoRefresh();
+        } else {
+            mRefreshLayout.finishRefresh();
+        }
     }
 
     @Override
     public void setOnRefreshListener(OnRefreshListener listener) {
-        mRefreshLayout.setOnRefreshListener(() -> {
-            if (listener.onRefresh()) {
-                isRefreshing = true;
-            } else {
-                setRefreshing(false);
+        mRefreshLayout.setMaterialRefreshListener(new MaterialRefreshListener() {
+            @Override
+            public void onRefresh(MaterialRefreshLayout materialRefreshLayout) {
+                if (listener.onRefresh()) {
+                    isRefreshing = true;
+                } else {
+                    setRefreshing(false);
+                }
             }
         });
     }
 
     @Override
     public void setLastRefreshTime(Date date) {
-
     }
 
     @Override
