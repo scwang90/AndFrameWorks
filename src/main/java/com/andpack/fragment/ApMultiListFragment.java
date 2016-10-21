@@ -20,9 +20,9 @@ public abstract class ApMultiListFragment<T> extends AfMultiListFragment<T> impl
     protected ApPagerHelper mApHelper = new ApPagerHelper(this);
 
     @Override
-    protected void onCreated(AfBundle bundle, AfView view) throws Exception {
+    protected void onCreate(AfBundle bundle, AfView view) throws Exception {
         mApHelper.onCreate();
-        super.onCreated(bundle, view);
+        super.onCreate(bundle, view);
     }
 
     @Override

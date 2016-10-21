@@ -22,9 +22,9 @@ public abstract class ApListFragment<T> extends AfListFragment<T> implements ApP
     protected ApListHelper mApHelper = new ApListHelper(this);
 
     @Override
-    protected void onCreated(AfBundle bundle, AfView view) throws Exception {
+    protected void onCreate(AfBundle bundle, AfView view) throws Exception {
         mApHelper.onCreate();
-        super.onCreated(bundle, view);
+        super.onCreate(bundle, view);
     }
 
     @Override

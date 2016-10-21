@@ -1,12 +1,12 @@
-package com.andpack.fragment;
+package com.andpack.activity;
 
 import android.content.Context;
+import android.os.Bundle;
 import android.view.View;
 
+import com.andframe.activity.AfMultiStatusActivity;
 import com.andframe.api.multistatus.RefreshLayouter;
-import com.andframe.feature.AfBundle;
-import com.andframe.feature.AfView;
-import com.andframe.fragment.AfMultiStatusFragment;
+import com.andframe.feature.AfIntent;
 import com.andpack.api.ApPager;
 import com.andpack.impl.ApStatusPagerHelper;
 
@@ -15,14 +15,14 @@ import com.andpack.impl.ApStatusPagerHelper;
  * Created by SCWANG on 2016/10/21.
  */
 
-public class ApMultiStatusFragment<T> extends AfMultiStatusFragment<T> implements ApPager {
+public class ApMultiStatusActivity<T> extends AfMultiStatusActivity<T> implements ApPager {
 
     protected ApStatusPagerHelper mApHelper = new ApStatusPagerHelper(this);
 
     @Override
-    protected void onCreate(AfBundle bundle, AfView view) throws Exception {
+    protected void onCreate(Bundle bundle, AfIntent intent) throws Exception {
         mApHelper.onCreate();
-        super.onCreate(bundle, view);
+        super.onCreate(bundle, intent);
     }
 
     @Override

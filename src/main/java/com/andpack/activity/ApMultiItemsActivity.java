@@ -1,11 +1,11 @@
-package com.andpack.fragment;
+package com.andpack.activity;
 
 import android.content.Context;
+import android.os.Bundle;
 
+import com.andframe.activity.AfMultiItemsActivity;
 import com.andframe.api.multistatus.RefreshLayouter;
-import com.andframe.feature.AfBundle;
-import com.andframe.feature.AfView;
-import com.andframe.fragment.AfMultiItemsFragment;
+import com.andframe.feature.AfIntent;
 import com.andpack.api.ApPager;
 import com.andpack.impl.ApListHelper;
 
@@ -13,14 +13,14 @@ import com.andpack.impl.ApListHelper;
  *
  * Created by SCWANG on 2016/9/7.
  */
-public abstract class ApMultiItemsFragment<T> extends AfMultiItemsFragment<T> implements ApPager {
+public abstract class ApMultiItemsActivity<T> extends AfMultiItemsActivity<T> implements ApPager {
 
     protected ApListHelper mApHelper = new ApListHelper(this);
 
     @Override
-    protected void onCreate(AfBundle bundle, AfView view) throws Exception {
+    protected void onCreate(Bundle bundle, AfIntent intent) throws Exception {
         mApHelper.onCreate();
-        super.onCreate(bundle, view);
+        super.onCreate(bundle, intent);
     }
 
     @Override

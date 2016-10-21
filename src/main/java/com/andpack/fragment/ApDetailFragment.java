@@ -20,9 +20,9 @@ public class ApDetailFragment<T> extends AfDetailFragment<T> implements ApPager 
     protected ApPagerHelper mHelper = new ApPagerHelper(this);
 
     @Override
-    protected void onCreated(AfBundle bundle, AfView view) throws Exception {
+    protected void onCreate(AfBundle bundle, AfView view) throws Exception {
         mHelper.onCreate();
-        super.onCreated(bundle, view);
+        super.onCreate(bundle, view);
     }
 
     @Override
