@@ -534,6 +534,13 @@ public abstract class AfFragment extends Fragment implements Pager, ViewQueryHel
         }
         dialogBuilder.hideProgressDialog();
     }
+
+    /**
+     * 是否正在显示进度对话框
+     */
+    public boolean isProgressDialogShowing() {
+        return dialogBuilder != null && dialogBuilder.isProgressDialogShowing();
+    }
     //</editor-fold>
 
 }

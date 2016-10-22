@@ -630,6 +630,12 @@ public class AfActivity extends AppCompatActivity implements Pager, ViewQueryHel
     public void hideProgressDialog() {
         dialogBuilder.hideProgressDialog();
     }
+    /**
+     * 是否正在显示进度对话框
+     */
+    public boolean isProgressDialogShowing() {
+        return dialogBuilder != null && dialogBuilder.isProgressDialogShowing();
+    }
     //</editor-fold>
 
 }

@@ -11,13 +11,16 @@ import android.widget.ListView;
 import android.widget.ScrollView;
 
 import com.andframe.$;
+import com.andframe.activity.AfMultiStatusActivity;
 import com.andframe.annotation.multistatus.MultiContentViewId;
+import com.andframe.annotation.multistatus.MultiContentViewType;
 import com.andframe.annotation.multistatus.MultiStatusLayout;
 import com.andframe.api.multistatus.RefreshLayouter;
 import com.andframe.api.multistatus.StatusLayouter;
-import com.andframe.api.page.MultiStatusPager;
 import com.andframe.api.page.MultiStatusHelper;
+import com.andframe.api.page.MultiStatusPager;
 import com.andframe.application.AfApp;
+import com.andframe.feature.AfView;
 import com.andframe.fragment.AfMultiStatusFragment;
 import com.andframe.task.AfDispatcher;
 import com.andframe.task.AfHandlerDataTask;
@@ -82,10 +85,14 @@ public class AfMultiStatusHelper<T> implements MultiStatusHelper<T> {
 
     //<editor-fold desc="初始化布局">
     public View findContentView() {
-        Class<?> stop = mPager instanceof Activity ? null : AfMultiStatusFragment.class;
+        Class<?> stop = mPager instanceof Activity ? AfMultiStatusActivity.class : AfMultiStatusFragment.class;
         MultiContentViewId id = AfReflecter.getAnnotation(mPager.getClass(), stop, MultiContentViewId.class);
         if (id != null) {
             return mPager.findViewById(id.value());
+        }
+        MultiContentViewType type = AfReflecter.getAnnotation(mPager.getClass(), stop, MultiContentViewType.class);
+        if (type != null) {
+            return new AfView(mPager.getView()).$(type.value()).view();
         }
 
         Queue<View> views = new LinkedBlockingQueue<>(Collections.singletonList(mPager.getView()));
@@ -121,7 +128,7 @@ public class AfMultiStatusHelper<T> implements MultiStatusHelper<T> {
         $.query(content).replace(layouter.getLayout());
         layouter.setContenView(content);
 
-        Class<?> stop = mPager instanceof Activity ? null : AfMultiStatusFragment.class;
+        Class<?> stop = mPager instanceof Activity ? AfMultiStatusActivity.class : AfMultiStatusFragment.class;
         MultiStatusLayout status = AfReflecter.getAnnotation(mPager.getClass(), stop, MultiStatusLayout.class);
         if (status != null) {
             layouter.setProgressLayoutId(status.progress());
@@ -246,6 +253,19 @@ public class AfMultiStatusHelper<T> implements MultiStatusHelper<T> {
             mStatusLayouter.showError(error);
         } else {
             mPager.makeToastShort(error);
+        }
+    }
+
+    @Override
+    public void showProgress(String progress) {
+        if (mStatusLayouter != null) {
+            mStatusLayouter.showProgress(progress);
+        } else {
+            if (!mPager.isProgressDialogShowing()) {
+                mPager.showProgressDialog(progress);
+            } else {
+                mPager.setProgressDialogText(progress);
+            }
         }
     }
     //</editor-fold>

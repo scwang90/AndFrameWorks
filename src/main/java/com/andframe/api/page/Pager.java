@@ -73,6 +73,11 @@ public interface Pager extends Viewer, Constanter {
      * 隐藏 进度对话框
      */
     void hideProgressDialog();
+
+    /**
+     * 是否正在显示进度对话框
+     */
+    boolean isProgressDialogShowing();
     //</editor-fold>
 
 }

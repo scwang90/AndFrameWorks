@@ -22,6 +22,9 @@ public class AfMultiStatusActivity<T> extends AfActivity implements MultiStatusP
 
     protected MultiStatusHelper<T> mHelper = newHelper();
 
+    protected StatusLayouter mStatusLayouter;
+    protected RefreshLayouter mRefreshLayouter;
+
     @NonNull
     protected MultiStatusHelper<T> newHelper() {
         return new AfMultiStatusHelper<>(this);
@@ -38,19 +41,19 @@ public class AfMultiStatusActivity<T> extends AfActivity implements MultiStatusP
     }
 
     public RefreshLayouter initRefreshLayout(View content) {
-        return mHelper.initRefreshLayout(content);
+        return mRefreshLayouter = mHelper.initRefreshLayout(content);
     }
 
     public StatusLayouter initStatusLayout(View content) {
-        return mHelper.initStatusLayout(content);
+        return mStatusLayouter = mHelper.initStatusLayout(content);
     }
 
     public StatusLayouter createStatusLayouter(Context context) {
-        return mHelper.createStatusLayouter(context);
+        return mStatusLayouter = mHelper.createStatusLayouter(context);
     }
 
     public RefreshLayouter createRefreshLayouter(Context context) {
-        return mHelper.createRefreshLayouter(context);
+        return mRefreshLayouter = mHelper.createRefreshLayouter(context);
     }
     //</editor-fold>
 
