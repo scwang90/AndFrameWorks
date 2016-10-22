@@ -1,6 +1,7 @@
 package com.andframe.impl.multistatus;
 
 import android.content.Context;
+import android.graphics.drawable.Drawable;
 import android.support.v4.widget.SwipeRefreshLayout;
 import android.view.View;
 import android.view.ViewGroup;
@@ -38,6 +39,10 @@ public class DefaultRefreshLayouter implements RefreshLayouter, SwipeRefreshLayo
             mRefreshLayout.removeView(mContentView);
         }
         mRefreshLayout.addView(mContentView = content);
+        Drawable background = content.getBackground();
+        if (background != null) {
+            mRefreshLayout.setBackgroundDrawable(content.getBackground());
+        }
     }
 
     public void setOnRefreshListener(OnRefreshListener listener) {
