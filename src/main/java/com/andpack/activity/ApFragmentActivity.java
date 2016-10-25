@@ -1,7 +1,5 @@
 package com.andpack.activity;
 
-import android.app.Activity;
-import android.content.Intent;
 import android.os.Bundle;
 import android.support.annotation.StyleRes;
 import android.support.v4.app.Fragment;
@@ -11,10 +9,7 @@ import com.andframe.activity.AfActivity;
 import com.andframe.activity.AfFragmentActivity;
 import com.andframe.application.AfApp;
 import com.andframe.feature.AfIntent;
-import com.andframe.util.java.AfReflecter;
-import com.andpack.annotation.MustLogined;
 import com.andpack.api.ApPager;
-import com.andpack.application.ApApp;
 import com.andpack.impl.ApPagerHelper;
 
 import java.util.ArrayList;
@@ -28,7 +23,7 @@ import java.util.List;
 @SuppressWarnings("unused")
 public class ApFragmentActivity extends AfFragmentActivity implements ApPager {
 
-    protected ApPagerHelper mHelper = new ApPagerHelper(this);
+    protected ApPagerHelper mApHelper = new ApPagerHelper(this);
 
     static {
         activityClazz = ApFragmentActivity.class;
@@ -36,14 +31,13 @@ public class ApFragmentActivity extends AfFragmentActivity implements ApPager {
 
     @Override
     public void setTheme(@StyleRes int resid) {
-        mHelper.setTheme(resid);
+        mApHelper.setTheme(resid);
         super.setTheme(resid);
     }
 
     @Override
-    protected void onCreate(Bundle bundle, AfIntent intent) throws Exception {
-        mHelper.onCreate();
-        checkMustLoginedOnCreate();
+    protected void onCreate(Bundle bundle, AfIntent intent) {
+        mApHelper.onCreate();
         super.onCreate(bundle, intent);
     }
 
@@ -51,19 +45,19 @@ public class ApFragmentActivity extends AfFragmentActivity implements ApPager {
     public View findViewById(int id) {
         View v = super.findViewById(id);
         if (v == null)
-            return mHelper.findViewById(id);
+            return mApHelper.findViewById(id);
         return v;
     }
 
     @Override
     protected void onPostCreate(Bundle savedInstanceState) {
         super.onPostCreate(savedInstanceState);
-        mHelper.onPostCreate(savedInstanceState);
+        mApHelper.onPostCreate(savedInstanceState);
     }
 
     @Override
     public void finish() {
-        if (mHelper.finish()) {
+        if (mApHelper.finish()) {
             return;
         }
         super.finish();
@@ -105,58 +99,6 @@ public class ApFragmentActivity extends AfFragmentActivity implements ApPager {
             list.add(0,clazz.getName());
             list.add(0,EXTRA_FRAGMENT);
             activity.startActivityForResult(activityClazz, request, list.toArray());
-        }
-    }
-    //</editor-fold>
-
-
-    //<editor-fold desc="登录检测">
-
-    protected static final int REQUSET_LOGIN = 10;
-
-    /**
-     * 在创建页面的时候检测是否要求登录
-     */
-
-    protected void checkMustLoginedOnCreate() throws Exception {
-        Class<?> fragment = Class.forName(mFragmentClazz);
-        MustLogined mustLogined = AfReflecter.getAnnotation(fragment, Fragment.class, MustLogined.class);
-        if (mustLogined != null && !ApApp.getApApp().isUserLogined()) {
-            interruptReplaceFragment = true;
-            startLoginPager(mustLogined);
-        }
-    }
-
-    /**
-     * 启动指定的登录页面
-     */
-    protected void startLoginPager(MustLogined logined) {
-        if (Activity.class.isAssignableFrom(logined.value())) {
-            startActivityForResult(new Intent(this,logined.value()), REQUSET_LOGIN);
-        } else if (Fragment.class.isAssignableFrom(logined.value())) {
-            //noinspection unchecked
-            startFragmentForResult((Class<? extends Fragment>)logined.value(), REQUSET_LOGIN);
-        }
-    }
-
-    @Override
-    protected void onActivityResult(AfIntent intent, int requestcode, int resultcode) throws Exception {
-        super.onActivityResult(intent, requestcode, resultcode);
-        if (requestcode == REQUSET_LOGIN) {
-            if (ApApp.getApApp().isUserLogined()) {
-                interruptReplaceFragment = false;
-                replaceFragment();
-            } else {
-                finish();
-            }
-        }
-    }
-
-    protected boolean interruptReplaceFragment = false;
-    @Override
-    protected void replaceFragment() throws Exception {
-        if (!interruptReplaceFragment) {
-            super.replaceFragment();
         }
     }
     //</editor-fold>

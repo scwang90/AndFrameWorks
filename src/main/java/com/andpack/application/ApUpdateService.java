@@ -33,7 +33,7 @@ public abstract class ApUpdateService {
 	private DownloadListener managerListener = null;
 	public static ApUpdateService getInstance() {
 		if (mInstance == null) {
-			mInstance = ApApp.getApApp().getUpdateService();
+			mInstance = ApApp.getApp().getUpdateService();
 		}
 		return mInstance;
 	}
@@ -58,7 +58,7 @@ public abstract class ApUpdateService {
 
 	public ApUpdateService(Context context) {
 		mContext = context;
-		mVersion = ApApp.getApApp().getVersion();
+		mVersion = ApApp.getApp().getVersion();
 	}
 
 	private void start(String url, String version) {

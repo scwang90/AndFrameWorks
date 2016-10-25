@@ -2,6 +2,8 @@ package com.andpack.activity;
 
 import android.content.Context;
 import android.os.Bundle;
+import android.support.annotation.StyleRes;
+import android.view.View;
 
 import com.andframe.activity.AfMultiItemsActivity;
 import com.andframe.api.multistatus.RefreshLayouter;
@@ -18,7 +20,13 @@ public abstract class ApMultiItemsActivity<T> extends AfMultiItemsActivity<T> im
     protected ApListHelper mApHelper = new ApListHelper(this);
 
     @Override
-    protected void onCreate(Bundle bundle, AfIntent intent) throws Exception {
+    public void setTheme(@StyleRes int resid) {
+        mApHelper.setTheme(resid);
+        super.setTheme(resid);
+    }
+
+    @Override
+    protected void onCreate(Bundle bundle, AfIntent intent) {
         mApHelper.onCreate();
         super.onCreate(bundle, intent);
     }
@@ -27,6 +35,28 @@ public abstract class ApMultiItemsActivity<T> extends AfMultiItemsActivity<T> im
     public void onViewCreated() throws Exception {
         mApHelper.onViewCreated(null);
         super.onViewCreated();
+    }
+
+    @Override
+    public View findViewById(int id) {
+        View v = super.findViewById(id);
+        if (v == null)
+            return mApHelper.findViewById(id);
+        return v;
+    }
+
+    @Override
+    protected void onPostCreate(Bundle bundle) {
+        super.onPostCreate(bundle);
+        mApHelper.onPostCreate(bundle);
+    }
+
+    @Override
+    public void finish() {
+        if (mApHelper.finish()) {
+            return;
+        }
+        super.finish();
     }
 
     @Override

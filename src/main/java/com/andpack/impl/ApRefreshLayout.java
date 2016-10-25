@@ -6,12 +6,11 @@ import android.view.ViewGroup;
 
 import com.andframe.api.multistatus.OnRefreshListener;
 import com.andframe.api.multistatus.RefreshLayouter;
+import com.andpack.R;
 import com.cjj.MaterialRefreshLayout;
 import com.cjj.MaterialRefreshListener;
 
 import java.util.Date;
-
-import static com.andframe.R.*;
 
 /**
  * 使用第三方刷新控件 PullRefreshLayout
@@ -24,8 +23,16 @@ public class ApRefreshLayout implements RefreshLayouter {
     private boolean isRefreshing = false;
 
     public ApRefreshLayout(Context context) {
-        this.mRefreshLayout = new MaterialRefreshLayout(context);
-        this.mRefreshLayout.setWaveColor(context.getResources().getColor(color.colorPrimary));
+        this(context, R.color.colorPrimary);
+    }
+
+    public ApRefreshLayout(Context context, int colorId) {
+        this(new MaterialRefreshLayout(context), colorId);
+    }
+
+    public ApRefreshLayout(MaterialRefreshLayout layout, int colorId) {
+        this.mRefreshLayout = layout;
+        this.mRefreshLayout.setWaveColor(layout.getContext().getResources().getColor(colorId));
     }
 
     @Override

@@ -11,7 +11,6 @@ import com.andframe.api.multistatus.RefreshLayouter;
 import com.andframe.api.view.ViewQuery;
 import com.andframe.application.AfApp;
 import com.andframe.exception.AfExceptionHandler;
-import com.andframe.exception.AfToastException;
 import com.andpack.impl.ApDialogBuilder;
 import com.andpack.impl.ApExceptionHandler;
 import com.andpack.impl.ApRefreshLayout;
@@ -33,12 +32,8 @@ import java.io.IOException;
  */
 public class ApApp extends AfApp {
 
-    public static ApApp getApApp() {
+    public static ApApp getApp() {
         return (ApApp)get();
-    }
-
-    public boolean isUserLogined() {
-        throw new AfToastException("App.isUserLogined必须由子类实现");
     }
 
     //<editor-fold desc="初始化">

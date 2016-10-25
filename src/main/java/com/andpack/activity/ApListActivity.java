@@ -20,23 +20,23 @@ public abstract class ApListActivity<T> extends AfListActivity<T> implements ApP
     @BindViewModule
     protected AfModuleTitlebar mTitlebar;
 
-    protected ApPagerHelper mHelper = new ApPagerHelper(this);
+    protected ApPagerHelper mApHelper = new ApPagerHelper(this);
 
     @Override
     public void setTheme(@StyleRes int resid) {
-        mHelper.setTheme(resid);
+        mApHelper.setTheme(resid);
         super.setTheme(resid);
     }
 
     @Override
-    protected void onCreate(Bundle bundle, AfIntent intent) throws Exception {
-        mHelper.onCreate();
+    protected void onCreate(Bundle bundle, AfIntent intent) {
+        mApHelper.onCreate();
         super.onCreate(bundle, intent);
     }
 
     @Override
     protected void onAfterViews() throws Exception {
-        mHelper.onViewCreated(mTitlebar);
+        mApHelper.onViewCreated(mTitlebar);
         super.onAfterViews();
     }
 
@@ -44,19 +44,19 @@ public abstract class ApListActivity<T> extends AfListActivity<T> implements ApP
     public View findViewById(int id) {
         View v = super.findViewById(id);
         if (v == null)
-            return mHelper.findViewById(id);
+            return mApHelper.findViewById(id);
         return v;
     }
 
     @Override
     protected void onPostCreate(Bundle bundle) {
         super.onPostCreate(bundle);
-        mHelper.onPostCreate(bundle);
+        mApHelper.onPostCreate(bundle);
     }
 
     @Override
     public void finish() {
-        if (mHelper.finish()) {
+        if (mApHelper.finish()) {
             return;
         }
         super.finish();

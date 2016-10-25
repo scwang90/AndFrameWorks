@@ -20,7 +20,7 @@ public class ApMultiStatusActivity<T> extends AfMultiStatusActivity<T> implement
     protected ApStatusPagerHelper mApHelper = new ApStatusPagerHelper(this);
 
     @Override
-    protected void onCreate(Bundle bundle, AfIntent intent) throws Exception {
+    protected void onCreate(Bundle bundle, AfIntent intent) {
         mApHelper.onCreate();
         super.onCreate(bundle, intent);
     }
