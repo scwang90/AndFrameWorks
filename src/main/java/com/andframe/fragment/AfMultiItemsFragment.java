@@ -14,7 +14,6 @@ import com.andframe.api.page.ItemsPagerHelper;
 import com.andframe.api.page.MultiStatusHelper;
 import com.andframe.api.view.ItemsViewer;
 import com.andframe.impl.helper.AfItemsPagerHelper;
-import com.andframe.model.Page;
 import com.andframe.task.AfHandlerTask;
 
 import java.util.Date;
@@ -243,10 +242,10 @@ public abstract class AfMultiItemsFragment<T> extends AfMultiStatusFragment<List
         return mItemsHelper.onTaskLoadCache(isCheckExpired);
     }
 
-    @Override
-    public List<T> onTaskLoadList(Page page) throws Exception {
-        return mItemsHelper.onTaskLoadList(page);
-    }
+//    @Override
+//    public List<T> onTaskLoadList(Page page) throws Exception {
+//        return mItemsHelper.onTaskLoadList(page);
+//    }
     //</editor-fold>
 
     //<editor-fold desc="任务完成">

@@ -213,8 +213,9 @@ public class AfViewQuery<T extends AfViewQuery<T>> implements ViewQuery<T> {
         return id(null, views);
     }
 
-    public View view(int... indexs) {
-        return getView(indexs);
+    public <TT extends View> TT  view(int... indexs) {
+        //noinspection unchecked
+        return (TT)getView(indexs);
     }
 
     @Override

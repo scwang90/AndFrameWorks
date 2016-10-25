@@ -338,10 +338,10 @@ public class AfItemsPagerHelper<T> extends AfMultiStatusHelper<List<T>> implemen
     //</editor-fold>
 
     //<editor-fold desc="任务加载">
-    @Override
-    public List<T> onTaskLoadList(Page page) {
-        return null;
-    }
+//    @Override
+//    public List<T> onTaskLoadList(Page page) {
+//        return null;
+//    }
 
     @Override
     public List<T> onTaskLoadCache(boolean isCheckExpired) {

@@ -23,10 +23,19 @@ public class DefaultRefreshLayouter implements RefreshLayouter, SwipeRefreshLayo
     private View mContentView;
 
     public DefaultRefreshLayouter(Context context) {
-        mRefreshLayout = new SwipeRefreshLayout(context);
-        mRefreshLayout.setOnRefreshListener(this);
-        mRefreshLayout.setColorSchemeResources(android.R.color.holo_red_light,android.R.color.holo_green_light,android.R.color.holo_blue_light,android.R.color.holo_orange_light);
+        this(new SwipeRefreshLayout(context));
     }
+
+    public DefaultRefreshLayouter(SwipeRefreshLayout layout) {
+        mRefreshLayout = layout;
+        mRefreshLayout.setOnRefreshListener(this);
+        mRefreshLayout.setColorSchemeResources(
+                android.R.color.holo_red_light,
+                android.R.color.holo_green_light,
+                android.R.color.holo_blue_light,
+                android.R.color.holo_orange_light);
+    }
+
 
     @Override
     public ViewGroup getLayout() {

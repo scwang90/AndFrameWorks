@@ -24,6 +24,7 @@ import com.andframe.api.view.ViewQuery;
 import com.andframe.api.TaskExecutor;
 import com.andframe.caches.AfJsonCache;
 import com.andframe.exception.AfExceptionHandler;
+import com.andframe.exception.AfToastException;
 import com.andframe.feature.AfDialogBuilder;
 import com.andframe.feature.AfView;
 import com.andframe.impl.multistatus.DefaultRefreshLayouter;
@@ -352,6 +353,11 @@ public abstract class AfApp extends Application {
 	//</editor-fold>
 
 	//<editor-fold desc="页面状态">
+
+	public boolean isUserLogined() {
+		throw new AfToastException("App.isUserLogined必须由子类实现");
+	}
+
 	/**
 	 * 判断是否在后台运行（按HOME之后）
 	 * 需要额外权限 android.permission.GET_TASKS 

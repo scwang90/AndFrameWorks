@@ -121,14 +121,19 @@ public class AfHeaderFooterAdapter<T> extends AfListAdapterWrapper<T> {
         return super.newListItem(viewType);
     }
 
-    protected boolean bindingItem(View view, ListItem<T> item, int index) {
+    protected void bindingItem(View view, ListItem<T> item, int index) {
+        if (index < mHeaders.size()) {
+            item.onBinding(view, get(index), index);
+        } else if (index - mHeaders.size() - super.getItemCount() >= 0) {
+            item.onBinding(view, get(index), index);
+        } else {
+            super.bindingItem(view, item, index - mHeaders.size());
+        }
 //        T t = null;
 //        if (index >= mHeaders.size() && index < mHeaders.size() + super.getItemCount()) {
 //            t = get(index - mHeaders.size());
 //        }
 //        item.onBinding(view, t, index);
-        item.onBinding(view, get(index), index);
-        return true;
     }
 
     //</editor-fold>

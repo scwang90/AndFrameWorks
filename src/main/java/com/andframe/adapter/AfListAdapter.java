@@ -293,9 +293,8 @@ public abstract class AfListAdapter<T> extends RecyclerBaseAdapter<ViewHolderIte
         return item.onCreateView(mContext, parent);
     }
 
-    protected boolean bindingItem(View view, ListItem<T> item, int index) {
+    protected void bindingItem(View view, ListItem<T> item, int index) {
         item.onBinding(view, get(index), index);
-        return true;
     }
 
     //</editor-fold>

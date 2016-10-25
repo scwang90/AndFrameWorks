@@ -14,6 +14,7 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Toast;
 
+import com.andframe.annotation.MustLogined;
 import com.andframe.annotation.interpreter.Injecter;
 import com.andframe.annotation.interpreter.LayoutBinder;
 import com.andframe.annotation.interpreter.LifeCycleInjecter;
@@ -24,7 +25,6 @@ import com.andframe.api.view.ViewQuery;
 import com.andframe.api.view.ViewQueryHelper;
 import com.andframe.application.AfApp;
 import com.andframe.exception.AfExceptionHandler;
-import com.andframe.exception.AfToastException;
 import com.andframe.feature.AfIntent;
 import com.andframe.fragment.AfFragment;
 import com.andframe.impl.helper.AfViewQueryHelper;
@@ -34,10 +34,13 @@ import com.andframe.task.AfDataTask;
 import com.andframe.task.AfDispatcher;
 import com.andframe.task.AfTask;
 import com.andframe.task.AfTaskExecutor;
+import com.andframe.util.java.AfReflecter;
 import com.andframe.util.java.AfStackTrace;
 
 import java.util.ArrayList;
 import java.util.List;
+
+import static com.andframe.activity.AfFragmentActivity.startFragment;
 
 /**
  * 框架 Activity
@@ -144,12 +147,24 @@ public class AfActivity extends AppCompatActivity implements Pager, ViewQueryHel
     @Override
     protected void onCreate(Bundle bundle) {
         try {
-            AfApp.get().setCurActivity(this, this);
-//            this.onQueryChanged();
+            MustLogined must = AfReflecter.getAnnotation(getClass(), AfActivity.class, MustLogined.class);
+            if (must != null && !AfApp.get().isUserLogined()) {
+                if (Activity.class.isAssignableFrom(must.value())) {
+                    startActivity(new Intent(this,must.value()));
+                } else if (Fragment.class.isAssignableFrom(must.value())) {
+                    //noinspection unchecked
+                    startFragment((Class<? extends Fragment>)must.value());
+                }
+                makeToastShort(must.remark());
+                super.onCreate(bundle);
+                finish();
+                return;
+            }
         } catch (Throwable ex) {
-            AfExceptionHandler.handle(ex, "AfActivity.setCurActivity");
+            AfExceptionHandler.handle(ex, "AfActivity.MustLogined");
         }
         try {
+            AfApp.get().setCurActivity(this, this);
             if (AfStackTrace.isLoopCall()) {
                 //System.out.println("递归检测");
                 super.onCreate(bundle);
@@ -161,9 +176,7 @@ public class AfActivity extends AppCompatActivity implements Pager, ViewQueryHel
             //handle 可能会根据 Activity 弹窗提示错误信息
             //当前 Activity 即将关闭，提示窗口也会关闭
             //用定时器 等到原始 Activity 再提示弹窗
-            if (!(e instanceof AfToastException)) {
-                AfDispatcher.dispatch(() -> AfExceptionHandler.handle(e, TAG() + ".onCreate"), 500);
-            }
+            AfDispatcher.dispatch(() -> AfExceptionHandler.handle(e, TAG() + ".onCreate"), 500);
             super.onCreate(bundle);
             makeToastLong("页面启动失败", e);
             this.finish();
@@ -172,10 +185,8 @@ public class AfActivity extends AppCompatActivity implements Pager, ViewQueryHel
         try {
             LifeCycleInjecter.injectOnCreate(this, bundle);
             this.onCreate(bundle, new AfIntent(getIntent()));
-        } catch (final Exception e) {
-            if (!(e instanceof AfToastException)) {
-                AfDispatcher.dispatch(() -> AfExceptionHandler.handle(e, TAG() + ".onCreate"), 500);
-            }
+        } catch (final Throwable e) {
+            AfDispatcher.dispatch(() -> AfExceptionHandler.handle(e, TAG() + ".onCreate"), 500);
             makeToastLong("页面启动失败", e);
             this.finish();
         }
@@ -185,11 +196,9 @@ public class AfActivity extends AppCompatActivity implements Pager, ViewQueryHel
      * 新的 onCreate 实现
      * 重写的 时候 一般情况下请 调用
      * super.onCreate(bundle,intent);
-     *
-     * @throws Exception 安全异常
      */
     @SuppressWarnings("UnusedParameters")
-    protected void onCreate(Bundle bundle, AfIntent intent) throws Exception {
+    protected void onCreate(Bundle bundle, AfIntent intent) {
         super.onCreate(bundle);
         if (bundle != null) {
             AfApp.get().onRestoreInstanceState();
@@ -240,13 +249,6 @@ public class AfActivity extends AppCompatActivity implements Pager, ViewQueryHel
             AfExceptionHandler.handle(ex, "AfActivity.onDestroy");
         }
     }
-
-//    /**
-//     * 查询系统数据变动
-//     */
-//    public void onQueryChanged() {
-//
-//    }
 
     /**
      * 保证在还原数据时不会崩溃

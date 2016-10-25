@@ -62,11 +62,14 @@ public abstract class AfTreeViewAdapter<T> extends AfMultiChoiceAdapter<T> imple
 	@Override
 	protected View onInflateItem(ListItem<T> item, ViewGroup parent) {
 		View view = super.onInflateItem(item, parent);
-		return ((AfTreeViewItem<T>)item).inflateLayout(view, this);
+		if (item instanceof AfTreeViewItem) {
+			return ((AfTreeViewItem<T>)item).inflateLayout(view, this);
+		}
+		return view;
 	}
 	
 	@Override
-	protected boolean bindingItem(View view, ListItem<T> item, int index) {
+	protected void bindingItem(View view, ListItem<T> item, int index) {
 		AfTreeViewItem<T> tvitem = (AfTreeViewItem<T>)item;
 		AfTreeNode<T> node = mNodeShow.get(index);
 		tvitem.setNode(node);
@@ -84,7 +87,6 @@ public abstract class AfTreeViewAdapter<T> extends AfMultiChoiceAdapter<T> imple
 		}
 		tvitem.setSelectStatus(node.value, status);
 		tvitem.onBinding(view, node.value, index);
-		return true;
 	}
 
 

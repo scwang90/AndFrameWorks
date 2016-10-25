@@ -136,7 +136,7 @@ public abstract class AfMultiChoiceAdapter<T> extends AfListAdapter<T>{
 	protected abstract AfMultiChoiceItem<T> newMultiChoiceItem();
 
 	@Override
-	protected boolean bindingItem(View view, ListItem<T> item, int index) {
+	protected void bindingItem(View view, ListItem<T> item, int index) {
 		//return super.bindingItem(item, index);
 		AfMultiChoiceItem<T> mcitem = (AfMultiChoiceItem<T>)item;
 		AfMultiChoiceItem.SelectStatus status = AfMultiChoiceItem.SelectStatus.NONE;
@@ -148,7 +148,7 @@ public abstract class AfMultiChoiceAdapter<T> extends AfListAdapter<T>{
 			}
 		}
 		mcitem.setSelectStatus(mltArray.get(index), status);
-		return super.bindingItem(view, mcitem, index);
+		super.bindingItem(view, mcitem, index);
 	}
 
 	public boolean isChoiced(int index) {
@@ -291,7 +291,10 @@ public abstract class AfMultiChoiceAdapter<T> extends AfListAdapter<T>{
 	@Override
 	protected View onInflateItem(ListItem<T> item, ViewGroup parent) {
 		View view = super.onInflateItem(item, parent);
-		return ((AfMultiChoiceItem<T>)item).inflateLayout(view,this);
+		if (item instanceof AfMultiChoiceItem) {
+			return ((AfMultiChoiceItem<T>)item).inflateLayout(view,this);
+		}
+		return view;
 	}
 
 	public void onItemClick(int index) {

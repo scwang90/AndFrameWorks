@@ -48,9 +48,9 @@ public class AfUpdateAdapter<T> extends AfListAdapterWrapper<T> {
         bindingItem(holder.itemView, holder.getItem(), position);
     }
     @Override
-    protected boolean bindingItem(View view, ListItem<T> item, int index) {
+    protected void bindingItem(View view, ListItem<T> item, int index) {
         itemTMap.put(view, new SimpleEntry<>(index, item));
-        return super.bindingItem(view, item, index);
+        super.bindingItem(view, item, index);
     }
     //</editor-fold>
 

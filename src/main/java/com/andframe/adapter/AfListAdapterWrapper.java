@@ -115,8 +115,8 @@ public class AfListAdapterWrapper<T> extends AfListAdapter<T> implements Wrapper
 	//<editor-fold desc="Wrapper AfListAdapter">
 
 	@Override
-	protected boolean bindingItem(View view, ListItem<T> item, int index) {
-		return wrapped.bindingItem(view, item, index);
+	protected void bindingItem(View view, ListItem<T> item, int index) {
+		wrapped.bindingItem(view, item, index);
 	}
 
 	@Override

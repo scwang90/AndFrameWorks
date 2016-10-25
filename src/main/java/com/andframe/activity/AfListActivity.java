@@ -45,7 +45,7 @@ public abstract class AfListActivity<T> extends AfActivity implements ListPager<
      * @param intent 框架AfIntent
      */
     @Override
-    protected void onCreate(Bundle bundle, AfIntent intent) throws Exception {
+    protected void onCreate(Bundle bundle, AfIntent intent) {
         super.onCreate(bundle, intent);
         if (mRootView == null) {
             setContentView(getLayoutId());

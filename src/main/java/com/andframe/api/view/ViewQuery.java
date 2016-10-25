@@ -552,8 +552,8 @@ public interface ViewQuery<T extends ViewQuery<T>> {
      * 自定义扩展接口
      */
     ScrollView getScrollView();
-    View view(int... indexs);
     View[] views();
+    <TT extends View> TT view(int... indexs);
     <TT extends View> TT[] views(Class<TT> clazz);
     <TT extends View> TT view(Class<TT> clazz ,int... indexs);
     boolean isVisible();
