@@ -1,12 +1,14 @@
 package com.andpack.activity;
 
 import android.os.Bundle;
+import android.support.annotation.CallSuper;
 import android.support.annotation.StyleRes;
 import android.support.v4.app.Fragment;
 import android.view.View;
 
 import com.andframe.activity.AfActivity;
 import com.andframe.activity.AfFragmentActivity;
+import com.andframe.annotation.view.BindViewCreated;
 import com.andframe.application.AfApp;
 import com.andframe.feature.AfIntent;
 import com.andpack.api.ApPager;
@@ -39,6 +41,11 @@ public class ApFragmentActivity extends AfFragmentActivity implements ApPager {
     protected void onCreate(Bundle bundle, AfIntent intent) {
         mApHelper.onCreate();
         super.onCreate(bundle, intent);
+    }
+
+    @BindViewCreated@CallSuper
+    protected void onViewCreated() {
+        mApHelper.onViewCreated(null);
     }
 
     @Override
