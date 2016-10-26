@@ -61,7 +61,7 @@ public abstract class AfFragment extends Fragment implements Pager, ViewQueryHel
      * @param id 控件Id
      */
     @Override
-    public ViewQuery $(int id, int... ids) {
+    public ViewQuery<? extends ViewQuery> $(int id, int... ids) {
         return mViewQueryHelper.$(id, ids);
     }
 
@@ -71,7 +71,7 @@ public abstract class AfFragment extends Fragment implements Pager, ViewQueryHel
      * @param views 可选的多个 View
      */
     @Override
-    public ViewQuery $(View... views) {
+    public ViewQuery<? extends ViewQuery> $(View... views) {
         return mViewQueryHelper.$(views);
     }
     //</editor-fold>
@@ -370,7 +370,7 @@ public abstract class AfFragment extends Fragment implements Pager, ViewQueryHel
     //<editor-fold desc="气泡封装">
     @Override
     public void makeToastLong(CharSequence tip) {
-        Toast.makeText(getContext(), tip, Toast.LENGTH_LONG).show();
+        Toast.makeText(AfApp.get(), tip, Toast.LENGTH_LONG).show();
     }
 
     @Override
@@ -380,18 +380,18 @@ public abstract class AfFragment extends Fragment implements Pager, ViewQueryHel
 
     @Override
     public void makeToastLong(int resid) {
-        Toast.makeText(getContext(), resid, Toast.LENGTH_LONG).show();
+        Toast.makeText(AfApp.get(), resid, Toast.LENGTH_LONG).show();
     }
 
     @Override
     public void makeToastShort(int resid) {
-        Toast.makeText(getContext(), resid, Toast.LENGTH_SHORT).show();
+        Toast.makeText(AfApp.get(), resid, Toast.LENGTH_SHORT).show();
     }
 
     @Override
     public void makeToastLong(CharSequence tip, Throwable e) {
         tip = AfExceptionHandler.tip(e, tip.toString());
-        Toast.makeText(getContext(), tip, Toast.LENGTH_LONG).show();
+        Toast.makeText(AfApp.get(), tip, Toast.LENGTH_LONG).show();
     }
     //</editor-fold>
 

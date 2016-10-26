@@ -5,18 +5,16 @@ import android.widget.GridView;
 import android.widget.ListAdapter;
 
 import com.andframe.api.view.ItemsViewer;
-import com.andframe.feature.AfView;
 
 /**
  * GridView
  * Created by SCWANG on 2016/9/14.
  */
-public class ItemsGridViewWrapper extends AfView implements ItemsViewer<GridView> {
+public class ItemsGridViewWrapper implements ItemsViewer<GridView> {
 
     protected GridView mItemsView;
 
     public ItemsGridViewWrapper(GridView gridView) {
-        super(gridView);
         this.mItemsView = gridView;
     }
 

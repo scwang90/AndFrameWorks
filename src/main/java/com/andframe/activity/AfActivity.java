@@ -75,7 +75,7 @@ public class AfActivity extends AppCompatActivity implements Pager, ViewQueryHel
      * @param id 控件Id
      */
     @Override
-    public ViewQuery $(int id, int... ids) {
+    public ViewQuery<? extends ViewQuery> $(int id, int... ids) {
         return mViewQueryHelper.$(id, ids);
     }
 
@@ -85,7 +85,7 @@ public class AfActivity extends AppCompatActivity implements Pager, ViewQueryHel
      * @param views 可选的多个 View
      */
     @Override
-    public ViewQuery $(View... views) {
+    public ViewQuery<? extends ViewQuery> $(View... views) {
         return mViewQueryHelper.$(views);
     }
     //</editor-fold>

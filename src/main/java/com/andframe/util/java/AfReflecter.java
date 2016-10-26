@@ -407,6 +407,36 @@ public class AfReflecter {
         }
     }
 
+    //<editor-fold desc="通过类型设置获取">
+    public static <T> T getMemberByType(Object obj, Class<T> clazz) throws IllegalAccessException {
+        Field field = getFieldByType(obj, clazz);
+        if (field != null) {
+            field.setAccessible(true);
+            return clazz.cast(field.get(obj));
+        }
+        return null;
+    }
+
+
+    public static void setMemberByType(Object obj, Object value, Class<?> clazz) throws IllegalAccessException {
+        Field field = getFieldByType(obj, clazz);
+        if (field != null) {
+            field.setAccessible(true);
+            field.set(obj, value);
+        }
+    }
+
+    private static Field getFieldByType(Object obj, Class<?> clazz) {
+        Field[] fields = getField(obj.getClass());
+        for (Field field : fields) {
+            if (clazz.isAssignableFrom(field.getType())) {
+                return field;
+            }
+        }
+        return null;
+    }
+    //</editor-fold>
+
     /**
      * 获取 obj 属性 field 的值
      *
@@ -559,6 +589,8 @@ public class AfReflecter {
         }
         return null;
     }
+
+
     /**
      * Do sneaky things to allocate objects without invoking their constructors.
      *
