@@ -1,6 +1,7 @@
 package com.andpack.impl;
 
 import android.content.Context;
+import android.graphics.drawable.Drawable;
 import android.view.View;
 import android.view.ViewGroup;
 
@@ -43,6 +44,10 @@ public class ApRefreshLayout implements RefreshLayouter {
     @Override
     public void setContenView(View content) {
         mRefreshLayout.addView(content);
+        Drawable background = content.getBackground();
+        if (background != null) {
+            mRefreshLayout.setBackgroundDrawable(content.getBackground());
+        }
     }
 
     @Override
