@@ -5,6 +5,7 @@ import android.widget.AdapterView.OnItemClickListener;
 import android.widget.AdapterView.OnItemLongClickListener;
 import android.widget.ListAdapter;
 
+import com.andframe.adapter.AfHeaderFooterAdapter;
 import com.andframe.api.ListItemAdapter;
 import com.andframe.api.multistatus.MoreFooter;
 import com.andframe.api.multistatus.OnMoreListener;
@@ -49,4 +50,6 @@ public interface ItemsPagerHelper<T> extends MultiStatusHelper<List<T>>, OnItemC
     void finishRefreshFail();
 
     void setLastRefreshTime(Date time);
+
+    void bindListHeaderAndFooter(AfHeaderFooterAdapter<T> adapter);
 }

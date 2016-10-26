@@ -5,6 +5,7 @@ import android.widget.AdapterView.OnItemClickListener;
 import android.widget.AdapterView.OnItemLongClickListener;
 import android.widget.ListAdapter;
 
+import com.andframe.adapter.AfHeaderFooterAdapter;
 import com.andframe.api.ListItem;
 import com.andframe.api.ListItemAdapter;
 import com.andframe.api.multistatus.MoreFooter;
@@ -31,7 +32,7 @@ public interface ItemsPager<T> extends MultiStatusPager<List<T>>, OnItemClickLis
     void onTaskLoadedCache(AfHandlerTask task, List<T> list);
     void onTaskLoadedMore(AfHandlerTask task, List<T> list);
 
-    void bindListHeaderAndFooter();
+    void bindListHeaderAndFooter(AfHeaderFooterAdapter<T> adapter);
     void bindAdapter(ItemsViewer listView, ListAdapter adapter);
 
     boolean onItemLongClick(T model, int index);

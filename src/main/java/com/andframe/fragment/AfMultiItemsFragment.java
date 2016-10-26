@@ -6,6 +6,7 @@ import android.view.View;
 import android.widget.AdapterView;
 import android.widget.ListAdapter;
 
+import com.andframe.adapter.AfHeaderFooterAdapter;
 import com.andframe.api.ListItem;
 import com.andframe.api.ListItemAdapter;
 import com.andframe.api.multistatus.MoreFooter;
@@ -208,8 +209,8 @@ public abstract class AfMultiItemsFragment<T> extends AfMultiStatusFragment<List
      * （在bindAdapter之前执行）
      */
     @Override
-    public void bindListHeaderAndFooter() {
-
+    public void bindListHeaderAndFooter(AfHeaderFooterAdapter<T> adapter) {
+        mItemsHelper.bindListHeaderAndFooter(adapter);
     }
 
     /**

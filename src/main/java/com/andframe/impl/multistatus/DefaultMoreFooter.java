@@ -25,7 +25,7 @@ public class DefaultMoreFooter<T> extends AfListItem<T> implements MoreFooter<T>
     protected TextView mTextView;
     @BindView
     protected ProgressBar mProgressBar;
-    protected boolean mAllLoadFinish = false;
+    protected boolean mAllLoadFinish = true;
     protected boolean mIsLoading = false;
 
     public DefaultMoreFooter() {

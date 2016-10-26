@@ -196,6 +196,14 @@ public class AfHeaderFooterAdapter<T> extends AfListAdapterWrapper<T> {
         });
     }
 
+    public void clearHeader() {
+        mHeaders.clear();
+    }
+
+    public void clearFooter() {
+        mFooters.clear();
+    }
+
     //</editor-fold>
 
     //<editor-fold desc="子类重写">
