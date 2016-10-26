@@ -1,11 +1,9 @@
 package com.andpack.fragment;
 
 import com.andframe.annotation.view.BindViewCreated;
-import com.andframe.annotation.view.BindViewModule;
 import com.andframe.feature.AfBundle;
 import com.andframe.feature.AfView;
 import com.andframe.fragment.AfTabFragment;
-import com.andframe.module.AfModuleTitlebar;
 import com.andpack.api.ApPager;
 import com.andpack.impl.ApPagerHelper;
 
@@ -14,9 +12,6 @@ import com.andpack.impl.ApPagerHelper;
  * Created by SCWANG on 2016/9/7.
  */
 public class ApFragment extends AfTabFragment implements ApPager {
-
-    @BindViewModule
-    protected AfModuleTitlebar mTitlebar;
 
     protected ApPagerHelper mHelper = new ApPagerHelper(this);
 
@@ -28,7 +23,7 @@ public class ApFragment extends AfTabFragment implements ApPager {
 
     @BindViewCreated
     protected void onAfterViews() throws Exception {
-        mHelper.onViewCreated(mTitlebar);
+        mHelper.onViewCreated();
     }
 
     //<editor-fold desc="下拉刷新">

@@ -45,7 +45,7 @@ public class ApFragmentActivity extends AfFragmentActivity implements ApPager {
 
     @BindViewCreated@CallSuper
     protected void onViewCreated() {
-        mApHelper.onViewCreated(null);
+        mApHelper.onViewCreated();
     }
 
     @Override

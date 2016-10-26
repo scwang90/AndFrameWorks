@@ -24,8 +24,8 @@ public abstract class ApMultiItemsFragment<T> extends AfMultiItemsFragment<T> im
     }
 
     @Override
-    public void onViewCreated() throws Exception {
-        mApHelper.onViewCreated(null);
+    protected void onViewCreated() throws Exception {
+        mApHelper.onViewCreated();
         super.onViewCreated();
     }
 

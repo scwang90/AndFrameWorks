@@ -4,27 +4,21 @@ import android.os.Bundle;
 import android.support.annotation.StyleRes;
 import android.support.v7.widget.Toolbar;
 import android.view.View;
-import android.widget.ScrollView;
+import android.view.ViewGroup;
+import android.widget.FrameLayout;
 
 import com.andframe.$;
-import com.andframe.activity.AfActivity;
-import com.andframe.activity.AfDetailActivity;
-import com.andframe.annotation.pager.BindScorllView;
 import com.andframe.exception.AfExceptionHandler;
-import com.andframe.fragment.AfDetailFragment;
 import com.andframe.listener.SafeOnClickListener;
-import com.andframe.module.AfModuleTitlebar;
 import com.andframe.task.AfHandlerTask;
 import com.andframe.util.java.AfReflecter;
 import com.andframe.widget.AfRefreshScorllView;
 import com.andframe.widget.pulltorefresh.AfPullToRefreshBase;
 import com.andpack.R;
-import com.andpack.annotation.BindStatusBarMode;
-import com.andpack.annotation.BindTitle;
 import com.andpack.annotation.interpreter.StatusBarInterpreter;
 import com.andpack.api.ApPager;
-import com.flyco.systembar.SystemBarHelper;
 
+import me.imid.swipebacklayout.lib.SwipeBackLayout;
 import me.imid.swipebacklayout.lib.app.SwipeBackActivityHelper;
 
 /**
@@ -51,53 +45,15 @@ public class ApPagerHelper implements AfPullToRefreshBase.OnRefreshListener {
     }
 
     public void onCreate() {
+        if (mIsUsingSwipeBack) {
+            mSwipeBackHelper = new SwipeBackActivityHelper(pager.getActivity());
+            mSwipeBackHelper.onActivityCreate();
+        }
     }
 
-    public void onViewCreated(AfModuleTitlebar titlebar) {
+    public void onViewCreated() {
         try {
-            if (mIsUsingSwipeBack) {
-                mSwipeBackHelper = new SwipeBackActivityHelper(pager.getActivity());
-                mSwipeBackHelper.onActivityCreate();
-                mSwipeBackHelper.onPostCreate();
-            }
-            if (!StatusBarInterpreter.interpreter(pager)) {
-                BindStatusBarMode mode = AfReflecter.getAnnotation(pager.getClass(), AfActivity.class, BindStatusBarMode.class);
-                if (mode != null) {
-                    switch (mode.value()) {
-                        case normal:
-                            break;
-                        case translucent:
-                            SystemBarHelper.immersiveStatusBar(pager.getActivity(), 0);
-                            View top = pager.findViewById(R.id.af_titlebar_layout);
-                            if (top != null) {
-                                SystemBarHelper.setHeightAndPadding(pager.getContext(), top);
-                            }
-                            break;
-                        case translucent_white:
-                            SystemBarHelper.setStatusBarDarkMode(pager.getActivity());
-                            SystemBarHelper.tintStatusBar(pager.getActivity(), 0XFFFFFFFF, 0);
-                            //SystemBarHelper.tintStatusBar(pager.getActivity(), 0XFFEAEAEA, 0);
-                            break;
-                    }
-                }
-            }
-            if (pager.getClass().isAnnotationPresent(BindScorllView.class)
-                    && !(pager instanceof AfDetailFragment || pager instanceof AfDetailActivity)) {
-                BindScorllView bind = pager.getClass().getAnnotation(BindScorllView.class);
-                ScrollView scrollView = pager.findViewById(bind.value(), ScrollView.class);
-                if (scrollView != null) {
-                    mRfScorllView = new AfRefreshScorllView(pager, bind.value());
-                    mRfScorllView.setOnRefreshListener(this);
-                    mRfScorllView.getHeaderLayout().setBackgroundResource(R.color.gray_white);
-                }
-            }
-            if (titlebar != null && titlebar.isValid()) {
-                if (pager.getClass().isAnnotationPresent(BindTitle.class)) {
-                    BindTitle bind = pager.getClass().getAnnotation(BindTitle.class);
-                    titlebar.setTitle(bind.value());
-                }
-            }
-
+            StatusBarInterpreter.interpreter(pager);
             if (pager.getView() != null) {
                 Toolbar toolbar = $.query(pager.getView()).$(Toolbar.class).view();
                 if (toolbar != null) {
@@ -123,6 +79,24 @@ public class ApPagerHelper implements AfPullToRefreshBase.OnRefreshListener {
     public void onPostCreate(Bundle bundle) {
         try {
             if (mSwipeBackHelper != null) {
+                mSwipeBackHelper.onPostCreate();
+                SwipeBackLayout layout = mSwipeBackHelper.getSwipeBackLayout();
+                ViewGroup root = (ViewGroup)pager.getActivity().getWindow().getDecorView();
+                FrameLayout frame = new FrameLayout(pager.getContext());
+                for (int i = 0; i < root.getChildCount(); i++) {
+                    View child = root.getChildAt(i);
+                    if (child != layout) {
+                        root.removeViewAt(i--);
+                        frame.addView(child);
+                    }
+                }
+                if (frame.getChildCount() > 0) {
+                    View view = layout.getChildAt(0);
+                    layout.removeViewAt(0);
+                    layout.addView(frame);
+                    frame.addView(view, 0);
+                    AfReflecter.setMemberByType(layout, frame, View.class);
+                }
             }
         } catch (Throwable e) {
             AfExceptionHandler.handle(e, ("SwipeBackActivityHelper.onPostCreate 失败"));

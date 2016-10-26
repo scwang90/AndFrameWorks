@@ -5,8 +5,6 @@ import android.support.annotation.StyleRes;
 import android.view.View;
 
 import com.andframe.activity.AfDetailActivity;
-import com.andframe.annotation.view.BindViewModule;
-import com.andframe.module.AfModuleTitlebar;
 import com.andpack.api.ApPager;
 import com.andpack.impl.ApPagerHelper;
 
@@ -15,9 +13,6 @@ import com.andpack.impl.ApPagerHelper;
  * Created by SCWANG on 2016/9/7.
  */
 public class ApDetailActivity<T> extends AfDetailActivity<T> implements ApPager {
-
-    @BindViewModule
-    protected AfModuleTitlebar mTitlebar;
 
     protected ApPagerHelper mHelper = new ApPagerHelper(this);
 
@@ -35,7 +30,7 @@ public class ApDetailActivity<T> extends AfDetailActivity<T> implements ApPager 
 
     @Override
     protected void onAfterViews() throws Exception {
-        mHelper.onViewCreated(mTitlebar);
+        mHelper.onViewCreated();
         super.onAfterViews();
     }
 

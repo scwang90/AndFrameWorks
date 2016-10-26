@@ -27,7 +27,7 @@ public class ApMultiStatusActivity<T> extends AfMultiStatusActivity<T> implement
 
     @Override
     public void onViewCreated() throws Exception {
-        mApHelper.onViewCreated(null);
+        mApHelper.onViewCreated();
         super.onViewCreated();
     }
 

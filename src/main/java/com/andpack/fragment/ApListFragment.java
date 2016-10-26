@@ -1,12 +1,10 @@
 package com.andpack.fragment;
 
-import com.andframe.annotation.view.BindViewModule;
 import com.andframe.api.page.ListPager;
 import com.andframe.api.view.ItemsViewer;
 import com.andframe.feature.AfBundle;
 import com.andframe.feature.AfView;
 import com.andframe.fragment.AfListFragment;
-import com.andframe.module.AfModuleTitlebar;
 import com.andpack.api.ApPager;
 import com.andpack.impl.ApListHelper;
 
@@ -15,9 +13,6 @@ import com.andpack.impl.ApListHelper;
  * Created by SCWANG on 2016/9/7.
  */
 public abstract class ApListFragment<T> extends AfListFragment<T> implements ApPager {
-
-    @BindViewModule
-    protected AfModuleTitlebar mTitlebar;
 
     protected ApListHelper mApHelper = new ApListHelper(this);
 
@@ -29,7 +24,7 @@ public abstract class ApListFragment<T> extends AfListFragment<T> implements ApP
 
     @Override
     public void onViewCreated() throws Exception {
-        mApHelper.onViewCreated(mTitlebar);
+        mApHelper.onViewCreated();
         super.onViewCreated();
     }
 

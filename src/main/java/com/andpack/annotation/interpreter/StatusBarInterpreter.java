@@ -16,7 +16,7 @@ import com.andpack.annotation.statusbar.StatusBarPaddingS;
 import com.andpack.annotation.statusbar.StatusBarPaddingType;
 import com.andpack.annotation.statusbar.StatusBarTranslucent;
 import com.andpack.annotation.statusbar.StatusBarTranslucentDark;
-import com.flyco.systembar.SystemBarHelper;
+import com.andpack.util.ApStatusBarUtil;
 
 /**
  * 系统任务栏透明 注解 实现类
@@ -31,59 +31,61 @@ public class StatusBarInterpreter {
         StatusBarTranslucent translucent = AfReflecter.getAnnotation(pager.getClass(), Activity.class, StatusBarTranslucent.class);
         if (translucent != null) {
             ret = true;
-            SystemBarHelper.immersiveStatusBar(activity, translucent.value());
-            SystemBarHelper.tintStatusBar(activity, resources.getColor(translucent.color()), translucent.value());
+            ApStatusBarUtil.immersive(activity, resources.getColor(translucent.color()), translucent.value());
+//            SystemBarHelper.immersiveStatusBar(activity, translucent.value());
+//            SystemBarHelper.tintStatusBar(activity, resources.getColor(translucent.color()), translucent.value());
         }
         StatusBarTranslucentDark translucentDark = AfReflecter.getAnnotation(pager.getClass(), Activity.class, StatusBarTranslucentDark.class);
         if (translucentDark != null) {
             ret = true;
-            SystemBarHelper.setStatusBarDarkMode(activity);
-            SystemBarHelper.tintStatusBar(activity, resources.getColor(translucentDark.color()), translucentDark.value());
+            ApStatusBarUtil.darkMode(activity, resources.getColor(translucentDark.color()), translucentDark.value());
+//            SystemBarHelper.setStatusBarDarkMode(activity);
+//            SystemBarHelper.tintStatusBar(activity, resources.getColor(translucentDark.color()), translucentDark.value());
         }
         StatusBarPadding padding = AfReflecter.getAnnotation(pager.getClass(), Activity.class, StatusBarPadding.class);
         if (padding != null) {
             ret = true;
             defaultTranslucent(pager, translucent, translucentDark);
-            $.query(pager).id(padding.value()).foreach((ViewQuery.ViewEacher<View>)view -> SystemBarHelper.setPadding(activity,view));
+            $.query(pager).id(padding.value()).foreach((ViewQuery.ViewEacher<View>)view -> ApStatusBarUtil.setPadding(activity,view));
         }
         StatusBarPaddingH paddingH = AfReflecter.getAnnotation(pager.getClass(), Activity.class, StatusBarPaddingH.class);
         if (paddingH != null) {
             ret = true;
             defaultTranslucent(pager, translucent, translucentDark);
-            $.query(pager).id(paddingH.value()).foreach((ViewQuery.ViewEacher<View>)view -> SystemBarHelper.setHeightAndPadding(activity,view));
+            $.query(pager).id(paddingH.value()).foreach((ViewQuery.ViewEacher<View>)view -> ApStatusBarUtil.setHeightAndPadding(activity,view));
         }
         StatusBarPaddingType paddingType = AfReflecter.getAnnotation(pager.getClass(), Activity.class, StatusBarPaddingType.class);
         if (paddingType != null && paddingType.value().length > 0) {
             ret = true;
             defaultTranslucent(pager, translucent, translucentDark);
-            $.query(pager).$(null,paddingType.value()).foreach((ViewQuery.ViewEacher<View>)view -> SystemBarHelper.setPadding(activity,view));
+            $.query(pager).$(null,paddingType.value()).foreach((ViewQuery.ViewEacher<View>)view -> ApStatusBarUtil.setPadding(activity,view));
         }
         StatusBarPaddingHType paddingHType = AfReflecter.getAnnotation(pager.getClass(), Activity.class, StatusBarPaddingHType.class);
         if (paddingHType != null && paddingHType.value().length > 0) {
             ret = true;
             defaultTranslucent(pager, translucent, translucentDark);
-            $.query(pager).$(null,paddingHType.value()).foreach((ViewQuery.ViewEacher<View>)view -> SystemBarHelper.setHeightAndPadding(activity,view));
+            $.query(pager).$(null,paddingHType.value()).foreach((ViewQuery.ViewEacher<View>)view -> ApStatusBarUtil.setHeightAndPadding(activity,view));
         }
-
         StatusBarPaddingS paddingS = AfReflecter.getAnnotation(pager.getClass(), Activity.class, StatusBarPaddingS.class);
         if (paddingS != null && paddingS.value().length > 0) {
             ret = true;
             defaultTranslucent(pager, translucent, translucentDark);
-            $.query(pager).$(null,paddingS.value()).foreach((ViewQuery.ViewEacher<View>)view ->SystemBarHelper.setPadding(activity,view));
+            $.query(pager).$(null,paddingS.value()).foreach((ViewQuery.ViewEacher<View>)view ->ApStatusBarUtil.setPadding(activity,view));
         }
         StatusBarPaddingHS paddingHS = AfReflecter.getAnnotation(pager.getClass(), Activity.class, StatusBarPaddingHS.class);
         if (paddingHS != null && paddingHS.value().length > 0) {
             ret = true;
             defaultTranslucent(pager, translucent, translucentDark);
-            $.query(pager).$(null,paddingHS.value()).foreach((ViewQuery.ViewEacher<View>)view -> SystemBarHelper.setHeightAndPadding(activity,view));
+            $.query(pager).$(null,paddingHS.value()).foreach((ViewQuery.ViewEacher<View>)view -> ApStatusBarUtil.setHeightAndPadding(activity,view));
         }
         return ret;
     }
 
     private static void defaultTranslucent(Pager pager, StatusBarTranslucent translucent, StatusBarTranslucentDark translucentDark) {
         if (translucent == null && translucentDark == null && pager instanceof Activity) {
-            SystemBarHelper.immersiveStatusBar(pager.getActivity());
-            SystemBarHelper.tintStatusBar(pager.getActivity(), 0, 0);
+            ApStatusBarUtil.immersive(pager.getActivity());
+//            SystemBarHelper.immersiveStatusBar(pager.getActivity());
+//            SystemBarHelper.tintStatusBar(pager.getActivity(), 0, 0);
         }
     }
 
