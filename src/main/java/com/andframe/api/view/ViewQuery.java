@@ -558,6 +558,7 @@ public interface ViewQuery<T extends ViewQuery<T>> {
     <TT extends View> TT view(Class<TT> clazz ,int... indexs);
     boolean isVisible();
     int gravity();
+    float rating();
     T gravity(int gravity);
     T $(int id, int... ids);
     T $(String idvalue, String... idvalues);
@@ -594,6 +595,7 @@ public interface ViewQuery<T extends ViewQuery<T>> {
     Point measure();
 
     <TT> T adapter(@LayoutRes int id, List<TT> list, AdapterItemer<TT> itemer);
+
 
 
     interface AdapterItemer<T> {

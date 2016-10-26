@@ -99,6 +99,10 @@ public abstract class AfViewModuler extends AfViewWrapper implements Viewer, Vie
 		setTarget(viewable, wrapped);
 	}
 
+	public void onBindHandler(Object handler) {
+
+	}
+
 	private void setTarget(final Viewer viewable, final View target) {
 		if (target != null) {
 			this.wrapped = target;
@@ -186,6 +190,7 @@ public abstract class AfViewModuler extends AfViewWrapper implements Viewer, Vie
 	public ViewQuery $(View... views) {
 		return mViewQueryHelper.$(views);
 	}
+
 	//</editor-fold>
 
 }

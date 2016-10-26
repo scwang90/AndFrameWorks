@@ -92,7 +92,11 @@ public class AfItemsPagerHelper<T> extends AfMultiStatusHelper<List<T>> implemen
         mItemsPager.initCache();
         if (mAdapter == null) {
             mAdapter = mItemsPager.newAdapter(mItemsPager.getContext(), new ArrayList<>());
-            if (mAdapter instanceof AfListAdapter && !(mAdapter instanceof AfHeaderFooterAdapter)) {
+            if (mAdapter instanceof AfHeaderFooterAdapter) {
+                AfHeaderFooterAdapter<T> adapter = (((AfHeaderFooterAdapter<T>) mAdapter));
+                adapter.addFooter(mMoreFooter = mItemsPager.newMoreFooter());
+                mMoreFooter.setOnMoreListener(mItemsPager);
+            } else if (mAdapter instanceof AfListAdapter) {
                 AfHeaderFooterAdapter<T> adapter = new AfHeaderFooterAdapter<>(((AfListAdapter<T>) mAdapter));
                 adapter.addFooter(mMoreFooter = mItemsPager.newMoreFooter());
                 mMoreFooter.setOnMoreListener(mItemsPager);

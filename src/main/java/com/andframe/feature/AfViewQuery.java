@@ -257,6 +257,11 @@ public class AfViewQuery<T extends AfViewQuery<T>> implements ViewQuery<T> {
     }
 
     @Override
+    public float rating() {
+        return foreach(RatingBar.class, RatingBar::getRating);
+    }
+
+    @Override
     public int gravity() {
         return foreach(view -> {
             if (view instanceof TextView) {

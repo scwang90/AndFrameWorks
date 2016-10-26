@@ -11,7 +11,6 @@ import android.widget.CompoundButton;
 import android.widget.RadioGroup;
 
 import com.andframe.annotation.pager.BindLayout;
-import com.andframe.annotation.view.BindViewCreated;
 import com.andframe.annotation.view.BindCheckedChange;
 import com.andframe.annotation.view.BindCheckedChangeGroup;
 import com.andframe.annotation.view.BindClick;
@@ -20,10 +19,12 @@ import com.andframe.annotation.view.BindItemLongClick;
 import com.andframe.annotation.view.BindLongClick;
 import com.andframe.annotation.view.BindTouch;
 import com.andframe.annotation.view.BindView;
+import com.andframe.annotation.view.BindViewCreated;
 import com.andframe.annotation.view.BindViewModule;
 import com.andframe.api.view.Viewer;
 import com.andframe.exception.AfExceptionHandler;
 import com.andframe.feature.AfView;
+import com.andframe.impl.wrapper.AfViewWrapper;
 import com.andframe.module.AfFrameSelector;
 import com.andframe.module.AfModuleNodata;
 import com.andframe.module.AfModuleNodataImpl;
@@ -36,7 +37,6 @@ import com.andframe.module.AfSelectorBottombarImpl;
 import com.andframe.module.AfSelectorTitlebar;
 import com.andframe.module.AfSelectorTitlebarImpl;
 import com.andframe.module.AfViewModuler;
-import com.andframe.impl.wrapper.AfViewWrapper;
 import com.andframe.util.java.AfReflecter;
 import com.andframe.widget.AfContactsRefreshView;
 
@@ -330,6 +330,9 @@ public class ViewBinder {
                             value = AfViewModuler.init((Class<? extends AfViewModuler>) type, root, id);
                         } else {
                             value = AfViewModuler.init((Class<? extends AfViewModuler>) field.getType(), root, id);
+                        }
+                        if (value instanceof AfViewModuler) {
+                            ((AfViewModuler) value).onBindHandler(handler);
                         }
                     }
                     if (value != null) {
