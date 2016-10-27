@@ -8,6 +8,7 @@ import android.view.ViewGroup;
 import android.widget.FrameLayout;
 
 import com.andframe.$;
+import com.andframe.api.view.ViewQuery;
 import com.andframe.exception.AfExceptionHandler;
 import com.andframe.listener.SafeOnClickListener;
 import com.andframe.task.AfHandlerTask;
@@ -45,20 +46,21 @@ public class ApPagerHelper implements AfPullToRefreshBase.OnRefreshListener {
     }
 
     public void onCreate() {
-        if (mIsUsingSwipeBack) {
-            mSwipeBackHelper = new SwipeBackActivityHelper(pager.getActivity());
-            mSwipeBackHelper.onActivityCreate();
-        }
+//        if (mIsUsingSwipeBack) {
+//            mSwipeBackHelper = new SwipeBackActivityHelper(pager.getActivity());
+//            mSwipeBackHelper.onActivityCreate();
+//        }
     }
 
     public void onViewCreated() {
         try {
             StatusBarInterpreter.interpreter(pager);
             if (pager.getView() != null) {
-                Toolbar toolbar = $.query(pager.getView()).$(Toolbar.class).view();
-                if (toolbar != null) {
-                    toolbar.setNavigationOnClickListener(new SafeOnClickListener(v -> pager.getActivity().finish()));
-                }
+                $.query(pager.getView())
+                        .$(Toolbar.class)
+                        .foreach(Toolbar.class, (ViewQuery.ViewEacher<Toolbar>)
+                                view -> view.setNavigationOnClickListener(new SafeOnClickListener(
+                                        v -> pager.getActivity().finish())));
             }
         } catch (Throwable e) {
             AfExceptionHandler.handle(e, ("ApPagerHelper.onViewCreated 失败"));
@@ -78,6 +80,10 @@ public class ApPagerHelper implements AfPullToRefreshBase.OnRefreshListener {
 
     public void onPostCreate(Bundle bundle) {
         try {
+            if (mIsUsingSwipeBack) {
+                mSwipeBackHelper = new SwipeBackActivityHelper(pager.getActivity());
+                mSwipeBackHelper.onActivityCreate();
+            }
             if (mSwipeBackHelper != null) {
                 mSwipeBackHelper.onPostCreate();
                 SwipeBackLayout layout = mSwipeBackHelper.getSwipeBackLayout();
@@ -128,7 +134,6 @@ public class ApPagerHelper implements AfPullToRefreshBase.OnRefreshListener {
             @Override
             protected void onHandle() {
             }
-
             @Override
             protected void onWorking() throws Exception {
                 Thread.sleep(1000);

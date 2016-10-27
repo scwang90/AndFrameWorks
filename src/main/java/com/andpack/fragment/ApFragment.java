@@ -22,7 +22,7 @@ public class ApFragment extends AfTabFragment implements ApPager {
     }
 
     @BindViewCreated
-    protected void onAfterViews() throws Exception {
+    protected void onViewCreated() throws Exception {
         mHelper.onViewCreated();
     }
 

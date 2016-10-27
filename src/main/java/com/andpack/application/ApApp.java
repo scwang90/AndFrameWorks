@@ -32,8 +32,14 @@ import java.io.IOException;
  */
 public class ApApp extends AfApp {
 
+    private ApDiskCache mImageDiskCache;
+
     public static ApApp getApp() {
         return (ApApp)get();
+    }
+
+    public ApDiskCache getImageDiskCache() {
+        return mImageDiskCache;
     }
 
     //<editor-fold desc="初始化">
@@ -75,7 +81,7 @@ public class ApApp extends AfApp {
          */
         try {
             File imageDir = new File(getExternalCacheDir(),"uil-image");
-            config.diskCache(new ApDiskCache(imageDir, new Md5FileNameGenerator(), 50 * 1024 * 1024));
+            config.diskCache(mImageDiskCache = new ApDiskCache(imageDir, new Md5FileNameGenerator(), 50 * 1024 * 1024));
         } catch (IOException e) {
             e.printStackTrace();
         }
