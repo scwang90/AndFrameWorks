@@ -117,4 +117,26 @@
         <item name="android:background">@drawable/af_button_primary</item>
     </style>
 
+    <style name="AndFrame.Toolbar">
+        <item name="android:layout_width">match_parent</item>
+        <item name="android:layout_height">?attr/actionBarSize</item>
+        <item name="android:background">@color/colorPrimary</item>
+        <item name="android:theme">@style/ThemeOverlay.AppCompat.Dark.ActionBar</item>
+    </style>
+
+    <style name="AndFrame.Toolbar.Light">
+        <item name="android:background">@color/colorToolbarBackgroundLight</item>
+        <item name="android:theme">@style/ThemeOverlay.AppCompat.ActionBar</item>
+    </style>
+
+    <style name="AndFrame.Toolbar.Title" parent="AndFrame.Label">
+        <item name="android:layout_gravity">center</item>
+        <item name="android:textSize">@dimen/textsize_titlebar</item>
+        <item name="android:textColor">@color/colorToolbarText</item>
+    </style>
+
+    <style name="AndFrame.Toolbar.Title.Dark">
+        <item name="android:textColor">@color/colorToolbarTextDark</item>
+    </style>
+
 </resources>

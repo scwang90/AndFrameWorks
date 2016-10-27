@@ -50,7 +50,7 @@ public abstract class AfListItem<T> implements ListItem<T>, Viewer, ViewQueryHel
 	}
 	
 //	@Override
-	protected void onHandle(View view) {
+	protected void onViewCreated(View view) {
 		Injecter.doInject(this, view.getContext());
 		ViewBinder.doBind(this, view);
 	}
@@ -62,7 +62,7 @@ public abstract class AfListItem<T> implements ListItem<T>, Viewer, ViewQueryHel
 	@Override
 	public View onCreateView(Context context, ViewGroup parent) {
 		mLayout = LayoutInflater.from(context).inflate(getLayoutId(), parent, false);
-		onHandle(mLayout);
+		onViewCreated(mLayout);
 		return mLayout;
 	}
 

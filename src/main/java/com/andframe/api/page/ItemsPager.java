@@ -26,6 +26,7 @@ public interface ItemsPager<T> extends MultiStatusPager<List<T>>, OnItemClickLis
     ListItem<T> newListItem();
     ItemsViewer findItemsViewer(ItemsPager<T> pager);
     ListItemAdapter<T> newAdapter(Context context, List<T> list);
+    ListItemAdapter<T> initAdapter();
 
     List<T> onTaskLoadCache(boolean isCheckExpired);
     List<T> onTaskLoadList(Page page) throws Exception;
@@ -38,7 +39,7 @@ public interface ItemsPager<T> extends MultiStatusPager<List<T>>, OnItemClickLis
     boolean onItemLongClick(T model, int index);
     void onItemClick(T model, int index);
 
-    MoreFooter<T> newMoreFooter();
+    MoreFooter newMoreFooter();
 
     boolean setMoreShow(AfHandlerTask task, List<T> list);
 
@@ -61,4 +62,5 @@ public interface ItemsPager<T> extends MultiStatusPager<List<T>>, OnItemClickLis
     void clearCache();
 
     Date getCacheTime();
+
 }

@@ -27,11 +27,13 @@ public interface ItemsPagerHelper<T> extends MultiStatusHelper<List<T>>, OnItemC
     void onTaskLoadedRefresh(AfHandlerTask task, List<T> list);
     void onTaskLoadedMore(AfHandlerTask task, List<T> list);
     void onViewCreated() throws Exception;
+
+    ListItemAdapter<T> initAdapter();
     ListItemAdapter<T> newAdapter(Context context, List<T> list);
 //    List<T> onTaskLoadList(Page page);
     List<T> onTaskLoadCache(boolean isCheckExpired);
 
-    MoreFooter<T> newMoreFooter();
+    MoreFooter newMoreFooter();
     ItemsViewer findItemsViewer(ItemsPager<T> pager);
 
     boolean setMoreShow(AfHandlerTask task, List<T> list);
@@ -52,4 +54,5 @@ public interface ItemsPagerHelper<T> extends MultiStatusHelper<List<T>>, OnItemC
     void setLastRefreshTime(Date time);
 
     void bindListHeaderAndFooter(AfHeaderFooterAdapter<T> adapter);
+
 }

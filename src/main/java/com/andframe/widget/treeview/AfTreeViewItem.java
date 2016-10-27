@@ -29,8 +29,8 @@ public abstract class AfTreeViewItem<T> extends AfMultiChoiceItem<T> {
     }
 
     @Override
-    public void onHandle(View view) {
-        super.onHandle(view);
+    public void onViewCreated(View view) {
+        super.onViewCreated(view);
         float density = view.getContext().getResources().getDisplayMetrics().density;
         retract = (int) (density * 20 + 0.5f);
     }

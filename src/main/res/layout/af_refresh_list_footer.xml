@@ -6,19 +6,15 @@
     android:background="@color/transparent">
     <TextView style="@style/AndFrame.Label.Assistant"
         android:id="@+id/refresh_list_footer_text"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
         android:layout_centerInParent="true"
-        android:gravity="center"
         android:padding="16dip"
         android:text="@string/refresh_footer_more"/>
-    <ProgressBar android:id="@+id/refresh_list_footer_progressbar"
-        style="?android:attr/progressBarStyleSmall"
+    <ProgressBar style="?android:attr/progressBarStyleSmall"
+        android:id="@+id/refresh_list_footer_progressbar"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_toLeftOf="@+id/refresh_list_footer_text"
         android:layout_toStartOf="@+id/refresh_list_footer_text"
         android:layout_centerVertical="true"
-        android:visibility="visible">
-    </ProgressBar>
+        android:visibility="visible"/>
 </RelativeLayout>

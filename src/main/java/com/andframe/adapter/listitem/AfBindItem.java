@@ -32,8 +32,8 @@ public class AfBindItem<T> extends AfTreeViewItem<T> {
     }
 
     @Override
-    public void onHandle(View view) {
-        super.onHandle(view);
+    public void onViewCreated(View view) {
+        super.onViewCreated(view);
         if (mTreeViewContent != null) {
             view = mTreeViewContent;
         }

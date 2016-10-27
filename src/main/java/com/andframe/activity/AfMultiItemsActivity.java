@@ -163,7 +163,7 @@ public abstract class AfMultiItemsActivity<T> extends AfMultiStatusActivity<List
      * 创建加载更多的视图
      */
     @Override
-    public MoreFooter<T> newMoreFooter() {
+    public MoreFooter newMoreFooter() {
         return mItemsHelper.newMoreFooter();
     }
 
@@ -193,6 +193,15 @@ public abstract class AfMultiItemsActivity<T> extends AfMultiStatusActivity<List
     public boolean onItemLongClick(T model, int index) {
         return false;
     }
+
+    /**
+     * 初始化 适配器（内部调用 newAdapter）
+     */
+    @Override
+    public ListItemAdapter<T> initAdapter() {
+        return mItemsHelper.initAdapter();
+    }
+
     /**
      * 根据数据ltdata新建一个 适配器 重写这个方法之后getItemLayout方法将失效
      *
@@ -204,6 +213,7 @@ public abstract class AfMultiItemsActivity<T> extends AfMultiStatusActivity<List
     public ListItemAdapter<T> newAdapter(Context context, List<T> list) {
         return mAdapter = mItemsHelper.newAdapter(context, list);
     }
+
     /**
      * 为列表添加 Header 和 Footer
      * （在bindAdapter之前执行）

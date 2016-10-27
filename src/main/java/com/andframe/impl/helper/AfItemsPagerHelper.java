@@ -25,10 +25,11 @@ import com.andframe.api.multistatus.MoreFooter;
 import com.andframe.api.page.ItemsPager;
 import com.andframe.api.page.ItemsPagerHelper;
 import com.andframe.api.view.ItemsViewer;
+import com.andframe.application.AfApp;
 import com.andframe.caches.AfPrivateCaches;
 import com.andframe.exception.AfExceptionHandler;
 import com.andframe.fragment.AfMultiItemsFragment;
-import com.andframe.impl.multistatus.DefaultMoreFooter;
+import com.andframe.impl.multistatus.MoreFooterHolder;
 import com.andframe.impl.viewer.ItemsGridViewWrapper;
 import com.andframe.impl.viewer.ItemsListViewWrapper;
 import com.andframe.impl.viewer.ItemsRecyclerViewWrapper;
@@ -59,7 +60,7 @@ public class AfItemsPagerHelper<T> extends AfMultiStatusHelper<List<T>> implemen
 
     protected ItemsViewer mItemsViewer;
     protected ListItemAdapter<T> mAdapter;
-    protected MoreFooter<T> mMoreFooter;
+    protected MoreFooter mMoreFooter;
 
     //<editor-fold desc="缓存相关">
     /**
@@ -95,31 +96,30 @@ public class AfItemsPagerHelper<T> extends AfMultiStatusHelper<List<T>> implemen
         mLoadOnViewCreated = false;
         super.onViewCreated();
         mItemsPager.initCache();
-        if (mAdapter == null) {
-            mAdapter = mItemsPager.newAdapter(mItemsPager.getContext(), new ArrayList<>());
+        mItemsPager.initAdapter();
 
-            if (mAdapter instanceof AfHeaderFooterAdapter) {
-            } else if (mAdapter instanceof AfListAdapter) {
-                mAdapter = new AfHeaderFooterAdapter<>(((AfListAdapter<T>) mAdapter));
-            }
-        }
-        if (mAdapter instanceof AfHeaderFooterAdapter) {
-            AfHeaderFooterAdapter<T> adapter = (((AfHeaderFooterAdapter<T>) mAdapter));
-            adapter.clearHeader();
-            adapter.clearFooter();
-
-            mItemsPager.bindListHeaderAndFooter(adapter);
-        }
         mItemsViewer = mItemsPager.findItemsViewer(mItemsPager);
+
         if (mItemsViewer != null) {
+            if (mAdapter instanceof AfHeaderFooterAdapter) {
+                mItemsPager.bindListHeaderAndFooter((((AfHeaderFooterAdapter<T>) mAdapter)));
+            } else {
+                mItemsPager.bindListHeaderAndFooter(null);
+            }
+
             mItemsViewer.setOnItemClickListener(mItemsPager);
             mItemsViewer.setOnItemLongClickListener(mItemsPager);
             mItemsPager.bindAdapter(mItemsViewer, mAdapter);
-        }
-        if (mCacheClazz != null) {
-            AfDispatcher.dispatch(() -> mItemsPager.postTask(new AbLoadListTask()));
+
+            if (mModel != null && mModel.size() > 0) {
+                AfDispatcher.dispatch(() -> mItemsPager.postTask(new AbRefreshListTask(mModel)));
+            } else if (mCacheClazz != null) {
+                AfDispatcher.dispatch(() -> mItemsPager.postTask(new AbLoadListTask()));
+            } else {
+                AfDispatcher.dispatch(() -> mItemsPager.postTask(new AbRefreshListTask()));
+            }
         } else {
-            AfDispatcher.dispatch(() -> mItemsPager.postTask(new AbRefreshListTask()));
+            throw new RuntimeException("findItemsViewer 返回null");
         }
     }
 
@@ -145,6 +145,20 @@ public class AfItemsPagerHelper<T> extends AfMultiStatusHelper<List<T>> implemen
     @Override
     public void bindAdapter(ItemsViewer listView, ListAdapter adapter) {
         listView.setAdapter(adapter);
+    }
+
+    @Override
+    public ListItemAdapter<T> initAdapter() {
+        if (mAdapter == null) {
+            mAdapter = mItemsPager.newAdapter(mItemsPager.getContext(), new ArrayList<>());
+            if (mAdapter instanceof AfListAdapter && !(mAdapter instanceof AfHeaderFooterAdapter)) {
+                mAdapter = new AfHeaderFooterAdapter<>(((AfListAdapter<T>) mAdapter));
+            }
+        } else if (mAdapter instanceof AfHeaderFooterAdapter) {
+            (((AfHeaderFooterAdapter<T>) mAdapter)).clearHeader();
+            (((AfHeaderFooterAdapter<T>) mAdapter)).clearFooter();
+        }
+        return mAdapter;
     }
 
     @Override
@@ -286,21 +300,27 @@ public class AfItemsPagerHelper<T> extends AfMultiStatusHelper<List<T>> implemen
 
     @Override
     public void bindListHeaderAndFooter(AfHeaderFooterAdapter<T> adapter) {
-        adapter.addFooter(mMoreFooter = mItemsPager.newMoreFooter());
+
+        mMoreFooter = mItemsPager.newMoreFooter();
         mMoreFooter.setOnMoreListener(mItemsPager);
         mMoreFooter.setAllLoadFinish(true);
+        mMoreFooter.onCreateView(mPager.getContext(), null);
 
-        Class<?> stop = mPager instanceof Activity ? AfMultiItemsActivity.class : AfMultiItemsFragment.class;
-        MultiItemsHeader headers = AfReflecter.getAnnotation(mPager.getClass(), stop, MultiItemsHeader.class);
-        if (headers != null) {
-            for (int id : headers.value()) {
-                adapter.addHeaderView($.query(mPager).id(id).breakView());
+        if (adapter != null) {
+            adapter.addFooter(new MoreFooterHolder<>(mMoreFooter));
+
+            Class<?> stop = mPager instanceof Activity ? AfMultiItemsActivity.class : AfMultiItemsFragment.class;
+            MultiItemsHeader headers = AfReflecter.getAnnotation(mPager.getClass(), stop, MultiItemsHeader.class);
+            if (headers != null) {
+                for (int id : headers.value()) {
+                    adapter.addHeaderView($.query(mPager).id(id).breakView());
+                }
             }
-        }
-        MultiItemsFooter footers = AfReflecter.getAnnotation(mPager.getClass(), stop, MultiItemsFooter.class);
-        if (footers != null) {
-            for (int id : footers.value()) {
-                adapter.addFooterView($.query(mPager).id(id).breakView());
+            MultiItemsFooter footers = AfReflecter.getAnnotation(mPager.getClass(), stop, MultiItemsFooter.class);
+            if (footers != null) {
+                for (int id : footers.value()) {
+                    adapter.addFooterView($.query(mPager).id(id).breakView());
+                }
             }
         }
     }
@@ -365,8 +385,8 @@ public class AfItemsPagerHelper<T> extends AfMultiStatusHelper<List<T>> implemen
     }
 
     @Override
-    public MoreFooter<T> newMoreFooter() {
-        return new DefaultMoreFooter<>();
+    public MoreFooter newMoreFooter() {
+        return AfApp.get().newMoreFooter();
     }
     //</editor-fold>
 
@@ -468,6 +488,16 @@ public class AfItemsPagerHelper<T> extends AfMultiStatusHelper<List<T>> implemen
      * 刷新数据任务
      */
     protected class AbRefreshListTask extends AfHandlerDataTask<List<T>> {
+
+        private List<T> mList;
+
+        public AbRefreshListTask() {
+        }
+
+        public AbRefreshListTask(List<T> list) {
+            mList = list;
+        }
+
         @Override
         protected void onHandle(List<T> list) {
             mItemsPager.onTaskLoadedRefresh(this, list);
@@ -476,6 +506,9 @@ public class AfItemsPagerHelper<T> extends AfMultiStatusHelper<List<T>> implemen
         @Override
         protected List<T> onLoadData() throws Exception {
             AfDispatcher.dispatch(() -> mItemsPager.showProgress());
+            if (mList != null && mList.size() > 0) {
+                return mList;
+            }
             data = mItemsPager.onTaskLoadList(new Page(AfListViewTask.PAGE_SIZE, 0));
             mItemsPager.onTaskPutCache(data);
             return data;

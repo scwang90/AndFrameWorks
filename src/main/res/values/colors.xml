@@ -28,6 +28,10 @@
     <color name="colorTextContent">#444444</color>
     <color name="colorTextAssistant">#888888</color>
 
+    <color name="colorToolbarText">#FFFFFF</color>
+    <color name="colorToolbarTextDark">#444444</color>
+    <color name="colorToolbarBackgroundLight">#FFFFFF</color>
+
     <color name="colorPrimary">#33B5E5</color>
     <color name="colorPrimaryDark">#22A4D4</color>
     <color name="colorPrimaryLight">#44C6F6</color>

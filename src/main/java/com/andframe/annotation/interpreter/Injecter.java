@@ -78,6 +78,7 @@ import com.andframe.annotation.inject.InjectRes;
 import com.andframe.annotation.inject.InjectSystem;
 import com.andframe.api.Extrater;
 import com.andframe.application.AfApp;
+import com.andframe.application.AfAppSettings;
 import com.andframe.caches.AfDurableCache;
 import com.andframe.caches.AfJsonCache;
 import com.andframe.caches.AfPrivateCaches;
@@ -85,9 +86,11 @@ import com.andframe.caches.AfSharedPreference;
 import com.andframe.exception.AfExceptionHandler;
 import com.andframe.exception.AfToastException;
 import com.andframe.feature.AfBundle;
+import com.andframe.feature.AfDialogBuilder;
 import com.andframe.feature.AfIntent;
 import com.andframe.impl.wrapper.AfViewWrapper;
 import com.andframe.task.AfDispatcher;
+import com.andframe.util.android.AfDensity;
 import com.andframe.util.java.AfReflecter;
 
 import java.lang.reflect.Array;
@@ -135,12 +138,12 @@ public class Injecter {
                     value = context.getResources();
                 } else if (clazz.equals(Random.class)) {
                     value = new Random();
-//                } else if (clazz.equals(AfDialogBuilder.class)) {
-//                    value = new AfDialogBuilder(context);
-//                } else if (clazz.equals(AfDensity.class)) {
-//                    value = new AfDensity(context);
-//                } else if (clazz.equals(AfReflecter.class)) {
-//                    value = new AfReflecter();
+                } else if (clazz.equals(AfDialogBuilder.class)) {
+                    value = new AfDialogBuilder(context);
+                } else if (clazz.equals(AfDensity.class)) {
+                    value = new AfDensity();
+                } else if (clazz.equals(AfReflecter.class)) {
+                    value = new AfReflecter();
 //                } else if (clazz.equals(AfDesHelper.class)) {
 //                    value = new AfDesHelper();
 //                } else if (clazz.equals(AfDeviceInfo.class)) {
@@ -163,8 +166,8 @@ public class Injecter {
 //                    value = AfImageCaches.getInstance();
                 } else if (AfApp.class.isAssignableFrom(clazz)) {
                     value = AfApp.get();
-//                } else if (AfAppSettings.class.isAssignableFrom(clazz)) {
-//                    value = AfApp.getApp().getAppSetting();
+                } else if (AfAppSettings.class.isAssignableFrom(clazz)) {
+                    value = AfApp.get().getAppSetting();
 //                } else if (AfEntityDao.class.isAssignableFrom(clazz)) {
 //                    value = clazz.getConstructor(Context.class).newInstance(context);
                 }
