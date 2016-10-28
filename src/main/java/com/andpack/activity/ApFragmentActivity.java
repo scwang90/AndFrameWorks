@@ -6,17 +6,11 @@ import android.support.annotation.StyleRes;
 import android.support.v4.app.Fragment;
 import android.view.View;
 
-import com.andframe.activity.AfActivity;
 import com.andframe.activity.AfFragmentActivity;
 import com.andframe.annotation.view.BindViewCreated;
-import com.andframe.application.AfApp;
 import com.andframe.feature.AfIntent;
 import com.andpack.api.ApPager;
 import com.andpack.impl.ApPagerHelper;
-
-import java.util.ArrayList;
-import java.util.Arrays;
-import java.util.List;
 
 /**
  * 通用页面基类
@@ -70,44 +64,18 @@ public class ApFragmentActivity extends AfFragmentActivity implements ApPager {
         super.finish();
     }
 
-    //<editor-fold desc="下拉刷新">
-    @Override
-    public boolean onMore() {
-        return false;
-    }
+    //<editor-fold desc="跳转封装">
 
-    @Override
-    public boolean onRefresh() {
-        return false;
-    }
-    //</editor-fold>
-
-
-    //<editor-fold desc="FragmentActivity启动">
-    public static void start(Class<? extends Fragment> clazz, Object... params){
-        startFragment(clazz, params);
+    public static void start(Class<? extends Fragment> clazz, Object... params) {
+        AfFragmentActivity.start(clazz, params);
     }
     public static void startResult(Class<? extends Fragment> clazz,int request, Object... params){
-        startFragmentForResult(clazz, request, params);
+        AfFragmentActivity.startResult(clazz, request, params);
     }
-    public static void startFragment(Class<? extends Fragment> clazz, Object... params){
-        AfActivity activity = AfApp.get().getCurActivity();
-        if (activity != null) {
-            List<Object> list = new ArrayList<>(Arrays.asList(params));
-            list.add(0,clazz.getName());
-            list.add(0,EXTRA_FRAGMENT);
-            activity.startActivity(ApFragmentActivity.class, list.toArray());
-        }
+    public static void startResult(Fragment fragment, Class<? extends Fragment> clazz,int request, Object... params){
+        AfFragmentActivity.startResult(fragment, clazz, request, params);
     }
-    public static void startFragmentForResult(Class<? extends Fragment> clazz,int request, Object... params){
-        AfActivity activity = AfApp.get().getCurActivity();
-        if (activity != null) {
-            List<Object> list = new ArrayList<>(Arrays.asList(params));
-            list.add(0,clazz.getName());
-            list.add(0,EXTRA_FRAGMENT);
-            activity.startActivityForResult(activityClazz, request, list.toArray());
-        }
-    }
+
     //</editor-fold>
 
 }

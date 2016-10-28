@@ -11,10 +11,8 @@ import com.andframe.$;
 import com.andframe.api.view.ViewQuery;
 import com.andframe.exception.AfExceptionHandler;
 import com.andframe.listener.SafeOnClickListener;
-import com.andframe.task.AfHandlerTask;
 import com.andframe.util.java.AfReflecter;
 import com.andframe.widget.AfRefreshScorllView;
-import com.andframe.widget.pulltorefresh.AfPullToRefreshBase;
 import com.andpack.R;
 import com.andpack.annotation.interpreter.StatusBarInterpreter;
 import com.andpack.api.ApPager;
@@ -26,7 +24,7 @@ import me.imid.swipebacklayout.lib.app.SwipeBackActivityHelper;
  * 页面基类帮助类
  * Created by SCWANG on 2016/9/3.
  */
-public class ApPagerHelper implements AfPullToRefreshBase.OnRefreshListener {
+public class ApPagerHelper {
 
     protected ApPager pager;
 
@@ -121,26 +119,5 @@ public class ApPagerHelper implements AfPullToRefreshBase.OnRefreshListener {
         }
         return false;
     }
-
-    //<editor-fold desc="下啦刷新">
-    @Override
-    public boolean onMore() {
-        return pager.onMore();
-    }
-
-    @Override
-    public boolean onRefresh() {
-        return pager.onRefresh() || $.with().postTask(new AfHandlerTask() {
-            @Override
-            protected void onHandle() {
-            }
-            @Override
-            protected void onWorking() throws Exception {
-                Thread.sleep(1000);
-            }
-        }).setListener(mRfScorllView).prepare();
-    }
-
-    //</editor-fold>
 
 }

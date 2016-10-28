@@ -2,6 +2,7 @@ package com.andpack.activity;
 
 import android.os.Bundle;
 import android.support.annotation.StyleRes;
+import android.support.v4.app.Fragment;
 import android.view.View;
 
 import com.andframe.activity.AfActivity;
@@ -57,15 +58,13 @@ public class ApActivity extends AfActivity implements ApPager {
         super.finish();
     }
 
-    //<editor-fold desc="下拉刷新">
     @Override
-    public boolean onMore() {
-        return false;
+    public void startFragment(Class<? extends Fragment> clazz, Object... args) {
+        ApFragmentActivity.start(clazz, args);
     }
 
     @Override
-    public boolean onRefresh() {
-        return false;
+    public void startFragmentForResult(Class<? extends Fragment> clazz, int request, Object... args) {
+        ApFragmentActivity.startResult(clazz, request, args);
     }
-    //</editor-fold>
 }

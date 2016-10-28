@@ -2,22 +2,23 @@ package com.andpack.activity;
 
 import android.content.Context;
 import android.os.Bundle;
+import android.support.v4.app.Fragment;
 import android.view.View;
 
 import com.andframe.activity.AfMultiStatusActivity;
 import com.andframe.api.multistatus.RefreshLayouter;
 import com.andframe.feature.AfIntent;
 import com.andpack.api.ApPager;
-import com.andpack.impl.ApStatusPagerHelper;
+import com.andpack.impl.ApStatusHelper;
 
 /**
  * 多状态页面支持
  * Created by SCWANG on 2016/10/21.
  */
 
-public class ApMultiStatusActivity<T> extends AfMultiStatusActivity<T> implements ApPager {
+public abstract class ApMultiStatusActivity<T> extends AfMultiStatusActivity<T> implements ApPager {
 
-    protected ApStatusPagerHelper mApHelper = new ApStatusPagerHelper(this);
+    protected ApStatusHelper mApHelper = new ApStatusHelper(this);
 
     @Override
     protected void onCreate(Bundle bundle, AfIntent intent) {
@@ -50,7 +51,12 @@ public class ApMultiStatusActivity<T> extends AfMultiStatusActivity<T> implement
     }
 
     @Override
-    public boolean onMore() {
-        return false;
+    public void startFragment(Class<? extends Fragment> clazz, Object... args) {
+        ApFragmentActivity.start(clazz, args);
+    }
+
+    @Override
+    public void startFragmentForResult(Class<? extends Fragment> clazz, int request, Object... args) {
+        ApFragmentActivity.startResult(clazz, request, args);
     }
 }

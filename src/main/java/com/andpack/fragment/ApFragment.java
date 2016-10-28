@@ -1,9 +1,12 @@
 package com.andpack.fragment;
 
+import android.support.v4.app.Fragment;
+
 import com.andframe.annotation.view.BindViewCreated;
 import com.andframe.feature.AfBundle;
 import com.andframe.feature.AfView;
 import com.andframe.fragment.AfTabFragment;
+import com.andpack.activity.ApFragmentActivity;
 import com.andpack.api.ApPager;
 import com.andpack.impl.ApPagerHelper;
 
@@ -26,15 +29,14 @@ public class ApFragment extends AfTabFragment implements ApPager {
         mHelper.onViewCreated();
     }
 
-    //<editor-fold desc="下拉刷新">
+
     @Override
-    public boolean onMore() {
-        return false;
+    public void startFragment(Class<? extends Fragment> clazz, Object... args) {
+        ApFragmentActivity.start(clazz, args);
     }
 
     @Override
-    public boolean onRefresh() {
-        return false;
+    public void startFragmentForResult(Class<? extends Fragment> clazz, int request, Object... args) {
+        ApFragmentActivity.startResult(this, clazz, request, args);
     }
-    //</editor-fold>
 }

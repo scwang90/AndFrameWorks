@@ -10,9 +10,9 @@ import com.andpack.api.ApPager;
  * 页面基类帮助类
  * Created by SCWANG on 2016/9/3.
  */
-public class ApStatusPagerHelper extends ApPagerHelper {
+public class ApStatusHelper extends ApPagerHelper {
 
-    public ApStatusPagerHelper(ApPager pager) {
+    public ApStatusHelper(ApPager pager) {
         super(pager);
     }
 

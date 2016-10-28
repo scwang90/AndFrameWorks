@@ -3,13 +3,14 @@ package com.andpack.activity;
 import android.content.Context;
 import android.os.Bundle;
 import android.support.annotation.StyleRes;
+import android.support.v4.app.Fragment;
 import android.view.View;
 
 import com.andframe.activity.AfMultiItemsActivity;
 import com.andframe.api.multistatus.RefreshLayouter;
 import com.andframe.feature.AfIntent;
 import com.andpack.api.ApPager;
-import com.andpack.impl.ApListHelper;
+import com.andpack.impl.ApItemsHelper;
 
 /**
  *
@@ -17,7 +18,7 @@ import com.andpack.impl.ApListHelper;
  */
 public abstract class ApMultiItemsActivity<T> extends AfMultiItemsActivity<T> implements ApPager {
 
-    protected ApListHelper mApHelper = new ApListHelper(this);
+    protected ApItemsHelper mApHelper = new ApItemsHelper(this);
 
     @Override
     public void setTheme(@StyleRes int resid) {
@@ -68,4 +69,13 @@ public abstract class ApMultiItemsActivity<T> extends AfMultiItemsActivity<T> im
         return super.createRefreshLayouter(context);
     }
 
+    @Override
+    public void startFragment(Class<? extends Fragment> clazz, Object... args) {
+        ApFragmentActivity.start(clazz, args);
+    }
+
+    @Override
+    public void startFragmentForResult(Class<? extends Fragment> clazz, int request, Object... args) {
+        ApFragmentActivity.startResult(clazz, request, args);
+    }
 }
