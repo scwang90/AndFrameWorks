@@ -27,6 +27,7 @@ import com.andframe.task.AfHandlerDataTask;
 import com.andframe.task.AfHandlerTask;
 import com.andframe.util.java.AfReflecter;
 
+import java.util.Collection;
 import java.util.Collections;
 import java.util.Queue;
 import java.util.concurrent.LinkedBlockingQueue;
@@ -174,12 +175,20 @@ public class AfMultiStatusHelper<T> implements MultiStatusHelper<T> {
         })/*.setListener(task -> mRefreshLayouter.setRefreshing(false))*/.prepare();
     }
 
+    @Override
+    public boolean isEmpty(T model) {
+        if (model instanceof Collection) {
+            return ((Collection) model).isEmpty();
+        }
+        return model == null;
+    }
+
     public void onTaskFinish(T data) {
-        boolean loaded = mPager.onTaskLoaded(data);
-        if (loaded) {
-            mPager.showContent();
-        } else {
+        if (mPager.isEmpty(data)) {
             mPager.showEmpty();
+        } else {
+            mPager.showContent();
+            mPager.onTaskLoaded(data);
         }
     }
 
@@ -201,16 +210,16 @@ public class AfMultiStatusHelper<T> implements MultiStatusHelper<T> {
         return data != null;
     }
 
-    /**
-     *
-     * 任务加载（异步线程，由框架自动发出执行）
-     * @return 加载的数据
-     * @throws Exception
-     */
-    public T onTaskLoading() throws Exception {
-        Thread.sleep(1000);
-        return null;
-    }
+//    /**
+//     *
+//     * 任务加载（异步线程，由框架自动发出执行）
+//     * @return 加载的数据
+//     * @throws Exception
+//     */
+//    public T onTaskLoading() throws Exception {
+//        Thread.sleep(1000);
+//        return null;
+//    }
     //</editor-fold>
 
     //<editor-fold desc="页面状态">

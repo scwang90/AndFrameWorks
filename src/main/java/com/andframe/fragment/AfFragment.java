@@ -14,6 +14,7 @@ import android.view.ViewGroup;
 import android.widget.Toast;
 
 import com.andframe.activity.AfActivity;
+import com.andframe.activity.AfFragmentActivity;
 import com.andframe.annotation.interpreter.Injecter;
 import com.andframe.annotation.interpreter.LifeCycleInjecter;
 import com.andframe.annotation.interpreter.ViewBinder;
@@ -128,51 +129,27 @@ public abstract class AfFragment extends Fragment implements Pager, ViewQueryHel
     //</editor-fold>
 
     //<editor-fold desc="页面切换">
-    @Override
-    public void startActivity(Class<? extends Activity> clazz) {
-        startActivity(new Intent(getAfActivity(), clazz));
-    }
 
+    @Override
     public void startActivity(Class<? extends Activity> clazz,Object... args) {
-        AfIntent intent = new AfIntent(getAfActivity(), clazz);
-        if (args != null && args.length > 0) {
-            for (int i = 0; i < args.length / 2; i++) {
-                if (args[2 * i] instanceof String) {
-                    Object arg = args[2 * i + 1];
-                    if (arg != null && arg instanceof List) {
-                        intent.putList((String) args[2 * i], (List<?>)arg);
-                    } else {
-                        intent.put((String) args[2 * i], arg);
-                    }
-                }
-            }
-        }
-        startActivity(intent);
+        startActivity(new AfIntent(getAfActivity(), clazz, args));
     }
 
     @Override
-    public void startActivityForResult(Class<? extends Activity> clazz,
-                                       int request) {
-        startActivityForResult(new Intent(getAfActivity(), clazz), request);
+    public void startActivityForResult(Class<? extends Activity> clazz, int request, Object... args) {
+        startActivityForResult(new AfIntent(getAfActivity(), clazz, args), request);
     }
 
-    public void startActivityForResult(Class<? extends Activity> clazz,
-                                       int request, Object... args) {
-        AfIntent intent = new AfIntent(getAfActivity(), clazz);
-        if (args != null && args.length > 0) {
-            for (int i = 0; i < args.length / 2; i++) {
-                if (args[2 * i] instanceof String) {
-                    Object arg = args[2 * i + 1];
-                    if (arg != null && arg instanceof List) {
-                        intent.putList((String) args[2 * i], (List<?>)arg);
-                    } else {
-                        intent.put((String) args[2 * i], arg);
-                    }
-                }
-            }
-        }
-        startActivityForResult(intent, request);
+    @Override
+    public void startFragment(Class<? extends Fragment> clazz, Object... args) {
+        AfFragmentActivity.start(clazz, args);
     }
+
+    @Override
+    public void startFragmentForResult(Class<? extends Fragment> clazz, int request, Object... args) {
+        AfFragmentActivity.startResult(this, clazz, request, args);
+    }
+
     //</editor-fold>
 
     //<editor-fold desc="生命周期">

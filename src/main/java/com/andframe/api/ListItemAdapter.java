@@ -12,5 +12,5 @@ public interface ListItemAdapter<T> extends List<T>, ListAdapter {
 
     List<T> getList();
     void set(List<T> list);
-
+    void notifyDataSetChanged();
 }

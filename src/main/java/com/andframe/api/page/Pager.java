@@ -2,6 +2,7 @@ package com.andframe.api.page;
 
 import android.app.Activity;
 import android.app.Dialog;
+import android.support.v4.app.Fragment;
 
 import com.andframe.api.Constanter;
 import com.andframe.api.view.Viewer;
@@ -16,19 +17,19 @@ import com.andframe.task.AfTask;
  */
 @SuppressWarnings("unused")
 public interface Pager extends Viewer, Constanter {
+
     boolean isRecycled();
 
     Activity getActivity();
 
     //<editor-fold desc="页面切换">
-    void startActivity(Class<? extends Activity> clazz);
+    void startFragment(Class<? extends Fragment> clazz, Object... args);
 
     void startActivity(Class<? extends Activity> clazz, Object... args);
 
-    void startActivityForResult(Class<? extends Activity> clazz, int request);
+    void startFragmentForResult(Class<? extends Fragment> clazz, int request, Object... args);
 
-    void startActivityForResult(Class<? extends Activity> clazz,
-                                int request, Object... args);
+    void startActivityForResult(Class<? extends Activity> clazz, int request, Object... args);
     //</editor-fold>
 
     //<editor-fold desc="气泡提示">

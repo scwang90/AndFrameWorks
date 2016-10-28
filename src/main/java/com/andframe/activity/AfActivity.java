@@ -40,13 +40,11 @@ import com.andframe.util.java.AfStackTrace;
 import java.util.ArrayList;
 import java.util.List;
 
-import static com.andframe.activity.AfFragmentActivity.startFragment;
-
 /**
  * 框架 Activity
  * Created by SCWANG on 2016/9/1.
  */
-public class AfActivity extends AppCompatActivity implements Pager, ViewQueryHelper {
+public abstract class AfActivity extends AppCompatActivity implements Pager, ViewQueryHelper {
 
     protected View mRootView = null;
 
@@ -183,8 +181,8 @@ public class AfActivity extends AppCompatActivity implements Pager, ViewQueryHel
             return;
         }
         try {
-            LifeCycleInjecter.injectOnCreate(this, bundle);
             this.onCreate(bundle, new AfIntent(getIntent()));
+            LifeCycleInjecter.injectOnCreate(this, bundle);
         } catch (final Throwable e) {
             AfDispatcher.dispatch(() -> AfExceptionHandler.handle(e, TAG() + ".onCreate"), 500);
             makeToastLong("页面启动失败", e);
@@ -358,51 +356,25 @@ public class AfActivity extends AppCompatActivity implements Pager, ViewQueryHel
     //</editor-fold>
 
     //<editor-fold desc="页面切换">
-    @Override
-    public void startActivity(Class<? extends Activity> clazz) {
-        startActivity(new Intent(this, clazz));
-    }
 
     @Override
     public void startActivity(Class<? extends Activity> clazz, Object... args) {
-        AfIntent intent = new AfIntent(this, clazz);
-        if (args != null && args.length > 0) {
-            for (int i = 0; i < args.length / 2; i++) {
-                if (args[2 * i] instanceof String) {
-                    Object arg = args[2 * i + 1];
-                    if (arg != null && arg instanceof List) {
-                        intent.putList((String) args[2 * i], (List<?>) arg);
-                    } else {
-                        intent.put((String) args[2 * i], arg);
-                    }
-                }
-            }
-        }
-        startActivity(intent);
+        startActivity(new AfIntent(this, clazz, args));
     }
 
     @Override
-    public void startActivityForResult(Class<? extends Activity> clazz, int request) {
-        startActivityForResult(new Intent(this, clazz), request);
+    public void startActivityForResult(Class<? extends Activity> clazz, int request, Object... args) {
+        startActivityForResult(new AfIntent(this, clazz, args), request);
     }
 
     @Override
-    public void startActivityForResult(Class<? extends Activity> clazz,
-                                       int request, Object... args) {
-        AfIntent intent = new AfIntent(this, clazz);
-        if (args != null && args.length > 0) {
-            for (int i = 0; i < args.length / 2; i++) {
-                if (args[2 * i] instanceof String) {
-                    Object arg = args[2 * i + 1];
-                    if (arg != null && arg instanceof List) {
-                        intent.putList((String) args[2 * i], (List<?>) arg);
-                    } else {
-                        intent.put((String) args[2 * i], arg);
-                    }
-                }
-            }
-        }
-        startActivityForResult(intent, request);
+    public void startFragment(Class<? extends Fragment> clazz, Object... args) {
+        AfFragmentActivity.start(clazz, args);
+    }
+
+    @Override
+    public void startFragmentForResult(Class<? extends Fragment> clazz, int request, Object... args) {
+        AfFragmentActivity.startResult(clazz, request, args);
     }
 
     @SuppressWarnings("unused")

@@ -23,7 +23,7 @@ import com.andframe.api.ListItem;
 import com.andframe.api.ListItemAdapter;
 import com.andframe.api.multistatus.MoreFooter;
 import com.andframe.api.page.ItemsPager;
-import com.andframe.api.page.ItemsPagerHelper;
+import com.andframe.api.page.ItemsHelper;
 import com.andframe.api.view.ItemsViewer;
 import com.andframe.application.AfApp;
 import com.andframe.caches.AfPrivateCaches;
@@ -53,7 +53,7 @@ import static com.andframe.util.java.AfReflecter.getAnnotation;
  *
  * Created by SCWANG on 2016/9/7.
  */
-public class AfItemsPagerHelper<T> extends AfMultiStatusHelper<List<T>> implements ItemsPagerHelper<T> {
+public class AfItemsPagerHelper<T> extends AfMultiStatusHelper<List<T>> implements ItemsHelper<T> {
 
     //<editor-fold desc="属性字段">
     protected ItemsPager<T> mItemsPager;

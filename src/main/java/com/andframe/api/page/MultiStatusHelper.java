@@ -13,37 +13,27 @@ import com.andframe.task.AfHandlerTask;
  */
 
 public interface MultiStatusHelper<T> {
+
     void onViewCreated() throws Exception;
 
     View findContentView();
 
     RefreshLayouter initRefreshLayout(View content);
-
     StatusLayouter initStatusLayout(View content);
-
     StatusLayouter createStatusLayouter(Context context);
-
     RefreshLayouter createRefreshLayouter(Context context);
 
     boolean onRefresh();
-
+    boolean isEmpty(T model);
     void onTaskFinish(T data);
-
     void onTaskFailed(AfHandlerTask task);
 
-    boolean onTaskLoaded(T data);
-
-    T onTaskLoading() throws Exception;
-
     void showEmpty();
-
     void showContent();
-
     void showProgress();
-
     void showError(String error);
-
     void showProgress(String progress);
 
     void setLoadOnViewCreated(boolean loadOrNot);
+
 }

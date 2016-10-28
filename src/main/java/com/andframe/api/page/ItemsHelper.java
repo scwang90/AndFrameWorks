@@ -20,7 +20,7 @@ import java.util.List;
  * 基本列表页帮助类接口
  * Created by SCWANG on 2016/9/7.
  */
-public interface ItemsPagerHelper<T> extends MultiStatusHelper<List<T>>, OnItemClickListener, OnItemLongClickListener, OnRefreshListener, OnMoreListener {
+public interface ItemsHelper<T> extends MultiStatusHelper<List<T>>, OnItemClickListener, OnItemLongClickListener, OnRefreshListener, OnMoreListener {
 
     void bindAdapter(ItemsViewer listView, ListAdapter adapter);
     void onTaskLoadedCache(AfHandlerTask task, List<T> list);

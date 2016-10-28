@@ -1,6 +1,7 @@
 package com.andframe.feature;
 
 import android.annotation.SuppressLint;
+import android.app.Activity;
 import android.content.Context;
 import android.content.Intent;
 import android.net.Uri;
@@ -50,6 +51,22 @@ public class AfIntent extends Intent implements Extrater {
     public AfIntent(String _key, Object value) {
         super();
         put(_key, value);
+    }
+
+    public AfIntent(Context context, Class<? extends Activity> clazz, Object... args) {
+        this(context, clazz);
+        if (args != null && args.length > 0) {
+            for (int i = 0; i < args.length / 2; i++) {
+                if (args[2 * i] instanceof String) {
+                    Object arg = args[2 * i + 1];
+                    if (arg != null && arg instanceof List) {
+                        this.putList((String) args[2 * i], (List<?>) arg);
+                    } else {
+                        this.put((String) args[2 * i], arg);
+                    }
+                }
+            }
+        }
     }
 
     public void put(String _key, Object value) {

@@ -17,7 +17,8 @@
         android:supportsRtl="true">
 
         <activity android:name=".activity.AfFragmentActivity"
-            android:screenOrientation="portrait"/>
+            android:screenOrientation="portrait"
+            android:windowSoftInputMode="stateHidden|adjustPan"/>
 
     </application>
 

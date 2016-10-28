@@ -1,6 +1,7 @@
 package com.andframe.activity;
 
 import android.app.Activity;
+import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
@@ -33,8 +34,8 @@ public class AfFragmentActivity extends AfActivity {
 
     private Fragment mFragment;
 
-    public static void startFragment(Class<? extends Fragment> clazz, Object... params){
-//        mFragmentClazz = clazz;
+    //<editor-fold desc="跳转封装">
+    public static void start(Class<? extends Fragment> clazz, Object... params){
         AfActivity activity = AfApp.get().getCurActivity();
         if (activity != null) {
             List<Object> list = new ArrayList<>(Arrays.asList(params));
@@ -44,8 +45,7 @@ public class AfFragmentActivity extends AfActivity {
         }
     }
 
-    public static void startFragmentForResult(Class<? extends Fragment> clazz,int request, Object... params){
-//        mFragmentClazz = clazz;
+    public static void startResult(Class<? extends Fragment> clazz,int request, Object... params){
         AfActivity activity = AfApp.get().getCurActivity();
         if (activity != null) {
             List<Object> list = new ArrayList<>(Arrays.asList(params));
@@ -54,6 +54,17 @@ public class AfFragmentActivity extends AfActivity {
             activity.startActivityForResult(activityClazz, request, list.toArray());
         }
     }
+
+    public static void startResult(Fragment fragment, Class<? extends Fragment> clazz,int request, Object... params){
+        Context context = fragment.getContext();
+        if (context != null) {
+            List<Object> list = new ArrayList<>(Arrays.asList(params));
+            list.add(0,clazz.getName());
+            list.add(0,EXTRA_FRAGMENT);
+            fragment.startActivityForResult(new AfIntent(context, activityClazz, list.toArray()), request);
+        }
+    }
+    //</editor-fold>
 
     //<editor-fold desc=方法">
     @InjectExtra(value = EXTRA_FRAGMENT,remark = "Fragment类名")

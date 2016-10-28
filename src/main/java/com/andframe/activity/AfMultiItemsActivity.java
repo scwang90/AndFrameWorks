@@ -11,7 +11,7 @@ import com.andframe.api.ListItem;
 import com.andframe.api.ListItemAdapter;
 import com.andframe.api.multistatus.MoreFooter;
 import com.andframe.api.page.ItemsPager;
-import com.andframe.api.page.ItemsPagerHelper;
+import com.andframe.api.page.ItemsHelper;
 import com.andframe.api.page.MultiStatusHelper;
 import com.andframe.api.view.ItemsViewer;
 import com.andframe.impl.helper.AfItemsPagerHelper;
@@ -28,7 +28,7 @@ import java.util.List;
 public abstract class AfMultiItemsActivity<T> extends AfMultiStatusActivity<List<T>> implements ItemsPager<T> {
 
     protected ListItemAdapter<T> mAdapter;
-    protected ItemsPagerHelper<T> mItemsHelper = newItemsHelper();
+    protected ItemsHelper<T> mItemsHelper = newItemsHelper();
 
     @NonNull
     @Override
@@ -37,9 +37,9 @@ public abstract class AfMultiItemsActivity<T> extends AfMultiStatusActivity<List
     }
 
     @NonNull
-    protected ItemsPagerHelper<T> newItemsHelper() {
-        if (mHelper instanceof ItemsPagerHelper) {
-            return ((ItemsPagerHelper<T>) mHelper);
+    protected ItemsHelper<T> newItemsHelper() {
+        if (mHelper instanceof ItemsHelper) {
+            return ((ItemsHelper<T>) mHelper);
         }
         return new AfItemsPagerHelper<>(this);
     }
@@ -289,13 +289,13 @@ public abstract class AfMultiItemsActivity<T> extends AfMultiStatusActivity<List
 
     @Override
     public final List<T> onTaskLoading() throws Exception {
-        return super.onTaskLoading();
+        return null;//super.onTaskLoading();
     }
 
     @Override
-    public final boolean onTaskLoaded(List<T> data) {
-        return super.onTaskLoaded(data);
+    public final void onTaskLoaded(List<T> data) {
     }
+
     //</editor-fold>
 
     //</editor-fold>

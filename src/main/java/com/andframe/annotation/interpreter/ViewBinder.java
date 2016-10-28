@@ -88,7 +88,7 @@ public class ViewBinder {
         bindCheckedChangeGroup(handler, root);
         bindView(handler, root);
         bindViewModule(handler, root);
-        bindAfterView(handler);
+        bindViewCreated(handler);
     }
 
     private static Class<?> getStopType(Object handler) {
@@ -358,7 +358,7 @@ public class ViewBinder {
         }
     }
 
-    public static void bindAfterView(Object handler) {
+    public static void bindViewCreated(Object handler) {
         List<SimpleEntry> methods = new ArrayList<>();
         for (Method method : AfReflecter.getMethodAnnotation(handler.getClass(), getStopType(handler), BindViewCreated.class)) {
             BindViewCreated annotation = method.getAnnotation(BindViewCreated.class);

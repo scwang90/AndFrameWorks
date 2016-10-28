@@ -43,11 +43,6 @@ public interface ItemsPager<T> extends MultiStatusPager<List<T>>, OnItemClickLis
 
     boolean setMoreShow(AfHandlerTask task, List<T> list);
 
-    void showContent();
-    void showError(String errorToast);
-    void showEmpty();
-    void showProgress();
-
     void onTaskLoadedRefresh(AfHandlerTask task, List<T> list);
     void onTaskPutCache(List<T> list);
     void onTaskPushCache(List<T> list);

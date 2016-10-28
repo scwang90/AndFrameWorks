@@ -14,29 +14,35 @@ import com.andframe.task.AfHandlerTask;
  */
 
 public interface MultiStatusPager<T> extends Pager, OnRefreshListener {
+
     View findContentView();
 
     RefreshLayouter initRefreshLayout(View content);
-
     StatusLayouter initStatusLayout(View layout);
-
-    void onTaskFinish(T model);
-
-    void showEmpty();
-
     RefreshLayouter createRefreshLayouter(Context context);
-
     StatusLayouter createStatusLayouter(Context context);
 
-    void onTaskFailed(AfHandlerTask task);
-
+    void showEmpty();
     void showProgress();
-
-    boolean onTaskLoaded(T model);
-
     void showContent();
-
     void showError(String error);
 
-    T onTaskLoading() throws Exception ;
+    void onTaskFinish(T model);
+    void onTaskFailed(AfHandlerTask task);
+
+    boolean isEmpty(T model);
+
+    /**
+     *
+     * 任务加载（异步线程，由框架自动发出执行）
+     * @return 加载的数据
+     * @throws Exception
+     */
+    T onTaskLoading() throws Exception;
+    /**
+     * 任务加载完成
+     * @param model 加载的数据
+     */
+    void onTaskLoaded(T model);
+
 }

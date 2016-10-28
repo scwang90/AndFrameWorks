@@ -117,7 +117,7 @@
         <item name="android:background">@drawable/af_button_primary</item>
     </style>
 
-    <style name="AndFrame.Toolbar">
+    <style name="AndFrame.Toolbar" parent="AndFrame.Label">
         <item name="android:layout_width">match_parent</item>
         <item name="android:layout_height">?attr/actionBarSize</item>
         <item name="android:background">@color/colorPrimary</item>
