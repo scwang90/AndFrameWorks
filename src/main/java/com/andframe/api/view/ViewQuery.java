@@ -5,7 +5,9 @@ import android.graphics.Bitmap;
 import android.graphics.Point;
 import android.graphics.Typeface;
 import android.graphics.drawable.Drawable;
+import android.support.annotation.DrawableRes;
 import android.support.annotation.LayoutRes;
+import android.support.annotation.Nullable;
 import android.text.Editable;
 import android.text.Spanned;
 import android.text.TextWatcher;
@@ -594,8 +596,18 @@ public interface ViewQuery<T extends ViewQuery<T>> {
     int childCount();
     Point measure();
 
-    <TT> T adapter(@LayoutRes int id, List<TT> list, AdapterItemer<TT> itemer);
+    T drawableLeft(@DrawableRes int id);
+    T drawableTop(@DrawableRes int id);
+    T drawableRight(@DrawableRes int id);
+    T drawableBottom(@DrawableRes int id);
+    T drawableLeft(Drawable drawable);
+    T drawableTop(Drawable drawable);
+    T drawableRight(Drawable drawable);
+    T drawableBottom(Drawable drawable);
+    T drawables(@Nullable Drawable left, @Nullable Drawable top,
+                @Nullable Drawable right, @Nullable Drawable bottom);
 
+    <TT> T adapter(@LayoutRes int id, List<TT> list, AdapterItemer<TT> itemer);
 
 
     interface AdapterItemer<T> {

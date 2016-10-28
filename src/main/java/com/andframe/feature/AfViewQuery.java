@@ -8,7 +8,9 @@ import android.graphics.Typeface;
 import android.graphics.drawable.Drawable;
 import android.net.Uri;
 import android.os.Build;
+import android.support.annotation.DrawableRes;
 import android.support.annotation.LayoutRes;
+import android.support.annotation.Nullable;
 import android.text.Editable;
 import android.text.Html;
 import android.text.Spanned;
@@ -498,6 +500,7 @@ public class AfViewQuery<T extends AfViewQuery<T>> implements ViewQuery<T> {
         return foreach(AfMeasure::measureView);
     }
 
+
     public View getView(int... indexs) {
         if (mTargetViews != null && mTargetViews.length > 0) {
             if (indexs != null && indexs.length > 0 && indexs[0] < mTargetViews.length) {
@@ -507,6 +510,59 @@ public class AfViewQuery<T extends AfViewQuery<T>> implements ViewQuery<T> {
             }
         }
         return null;
+    }
+
+    @Override
+    public T drawables(@Nullable Drawable left, @Nullable Drawable top, @Nullable Drawable right, @Nullable Drawable bottom) {
+        return foreach(TextView.class, (ViewEacher<TextView>) view -> view.setCompoundDrawables(left, top, right, bottom));
+    }
+
+    @Override
+    public T drawableLeft(Drawable drawable) {
+        return foreach(TextView.class, (ViewEacher<TextView>) view -> view.setCompoundDrawables(drawable, null, null, null));
+    }
+
+    @Override
+    public T drawableTop(Drawable drawable) {
+        return foreach(TextView.class, (ViewEacher<TextView>) view -> view.setCompoundDrawables(null, drawable, null, null));
+    }
+
+    @Override
+    public T drawableRight(Drawable drawable) {
+        return foreach(TextView.class, (ViewEacher<TextView>) view -> view.setCompoundDrawables(null, null, drawable, null));
+    }
+
+    @Override
+    public T drawableBottom(Drawable drawable) {
+        return foreach(TextView.class, (ViewEacher<TextView>) view -> view.setCompoundDrawables(null, null, null, drawable));
+    }
+
+    @Override
+    public T drawableLeft(@DrawableRes int id) {
+        Drawable drawable = getContext().getResources().getDrawable(id);
+        drawable.setBounds(0, 0, drawable.getMinimumWidth(), drawable.getMinimumHeight());
+        return foreach(TextView.class, (ViewEacher<TextView>) view -> view.setCompoundDrawables(drawable, null, null, null));
+    }
+
+    @Override
+    public T drawableTop(@DrawableRes int id) {
+        Drawable drawable = getContext().getResources().getDrawable(id);
+        drawable.setBounds(0, 0, drawable.getMinimumWidth(), drawable.getMinimumHeight());
+        return foreach(TextView.class, (ViewEacher<TextView>) view -> view.setCompoundDrawables(null, drawable, null, null));
+    }
+
+    @Override
+    public T drawableRight(@DrawableRes int id) {
+        Drawable drawable = getContext().getResources().getDrawable(id);
+        drawable.setBounds(0, 0, drawable.getMinimumWidth(), drawable.getMinimumHeight());
+        return foreach(TextView.class, (ViewEacher<TextView>) view -> view.setCompoundDrawables(null, null, drawable, null));
+    }
+
+    @Override
+    public T drawableBottom(@DrawableRes int id) {
+        Drawable drawable = getContext().getResources().getDrawable(id);
+        drawable.setBounds(0, 0, drawable.getMinimumWidth(), drawable.getMinimumHeight());
+        return foreach(TextView.class, (ViewEacher<TextView>) view -> view.setCompoundDrawables(null, null, null, drawable));
     }
 
     @SuppressWarnings("unchecked")
