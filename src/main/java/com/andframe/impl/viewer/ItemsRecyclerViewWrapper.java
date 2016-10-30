@@ -33,10 +33,10 @@ public class ItemsRecyclerViewWrapper implements ItemsViewer<RecyclerView> {
 //        mItemsView.addOnItemTouchListener(setUpItemListener(itemView.getContext()));
     }
 
-    @Override
-    public void smoothScrollToPosition(int index) {
-        mItemsView.smoothScrollToPosition(index);
-    }
+//    @Override
+//    public void smoothScrollToPosition(int index) {
+//        mItemsView.smoothScrollToPosition(index);
+//    }
 
     @Override
     public void setOnItemClickListener(AdapterView.OnItemClickListener listener) {
@@ -77,6 +77,16 @@ public class ItemsRecyclerViewWrapper implements ItemsViewer<RecyclerView> {
                 }
             });
         }
+    }
+
+    @Override
+    public boolean addHeaderView(View view) {
+        return false;
+    }
+
+    @Override
+    public boolean addFooterView(View view) {
+        return false;
     }
 
     @Override

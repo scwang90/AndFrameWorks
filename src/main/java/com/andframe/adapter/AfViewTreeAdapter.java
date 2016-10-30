@@ -8,16 +8,19 @@ import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.TextView;
 
+import com.andframe.$;
 import com.andframe.R;
-import com.andframe.feature.AfView;
+import com.andframe.api.view.ViewQuery;
+import com.andframe.application.AfApp;
+import com.andframe.impl.viewer.ViewerWarpper;
 import com.andframe.util.java.AfReflecter;
 import com.andframe.widget.treeview.AfTreeEstablisher;
 import com.andframe.widget.treeview.AfTreeViewAdapter;
 import com.andframe.widget.treeview.AfTreeViewItem;
 
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.Collections;
-import java.util.List;
 
 /**
  * View 控件 树形展开适配器
@@ -28,16 +31,8 @@ public class AfViewTreeAdapter extends AfTreeViewAdapter<View> {
     public AfViewTreeAdapter(View root) {
         super(root.getContext(),
                 new ArrayList<>(Collections.singletonList(root)),
-                new AfTreeEstablisher<>(model -> {
-                    List<View> views = new ArrayList<>();
-                    if (model instanceof ViewGroup) {
-                        ViewGroup group = (ViewGroup) model;
-                        for (int i = 0; i < group.getChildCount(); i++) {
-                            views.add(group.getChildAt(i));
-                        }
-                    }
-                    return views;
-                }), true);
+                new AfTreeEstablisher<>(model -> Arrays.asList($.query(model).childs())),
+                true);
     }
 
     @Override
@@ -46,11 +41,12 @@ public class AfViewTreeAdapter extends AfTreeViewAdapter<View> {
             @Override
             public View onCreateView(Context context, ViewGroup parent) {
                 LinearLayout root = new LinearLayout(context);
-                new AfView(root).backgroundColor(0xfff9f9f9).padding(5f);
+                ViewQuery<? extends ViewQuery> $ = AfApp.get().newViewQuery(new ViewerWarpper(root));
+                $.backgroundColor(0xfff9f9f9).padding(5f);
                 ImageView image = new ImageView(context);
                 image.setId(android.R.id.icon);
                 root.addView(image);
-                new AfView(image).height(40f).width(40f).margin(5f);
+                $.$(image).height(40f).width(40f).margin(5f);
                 LinearLayout ll = new LinearLayout(context);
                 ll.setOrientation(LinearLayout.VERTICAL);
                 TextView title = new TextView(context);
@@ -60,22 +56,11 @@ public class AfViewTreeAdapter extends AfTreeViewAdapter<View> {
                 content.setId(android.R.id.text2);
                 ll.addView(title);
                 ll.addView(content);
-                new AfView(title).textColorId(R.color.colorTextTitle).textSizeId(R.dimen.textsize_small);
-                new AfView(content).margin(0,5f,0,0).textColorId(R.color.colorTextContent).textSizeId(R.dimen.textsize_content);
-                new AfView(ll).padding(5f);
+                $.$(title).textColorId(R.color.colorTextTitle).textSizeId(R.dimen.textsize_small);
+                $.$(content).margin(0,5f,0,0).textColorId(R.color.colorTextContent).textSizeId(R.dimen.textsize_content);
+                $.$(ll).padding(5f);
                 root.addView(ll);
                 return root;
-//                int listItem2 = android.R.layout.simple_list_item_2;
-//                int activityItem = android.R.layout.activity_list_item;
-//                LayoutInflater inflater = LayoutInflater.from(context);
-//                ViewGroup group = (ViewGroup) inflater.inflate(activityItem, parent, false);
-//                View item = inflater.inflate(listItem2, group, false);
-//                new AfView(group).backgroundColor(0xfff9f9f9).padding(5)
-//                        .replace(android.R.id.text1, new AfView(item)
-//                                .id(android.R.id.text1).textColorId(R.color.colorTextTitle).textSizeId(R.dimen.textsize_small)
-//                                .id(android.R.id.text2).textColorId(R.color.colorTextContent).textSizeId(R.dimen.textsize_content)
-//                                .view());
-//                return group;
             }
 
             @Override

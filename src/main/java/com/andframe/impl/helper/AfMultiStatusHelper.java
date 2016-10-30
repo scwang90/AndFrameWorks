@@ -14,13 +14,16 @@ import com.andframe.$;
 import com.andframe.activity.AfMultiStatusActivity;
 import com.andframe.annotation.multistatus.MultiContentViewId;
 import com.andframe.annotation.multistatus.MultiContentViewType;
+import com.andframe.annotation.multistatus.MultiStatusEmpty;
+import com.andframe.annotation.multistatus.MultiStatusError;
+import com.andframe.annotation.multistatus.MultiStatusInvalidNet;
 import com.andframe.annotation.multistatus.MultiStatusLayout;
+import com.andframe.annotation.multistatus.MultiStatusProgress;
 import com.andframe.api.multistatus.RefreshLayouter;
 import com.andframe.api.multistatus.StatusLayouter;
 import com.andframe.api.page.MultiStatusHelper;
 import com.andframe.api.page.MultiStatusPager;
 import com.andframe.application.AfApp;
-import com.andframe.feature.AfView;
 import com.andframe.fragment.AfMultiStatusFragment;
 import com.andframe.task.AfDispatcher;
 import com.andframe.task.AfHandlerDataTask;
@@ -93,7 +96,7 @@ public class AfMultiStatusHelper<T> implements MultiStatusHelper<T> {
         }
         MultiContentViewType type = AfReflecter.getAnnotation(mPager.getClass(), stop, MultiContentViewType.class);
         if (type != null) {
-            return new AfView(mPager.getView()).$(type.value()).view();
+            return AfApp.get().newViewQuery(mPager).$(type.value()).view();
         }
 
         Queue<View> views = new LinkedBlockingQueue<>(Collections.singletonList(mPager.getView()));
@@ -132,13 +135,30 @@ public class AfMultiStatusHelper<T> implements MultiStatusHelper<T> {
         Class<?> stop = mPager instanceof Activity ? AfMultiStatusActivity.class : AfMultiStatusFragment.class;
         MultiStatusLayout status = AfReflecter.getAnnotation(mPager.getClass(), stop, MultiStatusLayout.class);
         if (status != null) {
-            layouter.setProgressLayoutId(status.progress());
-            layouter.setEmptyLayoutId(status.empty());
+            layouter.setEmptyLayoutId(status.empty(), status.emptyTxtId());
+            layouter.setProgressLayoutId(status.progress(), status.progressTxtId());
             if (status.error() > 0) {
-                layouter.setErrorLayoutId(status.error());
+                layouter.setErrorLayoutId(status.error(), status.errorTxtId());
             }
-            if (status.invalidnet() > 0) {
-                layouter.setInvalidnetLayoutId(status.invalidnet());
+            if (status.invalidNet() > 0) {
+                layouter.setInvalidnetLayoutId(status.invalidNet(), status.invalidNetTxtId());
+            }
+        } else {
+            MultiStatusEmpty empty = AfReflecter.getAnnotation(mPager.getClass(), stop, MultiStatusEmpty.class);
+            MultiStatusError error = AfReflecter.getAnnotation(mPager.getClass(), stop, MultiStatusError.class);
+            MultiStatusProgress progress = AfReflecter.getAnnotation(mPager.getClass(), stop, MultiStatusProgress.class);
+            MultiStatusInvalidNet invalidNet = AfReflecter.getAnnotation(mPager.getClass(), stop, MultiStatusInvalidNet.class);
+            if (empty != null) {
+                layouter.setEmptyLayoutId(empty.value(), empty.txtId(), empty.btnId());
+            }
+            if (error != null) {
+                layouter.setErrorLayoutId(error.value(), error.txtId(), error.btnId());
+            }
+            if (invalidNet != null) {
+                layouter.setInvalidnetLayoutId(invalidNet.value(), invalidNet.txtId(), invalidNet.btnId());
+            }
+            if (progress != null) {
+                layouter.setProgressLayoutId(progress.value(), progress.txtId());
             }
         }
         layouter.autoCompletedLayout();

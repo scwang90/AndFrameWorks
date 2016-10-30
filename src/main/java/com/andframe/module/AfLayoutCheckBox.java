@@ -1,8 +1,8 @@
 package com.andframe.module;
 
+import android.support.annotation.NonNull;
 import android.view.View;
 import android.view.View.OnClickListener;
-import android.view.ViewDebug;
 import android.view.ViewGroup;
 import android.widget.CompoundButton;
 
@@ -17,22 +17,12 @@ public class AfLayoutCheckBox extends AfViewModuler implements OnClickListener{
     public AfLayoutCheckBox() {
     }
 
-    public AfLayoutCheckBox(Viewer view, CompoundButton checkbox) {
-        super((View) checkbox.getParent());
-        mButton = checkbox;
-        if (isValid()) {
-            mButton.setClickable(false);
-            wrapped.setOnClickListener(this);
-        }
+    public AfLayoutCheckBox(@NonNull CompoundButton checkbox) {
+        initializeComponent(checkbox);
     }
 
-    public AfLayoutCheckBox(Viewer view, int id) {
-        super((View) view.findViewByID(id).getParent());
-        mButton = view.findViewByID(id);
-        if (isValid()) {
-            mButton.setClickable(false);
-            wrapped.setOnClickListener(this);
-        }
+    public AfLayoutCheckBox(@NonNull Viewer viewer, int id) {
+        initializeComponent(viewer, id);
     }
 
     @Override
@@ -41,14 +31,13 @@ public class AfLayoutCheckBox extends AfViewModuler implements OnClickListener{
         if (view instanceof CompoundButton) {
             mButton = ((CompoundButton) view);
             mButton.setClickable(false);
-            wrapped = (View) view.getParent();
-            wrapped.setOnClickListener(this);
+            view = (View) view.getParent();
+            view.setOnClickListener(this);
         } else if (view instanceof ViewGroup) {
             mButton = findCompoundButton(((ViewGroup) view));
             if (mButton != null) {
-                wrapped = view;
                 mButton.setClickable(false);
-                wrapped.setOnClickListener(this);
+                view.setOnClickListener(this);
             }
         }
     }
@@ -68,12 +57,10 @@ public class AfLayoutCheckBox extends AfViewModuler implements OnClickListener{
         return null;
     }
 
-    @ViewDebug.ExportedProperty
     public boolean isChecked() {
         return mButton != null && mButton.isChecked();
     }
 
-    @Override
     public void setOnClickListener(OnClickListener listener) {
         mListener = listener;
     }

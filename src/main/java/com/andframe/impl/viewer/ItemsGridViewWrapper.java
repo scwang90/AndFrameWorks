@@ -1,5 +1,6 @@
 package com.andframe.impl.viewer;
 
+import android.view.View;
 import android.widget.AdapterView;
 import android.widget.GridView;
 import android.widget.ListAdapter;
@@ -18,10 +19,10 @@ public class ItemsGridViewWrapper implements ItemsViewer<GridView> {
         this.mItemsView = gridView;
     }
 
-    @Override
-    public void smoothScrollToPosition(int index) {
-        mItemsView.smoothScrollToPosition(index);
-    }
+//    @Override
+//    public void smoothScrollToPosition(int index) {
+//        mItemsView.smoothScrollToPosition(index);
+//    }
 
     @Override
     public void setOnItemClickListener(AdapterView.OnItemClickListener listener) {
@@ -36,6 +37,16 @@ public class ItemsGridViewWrapper implements ItemsViewer<GridView> {
     @Override
     public void setAdapter(ListAdapter adapter) {
         mItemsView.setAdapter(adapter);
+    }
+
+    @Override
+    public boolean addHeaderView(View view) {
+        return false;
+    }
+
+    @Override
+    public boolean addFooterView(View view) {
+        return false;
     }
 
     @Override

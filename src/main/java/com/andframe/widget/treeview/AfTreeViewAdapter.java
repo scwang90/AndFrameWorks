@@ -6,7 +6,7 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.AdapterView;
 
-import com.andframe.api.ListItem;
+import com.andframe.api.adapter.ListItem;
 import com.andframe.widget.multichoice.AfMultiChoiceAdapter;
 import com.andframe.widget.multichoice.AfMultiChoiceItem;
 
@@ -60,7 +60,7 @@ public abstract class AfTreeViewAdapter<T> extends AfMultiChoiceAdapter<T> imple
 	}
 	
 	@Override
-	protected View onInflateItem(ListItem<T> item, ViewGroup parent) {
+	public View onInflateItem(ListItem<T> item, ViewGroup parent) {
 		View view = super.onInflateItem(item, parent);
 		if (item instanceof AfTreeViewItem) {
 			return ((AfTreeViewItem<T>)item).inflateLayout(view, this);
@@ -69,7 +69,7 @@ public abstract class AfTreeViewAdapter<T> extends AfMultiChoiceAdapter<T> imple
 	}
 	
 	@Override
-	protected void bindingItem(View view, ListItem<T> item, int index) {
+	public void bindingItem(View view, ListItem<T> item, int index) {
 		AfTreeViewItem<T> tvitem = (AfTreeViewItem<T>)item;
 		AfTreeNode<T> node = mNodeShow.get(index);
 		tvitem.setNode(node);

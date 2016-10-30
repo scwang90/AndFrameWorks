@@ -4,7 +4,7 @@ import android.content.Context;
 import android.view.View;
 import android.view.ViewGroup;
 
-import com.andframe.api.ListItem;
+import com.andframe.api.adapter.ListItem;
 import com.andframe.api.multistatus.MoreFooter;
 
 /**

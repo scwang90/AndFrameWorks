@@ -1,8 +1,10 @@
 package com.andframe;
 
+import android.app.Activity;
 import android.content.Context;
 import android.support.annotation.MainThread;
 import android.support.annotation.NonNull;
+import android.support.v4.app.Fragment;
 import android.view.View;
 
 import com.andframe.activity.AfActivity;
@@ -13,6 +15,7 @@ import com.andframe.api.view.ViewModuler;
 import com.andframe.api.view.ViewQuery;
 import com.andframe.api.view.Viewer;
 import com.andframe.application.AfApp;
+import com.andframe.impl.viewer.ViewerWarpper;
 
 import java.lang.reflect.InvocationHandler;
 import java.lang.reflect.Method;
@@ -64,22 +67,22 @@ public class $ {
 
     @MainThread
     public static DialogBuilder dialog(AfActivity activity) {
-        return AfApp.get().newDialogBuilder(activity.getContext());
+        return AfApp.get().newDialogBuilder(activity);
     }
 
     @MainThread
     public static ViewQuery<? extends ViewQuery> query(Viewer viewer) {
-        return AfApp.get().newViewQuery(viewer.getView());
-    }
-
-    @MainThread
-    public static ViewQuery<? extends ViewQuery> query(AfActivity activity) {
-        return AfApp.get().newViewQuery(activity.getView());
+        return AfApp.get().newViewQuery(viewer);
     }
 
     @MainThread
     public static ViewQuery<? extends ViewQuery> query(View view) {
-        return AfApp.get().newViewQuery(view);
+        return AfApp.get().newViewQuery(new ViewerWarpper(view));
+    }
+
+    @MainThread
+    public static ViewQuery<? extends ViewQuery> query(AfActivity activity) {
+        return AfApp.get().newViewQuery(new ViewerWarpper(activity.getView()));
     }
 
     public static TaskExecutor task() {
@@ -90,18 +93,18 @@ public class $ {
         return api;
     }
 
-    private static View getLastView() {
+    private static Viewer getLastViewer() {
         if (lastWiths != null && lastWiths.length > 0) {
             if (lastWiths[0] instanceof ViewModuler) {
-                return ((ViewModuler) lastWiths[0]).getView();
+                return new ViewerWarpper(((ViewModuler) lastWiths[0]).getView());
             } else if (lastWiths[0] instanceof View) {
-                return ((View) lastWiths[0]);
+                return new ViewerWarpper(((View) lastWiths[0]));
             } else if (lastWiths[0] instanceof Viewer) {
-                return ((Viewer) lastWiths[0]).getView();
-//            } else if (lastWiths[0] instanceof AfListItem) {
-//                return ((AfListItem) lastWiths[0]).getLayout();
-//            } else if (lastWiths[0] instanceof Activity) {
-//                return ((Activity) lastWiths[0]).getWindow().getDecorView().findViewById(android.R.id.content);
+                return ((Viewer) lastWiths[0]);
+            } else if (lastWiths[0] instanceof Activity) {
+                return new ViewerWarpper((Activity) lastWiths[0]);
+            } else if (lastWiths[0] instanceof Fragment) {
+                return new ViewerWarpper((Fragment) lastWiths[0]);
             }
         }
         return null;
@@ -113,10 +116,8 @@ public class $ {
                 return ((Context) lastWiths[0]);
             } else if (lastWiths[0] instanceof Viewer) {
                 return ((Viewer) lastWiths[0]).getContext();
-//            } else if (lastWiths[0] instanceof AfListItem) {
-//                return ((AfListItem) lastWiths[0]).getLayout().getContext();
-//            } else if (lastWiths[0] instanceof AfViewModuler) {
-//                return ((AfViewModuler) lastWiths[0]).getView().getContext();
+            } else if (lastWiths[0] instanceof Fragment) {
+                return ((Fragment) lastWiths[0]).getContext();
             }
         }
         return null;
@@ -130,7 +131,7 @@ public class $ {
             } else if (method.getDeclaringClass().isAssignableFrom(DialogBuilder.class)) {
                 return method.invoke(AfApp.get().newDialogBuilder(getLastContext()), objects);
             } else if (method.getDeclaringClass().isAssignableFrom(ViewQuery.class)) {
-                return method.invoke(AfApp.get().newViewQuery(getLastView()), objects);
+                return method.invoke(AfApp.get().newViewQuery(getLastViewer()), objects);
             } else if (method.getDeclaringClass().isAssignableFrom($$.class)) {
                 return method.invoke(this, objects);
             }

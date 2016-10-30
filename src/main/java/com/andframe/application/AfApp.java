@@ -13,21 +13,21 @@ import android.os.Bundle;
 import android.os.Environment;
 import android.support.annotation.CallSuper;
 import android.util.Log;
-import android.view.View;
 
 import com.andframe.BuildConfig;
 import com.andframe.activity.AfActivity;
 import com.andframe.api.DialogBuilder;
+import com.andframe.api.TaskExecutor;
 import com.andframe.api.multistatus.MoreFooter;
 import com.andframe.api.multistatus.RefreshLayouter;
 import com.andframe.api.multistatus.StatusLayouter;
 import com.andframe.api.view.ViewQuery;
-import com.andframe.api.TaskExecutor;
+import com.andframe.api.view.Viewer;
 import com.andframe.caches.AfJsonCache;
 import com.andframe.exception.AfExceptionHandler;
 import com.andframe.exception.AfToastException;
 import com.andframe.feature.AfDialogBuilder;
-import com.andframe.feature.AfView;
+import com.andframe.feature.AfViewQuery;
 import com.andframe.impl.multistatus.DefaultMoreFooter;
 import com.andframe.impl.multistatus.DefaultRefreshLayouter;
 import com.andframe.impl.multistatus.DefaultStatusLayouter;
@@ -470,8 +470,8 @@ public abstract class AfApp extends Application {
 		return new AfExceptionHandler();
 	}
 
-	public ViewQuery<? extends ViewQuery> newViewQuery(View view) {
-		return new AfView(view);
+	public ViewQuery<? extends ViewQuery> newViewQuery(Viewer view) {
+		return new AfViewQuery<>(view);
 	}
 
 	public TaskExecutor newTaskExecutor() {

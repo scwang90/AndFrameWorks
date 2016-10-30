@@ -17,6 +17,9 @@ import java.util.Collection;
 import java.util.HashMap;
 import java.util.Map.Entry;
 
+import static android.view.View.GONE;
+import static android.view.View.VISIBLE;
+
 public abstract class AfSelectorBottombar extends AfModuleAlpha implements
 		OnClickListener, GenericityListener, OnMenuItemClickListener {
 
@@ -36,20 +39,15 @@ public abstract class AfSelectorBottombar extends AfModuleAlpha implements
 	}
 
 	protected AfSelectorBottombar(Viewer view, int viewid) {
-		super(view,viewid);
-		initializeComponent(view);
-//		if (isValid()) {
-//			initView(view);
-//		}
+		initializeComponent(view, viewid);
 	}
 
-	private void initView(Viewer view) {
-		mMore = getFunctionViewMore(view);
+	private void initView(Viewer viewer) {
+		mMore = getFunctionViewMore(viewer);
 		mMore.setVisibility(GONE);
-		mContaint = getFunctionLayout(view);
-//			mContaint.removeAllViews();
+		mContaint = getFunctionLayout(viewer);
 		mMore.setOnClickListener(this);
-		wrapped.setVisibility(View.GONE);
+		view.setVisibility(GONE);
 	}
 
 	@Override

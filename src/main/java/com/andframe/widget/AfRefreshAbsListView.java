@@ -11,7 +11,6 @@ import android.widget.AdapterView.OnItemLongClickListener;
 import android.widget.ListAdapter;
 import android.widget.ListView;
 
-import com.andframe.api.view.ItemsRefreshableViewer;
 import com.andframe.widget.pulltorefresh.AfPullToRefreshBase;
 
 import java.lang.reflect.Field;
@@ -20,7 +19,7 @@ import static android.view.ViewGroup.LayoutParams.MATCH_PARENT;
 import static android.view.ViewGroup.LayoutParams.WRAP_CONTENT;
 
 @SuppressWarnings("unused")
-public abstract class AfRefreshAbsListView<T extends AbsListView> extends AfPullToRefreshBase<T> implements ItemsRefreshableViewer<T> {
+public abstract class AfRefreshAbsListView<T extends AbsListView> extends AfPullToRefreshBase<T> /*implements ItemsRefreshableViewer<T>*/ {
 
 //	protected ListAdapter mAdapter = null;
 	protected boolean mIsNeedFooter = false;
@@ -39,15 +38,15 @@ public abstract class AfRefreshAbsListView<T extends AbsListView> extends AfPull
 		super(context, attrs, defStyle);
 	}
 
-	@Override
-	public ViewGroup getRefreshableLayout() {
-		return this;
-	}
-
-	@Override
-	public T getItemsView() {
-		return mTargetView;
-	}
+//	@Override
+//	public ViewGroup getRefreshableLayout() {
+//		return this;
+//	}
+//
+//	@Override
+//	public T getItemsView() {
+//		return mTargetView;
+//	}
 
 	public void setAdapter(ListAdapter adapter) {
 		mTargetView.setAdapter(adapter);

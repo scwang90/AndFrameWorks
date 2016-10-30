@@ -6,8 +6,8 @@ import android.widget.AdapterView.OnItemLongClickListener;
 import android.widget.ListAdapter;
 
 import com.andframe.adapter.AfHeaderFooterAdapter;
-import com.andframe.api.ListItem;
-import com.andframe.api.ListItemAdapter;
+import com.andframe.api.adapter.ListItem;
+import com.andframe.api.adapter.ListItemAdapter;
 import com.andframe.api.multistatus.MoreFooter;
 import com.andframe.api.multistatus.OnMoreListener;
 import com.andframe.api.view.ItemsViewer;

@@ -11,7 +11,7 @@ import android.widget.WrapperListAdapter;
 
 import com.andframe.adapter.recycler.DataSetObservable;
 import com.andframe.adapter.recycler.ViewHolderItem;
-import com.andframe.api.ListItem;
+import com.andframe.api.adapter.ListItem;
 
 import java.util.Collection;
 import java.util.Comparator;
@@ -115,7 +115,7 @@ public class AfListAdapterWrapper<T> extends AfListAdapter<T> implements Wrapper
 	//<editor-fold desc="Wrapper AfListAdapter">
 
 	@Override
-	protected void bindingItem(View view, ListItem<T> item, int index) {
+	public void bindingItem(View view, ListItem<T> item, int index) {
 		wrapped.bindingItem(view, item, index);
 	}
 
@@ -135,7 +135,7 @@ public class AfListAdapterWrapper<T> extends AfListAdapter<T> implements Wrapper
 	}
 
 	@Override
-	protected ListItem<T> newListItem(int viewType) {
+	public ListItem<T> newListItem(int viewType) {
 		return wrapped.newListItem(viewType);
 	}
 
@@ -150,7 +150,7 @@ public class AfListAdapterWrapper<T> extends AfListAdapter<T> implements Wrapper
 	}
 
 	@Override
-	protected View onInflateItem(ListItem<T> item, ViewGroup parent) {
+	public View onInflateItem(ListItem<T> item, ViewGroup parent) {
 		return wrapped.onInflateItem(item, parent);
 	}
 

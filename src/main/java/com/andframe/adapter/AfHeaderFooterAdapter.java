@@ -6,8 +6,10 @@ import android.view.ViewGroup;
 
 import com.andframe.adapter.listitem.AfListItem;
 import com.andframe.adapter.recycler.ViewHolderItem;
-import com.andframe.api.ListItem;
+import com.andframe.api.adapter.ListItem;
+import com.andframe.api.adapter.ListItemAdapter;
 import com.andframe.exception.AfExceptionHandler;
+import com.andframe.impl.wrapper.ListItemAdapterWrapper;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -17,12 +19,12 @@ import java.util.List;
  * Created by SCWANG on 2016/8/5.
  */
 @SuppressWarnings("unused")
-public class AfHeaderFooterAdapter<T> extends AfListAdapterWrapper<T> {
+public class AfHeaderFooterAdapter<T> extends ListItemAdapterWrapper<T> {
 
     protected List<ListItem<T>> mHeaders = new ArrayList<>();
     protected List<ListItem<T>> mFooters = new ArrayList<>();
 
-    public AfHeaderFooterAdapter(AfListAdapter<T> wrapped) {
+    public AfHeaderFooterAdapter(ListItemAdapter<T> wrapped) {
         super(wrapped);
     }
 
@@ -55,6 +57,10 @@ public class AfHeaderFooterAdapter<T> extends AfListAdapterWrapper<T> {
         try {
             ListItem<T> item = newListItem(viewType);
             View view = onInflateItem(item, parent);
+            if (view == null) {
+                view = new View(parent.getContext());
+                AfExceptionHandler.handle("onInflateItem 返回 null", "AfListAdapter.onCreateViewHolder.onInflateItem");
+            }
             return new ViewHolderItem<>(item, view);
         } catch (Throwable e) {
             AfExceptionHandler.handle(e, "AfListAdapter.onCreateViewHolder");
@@ -107,7 +113,7 @@ public class AfHeaderFooterAdapter<T> extends AfListAdapterWrapper<T> {
     }
 
     @Override
-    protected ListItem<T> newListItem(int viewType) {
+    public ListItem<T> newListItem(int viewType) {
         int type = viewType - super.getViewTypeCount();
         if (type >= 0) {
             if (type < mHeaders.size()) {
@@ -121,7 +127,7 @@ public class AfHeaderFooterAdapter<T> extends AfListAdapterWrapper<T> {
         return super.newListItem(viewType);
     }
 
-    protected void bindingItem(View view, ListItem<T> item, int index) {
+    public void bindingItem(View view, ListItem<T> item, int index) {
         if (index < mHeaders.size()) {
             item.onBinding(view, get(index), index);
         } else if (index - mHeaders.size() - super.getItemCount() >= 0) {
@@ -129,11 +135,6 @@ public class AfHeaderFooterAdapter<T> extends AfListAdapterWrapper<T> {
         } else {
             super.bindingItem(view, item, index - mHeaders.size());
         }
-//        T t = null;
-//        if (index >= mHeaders.size() && index < mHeaders.size() + super.getItemCount()) {
-//            t = get(index - mHeaders.size());
-//        }
-//        item.onBinding(view, t, index);
     }
 
     //</editor-fold>

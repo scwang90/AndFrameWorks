@@ -4,12 +4,9 @@ import android.annotation.SuppressLint;
 import android.view.View;
 import android.widget.FrameLayout;
 
-import com.andframe.annotation.pager.BindLayout;
 import com.andframe.api.view.ItemsRefreshableViewer;
 import com.andframe.api.view.ViewModuler;
 import com.andframe.api.view.Viewer;
-import com.andframe.feature.AfView;
-import com.andframe.util.java.AfReflecter;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -20,31 +17,19 @@ public class AfFrameSelector extends AfViewModuler {
 
 	private FrameLayout mFrameLayout = null;
 
-	public AfFrameSelector(Viewer viewable) {
-		super(viewable);
-		BindLayout layout = AfReflecter.getAnnotation(this.getClass(), AfFrameSelector.class, BindLayout.class);
-		if (layout != null) {
-			mFrameLayout = viewable.findViewById(layout.value(), FrameLayout.class);
-		}
-	}
-
-	public AfFrameSelector(Viewer view, int id) {
-		super(view,id);
-		mFrameLayout = view.findViewByID(id);
+	public AfFrameSelector(Viewer viewer, int id) {
+		view = mFrameLayout = viewer.findViewByID(id);
 	}
 
 	public AfFrameSelector(FrameLayout frameLayout) {
-		super(new AfView(frameLayout),0);
-		wrapped = frameLayout;
-		mFrameLayout = frameLayout;
+		view = mFrameLayout = frameLayout;
 	}
 
 	@Override
 	protected void onCreated(Viewer viewable, View view) {
 		super.onCreated(viewable, view);
-		BindLayout layout = AfReflecter.getAnnotation(this.getClass(), AfFrameSelector.class, BindLayout.class);
-		if (layout != null) {
-			mFrameLayout = viewable.findViewById(layout.value(), FrameLayout.class);
+		if (view instanceof FrameLayout) {
+			mFrameLayout = ((FrameLayout) view);
 		}
 	}
 

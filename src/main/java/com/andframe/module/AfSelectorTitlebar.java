@@ -14,6 +14,7 @@ import com.andframe.widget.multichoice.AfMultiChoiceAdapter.GenericityListener;
 
 import java.util.Collection;
 import java.util.HashMap;
+import java.util.Locale;
 import java.util.Map.Entry;
 
 public abstract class AfSelectorTitlebar extends AfModuleAlpha
@@ -46,13 +47,18 @@ public abstract class AfSelectorTitlebar extends AfModuleAlpha
 	protected AfSelectorTitlebar() {
 	}
 
-	protected AfSelectorTitlebar(Viewer view, int viewid) {
-		super(view,viewid);
-		mTvText = findTitleSelectTvText(view);
-		mBtFinish = findTitleSelectBtFinish(view);
-		mOperate = findTitleSelectOperate(view);
+	protected AfSelectorTitlebar(Viewer viewer, int viewid) {
+		initializeComponent(viewer, viewid);
+	}
+
+	@Override
+	protected void onCreated(Viewer viewer, View view) {
+		super.onCreated(viewer, view);
+		mTvText = findTitleSelectTvText(viewer);
+		mBtFinish = findTitleSelectBtFinish(viewer);
+		mOperate = findTitleSelectOperate(viewer);
 		if(isValid()){
-			mTvText.setText(String.format(TEXT_FORMAT, 0,1));
+			mTvText.setText(String.format(Locale.CHINA, TEXT_FORMAT, 0, 1));
 			mBtFinish.setOnClickListener(this);
 			if (Build.VERSION.SDK_INT >= 11) {
 				mOperate.setOnClickListener(this);
@@ -62,7 +68,7 @@ public abstract class AfSelectorTitlebar extends AfModuleAlpha
 			}
 		}
 	}
-	
+
 	protected abstract View findTitleSelectBtFinish(Viewer view);
 	protected abstract View findTitleSelectOperate(Viewer view);
 	protected abstract TextView findTitleSelectTvText(Viewer view);
@@ -108,7 +114,7 @@ public abstract class AfSelectorTitlebar extends AfModuleAlpha
 	}
 
 	public View getLayout() {
-		return wrapped;
+		return view;
 	}
 
 	@Override
@@ -162,11 +168,11 @@ public abstract class AfSelectorTitlebar extends AfModuleAlpha
 	@Override
 	public void onMultiChoiceChanged(AfMultiChoiceAdapter<?> adapter,
 			int number, int total) {
-		mTvText.setText(String.format(TEXT_FORMAT, number,total));
+		mTvText.setText(String.format(Locale.CHINA, TEXT_FORMAT, number, total));
 	}
 	@Override
 	public void onMultiChoiceAddData(AfMultiChoiceAdapter<?> adapter, Collection<?> list) {
-		mTvText.setText(String.format(TEXT_FORMAT, adapter.getChoiceNumber(),adapter.getCount()));
+		mTvText.setText(String.format(Locale.CHINA, TEXT_FORMAT, adapter.getChoiceNumber(),adapter.getCount()));
 	}
 
 	@Override

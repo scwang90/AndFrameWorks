@@ -1,5 +1,6 @@
 package com.andframe.impl.viewer;
 
+import android.view.View;
 import android.widget.AdapterView;
 import android.widget.ListAdapter;
 import android.widget.ListView;
@@ -18,10 +19,10 @@ public class ItemsListViewWrapper implements ItemsViewer<ListView> {
         this.mItemsView = listView;
     }
 
-    @Override
-    public void smoothScrollToPosition(int index) {
-        mItemsView.smoothScrollToPosition(index);
-    }
+//    @Override
+//    public void smoothScrollToPosition(int index) {
+//        mItemsView.smoothScrollToPosition(index);
+//    }
 
     @Override
     public void setOnItemClickListener(AdapterView.OnItemClickListener listener) {
@@ -36,6 +37,18 @@ public class ItemsListViewWrapper implements ItemsViewer<ListView> {
     @Override
     public void setAdapter(ListAdapter adapter) {
         mItemsView.setAdapter(adapter);
+    }
+
+    @Override
+    public boolean addHeaderView(View view) {
+        mItemsView.addHeaderView(view);
+        return true;
+    }
+
+    @Override
+    public boolean addFooterView(View view) {
+        mItemsView.addFooterView(view);
+        return true;
     }
 
     @Override

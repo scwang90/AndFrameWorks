@@ -4,7 +4,7 @@ import android.view.View;
 import android.view.ViewGroup;
 
 import com.andframe.adapter.recycler.ViewHolderItem;
-import com.andframe.api.ListItem;
+import com.andframe.api.adapter.ListItem;
 
 import java.util.AbstractMap.SimpleEntry;
 import java.util.HashMap;
@@ -48,7 +48,7 @@ public class AfUpdateAdapter<T> extends AfListAdapterWrapper<T> {
         bindingItem(holder.itemView, holder.getItem(), position);
     }
     @Override
-    protected void bindingItem(View view, ListItem<T> item, int index) {
+    public void bindingItem(View view, ListItem<T> item, int index) {
         itemTMap.put(view, new SimpleEntry<>(index, item));
         super.bindingItem(view, item, index);
     }

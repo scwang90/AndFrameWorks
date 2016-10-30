@@ -15,13 +15,7 @@ import java.lang.annotation.Target;
  */
 @Target(ElementType.TYPE)
 @Retention(RetentionPolicy.RUNTIME)
-public @interface MultiStatusLayout {
-    @LayoutRes int progress();
-    @LayoutRes int empty();
-    @LayoutRes int error() default 0;
-    @LayoutRes int invalidNet() default 0;
-    @IdRes int errorTxtId() default 0;
-    @IdRes int progressTxtId() default 0;
-    @IdRes int emptyTxtId() default 0;
-    @IdRes int invalidNetTxtId() default 0;
+public @interface MultiStatusProgress {
+    @LayoutRes int value();
+    @IdRes int txtId() default 0;
 }

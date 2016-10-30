@@ -5,17 +5,20 @@ import android.view.ViewGroup;
 import android.view.ViewParent;
 
 import com.andframe.api.view.Viewer;
+import com.andframe.impl.viewer.ViewerWarpper;
 
 /**
  * AfView 框架视图类
  * @author 树朾
  * 实现了 Viewer 接口 优化 findViewById 方法
  */
-@SuppressWarnings("unused")
-public class AfView extends AfViewQuery<AfView> implements Viewer {
+public class AfView extends ViewerWarpper implements Viewer {
+
+	private View mRootView;
 
 	public AfView(View view) {
 		super(view);
+		mRootView = view;
 	}
 
 	/**
@@ -24,11 +27,11 @@ public class AfView extends AfViewQuery<AfView> implements Viewer {
 	 * 返回 null 标识 转移失败 否则返回脱离独立的 view
 	 */
 	public View breakaway() {
-		if (mTargetViews != null && mTargetViews.length > 0) {
-			ViewParent parent = mTargetViews[0].getParent();
+		if (mRootView != null) {
+			ViewParent parent = mRootView.getParent();
 			if (parent instanceof ViewGroup) {
-				((ViewGroup) parent).removeView(mTargetViews[0]);
-				return mTargetViews[0];
+				((ViewGroup) parent).removeView(mRootView);
+				return mRootView;
 			}
 		}
 		return null;
@@ -40,6 +43,7 @@ public class AfView extends AfViewQuery<AfView> implements Viewer {
 	public boolean replace(int id, View target) {
 		return replace(findViewById(id), target);
 	}
+
 	/**
 	 * 替换调 view 为 item
 	 */
@@ -62,30 +66,7 @@ public class AfView extends AfViewQuery<AfView> implements Viewer {
 
 	@SuppressWarnings("unused")
 	public AfView getParentView() {
-		if (mRootView != null) {
-			return new AfView((View)mRootView.getParent());
-		}
-		return null;
-	}
-
-	@Override
-	public <T extends View> T findViewById(int id, Class<T> clazz) {
-		View view = findViewById(id);
-		if (clazz.isInstance(view)) {
-			return clazz.cast(view);
-		}
-		return null;
-	}
-
-	@Override
-	public View getView() {
-		return super.getView();
-	}
-
-	@Override
-	@SuppressWarnings("unchecked")
-	public <T extends View> T findViewByID(int id) {
-		return (T)findViewById(id);
+		return mRootView != null ? new AfView((View) mRootView.getParent()) : null;
 	}
 
 }

@@ -1,6 +1,7 @@
 package com.andframe.module;
 
 import android.annotation.SuppressLint;
+import android.support.annotation.NonNull;
 import android.view.View;
 
 import com.andframe.activity.AfActivity;
@@ -15,7 +16,7 @@ import com.andframe.api.view.Viewer;
 import com.andframe.application.AfApp;
 import com.andframe.exception.AfExceptionHandler;
 import com.andframe.impl.helper.AfViewQueryHelper;
-import com.andframe.impl.wrapper.AfViewWrapper;
+import com.andframe.impl.viewer.ViewerWarpper;
 import com.andframe.util.java.AfReflecter;
 
 /**
@@ -23,61 +24,38 @@ import com.andframe.util.java.AfReflecter;
  */
 @SuppressLint("ViewConstructor")
 @SuppressWarnings("unused")
-public abstract class AfViewModuler extends AfViewWrapper implements Viewer, ViewModuler, ViewQueryHelper {
+public abstract class AfViewModuler extends ViewerWarpper implements Viewer, ViewModuler, ViewQueryHelper {
 
-	public static <T extends AfViewModuler> T init(Class<T> clazz, Viewer viewable, int viewId) {
+	public static <T extends AfViewModuler> T init(Object handler, Class<T> clazz, Viewer viewable, int viewId) {
 		T module = null;
 		try {
-			module = AfReflecter.newUnsafeInstance(clazz);
-//            Constructor<?>[] constructors = clazz.getConstructors();
-//            for (int i = 0; i < constructors.length && module == null; i++) {
-//                Class<?>[] parameterTypes = constructors[i].getParameterTypes();
-//                if (parameterTypes.length == 0) {
-//                    module = clazz.newInstance();
-//                } else if (parameterTypes.length == 1 && Viewer.class.isAssignableFrom(parameterTypes[0])) {
-//                    module = (T) constructors[i].newInstance(viewable);
-//                }
-//            }
+			module = clazz.newInstance();
 			if (module != null && !module.isValid()) {
 				AfViewModuler viewModule = module;
 				viewModule.setTarget(viewable, viewable.findViewByID(viewId));
+				viewModule.onBindHandler(handler);
 			}
 			return module;
+		} catch (IllegalAccessException e) {
+			AfExceptionHandler.handle(e, "类 " + clazz.getSimpleName() + " 必须有一个公有构造函数");
+		} catch (InstantiationException e) {
+			AfExceptionHandler.handle(e, "类 " + clazz.getSimpleName() + " 必须有一个无参构造函数");
 		} catch (Throwable e) {
 			AfExceptionHandler.handle(e, "AfViewModuler.init");
 		}
 		return module;
 	}
 
-	public static <T extends AfViewModuler> T init(Class<T> clazz, Viewer viewable) {
+	public static <T extends AfViewModuler> T init(Object handler, Class<T> clazz, Viewer viewable) {
 		BindLayout annotation = AfReflecter.getAnnotation(clazz, AfViewModuler.class, BindLayout.class);
 		if (annotation == null) {
 			return null;
 		}
-		return init(clazz, viewable, annotation.value());
+		return init(handler, clazz, viewable, annotation.value());
 	}
 
 	protected AfViewModuler(){
-		super(new View(AfApp.get()));
-	}
-
-	protected AfViewModuler(View view) {
-		super(view);
-	}
-
-	protected AfViewModuler(Viewer view) {
-		super(new View(view.getContext()));
-		BindLayout layout = AfReflecter.getAnnotation(this.getClass(), AfViewModuler.class, BindLayout.class);
-		if (layout != null) {
-			wrapped = view.findViewById(layout.value());
-		} else {
-			wrapped = null;
-		}
-	}
-
-	protected AfViewModuler(Viewer view, int id) {
-		super(new View(view.getContext()));
-		wrapped = view.findViewById(id);
+		super((View)null);
 	}
 
 	protected Pager getPager() {
@@ -91,84 +69,75 @@ public abstract class AfViewModuler extends AfViewWrapper implements Viewer, Vie
 	 * 如果不想要采用 注入的形式
 	 * 子类构造函数中必须调用这个函数
 	 */
-	protected void initializeComponent(Viewer viewable){
+	protected void initializeComponent(@NonNull Viewer viewer){
 		BindLayout layout = AfReflecter.getAnnotation(this.getClass(), AfViewModuler.class, BindLayout.class);
-		if (wrapped == null && layout != null) {
-			wrapped = viewable.findViewById(layout.value());
+		if (layout != null) {
+			view = viewer.findViewById(layout.value());
+			setTarget(viewer, view);
+		} else {
+			AfExceptionHandler.handle(getClass().getSimpleName() + "ViewModuler 必须指定BindLayout","ViewModuler.initializeComponent.");
 		}
-		setTarget(viewable, wrapped);
+	}
+
+	/**
+	 * 如果不想要采用 注入的形式
+	 * 子类构造函数中必须调用这个函数
+	 */
+	protected void initializeComponent(@NonNull Viewer viewer, int id){
+		view = viewer.findViewById(id);
+		setTarget(viewer, view);
+	}
+
+	/**
+	 * 如果不想要采用 注入的形式
+	 * 子类构造函数中必须调用这个函数
+	 */
+	protected void initializeComponent(@NonNull View view){
+		setTarget(null, view);
 	}
 
 	public void onBindHandler(Object handler) {
 
 	}
 
-	private void setTarget(final Viewer viewable, final View target) {
+	private void setTarget(Viewer viewer, View target) {
 		if (target != null) {
-			this.wrapped = target;
-			this.onCreated(viewable, target);
+			this.view = target;
+			this.onCreated(viewer, target);
 		}
 	}
 
 	protected void onCreated(Viewer viewable, View view) {
-		if (mViewQueryHelper == null) {
-			mViewQueryHelper = new AfViewQueryHelper(this);
-		}
-		this.doInject();
-	}
-
-	protected void doInject(){
-		if(isValid()){
-			Injecter.doInject(this, getContext());
-			ViewBinder.doBind(this, wrapped);
-		}
+		Injecter.doInject(this, getContext());
+		ViewBinder.doBind(this);
 	}
 
 	@Override
 	public void hide() {
-		if(isValid()){
-			setVisibility(View.GONE);
+		if(isValid() && view != null){
+			view.setVisibility(View.GONE);
 		}
 	}
 
 	@Override
 	public void show() {
-		if(isValid()){
-			setVisibility(View.VISIBLE);
+		if(isValid() && view != null){
+			view.setVisibility(View.VISIBLE);
 		}
 	}
 
 	@Override
 	public boolean isValid() {
-		return wrapped != null;
+		return view != null;
 	}
 
 	@Override
 	public boolean isVisibility() {
-		return isValid() && getVisibility() == View.VISIBLE;
-	}
-
-	@SuppressWarnings("unchecked")
-	@Override
-	public <T extends View> T findViewByID(int id) {
-		try {
-			return (T) wrapped.findViewById(id);
-		} catch (Throwable e) {
-			AfExceptionHandler.handle(e, "AfViewModule.findViewByID");
-		}
-		return null;
-	}
-
-	@Override
-	public <T extends View> T findViewById(int id, Class<T> clazz) {
-		View view = wrapped.findViewById(id);
-		if (clazz.isInstance(view)) {
-			return clazz.cast(view);
-		}
-		return null;
+		return isValid() && view.getVisibility() == View.VISIBLE;
 	}
 
 	//<editor-fold desc="ViewQuery 集成">
+
 	ViewQueryHelper mViewQueryHelper = new AfViewQueryHelper(this);
 
 	/**

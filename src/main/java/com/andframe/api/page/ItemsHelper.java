@@ -6,11 +6,12 @@ import android.widget.AdapterView.OnItemLongClickListener;
 import android.widget.ListAdapter;
 
 import com.andframe.adapter.AfHeaderFooterAdapter;
-import com.andframe.api.ListItemAdapter;
+import com.andframe.api.adapter.ListItemAdapter;
 import com.andframe.api.multistatus.MoreFooter;
 import com.andframe.api.multistatus.OnMoreListener;
 import com.andframe.api.multistatus.OnRefreshListener;
 import com.andframe.api.view.ItemsViewer;
+import com.andframe.api.view.ViewQuery;
 import com.andframe.task.AfHandlerTask;
 
 import java.util.Date;
@@ -21,6 +22,8 @@ import java.util.List;
  * Created by SCWANG on 2016/9/7.
  */
 public interface ItemsHelper<T> extends MultiStatusHelper<List<T>>, OnItemClickListener, OnItemLongClickListener, OnRefreshListener, OnMoreListener {
+
+    ViewQuery<? extends ViewQuery> $(int id, int... ids);
 
     void bindAdapter(ItemsViewer listView, ListAdapter adapter);
     void onTaskLoadedCache(AfHandlerTask task, List<T> list);

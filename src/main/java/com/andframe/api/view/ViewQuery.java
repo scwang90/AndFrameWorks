@@ -553,6 +553,7 @@ public interface ViewQuery<T extends ViewQuery<T>> {
     /**
      * 自定义扩展接口
      */
+    Viewer rootViewer();
     ScrollView getScrollView();
     View[] views();
     <TT extends View> TT view(int... indexs);
@@ -608,7 +609,6 @@ public interface ViewQuery<T extends ViewQuery<T>> {
                 @Nullable Drawable right, @Nullable Drawable bottom);
 
     <TT> T adapter(@LayoutRes int id, List<TT> list, AdapterItemer<TT> itemer);
-
 
     interface AdapterItemer<T> {
         void onBinding(ViewQuery $, T model, int index);

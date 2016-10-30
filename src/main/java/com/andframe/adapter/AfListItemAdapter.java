@@ -4,9 +4,10 @@ import android.content.Context;
 import android.view.View;
 import android.view.ViewGroup;
 
-import com.andframe.api.ListItem;
+import com.andframe.api.adapter.ListItem;
 import com.andframe.api.view.ViewQuery;
 import com.andframe.application.AfApp;
+import com.andframe.impl.viewer.ViewerWarpper;
 
 import java.util.List;
 
@@ -26,7 +27,7 @@ public abstract class AfListItemAdapter<T> extends AfListAdapter<T> implements L
     }
 
     @Override
-    protected ListItem<T> newListItem(int viewType) {
+    public ListItem<T> newListItem(int viewType) {
         return this;
     }
 
@@ -37,7 +38,7 @@ public abstract class AfListItemAdapter<T> extends AfListAdapter<T> implements L
 
     @Override
     public void onBinding(View view, T model, int index) {
-        AfListItemAdapter.this.onBinding(AfApp.get().newViewQuery(view), model, index);
+        AfListItemAdapter.this.onBinding(AfApp.get().newViewQuery(new ViewerWarpper(view)), model, index);
     }
 
     /**

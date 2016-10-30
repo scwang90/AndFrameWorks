@@ -1,5 +1,6 @@
 package com.andframe.api.view;
 
+import android.view.View;
 import android.view.ViewGroup;
 import android.widget.AdapterView;
 import android.widget.ListAdapter;
@@ -9,10 +10,13 @@ import android.widget.ListAdapter;
  * Created by SCWANG on 2016/9/14.
  */
 public interface ItemsViewer<T extends ViewGroup> {
-    void smoothScrollToPosition(int index);
+//    void smoothScrollToPosition(int index);
     void setOnItemClickListener(AdapterView.OnItemClickListener listener);
     void setOnItemLongClickListener(AdapterView.OnItemLongClickListener listener);
     void setAdapter(ListAdapter adapter);
+
+    boolean addHeaderView(View view);
+    boolean addFooterView(View view);
 
     T getItemsView();
 }

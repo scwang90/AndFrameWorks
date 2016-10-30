@@ -61,6 +61,7 @@ public abstract class RecyclerBaseAdapter<T extends RecyclerView.ViewHolder> ext
 		bindViewHolder(holder, i);
 		return holder.itemView;
 	}
+
 	//</editor-fold>
 
 	//<editor-fold desc="重写通知已经实现">

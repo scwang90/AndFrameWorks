@@ -88,7 +88,7 @@ import com.andframe.exception.AfToastException;
 import com.andframe.feature.AfBundle;
 import com.andframe.feature.AfDialogBuilder;
 import com.andframe.feature.AfIntent;
-import com.andframe.impl.wrapper.AfViewWrapper;
+import com.andframe.impl.wrapper.ViewWrapper;
 import com.andframe.task.AfDispatcher;
 import com.andframe.util.android.AfDensity;
 import com.andframe.util.java.AfReflecter;
@@ -500,8 +500,8 @@ public class Injecter {
     }
 
     private static Class<?> getStopType(Object handler) {
-        if (handler instanceof AfViewWrapper) {
-            return AfViewWrapper.class;
+        if (handler instanceof ViewWrapper) {
+            return ViewWrapper.class;
         }
         return Object.class;
     }

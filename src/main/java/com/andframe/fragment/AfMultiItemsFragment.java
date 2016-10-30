@@ -7,13 +7,14 @@ import android.widget.AdapterView;
 import android.widget.ListAdapter;
 
 import com.andframe.adapter.AfHeaderFooterAdapter;
-import com.andframe.api.ListItem;
-import com.andframe.api.ListItemAdapter;
+import com.andframe.api.adapter.ListItem;
+import com.andframe.api.adapter.ListItemAdapter;
 import com.andframe.api.multistatus.MoreFooter;
-import com.andframe.api.page.ItemsPager;
 import com.andframe.api.page.ItemsHelper;
+import com.andframe.api.page.ItemsPager;
 import com.andframe.api.page.MultiStatusHelper;
 import com.andframe.api.view.ItemsViewer;
+import com.andframe.api.view.ViewQuery;
 import com.andframe.impl.helper.AfItemsPagerHelper;
 import com.andframe.task.AfHandlerTask;
 
@@ -44,6 +45,10 @@ public abstract class AfMultiItemsFragment<T> extends AfMultiStatusFragment<List
         return new AfItemsPagerHelper<>(this);
     }
 
+    @Override
+    public ViewQuery<? extends ViewQuery> $(int id, int... ids) {
+        return mItemsHelper.$(id, ids);
+    }
 
     //<editor-fold desc="初始化">
 

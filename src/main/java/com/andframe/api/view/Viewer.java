@@ -17,7 +17,11 @@ public interface Viewer {
 
 	View findViewById(int id);
 
+//	View findViewByType(Class<? extends View> type);
+//
+//	View[] findViewsByType(Class<? extends View> type);
+
 	<T extends View> T findViewByID(int id);
 
-	<T extends View> T findViewById(int id,Class<T> clazz);
+	<T extends View> T findViewById(int id, Class<T> clazz);
 }

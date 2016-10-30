@@ -43,11 +43,11 @@ import android.view.inputmethod.InputConnection;
 import java.util.ArrayList;
 
 @SuppressLint({"NewApi", "deprecation", "ViewConstructor"})
-public class AfViewWrapper extends View {
+public class ViewWrapper extends View {
 
 	protected View wrapped;
 
-	public AfViewWrapper(View view) {
+	public ViewWrapper(View view) {
 		super(view.getContext());
 		this.wrapped = view;
 	}

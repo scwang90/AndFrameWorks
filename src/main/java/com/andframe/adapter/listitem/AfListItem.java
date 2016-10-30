@@ -8,7 +8,7 @@ import android.view.ViewGroup;
 import com.andframe.annotation.interpreter.Injecter;
 import com.andframe.annotation.interpreter.ViewBinder;
 import com.andframe.annotation.pager.BindLayout;
-import com.andframe.api.ListItem;
+import com.andframe.api.adapter.ListItem;
 import com.andframe.api.view.ViewQuery;
 import com.andframe.api.view.ViewQueryHelper;
 import com.andframe.api.view.Viewer;
@@ -52,7 +52,7 @@ public abstract class AfListItem<T> implements ListItem<T>, Viewer, ViewQueryHel
 //	@Override
 	protected void onViewCreated(View view) {
 		Injecter.doInject(this, view.getContext());
-		ViewBinder.doBind(this, view);
+		ViewBinder.doBind(this);
 	}
 
 	public View getLayout() {

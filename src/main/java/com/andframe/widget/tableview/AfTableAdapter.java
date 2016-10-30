@@ -5,7 +5,7 @@ import android.view.View;
 import android.view.ViewGroup;
 
 import com.andframe.adapter.AfListAdapter;
-import com.andframe.api.ListItem;
+import com.andframe.api.adapter.ListItem;
 import com.andframe.exception.AfExceptionHandler;
 
 import java.util.ArrayList;
@@ -32,7 +32,7 @@ public class AfTableAdapter extends AfListAdapter<Object> {
 	 * @deprecated
 	 */
 	@Override
-	protected ListItem<Object> newListItem(int viewType) {
+	public ListItem<Object> newListItem(int viewType) {
 		return null;
 	}
 

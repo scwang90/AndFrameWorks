@@ -5,7 +5,7 @@ import android.widget.Adapter;
 import android.widget.AdapterView;
 import android.widget.ListView;
 
-import com.andframe.impl.wrapper.AfViewWrapper;
+import com.andframe.impl.wrapper.ViewWrapper;
 
 import java.lang.reflect.Method;
 import java.util.ArrayList;
@@ -132,8 +132,8 @@ public class SmartInvoke {
     }
 
     public static Class<?> getStopType(Object handler) {
-        if (handler instanceof AfViewWrapper) {
-            return AfViewWrapper.class;
+        if (handler instanceof ViewWrapper) {
+            return ViewWrapper.class;
         }
         return Object.class;
     }

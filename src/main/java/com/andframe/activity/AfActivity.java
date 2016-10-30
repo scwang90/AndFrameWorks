@@ -132,7 +132,7 @@ public abstract class AfActivity extends AppCompatActivity implements Pager, Vie
     public void setContentView(View view, ViewGroup.LayoutParams params) {
         super.setContentView(view, params);
         mRootView = view;
-        ViewBinder.doBind(this, view);
+        ViewBinder.doBind(this);
     }
     //</editor-fold>
 

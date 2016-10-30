@@ -21,8 +21,8 @@ public class AfViewQueryHelper implements ViewQueryHelper {
     }
 
     protected ViewQuery<? extends ViewQuery> getQuery() {
-        if (mViewQuery == null || mViewQuery.$().view() != viewer.getView()) {
-            mViewQuery = AfApp.get().newViewQuery(viewer.getView());
+        if (mViewQuery == null || mViewQuery.rootViewer() != viewer) {
+            mViewQuery = AfApp.get().newViewQuery(viewer);
         }
         return mViewQuery;
     }

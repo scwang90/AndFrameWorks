@@ -6,7 +6,7 @@ import android.view.View;
 import android.view.ViewGroup;
 
 import com.andframe.adapter.AfListAdapter;
-import com.andframe.api.ListItem;
+import com.andframe.api.adapter.ListItem;
 
 import java.util.ArrayList;
 import java.util.Collection;
@@ -129,14 +129,14 @@ public abstract class AfMultiChoiceAdapter<T> extends AfListAdapter<T>{
 	}
 
 	@Override
-	protected ListItem<T> newListItem(int viewType) {
+	public ListItem<T> newListItem(int viewType) {
 		return newMultiChoiceItem();
 	}
 	
 	protected abstract AfMultiChoiceItem<T> newMultiChoiceItem();
 
 	@Override
-	protected void bindingItem(View view, ListItem<T> item, int index) {
+	public void bindingItem(View view, ListItem<T> item, int index) {
 		//return super.bindingItem(item, index);
 		AfMultiChoiceItem<T> mcitem = (AfMultiChoiceItem<T>)item;
 		AfMultiChoiceItem.SelectStatus status = AfMultiChoiceItem.SelectStatus.NONE;
@@ -289,7 +289,7 @@ public abstract class AfMultiChoiceAdapter<T> extends AfListAdapter<T>{
 	}
 	
 	@Override
-	protected View onInflateItem(ListItem<T> item, ViewGroup parent) {
+	public View onInflateItem(ListItem<T> item, ViewGroup parent) {
 		View view = super.onInflateItem(item, parent);
 		if (item instanceof AfMultiChoiceItem) {
 			return ((AfMultiChoiceItem<T>)item).inflateLayout(view,this);

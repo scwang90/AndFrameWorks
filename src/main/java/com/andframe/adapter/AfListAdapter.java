@@ -7,8 +7,8 @@ import android.view.ViewGroup;
 
 import com.andframe.adapter.recycler.RecyclerBaseAdapter;
 import com.andframe.adapter.recycler.ViewHolderItem;
-import com.andframe.api.ListItem;
-import com.andframe.api.ListItemAdapter;
+import com.andframe.api.adapter.ListItem;
+import com.andframe.api.adapter.ListItemAdapter;
 import com.andframe.exception.AfExceptionHandler;
 
 import java.util.ArrayList;
@@ -50,7 +50,7 @@ public abstract class AfListAdapter<T> extends RecyclerBaseAdapter<ViewHolderIte
     //</editor-fold>
 
     //<editor-fold desc="子类实现">
-    protected abstract ListItem<T> newListItem(int viewType);
+    public abstract ListItem<T> newListItem(int viewType);
     //</editor-fold>
 
     //<editor-fold desc="集合操作">
@@ -289,11 +289,13 @@ public abstract class AfListAdapter<T> extends RecyclerBaseAdapter<ViewHolderIte
         return mltArray.size();
     }
 
-    protected View onInflateItem(ListItem<T> item, ViewGroup parent) {
+    @Override
+    public View onInflateItem(ListItem<T> item, ViewGroup parent) {
         return item.onCreateView(mContext, parent);
     }
 
-    protected void bindingItem(View view, ListItem<T> item, int index) {
+    @Override
+    public void bindingItem(View view, ListItem<T> item, int index) {
         item.onBinding(view, get(index), index);
     }
 

@@ -4,8 +4,8 @@ import android.content.Context;
 import android.support.annotation.NonNull;
 import android.view.ViewGroup;
 
-import com.andframe.api.ListItem;
-import com.andframe.api.ListItemAdapter;
+import com.andframe.api.adapter.ListItem;
+import com.andframe.api.adapter.ListItemAdapter;
 
 import java.util.ArrayList;
 import java.util.Collection;

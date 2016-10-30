@@ -2,6 +2,7 @@ package com.andframe.annotation.interpreter;
 
 import android.app.Activity;
 import android.app.Fragment;
+import android.support.annotation.NonNull;
 import android.view.MotionEvent;
 import android.view.View;
 import android.view.View.OnClickListener;
@@ -22,16 +23,10 @@ import com.andframe.annotation.view.BindView;
 import com.andframe.annotation.view.BindViewCreated;
 import com.andframe.annotation.view.BindViewModule;
 import com.andframe.api.view.Viewer;
+import com.andframe.application.AfApp;
 import com.andframe.exception.AfExceptionHandler;
-import com.andframe.feature.AfView;
-import com.andframe.impl.wrapper.AfViewWrapper;
+import com.andframe.impl.wrapper.ViewWrapper;
 import com.andframe.module.AfFrameSelector;
-import com.andframe.module.AfModuleNodata;
-import com.andframe.module.AfModuleNodataImpl;
-import com.andframe.module.AfModuleProgress;
-import com.andframe.module.AfModuleProgressImpl;
-import com.andframe.module.AfModuleTitlebar;
-import com.andframe.module.AfModuleTitlebarImpl;
 import com.andframe.module.AfSelectorBottombar;
 import com.andframe.module.AfSelectorBottombarImpl;
 import com.andframe.module.AfSelectorTitlebar;
@@ -74,10 +69,6 @@ public class ViewBinder {
         doBind(root, root);
     }
 
-    public static void doBind(Object handler, View root) {
-        doBind(handler, new AfView(root));
-    }
-
     public static void doBind(Object handler, Viewer root) {
         bindClick(handler, root);
         bindTouch(handler, root);
@@ -92,8 +83,8 @@ public class ViewBinder {
     }
 
     private static Class<?> getStopType(Object handler) {
-        if (handler instanceof AfViewWrapper) {
-            return AfViewWrapper.class;
+        if (handler instanceof ViewWrapper) {
+            return ViewWrapper.class;
         }
         if (handler instanceof Activity) {
             return Activity.class;
@@ -151,7 +142,7 @@ public class ViewBinder {
             try {
                 BindItemClick bind = method.getAnnotation(BindItemClick.class);
                 if (bind.value().length == 0) {
-                    new AfView(root.getView()).$(AdapterView.class).itemClicked(new EventListener(handler).itemClick(method));
+                    AfApp.get().newViewQuery(root).$(AdapterView.class).itemClicked(new EventListener(handler).itemClick(method));
                 } else for (int id : bind.value()) {
                     AdapterView<?> view = root.findViewByID(id);
                     if (view != null) {
@@ -169,7 +160,7 @@ public class ViewBinder {
             try {
                 BindItemLongClick bind = method.getAnnotation(BindItemLongClick.class);
                 if (bind.value().length == 0) {
-                    new AfView(root.getView()).$(AdapterView.class).itemLongClicked((new EventListener(handler).itemLongClick(method)));
+                    AfApp.get().newViewQuery(root).$(AdapterView.class).itemLongClicked((new EventListener(handler).itemLongClick(method)));
                 } else for (int id : bind.value()) {
                     AdapterView<?> view = root.findViewByID(id);
                     if (view != null) {
@@ -291,7 +282,7 @@ public class ViewBinder {
     }
 
     @SuppressWarnings("unchecked")
-    private static void bindViewModule(Object handler, Viewer root) {
+    private static void bindViewModule(Object handler,@NonNull Viewer root) {
         for (Field field : AfReflecter.getFieldAnnotation(handler.getClass(), getStopType(handler), BindViewModule.class)) {
             try {
                 Class<?> clazz = field.getType();
@@ -299,40 +290,36 @@ public class ViewBinder {
                 List<Object> list = new ArrayList<>();
                 for (int id : bind.value()) {
                     Object value = null;
-                    if (clazz.equals(AfModuleTitlebar.class) && root != null) {
-                        value = new AfModuleTitlebarImpl(root);
-                    } else if (clazz.equals(AfSelectorTitlebar.class) && root != null) {
+                    if (clazz.equals(AfSelectorTitlebar.class)) {
                         value = new AfSelectorTitlebarImpl(root);
-                    } else if (clazz.equals(AfSelectorBottombar.class) && root != null) {
+                    } else if (clazz.equals(AfSelectorBottombar.class)) {
                         value = new AfSelectorBottombarImpl(root);
-                    } else if (clazz.equals(AfFrameSelector.class) && root != null) {
+                    } else if (clazz.equals(AfFrameSelector.class)) {
                         value = new AfFrameSelector(root, id);
-                    } else if (clazz.equals(AfModuleNodata.class) && root != null) {
-                        value = new AfModuleNodataImpl(root);
-                    } else if (clazz.equals(AfModuleProgress.class) && root != null) {
-                        value = new AfModuleProgressImpl(root);
-                    } else if (clazz.equals(AfContactsRefreshView.class) && root != null) {
+                    } else if (clazz.equals(AfContactsRefreshView.class)) {
                         value = new AfContactsRefreshView(root, bind.value()[0]);
-                    } else if (root != null
-                            && (field.getType().isAnnotationPresent(BindLayout.class) || id > 0)
-                            /*&& AfViewModule.class.isAssignableFrom(field.getType())*/) {
-                        if (id <= 0) {
-                            id = field.getType().getAnnotation(BindLayout.class).value();
-                        }
-                        //Class<? extends AfViewModule> type = (Class<? extends AfViewModule>) field.getType();
-                        if (field.getType().isArray()) {
-                            Class<?> type = field.getType().getComponentType();
-                            value = AfViewModuler.init((Class<? extends AfViewModuler>) type, root, id);
-                        } else if (List.class.isAssignableFrom(field.getType())) {
+                    } else if ((field.getType().isAnnotationPresent(BindLayout.class) || id > 0)) {
+
+                        Class<?> type = field.getType();
+                        if (type.isArray()) {
+                            type = field.getType().getComponentType();
+                        } else if (List.class.isAssignableFrom(type)) {
                             Type generic = field.getGenericType();
                             ParameterizedType parameterized = (ParameterizedType) generic;
-                            Class<?> type = (Class<?>) parameterized.getActualTypeArguments()[0];
-                            value = AfViewModuler.init((Class<? extends AfViewModuler>) type, root, id);
-                        } else {
-                            value = AfViewModuler.init((Class<? extends AfViewModuler>) field.getType(), root, id);
+                            type = (Class<?>) parameterized.getActualTypeArguments()[0];
                         }
-                        if (value instanceof AfViewModuler) {
-                            ((AfViewModuler) value).onBindHandler(handler);
+
+                        if (id <= 0) {
+                            if (type.isAnnotationPresent(BindLayout.class)) {
+                                id = field.getType().getAnnotation(BindLayout.class).value();
+                            }
+                        }
+                        if (id <= 0) {
+                            AfExceptionHandler.handle("ViewModuler 必须指定BindLayout",TAG(handler, "doBindViewModule.") + field.getName());
+                        } else if (AfViewModuler.class.isAssignableFrom(type)) {
+                            value = AfViewModuler.init(handler, (Class<? extends AfViewModuler>) type, root, id);
+                        } else {
+                            AfExceptionHandler.handle("BindViewModule的类型必须继承AfViewModuler",TAG(handler, "doBindViewModule.") + field.getName());
                         }
                     }
                     if (value != null) {
