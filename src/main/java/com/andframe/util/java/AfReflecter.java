@@ -498,6 +498,7 @@ public class AfReflecter {
     public static Object doMethod(Object obj, String smethod, Object... args) {
         Method method = getMethod(obj.getClass(), smethod, args);
         try {
+            method.setAccessible(true);
             return method.invoke(obj, args);
         } catch (Throwable e) {
             e.printStackTrace();
@@ -517,10 +518,13 @@ public class AfReflecter {
 
     public static Object doMethod(Object obj, String smethod, Class<?>[] argtype, Object... args) {
         Method method = getMethod(obj.getClass(), smethod, argtype);
-        try {
-            return method != null ? method.invoke(obj, args) : null;
-        } catch (Throwable e) {
-            e.printStackTrace();
+        if (method != null) {
+            try {
+                method.setAccessible(true);
+                return method.invoke(obj, args);
+            } catch (Throwable e) {
+                e.printStackTrace();
+            }
         }
         return null;
     }
