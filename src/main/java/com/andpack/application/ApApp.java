@@ -2,13 +2,13 @@ package com.andpack.application;
 
 import android.app.Activity;
 import android.content.Context;
-import android.view.View;
 import android.widget.ImageView;
 
 import com.andframe.$;
 import com.andframe.api.DialogBuilder;
 import com.andframe.api.multistatus.RefreshLayouter;
 import com.andframe.api.view.ViewQuery;
+import com.andframe.api.view.Viewer;
 import com.andframe.application.AfApp;
 import com.andframe.exception.AfExceptionHandler;
 import com.andpack.impl.ApDialogBuilder;
@@ -91,13 +91,13 @@ public class ApApp extends AfApp {
 
     //<editor-fold desc="重写组件">
     @Override
-    public DialogBuilder newDialogBuilder(Context context) {
-        return new ApDialogBuilder(context);
+    public ViewQuery<? extends ViewQuery> newViewQuery(Viewer view) {
+        return new ApViewQuery(view);
     }
 
     @Override
-    public ViewQuery<? extends ViewQuery> newViewQuery(View view) {
-        return new ApViewQuery(view);
+    public DialogBuilder newDialogBuilder(Context context) {
+        return new ApDialogBuilder(context);
     }
 
     @Override

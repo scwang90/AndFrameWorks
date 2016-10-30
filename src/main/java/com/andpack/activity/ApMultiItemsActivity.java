@@ -33,6 +33,12 @@ public abstract class ApMultiItemsActivity<T> extends AfMultiItemsActivity<T> im
     }
 
     @Override
+    protected void onDestroy() {
+        mApHelper.onDestroy();
+        super.onDestroy();
+    }
+
+    @Override
     public void onViewCreated() throws Exception {
         mApHelper.onViewCreated();
         super.onViewCreated();

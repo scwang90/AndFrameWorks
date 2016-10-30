@@ -16,17 +16,23 @@ import com.andpack.impl.ApPagerHelper;
  */
 public class ApFragment extends AfTabFragment implements ApPager {
 
-    protected ApPagerHelper mHelper = new ApPagerHelper(this);
+    protected ApPagerHelper mApHelper = new ApPagerHelper(this);
 
     @Override
     protected void onCreate(AfBundle bundle, AfView view) throws Exception {
-        mHelper.onCreate();
+        mApHelper.onCreate();
         super.onCreate(bundle, view);
     }
 
     @BindViewCreated
     protected void onViewCreated() throws Exception {
-        mHelper.onViewCreated();
+        mApHelper.onViewCreated();
+    }
+
+    @Override
+    public void onDestroy() {
+        mApHelper.onDestroy();
+        super.onDestroy();
     }
 
 

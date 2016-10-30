@@ -37,6 +37,12 @@ public class ApFragmentActivity extends AfFragmentActivity implements ApPager {
         super.onCreate(bundle, intent);
     }
 
+    @Override
+    protected void onDestroy() {
+        mApHelper.onDestroy();
+        super.onDestroy();
+    }
+
     @BindViewCreated@CallSuper
     protected void onViewCreated() {
         mApHelper.onViewCreated();

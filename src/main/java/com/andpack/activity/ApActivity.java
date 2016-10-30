@@ -16,23 +16,29 @@ import com.andpack.impl.ApPagerHelper;
  */
 public class ApActivity extends AfActivity implements ApPager {
 
-    protected ApPagerHelper mHelper = new ApPagerHelper(this);
+    protected ApPagerHelper mApHelper = new ApPagerHelper(this);
 
     @Override
     public void setTheme(@StyleRes int resid) {
-        mHelper.setTheme(resid);
+        mApHelper.setTheme(resid);
         super.setTheme(resid);
     }
 
     @Override
     protected void onCreate(Bundle bundle) {
-        mHelper.onCreate();
+        mApHelper.onCreate();
         super.onCreate(bundle);
+    }
+
+    @Override
+    protected void onDestroy() {
+        mApHelper.onDestroy();
+        super.onDestroy();
     }
 
     @BindViewCreated
     protected void onAfterViews() throws Exception {
-        mHelper.onViewCreated();
+        mApHelper.onViewCreated();
     }
 
 
@@ -40,19 +46,19 @@ public class ApActivity extends AfActivity implements ApPager {
     public View findViewById(int id) {
         View v = super.findViewById(id);
         if (v == null)
-            return mHelper.findViewById(id);
+            return mApHelper.findViewById(id);
         return v;
     }
 
     @Override
     protected void onPostCreate(Bundle savedInstanceState) {
         super.onPostCreate(savedInstanceState);
-        mHelper.onPostCreate(savedInstanceState);
+        mApHelper.onPostCreate(savedInstanceState);
     }
 
     @Override
     public void finish() {
-        if (mHelper.finish()) {
+        if (mApHelper.finish()) {
             return;
         }
         super.finish();

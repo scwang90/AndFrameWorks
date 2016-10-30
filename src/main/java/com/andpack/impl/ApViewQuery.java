@@ -1,8 +1,8 @@
 package com.andpack.impl;
 
-import android.view.View;
 import android.widget.ImageView;
 
+import com.andframe.api.view.Viewer;
 import com.andframe.feature.AfViewQuery;
 import com.nostra13.universalimageloader.core.ImageLoader;
 
@@ -12,7 +12,7 @@ import com.nostra13.universalimageloader.core.ImageLoader;
  */
 public class ApViewQuery extends AfViewQuery<ApViewQuery> {
 
-    public ApViewQuery(View view) {
+    public ApViewQuery(Viewer view) {
         super(view);
     }
 

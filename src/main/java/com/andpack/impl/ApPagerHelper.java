@@ -1,5 +1,6 @@
 package com.andpack.impl;
 
+import android.app.Activity;
 import android.os.Bundle;
 import android.support.annotation.StyleRes;
 import android.support.v7.widget.Toolbar;
@@ -8,14 +9,18 @@ import android.view.ViewGroup;
 import android.widget.FrameLayout;
 
 import com.andframe.$;
+import com.andframe.activity.AfActivity;
 import com.andframe.api.view.ViewQuery;
 import com.andframe.exception.AfExceptionHandler;
+import com.andframe.fragment.AfFragment;
 import com.andframe.listener.SafeOnClickListener;
 import com.andframe.util.java.AfReflecter;
-import com.andframe.widget.AfRefreshScorllView;
 import com.andpack.R;
+import com.andpack.annotation.RegisterEventBus;
 import com.andpack.annotation.interpreter.StatusBarInterpreter;
 import com.andpack.api.ApPager;
+
+import org.greenrobot.eventbus.EventBus;
 
 import me.imid.swipebacklayout.lib.SwipeBackLayout;
 import me.imid.swipebacklayout.lib.app.SwipeBackActivityHelper;
@@ -28,7 +33,7 @@ public class ApPagerHelper {
 
     protected ApPager pager;
 
-    private AfRefreshScorllView mRfScorllView;
+    protected RegisterEventBus mEventBus;
 
     //<editor-fold desc="滑动关闭">
     private SwipeBackActivityHelper mSwipeBackHelper;
@@ -37,6 +42,8 @@ public class ApPagerHelper {
 
     public ApPagerHelper(ApPager pager) {
         this.pager = pager;
+        Class<?> stop = pager instanceof Activity ? AfActivity.class : AfFragment.class;
+        mEventBus = AfReflecter.getAnnotation(pager.getClass(), stop, RegisterEventBus.class);
     }
 
     public void setTheme(@StyleRes int resid) {
@@ -44,10 +51,19 @@ public class ApPagerHelper {
     }
 
     public void onCreate() {
+        if (mEventBus != null) {
+            EventBus.getDefault().register(pager);
+        }
 //        if (mIsUsingSwipeBack) {
 //            mSwipeBackHelper = new SwipeBackActivityHelper(pager.getActivity());
 //            mSwipeBackHelper.onActivityCreate();
 //        }
+    }
+
+    public void onDestroy() {
+        if (mEventBus != null) {
+            EventBus.getDefault().unregister(pager);
+        }
     }
 
     public void onViewCreated() {
@@ -119,5 +135,4 @@ public class ApPagerHelper {
         }
         return false;
     }
-
 }

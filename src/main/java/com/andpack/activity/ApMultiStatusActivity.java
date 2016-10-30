@@ -33,6 +33,12 @@ public abstract class ApMultiStatusActivity<T> extends AfMultiStatusActivity<T> 
     }
 
     @Override
+    protected void onDestroy() {
+        mApHelper.onDestroy();
+        super.onDestroy();
+    }
+
+    @Override
     public View findContentView() {
         View view = mApHelper.findContentView();
         if (view != null) {
