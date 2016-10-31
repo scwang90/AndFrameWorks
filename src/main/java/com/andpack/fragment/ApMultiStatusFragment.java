@@ -17,7 +17,7 @@ import com.andpack.impl.ApStatusHelper;
  * Created by SCWANG on 2016/10/21.
  */
 
-public abstract class ApMultiStatusFragment<T> extends AfMultiStatusFragment<T> implements ApPager {
+public class ApMultiStatusFragment<T> extends AfMultiStatusFragment<T> implements ApPager {
 
     protected ApStatusHelper mApHelper = new ApStatusHelper(this);
 
@@ -55,6 +55,16 @@ public abstract class ApMultiStatusFragment<T> extends AfMultiStatusFragment<T> 
             return layouter;
         }
         return super.createRefreshLayouter(context);
+    }
+
+    @Override
+    public T onTaskLoading() throws Exception {
+        return null;
+    }
+
+    @Override
+    public void onTaskLoaded(T model) {
+
     }
 
     @Override
