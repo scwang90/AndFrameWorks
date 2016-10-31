@@ -35,7 +35,7 @@ public class AfGifPlayer extends AfTask{
     }
     
 	@Override
-	protected void onWorking(/*Message msg*/) throws Exception {
+	protected void onWorking() throws Exception {
         if (!frames[index].image.isRecycled()) {
             image.setImageBitmap(frames[index].image);
         }

@@ -509,7 +509,7 @@ public class AfImageService {
 		}
 
 		@Override
-		protected boolean onHandle(/*Message msg*/) {
+		protected boolean onHandle() {
 			// 如果任务成功执行完成
 			if (isFinish()) {
 				for (ImageTask task : mltIncidentallyTask) {
@@ -554,7 +554,7 @@ public class AfImageService {
 		}
 
 		@Override
-		protected void onWorking(/*Message msg*/) throws Exception {
+		protected void onWorking() throws Exception {
 			AfApplication app = AfApplication.getApp();
 			if (mIsCanReadCaches == true) {
 				AfImageCaches caches = AfImageCaches.getInstance();

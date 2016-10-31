@@ -151,7 +151,7 @@ public abstract class AfServiceNotify<T> {
 		}
 		
 		@Override
-		protected boolean onHandle(/*Message msg*/) {
+		protected boolean onHandle() {
 			if(isStarted()&&mServiceID.equals(tID)){
 				if(RESULT_FINISH == mResult){
 					mltNotify.clear();
@@ -169,7 +169,7 @@ public abstract class AfServiceNotify<T> {
 		}
 
 		@Override
-		protected void onWorking(/*Message msg*/) throws Exception {
+		protected void onWorking() throws Exception {
 			tltNotify = onLoadNotify();
 		}
 	}

@@ -34,13 +34,13 @@ public class AfImageThumb {
 			AfApplication.postTask(new AfHandlerTask() {
 				Bitmap bitmap = null;
 				@Override
-				protected void onWorking(/*Message msg*/) throws Exception {
+				protected void onWorking() throws Exception {
 					AfImageCaches caches = AfImageCaches.getInstance();
 					bitmap = revitionImageSize(image);
 					caches.put(image, bitmap);
 				}
 				@Override
-				protected boolean onHandle(/*Message msg*/) {
+				protected boolean onHandle() {
 					if (bitmap != null) {
 						iv.setImageBitmap(bitmap);
 					}

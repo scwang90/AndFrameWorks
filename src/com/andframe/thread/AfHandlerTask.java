@@ -17,7 +17,7 @@ public abstract class AfHandlerTask extends AfTask implements Callback{
 	protected final Handler mHandler;
 	protected OnTaskFinishListener mListener;
 
-	protected abstract boolean onHandle(/*Message msg*/);
+	protected abstract boolean onHandle();
 
 	protected AfHandlerTask() {
 //		this.mTask = 0;

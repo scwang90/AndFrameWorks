@@ -55,7 +55,7 @@ public class AfData2Task<T, TT> extends AfHandlerTask {
     }
 
     @Override
-    protected boolean onHandle(/*Message msg*/) {
+    protected boolean onHandle() {
         if (handler != null) {
             return handler.onHandle(t, tt);
         }
@@ -63,7 +63,7 @@ public class AfData2Task<T, TT> extends AfHandlerTask {
     }
 
     @Override
-    protected void onWorking(/*Message msg*/) throws Exception {
+    protected void onWorking() throws Exception {
         if (handler != null) {
             handler.onWorking(t, tt);
             return;

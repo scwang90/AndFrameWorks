@@ -107,7 +107,7 @@ public abstract class AfListViewTask<T> extends AfHandlerTask/* extends AfListTa
     protected abstract List<T> onListByPage(Page page, int task) throws Exception;
 
     @Override
-    protected boolean onHandle(/*Message msg*/) {
+    protected boolean onHandle() {
         boolean isfinish = isFinish();
         boolean dealerror = false;
         if (mTask == TASK_LOAD) {
@@ -198,7 +198,7 @@ public abstract class AfListViewTask<T> extends AfHandlerTask/* extends AfListTa
     }
 
     @Override
-    protected final void onWorking(/*Message msg*/) throws Exception {
+    protected final void onWorking() throws Exception {
 //		AfPrivateCaches cache = AfPrivateCaches.getInstance(KEY_CACHELIST);
         switch (mTask) {
             case AfListTask.TASK_LOAD:
