@@ -1314,7 +1314,7 @@ public class AfViewQuery<T extends AfViewQuery<T>> implements ViewQuery<T> {
     public <TT> T adapter(@LayoutRes int id, List<TT> list, AdapterItemer<TT> itemer) {
         return foreach(AdapterView.class, (ViewEacher<AdapterView>) (view) -> view.setAdapter(new AfListLayoutItemAdapter<TT>(id,view.getContext(),list) {
             @Override
-            protected void onBinding(ViewQuery $, TT model, int index) {
+            protected void onBinding(ViewQuery<? extends ViewQuery> $, TT model, int index) {
                 itemer.onBinding($, model, index);
             }
         }));
