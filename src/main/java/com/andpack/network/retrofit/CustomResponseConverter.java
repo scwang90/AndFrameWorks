@@ -42,6 +42,9 @@ public class CustomResponseConverter<T> implements Converter<ResponseBody, T> {
                     } else {
                         body = gson.toJson(data);
                     }
+                } else if (msg != null){
+                    //noinspection unchecked
+                    return (T)msg;
                 } else {
                     //noinspection unchecked
                     return (T)Boolean.valueOf(true);
