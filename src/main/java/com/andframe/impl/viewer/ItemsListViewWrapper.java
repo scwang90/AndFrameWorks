@@ -1,6 +1,7 @@
 package com.andframe.impl.viewer;
 
 import android.view.View;
+import android.view.ViewGroup;
 import android.widget.AdapterView;
 import android.widget.ListAdapter;
 import android.widget.ListView;
@@ -41,14 +42,20 @@ public class ItemsListViewWrapper implements ItemsViewer<ListView> {
 
     @Override
     public boolean addHeaderView(View view) {
-        view.setLayoutParams(new ListView.LayoutParams(view.getLayoutParams()));
+        ViewGroup.LayoutParams params = view.getLayoutParams();
+        if (params != null && !(params instanceof ListView.LayoutParams)) {
+            view.setLayoutParams(new ListView.LayoutParams(params));
+        }
         mItemsView.addHeaderView(view);
         return true;
     }
 
     @Override
     public boolean addFooterView(View view) {
-        view.setLayoutParams(new ListView.LayoutParams(view.getLayoutParams()));
+        ViewGroup.LayoutParams params = view.getLayoutParams();
+        if (params != null && !(params instanceof ListView.LayoutParams)) {
+            view.setLayoutParams(new ListView.LayoutParams(params));
+        }
         mItemsView.addFooterView(view);
         return true;
     }

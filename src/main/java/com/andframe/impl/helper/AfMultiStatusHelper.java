@@ -6,6 +6,7 @@ import android.support.annotation.CallSuper;
 import android.support.v7.widget.RecyclerView;
 import android.view.View;
 import android.view.ViewGroup;
+import android.webkit.WebView;
 import android.widget.GridView;
 import android.widget.ListView;
 import android.widget.ScrollView;
@@ -106,7 +107,8 @@ public class AfMultiStatusHelper<T> implements MultiStatusHelper<T> {
                 if (view instanceof ListView
                         || view instanceof GridView
                         || view instanceof RecyclerView
-                        || view instanceof ScrollView) {
+                        || view instanceof ScrollView
+                        || view instanceof WebView) {
                     return view;
                 } else if (view instanceof ViewGroup) {
                     ViewGroup group = (ViewGroup) view;
