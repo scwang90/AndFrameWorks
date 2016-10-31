@@ -41,12 +41,14 @@ public class ItemsListViewWrapper implements ItemsViewer<ListView> {
 
     @Override
     public boolean addHeaderView(View view) {
+        view.setLayoutParams(new ListView.LayoutParams(view.getLayoutParams()));
         mItemsView.addHeaderView(view);
         return true;
     }
 
     @Override
     public boolean addFooterView(View view) {
+        view.setLayoutParams(new ListView.LayoutParams(view.getLayoutParams()));
         mItemsView.addFooterView(view);
         return true;
     }
