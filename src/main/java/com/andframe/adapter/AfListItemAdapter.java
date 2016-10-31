@@ -47,7 +47,7 @@ public abstract class AfListItemAdapter<T> extends AfListAdapter<T> implements L
      * @param model 数据
      * @param index 索引
      */
-    protected abstract void onBinding(ViewQuery $, T model, int index);
+    protected abstract void onBinding(ViewQuery<? extends ViewQuery> $, T model, int index);
 
     /**
      * 创建Item的布局View

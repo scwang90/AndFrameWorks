@@ -35,7 +35,7 @@ public abstract class AfListLayoutItemAdapter<T> extends AfListItemAdapter<T> {
         mLayoutId = layoutId;
     }
 
-    public AfListLayoutItemAdapter(int layoutId, Context context, List<T> ltdata, boolean dataSync) {
+    public AfListLayoutItemAdapter(@LayoutRes int layoutId, Context context, List<T> ltdata, boolean dataSync) {
         super(context, ltdata, dataSync);
         mLayoutId = layoutId;
     }
