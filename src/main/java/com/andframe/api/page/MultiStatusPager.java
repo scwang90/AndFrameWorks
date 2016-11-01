@@ -19,7 +19,7 @@ public interface MultiStatusPager<T> extends Pager, OnRefreshListener {
 
     RefreshLayouter initRefreshLayout(View content);
     StatusLayouter initStatusLayout(View layout);
-    RefreshLayouter createRefreshLayouter(Context context);
+    RefreshLayouter newRefreshLayouter(Context context);
     StatusLayouter createStatusLayouter(Context context);
 
     void showEmpty();

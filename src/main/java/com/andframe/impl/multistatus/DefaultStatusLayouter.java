@@ -1,6 +1,7 @@
 package com.andframe.impl.multistatus;
 
 import android.content.Context;
+import android.text.TextUtils;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -77,12 +78,12 @@ public class DefaultStatusLayouter implements StatusLayouter {
     }
 
     @Override
-    public void setProgressLayoutId(int layoutId) {
-        setProgressLayoutId(layoutId, 0);
+    public void setProgressLayout(int layoutId) {
+        setProgressLayout(layoutId, 0);
     }
 
     @Override
-    public void setProgressLayoutId(int layoutId,int msgId) {
+    public void setProgressLayout(int layoutId,int msgId) {
         if (mProgressLayout != null) {
             mFrameLayout.removeView(mProgressLayout);
         }
@@ -92,22 +93,30 @@ public class DefaultStatusLayouter implements StatusLayouter {
     }
 
     @Override
-    public void setEmptyLayoutId(int layoutId) {
-        setEmptyLayoutId(layoutId, 0, 0);
+    public void setEmptyLayout(int layoutId) {
+        setEmptyLayout(layoutId, 0, 0);
     }
 
     @Override
-    public void setEmptyLayoutId(int layoutId, int msgId) {
-        setEmptyLayoutId(layoutId, msgId, 0);
+    public void setEmptyLayout(int layoutId, int msgId) {
+        setEmptyLayout(layoutId, msgId, 0);
     }
 
     @Override
-    public void setEmptyLayoutId(int layoutId, int msgId, int btnId) {
+    public void setEmptyLayout(int layoutId, int msgId, int btnId) {
+        setEmptyLayout(layoutId, msgId, btnId, "");
+    }
+
+    @Override
+    public void setEmptyLayout(int layoutId, int msgId, int btnId, String message) {
         if (mEmptyLayout != null) {
             mFrameLayout.removeView(mEmptyLayout);
         }
         mEmptyLayout = LayoutInflater.from(mFrameLayout.getContext()).inflate(layoutId, null);
         mEmptyTextView = (TextView) mEmptyLayout.findViewById(msgId);
+        if (mEmptyTextView != null && !TextUtils.isEmpty(message)) {
+            mEmptyTextView.setText(message);
+        }
         View btn = mEmptyLayout.findViewById(btnId);
         btn = btn == null ? mEmptyLayout : btn;
         btn.setOnClickListener(mOnRefreshClickListener);
@@ -115,12 +124,12 @@ public class DefaultStatusLayouter implements StatusLayouter {
     }
 
     @Override
-    public void setErrorLayoutId(int layoutId, int msgId) {
-        setErrorLayoutId(layoutId, msgId, 0);
+    public void setErrorLayout(int layoutId, int msgId) {
+        setErrorLayout(layoutId, msgId, 0);
     }
 
     @Override
-    public void setErrorLayoutId(int layoutId, int msgId, int btnId) {
+    public void setErrorLayout(int layoutId, int msgId, int btnId) {
         if (mErrorLayout != null) {
             mFrameLayout.removeView(mErrorLayout);
         }
@@ -133,17 +142,17 @@ public class DefaultStatusLayouter implements StatusLayouter {
     }
 
     @Override
-    public void setInvalidnetLayoutId(int layoutId) {
-        setInvalidnetLayoutId(layoutId, 0, 0);
+    public void setInvalidnetLayout(int layoutId) {
+        setInvalidnetLayout(layoutId, 0, 0);
     }
 
     @Override
-    public void setInvalidnetLayoutId(int layoutId, int msgId) {
-        setInvalidnetLayoutId(layoutId, msgId, 0);
+    public void setInvalidnetLayout(int layoutId, int msgId) {
+        setInvalidnetLayout(layoutId, msgId, 0);
     }
 
     @Override
-    public void setInvalidnetLayoutId(int layoutId, int msgId, int btnId) {
+    public void setInvalidnetLayout(int layoutId, int msgId, int btnId) {
         if (mInvalidnetLayout != null) {
             mFrameLayout.removeView(mInvalidnetLayout);
         }
@@ -157,16 +166,16 @@ public class DefaultStatusLayouter implements StatusLayouter {
     @Override
     public void autoCompletedLayout() {
         if (mEmptyLayout == null) {
-            setEmptyLayoutId(R.layout.af_module_nodata, R.id.module_nodata_description);
+            setEmptyLayout(R.layout.af_module_nodata, R.id.module_nodata_description);
         }
         if (mErrorLayout == null) {
-            setErrorLayoutId(R.layout.af_module_nodata, R.id.module_nodata_description);
+            setErrorLayout(R.layout.af_module_nodata, R.id.module_nodata_description);
         }
         if (mProgressLayout == null) {
-            setProgressLayoutId(R.layout.af_module_progress, R.id.module_progress_loadinfo);
+            setProgressLayout(R.layout.af_module_progress, R.id.module_progress_loadinfo);
         }
         if (mInvalidnetLayout == null) {
-            setInvalidnetLayoutId(R.layout.af_module_nodata, R.id.module_nodata_description);
+            setInvalidnetLayout(R.layout.af_module_nodata, R.id.module_nodata_description);
         }
     }
     //</editor-fold>

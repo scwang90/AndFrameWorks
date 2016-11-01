@@ -16,7 +16,8 @@ import java.lang.annotation.Target;
 @Target(ElementType.TYPE)
 @Retention(RetentionPolicy.RUNTIME)
 public @interface MultiStatusEmpty {
-    @LayoutRes int value();
+    @LayoutRes int value() default 0;
     @IdRes int txtId() default 0;
     @IdRes int btnId() default 0;
+    String message() default "";
 }

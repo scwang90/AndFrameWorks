@@ -8,8 +8,8 @@ import android.view.View;
 import com.andframe.annotation.view.BindViewCreated;
 import com.andframe.api.multistatus.RefreshLayouter;
 import com.andframe.api.multistatus.StatusLayouter;
-import com.andframe.api.page.MultiStatusPager;
 import com.andframe.api.page.MultiStatusHelper;
+import com.andframe.api.page.MultiStatusPager;
 import com.andframe.impl.helper.AfMultiStatusHelper;
 import com.andframe.task.AfHandlerTask;
 
@@ -17,7 +17,6 @@ import com.andframe.task.AfHandlerTask;
  * 多状态页面支持
  * Created by SCWANG on 2016/10/20.
  */
-
 public abstract class AfMultiStatusFragment<T> extends AfTabFragment implements MultiStatusPager<T> {
 
     protected MultiStatusHelper<T> mHelper = newHelper();
@@ -52,7 +51,7 @@ public abstract class AfMultiStatusFragment<T> extends AfTabFragment implements 
         return mStatusLayouter = mHelper.createStatusLayouter(context);
     }
 
-    public RefreshLayouter createRefreshLayouter(Context context) {
+    public RefreshLayouter newRefreshLayouter(Context context) {
         return mRefreshLayouter = mHelper.createRefreshLayouter(context);
     }
     //</editor-fold>

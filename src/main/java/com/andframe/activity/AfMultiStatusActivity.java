@@ -52,7 +52,7 @@ public abstract class AfMultiStatusActivity<T> extends AfActivity implements Mul
         return mStatusLayouter = mHelper.createStatusLayouter(context);
     }
 
-    public RefreshLayouter createRefreshLayouter(Context context) {
+    public RefreshLayouter newRefreshLayouter(Context context) {
         return mRefreshLayouter = mHelper.createRefreshLayouter(context);
     }
     //</editor-fold>

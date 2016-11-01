@@ -18,4 +18,5 @@ import java.lang.annotation.Target;
 public @interface MultiStatusProgress {
     @LayoutRes int value();
     @IdRes int txtId() default 0;
+    String message() default "";
 }
