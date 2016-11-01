@@ -9,7 +9,7 @@ public class AfDataTask <T> extends AfHandlerTask {
 
     public interface OnTaskHandlerListener<T> {
         void onTaskBackground(T t) throws Exception;
-        boolean onTaskHandle(T t, AfDataTask task);
+        void onTaskHandle(T t, AfDataTask task);
     }
 
     T t;
@@ -98,8 +98,8 @@ public class AfDataTask <T> extends AfHandlerTask {
             return task.makeErrorToast(tip);
         }
 
-        public final boolean onHandle(T t) {
-            return onTaskHandle(t, task);
+        public final void onHandle(T t) {
+            onTaskHandle(t, task);
         }
 
         public boolean isFail() {
@@ -132,8 +132,8 @@ public class AfDataTask <T> extends AfHandlerTask {
         protected abstract Result onTaskBackgroundResult(T t) throws Exception;
 
         @Override
-        public boolean onTaskHandle(T t, AfDataTask task) {
-            return onTaskHandle(result, t, task);
+        public void onTaskHandle(T t, AfDataTask task) {
+            onTaskHandle(result, t, task);
         }
 
         protected abstract boolean onTaskHandle(Result result, T t, AfDataTask task);
