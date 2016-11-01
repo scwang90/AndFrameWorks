@@ -147,13 +147,12 @@ public abstract class ApUpdateService {
 		}
 
 		@Override
-		public boolean onTaskHandle(Boolean ndfeedback, AfDataTask task) {
+		public void onTaskHandle(Boolean ndfeedback, AfDataTask task) {
 			mInstance.showNeedUpdate();
 			AfActivity activity = AfApp.get().getCurActivity();
 			if (activity != null && !mInstance.isNeedUpdate() && ndfeedback) {
 				activity.makeToastShort("恭喜你，目前已经是最新版本！");
 			}
-			return false;
 		}
 	}
 
