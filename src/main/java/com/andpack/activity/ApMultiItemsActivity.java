@@ -67,12 +67,12 @@ public abstract class ApMultiItemsActivity<T> extends AfMultiItemsActivity<T> im
     }
 
     @Override
-    public RefreshLayouter createRefreshLayouter(Context context) {
+    public RefreshLayouter newRefreshLayouter(Context context) {
         RefreshLayouter layouter = mApHelper.createRefreshLayouter(context);
         if (layouter != null) {
             return layouter;
         }
-        return super.createRefreshLayouter(context);
+        return super.newRefreshLayouter(context);
     }
 
     @Override

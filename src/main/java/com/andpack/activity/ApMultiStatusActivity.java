@@ -48,12 +48,12 @@ public abstract class ApMultiStatusActivity<T> extends AfMultiStatusActivity<T> 
     }
 
     @Override
-    public RefreshLayouter createRefreshLayouter(Context context) {
+    public RefreshLayouter newRefreshLayouter(Context context) {
         RefreshLayouter layouter = mApHelper.createRefreshLayouter(context);
         if (layouter != null) {
             return layouter;
         }
-        return super.createRefreshLayouter(context);
+        return super.newRefreshLayouter(context);
     }
 
     @Override
