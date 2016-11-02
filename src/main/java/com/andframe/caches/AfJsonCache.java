@@ -2,6 +2,7 @@ package com.andframe.caches;
 
 import android.content.Context;
 
+import com.andframe.api.Cacher;
 import com.andframe.feature.AfJsoner;
 
 import java.util.ArrayList;
@@ -22,7 +23,7 @@ import java.util.List;
  *         public<T> List<T> getList(String key,Class<T> clazz)
  */
 @SuppressWarnings("unused")
-public class AfJsonCache {
+public class AfJsonCache implements Cacher {
 
     private AfSharedPreference mShared = null;
 
@@ -46,6 +47,7 @@ public class AfJsonCache {
         return mShared;
     }
 
+    @Override
     public void put(String key, Object value) {
         mShared.putString(key, AfJsoner.toJson(value));
     }
@@ -54,6 +56,7 @@ public class AfJsonCache {
      * 保存列表数据
      * （新的列表会覆盖原来的所有内容）
      */
+    @Override
     public void putList(String key, List<?> values) {
         List<String> set = new ArrayList<>();
         for (Object value : values) {
@@ -66,6 +69,7 @@ public class AfJsonCache {
      * 保存列表数据
      * （新的列表会覆盖原来的所有内容）
      */
+    @Override
     public void putList(String key, Object[] values) {
         List<String> set = new ArrayList<>();
         for (Object value : values) {
@@ -78,6 +82,7 @@ public class AfJsonCache {
      * 追加列表数据
      * （新的内容会和老的内容一起保存）
      */
+    @Override
     public void pushList(String key, List values) {
         List<String> set = new ArrayList<>(mShared.getStringList(key, new ArrayList<>()));
         for (Object value : values) {
@@ -86,10 +91,12 @@ public class AfJsonCache {
         mShared.putStringList(key, set);
     }
 
+    @Override
     public <T> T get(String key, Class<T> clazz) {
         return get(key, null, clazz);
     }
 
+    @Override
     public <T> T get(String key, T defaul, Class<T> clazz) {
         T value = null;
         try {
@@ -105,6 +112,7 @@ public class AfJsonCache {
      *
      * @return 即使缓存不存在 也不会返回null 而是空列表
      */
+    @Override
     public <T> List<T> getList(String key, Class<T> clazz) {
         List<T> list = new ArrayList<>();
         try {
@@ -117,10 +125,12 @@ public class AfJsonCache {
         return list;
     }
 
+    @Override
     public void clear() {
         mShared.clear();
     }
 
+    @Override
     public boolean isEmpty(String key) {
         try {
             return mShared.getString(key, "").equals("") &&
@@ -130,26 +140,32 @@ public class AfJsonCache {
         }
     }
 
+    @Override
     public boolean getBoolean(String key, boolean value) {
         return get(key, value, Boolean.class);
     }
 
+    @Override
     public String getString(String key, String value) {
         return get(key, value, String.class);
     }
 
+    @Override
     public float getFloat(String key, float value) {
         return get(key, value, Float.class);
     }
 
+    @Override
     public int getInt(String key, int value) {
         return get(key, value, Integer.class);
     }
 
+    @Override
     public long getLong(String key, long value) {
         return get(key, value, Long.class);
     }
 
+    @Override
     public Date getDate(String key, Date value) {
         return get(key, value, Date.class);
     }

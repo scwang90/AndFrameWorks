@@ -57,6 +57,8 @@ public class AfJsoner {
                 return (T) Boolean.valueOf(json);
             } else if (String.class.equals(clazz)) {
                 return (T) json;
+            } else if (Date.class.equals(clazz)) {
+                return clazz.cast(new Date(Long.parseLong(json)));
             }
             if (clazz.isArray()) {
                 List<?> list = fromJsons(new JSONArray(json), clazz.getComponentType());
@@ -121,6 +123,8 @@ public class AfJsoner {
                 return Double.valueOf(value.toString());
             } else if (Boolean.class.equals(clazz) || boolean.class.equals(clazz)) {
                 return Boolean.valueOf(value.toString());
+            } else if (Date.class.equals(clazz)) {
+                return new Date(Long.parseLong(value.toString()));
             }
         }
         return value;

@@ -8,6 +8,7 @@ import android.support.v4.app.Fragment;
 import android.view.View;
 
 import com.andframe.activity.AfActivity;
+import com.andframe.api.Cacher;
 import com.andframe.api.DialogBuilder;
 import com.andframe.api.ModelConvertor;
 import com.andframe.api.TaskExecutor;
@@ -15,6 +16,7 @@ import com.andframe.api.view.ViewModuler;
 import com.andframe.api.view.ViewQuery;
 import com.andframe.api.view.Viewer;
 import com.andframe.application.AfApp;
+import com.andframe.caches.AfPrivateCaches;
 import com.andframe.impl.viewer.ViewerWarpper;
 
 import java.lang.reflect.InvocationHandler;
@@ -39,7 +41,7 @@ public class $ {
         <From,To> List<To> convertList(@NonNull Iterable<From> froms, @NonNull ModelConvertor<From,To> convertor);
     }
 
-    public interface Api extends $$,TaskExecutor, DialogBuilder, ViewQuery {
+    public interface Api extends $$,TaskExecutor, DialogBuilder, ViewQuery, Cacher {
     }
 
     @SuppressWarnings("MethodNameSameAsClassName")
@@ -53,6 +55,14 @@ public class $ {
     public static Api with(Object... withs) {
         lastWiths = withs;
         return api;
+    }
+
+    public static Cacher cache() {
+        return AfPrivateCaches.getInstance();
+    }
+
+    public static Cacher cache(String name) {
+        return AfPrivateCaches.getInstance(name);
     }
 
     @MainThread
@@ -123,6 +133,15 @@ public class $ {
         return null;
     }
 
+    private static String getLastString() {
+        if (lastWiths != null && lastWiths.length > 0) {
+            if (lastWiths[0] instanceof String) {
+                return (String) lastWiths[0];
+            }
+        }
+        return null;
+    }
+
     private static class $$$ implements InvocationHandler,$$ {
         @Override
         public Object invoke(Object proxy, Method method, Object[] objects) throws Throwable {
@@ -132,6 +151,8 @@ public class $ {
                 return method.invoke(AfApp.get().newDialogBuilder(getLastContext()), objects);
             } else if (method.getDeclaringClass().isAssignableFrom(ViewQuery.class)) {
                 return method.invoke(AfApp.get().newViewQuery(getLastViewer()), objects);
+            } else if (method.getDeclaringClass().isAssignableFrom(Cacher.class)) {
+                return method.invoke(AfPrivateCaches.getInstance(getLastString()), objects);
             } else if (method.getDeclaringClass().isAssignableFrom($$.class)) {
                 return method.invoke(this, objects);
             }
