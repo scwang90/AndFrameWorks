@@ -46,8 +46,9 @@ public class CustomResponseConverter<T> implements Converter<ResponseBody, T> {
                     //noinspection unchecked
                     return (T)msg;
                 } else {
+                    return null;
                     //noinspection unchecked
-                    return (T)Boolean.valueOf(true);
+                    //return (T)Boolean.valueOf(true);
                 }
                 return adapter.fromJson(body);
             } else if (msg != null) {

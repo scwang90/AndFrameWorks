@@ -6,7 +6,7 @@ import java.lang.annotation.RetentionPolicy;
 import java.lang.annotation.Target;
 
 /**
- * 注册事件
+ * 注册接受全局事件
  * Created by SCWANG on 2016/10/30.
  */
 @Target(ElementType.TYPE)
