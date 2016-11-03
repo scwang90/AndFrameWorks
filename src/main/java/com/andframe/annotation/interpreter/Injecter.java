@@ -119,6 +119,10 @@ public class Injecter {
         doInject(context, context);
     }
 
+    public static void doInjectExtra(Object handler) {
+        injectExtra(handler, null);
+    }
+
     public static void doInject(Object handler, Context context) {
         inject(handler, context);
         injectRes(handler, context);

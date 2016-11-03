@@ -7,6 +7,7 @@ import com.andframe.annotation.lifecycle.OnCreate;
 import com.andframe.annotation.lifecycle.OnDestroy;
 import com.andframe.annotation.lifecycle.OnDestroyView;
 import com.andframe.annotation.lifecycle.OnDetach;
+import com.andframe.annotation.lifecycle.OnNewIntent;
 import com.andframe.annotation.lifecycle.OnPause;
 import com.andframe.annotation.lifecycle.OnRestart;
 import com.andframe.annotation.lifecycle.OnResume;
@@ -140,6 +141,16 @@ public class LifeCycleInjecter {
 
     public static void injectonDetach(Object handler) {
         for (Method method : AfReflecter.getMethodAnnotation(handler.getClass(), SmartInvoke.getStopType(handler), OnDetach.class)) {
+            try {
+                invokeMethod(handler, method);
+            } catch (Throwable e) {
+                AfExceptionHandler.handle(e, TAG(handler, "injectonDetach.invokeMethod.") + method.getName());
+            }
+        }
+    }
+
+    public static void injectonNewIntent(Object handler) {
+        for (Method method : AfReflecter.getMethodAnnotation(handler.getClass(), SmartInvoke.getStopType(handler), OnNewIntent.class)) {
             try {
                 invokeMethod(handler, method);
             } catch (Throwable e) {

@@ -48,4 +48,7 @@ public class AfViewQueryHelper implements ViewQueryHelper {
         return query.$(views);
     }
 
+    public ViewQuery<? extends ViewQuery> id(int... ids) {
+        return getQuery().id(ids);
+    }
 }

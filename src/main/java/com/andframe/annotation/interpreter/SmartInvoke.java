@@ -1,10 +1,14 @@
 package com.andframe.annotation.interpreter;
 
+import android.app.Activity;
+import android.support.v4.app.Fragment;
 import android.view.View;
 import android.widget.Adapter;
 import android.widget.AdapterView;
 import android.widget.ListView;
 
+import com.andframe.activity.AfActivity;
+import com.andframe.fragment.AfFragment;
 import com.andframe.impl.wrapper.ViewWrapper;
 
 import java.lang.reflect.Method;
@@ -134,6 +138,10 @@ public class SmartInvoke {
     public static Class<?> getStopType(Object handler) {
         if (handler instanceof ViewWrapper) {
             return ViewWrapper.class;
+        } else if (handler instanceof Activity) {
+            return AfActivity.class;
+        } else if (handler instanceof Fragment) {
+            return AfFragment.class;
         }
         return Object.class;
     }

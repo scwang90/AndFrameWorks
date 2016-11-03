@@ -418,6 +418,15 @@ public abstract class AfFragment extends Fragment implements Pager, ViewQueryHel
     //</editor-fold>
 
     //<editor-fold desc="新建事件">
+
+    /**
+     * Activity onNewIntent 转发
+     */
+    @SuppressWarnings("UnusedParameters")
+    public void onNewIntent(Intent intent) {
+        Injecter.doInjectExtra(this);
+        LifeCycleInjecter.injectonNewIntent(this);
+    }
     /**
      * 按下返回按键
      *
@@ -518,6 +527,7 @@ public abstract class AfFragment extends Fragment implements Pager, ViewQueryHel
     public boolean isProgressDialogShowing() {
         return dialogBuilder != null && dialogBuilder.isProgressDialogShowing();
     }
+
     //</editor-fold>
 
 }
