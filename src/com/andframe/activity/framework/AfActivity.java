@@ -238,6 +238,20 @@ public abstract class AfActivity extends FragmentActivity implements AfPageable 
     }
 
     /**
+     * 新的 intent
+     */
+    @Override
+    protected void onNewIntent(Intent intent) {
+        super.onNewIntent(intent);
+        try {
+            setIntent(intent);
+            Injecter.doInjectExtra(this);
+        } catch (Throwable ex) {
+            AfExceptionHandler.handle(ex, "AfActivity.onNewIntent");
+        }
+    }
+
+    /**
      * 新的 onCreate 实现
      * 重写的 时候 一般情况下请 调用
      * super.onCreate(bundle,intent);

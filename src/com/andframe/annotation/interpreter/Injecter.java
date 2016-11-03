@@ -139,6 +139,10 @@ public class Injecter {
         injectDelayed(handler, context);
     }
 
+    public static void doInjectExtra(Object handler) {
+        injectExtra(handler, null);
+    }
+
     public static void doInjectQueryChanged(Object handler) {
         for (Method method : AfReflecter.getMethodAnnotation(handler.getClass(), getStopType(handler), InjectQueryChanged.class)) {
             InjectQueryChanged init = method.getAnnotation(InjectQueryChanged.class);
