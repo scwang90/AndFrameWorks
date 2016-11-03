@@ -139,9 +139,23 @@ public class AfDateFormat {
 		return roundDate(calender.getTime());
 	}
 
+	/**
+	 * 天下取整
+	 */
 	public static Date roundDate(Date date) {
 		try {
 			return DATE.parse(DATE.format(date));
+		} catch (ParseException e) {
+			return new Date(0);
+		}
+	}
+	/**
+	 * 月下取整
+	 */
+	public static Date roundMonth(Date date) {
+		try {
+			DateFormat format = new SimpleDateFormat("y-M", LOCALE);
+			return format.parse(format.format(date));
 		} catch (ParseException e) {
 			return new Date(0);
 		}
