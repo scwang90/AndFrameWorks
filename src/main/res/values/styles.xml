@@ -16,14 +16,33 @@
         <!--<item name="android:windowBackground">@android:color/transparent</item>-->
     </style>
 
+
     <style name="AppTheme.CommonBar">
         <item name="android:layout_width">match_parent</item>
         <item name="android:layout_height">wrap_content</item>
+    </style>
+
+    <style name="AppTheme.CommonBar.Panel">
+        <item name="android:layout_marginTop">@dimen/padding_common</item>
+        <item name="android:layout_marginBottom">@dimen/padding_common</item>
+        <item name="android:orientation">vertical</item>
+        <item name="android:background">@color/white</item>
+    </style>
+
+    <style name="AppTheme.CommonBar.Bar">
         <item name="android:gravity">center_vertical</item>
         <item name="android:paddingTop">@dimen/padding_common</item>
         <item name="android:paddingBottom">@dimen/padding_common</item>
         <item name="android:paddingLeft">@dimen/padding_common</item>
         <item name="android:paddingRight">@dimen/padding_common_h</item>
+
+        <item name="android:background">?android:attr/selectableItemBackground</item>
+        <!--<item name="android:background">@drawable/af_selector_background_white</item>-->
+    </style>
+
+    <style name="AppTheme.CommonBar.Bar.Alone">
+        <item name="android:layout_marginTop">@dimen/padding_common</item>
+        <item name="android:layout_marginBottom">@dimen/padding_common</item>
         <item name="android:background">@drawable/af_selector_background_white</item>
     </style>
 
