@@ -1,9 +1,11 @@
 package com.andframe.impl.viewer;
 
+import android.content.res.Resources;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.support.v7.widget.RecyclerView.Adapter;
 import android.support.v7.widget.RecyclerView.ViewHolder;
+import android.util.TypedValue;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.AdapterView;
@@ -66,7 +68,13 @@ public class ItemsRecyclerViewWrapper implements ItemsViewer<RecyclerView> {
                     ViewHolder viewHolder = super.onCreateViewHolder(parent, viewType);
                     if (viewHolder.itemView != null) {
                         if (viewHolder.itemView.getBackground() == null) {
-                            viewHolder.itemView.setBackgroundResource(R.drawable.af_selector_background);
+                            TypedValue typedValue = new TypedValue();
+                            Resources.Theme theme = viewHolder.itemView.getContext().getTheme();
+                            if (theme.resolveAttribute(android.R.attr.selectableItemBackground, typedValue, true)) {
+                                viewHolder.itemView.setBackgroundResource(typedValue.resourceId);
+                            } else {
+                                viewHolder.itemView.setBackgroundResource(R.drawable.af_selector_background);
+                            }
                         }
                         if (!viewHolder.itemView.isClickable()) {
                             viewHolder.itemView.setOnClickListener(mOnClickListener);
