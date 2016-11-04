@@ -23,7 +23,6 @@ public abstract class RecyclerBaseAdapter<T extends RecyclerView.ViewHolder> ext
 	public void unregisterDataSetObserver(DataSetObserver observer) {
 		mDataSetObservable.unregisterObserver(observer);
 	}
-
 	//	@Override
 //	public void notifyDataSetChanged() {
 //		mDataSetObservable.notifyChanged();

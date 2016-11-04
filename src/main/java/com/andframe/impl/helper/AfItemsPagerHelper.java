@@ -143,8 +143,8 @@ public class AfItemsPagerHelper<T> extends AfMultiStatusHelper<List<T>> implemen
             mItemsViewer.setOnItemLongClickListener(mItemsPager);
             mItemsPager.bindAdapter(mItemsViewer, mAdapter);
 
-            if (mModel != null && mModel.size() > 0) {
-                AfDispatcher.dispatch(() -> mItemsPager.postTask(new AbRefreshListTask(mModel)));
+            if (mAdapter != null && mAdapter.size() > 0) {
+                AfDispatcher.dispatch(() -> mItemsPager.postTask(new AbRefreshListTask(mAdapter.getList())));
             } else if (mCacheClazz != null) {
                 AfDispatcher.dispatch(() -> mItemsPager.postTask(new AbLoadListTask()));
             } else {
