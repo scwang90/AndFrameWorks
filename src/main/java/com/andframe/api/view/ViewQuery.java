@@ -562,15 +562,19 @@ public interface ViewQuery<T extends ViewQuery<T>> {
     boolean isVisible();
     int gravity();
     float rating();
-    T gravity(int gravity);
     T $(int id, int... ids);
     T $(String idvalue, String... idvalues);
     T $(Class<?> type, Class<?>... types);
     T $(View... views);
     T id(View view, View... views);
+    T gravity(int gravity);
+    T maxLines(int lines);
+    T setSingleLine(boolean singleLine);
     T toggle();
     T text(String format, Object... args);
     T html(String format, Object... args);
+    T size(int width, int height);
+    T size(float width, float height);
     T width(float dp);
     T height(float dp);
     T margin(int px);
@@ -613,6 +617,8 @@ public interface ViewQuery<T extends ViewQuery<T>> {
     int childCount();
     Point measure();
 
+    T drawablePadding(int padding);
+    T drawablePadding(float padding);
     T drawableLeft(@DrawableRes int id);
     T drawableTop(@DrawableRes int id);
     T drawableRight(@DrawableRes int id);

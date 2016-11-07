@@ -1005,6 +1005,16 @@ public class AfViewQuery<T extends AfViewQuery<T>> implements ViewQuery<T> {
     }
 
     @Override
+    public T maxLines(int lines) {
+        return foreach(TextView.class,(ViewEacher<TextView>) (view) -> view.setMaxLines(lines));
+    }
+
+    @Override
+    public T setSingleLine(boolean singleLine) {
+        return foreach(TextView.class,(ViewEacher<TextView>) (view) -> view.setSingleLine(singleLine));
+    }
+
+    @Override
     public T width(int width) {
         size(true, width, false);
         return self();
@@ -1013,6 +1023,31 @@ public class AfViewQuery<T extends AfViewQuery<T>> implements ViewQuery<T> {
     @Override
     public T height(int height) {
         return size(false, height, false);
+    }
+
+    @Override
+    public T size(int width, int height) {
+        return foreach(view -> {
+            ViewGroup.LayoutParams lp = view.getLayoutParams();
+            if (lp != null) {
+                lp.width = width;
+                lp.height = height;
+                view.setLayoutParams(lp);
+            }
+        });
+    }
+
+    @Override
+    public T size(float width, float height) {
+        return foreach(view -> {
+            ViewGroup.LayoutParams lp = view.getLayoutParams();
+            if (lp != null) {
+                float scale = getContext().getResources().getDisplayMetrics().density;
+                lp.width = (int) (scale * width + 0.5f);
+                lp.height = (int) (scale * height + 0.5f);
+                view.setLayoutParams(lp);
+            }
+        });
     }
 
     @Override
@@ -1417,6 +1452,16 @@ public class AfViewQuery<T extends AfViewQuery<T>> implements ViewQuery<T> {
     }
 
     @Override
+    public T drawablePadding(int padding) {
+        return foreach(TextView.class, (ViewEacher<TextView>) view -> view.setCompoundDrawablePadding(padding));
+    }
+
+    @Override
+    public T drawablePadding(float padding) {
+        return foreach(TextView.class, (ViewEacher<TextView>) view -> view.setCompoundDrawablePadding((int) (getContext().getResources().getDisplayMetrics().density * padding + 0.5f)));
+    }
+
+    @Override
     public T drawables(@Nullable Drawable left, @Nullable Drawable top, @Nullable Drawable right, @Nullable Drawable bottom) {
         return foreach(TextView.class, (ViewEacher<TextView>) view -> view.setCompoundDrawables(left, top, right, bottom));
     }
@@ -1443,30 +1488,22 @@ public class AfViewQuery<T extends AfViewQuery<T>> implements ViewQuery<T> {
 
     @Override
     public T drawableLeft(@DrawableRes int id) {
-        Drawable drawable = getContext().getResources().getDrawable(id);
-        drawable.setBounds(0, 0, drawable.getMinimumWidth(), drawable.getMinimumHeight());
-        return foreach(TextView.class, (ViewEacher<TextView>) view -> view.setCompoundDrawables(drawable, null, null, null));
+        return foreach(TextView.class, (ViewEacher<TextView>) view -> view.setCompoundDrawablesWithIntrinsicBounds(getContext().getResources().getDrawable(id), null, null, null));
     }
 
     @Override
     public T drawableTop(@DrawableRes int id) {
-        Drawable drawable = getContext().getResources().getDrawable(id);
-        drawable.setBounds(0, 0, drawable.getMinimumWidth(), drawable.getMinimumHeight());
-        return foreach(TextView.class, (ViewEacher<TextView>) view -> view.setCompoundDrawables(null, drawable, null, null));
+        return foreach(TextView.class, (ViewEacher<TextView>) view -> view.setCompoundDrawablesWithIntrinsicBounds(null, getContext().getResources().getDrawable(id), null, null));
     }
 
     @Override
     public T drawableRight(@DrawableRes int id) {
-        Drawable drawable = getContext().getResources().getDrawable(id);
-        drawable.setBounds(0, 0, drawable.getMinimumWidth(), drawable.getMinimumHeight());
-        return foreach(TextView.class, (ViewEacher<TextView>) view -> view.setCompoundDrawables(null, null, drawable, null));
+        return foreach(TextView.class, (ViewEacher<TextView>) view -> view.setCompoundDrawablesWithIntrinsicBounds(null, null, getContext().getResources().getDrawable(id), null));
     }
 
     @Override
     public T drawableBottom(@DrawableRes int id) {
-        Drawable drawable = getContext().getResources().getDrawable(id);
-        drawable.setBounds(0, 0, drawable.getMinimumWidth(), drawable.getMinimumHeight());
-        return foreach(TextView.class, (ViewEacher<TextView>) view -> view.setCompoundDrawables(null, null, null, drawable));
+        return foreach(TextView.class, (ViewEacher<TextView>) view -> view.setCompoundDrawablesWithIntrinsicBounds(null, null, null, getContext().getResources().getDrawable(id)));
     }
 
     @SuppressWarnings("unchecked")
