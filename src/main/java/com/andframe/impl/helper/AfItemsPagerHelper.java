@@ -19,6 +19,7 @@ import com.andframe.annotation.mark.MarkCache;
 import com.andframe.annotation.multistatus.MultiItemsFooter;
 import com.andframe.annotation.multistatus.MultiItemsHeader;
 import com.andframe.annotation.multistatus.MultiItemsViewer;
+import com.andframe.annotation.multistatus.MultiItemsViewerOnly;
 import com.andframe.api.adapter.ListItem;
 import com.andframe.api.adapter.ListItemAdapter;
 import com.andframe.api.multistatus.MoreFooter;
@@ -134,9 +135,9 @@ public class AfItemsPagerHelper<T> extends AfMultiStatusHelper<List<T>> implemen
         mItemsPager.initCache();
         mItemsPager.initAdapter();
 
-        mItemsViewer = mItemsPager.findItemsViewer(mItemsPager);
+//        mItemsViewer = mItemsPager.findItemsViewer(mItemsPager);
 
-        if (mItemsViewer != null) {
+//        if (mItemsViewer != null) {
             mItemsPager.bindListHeaderAndFooter(mAdapter);
 
             mItemsViewer.setOnItemClickListener(mItemsPager);
@@ -150,18 +151,26 @@ public class AfItemsPagerHelper<T> extends AfMultiStatusHelper<List<T>> implemen
             } else {
                 AfDispatcher.dispatch(() -> mItemsPager.postTask(new AbRefreshListTask()));
             }
-        } else {
-            throw new RuntimeException("findItemsViewer 返回null");
-        }
+//        } else {
+//            throw new RuntimeException("findItemsViewer 返回null");
+//        }
     }
 
     @Override
     public View findContentView() {
-        View view = super.findContentView();
-        if (view != null) {
-            return view;
+        mItemsViewer = mItemsPager.findItemsViewer(mItemsPager);
+        if (mItemsViewer != null) {
+            Class<?> stop = mPager instanceof Activity ? AfMultiItemsActivity.class : AfMultiItemsFragment.class;
+            MultiItemsViewerOnly only = AfReflecter.getAnnotation(mItemsPager.getClass(), stop, MultiItemsViewerOnly.class);
+            return only != null ? null : mItemsViewer.getItemsView();
+        } else {
+            throw new RuntimeException("findItemsViewer 返回null");
         }
-        return mItemsViewer != null ? mItemsViewer.getItemsView() : null;
+//        View view = super.findContentView();
+//        if (view != null) {
+//            return view;
+//        }
+//        return mItemsViewer != null ? mItemsViewer.getItemsView() : null;
     }
 
     @Override
@@ -404,12 +413,20 @@ public class AfItemsPagerHelper<T> extends AfMultiStatusHelper<List<T>> implemen
         View itemView = null;
         Class<?> stop = mPager instanceof Activity ? AfMultiItemsActivity.class : AfMultiItemsFragment.class;
         MultiItemsViewer viewer = AfReflecter.getAnnotation(pager.getClass(), stop, MultiItemsViewer.class);
+        MultiItemsViewerOnly viewerOnly = AfReflecter.getAnnotation(pager.getClass(), stop, MultiItemsViewerOnly.class);
         if (viewer != null) {
             itemView = pager.findViewById(viewer.value());
+        } else if (viewerOnly != null && viewerOnly.value() > 0) {
+            itemView = pager.findViewById(viewerOnly.value());
         } else {
+            View view = super.findContentView();
+            if (view instanceof ListView || view instanceof GridView || view instanceof RecyclerView) {
+                itemView = view;
+            }
+
             Queue<View> views = new LinkedBlockingQueue<>(Collections.singletonList(pager.getView()));
-            do {
-                View view = views.poll();
+            while (!views.isEmpty() && itemView == null) {
+                view = views.poll();
                 if (view != null) {
                     if (view instanceof ListView || view instanceof GridView || view instanceof RecyclerView) {
                         itemView = view;
@@ -420,7 +437,7 @@ public class AfItemsPagerHelper<T> extends AfMultiStatusHelper<List<T>> implemen
                         }
                     }
                 }
-            } while (!views.isEmpty() && itemView == null);
+            }
         }
 
         if (itemView instanceof ListView) {

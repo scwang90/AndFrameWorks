@@ -1037,6 +1037,110 @@ public class AfViewQuery<T extends AfViewQuery<T>> implements ViewQuery<T> {
     }
 
     @Override
+    public T marginLeft(int px) {
+        return foreach(view -> {
+            ViewGroup.LayoutParams lp = view.getLayoutParams();
+            if (lp instanceof ViewGroup.MarginLayoutParams) {
+                ViewGroup.MarginLayoutParams params = (ViewGroup.MarginLayoutParams) lp;
+                params.setMargins(px, params.topMargin, params.rightMargin, params.bottomMargin);
+                view.setLayoutParams(lp);
+            }
+        });
+    }
+
+    @Override
+    public T marginRight(int px) {
+        return foreach(view -> {
+            ViewGroup.LayoutParams lp = view.getLayoutParams();
+            if (lp instanceof ViewGroup.MarginLayoutParams) {
+                ViewGroup.MarginLayoutParams params = (ViewGroup.MarginLayoutParams) lp;
+                params.setMargins(params.leftMargin, params.topMargin, px, params.bottomMargin);
+                view.setLayoutParams(lp);
+            }
+        });
+    }
+
+    @Override
+    public T marginTop(int px) {
+        return foreach(view -> {
+            ViewGroup.LayoutParams lp = view.getLayoutParams();
+            if (lp instanceof ViewGroup.MarginLayoutParams) {
+                ViewGroup.MarginLayoutParams params = (ViewGroup.MarginLayoutParams) lp;
+                params.setMargins(params.leftMargin, px, params.rightMargin, params.bottomMargin);
+                view.setLayoutParams(lp);
+            }
+        });
+    }
+
+    @Override
+    public T marginBottom(int px) {
+        return foreach(view -> {
+            ViewGroup.LayoutParams lp = view.getLayoutParams();
+            if (lp instanceof ViewGroup.MarginLayoutParams) {
+                ViewGroup.MarginLayoutParams params = (ViewGroup.MarginLayoutParams) lp;
+                params.setMargins(params.leftMargin, params.topMargin, params.rightMargin, px);
+                view.setLayoutParams(lp);
+            }
+        });
+    }
+
+    @Override
+    public T marginLeft(float dp) {
+        return foreach(view -> {
+            ViewGroup.LayoutParams lp = view.getLayoutParams();
+            if (lp instanceof ViewGroup.MarginLayoutParams) {
+                float scale = getContext().getResources().getDisplayMetrics().density;
+                int px = (int) (scale * dp + 0.5f);
+                ViewGroup.MarginLayoutParams params = (ViewGroup.MarginLayoutParams) lp;
+                params.setMargins(px, params.topMargin, params.rightMargin, params.bottomMargin);
+                view.setLayoutParams(lp);
+            }
+        });
+    }
+
+    @Override
+    public T marginRight(float dp) {
+        return foreach(view -> {
+            ViewGroup.LayoutParams lp = view.getLayoutParams();
+            if (lp instanceof ViewGroup.MarginLayoutParams) {
+                float scale = getContext().getResources().getDisplayMetrics().density;
+                int px = (int) (scale * dp + 0.5f);
+                ViewGroup.MarginLayoutParams params = (ViewGroup.MarginLayoutParams) lp;
+                params.setMargins(params.leftMargin, params.topMargin, px, params.bottomMargin);
+                view.setLayoutParams(lp);
+            }
+        });
+    }
+
+    @Override
+    public T marginTop(float dp) {
+        return foreach(view -> {
+            ViewGroup.LayoutParams lp = view.getLayoutParams();
+            if (lp instanceof ViewGroup.MarginLayoutParams) {
+                float scale = getContext().getResources().getDisplayMetrics().density;
+                int px = (int) (scale * dp + 0.5f);
+                ViewGroup.MarginLayoutParams params = (ViewGroup.MarginLayoutParams) lp;
+                params.setMargins(params.leftMargin, px, params.rightMargin, params.bottomMargin);
+                view.setLayoutParams(lp);
+            }
+        });
+    }
+
+    @Override
+    public T marginBottom(float dp) {
+        return foreach(view -> {
+            ViewGroup.LayoutParams lp = view.getLayoutParams();
+            if (lp instanceof ViewGroup.MarginLayoutParams) {
+                float scale = getContext().getResources().getDisplayMetrics().density;
+                int px = (int) (scale * dp + 0.5f);
+                ViewGroup.MarginLayoutParams params = (ViewGroup.MarginLayoutParams) lp;
+                params.setMargins(params.leftMargin, params.topMargin, params.rightMargin, px);
+                view.setLayoutParams(lp);
+            }
+        });
+    }
+
+    @Override
     public T padding(float dp) {
         return padding(dp,dp,dp,dp);
     }
@@ -1062,6 +1166,62 @@ public class AfViewQuery<T extends AfViewQuery<T>> implements ViewQuery<T> {
     public T padding(int left, int top, int right, int bottom) {
         return foreach(view -> {
             view.setPadding(left, top, right, bottom);
+        });
+    }
+
+    @Override
+    public T paddingLeft(int px) {
+        return foreach((ViewEacher<View>) view -> view.setPadding(px, view.getPaddingTop(), view.getPaddingRight(), view.getPaddingBottom()));
+    }
+
+    @Override
+    public T paddingRight(int px) {
+        return foreach((ViewEacher<View>) view -> view.setPadding(view.getPaddingLeft(), view.getPaddingTop(), px, view.getPaddingBottom()));
+    }
+
+    @Override
+    public T paddingTop(int px) {
+        return foreach((ViewEacher<View>) view -> view.setPadding(view.getPaddingLeft(), px, view.getPaddingRight(), view.getPaddingBottom()));
+    }
+
+    @Override
+    public T paddingBottom(int px) {
+        return foreach((ViewEacher<View>) view -> view.setPadding(view.getPaddingLeft(), view.getPaddingTop(), view.getPaddingRight(), px));
+    }
+
+    @Override
+    public T paddingLeft(float dp) {
+        return foreach(view -> {
+            float scale = getContext().getResources().getDisplayMetrics().density;
+            int px = (int) (scale * dp + 0.5f);
+            view.setPadding(px, view.getPaddingTop(), view.getPaddingRight(), view.getPaddingBottom());
+        });
+    }
+
+    @Override
+    public T paddingRight(float dp) {
+        return foreach(view -> {
+            float scale = getContext().getResources().getDisplayMetrics().density;
+            int px = (int) (scale * dp + 0.5f);
+            view.setPadding(view.getPaddingLeft(), view.getPaddingTop(), px, view.getPaddingBottom());
+        });
+    }
+
+    @Override
+    public T paddingTop(float dp) {
+        return foreach(view -> {
+            float scale = getContext().getResources().getDisplayMetrics().density;
+            int px = (int) (scale * dp + 0.5f);
+            view.setPadding(view.getPaddingLeft(), px, view.getPaddingRight(), view.getPaddingBottom());
+        });
+    }
+
+    @Override
+    public T paddingBottom(float dp) {
+        return foreach(view -> {
+            float scale = getContext().getResources().getDisplayMetrics().density;
+            int px = (int) (scale * dp + 0.5f);
+            view.setPadding(view.getPaddingLeft(), view.getPaddingTop(), view.getPaddingRight(), px);
         });
     }
 

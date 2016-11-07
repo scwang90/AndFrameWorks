@@ -8,11 +8,11 @@ import java.lang.annotation.RetentionPolicy;
 import java.lang.annotation.Target;
 
 /**
- * 页面绑定 ItemsViewer
+ * 标记页面只使用 ItemsViewer 没有 MultiStatus
  * Created by SCWANG on 2016/3/8.
  */
 @Target(ElementType.TYPE)
 @Retention(RetentionPolicy.RUNTIME)
-public @interface MultiItemsViewer {
-    @IdRes int value();
+public @interface MultiItemsViewerOnly {
+    @IdRes int value() default 0;
 }
