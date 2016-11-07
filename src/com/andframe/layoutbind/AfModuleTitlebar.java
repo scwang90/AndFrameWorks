@@ -152,6 +152,7 @@ public abstract class AfModuleTitlebar extends AfModuleAlpha implements OnClickL
 		if (function != FUNCTION_CUSTOM) {
 			mFunction = function;
 			mBtRightImg.setVisibility(function == FUNCTION_NONE ? View.GONE : View.VISIBLE);
+			mBtRightTxt.setVisibility(function == FUNCTION_NONE ? View.GONE : View.VISIBLE);
 		} else if (AfApplication.getApp().isDebug()) {
 			AfExceptionHandler.doShowDialog(AfApplication.getApp().getCurActivity(), "设置自定义失败", "请使用setCustomFunction设置自定义功能", "" + this.hashCode());
 		}
