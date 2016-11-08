@@ -230,7 +230,7 @@ public class AfItemsPagerHelper<T> extends AfMultiStatusHelper<List<T>> implemen
         } else {
             //通知列表刷新失败
             mItemsPager.finishRefreshFail();
-            if (mAdapter != null && mAdapter.getCount() > 0) {
+            if (mAdapter != null && mAdapter.size() > 0) {
                 mItemsPager.showContent();
                 mItemsPager.makeToastLong(task.makeErrorToast("刷新失败"));
             } else if (list != null && list.size() > 0) {
