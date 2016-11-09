@@ -158,6 +158,11 @@ public abstract class AfMultiItemsFragment<T> extends AfMultiStatusFragment<List
     }
 
     @Override
+    public String getCacheKey() {
+        return null;
+    }
+
+    @Override
     public void putCache(List<T> list) {
         mItemsHelper.putCache(list);
     }

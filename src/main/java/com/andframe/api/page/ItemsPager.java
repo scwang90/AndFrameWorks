@@ -58,4 +58,5 @@ public interface ItemsPager<T> extends MultiStatusPager<List<T>>, OnItemClickLis
 
     Date getCacheTime();
 
+    String getCacheKey();
 }

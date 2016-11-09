@@ -233,14 +233,14 @@ public class AfMultiStatusHelper<T> implements MultiStatusHelper<T> {
         }
     }
 
-    /**
-     * 任务加载完成
-     * @param data 加载的数据
-     * @return 数据是否为非空，用于框架自动显示空数据页面
-     */
-    public boolean onTaskLoaded(T data) {
-        return data != null;
-    }
+//    /**
+//     * 任务加载完成
+//     * @param data 加载的数据
+//     * @return 数据是否为非空，用于框架自动显示空数据页面
+//     */
+//    public boolean onTaskLoaded(T data) {
+//        return data != null;
+//    }
 
 //    /**
 //     *

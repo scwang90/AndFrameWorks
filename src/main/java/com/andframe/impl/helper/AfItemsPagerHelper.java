@@ -273,10 +273,13 @@ public class AfItemsPagerHelper<T> extends AfMultiStatusHelper<List<T>> implemen
                 //noinspection unchecked
                 mCacheClazz = (Class<T>) mark.value();
             }
-            if (TextUtils.isEmpty(mark.key())) {
-                KEY_CACHELIST = mItemsPager.getClass().getName();
-            } else {
-                KEY_CACHELIST = mark.key();
+            KEY_CACHELIST = mItemsPager.getCacheKey();
+            if (TextUtils.isEmpty(KEY_CACHELIST)) {
+                if (TextUtils.isEmpty(mark.key())) {
+                    KEY_CACHELIST = mItemsPager.getClass().getName();
+                } else {
+                    KEY_CACHELIST = mark.key();
+                }
             }
         }
     }
