@@ -580,6 +580,10 @@ public class ApCommonBarBinder {
             return self();
         }
 
+        public void requestimage(int request_image) {
+            this.request_image = request_image;
+        }
+
         public ImageBinder circle() {
             style = CropImageView.Style.CIRCLE;
             return self();

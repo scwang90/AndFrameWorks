@@ -2,6 +2,7 @@ package com.andpack.impl;
 
 import android.app.Activity;
 import android.os.Bundle;
+import android.support.annotation.NonNull;
 import android.support.annotation.StyleRes;
 import android.support.v7.widget.Toolbar;
 import android.view.View;
@@ -42,8 +43,12 @@ public class ApPagerHelper {
 
     public ApPagerHelper(ApPager pager) {
         this.pager = pager;
-        Class<?> stop = pager instanceof Activity ? AfActivity.class : AfFragment.class;
-        mEventBus = AfReflecter.getAnnotation(pager.getClass(), stop, RegisterEventBus.class);
+        mEventBus = AfReflecter.getAnnotation(pager.getClass(), getStopClass(), RegisterEventBus.class);
+    }
+
+    @NonNull
+    protected Class<?> getStopClass() {
+        return pager instanceof Activity ? AfActivity.class : AfFragment.class;
     }
 
     public void setTheme(@StyleRes int resid) {
