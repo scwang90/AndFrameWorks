@@ -139,6 +139,13 @@
         <item name="android:textColor">@color/colorToolbarText</item>
     </style>
 
+    <style name="AndFrame.Toolbar.Action" parent="AndFrame.Label">
+        <item name="android:layout_gravity">end</item>
+        <item name="android:textSize">@dimen/textsize_titlesmall</item>
+        <item name="android:textColor">@color/colorToolbarText</item>
+        <item name="android:background">?attr/selectableItemBackground</item>
+    </style>
+
     <style name="AndFrame.Toolbar.Title.Dark">
         <item name="android:textColor">@color/colorToolbarTextDark</item>
     </style>
