@@ -602,7 +602,7 @@ public class AfItemsPagerHelper<T> extends AfMultiStatusHelper<List<T>> implemen
 
         @Override
         protected List<T> onLoadData() throws Exception {
-            data =  mItemsPager.onTaskLoadList(new Page(AfListViewTask.PAGE_SIZE, mAdapter.size() - 1));
+            data =  mItemsPager.onTaskLoadList(new Page(AfListViewTask.PAGE_SIZE, mAdapter.size()));
             mItemsPager.onTaskPushCache(data);
             return data;
         }
