@@ -144,6 +144,10 @@
         <item name="android:textSize">@dimen/textsize_titlesmall</item>
         <item name="android:textColor">@color/colorToolbarText</item>
         <item name="android:background">?attr/selectableItemBackground</item>
+        <item name="android:paddingTop">@dimen/padding_common_d</item>
+        <item name="android:paddingBottom">@dimen/padding_common_d</item>
+        <item name="android:paddingLeft">@dimen/padding_common_v</item>
+        <item name="android:paddingRight">@dimen/padding_common_v</item>
     </style>
 
     <style name="AndFrame.Toolbar.Title.Dark">

@@ -8,6 +8,7 @@ import com.andframe.adapter.listitem.AfListItem;
 import com.andframe.adapter.recycler.ViewHolderItem;
 import com.andframe.api.adapter.ListItem;
 import com.andframe.api.adapter.ListItemAdapter;
+import com.andframe.api.view.Viewer;
 import com.andframe.exception.AfExceptionHandler;
 import com.andframe.impl.wrapper.ListItemAdapterWrapper;
 
@@ -142,8 +143,9 @@ public class AfHeaderFooterAdapter<T> extends ListItemAdapterWrapper<T> {
     //<editor-fold desc="功能方法">
 
     public boolean addHeader(ListItem<T> item) {
-        if (item != null) {
+        if (item != null && !mHeaders.contains(item)) {
             mHeaders.add(item);
+            notifyDataSetInvalidated();
         }
         return item != null;
     }
@@ -170,8 +172,9 @@ public class AfHeaderFooterAdapter<T> extends ListItemAdapterWrapper<T> {
     }
 
     public boolean addFooter(ListItem<T> item) {
-        if (item != null) {
+        if (item != null && !mFooters.contains(item)) {
             mFooters.add(item);
+            notifyDataSetInvalidated();
         }
         return item != null;
     }
@@ -185,16 +188,56 @@ public class AfHeaderFooterAdapter<T> extends ListItemAdapterWrapper<T> {
     }
 
     public boolean addFooterView(View view) {
-        return addFooter(new ListItem<T>() {
-            View mView = view;
+        return addFooter(new AfListItem<T>() {
+            {mLayout = view;}
             @Override
-            public void onBinding(View view, T model, int index) {
+            public void onBinding(T model, int index) {
             }
             @Override
             public View onCreateView(Context context, ViewGroup parent) {
-                return mView;
+                return mLayout;
             }
         });
+    }
+
+    public boolean removeHeader(ListItem<T> item) {
+        if (mHeaders.remove(item)) {
+            notifyDataSetInvalidated();
+            return true;
+        }
+        return false;
+    }
+
+    public boolean removeFooter(ListItem<T> item) {
+        if (mFooters.remove(item)) {
+            notifyDataSetInvalidated();
+            return true;
+        }
+        return false;
+    }
+
+    public boolean removeHeaderView(View view) {
+        for (int i = 0; i < mHeaders.size(); i++) {
+            ListItem<T> item = mHeaders.get(i);
+            if (item instanceof Viewer && ((Viewer) item).getView() == view) {
+                mHeaders.remove(i);
+                notifyDataSetInvalidated();
+                return true;
+            }
+        }
+        return false;
+    }
+
+    public boolean removeFooterView(View view) {
+        for (int i = 0; i < mFooters.size(); i++) {
+            ListItem<T> item = mFooters.get(i);
+            if (item instanceof Viewer && ((Viewer) item).getView() == view) {
+                mFooters.remove(i);
+                notifyDataSetInvalidated();
+                return true;
+            }
+        }
+        return false;
     }
 
     public void clearHeader() {

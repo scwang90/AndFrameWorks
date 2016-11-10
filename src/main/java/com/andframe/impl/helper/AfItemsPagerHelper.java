@@ -346,6 +346,7 @@ public class AfItemsPagerHelper<T> extends AfMultiStatusHelper<List<T>> implemen
         mMoreFooter = mItemsPager.newMoreFooter();
         mMoreFooter.setOnMoreListener(mItemsPager);
         mMoreFooter.setAllLoadFinish(true);
+        mMoreFooter.onCreateView(mItemsPager.getContext(), null);
 
         Class<?> stop = mPager instanceof Activity ? AfMultiItemsActivity.class : AfMultiItemsFragment.class;
         MultiItemsHeader headers = AfReflecter.getAnnotation(mPager.getClass(), stop, MultiItemsHeader.class);
@@ -361,9 +362,9 @@ public class AfItemsPagerHelper<T> extends AfMultiStatusHelper<List<T>> implemen
             }
         }
 
-        if (!mItemsViewer.addFooterView(mMoreFooter.onCreateView(mItemsPager.getContext(), null))) {
-            adapter.addFooter(new MoreFooterHolder<>(mMoreFooter));
-        }
+//        if (!mItemsViewer.addFooterView(mMoreFooter.onCreateView(mItemsPager.getContext(), null))) {
+//            adapter.addFooter(new MoreFooterHolder<>(mMoreFooter));
+//        }
     }
 
     protected void addHeaderView(AfHeaderFooterAdapter<T> adapter, View view) {
@@ -403,9 +404,12 @@ public class AfItemsPagerHelper<T> extends AfMultiStatusHelper<List<T>> implemen
     public boolean setMoreShow(AfHandlerTask task, List<T> list) {
         if (list.size() < AfListViewTask.PAGE_SIZE) {
             mMoreFooter.setAllLoadFinish(true);
+            mAdapter.removeFooterView(mMoreFooter.getView());
             return false;
         } else {
             mMoreFooter.setAllLoadFinish(false);
+            mAdapter.removeFooterView(mMoreFooter.getView());
+            mAdapter.addFooter(new MoreFooterHolder<>(mMoreFooter));
             return true;
         }
     }

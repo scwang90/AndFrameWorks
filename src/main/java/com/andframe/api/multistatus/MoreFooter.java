@@ -15,4 +15,5 @@ public interface MoreFooter {
     void finishLoadMore();
     void onUpdateStatus(View view, int index);
     View onCreateView(Context context, ViewGroup parent);
+    View getView();
 }
