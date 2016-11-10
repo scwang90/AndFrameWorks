@@ -1,4 +1,4 @@
-<resources>
+<resources xmlns:tools="http://schemas.android.com/tools">
 
     <style name="AndFrame">
     </style>
@@ -139,15 +139,18 @@
         <item name="android:textColor">@color/colorToolbarText</item>
     </style>
 
-    <style name="AndFrame.Toolbar.Action" parent="AndFrame.Label">
+    <style name="AndFrame.Toolbar.Action" parent="AndFrame.Label"
+        tools:ignore="PrivateResource">
+        <item name="android:layout_width">wrap_content</item>
+        <item name="android:layout_height">match_parent</item>
         <item name="android:layout_gravity">end</item>
         <item name="android:textSize">@dimen/textsize_titlesmall</item>
         <item name="android:textColor">@color/colorToolbarText</item>
-        <item name="android:background">?attr/selectableItemBackground</item>
+        <item name="android:background">?attr/controlBackground</item>
         <item name="android:paddingTop">@dimen/padding_common_d</item>
         <item name="android:paddingBottom">@dimen/padding_common_d</item>
-        <item name="android:paddingLeft">@dimen/padding_common_v</item>
-        <item name="android:paddingRight">@dimen/padding_common_v</item>
+        <item name="android:paddingLeft">@dimen/padding_common_h</item>
+        <item name="android:paddingRight">@dimen/padding_common_h</item>
     </style>
 
     <style name="AndFrame.Toolbar.Title.Dark">

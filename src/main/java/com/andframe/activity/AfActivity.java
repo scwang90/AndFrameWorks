@@ -145,6 +145,12 @@ public abstract class AfActivity extends AppCompatActivity implements Pager, Vie
     @Override
     protected void onCreate(Bundle bundle) {
         try {
+            AfApp.get().setCurActivity(this, this);
+            if (AfStackTrace.isLoopCall()) {
+                //System.out.println("递归检测");
+                super.onCreate(bundle);
+                return;
+            }
             MustLogined must = AfReflecter.getAnnotation(getClass(), AfActivity.class, MustLogined.class);
             if (must != null && !AfApp.get().isUserLogined()) {
                 if (Activity.class.isAssignableFrom(must.value())) {
@@ -158,33 +164,17 @@ public abstract class AfActivity extends AppCompatActivity implements Pager, Vie
                 finish();
                 return;
             }
-        } catch (Throwable ex) {
-            AfExceptionHandler.handle(ex, "AfActivity.MustLogined");
-        }
-        try {
-            AfApp.get().setCurActivity(this, this);
-            if (AfStackTrace.isLoopCall()) {
-                //System.out.println("递归检测");
-                super.onCreate(bundle);
-                return;
-            }
+
             Injecter.doInject(this);
             LayoutBinder.doBind(this);
+            this.onCreate(bundle, new AfIntent(getIntent()));
+            LifeCycleInjecter.injectOnCreate(this, bundle);
         } catch (final Throwable e) {
             //handle 可能会根据 Activity 弹窗提示错误信息
             //当前 Activity 即将关闭，提示窗口也会关闭
             //用定时器 等到原始 Activity 再提示弹窗
             AfDispatcher.dispatch(() -> AfExceptionHandler.handle(e, TAG() + ".onCreate"), 500);
             super.onCreate(bundle);
-            makeToastLong("页面启动失败", e);
-            this.finish();
-            return;
-        }
-        try {
-            this.onCreate(bundle, new AfIntent(getIntent()));
-            LifeCycleInjecter.injectOnCreate(this, bundle);
-        } catch (final Throwable e) {
-            AfDispatcher.dispatch(() -> AfExceptionHandler.handle(e, TAG() + ".onCreate"), 500);
             makeToastLong("页面启动失败", e);
             this.finish();
         }
