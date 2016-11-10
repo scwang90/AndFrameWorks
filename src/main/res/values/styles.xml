@@ -31,10 +31,14 @@
 
     <style name="AppTheme.CommonBar.Bar">
         <item name="android:gravity">center_vertical</item>
-        <item name="android:paddingTop">@dimen/padding_common</item>
-        <item name="android:paddingBottom">@dimen/padding_common</item>
+        <item name="android:paddingTop">3dp</item>
+        <item name="android:paddingBottom">3dp</item>
         <item name="android:paddingLeft">@dimen/padding_common</item>
-        <item name="android:paddingRight">@dimen/padding_common_h</item>
+        <item name="android:paddingRight">@dimen/padding_common</item>
+        <!--<item name="android:paddingTop">@dimen/padding_common_d</item>-->
+        <!--<item name="android:paddingBottom">@dimen/padding_common_d</item>-->
+        <!--<item name="android:paddingLeft">@dimen/padding_common</item>-->
+        <!--<item name="android:paddingRight">@dimen/padding_common</item>-->
 
         <item name="android:background">?android:attr/selectableItemBackground</item>
         <!--<item name="android:background">@drawable/af_selector_background_white</item>-->
@@ -50,17 +54,41 @@
         <item name="android:layout_width">0dp</item>
         <item name="android:layout_weight">1</item>
         <item name="android:layout_height">wrap_content</item>
+        <!--<item name="android:layout_margin">@dimen/padding_common_d</item>-->
         <item name="android:gravity">center_vertical</item>
-        <item name="android:paddingTop">2dp</item>
-        <item name="android:paddingBottom">2dp</item>
+        <!--<item name="android:paddingTop">2dp</item>-->
+        <!--<item name="android:paddingBottom">2dp</item>-->
+        <!--<item name="android:paddingLeft">@dimen/padding_common_d</item>-->
+        <!--<item name="android:paddingRight">@dimen/padding_common</item>-->
+        <item name="android:paddingTop">@dimen/padding_common</item>
+        <item name="android:paddingBottom">@dimen/padding_common</item>
         <item name="android:paddingLeft">@dimen/padding_common_d</item>
-        <item name="android:paddingRight">@dimen/padding_common</item>
+        <item name="android:paddingRight">@dimen/padding_common_d</item>
         <item name="android:drawablePadding">@dimen/padding_common</item>
     </style>
 
     <style name="AppTheme.CommonBar.Value" parent="AndFrame.Label.Assistant">
         <!--<item name="android:layout_marginEnd">@dimen/padding_common_d</item>-->
         <item name="android:layout_marginRight">@dimen/padding_common_d</item>
+        <item name="android:layout_marginLeft">@dimen/padding_common_d</item>
+        <item name="android:layout_gravity">center_vertical</item>
+    </style>
+
+    <style name="AppTheme.Layout">
+        <item name="android:layout_width">match_parent</item>
+        <item name="android:layout_height">wrap_content</item>
+        <item name="android:paddingTop">@dimen/padding_common</item>
+        <item name="android:paddingBottom">@dimen/padding_common</item>
+        <item name="android:paddingLeft">@dimen/padding_common_h</item>
+        <item name="android:paddingRight">@dimen/padding_common_h</item>
+    </style>
+    <style name="AppTheme.Layout.Wrap">
+        <item name="android:layout_width">wrap_content</item>
+        <item name="android:layout_height">wrap_content</item>
+    </style>
+    <style name="AppTheme.Layout.Match">
+        <item name="android:layout_width">match_parent</item>
+        <item name="android:layout_height">match_parent</item>
     </style>
 
     <style name="activityAnimation" parent="@android:style/Animation">
