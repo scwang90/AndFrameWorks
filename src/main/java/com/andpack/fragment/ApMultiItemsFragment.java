@@ -78,7 +78,7 @@ public abstract class ApMultiItemsFragment<T> extends AfMultiItemsFragment<T> im
     }
 
     @Override
-    public void onItemBinding(ViewQuery $, Object model, int index) {
+    public void onItemBinding(ViewQuery<? extends ViewQuery> $, T model, int index) {
 
     }
 }
