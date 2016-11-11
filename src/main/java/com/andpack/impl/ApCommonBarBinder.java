@@ -26,10 +26,12 @@ import com.lzy.imagepicker.ui.ImageGridActivity;
 import com.lzy.imagepicker.view.CropImageView;
 
 import java.text.DateFormat;
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.Date;
 import java.util.List;
+import java.util.Locale;
 
 public class ApCommonBarBinder {
 
@@ -141,13 +143,18 @@ public class ApCommonBarBinder {
             return self();
         }
 
-        public T hint(int idhint) {
-            this.hint = hintPrefix + $(idhint).getText();
+        public T hint(String hint) {
+            this.hint = hintPrefix + hint;
             return self();
         }
 
-        public T hint(String hint) {
-            this.hint = hintPrefix + hint;
+        public T hintTextViewId(int id) {
+            this.hint = hintPrefix + $(id).getText();
+            return self();
+        }
+
+        public T hintResId(int id) {
+            this.hint = hintPrefix + pager.getContext().getString(id);
             return self();
         }
 
@@ -417,8 +424,9 @@ public class ApCommonBarBinder {
         }
 
         @SuppressWarnings("unused")
-        public void initNow() {
+        public DateBinder initNow() {
             value(new Date());
+            return self();
         }
 
         private void value(Date date) {
@@ -430,6 +438,10 @@ public class ApCommonBarBinder {
         public DateBinder format(DateFormat format) {
             this.format = format;
             return self();
+        }
+
+        public DateBinder format(String format) {
+            return format(new SimpleDateFormat(format, Locale.CHINA));
         }
 
         @Override
