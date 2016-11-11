@@ -7,6 +7,7 @@ import android.content.DialogInterface;
 import android.content.res.Resources;
 import android.support.v4.app.Fragment;
 import android.text.InputType;
+import android.text.TextUtils;
 import android.util.DisplayMetrics;
 import android.view.View;
 import android.widget.DatePicker;
@@ -226,9 +227,7 @@ public class ApCommonBarBinder {
         @Override
         public void onRestoreCache(String key) {
             int i = caches.getInt(key, -1);
-            if (i >= 0 && i < items.length) {
-                onClick(null, i);
-            }
+            value(i);
         }
 
         @Override
@@ -244,6 +243,22 @@ public class ApCommonBarBinder {
 
         public SelectBinder lambda(SelectLambda lambda) {
             this.lambda = lambda;
+            return self();
+        }
+
+        public SelectBinder value(int index) {
+            if (index >= 0 && index < items.length) {
+                onClick(null, index);
+            }
+            return self();
+        }
+
+        public SelectBinder value(String value) {
+            for (int i = 0; i < items.length; i++) {
+                if (items[i].equals(value)) {
+                    onClick(null, i);
+                }
+            }
             return self();
         }
     }
@@ -355,7 +370,9 @@ public class ApCommonBarBinder {
         }
 
         public TextBinder value(String text) {
-            onInputTextComfirm($(idvalue).getEditText(), text);
+            if (!TextUtils.isEmpty(text)) {
+                onInputTextComfirm($(idvalue).getEditText(), text);
+            }
             return self();
         }
 
@@ -425,14 +442,14 @@ public class ApCommonBarBinder {
 
         @SuppressWarnings("unused")
         public DateBinder initNow() {
-            value(new Date());
-            return self();
+            return value(new Date());
         }
 
-        private void value(Date date) {
+        public DateBinder value(Date date) {
             Calendar now = Calendar.getInstance();
             now.setTime(date);
             onDateSet(null, now.get(Calendar.YEAR), now.get(Calendar.MONTH), now.get(Calendar.DAY_OF_MONTH));
+            return self();
         }
 
         public DateBinder format(DateFormat format) {
