@@ -195,7 +195,7 @@ public class AfExceptionHandler implements UncaughtExceptionHandler {
     }
 
     public static void handleAttach(Throwable ex, String remark) {
-        if (INSTANCE != null && !(ex instanceof AfToastException)) {
+        if (INSTANCE != null && !(isToastException(ex))) {
             String handlerid;
             StackTraceElement[] stacks = ex.getStackTrace();
             if (stacks != null && stacks.length > 0) {
@@ -217,7 +217,7 @@ public class AfExceptionHandler implements UncaughtExceptionHandler {
     }
 
     public static void handle(Throwable ex, String remark) {
-        if (INSTANCE != null && !(ex instanceof AfToastException)) {
+        if (INSTANCE != null && !isToastException(ex)) {
             ex.printStackTrace();
             String handlerid;
             StackTraceElement[] stacks = ex.getStackTrace();
@@ -228,6 +228,18 @@ public class AfExceptionHandler implements UncaughtExceptionHandler {
             }
             INSTANCE.onHandleException(ex, remark, handlerid);
         }
+    }
+
+    private static boolean isToastException(Throwable ex) {
+        int index = 0;
+        while (ex != null && index < 10) {
+            if (ex instanceof AfToastException) {
+                return true;
+            }
+            ex = ex.getCause();
+            index++;
+        }
+        return false;
     }
 
     public static String getAllStackTraceInfo(Throwable ex) {

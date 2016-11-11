@@ -41,7 +41,7 @@ public interface Pager extends Viewer, Constanter {
 
     void makeToastShort(CharSequence tip);
 
-    void makeToastLong(CharSequence tip, Throwable e);
+    void makeToastShort(CharSequence tip, Throwable e);
 
     //</editor-fold>
 

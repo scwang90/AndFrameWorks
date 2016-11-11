@@ -175,7 +175,7 @@ public abstract class AfFragment extends Fragment implements Pager, ViewQueryHel
             if (!(e instanceof AfToastException)) {
                 AfExceptionHandler.handle(e, TAG("onCreateView"));
             }
-            makeToastLong("页面初始化异常！", e);
+            makeToastShort("页面初始化异常！", e);
         }
         return mRootView;
     }
@@ -206,7 +206,7 @@ public abstract class AfFragment extends Fragment implements Pager, ViewQueryHel
             LifeCycleInjecter.injectOnCreate(this, bundle);
         } catch (Throwable e) {
             AfExceptionHandler.handle(e, TAG("onCreate.doInject"));
-            makeToastLong("页面初始化异常！", e);
+            makeToastShort("页面初始化异常！", e);
         }
     }
 
@@ -266,7 +266,7 @@ public abstract class AfFragment extends Fragment implements Pager, ViewQueryHel
             if (!(e instanceof AfToastException)) {
                 AfExceptionHandler.handle(e, TAG("onActivityResult"));
             }
-            makeToastLong("反馈信息读取错误！", e);
+            makeToastShort("反馈信息读取错误！", e);
         }
     }
 
@@ -366,9 +366,9 @@ public abstract class AfFragment extends Fragment implements Pager, ViewQueryHel
     }
 
     @Override
-    public void makeToastLong(CharSequence tip, Throwable e) {
+    public void makeToastShort(CharSequence tip, Throwable e) {
         tip = AfExceptionHandler.tip(e, tip.toString());
-        Toast.makeText(AfApp.get(), tip, Toast.LENGTH_LONG).show();
+        Toast.makeText(AfApp.get(), tip, Toast.LENGTH_SHORT).show();
     }
     //</editor-fold>
 

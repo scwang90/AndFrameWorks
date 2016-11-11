@@ -16,14 +16,14 @@ public class AfFeedbackTask extends AfHandlerTask {
 
     protected Tasker working;
     protected Runnable success;
-    protected String intent;
+    protected CharSequence intent;
     protected WeakReference<Pager> mPager;
 
-    public AfFeedbackTask(@NonNull String intent, @NonNull Pager pager) {
+    public AfFeedbackTask(@NonNull CharSequence intent, @NonNull Pager pager) {
         this(intent, pager, null);
     }
 
-    public AfFeedbackTask(@NonNull String intent, @NonNull Pager pager, Runnable success) {
+    public AfFeedbackTask(@NonNull CharSequence intent, @NonNull Pager pager, Runnable success) {
         this.intent = intent;
         this.mPager = new WeakReference<>(pager);
         this.success = success;

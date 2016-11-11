@@ -175,7 +175,7 @@ public abstract class AfActivity extends AppCompatActivity implements Pager, Vie
             //用定时器 等到原始 Activity 再提示弹窗
             AfDispatcher.dispatch(() -> AfExceptionHandler.handle(e, TAG() + ".onCreate"), 500);
             super.onCreate(bundle);
-            makeToastLong("页面启动失败", e);
+            makeToastShort("页面启动失败", e);
             this.finish();
         }
     }
@@ -298,7 +298,7 @@ public abstract class AfActivity extends AppCompatActivity implements Pager, Vie
             onActivityResult(new AfIntent(data), requestcode, resultcode);
         } catch (Throwable e) {
             AfExceptionHandler.handle(e, TAG() + ".onActivityResult");
-            makeToastLong("反馈信息读取错误！", e);
+            makeToastShort("反馈信息读取错误！", e);
         }
     }
 
@@ -424,7 +424,7 @@ public abstract class AfActivity extends AppCompatActivity implements Pager, Vie
     }
 
     @Override
-    public void makeToastLong(CharSequence tip, Throwable e) {
+    public void makeToastShort(CharSequence tip, Throwable e) {
         tip = AfExceptionHandler.tip(e, tip.toString());
         Toast.makeText(this, tip, Toast.LENGTH_LONG).show();
     }

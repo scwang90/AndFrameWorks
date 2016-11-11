@@ -83,8 +83,8 @@ import com.andframe.caches.AfDurableCache;
 import com.andframe.caches.AfJsonCache;
 import com.andframe.caches.AfPrivateCaches;
 import com.andframe.caches.AfSharedPreference;
+import com.andframe.exception.AfException;
 import com.andframe.exception.AfExceptionHandler;
-import com.andframe.exception.AfToastException;
 import com.andframe.feature.AfBundle;
 import com.andframe.feature.AfDialogBuilder;
 import com.andframe.feature.AfIntent;
@@ -481,11 +481,13 @@ public class Injecter {
                     field.set(handler, value);
                 } else if (inject.necessary()) {
                     if (inject.remark().length() > 0) {
-                        throw new AfToastException("缺少必须参数:" + inject.remark());
+                        throw new AfException("缺少必须参数:" + inject.remark());
                     } else {
-                        throw new AfToastException("缺少必须参数:" + inject.value());
+                        throw new AfException("缺少必须参数:" + inject.value());
                     }
                 }
+            } catch (AfException e) {
+                throw e;
             } catch (Throwable e) {
                 if (inject.necessary()) {
                     throw new RuntimeException("缺少必须参数", e);
