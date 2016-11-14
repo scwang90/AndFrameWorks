@@ -2,6 +2,7 @@ package com.andframe.api.page;
 
 import android.app.Activity;
 import android.app.Dialog;
+import android.content.Intent;
 import android.support.v4.app.Fragment;
 
 import com.andframe.api.Constanter;
@@ -23,6 +24,8 @@ public interface Pager extends Viewer, Constanter {
     Activity getActivity();
 
     //<editor-fold desc="页面切换">
+    void startActivity(Intent intent);
+
     void startFragment(Class<? extends Fragment> clazz, Object... args);
 
     void startActivity(Class<? extends Activity> clazz, Object... args);

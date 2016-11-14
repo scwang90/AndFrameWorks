@@ -60,6 +60,9 @@ public class AfFeedbackTask extends AfHandlerTask {
 
     @Override
     protected void onWorking() throws Exception {
+        for (int i = 0; i < 20 && working == null; i++) {
+            Thread.sleep(100);
+        }
         if (working != null) {
             working.onWorking();
         }
