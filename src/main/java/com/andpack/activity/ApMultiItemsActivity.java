@@ -76,7 +76,7 @@ public abstract class ApMultiItemsActivity<T> extends AfMultiItemsActivity<T> im
     public ListItemAdapter<T> newAdapter(Context context, List<T> list) {
         ListItemAdapter<T> adapter = mApHelper.newAdapter(context,list);
         if (adapter != null) {
-            return adapter;
+            return mAdapter = adapter;
         }
         return super.newAdapter(context, list);
     }
