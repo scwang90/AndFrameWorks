@@ -2,6 +2,7 @@ package com.andpack.activity;
 
 import android.content.Context;
 import android.os.Bundle;
+import android.support.annotation.StyleRes;
 import android.support.v4.app.Fragment;
 import android.view.View;
 
@@ -21,6 +22,12 @@ public abstract class ApMultiStatusActivity<T> extends AfMultiStatusActivity<T> 
     protected ApStatusHelper mApHelper = new ApStatusHelper(this);
 
     @Override
+    public void setTheme(@StyleRes int resid) {
+        mApHelper.setTheme(resid);
+        super.setTheme(resid);
+    }
+
+    @Override
     protected void onCreate(Bundle bundle, AfIntent intent) {
         mApHelper.onCreate();
         super.onCreate(bundle, intent);
@@ -30,6 +37,28 @@ public abstract class ApMultiStatusActivity<T> extends AfMultiStatusActivity<T> 
     public void onViewCreated() throws Exception {
         mApHelper.onViewCreated();
         super.onViewCreated();
+    }
+
+    @Override
+    public View findViewById(int id) {
+        View v = super.findViewById(id);
+        if (v == null)
+            return mApHelper.findViewById(id);
+        return v;
+    }
+
+    @Override
+    protected void onPostCreate(Bundle bundle) {
+        super.onPostCreate(bundle);
+        mApHelper.onPostCreate(bundle);
+    }
+
+    @Override
+    public void finish() {
+        if (mApHelper.finish()) {
+            return;
+        }
+        super.finish();
     }
 
     @Override
