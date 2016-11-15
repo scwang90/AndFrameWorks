@@ -32,21 +32,30 @@ public class AfHeaderFooterAdapter<T> extends ListItemAdapterWrapper<T> {
     //<editor-fold desc="逻辑连接">
     @Override
     public View getView(int i, View view, ViewGroup viewGroup) {
-        ViewHolderItem<T> holder = null;
-        if (view != null) {
-            //noinspection unchecked
-            holder = (ViewHolderItem<T>) view.getTag(KEY_VIEW_TAG);
+        try {
+            ViewHolderItem<T> holder = null;
+            if (view != null) {
+                //noinspection unchecked
+                holder = (ViewHolderItem<T>) view.getTag(KEY_VIEW_TAG);
+            }
+            if (holder == null) {
+                holder = createViewHolder(viewGroup, getItemViewType(i));
+                holder.itemView.setTag(KEY_VIEW_TAG, holder);
+            }
+            bindViewHolder(holder, i);
+            return holder.itemView;
+        } catch (Exception e) {
+            AfExceptionHandler.handle(e, "AfHeaderFooterAdapter.getView");
+            return new View(viewGroup.getContext());
         }
-        if (holder == null) {
-            holder = createViewHolder(viewGroup, getItemViewType(i));
-            holder.itemView.setTag(KEY_VIEW_TAG, holder);
-        }
-        bindViewHolder(holder, i);
-        return holder.itemView;
     }
     @Override
     public void onBindViewHolder(ViewHolderItem<T> holder, int position, List<Object> payloads) {
-        onBindViewHolder(holder, position);
+        try {
+            onBindViewHolder(holder, position);
+        } catch (Exception e) {
+            AfExceptionHandler.handle(e, "AfHeaderFooterAdapter.onBindViewHolder");
+        }
     }
     @Override
     public void onBindViewHolder(ViewHolderItem<T> holder, int position) {

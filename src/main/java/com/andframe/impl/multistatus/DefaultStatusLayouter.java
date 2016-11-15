@@ -13,6 +13,8 @@ import com.andframe.api.multistatus.OnRefreshListener;
 import com.andframe.api.multistatus.StatusLayouter;
 import com.andframe.module.AfFrameSelector;
 
+import static android.view.ViewGroup.LayoutParams.MATCH_PARENT;
+
 /**
  * 可切换状态页面的布局
  * Created by SCWANG on 2016/10/20.
@@ -68,7 +70,7 @@ public class DefaultStatusLayouter implements StatusLayouter {
         if (mContentView != null) {
             mFrameLayout.removeView(mContentView);
         }
-        mFrameLayout.addView(content);
+        mFrameLayout.addView(content, MATCH_PARENT, MATCH_PARENT);
         mContentView = content;
     }
 

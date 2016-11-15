@@ -380,7 +380,7 @@ public class AfItemsPagerHelper<T> extends AfMultiStatusHelper<List<T>> implemen
 
     protected void addFooterView(AfHeaderFooterAdapter<T> adapter, View view) {
         if (view != null) {
-            if (mItemsViewer.addFooterView(view)) {
+            if (!mItemsViewer.addFooterView(view)) {
                 adapter.addFooterView(view);
             }
             mHeaderFooterViews.add(view);

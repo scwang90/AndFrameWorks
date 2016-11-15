@@ -11,6 +11,8 @@ import com.andframe.api.multistatus.RefreshLayouter;
 
 import java.util.Date;
 
+import static android.view.ViewGroup.LayoutParams.MATCH_PARENT;
+
 /**
  * 可进行刷新操作的布局
  * Created by SCWANG on 2016/10/20.
@@ -47,7 +49,7 @@ public class DefaultRefreshLayouter implements RefreshLayouter, SwipeRefreshLayo
         if (mContentView != null) {
             mRefreshLayout.removeView(mContentView);
         }
-        mRefreshLayout.addView(mContentView = content);
+        mRefreshLayout.addView(mContentView = content, MATCH_PARENT, MATCH_PARENT);
         Drawable background = content.getBackground();
         if (background != null) {
             mRefreshLayout.setBackgroundDrawable(content.getBackground());

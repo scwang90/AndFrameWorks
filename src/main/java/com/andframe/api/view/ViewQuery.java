@@ -8,6 +8,7 @@ import android.graphics.drawable.Drawable;
 import android.support.annotation.DrawableRes;
 import android.support.annotation.LayoutRes;
 import android.support.annotation.Nullable;
+import android.support.annotation.StringRes;
 import android.text.Editable;
 import android.text.Spanned;
 import android.text.TextWatcher;
@@ -64,7 +65,7 @@ public interface ViewQuery<T extends ViewQuery<T>> {
      * @param resid the resid
      * @return self
      */
-    T text(int resid);
+    T text(@StringRes int resid);
 
 
     /**
@@ -605,6 +606,7 @@ public interface ViewQuery<T extends ViewQuery<T>> {
     T textSizeId(int id);
     T animation(Animation animation);
     T rotation(float rotation);
+    T background(Drawable drawable);
     T addView(View... views);
     T replace(View view);
     T toChild(int index);

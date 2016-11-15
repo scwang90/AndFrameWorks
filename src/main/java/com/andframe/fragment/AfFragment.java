@@ -54,7 +54,7 @@ public abstract class AfFragment extends Fragment implements Pager, ViewQueryHel
     //</editor-fold>
 
     //<editor-fold desc="ViewQuery 集成">
-    ViewQueryHelper mViewQueryHelper = new AfViewQueryHelper(this);
+    protected ViewQuery<? extends ViewQuery> $$ = AfViewQueryHelper.newHelper(this);
 
     /**
      * 开始 ViewQuery 查询
@@ -63,7 +63,7 @@ public abstract class AfFragment extends Fragment implements Pager, ViewQueryHel
      */
     @Override
     public ViewQuery<? extends ViewQuery> $(int id, int... ids) {
-        return mViewQueryHelper.$(id, ids);
+        return $$.$(id, ids);
     }
 
     /**
@@ -73,7 +73,7 @@ public abstract class AfFragment extends Fragment implements Pager, ViewQueryHel
      */
     @Override
     public ViewQuery<? extends ViewQuery> $(View... views) {
-        return mViewQueryHelper.$(views);
+        return $$.$(views);
     }
     //</editor-fold>
 

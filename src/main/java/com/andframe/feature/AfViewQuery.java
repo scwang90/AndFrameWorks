@@ -1281,6 +1281,12 @@ public class AfViewQuery<T extends AfViewQuery<T>> implements ViewQuery<T> {
     }
 
     @Override
+    public T background(Drawable drawable) {
+        //noinspection deprecation
+        return foreach((ViewEacher<View>) view -> view.setBackgroundDrawable(drawable));
+    }
+
+    @Override
     public T addView(View... views) {
         return foreach(ViewGroup.class, group -> {
             for (View view : views) {
