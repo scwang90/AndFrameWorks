@@ -40,7 +40,7 @@ public class ApMultiStatusFragment<T> extends AfMultiStatusFragment<T> implement
     }
 
     @Override
-    public void onViewCreated() throws Exception {
+    protected void onViewCreated() throws Exception {
         mApHelper.onViewCreated();
         super.onViewCreated();
     }
