@@ -34,6 +34,12 @@ public class ApMultiStatusFragment<T> extends AfMultiStatusFragment<T> implement
     }
 
     @Override
+    public void onDestroyView() {
+        mApHelper.onDestroyView();
+        super.onDestroyView();
+    }
+
+    @Override
     public void onViewCreated() throws Exception {
         mApHelper.onViewCreated();
         super.onViewCreated();

@@ -35,6 +35,11 @@ public class ApFragment extends AfTabFragment implements ApPager {
         super.onDestroy();
     }
 
+    @Override
+    public void onDestroyView() {
+        mApHelper.onDestroyView();
+        super.onDestroyView();
+    }
 
     @Override
     public void startFragment(Class<? extends Fragment> clazz, Object... args) {

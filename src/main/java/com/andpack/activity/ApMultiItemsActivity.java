@@ -45,7 +45,7 @@ public abstract class ApMultiItemsActivity<T> extends AfMultiItemsActivity<T> im
     }
 
     @Override
-    public void onViewCreated() throws Exception {
+    protected void onViewCreated() throws Exception {
         mApHelper.onViewCreated();
         super.onViewCreated();
     }

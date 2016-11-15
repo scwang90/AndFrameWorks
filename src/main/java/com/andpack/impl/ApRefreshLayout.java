@@ -13,6 +13,8 @@ import com.cjj.MaterialRefreshListener;
 
 import java.util.Date;
 
+import static android.view.ViewGroup.LayoutParams.MATCH_PARENT;
+
 /**
  * 使用第三方刷新控件 PullRefreshLayout
  * Created by SCWANG on 2016/10/21.
@@ -43,7 +45,7 @@ public class ApRefreshLayout implements RefreshLayouter {
 
     @Override
     public void setContenView(View content) {
-        mRefreshLayout.addView(content);
+        mRefreshLayout.addView(content, MATCH_PARENT, MATCH_PARENT);
         Drawable background = content.getBackground();
         if (background != null) {
             mRefreshLayout.setBackgroundDrawable(content.getBackground());
