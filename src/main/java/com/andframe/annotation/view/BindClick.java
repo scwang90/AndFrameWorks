@@ -16,5 +16,6 @@ import java.lang.annotation.Target;
 @Retention(RetentionPolicy.RUNTIME)
 public @interface BindClick {
     int[] value();
+    int intervalTime() default 1000;
 }
 

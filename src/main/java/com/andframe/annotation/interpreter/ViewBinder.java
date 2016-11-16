@@ -115,7 +115,7 @@ public class ViewBinder {
                 BindClick bind = method.getAnnotation(BindClick.class);
                 for (int id : bind.value()) {
                     View view = root.findViewById(id);
-                    view.setOnClickListener(new EventListener(handler).click(method));
+                    view.setOnClickListener(new EventListener(handler).click(method, bind.intervalTime()));
                 }
             } catch (Throwable e) {
                 AfExceptionHandler.handle(e, TAG(handler, "doBindClick.") + method.getName());
@@ -142,7 +142,7 @@ public class ViewBinder {
             try {
                 BindItemClick bind = method.getAnnotation(BindItemClick.class);
                 if (bind.value().length == 0) {
-                    AfApp.get().newViewQuery(root).$(AdapterView.class).itemClicked(new EventListener(handler).itemClick(method));
+                    AfApp.get().newViewQuery(root).$(AdapterView.class).itemClicked(new EventListener(handler).itemClick(method, bind.intervalTime()));
                 } else for (int id : bind.value()) {
                     AdapterView<?> view = root.findViewByID(id);
                     if (view != null) {
@@ -407,6 +407,9 @@ public class ViewBinder {
 
         private Object handler;
 
+        private int clickIntervalTime = 1000;
+        private long lastClickTime = 0;
+
         private Method clickMethod;
         private Method touchMethod;
         private Method longClickMethod;
@@ -424,6 +427,12 @@ public class ViewBinder {
             return this;
         }
 
+        public OnClickListener click(Method method, int intervalTime) {
+            clickMethod = method;
+            clickIntervalTime = intervalTime;
+            return this;
+        }
+
         public View.OnTouchListener touch(Method method) {
             touchMethod = method;
             return this;
@@ -436,6 +445,12 @@ public class ViewBinder {
 
         public AdapterView.OnItemClickListener itemClick(Method method) {
             this.itemClickMethod = method;
+            return this;
+        }
+
+        public AdapterView.OnItemClickListener itemClick(Method method, int intervalTime) {
+            this.itemClickMethod = method;
+            this.clickIntervalTime = intervalTime;
             return this;
         }
 
@@ -460,7 +475,11 @@ public class ViewBinder {
         }
 
         public void onClick(View v) {
-            invokeMethod(handler, clickMethod, v);
+            long timeMillis = System.currentTimeMillis();
+            if (timeMillis - lastClickTime > clickIntervalTime) {
+                lastClickTime = timeMillis;
+                invokeMethod(handler, clickMethod, v);
+            }
         }
 
         public boolean onLongClick(View v) {
@@ -469,7 +488,11 @@ public class ViewBinder {
 
         @Override
         public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
-            invokeMethod(handler, itemClickMethod, parent, view, position, id);
+            long timeMillis = System.currentTimeMillis();
+            if (timeMillis - lastClickTime > clickIntervalTime) {
+                lastClickTime = timeMillis;
+                invokeMethod(handler, itemClickMethod, parent, view, position, id);
+            }
         }
 
         @Override
