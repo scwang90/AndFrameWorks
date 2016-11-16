@@ -8,11 +8,11 @@ import java.lang.annotation.RetentionPolicy;
 import java.lang.annotation.Target;
 
 /**
- * 指定匹配【类型】的View 适应状态栏 Padding (Activity 可以省略 StatusBarTranslucent)
+ * 指定匹配【类型】的View 适应状态栏 Margin (Activity 可以省略 StatusBarTranslucent)
  * Created by SCWANG on 2016/9/8.
  */
 @Target(ElementType.TYPE)
 @Retention(RetentionPolicy.RUNTIME)
-public @interface StatusBarPaddingType {
+public @interface StatusBarMarginType {
     Class<? extends View>[] value();
 }

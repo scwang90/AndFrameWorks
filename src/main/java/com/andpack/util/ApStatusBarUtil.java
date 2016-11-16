@@ -210,7 +210,16 @@ public class ApStatusBarUtil {
                     view.getPaddingRight(), view.getPaddingBottom());
         }
     }
-
+    /** 增加View上边距（MarginTop）一般是给高度为 WARP_CONTENT 的小控件用的*/
+    public static void setMargin(Context context, View view) {
+        if (Build.VERSION.SDK_INT >= 16) {
+            ViewGroup.LayoutParams lp = view.getLayoutParams();
+            if (lp instanceof ViewGroup.MarginLayoutParams) {
+                ((ViewGroup.MarginLayoutParams) lp).topMargin += getStatusBarHeight(context);//增高
+            }
+            view.setLayoutParams(lp);
+        }
+    }
     /**
      * 创建假的透明栏
      */

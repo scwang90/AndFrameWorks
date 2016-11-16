@@ -8,6 +8,8 @@ import com.andframe.$;
 import com.andframe.api.page.Pager;
 import com.andframe.api.view.ViewQuery;
 import com.andframe.util.java.AfReflecter;
+import com.andpack.annotation.statusbar.StatusBarMargin;
+import com.andpack.annotation.statusbar.StatusBarMarginType;
 import com.andpack.annotation.statusbar.StatusBarPadding;
 import com.andpack.annotation.statusbar.StatusBarPaddingH;
 import com.andpack.annotation.statusbar.StatusBarPaddingHS;
@@ -77,6 +79,18 @@ public class StatusBarInterpreter {
             ret = true;
             defaultTranslucent(pager, translucent, translucentDark);
             $.query(pager).$(null,paddingHS.value()).foreach((ViewQuery.ViewEacher<View>)view -> ApStatusBarUtil.setHeightAndPadding(activity,view));
+        }
+        StatusBarMargin margin = AfReflecter.getAnnotation(pager.getClass(), Activity.class, StatusBarMargin.class);
+        if (margin != null && margin.value().length > 0) {
+            ret = true;
+            defaultTranslucent(pager, translucent, translucentDark);
+            $.query(pager).id(margin.value()).foreach((ViewQuery.ViewEacher<View>)view -> ApStatusBarUtil.setMargin(activity,view));
+        }
+        StatusBarMarginType marginType = AfReflecter.getAnnotation(pager.getClass(), Activity.class, StatusBarMarginType.class);
+        if (marginType != null && marginType.value().length > 0) {
+            ret = true;
+            defaultTranslucent(pager, translucent, translucentDark);
+            $.query(pager).$(null,marginType.value()).foreach((ViewQuery.ViewEacher<View>)view -> ApStatusBarUtil.setMargin(activity,view));
         }
         return ret;
     }

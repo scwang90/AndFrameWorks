@@ -77,8 +77,8 @@
     <style name="AppTheme.Layout">
         <item name="android:layout_width">match_parent</item>
         <item name="android:layout_height">wrap_content</item>
-        <item name="android:paddingTop">@dimen/padding_common</item>
-        <item name="android:paddingBottom">@dimen/padding_common</item>
+        <item name="android:paddingTop">@dimen/padding_common_v</item>
+        <item name="android:paddingBottom">@dimen/padding_common_v</item>
         <item name="android:paddingLeft">@dimen/padding_common_h</item>
         <item name="android:paddingRight">@dimen/padding_common_h</item>
     </style>
