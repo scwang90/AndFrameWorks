@@ -167,14 +167,21 @@ public abstract class AfActivity extends AppCompatActivity implements Pager, Vie
 
             Injecter.doInject(this);
             LayoutBinder.doBind(this);
-            this.onCreate(bundle, new AfIntent(getIntent()));
-            LifeCycleInjecter.injectOnCreate(this, bundle);
         } catch (final Throwable e) {
             //handle 可能会根据 Activity 弹窗提示错误信息
             //当前 Activity 即将关闭，提示窗口也会关闭
             //用定时器 等到原始 Activity 再提示弹窗
             AfDispatcher.dispatch(() -> AfExceptionHandler.handle(e, TAG() + ".onCreate"), 500);
             super.onCreate(bundle);
+            makeToastShort("页面启动失败", e);
+            this.finish();
+        }
+
+        try {
+            this.onCreate(bundle, new AfIntent(getIntent()));
+            LifeCycleInjecter.injectOnCreate(this, bundle);
+        } catch (Exception e) {
+            AfDispatcher.dispatch(() -> AfExceptionHandler.handle(e, TAG() + ".onCreate"), 500);
             makeToastShort("页面启动失败", e);
             this.finish();
         }

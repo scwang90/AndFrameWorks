@@ -20,7 +20,7 @@ public class LayoutBinder {
         return "LayoutBinder(" + obj.getClass().getName() + ")." + tag;
     }
 
-    public static void doBind(Activity activity) {
+    public static void doBind(Activity activity) throws Throwable {
         try{
             Class<? extends Activity> clazz = activity.getClass();
             BindLayout layout = AfReflecter.getAnnotation(clazz, Activity.class, BindLayout.class);
@@ -29,6 +29,7 @@ public class LayoutBinder {
             }
         } catch (Throwable ex) {
             AfExceptionHandler.handle(ex, TAG(activity, "doBind(activity)"));
+            throw ex;
         }
     }
 

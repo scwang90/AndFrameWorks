@@ -70,11 +70,16 @@ public class ItemsRecyclerViewWrapper implements ItemsViewer<RecyclerView> {
                         if (viewHolder.itemView.getBackground() == null) {
                             TypedValue typedValue = new TypedValue();
                             Resources.Theme theme = viewHolder.itemView.getContext().getTheme();
+                            int top = viewHolder.itemView.getPaddingTop();
+                            int bottom = viewHolder.itemView.getPaddingBottom();
+                            int left = viewHolder.itemView.getPaddingLeft();
+                            int right = viewHolder.itemView.getPaddingRight();
                             if (theme.resolveAttribute(android.R.attr.selectableItemBackground, typedValue, true)) {
                                 viewHolder.itemView.setBackgroundResource(typedValue.resourceId);
                             } else {
                                 viewHolder.itemView.setBackgroundResource(R.drawable.af_selector_background);
                             }
+                            viewHolder.itemView.setPadding(left, top, right, bottom);
                         }
                         if (!viewHolder.itemView.isClickable()) {
                             viewHolder.itemView.setOnClickListener(mOnClickListener);
