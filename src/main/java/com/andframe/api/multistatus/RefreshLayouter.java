@@ -13,7 +13,7 @@ import java.util.Date;
 public interface RefreshLayouter {
     ViewGroup getLayout();
     void setContenView(View content);
-    void setRefreshing(boolean refreshing);
+    void setRefreshComplete();
     void setOnRefreshListener(OnRefreshListener listener);
     void setLastRefreshTime(Date date);
 

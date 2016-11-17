@@ -317,7 +317,7 @@ public class AfItemsPagerHelper<T> extends AfMultiStatusHelper<List<T>> implemen
     @Override
     public void finishRefresh() {
         if (mRefreshLayouter != null && mRefreshLayouter.isRefreshing()) {
-            mRefreshLayouter.setRefreshing(false);
+            mRefreshLayouter.setRefreshComplete();
             mRefreshLayouter.setLastRefreshTime(new Date());
         } else if (mStatusLayouter == null || !mStatusLayouter.isProgress()) {
             mItemsPager.hideProgressDialog();
@@ -327,7 +327,7 @@ public class AfItemsPagerHelper<T> extends AfMultiStatusHelper<List<T>> implemen
     @Override
     public void finishRefreshFail() {
         if (mRefreshLayouter != null && mRefreshLayouter.isRefreshing()) {
-            mRefreshLayouter.setRefreshing(false);
+            mRefreshLayouter.setRefreshComplete();
         } else if (mStatusLayouter == null || !mStatusLayouter.isProgress()) {
             mItemsPager.hideProgressDialog();
         }

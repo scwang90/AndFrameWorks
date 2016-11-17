@@ -204,7 +204,7 @@ public class AfMultiStatusHelper<T> implements MultiStatusHelper<T> {
                 AfDispatcher.dispatch(() -> mPager.showProgress());
                 return mModel = mPager.onTaskLoading();
             }
-        })/*.setListener(task -> mRefreshLayouter.setRefreshing(false))*/.prepare();
+        })/*.setListener(task -> mRefreshLayouter.setRefreshComplete())*/.prepare();
     }
 
     @Override
@@ -267,7 +267,7 @@ public class AfMultiStatusHelper<T> implements MultiStatusHelper<T> {
         if (mStatusLayouter != null && !mStatusLayouter.isContent()) {
             mStatusLayouter.showContent();
         } else if (mRefreshLayouter != null && mRefreshLayouter.isRefreshing()) {
-            mRefreshLayouter.setRefreshing(false);
+            mRefreshLayouter.setRefreshComplete();
         } else {
             mPager.hideProgressDialog();
         }
@@ -286,7 +286,7 @@ public class AfMultiStatusHelper<T> implements MultiStatusHelper<T> {
 
     public void showError(String error) {
         if (mRefreshLayouter != null && mRefreshLayouter.isRefreshing()) {
-            mRefreshLayouter.setRefreshing(false);
+            mRefreshLayouter.setRefreshComplete();
         } else if (mStatusLayouter == null || !mStatusLayouter.isProgress()) {
             mPager.hideProgressDialog();
         }

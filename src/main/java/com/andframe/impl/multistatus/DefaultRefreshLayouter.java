@@ -70,8 +70,8 @@ public class DefaultRefreshLayouter implements RefreshLayouter, SwipeRefreshLayo
         return mRefreshLayout.isRefreshing();
     }
 
-    public void setRefreshing(boolean refreshing) {
-        mRefreshLayout.setRefreshing(refreshing);
+    public void setRefreshComplete() {
+        mRefreshLayout.setRefreshing(false);
     }
 
     @Override
