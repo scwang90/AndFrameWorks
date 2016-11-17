@@ -53,13 +53,9 @@ public class ApRefreshLayout implements RefreshLayouter {
     }
 
     @Override
-    public void setRefreshing(boolean refreshing) {
-        isRefreshing = refreshing;
-        if (refreshing) {
-            mRefreshLayout.autoRefresh();
-        } else {
-            mRefreshLayout.finishRefresh();
-        }
+    public void setRefreshComplete() {
+        isRefreshing = false;
+        mRefreshLayout.finishRefresh();
     }
 
     @Override
@@ -70,7 +66,7 @@ public class ApRefreshLayout implements RefreshLayouter {
                 if (listener.onRefresh()) {
                     isRefreshing = true;
                 } else {
-                    setRefreshing(false);
+                    setRefreshComplete();
                 }
             }
         });
