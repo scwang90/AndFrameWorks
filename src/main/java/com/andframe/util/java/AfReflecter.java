@@ -426,7 +426,7 @@ public class AfReflecter {
         }
     }
 
-    private static Field getFieldByType(Object obj, Class<?> clazz) {
+    public static Field getFieldByType(Object obj, Class<?> clazz) {
         Field[] fields = getField(obj.getClass());
         for (Field field : fields) {
             if (clazz.isAssignableFrom(field.getType())) {
