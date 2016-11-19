@@ -1,15 +1,18 @@
 package com.andpack.impl;
 
 import android.content.Context;
-import android.graphics.drawable.Drawable;
+import android.content.res.Resources;
 import android.view.View;
 import android.view.ViewGroup;
 
 import com.andframe.api.multistatus.OnRefreshListener;
 import com.andframe.api.multistatus.RefreshLayouter;
+import com.andframe.task.AfDispatcher;
+import com.andframe.util.android.AfDensity;
 import com.andpack.R;
-import com.cjj.MaterialRefreshLayout;
-import com.cjj.MaterialRefreshListener;
+import com.andpack.impl.bezierlayout.BezierLayout;
+import com.lcodecore.tkrefreshlayout.Footer.BottomProgressView;
+import com.lcodecore.tkrefreshlayout.TwinklingRefreshLayout;
 
 import java.util.Date;
 
@@ -20,63 +23,107 @@ import static android.view.ViewGroup.LayoutParams.MATCH_PARENT;
  * Created by SCWANG on 2016/10/21.
  */
 
-public class ApRefreshLayout implements RefreshLayouter {
+public class ApRefreshLayout implements RefreshLayouter/*, MoreLayouter*/ {
 
-    private MaterialRefreshLayout mRefreshLayout;
-    private boolean isRefreshing = false;
+    TwinklingRefreshLayout mTwinkling;
+
+    boolean isRefreshing = false;
+    //    private OnMoreListener mOnMoreListener;
+    private OnRefreshListener mOnRefreshListener;
 
     public ApRefreshLayout(Context context) {
         this(context, R.color.colorPrimary);
     }
 
-    public ApRefreshLayout(Context context, int colorId) {
-        this(new MaterialRefreshLayout(context), colorId);
+    public ApRefreshLayout(Context context, int primaryColorId) {
+        this(context, primaryColorId, R.color.white);
     }
 
-    public ApRefreshLayout(MaterialRefreshLayout layout, int colorId) {
-        this.mRefreshLayout = layout;
-        this.mRefreshLayout.setWaveColor(layout.getContext().getResources().getColor(colorId));
+    public ApRefreshLayout(Context context, int primaryColorId, int frontColorId) {
+        Resources resources = context.getResources();
+        BezierLayout header = new BezierLayout(context);
+        header.setFrontColor(resources.getColor(frontColorId));
+        header.setBackColor(resources.getColor(primaryColorId));
+        BottomProgressView bottom = new BottomProgressView(context);
+        bottom.setIndicatorColor(resources.getColor(primaryColorId));
+        mTwinkling = new TwinklingRefreshLayout(context);
+        mTwinkling.setHeaderView(header);
+        mTwinkling.setHeaderHeight(AfDensity.dp2px(100));
+        mTwinkling.setWaveHeight(AfDensity.dp2px(180));
+        mTwinkling.setBottomView(bottom);
+        mTwinkling.setOnRefreshListener(twinklingListener);
+        mTwinkling.setEnableLoadmore(false);
     }
 
-    public ViewGroup getmTwinkling() {
-        return mRefreshLayout;
+    public ViewGroup getLayout() {
+        return mTwinkling;
     }
 
     @Override
     public void setContenView(View content) {
-        mRefreshLayout.addView(content, MATCH_PARENT, MATCH_PARENT);
-        Drawable background = content.getBackground();
-        if (background != null) {
-            mRefreshLayout.setBackgroundDrawable(content.getBackground());
-        }
+        mTwinkling.addView(content, MATCH_PARENT, MATCH_PARENT);
+        mTwinkling.setBackgroundDrawable(content.getBackground());
     }
 
     @Override
     public void setRefreshComplete() {
         isRefreshing = false;
-        mRefreshLayout.finishRefresh();
+        AfDispatcher.dispatch(() -> mTwinkling.finishRefreshing(), 1000);
     }
 
     @Override
     public void setOnRefreshListener(OnRefreshListener listener) {
-        mRefreshLayout.setMaterialRefreshListener(new MaterialRefreshListener() {
-            @Override
-            public void onRefresh(MaterialRefreshLayout materialRefreshLayout) {
-                if (listener.onRefresh()) {
-                    isRefreshing = true;
-                } else {
-                    setRefreshComplete();
-                }
-            }
-        });
+        mOnRefreshListener = listener;
     }
 
     @Override
     public void setLastRefreshTime(Date date) {
+
     }
 
     @Override
     public boolean isRefreshing() {
         return isRefreshing;
     }
+
+    //    @Override
+//    public void setOnMoreListener(OnMoreListener listener) {
+//        mOnMoreListener = listener;
+//    }
+//
+//    @Override
+//    public void setLoadMoreEnabled(boolean enable) {
+//        mTwinkling.setEnableLoadmore(enable);
+//    }
+//
+//    @Override
+//    public void finishLoadMore() {
+//        mTwinkling.finishLoadmore();
+//    }
+//
+    TwinklingRefreshLayout.OnRefreshListener twinklingListener = new TwinklingRefreshLayout.OnRefreshListener(){
+        @Override
+        public void onRefresh(TwinklingRefreshLayout refreshLayout) {
+            if (mOnRefreshListener != null) {
+                if (mOnRefreshListener.onRefresh()) {
+                    isRefreshing = true;
+                } else {
+                    setRefreshComplete();
+                }
+            } else {
+                AfDispatcher.dispatch(() -> setRefreshComplete(), 2000);
+            }
+        }
+
+//        @Override
+//        public void onLoadMore(TwinklingRefreshLayout refreshLayout) {
+//            if (mOnMoreListener != null) {
+//                if (!mOnMoreListener.onMore()) {
+//                    mTwinkling.finishRefreshing();
+//                }
+//            } else {
+//                AfDispatcher.dispatch(() -> mTwinkling.finishRefreshing(), 2000);
+//            }
+//        }
+    };
 }
