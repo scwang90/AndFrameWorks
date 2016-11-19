@@ -5,6 +5,7 @@ import android.support.annotation.NonNull;
 import android.view.View;
 import android.view.ViewGroup;
 
+import com.andframe.adapter.listitem.AfListItem;
 import com.andframe.adapter.recycler.RecyclerBaseAdapter;
 import com.andframe.adapter.recycler.ViewHolderItem;
 import com.andframe.api.adapter.ListItem;
@@ -266,7 +267,12 @@ public abstract class AfListAdapter<T> extends RecyclerBaseAdapter<ViewHolderIte
             return new ViewHolderItem<>(item, view);
         } catch (Throwable e) {
             AfExceptionHandler.handle(e, "AfListAdapter.onCreateViewHolder");
-            return new ViewHolderItem<>(null, new View(parent.getContext()));
+            return new ViewHolderItem<>(new AfListItem<T>() {
+                @Override
+                public void onBinding(T model, int index) {
+
+                }
+            }, new View(parent.getContext()));
         }
     }
 

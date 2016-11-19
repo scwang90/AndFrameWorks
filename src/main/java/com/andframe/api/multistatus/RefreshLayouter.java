@@ -11,7 +11,7 @@ import java.util.Date;
  */
 
 public interface RefreshLayouter {
-    ViewGroup getLayout();
+    ViewGroup getmTwinkling();
     void setContenView(View content);
     void setRefreshComplete();
     void setOnRefreshListener(OnRefreshListener listener);

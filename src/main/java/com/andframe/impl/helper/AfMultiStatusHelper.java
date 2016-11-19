@@ -74,7 +74,7 @@ public class AfMultiStatusHelper<T> implements MultiStatusHelper<T> {
             mRefreshLayouter = mPager.initRefreshLayout(content);
             if (mRefreshLayouter != null) {
                 mRefreshLayouter.setOnRefreshListener(mPager);
-                mStatusLayouter = mPager.initStatusLayout(mRefreshLayouter.getLayout());
+                mStatusLayouter = mPager.initStatusLayout(mRefreshLayouter.getmTwinkling());
             } else {
                 mStatusLayouter = mPager.initStatusLayout(content);
             }
@@ -129,7 +129,7 @@ public class AfMultiStatusHelper<T> implements MultiStatusHelper<T> {
 
     public RefreshLayouter initRefreshLayout(View content) {
         RefreshLayouter layouter = mPager.newRefreshLayouter(content.getContext());
-        $.query(content).replace(layouter.getLayout());
+        $.query(content).replace(layouter.getmTwinkling());
         layouter.setContenView(content);
         return layouter;
     }

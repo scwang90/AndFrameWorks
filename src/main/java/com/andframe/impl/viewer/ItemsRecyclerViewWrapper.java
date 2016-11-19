@@ -1,6 +1,7 @@
 package com.andframe.impl.viewer;
 
 import android.content.res.Resources;
+import android.support.v7.widget.DefaultItemAnimator;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.support.v7.widget.RecyclerView.Adapter;
@@ -12,6 +13,7 @@ import android.widget.AdapterView;
 import android.widget.ListAdapter;
 
 import com.andframe.R;
+import com.andframe.api.multistatus.OnScrollToBottomListener;
 import com.andframe.api.view.ItemsViewer;
 import com.andframe.impl.wrapper.RecyclerAdapterWrapper;
 
@@ -27,6 +29,7 @@ public class ItemsRecyclerViewWrapper implements ItemsViewer<RecyclerView> {
 
     protected View.OnClickListener mOnClickListener;
     protected View.OnLongClickListener mOnLongClickListener;
+    protected LinearLayoutManager mLinearLayoutManager;
 
     public ItemsRecyclerViewWrapper(RecyclerView itemView) {
         this.mItemsView = itemView;
@@ -51,14 +54,36 @@ public class ItemsRecyclerViewWrapper implements ItemsViewer<RecyclerView> {
     }
 
     @Override
+    public void setOnScrollToBottomListener(OnScrollToBottomListener listener) {
+        mItemsView.addOnScrollListener(new RecyclerView.OnScrollListener() {
+            @Override
+            public void onScrollStateChanged(RecyclerView recyclerView, int newState) {
+                super.onScrollStateChanged(recyclerView, newState);
+                if(newState == RecyclerView.SCROLL_STATE_IDLE){
+                    int lastVisiblePosition = mLinearLayoutManager.findLastVisibleItemPosition();
+                    if(lastVisiblePosition >= mLinearLayoutManager.getItemCount() - 1){
+                        listener.onScrollToBottom();
+                    }
+                }
+            }
+        });
+    }
+
+    @Override
     public void setAdapter(ListAdapter adapter) {
         if (adapter instanceof Adapter) {
-            if (mItemsView.getLayoutManager() == null) {
-                mItemsView.setLayoutManager(new LinearLayoutManager(mItemsView.getContext()));
+            RecyclerView.LayoutManager layoutManager = mItemsView.getLayoutManager();
+            if (layoutManager == null) {
+                mItemsView.setLayoutManager(mLinearLayoutManager = new LinearLayoutManager(mItemsView.getContext()));
                 DividerItemDecoration dividerLine = new DividerItemDecoration();
                 dividerLine.setSize(mItemsView.getResources().getDimensionPixelSize(R.dimen.division_line));
                 dividerLine.setColor(mItemsView.getResources().getColor(R.color.colorDivison));
                 mItemsView.addItemDecoration(dividerLine);
+            }
+            if (layoutManager instanceof LinearLayoutManager) {
+                if (mItemsView.getItemAnimator() == null) {
+                    mItemsView.setItemAnimator(new DefaultItemAnimator());
+                }
             }
             //noinspection unchecked
             Adapter<ViewHolder> holderAdapter = (Adapter<ViewHolder>) adapter;

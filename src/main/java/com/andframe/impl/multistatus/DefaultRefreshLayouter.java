@@ -39,8 +39,7 @@ public class DefaultRefreshLayouter implements RefreshLayouter, SwipeRefreshLayo
     }
 
 
-    @Override
-    public ViewGroup getLayout() {
+    public ViewGroup getmTwinkling() {
         return mRefreshLayout;
     }
 

@@ -23,6 +23,7 @@ import com.andframe.annotation.multistatus.MultiItemsViewerOnly;
 import com.andframe.api.adapter.ListItem;
 import com.andframe.api.adapter.ListItemAdapter;
 import com.andframe.api.multistatus.MoreFooter;
+import com.andframe.api.multistatus.MoreLayouter;
 import com.andframe.api.page.ItemsHelper;
 import com.andframe.api.page.ItemsPager;
 import com.andframe.api.view.ItemsViewer;
@@ -32,7 +33,7 @@ import com.andframe.application.AfApp;
 import com.andframe.caches.AfPrivateCaches;
 import com.andframe.exception.AfExceptionHandler;
 import com.andframe.fragment.AfMultiItemsFragment;
-import com.andframe.impl.multistatus.MoreFooterHolder;
+import com.andframe.impl.multistatus.MoreFooterLayouter;
 import com.andframe.impl.viewer.ItemsGridViewWrapper;
 import com.andframe.impl.viewer.ItemsListViewWrapper;
 import com.andframe.impl.viewer.ItemsRecyclerViewWrapper;
@@ -62,6 +63,7 @@ public class AfItemsPagerHelper<T> extends AfMultiStatusHelper<List<T>> implemen
     //<editor-fold desc="属性字段">
     protected ItemsPager<T> mItemsPager;
 
+    protected MoreLayouter mMoreLayouter;
     protected MoreFooter mMoreFooter;
     protected ItemsViewer mItemsViewer;
     protected AfHeaderFooterAdapter<T> mAdapter;
@@ -246,7 +248,7 @@ public class AfItemsPagerHelper<T> extends AfMultiStatusHelper<List<T>> implemen
     @Override
     public void onTaskLoadedMore(AfHandlerTask task, List<T> list) {
         // 通知列表刷新完成
-        mMoreFooter.finishLoadMore();
+        mMoreLayouter.finishLoadMore();
         if (task.isFinish()) {
             if (list != null && list.size() > 0) {
                 // 更新列表
@@ -342,11 +344,14 @@ public class AfItemsPagerHelper<T> extends AfMultiStatusHelper<List<T>> implemen
 
     @Override
     public void bindListHeaderAndFooter(AfHeaderFooterAdapter<T> adapter) {
-
-        mMoreFooter = mItemsPager.newMoreFooter();
-        mMoreFooter.setOnMoreListener(mItemsPager);
-        mMoreFooter.setAllLoadFinish(true);
-        mMoreFooter.onCreateView(mItemsPager.getContext(), null);
+        if (mRefreshLayouter instanceof MoreLayouter) {
+            mMoreLayouter = ((MoreLayouter) mRefreshLayouter);
+        } else {
+            mMoreFooter = mItemsPager.newMoreFooter();
+            mMoreLayouter = new MoreFooterLayouter<>(mMoreFooter, adapter, mItemsViewer);
+        }
+        mMoreLayouter.setOnMoreListener(mItemsPager);
+        mMoreLayouter.setLoadMoreEnabled(false);
 
         Class<?> stop = mPager instanceof Activity ? AfMultiItemsActivity.class : AfMultiItemsFragment.class;
         MultiItemsHeader headers = AfReflecter.getAnnotation(mPager.getClass(), stop, MultiItemsHeader.class);
@@ -362,9 +367,6 @@ public class AfItemsPagerHelper<T> extends AfMultiStatusHelper<List<T>> implemen
             }
         }
 
-//        if (!mItemsViewer.addFooterView(mMoreFooter.onCreateView(mItemsPager.getContext(), null))) {
-//            adapter.addFooter(new MoreFooterHolder<>(mMoreFooter));
-//        }
     }
 
     protected void addHeaderView(AfHeaderFooterAdapter<T> adapter, View view) {
@@ -403,13 +405,10 @@ public class AfItemsPagerHelper<T> extends AfMultiStatusHelper<List<T>> implemen
     @Override
     public boolean setMoreShow(AfHandlerTask task, List<T> list) {
         if (list.size() < AfListViewTask.PAGE_SIZE) {
-            mMoreFooter.setAllLoadFinish(true);
-            mAdapter.removeFooterView(mMoreFooter.getView());
+            mMoreLayouter.setLoadMoreEnabled(false);
             return false;
         } else {
-            mMoreFooter.setAllLoadFinish(false);
-            mAdapter.removeFooterView(mMoreFooter.getView());
-            mAdapter.addFooter(new MoreFooterHolder<>(mMoreFooter));
+            mMoreLayouter.setLoadMoreEnabled(true);
             return true;
         }
     }
