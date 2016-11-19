@@ -38,8 +38,7 @@ public class ApRefreshLayout implements RefreshLayouter {
         this.mRefreshLayout.setWaveColor(layout.getContext().getResources().getColor(colorId));
     }
 
-    @Override
-    public ViewGroup getLayout() {
+    public ViewGroup getmTwinkling() {
         return mRefreshLayout;
     }
 
