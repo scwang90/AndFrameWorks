@@ -125,6 +125,8 @@
         <item name="android:textSize">@dimen/textsize_titlebar</item>
         <item name="android:textColor">@color/colorToolbarText</item>
         <item name="android:gravity">center_vertical</item>
+        <item name="android:textColorPrimary">@color/colorToolbarText</item>
+        <item name="actionMenuTextColor">@color/colorToolbarText</item>
     </style>
 
     <style name="AndFrame.Toolbar.Light">
