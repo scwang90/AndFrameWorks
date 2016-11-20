@@ -25,9 +25,9 @@ import static android.view.ViewGroup.LayoutParams.MATCH_PARENT;
 
 public class ApRefreshLayout implements RefreshLayouter/*, MoreLayouter*/ {
 
-    TwinklingRefreshLayout mTwinkling;
+    private final TwinklingRefreshLayout mTwinkling;
 
-    boolean isRefreshing = false;
+    private boolean isRefreshing = false;
     //    private OnMoreListener mOnMoreListener;
     private OnRefreshListener mOnRefreshListener;
 
@@ -47,12 +47,12 @@ public class ApRefreshLayout implements RefreshLayouter/*, MoreLayouter*/ {
         BottomProgressView bottom = new BottomProgressView(context);
         bottom.setIndicatorColor(resources.getColor(primaryColorId));
         mTwinkling = new TwinklingRefreshLayout(context);
-        mTwinkling.setHeaderView(header);
-        mTwinkling.setHeaderHeight(AfDensity.dp2px(100));
         mTwinkling.setWaveHeight(AfDensity.dp2px(180));
+        mTwinkling.setHeaderHeight(AfDensity.dp2px(100));
+        mTwinkling.setHeaderView(header);
         mTwinkling.setBottomView(bottom);
-        mTwinkling.setOnRefreshListener(twinklingListener);
         mTwinkling.setEnableLoadmore(false);
+        mTwinkling.setOnRefreshListener(twinklingListener);
     }
 
     public ViewGroup getLayout() {
@@ -68,7 +68,7 @@ public class ApRefreshLayout implements RefreshLayouter/*, MoreLayouter*/ {
     @Override
     public void setRefreshComplete() {
         isRefreshing = false;
-        AfDispatcher.dispatch(() -> mTwinkling.finishRefreshing(), 1000);
+        AfDispatcher.dispatch(mTwinkling::finishRefreshing, 1000);
     }
 
     @Override
