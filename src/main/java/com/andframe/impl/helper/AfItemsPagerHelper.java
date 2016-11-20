@@ -69,6 +69,7 @@ public class AfItemsPagerHelper<T> extends AfMultiStatusHelper<List<T>> implemen
     protected AfHeaderFooterAdapter<T> mAdapter;
 
     protected ViewQueryHelper mViewQueryHelper ;
+    protected MultiItemsViewerOnly mItemsViewerOnly;
 
     protected List<View> mHeaderFooterViews = new ArrayList<>();
 
@@ -102,6 +103,7 @@ public class AfItemsPagerHelper<T> extends AfMultiStatusHelper<List<T>> implemen
         return mViewQueryHelper.$(id, ids);
     }
 
+    //<editor-fold desc="初始化">
     public AfItemsPagerHelper(ItemsPager<T> itemsPager) {
         super(itemsPager);
         this.mItemsPager = itemsPager;
@@ -163,8 +165,8 @@ public class AfItemsPagerHelper<T> extends AfMultiStatusHelper<List<T>> implemen
         mItemsViewer = mItemsPager.findItemsViewer(mItemsPager);
         if (mItemsViewer != null) {
             Class<?> stop = mPager instanceof Activity ? AfMultiItemsActivity.class : AfMultiItemsFragment.class;
-            MultiItemsViewerOnly only = AfReflecter.getAnnotation(mItemsPager.getClass(), stop, MultiItemsViewerOnly.class);
-            return only != null ? null : mItemsViewer.getItemsView();
+            mItemsViewerOnly = AfReflecter.getAnnotation(mItemsPager.getClass(), stop, MultiItemsViewerOnly.class);
+            return mItemsViewerOnly != null ? null : mItemsViewer.getItemsView();
         } else {
             throw new RuntimeException("findItemsViewer 返回null");
         }
@@ -174,7 +176,9 @@ public class AfItemsPagerHelper<T> extends AfMultiStatusHelper<List<T>> implemen
 //        }
 //        return mItemsViewer != null ? mItemsViewer.getItemsView() : null;
     }
+    //</editor-fold>
 
+    //<editor-fold desc="任务发送">
     @Override
     public boolean onMore() {
         return mItemsPager.postTask(new AbMoreListTask()).prepare();
@@ -184,7 +188,9 @@ public class AfItemsPagerHelper<T> extends AfMultiStatusHelper<List<T>> implemen
     public boolean onRefresh() {
         return mItemsPager.postTask(new AbRefreshListTask()).prepare();
     }
+    //</editor-fold>
 
+    //<editor-fold desc="适配器">
     @Override
     public void bindAdapter(ItemsViewer listView, ListAdapter adapter) {
         listView.setAdapter(adapter);
@@ -206,7 +212,9 @@ public class AfItemsPagerHelper<T> extends AfMultiStatusHelper<List<T>> implemen
     public AfListAdapter<T> newAdapter(Context context, List<T> list) {
         return new AbListAdapter(context, list);
     }
+    //</editor-fold>
 
+    //<editor-fold desc="任务执行结束">
     @Override
     public void onTaskLoadedCache(AfHandlerTask task, List<T> list) {
         onTaskLoadedRefresh(task, list);
@@ -262,6 +270,7 @@ public class AfItemsPagerHelper<T> extends AfMultiStatusHelper<List<T>> implemen
             mItemsPager.makeToastLong(task.makeErrorToast("获取更多失败！"));
         }
     }
+    //</editor-fold>
 
     //<editor-fold desc="缓存相关">
     @Override
@@ -402,6 +411,11 @@ public class AfItemsPagerHelper<T> extends AfMultiStatusHelper<List<T>> implemen
 
     //</editor-fold>
 
+    //<editor-fold desc="显示控制">
+    /**
+     * 根据加载的数据判断是否可以加载更多
+     * @return false 数据加载完毕，关闭加载更多功能 true 数据还未加载完，开启加载功能功能
+     */
     @Override
     public boolean setMoreShow(AfHandlerTask task, List<T> list) {
         if (list.size() < AfListViewTask.PAGE_SIZE) {
@@ -412,6 +426,14 @@ public class AfItemsPagerHelper<T> extends AfMultiStatusHelper<List<T>> implemen
             return true;
         }
     }
+
+    @Override
+    public void showProgress() {
+        if (mItemsViewerOnly == null) {
+            super.showProgress();
+        }
+    }
+    //</editor-fold>
 
     //<editor-fold desc="组件加载">
     @Override
@@ -517,6 +539,7 @@ public class AfItemsPagerHelper<T> extends AfMultiStatusHelper<List<T>> implemen
 
     //</editor-fold>
 
+    //<editor-fold desc="内部类">
     /**
      * ListView数据适配器（事件已经转发getItemLayout，无实际处理代码）
      */
@@ -535,6 +558,7 @@ public class AfItemsPagerHelper<T> extends AfMultiStatusHelper<List<T>> implemen
         }
     }
 
+    //<editor-fold desc="加载任务">
     protected class AbLoadListTask extends AfHandlerDataTask<List<T>> {
         @Override
         protected void onHandle(List<T> list) {
@@ -614,4 +638,7 @@ public class AfItemsPagerHelper<T> extends AfMultiStatusHelper<List<T>> implemen
         }
 
     }
+    //</editor-fold>
+    //</editor-fold>
+
 }

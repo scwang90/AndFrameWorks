@@ -3,16 +3,17 @@ package com.andframe.impl.helper;
 import android.app.Activity;
 import android.content.Context;
 import android.support.annotation.CallSuper;
+import android.support.v4.view.ViewPager;
 import android.support.v7.widget.RecyclerView;
 import android.text.TextUtils;
 import android.view.View;
 import android.view.ViewGroup;
+import android.view.ViewParent;
 import android.webkit.WebView;
 import android.widget.GridView;
 import android.widget.ListView;
 import android.widget.ScrollView;
 
-import com.andframe.$;
 import com.andframe.R;
 import com.andframe.activity.AfMultiStatusActivity;
 import com.andframe.annotation.multistatus.MultiContentViewId;
@@ -27,10 +28,12 @@ import com.andframe.api.multistatus.StatusLayouter;
 import com.andframe.api.page.MultiStatusHelper;
 import com.andframe.api.page.MultiStatusPager;
 import com.andframe.application.AfApp;
+import com.andframe.exception.AfExceptionHandler;
 import com.andframe.fragment.AfMultiStatusFragment;
 import com.andframe.task.AfDispatcher;
 import com.andframe.task.AfHandlerDataTask;
 import com.andframe.task.AfHandlerTask;
+import com.andframe.util.internal.TAG;
 import com.andframe.util.java.AfReflecter;
 
 import java.lang.annotation.Annotation;
@@ -128,53 +131,92 @@ public class AfMultiStatusHelper<T> implements MultiStatusHelper<T> {
     }
 
     public RefreshLayouter initRefreshLayout(View content) {
-        RefreshLayouter layouter = mPager.newRefreshLayouter(content.getContext());
-        $.query(content).replace(layouter.getLayout());
-        layouter.setContenView(content);
-        return layouter;
+        ViewParent parent = content.getParent();
+        if (parent == null) {
+            AfExceptionHandler.handle("内容视图（ContentView）没有父视图，刷新布局（RefreshLayouter）初始化失败",
+                    TAG.TAG(mPager, "AfMultiStatusHelper", "initRefreshLayout"));
+        } else if (parent instanceof ViewPager) {
+            AfExceptionHandler.handle("内容视图（ContentView）父视图为ViewPager，刷新布局（RefreshLayouter）初始化失败，" +
+                    "请用其他布局（Layout）作为ContentView的直接父视图，ViewPager的子视图",
+                    TAG.TAG(mPager, "AfMultiStatusHelper", "initRefreshLayout"));
+        } else if (parent instanceof ViewGroup){
+            ViewGroup group = (ViewGroup) parent;
+
+            int i = group.indexOfChild(content);
+            group.removeViewAt(i);
+
+            RefreshLayouter layouter = mPager.newRefreshLayouter(content.getContext());
+            layouter.setContenView(content);
+
+            group.addView(layouter.getLayout(), i, content.getLayoutParams());
+
+            return layouter;
+        }
+        return null;
     }
 
     public StatusLayouter initStatusLayout(View content) {
-        StatusLayouter layouter = mPager.createStatusLayouter(content.getContext());
-        $.query(content).replace(layouter.getLayout());
-        layouter.setContenView(content);
+        ViewParent parent = content.getParent();
+        if (parent == null) {
+            if (mRefreshLayouter == null || mRefreshLayouter.getLayout() != content) {
+                AfExceptionHandler.handle("内容视图（ContentView）没有父视图，刷新布局（StatusLayouter）初始化失败",
+                        TAG.TAG(mPager, "AfMultiStatusHelper", "initStatusLayout"));
+            }
+        } else if (parent instanceof ViewPager) {
+            if (mRefreshLayouter == null || mRefreshLayouter.getLayout() != content) {
+                AfExceptionHandler.handle("内容视图（ContentView）父视图为ViewPager，刷新布局（StatusLayouter）初始化失败，" +
+                                "请用其他布局（Layout）作为ContentView的直接父视图，ViewPager的子视图",
+                        TAG.TAG(mPager, "AfMultiStatusHelper", "initStatusLayout"));
+            }
+        } else if (parent instanceof ViewGroup){
+            ViewGroup group = (ViewGroup) parent;
 
-        Class<?> stop = mPager instanceof Activity ? AfMultiStatusActivity.class : AfMultiStatusFragment.class;
-        MultiStatusLayout status = AfReflecter.getAnnotation(mPager.getClass(), stop, MultiStatusLayout.class);
-        if (status != null) {
-            layouter.setEmptyLayout(status.empty(), status.emptyTxtId());
-            layouter.setProgressLayout(status.progress(), status.progressTxtId());
-            if (status.error() > 0) {
-                layouter.setErrorLayout(status.error(), status.errorTxtId());
-            }
-            if (status.invalidNet() > 0) {
-                layouter.setInvalidnetLayout(status.invalidNet(), status.invalidNetTxtId());
-            }
-        } else {
+            int i = group.indexOfChild(content);
+            group.removeViewAt(i);
+
+            StatusLayouter layouter = mPager.createStatusLayouter(content.getContext());
+            layouter.setContenView(content);
+
+            group.addView(layouter.getLayout(), i, content.getLayoutParams());
+
+            Class<?> stop = mPager instanceof Activity ? AfMultiStatusActivity.class : AfMultiStatusFragment.class;
+            MultiStatusLayout status = AfReflecter.getAnnotation(mPager.getClass(), stop, MultiStatusLayout.class);
+            if (status != null) {
+                layouter.setEmptyLayout(status.empty(), status.emptyTxtId());
+                layouter.setProgressLayout(status.progress(), status.progressTxtId());
+                if (status.error() > 0) {
+                    layouter.setErrorLayout(status.error(), status.errorTxtId());
+                }
+                if (status.invalidNet() > 0) {
+                    layouter.setInvalidnetLayout(status.invalidNet(), status.invalidNetTxtId());
+                }
+            } else {
 //            MultiStatusEmpty empty = AfReflecter.getAnnotation(mPager.getClass(), stop, MultiStatusEmpty.class);
 //            MultiStatusError error = AfReflecter.getAnnotation(mPager.getClass(), stop, MultiStatusError.class);
 //            MultiStatusProgress progress = AfReflecter.getAnnotation(mPager.getClass(), stop, MultiStatusProgress.class);
 //            MultiStatusInvalidNet invalidNet = AfReflecter.getAnnotation(mPager.getClass(), stop, MultiStatusInvalidNet.class);
-            MultiStatusEmpty empty = combineMultiStatusEmpty(mPager.getClass(), stop);
-            MultiStatusError error = combineMultiStatusError(mPager.getClass(), stop);
-            MultiStatusProgress progress = combineMultiStatusProgress(mPager.getClass(), stop);
-            MultiStatusInvalidNet invalidNet = combineMultiStatusInvalidNet(mPager.getClass(), stop);
+                MultiStatusEmpty empty = combineMultiStatusEmpty(mPager.getClass(), stop);
+                MultiStatusError error = combineMultiStatusError(mPager.getClass(), stop);
+                MultiStatusProgress progress = combineMultiStatusProgress(mPager.getClass(), stop);
+                MultiStatusInvalidNet invalidNet = combineMultiStatusInvalidNet(mPager.getClass(), stop);
 
-            if (empty != null) {
-                layouter.setEmptyLayout(empty.value(), empty.txtId(), empty.btnId(), empty.message());
+                if (empty != null) {
+                    layouter.setEmptyLayout(empty.value(), empty.txtId(), empty.btnId(), empty.message());
+                }
+                if (error != null) {
+                    layouter.setErrorLayout(error.value(), error.txtId(), error.btnId());
+                }
+                if (invalidNet != null) {
+                    layouter.setInvalidnetLayout(invalidNet.value(), invalidNet.txtId(), invalidNet.btnId());
+                }
+                if (progress != null) {
+                    layouter.setProgressLayout(progress.value(), progress.txtId());
+                }
             }
-            if (error != null) {
-                layouter.setErrorLayout(error.value(), error.txtId(), error.btnId());
-            }
-            if (invalidNet != null) {
-                layouter.setInvalidnetLayout(invalidNet.value(), invalidNet.txtId(), invalidNet.btnId());
-            }
-            if (progress != null) {
-                layouter.setProgressLayout(progress.value(), progress.txtId());
-            }
+            layouter.autoCompletedLayout();
+            return layouter;
         }
-        layouter.autoCompletedLayout();
-        return layouter;
+        return null;
     }
 
     public StatusLayouter createStatusLayouter(Context context) {

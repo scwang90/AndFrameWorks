@@ -146,7 +146,7 @@ public class ViewBinder {
                 } else for (int id : bind.value()) {
                     AdapterView<?> view = root.findViewByID(id);
                     if (view != null) {
-                        view.setOnItemClickListener(new EventListener(handler).itemClick(method));
+                        view.setOnItemClickListener(new EventListener(handler).itemClick(method, bind.intervalTime()));
                     }
                 }
             } catch (Throwable e) {

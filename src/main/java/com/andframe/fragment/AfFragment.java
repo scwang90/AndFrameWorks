@@ -169,15 +169,23 @@ public abstract class AfFragment extends Fragment implements Pager, ViewQueryHel
                     mRootView = super.onCreateView(inflater, container, bundle);
                 }
             }
-            ViewBinder.doBind(this);
-            onCreate(new AfView(mRootView), new AfBundle(getArguments()));
         } catch (Throwable e) {
-            if (!(e instanceof AfToastException)) {
-                AfExceptionHandler.handle(e, TAG("onCreateView"));
-            }
             makeToastShort("页面初始化异常！", e);
+            AfExceptionHandler.handle(e, TAG("onCreateView"));
         }
         return mRootView;
+    }
+
+    @Override
+    public void onViewCreated(View view, @Nullable Bundle savedInstanceState) {
+        super.onViewCreated(view, savedInstanceState);
+        try {
+            ViewBinder.doBind(this);
+            onCreate(new AfView(mRootView), new AfBundle(getArguments()));
+        } catch (Exception e) {
+            makeToastShort("页面初始化异常！", e);
+            AfExceptionHandler.handle(e, TAG("onViewCreated"));
+        }
     }
 
     /**
