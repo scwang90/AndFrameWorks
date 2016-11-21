@@ -57,8 +57,10 @@ public class RoundDotView extends View {
         for (int i = 0;i < num; i++)
         {
             float index = 1f * (i + 1) - 1f * (num + 1) / 2;
-            mPath.setAlpha(255 - (int) (2 * (Math.abs(index) / num) * 255));
-            canvas.drawCircle(width / 2 + cir_x * index + index * w / 3 * 2 - r/2, height / 2, r, mPath);
+            float alpha = 255 - (int) (2 * (Math.abs(index) / num) * 255);
+//            mPath.setAlpha((int)(alpha*(1d-1d/Math.pow((height/800d+1d),15))));
+            mPath.setAlpha((int)(alpha*(1d-1d/Math.pow((AfDensity.px2dp(height)/800d+1d),15))));
+            canvas.drawCircle(width / 2 + cir_x * index + index * w / 3 * 2 - r/2, height / 2 - height/6, r, mPath);
         }
     }
 }
