@@ -145,10 +145,11 @@ public class AfMultiStatusHelper<T> implements MultiStatusHelper<T> {
             int i = group.indexOfChild(content);
             group.removeViewAt(i);
 
+            ViewGroup.LayoutParams params = content.getLayoutParams();
             RefreshLayouter layouter = mPager.newRefreshLayouter(content.getContext());
             layouter.setContenView(content);
 
-            group.addView(layouter.getLayout(), i, content.getLayoutParams());
+            group.addView(layouter.getLayout(), i, params);
 
             return layouter;
         }
@@ -174,10 +175,11 @@ public class AfMultiStatusHelper<T> implements MultiStatusHelper<T> {
             int i = group.indexOfChild(content);
             group.removeViewAt(i);
 
+            ViewGroup.LayoutParams params = content.getLayoutParams();
             StatusLayouter layouter = mPager.createStatusLayouter(content.getContext());
             layouter.setContenView(content);
 
-            group.addView(layouter.getLayout(), i, content.getLayoutParams());
+            group.addView(layouter.getLayout(), i, params);
 
             Class<?> stop = mPager instanceof Activity ? AfMultiStatusActivity.class : AfMultiStatusFragment.class;
             MultiStatusLayout status = AfReflecter.getAnnotation(mPager.getClass(), stop, MultiStatusLayout.class);
