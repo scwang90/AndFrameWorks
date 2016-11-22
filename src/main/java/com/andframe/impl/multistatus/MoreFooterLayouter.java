@@ -29,8 +29,10 @@ public class MoreFooterLayouter<T> implements MoreLayouter{
     @Override
     public void setLoadMoreEnabled(boolean enable) {
         mMoreFooter.setLoadMoreEnabled(enable);
-        mAdapter.removeFooterView(mMoreFooter.getView());
-        if (enable) {
+        boolean hasFooter = mAdapter.hasFooterView(mMoreFooter.getView());
+        if (hasFooter && !enable) {
+            mAdapter.removeFooterView(mMoreFooter.getView());
+        } else if (!hasFooter && enable) {
             mAdapter.addFooter(new MoreFooterHolder<>(mMoreFooter));
         }
     }

@@ -74,7 +74,8 @@ public class ItemsRecyclerViewWrapper implements ItemsViewer<RecyclerView> {
         if (adapter instanceof Adapter) {
             RecyclerView.LayoutManager layoutManager = mItemsView.getLayoutManager();
             if (layoutManager == null) {
-                mItemsView.setLayoutManager(new LinearLayoutManager(mItemsView.getContext()));
+                mLinearLayoutManager = new LinearLayoutManager(mItemsView.getContext());
+                mItemsView.setLayoutManager(mLinearLayoutManager);
                 DividerItemDecoration dividerLine = new DividerItemDecoration();
                 dividerLine.setSize(mItemsView.getResources().getDimensionPixelSize(R.dimen.division_line));
                 dividerLine.setColor(mItemsView.getResources().getColor(R.color.colorDivison));

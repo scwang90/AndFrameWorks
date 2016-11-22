@@ -57,6 +57,7 @@ public class AfMultiStatusHelper<T> implements MultiStatusHelper<T> {
     protected RefreshLayouter mRefreshLayouter;
 
     protected T mModel;
+    protected boolean mIsLoading = false;
     protected boolean mLoadOnViewCreated = true;
 
 
@@ -176,7 +177,7 @@ public class AfMultiStatusHelper<T> implements MultiStatusHelper<T> {
             group.removeViewAt(i);
 
             ViewGroup.LayoutParams params = content.getLayoutParams();
-            StatusLayouter layouter = mPager.createStatusLayouter(content.getContext());
+            StatusLayouter layouter = mPager.newStatusLayouter(content.getContext());
             layouter.setContenView(content);
 
             group.addView(layouter.getLayout(), i, params);
@@ -221,11 +222,11 @@ public class AfMultiStatusHelper<T> implements MultiStatusHelper<T> {
         return null;
     }
 
-    public StatusLayouter createStatusLayouter(Context context) {
+    public StatusLayouter newStatusLayouter(Context context) {
         return AfApp.get().newStatusLayouter(context);
     }
 
-    public RefreshLayouter createRefreshLayouter(Context context) {
+    public RefreshLayouter newRefreshLayouter(Context context) {
         return AfApp.get().newRefreshLayouter(context);
     }
     //</editor-fold>
@@ -234,9 +235,10 @@ public class AfMultiStatusHelper<T> implements MultiStatusHelper<T> {
 
     @Override
     public boolean onRefresh() {
-        return mPager.postTask(new AfHandlerDataTask<T>() {
+        return mPager.postTask(new AbStatusTask() {
             @Override
             protected void onHandle(T data) {
+                super.onHandle(data);
                 if (isFinish()) {
                     mPager.onTaskFinish(data);
                 } else {
@@ -249,6 +251,11 @@ public class AfMultiStatusHelper<T> implements MultiStatusHelper<T> {
                 return mModel = mPager.onTaskLoading();
             }
         })/*.setListener(task -> mRefreshLayouter.setRefreshComplete())*/.prepare();
+    }
+
+    @Override
+    public boolean isLoading() {
+        return mIsLoading;
     }
 
     @Override
@@ -351,6 +358,22 @@ public class AfMultiStatusHelper<T> implements MultiStatusHelper<T> {
             } else {
                 mPager.setProgressDialogText(progress);
             }
+        }
+    }
+    //</editor-fold>
+
+    //<editor-fold desc="任务类">
+
+    protected abstract class AbStatusTask extends AfHandlerDataTask<T> {
+        @Override
+        protected boolean onPrepare() {
+            mIsLoading = true;
+            return super.onPrepare();
+        }
+
+        @Override
+        protected void onHandle(T data) {
+            mIsLoading = false;
         }
     }
     //</editor-fold>

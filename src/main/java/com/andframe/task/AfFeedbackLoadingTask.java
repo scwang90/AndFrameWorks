@@ -21,6 +21,7 @@ public class AfFeedbackLoadingTask<T> extends AfHandlerTask {
     protected LoadTasker<T> tasker;
     protected LoadSuccessHandler<T> success;
     protected WeakReference<Pager> mPager;
+    protected boolean mFeedbackOnSuccess = true;
 
     public AfFeedbackLoadingTask(@NonNull CharSequence intent, @NonNull Pager pager) {
         this(intent, pager, null);
@@ -38,7 +39,12 @@ public class AfFeedbackLoadingTask<T> extends AfHandlerTask {
     }
 
     public AfFeedbackLoadingTask<T> success(LoadSuccessHandler<T> success) {
+        return success(true, success);
+    }
+
+    public AfFeedbackLoadingTask<T> success(boolean feedback, LoadSuccessHandler<T> success) {
         this.success = success;
+        this.mFeedbackOnSuccess = feedback;
         return this;
     }
 
@@ -84,7 +90,7 @@ public class AfFeedbackLoadingTask<T> extends AfHandlerTask {
 
     private void makeToastSucccess() {
         Pager pager = mPager.get();
-        if (pager != null) {
+        if (pager != null && mFeedbackOnSuccess) {
             pager.makeToastShort(String.format(pager.getContext().getString(R.string.task_format_success),intent));
         }
     }

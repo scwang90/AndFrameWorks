@@ -19,6 +19,7 @@ public class AfFeedbackTask extends AfHandlerTask {
     protected Runnable success;
     protected CharSequence intent;
     protected WeakReference<Pager> mPager;
+    protected boolean mFeedbackOnSuccess = true;
 
     public AfFeedbackTask(@NonNull CharSequence intent, @NonNull Pager pager) {
         this(intent, pager, null);
@@ -36,7 +37,12 @@ public class AfFeedbackTask extends AfHandlerTask {
     }
 
     public AfFeedbackTask success(Runnable success) {
+        return success(true, success);
+    }
+
+    public AfFeedbackTask success(boolean feedback, Runnable success) {
         this.success = success;
+        this.mFeedbackOnSuccess = feedback;
         return this;
     }
 
@@ -78,7 +84,7 @@ public class AfFeedbackTask extends AfHandlerTask {
 
     private void makeToastSucccess() {
         Pager pager = mPager.get();
-        if (pager != null) {
+        if (pager != null && mFeedbackOnSuccess) {
             pager.makeToastShort(String.format(pager.getContext().getString(R.string.task_format_success),intent));
         }
     }

@@ -47,16 +47,20 @@ public abstract class AfMultiStatusFragment<T> extends AfTabFragment implements 
         return mStatusLayouter = mHelper.initStatusLayout(content);
     }
 
-    public StatusLayouter createStatusLayouter(Context context) {
-        return mStatusLayouter = mHelper.createStatusLayouter(context);
+    public StatusLayouter newStatusLayouter(Context context) {
+        return mStatusLayouter = mHelper.newStatusLayouter(context);
     }
 
     public RefreshLayouter newRefreshLayouter(Context context) {
-        return mRefreshLayouter = mHelper.createRefreshLayouter(context);
+        return mRefreshLayouter = mHelper.newRefreshLayouter(context);
     }
     //</editor-fold>
 
     //<editor-fold desc="数据加载">
+
+    public boolean isLoading() {
+        return mHelper.isLoading();
+    }
 
     @Override
     public boolean isEmpty(T model) {

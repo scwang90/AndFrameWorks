@@ -154,7 +154,7 @@ public class AfHeaderFooterAdapter<T> extends ListItemAdapterWrapper<T> {
     public boolean addHeader(ListItem<T> item) {
         if (item != null && !mHeaders.contains(item)) {
             mHeaders.add(item);
-            notifyDataSetInvalidated();
+            notifyDataSetChanged();
         }
         return item != null;
     }
@@ -183,7 +183,7 @@ public class AfHeaderFooterAdapter<T> extends ListItemAdapterWrapper<T> {
     public boolean addFooter(ListItem<T> item) {
         if (item != null && !mFooters.contains(item)) {
             mFooters.add(item);
-            notifyDataSetInvalidated();
+            notifyDataSetChanged();
         }
         return item != null;
     }
@@ -211,7 +211,7 @@ public class AfHeaderFooterAdapter<T> extends ListItemAdapterWrapper<T> {
 
     public boolean removeHeader(ListItem<T> item) {
         if (mHeaders.remove(item)) {
-            notifyDataSetInvalidated();
+            notifyDataSetChanged();
             return true;
         }
         return false;
@@ -219,7 +219,7 @@ public class AfHeaderFooterAdapter<T> extends ListItemAdapterWrapper<T> {
 
     public boolean removeFooter(ListItem<T> item) {
         if (mFooters.remove(item)) {
-            notifyDataSetInvalidated();
+            notifyDataSetChanged();
             return true;
         }
         return false;
@@ -230,7 +230,7 @@ public class AfHeaderFooterAdapter<T> extends ListItemAdapterWrapper<T> {
             ListItem<T> item = mHeaders.get(i);
             if (item instanceof Viewer && ((Viewer) item).getView() == view) {
                 mHeaders.remove(i);
-                notifyDataSetInvalidated();
+                notifyDataSetChanged();
                 return true;
             }
         }
@@ -242,7 +242,7 @@ public class AfHeaderFooterAdapter<T> extends ListItemAdapterWrapper<T> {
             ListItem<T> item = mFooters.get(i);
             if (item instanceof Viewer && ((Viewer) item).getView() == view) {
                 mFooters.remove(i);
-                notifyDataSetInvalidated();
+                notifyDataSetChanged();
                 return true;
             }
         }
@@ -255,6 +255,26 @@ public class AfHeaderFooterAdapter<T> extends ListItemAdapterWrapper<T> {
 
     public void clearFooter() {
         mFooters.clear();
+    }
+
+    public boolean hasHeaderView(View view) {
+        for (int i = 0; i < mHeaders.size(); i++) {
+            ListItem<T> item = mHeaders.get(i);
+            if (item instanceof Viewer && ((Viewer) item).getView() == view) {
+                return true;
+            }
+        }
+        return false;
+    }
+
+    public boolean hasFooterView(View view) {
+        for (int i = 0; i < mFooters.size(); i++) {
+            ListItem<T> item = mFooters.get(i);
+            if (item instanceof Viewer && ((Viewer) item).getView() == view) {
+                return true;
+            }
+        }
+        return false;
     }
 
     //</editor-fold>

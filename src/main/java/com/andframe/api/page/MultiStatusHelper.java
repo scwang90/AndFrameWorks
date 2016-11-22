@@ -20,10 +20,11 @@ public interface MultiStatusHelper<T> {
 
     RefreshLayouter initRefreshLayout(View content);
     StatusLayouter initStatusLayout(View content);
-    StatusLayouter createStatusLayouter(Context context);
-    RefreshLayouter createRefreshLayouter(Context context);
+    StatusLayouter newStatusLayouter(Context context);
+    RefreshLayouter newRefreshLayouter(Context context);
 
     boolean onRefresh();
+    boolean isLoading();
     boolean isEmpty(T model);
     void onTaskFinish(T data);
     void onTaskFailed(AfHandlerTask task);

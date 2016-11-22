@@ -12,7 +12,7 @@ import com.andframe.api.multistatus.MoreFooter;
 import com.andframe.api.multistatus.OnMoreListener;
 import com.andframe.api.multistatus.OnRefreshListener;
 import com.andframe.api.view.ItemsViewer;
-import com.andframe.api.view.ViewQuery;
+import com.andframe.api.view.ViewQueryHelper;
 import com.andframe.task.AfHandlerTask;
 
 import java.util.Date;
@@ -22,9 +22,7 @@ import java.util.List;
  * 基本列表页帮助类接口
  * Created by SCWANG on 2016/9/7.
  */
-public interface ItemsHelper<T> extends MultiStatusHelper<List<T>>, OnItemClickListener, OnItemLongClickListener, OnRefreshListener, OnMoreListener {
-
-    ViewQuery<? extends ViewQuery> $(int id, int... ids);
+public interface ItemsHelper<T> extends MultiStatusHelper<List<T>>, OnItemClickListener, OnItemLongClickListener, OnRefreshListener, OnMoreListener, ViewQueryHelper {
 
     void bindAdapter(ItemsViewer listView, ListAdapter adapter);
     void onTaskLoadedCache(AfHandlerTask task, List<T> list);
@@ -52,9 +50,7 @@ public interface ItemsHelper<T> extends MultiStatusHelper<List<T>>, OnItemClickL
     void onTaskPushCache(List<T> list);
 
     void finishRefresh();
-
     void finishRefreshFail();
-
     void setLastRefreshTime(Date time);
 
     void bindListHeaderAndFooter(AfHeaderFooterAdapter<T> adapter);

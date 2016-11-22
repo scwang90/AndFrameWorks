@@ -43,7 +43,6 @@ import com.andframe.impl.viewer.ItemsRecyclerViewWrapper;
 import com.andframe.impl.viewer.ViewerWarpper;
 import com.andframe.model.Page;
 import com.andframe.task.AfDispatcher;
-import com.andframe.task.AfHandlerDataTask;
 import com.andframe.task.AfHandlerTask;
 import com.andframe.task.AfListViewTask;
 import com.andframe.util.java.AfReflecter;
@@ -104,6 +103,11 @@ public class AfItemsPagerHelper<T> extends AfMultiStatusHelper<List<T>> implemen
     @Override
     public ViewQuery<? extends ViewQuery> $(int id, int... ids) {
         return mViewQueryHelper.$(id, ids);
+    }
+
+    @Override
+    public ViewQuery<? extends ViewQuery> $(View... views) {
+        return mViewQueryHelper.$(views);
     }
 
     //<editor-fold desc="初始化">
@@ -181,6 +185,8 @@ public class AfItemsPagerHelper<T> extends AfMultiStatusHelper<List<T>> implemen
                         return contentView;
                     }
                 }
+            } else {
+                return null;
             }
             return mItemsViewer.getItemsView();
         } else {
@@ -215,7 +221,12 @@ public class AfItemsPagerHelper<T> extends AfMultiStatusHelper<List<T>> implemen
     @Override
     public ListItemAdapter<T> initAdapter() {
         if (mAdapter == null) {
-            mAdapter = new AfHeaderFooterAdapter<>(mItemsPager.newAdapter(mItemsPager.getContext(), new ArrayList<>()));
+            mAdapter = new AfHeaderFooterAdapter<T>(mItemsPager.newAdapter(mItemsPager.getContext(), new ArrayList<>())){
+                @Override
+                public int getViewTypeCount() {
+                    return super.getViewTypeCount() + 1;
+                }
+            };
         } else {
             mAdapter.clearHeader();
             mAdapter.clearFooter();
@@ -434,13 +445,9 @@ public class AfItemsPagerHelper<T> extends AfMultiStatusHelper<List<T>> implemen
      */
     @Override
     public boolean setMoreShow(AfHandlerTask task, List<T> list) {
-        if (list.size() < AfListViewTask.PAGE_SIZE) {
-            mMoreLayouter.setLoadMoreEnabled(false);
-            return false;
-        } else {
-            mMoreLayouter.setLoadMoreEnabled(true);
-            return true;
-        }
+        boolean loadFinish = list.size() >= AfListViewTask.PAGE_SIZE;
+        mMoreLayouter.setLoadMoreEnabled(loadFinish);
+        return loadFinish;
     }
 
     @Override
@@ -575,9 +582,11 @@ public class AfItemsPagerHelper<T> extends AfMultiStatusHelper<List<T>> implemen
     }
 
     //<editor-fold desc="加载任务">
-    protected class AbLoadListTask extends AfHandlerDataTask<List<T>> {
+
+    protected class AbLoadListTask extends AbStatusTask {
         @Override
         protected void onHandle(List<T> list) {
+            super.onHandle(list);
             mItemsPager.onTaskLoadedCache(this, list);
         }
 
@@ -602,7 +611,7 @@ public class AfItemsPagerHelper<T> extends AfMultiStatusHelper<List<T>> implemen
     /**
      * 刷新数据任务
      */
-    protected class AbRefreshListTask extends AfHandlerDataTask<List<T>> {
+    protected class AbRefreshListTask extends AbStatusTask {
 
         private List<T> mList;
 
@@ -615,6 +624,7 @@ public class AfItemsPagerHelper<T> extends AfMultiStatusHelper<List<T>> implemen
 
         @Override
         protected void onHandle(List<T> list) {
+            super.onHandle(list);
             mItemsPager.onTaskLoadedRefresh(this, list);
         }
 
@@ -639,10 +649,11 @@ public class AfItemsPagerHelper<T> extends AfMultiStatusHelper<List<T>> implemen
     /**
      * 获取更多数据任务
      */
-    protected class AbMoreListTask extends AfHandlerDataTask<List<T>> {
+    protected class AbMoreListTask extends AbStatusTask {
 
         @Override
         protected void onHandle(List<T> list) {
+            super.onHandle(list);
             mItemsPager.onTaskLoadedMore(this, list);
         }
 

@@ -35,6 +35,10 @@ public abstract class AfMultiStatusActivity<T> extends AfActivity implements Mul
         mHelper.onViewCreated();
     }
 
+    public boolean isLoading() {
+        return mHelper.isLoading();
+    }
+
     //<editor-fold desc="初始化布局">
     public View findContentView() {
         return mHelper.findContentView();
@@ -48,12 +52,12 @@ public abstract class AfMultiStatusActivity<T> extends AfActivity implements Mul
         return mStatusLayouter = mHelper.initStatusLayout(content);
     }
 
-    public StatusLayouter createStatusLayouter(Context context) {
-        return mStatusLayouter = mHelper.createStatusLayouter(context);
+    public StatusLayouter newStatusLayouter(Context context) {
+        return mStatusLayouter = mHelper.newStatusLayouter(context);
     }
 
     public RefreshLayouter newRefreshLayouter(Context context) {
-        return mRefreshLayouter = mHelper.createRefreshLayouter(context);
+        return mRefreshLayouter = mHelper.newRefreshLayouter(context);
     }
     //</editor-fold>
 

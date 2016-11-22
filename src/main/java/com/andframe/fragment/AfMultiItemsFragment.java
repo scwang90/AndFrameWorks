@@ -50,6 +50,11 @@ public abstract class AfMultiItemsFragment<T> extends AfMultiStatusFragment<List
         return mItemsHelper.$(id, ids);
     }
 
+    @Override
+    public ViewQuery<? extends ViewQuery> $(View... views) {
+        return mItemsHelper.$(views);
+    }
+
     //<editor-fold desc="初始化">
 
     //</editor-fold>
@@ -177,6 +182,10 @@ public abstract class AfMultiItemsFragment<T> extends AfMultiStatusFragment<List
         return mItemsHelper.newMoreFooter();
     }
 
+    /**
+     * 根据加载的数据判断是否可以加载更多
+     * @return false 数据加载完毕，关闭加载更多功能 true 数据还未加载完，开启加载功能功能
+     */
     @Override
     public boolean setMoreShow(AfHandlerTask task, List<T> list) {
         return mItemsHelper.setMoreShow(task, list);
