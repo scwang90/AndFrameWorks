@@ -108,6 +108,7 @@ public class BezierLayout extends FrameLayout implements IHeaderView{
 
                 /*处理圈圈**/
         r1.setCir_x((int) (AfDensity.dp2px(10) * limitValue(1, fraction)));
+        r1.setFraction(fraction);
         r1.setVisibility(View.VISIBLE);
         r1.invalidate();
 
@@ -118,6 +119,7 @@ public class BezierLayout extends FrameLayout implements IHeaderView{
 
     @Override
     public void onPullReleasing(float fraction,float maxHeadHeight,float headHeight) {
+            r1.setFraction(fraction);
             r1.setCir_x((int)(AfDensity.dp2px(15) * limitValue(1, fraction)));
             r1.invalidate();
     }
@@ -153,11 +155,11 @@ public class BezierLayout extends FrameLayout implements IHeaderView{
             }
         });
 
-        valueAnimator.addUpdateListener(animation -> {
-            float value = (float) animation.getAnimatedValue();
-            r1.setCir_x((int) (-value * AfDensity.dp2px(20)));
-            r1.invalidate();
-        });
+//        valueAnimator.addUpdateListener(animation -> {
+//            float value = (float) animation.getAnimatedValue();
+//            r1.setCir_x((int) (-value * AfDensity.dp2px(20)));
+//            r1.invalidate();
+//        });
         valueAnimator.setInterpolator(new DecelerateInterpolator());
         valueAnimator.setDuration(300);
         valueAnimator.start();

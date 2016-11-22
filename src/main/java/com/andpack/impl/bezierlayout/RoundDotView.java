@@ -18,6 +18,7 @@ public class RoundDotView extends View {
     private Paint mPath;
     private float r= AfDensity.dp2px(7);
     private int  num = 7;
+    private float fraction;
 
     public void setCir_x(float cir_x) {
         this.cir_x = cir_x;
@@ -53,14 +54,19 @@ public class RoundDotView extends View {
         super.onDraw(canvas);
         int width = getMeasuredWidth();
         int height = getMeasuredHeight();
-        int w = width / num - AfDensity.dp2px(5);
-        for (int i = 0;i < num; i++)
+        float wide = (width / num) * fraction-((fraction>1)?((fraction-1)*(width / num)/fraction):0);//y1 = t*(w/n)-(t>1)*((t-1)*(w/n)/t)
+        float high = height - ((fraction>1)?((fraction-1)*height/2/fraction):0);//y2 = x - (t>1)*((t-1)*x/t);
+        for (int i = 0 ; i < num; i++)
         {
-            float index = 1f * (i + 1) - 1f * (num + 1) / 2;
-            float alpha = 255 - (int) (2 * (Math.abs(index) / num) * 255);
-//            mPath.setAlpha((int)(alpha*(1d-1d/Math.pow((height/800d+1d),15))));
-            mPath.setAlpha((int)(alpha*(1d-1d/Math.pow((AfDensity.px2dp(height)/800d+1d),15))));
-            canvas.drawCircle(width / 2 + cir_x * index + index * w / 3 * 2 - r/2, height / 2 - height/6, r, mPath);
+            float index = 1f + i - (1f + num) / 2;//y3 = (x + 1) - (n + 1)/2; 居中 index 变量：0 1 2 3 4 结果： -2 -1 0 1 2
+            float alpha = 255 * (1 - (2 * (Math.abs(index) / num)));//y4 = m * ( 1 - 2 * abs(y3) / n); 横向 alpha 差
+            float x = AfDensity.px2dp(height);
+            mPath.setAlpha((int) (alpha * (1d - 1d / Math.pow((x / 800d + 1d), 15))));//y5 = y4 * (1-1/((x/800+1)^15));竖直 alpha 差
+            canvas.drawCircle(width / 2- r/2 + wide * index , high / 2, r, mPath);
         }
+    }
+
+    public void setFraction(float fraction) {
+        this.fraction = fraction;
     }
 }
