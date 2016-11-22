@@ -62,7 +62,8 @@ public class RoundDotView extends View {
             float alpha = 255 * (1 - (2 * (Math.abs(index) / num)));//y4 = m * ( 1 - 2 * abs(y3) / n); 横向 alpha 差
             float x = AfDensity.px2dp(height);
             mPath.setAlpha((int) (alpha * (1d - 1d / Math.pow((x / 800d + 1d), 15))));//y5 = y4 * (1-1/((x/800+1)^15));竖直 alpha 差
-            canvas.drawCircle(width / 2- r/2 + wide * index , high / 2, r, mPath);
+            float radius = r * (1-1/((x/10+1)));//y6 = r*(1-1/(x/10+1));半径
+            canvas.drawCircle(width / 2- radius/2 + wide * index , high / 2, radius, mPath);
         }
     }
 
