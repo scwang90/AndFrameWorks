@@ -6,6 +6,7 @@ import android.os.Build.VERSION;
 import android.view.Gravity;
 import android.view.View;
 import android.view.View.OnClickListener;
+import android.view.ViewGroup;
 import android.widget.CheckBox;
 import android.widget.LinearLayout;
 import android.widget.LinearLayout.LayoutParams;
@@ -100,7 +101,9 @@ public abstract class AfMultiChoiceItem<T> extends AfListItem<T> implements OnCl
 		LayoutParams lpView = new LayoutParams(parent,content);
 		lpView.width = 0;
 		lpView.weight = 1;
+		ViewGroup.LayoutParams params = view.getLayoutParams();
 		mMultiChoiceLayout.addView(view,lpView);
+		mMultiChoiceLayout.setLayoutParams(params);
 
 		float scale = view.getContext().getResources().getDisplayMetrics().density;
 		int margin = (int) (scale * 3 + 5.0f);
