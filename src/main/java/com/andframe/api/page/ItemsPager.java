@@ -1,6 +1,7 @@
 package com.andframe.api.page;
 
 import android.content.Context;
+import android.view.View;
 import android.widget.AdapterView.OnItemClickListener;
 import android.widget.AdapterView.OnItemLongClickListener;
 import android.widget.ListAdapter;
@@ -24,7 +25,7 @@ import java.util.List;
 public interface ItemsPager<T> extends MultiStatusPager<List<T>>, OnItemClickListener, OnItemLongClickListener, OnMoreListener {
 
     ListItem<T> newListItem();
-    ItemsViewer findItemsViewer(ItemsPager<T> pager);
+    ItemsViewer findItemsViewer(ItemsPager<T> pager, View contentView);
     ListItemAdapter<T> newAdapter(Context context, List<T> list);
     ListItemAdapter<T> initAdapter();
 

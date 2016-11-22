@@ -6,6 +6,7 @@ import java.lang.annotation.Annotation;
 import java.lang.reflect.Field;
 import java.lang.reflect.GenericArrayType;
 import java.lang.reflect.Method;
+import java.lang.reflect.Modifier;
 import java.lang.reflect.ParameterizedType;
 import java.lang.reflect.Type;
 import java.util.ArrayList;
@@ -388,7 +389,7 @@ public class AfReflecter {
      * @throws Exception 数组越界
      */
     public static void setMember(Object obj, String field, Object value) throws Exception {
-        invokeMember(obj instanceof Class ? (Class<?>) obj: obj.getClass(), field.split("\\."), obj, value, 0);
+        invokeMember(getType(obj), field.split("\\."), obj, value, 0);
     }
 
     /**
@@ -400,14 +401,24 @@ public class AfReflecter {
      */
     public static boolean setMemberNoException(Object obj, String field, Object value) {
         try {
-            invokeMember(obj instanceof Class ? (Class<?>) obj: obj.getClass(), field.split("\\."), obj, value, 0);
+            invokeMember(getType(obj), field.split("\\."), obj, value, 0);
             return true;
         } catch (Throwable e) {
             return false;
         }
     }
 
+    private static Class<?> getType(Object obj) {
+        return obj instanceof Class ? (Class<?>) obj: obj.getClass();
+    }
+
     //<editor-fold desc="通过类型设置获取">
+    /**
+     * 通过 类型clazz匹配 设置obj 的对应 Field 的值
+     * @param obj 对象 或者 Clazz（可以匹配 statis Field）
+     * @param clazz 匹配的clazz （支持子类匹配 如 clazz = List 可以匹配 ArrayList 的 Filed）
+     * @return 如果有多个返回第一个 否则null
+     */
     public static <T> T getMemberByType(Object obj, Class<T> clazz) throws IllegalAccessException {
         Field field = getFieldByType(obj, clazz);
         if (field != null) {
@@ -418,6 +429,12 @@ public class AfReflecter {
     }
 
 
+    /**
+     * 通过 类型clazz匹配 设置obj 的对应 Field
+     * @param obj 对象 或者 Clazz（可以匹配 statis Field）
+     * @param clazz 匹配的clazz （支持子类匹配 如 clazz = List 可以匹配 ArrayList 的 Filed）
+     * @param value 设置的值
+     */
     public static void setMemberByType(Object obj, Object value, Class<?> clazz) throws IllegalAccessException {
         Field field = getFieldByType(obj, clazz);
         if (field != null) {
@@ -426,11 +443,72 @@ public class AfReflecter {
         }
     }
 
+    /**
+     * 通过 类型clazz匹配 获取 obj 的对应 Field
+     * @param obj 对象 或者 Clazz（可以匹配 statis Field）
+     * @param clazz 匹配的clazz （支持子类匹配 如 clazz = List 可以匹配 ArrayList 的 Filed）
+     * @return 如果有多个返回第一个 否则null
+     */
     public static Field getFieldByType(Object obj, Class<?> clazz) {
-        Field[] fields = getField(obj.getClass());
+        Class<?> type = getType(obj);
+        Field[] fields = getField(type);
         for (Field field : fields) {
             if (clazz.isAssignableFrom(field.getType())) {
-                return field;
+                if (!Modifier.isStatic(field.getModifiers()) || type == obj) {
+                    return field;
+                }
+            }
+        }
+        return null;
+    }
+
+    /**
+     * 通过 类型clazz精确匹配  设置obj 的对应 Field 的值
+     * 与 getMemberByType 的差别在于 不支持子类匹配 如 class = List 不能匹配 ArrayList 的 Filed
+     * @param obj 对象 或者 Clazz（可以匹配 statis Field）
+     * @param clazz 匹配的clazz
+     * @return 如果有多个返回第一个 否则null
+     */
+    public static <T> T getPreciseMemberByType(Object obj, Class<T> clazz) throws IllegalAccessException {
+        Field field = getPreciseFieldByType(obj, clazz);
+        if (field != null) {
+            field.setAccessible(true);
+            return clazz.cast(field.get(obj));
+        }
+        return null;
+    }
+
+
+    /**
+     * 通过 类型clazz精确匹配  设置obj 的对应 Field
+     * 与 setMemberByType 的差别在于 不支持子类匹配 如 class = List 不能匹配 ArrayList 的 Filed
+     * @param obj 对象 或者 Clazz（可以匹配 statis Field）
+     * @param clazz 匹配的clazz
+     * @param value 设置的值
+     */
+    public static void setPreciseMemberByType(Object obj, Object value, Class<?> clazz) throws IllegalAccessException {
+        Field field = getPreciseFieldByType(obj, clazz);
+        if (field != null) {
+            field.setAccessible(true);
+            field.set(obj, value);
+        }
+    }
+
+    /**
+     * 通过 类型clazz精确匹配 获取 obj 的对应 Field
+     * 与 getFieldByType 的差别在于 不支持子类匹配 如 class = List 不能匹配 ArrayList 的 Filed
+     * @param obj 对象 或者 Clazz（可以匹配 statis Field）
+     * @param clazz 匹配的clazz
+     * @return 如果有多个返回第一个 否则null
+     */
+    public static Field getPreciseFieldByType(Object obj, Class<?> clazz) {
+        Class<?> type = getType(obj);
+        Field[] fields = getField(type);
+        for (Field field : fields) {
+            if (clazz.equals(field.getType())) {
+                if (!Modifier.isStatic(field.getModifiers()) || type == obj) {
+                    return field;
+                }
             }
         }
         return null;
@@ -446,7 +524,7 @@ public class AfReflecter {
      * @throws Exception 数组越界
      */
     public static Object getMember(Object obj, String field) throws Exception {
-        return invokeMember(obj instanceof Class ? (Class<?>) obj: obj.getClass(), field.split("\\."), obj, 0);
+        return invokeMember(getType(obj), field.split("\\."), obj, 0);
     }
 
     /**
@@ -458,7 +536,7 @@ public class AfReflecter {
      */
     public static Object getMemberNoException(Object obj, String field) {
         try {
-            return invokeMember(obj instanceof Class ? (Class<?>) obj: obj.getClass(), field.split("\\."), obj, 0);
+            return invokeMember(getType(obj), field.split("\\."), obj, 0);
         } catch (Throwable e) {
             return null;
         }
@@ -473,7 +551,7 @@ public class AfReflecter {
      * @throws Exception 数组越界
      */
     public static <T> T getMember(Object obj, String field, Class<T> type) throws Exception {
-        obj = invokeMember(obj instanceof Class ? (Class<?>) obj: obj.getClass(), field.split("\\."), obj, 0);
+        obj = invokeMember(getType(obj), field.split("\\."), obj, 0);
         if (type.isInstance(obj)) {
             type.cast(obj);
         }
@@ -489,7 +567,7 @@ public class AfReflecter {
      */
     public static <T> T getMemberNoException(Object obj, String field, Class<T> type) {
         try {
-            return type.cast(invokeMember(obj instanceof Class ? (Class<?>) obj: obj.getClass(), field.split("\\."), obj, 0));
+            return type.cast(invokeMember(getType(obj), field.split("\\."), obj, 0));
         } catch (Throwable e) {
             return null;
         }

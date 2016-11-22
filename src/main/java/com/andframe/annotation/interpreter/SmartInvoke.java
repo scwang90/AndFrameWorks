@@ -77,7 +77,7 @@ public class SmartInvoke {
                         }
                         types = method.getParameterTypes();
                     }
-                    if (types[i].isAssignableFrom(tag.getClass())) {
+                    if (types[i].isInstance(tag)) {
                         args[i] = tag;
                     }
                 }
@@ -102,7 +102,7 @@ public class SmartInvoke {
                             }
                             types = method.getParameterTypes();
                         }
-                        if (types[i].isAssignableFrom(value.getClass())) {
+                        if (types[i].isInstance(value)) {
                             args[i] = value;
                         }
                     }

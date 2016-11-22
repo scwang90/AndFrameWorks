@@ -271,9 +271,9 @@ public class AfMultiStatusHelper<T> implements MultiStatusHelper<T> {
     public void onTaskFailed(AfHandlerTask task) {
         if (mModel != null) {
             mPager.showContent();
-            mPager.makeToastShort(task.makeErrorToast("加载失败"));
+            mPager.makeToastShort(task.makeErrorToast(mPager.getContext().getString(R.string.status_load_fail)));
         } else {
-            mPager.showError(task.makeErrorToast("加载失败"));
+            mPager.showError(task.makeErrorToast(mPager.getContext().getString(R.string.status_load_fail)));
         }
     }
 
@@ -323,7 +323,7 @@ public class AfMultiStatusHelper<T> implements MultiStatusHelper<T> {
                 if (!mStatusLayouter.isProgress())
                     mStatusLayouter.showProgress();
             } else {
-                mPager.showProgressDialog("正在加载...");
+                mPager.showProgressDialog(mPager.getContext().getString(R.string.status_loading));
             }
         }
     }
@@ -400,7 +400,7 @@ public class AfMultiStatusHelper<T> implements MultiStatusHelper<T> {
         MultiStatusInvalidNetImpl impl = new MultiStatusInvalidNetImpl();
         impl.value = R.layout.af_module_nodata;
         impl.txtId = R.id.module_nodata_description;
-        impl.message = "当前无网络";
+        impl.message = mPager.getContext().getString(R.string.status_invalidnet);
         List<MultiStatusInvalidNet> empties = getAnnotations(type, stoptype, MultiStatusInvalidNet.class);
         for (MultiStatusInvalidNet tEmpty : empties) {
             impl.combine(tEmpty);

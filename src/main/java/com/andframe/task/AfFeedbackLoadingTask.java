@@ -3,7 +3,8 @@ package com.andframe.task;
 import android.support.annotation.NonNull;
 
 import com.andframe.R;
-import com.andframe.api.Tasker;
+import com.andframe.api.LoadSuccessHandler;
+import com.andframe.api.LoadTasker;
 import com.andframe.api.page.Pager;
 
 import java.lang.ref.WeakReference;
@@ -13,29 +14,30 @@ import java.lang.ref.WeakReference;
  * Created by SCWANG on 2016/11/11.
  */
 
-public class AfFeedbackTask extends AfHandlerTask {
+public class AfFeedbackLoadingTask<T> extends AfHandlerTask {
 
-    protected Tasker working;
-    protected Runnable success;
+    protected T data;
     protected CharSequence intent;
+    protected LoadTasker<T> tasker;
+    protected LoadSuccessHandler<T> success;
     protected WeakReference<Pager> mPager;
 
-    public AfFeedbackTask(@NonNull CharSequence intent, @NonNull Pager pager) {
+    public AfFeedbackLoadingTask(@NonNull CharSequence intent, @NonNull Pager pager) {
         this(intent, pager, null);
     }
 
-    public AfFeedbackTask(@NonNull CharSequence intent, @NonNull Pager pager, Runnable success) {
+    public AfFeedbackLoadingTask(@NonNull CharSequence intent, @NonNull Pager pager, LoadSuccessHandler<T> success) {
         this.intent = intent;
         this.mPager = new WeakReference<>(pager);
         this.success = success;
     }
 
-    public AfFeedbackTask working(Tasker working) {
-        this.working = working;
+    public AfFeedbackLoadingTask<T> loading(LoadTasker<T> working) {
+        this.tasker = working;
         return this;
     }
 
-    public AfFeedbackTask success(Runnable success) {
+    public AfFeedbackLoadingTask<T> success(LoadSuccessHandler<T> success) {
         this.success = success;
         return this;
     }
@@ -52,7 +54,11 @@ public class AfFeedbackTask extends AfHandlerTask {
         if (isFinish()) {
             makeToastSucccess();
             if (success != null) {
-                success.run();
+                if (data != null) {
+                    success.onSuccess(data);
+                } else {
+                    makeToastNull();
+                }
             }
         } else {
             makeToastFail();
@@ -61,11 +67,11 @@ public class AfFeedbackTask extends AfHandlerTask {
 
     @Override
     protected void onWorking() throws Exception {
-        for (int i = 0; i < 20 && working == null; i++) {
+        for (int i = 0; i < 20 && tasker == null; i++) {
             Thread.sleep(100);
         }
-        if (working != null) {
-            working.onWorking();
+        if (tasker != null) {
+            data = tasker.onLoading();
         }
     }
 
@@ -83,12 +89,21 @@ public class AfFeedbackTask extends AfHandlerTask {
         }
     }
 
+    private void makeToastNull() {
+        Pager pager = mPager.get();
+        if (pager != null) {
+            pager.makeToastShort(String.format(pager.getContext().getString(R.string.task_format_nulldata),intent));
+        }
+
+    }
+
     private void makeToastFail() {
         Pager pager = mPager.get();
         if (pager != null) {
             pager.makeToastShort(String.format(pager.getContext().getString(R.string.task_format_fail),intent));
         }
     }
+
 
     private void hideProgressDialog() {
         Pager pager = mPager.get();

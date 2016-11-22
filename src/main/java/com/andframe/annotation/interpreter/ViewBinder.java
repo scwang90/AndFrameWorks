@@ -266,7 +266,7 @@ public class ViewBinder {
         List<View> list = new ArrayList<>(count == Integer.MAX_VALUE ? 0 : count);
         do {
             View cview = views.poll();
-            if (cview != null && type.isAssignableFrom(cview.getClass())) {
+            if (cview != null && type.isInstance(cview)) {
                 list.add(cview);
             } else {
                 if (cview instanceof ViewGroup) {

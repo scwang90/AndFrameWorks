@@ -4,7 +4,6 @@ import android.content.Context;
 import android.graphics.drawable.Drawable;
 import android.support.v4.widget.SwipeRefreshLayout;
 import android.view.View;
-import android.view.ViewGroup;
 
 import com.andframe.api.multistatus.OnRefreshListener;
 import com.andframe.api.multistatus.RefreshLayouter;
@@ -18,7 +17,7 @@ import static android.view.ViewGroup.LayoutParams.MATCH_PARENT;
  * Created by SCWANG on 2016/10/20.
  */
 
-public class DefaultRefreshLayouter implements RefreshLayouter, SwipeRefreshLayout.OnRefreshListener {
+public class DefaultRefreshLayouter implements RefreshLayouter<SwipeRefreshLayout>, SwipeRefreshLayout.OnRefreshListener {
 
     private final SwipeRefreshLayout mRefreshLayout;
     private OnRefreshListener mOnRefreshListener;
@@ -38,8 +37,7 @@ public class DefaultRefreshLayouter implements RefreshLayouter, SwipeRefreshLayo
                 android.R.color.holo_orange_light);
     }
 
-
-    public ViewGroup getLayout() {
+    public SwipeRefreshLayout getLayout() {
         return mRefreshLayout;
     }
 

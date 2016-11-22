@@ -260,14 +260,14 @@ public class AfBundle implements Extrater {
                 if (obj instanceof List) {
                     List objs = (List) obj;
                     for (Object objt : objs) {
-                        if (objt != null && clazz.isAssignableFrom(objt.getClass())) {
+                        if (objt != null && clazz.isInstance(objt)) {
                             return (List<T>) objs;
                         }
                     }
                 } else if (obj != null && obj.getClass().isArray()) {
                     Object[] objs = (Object[]) obj;
                     for (Object objt : objs) {
-                        if (objt != null && clazz.isAssignableFrom(objt.getClass())) {
+                        if (objt != null && clazz.isInstance(objt)) {
                             for (Object objts : objs) {
                                 value.add((T) objts);
                             }

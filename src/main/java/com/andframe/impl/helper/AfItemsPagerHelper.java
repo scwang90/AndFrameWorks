@@ -12,10 +12,13 @@ import android.widget.ListAdapter;
 import android.widget.ListView;
 
 import com.andframe.$;
+import com.andframe.R;
 import com.andframe.activity.AfMultiItemsActivity;
 import com.andframe.adapter.AfHeaderFooterAdapter;
 import com.andframe.adapter.AfListAdapter;
 import com.andframe.annotation.mark.MarkCache;
+import com.andframe.annotation.multistatus.MultiContentViewId;
+import com.andframe.annotation.multistatus.MultiContentViewType;
 import com.andframe.annotation.multistatus.MultiItemsFooter;
 import com.andframe.annotation.multistatus.MultiItemsHeader;
 import com.andframe.annotation.multistatus.MultiItemsViewer;
@@ -162,11 +165,24 @@ public class AfItemsPagerHelper<T> extends AfMultiStatusHelper<List<T>> implemen
 
     @Override
     public View findContentView() {
-        mItemsViewer = mItemsPager.findItemsViewer(mItemsPager);
+        View contentView = super.findContentView();
+        mItemsViewer = mItemsPager.findItemsViewer(mItemsPager, contentView);
         if (mItemsViewer != null) {
             Class<?> stop = mPager instanceof Activity ? AfMultiItemsActivity.class : AfMultiItemsFragment.class;
             mItemsViewerOnly = AfReflecter.getAnnotation(mItemsPager.getClass(), stop, MultiItemsViewerOnly.class);
-            return mItemsViewerOnly != null ? null : mItemsViewer.getItemsView();
+            if (mItemsViewerOnly == null) {
+                if (contentView != null && contentView != mItemsViewer.getItemsView()) {
+                    MultiContentViewId id = AfReflecter.getAnnotation(mPager.getClass(), stop, MultiContentViewId.class);
+                    MultiContentViewType type = AfReflecter.getAnnotation(mPager.getClass(), stop, MultiContentViewType.class);
+                    if (id != null && id.value() == contentView.getId()) {
+                        return contentView;
+                    }
+                    if (type != null && type.value().isInstance(contentView)) {
+                        return contentView;
+                    }
+                }
+            }
+            return mItemsViewer.getItemsView();
         } else {
             throw new RuntimeException("findItemsViewer 返回null");
         }
@@ -242,13 +258,13 @@ public class AfItemsPagerHelper<T> extends AfMultiStatusHelper<List<T>> implemen
             mItemsPager.finishRefreshFail();
             if (mAdapter != null && mAdapter.size() > 0) {
                 mItemsPager.showContent();
-                mItemsPager.makeToastLong(task.makeErrorToast("刷新失败"));
+                mItemsPager.makeToastLong(task.makeErrorToast(mPager.getContext().getString(R.string.items_refresh_fail)));
             } else if (list != null && list.size() > 0) {
                 mAdapter.set(list);
                 mItemsPager.showContent();
-                mItemsPager.makeToastLong(task.makeErrorToast("刷新失败"));
+                mItemsPager.makeToastLong(task.makeErrorToast(mPager.getContext().getString(R.string.items_refresh_fail)));
             } else {
-                mItemsPager.showError(task.makeErrorToast("刷新失败"));
+                mItemsPager.showError(task.makeErrorToast(mPager.getContext().getString(R.string.items_refresh_fail)));
             }
         }
     }
@@ -264,10 +280,10 @@ public class AfItemsPagerHelper<T> extends AfMultiStatusHelper<List<T>> implemen
 //                mItemsViewer.smoothScrollToPosition(mAdapter.getCount() + 1);
             }
             if (!mItemsPager.setMoreShow(task, list)) {
-                mItemsPager.makeToastShort("数据全部加载完毕！");
+                mItemsPager.makeToastShort(mPager.getContext().getString(R.string.items_loadmore_all));
             }
         } else {
-            mItemsPager.makeToastLong(task.makeErrorToast("获取更多失败！"));
+            mItemsPager.makeToastLong(task.makeErrorToast(mPager.getContext().getString(R.string.items_loadmore_fail)));
         }
     }
     //</editor-fold>
@@ -437,7 +453,7 @@ public class AfItemsPagerHelper<T> extends AfMultiStatusHelper<List<T>> implemen
 
     //<editor-fold desc="组件加载">
     @Override
-    public ItemsViewer findItemsViewer(ItemsPager<T> pager) {
+    public ItemsViewer findItemsViewer(ItemsPager<T> pager, View contentView) {
         View itemView = null;
         Class<?> stop = mPager instanceof Activity ? AfMultiItemsActivity.class : AfMultiItemsFragment.class;
         MultiItemsViewer viewer = AfReflecter.getAnnotation(pager.getClass(), stop, MultiItemsViewer.class);
@@ -447,7 +463,7 @@ public class AfItemsPagerHelper<T> extends AfMultiStatusHelper<List<T>> implemen
         } else if (viewerOnly != null && viewerOnly.value() > 0) {
             itemView = pager.findViewById(viewerOnly.value());
         } else {
-            View view = super.findContentView();
+            View view = contentView;
             if (view instanceof ListView || view instanceof GridView || view instanceof RecyclerView) {
                 itemView = view;
             }

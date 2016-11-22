@@ -63,8 +63,8 @@ public abstract class AfMultiItemsActivity<T> extends AfMultiStatusActivity<List
      * @return pager.findListViewById(id)
      */
     @Override
-    public ItemsViewer findItemsViewer(ItemsPager<T> pager) {
-        return mItemsHelper.findItemsViewer(pager);
+    public ItemsViewer findItemsViewer(ItemsPager<T> pager, View contentView) {
+        return mItemsHelper.findItemsViewer(pager, contentView);
     }
 
 

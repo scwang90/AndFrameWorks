@@ -906,11 +906,11 @@ public class AfViewQuery<T extends AfViewQuery<T>> implements ViewQuery<T> {
         do {
             View cview = views.poll();
             if (cview != null) {
-                if (type != null && type.isAssignableFrom(cview.getClass())) {
+                if (type != null && type.isInstance(cview)) {
                     list.add(cview);
                 } else if (types.length > 0) {
                     for (Class<?> ttype : types) {
-                        if (ttype.isAssignableFrom(cview.getClass())) {
+                        if (ttype.isInstance(cview)) {
                             list.add(cview);
                             break;
                         }

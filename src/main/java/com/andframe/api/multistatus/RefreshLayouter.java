@@ -10,8 +10,8 @@ import java.util.Date;
  * Created by SCWANG on 2016/10/20.
  */
 
-public interface RefreshLayouter {
-    ViewGroup getLayout();
+public interface RefreshLayouter<T extends ViewGroup> {
+    T getLayout();
     void setContenView(View content);
     void setRefreshComplete();
     void setOnRefreshListener(OnRefreshListener listener);

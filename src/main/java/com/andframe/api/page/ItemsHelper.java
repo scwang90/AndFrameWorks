@@ -1,6 +1,7 @@
 package com.andframe.api.page;
 
 import android.content.Context;
+import android.view.View;
 import android.widget.AdapterView.OnItemClickListener;
 import android.widget.AdapterView.OnItemLongClickListener;
 import android.widget.ListAdapter;
@@ -37,7 +38,7 @@ public interface ItemsHelper<T> extends MultiStatusHelper<List<T>>, OnItemClickL
     List<T> onTaskLoadCache(boolean isCheckExpired);
 
     MoreFooter newMoreFooter();
-    ItemsViewer findItemsViewer(ItemsPager<T> pager);
+    ItemsViewer findItemsViewer(ItemsPager<T> pager, View contentView);
 
     boolean setMoreShow(AfHandlerTask task, List<T> list);
 
