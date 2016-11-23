@@ -20,6 +20,7 @@ import com.andpack.R;
 import com.andpack.annotation.RegisterEventBus;
 import com.andpack.annotation.interpreter.StatusBarInterpreter;
 import com.andpack.api.ApPager;
+import com.andpack.application.ApApp;
 
 import org.greenrobot.eventbus.EventBus;
 
@@ -68,6 +69,9 @@ public class ApPagerHelper {
     public void onDestroy() {
         if (mEventBus != null) {
             EventBus.getDefault().unregister(pager);
+        }
+        if (ApApp.getApp().isDebug()) {
+            ApApp.getApp().getRefWatcher().watch(this);
         }
     }
 

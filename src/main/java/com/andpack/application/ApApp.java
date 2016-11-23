@@ -22,6 +22,8 @@ import com.nostra13.universalimageloader.core.DisplayImageOptions;
 import com.nostra13.universalimageloader.core.ImageLoader;
 import com.nostra13.universalimageloader.core.ImageLoaderConfiguration;
 import com.nostra13.universalimageloader.core.assist.QueueProcessingType;
+import com.squareup.leakcanary.LeakCanary;
+import com.squareup.leakcanary.RefWatcher;
 
 import java.io.File;
 import java.io.IOException;
@@ -32,6 +34,7 @@ import java.io.IOException;
  */
 public class ApApp extends AfApp {
 
+    private RefWatcher mRefWatcher;
     private ApDiskCache mImageDiskCache;
 
     public static ApApp getApp() {
@@ -42,14 +45,32 @@ public class ApApp extends AfApp {
         return mImageDiskCache;
     }
 
+    public RefWatcher getRefWatcher() {
+        return mRefWatcher;
+    }
+
     //<editor-fold desc="初始化">
 
     @Override
     protected void initApp() throws Exception {
         super.initApp();
+        initLeakCanary();
         initImageLoader(this);
         initImagePicker(this);
     }
+
+    private void initLeakCanary() {
+        try {
+            if (!LeakCanary.isInAnalyzerProcess(this) && isDebug()) {
+                mRefWatcher = LeakCanary.install(this);
+            } else {
+                mRefWatcher = RefWatcher.DISABLED;
+            }
+        } catch (Exception ex) {
+            AfExceptionHandler.handle(ex, "初始化内存泄漏检测");
+        }
+    }
+
 
     private void initImagePicker(Context context) {
         ImagePicker picker = ImagePicker.getInstance();

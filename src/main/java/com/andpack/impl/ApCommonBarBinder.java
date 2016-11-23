@@ -21,6 +21,7 @@ import com.andframe.caches.AfPrivateCaches;
 import com.andframe.feature.AfIntent;
 import com.andframe.util.java.AfDateFormat;
 import com.andpack.activity.ApFragmentActivity;
+import com.andpack.application.ApApp;
 import com.lzy.imagepicker.ImagePicker;
 import com.lzy.imagepicker.bean.ImageItem;
 import com.lzy.imagepicker.ui.ImageGridActivity;
@@ -34,6 +35,7 @@ import java.util.Date;
 import java.util.List;
 import java.util.Locale;
 
+@SuppressWarnings("unused")
 public class ApCommonBarBinder {
 
     private Pager pager;
@@ -634,6 +636,7 @@ public class ApCommonBarBinder {
 
         public void onActivityResult(AfIntent intent, int requestcode, int resultcode) {
             if (requestcode == request_image /*&& resultcode == Activity.RESULT_OK*/) {
+                new CropImageView(ApApp.get()).setOnBitmapSaveCompleteListener(null);
                 //noinspection unchecked
                 List<ImageItem> images = (ArrayList<ImageItem>) intent.getSerializableExtra(ImagePicker.EXTRA_RESULT_ITEMS);
                 if (images != null && images.size() > 0) {
