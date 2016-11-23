@@ -154,18 +154,22 @@ public class $ {
     private static class $$$ implements InvocationHandler,$$ {
         @Override
         public Object invoke(Object proxy, Method method, Object[] objects) throws Throwable {
-            if (method.getDeclaringClass().isAssignableFrom(TaskExecutor.class)) {
-                return method.invoke(AfApp.get().newTaskExecutor(), objects);
-            } else if (method.getDeclaringClass().isAssignableFrom(DialogBuilder.class)) {
-                return method.invoke(AfApp.get().newDialogBuilder(getLastContext()), objects);
-            } else if (method.getDeclaringClass().isAssignableFrom(ViewQuery.class)) {
-                return method.invoke(AfApp.get().newViewQuery(getLastViewer()), objects);
-            } else if (method.getDeclaringClass().isAssignableFrom(Cacher.class)) {
-                return method.invoke(AfPrivateCaches.getInstance(getLastString()), objects);
-            } else if (method.getDeclaringClass().isAssignableFrom($$.class)) {
-                return method.invoke(this, objects);
+            try {
+                if (method.getDeclaringClass().isAssignableFrom(TaskExecutor.class)) {
+                    return method.invoke(AfApp.get().newTaskExecutor(), objects);
+                } else if (method.getDeclaringClass().isAssignableFrom(DialogBuilder.class)) {
+                    return method.invoke(AfApp.get().newDialogBuilder(getLastContext()), objects);
+                } else if (method.getDeclaringClass().isAssignableFrom(ViewQuery.class)) {
+                    return method.invoke(AfApp.get().newViewQuery(getLastViewer()), objects);
+                } else if (method.getDeclaringClass().isAssignableFrom(Cacher.class)) {
+                    return method.invoke(AfPrivateCaches.getInstance(getLastString()), objects);
+                } else if (method.getDeclaringClass().isAssignableFrom($$.class)) {
+                    return method.invoke(this, objects);
+                }
+                return null;
+            } finally {
+                lastWiths = null;
             }
-            return null;
         }
 
         @Override
