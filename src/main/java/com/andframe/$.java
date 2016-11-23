@@ -18,6 +18,7 @@ import com.andframe.api.view.Viewer;
 import com.andframe.application.AfApp;
 import com.andframe.caches.AfPrivateCaches;
 import com.andframe.impl.viewer.ViewerWarpper;
+import com.andframe.task.AfDispatcher;
 
 import java.lang.reflect.InvocationHandler;
 import java.lang.reflect.Method;
@@ -97,6 +98,14 @@ public class $ {
 
     public static TaskExecutor task() {
         return AfApp.get().newTaskExecutor();
+    }
+
+    public static void dispatch(Runnable runnable){
+        AfDispatcher.dispatch(runnable);
+    }
+
+    public static void dispatch(Runnable runnable, long delay){
+        AfDispatcher.dispatch(runnable, delay);
     }
 
     public static Api get() {
