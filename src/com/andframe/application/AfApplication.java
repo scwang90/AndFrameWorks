@@ -27,6 +27,7 @@ import com.andframe.thread.AfThreadWorker;
 import com.andframe.util.DatabaseUtil;
 import com.andframe.util.android.AfNetwork;
 import com.andframe.util.java.AfMD5;
+import com.andframe.util.java.AfReflecter;
 import com.andframe.util.java.AfVersion;
 
 import java.io.ByteArrayInputStream;
@@ -209,6 +210,11 @@ public abstract class AfApplication extends Application {
 	}
 
 	public boolean isDebug() {
+		try {
+			Class<?> clazz = Class.forName(getPackageName() + ".BuildConfig");
+			return Boolean.valueOf(true).equals(AfReflecter.getMember(clazz,"DEBUG"));
+		} catch (Throwable ignored) {
+		}
 		return BuildConfig.DEBUG;
 	}
 

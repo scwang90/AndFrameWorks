@@ -77,6 +77,7 @@ import com.andframe.annotation.inject.InjectInit;
 import com.andframe.annotation.inject.InjectLayout;
 import com.andframe.annotation.inject.InjectQueryChanged;
 import com.andframe.annotation.inject.InjectRes;
+import com.andframe.annotation.inject.InjectRes$;
 import com.andframe.annotation.inject.InjectSystem;
 import com.andframe.application.AfAppSettings;
 import com.andframe.application.AfApplication;
@@ -132,6 +133,7 @@ public class Injecter {
     public static void doInject(Object handler, Context context) {
         inject(handler, context);
         injectRes(handler, context);
+        injectRes$(handler, context);
         injectSystem(handler, context);
         injectExtra(handler, context);
         injectLayout(handler, context);
@@ -236,6 +238,44 @@ public class Injecter {
                     value = context.getResources().getXml(inject.value());
                 } else if (clazz.equals(ColorStateList.class)) {
                     value = context.getResources().getColorStateList(inject.value());
+                }
+                if (value != null) {
+                    field.setAccessible(true);
+                    field.set(handler, value);
+                }
+            } catch (Exception e) {
+                AfExceptionHandler.handle(e, TAG(handler, "doInject.injectRes") + field.getName());
+            }
+        }
+    }
+
+    private static void injectRes$(Object handler, Context context) {
+        for (Field field : AfReflecter.getFieldAnnotation(handler.getClass(), InjectRes$.class)) {
+            try {
+                Object value = null;
+                Class<?> clazz = field.getType();
+                InjectRes$ inject = field.getAnnotation(InjectRes$.class);
+                Resources resources = context.getResources();
+                if (clazz.equals(String.class)) {
+                    value = resources.getString(resources.getIdentifier(inject.value(), "string", context.getPackageName()));
+                } else if (clazz.equals(String[].class)) {
+                    value = resources.getStringArray(resources.getIdentifier(inject.value(), "array", context.getPackageName()));
+                } else if (clazz.equals(Float.class) || clazz.equals(float.class)) {
+                    value = resources.getDimension(resources.getIdentifier(inject.value(), "dimens", context.getPackageName()));
+                } else if (clazz.equals(Boolean.class) || clazz.equals(boolean.class)) {
+                    value = resources.getBoolean(resources.getIdentifier(inject.value(), "value", context.getPackageName()));
+                } else if (clazz.equals(Integer.class) || clazz.equals(int.class)) {
+                    value = resources.getColor(resources.getIdentifier(inject.value(), "color", context.getPackageName()));
+                } else if (clazz.equals(Integer[].class) || clazz.equals(int[].class)) {
+                    value = resources.getIntArray(resources.getIdentifier(inject.value(), "int", context.getPackageName()));
+                } else if (clazz.equals(Drawable.class)) {
+                    value = resources.getDrawable(resources.getIdentifier(inject.value(), "drawable", context.getPackageName()));
+                } else if (clazz.equals(Movie.class)) {
+                    value = resources.getMovie(resources.getIdentifier(inject.value(), "movie", context.getPackageName()));
+                } else if (clazz.equals(XmlResourceParser.class)) {
+                    value = resources.getXml(resources.getIdentifier(inject.value(), "xml", context.getPackageName()));
+                } else if (clazz.equals(ColorStateList.class)) {
+                    value = resources.getColorStateList(resources.getIdentifier(inject.value(), "color", context.getPackageName()));
                 }
                 if (value != null) {
                     field.setAccessible(true);

@@ -64,7 +64,11 @@ public class LayoutBinder {
         } else {
             BindLayout$ layout$ = AfReflecter.getAnnotation(clazz, stop, BindLayout$.class);
             if (layout$ != null) {
-                return context.getResources().getIdentifier(layout$.value(), "layout", context.getPackageName());
+                int id = context.getResources().getIdentifier(layout$.value(), "layout", context.getPackageName());
+                if (id <= 0) {
+                    id = context.getResources().getIdentifier(layout$.value(), "id", context.getPackageName());
+                }
+                return id;
             }
         }
         return 0;
