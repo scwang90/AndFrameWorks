@@ -15,9 +15,9 @@ import com.andframe.activity.framework.AfActivity;
 import com.andframe.activity.framework.AfPageable;
 import com.andframe.adapter.AfListAdapter;
 import com.andframe.adapter.AfListAdapter.IListItem;
+import com.andframe.annotation.interpreter.LayoutBinder;
 import com.andframe.annotation.mark.MarkCache;
 import com.andframe.annotation.view.BindAfterViews;
-import com.andframe.annotation.view.BindLayout;
 import com.andframe.application.AfExceptionHandler;
 import com.andframe.bean.Page;
 import com.andframe.caches.AfPrivateCaches;
@@ -168,11 +168,7 @@ public abstract class AfListViewActivity<T> extends AfActivity implements OnRefr
      * @return id
      */
     protected int getLayoutId() {
-        BindLayout layout = getAnnotation(this.getClass(), AfListViewActivity.class, BindLayout.class);
-        if (layout != null) {
-            return layout.value();
-        }
-        return 0;
+        return LayoutBinder.getBindLayoutId(this, this, AfListViewActivity.class);
     }
 
     /**

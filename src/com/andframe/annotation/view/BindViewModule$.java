@@ -8,13 +8,10 @@ import java.lang.annotation.Target;
 
 /**
  * 注解式绑定控件<br>
-    @ BindTouch(R.id.viewId)
-    public void onClick(View v) {
-    }
  */
-@Target(ElementType.METHOD)
+@Target(ElementType.FIELD)
 @Retention(RetentionPolicy.RUNTIME)
-public @interface BindTouch {
-    int[] value();
+public @interface BindViewModule$ {
+    String[] value() default "";
 }
 

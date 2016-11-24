@@ -1,5 +1,6 @@
 package com.andframe.fragment;
 
+import android.content.Context;
 import android.view.MenuItem;
 import android.widget.ListView;
 
@@ -61,7 +62,7 @@ public abstract class AfMultiChoiceListFragmentImpl<T> extends AfMultiChoiceList
 	}
 
 	@Override
-	protected int getLayoutId() {
+	protected int getLayoutId(Context context) {
 		return R.layout.af_activity_listview;
 	}
 

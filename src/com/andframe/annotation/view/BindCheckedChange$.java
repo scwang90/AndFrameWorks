@@ -8,13 +8,14 @@ import java.lang.annotation.Target;
 
 /**
  * 注解式绑定控件<br>
-    @ BindTouch(R.id.viewId)
-    public void onClick(View v) {
+    CompoundButton.OnCheckedChangeListener
+    @ BindCheckedChange(R.id.viewId)
+    public void onCheckedChanged(CompoundButton button, boolean isChecked) {
     }
  */
 @Target(ElementType.METHOD)
 @Retention(RetentionPolicy.RUNTIME)
-public @interface BindTouch {
-    int[] value();
+public @interface BindCheckedChange$ {
+    String[] value();
 }
 

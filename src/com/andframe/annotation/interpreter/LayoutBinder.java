@@ -2,9 +2,12 @@ package com.andframe.annotation.interpreter;
 
 import android.app.Activity;
 import android.app.Dialog;
+import android.content.Context;
 
 import com.andframe.annotation.view.BindLayout;
+import com.andframe.annotation.view.BindLayout$;
 import com.andframe.application.AfExceptionHandler;
+import com.andframe.layoutbind.framework.AfViewWrapper;
 import com.andframe.util.java.AfReflecter;
 
 /**
@@ -22,10 +25,9 @@ public class LayoutBinder {
 
     public static void doBind(Activity activity) {
         try{
-            Class<? extends Activity> clazz = activity.getClass();
-            BindLayout layout = AfReflecter.getAnnotation(clazz, Activity.class, BindLayout.class);
-            if (layout != null) {
-                activity.setContentView(layout.value());
+            int layoutId = getBindLayoutId(activity, activity, Activity.class);
+            if (layoutId > 0) {
+                activity.setContentView(layoutId);
             }
         } catch (Throwable ex) {
             AfExceptionHandler.handle(ex, TAG(activity, "doBind(activity)"));
@@ -34,13 +36,37 @@ public class LayoutBinder {
 
     public static void doBind(Dialog dialog) {
         try{
-            Class<? extends Dialog> clazz = dialog.getClass();
-            BindLayout layout = AfReflecter.getAnnotation(clazz, Dialog.class, BindLayout.class);
-            if (layout != null) {
-                dialog.setContentView(layout.value());
+            int layoutId = getBindLayoutId(dialog, dialog.getContext(), Dialog.class);
+            if (layoutId > 0) {
+                dialog.setContentView(layoutId);
             }
         } catch (Throwable ex) {
             AfExceptionHandler.handle(ex, TAG(dialog, "doBind(dialog)"));
         }
+    }
+
+    public static int getBindLayoutId(Context context) {
+        return getBindLayoutId(context, context);
+    }
+
+    public static int getBindLayoutId(Object handler, Context context) {
+        return getBindLayoutId(handler, context, AfViewWrapper.class);
+    }
+
+    public static int getBindLayoutId(Object handler, Context context, Class<?> stop) {
+        return getBindLayoutId(handler.getClass(), context, stop);
+    }
+
+    public static int getBindLayoutId(Class<?> clazz, Context context, Class<?> stop) {
+        BindLayout layout = AfReflecter.getAnnotation(clazz, stop, BindLayout.class);
+        if (layout != null) {
+            return layout.value();
+        } else {
+            BindLayout$ layout$ = AfReflecter.getAnnotation(clazz, stop, BindLayout$.class);
+            if (layout$ != null) {
+                return context.getResources().getIdentifier(layout$.value(), "layout", context.getPackageName());
+            }
+        }
+        return 0;
     }
 }

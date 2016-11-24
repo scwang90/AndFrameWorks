@@ -24,8 +24,8 @@ import com.andframe.activity.framework.AfPageable;
 import com.andframe.activity.framework.AfView;
 import com.andframe.activity.framework.IViewQuery;
 import com.andframe.annotation.interpreter.Injecter;
+import com.andframe.annotation.interpreter.LayoutBinder;
 import com.andframe.annotation.interpreter.ViewBinder;
-import com.andframe.annotation.view.BindLayout;
 import com.andframe.application.AfApp;
 import com.andframe.application.AfApplication;
 import com.andframe.application.AfDaemonThread;
@@ -39,7 +39,6 @@ import com.andframe.thread.AfData3Task;
 import com.andframe.thread.AfDataTask;
 import com.andframe.thread.AfTask;
 import com.andframe.thread.AfThreadWorker;
-import com.andframe.util.java.AfReflecter;
 
 import java.util.Date;
 import java.util.List;
@@ -250,9 +249,9 @@ public abstract class AfFragment extends Fragment implements AfPageable {
      * 自定义 View onCreateView(LayoutInflater, ViewGroup)
      */
     protected View onCreateView(LayoutInflater inflater, ViewGroup container) {
-        BindLayout layout = AfReflecter.getAnnotation(this.getClass(), AfFragment.class, BindLayout.class);
-        if (layout != null) {
-            return inflater.inflate(layout.value(), container, false);
+        int layoutId = LayoutBinder.getBindLayoutId(this, inflater.getContext(), AfFragment.class);
+        if (layoutId > 0) {
+            return inflater.inflate(layoutId, container, false);
         }
         return null;
     }

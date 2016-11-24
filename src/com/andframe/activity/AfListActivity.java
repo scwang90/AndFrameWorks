@@ -15,8 +15,8 @@ import android.widget.ListView;
 import com.andframe.activity.framework.AfActivity;
 import com.andframe.activity.framework.AfPageable;
 import com.andframe.adapter.AfListAdapter;
+import com.andframe.annotation.interpreter.LayoutBinder;
 import com.andframe.annotation.view.BindAfterViews;
-import com.andframe.annotation.view.BindLayout;
 import com.andframe.application.AfExceptionHandler;
 import com.andframe.feature.AfIntent;
 import com.andframe.thread.AfDispatcher;
@@ -25,8 +25,6 @@ import com.andframe.util.java.AfCollections;
 
 import java.util.ArrayList;
 import java.util.List;
-
-import static com.andframe.util.java.AfReflecter.getAnnotation;
 
 /**
  * 数据列表框架 Activity
@@ -96,11 +94,7 @@ public abstract class AfListActivity<T> extends AfActivity implements OnItemClic
      * @return id
      */
     protected int getLayoutId() {
-        BindLayout layout = getAnnotation(this.getClass(), AfListActivity.class, BindLayout.class);
-        if (layout != null) {
-            return layout.value();
-        }
-        return 0;
+        return LayoutBinder.getBindLayoutId(this, this, AfListActivity.class);
     }
 
     /**

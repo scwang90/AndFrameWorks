@@ -1,5 +1,6 @@
 package com.andframe.fragment;
 
+import android.content.Context;
 import android.widget.AbsListView;
 
 import com.andframe.R;
@@ -34,9 +35,9 @@ public abstract class AfListViewFragmentImpl<T> extends AfListViewFragment<T> {
 	}
 
 	@Override
-	protected int getLayoutId() {
-		if (super.getLayoutId() > 0) {
-			return super.getLayoutId();
+	protected int getLayoutId(Context context) {
+		if (super.getLayoutId(context) > 0) {
+			return super.getLayoutId(context);
 		}
 		return R.layout.af_module_listcontent;
 	}

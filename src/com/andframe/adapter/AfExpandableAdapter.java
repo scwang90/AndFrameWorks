@@ -9,10 +9,9 @@ import android.widget.BaseExpandableListAdapter;
 import com.andframe.activity.framework.AfView;
 import com.andframe.activity.framework.AfViewable;
 import com.andframe.annotation.interpreter.Injecter;
+import com.andframe.annotation.interpreter.LayoutBinder;
 import com.andframe.annotation.interpreter.ViewBinder;
-import com.andframe.annotation.view.BindLayout;
 import com.andframe.application.AfExceptionHandler;
-import com.andframe.util.java.AfReflecter;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -94,9 +93,9 @@ public abstract class AfExpandableAdapter<G, C> extends BaseExpandableListAdapte
             if (layoutId >= 0) {
                 return inflater.inflate(layoutId, parent, false);
             } else {
-                BindLayout layout = AfReflecter.getAnnotation(this.getClass(), IAfGroupItem.class, BindLayout.class);
-                if (layout != null) {
-                    return inflater.inflate(layout.value(), parent, false);
+                int layoutId = LayoutBinder.getBindLayoutId(this, inflater.getContext(), IAfGroupItem.class);
+                if (layoutId > 0) {
+                    return inflater.inflate(layoutId, parent, false);
                 }
             }
             return null;
@@ -116,9 +115,9 @@ public abstract class AfExpandableAdapter<G, C> extends BaseExpandableListAdapte
             if (layoutId >= 0) {
                 return inflater.inflate(layoutId, parent, false);
             } else {
-                BindLayout layout = AfReflecter.getAnnotation(this.getClass(), IAfChildItem.class, BindLayout.class);
-                if (layout != null) {
-                    return inflater.inflate(layout.value(), parent, false);
+                int layoutId = LayoutBinder.getBindLayoutId(this, inflater.getContext(), IAfChildItem.class);
+                if (layoutId > 0) {
+                    return inflater.inflate(layoutId, parent, false);
                 }
             }
             return null;

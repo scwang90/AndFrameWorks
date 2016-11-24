@@ -7,14 +7,11 @@ import java.lang.annotation.Target;
 
 
 /**
- * 注解式绑定控件<br>
-    @ BindTouch(R.id.viewId)
-    public void onClick(View v) {
-    }
+ * 注解式绑定布局<br>
  */
-@Target(ElementType.METHOD)
+@Target(ElementType.TYPE)
 @Retention(RetentionPolicy.RUNTIME)
-public @interface BindTouch {
-    int[] value();
+public @interface BindLayout$ {
+    String value();
 }
 

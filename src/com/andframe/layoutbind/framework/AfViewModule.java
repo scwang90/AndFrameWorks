@@ -4,11 +4,10 @@ import android.view.View;
 
 import com.andframe.activity.framework.AfViewable;
 import com.andframe.annotation.interpreter.Injecter;
+import com.andframe.annotation.interpreter.LayoutBinder;
 import com.andframe.annotation.interpreter.ViewBinder;
-import com.andframe.annotation.view.BindLayout;
 import com.andframe.application.AfApplication;
 import com.andframe.application.AfExceptionHandler;
-import com.andframe.util.java.AfReflecter;
 import com.google.gson.internal.UnsafeAllocator;
 
 public class AfViewModule extends AfViewWrapper implements AfViewable, IViewModule{
@@ -36,11 +35,11 @@ public class AfViewModule extends AfViewWrapper implements AfViewable, IViewModu
 	}
 
 	public static <T extends AfViewModule> T init(Class<T> clazz, AfViewable viewable) {
-		BindLayout annotation = AfReflecter.getAnnotation(clazz, AfViewModule.class, BindLayout.class);
-		if (annotation == null) {
+		int layoutId = LayoutBinder.getBindLayoutId(clazz, viewable.getContext(), AfViewModule.class);
+		if (layoutId <= 0) {
 			return null;
 		}
-		return init(clazz, viewable, annotation.value());
+		return init(clazz, viewable, layoutId);
 	}
 
 	protected AfViewModule(){
@@ -53,9 +52,9 @@ public class AfViewModule extends AfViewWrapper implements AfViewable, IViewModu
 
 	protected AfViewModule(AfViewable view) {
 		super(new View(view.getContext()));
-		BindLayout layout = AfReflecter.getAnnotation(this.getClass(), AfViewModule.class, BindLayout.class);
-		if (layout != null) {
-			wrapped = view.findViewById(layout.value());
+		int layoutId = LayoutBinder.getBindLayoutId(this, view.getContext(), AfViewModule.class);
+		if (layoutId > 0) {
+			wrapped = view.findViewById(layoutId);
 		} else {
 			wrapped = null;
 		}
@@ -71,9 +70,11 @@ public class AfViewModule extends AfViewWrapper implements AfViewable, IViewModu
 	 * 子类构造函数中必须调用这个函数
 	 */
 	protected void initializeComponent(AfViewable viewable){
-		BindLayout layout = AfReflecter.getAnnotation(this.getClass(), AfViewModule.class, BindLayout.class);
-		if (wrapped == null && layout != null) {
-			wrapped = viewable.findViewById(layout.value());
+		if (wrapped == null ) {
+			int layoutId = LayoutBinder.getBindLayoutId(this, viewable.getContext(), AfViewModule.class);
+			if (layoutId > 0) {
+				wrapped = viewable.findViewById(layoutId);
+			}
 		}
 		setTarget(viewable, wrapped);
 	}

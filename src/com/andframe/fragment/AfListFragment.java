@@ -16,14 +16,12 @@ import android.widget.ListView;
 import com.andframe.activity.framework.AfPageable;
 import com.andframe.adapter.AfListAdapter;
 import com.andframe.adapter.AfListAdapter.IListItem;
+import com.andframe.annotation.interpreter.LayoutBinder;
 import com.andframe.annotation.view.BindAfterViews;
-import com.andframe.annotation.view.BindLayout;
 import com.andframe.application.AfExceptionHandler;
 
 import java.util.ArrayList;
 import java.util.List;
-
-import static com.andframe.util.java.AfReflecter.getAnnotation;
 
 /**
  * 数据列表框架 AfListFragment
@@ -77,11 +75,7 @@ public abstract class AfListFragment<T> extends AfTabFragment implements OnItemC
      * @return id
      */
     protected int getLayoutId() {
-        BindLayout layout = getAnnotation(this.getClass(), AfListFragment.class, BindLayout.class);
-        if (layout != null) {
-            return layout.value();
-        }
-        return 0;
+        return LayoutBinder.getBindLayoutId(this, getContext(), AfListFragment.class);
     }
 
     /**

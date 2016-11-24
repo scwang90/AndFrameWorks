@@ -8,13 +8,14 @@ import java.lang.annotation.Target;
 
 /**
  * 注解式绑定控件<br>
-    @ BindTouch(R.id.viewId)
-    public void onClick(View v) {
+    AdapterView.OnItemClickListener
+    @ BindItemClick(R.id.viewId)
+    public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
     }
  */
 @Target(ElementType.METHOD)
 @Retention(RetentionPolicy.RUNTIME)
-public @interface BindTouch {
-    int[] value();
+public @interface BindItemClick$ {
+    String[] value();
 }
 

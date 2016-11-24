@@ -16,8 +16,8 @@ import com.andframe.activity.framework.AfPageable;
 import com.andframe.activity.framework.AfView;
 import com.andframe.adapter.AfListAdapter;
 import com.andframe.adapter.AfListAdapter.IListItem;
+import com.andframe.annotation.interpreter.LayoutBinder;
 import com.andframe.annotation.mark.MarkCache;
-import com.andframe.annotation.view.BindLayout;
 import com.andframe.application.AfExceptionHandler;
 import com.andframe.bean.Page;
 import com.andframe.caches.AfPrivateCaches;
@@ -105,7 +105,7 @@ public abstract class AfListViewFragment<T> extends AfTabFragment implements
     @Override
     protected View onCreateView(LayoutInflater inflater, ViewGroup container) {
         ViewGroup root = null;
-        return inflater.inflate(getLayoutId(), root);
+        return inflater.inflate(getLayoutId(inflater.getContext()), root);
     }
 
     /**
@@ -162,13 +162,10 @@ public abstract class AfListViewFragment<T> extends AfTabFragment implements
      * 获取setContentView的id
      *
      * @return id
+     * @param context
      */
-    protected int getLayoutId() {
-        BindLayout layout = getAnnotation(this.getClass(), AfListViewFragment.class, BindLayout.class);
-        if (layout != null) {
-            return layout.value();
-        }
-        return 0;
+    protected int getLayoutId(Context context) {
+        return LayoutBinder.getBindLayoutId(this, context, AfListViewFragment.class);
     }
 
     /**
