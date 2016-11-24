@@ -1,5 +1,6 @@
 package com.andoffice.layoutbind;
 
+import android.content.Context;
 import android.view.View;
 import android.widget.TextView;
 
@@ -30,7 +31,7 @@ public abstract class ItemTree<T> extends AfTreeViewItem<T>{
 	}
 
 	@Override
-	public final int getLayoutId() {
+	public final int getLayoutId(Context context) {
 		return R.layout.listitem_common;
 	}
 

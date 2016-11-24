@@ -1,5 +1,6 @@
 package com.andoffice.layoutbind.framework;
 
+import android.content.Context;
 import android.view.ViewGroup;
 import android.widget.ImageView;
 import android.widget.TextView;
@@ -38,7 +39,7 @@ public abstract class AbListItem<T> extends AfMultiChoiceItem<T>{
 	}
 	
 	@Override
-	public final int getLayoutId() {
+	public final int getLayoutId(Context context) {
 		return R.layout.listitem_common;
 	}
 
