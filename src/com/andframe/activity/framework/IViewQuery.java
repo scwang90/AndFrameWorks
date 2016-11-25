@@ -2,12 +2,17 @@ package com.andframe.activity.framework;
 
 import android.content.Context;
 import android.graphics.Bitmap;
+import android.graphics.Point;
 import android.graphics.Typeface;
 import android.graphics.drawable.Drawable;
+import android.support.annotation.DrawableRes;
+import android.support.annotation.Nullable;
+import android.support.annotation.StringRes;
 import android.text.Editable;
 import android.text.Spanned;
 import android.text.TextWatcher;
 import android.view.View;
+import android.view.animation.Animation;
 import android.webkit.WebView;
 import android.widget.Adapter;
 import android.widget.AdapterView;
@@ -22,6 +27,7 @@ import android.widget.ImageView;
 import android.widget.ListView;
 import android.widget.ProgressBar;
 import android.widget.RatingBar;
+import android.widget.ScrollView;
 import android.widget.SeekBar;
 import android.widget.Spinner;
 import android.widget.TextView;
@@ -39,15 +45,7 @@ public interface IViewQuery<T extends IViewQuery<T>> {
      * @param id the id
      * @return self
      */
-    T id(int id);
-
-    /**
-     * Points the current operating view to the specified view.
-     *
-     * @return self
-     */
-    T id(View view);
-
+    T id(int... id);
 
     /**
      * Set the rating of a RatingBar.
@@ -64,7 +62,7 @@ public interface IViewQuery<T extends IViewQuery<T>> {
      * @param resid the resid
      * @return self
      */
-    T text(int resid);
+    T text(@StringRes int resid);
 
 
     /**
@@ -333,7 +331,7 @@ public interface IViewQuery<T extends IViewQuery<T>> {
      *
      * @return View
      */
-    View getView();
+    View getView(int... indexs);
 
     /**
      * Gets the current View as an image View.
@@ -534,44 +532,122 @@ public interface IViewQuery<T extends IViewQuery<T>> {
      * Set the width of a View in dip.
      * Can also be ViewGroup.LayoutParams.FILL_PARENT, ViewGroup.LayoutParams.WRAP_CONTENT, or ViewGroup.LayoutParams.MATCH_PARENT.
      *
-     * @param dip width in dip
+     * @param px width in px
      * @return self
      */
 
-    T width(int dip);
+    T width(int px);
 
     /**
      * Set the height of a View in dip.
      * Can also be ViewGroup.LayoutParams.FILL_PARENT, ViewGroup.LayoutParams.WRAP_CONTENT, or ViewGroup.LayoutParams.MATCH_PARENT.
      *
-     * @param dip height in dip
+     * @param px height in px
      * @return self
      */
 
-    T height(int dip);
+    T height(int px);
 
     /**
-     * Set the width of a View in dip or pixel.
-     * Can also be ViewGroup.LayoutParams.FILL_PARENT, ViewGroup.LayoutParams.WRAP_CONTENT, or ViewGroup.LayoutParams.MATCH_PARENT.
-     *
-     * @param width width
-     * @param dip   dip or pixel
-     * @return self
+     * 自定义扩展接口
      */
+    AfViewable rootViewer();
+    ScrollView getScrollView();
+    View[] views();
+    <TT extends View> TT view(int... indexs);
+    <TT extends View> TT[] views(Class<TT> clazz);
+    <TT extends View> TT view(Class<TT> clazz ,int... indexs);
+    boolean isVisible();
+    int gravity();
+    float rating();
+    T $(int id, int... ids);
+    T $(String idvalue, String... idvalues);
+    T $(Class<?> type, Class<?>... types);
+    T $(View... views);
+    T id(View view, View... views);
+    T gravity(int gravity);
+    T maxLines(int lines);
+    T setSingleLine(boolean singleLine);
+    T toggle();
+    T text(String format, Object... args);
+    T html(String format, Object... args);
+    T size(int width, int height);
+    T size(float width, float height);
+    T width(float dp);
+    T height(float dp);
+    T margin(int px);
+    T marginLeft(int px) ;
+    T marginRight(int px);
+    T marginTop(int px);
+    T marginBottom(int px);
+    T padding(int px);
+    T paddingLeft(int px) ;
+    T paddingRight(int px);
+    T paddingTop(int px);
+    T paddingBottom(int px);
+    T margin(float dp);
+    T marginLeft(float dp);
+    T marginRight(float dp);
+    T marginTop(float dp);
+    T marginBottom(float dp);
+    T padding(float dp);
+    T paddingLeft(float dp);
+    T paddingRight(float dp);
+    T paddingTop(float dp);
+    T paddingBottom(float dp);
+    T padding(int left, int top, int right, int bottom);
+    T margin(int left, int top, int right, int bottom);
+    T padding(float leftDip, float topDip, float rightDip, float bottomDip);
+    T progress(int progress);
+    T visibility(boolean isvisibe);
+    T textSizeId(int id);
+    T animation(Animation animation);
+    T rotation(float rotation);
+    T background(Drawable drawable);
+    T addView(View... views);
+    T replace(View view);
+    T toChild(int index);
+    T toChilds();
+    View breakView();
+    View[] breakViews();
+    View[] childs();
+    View[] breakChilds();
+    View childAt(int index);
+    int childCount();
+    Point measure();
 
-    T width(int width, boolean dip);
+    T drawablePadding(int padding);
+    T drawablePadding(float padding);
+    T drawableLeft(@DrawableRes int id);
+    T drawableTop(@DrawableRes int id);
+    T drawableRight(@DrawableRes int id);
+    T drawableBottom(@DrawableRes int id);
+    T drawableLeft(Drawable drawable);
+    T drawableTop(Drawable drawable);
+    T drawableRight(Drawable drawable);
+    T drawableBottom(Drawable drawable);
+    T drawables(@Nullable Drawable left, @Nullable Drawable top,
+                @Nullable Drawable right, @Nullable Drawable bottom);
 
-    /**
-     * Set the height of a View in dip or pixel.
-     * Can also be ViewGroup.LayoutParams.FILL_PARENT, ViewGroup.LayoutParams.WRAP_CONTENT, or ViewGroup.LayoutParams.MATCH_PARENT.
-     *
-     * @param height height
-     * @param dip    dip or pixel
-     * @return self
-     */
+//    <TT> T adapter(@LayoutRes int id, List<TT> list, AdapterItemer<TT> itemer);
 
-    T height(int height, boolean dip);
+    interface AdapterItemer<T> {
+        void onBinding(IViewQuery $, T model, int index);
+    }
 
+    T foreach(ViewEacher<View> eacher);
+    <TT> T foreach(Class<TT> clazz, ViewEacher<TT> eacher);
 
-    View view();
+    <TTT> TTT foreach(ViewReturnEacher<View,TTT> eacher);
+    <TT,TTT> TTT foreach(Class<TT> clazz, ViewReturnEacher<TT,TTT> eacher);
+    <TT,TTT> TTT foreach(Class<TT> clazz, ViewReturnEacher<TT,TTT> eacherm, TTT defvalue);
+
+    interface ViewEacher<TT> {
+        void each(TT view);
+    }
+
+    interface ViewReturnEacher<TT, TTT> {
+        TTT each(TT view);
+    }
+;
 }

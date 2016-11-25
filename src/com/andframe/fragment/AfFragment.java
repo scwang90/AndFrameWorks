@@ -1048,6 +1048,11 @@ public abstract class AfFragment extends Fragment implements AfPageable {
     //</editor-fold>
 
     //<editor-fold desc="新建事件">
+
+    public void onNewIntent(Intent intent) {
+
+    }
+
     /**
      * 按下返回按键
      *
@@ -1106,6 +1111,7 @@ public abstract class AfFragment extends Fragment implements AfPageable {
     public boolean onKeyLongPress(int keyCode, KeyEvent event) {
         return false;
     }
+
     //</editor-fold>
 
 }

@@ -20,7 +20,7 @@ public abstract class AfApp extends AfApplication {
      * 获取 ViewQuery
      * @return handle
      */
-    public IViewQuery getViewQuery(View view) {
+    public IViewQuery<? extends IViewQuery> getViewQuery(View view) {
         return new AfView(view);
     }
 

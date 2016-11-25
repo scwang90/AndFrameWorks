@@ -1,15 +1,25 @@
 package com.andframe.activity.framework;
 
 import android.content.Context;
+import android.content.res.Resources;
 import android.graphics.Bitmap;
+import android.graphics.Point;
 import android.graphics.Typeface;
 import android.graphics.drawable.Drawable;
 import android.net.Uri;
+import android.os.Build;
+import android.support.annotation.DrawableRes;
+import android.support.annotation.Nullable;
+import android.support.v4.view.ViewCompat;
 import android.text.Editable;
+import android.text.Html;
 import android.text.Spanned;
 import android.text.TextWatcher;
+import android.util.TypedValue;
 import android.view.View;
 import android.view.ViewGroup;
+import android.view.ViewParent;
+import android.view.animation.Animation;
 import android.webkit.WebView;
 import android.widget.Adapter;
 import android.widget.AdapterView;
@@ -23,14 +33,23 @@ import android.widget.ExpandableListView;
 import android.widget.Gallery;
 import android.widget.GridView;
 import android.widget.ImageView;
+import android.widget.LinearLayout;
 import android.widget.ListView;
 import android.widget.ProgressBar;
 import android.widget.RatingBar;
+import android.widget.ScrollView;
 import android.widget.SeekBar;
 import android.widget.Spinner;
 import android.widget.TextView;
 
-import com.andframe.feature.AfDensity;
+import com.andframe.util.android.AfMeasure;
+
+import java.util.ArrayList;
+import java.util.Arrays;
+import java.util.Collections;
+import java.util.List;
+import java.util.Queue;
+import java.util.concurrent.LinkedBlockingQueue;
 
 /**
  * 安卓版 JQuery 实现
@@ -38,12 +57,12 @@ import com.andframe.feature.AfDensity;
  */
 public class AfViewQuery<T extends AfViewQuery<T>> implements IViewQuery<T> {
 
-    protected View mRootView = null;
-    protected View mTargetView = null;
+    protected AfViewable mRootView = null;
+    protected View[] mTargetViews = null;
 
-    public AfViewQuery(View view) {
+    public AfViewQuery(AfViewable view) {
         mRootView = view;
-        mTargetView = view;
+        mTargetViews = new View[]{view.getView()};
     }
 
     public Context getContext() {
@@ -53,6 +72,14 @@ public class AfViewQuery<T extends AfViewQuery<T>> implements IViewQuery<T> {
         return null;
     }
 
+    @Override
+    public AfViewable rootViewer() {
+        return mRootView;
+    }
+
+    public View getRootView() {
+        return mRootView.getView();
+    }
 
     public View findViewById(int id) {
         if (mRootView != null) {
@@ -61,34 +88,44 @@ public class AfViewQuery<T extends AfViewQuery<T>> implements IViewQuery<T> {
         return null;
     }
 
-    protected T self(){
+    protected T self() {
         //noinspection unchecked
-        return (T)this;
-    }
-
-    public View getView() {
-        return mTargetView;
-    }
-
-    public View view() {
-        return mTargetView;
+        return (T) this;
     }
 
     /**
      * Points the current operating view to the first view found with the id under the root.
+     *
      * @param id the id
      * @return self
      */
-    public T id(int id){
-        return id(findViewById(id));
+    public T id(int... id) {
+        if (id.length == 0) {
+            mTargetViews = new View[]{getRootView()};
+        } else {
+            this.mTargetViews = new View[id.length];
+            for (int i = 0; i < id.length; i++) {
+                mTargetViews[i] = findViewById(id[i]);
+            }
+        }
+        return self();
     }
 
     /**
      * Points the current operating view to the specified view.
+     *
      * @return self
      */
-    public T id(View view){
-        this.mTargetView = view;
+    public T id(View view, View... views) {
+        if (view == null) {
+            this.mTargetViews = views;
+        } else if (views.length == 0) {
+            this.mTargetViews = new View[]{view};
+        } else {
+            this.mTargetViews = new ArrayList<View>(Arrays.asList(views)) {{
+                add(view);
+            }}.toArray(new View[views.length + 1]);
+        }
         return self();
     }
 
@@ -99,13 +136,8 @@ public class AfViewQuery<T extends AfViewQuery<T>> implements IViewQuery<T> {
      * @param rating the rating
      * @return self
      */
-    public T rating(float rating){
-
-        if(mTargetView instanceof RatingBar){
-            RatingBar rb = (RatingBar) mTargetView;
-            rb.setRating(rating);
-        }
-        return self();
+    public T rating(float rating) {
+        return foreach(RatingBar.class, (ViewEacher<RatingBar>) (view) -> view.setRating(rating));
     }
 
 
@@ -115,13 +147,8 @@ public class AfViewQuery<T extends AfViewQuery<T>> implements IViewQuery<T> {
      * @param resid the resid
      * @return self
      */
-    public T text(int resid){
-
-        if(mTargetView instanceof TextView){
-            TextView tv = (TextView) mTargetView;
-            tv.setText(resid);
-        }
-        return self();
+    public T text(int resid) {
+        return foreach(TextView.class, (ViewEacher<TextView>) (view) -> view.setText(resid));
     }
 
     /**
@@ -147,34 +174,25 @@ public class AfViewQuery<T extends AfViewQuery<T>> implements IViewQuery<T> {
      * @param text the text
      * @return self
      */
-    public T text(CharSequence text){
-
-        if(mTargetView instanceof TextView){
-            TextView tv = (TextView) mTargetView;
-            tv.setText(text);
-        }
-
-        return self();
+    public T text(CharSequence text) {
+        return foreach(TextView.class, (ViewEacher<TextView>) (view) -> view.setText(text));
     }
 
     /**
-     * Set the text of a TextView. Hide the mTargetView (gone) if text is empty.
+     * Set the text of a TextView. Hide the mTargetViews (gone) if text is empty.
      *
-     * @param text the text
+     * @param text        the text
      * @param goneIfEmpty hide if text is null or length is 0
      * @return self
      */
 
-    public T text(CharSequence text, boolean goneIfEmpty){
-
-        if(goneIfEmpty && (text == null || text.length() == 0)){
+    public T text(CharSequence text, boolean goneIfEmpty) {
+        if (goneIfEmpty && (text == null || text.length() == 0)) {
             return gone();
-        }else{
+        } else {
             return text(text);
         }
     }
-
-
 
     /**
      * Set the text of a TextView.
@@ -182,14 +200,8 @@ public class AfViewQuery<T extends AfViewQuery<T>> implements IViewQuery<T> {
      * @param text the text
      * @return self
      */
-    public T text(Spanned text){
-
-
-        if(mTargetView instanceof TextView){
-            TextView tv = (TextView) mTargetView;
-            tv.setText(text);
-        }
-        return self();
+    public T text(Spanned text) {
+        return foreach(TextView.class, (ViewEacher<TextView>) (view) -> view.setText(text));
     }
 
     /**
@@ -198,13 +210,8 @@ public class AfViewQuery<T extends AfViewQuery<T>> implements IViewQuery<T> {
      * @param color color code in ARGB
      * @return self
      */
-    public T textColor(int color){
-
-        if(mTargetView instanceof TextView){
-            TextView tv = (TextView) mTargetView;
-            tv.setTextColor(color);
-        }
-        return self();
+    public T textColor(int color) {
+        return foreach(TextView.class, (ViewEacher<TextView>) (view) -> view.setTextColor(color));
     }
 
     /**
@@ -213,7 +220,7 @@ public class AfViewQuery<T extends AfViewQuery<T>> implements IViewQuery<T> {
      * @param id color resource id
      * @return self
      */
-    public T textColorId(int id){
+    public T textColorId(int id) {
         //noinspection deprecation
         return textColor(getContext().getResources().getColor(id));
     }
@@ -225,13 +232,8 @@ public class AfViewQuery<T extends AfViewQuery<T>> implements IViewQuery<T> {
      * @param typeface typeface
      * @return self
      */
-    public T typeface(Typeface typeface){
-
-        if(mTargetView instanceof TextView){
-            TextView tv = (TextView) mTargetView;
-            tv.setTypeface(typeface);
-        }
-        return self();
+    public T typeface(Typeface typeface) {
+        return foreach(TextView.class, (ViewEacher<TextView>) (view) -> view.setTypeface(typeface));
     }
 
     /**
@@ -240,13 +242,8 @@ public class AfViewQuery<T extends AfViewQuery<T>> implements IViewQuery<T> {
      * @param size size
      * @return self
      */
-    public T textSize(float size){
-
-        if(mTargetView instanceof TextView){
-            TextView tv = (TextView) mTargetView;
-            tv.setTextSize(size);
-        }
-        return self();
+    public T textSize(float size) {
+        return foreach(TextView.class, (ViewEacher<TextView>) (view) -> view.setTextSize(size));
     }
 
 
@@ -257,15 +254,9 @@ public class AfViewQuery<T extends AfViewQuery<T>> implements IViewQuery<T> {
      * @return self
      */
 
-    @SuppressWarnings({"unchecked", "rawtypes" })
-    public T adapter(Adapter adapter){
-
-        if(mTargetView instanceof AdapterView){
-            AdapterView av = (AdapterView) mTargetView;
-            av.setAdapter(adapter);
-        }
-
-        return self();
+    @SuppressWarnings({"unchecked"})
+    public T adapter(Adapter adapter) {
+        return foreach(AdapterView.class, (ViewEacher<AdapterView>) (view) -> view.setAdapter(adapter));
     }
 
     /**
@@ -274,14 +265,8 @@ public class AfViewQuery<T extends AfViewQuery<T>> implements IViewQuery<T> {
      * @param adapter adapter
      * @return self
      */
-    public T adapter(ExpandableListAdapter adapter){
-
-        if(mTargetView instanceof ExpandableListView){
-            ExpandableListView av = (ExpandableListView) mTargetView;
-            av.setAdapter(adapter);
-        }
-
-        return self();
+    public T adapter(ExpandableListAdapter adapter) {
+        return foreach(ExpandableListView.class, (ViewEacher<ExpandableListView>) (view) -> view.setAdapter(adapter));
     }
 
     /**
@@ -289,20 +274,15 @@ public class AfViewQuery<T extends AfViewQuery<T>> implements IViewQuery<T> {
      *
      * @param resid the resource id
      * @return self
-     *
      */
-    public T image(int resid){
-
-        if(mTargetView instanceof ImageView){
-            ImageView iv = (ImageView) mTargetView;
-            if(resid == 0){
-                iv.setImageBitmap(null);
-            }else{
-                iv.setImageResource(resid);
+    public T image(int resid) {
+        return foreach(ImageView.class, (view) -> {
+            if (resid == 0) {
+                view.setImageBitmap(null);
+            } else {
+                view.setImageResource(resid);
             }
-        }
-
-        return self();
+        });
     }
 
     /**
@@ -310,17 +290,9 @@ public class AfViewQuery<T extends AfViewQuery<T>> implements IViewQuery<T> {
      *
      * @param drawable the drawable
      * @return self
-     *
-     *
      */
-    public T image(Drawable drawable){
-
-        if(mTargetView instanceof ImageView){
-            ImageView iv = (ImageView) mTargetView;
-            iv.setImageDrawable(drawable);
-        }
-
-        return self();
+    public T image(Drawable drawable) {
+        return foreach(ImageView.class, (ViewEacher<ImageView>) (view) -> view.setImageDrawable(drawable));
     }
 
     /**
@@ -328,16 +300,9 @@ public class AfViewQuery<T extends AfViewQuery<T>> implements IViewQuery<T> {
      *
      * @param bm Bitmap
      * @return self
-     *
      */
-    public T image(Bitmap bm){
-
-        if(mTargetView instanceof ImageView){
-            ImageView iv = (ImageView) mTargetView;
-            iv.setImageBitmap(bm);
-        }
-
-        return self();
+    public T image(Bitmap bm) {
+        return foreach(ImageView.class, (ViewEacher<ImageView>) (view) -> view.setImageBitmap(bm));
     }
 
 
@@ -346,57 +311,39 @@ public class AfViewQuery<T extends AfViewQuery<T>> implements IViewQuery<T> {
      *
      * @param url Image url.
      * @return self
-     *
      */
 
-    public T image(String url){
-        if (mTargetView instanceof ImageView && url != null) {
-            ((ImageView) mTargetView).setImageURI(Uri.parse(url));
-        }
-        return self();
+    public T image(String url) {
+        return foreach(ImageView.class, (ViewEacher<ImageView>) (view) -> view.setImageURI(Uri.parse(url)));
     }
 
 
     /**
-     * Set tag object of a mTargetView.
-     * @return self
-     */
-    public T tag(Object tag){
-
-        if(mTargetView != null){
-            mTargetView.setTag(tag);
-        }
-
-        return self();
-    }
-
-    /**
-     * Set tag object of a mTargetView.
+     * Set tag object of a mTargetViews.
      *
      * @return self
      */
-    public T tag(int key, Object tag){
-
-        if(mTargetView != null){
-            mTargetView.setTag(key, tag);
-        }
-
-        return self();
+    public T tag(Object tag) {
+        return foreach((ViewEacher<View>) (view) -> view.setTag(tag));
     }
 
     /**
-     * Enable a mTargetView.
+     * Set tag object of a mTargetViews.
+     *
+     * @return self
+     */
+    public T tag(int key, Object tag) {
+        return foreach((ViewEacher<View>) (view) -> view.setTag(key, tag));
+    }
+
+    /**
+     * Enable a mTargetViews.
      *
      * @param enabled state
      * @return self
      */
-    public T enabled(boolean enabled){
-
-        if(mTargetView != null){
-            mTargetView.setEnabled(enabled);
-        }
-
-        return self();
+    public T enabled(boolean enabled) {
+        return foreach((ViewEacher<View>) (view) -> view.setEnabled(enabled));
     }
 
     /**
@@ -405,14 +352,8 @@ public class AfViewQuery<T extends AfViewQuery<T>> implements IViewQuery<T> {
      * @param checked state
      * @return self
      */
-    public T checked(boolean checked){
-
-        if(mTargetView instanceof CompoundButton){
-            CompoundButton cb = (CompoundButton) mTargetView;
-            cb.setChecked(checked);
-        }
-
-        return self();
+    public T checked(boolean checked) {
+        return foreach(CompoundButton.class, (ViewEacher<CompoundButton>) (view) -> view.setChecked(checked));
     }
 
     /**
@@ -420,124 +361,92 @@ public class AfViewQuery<T extends AfViewQuery<T>> implements IViewQuery<T> {
      *
      * @return checked
      */
-    public boolean isChecked(){
-
-        boolean checked = false;
-
-        if(mTargetView instanceof CompoundButton){
-            CompoundButton cb = (CompoundButton) mTargetView;
-            checked = cb.isChecked();
-        }
-
-        return checked;
+    public boolean isChecked() {
+        return foreach(CompoundButton.class, CompoundButton::isChecked);
     }
 
     /**
-     * Set clickable for a mTargetView.
-     * @return self
-     */
-    public T clickable(boolean clickable){
-        if(mTargetView != null){
-            mTargetView.setClickable(clickable);
-        }
-
-        return self();
-    }
-
-
-    /**
-     * Set mTargetView visibility to View.GONE.
+     * Set clickable for a mTargetViews.
      *
      * @return self
      */
-    public T gone(){
+    public T clickable(boolean clickable) {
+        return foreach((ViewEacher<View>) (view) -> view.setClickable(clickable));
+    }
+
+    /**
+     * Set mTargetViews visibility to View.GONE.
+     *
+     * @return self
+     */
+    public T gone() {
         return visibility(View.GONE);
     }
 
     /**
-     * Set mTargetView visibility to View.INVISIBLE.
+     * Set mTargetViews visibility to View.INVISIBLE.
      *
      * @return self
      */
-    public T invisible(){
+    public T invisible() {
         return visibility(View.INVISIBLE);
     }
 
     /**
-     * Set mTargetView visibility to View.VISIBLE.
+     * Set mTargetViews visibility to View.VISIBLE.
      *
      * @return self
      */
-    public T visible(){
+    public T visible() {
         return visibility(View.VISIBLE);
     }
 
     /**
-     * Set mTargetView visibility, such as View.VISIBLE.
+     * Set mTargetViews visibility, such as View.VISIBLE.
      *
      * @return self
      */
-    public T visibility(int visibility){
-
-        if(mTargetView != null && mTargetView.getVisibility() != visibility){
-            mTargetView.setVisibility(visibility);
-        }
-
-        return self();
+    public T visibility(int visibility) {
+        return foreach((ViewEacher<View>) (view) -> view.setVisibility(visibility));
     }
 
 
     /**
-     * Set mTargetView background.
+     * Set mTargetViews background.
      *
      * @param id the id
      * @return self
      */
-    public T background(int id){
-
-        if(mTargetView != null){
-
-            if(id != 0){
-                mTargetView.setBackgroundResource(id);
-            }else{
+    public T background(int id) {
+        return foreach((view) -> {
+            if (id != 0) {
+                view.setBackgroundResource(id);
+            } else {
                 //noinspection deprecation
-                mTargetView.setBackgroundDrawable(null);
+                view.setBackgroundDrawable(null);
             }
-
-        }
-
-        return self();
+        });
     }
 
     /**
-     * Set mTargetView background color.
+     * Set mTargetViews background color.
      *
      * @param color color code in ARGB
      * @return self
      */
-    public T backgroundColor(int color){
-
-        if(mTargetView != null){
-            mTargetView.setBackgroundColor(color);
-        }
-
-        return self();
+    public T backgroundColor(int color) {
+        return foreach((ViewEacher<View>) (view) -> view.setBackgroundColor(color));
     }
 
     /**
-     * Set mTargetView background color.
+     * Set mTargetViews background color.
      *
      * @param colorId color code in resource id
      * @return self
      */
-    public T backgroundColorId(int colorId){
-
-        if(mTargetView != null){
-            //noinspection deprecation
-            mTargetView.setBackgroundColor(getContext().getResources().getColor(colorId));
-        }
-
-        return self();
+    public T backgroundColorId(int colorId) {
+        //noinspection deprecation
+        return foreach((ViewEacher<View>) (view) -> view.setBackgroundColor(getContext().getResources().getColor(colorId)));
     }
 
     /**
@@ -545,191 +454,175 @@ public class AfViewQuery<T extends AfViewQuery<T>> implements IViewQuery<T> {
      *
      * @return self
      */
-    public T dataChanged(){
-
-        if(mTargetView instanceof AdapterView){
-
-            AdapterView<?> av = (AdapterView<?>) mTargetView;
+    public T dataChanged() {
+        return foreach(AdapterView.class, (view) -> {
+            AdapterView<?> av = (AdapterView<?>) view;
             Adapter a = av.getAdapter();
-
-            if(a instanceof BaseAdapter){
+            if (a instanceof BaseAdapter) {
                 BaseAdapter ba = (BaseAdapter) a;
                 ba.notifyDataSetChanged();
             }
-
-        }
-
-
-        return self();
+        });
     }
 
 
-
-
     /**
-     * Checks if the current mTargetView exist.
+     * Checks if the current mTargetViews exist.
      *
      * @return true, if is exist
      */
-    public boolean isExist(){
-        return mTargetView != null;
+    public boolean isExist() {
+        return mTargetViews != null && mTargetViews.length > 0;
     }
 
     /**
-     * Gets the tag of the mTargetView.
+     * Gets the tag of the mTargetViews.
      *
      * @return tag
      */
-    public Object getTag(){
-        Object result = null;
-        if(mTargetView != null){
-            result = mTargetView.getTag();
-        }
-        return result;
+    public Object getTag() {
+        return foreach((ViewReturnEacher<View,Object>) View::getTag);
     }
 
     /**
-     * Gets the tag of the mTargetView.
+     * Gets the tag of the mTargetViews.
+     *
      * @param id the id
-     *
      * @return tag
      */
-    public Object getTag(int id){
-        Object result = null;
-        if(mTargetView != null){
-            result = mTargetView.getTag(id);
-        }
-        return result;
+
+    public Object getTag(int id) {
+        return foreach((ViewReturnEacher<View, Object>) view -> view.getTag(id));
     }
 
     /**
-     * Gets the current mTargetView as an image mTargetView.
+     * Gets the current mTargetViews as an image mTargetViews.
      *
      * @return ImageView
      */
-    public ImageView getImageView(){
-        return (ImageView) mTargetView;
+
+    public ImageView getImageView() {
+        return foreach(ImageView.class, view -> view);
     }
 
     /**
-     * Gets the current mTargetView as an Gallery.
+     * Gets the current mTargetViews as an Gallery.
      *
      * @return Gallery
      */
     @SuppressWarnings("deprecation")
-    public Gallery getGallery(){
-        return (Gallery) mTargetView;
+    public Gallery getGallery() {
+        return foreach(Gallery.class, view -> view);
     }
 
 
-
     /**
-     * Gets the current mTargetView as a text mTargetView.
+     * Gets the current mTargetViews as a text mTargetViews.
      *
      * @return TextView
      */
-    public TextView getTextView(){
-        return (TextView) mTargetView;
+    public TextView getTextView() {
+        return foreach(TextView.class, view -> view);
     }
 
     /**
-     * Gets the current mTargetView as an edit text.
+     * Gets the current mTargetViews as an edit text.
      *
      * @return EditText
      */
-    public EditText getEditText(){
-        return (EditText) mTargetView;
+    public EditText getEditText() {
+        return foreach(EditText.class, view -> view);
     }
 
     /**
-     * Gets the current mTargetView as an progress bar.
+     * Gets the current mTargetViews as an progress bar.
      *
      * @return ProgressBar
      */
-    public ProgressBar getProgressBar(){
-        return (ProgressBar) mTargetView;
+    public ProgressBar getProgressBar() {
+        return foreach(ProgressBar.class, view -> view);
     }
 
     /**
-     * Gets the current mTargetView as seek bar.
+     * Gets the current mTargetViews as seek bar.
      *
      * @return SeekBar
      */
 
-    public SeekBar getSeekBar(){
-        return (SeekBar) mTargetView;
+    public SeekBar getSeekBar() {
+        return foreach(SeekBar.class, view -> view);
     }
 
     /**
-     * Gets the current mTargetView as a button.
+     * Gets the current mTargetViews as a button.
      *
      * @return Button
      */
-    public Button getButton(){
-        return (Button) mTargetView;
+    public Button getButton() {
+        return foreach(Button.class, view -> view);
     }
 
     /**
-     * Gets the current mTargetView as a checkbox.
+     * Gets the current mTargetViews as a checkbox.
      *
      * @return CheckBox
      */
-    public CheckBox getCheckBox(){
-        return (CheckBox) mTargetView;
+    public CheckBox getCheckBox() {
+        return foreach(CheckBox.class, view -> view);
     }
 
     /**
-     * Gets the current mTargetView as a listview.
+     * Gets the current mTargetViews as a listview.
      *
      * @return ListView
      */
-    public ListView getListView(){
-        return (ListView) mTargetView;
+    public ListView getListView() {
+        return foreach(ListView.class, view -> view);
     }
 
     /**
-     * Gets the current mTargetView as a ExpandableListView.
+     * Gets the current mTargetViews as a ExpandableListView.
      *
      * @return ExpandableListView
      */
-    public ExpandableListView getExpandableListView(){
-        return (ExpandableListView) mTargetView;
+    public ExpandableListView getExpandableListView() {
+        return foreach(ExpandableListView.class, view -> view);
     }
 
     /**
-     * Gets the current mTargetView as a gridview.
+     * Gets the current mTargetViews as a gridview.
      *
      * @return GridView
      */
-    public GridView getGridView(){
-        return (GridView) mTargetView;
+    public GridView getGridView() {
+        return foreach(GridView.class, view -> view);
     }
 
     /**
-     * Gets the current mTargetView as a RatingBar.
+     * Gets the current mTargetViews as a RatingBar.
      *
      * @return RatingBar
      */
-    public RatingBar getRatingBar(){
-        return (RatingBar) mTargetView;
+    public RatingBar getRatingBar() {
+        return foreach(RatingBar.class, view -> view);
     }
 
     /**
-     * Gets the current mTargetView as a webview.
+     * Gets the current mTargetViews as a webview.
      *
      * @return WebView
      */
-    public WebView getWebView(){
-        return (WebView) mTargetView;
+    public WebView getWebView() {
+        return foreach(WebView.class, view -> view);
     }
 
     /**
-     * Gets the current mTargetView as a spinner.
+     * Gets the current mTargetViews as a spinner.
      *
      * @return Spinner
      */
-    public Spinner getSpinner(){
-        return (Spinner) mTargetView;
+    public Spinner getSpinner() {
+        return foreach(Spinner.class, view -> view);
     }
 
     /**
@@ -737,15 +630,8 @@ public class AfViewQuery<T extends AfViewQuery<T>> implements IViewQuery<T> {
      *
      * @return the editable
      */
-    public Editable getEditable(){
-
-        Editable result = null;
-
-        if(mTargetView instanceof EditText){
-            result = ((EditText) mTargetView).getEditableText();
-        }
-
-        return result;
+    public Editable getEditable() {
+        return foreach(EditText.class, EditText::getEditableText);
     }
 
     /**
@@ -753,81 +639,50 @@ public class AfViewQuery<T extends AfViewQuery<T>> implements IViewQuery<T> {
      *
      * @return the text
      */
-    public CharSequence getText(){
-
-        CharSequence result = null;
-
-        if(mTargetView instanceof TextView){
-            result = ((TextView) mTargetView).getText();
-        }
-
-        return result;
+    public CharSequence getText() {
+        return foreach(TextView.class, TextView::getText);
     }
 
     /**
-     * Gets the selected item if current mTargetView is an adapter mTargetView.
+     * Gets the selected item if current mTargetViews is an adapter mTargetViews.
      *
      * @return selected
      */
-    public Object getSelectedItem(){
-
-        Object result = null;
-
-        if(mTargetView instanceof AdapterView<?>){
-            result = ((AdapterView<?>) mTargetView).getSelectedItem();
-        }
-
-        return result;
-
+    public Object getSelectedItem() {
+        //noinspection RedundantCast
+        return foreach(AdapterView.class, (ViewReturnEacher<AdapterView, Object>) AdapterView::getSelectedItem);
     }
 
-
     /**
-     * Gets the selected item position if current mTargetView is an adapter mTargetView.
-     *
+     * Gets the selected item position if current mTargetViews is an adapter mTargetViews.
+     * <p>
      * Returns AdapterView.INVALID_POSITION if not valid.
      *
      * @return selected position
      */
-    public int getSelectedItemPosition(){
-
-        int result = AdapterView.INVALID_POSITION;
-
-        if(mTargetView instanceof AdapterView<?>){
-            result = ((AdapterView<?>) mTargetView).getSelectedItemPosition();
-        }
-
-        return result;
+    public int getSelectedItemPosition() {
+        //noinspection RedundantCast
+        return foreach(AdapterView.class, (ViewReturnEacher<AdapterView, Integer>) AdapterView::getSelectedItemPosition);
     }
 
     /**
-     * Register a callback method for when the mTargetView is clicked.
+     * Register a callback method for when the mTargetViews is clicked.
      *
      * @param listener The callback method.
      * @return self
      */
-    public T clicked(View.OnClickListener listener){
-
-        if(mTargetView != null){
-            mTargetView.setOnClickListener(listener);
-        }
-
-        return self();
+    public T clicked(View.OnClickListener listener) {
+        return foreach((ViewEacher<View>) view -> view.setOnClickListener(listener));
     }
 
     /**
-     * Register a callback method for when the mTargetView is long clicked.
+     * Register a callback method for when the mTargetViews is long clicked.
      *
      * @param listener The callback method.
      * @return self
      */
-    public T longClicked(View.OnLongClickListener listener){
-
-        if(mTargetView != null){
-            mTargetView.setOnLongClickListener(listener);
-        }
-
-        return self();
+    public T longClicked(View.OnLongClickListener listener) {
+        return foreach((ViewEacher<View>) view -> view.setOnLongClickListener(listener));
     }
 
     /**
@@ -836,17 +691,8 @@ public class AfViewQuery<T extends AfViewQuery<T>> implements IViewQuery<T> {
      * @param listener The callback method.
      * @return self
      */
-    public T itemClicked(AdapterView.OnItemClickListener listener){
-
-        if(mTargetView instanceof AdapterView){
-
-            AdapterView<?> alv = (AdapterView<?>) mTargetView;
-            alv.setOnItemClickListener(listener);
-
-
-        }
-
-        return self();
+    public T itemClicked(AdapterView.OnItemClickListener listener) {
+        return foreach(AdapterView.class, (ViewEacher<AdapterView>) view -> view.setOnItemClickListener(listener));
 
     }
 
@@ -856,14 +702,8 @@ public class AfViewQuery<T extends AfViewQuery<T>> implements IViewQuery<T> {
      * @param listener The callback method.
      * @return self
      */
-    public T itemLongClicked(AdapterView.OnItemLongClickListener listener){
-
-        if(mTargetView instanceof AdapterView){
-            AdapterView<?> alv = (AdapterView<?>) mTargetView;
-            alv.setOnItemLongClickListener(listener);
-        }
-
-        return self();
+    public T itemLongClicked(AdapterView.OnItemLongClickListener listener) {
+        return foreach(AdapterView.class, (ViewEacher<AdapterView>) view -> view.setOnItemLongClickListener(listener));
 
     }
 
@@ -873,15 +713,8 @@ public class AfViewQuery<T extends AfViewQuery<T>> implements IViewQuery<T> {
      * @param position The position of the item to be selected.
      * @return self
      */
-    public T setSelection(int position){
-
-        if(mTargetView instanceof AdapterView){
-            AdapterView<?> alv = (AdapterView<?>) mTargetView;
-            alv.setSelection(position);
-        }
-
-        return self();
-
+    public T setSelection(int position) {
+        return foreach(AdapterView.class, (ViewEacher<AdapterView>) view -> view.setSelection(position));
     }
 
     /**
@@ -890,124 +723,802 @@ public class AfViewQuery<T extends AfViewQuery<T>> implements IViewQuery<T> {
      * @param method The method name of the callback.
      * @return self
      */
-    public T textChanged(TextWatcher method){
-        if(mTargetView instanceof TextView){
-            TextView tv = (TextView) mTargetView;
-            tv.addTextChangedListener(method);
-        }
-        return self();
+    public T textChanged(TextWatcher method) {
+        return foreach(TextView.class, (ViewEacher<TextView>) view -> view.addTextChangedListener(method));
     }
 
     /**
-     * Set the margin of a mTargetView. Notes all parameters are in DIP, not in pixel.
+     * Set the margin of a mTargetViews. Notes all parameters are in DIP, not in pixel.
      *
-     * @param leftDip the left dip
-     * @param topDip the top dip
-     * @param rightDip the right dip
+     * @param leftDip   the left dip
+     * @param topDip    the top dip
+     * @param rightDip  the right dip
      * @param bottomDip the bottom dip
      * @return self
      */
-    @SuppressWarnings("unused")
-    public T margin(float leftDip, float topDip, float rightDip, float bottomDip){
-
-        if(mTargetView != null){
-
-            ViewGroup.LayoutParams lp = mTargetView.getLayoutParams();
-
-            if(lp instanceof ViewGroup.MarginLayoutParams){
-
+    @Override
+    public T margin(float leftDip, float topDip, float rightDip, float bottomDip) {
+        return foreach(view -> {
+            ViewGroup.LayoutParams lp = view.getLayoutParams();
+            if (lp instanceof ViewGroup.MarginLayoutParams) {
                 Context context = getContext();
-
-                int left = AfDensity.dip2px(context, leftDip);
-                int top = AfDensity.dip2px(context, topDip);
-                int right = AfDensity.dip2px(context, rightDip);
-                int bottom = AfDensity.dip2px(context, bottomDip);
-
+                float scale = context.getResources().getDisplayMetrics().density;
+                int left = (int) (scale * leftDip + 0.5f);
+                int top = (int) (scale * topDip + 0.5f);
+                int right = (int) (scale * rightDip + 0.5f);
+                int bottom = (int) (scale * bottomDip + 0.5f);
                 ((ViewGroup.MarginLayoutParams) lp).setMargins(left, top, right, bottom);
-                mTargetView.setLayoutParams(lp);
+                view.setLayoutParams(lp);
             }
-
-        }
-
-        return self();
+        });
     }
 
     /**
-     * Set the width of a mTargetView in dip.
+     * Set the width of a mTargetViews in dip.
      * Can also be ViewGroup.LayoutParams.FILL_PARENT, ViewGroup.LayoutParams.WRAP_CONTENT, or ViewGroup.LayoutParams.MATCH_PARENT.
      *
      * @param dip width in dip
      * @return self
      */
 
-    public T width(int dip){
+    @Override
+    public T width(float dip) {
         size(true, dip, true);
         return self();
     }
 
     /**
-     * Set the height of a mTargetView in dip.
+     * Set the height of a mTargetViews in dip.
      * Can also be ViewGroup.LayoutParams.FILL_PARENT, ViewGroup.LayoutParams.WRAP_CONTENT, or ViewGroup.LayoutParams.MATCH_PARENT.
      *
      * @param dip height in dip
      * @return self
      */
 
-    public T height(int dip){
+    @Override
+    public T height(float dip) {
         size(false, dip, true);
         return self();
     }
 
-    /**
-     * Set the width of a mTargetView in dip or pixel.
-     * Can also be ViewGroup.LayoutParams.FILL_PARENT, ViewGroup.LayoutParams.WRAP_CONTENT, or ViewGroup.LayoutParams.MATCH_PARENT.
-     *
-     * @param width width
-     * @param dip dip or pixel
-     * @return self
-     */
-
-    public T width(int width, boolean dip){
-        size(true, width, dip);
-        return self();
+    private T size(boolean width, float n, boolean dip) {
+        return foreach(view -> {
+            ViewGroup.LayoutParams lp = view.getLayoutParams();
+            if (lp != null) {
+                Context context = getContext();
+                float tn = n;
+                if (tn > 0 && dip) {
+                    float scale = context.getResources().getDisplayMetrics().density;
+                    tn = (int) (scale * tn + 0.5f);
+                }
+                if (width) {
+                    lp.width = (int)tn;
+                } else {
+                    lp.height = (int)tn;
+                }
+                view.setLayoutParams(lp);
+            }
+        });
     }
 
-    /**
-     * Set the height of a mTargetView in dip or pixel.
-     * Can also be ViewGroup.LayoutParams.FILL_PARENT, ViewGroup.LayoutParams.WRAP_CONTENT, or ViewGroup.LayoutParams.MATCH_PARENT.
-     *
-     * @param height height
-     * @param dip dip or pixel
-     * @return self
-     */
-
-    public T height(int height, boolean dip){
-        size(false, height, dip);
-        return self();
-    }
-
-    private void size(boolean width, int n, boolean dip){
-
-        if(mTargetView != null){
-
-            ViewGroup.LayoutParams lp = mTargetView.getLayoutParams();
-
-            Context context = getContext();
-
-            if(n > 0 && dip){
-                n = AfDensity.dip2px(context, n);
+    //<editor-fold desc="自定义">
+    @Override
+    public T foreach(ViewEacher<View> eacher) {
+        if (mTargetViews != null) {
+            for (View view : mTargetViews) {
+                if (view != null) {
+                    eacher.each(view);
+                }
             }
-
-            if(width){
-                lp.width = n;
-            }else{
-                lp.height = n;
-            }
-
-            mTargetView.setLayoutParams(lp);
-
         }
-
+        return self();
     }
+
+    @Override
+    public <TT> T foreach(Class<TT> clazz, ViewEacher<TT> eacher) {
+        if (mTargetViews != null) {
+            for (View view : mTargetViews) {
+                if (view != null && clazz.isInstance(view)) {
+                    eacher.each(clazz.cast(view));
+                }
+            }
+        }
+        return self();
+    }
+
+    @Override
+    public <TTT> TTT foreach(ViewReturnEacher<View, TTT> eacher) {
+        if (mTargetViews != null) {
+            for (View view : mTargetViews) {
+                if (view != null) {
+                    TTT ret = eacher.each(view);
+                    if (ret != null) {
+                        return ret;
+                    }
+                }
+            }
+        }
+        return null;
+    }
+
+    @Override
+    public <TT, TTT> TTT foreach(Class<TT> clazz, ViewReturnEacher<TT, TTT> eacher) {
+        return foreach(clazz, eacher, null);
+    }
+
+    @Override
+    public <TT, TTT> TTT foreach(Class<TT> clazz, ViewReturnEacher<TT, TTT> eacher, TTT defvalue) {
+        if (mTargetViews != null) {
+            for (View view : mTargetViews) {
+                if (view != null && clazz.isInstance(view)) {
+                    TTT ret = eacher.each(clazz.cast(view));
+                    if (ret != null) {
+                        return ret;
+                    }
+                }
+            }
+        }
+        return defvalue;
+    }
+
+    @Override
+    public T $(int id, int... ids) {
+        this.mTargetViews = new View[ids.length + 1];
+        this.mTargetViews[0] = findViewById(id);
+        for (int i = 0; i < ids.length; i++) {
+            mTargetViews[i + 1] = findViewById(ids[i]);
+        }
+        return self();
+    }
+
+    @Override
+    public T $(String idvalue, String... idvalues) {
+        if (mRootView == null) {
+            return self();
+        }
+        List<Integer> listId = new ArrayList<>(idvalues.length + 1);
+        Context context = getContext();
+        String packageName = context.getPackageName();
+        Resources resources = context.getResources();
+        if (idvalue != null) {
+            listId.add(resources.getIdentifier(idvalue,"id",packageName));
+        }
+        if (idvalues.length > 0) {
+            for (String value : idvalues) {
+                listId.add(resources.getIdentifier(value,"id",packageName));
+            }
+        }
+        int[] ids = new int[listId.size()];
+        for (int i = 0; i < ids.length; i++) {
+            ids[i] = listId.get(i);
+        }
+        return id(ids);
+    }
+
+    @Override
+    public T $(Class<?> type, Class<?>... types) {
+        Queue<View> views = new LinkedBlockingQueue<>(Collections.singletonList(mRootView.getView()));
+        List<View> list = new ArrayList<>();
+        do {
+            View cview = views.poll();
+            if (cview != null) {
+                if (type != null && type.isInstance(cview)) {
+                    list.add(cview);
+                } else if (types.length > 0) {
+                    for (Class<?> ttype : types) {
+                        if (ttype.isInstance(cview)) {
+                            list.add(cview);
+                            break;
+                        }
+                    }
+                }
+                if (cview instanceof ViewGroup) {
+                    ViewGroup group = (ViewGroup) cview;
+                    for (int j = 0; j < group.getChildCount(); j++) {
+                        views.add(group.getChildAt(j));
+                    }
+                }
+            }
+        } while (!views.isEmpty());
+        mTargetViews = list.toArray(new View[list.size()]);
+        return self();
+    }
+
+    @Override
+    public T $(View... views) {
+        return id(null, views);
+    }
+
+    public <TT extends View> TT  view(int... indexs) {
+        //noinspection unchecked
+        return (TT)getView(indexs);
+    }
+
+    @Override
+    public View[] views() {
+        return mTargetViews == null ? new View[0] : mTargetViews;
+    }
+
+    @Override
+    public <TT extends View> TT[] views(Class<TT> clazz) {
+        List<TT> list = new ArrayList<>();
+        if (mTargetViews != null) {
+            for (View view : mTargetViews) {
+                if (view != null && clazz.isInstance(view)) {
+                    list.add(clazz.cast(view));
+                }
+            }
+        }
+        //noinspection unchecked
+        return (TT[])list.toArray();
+    }
+
+    @Override
+    public <TT extends View> TT view(Class<TT> clazz, int... indexs) {
+        View view = getView(indexs);
+        if (view != null && clazz.isInstance(view)) {
+            return clazz.cast(view);
+        }
+        return null;
+    }
+
+    @Override
+    public ScrollView getScrollView() {
+        return foreach(ScrollView.class, view -> view);
+    }
+
+    @Override
+    public boolean isVisible() {
+        return foreach(view -> view.getVisibility() == View.VISIBLE);
+    }
+
+    @Override
+    public float rating() {
+        return foreach(RatingBar.class, RatingBar::getRating);
+    }
+
+    @Override
+    public int gravity() {
+        return foreach(view -> {
+            if (view instanceof TextView) {
+                return ((TextView) view).getGravity();
+//            } else if (view instanceof LinearLayout && Build.VERSION.SDK_INT > 23) {
+//                return ((LinearLayout) view).getGravity();
+            }
+            return -1;
+        });
+    }
+
+    @Override
+    public T gravity(int gravity) {
+        return foreach(view -> {
+            if (view instanceof TextView) {
+                ((TextView) view).setGravity(gravity);
+            } else if (view instanceof LinearLayout && Build.VERSION.SDK_INT > 23) {
+                ((LinearLayout) view).setGravity(gravity);
+            }
+        });
+    }
+
+    @Override
+    public T maxLines(int lines) {
+        return foreach(TextView.class,(ViewEacher<TextView>) (view) -> view.setMaxLines(lines));
+    }
+
+    @Override
+    public T setSingleLine(boolean singleLine) {
+        return foreach(TextView.class,(ViewEacher<TextView>) (view) -> view.setSingleLine(singleLine));
+    }
+
+    @Override
+    public T width(int width) {
+        size(true, width, false);
+        return self();
+    }
+
+    @Override
+    public T height(int height) {
+        return size(false, height, false);
+    }
+
+    @Override
+    public T size(int width, int height) {
+        return foreach(view -> {
+            ViewGroup.LayoutParams lp = view.getLayoutParams();
+            if (lp != null) {
+                lp.width = width;
+                lp.height = height;
+                view.setLayoutParams(lp);
+            }
+        });
+    }
+
+    @Override
+    public T size(float width, float height) {
+        return foreach(view -> {
+            ViewGroup.LayoutParams lp = view.getLayoutParams();
+            if (lp != null) {
+                float scale = getContext().getResources().getDisplayMetrics().density;
+                lp.width = (int) (scale * width + 0.5f);
+                lp.height = (int) (scale * height + 0.5f);
+                view.setLayoutParams(lp);
+            }
+        });
+    }
+
+    @Override
+    public T margin(float dp) {
+        return margin(dp,dp,dp,dp);
+    }
+
+    @Override
+    public T margin(int px) {
+        return margin(px,px,px,px);
+    }
+
+    @Override
+    public T margin(int left, int top, int right, int bottom) {
+        return foreach(view -> {
+            ViewGroup.LayoutParams lp = view.getLayoutParams();
+            if (lp instanceof ViewGroup.MarginLayoutParams) {
+                ((ViewGroup.MarginLayoutParams) lp).setMargins(left, top, right, bottom);
+                view.setLayoutParams(lp);
+            }
+        });
+    }
+
+    @Override
+    public T marginLeft(int px) {
+        return foreach(view -> {
+            ViewGroup.LayoutParams lp = view.getLayoutParams();
+            if (lp instanceof ViewGroup.MarginLayoutParams) {
+                ViewGroup.MarginLayoutParams params = (ViewGroup.MarginLayoutParams) lp;
+                params.setMargins(px, params.topMargin, params.rightMargin, params.bottomMargin);
+                view.setLayoutParams(lp);
+            }
+        });
+    }
+
+    @Override
+    public T marginRight(int px) {
+        return foreach(view -> {
+            ViewGroup.LayoutParams lp = view.getLayoutParams();
+            if (lp instanceof ViewGroup.MarginLayoutParams) {
+                ViewGroup.MarginLayoutParams params = (ViewGroup.MarginLayoutParams) lp;
+                params.setMargins(params.leftMargin, params.topMargin, px, params.bottomMargin);
+                view.setLayoutParams(lp);
+            }
+        });
+    }
+
+    @Override
+    public T marginTop(int px) {
+        return foreach(view -> {
+            ViewGroup.LayoutParams lp = view.getLayoutParams();
+            if (lp instanceof ViewGroup.MarginLayoutParams) {
+                ViewGroup.MarginLayoutParams params = (ViewGroup.MarginLayoutParams) lp;
+                params.setMargins(params.leftMargin, px, params.rightMargin, params.bottomMargin);
+                view.setLayoutParams(lp);
+            }
+        });
+    }
+
+    @Override
+    public T marginBottom(int px) {
+        return foreach(view -> {
+            ViewGroup.LayoutParams lp = view.getLayoutParams();
+            if (lp instanceof ViewGroup.MarginLayoutParams) {
+                ViewGroup.MarginLayoutParams params = (ViewGroup.MarginLayoutParams) lp;
+                params.setMargins(params.leftMargin, params.topMargin, params.rightMargin, px);
+                view.setLayoutParams(lp);
+            }
+        });
+    }
+
+    @Override
+    public T marginLeft(float dp) {
+        return foreach(view -> {
+            ViewGroup.LayoutParams lp = view.getLayoutParams();
+            if (lp instanceof ViewGroup.MarginLayoutParams) {
+                float scale = getContext().getResources().getDisplayMetrics().density;
+                int px = (int) (scale * dp + 0.5f);
+                ViewGroup.MarginLayoutParams params = (ViewGroup.MarginLayoutParams) lp;
+                params.setMargins(px, params.topMargin, params.rightMargin, params.bottomMargin);
+                view.setLayoutParams(lp);
+            }
+        });
+    }
+
+    @Override
+    public T marginRight(float dp) {
+        return foreach(view -> {
+            ViewGroup.LayoutParams lp = view.getLayoutParams();
+            if (lp instanceof ViewGroup.MarginLayoutParams) {
+                float scale = getContext().getResources().getDisplayMetrics().density;
+                int px = (int) (scale * dp + 0.5f);
+                ViewGroup.MarginLayoutParams params = (ViewGroup.MarginLayoutParams) lp;
+                params.setMargins(params.leftMargin, params.topMargin, px, params.bottomMargin);
+                view.setLayoutParams(lp);
+            }
+        });
+    }
+
+    @Override
+    public T marginTop(float dp) {
+        return foreach(view -> {
+            ViewGroup.LayoutParams lp = view.getLayoutParams();
+            if (lp instanceof ViewGroup.MarginLayoutParams) {
+                float scale = getContext().getResources().getDisplayMetrics().density;
+                int px = (int) (scale * dp + 0.5f);
+                ViewGroup.MarginLayoutParams params = (ViewGroup.MarginLayoutParams) lp;
+                params.setMargins(params.leftMargin, px, params.rightMargin, params.bottomMargin);
+                view.setLayoutParams(lp);
+            }
+        });
+    }
+
+    @Override
+    public T marginBottom(float dp) {
+        return foreach(view -> {
+            ViewGroup.LayoutParams lp = view.getLayoutParams();
+            if (lp instanceof ViewGroup.MarginLayoutParams) {
+                float scale = getContext().getResources().getDisplayMetrics().density;
+                int px = (int) (scale * dp + 0.5f);
+                ViewGroup.MarginLayoutParams params = (ViewGroup.MarginLayoutParams) lp;
+                params.setMargins(params.leftMargin, params.topMargin, params.rightMargin, px);
+                view.setLayoutParams(lp);
+            }
+        });
+    }
+
+    @Override
+    public T padding(float dp) {
+        return padding(dp,dp,dp,dp);
+    }
+
+    @Override
+    public T padding(int px) {
+        return padding(px,px,px,px);
+    }
+
+    @Override
+    public T padding(float leftDip, float topDip, float rightDip, float bottomDip) {
+        return foreach(view -> {
+            float scale = getContext().getResources().getDisplayMetrics().density;
+            int left = (int) (scale * leftDip + 0.5f);
+            int top = (int) (scale * topDip + 0.5f);
+            int right = (int) (scale * rightDip + 0.5f);
+            int bottom = (int) (scale * bottomDip + 0.5f);
+            view.setPadding(left, top, right, bottom);
+        });
+    }
+
+    @Override
+    public T padding(int left, int top, int right, int bottom) {
+        return foreach(view -> {
+            view.setPadding(left, top, right, bottom);
+        });
+    }
+
+    @Override
+    public T paddingLeft(int px) {
+        return foreach((ViewEacher<View>) view -> view.setPadding(px, view.getPaddingTop(), view.getPaddingRight(), view.getPaddingBottom()));
+    }
+
+    @Override
+    public T paddingRight(int px) {
+        return foreach((ViewEacher<View>) view -> view.setPadding(view.getPaddingLeft(), view.getPaddingTop(), px, view.getPaddingBottom()));
+    }
+
+    @Override
+    public T paddingTop(int px) {
+        return foreach((ViewEacher<View>) view -> view.setPadding(view.getPaddingLeft(), px, view.getPaddingRight(), view.getPaddingBottom()));
+    }
+
+    @Override
+    public T paddingBottom(int px) {
+        return foreach((ViewEacher<View>) view -> view.setPadding(view.getPaddingLeft(), view.getPaddingTop(), view.getPaddingRight(), px));
+    }
+
+    @Override
+    public T paddingLeft(float dp) {
+        return foreach(view -> {
+            float scale = getContext().getResources().getDisplayMetrics().density;
+            int px = (int) (scale * dp + 0.5f);
+            view.setPadding(px, view.getPaddingTop(), view.getPaddingRight(), view.getPaddingBottom());
+        });
+    }
+
+    @Override
+    public T paddingRight(float dp) {
+        return foreach(view -> {
+            float scale = getContext().getResources().getDisplayMetrics().density;
+            int px = (int) (scale * dp + 0.5f);
+            view.setPadding(view.getPaddingLeft(), view.getPaddingTop(), px, view.getPaddingBottom());
+        });
+    }
+
+    @Override
+    public T paddingTop(float dp) {
+        return foreach(view -> {
+            float scale = getContext().getResources().getDisplayMetrics().density;
+            int px = (int) (scale * dp + 0.5f);
+            view.setPadding(view.getPaddingLeft(), px, view.getPaddingRight(), view.getPaddingBottom());
+        });
+    }
+
+    @Override
+    public T paddingBottom(float dp) {
+        return foreach(view -> {
+            float scale = getContext().getResources().getDisplayMetrics().density;
+            int px = (int) (scale * dp + 0.5f);
+            view.setPadding(view.getPaddingLeft(), view.getPaddingTop(), view.getPaddingRight(), px);
+        });
+    }
+
+    @Override
+    public T visibility(boolean isvisibe) {
+        return visibility(isvisibe ? View.VISIBLE : View.GONE);
+    }
+
+    @Override
+    public T textSizeId(int id) {
+        return foreach(TextView.class,(ViewEacher<TextView>) (view) -> view.setTextSize(TypedValue.COMPLEX_UNIT_PX,view.getResources().getDimension(id)));
+    }
+
+    @Override
+    public T animation(Animation animation) {
+        return foreach((ViewEacher<View>) view -> view.setAnimation(animation));
+    }
+
+    @Override
+    public T rotation(float rotation) {
+        return foreach((ViewEacher<View>) view -> ViewCompat.setRotation(view, rotation));
+    }
+
+    @Override
+    public T background(Drawable drawable) {
+        //noinspection deprecation
+        return foreach((ViewEacher<View>) view -> view.setBackgroundDrawable(drawable));
+    }
+
+    @Override
+    public T addView(View... views) {
+        return foreach(ViewGroup.class, group -> {
+            for (View view : views) {
+                ViewParent viewParent = view.getParent();
+                if (viewParent instanceof ViewGroup) {
+                    ((ViewGroup) viewParent).removeView(view);
+                }
+                group.addView(view);
+            }
+        });
+    }
+
+    @Override
+    public T progress(int progress) {
+        return foreach(ProgressBar.class,(ViewEacher<ProgressBar>) (view) -> view.setProgress(progress));
+    }
+
+    @Override
+    public T toggle() {
+        return foreach(CheckBox.class,(ViewEacher<CheckBox>) (view) -> view.setChecked(!view.isChecked()));
+    }
+
+    @Override
+    public T text(String format, Object... args) {
+        return foreach(TextView.class, (ViewEacher<TextView>) (view) -> view.setText(String.format(format, args)));
+    }
+
+    @Override
+    public T html(String format, Object... args) {
+        if (args.length == 0) {
+            return foreach(TextView.class, (ViewEacher<TextView>) (view) -> view.setText(Html.fromHtml(format)));
+        }
+        Resources resources = null;
+        for (int i = 0, len = format.length(), index = 0; i < len; i++) {
+            if (format.charAt(i) == '%' && i < len - 1) {
+                if (format.charAt(i + 1) == 's') {
+                    if (index < args.length && args[index] instanceof Integer) {
+                        int color = ((Integer) args[index]);
+                        try {
+                            if (resources == null) {
+                                Context context = getContext();
+                                if (context != null) {
+                                    resources = getContext().getResources();
+                                }
+                            }
+                            if (resources != null) {
+                                color = resources.getColor(color);
+                            }
+                        } catch (Resources.NotFoundException ignored) {
+                        }
+                        args[index] = Integer.toHexString(0x00FFFFFF & color);
+                    }
+                }
+                i++;
+                index++;
+            }
+        }
+        return foreach(TextView.class, (ViewEacher<TextView>) (view) -> view.setText(Html.fromHtml(String.format(format, args))));
+    }
+
+    @Override
+    public View childAt(int index) {
+        return foreach(ViewGroup.class, (ViewReturnEacher<ViewGroup, View>) view -> view.getChildAt(index));
+    }
+
+    @Override
+    public View[] childs() {
+        return foreach(ViewGroup.class, view -> {
+            View[] views = new View[view.getChildCount()];
+            for (int i = 0; i < views.length; i++) {
+                views[i] = view.getChildAt(i);
+            }
+            return views;
+        }, new View[0]);
+    }
+
+    @Override
+    public View[] breakChilds() {
+        return $(childs()).foreach(view -> {
+            ViewParent parent = view.getParent();
+            if (parent instanceof ViewGroup) {
+                ((ViewGroup) parent).removeView(view);
+            }
+        }).views();
+    }
+
+    @Override
+    public View breakView() {
+        return foreach(view -> {
+            ViewParent parent = view.getParent();
+            if (parent instanceof ViewGroup) {
+                ((ViewGroup) parent).removeView(view);
+                return view;
+            }
+            return null;
+        });
+    }
+
+    @Override
+    public View[] breakViews() {
+        return foreach(view -> {
+            ViewParent parent = view.getParent();
+            if (parent instanceof ViewGroup) {
+                ((ViewGroup) parent).removeView(view);
+            }
+        }).views();
+    }
+
+    @Override
+    public T toChild(int index) {
+        if (mTargetViews != null) {
+            for (int i = 0; i < mTargetViews.length; i++) {
+                if (mTargetViews[i] instanceof ViewGroup) {
+                    ViewGroup view = (ViewGroup) mTargetViews[i];
+                    if (view.getChildCount() > index) {
+                        mTargetViews[i] = view.getChildAt(index);
+                    } else {
+                        mTargetViews[i] = null;
+                    }
+                } else {
+                    mTargetViews[i] = null;
+                }
+            }
+        }
+        return self();
+    }
+
+    @Override
+    public T toChilds() {
+        return $(childs());
+    }
+
+    @Override
+    public int childCount() {
+        return foreach(ViewGroup.class, ViewGroup::getChildCount);
+    }
+
+    @Override
+    public T replace(View target) {
+        return foreach(view -> {
+            ViewGroup parent = (ViewGroup)view.getParent();
+            if (parent != null) {
+                ViewParent viewParent = target.getParent();
+                if (viewParent instanceof ViewGroup) {
+                    ((ViewGroup) viewParent).removeView(target);
+                }
+                int i = parent.indexOfChild(view);
+                parent.removeViewAt(i);
+                parent.addView(target, i, view.getLayoutParams());
+            }
+        });
+    }
+
+    @Override
+    public Point measure() {
+        return foreach(AfMeasure::measureView);
+    }
+
+
+    public View getView(int... indexs) {
+        if (mTargetViews != null && mTargetViews.length > 0) {
+            if (indexs != null && indexs.length > 0 && indexs[0] < mTargetViews.length) {
+                return mTargetViews[indexs[0]];
+            } else {
+                return mTargetViews[0];
+            }
+        }
+        return null;
+    }
+
+    @Override
+    public T drawablePadding(int padding) {
+        return foreach(TextView.class, (ViewEacher<TextView>) view -> view.setCompoundDrawablePadding(padding));
+    }
+
+    @Override
+    public T drawablePadding(float padding) {
+        return foreach(TextView.class, (ViewEacher<TextView>) view -> view.setCompoundDrawablePadding((int) (getContext().getResources().getDisplayMetrics().density * padding + 0.5f)));
+    }
+
+    @Override
+    public T drawables(@Nullable Drawable left, @Nullable Drawable top, @Nullable Drawable right, @Nullable Drawable bottom) {
+        return foreach(TextView.class, (ViewEacher<TextView>) view -> view.setCompoundDrawables(left, top, right, bottom));
+    }
+
+    @Override
+    public T drawableLeft(Drawable drawable) {
+        return foreach(TextView.class, (ViewEacher<TextView>) view -> view.setCompoundDrawables(drawable, null, null, null));
+    }
+
+    @Override
+    public T drawableTop(Drawable drawable) {
+        return foreach(TextView.class, (ViewEacher<TextView>) view -> view.setCompoundDrawables(null, drawable, null, null));
+    }
+
+    @Override
+    public T drawableRight(Drawable drawable) {
+        return foreach(TextView.class, (ViewEacher<TextView>) view -> view.setCompoundDrawables(null, null, drawable, null));
+    }
+
+    @Override
+    public T drawableBottom(Drawable drawable) {
+        return foreach(TextView.class, (ViewEacher<TextView>) view -> view.setCompoundDrawables(null, null, null, drawable));
+    }
+
+    @Override
+    public T drawableLeft(@DrawableRes int id) {
+        return foreach(TextView.class, (ViewEacher<TextView>) view -> view.setCompoundDrawablesWithIntrinsicBounds(getContext().getResources().getDrawable(id), null, null, null));
+    }
+
+    @Override
+    public T drawableTop(@DrawableRes int id) {
+        return foreach(TextView.class, (ViewEacher<TextView>) view -> view.setCompoundDrawablesWithIntrinsicBounds(null, getContext().getResources().getDrawable(id), null, null));
+    }
+
+    @Override
+    public T drawableRight(@DrawableRes int id) {
+        return foreach(TextView.class, (ViewEacher<TextView>) view -> view.setCompoundDrawablesWithIntrinsicBounds(null, null, getContext().getResources().getDrawable(id), null));
+    }
+
+    @Override
+    public T drawableBottom(@DrawableRes int id) {
+        return foreach(TextView.class, (ViewEacher<TextView>) view -> view.setCompoundDrawablesWithIntrinsicBounds(null, null, null, getContext().getResources().getDrawable(id)));
+    }
+
+//    @SuppressWarnings("unchecked")
+//    @Override
+//    public <TT> T adapter(@LayoutRes int id, List<TT> list, AdapterItemer<TT> itemer) {
+//        return foreach(AdapterView.class, (ViewEacher<AdapterView>) (view) -> view.setAdapter(new AfListLayoutItemAdapter<TT>(id,view.getContext(),list) {
+//            @Override
+//            protected void onBinding(IViewQuery<? extends IViewQuery> $, TT model, int index) {
+//                itemer.onBinding($, model, index);
+//            }
+//        }));
+//    }
+
+    //</editor-fold>
 
 }
