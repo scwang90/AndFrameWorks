@@ -399,7 +399,7 @@ public class AfViewQuery<T extends AfViewQuery<T>> implements ViewQuery<T> {
      */
     public T background(int id) {
         return foreach((view) -> {
-            if (id != 0) {
+            if (id > 0) {
                 view.setBackgroundResource(id);
             } else {
                 //noinspection deprecation
