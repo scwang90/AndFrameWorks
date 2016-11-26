@@ -65,7 +65,7 @@ public class AfReflecter {
      * 在clazz中获取所有Field(包括父类)
      *
      * @param clazz 开始扫描类型
-     * @return Field[]
+     * @return Field[] （父类到子类排序好的）
      */
     public static Field[] getField(Class<?> clazz) {
         return getField(clazz, Object.class);
@@ -76,13 +76,20 @@ public class AfReflecter {
      *
      * @param clazz    开始扫描类型
      * @param stoptype 停止扫描类型 stop 本身不被扫描 必须是 clazz 父类
-     * @return Field[]
+     * @return Field[] （父类到子类排序好的）
      */
     public static Field[] getField(Class<?> clazz, Class<?> stoptype) {
-        List<Field> fields = new ArrayList<>();
+        List<List<Field>> lists = new ArrayList<>();
         while (clazz != null && !clazz.equals(stoptype)) {
+            List<Field> fields = new ArrayList<>();
             Collections.addAll(fields, clazz.getDeclaredFields());
             clazz = clazz.getSuperclass();
+            lists.add(fields);
+        }
+        List<Field> fields = new ArrayList<>();
+        Collections.reverse(lists);
+        for (List<Field> tmethods : lists) {
+            fields.addAll(tmethods);
         }
         return fields.toArray(new Field[fields.size()]);
     }
@@ -92,7 +99,7 @@ public class AfReflecter {
      *
      * @param clazz 开始扫描类型
      * @param annot Annotation
-     * @return Field[]
+     * @return Field[] （父类到子类排序好的）
      */
     public static Field[] getFieldAnnotation(Class<?> clazz, Class<? extends Annotation> annot) {
         return getFieldAnnotation(clazz, Object.class, annot);
@@ -102,22 +109,62 @@ public class AfReflecter {
      * 在clazz中获取所有标记annot的Field(包括父类)
      *
      * @param type     开始扫描类型
-     * @param stoptype 停止扫描类型
+     * @param stoptype 停止扫描类型 stop 本身不被扫描 必须是 clazz 父类
      * @param annot    Annotation
-     * @return Field[]
+     * @return Field[] （父类到子类排序好的）
      */
     public static Field[] getFieldAnnotation(Class<?> type, Class<?> stoptype, Class<? extends Annotation> annot) {
         Class<?> clazz = type;
-        List<Field> fields = new ArrayList<>();
+        List<List<Field>> lists = new ArrayList<>();
         while (clazz != null && !clazz.equals(stoptype)) {
+            List<Field> fields = new ArrayList<>();
             for (Field field : clazz.getDeclaredFields()) {
                 if (field.isAnnotationPresent(annot)) {
                     fields.add(field);
                 }
             }
+            lists.add(fields);
             clazz = clazz.getSuperclass();
         }
+        List<Field> fields = new ArrayList<>();
+        Collections.reverse(lists);
+        for (List<Field> tmethods : lists) {
+            fields.addAll(tmethods);
+        }
         return fields.toArray(new Field[fields.size()]);
+    }
+
+    /**
+     * 在clazz中获取所有Method(包括父类)
+     *
+     * @param clazz 开始扫描类型
+     * @return Method[] （父类到子类排序好的）
+     */
+    public static Method[] getMethod(Class<?> clazz) {
+        return getMethod(clazz, Object.class);
+    }
+
+    /**
+     * 在clazz中获取所有Method(向父类扫描知道stop停止)
+     *
+     * @param clazz    开始扫描类型
+     * @param stoptype 停止扫描类型 stop 本身不被扫描 必须是 clazz 父类
+     * @return Method[] （父类到子类排序好的）
+     */
+    public static Method[] getMethod(Class<?> clazz, Class<?> stoptype) {
+        List<List<Method>> lists = new ArrayList<>();
+        while (clazz != null && !clazz.equals(stoptype)) {
+            List<Method> fields = new ArrayList<>();
+            Collections.addAll(fields, clazz.getDeclaredMethods());
+            clazz = clazz.getSuperclass();
+            lists.add(fields);
+        }
+        List<Method> fields = new ArrayList<>();
+        Collections.reverse(lists);
+        for (List<Method> tmethods : lists) {
+            fields.addAll(tmethods);
+        }
+        return fields.toArray(new Method[fields.size()]);
     }
 
     /**
@@ -125,7 +172,7 @@ public class AfReflecter {
      *
      * @param clazz 开始扫描类型
      * @param annot Annotation
-     * @return Field[]
+     * @return Method[] （父类到子类排序好的）
      */
     public static Method[] getMethodAnnotation(Class<?> clazz, Class<? extends Annotation> annot) {
         return getMethodAnnotation(clazz, Object.class, annot);
@@ -135,9 +182,9 @@ public class AfReflecter {
      * 在clazz中获取所有标记 annot 的 Method (包括父类)
      *
      * @param type     开始扫描类型
-     * @param stoptype 停止扫描类型
+     * @param stoptype 停止扫描类型 stop 本身不被扫描 必须是 clazz 父类
      * @param annot    Annotation
-     * @return Field[]
+     * @return Method[] （父类到子类排序好的）
      */
     public static Method[] getMethodAnnotation(Class<?> type, Class<?> stoptype, Class<? extends Annotation> annot) {
         List<List<Method>> lists = new ArrayList<>();
@@ -175,7 +222,7 @@ public class AfReflecter {
      * 获取 type 的 method 的 Annotation (包括父类)
      *
      * @param type   对象类型
-     * @param stoptype 停止扫描类型
+     * @param stoptype 停止扫描类型 stop 本身不被扫描 必须是 clazz 父类
      * @param method 方法名称
      * @param annot  Annotation
      * @return method or null
@@ -207,7 +254,7 @@ public class AfReflecter {
     /**
      * 获取类型 type 的 Annotation (包括父类)
      * @param type   对象类型
-     * @param stoptype 停止扫描类型
+     * @param stoptype 停止扫描类型 stop 本身不被扫描 必须是 clazz 父类
      * @param annot  Annotation
      * @return Annotation or null
      */

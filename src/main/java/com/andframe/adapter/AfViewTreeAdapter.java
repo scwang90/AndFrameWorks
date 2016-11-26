@@ -45,21 +45,17 @@ public class AfViewTreeAdapter extends AfTreeViewAdapter<View> {
                 $.backgroundColor(0xfff9f9f9).padding(5f);
                 ImageView image = new ImageView(context);
                 image.setId(android.R.id.icon);
-                root.addView(image);
                 $.$(image).height(40f).width(40f).margin(5f);
                 LinearLayout ll = new LinearLayout(context);
                 ll.setOrientation(LinearLayout.VERTICAL);
                 TextView title = new TextView(context);
                 title.setId(android.R.id.text1);
-                title.setSingleLine();
                 TextView content = new TextView(context);
                 content.setId(android.R.id.text2);
-                ll.addView(title);
-                ll.addView(content);
-                $.$(title).textColorId(R.color.colorTextTitle).textSizeId(R.dimen.textsize_small);
+                $.$(title).setSingleLine(true).textColorId(R.color.colorTextTitle).textSizeId(R.dimen.textsize_small);
                 $.$(content).margin(0,5f,0,0).textColorId(R.color.colorTextContent).textSizeId(R.dimen.textsize_content);
-                $.$(ll).padding(5f);
-                root.addView(ll);
+                $.$(ll).padding(5f).addView(title).addView(content);
+                $.$(root).addView(image).addView(ll);
                 return root;
             }
 

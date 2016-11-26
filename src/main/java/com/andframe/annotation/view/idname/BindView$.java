@@ -1,16 +1,18 @@
-package com.andframe.annotation.pager;
+package com.andframe.annotation.view.idname;
 
 import java.lang.annotation.ElementType;
 import java.lang.annotation.Retention;
 import java.lang.annotation.RetentionPolicy;
 import java.lang.annotation.Target;
 
+
 /**
- * 绑定可刷新的竖直绑定布局
- * Created by SCWANG on 2016/3/8.
+ * 注解式绑定控件<br>
  */
-@Target(ElementType.TYPE)
+@Target(ElementType.FIELD)
 @Retention(RetentionPolicy.RUNTIME)
-public @interface BindFrameLayout {
-    int value();
+public @interface BindView$ {
+    String[] value() default {};
+    boolean click() default false;
 }
+

@@ -6,15 +6,15 @@ import android.view.View;
 import android.view.ViewGroup;
 
 import com.andframe.annotation.interpreter.Injecter;
+import com.andframe.annotation.interpreter.LayoutBinder;
 import com.andframe.annotation.interpreter.ViewBinder;
-import com.andframe.annotation.pager.BindLayout;
 import com.andframe.api.adapter.ListItem;
 import com.andframe.api.view.ViewQuery;
 import com.andframe.api.view.ViewQueryHelper;
 import com.andframe.api.view.Viewer;
 import com.andframe.feature.AfView;
+import com.andframe.fragment.AfFragment;
 import com.andframe.impl.helper.AfViewQueryHelper;
-import com.andframe.util.java.AfReflecter;
 
 /**
  * 通用列表ITEM
@@ -38,15 +38,11 @@ public abstract class AfListItem<T> implements ListItem<T>, Viewer, ViewQueryHel
 	/**
 	 * 获取 Item 关联的 InjectLayout ID
 	 */
-	public int getLayoutId() {
+	public int getLayoutId(Context context) {
 		if (layoutId != 0) {
 			return layoutId;
 		}
-		BindLayout layout = AfReflecter.getAnnotation(this.getClass(), AfListItem.class, BindLayout.class);
-		if (layout != null) {
-			return layout.value();
-		}
-		return layoutId;
+		return LayoutBinder.getBindLayoutId(this, context, AfFragment.class);
 	}
 	
 //	@Override
@@ -61,7 +57,7 @@ public abstract class AfListItem<T> implements ListItem<T>, Viewer, ViewQueryHel
 
 	@Override
 	public View onCreateView(Context context, ViewGroup parent) {
-		mLayout = LayoutInflater.from(context).inflate(getLayoutId(), parent, false);
+		mLayout = LayoutInflater.from(context).inflate(getLayoutId(context), parent, false);
 		onViewCreated(mLayout);
 		return mLayout;
 	}

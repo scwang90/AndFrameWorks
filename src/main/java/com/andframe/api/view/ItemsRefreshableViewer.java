@@ -2,7 +2,7 @@ package com.andframe.api.view;
 
 import android.view.ViewGroup;
 
-import com.andframe.widget.pulltorefresh.AfPullToRefreshBase.OnRefreshListener;
+import com.andframe.api.multistatus.OnRefreshListener;
 
 import java.util.Date;
 

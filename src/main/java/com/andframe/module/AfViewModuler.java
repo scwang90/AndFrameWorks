@@ -6,8 +6,8 @@ import android.view.View;
 
 import com.andframe.activity.AfActivity;
 import com.andframe.annotation.interpreter.Injecter;
+import com.andframe.annotation.interpreter.LayoutBinder;
 import com.andframe.annotation.interpreter.ViewBinder;
-import com.andframe.annotation.pager.BindLayout;
 import com.andframe.api.page.Pager;
 import com.andframe.api.view.ViewModuler;
 import com.andframe.api.view.ViewQuery;
@@ -17,7 +17,6 @@ import com.andframe.application.AfApp;
 import com.andframe.exception.AfExceptionHandler;
 import com.andframe.impl.helper.AfViewQueryHelper;
 import com.andframe.impl.viewer.ViewerWarpper;
-import com.andframe.util.java.AfReflecter;
 
 /**
  * 视图模块实现基类
@@ -47,11 +46,11 @@ public abstract class AfViewModuler extends ViewerWarpper implements Viewer, Vie
 	}
 
 	public static <T extends AfViewModuler> T init(Object handler, Class<T> clazz, Viewer viewable) {
-		BindLayout annotation = AfReflecter.getAnnotation(clazz, AfViewModuler.class, BindLayout.class);
-		if (annotation == null) {
+		int layoutId = LayoutBinder.getBindLayoutId(clazz, viewable.getContext(), AfViewModuler.class);
+		if (layoutId <= 0) {
 			return null;
 		}
-		return init(handler, clazz, viewable, annotation.value());
+		return init(handler, clazz, viewable, layoutId);
 	}
 
 	protected AfViewModuler(){
@@ -70,9 +69,9 @@ public abstract class AfViewModuler extends ViewerWarpper implements Viewer, Vie
 	 * 子类构造函数中必须调用这个函数
 	 */
 	protected void initializeComponent(@NonNull Viewer viewer){
-		BindLayout layout = AfReflecter.getAnnotation(this.getClass(), AfViewModuler.class, BindLayout.class);
-		if (layout != null) {
-			view = viewer.findViewById(layout.value());
+		int layoutId = LayoutBinder.getBindLayoutId(this, viewer.getContext(), AfViewModuler.class);
+		if (layoutId > 0) {
+			view = viewer.findViewById(layoutId);
 			setTarget(viewer, view);
 		} else {
 			AfExceptionHandler.handle(getClass().getSimpleName() + "ViewModuler 必须指定BindLayout","ViewModuler.initializeComponent.");

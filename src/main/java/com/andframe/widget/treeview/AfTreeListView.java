@@ -7,23 +7,16 @@ import android.widget.AdapterView;
 import android.widget.ListAdapter;
 import android.widget.ListView;
 
-import com.andframe.widget.multichoice.AfMultiChoiceAbsListView;
+import com.andframe.api.view.ItemsViewer;
+import com.andframe.widget.multichoice.AfMultiChoiceItemsViewer;
 import com.andframe.widget.multichoice.AfMultiChoiceAdapter;
 
-public class AfTreeListView extends AfMultiChoiceAbsListView<ListView> {
+public class AfTreeListView extends AfMultiChoiceItemsViewer<ListView> {
 
-	protected AfTreeViewAdapter<? extends Object> mAdapter = null;
-	
-	public AfTreeListView(Context context) {
-		super(context);
-	}
-	
-	public AfTreeListView(Context context, AttributeSet attrs) {
-		super(context, attrs);
-	}
+	protected AfTreeViewAdapter<?> mAdapter;
 
-	public AfTreeListView(Context context, AttributeSet attrs, int defStyle) {
-		super(context, attrs, defStyle);
+	public AfTreeListView(ItemsViewer<ListView> itemsViewer) {
+		super(itemsViewer);
 	}
 
 	/**
@@ -64,7 +57,7 @@ public class AfTreeListView extends AfMultiChoiceAbsListView<ListView> {
 
 	@Override
 	public void onItemClick(AdapterView<?> adview, View view, int index, long id) {
-		int position = index - mTargetView.getHeaderViewsCount();
+		int position = index;// - mTargetView.getHeaderViewsCount();
 		if (position < 0 || mAdapter == null || mAdapter.isMultiChoiceMode()
 				|| mAdapter.isItemClickable(position)) {
 			super.onItemClick(adview, view, index, id);

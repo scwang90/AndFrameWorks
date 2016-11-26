@@ -1,11 +1,12 @@
 package com.andframe.impl.multistatus;
 
+import android.content.DialogInterface.OnCancelListener;
 import android.view.View;
 
 import com.andframe.adapter.listitem.AfListItem;
 import com.andframe.api.multistatus.MoreFooter;
 import com.andframe.api.multistatus.OnMoreListener;
-import com.andframe.listener.SafeOnClickListener;
+import com.andframe.listener.SafeListener;
 
 
 /**
@@ -49,10 +50,7 @@ public abstract class BaseMoreFooter extends AfListItem<Object> implements MoreF
     @Override
     protected void onViewCreated(View view) {
         super.onViewCreated(view);
-//        finishLoadMore();
-        view.setOnClickListener(new SafeOnClickListener(v -> {
-            triggerLoadMore();
-        }));
+        view.setOnClickListener(new SafeListener((OnCancelListener) v -> triggerLoadMore()));
     }
 
     @Override

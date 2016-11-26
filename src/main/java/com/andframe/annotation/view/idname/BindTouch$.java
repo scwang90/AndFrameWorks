@@ -1,6 +1,4 @@
-package com.andframe.annotation.view;
-
-import android.support.annotation.IdRes;
+package com.andframe.annotation.view.idname;
 
 import java.lang.annotation.ElementType;
 import java.lang.annotation.Retention;
@@ -10,14 +8,14 @@ import java.lang.annotation.Target;
 
 /**
  * 注解式绑定控件<br>
- *  @ BindClick(R.id.viewId)
- *  public void onClick(View v) {
+ *  View.OnTouchListener
+ *  @ onTouch$("viewId")
+ *  boolean onTouch(View v, MotionEvent event) {
  *  }
  */
 @Target(ElementType.METHOD)
 @Retention(RetentionPolicy.RUNTIME)
-public @interface BindClick {
-    @IdRes int[] value();
-    int intervalTime() default 1000;
+public @interface BindTouch$ {
+    String[] value();
 }
 

@@ -1,9 +1,7 @@
 package com.andframe.widget.multichoice;
 
-import android.content.Context;
-import android.util.AttributeSet;
 import android.view.View;
-import android.widget.AbsListView;
+import android.view.ViewGroup;
 import android.widget.AdapterView;
 import android.widget.AdapterView.OnItemClickListener;
 import android.widget.AdapterView.OnItemLongClickListener;
@@ -11,36 +9,26 @@ import android.widget.ListAdapter;
 import android.widget.ListView;
 import android.widget.WrapperListAdapter;
 
+import com.andframe.api.multistatus.OnScrollToBottomListener;
+import com.andframe.api.view.ItemsViewer;
 import com.andframe.module.AfSelectorBottombar;
 import com.andframe.module.AfSelectorTitlebar;
-import com.andframe.widget.AfRefreshAbsListView;
 
 @SuppressWarnings("unused")
-public abstract class AfMultiChoiceAbsListView<T extends AbsListView> extends AfRefreshAbsListView<T> implements
-        OnItemLongClickListener, OnItemClickListener {
+public class AfMultiChoiceItemsViewer<T extends ViewGroup> implements
+        OnItemLongClickListener, OnItemClickListener, ItemsViewer<T> {
 
     protected OnItemClickListener mItemClickListener = null;
     protected OnItemLongClickListener mItemLongClickListener = null;
     protected AfMultiChoiceAdapter<?> mAdapter = null;
     protected AfSelectorTitlebar mSelectorTitlebar = null;
     protected AfSelectorBottombar mSelectorBottombar = null;
+    protected ItemsViewer<T> mItemsViewer;
 
-    public AfMultiChoiceAbsListView(Context context) {
-        super(context);
-        super.setOnItemClickListener(this);
-        super.setOnItemLongClickListener(this);
-    }
-
-    public AfMultiChoiceAbsListView(Context context, AttributeSet attrs) {
-        super(context, attrs);
-        super.setOnItemClickListener(this);
-        super.setOnItemLongClickListener(this);
-    }
-
-    public AfMultiChoiceAbsListView(Context context, AttributeSet attrs, int defStyle) {
-        super(context, attrs, defStyle);
-        super.setOnItemClickListener(this);
-        super.setOnItemLongClickListener(this);
+    public AfMultiChoiceItemsViewer(ItemsViewer<T> itemsViewer) {
+        this.mItemsViewer = itemsViewer;
+        this.mItemsViewer.setOnItemClickListener(this);
+        this.mItemsViewer.setOnItemLongClickListener(this);
     }
 
     @Override
@@ -53,24 +41,44 @@ public abstract class AfMultiChoiceAbsListView<T extends AbsListView> extends Af
         mItemLongClickListener = listener;
     }
 
+    @Override
+    public void setOnScrollToBottomListener(OnScrollToBottomListener listener) {
+
+    }
+
+    @Override
+    public T getItemsView() {
+        return mItemsViewer.getItemsView();
+    }
+
+    @Override
+    public boolean addHeaderView(View view) {
+        return mItemsViewer.addHeaderView(view);
+    }
+
+    @Override
+    public boolean addFooterView(View view) {
+        return mItemsViewer.addHeaderView(view);
+    }
+
     /**
      * Deprecated. Use {@link #setAdapter(AfMultiChoiceAdapter adapter)} from
      * now on.
-     *
      * @deprecated
      */
+    @Deprecated
     public void setAdapter(ListAdapter adapter) {
-        super.setAdapter(adapter);
+        mItemsViewer.setAdapter(adapter);
         bindAdapter(adapter);
     }
 
     public void setAdapter(AfMultiChoiceAdapter<?> adapter) {
-        super.setAdapter(adapter);
+        mItemsViewer.setAdapter(adapter);
         bindAdapter(adapter);
     }
 
     public void bindAdapter(ListAdapter adapter) {
-        while (adapter instanceof WrapperListAdapter && !(adapter instanceof AfMultiChoiceAbsListView)) {
+        while (adapter instanceof WrapperListAdapter && !(adapter instanceof AfMultiChoiceItemsViewer)) {
             adapter = ((WrapperListAdapter) adapter).getWrappedAdapter();
         }
         if (adapter instanceof AfMultiChoiceAdapter) {
@@ -101,8 +109,8 @@ public abstract class AfMultiChoiceAbsListView<T extends AbsListView> extends Af
     @Override
     public void onItemClick(AdapterView<?> adview, View view, int index, long id) {
         if (mAdapter != null && mAdapter.isMultiChoiceMode()) {
-            if (mTargetView instanceof ListView) {
-                index = index - ((ListView) mTargetView).getHeaderViewsCount();
+            if (getItemsView() instanceof ListView) {
+                index = index - ((ListView) getItemsView()).getHeaderViewsCount();
                 if (index < 0) {
                     return;
                 }
@@ -114,11 +122,10 @@ public abstract class AfMultiChoiceAbsListView<T extends AbsListView> extends Af
     }
 
     @Override
-    public boolean onItemLongClick(AdapterView<?> adview, View view, int index,
-                                   long id) {
+    public boolean onItemLongClick(AdapterView<?> adview, View view, int index,long id) {
         if (mAdapter != null && !mAdapter.isMultiChoiceMode()) {
-            if (mTargetView instanceof ListView) {
-                index = index - ((ListView) mTargetView).getHeaderViewsCount();
+            if (getItemsView() instanceof ListView) {
+                index = index - ((ListView) getItemsView()).getHeaderViewsCount();
                 if (index < 0) {
                     return false;
                 }

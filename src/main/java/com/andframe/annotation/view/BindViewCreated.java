@@ -8,15 +8,15 @@ import java.lang.annotation.Target;
 
 /**
  * 控件注入之后执行<br>
-    @ BindViewCreated()
-    public void onInit() {
-    }
+ *  @ BindViewCreated()
+ *  public void onInit() {
+ *  }
  */
 @Target(ElementType.METHOD)
 @Retention(RetentionPolicy.RUNTIME)
 public @interface BindViewCreated {
     /**
-     * 和其BindAfterView标记的方法的执行序号
+     * 和其BindViewCreated标记的方法的执行序号
      */
     int value() default 0;
     /**

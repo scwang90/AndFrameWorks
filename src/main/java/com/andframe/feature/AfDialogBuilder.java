@@ -34,11 +34,7 @@ import com.andframe.activity.AfActivity;
 import com.andframe.api.DialogBuilder;
 import com.andframe.caches.AfPrivateCaches;
 import com.andframe.exception.AfExceptionHandler;
-import com.andframe.listener.SafeOnCancelListener;
-import com.andframe.listener.SafeOnClickListener;
-import com.andframe.listener.SafeOnDateSetListener;
-import com.andframe.listener.SafeOnMultiChoiceClickListener;
-import com.andframe.listener.SafeOnTimeSetListener;
+import com.andframe.listener.SafeListener;
 import com.andframe.util.java.AfReflecter;
 
 import java.util.Calendar;
@@ -204,13 +200,13 @@ public class AfDialogBuilder implements DialogBuilder {
             builder.setIcon(iconres);
         }
         if (positive != null && positive.length() > 0) {
-            builder.setPositiveButton(positive, new SafeOnClickListener(lpositive));
+            builder.setPositiveButton(positive, new SafeListener(lpositive));
         }
         if (negative != null && negative.length() > 0) {
-            builder.setNegativeButton(negative, new SafeOnClickListener(lnegative));
+            builder.setNegativeButton(negative, new SafeListener(lnegative));
         }
         if (neutral != null && neutral.length() > 0) {
-            builder.setNeutralButton(neutral, new SafeOnClickListener(lneutral));
+            builder.setNeutralButton(neutral, new SafeListener(lneutral));
         }
         builder.setCancelable(false);
         builder.create();
@@ -341,13 +337,13 @@ public class AfDialogBuilder implements DialogBuilder {
             builder.setIcon(iconres);
         }
         if (positive != null && positive.length() > 0) {
-            builder.setPositiveButton(positive, new SafeOnClickListener(lpositive));
+            builder.setPositiveButton(positive, new SafeListener(lpositive));
         }
         if (negative != null && negative.length() > 0) {
-            builder.setNegativeButton(negative, new SafeOnClickListener(lnegative));
+            builder.setNegativeButton(negative, new SafeListener(lnegative));
         }
         if (neutral != null && neutral.length() > 0) {
-            builder.setNeutralButton(neutral, new SafeOnClickListener(lneutral));
+            builder.setNeutralButton(neutral, new SafeListener(lneutral));
         }
         builder.setCancelable(false);
         builder.create();
@@ -366,7 +362,7 @@ public class AfDialogBuilder implements DialogBuilder {
      */
     @Override
     public Dialog selectItem(CharSequence title, CharSequence[] items, OnClickListener listener, boolean cancel) {
-        return selectItem(title, items, listener, cancel ? new SafeOnCancelListener() : null);
+        return selectItem(title, items, listener, cancel ? new SafeListener() : null);
     }
 
     /**
@@ -383,7 +379,7 @@ public class AfDialogBuilder implements DialogBuilder {
         if (title != null) {
             dialog.setTitle(title);
             if (oncancel != null) {
-                dialog.setNegativeButton("取消", new SafeOnClickListener() {
+                dialog.setNegativeButton("取消", new SafeListener() {
                     @Override
                     public void onClick(DialogInterface dialog, int which) {
                         oncancel.onCancel(dialog);
@@ -393,11 +389,11 @@ public class AfDialogBuilder implements DialogBuilder {
         }
         if (oncancel != null) {
             dialog.setCancelable(true);
-            dialog.setOnCancelListener(new SafeOnCancelListener(oncancel));
+            dialog.setOnCancelListener(new SafeListener(oncancel));
         } else {
             dialog.setCancelable(false);
         }
-        dialog.setItems(items, new SafeOnClickListener(listener));
+        dialog.setItems(items, new SafeListener(listener));
         return dialog.show();
     }
 
@@ -453,9 +449,9 @@ public class AfDialogBuilder implements DialogBuilder {
         Builder dialog = new Builder(mContext);
         if (title != null) {
             dialog.setTitle(title);
-            dialog.setNegativeButton("确定", new SafeOnClickListener(lpositive));
+            dialog.setNegativeButton("确定", new SafeListener(lpositive));
         }
-        dialog.setMultiChoiceItems(items, checkedItems, new SafeOnMultiChoiceClickListener(listener));
+        dialog.setMultiChoiceItems(items, checkedItems, new SafeListener(listener));
         return dialog.show();
     }
 
@@ -546,12 +542,12 @@ public class AfDialogBuilder implements DialogBuilder {
             builder.setView(input);
             builder.setCancelable(false);
             builder.setTitle(title);
-            builder.setPositiveButton("确定", new SafeOnClickListener());
+            builder.setPositiveButton("确定", new SafeListener());
             builder.setNegativeButton("取消", cancleListener);
             final AlertDialog dialog = builder.create();
             dialog.setOnShowListener(showListener);
             dialog.show();
-            dialog.getButton(AlertDialog.BUTTON_POSITIVE).setOnClickListener(v -> new SafeOnClickListener(okListener).onClick(dialog, 0));
+            dialog.getButton(AlertDialog.BUTTON_POSITIVE).setOnClickListener(v -> new SafeListener(okListener).onClick(dialog, 0));
             return dialog;
         } else {
             final Dialog dialog = showDialog(title, msgKey, oKey, okListener, "取消", cancleListener);
@@ -563,7 +559,7 @@ public class AfDialogBuilder implements DialogBuilder {
                     showListener.onShow(dialog);
                     builderHelper = FindTextViewWithText.invoke((ViewGroup) dialog.getWindow().getDecorView(), oKey);
                     if (builderHelper != null) {
-                        builderHelper.textView.setOnClickListener(v -> new SafeOnClickListener(okListener).onClick(dialog, 0));
+                        builderHelper.textView.setOnClickListener(v -> new SafeListener(okListener).onClick(dialog, 0));
                     }
                 }
             }, mBuildDelayed);
@@ -702,7 +698,7 @@ public class AfDialogBuilder implements DialogBuilder {
         if (!TextUtils.isEmpty(key) && defclick > -1) {
             int click = AfPrivateCaches.getInstance(key).getInt(key, -1);
             if (click == defclick) {
-                OnClickListener[] clicks = {new SafeOnClickListener(lpositive), new SafeOnClickListener(lnegative), new SafeOnClickListener(lneutral)};
+                OnClickListener[] clicks = {new SafeListener(lpositive), new SafeListener(lnegative), new SafeListener(lneutral)};
                 for (int i = 0; i < clicks.length; i++) {
                     if (i == defclick && clicks[i] != null) {
                         clicks[i].onClick(null, i);
@@ -811,10 +807,10 @@ public class AfDialogBuilder implements DialogBuilder {
         int year = calender.get(Calendar.YEAR);
         final int month = calender.get(Calendar.MONTH);
         final int day = calender.get(Calendar.DAY_OF_MONTH);
-        final AlertDialog tDialog = new DatePickerDialog(mContext, new SafeOnDateSetListener((view, year1, month1, day1) -> {
+        final AlertDialog tDialog = new DatePickerDialog(mContext, new SafeListener((view, year1, month1, day1) -> {
             int hour = calender.get(Calendar.HOUR_OF_DAY);
             int minute = calender.get(Calendar.MINUTE);
-            Dialog tDialog1 = new TimePickerDialog(mContext, new SafeOnTimeSetListener((view1, hour1, minute1) -> listener.onDateTimeSet(year1, month1, day1, hour1, minute1)), hour, minute, true);
+            Dialog tDialog1 = new TimePickerDialog(mContext, new SafeListener((OnTimeSetListener)(view1, hour1, minute1) -> listener.onDateTimeSet(year1, month1, day1, hour1, minute1)), hour, minute, true);
             if (title != null && title.length() > 0) {
                 tDialog1.setTitle(title);
             }
@@ -872,7 +868,7 @@ public class AfDialogBuilder implements DialogBuilder {
         calender.setTime(value);
         int hour = calender.get(Calendar.HOUR_OF_DAY);
         int minute = calender.get(Calendar.MINUTE);
-        AlertDialog tDialog = new TimePickerDialog(mContext, new SafeOnTimeSetListener(listener) , hour, minute, true);
+        AlertDialog tDialog = new TimePickerDialog(mContext, new SafeListener(listener) , hour, minute, true);
         if (title != null && title.length() > 0) {
             tDialog.setTitle(title);
         }
@@ -925,7 +921,7 @@ public class AfDialogBuilder implements DialogBuilder {
         int year = calender.get(Calendar.YEAR);
         int month = calender.get(Calendar.MONTH);
         int day = calender.get(Calendar.DAY_OF_MONTH);
-        AlertDialog tDialog = new DatePickerDialog(mContext, new SafeOnDateSetListener(listener) , year, month, day);
+        AlertDialog tDialog = new DatePickerDialog(mContext, new SafeListener(listener) , year, month, day);
         if (title != null && title.length() > 0) {
             tDialog.setTitle(title);
         }
@@ -966,7 +962,7 @@ public class AfDialogBuilder implements DialogBuilder {
      */
     @Override
     public Dialog showProgressDialog(CharSequence message, boolean cancel, int textsize) {
-        return showProgressDialog(message, cancel ? new SafeOnCancelListener() : null, 25);
+        return showProgressDialog(message, cancel ? new SafeListener() : null, 25);
     }
 
     /**

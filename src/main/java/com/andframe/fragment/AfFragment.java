@@ -16,10 +16,10 @@ import android.widget.Toast;
 import com.andframe.activity.AfActivity;
 import com.andframe.activity.AfFragmentActivity;
 import com.andframe.annotation.interpreter.Injecter;
+import com.andframe.annotation.interpreter.LayoutBinder;
 import com.andframe.annotation.interpreter.LifeCycleInjecter;
 import com.andframe.annotation.interpreter.ViewBinder;
 import com.andframe.annotation.lifecycle.OnCreateView;
-import com.andframe.annotation.pager.BindLayout;
 import com.andframe.api.DialogBuilder;
 import com.andframe.api.page.Pager;
 import com.andframe.api.view.ViewQuery;
@@ -36,7 +36,6 @@ import com.andframe.task.AfData3Task;
 import com.andframe.task.AfDataTask;
 import com.andframe.task.AfTask;
 import com.andframe.task.AfTaskExecutor;
-import com.andframe.util.java.AfReflecter;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -192,9 +191,9 @@ public abstract class AfFragment extends Fragment implements Pager, ViewQueryHel
      * 自定义 View onCreateView(LayoutInflater, ViewGroup)
      */
     protected View onCreateView(LayoutInflater inflater, ViewGroup container) {
-        BindLayout layout = AfReflecter.getAnnotation(this.getClass(), AfFragment.class, BindLayout.class);
-        if (layout != null) {
-            return inflater.inflate(layout.value(), container, false);
+        int layoutId = LayoutBinder.getBindLayoutId(this, inflater.getContext(), AfFragment.class);
+        if (layoutId > 0) {
+            return inflater.inflate(layoutId, container, false);
         }
         return null;
     }

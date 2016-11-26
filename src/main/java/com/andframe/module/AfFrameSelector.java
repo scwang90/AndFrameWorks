@@ -4,7 +4,6 @@ import android.annotation.SuppressLint;
 import android.view.View;
 import android.widget.FrameLayout;
 
-import com.andframe.api.view.ItemsRefreshableViewer;
 import com.andframe.api.view.ViewModuler;
 import com.andframe.api.view.Viewer;
 
@@ -37,9 +36,6 @@ public class AfFrameSelector extends AfViewModuler {
 		return mFrameLayout;
 	}
 
-	public boolean selectFrame(ItemsRefreshableViewer view) {
-		return selectFrame(view.getRefreshableLayout());
-	}
 	/**
 	 * 在 FrameLayout 中选择 view 的布局 隐藏其他的布局
 	 */

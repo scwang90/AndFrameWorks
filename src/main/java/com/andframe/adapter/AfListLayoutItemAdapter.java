@@ -6,8 +6,8 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 
-import com.andframe.annotation.pager.BindLayout;
-import com.andframe.util.java.AfReflecter;
+import com.andframe.annotation.interpreter.LayoutBinder;
+import com.andframe.fragment.AfFragment;
 
 import java.util.List;
 
@@ -22,12 +22,12 @@ public abstract class AfListLayoutItemAdapter<T> extends AfListItemAdapter<T> {
 
     public AfListLayoutItemAdapter(Context context, List<T> ltdata) {
         super(context, ltdata);
-        initLayout();
+        initLayout(context);
     }
 
     public AfListLayoutItemAdapter(Context context, List<T> ltdata, boolean dataSync) {
         super(context, ltdata, dataSync);
-        initLayout();
+        initLayout(context);
     }
 
     public AfListLayoutItemAdapter(@LayoutRes int layoutId, Context context, List<T> ltdata) {
@@ -40,10 +40,10 @@ public abstract class AfListLayoutItemAdapter<T> extends AfListItemAdapter<T> {
         mLayoutId = layoutId;
     }
 
-    protected void initLayout() {
-        BindLayout layout = AfReflecter.getAnnotation(getClass(), AfListLayoutItemAdapter.class, BindLayout.class);
-        if (layout != null) {
-            mLayoutId = layout.value();
+    protected void initLayout(Context context) {
+        int layoutId = LayoutBinder.getBindLayoutId(this, context, AfListLayoutItemAdapter.class);
+        if (layoutId > 0) {
+            mLayoutId = layoutId;
         } else {
             throw new RuntimeException("请使用BindLayout注解标记你的适配器！");
         }

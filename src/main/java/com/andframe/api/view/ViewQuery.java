@@ -565,9 +565,9 @@ public interface ViewQuery<T extends ViewQuery<T>> {
     float rating();
     T $(int id, int... ids);
     T $(String idvalue, String... idvalues);
-    T $(Class<?> type, Class<?>... types);
+    T $(Class<? extends View> type);
+    T $(Class<? extends View>[] types);
     T $(View... views);
-    T id(View view, View... views);
     T gravity(int gravity);
     T maxLines(int lines);
     T setSingleLine(boolean singleLine);

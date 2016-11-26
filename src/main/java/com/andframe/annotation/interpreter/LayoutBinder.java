@@ -2,10 +2,16 @@ package com.andframe.annotation.interpreter;
 
 import android.app.Activity;
 import android.app.Dialog;
+import android.content.Context;
 
 import com.andframe.annotation.pager.BindLayout;
+import com.andframe.annotation.pager.BindLayout$;
 import com.andframe.exception.AfExceptionHandler;
+import com.andframe.impl.wrapper.ViewWrapper;
 import com.andframe.util.java.AfReflecter;
+
+import java.util.HashMap;
+import java.util.Map;
 
 /**
  * 布局绑定器
@@ -20,28 +26,66 @@ public class LayoutBinder {
         return "LayoutBinder(" + obj.getClass().getName() + ")." + tag;
     }
 
-    public static void doBind(Activity activity) throws Throwable {
+    public static void doBind(Activity activity) {
         try{
-            Class<? extends Activity> clazz = activity.getClass();
-            BindLayout layout = AfReflecter.getAnnotation(clazz, Activity.class, BindLayout.class);
-            if (layout != null) {
-                activity.setContentView(layout.value());
+            int layoutId = getBindLayoutId(activity, activity, Activity.class);
+            if (layoutId > 0) {
+                activity.setContentView(layoutId);
             }
         } catch (Throwable ex) {
             AfExceptionHandler.handle(ex, TAG(activity, "doBind(activity)"));
-            throw ex;
         }
     }
 
     public static void doBind(Dialog dialog) {
         try{
-            Class<? extends Dialog> clazz = dialog.getClass();
-            BindLayout layout = AfReflecter.getAnnotation(clazz, Dialog.class, BindLayout.class);
-            if (layout != null) {
-                dialog.setContentView(layout.value());
+            int layoutId = getBindLayoutId(dialog, dialog.getContext(), Dialog.class);
+            if (layoutId > 0) {
+                dialog.setContentView(layoutId);
             }
         } catch (Throwable ex) {
             AfExceptionHandler.handle(ex, TAG(dialog, "doBind(dialog)"));
         }
     }
+
+    public static int getBindLayoutId(Context context) {
+        return getBindLayoutId(context, context);
+    }
+
+    public static int getBindLayoutId(Object handler, Context context) {
+        return getBindLayoutId(handler, context, ViewWrapper.class);
+    }
+
+    public static int getBindLayoutId(Object handler, Context context, Class<?> stop) {
+        return getBindLayoutId(handler.getClass(), context, stop);
+    }
+
+    public static int getBindLayoutId(Class<?> clazz, Context context, Class<?> stop) {
+        Integer integer = idCache.get(clazz);
+        if (integer == null) {
+            idCache.put(clazz, integer = reflectLayoutId(clazz, context, stop));
+        }
+        return integer;
+    }
+
+    private static int reflectLayoutId(Class<?> clazz, Context context, Class<?> stop) {
+        BindLayout layout = AfReflecter.getAnnotation(clazz, stop, BindLayout.class);
+        if (layout != null) {
+            return layout.value();
+        } else {
+            BindLayout$ layout$ = AfReflecter.getAnnotation(clazz, stop, BindLayout$.class);
+            if (layout$ != null) {
+                int id = context.getResources().getIdentifier(layout$.value(), "layout", context.getPackageName());
+                if (id <= 0) {
+                    id = context.getResources().getIdentifier(layout$.value(), "id", context.getPackageName());
+                }
+                return id;
+            }
+        }
+        return 0;
+    }
+
+    //<editor-fold desc="反射缓存">
+    private static Map<Class, Integer> idCache = new HashMap<>();
+    //</editor-fold>
 }

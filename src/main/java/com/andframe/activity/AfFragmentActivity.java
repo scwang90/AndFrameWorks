@@ -18,7 +18,9 @@ import com.andframe.util.java.AfReflecter;
 
 import java.util.ArrayList;
 import java.util.Arrays;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 import static android.R.id.widget_frame;
 
@@ -103,7 +105,7 @@ public class AfFragmentActivity extends AfActivity {
 
     protected void checkMustLoginedOnCreate() {
         try {
-            Class<?> fragment = Class.forName(mFragmentClazz);
+            Class<?> fragment = getaFragmentClass();
             MustLogined must = AfReflecter.getAnnotation(fragment, Fragment.class, MustLogined.class);
             if (must != null && !AfApp.get().isUserLogined()) {
                 interruptReplaceFragment = true;
@@ -113,6 +115,17 @@ public class AfFragmentActivity extends AfActivity {
             e.printStackTrace();
         }
     }
+
+    //<editor-fold desc="反射缓存">
+    private static Map<String, Class> typeCache = new HashMap<>();
+    private Class<?> getaFragmentClass() throws ClassNotFoundException {
+        Class type = typeCache.get(mFragmentClazz);
+        if (type == null) {
+            typeCache.put(mFragmentClazz, type = Class.forName(mFragmentClazz));
+        }
+        return type;
+    }
+    //</editor-fold>
 
     /**
      * 启动指定的登录页面
@@ -145,7 +158,7 @@ public class AfFragmentActivity extends AfActivity {
     protected void replaceFragment() {
         if (!interruptReplaceFragment) {
             try {
-                mFragment = (Fragment)Class.forName(mFragmentClazz).newInstance();
+                mFragment = (Fragment)getaFragmentClass().newInstance();
                 FragmentManager manager = getSupportFragmentManager();
                 FragmentTransaction transaction = manager.beginTransaction();
                 transaction.replace(widget_frame, mFragment);

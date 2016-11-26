@@ -45,7 +45,7 @@ import android.widget.TextView;
 import com.andframe.adapter.AfListLayoutItemAdapter;
 import com.andframe.api.view.ViewQuery;
 import com.andframe.api.view.Viewer;
-import com.andframe.listener.SafeOnClickListener;
+import com.andframe.listener.SafeListener;
 import com.andframe.util.android.AfMeasure;
 
 import java.util.ArrayList;
@@ -114,25 +114,6 @@ public class AfViewQuery<T extends AfViewQuery<T>> implements ViewQuery<T> {
         }
         return self();
     }
-
-    /**
-     * Points the current operating view to the specified view.
-     *
-     * @return self
-     */
-    public T id(View view, View... views) {
-        if (view == null) {
-            this.mTargetViews = views;
-        } else if (views.length == 0) {
-            this.mTargetViews = new View[]{view};
-        } else {
-            this.mTargetViews = new ArrayList<View>(Arrays.asList(views)) {{
-                add(view);
-            }}.toArray(new View[views.length + 1]);
-        }
-        return self();
-    }
-
 
     /**
      * Set the rating of a RatingBar.
@@ -676,7 +657,7 @@ public class AfViewQuery<T extends AfViewQuery<T>> implements ViewQuery<T> {
      * @return self
      */
     public T clicked(View.OnClickListener listener) {
-        return foreach((ViewEacher<View>) view -> view.setOnClickListener(new SafeOnClickListener(listener)));
+        return foreach((ViewEacher<View>) view -> view.setOnClickListener(new SafeListener(listener)));
     }
 
     /**
@@ -697,7 +678,6 @@ public class AfViewQuery<T extends AfViewQuery<T>> implements ViewQuery<T> {
      */
     public T itemClicked(AdapterView.OnItemClickListener listener) {
         return foreach(AdapterView.class, (ViewEacher<AdapterView>) view -> view.setOnItemClickListener(listener));
-
     }
 
     /**
@@ -900,7 +880,7 @@ public class AfViewQuery<T extends AfViewQuery<T>> implements ViewQuery<T> {
     }
 
     @Override
-    public T $(Class<?> type, Class<?>... types) {
+    public T $(Class<? extends View> type) {
         Queue<View> views = new LinkedBlockingQueue<>(Collections.singletonList(mRootView.getView()));
         List<View> list = new ArrayList<>();
         do {
@@ -908,13 +888,6 @@ public class AfViewQuery<T extends AfViewQuery<T>> implements ViewQuery<T> {
             if (cview != null) {
                 if (type != null && type.isInstance(cview)) {
                     list.add(cview);
-                } else if (types.length > 0) {
-                    for (Class<?> ttype : types) {
-                        if (ttype.isInstance(cview)) {
-                            list.add(cview);
-                            break;
-                        }
-                    }
                 }
                 if (cview instanceof ViewGroup) {
                     ViewGroup group = (ViewGroup) cview;
@@ -929,8 +902,34 @@ public class AfViewQuery<T extends AfViewQuery<T>> implements ViewQuery<T> {
     }
 
     @Override
+    public T $(Class<? extends View>... types) {
+        List<View> list = new ArrayList<>();
+        Queue<View> views = new LinkedBlockingQueue<>(Collections.singletonList(mRootView.getView()));
+        while (!views.isEmpty() && types.length > 0) {
+            View cview = views.poll();
+            if (cview != null) {
+                for (Class<?> ttype : types) {
+                    if (ttype.isInstance(cview)) {
+                        list.add(cview);
+                        break;
+                    }
+                }
+                if (cview instanceof ViewGroup) {
+                    ViewGroup group = (ViewGroup) cview;
+                    for (int j = 0; j < group.getChildCount(); j++) {
+                        views.add(group.getChildAt(j));
+                    }
+                }
+            }
+        }
+        mTargetViews = list.toArray(new View[list.size()]);
+        return self();
+    }
+
+    @Override
     public T $(View... views) {
-        return id(null, views);
+        this.mTargetViews = views;
+        return self();
     }
 
     public <TT extends View> TT  view(int... indexs) {
