@@ -59,10 +59,6 @@ public class AfViewQueryHelper implements ViewQueryHelper, InvocationHandler {
         return query.$(views);
     }
 
-    public ViewQuery<? extends ViewQuery> id(int... ids) {
-        return getQuery().id(ids);
-    }
-
     @Override
     public Object invoke(Object proxy, Method method, Object[] args) throws Throwable {
         return method.invoke(getQuery(), args);
