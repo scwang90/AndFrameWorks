@@ -48,7 +48,7 @@ public interface ViewQuery<T extends ViewQuery<T>> {
      * @param id the id
      * @return self
      */
-    T id(int... id);
+    T id(int id);
 
     /**
      * Set the rating of a RatingBar.

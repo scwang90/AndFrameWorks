@@ -102,16 +102,8 @@ public class AfViewQuery<T extends AfViewQuery<T>> implements ViewQuery<T> {
      * @param id the id
      * @return self
      */
-    public T id(int... id) {
-        if (id.length == 0) {
-            mTargetViews = new View[]{getRootView()};
-        } else {
-            this.mTargetViews = new View[id.length];
-            for (int i = 0; i < id.length; i++) {
-                mTargetViews[i] = findViewById(id[i]);
-            }
-        }
-        return self();
+    public T id(int id) {
+        return foreach((ViewEacher<View>) view -> view.setId(id));
     }
 
     /**

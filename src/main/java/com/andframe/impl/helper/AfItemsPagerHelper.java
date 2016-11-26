@@ -393,13 +393,13 @@ public class AfItemsPagerHelper<T> extends AfMultiStatusHelper<List<T>> implemen
         MultiItemsHeader headers = AfReflecter.getAnnotation(mPager.getClass(), stop, MultiItemsHeader.class);
         if (headers != null) {
             for (int id : headers.value()) {
-                addHeaderView(adapter, $.query(mPager).id(id).breakView());
+                addHeaderView(adapter, $.query(mPager).$(id).breakView());
             }
         }
         MultiItemsFooter footers = AfReflecter.getAnnotation(mPager.getClass(), stop, MultiItemsFooter.class);
         if (footers != null) {
             for (int id : footers.value()) {
-                addFooterView(adapter, $.query(mPager).id(id).breakView());
+                addFooterView(adapter, $.query(mPager).$(id).breakView());
             }
         }
 
