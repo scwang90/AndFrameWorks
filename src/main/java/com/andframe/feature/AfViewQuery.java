@@ -1008,12 +1008,12 @@ public class AfViewQuery<T extends AfViewQuery<T>> implements ViewQuery<T> {
 
     @Override
     public T maxLines(int lines) {
-        return foreach(TextView.class,(ViewEacher<TextView>) (view) -> view.setMaxLines(lines));
+        return foreach(TextView.class, (ViewEacher<TextView>) (view) -> view.setMaxLines(lines));
     }
 
     @Override
-    public T setSingleLine(boolean singleLine) {
-        return foreach(TextView.class,(ViewEacher<TextView>) (view) -> view.setSingleLine(singleLine));
+    public T singleLine(boolean... value) {
+        return foreach(TextView.class, (ViewEacher<TextView>) (view) -> view.setSingleLine(value.length == 0 || value[0]));
     }
 
     @Override

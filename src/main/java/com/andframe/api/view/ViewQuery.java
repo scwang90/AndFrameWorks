@@ -570,7 +570,7 @@ public interface ViewQuery<T extends ViewQuery<T>> {
     T $(View... views);
     T gravity(int gravity);
     T maxLines(int lines);
-    T setSingleLine(boolean singleLine);
+    T singleLine(boolean... singleLine);
     T toggle();
     T text(String format, Object... args);
     T html(String format, Object... args);
