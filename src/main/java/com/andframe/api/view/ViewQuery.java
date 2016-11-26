@@ -1,6 +1,7 @@
 package com.andframe.api.view;
 
 import android.content.Context;
+import android.content.res.ColorStateList;
 import android.graphics.Bitmap;
 import android.graphics.Point;
 import android.graphics.Typeface;
@@ -292,14 +293,6 @@ public interface ViewQuery<T extends ViewQuery<T>> {
     T backgroundColor(int color);
 
     /**
-     * Set View background color.
-     *
-     * @param colorId color code in resource id
-     * @return self
-     */
-    T backgroundColorId(int colorId);
-
-    /**
      * Notify a ListView that the data of it's adapter is changed.
      *
      * @return self
@@ -574,6 +567,9 @@ public interface ViewQuery<T extends ViewQuery<T>> {
     T toggle();
     T text(String format, Object... args);
     T html(String format, Object... args);
+    T textSizeId(int id);
+    T textColor(ColorStateList color);
+    T textColorListId(int id);
     T size(int width, int height);
     T size(float width, float height);
     T width(float dp);
@@ -600,10 +596,9 @@ public interface ViewQuery<T extends ViewQuery<T>> {
     T paddingBottom(float dp);
     T padding(int left, int top, int right, int bottom);
     T margin(int left, int top, int right, int bottom);
-    T padding(float leftDip, float topDip, float rightDip, float bottomDip);
+    T padding(float leftdp, float topdp, float rightdp, float bottomdp);
     T progress(int progress);
     T visibility(boolean isvisibe);
-    T textSizeId(int id);
     T animation(Animation animation);
     T rotation(float rotation);
     T background(Drawable drawable);

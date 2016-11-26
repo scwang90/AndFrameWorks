@@ -1,6 +1,7 @@
 package com.andframe.feature;
 
 import android.content.Context;
+import android.content.res.ColorStateList;
 import android.content.res.Resources;
 import android.graphics.Bitmap;
 import android.graphics.Point;
@@ -11,6 +12,7 @@ import android.os.Build;
 import android.support.annotation.DrawableRes;
 import android.support.annotation.LayoutRes;
 import android.support.annotation.Nullable;
+import android.support.v4.content.ContextCompat;
 import android.text.Editable;
 import android.text.Html;
 import android.text.Spanned;
@@ -197,8 +199,7 @@ public class AfViewQuery<T extends AfViewQuery<T>> implements ViewQuery<T> {
      * @return self
      */
     public T textColorId(int id) {
-        //noinspection deprecation
-        return textColor(getContext().getResources().getColor(id));
+        return textColor(ContextCompat.getColor(getContext(), id));
     }
 
 
@@ -415,32 +416,18 @@ public class AfViewQuery<T extends AfViewQuery<T>> implements ViewQuery<T> {
     }
 
     /**
-     * Set mTargetViews background color.
-     *
-     * @param colorId color code in resource id
-     * @return self
-     */
-    public T backgroundColorId(int colorId) {
-        //noinspection deprecation
-        return foreach((ViewEacher<View>) (view) -> view.setBackgroundColor(getContext().getResources().getColor(colorId)));
-    }
-
-    /**
      * Notify a ListView that the data of it's adapter is changed.
      *
      * @return self
      */
     public T dataChanged() {
         return foreach(AdapterView.class, (view) -> {
-            AdapterView<?> av = (AdapterView<?>) view;
-            Adapter a = av.getAdapter();
+            Adapter a = view.getAdapter();
             if (a instanceof BaseAdapter) {
-                BaseAdapter ba = (BaseAdapter) a;
-                ba.notifyDataSetChanged();
+                ((BaseAdapter) a).notifyDataSetChanged();
             }
         });
     }
-
 
     /**
      * Checks if the current mTargetViews exist.
@@ -625,8 +612,7 @@ public class AfViewQuery<T extends AfViewQuery<T>> implements ViewQuery<T> {
      * @return selected
      */
     public Object getSelectedItem() {
-        //noinspection RedundantCast
-        return foreach(AdapterView.class, (ViewReturnEacher<AdapterView, Object>) AdapterView::getSelectedItem);
+        return foreach(AdapterView.class, AdapterView::getSelectedItem);
     }
 
     /**
@@ -637,8 +623,7 @@ public class AfViewQuery<T extends AfViewQuery<T>> implements ViewQuery<T> {
      * @return selected position
      */
     public int getSelectedItemPosition() {
-        //noinspection RedundantCast
-        return foreach(AdapterView.class, (ViewReturnEacher<AdapterView, Integer>) AdapterView::getSelectedItemPosition);
+        return foreach(AdapterView.class, AdapterView::getSelectedItemPosition);
     }
 
     /**
@@ -1201,9 +1186,7 @@ public class AfViewQuery<T extends AfViewQuery<T>> implements ViewQuery<T> {
 
     @Override
     public T padding(int left, int top, int right, int bottom) {
-        return foreach(view -> {
-            view.setPadding(left, top, right, bottom);
-        });
+        return foreach((ViewEacher<View>) view -> view.setPadding(left, top, right, bottom));
     }
 
     @Override
@@ -1292,9 +1275,9 @@ public class AfViewQuery<T extends AfViewQuery<T>> implements ViewQuery<T> {
     public T addView(View... views) {
         return foreach(ViewGroup.class, group -> {
             for (View view : views) {
-                ViewParent viewParent = view.getParent();
-                if (viewParent instanceof ViewGroup) {
-                    ((ViewGroup) viewParent).removeView(view);
+                ViewParent parent = view.getParent();
+                if (parent instanceof ViewGroup) {
+                    ((ViewGroup) parent).removeView(view);
                 }
                 group.addView(view);
             }
@@ -1321,21 +1304,18 @@ public class AfViewQuery<T extends AfViewQuery<T>> implements ViewQuery<T> {
         if (args.length == 0) {
             return foreach(TextView.class, (ViewEacher<TextView>) (view) -> view.setText(Html.fromHtml(format)));
         }
-        Resources resources = null;
+        Context context = null;
         for (int i = 0, len = format.length(), index = 0; i < len; i++) {
             if (format.charAt(i) == '%' && i < len - 1) {
                 if (format.charAt(i + 1) == 's') {
                     if (index < args.length && args[index] instanceof Integer) {
                         int color = ((Integer) args[index]);
                         try {
-                            if (resources == null) {
-                                Context context = getContext();
-                                if (context != null) {
-                                    resources = getContext().getResources();
-                                }
+                            if (context == null) {
+                                context = getContext();
                             }
-                            if (resources != null) {
-                                color = resources.getColor(color);
+                            if (context != null) {
+                                color = ContextCompat.getColor(context, color);
                             }
                         } catch (Resources.NotFoundException ignored) {
                         }
@@ -1347,6 +1327,16 @@ public class AfViewQuery<T extends AfViewQuery<T>> implements ViewQuery<T> {
             }
         }
         return foreach(TextView.class, (ViewEacher<TextView>) (view) -> view.setText(Html.fromHtml(String.format(format, args))));
+    }
+
+    @Override
+    public T textColor(ColorStateList color) {
+        return foreach(TextView.class, (ViewEacher<TextView>) (view) -> view.setTextColor(color));
+    }
+
+    @Override
+    public T textColorListId(int id) {
+        return textColor(ContextCompat.getColorStateList(getContext(), id));
     }
 
     @Override
@@ -1446,7 +1436,6 @@ public class AfViewQuery<T extends AfViewQuery<T>> implements ViewQuery<T> {
     public Point measure() {
         return foreach(AfMeasure::measureView);
     }
-
 
     public View getView(int... indexs) {
         if (mTargetViews != null && mTargetViews.length > 0) {
