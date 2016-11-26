@@ -563,7 +563,7 @@ public interface ViewQuery<T extends ViewQuery<T>> {
     boolean isVisible();
     int gravity();
     float rating();
-    T $(int id, int... ids);
+    T $(Integer id, int... ids);
     T $(String idvalue, String... idvalues);
     T $(Class<? extends View> type);
     T $(Class<? extends View>[] types);
