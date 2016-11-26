@@ -32,15 +32,11 @@ public class StatusBarInterpreter {
         if (translucent != null) {
             ret = true;
             ApStatusBarUtil.immersive(activity, resources.getColor(translucent.color()), translucent.value());
-//            SystemBarHelper.immersiveStatusBar(activity, translucent.value());
-//            SystemBarHelper.tintStatusBar(activity, resources.getColor(translucent.color()), translucent.value());
         }
         StatusBarTranslucentDark translucentDark = AfReflecter.getAnnotation(pager.getClass(), Activity.class, StatusBarTranslucentDark.class);
         if (translucentDark != null) {
             ret = true;
             ApStatusBarUtil.darkMode(activity, resources.getColor(translucentDark.color()), translucentDark.value());
-//            SystemBarHelper.setStatusBarDarkMode(activity);
-//            SystemBarHelper.tintStatusBar(activity, resources.getColor(translucentDark.color()), translucentDark.value());
         }
         StatusBarPadding padding = AfReflecter.getAnnotation(pager.getClass(), Activity.class, StatusBarPadding.class);
         if (padding != null) {
