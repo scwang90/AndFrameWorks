@@ -871,11 +871,11 @@ public class AfViewQuery<T extends AfViewQuery<T>> implements ViewQuery<T> {
                 listId.add(resources.getIdentifier(value,"id",packageName));
             }
         }
-        int[] ids = new int[listId.size()];
+        int[] ids = new int[listId.size() - 1];
         for (int i = 0; i < ids.length; i++) {
-            ids[i] = listId.get(i);
+            ids[i] = listId.get(i + 1);
         }
-        return id(ids);
+        return $(listId.get(0), ids);
     }
 
     @Override
@@ -901,7 +901,8 @@ public class AfViewQuery<T extends AfViewQuery<T>> implements ViewQuery<T> {
     }
 
     @Override
-    public T $(Class<? extends View>... types) {
+    @SafeVarargs
+    public final T $(Class<? extends View>... types) {
         List<View> list = new ArrayList<>();
         Queue<View> views = new LinkedBlockingQueue<>(Collections.singletonList(mRootView.getView()));
         while (!views.isEmpty() && types.length > 0) {
