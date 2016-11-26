@@ -14,7 +14,7 @@ import com.andframe.activity.AfActivity;
 import com.andframe.api.view.ViewQuery;
 import com.andframe.exception.AfExceptionHandler;
 import com.andframe.fragment.AfFragment;
-import com.andframe.listener.SafeOnClickListener;
+import com.andframe.listener.SafeListener;
 import com.andframe.util.java.AfReflecter;
 import com.andpack.R;
 import com.andpack.annotation.RegisterEventBus;
@@ -88,8 +88,8 @@ public class ApPagerHelper {
                 $.query(pager.getView())
                         .$(Toolbar.class)
                         .foreach(Toolbar.class, (ViewQuery.ViewEacher<Toolbar>)
-                                view -> view.setNavigationOnClickListener(new SafeOnClickListener(
-                                        v -> pager.getActivity().finish())));
+                                view -> view.setNavigationOnClickListener(new SafeListener(
+                                        (View.OnClickListener) v -> pager.getActivity().finish())));
             }
         } catch (Throwable e) {
             AfExceptionHandler.handle(e, ("ApPagerHelper.onViewCreated 失败"));

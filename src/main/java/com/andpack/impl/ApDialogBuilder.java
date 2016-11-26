@@ -9,8 +9,7 @@ import android.view.View;
 import android.widget.AdapterView;
 
 import com.andframe.feature.AfDialogBuilder;
-import com.andframe.listener.SafeOnCancelListener;
-import com.andframe.listener.SafeOnClickListener;
+import com.andframe.listener.SafeListener;
 import com.flyco.dialog.listener.OnBtnClickL;
 import com.flyco.dialog.widget.ActionSheetDialog;
 import com.flyco.dialog.widget.NormalDialog;
@@ -43,10 +42,10 @@ public class ApDialogBuilder extends AfDialogBuilder {
                 .show();
         dialog.setOnOperItemClickL((AdapterView<?> parent, View view, int position, long id) -> {
             dialog.dismiss();
-            new SafeOnClickListener(listener).onClick(dialog, position);
+            new SafeListener(listener).onClick(dialog, position);
         });
         dialog.setCancelable(oncancel != null);
-        dialog.setOnCancelListener(new SafeOnCancelListener(oncancel));
+        dialog.setOnCancelListener(new SafeListener(oncancel));
         return dialog;
     }
 
@@ -87,7 +86,8 @@ public class ApDialogBuilder extends AfDialogBuilder {
             clickLs.add(ls[i]);
         }
 
-        dialog.setOnBtnClickL(clickLs.toArray(new SafeOnBtnClickL[btnNum]));
+        SafeOnBtnClickL[] array = clickLs.toArray(new SafeOnBtnClickL[btnNum]);
+        dialog.setOnBtnClickL((OnBtnClickL[]) array);
         return dialog;
     }
 
@@ -99,7 +99,7 @@ public class ApDialogBuilder extends AfDialogBuilder {
         public SafeOnBtnClickL(NormalDialog dialog, OnClickListener lnegative, int index) {
             this.dialog = dialog;
             this.index = index;
-            this.lnegative = new SafeOnClickListener(lnegative);
+            this.lnegative = new SafeListener(lnegative);
         }
         @Override
         public void onBtnClick() {

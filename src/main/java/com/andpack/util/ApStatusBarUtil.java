@@ -200,6 +200,17 @@ public class ApStatusBarUtil {
                     view.getPaddingRight(), view.getPaddingBottom());
         }
     }
+    /** 增加View的paddingTop,增加的值为状态栏高度 (智能判断，并设置高度)*/
+    public static void setPaddingSmart(Context context, View view) {
+        if (Build.VERSION.SDK_INT >= 16) {
+            ViewGroup.LayoutParams lp = view.getLayoutParams();
+            if (lp != null && lp.height > 0) {
+                lp.height += getStatusBarHeight(context);//增高
+            }
+            view.setPadding(view.getPaddingLeft(), view.getPaddingTop() + getStatusBarHeight(context),
+                    view.getPaddingRight(), view.getPaddingBottom());
+        }
+    }
 
     /** 增加View的高度以及paddingTop,增加的值为状态栏高度.一般是在沉浸式全屏给ToolBar用的 */
     public static void setHeightAndPadding(Context context, View view) {

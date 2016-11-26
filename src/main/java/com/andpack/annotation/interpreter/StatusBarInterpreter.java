@@ -9,11 +9,9 @@ import com.andframe.api.page.Pager;
 import com.andframe.api.view.ViewQuery;
 import com.andframe.util.java.AfReflecter;
 import com.andpack.annotation.statusbar.StatusBarMargin;
+import com.andpack.annotation.statusbar.StatusBarMarginS;
 import com.andpack.annotation.statusbar.StatusBarMarginType;
 import com.andpack.annotation.statusbar.StatusBarPadding;
-import com.andpack.annotation.statusbar.StatusBarPaddingH;
-import com.andpack.annotation.statusbar.StatusBarPaddingHS;
-import com.andpack.annotation.statusbar.StatusBarPaddingHType;
 import com.andpack.annotation.statusbar.StatusBarPaddingS;
 import com.andpack.annotation.statusbar.StatusBarPaddingType;
 import com.andpack.annotation.statusbar.StatusBarTranslucent;
@@ -48,37 +46,19 @@ public class StatusBarInterpreter {
         if (padding != null) {
             ret = true;
             defaultTranslucent(pager, translucent, translucentDark);
-            $.query(pager).id(padding.value()).foreach((ViewQuery.ViewEacher<View>)view -> ApStatusBarUtil.setPadding(activity,view));
-        }
-        StatusBarPaddingH paddingH = AfReflecter.getAnnotation(pager.getClass(), Activity.class, StatusBarPaddingH.class);
-        if (paddingH != null) {
-            ret = true;
-            defaultTranslucent(pager, translucent, translucentDark);
-            $.query(pager).id(paddingH.value()).foreach((ViewQuery.ViewEacher<View>)view -> ApStatusBarUtil.setHeightAndPadding(activity,view));
+            $.query(pager).id(padding.value()).foreach((ViewQuery.ViewEacher<View>)view -> ApStatusBarUtil.setPaddingSmart(activity,view));
         }
         StatusBarPaddingType paddingType = AfReflecter.getAnnotation(pager.getClass(), Activity.class, StatusBarPaddingType.class);
         if (paddingType != null && paddingType.value().length > 0) {
             ret = true;
             defaultTranslucent(pager, translucent, translucentDark);
-            $.query(pager).$(null,paddingType.value()).foreach((ViewQuery.ViewEacher<View>)view -> ApStatusBarUtil.setPadding(activity,view));
-        }
-        StatusBarPaddingHType paddingHType = AfReflecter.getAnnotation(pager.getClass(), Activity.class, StatusBarPaddingHType.class);
-        if (paddingHType != null && paddingHType.value().length > 0) {
-            ret = true;
-            defaultTranslucent(pager, translucent, translucentDark);
-            $.query(pager).$(null,paddingHType.value()).foreach((ViewQuery.ViewEacher<View>)view -> ApStatusBarUtil.setHeightAndPadding(activity,view));
+            $.query(pager).$(paddingType.value()).foreach((ViewQuery.ViewEacher<View>) view -> ApStatusBarUtil.setPaddingSmart(activity,view));
         }
         StatusBarPaddingS paddingS = AfReflecter.getAnnotation(pager.getClass(), Activity.class, StatusBarPaddingS.class);
         if (paddingS != null && paddingS.value().length > 0) {
             ret = true;
             defaultTranslucent(pager, translucent, translucentDark);
-            $.query(pager).$(null,paddingS.value()).foreach((ViewQuery.ViewEacher<View>)view ->ApStatusBarUtil.setPadding(activity,view));
-        }
-        StatusBarPaddingHS paddingHS = AfReflecter.getAnnotation(pager.getClass(), Activity.class, StatusBarPaddingHS.class);
-        if (paddingHS != null && paddingHS.value().length > 0) {
-            ret = true;
-            defaultTranslucent(pager, translucent, translucentDark);
-            $.query(pager).$(null,paddingHS.value()).foreach((ViewQuery.ViewEacher<View>)view -> ApStatusBarUtil.setHeightAndPadding(activity,view));
+            $.query(pager).$(null,paddingS.value()).foreach((ViewQuery.ViewEacher<View>)view ->ApStatusBarUtil.setPaddingSmart(activity,view));
         }
         StatusBarMargin margin = AfReflecter.getAnnotation(pager.getClass(), Activity.class, StatusBarMargin.class);
         if (margin != null && margin.value().length > 0) {
@@ -90,7 +70,13 @@ public class StatusBarInterpreter {
         if (marginType != null && marginType.value().length > 0) {
             ret = true;
             defaultTranslucent(pager, translucent, translucentDark);
-            $.query(pager).$(null,marginType.value()).foreach((ViewQuery.ViewEacher<View>)view -> ApStatusBarUtil.setMargin(activity,view));
+            $.query(pager).$(marginType.value()).foreach((ViewQuery.ViewEacher<View>) view -> ApStatusBarUtil.setMargin(activity,view));
+        }
+        StatusBarMarginS marginS = AfReflecter.getAnnotation(pager.getClass(), Activity.class, StatusBarMarginS.class);
+        if (marginS != null && marginS.value().length > 0) {
+            ret = true;
+            defaultTranslucent(pager, translucent, translucentDark);
+            $.query(pager).$(null, marginS.value()).foreach((ViewQuery.ViewEacher<View>)view -> ApStatusBarUtil.setMargin(activity,view));
         }
         return ret;
     }
