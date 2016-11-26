@@ -54,7 +54,7 @@ public class ApCommonBarBinder {
     }
 
     public ViewQuery $(int... id) {
-        return query.id(id);
+        return query.$(id);
     }
 
     public TextBinder text(int idvalue) {
@@ -607,7 +607,7 @@ public class ApCommonBarBinder {
         }
 
         public ImageBinder image(String url) {
-            $.query(pager).id(idvalue).image(url);
+            $.query(pager).$(idvalue).image(url);
             return self();
         }
 
@@ -640,7 +640,7 @@ public class ApCommonBarBinder {
                 //noinspection unchecked
                 List<ImageItem> images = (ArrayList<ImageItem>) intent.getSerializableExtra(ImagePicker.EXTRA_RESULT_ITEMS);
                 if (images != null && images.size() > 0) {
-                    $.query(pager).id(idvalue).image(images.get(0).path);
+                    $.query(pager).$(idvalue).image(images.get(0).path);
                     if (lambda != null) {
                         lambda.image(this, images.get(0).path);
                     }
