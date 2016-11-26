@@ -80,8 +80,6 @@ public class StatusBarInterpreter {
     private static void defaultTranslucent(Pager pager, StatusBarTranslucent translucent, StatusBarTranslucentDark translucentDark) {
         if (translucent == null && translucentDark == null && pager instanceof Activity) {
             ApStatusBarUtil.immersive(pager.getActivity());
-//            SystemBarHelper.immersiveStatusBar(pager.getActivity());
-//            SystemBarHelper.tintStatusBar(pager.getActivity(), 0, 0);
         }
     }
 
