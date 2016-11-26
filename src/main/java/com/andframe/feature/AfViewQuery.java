@@ -615,7 +615,10 @@ public class AfViewQuery<T extends AfViewQuery<T>> implements ViewQuery<T> {
      * @return selected
      */
     public Object getSelectedItem() {
-        return foreach(AdapterView.class, AdapterView::getSelectedItem);
+        return foreach(AdapterView.class, view -> {
+            //noinspection Convert2MethodRef
+            return view.getSelectedItem();
+        });
     }
 
     /**
@@ -626,7 +629,10 @@ public class AfViewQuery<T extends AfViewQuery<T>> implements ViewQuery<T> {
      * @return selected position
      */
     public int getSelectedItemPosition() {
-        return foreach(AdapterView.class, AdapterView::getSelectedItemPosition);
+        return foreach(AdapterView.class, view -> {
+            //noinspection Convert2MethodRef
+            return view.getSelectedItemPosition();
+        });
     }
 
     /**
@@ -1315,6 +1321,7 @@ public class AfViewQuery<T extends AfViewQuery<T>> implements ViewQuery<T> {
     @Override
     public T html(String format, Object... args) {
         if (args.length == 0) {
+            //noinspection deprecation
             return foreach(TextView.class, (ViewEacher<TextView>) (view) -> view.setText(Html.fromHtml(format)));
         }
         Context context = null;
@@ -1339,6 +1346,7 @@ public class AfViewQuery<T extends AfViewQuery<T>> implements ViewQuery<T> {
                 index++;
             }
         }
+        //noinspection deprecation
         return foreach(TextView.class, (ViewEacher<TextView>) (view) -> view.setText(Html.fromHtml(String.format(format, args))));
     }
 
