@@ -13,6 +13,7 @@ import android.support.annotation.DrawableRes;
 import android.support.annotation.LayoutRes;
 import android.support.annotation.Nullable;
 import android.support.v4.content.ContextCompat;
+import android.support.v7.widget.LinearLayoutCompat;
 import android.text.Editable;
 import android.text.Html;
 import android.text.Spanned;
@@ -971,6 +972,11 @@ public class AfViewQuery<T extends AfViewQuery<T>> implements ViewQuery<T> {
     }
 
     @Override
+    public int orientation() {
+        return foreach(LinearLayout.class, LinearLayout::getOrientation);
+    }
+
+    @Override
     public int gravity() {
         return foreach(view -> {
             if (view instanceof TextView) {
@@ -1001,6 +1007,11 @@ public class AfViewQuery<T extends AfViewQuery<T>> implements ViewQuery<T> {
     @Override
     public T singleLine(boolean... value) {
         return foreach(TextView.class, (ViewEacher<TextView>) (view) -> view.setSingleLine(value.length == 0 || value[0]));
+    }
+
+    @Override
+    public T orientation(@LinearLayoutCompat.OrientationMode int orientation) {
+        return foreach(LinearLayout.class, (ViewEacher<LinearLayout>) view -> view.setOrientation(orientation));
     }
 
     @Override

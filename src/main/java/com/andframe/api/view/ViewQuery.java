@@ -10,6 +10,7 @@ import android.support.annotation.DrawableRes;
 import android.support.annotation.LayoutRes;
 import android.support.annotation.Nullable;
 import android.support.annotation.StringRes;
+import android.support.v7.widget.LinearLayoutCompat;
 import android.text.Editable;
 import android.text.Spanned;
 import android.text.TextWatcher;
@@ -564,6 +565,7 @@ public interface ViewQuery<T extends ViewQuery<T>> {
     T gravity(int gravity);
     T maxLines(int lines);
     T singleLine(boolean... singleLine);
+    T orientation(@LinearLayoutCompat.OrientationMode int orientation);
     T toggle();
     T text(String format, Object... args);
     T html(String format, Object... args);
@@ -611,8 +613,9 @@ public interface ViewQuery<T extends ViewQuery<T>> {
     View[] childs();
     View[] breakChilds();
     View childAt(int index);
-    int childCount();
     Point measure();
+    int childCount();
+    int orientation();
 
     T drawablePadding(int padding);
     T drawablePadding(float padding);

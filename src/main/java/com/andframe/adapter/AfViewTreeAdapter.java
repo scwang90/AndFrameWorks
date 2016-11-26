@@ -11,8 +11,6 @@ import android.widget.TextView;
 import com.andframe.$;
 import com.andframe.R;
 import com.andframe.api.view.ViewQuery;
-import com.andframe.application.AfApp;
-import com.andframe.impl.viewer.ViewerWarpper;
 import com.andframe.util.java.AfReflecter;
 import com.andframe.widget.treeview.AfTreeEstablisher;
 import com.andframe.widget.treeview.AfTreeViewAdapter;
@@ -21,6 +19,14 @@ import com.andframe.widget.treeview.AfTreeViewItem;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Collections;
+
+import static android.R.drawable.sym_def_app_icon;
+import static android.R.id.icon;
+import static android.R.id.text1;
+import static android.R.id.text2;
+import static android.widget.LinearLayout.VERTICAL;
+import static com.andframe.R.color.colorTextContent;
+import static com.andframe.R.color.colorTextTitle;
 
 /**
  * View 控件 树形展开适配器
@@ -41,38 +47,36 @@ public class AfViewTreeAdapter extends AfTreeViewAdapter<View> {
             @Override
             public View onCreateView(Context context, ViewGroup parent) {
                 LinearLayout root = new LinearLayout(context);
-                ViewQuery<? extends ViewQuery> $ = AfApp.get().newViewQuery(new ViewerWarpper(root));
-                $.backgroundColor(0xfff9f9f9).padding(5f);
-                ImageView image = new ImageView(context);
-                $.$(image).id(android.R.id.icon).height(40f).width(40f).margin(5f);
-                LinearLayout ll = new LinearLayout(context);
-                ll.setOrientation(LinearLayout.VERTICAL);
+                ViewQuery<? extends ViewQuery> $$ = $.query(root);
                 TextView title = new TextView(context);
                 TextView content = new TextView(context);
-                $.$(title).id(android.R.id.text1).singleLine(true).textColorId(R.color.colorTextTitle).textSizeId(R.dimen.textsize_small);
-                $.$(content).id(android.R.id.text2).margin(0,5f,0,0).textColorId(R.color.colorTextContent).textSizeId(R.dimen.textsize_content);
-                $.$(ll).padding(5f).addView(title).addView(content);
-                $.$(root).addView(image).addView(ll);
+                ImageView image = new ImageView(context);
+                LinearLayout ll = new LinearLayout(context);
+                $$.$(image).id(icon).size(40f, 40f).margin(5f);
+                $$.$(title).id(text1).singleLine(true).textColorId(colorTextTitle).textSizeId(R.dimen.textsize_small);
+                $$.$(content).id(text2).margin(0,5f,0,0).textColorId(colorTextContent).textSizeId(R.dimen.textsize_content);
+                $$.$(ll).orientation(VERTICAL).padding(5f).addView(title).addView(content);
+                $$.$(root).backgroundColor(0xfff9f9f9).padding(5f).addView(image).addView(ll);
                 return root;
             }
 
             @Override
             protected boolean onBinding(View model, int index, int level, boolean isExpanded, SelectStatus status) {
                 if (model instanceof TextView) {
-                    $(android.R.id.text1).text(String.format("\"%s\" (%s)", ((TextView) model).getText(), model.getClass().getSimpleName()));
+                    $(text1).text(String.format("\"%s\" (%s)", ((TextView) model).getText(), model.getClass().getSimpleName()));
                 } else {
-                    $(android.R.id.text1).text(model.getClass().getSimpleName());
+                    $(text1).text(model.getClass().getSimpleName());
                 }
-                $(android.R.id.text2).text(buildSizeInfo(model) + "\n" + model.toString());
+                $(text2).text(buildSizeInfo(model) + "\n" + model.toString());
                 if (model instanceof ImageView) {
                     Drawable drawable = AfReflecter.getMemberNoException(model, "mDrawable", Drawable.class);
                     if (drawable != null) {
-                        $(android.R.id.icon).image(drawable);
+                        $(icon).image(drawable);
                     } else {
-                        $(android.R.id.icon).image(android.R.drawable.sym_def_app_icon);
+                        $(icon).image(sym_def_app_icon);
                     }
                 } else {
-                    $(android.R.id.icon).image(android.R.drawable.sym_def_app_icon);
+                    $(icon).image(sym_def_app_icon);
                 }
                 return false;
             }
@@ -81,6 +85,6 @@ public class AfViewTreeAdapter extends AfTreeViewAdapter<View> {
 
     protected String buildSizeInfo(View model) {
         ViewGroup.LayoutParams lp = model.getLayoutParams();
-        return "params = " + lp.width + "x" + lp.height+"  size = " + model.getWidth()+"x"+model.getHeight();
+        return "params = " + lp.width + "x" + lp.height + "  size = " + model.getWidth() + "x" + model.getHeight();
     }
 }
