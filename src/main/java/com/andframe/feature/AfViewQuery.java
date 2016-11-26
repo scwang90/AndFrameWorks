@@ -56,6 +56,8 @@ import java.util.List;
 import java.util.Queue;
 import java.util.concurrent.LinkedBlockingQueue;
 
+import static android.support.v4.content.ContextCompat.getDrawable;
+
 /**
  * 安卓版 JQuery 实现
  * Created by SCWANG on 2016/8/18.
@@ -1485,22 +1487,22 @@ public class AfViewQuery<T extends AfViewQuery<T>> implements ViewQuery<T> {
 
     @Override
     public T drawableLeft(@DrawableRes int id) {
-        return foreach(TextView.class, (ViewEacher<TextView>) view -> view.setCompoundDrawablesWithIntrinsicBounds(getContext().getResources().getDrawable(id), null, null, null));
+        return foreach(TextView.class, (ViewEacher<TextView>) view -> view.setCompoundDrawablesWithIntrinsicBounds(getDrawable(getContext(),id), null, null, null));
     }
 
     @Override
     public T drawableTop(@DrawableRes int id) {
-        return foreach(TextView.class, (ViewEacher<TextView>) view -> view.setCompoundDrawablesWithIntrinsicBounds(null, getContext().getResources().getDrawable(id), null, null));
+        return foreach(TextView.class, (ViewEacher<TextView>) view -> view.setCompoundDrawablesWithIntrinsicBounds(null, getDrawable(getContext(),id), null, null));
     }
 
     @Override
     public T drawableRight(@DrawableRes int id) {
-        return foreach(TextView.class, (ViewEacher<TextView>) view -> view.setCompoundDrawablesWithIntrinsicBounds(null, null, getContext().getResources().getDrawable(id), null));
+        return foreach(TextView.class, (ViewEacher<TextView>) view -> view.setCompoundDrawablesWithIntrinsicBounds(null, null, getDrawable(getContext(),id), null));
     }
 
     @Override
     public T drawableBottom(@DrawableRes int id) {
-        return foreach(TextView.class, (ViewEacher<TextView>) view -> view.setCompoundDrawablesWithIntrinsicBounds(null, null, null, getContext().getResources().getDrawable(id)));
+        return foreach(TextView.class, (ViewEacher<TextView>) view -> view.setCompoundDrawablesWithIntrinsicBounds(null, null, null, getDrawable(getContext(),id)));
     }
 
     @SuppressWarnings("unchecked")

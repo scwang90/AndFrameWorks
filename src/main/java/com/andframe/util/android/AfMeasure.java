@@ -10,7 +10,6 @@ import android.widget.LinearLayout.LayoutParams;
  * @author 树朾
  * 在设置View的内容之后 对View的大学进行测量
  */
-@SuppressWarnings("unused")
 public class AfMeasure {
 
 	/**
@@ -18,12 +17,11 @@ public class AfMeasure {
 	 * @param view
 	 * @return 返回 Point x 宽度 y 高度
 	 */
-    @SuppressWarnings("deprecation")
     public static Point measureView(View view) {
         ViewGroup.LayoutParams p = view.getLayoutParams();
         if (p == null) {
             p = new LayoutParams(
-                    LayoutParams.FILL_PARENT, 
+                    LayoutParams.MATCH_PARENT,
                     LayoutParams.WRAP_CONTENT);
         }
         int childHeightSpec;
