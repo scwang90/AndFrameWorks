@@ -1308,7 +1308,7 @@ public class AfViewQuery<T extends AfViewQuery<T>> implements ViewQuery<T> {
 
     @Override
     public T toggle() {
-        return foreach(CheckBox.class,(ViewEacher<CheckBox>) (view) -> view.setChecked(!view.isChecked()));
+        return foreach(CompoundButton.class,(ViewEacher<CompoundButton>) (view) -> view.setChecked(!view.isChecked()));
     }
 
     @Override
