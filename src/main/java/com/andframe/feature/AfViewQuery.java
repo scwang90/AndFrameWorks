@@ -49,7 +49,6 @@ import com.andframe.listener.SafeListener;
 import com.andframe.util.android.AfMeasure;
 
 import java.util.ArrayList;
-import java.util.Arrays;
 import java.util.Collections;
 import java.util.List;
 import java.util.Queue;
@@ -928,7 +927,11 @@ public class AfViewQuery<T extends AfViewQuery<T>> implements ViewQuery<T> {
 
     @Override
     public T $(View... views) {
-        this.mTargetViews = views;
+        if (views.length == 0) {
+            mTargetViews = new View[]{getRootView()};
+        } else {
+            mTargetViews = views;
+        }
         return self();
     }
 
