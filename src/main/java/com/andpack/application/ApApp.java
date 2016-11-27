@@ -57,6 +57,45 @@ public class ApApp extends AfApp {
         initLeakCanary();
         initImageLoader(this);
         initImagePicker(this);
+        initRecovery(this);
+    }
+
+    private void initRecovery(Context context) {
+//        Class<? extends Activity> activityClass = getMainActivityClass();
+//        if (activityClass == null) {
+//            return;
+//        }
+//        Recovery.getInstance()
+//                .debug(isDebug())
+//                .recoverInBackground(false)
+//                .recoverStack(true)
+//                .mainPage(activityClass)
+//                .callback(new RecoveryCallback() {
+//                    @Override
+//                    public void stackTrace(String stackTrace) {
+//
+//                    }
+//
+//                    @Override
+//                    public void cause(String cause) {
+//
+//                    }
+//
+//                    @Override
+//                    public void exception(String throwExceptionType, String throwClassName, String throwMethodName, int throwLineNumber) {
+//
+//                    }
+//
+//                    @Override
+//                    public void throwable(Throwable throwable) {
+//
+//                    }
+//                })
+//                .init(context);
+    }
+
+    protected Class<? extends Activity> getMainActivityClass() {
+        return null;
     }
 
     private void initLeakCanary() {

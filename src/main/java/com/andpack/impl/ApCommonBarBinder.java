@@ -53,7 +53,7 @@ public class ApCommonBarBinder {
         this.hintPrefix = hintPrefix;
     }
 
-    public ViewQuery $(int id, int... ids) {
+    public ViewQuery $(Integer id, int... ids) {
         return query.$(id, ids);
     }
 
