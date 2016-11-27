@@ -12,10 +12,14 @@ public interface ViewQueryHelper {
      * 开始 ViewQuery 查询
      * @param id 控件Id
      */
-    ViewQuery<? extends ViewQuery> $(int id, int... ids);
+    ViewQuery<? extends ViewQuery> $(Integer id, int... ids);
     /**
      * 开始 ViewQuery 查询
      * @param views 可选的多个 View
      */
     ViewQuery<? extends ViewQuery> $(View... views);
+
+    ViewQuery<? extends ViewQuery> $(String idvalue, String... idvalues);
+    ViewQuery<? extends ViewQuery> $(Class<? extends View> type);
+    ViewQuery<? extends ViewQuery> $(Class<? extends View>[] types);
 }

@@ -4,6 +4,7 @@ import android.content.Context;
 import android.content.res.ColorStateList;
 import android.graphics.Bitmap;
 import android.graphics.Point;
+import android.graphics.Rect;
 import android.graphics.Typeface;
 import android.graphics.drawable.Drawable;
 import android.support.annotation.DrawableRes;
@@ -15,6 +16,7 @@ import android.text.Editable;
 import android.text.Spanned;
 import android.text.TextWatcher;
 import android.view.View;
+import android.view.ViewGroup;
 import android.view.animation.Animation;
 import android.webkit.WebView;
 import android.widget.Adapter;
@@ -605,6 +607,10 @@ public interface ViewQuery<T extends ViewQuery<T>> {
     T rotation(float rotation);
     T background(Drawable drawable);
     T addView(View... views);
+    T addView(View view, int index);
+    T addView(View view, int width, int height);
+    T addView(View view, ViewGroup.LayoutParams params);
+    T addView(View view, int index, ViewGroup.LayoutParams params);
     T replace(View view);
     T toChild(int index);
     T toChilds();
@@ -614,6 +620,8 @@ public interface ViewQuery<T extends ViewQuery<T>> {
     View[] breakChilds();
     View childAt(int index);
     Point measure();
+    Rect padding();
+    Rect margin();
     int childCount();
     int orientation();
 

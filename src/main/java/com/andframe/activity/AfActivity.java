@@ -67,24 +67,29 @@ public abstract class AfActivity extends AppCompatActivity implements Pager, Vie
     //<editor-fold desc="ViewQuery 集成">
     protected ViewQuery<? extends ViewQuery> $$ = AfViewQueryHelper.newHelper(this);
 
-    /**
-     * 开始 ViewQuery 查询
-     *
-     * @param id 控件Id
-     */
-    @Override
-    public ViewQuery<? extends ViewQuery> $(int id, int... ids) {
-        return $$.$(id, ids);
-    }
-
-    /**
-     * 开始 ViewQuery 查询
-     *
-     * @param views 可选的多个 View
-     */
     @Override
     public ViewQuery<? extends ViewQuery> $(View... views) {
         return $$.$(views);
+    }
+
+    @Override
+    public ViewQuery<? extends ViewQuery> $(Integer id, int... ids) {
+        return $$.$(id, ids);
+    }
+
+    @Override
+    public ViewQuery<? extends ViewQuery> $(String idvalue, String... idvalues) {
+        return $$.$(idvalue);
+    }
+
+    @Override
+    public ViewQuery<? extends ViewQuery> $(Class<? extends View> type) {
+        return $$.$(type);
+    }
+
+    @Override
+    public ViewQuery<? extends ViewQuery> $(Class<? extends View>[] types) {
+        return $$.$(types);
     }
     //</editor-fold>
 

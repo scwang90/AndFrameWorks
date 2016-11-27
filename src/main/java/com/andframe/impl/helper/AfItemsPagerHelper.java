@@ -70,7 +70,7 @@ public class AfItemsPagerHelper<T> extends AfMultiStatusHelper<List<T>> implemen
     protected ItemsViewer mItemsViewer;
     protected AfHeaderFooterAdapter<T> mAdapter;
 
-    protected ViewQueryHelper mViewQueryHelper ;
+    protected ViewQueryHelper $$ ;
     protected MultiItemsViewerOnly mItemsViewerOnly;
 
     protected List<View> mHeaderFooterViews = new ArrayList<>();
@@ -100,21 +100,38 @@ public class AfItemsPagerHelper<T> extends AfMultiStatusHelper<List<T>> implemen
     }
 
 
+    //<editor-fold desc="ViewQuery 集成">
     @Override
-    public ViewQuery<? extends ViewQuery> $(int id, int... ids) {
-        return mViewQueryHelper.$(id, ids);
+    public ViewQuery<? extends ViewQuery> $(View... views) {
+        return $$.$(views);
     }
 
     @Override
-    public ViewQuery<? extends ViewQuery> $(View... views) {
-        return mViewQueryHelper.$(views);
+    public ViewQuery<? extends ViewQuery> $(Integer id, int... ids) {
+        return $$.$(id, ids);
     }
+
+    @Override
+    public ViewQuery<? extends ViewQuery> $(String idvalue, String... idvalues) {
+        return $$.$(idvalue);
+    }
+
+    @Override
+    public ViewQuery<? extends ViewQuery> $(Class<? extends View> type) {
+        return $$.$(type);
+    }
+
+    @Override
+    public ViewQuery<? extends ViewQuery> $(Class<? extends View>[] types) {
+        return $$.$(types);
+    }
+    //</editor-fold>
 
     //<editor-fold desc="初始化">
     public AfItemsPagerHelper(ItemsPager<T> itemsPager) {
         super(itemsPager);
         this.mItemsPager = itemsPager;
-        this.mViewQueryHelper= new AfViewQueryHelper(new ViewerWarpper(itemsPager.getView()) {
+        this.$$= new AfViewQueryHelper(new ViewerWarpper(itemsPager.getView()) {
             @Override
             public Context getContext() {
                 return itemsPager.getContext();

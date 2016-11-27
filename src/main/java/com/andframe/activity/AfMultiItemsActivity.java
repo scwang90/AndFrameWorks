@@ -46,7 +46,7 @@ public abstract class AfMultiItemsActivity<T> extends AfMultiStatusActivity<List
     }
 
     @Override
-    public ViewQuery<? extends ViewQuery> $(int id, int... ids) {
+    public ViewQuery<? extends ViewQuery> $(Integer id, int... ids) {
         return mItemsHelper.$(id, ids);
     }
 

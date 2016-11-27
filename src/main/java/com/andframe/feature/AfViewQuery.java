@@ -5,6 +5,7 @@ import android.content.res.ColorStateList;
 import android.content.res.Resources;
 import android.graphics.Bitmap;
 import android.graphics.Point;
+import android.graphics.Rect;
 import android.graphics.Typeface;
 import android.graphics.drawable.Drawable;
 import android.net.Uri;
@@ -1304,6 +1305,50 @@ public class AfViewQuery<T extends AfViewQuery<T>> implements ViewQuery<T> {
     }
 
     @Override
+    public T addView(View view, int index) {
+        return foreach(ViewGroup.class, group -> {
+            ViewParent parent = view.getParent();
+            if (parent instanceof ViewGroup) {
+                ((ViewGroup) parent).removeView(view);
+            }
+            group.addView(view, index);
+        });
+    }
+
+    @Override
+    public T addView(View view, int width, int height) {
+        return foreach(ViewGroup.class, group -> {
+            ViewParent parent = view.getParent();
+            if (parent instanceof ViewGroup) {
+                ((ViewGroup) parent).removeView(view);
+            }
+            group.addView(view, width, height);
+        });
+    }
+
+    @Override
+    public T addView(View view, ViewGroup.LayoutParams params) {
+        return foreach(ViewGroup.class, group -> {
+            ViewParent parent = view.getParent();
+            if (parent instanceof ViewGroup) {
+                ((ViewGroup) parent).removeView(view);
+            }
+            group.addView(view, params);
+        });
+    }
+
+    @Override
+    public T addView(View view, int index, ViewGroup.LayoutParams params) {
+        return foreach(ViewGroup.class, group -> {
+            ViewParent parent = view.getParent();
+            if (parent instanceof ViewGroup) {
+                ((ViewGroup) parent).removeView(view);
+            }
+            group.addView(view, index, params);
+        });
+    }
+
+    @Override
     public T progress(int progress) {
         return foreach(ProgressBar.class,(ViewEacher<ProgressBar>) (view) -> view.setProgress(progress));
     }
@@ -1456,6 +1501,25 @@ public class AfViewQuery<T extends AfViewQuery<T>> implements ViewQuery<T> {
     @Override
     public Point measure() {
         return foreach(AfMeasure::measureView);
+    }
+
+    @Override
+    public Rect padding() {
+        return foreach(view -> {
+            return new Rect(view.getPaddingLeft(), view.getPaddingTop(), view.getPaddingRight(), view.getPaddingBottom());
+        });
+    }
+
+    @Override
+    public Rect margin() {
+        return foreach(view -> {
+            ViewGroup.LayoutParams lp = view.getLayoutParams();
+            if (lp instanceof ViewGroup.MarginLayoutParams) {
+                ViewGroup.MarginLayoutParams params = (ViewGroup.MarginLayoutParams) lp;
+                return new Rect(params.leftMargin, params.topMargin, params.rightMargin, params.bottomMargin);
+            }
+            return null;
+        });
     }
 
     public View getView(int... indexs) {

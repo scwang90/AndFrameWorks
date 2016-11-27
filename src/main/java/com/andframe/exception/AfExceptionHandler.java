@@ -16,6 +16,7 @@ import com.andframe.model.Exceptional;
 import com.andframe.task.AfDispatcher;
 import com.andframe.util.java.AfDateFormat;
 import com.andframe.util.java.AfDateGuid;
+import com.andframe.util.java.AfReflecter;
 
 import java.io.FileWriter;
 import java.lang.Thread.UncaughtExceptionHandler;
@@ -104,11 +105,21 @@ public class AfExceptionHandler implements UncaughtExceptionHandler {
             final AfActivity activity = AfApp.get().getCurActivity();
             if (activity != null && mIsShowDialog) {
                 AfDispatcher.dispatch(() -> doShowDialog(AfApp.get().getCurActivity(), "程序崩溃了", msg, msg1 -> {
-                    mDefaultHandler.uncaughtException(thread, ex);
+                    if (Looper.getMainLooper().getThread() == thread) {
+                        mDefaultHandler.uncaughtException(thread, ex);
+                    }
                     return false;
                 }), 1000);
             } else {
                 mDefaultHandler.uncaughtException(thread, ex);
+            }
+            if (Looper.getMainLooper().getThread() == thread) {
+                AfReflecter.setMemberByType(Looper.class, null, Looper.class);
+                ThreadLocal local = AfReflecter.getMemberByType(Looper.class, ThreadLocal.class);
+                //noinspection ConstantConditions,unchecked
+                local.set(null);
+                Looper.prepareMainLooper();
+                Looper.loop();
             }
             return;
         } catch (Throwable e) {
@@ -319,7 +330,7 @@ public class AfExceptionHandler implements UncaughtExceptionHandler {
         final Callback tcallback = callback;
         final Context tactivity = activity;
         final Looper tLooper = looper;
-        new Thread((Runnable) () -> {
+        new Thread(() -> {
             try {
                 Looper.prepare();
                 mDialogMap.put(tid, ttitle);

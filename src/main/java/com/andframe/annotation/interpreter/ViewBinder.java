@@ -15,10 +15,13 @@ import android.widget.RadioGroup;
 import com.andframe.annotation.view.BindCheckedChange;
 import com.andframe.annotation.view.BindCheckedChangeGroup;
 import com.andframe.annotation.view.BindClick;
+import com.andframe.annotation.view.BindClickType;
 import com.andframe.annotation.view.BindItemClick;
 import com.andframe.annotation.view.BindItemLongClick;
 import com.andframe.annotation.view.BindLongClick;
+import com.andframe.annotation.view.BindLongClickType;
 import com.andframe.annotation.view.BindTouch;
+import com.andframe.annotation.view.BindTouchType;
 import com.andframe.annotation.view.BindView;
 import com.andframe.annotation.view.BindViewCreated;
 import com.andframe.annotation.view.BindViewModule;
@@ -122,6 +125,10 @@ public class ViewBinder {
             bindItemLongClick(method, handler, root);
             bindCheckedChange(method, handler, root);
             bindCheckedChangeGroup(method, handler, root);
+
+            bindClickType(method, handler, root);
+            bindTouchType(method, handler, root);
+            bindLongClickType(method, handler, root);
 
             bindClick$(method, handler, root);
             bindTouch$(method, handler, root);
@@ -256,6 +263,56 @@ public class ViewBinder {
             }
         }
     }
+
+
+    private static void bindTouchType(Method method, Object handler, Viewer root) {
+        if (method.isAnnotationPresent(BindTouchType.class)) {
+            BindTouchType bind = method.getAnnotation(BindTouchType.class);
+            for (Class<? extends View> type : bind.value()) {
+                View[] views = findViewByType(root.getView(), type);
+                if (views.length > 0) {
+                    for (View view : views) {
+                        view.setOnTouchListener(new EventListener(handler).touch(method));
+                    }
+                } else {
+                    notFindView(type.toString(), TAG(handler, "bindTouch.") + method.getName());
+                }
+            }
+        }
+    }
+
+    private static void bindClickType(Method method, Object handler, Viewer root) {
+        if (method.isAnnotationPresent(BindClickType.class)) {
+            BindClickType bind = method.getAnnotation(BindClickType.class);
+            for (Class<? extends View> type : bind.value()) {
+                View[] views = findViewByType(root.getView(), type);
+                if (views.length > 0) {
+                    for (View view : views) {
+                        view.setOnClickListener(new EventListener(handler).click(method, bind.intervalTime()));
+                    }
+                } else {
+                    notFindView(type.toString(), TAG(handler, "doBindClick.") + method.getName());
+                }
+            }
+        }
+    }
+
+    private static void bindLongClickType(Method method, Object handler, Viewer root) {
+        if (method.isAnnotationPresent(BindLongClickType.class)) {
+            BindLongClickType bind = method.getAnnotation(BindLongClickType.class);
+            for (Class<? extends View> type : bind.value()) {
+                View[] views = findViewByType(root.getView(), type);
+                if (views.length > 0) {
+                    for (View view : views) {
+                        view.setOnLongClickListener(new EventListener(handler).longClick(method));
+                    }
+                } else {
+                    notFindView(type.toString(), TAG(handler, "doBindLongClick.") + method.getName());
+                }
+            }
+        }
+    }
+
     //</editor-fold>
 
     //<editor-fold desc="事件绑定-兼容">

@@ -21,7 +21,7 @@ public class AfViewQueryHelper implements ViewQueryHelper, InvocationHandler {
     protected Viewer viewer;
     protected ViewQuery<? extends ViewQuery> mViewQuery;
 
-    public AfViewQueryHelper(Viewer viewer) {
+    protected AfViewQueryHelper(Viewer viewer) {
         this.viewer = viewer;
     }
 
@@ -40,23 +40,31 @@ public class AfViewQueryHelper implements ViewQueryHelper, InvocationHandler {
 
     /**
      * 开始 ViewQuery 查询
-     * @param id 控件Id
-     */
-    @SuppressWarnings("unused")
-    public ViewQuery<? extends ViewQuery> $(int id, int... ids) {
-        return getQuery().$(id, ids);
-    }
-    /**
-     * 开始 ViewQuery 查询
      * @param views 可选的多个 View
      */
     @SuppressWarnings("unused")
     public ViewQuery<? extends ViewQuery> $(View... views) {
-        ViewQuery<? extends ViewQuery> query = getQuery();
-        if (views == null || views.length == 0) {
-            return query;
-        }
-        return query.$(views);
+        return getQuery().$(views);
+    }
+
+    @Override
+    public ViewQuery<? extends ViewQuery> $(Class<? extends View>[] types) {
+        return getQuery().$(types);
+    }
+
+    @Override
+    public ViewQuery<? extends ViewQuery> $(Integer id, int... ids) {
+        return getQuery().$(id, ids);
+    }
+
+    @Override
+    public ViewQuery<? extends ViewQuery> $(String idvalue, String... idvalues) {
+        return getQuery().$(idvalue, idvalues);
+    }
+
+    @Override
+    public ViewQuery<? extends ViewQuery> $(Class<? extends View> type) {
+        return getQuery().$(type);
     }
 
     @Override
