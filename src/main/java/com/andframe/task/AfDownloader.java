@@ -610,7 +610,7 @@ public class AfDownloader {
                 mCount = count;
                 mTotal = length;
                 mHandler.sendMessage(mHandler.obtainMessage(DOWNLOAD_PROGRESS, this));
-                while ((read = input.read(buffer)) != -1 && !mIsCanceled) {
+                while ((read = input.read(buffer)) != -1 && mStatus != Status.canceld/*!mIsCanceled*/) {
                     count += read;
                     output.write(buffer, 0, read);
                     precent = (int) (((double) count / length) * 100);
@@ -628,13 +628,14 @@ public class AfDownloader {
                 output.close();
                 input.close();
 
-                if (mIsCanceled) {
+                if (mStatus == Status.canceld/*mIsCanceled*/) {
                     //noinspection ResultOfMethodCallIgnored
                     mTempFile.delete();
                 } else {
                     mHandler.sendMessage(mHandler.obtainMessage(DOWNLOAD_FINISH, this));
                 }
-                mIsCanceled = true;
+                mStatus = Status.canceld;
+                //mIsCanceled = true;
             } else {
                 mHandler.sendMessage(mHandler.obtainMessage(DOWNLOAD_FINISH, this));
             }

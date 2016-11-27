@@ -171,7 +171,7 @@ public class Injecter {
                 } else if (AfApp.class.isAssignableFrom(clazz)) {
                     value = AfApp.get();
                 } else if (AfAppSettings.class.isAssignableFrom(clazz)) {
-                    value = AfApp.get().getAppSetting();
+                    value = AfApp.get().newAppSetting();
 //                } else if (AfEntityDao.class.isAssignableFrom(clazz)) {
 //                    value = clazz.getConstructor(Context.class).newInstance(context);
                 }

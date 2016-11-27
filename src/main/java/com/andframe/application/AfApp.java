@@ -17,7 +17,7 @@ import android.util.Log;
 import com.andframe.BuildConfig;
 import com.andframe.activity.AfActivity;
 import com.andframe.api.DialogBuilder;
-import com.andframe.api.TaskExecutor;
+import com.andframe.api.task.TaskExecutor;
 import com.andframe.api.multistatus.MoreFooter;
 import com.andframe.api.multistatus.RefreshLayouter;
 import com.andframe.api.multistatus.StatusLayouter;
@@ -485,11 +485,12 @@ public abstract class AfApp extends Application {
 	public RefreshLayouter newRefreshLayouter(Context context) {
 		return new DefaultRefreshLayouter(context);
 	}
+
 	public StatusLayouter newStatusLayouter(Context context) {
 		return new DefaultStatusLayouter(context);
 	}
 
-	public AfAppSettings getAppSetting() {
+	public AfAppSettings newAppSetting() {
 		return new AfAppSettings(this);
 	}
 

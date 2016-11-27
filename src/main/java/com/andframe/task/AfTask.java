@@ -3,64 +3,70 @@ package com.andframe.task;
 import android.content.DialogInterface;
 import android.content.DialogInterface.OnCancelListener;
 
-import com.andframe.api.Task;
+import com.andframe.api.task.Task;
 import com.andframe.application.AfApp;
-import com.andframe.exception.AfException;
 import com.andframe.exception.AfExceptionHandler;
 import com.andframe.exception.AfToastException;
 
 @SuppressWarnings("unused")
 public abstract class AfTask implements Task, OnCancelListener {
 
-	// Task 执行状态枚举
-	public static final int RESULT_FAIL = 0;
-	public static final int RESULT_FINISH = 1;
-	// Task 执行类型枚举
-	public static final int TASK_LOAD = 0; // 第一次加载数据
-
-	public int mResult = -1;
+	public Status mStatus = Status.none;
 	public String mErrors;
-	@SuppressWarnings("ThrowableInstanceNeverThrown")
-	public Throwable mException = new AfException();
-
-	protected boolean mIsCanceled = false;
+	public Throwable mException;
 
 	protected abstract void onWorking() throws Exception;
 
 	public boolean isFinish() {
-		return mResult == RESULT_FINISH;
+		return mStatus == Status.finished;
 	}
 
 	public boolean isFail() {
-		return mResult == RESULT_FAIL;
+		return mStatus == Status.failed;
 	}
-	
+
+	public boolean isCanceled() {
+		return mStatus == Status.canceld;
+	}
+
+	@Override
+	public Throwable exception() {
+		return mException;
+	}
+
+	@Override
+	public Status status() {
+		return mStatus;
+	}
+
 	@Override
 	public void run() {
 		try {
-			mResult = RESULT_FINISH;
-			if (!mIsCanceled) {
+			if (mStatus == Status.prepared) {
+				mStatus = Status.runing;
 				this.onWorking();
+				mStatus = Status.finished;
 			}
 		} catch (Throwable e) {
 			mException = e;
 			mErrors = e.getMessage();
-			mResult = RESULT_FAIL;
 			if (mErrors == null || mErrors.length() == 0) {
 				mErrors = e.toString();
 			}
-			if (!mIsCanceled) {
+			if (mStatus == Status.runing) {
+				mStatus = Status.failed;
 				this.onException(e);
 			}
 		}
 	}
 
-	public boolean isCanceled() {
-		return mIsCanceled;
+	@Override
+	public final void onCancel(DialogInterface dialog) {
+		this.onCancel();
 	}
 
 	@Override
-	public final void onCancel(DialogInterface dialog) {
+	public void cancel() {
 		this.onCancel();
 	}
 
@@ -79,30 +85,30 @@ public abstract class AfTask implements Task, OnCancelListener {
 	 * 	这个方法可能在异步线程中执行
 	 */
 	public void onCancel() {
-		mIsCanceled = true;
+		mStatus = Status.canceld;
 	}
 
-	protected Boolean mPrepare = null;
-
 	public boolean prepare() {
-		if (mPrepare == null) {
+		if (mStatus == Status.none) {
 			try {
-				mPrepare = onPrepare();
+				if (onPrepare()) {
+					mStatus = Status.prepared;
+				}
 			} catch (Throwable e) {
-				e.printStackTrace();
+				mStatus = Status.canceld;
 				String remark = "AfTask("+getClass().getName()+").onPrepare";
 				AfExceptionHandler.handle(e, remark);
 				return false;
 			}
 		}
-		return mPrepare;
+		return mStatus == Status.prepared;
 	}
 	/**
 	 * 任务准备开始 （在UI线程中）
 	 * @return 返回true 表示准备完毕 否则 false 任务将被取消
 	 */
 	protected boolean onPrepare() {
-		return !mIsCanceled;
+		return mStatus == Status.none;
 	}
 
 	public String makeErrorToast(String tip) {
@@ -110,8 +116,7 @@ public abstract class AfTask implements Task, OnCancelListener {
 	}
 
 	public AfTask reset() {
-		mPrepare = null;
-		mIsCanceled = false;
+		mStatus = Status.none;
 		return this;
 	}
 }

@@ -4,8 +4,9 @@ import android.os.Looper;
 import android.support.annotation.MainThread;
 import android.support.annotation.NonNull;
 
-import com.andframe.api.TaskExecutor;
-import com.andframe.api.Tasker;
+import com.andframe.api.task.Task;
+import com.andframe.api.task.TaskExecutor;
+import com.andframe.api.task.Tasker;
 import com.andframe.application.AfApp;
 import com.andframe.util.java.AfDateGuid;
 import com.andframe.util.java.AfReflecter;
@@ -91,13 +92,13 @@ public class AfTaskExecutor implements TaskExecutor {
     }
 
     @MainThread
-    public void execute(AfTask task) {
-        if (!task.isCanceled() && task.prepare()) {
+    public void execute(Task task) {
+        if (/*!task.isCanceled()*/task.status() != Task.Status.canceld && task.prepare()) {
             sDefaultExecutor.execute(task);
         }
     }
 
-    public <T extends AfTask> T postTask(T task) {
+    public <T extends Task> T postTask(T task) {
         if (Looper.getMainLooper().getThread() == Thread.currentThread()) {
             execute(task);
         } else {
@@ -105,29 +106,29 @@ public class AfTaskExecutor implements TaskExecutor {
         }
         return task;
     }
-    /**
-     * 抛送带数据任务到Worker执行
-     */
-    @Override
-    public <T> AfDataTask postDataTask(T t, AfDataTask.OnTaskHandlerListener<T> task) {
-        return postTask(new AfDataTask<>(t, task));
-    }
-
-    /**
-     * 抛送带数据任务到Worker执行
-     */
-    @Override
-    public <T, TT> AfData2Task postDataTask(T t, TT tt, AfData2Task.OnData2TaskHandlerListener<T, TT> task) {
-        return postTask(new AfData2Task<>(t, tt, task));
-    }
-
-    /**
-     * 抛送带数据任务到Worker执行
-     */
-    @Override
-    public <T, TT, TTT> AfData3Task postDataTask(T t, TT tt, TTT ttt, AfData3Task.OnData3TaskHandlerListener<T, TT, TTT> task) {
-        return postTask(new AfData3Task<>(t, tt, ttt, task));
-    }
+//    /**
+//     * 抛送带数据任务到Worker执行
+//     */
+//    @Override
+//    public <T> AfDataTask postDataTask(T t, AfDataTask.OnTaskHandlerListener<T> task) {
+//        return postTask(new AfDataTask<>(t, task));
+//    }
+//
+//    /**
+//     * 抛送带数据任务到Worker执行
+//     */
+//    @Override
+//    public <T, TT> AfData2Task postDataTask(T t, TT tt, AfData2Task.OnData2TaskHandlerListener<T, TT> task) {
+//        return postTask(new AfData2Task<>(t, tt, task));
+//    }
+//
+//    /**
+//     * 抛送带数据任务到Worker执行
+//     */
+//    @Override
+//    public <T, TT, TTT> AfData3Task postDataTask(T t, TT tt, TTT ttt, AfData3Task.OnData3TaskHandlerListener<T, TT, TTT> task) {
+//        return postTask(new AfData3Task<>(t, tt, ttt, task));
+//    }
 
 
 }

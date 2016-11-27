@@ -3,8 +3,8 @@ package com.andframe.task;
 import android.support.annotation.NonNull;
 
 import com.andframe.R;
-import com.andframe.api.LoadSuccessHandler;
-import com.andframe.api.LoadTasker;
+import com.andframe.api.task.LoadSuccessHandler;
+import com.andframe.api.task.LoadTasker;
 import com.andframe.api.page.Pager;
 
 import java.lang.ref.WeakReference;

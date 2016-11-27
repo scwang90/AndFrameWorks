@@ -23,13 +23,9 @@ public abstract class AfHandlerTask extends AfTask {
 
 	@Override
 	public void run() {
-		if (Looper.getMainLooper().getThread() == Thread.currentThread()) {
-			handleMessage();
-		} else {
-			super.run();
-			if (!mIsCanceled && mHandler != null) {
-				mHandler.post(this);
-			}
+		super.run();
+		if (mStatus != Status.canceld && mHandler != null) {
+			mHandler.post(this::handleMessage);
 		}
 	}
 

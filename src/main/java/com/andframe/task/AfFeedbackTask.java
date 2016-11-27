@@ -3,7 +3,7 @@ package com.andframe.task;
 import android.support.annotation.NonNull;
 
 import com.andframe.R;
-import com.andframe.api.Tasker;
+import com.andframe.api.task.Tasker;
 import com.andframe.api.page.Pager;
 
 import java.lang.ref.WeakReference;

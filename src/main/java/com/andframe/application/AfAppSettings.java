@@ -64,7 +64,7 @@ public class AfAppSettings {
 
 	public static AfAppSettings getInstance(){
 		if(mInstance == null){
-			mInstance = AfApp.get().getAppSetting();
+			mInstance = AfApp.get().newAppSetting();
 		}
 		return mInstance;
 	}
