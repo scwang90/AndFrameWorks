@@ -379,7 +379,12 @@ public abstract class AbCominfoActivity extends AfActivity implements
 			if ((item.value != null && item.value.trim().length() > 0) 
 					&& (mMode[0] != Mode.ADD || item.type == Item.DISABLE || !item.notnull)
 				/*	|| (item.id != Item.ID_DEFAULT && itemvalue.getText().length() == 0)*/) {
-				itemvalue.setText(item.value);
+				if (item.format != null) {
+					itemvalue.setText(String.format(item.format, item.value));
+				} else {
+					itemvalue.setText(item.value);
+				}
+
 				if(item.type == Item.PASSWORD && !item.value.equals("")){
 					itemvalue.setText(TEXT_PASSWORD);
 				}

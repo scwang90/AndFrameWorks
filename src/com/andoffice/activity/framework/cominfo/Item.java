@@ -1,13 +1,13 @@
 package com.andoffice.activity.framework.cominfo;
 
-import java.lang.reflect.Field;
-import java.util.Date;
-
 import android.widget.TextView;
 
 import com.andframe.application.AfExceptionHandler;
 import com.andframe.util.java.AfDateFormat;
 import com.andframe.util.java.AfReflecter;
+
+import java.lang.reflect.Field;
+import java.util.Date;
 
 public class Item {
 	public static final int SELECTOR_DATE = AbCominfoActivity.ID_DATE;
@@ -55,6 +55,8 @@ public class Item {
 	public String value = "";
 
 	public String name = "";
+
+	public String format = null;
 
 	public String[] values = null;
 
@@ -208,6 +210,11 @@ public class Item {
 				this.formatdatetime(date);
 			}
 		}
+	}
+
+	public Item format(String format) {
+		this.format = format;
+		return this;
 	}
 
 	public void formatdate(Date date) {
