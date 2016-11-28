@@ -53,6 +53,7 @@ import com.andframe.listener.SafeListener;
 import com.andframe.util.android.AfMeasure;
 
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.Collections;
 import java.util.List;
 import java.util.Queue;
@@ -839,6 +840,8 @@ public class AfViewQuery<T extends AfViewQuery<T>> implements ViewQuery<T> {
             for (int i = 0; i < ids.length; i++) {
                 mTargetViews[i + 1] = findViewById(ids[i]);
             }
+        } else if (ids.length == 0) {
+            mTargetViews = new View[]{getRootView()};
         } else {
             this.mTargetViews = new View[ids.length];
             for (int i = 0; i < ids.length; i++) {
@@ -1454,6 +1457,46 @@ public class AfViewQuery<T extends AfViewQuery<T>> implements ViewQuery<T> {
     }
 
     @Override
+    public T toPrev() {
+        if (mTargetViews != null) {
+            for (int i = 0; i < mTargetViews.length; i++) {
+                if (mTargetViews[i] != null && mTargetViews[i].getParent() instanceof ViewGroup) {
+                    ViewGroup parent = (ViewGroup) mTargetViews[i].getParent();
+                    int index = parent.indexOfChild(mTargetViews[i]);
+                    if (index > 0) {
+                        mTargetViews[i] = parent.getChildAt(index - 1);
+                    } else {
+                        mTargetViews[i] = null;
+                    }
+                } else {
+                    mTargetViews[i] = null;
+                }
+            }
+        }
+        return self();
+    }
+
+    @Override
+    public T toNext() {
+        if (mTargetViews != null) {
+            for (int i = 0; i < mTargetViews.length; i++) {
+                if (mTargetViews[i] != null && mTargetViews[i].getParent() instanceof ViewGroup) {
+                    ViewGroup parent = (ViewGroup) mTargetViews[i].getParent();
+                    int index = parent.indexOfChild(mTargetViews[i]);
+                    if (index < parent.getChildCount()) {
+                        mTargetViews[i] = parent.getChildAt(index + 1);
+                    } else {
+                        mTargetViews[i] = null;
+                    }
+                } else {
+                    mTargetViews[i] = null;
+                }
+            }
+        }
+        return self();
+    }
+
+    @Override
     public T toChild(int index) {
         if (mTargetViews != null) {
             for (int i = 0; i < mTargetViews.length; i++) {
@@ -1476,6 +1519,59 @@ public class AfViewQuery<T extends AfViewQuery<T>> implements ViewQuery<T> {
     public T toChilds() {
         return $(childs());
     }
+
+    @Override
+    public T toParent() {
+        if (mTargetViews != null) {
+            for (int i = 0; i < mTargetViews.length; i++) {
+                if (mTargetViews[i] != null) {
+                    mTargetViews[i] = (View) mTargetViews[i].getParent();
+                }
+            }
+        }
+        return self();
+    }
+
+    @Override
+    public T mixView(View... views) {
+        if (views.length > 0) {
+            View[] orgins = mTargetViews;
+            mTargetViews = new View[orgins.length + views.length];
+            for (int i = 0; i < mTargetViews.length; i++) {
+                if (i < views.length) {
+                    mTargetViews[i] = views[i];
+                } else {
+                    mTargetViews[i] = orgins[i - views.length];
+                }
+            }
+        }
+        return self();
+    }
+
+    @Override
+    public T mixPrev() {
+        View[] views = Arrays.copyOf(this.mTargetViews, this.mTargetViews.length);
+        return toPrev().mixView(views);
+    }
+
+    @Override
+    public T mixNext() {
+        View[] views = Arrays.copyOf(this.mTargetViews, this.mTargetViews.length);
+        return toNext().mixView(views);
+    }
+
+    @Override
+    public T mixChild(int index) {
+        View[] views = Arrays.copyOf(this.mTargetViews, this.mTargetViews.length);
+        return toChild(index).mixView(views);
+    }
+
+    @Override
+    public T mixChilds() {
+        View[] views = Arrays.copyOf(this.mTargetViews, this.mTargetViews.length);
+        return toChilds().mixView(views);
+    }
+
 
     @Override
     public int childCount() {

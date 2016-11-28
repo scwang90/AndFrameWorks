@@ -47,7 +47,7 @@ import java.util.List;
 public interface ViewQuery<T extends ViewQuery<T>> {
 
     /**
-     * Points the current operating view to the first view found with the id under the root.
+     * 设置
      *
      * @param id the id
      * @return self
@@ -612,8 +612,18 @@ public interface ViewQuery<T extends ViewQuery<T>> {
     T addView(View view, ViewGroup.LayoutParams params);
     T addView(View view, int index, ViewGroup.LayoutParams params);
     T replace(View view);
+
+    T toPrev();
+    T toNext();
     T toChild(int index);
     T toChilds();
+    T toParent();
+    T mixView(View... views);
+    T mixPrev();
+    T mixNext();
+    T mixChild(int index);
+    T mixChilds();
+
     View breakView();
     View[] breakViews();
     View[] childs();
