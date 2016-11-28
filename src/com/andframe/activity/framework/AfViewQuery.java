@@ -1,16 +1,19 @@
 package com.andframe.activity.framework;
 
+import android.annotation.TargetApi;
 import android.content.Context;
+import android.content.res.ColorStateList;
 import android.content.res.Resources;
 import android.graphics.Bitmap;
 import android.graphics.Point;
+import android.graphics.Rect;
 import android.graphics.Typeface;
 import android.graphics.drawable.Drawable;
 import android.net.Uri;
 import android.os.Build;
 import android.support.annotation.DrawableRes;
 import android.support.annotation.Nullable;
-import android.support.v4.view.ViewCompat;
+import android.support.v4.content.ContextCompat;
 import android.text.Editable;
 import android.text.Html;
 import android.text.Spanned;
@@ -51,11 +54,14 @@ import java.util.List;
 import java.util.Queue;
 import java.util.concurrent.LinkedBlockingQueue;
 
+import static android.support.v4.content.ContextCompat.getDrawable;
+
 /**
  * 安卓版 JQuery 实现
  * Created by SCWANG on 2016/8/18.
  */
 public class AfViewQuery<T extends AfViewQuery<T>> implements IViewQuery<T> {
+
 
     protected AfViewable mRootView = null;
     protected View[] mTargetViews = null;
@@ -99,36 +105,9 @@ public class AfViewQuery<T extends AfViewQuery<T>> implements IViewQuery<T> {
      * @param id the id
      * @return self
      */
-    public T id(int... id) {
-        if (id.length == 0) {
-            mTargetViews = new View[]{getRootView()};
-        } else {
-            this.mTargetViews = new View[id.length];
-            for (int i = 0; i < id.length; i++) {
-                mTargetViews[i] = findViewById(id[i]);
-            }
-        }
-        return self();
+    public T id(int id) {
+        return foreach((ViewEacher<View>) view -> view.setId(id));
     }
-
-    /**
-     * Points the current operating view to the specified view.
-     *
-     * @return self
-     */
-    public T id(View view, View... views) {
-        if (view == null) {
-            this.mTargetViews = views;
-        } else if (views.length == 0) {
-            this.mTargetViews = new View[]{view};
-        } else {
-            this.mTargetViews = new ArrayList<View>(Arrays.asList(views)) {{
-                add(view);
-            }}.toArray(new View[views.length + 1]);
-        }
-        return self();
-    }
-
 
     /**
      * Set the rating of a RatingBar.
@@ -221,8 +200,7 @@ public class AfViewQuery<T extends AfViewQuery<T>> implements IViewQuery<T> {
      * @return self
      */
     public T textColorId(int id) {
-        //noinspection deprecation
-        return textColor(getContext().getResources().getColor(id));
+        return textColor(ContextCompat.getColor(getContext(), id));
     }
 
 
@@ -419,7 +397,7 @@ public class AfViewQuery<T extends AfViewQuery<T>> implements IViewQuery<T> {
      */
     public T background(int id) {
         return foreach((view) -> {
-            if (id != 0) {
+            if (id > 0) {
                 view.setBackgroundResource(id);
             } else {
                 //noinspection deprecation
@@ -439,32 +417,18 @@ public class AfViewQuery<T extends AfViewQuery<T>> implements IViewQuery<T> {
     }
 
     /**
-     * Set mTargetViews background color.
-     *
-     * @param colorId color code in resource id
-     * @return self
-     */
-    public T backgroundColorId(int colorId) {
-        //noinspection deprecation
-        return foreach((ViewEacher<View>) (view) -> view.setBackgroundColor(getContext().getResources().getColor(colorId)));
-    }
-
-    /**
      * Notify a ListView that the data of it's adapter is changed.
      *
      * @return self
      */
     public T dataChanged() {
         return foreach(AdapterView.class, (view) -> {
-            AdapterView<?> av = (AdapterView<?>) view;
-            Adapter a = av.getAdapter();
+            Adapter a = view.getAdapter();
             if (a instanceof BaseAdapter) {
-                BaseAdapter ba = (BaseAdapter) a;
-                ba.notifyDataSetChanged();
+                ((BaseAdapter) a).notifyDataSetChanged();
             }
         });
     }
-
 
     /**
      * Checks if the current mTargetViews exist.
@@ -649,8 +613,10 @@ public class AfViewQuery<T extends AfViewQuery<T>> implements IViewQuery<T> {
      * @return selected
      */
     public Object getSelectedItem() {
-        //noinspection RedundantCast
-        return foreach(AdapterView.class, (ViewReturnEacher<AdapterView, Object>) AdapterView::getSelectedItem);
+        return foreach(AdapterView.class, view -> {
+            //noinspection Convert2MethodRef
+            return view.getSelectedItem();
+        });
     }
 
     /**
@@ -661,8 +627,10 @@ public class AfViewQuery<T extends AfViewQuery<T>> implements IViewQuery<T> {
      * @return selected position
      */
     public int getSelectedItemPosition() {
-        //noinspection RedundantCast
-        return foreach(AdapterView.class, (ViewReturnEacher<AdapterView, Integer>) AdapterView::getSelectedItemPosition);
+        return foreach(AdapterView.class, view -> {
+            //noinspection Convert2MethodRef
+            return view.getSelectedItemPosition();
+        });
     }
 
     /**
@@ -672,7 +640,7 @@ public class AfViewQuery<T extends AfViewQuery<T>> implements IViewQuery<T> {
      * @return self
      */
     public T clicked(View.OnClickListener listener) {
-        return foreach((ViewEacher<View>) view -> view.setOnClickListener(listener));
+        return foreach((ViewEacher<View>) view -> view.setOnClickListener((listener)));
     }
 
     /**
@@ -693,7 +661,6 @@ public class AfViewQuery<T extends AfViewQuery<T>> implements IViewQuery<T> {
      */
     public T itemClicked(AdapterView.OnItemClickListener listener) {
         return foreach(AdapterView.class, (ViewEacher<AdapterView>) view -> view.setOnItemClickListener(listener));
-
     }
 
     /**
@@ -862,11 +829,20 @@ public class AfViewQuery<T extends AfViewQuery<T>> implements IViewQuery<T> {
     }
 
     @Override
-    public T $(int id, int... ids) {
-        this.mTargetViews = new View[ids.length + 1];
-        this.mTargetViews[0] = findViewById(id);
-        for (int i = 0; i < ids.length; i++) {
-            mTargetViews[i + 1] = findViewById(ids[i]);
+    public T $(Integer id, int... ids) {
+        if (id != null) {
+            this.mTargetViews = new View[ids.length + 1];
+            this.mTargetViews[0] = findViewById(id);
+            for (int i = 0; i < ids.length; i++) {
+                mTargetViews[i + 1] = findViewById(ids[i]);
+            }
+        } else if (ids.length == 0) {
+            mTargetViews = new View[]{getRootView()};
+        } else {
+            this.mTargetViews = new View[ids.length];
+            for (int i = 0; i < ids.length; i++) {
+                mTargetViews[i] = findViewById(ids[i]);
+            }
         }
         return self();
     }
@@ -888,15 +864,15 @@ public class AfViewQuery<T extends AfViewQuery<T>> implements IViewQuery<T> {
                 listId.add(resources.getIdentifier(value,"id",packageName));
             }
         }
-        int[] ids = new int[listId.size()];
+        int[] ids = new int[listId.size() - 1];
         for (int i = 0; i < ids.length; i++) {
-            ids[i] = listId.get(i);
+            ids[i] = listId.get(i + 1);
         }
-        return id(ids);
+        return $(listId.get(0), ids);
     }
 
     @Override
-    public T $(Class<?> type, Class<?>... types) {
+    public T $(Class<? extends View> type) {
         Queue<View> views = new LinkedBlockingQueue<>(Collections.singletonList(mRootView.getView()));
         List<View> list = new ArrayList<>();
         do {
@@ -904,13 +880,6 @@ public class AfViewQuery<T extends AfViewQuery<T>> implements IViewQuery<T> {
             if (cview != null) {
                 if (type != null && type.isInstance(cview)) {
                     list.add(cview);
-                } else if (types.length > 0) {
-                    for (Class<?> ttype : types) {
-                        if (ttype.isInstance(cview)) {
-                            list.add(cview);
-                            break;
-                        }
-                    }
                 }
                 if (cview instanceof ViewGroup) {
                     ViewGroup group = (ViewGroup) cview;
@@ -925,8 +894,39 @@ public class AfViewQuery<T extends AfViewQuery<T>> implements IViewQuery<T> {
     }
 
     @Override
+    @SafeVarargs
+    public final T $(Class<? extends View>... types) {
+        List<View> list = new ArrayList<>();
+        Queue<View> views = new LinkedBlockingQueue<>(Collections.singletonList(mRootView.getView()));
+        while (!views.isEmpty() && types.length > 0) {
+            View cview = views.poll();
+            if (cview != null) {
+                for (Class<?> ttype : types) {
+                    if (ttype.isInstance(cview)) {
+                        list.add(cview);
+                        break;
+                    }
+                }
+                if (cview instanceof ViewGroup) {
+                    ViewGroup group = (ViewGroup) cview;
+                    for (int j = 0; j < group.getChildCount(); j++) {
+                        views.add(group.getChildAt(j));
+                    }
+                }
+            }
+        }
+        mTargetViews = list.toArray(new View[list.size()]);
+        return self();
+    }
+
+    @Override
     public T $(View... views) {
-        return id(null, views);
+        if (views.length == 0) {
+            mTargetViews = new View[]{getRootView()};
+        } else {
+            mTargetViews = views;
+        }
+        return self();
     }
 
     public <TT extends View> TT  view(int... indexs) {
@@ -978,12 +978,15 @@ public class AfViewQuery<T extends AfViewQuery<T>> implements IViewQuery<T> {
     }
 
     @Override
+    public int orientation() {
+        return foreach(LinearLayout.class, LinearLayout::getOrientation);
+    }
+
+    @Override
     public int gravity() {
         return foreach(view -> {
             if (view instanceof TextView) {
                 return ((TextView) view).getGravity();
-//            } else if (view instanceof LinearLayout && Build.VERSION.SDK_INT > 23) {
-//                return ((LinearLayout) view).getGravity();
             }
             return -1;
         });
@@ -1002,12 +1005,17 @@ public class AfViewQuery<T extends AfViewQuery<T>> implements IViewQuery<T> {
 
     @Override
     public T maxLines(int lines) {
-        return foreach(TextView.class,(ViewEacher<TextView>) (view) -> view.setMaxLines(lines));
+        return foreach(TextView.class, (ViewEacher<TextView>) (view) -> view.setMaxLines(lines));
     }
 
     @Override
-    public T setSingleLine(boolean singleLine) {
-        return foreach(TextView.class,(ViewEacher<TextView>) (view) -> view.setSingleLine(singleLine));
+    public T singleLine(boolean... value) {
+        return foreach(TextView.class, (ViewEacher<TextView>) (view) -> view.setSingleLine(value.length == 0 || value[0]));
+    }
+
+    @Override
+    public T orientation(int orientation) {
+        return foreach(LinearLayout.class, (ViewEacher<LinearLayout>) view -> view.setOrientation(orientation));
     }
 
     @Override
@@ -1195,9 +1203,7 @@ public class AfViewQuery<T extends AfViewQuery<T>> implements IViewQuery<T> {
 
     @Override
     public T padding(int left, int top, int right, int bottom) {
-        return foreach(view -> {
-            view.setPadding(left, top, right, bottom);
-        });
+        return foreach((ViewEacher<View>) view -> view.setPadding(left, top, right, bottom));
     }
 
     @Override
@@ -1271,9 +1277,9 @@ public class AfViewQuery<T extends AfViewQuery<T>> implements IViewQuery<T> {
         return foreach((ViewEacher<View>) view -> view.setAnimation(animation));
     }
 
-    @Override
+    @Override@TargetApi(11)
     public T rotation(float rotation) {
-        return foreach((ViewEacher<View>) view -> ViewCompat.setRotation(view, rotation));
+        return foreach((ViewEacher<View>) view -> view.setRotation(rotation));
     }
 
     @Override
@@ -1286,12 +1292,56 @@ public class AfViewQuery<T extends AfViewQuery<T>> implements IViewQuery<T> {
     public T addView(View... views) {
         return foreach(ViewGroup.class, group -> {
             for (View view : views) {
-                ViewParent viewParent = view.getParent();
-                if (viewParent instanceof ViewGroup) {
-                    ((ViewGroup) viewParent).removeView(view);
+                ViewParent parent = view.getParent();
+                if (parent instanceof ViewGroup) {
+                    ((ViewGroup) parent).removeView(view);
                 }
                 group.addView(view);
             }
+        });
+    }
+
+    @Override
+    public T addView(View view, int index) {
+        return foreach(ViewGroup.class, group -> {
+            ViewParent parent = view.getParent();
+            if (parent instanceof ViewGroup) {
+                ((ViewGroup) parent).removeView(view);
+            }
+            group.addView(view, index);
+        });
+    }
+
+    @Override
+    public T addView(View view, int width, int height) {
+        return foreach(ViewGroup.class, group -> {
+            ViewParent parent = view.getParent();
+            if (parent instanceof ViewGroup) {
+                ((ViewGroup) parent).removeView(view);
+            }
+            group.addView(view, width, height);
+        });
+    }
+
+    @Override
+    public T addView(View view, ViewGroup.LayoutParams params) {
+        return foreach(ViewGroup.class, group -> {
+            ViewParent parent = view.getParent();
+            if (parent instanceof ViewGroup) {
+                ((ViewGroup) parent).removeView(view);
+            }
+            group.addView(view, params);
+        });
+    }
+
+    @Override
+    public T addView(View view, int index, ViewGroup.LayoutParams params) {
+        return foreach(ViewGroup.class, group -> {
+            ViewParent parent = view.getParent();
+            if (parent instanceof ViewGroup) {
+                ((ViewGroup) parent).removeView(view);
+            }
+            group.addView(view, index, params);
         });
     }
 
@@ -1302,7 +1352,7 @@ public class AfViewQuery<T extends AfViewQuery<T>> implements IViewQuery<T> {
 
     @Override
     public T toggle() {
-        return foreach(CheckBox.class,(ViewEacher<CheckBox>) (view) -> view.setChecked(!view.isChecked()));
+        return foreach(CompoundButton.class,(ViewEacher<CompoundButton>) (view) -> view.setChecked(!view.isChecked()));
     }
 
     @Override
@@ -1313,23 +1363,21 @@ public class AfViewQuery<T extends AfViewQuery<T>> implements IViewQuery<T> {
     @Override
     public T html(String format, Object... args) {
         if (args.length == 0) {
+            //noinspection deprecation
             return foreach(TextView.class, (ViewEacher<TextView>) (view) -> view.setText(Html.fromHtml(format)));
         }
-        Resources resources = null;
+        Context context = null;
         for (int i = 0, len = format.length(), index = 0; i < len; i++) {
             if (format.charAt(i) == '%' && i < len - 1) {
                 if (format.charAt(i + 1) == 's') {
                     if (index < args.length && args[index] instanceof Integer) {
                         int color = ((Integer) args[index]);
                         try {
-                            if (resources == null) {
-                                Context context = getContext();
-                                if (context != null) {
-                                    resources = getContext().getResources();
-                                }
+                            if (context == null) {
+                                context = getContext();
                             }
-                            if (resources != null) {
-                                color = resources.getColor(color);
+                            if (context != null) {
+                                color = ContextCompat.getColor(context, color);
                             }
                         } catch (Resources.NotFoundException ignored) {
                         }
@@ -1340,7 +1388,18 @@ public class AfViewQuery<T extends AfViewQuery<T>> implements IViewQuery<T> {
                 index++;
             }
         }
+        //noinspection deprecation
         return foreach(TextView.class, (ViewEacher<TextView>) (view) -> view.setText(Html.fromHtml(String.format(format, args))));
+    }
+
+    @Override
+    public T textColor(ColorStateList color) {
+        return foreach(TextView.class, (ViewEacher<TextView>) (view) -> view.setTextColor(color));
+    }
+
+    @Override
+    public T textColorListId(int id) {
+        return textColor(ContextCompat.getColorStateList(getContext(), id));
     }
 
     @Override
@@ -1392,6 +1451,46 @@ public class AfViewQuery<T extends AfViewQuery<T>> implements IViewQuery<T> {
     }
 
     @Override
+    public T toPrev() {
+        if (mTargetViews != null) {
+            for (int i = 0; i < mTargetViews.length; i++) {
+                if (mTargetViews[i] != null && mTargetViews[i].getParent() instanceof ViewGroup) {
+                    ViewGroup parent = (ViewGroup) mTargetViews[i].getParent();
+                    int index = parent.indexOfChild(mTargetViews[i]);
+                    if (index > 0) {
+                        mTargetViews[i] = parent.getChildAt(index - 1);
+                    } else {
+                        mTargetViews[i] = null;
+                    }
+                } else {
+                    mTargetViews[i] = null;
+                }
+            }
+        }
+        return self();
+    }
+
+    @Override
+    public T toNext() {
+        if (mTargetViews != null) {
+            for (int i = 0; i < mTargetViews.length; i++) {
+                if (mTargetViews[i] != null && mTargetViews[i].getParent() instanceof ViewGroup) {
+                    ViewGroup parent = (ViewGroup) mTargetViews[i].getParent();
+                    int index = parent.indexOfChild(mTargetViews[i]);
+                    if (index < parent.getChildCount()) {
+                        mTargetViews[i] = parent.getChildAt(index + 1);
+                    } else {
+                        mTargetViews[i] = null;
+                    }
+                } else {
+                    mTargetViews[i] = null;
+                }
+            }
+        }
+        return self();
+    }
+
+    @Override
     public T toChild(int index) {
         if (mTargetViews != null) {
             for (int i = 0; i < mTargetViews.length; i++) {
@@ -1413,6 +1512,58 @@ public class AfViewQuery<T extends AfViewQuery<T>> implements IViewQuery<T> {
     @Override
     public T toChilds() {
         return $(childs());
+    }
+
+    @Override
+    public T toParent() {
+        if (mTargetViews != null) {
+            for (int i = 0; i < mTargetViews.length; i++) {
+                if (mTargetViews[i] != null) {
+                    mTargetViews[i] = (View) mTargetViews[i].getParent();
+                }
+            }
+        }
+        return self();
+    }
+
+    @Override
+    public T mixView(View... views) {
+        if (views.length > 0) {
+            View[] orgins = mTargetViews;
+            mTargetViews = new View[orgins.length + views.length];
+            for (int i = 0; i < mTargetViews.length; i++) {
+                if (i < views.length) {
+                    mTargetViews[i] = views[i];
+                } else {
+                    mTargetViews[i] = orgins[i - views.length];
+                }
+            }
+        }
+        return self();
+    }
+
+    @Override@TargetApi(9)
+    public T mixPrev() {
+        View[] views = Arrays.copyOf(this.mTargetViews, this.mTargetViews.length);
+        return toPrev().mixView(views);
+    }
+
+    @Override@TargetApi(9)
+    public T mixNext() {
+        View[] views = Arrays.copyOf(this.mTargetViews, this.mTargetViews.length);
+        return toNext().mixView(views);
+    }
+
+    @Override@TargetApi(9)
+    public T mixChild(int index) {
+        View[] views = Arrays.copyOf(this.mTargetViews, this.mTargetViews.length);
+        return toChild(index).mixView(views);
+    }
+
+    @Override@TargetApi(9)
+    public T mixChilds() {
+        View[] views = Arrays.copyOf(this.mTargetViews, this.mTargetViews.length);
+        return toChilds().mixView(views);
     }
 
     @Override
@@ -1441,6 +1592,24 @@ public class AfViewQuery<T extends AfViewQuery<T>> implements IViewQuery<T> {
         return foreach(AfMeasure::measureView);
     }
 
+    @Override
+    public Rect padding() {
+        return foreach(view -> {
+            return new Rect(view.getPaddingLeft(), view.getPaddingTop(), view.getPaddingRight(), view.getPaddingBottom());
+        });
+    }
+
+    @Override
+    public Rect margin() {
+        return foreach(view -> {
+            ViewGroup.LayoutParams lp = view.getLayoutParams();
+            if (lp instanceof ViewGroup.MarginLayoutParams) {
+                ViewGroup.MarginLayoutParams params = (ViewGroup.MarginLayoutParams) lp;
+                return new Rect(params.leftMargin, params.topMargin, params.rightMargin, params.bottomMargin);
+            }
+            return null;
+        });
+    }
 
     public View getView(int... indexs) {
         if (mTargetViews != null && mTargetViews.length > 0) {
@@ -1490,22 +1659,22 @@ public class AfViewQuery<T extends AfViewQuery<T>> implements IViewQuery<T> {
 
     @Override
     public T drawableLeft(@DrawableRes int id) {
-        return foreach(TextView.class, (ViewEacher<TextView>) view -> view.setCompoundDrawablesWithIntrinsicBounds(getContext().getResources().getDrawable(id), null, null, null));
+        return foreach(TextView.class, (ViewEacher<TextView>) view -> view.setCompoundDrawablesWithIntrinsicBounds(getDrawable(getContext(),id), null, null, null));
     }
 
     @Override
     public T drawableTop(@DrawableRes int id) {
-        return foreach(TextView.class, (ViewEacher<TextView>) view -> view.setCompoundDrawablesWithIntrinsicBounds(null, getContext().getResources().getDrawable(id), null, null));
+        return foreach(TextView.class, (ViewEacher<TextView>) view -> view.setCompoundDrawablesWithIntrinsicBounds(null, getDrawable(getContext(),id), null, null));
     }
 
     @Override
     public T drawableRight(@DrawableRes int id) {
-        return foreach(TextView.class, (ViewEacher<TextView>) view -> view.setCompoundDrawablesWithIntrinsicBounds(null, null, getContext().getResources().getDrawable(id), null));
+        return foreach(TextView.class, (ViewEacher<TextView>) view -> view.setCompoundDrawablesWithIntrinsicBounds(null, null, getDrawable(getContext(),id), null));
     }
 
     @Override
     public T drawableBottom(@DrawableRes int id) {
-        return foreach(TextView.class, (ViewEacher<TextView>) view -> view.setCompoundDrawablesWithIntrinsicBounds(null, null, null, getContext().getResources().getDrawable(id)));
+        return foreach(TextView.class, (ViewEacher<TextView>) view -> view.setCompoundDrawablesWithIntrinsicBounds(null, null, null, getDrawable(getContext(),id)));
     }
 
 //    @SuppressWarnings("unchecked")
@@ -1513,7 +1682,7 @@ public class AfViewQuery<T extends AfViewQuery<T>> implements IViewQuery<T> {
 //    public <TT> T adapter(@LayoutRes int id, List<TT> list, AdapterItemer<TT> itemer) {
 //        return foreach(AdapterView.class, (ViewEacher<AdapterView>) (view) -> view.setAdapter(new AfListLayoutItemAdapter<TT>(id,view.getContext(),list) {
 //            @Override
-//            protected void onBinding(IViewQuery<? extends IViewQuery> $, TT model, int index) {
+//            protected void onBinding(ViewQuery<? extends ViewQuery> $, TT model, int index) {
 //                itemer.onBinding($, model, index);
 //            }
 //        }));

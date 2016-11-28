@@ -104,8 +104,7 @@ public abstract class AfListViewFragment<T> extends AfTabFragment implements
 
     @Override
     protected View onCreateView(LayoutInflater inflater, ViewGroup container) {
-        ViewGroup root = null;
-        return inflater.inflate(getLayoutId(inflater.getContext()), root);
+        return inflater.inflate(getLayoutId(inflater.getContext()), container, false);
     }
 
     /**

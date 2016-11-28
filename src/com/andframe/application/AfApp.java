@@ -3,6 +3,7 @@ package com.andframe.application;
 import android.view.View;
 
 import com.andframe.activity.framework.AfView;
+import com.andframe.activity.framework.AfViewQuery;
 import com.andframe.activity.framework.IViewQuery;
 
 /**
@@ -21,7 +22,8 @@ public abstract class AfApp extends AfApplication {
      * @return handle
      */
     public IViewQuery<? extends IViewQuery> getViewQuery(View view) {
-        return new AfView(view);
+        //noinspection unchecked
+        return new AfViewQuery(new AfView(view));
     }
 
 }

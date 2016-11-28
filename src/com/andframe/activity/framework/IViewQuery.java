@@ -1,8 +1,10 @@
 package com.andframe.activity.framework;
 
 import android.content.Context;
+import android.content.res.ColorStateList;
 import android.graphics.Bitmap;
 import android.graphics.Point;
+import android.graphics.Rect;
 import android.graphics.Typeface;
 import android.graphics.drawable.Drawable;
 import android.support.annotation.DrawableRes;
@@ -12,6 +14,7 @@ import android.text.Editable;
 import android.text.Spanned;
 import android.text.TextWatcher;
 import android.view.View;
+import android.view.ViewGroup;
 import android.view.animation.Animation;
 import android.webkit.WebView;
 import android.widget.Adapter;
@@ -40,12 +43,12 @@ import android.widget.TextView;
 public interface IViewQuery<T extends IViewQuery<T>> {
 
     /**
-     * Points the current operating view to the first view found with the id under the root.
+     * 设置
      *
      * @param id the id
      * @return self
      */
-    T id(int... id);
+    T id(int id);
 
     /**
      * Set the rating of a RatingBar.
@@ -287,14 +290,6 @@ public interface IViewQuery<T extends IViewQuery<T>> {
      * @return self
      */
     T backgroundColor(int color);
-
-    /**
-     * Set View background color.
-     *
-     * @param colorId color code in resource id
-     * @return self
-     */
-    T backgroundColorId(int colorId);
 
     /**
      * Notify a ListView that the data of it's adapter is changed.
@@ -560,17 +555,21 @@ public interface IViewQuery<T extends IViewQuery<T>> {
     boolean isVisible();
     int gravity();
     float rating();
-    T $(int id, int... ids);
+    T $(Integer id, int... ids);
     T $(String idvalue, String... idvalues);
-    T $(Class<?> type, Class<?>... types);
+    T $(Class<? extends View> type);
+    T $(Class<? extends View>[] types);
     T $(View... views);
-    T id(View view, View... views);
     T gravity(int gravity);
     T maxLines(int lines);
-    T setSingleLine(boolean singleLine);
+    T singleLine(boolean... singleLine);
+    T orientation(int orientation);
     T toggle();
     T text(String format, Object... args);
     T html(String format, Object... args);
+    T textSizeId(int id);
+    T textColor(ColorStateList color);
+    T textColorListId(int id);
     T size(int width, int height);
     T size(float width, float height);
     T width(float dp);
@@ -597,24 +596,42 @@ public interface IViewQuery<T extends IViewQuery<T>> {
     T paddingBottom(float dp);
     T padding(int left, int top, int right, int bottom);
     T margin(int left, int top, int right, int bottom);
-    T padding(float leftDip, float topDip, float rightDip, float bottomDip);
+    T padding(float leftdp, float topdp, float rightdp, float bottomdp);
     T progress(int progress);
     T visibility(boolean isvisibe);
-    T textSizeId(int id);
     T animation(Animation animation);
     T rotation(float rotation);
     T background(Drawable drawable);
     T addView(View... views);
+    T addView(View view, int index);
+    T addView(View view, int width, int height);
+    T addView(View view, ViewGroup.LayoutParams params);
+    T addView(View view, int index, ViewGroup.LayoutParams params);
     T replace(View view);
+
+    T toPrev();
+    T toNext();
     T toChild(int index);
     T toChilds();
+
+    T toParent();
+
+    T mixView(View... views);
+    T mixPrev();
+    T mixNext();
+    T mixChild(int index);
+    T mixChilds();
+
     View breakView();
     View[] breakViews();
     View[] childs();
     View[] breakChilds();
     View childAt(int index);
-    int childCount();
     Point measure();
+    Rect padding();
+    Rect margin();
+    int childCount();
+    int orientation();
 
     T drawablePadding(int padding);
     T drawablePadding(float padding);
@@ -630,10 +647,10 @@ public interface IViewQuery<T extends IViewQuery<T>> {
                 @Nullable Drawable right, @Nullable Drawable bottom);
 
 //    <TT> T adapter(@LayoutRes int id, List<TT> list, AdapterItemer<TT> itemer);
-
-    interface AdapterItemer<T> {
-        void onBinding(IViewQuery $, T model, int index);
-    }
+//
+//    interface AdapterItemer<T> {
+//        void onBinding(IViewQuery $, T model, int index);
+//    }
 
     T foreach(ViewEacher<View> eacher);
     <TT> T foreach(Class<TT> clazz, ViewEacher<TT> eacher);
@@ -649,5 +666,4 @@ public interface IViewQuery<T extends IViewQuery<T>> {
     interface ViewReturnEacher<TT, TTT> {
         TTT each(TT view);
     }
-;
 }

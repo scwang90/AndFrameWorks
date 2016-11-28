@@ -98,7 +98,7 @@ public abstract class AfActivity extends FragmentActivity implements AfPageable 
         if (id == null || id.length == 0) {
             return query;
         }
-        return query.id(id[0]);
+        return query.$(id[0]);
     }
     @SuppressWarnings("unused")
     protected IViewQuery $(View view) {

@@ -58,7 +58,7 @@ public class AfStatusBarCompat {
 
     public static int getStatusBarHeight(Context context, boolean real) {
         int result = 0;
-        if (real && Build.VERSION.SDK_INT >= 19 && Build.VERSION.SDK_INT < 23) {
+        if (real && Build.VERSION.SDK_INT >= 19 && Build.VERSION.SDK_INT < 25) {
             return result;
         }
         int resourceId = context.getResources().getIdentifier("status_bar_height", "dimen", "android");
@@ -73,7 +73,7 @@ public class AfStatusBarCompat {
     }
 
     public static View compatPadding(View root, boolean only19) {
-        if (Build.VERSION.SDK_INT >= 19 && root != null && (!only19 || Build.VERSION.SDK_INT < 23)) {
+        if (Build.VERSION.SDK_INT >= 19 && root != null && (!only19 || Build.VERSION.SDK_INT < 25)) {
             int bot = root.getPaddingBottom();
             int top = root.getPaddingTop();
             int lef = root.getPaddingLeft();
@@ -94,7 +94,7 @@ public class AfStatusBarCompat {
     }
 
     public static View compatScroll(View root, boolean only19) {
-        if (Build.VERSION.SDK_INT >= 19 && root != null && (!only19 || Build.VERSION.SDK_INT < 23)) {
+        if (Build.VERSION.SDK_INT >= 19 && root != null && (!only19 || Build.VERSION.SDK_INT < 25)) {
             int she = getStatusBarHeight(root.getContext());
             root.scrollTo(root.getScrollX(), root.getScrollY() - she);
         }
