@@ -1533,6 +1533,12 @@ public class AfViewQuery<T extends AfViewQuery<T>> implements ViewQuery<T> {
     }
 
     @Override
+    public T toRoot() {
+        mTargetViews = new View[]{getRootView()};
+        return self();
+    }
+
+    @Override
     public T mixView(View... views) {
         if (views.length > 0) {
             View[] orgins = mTargetViews;

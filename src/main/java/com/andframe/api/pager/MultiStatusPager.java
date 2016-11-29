@@ -1,4 +1,4 @@
-package com.andframe.api.page;
+package com.andframe.api.pager;
 
 import android.content.Context;
 import android.view.View;

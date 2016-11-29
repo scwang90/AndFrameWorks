@@ -20,7 +20,7 @@ import com.andframe.annotation.interpreter.LayoutBinder;
 import com.andframe.annotation.interpreter.LifeCycleInjecter;
 import com.andframe.annotation.interpreter.ViewBinder;
 import com.andframe.api.DialogBuilder;
-import com.andframe.api.page.Pager;
+import com.andframe.api.pager.Pager;
 import com.andframe.api.view.ViewQuery;
 import com.andframe.api.view.ViewQueryHelper;
 import com.andframe.application.AfApp;
@@ -28,6 +28,7 @@ import com.andframe.exception.AfExceptionHandler;
 import com.andframe.feature.AfIntent;
 import com.andframe.fragment.AfFragment;
 import com.andframe.impl.helper.AfViewQueryHelper;
+import com.andframe.impl.pager.AfPagerManager;
 import com.andframe.task.AfData2Task;
 import com.andframe.task.AfData3Task;
 import com.andframe.task.AfDataTask;
@@ -150,7 +151,7 @@ public abstract class AfActivity extends AppCompatActivity implements Pager, Vie
     @Override
     protected void onCreate(Bundle bundle) {
         try {
-            AfApp.get().setCurActivity(this, this);
+            AfPagerManager.activityCreated(this);
             if (AfStackTrace.isLoopCall()) {
                 //System.out.println("递归检测");
                 super.onCreate(bundle);
@@ -225,12 +226,14 @@ public abstract class AfActivity extends AppCompatActivity implements Pager, Vie
     protected void onResume() {
         super.onResume();
         this.mIsResume = true;
+        AfPagerManager.activityResume(this);
         LifeCycleInjecter.injectOnResume(this);
     }
 
     @Override
     protected void onPause() {
         super.onPause();
+        AfPagerManager.activityPause(this);
         LifeCycleInjecter.injectOnPause(this);
     }
 
@@ -257,10 +260,10 @@ public abstract class AfActivity extends AppCompatActivity implements Pager, Vie
     protected void onDestroy() {
         super.onDestroy();
         try {
-            AfApp.get().setCurActivity(this, null);
             mIsResume = false;
             mIsRecycled = true;
             LifeCycleInjecter.injectOnDestroy(this);
+            AfPagerManager.activityDestroy(this);
         } catch (Throwable ex) {
             AfExceptionHandler.handle(ex, "AfActivity.onDestroy");
         }

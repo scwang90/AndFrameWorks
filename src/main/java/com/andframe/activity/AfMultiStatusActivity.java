@@ -8,8 +8,8 @@ import android.view.View;
 import com.andframe.annotation.view.BindViewCreated;
 import com.andframe.api.multistatus.RefreshLayouter;
 import com.andframe.api.multistatus.StatusLayouter;
-import com.andframe.api.page.MultiStatusHelper;
-import com.andframe.api.page.MultiStatusPager;
+import com.andframe.api.pager.MultiStatusHelper;
+import com.andframe.api.pager.MultiStatusPager;
 import com.andframe.impl.helper.AfMultiStatusHelper;
 import com.andframe.task.AfHandlerTask;
 

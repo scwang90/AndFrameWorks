@@ -13,7 +13,6 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Toast;
 
-import com.andframe.activity.AfActivity;
 import com.andframe.activity.AfFragmentActivity;
 import com.andframe.annotation.interpreter.Injecter;
 import com.andframe.annotation.interpreter.LayoutBinder;
@@ -21,7 +20,7 @@ import com.andframe.annotation.interpreter.LifeCycleInjecter;
 import com.andframe.annotation.interpreter.ViewBinder;
 import com.andframe.annotation.lifecycle.OnCreateView;
 import com.andframe.api.DialogBuilder;
-import com.andframe.api.page.Pager;
+import com.andframe.api.pager.Pager;
 import com.andframe.api.view.ViewQuery;
 import com.andframe.api.view.ViewQueryHelper;
 import com.andframe.application.AfApp;
@@ -31,6 +30,7 @@ import com.andframe.feature.AfBundle;
 import com.andframe.feature.AfIntent;
 import com.andframe.feature.AfView;
 import com.andframe.impl.helper.AfViewQueryHelper;
+import com.andframe.impl.pager.AfPagerManager;
 import com.andframe.task.AfData2Task;
 import com.andframe.task.AfData3Task;
 import com.andframe.task.AfDataTask;
@@ -81,13 +81,6 @@ public abstract class AfFragment extends Fragment implements Pager, ViewQueryHel
     }
     //</editor-fold>
 
-    public AfActivity getAfActivity() {
-        if (super.getActivity() instanceof AfActivity) {
-            return ((AfActivity) super.getActivity());
-        }
-        return AfApp.get().getCurActivity();
-    }
-
     /**
      * 获取LOG日志 TAG 是 AfFragment 的方法
      * 用户也可以重写自定义TAG,这个值AfActivity在日志记录时候会使用
@@ -136,12 +129,12 @@ public abstract class AfFragment extends Fragment implements Pager, ViewQueryHel
 
     @Override
     public void startActivity(Class<? extends Activity> clazz,Object... args) {
-        startActivity(new AfIntent(getAfActivity(), clazz, args));
+        startActivity(new AfIntent(getActivity(), clazz, args));
     }
 
     @Override
     public void startActivityForResult(Class<? extends Activity> clazz, int request, Object... args) {
-        startActivityForResult(new AfIntent(getAfActivity(), clazz, args), request);
+        startActivityForResult(new AfIntent(getActivity(), clazz, args), request);
     }
 
     @Override
@@ -225,10 +218,22 @@ public abstract class AfFragment extends Fragment implements Pager, ViewQueryHel
     @Override
     public void onResume() {
         try {
+            AfPagerManager.fragmentResume(this);
             super.onResume();
             LifeCycleInjecter.injectOnResume(this);
         } catch (Throwable ex) {
             AfExceptionHandler.handle(ex, "AfFragment.onResume");
+        }
+    }
+
+    @Override
+    public void onPause() {
+        try {
+            AfPagerManager.fragmentPause(this);
+            super.onPause();
+            LifeCycleInjecter.injectOnPause(this);
+        } catch (Throwable ex) {
+            AfExceptionHandler.handle(ex, "AfFragment.onPause");
         }
     }
 
@@ -255,6 +260,7 @@ public abstract class AfFragment extends Fragment implements Pager, ViewQueryHel
     @Override
     public void onAttach(Context context) {
         try {
+            AfPagerManager.fragmentAttach(this, context);
             super.onAttach(context);
             LifeCycleInjecter.injectOnAttach(this);
         } catch (Throwable ex) {
@@ -330,6 +336,7 @@ public abstract class AfFragment extends Fragment implements Pager, ViewQueryHel
             super.onDetach();
             mIsRecycled = true;
             LifeCycleInjecter.injectonDetach(this);
+            AfPagerManager.fragmentDetach(this);
         } catch (Throwable ex) {
             AfExceptionHandler.handle(ex, "AfFragment.onDestroy");
         }

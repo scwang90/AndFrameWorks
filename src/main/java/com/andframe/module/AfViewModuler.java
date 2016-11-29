@@ -8,7 +8,7 @@ import com.andframe.activity.AfActivity;
 import com.andframe.annotation.interpreter.Injecter;
 import com.andframe.annotation.interpreter.LayoutBinder;
 import com.andframe.annotation.interpreter.ViewBinder;
-import com.andframe.api.page.Pager;
+import com.andframe.api.pager.Pager;
 import com.andframe.api.view.ViewModuler;
 import com.andframe.api.view.ViewQuery;
 import com.andframe.api.view.ViewQueryHelper;

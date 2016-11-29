@@ -15,12 +15,12 @@ import android.support.annotation.CallSuper;
 import android.util.Log;
 
 import com.andframe.BuildConfig;
-import com.andframe.activity.AfActivity;
 import com.andframe.api.DialogBuilder;
-import com.andframe.api.task.TaskExecutor;
 import com.andframe.api.multistatus.MoreFooter;
 import com.andframe.api.multistatus.RefreshLayouter;
 import com.andframe.api.multistatus.StatusLayouter;
+import com.andframe.api.pager.PagerManager;
+import com.andframe.api.task.TaskExecutor;
 import com.andframe.api.view.ViewQuery;
 import com.andframe.api.view.Viewer;
 import com.andframe.caches.AfJsonCache;
@@ -31,6 +31,7 @@ import com.andframe.feature.AfViewQuery;
 import com.andframe.impl.multistatus.DefaultMoreFooter;
 import com.andframe.impl.multistatus.DefaultRefreshLayouter;
 import com.andframe.impl.multistatus.DefaultStatusLayouter;
+import com.andframe.impl.pager.AfPagerManager;
 import com.andframe.task.AfTaskExecutor;
 import com.andframe.util.java.AfReflecter;
 
@@ -39,7 +40,6 @@ import java.io.IOException;
 import java.lang.reflect.Method;
 import java.util.Date;
 import java.util.List;
-import java.util.Stack;
 
 /**
  * AfApp 抽象类 （使用必须继承并使用，其他框架功能依赖于 AfApp）
@@ -52,13 +52,6 @@ public abstract class AfApp extends Application {
 	private static final String STATE_RUNNING = "STATE_RUNNING";
 	private static final String STATE_TIME = "STATE_TIME";
 	private static final String STATE_VERSION = "STATE_VERSION";
-	//</editor-fold>
-
-	//<editor-fold desc="页面">
-	// 主页面
-	protected AfActivity mMainActivity = null;
-	// 当前主页面
-	private Stack<AfActivity> mStackActivity = new Stack<>();
 	//</editor-fold>
 
 	//<editor-fold desc="状态">
@@ -381,84 +374,12 @@ public abstract class AfApp extends Application {
 	}
 
 	/**
-	 * 获取CurActivity
-	 * @return AfActivity or null
-	 */
-	public synchronized AfActivity getCurActivity() {
-		if (mStackActivity.isEmpty()) {
-			return null;
-		}
-		return mStackActivity.peek();
-	}
-
-	/**
-	 * 获取AfMainActivity
-	 * @return AfMainActivity or null
-	 */
-	public AfActivity getMainActivity() {
-		return mMainActivity;
-	}
-
-	/**
-	 * 设置主页面
-	 * @param activity
-	 *            主页面
-	 */
-	public void setMainActivity(AfActivity activity) {
-		mMainActivity = activity;
-	}
-
-	/**
-	 * 设置当前的页面
-	 * @param power
-	 *            用于权限验证
-	 * @param activity
-	 *            当前的 Activity
-	 */
-	public synchronized void setCurActivity(Object power, AfActivity activity) {
-		if (power instanceof AfActivity) {
-			if (activity != null) {
-				if (!mStackActivity.contains(activity)) {
-					mStackActivity.push(activity);
-				}
-			} else {
-				if (mStackActivity.contains(power)) {
-					mStackActivity.remove(power);
-				}
-			}
-		}
-	}
-
-	/**
-	 * 退出前台
-	 */
-	public synchronized void exitForeground(Object power) {
-		/** (2014-7-30 注释 只有当notifyForegroundClosed时才设为false) **/
-		while (!mStackActivity.empty()) {
-			AfActivity activity = mStackActivity.pop();
-			if (activity != null && !activity.isRecycled()) {
-				activity.finish();
-			}
-		}
-	}
-
-	/**
 	 * 获取 前台页面是否在运行
 	 */
 	public synchronized boolean isForegroundRunning() {
-		return !mStackActivity.empty();
+		return AfPagerManager.getInstance().hasActivityRuning();
 	}
 
-	/**
-	 * 通知APP 前台已经关闭
-	 * @param activity
-	 *            权限对象 传入this
-	 */
-	public synchronized void notifyForegroundClosed(AfActivity activity) {
-		if (activity == mMainActivity ) {
-			mMainActivity = null;
-		}
-	}
 	//</editor-fold>
 
 	//<editor-fold desc="组件创建">
@@ -475,7 +396,7 @@ public abstract class AfApp extends Application {
 	}
 
 	public TaskExecutor newTaskExecutor() {
-		return AfTaskExecutor.getInstance();
+		return new AfTaskExecutor();
 	}
 
 	public DialogBuilder newDialogBuilder(Context context) {
@@ -496,6 +417,10 @@ public abstract class AfApp extends Application {
 
 	public MoreFooter newMoreFooter() {
 		return new DefaultMoreFooter();
+	}
+
+	public PagerManager newPagerManager() {
+		return new AfPagerManager();
 	}
 	//</editor-fold>
 

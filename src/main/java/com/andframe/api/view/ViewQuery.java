@@ -618,6 +618,7 @@ public interface ViewQuery<T extends ViewQuery<T>> {
     T toChild(int index);
     T toChilds();
     T toParent();
+    T toRoot();
     T mixView(View... views);
     T mixPrev();
     T mixNext();
