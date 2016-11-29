@@ -1,5 +1,6 @@
 package com.andpack.application;
 
+import android.app.Activity;
 import android.content.Context;
 import android.content.Intent;
 import android.net.Uri;
@@ -9,6 +10,7 @@ import com.andframe.activity.AfActivity;
 import com.andframe.application.AfApp;
 import com.andframe.exception.AfExceptionHandler;
 import com.andframe.feature.AfDialogBuilder;
+import com.andframe.impl.pager.AfPagerManager;
 import com.andframe.task.AfDataTask;
 import com.andframe.task.AfDownloader;
 import com.andframe.task.AfDownloader.DownloadEntity;
@@ -134,9 +136,9 @@ public abstract class ApUpdateService {
 
 		@Override
 		public boolean onPrepare(Boolean ndfeedback) {
-			AfActivity activity = AfApp.get().getCurActivity();
-			if (activity != null && ndfeedback) {
-				activity.makeToastShort("正在检查更新...");
+			Activity activity = AfPagerManager.getInstance().currentActivity();
+			if (activity instanceof AfActivity && ndfeedback) {
+				((AfActivity)activity).makeToastShort("正在检查更新...");
 			}
 			return super.onPrepare(ndfeedback);
 		}
@@ -149,9 +151,9 @@ public abstract class ApUpdateService {
 		@Override
 		public void onTaskHandle(Boolean ndfeedback, AfDataTask task) {
 			mInstance.showNeedUpdate();
-			AfActivity activity = AfApp.get().getCurActivity();
-			if (activity != null && !mInstance.isNeedUpdate() && ndfeedback) {
-				activity.makeToastShort("恭喜你，目前已经是最新版本！");
+			Activity activity = AfPagerManager.getInstance().currentActivity();
+			if (activity instanceof AfActivity && !mInstance.isNeedUpdate() && ndfeedback) {
+				((AfActivity)activity).makeToastShort("恭喜你，目前已经是最新版本！");
 			}
 		}
 	}
@@ -164,7 +166,7 @@ public abstract class ApUpdateService {
 	protected abstract ServiceVersionInfo infoFromService(String version) throws Exception;
 
 	protected void showNeedUpdate() {
-		AfActivity activity = AfApp.get().getCurActivity();
+		Activity activity = AfPagerManager.getInstance().currentActivity();
 		if (activity != null && isNeedUpdate()) {
 			String message = String.format("系统检查到可用更新\r\n" +
 							"    更新版本：%s\r\n" +
