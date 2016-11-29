@@ -45,6 +45,7 @@ public abstract class AfMultiItemsActivity<T> extends AfMultiStatusActivity<List
         return new AfItemsPagerHelper<>(this);
     }
 
+    //<editor-fold desc="查询转发">
     @Override
     public ViewQuery<? extends ViewQuery> $(Integer id, int... ids) {
         return mItemsHelper.$(id, ids);
@@ -54,6 +55,22 @@ public abstract class AfMultiItemsActivity<T> extends AfMultiStatusActivity<List
     public ViewQuery<? extends ViewQuery> $(View... views) {
         return mItemsHelper.$(views);
     }
+
+    @Override
+    public ViewQuery<? extends ViewQuery> $(String idvalue, String... idvalues) {
+        return mItemsHelper.$(idvalue, idvalues);
+    }
+
+    @Override
+    public ViewQuery<? extends ViewQuery> $(Class<? extends View> type) {
+        return mItemsHelper.$(type);
+    }
+
+    @Override
+    public ViewQuery<? extends ViewQuery> $(Class<? extends View>[] types) {
+        return mItemsHelper.$(types);
+    }
+    //</editor-fold>
 
     //<editor-fold desc="初始化">
 

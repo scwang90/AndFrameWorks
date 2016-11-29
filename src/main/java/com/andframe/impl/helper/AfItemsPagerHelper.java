@@ -113,7 +113,7 @@ public class AfItemsPagerHelper<T> extends AfMultiStatusHelper<List<T>> implemen
 
     @Override
     public ViewQuery<? extends ViewQuery> $(String idvalue, String... idvalues) {
-        return $$.$(idvalue);
+        return $$.$(idvalue, idvalues);
     }
 
     @Override

@@ -19,6 +19,7 @@ import com.andframe.application.AfApp;
 import com.andframe.caches.AfPrivateCaches;
 import com.andframe.impl.viewer.ViewerWarpper;
 import com.andframe.task.AfDispatcher;
+import com.andframe.task.AfTaskExecutor;
 
 import java.lang.reflect.InvocationHandler;
 import java.lang.reflect.Method;
@@ -97,7 +98,7 @@ public class $ {
     }
 
     public static TaskExecutor task() {
-        return AfApp.get().newTaskExecutor();
+        return AfTaskExecutor.getInstance();
     }
 
     public static void dispatch(Runnable runnable){
@@ -156,7 +157,7 @@ public class $ {
         public Object invoke(Object proxy, Method method, Object[] objects) throws Throwable {
             try {
                 if (method.getDeclaringClass().isAssignableFrom(TaskExecutor.class)) {
-                    return method.invoke(AfApp.get().newTaskExecutor(), objects);
+                    return method.invoke(AfTaskExecutor.getInstance(), objects);
                 } else if (method.getDeclaringClass().isAssignableFrom(DialogBuilder.class)) {
                     return method.invoke(AfApp.get().newDialogBuilder(getLastContext()), objects);
                 } else if (method.getDeclaringClass().isAssignableFrom(ViewQuery.class)) {

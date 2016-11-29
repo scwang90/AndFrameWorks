@@ -63,15 +63,15 @@ public class AfTaskExecutor implements TaskExecutor {
             TimeUnit.SECONDS, sPoolWorkQueue, sThreadFactory);
 
     private static volatile Executor sDefaultExecutor = THREAD_POOL_EXECUTOR;
-    private static AfTaskExecutor instance;
+    private static TaskExecutor instance;
 
     public static void setDefaultExecutor(Executor exec) {
         sDefaultExecutor = exec;
     }
 
-    public static AfTaskExecutor getInstance() {
+    public static TaskExecutor getInstance() {
         if (instance == null) {
-            instance = new AfTaskExecutor();
+            instance = AfApp.get().newTaskExecutor();
         }
         return instance;
     }
