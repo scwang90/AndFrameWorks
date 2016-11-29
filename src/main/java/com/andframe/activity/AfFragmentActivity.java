@@ -14,6 +14,7 @@ import com.andframe.annotation.inject.InjectExtra;
 import com.andframe.application.AfApp;
 import com.andframe.exception.AfExceptionHandler;
 import com.andframe.feature.AfIntent;
+import com.andframe.impl.pager.AfPagerManager;
 import com.andframe.util.java.AfReflecter;
 
 import java.util.ArrayList;
@@ -38,22 +39,22 @@ public class AfFragmentActivity extends AfActivity {
 
     //<editor-fold desc="跳转封装">
     public static void start(Class<? extends Fragment> clazz, Object... params){
-        AfActivity activity = AfApp.get().getCurActivity();
-        if (activity != null) {
+        Activity activity = AfPagerManager.getInstance().currentActivity();
+        if (activity instanceof AfActivity) {
             List<Object> list = new ArrayList<>(Arrays.asList(params));
             list.add(0,clazz.getName());
             list.add(0,EXTRA_FRAGMENT);
-            activity.startActivity(activityClazz, list.toArray());
+            ((AfActivity)activity).startActivity(activityClazz, list.toArray());
         }
     }
 
     public static void startResult(Class<? extends Fragment> clazz,int request, Object... params){
-        AfActivity activity = AfApp.get().getCurActivity();
-        if (activity != null) {
+        Activity activity = AfPagerManager.getInstance().currentActivity();
+        if (activity instanceof AfActivity) {
             List<Object> list = new ArrayList<>(Arrays.asList(params));
             list.add(0,clazz.getName());
             list.add(0,EXTRA_FRAGMENT);
-            activity.startActivityForResult(activityClazz, request, list.toArray());
+            ((AfActivity)activity).startActivityForResult(activityClazz, request, list.toArray());
         }
     }
 

@@ -1,6 +1,7 @@
 package com.andframe.module;
 
 import android.annotation.SuppressLint;
+import android.app.Activity;
 import android.support.annotation.NonNull;
 import android.view.View;
 
@@ -13,9 +14,9 @@ import com.andframe.api.view.ViewModuler;
 import com.andframe.api.view.ViewQuery;
 import com.andframe.api.view.ViewQueryHelper;
 import com.andframe.api.view.Viewer;
-import com.andframe.application.AfApp;
 import com.andframe.exception.AfExceptionHandler;
 import com.andframe.impl.helper.AfViewQueryHelper;
+import com.andframe.impl.pager.AfPagerManager;
 import com.andframe.impl.viewer.ViewerWarpper;
 
 /**
@@ -61,7 +62,11 @@ public abstract class AfViewModuler extends ViewerWarpper implements Viewer, Vie
 		if (getContext() instanceof AfActivity) {
 			return ((AfActivity) getContext());
 		}
-		return AfApp.get().getCurActivity();
+		Activity activity = AfPagerManager.getInstance().currentActivity();
+		if (activity instanceof AfActivity) {
+			return (AfActivity) activity;
+		}
+		return null;
 	}
 
 	/**

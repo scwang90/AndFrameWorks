@@ -1,5 +1,6 @@
 package com.andframe.exception;
 
+import android.app.Activity;
 import android.app.AlertDialog.Builder;
 import android.content.Context;
 import android.content.res.Resources;
@@ -9,9 +10,9 @@ import android.os.Looper;
 import android.os.Message;
 import android.util.DisplayMetrics;
 
-import com.andframe.activity.AfActivity;
 import com.andframe.application.AfApp;
 import com.andframe.caches.AfDurableCache;
+import com.andframe.impl.pager.AfPagerManager;
 import com.andframe.model.Exceptional;
 import com.andframe.task.AfDispatcher;
 import com.andframe.util.java.AfDateFormat;
@@ -102,9 +103,9 @@ public class AfExceptionHandler implements UncaughtExceptionHandler {
             writer.write(msg);
             writer.close();
 
-            final AfActivity activity = AfApp.get().getCurActivity();
+            final Activity activity = AfPagerManager.getInstance().currentActivity();
             if (activity != null && mIsShowDialog) {
-                AfDispatcher.dispatch(() -> doShowDialog(AfApp.get().getCurActivity(), "程序崩溃了", msg, msg1 -> {
+                AfDispatcher.dispatch(() -> doShowDialog(activity, "程序崩溃了", msg, msg1 -> {
                     if (Looper.getMainLooper().getThread() == thread) {
                         mDefaultHandler.uncaughtException(thread, ex);
                     }
@@ -145,9 +146,9 @@ public class AfExceptionHandler implements UncaughtExceptionHandler {
             writer.close();
 
 
-            AfActivity activity = AfApp.get().getCurActivity();
+            final Activity activity = AfPagerManager.getInstance().currentActivity();
             if (activity != null && mIsShowDialog) {
-                AfDispatcher.dispatch(() -> doShowDialog(AfApp.get().getCurActivity(), "异常捕捉", msg, handlerid), 1000);
+                AfDispatcher.dispatch(() -> doShowDialog(activity, "异常捕捉", msg, handlerid), 1000);
             }
 
         } catch (Throwable ignored) {
@@ -167,9 +168,9 @@ public class AfExceptionHandler implements UncaughtExceptionHandler {
             writer.write(msg);
             writer.close();
 
-            AfActivity activity = AfApp.get().getCurActivity();
+            final Activity activity = AfPagerManager.getInstance().currentActivity();
             if (activity != null && mIsShowDialog) {
-                AfDispatcher.dispatch(() -> doShowDialog(AfApp.get().getCurActivity(), "异常捕捉", msg, handlerid));
+                AfDispatcher.dispatch(() -> doShowDialog(activity, "异常捕捉", msg, handlerid));
             }
 
         } catch (Throwable ignored) {
