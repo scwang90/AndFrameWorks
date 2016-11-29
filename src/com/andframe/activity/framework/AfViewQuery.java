@@ -871,8 +871,9 @@ public class AfViewQuery<T extends AfViewQuery<T>> implements IViewQuery<T> {
         return $(listId.get(0), ids);
     }
 
+    @SuppressWarnings("unchecked")
     @Override
-    public T $(Class<? extends View> type) {
+    public T $(Class<? extends View> type, Class<? extends View>... types) {
         Queue<View> views = new LinkedBlockingQueue<>(Collections.singletonList(mRootView.getView()));
         List<View> list = new ArrayList<>();
         do {
@@ -880,6 +881,13 @@ public class AfViewQuery<T extends AfViewQuery<T>> implements IViewQuery<T> {
             if (cview != null) {
                 if (type != null && type.isInstance(cview)) {
                     list.add(cview);
+                } else {
+                    for (Class<? extends View> ttype : types) {
+                        if (ttype.isInstance(cview)) {
+                            list.add(cview);
+                            break;
+                        }
+                    }
                 }
                 if (cview instanceof ViewGroup) {
                     ViewGroup group = (ViewGroup) cview;
@@ -889,32 +897,6 @@ public class AfViewQuery<T extends AfViewQuery<T>> implements IViewQuery<T> {
                 }
             }
         } while (!views.isEmpty());
-        mTargetViews = list.toArray(new View[list.size()]);
-        return self();
-    }
-
-    @Override
-    @SafeVarargs
-    public final T $(Class<? extends View>... types) {
-        List<View> list = new ArrayList<>();
-        Queue<View> views = new LinkedBlockingQueue<>(Collections.singletonList(mRootView.getView()));
-        while (!views.isEmpty() && types.length > 0) {
-            View cview = views.poll();
-            if (cview != null) {
-                for (Class<?> ttype : types) {
-                    if (ttype.isInstance(cview)) {
-                        list.add(cview);
-                        break;
-                    }
-                }
-                if (cview instanceof ViewGroup) {
-                    ViewGroup group = (ViewGroup) cview;
-                    for (int j = 0; j < group.getChildCount(); j++) {
-                        views.add(group.getChildAt(j));
-                    }
-                }
-            }
-        }
         mTargetViews = list.toArray(new View[list.size()]);
         return self();
     }

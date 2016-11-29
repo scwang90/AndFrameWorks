@@ -557,8 +557,7 @@ public interface IViewQuery<T extends IViewQuery<T>> {
     float rating();
     T $(Integer id, int... ids);
     T $(String idvalue, String... idvalues);
-    T $(Class<? extends View> type);
-    T $(Class<? extends View>[] types);
+    T $(Class<? extends View> type, Class<? extends View>... types);
     T $(View... views);
     T gravity(int gravity);
     T maxLines(int lines);
