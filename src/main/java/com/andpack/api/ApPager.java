@@ -1,6 +1,6 @@
 package com.andpack.api;
 
-import com.andframe.api.page.Pager;
+import com.andframe.api.pager.Pager;
 
 /**
  *

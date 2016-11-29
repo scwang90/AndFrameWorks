@@ -5,7 +5,7 @@ import android.content.res.Resources;
 import android.view.View;
 
 import com.andframe.$;
-import com.andframe.api.page.Pager;
+import com.andframe.api.pager.Pager;
 import com.andframe.api.view.ViewQuery;
 import com.andframe.util.java.AfReflecter;
 import com.andpack.annotation.statusbar.StatusBarMargin;

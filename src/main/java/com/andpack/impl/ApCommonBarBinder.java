@@ -15,7 +15,7 @@ import android.widget.EditText;
 
 import com.andframe.$;
 import com.andframe.api.DialogBuilder;
-import com.andframe.api.page.Pager;
+import com.andframe.api.pager.Pager;
 import com.andframe.api.view.ViewQuery;
 import com.andframe.caches.AfPrivateCaches;
 import com.andframe.feature.AfIntent;
