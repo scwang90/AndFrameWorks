@@ -1061,6 +1061,11 @@ public class AfViewQuery<T extends AfViewQuery<T>> implements ViewQuery<T> {
     }
 
     @Override
+    public T margin(Rect padding) {
+        return margin(padding.left, padding.top, padding.right, padding.bottom);
+    }
+
+    @Override
     public T margin(float dp) {
         return margin(dp,dp,dp,dp);
     }
@@ -1183,6 +1188,11 @@ public class AfViewQuery<T extends AfViewQuery<T>> implements ViewQuery<T> {
                 view.setLayoutParams(lp);
             }
         });
+    }
+
+    @Override
+    public T padding(Rect padding) {
+        return padding(padding.left, padding.top, padding.right, padding.bottom);
     }
 
     @Override

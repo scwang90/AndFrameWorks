@@ -601,6 +601,8 @@ public interface ViewQuery<T extends ViewQuery<T>> {
     T padding(int left, int top, int right, int bottom);
     T margin(int left, int top, int right, int bottom);
     T padding(float leftdp, float topdp, float rightdp, float bottomdp);
+    T margin(Rect margin);
+    T padding(Rect padding);
     T progress(int progress);
     T visibility(boolean isvisibe);
     T animation(Animation animation);
