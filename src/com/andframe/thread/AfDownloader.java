@@ -15,12 +15,14 @@ import android.text.TextUtils;
 import com.andframe.application.AfApplication;
 import com.andframe.application.AfDaemonThread;
 import com.andframe.application.AfExceptionHandler;
+import com.andframe.exception.AfToastException;
 import com.andframe.feature.AfIntent;
 import com.andframe.util.java.AfFileUtil;
 import com.andframe.util.java.AfMD5;
 
 import org.apache.http.HttpEntity;
 import org.apache.http.HttpResponse;
+import org.apache.http.StatusLine;
 import org.apache.http.client.methods.HttpGet;
 import org.apache.http.impl.client.DefaultHttpClient;
 
@@ -582,8 +584,13 @@ public class AfDownloader {
 
                 HttpGet get = new HttpGet(mEndityUrl);
                 HttpResponse response = new DefaultHttpClient().execute(get);
+                StatusLine statusLine = response.getStatusLine();
                 HttpEntity entity = response.getEntity();
                 InputStream is = entity.getContent();
+
+                if (statusLine.getStatusCode() != 200) {
+                    throw new AfToastException("下载失败 ：HTTP" + statusLine.getStatusCode());
+                }
 
                 //创建文件并开始下载
                 mTempFile = new File(mDownloadPath);
