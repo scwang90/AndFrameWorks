@@ -649,7 +649,7 @@ public class AfDownloader {
 
         @Override
         public boolean handleMessage(Message msg) {
-            if (isFinish()) {
+            if (!isFail()) {
                 if (msg.what == DOWNLOAD_PROGRESS) {
                     // 更新状态栏上的下载进度信息
                     if (mNotifier != null) {

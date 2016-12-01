@@ -8,6 +8,8 @@ import com.andframe.api.task.Task;
 import com.andframe.api.task.TaskExecutor;
 import com.andframe.api.task.Tasker;
 import com.andframe.application.AfApp;
+import com.andframe.exception.AfExceptionHandler;
+import com.andframe.util.internal.TAG;
 import com.andframe.util.java.AfDateGuid;
 import com.andframe.util.java.AfReflecter;
 
@@ -83,10 +85,11 @@ public class AfTaskExecutor implements TaskExecutor {
      */
     @MainThread
     public void execute(Tasker runnable) {
-        sDefaultExecutor.execute(new AfTask() {
-            @Override
-            protected void onWorking() throws Exception {
+        sDefaultExecutor.execute(() -> {
+            try {
                 runnable.onWorking();
+            } catch (Exception e) {
+                AfExceptionHandler.handle(e, TAG.TAG(runnable, "AfTaskExecutor.execute"));
             }
         });
     }
