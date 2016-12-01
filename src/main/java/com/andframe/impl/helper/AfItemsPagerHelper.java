@@ -177,6 +177,7 @@ public class AfItemsPagerHelper<T> extends AfMultiStatusHelper<List<T>> implemen
             } else if (mCacheClazz != null) {
                 AfDispatcher.dispatch(() -> mItemsPager.postTask(new AbLoadListTask()));
             } else {
+                mItemsPager.showProgress();
                 AfDispatcher.dispatch(() -> mItemsPager.postTask(new AbRefreshListTask()));
             }
 //        } else {
@@ -647,7 +648,6 @@ public class AfItemsPagerHelper<T> extends AfMultiStatusHelper<List<T>> implemen
 
         @Override
         protected List<T> onLoadData() throws Exception {
-            AfDispatcher.dispatch(() -> mItemsPager.showProgress());
             if (mList != null && mList.size() > 0) {
                 return mList;
             }

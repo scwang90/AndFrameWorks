@@ -300,6 +300,11 @@ public class AfViewQuery<T extends AfViewQuery<T>> implements ViewQuery<T> {
     }
 
 
+    @Override
+    public T image(String url, int widthpx, int heightpx) {
+        return foreach(ImageView.class, (ViewEacher<ImageView>) (view) -> view.setImageURI(Uri.parse(url)));
+    }
+
     /**
      * Set tag object of a mTargetViews.
      *

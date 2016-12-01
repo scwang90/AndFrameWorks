@@ -11,12 +11,14 @@ import com.andframe.activity.AfActivity;
 import com.andframe.api.Cacher;
 import com.andframe.api.DialogBuilder;
 import com.andframe.api.ModelConvertor;
+import com.andframe.api.pager.PagerManager;
 import com.andframe.api.task.TaskExecutor;
 import com.andframe.api.view.ViewModuler;
 import com.andframe.api.view.ViewQuery;
 import com.andframe.api.view.Viewer;
 import com.andframe.application.AfApp;
 import com.andframe.caches.AfPrivateCaches;
+import com.andframe.impl.pager.AfPagerManager;
 import com.andframe.impl.viewer.ViewerWarpper;
 import com.andframe.task.AfDispatcher;
 import com.andframe.task.AfTaskExecutor;
@@ -65,6 +67,10 @@ public class $ {
 
     public static Cacher cache(String name) {
         return AfPrivateCaches.getInstance(name);
+    }
+
+    public static PagerManager manager(){
+        return AfPagerManager.getInstance();
     }
 
     @MainThread

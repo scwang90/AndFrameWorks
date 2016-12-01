@@ -30,7 +30,6 @@ import com.andframe.api.pager.MultiStatusPager;
 import com.andframe.application.AfApp;
 import com.andframe.exception.AfExceptionHandler;
 import com.andframe.fragment.AfMultiStatusFragment;
-import com.andframe.task.AfDispatcher;
 import com.andframe.task.AfHandlerDataTask;
 import com.andframe.task.AfHandlerTask;
 import com.andframe.util.internal.TAG;
@@ -89,7 +88,9 @@ public class AfMultiStatusHelper<T> implements MultiStatusHelper<T> {
 
         if (mLoadOnViewCreated && mModel == null) {
             mLoadOnViewCreated = false;
-            mPager.onRefresh();
+            if (mPager.postTask(new LoadTask()).prepare()) {
+                mPager.showProgress();
+            }
         } else if (mModel != null) {
             mPager.onTaskFinish(mModel);
         } else {
@@ -235,22 +236,7 @@ public class AfMultiStatusHelper<T> implements MultiStatusHelper<T> {
 
     @Override
     public boolean onRefresh() {
-        return mPager.postTask(new AbStatusTask() {
-            @Override
-            protected void onHandle(T data) {
-                super.onHandle(data);
-                if (isFinish()) {
-                    mPager.onTaskFinish(data);
-                } else {
-                    mPager.onTaskFailed(this);
-                }
-            }
-            @Override
-            protected T onLoadData() throws Exception {
-                AfDispatcher.dispatch(() -> mPager.showProgress());
-                return mModel = mPager.onTaskLoading();
-            }
-        })/*.setListener(task -> mRefreshLayouter.setRefreshComplete())*/.prepare();
+        return mPager.postTask(new LoadTask())/*.setListener(task -> mRefreshLayouter.setRefreshComplete())*/.prepare();
     }
 
     @Override
@@ -365,6 +351,7 @@ public class AfMultiStatusHelper<T> implements MultiStatusHelper<T> {
     //<editor-fold desc="任务类">
 
     protected abstract class AbStatusTask extends AfHandlerDataTask<T> {
+
         @Override
         protected boolean onPrepare() {
             mIsLoading = true;
@@ -376,6 +363,24 @@ public class AfMultiStatusHelper<T> implements MultiStatusHelper<T> {
             mIsLoading = false;
         }
     }
+
+    private class LoadTask extends AbStatusTask {
+
+        @Override
+        protected void onHandle(T data) {
+            super.onHandle(data);
+            if (isFinish()) {
+                mPager.onTaskFinish(data);
+            } else {
+                mPager.onTaskFailed(this);
+            }
+        }
+        @Override
+        protected T onLoadData() throws Exception {
+            return mModel = mPager.onTaskLoading();
+        }
+    }
+
     //</editor-fold>
 
     //<editor-fold desc="Annotation 实现类">

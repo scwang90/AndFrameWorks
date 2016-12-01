@@ -615,6 +615,8 @@ public interface ViewQuery<T extends ViewQuery<T>> {
     T addView(View view, int index, ViewGroup.LayoutParams params);
     T replace(View view);
 
+    T image(String url, int widthpx, int heightpx);
+
     T toPrev();
     T toNext();
     T toChild(int index);
