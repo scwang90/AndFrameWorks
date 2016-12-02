@@ -5,52 +5,42 @@
     android:layout_height="wrap_content">
     <RelativeLayout
         android:layout_width="match_parent"
-        android:layout_height="@dimen/height_titlebar"
+        android:layout_height="?attr/actionBarSize"
         android:background="#FF005983" >
         <View
             android:layout_width="match_parent"
             android:layout_height="2dip"
             android:layout_alignParentBottom="true"
             android:background="#FF0099E5"/>
-        <ImageView
+        <ImageView style="@style/AndFrame.Toolbar.Action"
             android:id="@+id/af_titlebar_select_finish"
-            android:paddingLeft="10dip"
-            android:paddingRight="10dip"
-            android:layout_width="wrap_content"
-            android:layout_height="45dip"
             android:contentDescription="@string/app_name"
-            android:background="@drawable/af_selector_background"
             android:src="@drawable/af_icon_goback"/>
-        <View
-            android:layout_width="1dip"
-            android:layout_height="match_parent"
-            android:layout_marginTop="10dip"
-            android:layout_marginBottom="10dip"
-            android:layout_marginLeft="0dip"
+        <View style="@style/AndFrame.Divison.Vertical"
+            android:layout_width="1dp"
+            android:layout_marginTop="@dimen/padding_common"
+            android:layout_marginBottom="@dimen/padding_common"
+            android:layout_toEndOf="@+id/af_titlebar_select_finish"
             android:layout_toRightOf="@+id/af_titlebar_select_finish"
             android:layout_centerVertical="true"
             android:background="#550099EE"/>
-        <ImageView
+
+        <ImageView style="@style/AndFrame.Toolbar.Action"
             android:id="@+id/af_titlebar_select_operate"
-            android:paddingLeft="10dip"
-            android:paddingRight="10dip"
-            android:layout_width="wrap_content"
-            android:layout_height="45dip"
+            android:layout_alignParentEnd="true"
             android:layout_alignParentRight="true"
             android:contentDescription="@string/app_name"
-            android:background="@drawable/af_selector_background"
             android:src="@drawable/af_icon_menu"/>
-        <TextView
+
+        <TextView style="@style/AndFrame.Toolbar.Title"
             android:id="@+id/af_titlebar_select_text"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
             android:layout_centerVertical="true"
+            android:layout_toEndOf="@+id/af_titlebar_select_finish"
             android:layout_toRightOf="@+id/af_titlebar_select_finish"
             android:layout_toLeftOf="@+id/af_titlebar_select_operate"
-            android:layout_marginLeft="10dip"
-            android:layout_marginRight="10dip"
-            android:text="@string/app_name"
-            android:textSize="22sp"
-            android:textColor="@color/white"  />
+            android:layout_toStartOf="@+id/af_titlebar_select_operate"
+            android:layout_marginLeft="@dimen/padding_common"
+            android:layout_marginRight="@dimen/padding_common"
+            android:text="@string/app_name"  />
     </RelativeLayout>
 </FrameLayout>

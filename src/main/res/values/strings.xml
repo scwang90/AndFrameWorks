@@ -22,5 +22,6 @@
     <string name="task_format_success">%s成功</string>
     <string name="task_format_fail">%s失败</string>
     <string name="task_format_nulldata">%s返回数据为空</string>
+    <string name="af_module_nodata_description">暂无数据，点击屏幕，重新加载</string>
 
 </resources>

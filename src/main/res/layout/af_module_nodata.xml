@@ -28,7 +28,7 @@
         android:layout_height="wrap_content"
         android:layout_centerHorizontal="true"
         android:layout_below="@+id/module_nodata_text"
-        android:text="点击屏幕，重新加载"
+        android:text="@string/af_module_nodata_description"
         android:textColor="#d2d2d2"
         android:textSize="@dimen/textsize_content" />
 

@@ -15,8 +15,4 @@
         android:background="@color/white"
         android:visibility="visible" />
 
-    <include layout="@layout/af_module_progress" />
-
-    <include layout="@layout/af_module_nodata" />
-
 </FrameLayout>
