@@ -190,10 +190,10 @@ public class ApRefreshLayout implements RefreshLayouter<TwinklingRefreshLayout>/
 
         private void wrapperChildView() {
             try {
-                View view = AfReflecter.getPreciseMemberByType(this, View.class);
+                View view = AfReflecter.getPreciseMemberByType(this, View.class, TwinklingRefreshLayout.class);
                 if (view != null && wrapper != view) {
                     wrapper.setOrginView(view);
-                    AfReflecter.setPreciseMemberByType(this, wrapper, View.class);
+                    AfReflecter.setPreciseMemberByType(this, wrapper, View.class, TwinklingRefreshLayout.class);
                 }
             } catch (IllegalAccessException ignored) {
             }

@@ -110,7 +110,12 @@ public class ApCommonBarBinder {
     }
 
     public interface ImageLambda {
-        void image(Binder binder, String path);
+        /**
+         * @param binder Binder 对象
+         * @param path 图片路径
+         * @return true 已经显示图片（Binder 将不会自动显示） false （Binder 将会自动显示）
+         */
+        boolean image(Binder binder, String path);
     }
 
     public interface TextVerify {
@@ -640,9 +645,8 @@ public class ApCommonBarBinder {
                 //noinspection unchecked
                 List<ImageItem> images = (ArrayList<ImageItem>) intent.getSerializableExtra(ImagePicker.EXTRA_RESULT_ITEMS);
                 if (images != null && images.size() > 0) {
-                    $.query(pager).$(idvalue).image(images.get(0).path);
-                    if (lambda != null) {
-                        lambda.image(this, images.get(0).path);
+                    if (lambda != null && !lambda.image(this, images.get(0).path)) {
+                        $.query(pager).$(idvalue).image(images.get(0).path);
                     }
                 } else {
                     pager.makeToastShort("没有数据");
