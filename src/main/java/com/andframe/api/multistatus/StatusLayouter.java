@@ -35,4 +35,5 @@ public interface StatusLayouter {
 
     boolean isProgress();
     boolean isContent();
+    boolean isEmpty();
 }

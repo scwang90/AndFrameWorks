@@ -525,6 +525,22 @@ public class AfReflecter {
         return null;
     }
 
+    /**
+     * 通过 类型clazz精确匹配  设置obj 的对应 Field 的值
+     * 与 getMemberByType 的差别在于 不支持子类匹配 如 class = List 不能匹配 ArrayList 的 Filed
+     * @param obj 对象 或者 Clazz（可以匹配 statis Field）
+     * @param clazz 匹配的clazz
+     * @param type 定义 Field 的 type
+     * @return 如果有多个返回第一个 否则null
+     */
+    public static <T> T getPreciseMemberByType(Object obj, Class<T> clazz, Class<?> type) throws IllegalAccessException {
+        Field field = getPreciseFieldByType(obj, clazz, type);
+        if (field != null) {
+            field.setAccessible(true);
+            return clazz.cast(field.get(obj));
+        }
+        return null;
+    }
 
     /**
      * 通过 类型clazz精确匹配  设置obj 的对应 Field
@@ -535,6 +551,23 @@ public class AfReflecter {
      */
     public static void setPreciseMemberByType(Object obj, Object value, Class<?> clazz) throws IllegalAccessException {
         Field field = getPreciseFieldByType(obj, clazz);
+        if (field != null) {
+            field.setAccessible(true);
+            field.set(obj, value);
+        }
+    }
+
+
+    /**
+     * 通过 类型clazz精确匹配  设置obj 的对应 Field
+     * 与 setMemberByType 的差别在于 不支持子类匹配 如 class = List 不能匹配 ArrayList 的 Filed
+     * @param obj 对象 或者 Clazz（可以匹配 statis Field）
+     * @param value 设置的值
+     * @param clazz 匹配的clazz
+     * @param type 定义 Field 的 type
+     */
+    public static void setPreciseMemberByType(Object obj, Object value, Class<?> clazz, Class<?> type) throws IllegalAccessException {
+        Field field = getPreciseFieldByType(obj, clazz, type);
         if (field != null) {
             field.setAccessible(true);
             field.set(obj, value);
@@ -554,6 +587,28 @@ public class AfReflecter {
         for (Field field : fields) {
             if (clazz.equals(field.getType())) {
                 if (!Modifier.isStatic(field.getModifiers()) || type == obj) {
+                    return field;
+                }
+            }
+        }
+        return null;
+    }
+
+
+    /**
+     * 通过 类型clazz精确匹配 获取 obj 的对应 Field
+     * 与 getFieldByType 的差别在于 不支持子类匹配 如 class = List 不能匹配 ArrayList 的 Filed
+     * @param obj 对象 或者 Clazz（可以匹配 statis Field）
+     * @param clazz 匹配的clazz
+     * @param type 定义 Field 的 type
+     * @return 如果有多个返回第一个 否则null
+     */
+    public static Field getPreciseFieldByType(Object obj, Class<?> clazz, Class<?> type) {
+        Class<?> subtype = getType(obj);
+        Field[] fields = getField(subtype);
+        for (Field field : fields) {
+            if (clazz.equals(field.getType()) && field.getDeclaringClass().equals(type)) {
+                if (!Modifier.isStatic(field.getModifiers()) || subtype == obj) {
                     return field;
                 }
             }

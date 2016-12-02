@@ -2,6 +2,7 @@ package com.andframe.impl.helper;
 
 import android.app.Activity;
 import android.content.Context;
+import android.database.DataSetObserver;
 import android.support.v7.widget.RecyclerView;
 import android.text.TextUtils;
 import android.view.View;
@@ -245,6 +246,16 @@ public class AfItemsPagerHelper<T> extends AfMultiStatusHelper<List<T>> implemen
                     return super.getViewTypeCount() + 1;
                 }
             };
+            mAdapter.registerDataSetObserver(new DataSetObserver() {
+                @Override
+                public void onChanged() {
+                    if (mAdapter.isEmpty()) {
+                        mItemsPager.showEmpty();
+                    } else {
+                        mItemsPager.showContent();
+                    }
+                }
+            });
         } else {
             mAdapter.clearHeader();
             mAdapter.clearFooter();
@@ -275,11 +286,11 @@ public class AfItemsPagerHelper<T> extends AfMultiStatusHelper<List<T>> implemen
             //通知列表刷新完成
             mItemsPager.finishRefresh();
             if (list != null && list.size() > 0) {
-                mAdapter.set(list);
+//                mItemsPager.showContent();
                 mItemsPager.setMoreShow(task, list);
-                mItemsPager.showContent();
+                mAdapter.set(list);
             } else {
-                mItemsPager.showEmpty();
+//                mItemsPager.showEmpty();
                 mAdapter.set(list == null ? new ArrayList<>() : list);
             }
         } else {
@@ -289,8 +300,8 @@ public class AfItemsPagerHelper<T> extends AfMultiStatusHelper<List<T>> implemen
                 mItemsPager.showContent();
                 mItemsPager.makeToastLong(task.makeErrorToast(mPager.getContext().getString(R.string.items_refresh_fail)));
             } else if (list != null && list.size() > 0) {
+//                mItemsPager.showContent();
                 mAdapter.set(list);
-                mItemsPager.showContent();
                 mItemsPager.makeToastLong(task.makeErrorToast(mPager.getContext().getString(R.string.items_refresh_fail)));
             } else {
                 mItemsPager.showError(task.makeErrorToast(mPager.getContext().getString(R.string.items_refresh_fail)));

@@ -293,7 +293,7 @@ public class AfMultiStatusHelper<T> implements MultiStatusHelper<T> {
 
     //<editor-fold desc="页面状态">
     public void showEmpty() {
-        if (mStatusLayouter != null) {
+        if (mStatusLayouter != null && !mStatusLayouter.isEmpty()) {
             mStatusLayouter.showEmpty();
         } else if ((mRefreshLayouter == null || !mRefreshLayouter.isRefreshing())) {
             mPager.hideProgressDialog();

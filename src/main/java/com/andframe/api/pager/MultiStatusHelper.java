@@ -3,6 +3,7 @@ package com.andframe.api.pager;
 import android.content.Context;
 import android.view.View;
 
+import com.andframe.api.EmptyVerdicter;
 import com.andframe.api.multistatus.RefreshLayouter;
 import com.andframe.api.multistatus.StatusLayouter;
 import com.andframe.task.AfHandlerTask;
@@ -12,7 +13,7 @@ import com.andframe.task.AfHandlerTask;
  * Created by SCWANG on 2016/10/22.
  */
 
-public interface MultiStatusHelper<T> {
+public interface MultiStatusHelper<T> extends EmptyVerdicter<T> {
 
     void onViewCreated() throws Exception;
 
@@ -25,7 +26,7 @@ public interface MultiStatusHelper<T> {
 
     boolean onRefresh();
     boolean isLoading();
-    boolean isEmpty(T model);
+    //boolean isEmpty(T model);
     void onTaskFinish(T data);
     void onTaskFailed(AfHandlerTask task);
 

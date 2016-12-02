@@ -5,6 +5,7 @@ import android.support.annotation.NonNull;
 import com.andframe.R;
 import com.andframe.api.task.Tasker;
 import com.andframe.api.pager.Pager;
+import com.andframe.exception.AfExceptionHandler;
 
 import java.lang.ref.WeakReference;
 
@@ -61,7 +62,7 @@ public class AfFeedbackTask extends AfHandlerTask {
                 success.run();
             }
         } else {
-            makeToastFail();
+            makeToastFail(mException);
         }
     }
 
@@ -75,28 +76,28 @@ public class AfFeedbackTask extends AfHandlerTask {
         }
     }
 
-    private void showProgressDialog() {
+    protected void showProgressDialog() {
         Pager pager = mPager.get();
         if (pager != null) {
             pager.showProgressDialog(String.format(pager.getContext().getString(R.string.task_format_loading),intent));
         }
     }
 
-    private void makeToastSucccess() {
+    protected void makeToastSucccess() {
         Pager pager = mPager.get();
         if (pager != null && mFeedbackOnSuccess) {
             pager.makeToastShort(String.format(pager.getContext().getString(R.string.task_format_success),intent));
         }
     }
 
-    private void makeToastFail() {
+    protected void makeToastFail(Throwable e) {
         Pager pager = mPager.get();
         if (pager != null) {
-            pager.makeToastShort(String.format(pager.getContext().getString(R.string.task_format_fail),intent));
+            pager.makeToastShort(AfExceptionHandler.tip(e, String.format(pager.getContext().getString(R.string.task_format_fail), intent)));
         }
     }
 
-    private void hideProgressDialog() {
+    protected void hideProgressDialog() {
         Pager pager = mPager.get();
         if (pager != null) {
             pager.hideProgressDialog();

@@ -260,5 +260,11 @@ public class DefaultStatusLayouter implements StatusLayouter {
     public boolean isContent() {
         return mContentView != null && mFrameSelector.isCurrent(mContentView);
     }
+
+    @Override
+    public boolean isEmpty() {
+        return mEmptyLayout != null && mFrameSelector.isCurrent(mEmptyLayout);
+    }
+
     //</editor-fold>
 }

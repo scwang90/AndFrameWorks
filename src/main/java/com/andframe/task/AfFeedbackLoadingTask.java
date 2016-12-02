@@ -3,34 +3,72 @@ package com.andframe.task;
 import android.support.annotation.NonNull;
 
 import com.andframe.R;
+import com.andframe.api.EmptyVerdicter;
+import com.andframe.api.pager.Pager;
+import com.andframe.api.task.LoadEmptyHandler;
 import com.andframe.api.task.LoadSuccessHandler;
 import com.andframe.api.task.LoadTasker;
-import com.andframe.api.pager.Pager;
+import com.andframe.api.task.Tasker;
 
 import java.lang.ref.WeakReference;
+import java.util.Collection;
 
 /**
  * 自带反馈的任务
  * Created by SCWANG on 2016/11/11.
  */
 
-public class AfFeedbackLoadingTask<T> extends AfHandlerTask {
+public class AfFeedbackLoadingTask<T> extends AfFeedbackTask {
 
     protected T data;
-    protected CharSequence intent;
     protected LoadTasker<T> tasker;
+    protected LoadEmptyHandler empty = this::makeToastNull;
     protected LoadSuccessHandler<T> success;
-    protected WeakReference<Pager> mPager;
-    protected boolean mFeedbackOnSuccess = true;
+    protected EmptyVerdicter<T> isempty = model -> model instanceof Collection ? ((Collection) model).isEmpty() : model != null;
+    protected boolean mFeedbackOnEmpty = false;
 
     public AfFeedbackLoadingTask(@NonNull CharSequence intent, @NonNull Pager pager) {
         this(intent, pager, null);
     }
 
     public AfFeedbackLoadingTask(@NonNull CharSequence intent, @NonNull Pager pager, LoadSuccessHandler<T> success) {
+        super(intent, pager);
         this.intent = intent;
         this.mPager = new WeakReference<>(pager);
         this.success = success;
+    }
+
+    //<editor-fold desc="Description">
+    @Deprecated@Override
+    public final AfFeedbackTask working(Tasker working) {
+        return super.working(working);
+    }
+
+    @Deprecated@Override
+    public final AfFeedbackTask success(boolean feedback, Runnable success) {
+        return super.success(feedback, success);
+    }
+
+    @Deprecated@Override
+    public final AfFeedbackTask success(Runnable success) {
+        return super.success(success);
+    }
+    //</editor-fold>
+
+    public AfFeedbackLoadingTask<T> empty(LoadEmptyHandler empty) {
+        this.empty = empty;
+        return this;
+    }
+
+    public AfFeedbackLoadingTask<T> empty(boolean feedback, LoadEmptyHandler empty) {
+        this.mFeedbackOnEmpty = feedback;
+        this.empty = empty;
+        return this;
+    }
+
+    public AfFeedbackLoadingTask<T> isempty(EmptyVerdicter<T> isempty) {
+        this.isempty = isempty;
+        return this;
     }
 
     public AfFeedbackLoadingTask<T> loading(LoadTasker<T> working) {
@@ -49,25 +87,19 @@ public class AfFeedbackLoadingTask<T> extends AfHandlerTask {
     }
 
     @Override
-    protected boolean onPrepare() {
-        showProgressDialog();
-        return super.onPrepare();
-    }
-
-    @Override
     protected void onHandle() {
         hideProgressDialog();
         if (isFinish()) {
             makeToastSucccess();
             if (success != null) {
-                if (data != null) {
+                if (!isempty.isEmpty(data)) {
                     success.onSuccess(data);
                 } else {
-                    makeToastNull();
+                    empty.onEmpty();
                 }
             }
         } else {
-            makeToastFail();
+            makeToastFail(mException);
         }
     }
 
@@ -81,41 +113,12 @@ public class AfFeedbackLoadingTask<T> extends AfHandlerTask {
         }
     }
 
-    private void showProgressDialog() {
-        Pager pager = mPager.get();
-        if (pager != null) {
-            pager.showProgressDialog(String.format(pager.getContext().getString(R.string.task_format_loading),intent));
-        }
-    }
-
-    private void makeToastSucccess() {
-        Pager pager = mPager.get();
-        if (pager != null && mFeedbackOnSuccess) {
-            pager.makeToastShort(String.format(pager.getContext().getString(R.string.task_format_success),intent));
-        }
-    }
-
     private void makeToastNull() {
         Pager pager = mPager.get();
-        if (pager != null) {
+        if (pager != null && mFeedbackOnEmpty) {
             pager.makeToastShort(String.format(pager.getContext().getString(R.string.task_format_nulldata),intent));
         }
 
-    }
-
-    private void makeToastFail() {
-        Pager pager = mPager.get();
-        if (pager != null) {
-            pager.makeToastShort(String.format(pager.getContext().getString(R.string.task_format_fail),intent));
-        }
-    }
-
-
-    private void hideProgressDialog() {
-        Pager pager = mPager.get();
-        if (pager != null) {
-            pager.hideProgressDialog();
-        }
     }
 
 }
