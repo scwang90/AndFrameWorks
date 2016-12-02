@@ -70,37 +70,45 @@ public class AbstractRequester {
 
         public Response doRequest() throws Exception {
             HttpRequest request = getHttpRequest();
-            return handler.doRequest(request.method, request.path, null, null, null);
+            return handler.doRequest(request.method, request.path, defaultHeader(), null, null);
         }
 
         public Response doRequestBody(Object body) throws Exception {
             HttpRequest request = getHttpRequest();
-            return handler.doRequest(request.method, request.path, null, body, null);
+            return handler.doRequest(request.method, request.path, defaultHeader(), body, null);
         }
 
         public Response doRequestBody(Object... keyvalue) throws Exception {
             HttpRequest request = getHttpRequest();
-            return handler.doRequest(request.method, request.path, null, keyValueToMap(keyvalue), null);
+            return handler.doRequest(request.method, request.path, defaultHeader(), keyValueToMap(keyvalue), null);
         }
 
         public Response doRequestParam(Object... keyvalue) throws Exception {
             HttpRequest request = getHttpRequest();
-            return handler.doRequest(request.method, request.path, null, null, keyValueToMap(keyvalue));
+            return handler.doRequest(request.method, request.path, defaultHeader(), null, keyValueToMap(keyvalue));
         }
 
         public Response doRequestBodyParam(Object body, Object... keyvalue) throws Exception {
             HttpRequest request = getHttpRequest();
-            return handler.doRequest(request.method, request.path, null, body, keyValueToMap(keyvalue));
+            return handler.doRequest(request.method, request.path, defaultHeader(), body, keyValueToMap(keyvalue));
         }
 
         public Response doUploadParam(String file, Object... keyvalue) throws Exception {
             HttpRequest request = getHttpRequest();
-            return handler.doUpload(request.path, (Map<String, Object>)null, keyValueToMap(keyvalue), file);
+            return handler.doUpload(request.path, defaultHeader(), null, keyValueToMap(keyvalue), file);
         }
 
         public Response doUploadParam(String file1, String file2, Object... keyvalue) throws Exception {
             HttpRequest request = getHttpRequest();
-            return handler.doUpload(request.path, (Map<String, Object>)null, keyValueToMap(keyvalue), file1, file2);
+            return handler.doUpload(request.path, defaultHeader(), null, keyValueToMap(keyvalue), file1, file2);
+        }
+
+        /**
+         * 默认HTTP头
+         * 包括登录用户ID和位置信息
+         */
+        public Map<String, String> defaultHeader() {
+            return null;
         }
 
         /**
