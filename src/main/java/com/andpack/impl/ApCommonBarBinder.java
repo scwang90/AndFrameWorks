@@ -147,7 +147,7 @@ public class ApCommonBarBinder {
 
         public T click(int idclick) {
             $(idclick).clicked(this);
-            $(idvalue).clicked(null);
+            $(idvalue).clicked(null).clickable(false);
             return self();
         }
 
