@@ -325,7 +325,7 @@ public class MultiRequestHandler extends RequestHandler {
         http.setReadTimeout(config.readTimeout);
         http.setConnectTimeout(config.connectionTimeout);
         //http.setRequestProperty("Connection", "Keep-Alive");
-        //http.setRequestProperty("Content-TaskType", "multipart/form-data;boundary=" + boundary);
+        //http.setRequestProperty("Content-Type", "x-www-form-urlencoded");
 
         if (headers != null && !headers.isEmpty()) {
             for (Entry<String, String> header : headers.entrySet()) {
@@ -449,7 +449,12 @@ public class MultiRequestHandler extends RequestHandler {
     }
 
     protected Response getResponse(HttpURLConnection http) throws IOException {
-        InputStream is = http.getInputStream();
+        InputStream is;
+        if (http.getResponseCode() == 200) {
+            is = http.getInputStream();
+        } else {
+            is = http.getErrorStream();
+        }
         InputStreamReader isr = new InputStreamReader(is, config.charset);
         BufferedReader br = new BufferedReader(isr);
         StringBuilder buffer = new StringBuilder();

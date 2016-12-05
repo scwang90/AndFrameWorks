@@ -88,6 +88,11 @@ public class AbstractRequester {
             return handler.doRequest(request.method, request.path, defaultHeader(), null, keyValueToMap(keyvalue));
         }
 
+        public Response doRequestPath(Object... keyvalue) throws Exception {
+            HttpRequest request = getHttpRequest();
+            return handler.doRequest(request.method, String.format(request.path, keyvalue), defaultHeader(), null, keyValueToMap(keyvalue));
+        }
+
         public Response doRequestBodyParam(Object body, Object... keyvalue) throws Exception {
             HttpRequest request = getHttpRequest();
             return handler.doRequest(request.method, request.path, defaultHeader(), body, keyValueToMap(keyvalue));
