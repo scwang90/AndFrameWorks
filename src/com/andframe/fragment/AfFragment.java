@@ -438,6 +438,9 @@ public abstract class AfFragment extends Fragment implements AfPageable {
      */
     @NonNull
     protected AfDialogBuilder newDialogBuilder() {
+        if (mDialogBuilder != null) {
+            return mDialogBuilder;
+        }
         return new AfDialogBuilder(getContext());
     }
 

@@ -113,6 +113,12 @@ public abstract class AfModuleTitlebar extends AfModuleAlpha implements OnClickL
 		}
 	}
 
+	public void showLeftButton() {
+		if (mBtGoBack != null) {
+			mBtGoBack.setVisibility(VISIBLE);
+		}
+	}
+
 	@Override
 	public void onClick(View v) {
 		if (v.getId() == getBtGoBackId()) {
