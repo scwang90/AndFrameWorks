@@ -45,22 +45,27 @@ public abstract class AfMultiChoiceItem<T> extends AfListItem<T> implements OnCl
 
 	@Override
 	public void onBinding(T model, int index) {
-		if(!onBinding(mModel = model,index,mSelectStatus) && mMultiChoiceCheckBox!=null) {
+		if(!onBinding(mModel = model,index,mSelectStatus)
+				&& mMultiChoiceCheckBox!=null) {
 			if(mSelectDisplay == SD_CHECK){
-				switch (mSelectStatus) {
-				case NONE:
+				if (isCanSelect(model, index)) {
+					switch (mSelectStatus) {
+						case NONE:
+							mMultiChoiceCheckBox.setVisibility(View.GONE);
+							break;
+						case UNSELECT:
+							mMultiChoiceCheckBox.setVisibility(View.VISIBLE);
+							mMultiChoiceCheckBox.setChecked(false);
+							break;
+						case SELECTED:
+							mMultiChoiceCheckBox.setVisibility(View.VISIBLE);
+							mMultiChoiceCheckBox.setChecked(true);
+							break;
+					}
+				} else {
 					mMultiChoiceCheckBox.setVisibility(View.GONE);
-					break;
-				case UNSELECT:
-					mMultiChoiceCheckBox.setVisibility(View.VISIBLE);
-					mMultiChoiceCheckBox.setChecked(false);
-					break;
-				case SELECTED:
-					mMultiChoiceCheckBox.setVisibility(View.VISIBLE);
-					mMultiChoiceCheckBox.setChecked(true);
-					break;
 				}
-			}else if (mSelectDisplay == SD_BACKGROUNG) {
+			} else if (mSelectDisplay == SD_BACKGROUNG) {
 				switch (mSelectStatus) {
 				case NONE:
 				case UNSELECT:
@@ -142,6 +147,9 @@ public abstract class AfMultiChoiceItem<T> extends AfListItem<T> implements OnCl
 		}
 	}
 
+	public boolean isCanSelect(T value, int index) {
+		return value != null;
+	}
 	/**
 	 * @param model 布局绑定的 数据 model
 	 * @param status 选择状态{NONE,UNSELECT,SELECTED}
