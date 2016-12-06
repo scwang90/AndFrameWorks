@@ -54,6 +54,7 @@
     </style>
 
     <style name="AndFrame.Button">
+        <item name="android:clickable">true</item>
         <item name="android:layout_marginTop">10dp</item>
         <item name="android:layout_marginBottom">10dp</item>
         <item name="android:layout_marginLeft">10dp</item>
