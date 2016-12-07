@@ -13,6 +13,7 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Toast;
 
+import com.andframe.activity.AfActivity;
 import com.andframe.activity.AfFragmentActivity;
 import com.andframe.annotation.interpreter.Injecter;
 import com.andframe.annotation.interpreter.LayoutBinder;
@@ -147,6 +148,11 @@ public abstract class AfFragment extends Fragment implements Pager, ViewQueryHel
         AfFragmentActivity.startResult(this, clazz, request, args);
     }
 
+    public void setResultOk(Object... args) {
+        if (getActivity() instanceof AfActivity) {
+            ((AfActivity) getActivity()).setResultOk(args);
+        }
+    }
     //</editor-fold>
 
     //<editor-fold desc="生命周期">
