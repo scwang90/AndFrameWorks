@@ -77,6 +77,10 @@ public class MultiRequestHandler extends RequestHandler {
         return new MultiRequestHandler(config);
     }
 
+    public Config getConfig() {
+        return config;
+    }
+
     @SuppressWarnings("unused")
     public Response doUpload(String path, Map<String, String> headers, Map<String, Object> params, String file, long start, long len) throws Exception {
         String end = "\r\n";
