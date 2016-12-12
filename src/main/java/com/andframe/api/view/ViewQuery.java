@@ -37,6 +37,7 @@ import android.widget.SeekBar;
 import android.widget.Spinner;
 import android.widget.TextView;
 
+import java.util.Date;
 import java.util.List;
 
 /**
@@ -571,6 +572,14 @@ public interface ViewQuery<T extends ViewQuery<T>> {
     T toggle();
     T text(String format, Object... args);
     T html(String format, Object... args);
+
+    T time(Date time);
+    T time(Date time, String format);
+    T timeDate(Date time);
+    T timeFull(Date time);
+    T timeStandard(Date time);
+    T timeDynamic(Date time);
+
     T textSizeId(int id);
     T textColor(ColorStateList color);
     T textColorListId(int id);
@@ -654,6 +663,7 @@ public interface ViewQuery<T extends ViewQuery<T>> {
                 @Nullable Drawable right, @Nullable Drawable bottom);
 
     <TT> T adapter(@LayoutRes int id, List<TT> list, AdapterItemer<TT> itemer);
+
 
     interface AdapterItemer<T> {
         void onBinding(ViewQuery $, T model, int index);

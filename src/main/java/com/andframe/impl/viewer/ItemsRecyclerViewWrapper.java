@@ -1,6 +1,7 @@
 package com.andframe.impl.viewer;
 
 import android.content.res.Resources;
+import android.support.annotation.NonNull;
 import android.support.v7.widget.DefaultItemAnimator;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
@@ -74,7 +75,7 @@ public class ItemsRecyclerViewWrapper implements ItemsViewer<RecyclerView> {
         if (adapter instanceof Adapter) {
             RecyclerView.LayoutManager layoutManager = mItemsView.getLayoutManager();
             if (layoutManager == null) {
-                mLinearLayoutManager = new LinearLayoutManager(mItemsView.getContext());
+                mLinearLayoutManager = newLayoutManager();
                 mItemsView.setLayoutManager(mLinearLayoutManager);
                 DividerItemDecoration dividerLine = new DividerItemDecoration();
                 dividerLine.setSize(mItemsView.getResources().getDimensionPixelSize(R.dimen.division_line));
@@ -117,6 +118,11 @@ public class ItemsRecyclerViewWrapper implements ItemsViewer<RecyclerView> {
                 }
             });
         }
+    }
+
+    @NonNull
+    protected LinearLayoutManager newLayoutManager() {
+        return new LinearLayoutManager(mItemsView.getContext());
     }
 
     @Override

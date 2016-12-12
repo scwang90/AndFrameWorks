@@ -51,10 +51,12 @@ import com.andframe.api.view.ViewQuery;
 import com.andframe.api.view.Viewer;
 import com.andframe.listener.SafeListener;
 import com.andframe.util.android.AfMeasure;
+import com.andframe.util.java.AfDateFormat;
 
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Collections;
+import java.util.Date;
 import java.util.List;
 import java.util.Queue;
 import java.util.concurrent.LinkedBlockingQueue;
@@ -1411,6 +1413,36 @@ public class AfViewQuery<T extends AfViewQuery<T>> implements ViewQuery<T> {
         }
         //noinspection deprecation
         return foreach(TextView.class, (ViewEacher<TextView>) (view) -> view.setText(Html.fromHtml(String.format(format, args))));
+    }
+
+    @Override
+    public T time(Date time) {
+        return foreach(TextView.class, (ViewEacher<TextView>) (view) -> view.setText(time == null ? "" : AfDateFormat.TIME.format(time)));
+    }
+
+    @Override
+    public T time(Date time, String format) {
+        return foreach(TextView.class, (ViewEacher<TextView>) (view) -> view.setText(time == null ? "" : AfDateFormat.format(format, time)));
+    }
+
+    @Override
+    public T timeDate(Date time) {
+        return foreach(TextView.class, (ViewEacher<TextView>) (view) -> view.setText(time == null ? "" : AfDateFormat.DATE.format(time)));
+    }
+
+    @Override
+    public T timeFull(Date time) {
+        return foreach(TextView.class, (ViewEacher<TextView>) (view) -> view.setText(time == null ? "" : AfDateFormat.FULL.format(time)));
+    }
+
+    @Override
+    public T timeStandard(Date time) {
+        return foreach(TextView.class, (ViewEacher<TextView>) (view) -> view.setText(time == null ? "" : AfDateFormat.FULL.format(time)));
+    }
+
+    @Override
+    public T timeDynamic(Date time) {
+        return foreach(TextView.class, (ViewEacher<TextView>) (view) -> view.setText(time == null ? "" : AfDateFormat.formatTime(time)));
     }
 
     @Override
