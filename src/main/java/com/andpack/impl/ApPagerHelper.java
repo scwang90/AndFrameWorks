@@ -130,7 +130,7 @@ public class ApPagerHelper {
                     layout.removeViewAt(0);
                     layout.addView(frame);
                     frame.addView(view, 0);
-                    AfReflecter.setMemberByType(layout, frame, View.class);
+                    AfReflecter.setPreciseMemberByType(layout, frame, View.class, SwipeBackLayout.class);
                 }
             }
         } catch (Throwable e) {
