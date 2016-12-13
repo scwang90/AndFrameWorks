@@ -51,9 +51,6 @@
     </style>
 
     <style name="AppTheme.CommonBar.Content" parent="AndFrame.Label">
-        <item name="android:layout_width">0dp</item>
-        <item name="android:layout_weight">1</item>
-        <item name="android:layout_height">wrap_content</item>
         <!--<item name="android:layout_margin">@dimen/padding_common_d</item>-->
         <item name="android:gravity">center_vertical</item>
         <!--<item name="android:paddingTop">2dp</item>-->
@@ -67,7 +64,17 @@
         <item name="android:drawablePadding">@dimen/padding_common</item>
     </style>
 
+    <style name="AppTheme.CommonBar.Content.Value">
+        <item name="android:layout_width">0dp</item>
+        <item name="android:layout_weight">1</item>
+        <item name="android:layout_height">wrap_content</item>
+    </style>
+
     <style name="AppTheme.CommonBar.Value" parent="AndFrame.Label.Assistant">
+        <item name="android:layout_width">0dp</item>
+        <item name="android:layout_weight">1</item>
+        <item name="android:layout_height">wrap_content</item>
+        <item name="android:gravity">right|end</item>
         <!--<item name="android:layout_marginEnd">@dimen/padding_common_d</item>-->
         <item name="android:layout_marginRight">@dimen/padding_common_d</item>
         <item name="android:layout_marginLeft">@dimen/padding_common_d</item>
