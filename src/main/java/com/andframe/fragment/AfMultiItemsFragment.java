@@ -97,7 +97,7 @@ public abstract class AfMultiItemsFragment<T> extends AfMultiStatusFragment<List
      * @return 实现 布局接口 ListItem 的Item兑现
      * new LayoutItem implements ListItem<T>(){}
      */
-    public abstract ListItem<T> newListItem();
+    public abstract ListItem<T> newListItem(int viewType);
     //</editor-fold>
 
     //<editor-fold desc="原始事件">

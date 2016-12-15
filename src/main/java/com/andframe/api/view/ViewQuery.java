@@ -572,6 +572,9 @@ public interface ViewQuery<T extends ViewQuery<T>> {
     T toggle();
     T text(String format, Object... args);
     T html(String format, Object... args);
+    T hint(int hintId);
+    T hint(CharSequence hint);
+    T hint(String format, Object... args);
 
     T time(Date time);
     T time(Date time, String format);

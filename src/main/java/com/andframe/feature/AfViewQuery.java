@@ -1416,6 +1416,21 @@ public class AfViewQuery<T extends AfViewQuery<T>> implements ViewQuery<T> {
     }
 
     @Override
+    public T hint(CharSequence hint) {
+        return foreach(TextView.class, (ViewEacher<TextView>) (view) -> view.setHint(hint));
+    }
+
+    @Override
+    public T hint(String format, Object... args) {
+        return foreach(TextView.class, (ViewEacher<TextView>) (view) -> view.setHint(String.format(format, args)));
+    }
+
+    @Override
+    public T hint(int hintId) {
+        return foreach(TextView.class, (ViewEacher<TextView>) (view) -> view.setHint(hintId));
+    }
+
+    @Override
     public T time(Date time) {
         return foreach(TextView.class, (ViewEacher<TextView>) (view) -> view.setText(time == null ? "" : AfDateFormat.TIME.format(time)));
     }

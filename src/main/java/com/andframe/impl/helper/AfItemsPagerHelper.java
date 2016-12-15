@@ -606,7 +606,7 @@ public class AfItemsPagerHelper<T> extends AfMultiStatusHelper<List<T>> implemen
          */
         @Override
         public ListItem<T> newListItem(int viewType) {
-            return mItemsPager.newListItem();
+            return mItemsPager.newListItem(viewType);
         }
     }
 

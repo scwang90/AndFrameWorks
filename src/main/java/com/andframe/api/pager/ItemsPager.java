@@ -24,7 +24,7 @@ import java.util.List;
  */
 public interface ItemsPager<T> extends MultiStatusPager<List<T>>, OnItemClickListener, OnItemLongClickListener, OnMoreListener {
 
-    ListItem<T> newListItem();
+    ListItem<T> newListItem(int viewType);
     ItemsViewer findItemsViewer(ItemsPager<T> pager, View contentView);
     ListItemAdapter<T> newAdapter(Context context, List<T> list);
     ListItemAdapter<T> initAdapter();
