@@ -79,8 +79,8 @@ public abstract class ApMultiItemsFragment<T> extends AfMultiItemsFragment<T> im
     }
 
     @Override
-    public ListItem<T> newListItem() {
-        throw new AfToastException("请重写 newListItem() 方法");
+    public ListItem<T> newListItem(int viewType) {
+        throw new AfToastException("请重写 newListItem(int viewType) 方法");
     }
 
     @Override
