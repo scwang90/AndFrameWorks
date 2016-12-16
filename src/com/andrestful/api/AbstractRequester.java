@@ -66,7 +66,7 @@ public class AbstractRequester {
         /**
          * http 执行器
          */
-        public RequestHandler handler = new MultiRequestHandler();
+        public MultiRequestHandler handler = new MultiRequestHandler();
 
         public Response doRequest() throws Exception {
             HttpRequest request = getHttpRequest();
@@ -88,9 +88,14 @@ public class AbstractRequester {
             return handler.doRequest(request.method, request.path, defaultHeader(), null, keyValueToMap(keyvalue));
         }
 
-        public Response doRequestPath(Object... keyvalue) throws Exception {
+        public Response doRequestPathFormat(Object... args) throws Exception {
             HttpRequest request = getHttpRequest();
-            return handler.doRequest(request.method, String.format(request.path, keyvalue), defaultHeader(), null, keyValueToMap(keyvalue));
+            return handler.doRequest(request.method, String.format(request.path, args), defaultHeader(), null, keyValueToMap());
+        }
+
+        public Response doRequestPathFormatParam(Object patharg, Object... keyvalue) throws Exception {
+            HttpRequest request = getHttpRequest();
+            return handler.doRequest(request.method, String.format(request.path, patharg), defaultHeader(), null, keyValueToMap(keyvalue));
         }
 
         public Response doRequestBodyParam(Object body, Object... keyvalue) throws Exception {
