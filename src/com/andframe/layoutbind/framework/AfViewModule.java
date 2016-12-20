@@ -3,9 +3,11 @@ package com.andframe.layoutbind.framework;
 import android.view.View;
 
 import com.andframe.activity.framework.AfViewable;
+import com.andframe.activity.framework.IViewQuery;
 import com.andframe.annotation.interpreter.Injecter;
 import com.andframe.annotation.interpreter.LayoutBinder;
 import com.andframe.annotation.interpreter.ViewBinder;
+import com.andframe.application.AfApp;
 import com.andframe.application.AfApplication;
 import com.andframe.application.AfExceptionHandler;
 import com.google.gson.internal.UnsafeAllocator;
@@ -142,6 +144,24 @@ public class AfViewModule extends AfViewWrapper implements AfViewable, IViewModu
 			return clazz.cast(view);
 		}
 		return null;
+	}
+
+
+	/**
+	 * 开始 IViewQuery 查询
+	 * @param id 控件Id
+	 */
+	protected IViewQuery $(int... id) {
+		IViewQuery query = AfApp.get().getViewQuery(wrapped);
+		if (id == null || id.length == 0) {
+			return query;
+		}
+		return query.$(id[0]);
+	}
+
+	@SuppressWarnings("unused")
+	protected IViewQuery $(View view) {
+		return AfApp.get().getViewQuery(view);
 	}
 
 }

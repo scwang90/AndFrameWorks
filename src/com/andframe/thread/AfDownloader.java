@@ -33,6 +33,7 @@ import java.io.FileOutputStream;
 import java.io.InputStream;
 import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.LinkedHashMap;
 import java.util.List;
 import java.util.Map;
 import java.util.Random;
@@ -249,6 +250,7 @@ public class AfDownloader {
 
         String Error = "";
         Throwable Excption = null;
+        public Map<String, String> Headers = new LinkedHashMap<>();
 
         public boolean isDownloaded() {
             return isDownloaded;
@@ -581,15 +583,21 @@ public class AfDownloader {
         @Override
         protected void onWorking() throws Exception {
             if (!mEndity.isDownloaded()) {
-
                 HttpGet get = new HttpGet(mEndityUrl);
+                if (mEndity.Headers != null && mEndity.Headers.size() > 0) {
+                    for (Map.Entry<String, String> entry: mEndity.Headers.entrySet())
+                        get.addHeader(entry.getKey(), entry.getValue());
+                }
                 HttpResponse response = new DefaultHttpClient().execute(get);
                 StatusLine statusLine = response.getStatusLine();
                 HttpEntity entity = response.getEntity();
                 InputStream is = entity.getContent();
 
                 if (statusLine.getStatusCode() != 200) {
-                    throw new AfToastException("下载失败 ：HTTP" + statusLine.getStatusCode());
+                    mResult = RESULT_FAIL;
+                    mException = new AfToastException("下载失败 ：HTTP" + statusLine.getStatusCode());
+                    mHandler.sendMessage(mHandler.obtainMessage(DOWNLOAD_PROGRESS, this));
+                    throw (AfToastException)mException;
                 }
 
                 //创建文件并开始下载
