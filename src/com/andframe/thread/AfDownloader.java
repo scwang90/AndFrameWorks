@@ -596,6 +596,9 @@ public class AfDownloader {
                 if (statusLine.getStatusCode() != 200) {
                     mResult = RESULT_FAIL;
                     mException = new AfToastException("下载失败 ：HTTP" + statusLine.getStatusCode());
+                    if (statusLine.getStatusCode() == 404) {
+                        mException = new AfToastException("服务器文件不存在");
+                    }
                     mHandler.sendMessage(mHandler.obtainMessage(DOWNLOAD_PROGRESS, this));
                     throw (AfToastException)mException;
                 }
