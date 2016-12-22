@@ -841,7 +841,7 @@ public class AfViewQuery<T extends AfViewQuery<T>> implements ViewQuery<T> {
 
     @Override
     public T $(Integer id, int... ids) {
-        if (id != null) {
+         if (id != null) {
             this.mTargetViews = new View[ids.length + 1];
             this.mTargetViews[0] = findViewById(id);
             for (int i = 0; i < ids.length; i++) {
