@@ -570,6 +570,7 @@ public interface ViewQuery<T extends ViewQuery<T>> {
     T singleLine(boolean... singleLine);
     T orientation(@LinearLayoutCompat.OrientationMode int orientation);
     T toggle();
+    T textFormat(String format);
     T text(String format, Object... args);
     T html(String format, Object... args);
     T hint(int hintId);

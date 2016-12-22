@@ -1379,6 +1379,11 @@ public class AfViewQuery<T extends AfViewQuery<T>> implements ViewQuery<T> {
     }
 
     @Override
+    public T textFormat(String format) {
+        return foreach(TextView.class, (ViewEacher<TextView>) (view) -> view.setText(String.format(format, view.getText())));
+    }
+
+    @Override
     public T text(String format, Object... args) {
         return foreach(TextView.class, (ViewEacher<TextView>) (view) -> view.setText(String.format(format, args)));
     }
