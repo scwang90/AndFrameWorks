@@ -2,6 +2,7 @@ package com.andpack.impl;
 
 import android.content.Context;
 import android.content.res.Resources;
+import android.support.design.widget.AppBarLayout;
 import android.support.design.widget.CoordinatorLayout;
 import android.support.v7.widget.RecyclerView;
 import android.view.View;
@@ -92,7 +93,7 @@ public class ApRefreshLayout implements RefreshLayouter<TwinklingRefreshLayout>/
                         || view instanceof RecyclerView
                         || view instanceof ScrollView
                         || view instanceof WebView
-                        || view instanceof CoordinatorLayout) {
+                        || view instanceof AppBarLayout) {
                     contentView = view;
                 } else if (view instanceof ViewGroup) {
                     ViewGroup group = (ViewGroup) view;
@@ -104,6 +105,8 @@ public class ApRefreshLayout implements RefreshLayouter<TwinklingRefreshLayout>/
         }
         if (contentView != null && contentView != content && !mTwinkling.hasRealContentView()) {
             setRealContentView(contentView);
+        } else if (content instanceof CoordinatorLayout) {
+            setRealContentView(content);
         }
     }
 
