@@ -5,6 +5,7 @@ import android.content.res.Resources;
 import android.view.View;
 
 import com.andframe.$;
+import com.andframe.activity.AfFragmentActivity;
 import com.andframe.api.pager.Pager;
 import com.andframe.api.view.ViewQuery;
 import com.andframe.util.java.AfReflecter;
@@ -78,7 +79,7 @@ public class StatusBarInterpreter {
     }
 
     private static void defaultTranslucent(Pager pager, StatusBarTranslucent translucent, StatusBarTranslucentDark translucentDark) {
-        if (translucent == null && translucentDark == null && pager instanceof Activity) {
+        if (translucent == null && translucentDark == null && (pager instanceof Activity || pager.getActivity() instanceof AfFragmentActivity)) {
             ApStatusBarUtil.immersive(pager.getActivity());
         }
     }
