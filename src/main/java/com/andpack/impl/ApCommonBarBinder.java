@@ -56,6 +56,9 @@ public class ApCommonBarBinder {
     public ViewQuery $(Integer id, int... ids) {
         return query.$(id, ids);
     }
+    public ViewQuery $(View... views) {
+        return query.$(views);
+    }
 
     public TextBinder text(int idvalue) {
         return new TextBinder(idvalue);
@@ -147,6 +150,12 @@ public class ApCommonBarBinder {
 
         public T click(int idclick) {
             $(idclick).clicked(this);
+            $(idvalue).clicked(null).clickable(false);
+            return self();
+        }
+
+        public T click(View view) {
+            $(view).clicked(this);
             $(idvalue).clicked(null).clickable(false);
             return self();
         }
