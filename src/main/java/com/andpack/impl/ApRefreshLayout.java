@@ -2,7 +2,6 @@ package com.andpack.impl;
 
 import android.content.Context;
 import android.content.res.Resources;
-import android.support.design.widget.AppBarLayout;
 import android.support.design.widget.CoordinatorLayout;
 import android.support.v7.widget.RecyclerView;
 import android.view.View;
@@ -11,8 +10,6 @@ import android.view.ViewPropertyAnimator;
 import android.webkit.WebView;
 import android.widget.AbsListView;
 import android.widget.FrameLayout;
-import android.widget.GridView;
-import android.widget.ListView;
 import android.widget.ScrollView;
 
 import com.andframe.api.multistatus.OnRefreshListener;
@@ -88,12 +85,10 @@ public class ApRefreshLayout implements RefreshLayouter<TwinklingRefreshLayout>/
         while (!views.isEmpty() && contentView == null){
             View view = views.poll();
             if (view != null) {
-                if (view instanceof ListView
-                        || view instanceof GridView
+                if (view instanceof AbsListView
                         || view instanceof RecyclerView
                         || view instanceof ScrollView
-                        || view instanceof WebView
-                        || view instanceof AppBarLayout) {
+                        || view instanceof WebView) {
                     contentView = view;
                 } else if (view instanceof ViewGroup) {
                     ViewGroup group = (ViewGroup) view;
