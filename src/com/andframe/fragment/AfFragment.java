@@ -100,7 +100,7 @@ public abstract class AfFragment extends Fragment implements AfPageable {
         if (id == null || id.length == 0) {
             return query;
         }
-        return query.$(id[0]);
+        return query.$(0,id);
     }
     @SuppressWarnings("unused")
     protected IViewQuery $(View view) {
