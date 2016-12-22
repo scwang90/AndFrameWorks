@@ -579,6 +579,7 @@ public interface ViewQuery<T extends ViewQuery<T>> {
 
     T time(Date time);
     T time(Date time, String format);
+    T timeDay(Date time);
     T timeDate(Date time);
     T timeFull(Date time);
     T timeStandard(Date time);

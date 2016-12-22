@@ -1446,6 +1446,11 @@ public class AfViewQuery<T extends AfViewQuery<T>> implements ViewQuery<T> {
     }
 
     @Override
+    public T timeDay(Date time) {
+        return foreach(TextView.class, (ViewEacher<TextView>) (view) -> view.setText(time == null ? "" : AfDateFormat.DAY.format(time)));
+    }
+
+    @Override
     public T timeDate(Date time) {
         return foreach(TextView.class, (ViewEacher<TextView>) (view) -> view.setText(time == null ? "" : AfDateFormat.DATE.format(time)));
     }
