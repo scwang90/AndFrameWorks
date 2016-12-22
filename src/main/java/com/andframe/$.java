@@ -23,9 +23,12 @@ import com.andframe.impl.viewer.ViewerWarpper;
 import com.andframe.task.AfDispatcher;
 import com.andframe.task.AfTaskExecutor;
 
+import java.lang.reflect.Array;
 import java.lang.reflect.InvocationHandler;
 import java.lang.reflect.Method;
+import java.lang.reflect.ParameterizedType;
 import java.lang.reflect.Proxy;
+import java.lang.reflect.Type;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -181,12 +184,16 @@ public class $ {
 
         @Override
         public <From, To> To[] convertArray(@NonNull From[] froms, @NonNull ModelConvertor<From, To> convertor) {
-            Object[] tos = new Object[froms.length];
-            for (int i = 0; i < froms.length; i++) {
-                tos[i] = convertor.convert(froms[i]);
+            Type type = ((ParameterizedType) convertor.getClass().getGenericInterfaces()[0]).getActualTypeArguments()[1];
+            if (type instanceof ParameterizedType) {
+                type = ((ParameterizedType) type).getRawType();
             }
             //noinspection unchecked
-            return (To[])tos;
+            To[] tos = (To[]) Array.newInstance((Class<?>) type, froms.length);
+            for (int i = 0; i < froms.length; i++) {
+                tos[i] = (convertor.convert(froms[i]));
+            }
+            return tos;
         }
 
         @Override
