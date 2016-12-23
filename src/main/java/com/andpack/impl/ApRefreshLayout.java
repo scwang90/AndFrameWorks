@@ -2,6 +2,7 @@ package com.andpack.impl;
 
 import android.content.Context;
 import android.content.res.Resources;
+import android.support.design.widget.AppBarLayout;
 import android.support.design.widget.CoordinatorLayout;
 import android.support.v7.widget.RecyclerView;
 import android.view.View;
@@ -12,6 +13,7 @@ import android.widget.AbsListView;
 import android.widget.FrameLayout;
 import android.widget.ScrollView;
 
+import com.andframe.$;
 import com.andframe.api.multistatus.OnRefreshListener;
 import com.andframe.api.multistatus.RefreshLayouter;
 import com.andframe.task.AfDispatcher;
@@ -98,10 +100,14 @@ public class ApRefreshLayout implements RefreshLayouter<TwinklingRefreshLayout>/
                 }
             }
         }
+        if (content instanceof CoordinatorLayout) {
+            AppBarLayout layout = $.query(content).$(AppBarLayout.class).view();
+            if (layout != null) {
+                setRealContentView(new AppBarLayoutWrapper(layout, contentView));
+            }
+        }
         if (contentView != null && contentView != content && !mTwinkling.hasRealContentView()) {
             setRealContentView(contentView);
-        } else if (content instanceof CoordinatorLayout) {
-            setRealContentView(content);
         }
     }
 
@@ -208,46 +214,75 @@ public class ApRefreshLayout implements RefreshLayouter<TwinklingRefreshLayout>/
             return wrapper != null;
         }
 
-        private class ChildViewWrapper extends View {
+    }
 
-            private View view;
-            private View realView;
+    private class ChildViewWrapper extends View {
 
-            public ChildViewWrapper(View view,View realView) {
-                super(view.getContext());
-                this.view = view;
-                this.realView = realView;
-            }
+        private View view;
+        private View realView;
 
-            @Override
-            public float getTranslationY() {
-                return view.getTranslationY();
-            }
+        public ChildViewWrapper(View view,View realView) {
+            super(view.getContext());
+            this.view = view;
+            this.realView = realView;
+        }
 
-            @Override
-            public void setTranslationY(float translationY) {
-                view.setTranslationY(translationY);
-            }
+        @Override
+        public float getTranslationY() {
+            return view.getTranslationY();
+        }
 
-            @Override
-            public ViewPropertyAnimator animate() {
-                return view.animate();
-            }
+        @Override
+        public void setTranslationY(float translationY) {
+            view.setTranslationY(translationY);
+        }
 
-            @Override
-            public void setOnTouchListener(OnTouchListener l) {
-                view.setOnTouchListener(l);
-            }
+        @Override
+        public ViewPropertyAnimator animate() {
+            return view.animate();
+        }
 
-            @Override
-            public boolean canScrollVertically(int direction) {
-                return realView.canScrollVertically(direction);
-            }
+        @Override
+        public void setOnTouchListener(OnTouchListener l) {
+            view.setOnTouchListener(l);
+        }
 
-            public void setOrginView(View view) {
-                this.view = view;
-            }
+        @Override
+        public boolean canScrollVertically(int direction) {
+            return realView.canScrollVertically(direction);
+        }
+
+        public void setOrginView(View view) {
+            this.view = view;
         }
     }
 
+    private class AppBarLayoutWrapper extends View implements AppBarLayout.OnOffsetChangedListener {
+        private final View contentView;
+        private final AppBarLayout appBarLayout;
+        private int verticalOffset;
+
+        public AppBarLayoutWrapper(AppBarLayout appBarLayout, View contentView) {
+            super(appBarLayout.getContext());
+            this.appBarLayout = appBarLayout;
+            this.contentView = contentView;
+            this.appBarLayout.addOnOffsetChangedListener(this);
+        }
+
+        @Override
+        public boolean canScrollVertically(int direction) {
+            boolean canScrollVertically;
+            if (direction < 0) {
+                canScrollVertically = verticalOffset != 0;
+            } else {
+                canScrollVertically = verticalOffset == 0;
+            }
+            return canScrollVertically||(contentView==null||contentView.canScrollVertically(direction));
+        }
+
+        @Override
+        public void onOffsetChanged(AppBarLayout appBarLayout, int verticalOffset) {
+            this.verticalOffset = verticalOffset;
+        }
+    }
 }

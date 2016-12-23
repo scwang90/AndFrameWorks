@@ -38,6 +38,10 @@ import java.util.Locale;
 @SuppressWarnings("unused")
 public class ApCommonBarBinder {
 
+    public interface ClickHook {
+        boolean onBinderClick(Binder binder);
+    }
+
     private Pager pager;
     private ViewQuery query;
     private String hintPrefix = "";
@@ -142,6 +146,7 @@ public class ApCommonBarBinder {
         public Binder next;
         public LASTVAL lastval;
         public Runnable start;
+        public ClickHook clickHook;
 
         Binder(int idvalue) {
             this.idvalue = idvalue;
@@ -157,6 +162,11 @@ public class ApCommonBarBinder {
         public T click(View view) {
             $(view).clicked(this);
             $(idvalue).clicked(null).clickable(false);
+            return self();
+        }
+
+        public T clickHook(ClickHook clickHook) {
+            this.clickHook = clickHook;
             return self();
         }
 
@@ -202,6 +212,9 @@ public class ApCommonBarBinder {
         }
 
         private void performStart() {
+            if (clickHook != null && clickHook.onBinderClick(this)) {
+                return;
+            }
             if (start == null) {
                 start();
             } else {
