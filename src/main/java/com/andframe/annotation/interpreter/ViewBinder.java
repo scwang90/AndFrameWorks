@@ -34,9 +34,11 @@ import com.andframe.annotation.view.idname.BindLongClick$;
 import com.andframe.annotation.view.idname.BindTouch$;
 import com.andframe.annotation.view.idname.BindView$;
 import com.andframe.annotation.view.idname.BindViewModule$;
+import com.andframe.api.view.ItemsViewer;
 import com.andframe.api.view.Viewer;
 import com.andframe.application.AfApp;
 import com.andframe.exception.AfExceptionHandler;
+import com.andframe.impl.viewer.ItemsViewerWrapper;
 import com.andframe.impl.wrapper.ViewWrapper;
 import com.andframe.module.AfFrameSelector;
 import com.andframe.module.AfSelectorBottombar;
@@ -114,6 +116,9 @@ public class ViewBinder {
         for (Field field : fields) {
             bindView(field, handler, root);
             bindViewModule(field, handler, root);
+
+            bindView$(field, handler, root);
+            bindViewModule$(field, handler, root);
         }
 
         Method[] methods = getMethodByHandler(handler);
@@ -517,6 +522,12 @@ public class ViewBinder {
                 value = new AfSelectorBottombarImpl(root);
             } else if (type.equals(AfFrameSelector.class)) {
                 value = new AfFrameSelector(root, id);
+            } else if (type.equals(ItemsViewerWrapper.class) || type.equals(ItemsViewer.class)) {
+                if (id > 0) {
+                    value = new ItemsViewerWrapper(root.findViewById(id));
+                } else {
+                    value = new ItemsViewerWrapper(root);
+                }
             } else /*if ((field.getType().isAnnotationPresent(BindLayout.class) || id > 0))*/ {
                 if (type.isArray()) {
                     type = field.getType().getComponentType();

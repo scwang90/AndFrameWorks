@@ -3,12 +3,9 @@ package com.andframe.impl.helper;
 import android.app.Activity;
 import android.content.Context;
 import android.database.DataSetObserver;
-import android.support.v7.widget.RecyclerView;
 import android.text.TextUtils;
 import android.view.View;
-import android.view.ViewGroup;
 import android.widget.AdapterView;
-import android.widget.GridView;
 import android.widget.ListAdapter;
 import android.widget.ListView;
 
@@ -38,9 +35,7 @@ import com.andframe.caches.AfPrivateCaches;
 import com.andframe.exception.AfExceptionHandler;
 import com.andframe.fragment.AfMultiItemsFragment;
 import com.andframe.impl.multistatus.MoreFooterLayouter;
-import com.andframe.impl.viewer.ItemsGridViewWrapper;
-import com.andframe.impl.viewer.ItemsListViewWrapper;
-import com.andframe.impl.viewer.ItemsRecyclerViewWrapper;
+import com.andframe.impl.viewer.ItemsViewerWrapper;
 import com.andframe.impl.viewer.ViewerWarpper;
 import com.andframe.model.Page;
 import com.andframe.task.AfDispatcher;
@@ -49,11 +44,8 @@ import com.andframe.task.AfListViewTask;
 import com.andframe.util.java.AfReflecter;
 
 import java.util.ArrayList;
-import java.util.Collections;
 import java.util.Date;
 import java.util.List;
-import java.util.Queue;
-import java.util.concurrent.LinkedBlockingQueue;
 
 import static com.andframe.util.java.AfReflecter.getAnnotation;
 
@@ -249,7 +241,7 @@ public class AfItemsPagerHelper<T> extends AfMultiStatusHelper<List<T>> implemen
             mAdapter.registerDataSetObserver(new DataSetObserver() {
                 @Override
                 public void onChanged() {
-                    if (mAdapter.isEmpty()) {
+                    if (/*mAdapter.isEmpty()*/mItemsPager.isEmpty(mAdapter.getList())) {
                         mItemsPager.showEmpty();
                     } else {
                         mItemsPager.showContent();
@@ -285,23 +277,23 @@ public class AfItemsPagerHelper<T> extends AfMultiStatusHelper<List<T>> implemen
         if (task.isFinish()) {
             //通知列表刷新完成
             mItemsPager.finishRefresh();
-            if (list != null && list.size() > 0) {
-//                mItemsPager.showContent();
+            //noinspection StatementWithEmptyBody
+            if (!mItemsPager.isEmpty(list)) {
+//                mItemsPager.showContent(); mAdapter.set 会触发showContent
                 mItemsPager.setMoreShow(task, list);
-                mAdapter.set(list);
             } else {
-//                mItemsPager.showEmpty();
-                mAdapter.set(list == null ? new ArrayList<>() : list);
+//                mItemsPager.showEmpty();mAdapter.set 会触发showEmpty
             }
+            mAdapter.set(list == null ? new ArrayList<>() : list);
         } else {
             //通知列表刷新失败
             mItemsPager.finishRefreshFail();
             if (mAdapter != null && mAdapter.size() > 0) {
                 mItemsPager.showContent();
                 mItemsPager.makeToastLong(task.makeErrorToast(mPager.getContext().getString(R.string.items_refresh_fail)));
-            } else if (list != null && list.size() > 0) {
-//                mItemsPager.showContent();
-                mAdapter.set(list);
+            } else if (!mItemsPager.isEmpty(list)) {
+//                mItemsPager.showContent(); mAdapter.set 会触发showContent
+                mAdapter.set(list == null ? new ArrayList<>() : list);
                 mItemsPager.makeToastLong(task.makeErrorToast(mPager.getContext().getString(R.string.items_refresh_fail)));
             } else {
                 mItemsPager.showError(task.makeErrorToast(mPager.getContext().getString(R.string.items_refresh_fail)));
@@ -490,7 +482,7 @@ public class AfItemsPagerHelper<T> extends AfMultiStatusHelper<List<T>> implemen
     //<editor-fold desc="组件加载">
     @Override
     public ItemsViewer findItemsViewer(ItemsPager<T> pager, View contentView) {
-        View itemView = null;
+        View itemView;
         Class<?> stop = mPager instanceof Activity ? AfMultiItemsActivity.class : AfMultiItemsFragment.class;
         MultiItemsViewer viewer = AfReflecter.getAnnotation(pager.getClass(), stop, MultiItemsViewer.class);
         MultiItemsViewerOnly viewerOnly = AfReflecter.getAnnotation(pager.getClass(), stop, MultiItemsViewerOnly.class);
@@ -499,37 +491,16 @@ public class AfItemsPagerHelper<T> extends AfMultiStatusHelper<List<T>> implemen
         } else if (viewerOnly != null && viewerOnly.value() > 0) {
             itemView = pager.findViewById(viewerOnly.value());
         } else {
-            View view = contentView;
-            if (view instanceof ListView || view instanceof GridView || view instanceof RecyclerView) {
-                itemView = view;
-            }
-
-            Queue<View> views = new LinkedBlockingQueue<>(Collections.singletonList(pager.getView()));
-            while (!views.isEmpty() && itemView == null) {
-                view = views.poll();
-                if (view != null) {
-                    if (view instanceof ListView || view instanceof GridView || view instanceof RecyclerView) {
-                        itemView = view;
-                    } else if (view instanceof ViewGroup) {
-                        ViewGroup group = (ViewGroup) view;
-                        for (int j = 0; j < group.getChildCount(); j++) {
-                            views.add(group.getChildAt(j));
-                        }
-                    }
-                }
+            if (ItemsViewerWrapper.isWrappeder(contentView)) {
+                itemView = contentView;
+            } else {
+                itemView = ItemsViewerWrapper.searchItemsView(pager);
             }
         }
 
-        if (itemView instanceof ListView) {
-            return new ItemsListViewWrapper((ListView) itemView);
-        } else if (itemView instanceof GridView) {
-            return new ItemsGridViewWrapper((GridView) itemView);
-        } else if (itemView instanceof RecyclerView) {
-            return new ItemsRecyclerViewWrapper((RecyclerView) itemView);
-        } else {
-            throw new RuntimeException("请重写 findItemsViewer 获取列表控件");
-        }
-
+        ItemsViewerWrapper wrapper = new ItemsViewerWrapper(itemView);
+        if (!wrapper.isWrapped()) throw new RuntimeException("请重写 findItemsViewer 获取列表控件");
+        return wrapper;
     }
 
     @Override
