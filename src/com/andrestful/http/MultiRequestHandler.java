@@ -93,6 +93,8 @@ public class MultiRequestHandler extends RequestHandler {
         http.setDoOutput(true);
         http.setUseCaches(false);
         http.setRequestMethod("POST");
+        http.setReadTimeout(config.readTimeout);
+        http.setConnectTimeout(config.connectionTimeout);
         http.setRequestProperty("Cookie", getCookie());
         http.setRequestProperty("Connection", "Keep-Alive");
         http.setRequestProperty("Charset", config.charset);
@@ -169,6 +171,8 @@ public class MultiRequestHandler extends RequestHandler {
         http.setDoOutput(true);
         http.setUseCaches(false);
         http.setRequestMethod("POST");
+        http.setReadTimeout(config.readTimeout);
+        http.setConnectTimeout(config.connectionTimeout);
         http.setRequestProperty("Cookie", getCookie());
         http.setRequestProperty("Connection", "Keep-Alive");
         http.setRequestProperty("Charset", config.charset);
@@ -234,6 +238,8 @@ public class MultiRequestHandler extends RequestHandler {
         http.setDoInput(true);
         http.setDoOutput(true);
         http.setUseCaches(false);
+        http.setReadTimeout(config.readTimeout);
+        http.setConnectTimeout(config.connectionTimeout);
         http.setRequestMethod("POST");
         http.setRequestProperty("Cookie", getCookie());
         http.setRequestProperty("Connection", "Keep-Alive");
