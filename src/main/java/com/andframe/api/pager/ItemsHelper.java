@@ -30,6 +30,9 @@ public interface ItemsHelper<T> extends MultiStatusHelper<List<T>>, OnItemClickL
     void onTaskLoadedMore(AfHandlerTask task, List<T> list);
     void onViewCreated() throws Exception;
 
+    int getViewTypeCount();
+    int getItemViewType(int position);
+
     ListItemAdapter<T> initAdapter();
     ListItemAdapter<T> newAdapter(Context context, List<T> list);
 //    List<T> onTaskLoadList(Page page);

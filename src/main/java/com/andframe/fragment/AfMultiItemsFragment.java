@@ -98,6 +98,24 @@ public abstract class AfMultiItemsFragment<T> extends AfMultiStatusFragment<List
      * new LayoutItem implements ListItem<T>(){}
      */
     public abstract ListItem<T> newListItem(int viewType);
+
+    /**
+     * 获取指定数据的视图Item类型
+     * @param position 数据索引
+     */
+    @Override
+    public int getItemViewType(int position) {
+        return mItemsHelper.getItemViewType(position);
+    }
+
+    /**
+     * 获取数据视图Item的数量
+     */
+    @Override
+    public int getViewTypeCount() {
+        return mItemsHelper.getViewTypeCount();
+    }
+
     //</editor-fold>
 
     //<editor-fold desc="原始事件">

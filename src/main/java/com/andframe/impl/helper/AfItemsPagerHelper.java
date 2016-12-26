@@ -260,6 +260,16 @@ public class AfItemsPagerHelper<T> extends AfMultiStatusHelper<List<T>> implemen
     public AfListAdapter<T> newAdapter(Context context, List<T> list) {
         return new AbListAdapter(context, list);
     }
+
+    @Override
+    public int getViewTypeCount() {
+        return 1;
+    }
+
+    @Override
+    public int getItemViewType(int position) {
+        return 0;
+    }
     //</editor-fold>
 
     //<editor-fold desc="任务执行结束">
@@ -578,6 +588,16 @@ public class AfItemsPagerHelper<T> extends AfMultiStatusHelper<List<T>> implemen
         @Override
         public ListItem<T> newListItem(int viewType) {
             return mItemsPager.newListItem(viewType);
+        }
+
+        @Override
+        public int getViewTypeCount() {
+            return mItemsPager.getViewTypeCount();
+        }
+
+        @Override
+        public int getItemViewType(int position) {
+            return mItemsPager.getItemViewType(position);
         }
     }
 

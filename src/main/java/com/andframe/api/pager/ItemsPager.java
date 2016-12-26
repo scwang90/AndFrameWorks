@@ -24,10 +24,12 @@ import java.util.List;
  */
 public interface ItemsPager<T> extends MultiStatusPager<List<T>>, OnItemClickListener, OnItemLongClickListener, OnMoreListener {
 
-    ListItem<T> newListItem(int viewType);
     ItemsViewer findItemsViewer(ItemsPager<T> pager, View contentView);
     ListItemAdapter<T> newAdapter(Context context, List<T> list);
     ListItemAdapter<T> initAdapter();
+    ListItem<T> newListItem(int viewType);
+    int getViewTypeCount();
+    int getItemViewType(int position);
 
     List<T> onTaskLoadCache(boolean isCheckExpired);
     List<T> onTaskLoadList(Page page) throws Exception;
@@ -60,4 +62,5 @@ public interface ItemsPager<T> extends MultiStatusPager<List<T>>, OnItemClickLis
     Date getCacheTime();
 
     String getCacheKey();
+
 }
