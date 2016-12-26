@@ -434,7 +434,7 @@ public class ApCommonBarBinder {
             return true;
         }
 
-        public TextBinder type(int type) {
+        public TextBinder inputType(int type) {
             this.type = type;
             return self();
         }
