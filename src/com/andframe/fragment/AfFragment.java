@@ -362,22 +362,22 @@ public abstract class AfFragment extends Fragment implements AfPageable {
     //<editor-fold desc="气泡封装">
     @Override
     public void makeToastLong(CharSequence tip) {
-        Toast.makeText(getContext(), tip, Toast.LENGTH_LONG).show();
+        Toast.makeText(AfApp.get(), tip, Toast.LENGTH_LONG).show();
     }
 
     @Override
     public void makeToastShort(CharSequence tip) {
-        Toast.makeText(getContext(), tip, Toast.LENGTH_SHORT).show();
+        Toast.makeText(AfApp.get(), tip, Toast.LENGTH_SHORT).show();
     }
 
     @Override
     public void makeToastLong(int resid) {
-        Toast.makeText(getContext(), resid, Toast.LENGTH_LONG).show();
+        Toast.makeText(AfApp.get(), resid, Toast.LENGTH_LONG).show();
     }
 
     @Override
     public void makeToastShort(int resid) {
-        Toast.makeText(getContext(), resid, Toast.LENGTH_SHORT).show();
+        Toast.makeText(AfApp.get(), resid, Toast.LENGTH_SHORT).show();
     }
 
     @Override
@@ -385,6 +385,7 @@ public abstract class AfFragment extends Fragment implements AfPageable {
         tip = AfExceptionHandler.tip(e, tip.toString());
         Toast.makeText(getContext(), tip, Toast.LENGTH_LONG).show();
     }
+
     //</editor-fold>
 
     //<editor-fold desc="接口实现">
