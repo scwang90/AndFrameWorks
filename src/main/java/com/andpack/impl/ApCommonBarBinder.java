@@ -6,8 +6,10 @@ import android.app.Dialog;
 import android.content.DialogInterface;
 import android.content.res.Resources;
 import android.support.v4.app.Fragment;
+import android.text.Editable;
 import android.text.InputType;
 import android.text.TextUtils;
+import android.text.TextWatcher;
 import android.util.DisplayMetrics;
 import android.view.View;
 import android.widget.DatePicker;
@@ -19,6 +21,7 @@ import com.andframe.api.pager.Pager;
 import com.andframe.api.view.ViewQuery;
 import com.andframe.caches.AfPrivateCaches;
 import com.andframe.feature.AfIntent;
+import com.andframe.task.AfDispatcher;
 import com.andframe.util.java.AfDateFormat;
 import com.andpack.activity.ApFragmentActivity;
 import com.andpack.application.ApApp;
@@ -40,6 +43,9 @@ public class ApCommonBarBinder {
 
     public interface ClickHook {
         boolean onBinderClick(Binder binder);
+    }
+    public interface InputBind {
+        void onBind(String value);
     }
 
     private Pager pager;
@@ -66,6 +72,10 @@ public class ApCommonBarBinder {
 
     public TextBinder text(int idvalue) {
         return new TextBinder(idvalue);
+    }
+
+    public InputBinder input(int idvalue) {
+        return new InputBinder(idvalue);
     }
 
     public SelectBinder select(int idvalue, CharSequence[] items) {
@@ -382,6 +392,46 @@ public class ApCommonBarBinder {
         }
     }
 
+    public class InputBinder extends Binder<InputBinder, String> implements TextWatcher {
+
+        private InputBind bind;
+
+        InputBinder(int idvalue) {
+            super(idvalue);
+        }
+
+        public InputBinder inputType(int type) {
+            $(idvalue).inputType(type);
+            return self();
+        }
+
+        public InputBinder bind(InputBind bind) {
+            this.bind = bind;
+            $(idvalue).textChanged(this);
+            return self();
+        }
+        @Override
+        protected void start() {
+
+        }
+        @Override
+        public void beforeTextChanged(CharSequence s, int start, int count, int after) {
+
+        }
+        @Override
+        public void onTextChanged(CharSequence s, int start, int before, int count) {
+
+        }
+        @Override
+        public void afterTextChanged(Editable s) {
+            AfDispatcher.dispatch(() -> {
+                if (bind != null) {
+                    bind.onBind(s.toString());
+                }
+            });
+        }
+    }
+
     public class TextBinder extends Binder<TextBinder, String> implements DialogBuilder.InputTextListener {
 
         private int type = InputType.TYPE_CLASS_TEXT;
@@ -499,7 +549,7 @@ public class ApCommonBarBinder {
             }
         }
 
-        public DateBinder lambda(DateLambda lambda) {
+        public DateBinder bind(DateLambda lambda) {
             this.lambda = lambda;
             return self();
         }
