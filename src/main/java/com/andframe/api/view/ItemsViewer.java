@@ -29,4 +29,6 @@ public interface ItemsViewer<T extends ViewGroup> {
      * 设置滚动到底部的监听器，如果实现了这个方法，将可以实现滚动到底部自动加载更多功能
      */
     void setOnScrollToBottomListener(OnScrollToBottomListener listener);
+
+    void setDivisionEnable(boolean enable);
 }

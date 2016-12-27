@@ -31,6 +31,7 @@ public class ItemsRecyclerViewWrapper implements ItemsViewer<RecyclerView> {
     protected View.OnClickListener mOnClickListener;
     protected View.OnLongClickListener mOnLongClickListener;
     protected LinearLayoutManager mLinearLayoutManager;
+    protected boolean mDivisionEnable;
 
     public ItemsRecyclerViewWrapper(RecyclerView itemView) {
         this.mItemsView = itemView;
@@ -71,16 +72,23 @@ public class ItemsRecyclerViewWrapper implements ItemsViewer<RecyclerView> {
     }
 
     @Override
+    public void setDivisionEnable(boolean enable) {
+        mDivisionEnable = enable;
+    }
+
+    @Override
     public void setAdapter(ListAdapter adapter) {
         if (adapter instanceof Adapter) {
             RecyclerView.LayoutManager layoutManager = mItemsView.getLayoutManager();
             if (layoutManager == null) {
                 mLinearLayoutManager = newLayoutManager();
                 mItemsView.setLayoutManager(mLinearLayoutManager);
-                DividerItemDecoration dividerLine = new DividerItemDecoration();
-                dividerLine.setSize(mItemsView.getResources().getDimensionPixelSize(R.dimen.division_line));
-                dividerLine.setColor(mItemsView.getResources().getColor(R.color.colorDivison));
-                mItemsView.addItemDecoration(dividerLine);
+                if (mDivisionEnable) {
+                    DividerItemDecoration dividerLine = new DividerItemDecoration();
+                    dividerLine.setSize(mItemsView.getResources().getDimensionPixelSize(R.dimen.division_line));
+                    dividerLine.setColor(mItemsView.getResources().getColor(R.color.colorDivison));
+                    mItemsView.addItemDecoration(dividerLine);
+                }
             }
             if (layoutManager instanceof LinearLayoutManager) {
                 mLinearLayoutManager = ((LinearLayoutManager) layoutManager);

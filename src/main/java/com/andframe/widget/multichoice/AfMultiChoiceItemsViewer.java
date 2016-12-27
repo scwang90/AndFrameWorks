@@ -61,6 +61,11 @@ public class AfMultiChoiceItemsViewer<T extends ViewGroup> implements
         return mItemsViewer.addHeaderView(view);
     }
 
+    @Override
+    public void setDivisionEnable(boolean enable) {
+        mItemsViewer.setDivisionEnable(enable);
+    }
+
     /**
      * Deprecated. Use {@link #setAdapter(AfMultiChoiceAdapter adapter)} from
      * now on.

@@ -10,8 +10,11 @@ import android.widget.ListView;
  */
 public class ItemsListViewWrapper extends ItemsAbsListViewWrapper<ListView> {
 
+    private int mDividerHeight;
+
     public ItemsListViewWrapper(ListView listView) {
         super(listView);
+        mDividerHeight = listView.getDividerHeight();
     }
 
     @Override
@@ -34,4 +37,12 @@ public class ItemsListViewWrapper extends ItemsAbsListViewWrapper<ListView> {
         return true;
     }
 
+    @Override
+    public void setDivisionEnable(boolean enable) {
+        if (!enable) {
+            mItemsView.setDividerHeight(0);
+        } else {
+            mItemsView.setDividerHeight(mDividerHeight);
+        }
+    }
 }

@@ -570,6 +570,7 @@ public interface ViewQuery<T extends ViewQuery<T>> {
     T singleLine(boolean... singleLine);
     T orientation(@LinearLayoutCompat.OrientationMode int orientation);
     T toggle();
+    T inputType(int type);
     T textFormat(String format);
     T text(String format, Object... args);
     T html(String format, Object... args);
@@ -668,7 +669,6 @@ public interface ViewQuery<T extends ViewQuery<T>> {
                 @Nullable Drawable right, @Nullable Drawable bottom);
 
     <TT> T adapter(@LayoutRes int id, List<TT> list, AdapterItemer<TT> itemer);
-
 
     interface AdapterItemer<T> {
         void onBinding(ViewQuery $, T model, int index);

@@ -96,6 +96,11 @@ public class ItemsViewerWrapper implements ItemsViewer<ViewGroup> {
     }
 
     @Override
+    public void setDivisionEnable(boolean enable) {
+        itemsViewer.setDivisionEnable(enable);
+    }
+
+    @Override
     public void setOnItemClickListener(AdapterView.OnItemClickListener listener) {
         itemsViewer.setOnItemClickListener(listener);
     }

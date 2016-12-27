@@ -71,6 +71,11 @@ public class ItemsAbsListViewWrapper<T extends AbsListView> implements ItemsView
     }
 
     @Override
+    public void setDivisionEnable(boolean enable) {
+
+    }
+
+    @Override
     public T getItemsView() {
         return mItemsView;
     }
