@@ -31,7 +31,7 @@ public class ItemsRecyclerViewWrapper implements ItemsViewer<RecyclerView> {
     protected View.OnClickListener mOnClickListener;
     protected View.OnLongClickListener mOnLongClickListener;
     protected LinearLayoutManager mLinearLayoutManager;
-    protected boolean mDivisionEnable;
+    protected boolean mDivisionEnable = true;
 
     public ItemsRecyclerViewWrapper(RecyclerView itemView) {
         this.mItemsView = itemView;
