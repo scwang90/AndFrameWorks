@@ -10,6 +10,7 @@ import com.andframe.api.multistatus.RefreshLayouter;
 import com.andframe.api.view.ViewQuery;
 import com.andframe.api.view.Viewer;
 import com.andframe.application.AfApp;
+import com.andframe.application.AfAppSettings;
 import com.andframe.exception.AfExceptionHandler;
 import com.andpack.impl.ApDialogBuilder;
 import com.andpack.impl.ApExceptionHandler;
@@ -170,13 +171,18 @@ public class ApApp extends AfApp {
         return new ApRefreshLayout(context);
     }
 
-    public ApUpdateService getUpdateService() {
+    public ApUpdateService newUpdateService() {
         return new ApUpdateService(this) {
             @Override
             protected ServiceVersionInfo infoFromService(String version) throws Exception {
                 return null;
             }
         };
+    }
+
+    @Override
+    public AfAppSettings newAppSetting() {
+        return new ApAppSettings(this);
     }
 
     //</editor-fold>

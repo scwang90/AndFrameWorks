@@ -27,15 +27,15 @@ public abstract class ApUpdateService {
 		public String updateDscribe = "";
 		public String downloadUrl = "";
 	}
-	private Context mContext;
-	private String mVersion;
-	private DownloadEntity mEntity;//已经下载完成的实体
+	protected Context mContext;
+	protected String mVersion;
+	protected DownloadEntity mEntity;//已经下载完成的实体
 
-	private ServiceVersionInfo mVersionInfo;
-	private DownloadListener managerListener = null;
+	protected ServiceVersionInfo mVersionInfo;
+	protected DownloadListener managerListener = null;
 	public static ApUpdateService getInstance() {
 		if (mInstance == null) {
-			mInstance = ApApp.getApp().getUpdateService();
+			mInstance = ApApp.getApp().newUpdateService();
 		}
 		return mInstance;
 	}
