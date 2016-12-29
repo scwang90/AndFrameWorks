@@ -11,7 +11,7 @@
 
     <dimen name="height_titlebar">45dp</dimen>
 
-    <dimen name="division_line">1.0px</dimen>
+    <dimen name="division_line">0.5dp</dimen>
     <dimen name="division_panel">25dp</dimen>
 
     <dimen name="textsize_edittext">14sp</dimen>

@@ -6,7 +6,6 @@ import android.view.Gravity;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.LinearLayout;
-import android.widget.LinearLayout.LayoutParams;
 
 import com.andframe.widget.multichoice.AfMultiChoiceItem;
 
@@ -56,10 +55,11 @@ public abstract class AfTreeViewItem<T> extends AfMultiChoiceItem<T> {
         }
         view.setBackgroundResource(android.R.color.transparent);
         //包装View
-        LayoutParams lpView = new LayoutParams(MATCH_PARENT, MATCH_PARENT);
         ViewGroup.LayoutParams params = view.getLayoutParams();
-        mTreeViewLayout.addView(view, lpView);
-        mTreeViewLayout.setLayoutParams(params);
+        mTreeViewLayout.addView(view, MATCH_PARENT, MATCH_PARENT);
+        if (params != null) {
+            mTreeViewLayout.setLayoutParams(params);
+        }
 
         return mTreeViewLayout;
     }

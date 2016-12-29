@@ -41,7 +41,7 @@ public abstract class AfTreeViewAdapter<T> extends AfMultiChoiceAdapter<T> imple
 		mEstablisher = establisher;
 		mDefaultExpanded = isExpanded;
 		//构造树形
-		mRootNode = mEstablisher.establish(ltdata,isExpanded);
+ 		mRootNode = mEstablisher.establish(ltdata,isExpanded);
 		//将树形显示到列表
 		establishNodeListToShow(mltArray, mNodeShow, mRootNode);
 	}
@@ -86,7 +86,7 @@ public abstract class AfTreeViewAdapter<T> extends AfMultiChoiceAdapter<T> imple
 			}
 		}
 		tvitem.setSelectStatus(node.value, status);
-		tvitem.onBinding(view, node.value, index);
+ 		tvitem.onBinding(view, node.value, index);
 	}
 
 

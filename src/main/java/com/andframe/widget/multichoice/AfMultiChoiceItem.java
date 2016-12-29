@@ -13,6 +13,9 @@ import android.widget.LinearLayout.LayoutParams;
 
 import com.andframe.adapter.listitem.AfListItem;
 
+import static android.view.ViewGroup.LayoutParams.MATCH_PARENT;
+import static android.view.ViewGroup.LayoutParams.WRAP_CONTENT;
+
 /**
  * 多选ITEM模板
  * @param <T>
@@ -96,20 +99,16 @@ public abstract class AfMultiChoiceItem<T> extends AfListItem<T> implements OnCl
 		}
 		view.setBackgroundResource(android.R.color.transparent);
 
-		int parent = LayoutParams.MATCH_PARENT;
-		int content = LayoutParams.WRAP_CONTENT;
-		LayoutParams lpView = new LayoutParams(parent,content);
-		lpView.width = 0;
-		lpView.weight = 1;
 		ViewGroup.LayoutParams params = view.getLayoutParams();
-		mMultiChoiceLayout.addView(view,lpView);
-		mMultiChoiceLayout.setLayoutParams(params);
+		mMultiChoiceLayout.addView(view, MATCH_PARENT, WRAP_CONTENT);
+		if (params != null) {
+			mMultiChoiceLayout.setLayoutParams(params);
+		}
 
 		float scale = view.getContext().getResources().getDisplayMetrics().density;
 		int margin = (int) (scale * 3 + 5.0f);
 		
-		LayoutParams lpcheck = new LayoutParams(content,content);		
-		lpcheck.width = LayoutParams.WRAP_CONTENT;
+		LayoutParams lpcheck = new LayoutParams(WRAP_CONTENT,WRAP_CONTENT);
 		lpcheck.weight = 0;
 		lpcheck.setMargins(margin, margin, margin, margin);
 		try {

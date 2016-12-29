@@ -1,0 +1,15 @@
+<?xml version="1.0" encoding="utf-8"?>
+<FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/ami_layout"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="@color/colorBackgroud">
+
+    <android.support.v7.widget.RecyclerView
+        android:id="@+id/ami_itemsview"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        tools:listitem="@android:layout/simple_list_item_2" />
+
+</FrameLayout>

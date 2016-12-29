@@ -64,7 +64,7 @@ public abstract class AfListItem<T> implements ListItem<T>, Viewer, ViewQueryHel
 
 	@Override
 	public void onBinding(View view, T model, int index) {
-		mLayout = view;
+   		mLayout = view;
 		mIndex = index;
 		mModel = model;
 		onBinding(model,index);

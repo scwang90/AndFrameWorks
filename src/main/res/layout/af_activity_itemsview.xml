@@ -17,7 +17,7 @@
         android:layout_width="match_parent"
         android:layout_height="0dp"
         android:layout_weight="1.0"
-        layout="@layout/af_module_listcontent" />
+        layout="@layout/af_module_itemscontent" />
 
     <include layout="@layout/af_module_bottombar_select"
         android:visibility="gone"/>
