@@ -4,7 +4,6 @@ import android.annotation.TargetApi;
 import android.app.Activity;
 import android.content.Context;
 import android.content.res.Resources;
-import android.graphics.Color;
 import android.os.Build;
 import android.support.annotation.FloatRange;
 import android.util.Log;
@@ -83,12 +82,12 @@ public class ApStatusBarUtil {
 
     /** 设置状态栏darkMode,字体颜色及icon变黑(目前支持MIUI6以上,Flyme4以上,Android M以上) */
     public static void darkMode(Window window, int color, @FloatRange(from = 0.0, to = 1.0) float alpha) {
-        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M) {
-            darkModeForM(window);
-        } else if (isFlyme4Later()) {
+        if (isFlyme4Later()) {
             darkModeForFlyme4(window, true);
         } else if (isMIUI6Later()) {
             darkModeForMIUI6(window, true);
+        } else if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M) {
+            darkModeForM(window);
         }
         immersive(window,color,alpha);
 //        if (Build.VERSION.SDK_INT >= 21) {
@@ -107,9 +106,9 @@ public class ApStatusBarUtil {
     /** android 6.0设置字体颜色 */
     @TargetApi(Build.VERSION_CODES.M)
     public static void darkModeForM(Window window) {
-        window.clearFlags(WindowManager.LayoutParams.FLAG_TRANSLUCENT_STATUS);
-        window.addFlags(WindowManager.LayoutParams.FLAG_DRAWS_SYSTEM_BAR_BACKGROUNDS);
-        window.setStatusBarColor(Color.TRANSPARENT);
+//        window.clearFlags(WindowManager.LayoutParams.FLAG_TRANSLUCENT_STATUS);
+//        window.addFlags(WindowManager.LayoutParams.FLAG_DRAWS_SYSTEM_BAR_BACKGROUNDS);
+//        window.setStatusBarColor(Color.TRANSPARENT);
 
         int systemUiVisibility = window.getDecorView().getSystemUiVisibility();
         systemUiVisibility |= View.SYSTEM_UI_FLAG_LIGHT_STATUS_BAR;
