@@ -1,13 +1,13 @@
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:tools="http://schemas.android.com/tools"
     package="com.andpack">
+    <!--xmlns:tools="http://schemas.android.com/tools"-->
 
     <application
         android:allowBackup="true"
         android:label="@string/app_name"
-        android:supportsRtl="true"
-        android:theme="@style/AppTheme.SwipeBack"
-        tools:replace="android:theme">
+        android:supportsRtl="true">
+        <!--tools:replace="android:theme"-->
+        <!--android:theme="@style/AppTheme.SwipeBack"-->
 
         <activity android:name=".activity.ApFragmentActivity"
             android:screenOrientation="portrait"
