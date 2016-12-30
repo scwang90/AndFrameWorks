@@ -1,4 +1,4 @@
-package com.andframe.annotation.multistatus;
+package com.andframe.annotation.pager.status;
 
 
 import android.support.annotation.IdRes;
@@ -15,8 +15,8 @@ import java.lang.annotation.Target;
  */
 @Target(ElementType.TYPE)
 @Retention(RetentionPolicy.RUNTIME)
-public @interface MultiStatusProgress {
+public @interface StatusInvalidNet {
     @LayoutRes int value();
     @IdRes int txtId() default 0;
-    String message() default "";
+    @IdRes int btnId() default 0;
 }

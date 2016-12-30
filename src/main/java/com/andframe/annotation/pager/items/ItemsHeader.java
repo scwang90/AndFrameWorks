@@ -1,4 +1,4 @@
-package com.andframe.annotation.multistatus;
+package com.andframe.annotation.pager.items;
 
 import android.support.annotation.IdRes;
 
@@ -13,6 +13,6 @@ import java.lang.annotation.Target;
  */
 @Target(ElementType.TYPE)
 @Retention(RetentionPolicy.RUNTIME)
-public @interface MultiItemsFooter {
+public @interface ItemsHeader {
     @IdRes int[] value();
 }

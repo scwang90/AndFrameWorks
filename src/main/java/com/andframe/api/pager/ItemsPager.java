@@ -22,7 +22,7 @@ import java.util.List;
  * 基本列表页
  * Created by SCWANG on 2016/9/7.
  */
-public interface ItemsPager<T> extends MultiStatusPager<List<T>>, OnItemClickListener, OnItemLongClickListener, OnMoreListener {
+public interface ItemsPager<T> extends StatusPager<List<T>>, OnItemClickListener, OnItemLongClickListener, OnMoreListener {
 
     ItemsViewer findItemsViewer(ItemsPager<T> pager, View contentView);
     ListItemAdapter<T> newAdapter(Context context, List<T> list);

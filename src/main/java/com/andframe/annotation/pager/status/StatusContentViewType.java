@@ -1,6 +1,6 @@
-package com.andframe.annotation.multistatus;
+package com.andframe.annotation.pager.status;
 
-import android.support.annotation.IdRes;
+import android.view.View;
 
 import java.lang.annotation.ElementType;
 import java.lang.annotation.Retention;
@@ -8,11 +8,11 @@ import java.lang.annotation.RetentionPolicy;
 import java.lang.annotation.Target;
 
 /**
- * 页面绑定标题
- * Created by SCWANG on 2016/3/8.
+ * 指定多状态页面的内容视图ID
+ * Created by SCWANG on 2016/10/20.
  */
 @Target(ElementType.TYPE)
 @Retention(RetentionPolicy.RUNTIME)
-public @interface MultiItemsHeader {
-    @IdRes int[] value();
+public @interface StatusContentViewType {
+    Class<? extends View> value() ;
 }

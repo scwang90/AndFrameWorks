@@ -15,19 +15,18 @@ import com.andframe.activity.AfItemsActivity;
 import com.andframe.adapter.AfHeaderFooterAdapter;
 import com.andframe.adapter.AfListAdapter;
 import com.andframe.annotation.mark.MarkCache;
-import com.andframe.annotation.multistatus.MultiContentViewId;
-import com.andframe.annotation.multistatus.MultiContentViewType;
-import com.andframe.annotation.multistatus.MultiItemsFooter;
-import com.andframe.annotation.multistatus.MultiItemsHeader;
-import com.andframe.annotation.multistatus.MultiItemsViewer;
-import com.andframe.annotation.multistatus.MultiItemsViewerOnly;
+import com.andframe.annotation.pager.items.ItemsFooter;
+import com.andframe.annotation.pager.items.ItemsHeader;
+import com.andframe.annotation.pager.items.ItemsViewer;
+import com.andframe.annotation.pager.items.ItemsViewerOnly;
+import com.andframe.annotation.pager.status.StatusContentViewId;
+import com.andframe.annotation.pager.status.StatusContentViewType;
 import com.andframe.api.adapter.ListItem;
 import com.andframe.api.adapter.ListItemAdapter;
 import com.andframe.api.multistatus.MoreFooter;
 import com.andframe.api.multistatus.MoreLayouter;
 import com.andframe.api.pager.ItemsHelper;
 import com.andframe.api.pager.ItemsPager;
-import com.andframe.api.view.ItemsViewer;
 import com.andframe.api.view.ViewQuery;
 import com.andframe.api.view.ViewQueryHelper;
 import com.andframe.application.AfApp;
@@ -53,18 +52,18 @@ import static com.andframe.util.java.AfReflecter.getAnnotation;
  *
  * Created by SCWANG on 2016/9/7.
  */
-public class AfItemsPagerHelper<T> extends AfMultiStatusHelper<List<T>> implements ItemsHelper<T> {
+public class AfItemsPagerHelper<T> extends AfStatusHelper<List<T>> implements ItemsHelper<T> {
 
     //<editor-fold desc="属性字段">
     protected ItemsPager<T> mItemsPager;
 
     protected MoreLayouter mMoreLayouter;
     protected MoreFooter mMoreFooter;
-    protected ItemsViewer mItemsViewer;
+    protected com.andframe.api.view.ItemsViewer mItemsViewer;
     protected AfHeaderFooterAdapter<T> mAdapter;
 
     protected ViewQueryHelper $$ ;
-    protected MultiItemsViewerOnly mItemsViewerOnly;
+    protected ItemsViewerOnly mItemsViewerOnly;
 
     protected List<View> mHeaderFooterViews = new ArrayList<>();
 
@@ -185,11 +184,11 @@ public class AfItemsPagerHelper<T> extends AfMultiStatusHelper<List<T>> implemen
         mItemsViewer = mItemsPager.findItemsViewer(mItemsPager, contentView);
         if (mItemsViewer != null) {
             Class<?> stop = mPager instanceof Activity ? AfItemsActivity.class : AfItemsFragment.class;
-            mItemsViewerOnly = AfReflecter.getAnnotation(mItemsPager.getClass(), stop, MultiItemsViewerOnly.class);
+            mItemsViewerOnly = AfReflecter.getAnnotation(mItemsPager.getClass(), stop, ItemsViewerOnly.class);
             if (mItemsViewerOnly == null) {
                 if (contentView != null && contentView != mItemsViewer.getItemsView()) {
-                    MultiContentViewId id = AfReflecter.getAnnotation(mPager.getClass(), stop, MultiContentViewId.class);
-                    MultiContentViewType type = AfReflecter.getAnnotation(mPager.getClass(), stop, MultiContentViewType.class);
+                    StatusContentViewId id = AfReflecter.getAnnotation(mPager.getClass(), stop, StatusContentViewId.class);
+                    StatusContentViewType type = AfReflecter.getAnnotation(mPager.getClass(), stop, StatusContentViewType.class);
                     if (id != null && id.value() == contentView.getId()) {
                         return contentView;
                     }
@@ -226,7 +225,7 @@ public class AfItemsPagerHelper<T> extends AfMultiStatusHelper<List<T>> implemen
 
     //<editor-fold desc="适配器">
     @Override
-    public void bindAdapter(ItemsViewer listView, ListAdapter adapter) {
+    public void bindAdapter(com.andframe.api.view.ItemsViewer listView, ListAdapter adapter) {
         listView.setAdapter(adapter);
     }
 
@@ -422,13 +421,13 @@ public class AfItemsPagerHelper<T> extends AfMultiStatusHelper<List<T>> implemen
         mMoreLayouter.setLoadMoreEnabled(false);
 
         Class<?> stop = mPager instanceof Activity ? AfItemsActivity.class : AfItemsFragment.class;
-        MultiItemsHeader headers = AfReflecter.getAnnotation(mPager.getClass(), stop, MultiItemsHeader.class);
+        ItemsHeader headers = AfReflecter.getAnnotation(mPager.getClass(), stop, ItemsHeader.class);
         if (headers != null) {
             for (int id : headers.value()) {
                 addHeaderView(adapter, $.query(mPager).$(id).breakView());
             }
         }
-        MultiItemsFooter footers = AfReflecter.getAnnotation(mPager.getClass(), stop, MultiItemsFooter.class);
+        ItemsFooter footers = AfReflecter.getAnnotation(mPager.getClass(), stop, ItemsFooter.class);
         if (footers != null) {
             for (int id : footers.value()) {
                 addFooterView(adapter, $.query(mPager).$(id).breakView());
@@ -492,11 +491,11 @@ public class AfItemsPagerHelper<T> extends AfMultiStatusHelper<List<T>> implemen
 
     //<editor-fold desc="组件加载">
     @Override
-    public ItemsViewer findItemsViewer(ItemsPager<T> pager, View contentView) {
+    public com.andframe.api.view.ItemsViewer findItemsViewer(ItemsPager<T> pager, View contentView) {
         View itemView;
         Class<?> stop = mPager instanceof Activity ? AfItemsActivity.class : AfItemsFragment.class;
-        MultiItemsViewer viewer = AfReflecter.getAnnotation(pager.getClass(), stop, MultiItemsViewer.class);
-        MultiItemsViewerOnly viewerOnly = AfReflecter.getAnnotation(pager.getClass(), stop, MultiItemsViewerOnly.class);
+        ItemsViewer viewer = AfReflecter.getAnnotation(pager.getClass(), stop, ItemsViewer.class);
+        ItemsViewerOnly viewerOnly = AfReflecter.getAnnotation(pager.getClass(), stop, ItemsViewerOnly.class);
         if (viewer != null) {
             itemView = pager.findViewById(viewer.value());
         } else if (viewerOnly != null && viewerOnly.value() > 0) {

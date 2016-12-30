@@ -1,6 +1,6 @@
-package com.andframe.annotation.multistatus;
+package com.andframe.annotation.pager.status;
 
-import android.view.View;
+import android.support.annotation.IdRes;
 
 import java.lang.annotation.ElementType;
 import java.lang.annotation.Retention;
@@ -13,6 +13,6 @@ import java.lang.annotation.Target;
  */
 @Target(ElementType.TYPE)
 @Retention(RetentionPolicy.RUNTIME)
-public @interface MultiContentViewType {
-    Class<? extends View> value() ;
+public @interface StatusContentViewId {
+    @IdRes int value();
 }

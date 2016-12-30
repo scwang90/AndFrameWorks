@@ -1,4 +1,4 @@
-package com.andframe.activity;
+package com.andframe.fragment;
 
 import android.content.Context;
 import android.support.annotation.CallSuper;
@@ -8,35 +8,30 @@ import android.view.View;
 import com.andframe.annotation.view.BindViewCreated;
 import com.andframe.api.multistatus.RefreshLayouter;
 import com.andframe.api.multistatus.StatusLayouter;
-import com.andframe.api.pager.MultiStatusHelper;
-import com.andframe.api.pager.MultiStatusPager;
-import com.andframe.impl.helper.AfMultiStatusHelper;
+import com.andframe.api.pager.StatusHelper;
+import com.andframe.api.pager.StatusPager;
+import com.andframe.impl.helper.AfStatusHelper;
 import com.andframe.task.AfHandlerTask;
 
 /**
  * 多状态页面支持
  * Created by SCWANG on 2016/10/20.
  */
+public abstract class AfStatusFragment<T> extends AfTabFragment implements StatusPager<T> {
 
-public abstract class AfMultiStatusActivity<T> extends AfActivity implements MultiStatusPager<T> {
-
-    protected MultiStatusHelper<T> mHelper = newHelper();
+    protected StatusHelper<T> mHelper = newHelper();
 
     protected StatusLayouter mStatusLayouter;
     protected RefreshLayouter mRefreshLayouter;
 
     @NonNull
-    protected MultiStatusHelper<T> newHelper() {
-        return new AfMultiStatusHelper<>(this);
+    protected StatusHelper<T> newHelper() {
+        return new AfStatusHelper<>(this);
     }
 
     @BindViewCreated@CallSuper
     protected void onViewCreated() throws Exception {
         mHelper.onViewCreated();
-    }
-
-    public boolean isLoading() {
-        return mHelper.isLoading();
     }
 
     //<editor-fold desc="初始化布局">
@@ -63,6 +58,10 @@ public abstract class AfMultiStatusActivity<T> extends AfActivity implements Mul
 
     //<editor-fold desc="数据加载">
 
+    public boolean isLoading() {
+        return mHelper.isLoading();
+    }
+
     @Override
     public boolean isEmpty(T model) {
         return mHelper.isEmpty(model);
@@ -80,7 +79,6 @@ public abstract class AfMultiStatusActivity<T> extends AfActivity implements Mul
     public void onTaskFailed(AfHandlerTask task) {
         mHelper.onTaskFailed(task);
     }
-
 
 //    /**
 //     * 任务加载完成
@@ -117,6 +115,10 @@ public abstract class AfMultiStatusActivity<T> extends AfActivity implements Mul
 
     public void showError(String error) {
         mHelper.showError(error);
+    }
+
+    public void showProgress(String progress) {
+        mHelper.showProgress(progress);
     }
     //</editor-fold>
 

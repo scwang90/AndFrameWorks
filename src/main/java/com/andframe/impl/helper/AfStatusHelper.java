@@ -15,21 +15,21 @@ import android.widget.ListView;
 import android.widget.ScrollView;
 
 import com.andframe.R;
-import com.andframe.activity.AfMultiStatusActivity;
-import com.andframe.annotation.multistatus.MultiContentViewId;
-import com.andframe.annotation.multistatus.MultiContentViewType;
-import com.andframe.annotation.multistatus.MultiStatusEmpty;
-import com.andframe.annotation.multistatus.MultiStatusError;
-import com.andframe.annotation.multistatus.MultiStatusInvalidNet;
-import com.andframe.annotation.multistatus.MultiStatusLayout;
-import com.andframe.annotation.multistatus.MultiStatusProgress;
+import com.andframe.activity.AfStatusActivity;
+import com.andframe.annotation.pager.status.StatusContentViewId;
+import com.andframe.annotation.pager.status.StatusContentViewType;
+import com.andframe.annotation.pager.status.StatusEmpty;
+import com.andframe.annotation.pager.status.StatusError;
+import com.andframe.annotation.pager.status.StatusInvalidNet;
+import com.andframe.annotation.pager.status.StatusLayout;
+import com.andframe.annotation.pager.status.StatusProgress;
 import com.andframe.api.multistatus.RefreshLayouter;
 import com.andframe.api.multistatus.StatusLayouter;
-import com.andframe.api.pager.MultiStatusHelper;
-import com.andframe.api.pager.MultiStatusPager;
+import com.andframe.api.pager.StatusHelper;
+import com.andframe.api.pager.StatusPager;
 import com.andframe.application.AfApp;
 import com.andframe.exception.AfExceptionHandler;
-import com.andframe.fragment.AfMultiStatusFragment;
+import com.andframe.fragment.AfStatusFragment;
 import com.andframe.task.AfHandlerDataTask;
 import com.andframe.task.AfHandlerTask;
 import com.andframe.util.internal.TAG;
@@ -48,9 +48,9 @@ import java.util.concurrent.LinkedBlockingQueue;
  * Created by SCWANG on 2016/10/22.
  */
 
-public class AfMultiStatusHelper<T> implements MultiStatusHelper<T> {
+public class AfStatusHelper<T> implements StatusHelper<T> {
 
-    protected MultiStatusPager<T> mPager;
+    protected StatusPager<T> mPager;
 
     protected StatusLayouter mStatusLayouter;
     protected RefreshLayouter mRefreshLayouter;
@@ -60,7 +60,7 @@ public class AfMultiStatusHelper<T> implements MultiStatusHelper<T> {
     protected boolean mLoadOnViewCreated = true;
 
 
-    public AfMultiStatusHelper(MultiStatusPager<T> pager) {
+    public AfStatusHelper(StatusPager<T> pager) {
         this.mPager = pager;
     }
 
@@ -100,12 +100,12 @@ public class AfMultiStatusHelper<T> implements MultiStatusHelper<T> {
 
     //<editor-fold desc="初始化布局">
     public View findContentView() {
-        Class<?> stop = mPager instanceof Activity ? AfMultiStatusActivity.class : AfMultiStatusFragment.class;
-        MultiContentViewId id = AfReflecter.getAnnotation(mPager.getClass(), stop, MultiContentViewId.class);
+        Class<?> stop = mPager instanceof Activity ? AfStatusActivity.class : AfStatusFragment.class;
+        StatusContentViewId id = AfReflecter.getAnnotation(mPager.getClass(), stop, StatusContentViewId.class);
         if (id != null) {
             return mPager.findViewById(id.value());
         }
-        MultiContentViewType type = AfReflecter.getAnnotation(mPager.getClass(), stop, MultiContentViewType.class);
+        StatusContentViewType type = AfReflecter.getAnnotation(mPager.getClass(), stop, StatusContentViewType.class);
         if (type != null) {
             return AfApp.get().newViewQuery(mPager).$(type.value()).view();
         }
@@ -136,11 +136,11 @@ public class AfMultiStatusHelper<T> implements MultiStatusHelper<T> {
         ViewParent parent = content.getParent();
         if (parent == null) {
             AfExceptionHandler.handle("内容视图（ContentView）没有父视图，刷新布局（RefreshLayouter）初始化失败",
-                    TAG.TAG(mPager, "AfMultiStatusHelper", "initRefreshLayout"));
+                    TAG.TAG(mPager, "AfStatusHelper", "initRefreshLayout"));
         } else if (parent instanceof ViewPager) {
             AfExceptionHandler.handle("内容视图（ContentView）父视图为ViewPager，刷新布局（RefreshLayouter）初始化失败，" +
                     "请用其他布局（Layout）作为ContentView的直接父视图，ViewPager的子视图",
-                    TAG.TAG(mPager, "AfMultiStatusHelper", "initRefreshLayout"));
+                    TAG.TAG(mPager, "AfStatusHelper", "initRefreshLayout"));
         } else if (parent instanceof ViewGroup){
             ViewGroup group = (ViewGroup) parent;
 
@@ -163,13 +163,13 @@ public class AfMultiStatusHelper<T> implements MultiStatusHelper<T> {
         if (parent == null) {
             if (mRefreshLayouter == null || mRefreshLayouter.getLayout() != content) {
                 AfExceptionHandler.handle("内容视图（ContentView）没有父视图，刷新布局（StatusLayouter）初始化失败",
-                        TAG.TAG(mPager, "AfMultiStatusHelper", "initStatusLayout"));
+                        TAG.TAG(mPager, "AfStatusHelper", "initStatusLayout"));
             }
         } else if (parent instanceof ViewPager) {
             if (mRefreshLayouter == null || mRefreshLayouter.getLayout() != content) {
                 AfExceptionHandler.handle("内容视图（ContentView）父视图为ViewPager，刷新布局（StatusLayouter）初始化失败，" +
                                 "请用其他布局（Layout）作为ContentView的直接父视图，ViewPager的子视图",
-                        TAG.TAG(mPager, "AfMultiStatusHelper", "initStatusLayout"));
+                        TAG.TAG(mPager, "AfStatusHelper", "initStatusLayout"));
             }
         } else if (parent instanceof ViewGroup){
             ViewGroup group = (ViewGroup) parent;
@@ -183,8 +183,8 @@ public class AfMultiStatusHelper<T> implements MultiStatusHelper<T> {
 
             group.addView(layouter.getLayout(), i, params);
 
-            Class<?> stop = mPager instanceof Activity ? AfMultiStatusActivity.class : AfMultiStatusFragment.class;
-            MultiStatusLayout status = AfReflecter.getAnnotation(mPager.getClass(), stop, MultiStatusLayout.class);
+            Class<?> stop = mPager instanceof Activity ? AfStatusActivity.class : AfStatusFragment.class;
+            StatusLayout status = AfReflecter.getAnnotation(mPager.getClass(), stop, StatusLayout.class);
             if (status != null) {
                 layouter.setEmptyLayout(status.empty(), status.emptyTxtId());
                 layouter.setProgressLayout(status.progress(), status.progressTxtId());
@@ -195,17 +195,21 @@ public class AfMultiStatusHelper<T> implements MultiStatusHelper<T> {
                     layouter.setInvalidnetLayout(status.invalidNet(), status.invalidNetTxtId());
                 }
             } else {
-//            MultiStatusEmpty empty = AfReflecter.getAnnotation(mPager.getClass(), stop, MultiStatusEmpty.class);
-//            MultiStatusError error = AfReflecter.getAnnotation(mPager.getClass(), stop, MultiStatusError.class);
-//            MultiStatusProgress progress = AfReflecter.getAnnotation(mPager.getClass(), stop, MultiStatusProgress.class);
-//            MultiStatusInvalidNet invalidNet = AfReflecter.getAnnotation(mPager.getClass(), stop, MultiStatusInvalidNet.class);
-                MultiStatusEmpty empty = combineMultiStatusEmpty(mPager.getClass(), stop);
-                MultiStatusError error = combineMultiStatusError(mPager.getClass(), stop);
-                MultiStatusProgress progress = combineMultiStatusProgress(mPager.getClass(), stop);
-                MultiStatusInvalidNet invalidNet = combineMultiStatusInvalidNet(mPager.getClass(), stop);
+//            StatusEmpty empty = AfReflecter.getAnnotation(mPager.getClass(), stop, StatusEmpty.class);
+//            StatusError error = AfReflecter.getAnnotation(mPager.getClass(), stop, StatusError.class);
+//            StatusProgress progress = AfReflecter.getAnnotation(mPager.getClass(), stop, StatusProgress.class);
+//            StatusInvalidNet invalidNet = AfReflecter.getAnnotation(mPager.getClass(), stop, StatusInvalidNet.class);
+                StatusEmpty empty = combineStatusEmpty(mPager.getClass(), stop);
+                StatusError error = combineStatusError(mPager.getClass(), stop);
+                StatusProgress progress = combineStatusProgress(mPager.getClass(), stop);
+                StatusInvalidNet invalidNet = combineStatusInvalidNet(mPager.getClass(), stop);
 
                 if (empty != null) {
-                    layouter.setEmptyLayout(empty.value(), empty.txtId(), empty.btnId(), empty.message());
+                    String message = empty.message();
+                    if (TextUtils.isEmpty(message) && empty.messageId() > 0) {
+                        message = mPager.getContext().getString(empty.messageId());
+                    }
+                    layouter.setEmptyLayout(empty.value(), empty.txtId(), empty.btnId(), message);
                 }
                 if (error != null) {
                     layouter.setErrorLayout(error.value(), error.txtId(), error.btnId());
@@ -402,60 +406,61 @@ public class AfMultiStatusHelper<T> implements MultiStatusHelper<T> {
         return list;
     }
 
-    public MultiStatusEmpty combineMultiStatusEmpty(Class<?> type, Class<?> stoptype) {
-        MultiStatusEmptyImpl impl = new MultiStatusEmptyImpl();
+    public StatusEmpty combineStatusEmpty(Class<?> type, Class<?> stoptype) {
+        StatusEmptyImpl impl = new StatusEmptyImpl();
         impl.value = R.layout.af_module_nodata;
         impl.txtId = R.id.module_nodata_description;
-        List<MultiStatusEmpty> empties = getAnnotations(type, stoptype, MultiStatusEmpty.class);
-        for (MultiStatusEmpty tEmpty : empties) {
+        List<StatusEmpty> empties = getAnnotations(type, stoptype, StatusEmpty.class);
+        for (StatusEmpty tEmpty : empties) {
             impl.combine(tEmpty);
         }
         return impl;
     }
 
-    public MultiStatusError combineMultiStatusError(Class<?> type, Class<?> stoptype) {
-        MultiStatusErrorImpl impl = new MultiStatusErrorImpl();
+    public StatusError combineStatusError(Class<?> type, Class<?> stoptype) {
+        StatusErrorImpl impl = new StatusErrorImpl();
         impl.value = R.layout.af_module_nodata;
         impl.txtId = R.id.module_nodata_description;
-        List<MultiStatusError> empties = getAnnotations(type, stoptype, MultiStatusError.class);
-        for (MultiStatusError tEmpty : empties) {
+        List<StatusError> empties = getAnnotations(type, stoptype, StatusError.class);
+        for (StatusError tEmpty : empties) {
             impl.combine(tEmpty);
         }
         return impl;
     }
 
-    public MultiStatusInvalidNet combineMultiStatusInvalidNet(Class<?> type, Class<?> stoptype) {
-        MultiStatusInvalidNetImpl impl = new MultiStatusInvalidNetImpl();
+    public StatusInvalidNet combineStatusInvalidNet(Class<?> type, Class<?> stoptype) {
+        StatusInvalidNetImpl impl = new StatusInvalidNetImpl();
         impl.value = R.layout.af_module_nodata;
         impl.txtId = R.id.module_nodata_description;
         impl.message = mPager.getContext().getString(R.string.status_invalidnet);
-        List<MultiStatusInvalidNet> empties = getAnnotations(type, stoptype, MultiStatusInvalidNet.class);
-        for (MultiStatusInvalidNet tEmpty : empties) {
+        List<StatusInvalidNet> empties = getAnnotations(type, stoptype, StatusInvalidNet.class);
+        for (StatusInvalidNet tEmpty : empties) {
             impl.combine(tEmpty);
         }
         return impl;
     }
 
-    public MultiStatusProgress combineMultiStatusProgress(Class<?> type, Class<?> stoptype) {
-        MultiStatusProgressImpl impl = new MultiStatusProgressImpl();
+    public StatusProgress combineStatusProgress(Class<?> type, Class<?> stoptype) {
+        StatusProgressImpl impl = new StatusProgressImpl();
         impl.value = R.layout.af_module_progress;
         impl.txtId = R.id.module_progress_loadinfo;
-        List<MultiStatusProgress> empties = getAnnotations(type, stoptype, MultiStatusProgress.class);
-        for (MultiStatusProgress tEmpty : empties) {
+        List<StatusProgress> empties = getAnnotations(type, stoptype, StatusProgress.class);
+        for (StatusProgress tEmpty : empties) {
             impl.combine(tEmpty);
         }
         return impl;
     }
 
-    private static class MultiStatusBaseImpl {
+    private static class StatusBaseImpl {
 
         public int value;
         public int txtId;
         public int btnId;
+        public int messageId;
         public String message;
         protected Class<? extends Annotation> annotationType;
 
-        public MultiStatusBaseImpl(Class<? extends Annotation> annotationType) {
+        public StatusBaseImpl(Class<? extends Annotation> annotationType) {
             this.annotationType = annotationType;
         }
 
@@ -468,6 +473,9 @@ public class AfMultiStatusHelper<T> implements MultiStatusHelper<T> {
         public int btnId() {
             return btnId;
         }
+        public int messageId() {
+            return messageId;
+        }
         public String message() {
             return message;
         }
@@ -476,82 +484,83 @@ public class AfMultiStatusHelper<T> implements MultiStatusHelper<T> {
         }
     }
 
-    private static class MultiStatusEmptyImpl extends MultiStatusBaseImpl implements MultiStatusEmpty {
+    private static class StatusEmptyImpl extends StatusBaseImpl implements StatusEmpty {
 
-        public MultiStatusEmptyImpl() {
-            super(MultiStatusEmpty.class);
+        public StatusEmptyImpl() {
+            super(StatusEmpty.class);
         }
 
-//        public MultiStatusEmptyImpl(MultiStatusEmpty annotation) {
-//            super(MultiStatusEmpty.class);
+//        public StatusEmptyImpl(StatusEmpty annotation) {
+//            super(StatusEmpty.class);
 //            this.value = annotation.value();
 //            this.txtId = annotation.txtId();
 //            this.btnId = annotation.btnId();
 //            this.message = annotation.message();
 //        }
 
-        public void combine(MultiStatusEmpty annotation) {
+        public void combine(StatusEmpty annotation) {
             this.value = annotation.value() > 0 ? annotation.value() : value;
             this.txtId = annotation.txtId() > 0 ? annotation.txtId() : txtId;
             this.btnId = annotation.btnId() > 0 ? annotation.btnId() : btnId;
+            this.messageId = annotation.messageId() > 0 ? annotation.messageId() : messageId;
             this.message = TextUtils.isEmpty(annotation.message()) ? message : annotation.message();
         }
     }
 
-    private static class MultiStatusErrorImpl extends MultiStatusBaseImpl implements MultiStatusError {
+    private static class StatusErrorImpl extends StatusBaseImpl implements StatusError {
 
-        public MultiStatusErrorImpl() {
-            super(MultiStatusError.class);
+        public StatusErrorImpl() {
+            super(StatusError.class);
         }
 
-//        public MultiStatusErrorImpl(MultiStatusError annotation) {
-//            super(MultiStatusError.class);
+//        public StatusErrorImpl(StatusError annotation) {
+//            super(StatusError.class);
 //            this.value = annotation.value();
 //            this.txtId = annotation.txtId();
 //            this.btnId = annotation.btnId();
 //        }
 
-        public void combine(MultiStatusError annotation) {
+        public void combine(StatusError annotation) {
             this.value = annotation.value() > 0 ? annotation.value() : value;
             this.txtId = annotation.txtId() > 0 ? annotation.txtId() : txtId;
             this.btnId = annotation.btnId() > 0 ? annotation.btnId() : btnId;
         }
     }
 
-    private static class MultiStatusInvalidNetImpl extends MultiStatusBaseImpl implements MultiStatusInvalidNet {
+    private static class StatusInvalidNetImpl extends StatusBaseImpl implements StatusInvalidNet {
 
-        public MultiStatusInvalidNetImpl() {
-            super(MultiStatusInvalidNet.class);
+        public StatusInvalidNetImpl() {
+            super(StatusInvalidNet.class);
         }
 
-//        public MultiStatusInvalidNetImpl(MultiStatusInvalidNet annotation) {
-//            super(MultiStatusInvalidNet.class);
+//        public StatusInvalidNetImpl(StatusInvalidNet annotation) {
+//            super(StatusInvalidNet.class);
 //            this.value = annotation.value();
 //            this.txtId = annotation.txtId();
 //            this.btnId = annotation.btnId();
 //        }
 
-        public void combine(MultiStatusInvalidNet annotation) {
+        public void combine(StatusInvalidNet annotation) {
             this.value = annotation.value() > 0 ? annotation.value() : value;
             this.txtId = annotation.txtId() > 0 ? annotation.txtId() : txtId;
             this.btnId = annotation.btnId() > 0 ? annotation.btnId() : btnId;
         }
     }
 
-    private static class MultiStatusProgressImpl extends MultiStatusBaseImpl implements MultiStatusProgress {
+    private static class StatusProgressImpl extends StatusBaseImpl implements StatusProgress {
 
-        public MultiStatusProgressImpl() {
-            super(MultiStatusProgress.class);
+        public StatusProgressImpl() {
+            super(StatusProgress.class);
         }
 
-//        public MultiStatusProgressImpl(MultiStatusProgress annotation) {
-//            super(MultiStatusProgress.class);
+//        public StatusProgressImpl(StatusProgress annotation) {
+//            super(StatusProgress.class);
 //            this.value = annotation.value();
 //            this.txtId = annotation.txtId();
 //            this.message = annotation.message();
 //        }
 
-        public void combine(MultiStatusProgress annotation) {
+        public void combine(StatusProgress annotation) {
             this.value = annotation.value() > 0 ? annotation.value() : value;
             this.txtId = annotation.txtId() > 0 ? annotation.txtId() : txtId;
             this.message = TextUtils.isEmpty(annotation.message()) ? message : annotation.message();

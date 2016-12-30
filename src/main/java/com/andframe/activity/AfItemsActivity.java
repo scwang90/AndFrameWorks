@@ -12,7 +12,7 @@ import com.andframe.api.adapter.ListItemAdapter;
 import com.andframe.api.multistatus.MoreFooter;
 import com.andframe.api.pager.ItemsHelper;
 import com.andframe.api.pager.ItemsPager;
-import com.andframe.api.pager.MultiStatusHelper;
+import com.andframe.api.pager.StatusHelper;
 import com.andframe.api.view.ItemsViewer;
 import com.andframe.api.view.ViewQuery;
 import com.andframe.impl.helper.AfItemsPagerHelper;
@@ -26,14 +26,14 @@ import java.util.List;
  * Created by SCWANG on 2016/10/21.
  */
 
-public abstract class AfItemsActivity<T> extends AfMultiStatusActivity<List<T>> implements ItemsPager<T> {
+public abstract class AfItemsActivity<T> extends AfStatusActivity<List<T>> implements ItemsPager<T> {
 
     protected ListItemAdapter<T> mAdapter;
     protected ItemsHelper<T> mItemsHelper = newItemsHelper();
 
     @NonNull
     @Override
-    protected MultiStatusHelper<List<T>> newHelper() {
+    protected StatusHelper<List<T>> newHelper() {
         return mItemsHelper = newItemsHelper();
     }
 

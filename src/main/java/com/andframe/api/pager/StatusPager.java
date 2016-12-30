@@ -13,7 +13,7 @@ import com.andframe.task.AfHandlerTask;
  * Created by SCWANG on 2016/10/22.
  */
 
-public interface MultiStatusPager<T> extends Pager, OnRefreshListener {
+public interface StatusPager<T> extends Pager, OnRefreshListener {
 
     View findContentView();
 

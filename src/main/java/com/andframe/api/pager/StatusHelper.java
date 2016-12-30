@@ -13,7 +13,7 @@ import com.andframe.task.AfHandlerTask;
  * Created by SCWANG on 2016/10/22.
  */
 
-public interface MultiStatusHelper<T> extends EmptyVerdicter<T> {
+public interface StatusHelper<T> extends EmptyVerdicter<T> {
 
     void onViewCreated() throws Exception;
 

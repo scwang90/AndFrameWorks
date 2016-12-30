@@ -1,4 +1,4 @@
-package com.andframe.annotation.multistatus;
+package com.andframe.annotation.pager.items;
 
 import android.support.annotation.IdRes;
 
@@ -8,11 +8,11 @@ import java.lang.annotation.RetentionPolicy;
 import java.lang.annotation.Target;
 
 /**
- * 页面绑定 ItemsViewer
+ * 标记页面只使用 ItemsViewer 没有  多状态页面（MultiStatus） 也没有 下拉刷新（RefreshLayout）
  * Created by SCWANG on 2016/3/8.
  */
 @Target(ElementType.TYPE)
 @Retention(RetentionPolicy.RUNTIME)
-public @interface MultiItemsViewer {
-    @IdRes int value();
+public @interface ItemsViewerOnly {
+    @IdRes int value() default 0;
 }
