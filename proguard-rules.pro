@@ -20,31 +20,21 @@
 -ignorewarnings
 -keepattributes Signature
 -keepattributes *Annotation*
+-keepattributes SourceFile,LineNumberTable
 -keep class * extends java.lang.annotation.Annotation { *; }
 -keepclasseswithmembernames class * {
     native <methods>;
 }
 
+#retrolambda混淆标记
+-dontwarn java.lang.invoke.*
+
 #andframe混淆标记
--keep class com.andframe.entity.** {<fields>;}
+-keep enum com.andframe.model.** {*;}
 -keep class com.andframe.model.** {<fields>;}
--keep class com.andframe.bean.** {<fields>;}
 
 -keepclassmembers class * {
-    @com.andframe.annotation.view.BindAfterViews *;
-    @com.andframe.annotation.view.BindCheckedChange *;
-    @com.andframe.annotation.view.BindClick *;
-    @com.andframe.annotation.view.BindItemClick *;
-    @com.andframe.annotation.view.BindItemLongClick *;
-    @com.andframe.annotation.view.BindLayout *;
-    @com.andframe.annotation.view.BindLongClick *;
-    @com.andframe.annotation.view.BindView *;
-    @com.andframe.annotation.view.BindViewModule *;
-
-    @com.andframe.annotation.inject.Inject *;
-    @com.andframe.annotation.inject.InjectInit *;
-    @com.andframe.annotation.inject.InjectExtra *;
-    @com.andframe.annotation.inject.InjectDelayed *;
-    @com.andframe.annotation.inject.InjectLayout *;
-    @com.andframe.annotation.inject.InjectQueryChanged *;
+    @com.andframe.annotation.view.* *;
+    @com.andframe.annotation.inject.* *;
 }
+
