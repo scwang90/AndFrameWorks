@@ -6,7 +6,7 @@ import android.support.annotation.StyleRes;
 import android.support.v4.app.Fragment;
 import android.view.View;
 
-import com.andframe.activity.AfMultiItemsActivity;
+import com.andframe.activity.AfItemsActivity;
 import com.andframe.api.adapter.ListItem;
 import com.andframe.api.adapter.ListItemAdapter;
 import com.andframe.api.multistatus.RefreshLayouter;
@@ -22,7 +22,7 @@ import java.util.List;
  *
  * Created by SCWANG on 2016/9/7.
  */
-public abstract class ApMultiItemsActivity<T> extends AfMultiItemsActivity<T> implements ApItemsPager<T> {
+public abstract class ApItemsActivity<T> extends AfItemsActivity<T> implements ApItemsPager<T> {
 
     protected ApItemsHelper<T> mApHelper = new ApItemsHelper<>(this);
 

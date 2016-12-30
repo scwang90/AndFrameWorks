@@ -10,7 +10,7 @@ import com.andframe.api.view.ViewQuery;
 import com.andframe.exception.AfToastException;
 import com.andframe.feature.AfBundle;
 import com.andframe.feature.AfView;
-import com.andframe.fragment.AfMultiItemsFragment;
+import com.andframe.fragment.AfItemsFragment;
 import com.andpack.activity.ApFragmentActivity;
 import com.andpack.api.ApItemsPager;
 import com.andpack.impl.ApItemsHelper;
@@ -21,7 +21,7 @@ import java.util.List;
  *
  * Created by SCWANG on 2016/9/7.
  */
-public abstract class ApMultiItemsFragment<T> extends AfMultiItemsFragment<T> implements ApItemsPager<T> {
+public abstract class ApItemsFragment<T> extends AfItemsFragment<T> implements ApItemsPager<T> {
 
     protected ApItemsHelper<T> mApHelper = new ApItemsHelper<>(this);
 
