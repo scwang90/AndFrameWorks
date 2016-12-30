@@ -1,14 +1,14 @@
-package com.andpack.fragment;
+package com.andpack.activity;
 
 import android.content.Context;
+import android.os.Bundle;
+import android.support.annotation.StyleRes;
 import android.support.v4.app.Fragment;
 import android.view.View;
 
+import com.andframe.activity.AfStatusActivity;
 import com.andframe.api.multistatus.RefreshLayouter;
-import com.andframe.feature.AfBundle;
-import com.andframe.feature.AfView;
-import com.andframe.fragment.AfMultiStatusFragment;
-import com.andpack.activity.ApFragmentActivity;
+import com.andframe.feature.AfIntent;
 import com.andpack.api.ApPager;
 import com.andpack.impl.ApStatusHelper;
 
@@ -17,32 +17,54 @@ import com.andpack.impl.ApStatusHelper;
  * Created by SCWANG on 2016/10/21.
  */
 
-public class ApMultiStatusFragment<T> extends AfMultiStatusFragment<T> implements ApPager {
+public abstract class ApStatusActivity<T> extends AfStatusActivity<T> implements ApPager {
 
     protected ApStatusHelper mApHelper = new ApStatusHelper(this);
 
     @Override
-    protected void onCreate(AfBundle bundle, AfView view) throws Exception {
+    public void setTheme(@StyleRes int resid) {
+        mApHelper.setTheme(resid);
+        super.setTheme(resid);
+    }
+
+    @Override
+    protected void onCreate(Bundle bundle, AfIntent intent) {
         mApHelper.onCreate();
-        super.onCreate(bundle, view);
+        super.onCreate(bundle, intent);
     }
 
     @Override
-    public void onDestroy() {
-        mApHelper.onDestroy();
-        super.onDestroy();
-    }
-
-    @Override
-    public void onDestroyView() {
-        mApHelper.onDestroyView();
-        super.onDestroyView();
-    }
-
-    @Override
-    protected void onViewCreated() throws Exception {
+    public void onViewCreated() throws Exception {
         mApHelper.onViewCreated();
         super.onViewCreated();
+    }
+
+    @Override
+    public View findViewById(int id) {
+        View v = super.findViewById(id);
+        if (v == null)
+            return mApHelper.findViewById(id);
+        return v;
+    }
+
+    @Override
+    protected void onPostCreate(Bundle bundle) {
+        super.onPostCreate(bundle);
+        mApHelper.onPostCreate(bundle);
+    }
+
+    @Override
+    public void finish() {
+        if (mApHelper.finish()) {
+            return;
+        }
+        super.finish();
+    }
+
+    @Override
+    protected void onDestroy() {
+        mApHelper.onDestroy();
+        super.onDestroy();
     }
 
     @Override
@@ -64,23 +86,12 @@ public class ApMultiStatusFragment<T> extends AfMultiStatusFragment<T> implement
     }
 
     @Override
-    public T onTaskLoading() throws Exception {
-        return null;
-    }
-
-    @Override
-    public void onTaskLoaded(T model) {
-
-    }
-
-    @Override
     public void startFragment(Class<? extends Fragment> clazz, Object... args) {
         ApFragmentActivity.start(clazz, args);
     }
 
     @Override
     public void startFragmentForResult(Class<? extends Fragment> clazz, int request, Object... args) {
-        ApFragmentActivity.startResult(this, clazz, request, args);
+        ApFragmentActivity.startResult(clazz, request, args);
     }
-
 }
