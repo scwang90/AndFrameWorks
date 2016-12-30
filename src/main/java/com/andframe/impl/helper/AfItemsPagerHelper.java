@@ -11,7 +11,7 @@ import android.widget.ListView;
 
 import com.andframe.$;
 import com.andframe.R;
-import com.andframe.activity.AfMultiItemsActivity;
+import com.andframe.activity.AfItemsActivity;
 import com.andframe.adapter.AfHeaderFooterAdapter;
 import com.andframe.adapter.AfListAdapter;
 import com.andframe.annotation.mark.MarkCache;
@@ -33,7 +33,7 @@ import com.andframe.api.view.ViewQueryHelper;
 import com.andframe.application.AfApp;
 import com.andframe.caches.AfPrivateCaches;
 import com.andframe.exception.AfExceptionHandler;
-import com.andframe.fragment.AfMultiItemsFragment;
+import com.andframe.fragment.AfItemsFragment;
 import com.andframe.impl.multistatus.MoreFooterLayouter;
 import com.andframe.impl.viewer.ItemsViewerWrapper;
 import com.andframe.impl.viewer.ViewerWarpper;
@@ -184,7 +184,7 @@ public class AfItemsPagerHelper<T> extends AfMultiStatusHelper<List<T>> implemen
         View contentView = super.findContentView();
         mItemsViewer = mItemsPager.findItemsViewer(mItemsPager, contentView);
         if (mItemsViewer != null) {
-            Class<?> stop = mPager instanceof Activity ? AfMultiItemsActivity.class : AfMultiItemsFragment.class;
+            Class<?> stop = mPager instanceof Activity ? AfItemsActivity.class : AfItemsFragment.class;
             mItemsViewerOnly = AfReflecter.getAnnotation(mItemsPager.getClass(), stop, MultiItemsViewerOnly.class);
             if (mItemsViewerOnly == null) {
                 if (contentView != null && contentView != mItemsViewer.getItemsView()) {
@@ -337,7 +337,7 @@ public class AfItemsPagerHelper<T> extends AfMultiStatusHelper<List<T>> implemen
         MarkCache mark = getAnnotation(mItemsPager.getClass(), MarkCache.class);
         if (mark != null) {
             if (mark.value().equals(MarkCache.class)) {
-                Class<?> stop = mPager instanceof Activity ? AfMultiItemsActivity.class : AfMultiItemsFragment.class;
+                Class<?> stop = mPager instanceof Activity ? AfItemsActivity.class : AfItemsFragment.class;
                 mCacheClazz = AfReflecter.getActualTypeArgument(mItemsPager, stop, 0);
             } else {
                 //noinspection unchecked
@@ -421,7 +421,7 @@ public class AfItemsPagerHelper<T> extends AfMultiStatusHelper<List<T>> implemen
         mMoreLayouter.setOnMoreListener(mItemsPager);
         mMoreLayouter.setLoadMoreEnabled(false);
 
-        Class<?> stop = mPager instanceof Activity ? AfMultiItemsActivity.class : AfMultiItemsFragment.class;
+        Class<?> stop = mPager instanceof Activity ? AfItemsActivity.class : AfItemsFragment.class;
         MultiItemsHeader headers = AfReflecter.getAnnotation(mPager.getClass(), stop, MultiItemsHeader.class);
         if (headers != null) {
             for (int id : headers.value()) {
@@ -494,7 +494,7 @@ public class AfItemsPagerHelper<T> extends AfMultiStatusHelper<List<T>> implemen
     @Override
     public ItemsViewer findItemsViewer(ItemsPager<T> pager, View contentView) {
         View itemView;
-        Class<?> stop = mPager instanceof Activity ? AfMultiItemsActivity.class : AfMultiItemsFragment.class;
+        Class<?> stop = mPager instanceof Activity ? AfItemsActivity.class : AfItemsFragment.class;
         MultiItemsViewer viewer = AfReflecter.getAnnotation(pager.getClass(), stop, MultiItemsViewer.class);
         MultiItemsViewerOnly viewerOnly = AfReflecter.getAnnotation(pager.getClass(), stop, MultiItemsViewerOnly.class);
         if (viewer != null) {

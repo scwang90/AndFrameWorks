@@ -26,7 +26,7 @@ import java.util.List;
  * Created by SCWANG on 2016/10/21.
  */
 
-public abstract class AfMultiItemsActivity<T> extends AfMultiStatusActivity<List<T>> implements ItemsPager<T> {
+public abstract class AfItemsActivity<T> extends AfMultiStatusActivity<List<T>> implements ItemsPager<T> {
 
     protected ListItemAdapter<T> mAdapter;
     protected ItemsHelper<T> mItemsHelper = newItemsHelper();

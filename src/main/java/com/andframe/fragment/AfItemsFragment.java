@@ -26,7 +26,7 @@ import java.util.List;
  * Created by SCWANG on 2016/10/21.
  */
 
-public abstract class AfMultiItemsFragment<T> extends AfMultiStatusFragment<List<T>> implements ItemsPager<T> {
+public abstract class AfItemsFragment<T> extends AfMultiStatusFragment<List<T>> implements ItemsPager<T> {
 
     protected ListItemAdapter<T> mAdapter;
     protected ItemsHelper<T> mItemsHelper = newItemsHelper();
