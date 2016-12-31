@@ -1,11 +1,11 @@
-package com.andframe.impl.multistatus;
+package com.andframe.impl.pager.items;
 
 import android.content.DialogInterface.OnCancelListener;
 import android.view.View;
 
-import com.andframe.adapter.listitem.AfListItem;
-import com.andframe.api.multistatus.MoreFooter;
-import com.andframe.api.multistatus.OnMoreListener;
+import com.andframe.adapter.itemviewer.AfItemViewer;
+import com.andframe.api.pager.items.MoreFooter;
+import com.andframe.api.pager.items.OnMoreListener;
 import com.andframe.listener.SafeListener;
 
 
@@ -14,7 +14,7 @@ import com.andframe.listener.SafeListener;
  * Created by SCWANG on 2016/10/21.
  */
 
-public abstract class BaseMoreFooter extends AfListItem<Object> implements MoreFooter {
+public abstract class BaseMoreFooter extends AfItemViewer<Object> implements MoreFooter {
 
     protected OnMoreListener listener;
     protected boolean mEnabled = false;

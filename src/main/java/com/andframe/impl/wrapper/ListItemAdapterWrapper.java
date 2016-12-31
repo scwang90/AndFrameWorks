@@ -12,8 +12,8 @@ import android.widget.WrapperListAdapter;
 import com.andframe.adapter.recycler.DataSetObservable;
 import com.andframe.adapter.recycler.RecyclerBaseAdapter;
 import com.andframe.adapter.recycler.ViewHolderItem;
-import com.andframe.api.adapter.ListItem;
-import com.andframe.api.adapter.ListItemAdapter;
+import com.andframe.api.adapter.ItemViewer;
+import com.andframe.api.adapter.ItemViewerAdapter;
 
 import java.util.Collection;
 import java.util.Comparator;
@@ -31,11 +31,11 @@ import java.util.stream.Stream;
  * Created by SCWANG on 2016/10/29.
  */
 
-public class ListItemAdapterWrapper<T> extends RecyclerBaseAdapter<ViewHolderItem<T>> implements ListItemAdapter<T>, WrapperListAdapter {
+public class ListItemAdapterWrapper<T> extends RecyclerBaseAdapter<ViewHolderItem<T>> implements ItemViewerAdapter<T>, WrapperListAdapter {
 
-    protected ListItemAdapter<T> wrapped;
+    protected ItemViewerAdapter<T> wrapped;
 
-    public ListItemAdapterWrapper(ListItemAdapter<T> wrapped) {
+    public ListItemAdapterWrapper(ItemViewerAdapter<T> wrapped) {
         this.wrapped = wrapped;
         //为特殊 Warpper 做准备
         mDataSetObservable = new DataSetObservableWrapper(this);
@@ -123,18 +123,19 @@ public class ListItemAdapterWrapper<T> extends RecyclerBaseAdapter<ViewHolderIte
 //        return wrapped.isDataSync();
 //    }
 
+    @NonNull
     @Override
-    public ListItem<T> newListItem(int viewType) {
-        return wrapped.newListItem(viewType);
+    public ItemViewer<T> newItemViewer(int viewType) {
+        return wrapped.newItemViewer(viewType);
     }
 
     @Override
-    public View onInflateItem(ListItem<T> item, ViewGroup parent) {
-        return wrapped.onInflateItem(item, parent);
+    public View inflateItem(ItemViewer<T> item, ViewGroup parent) {
+        return wrapped.inflateItem(item, parent);
     }
 
     @Override
-    public void bindingItem(View view, ListItem<T> item, int index) {
+    public void bindingItem(View view, ItemViewer<T> item, int index) {
         wrapped.bindingItem(view, item, index);
     }
 
@@ -158,6 +159,7 @@ public class ListItemAdapterWrapper<T> extends RecyclerBaseAdapter<ViewHolderIte
         return wrapped.getItemCount();
     }
 
+    @NonNull
     @Override
     public List<T> getList() {
         return wrapped.getList();
@@ -174,7 +176,7 @@ public class ListItemAdapterWrapper<T> extends RecyclerBaseAdapter<ViewHolderIte
     }
 
     @Override
-    public void set(List<T> list) {
+    public void set(@NonNull List<T> list) {
         wrapped.set(list);
     }
     //</editor-fold>

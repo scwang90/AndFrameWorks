@@ -6,12 +6,14 @@ import android.support.annotation.NonNull;
 import android.view.View;
 
 import com.andframe.annotation.view.BindViewCreated;
-import com.andframe.api.multistatus.RefreshLayouter;
-import com.andframe.api.multistatus.StatusLayouter;
-import com.andframe.api.pager.StatusHelper;
-import com.andframe.api.pager.StatusPager;
+import com.andframe.api.pager.status.RefreshLayouter;
+import com.andframe.api.pager.status.StatusHelper;
+import com.andframe.api.pager.status.StatusLayouter;
+import com.andframe.api.pager.status.StatusPager;
+import com.andframe.api.task.Task;
 import com.andframe.impl.helper.AfStatusHelper;
-import com.andframe.task.AfHandlerTask;
+
+import java.util.Date;
 
 /**
  * 多状态页面支持
@@ -30,8 +32,18 @@ public abstract class AfStatusFragment<T> extends AfTabFragment implements Statu
     }
 
     @BindViewCreated@CallSuper
-    protected void onViewCreated() throws Exception {
+    public void onViewCreated() throws Exception {
         mHelper.onViewCreated();
+    }
+
+    @Override
+    public void setLoadTaskOnViewCreated(boolean loadOrNot) {
+        mHelper.setLoadTaskOnViewCreated(loadOrNot);
+    }
+
+    @Override
+    public void setLastRefreshTime(@NonNull Date time) {
+        mHelper.setLastRefreshTime(time);
     }
 
     //<editor-fold desc="初始化布局">
@@ -47,10 +59,12 @@ public abstract class AfStatusFragment<T> extends AfTabFragment implements Statu
         return mStatusLayouter = mHelper.initStatusLayout(content);
     }
 
+    @NonNull
     public StatusLayouter newStatusLayouter(Context context) {
         return mStatusLayouter = mHelper.newStatusLayouter(context);
     }
 
+    @NonNull
     public RefreshLayouter newRefreshLayouter(Context context) {
         return mRefreshLayouter = mHelper.newRefreshLayouter(context);
     }
@@ -76,7 +90,7 @@ public abstract class AfStatusFragment<T> extends AfTabFragment implements Statu
         mHelper.onTaskFinish(data);
     }
 
-    public void onTaskFailed(AfHandlerTask task) {
+    public void onTaskFailed(@NonNull Task task) {
         mHelper.onTaskFailed(task);
     }
 
@@ -113,11 +127,11 @@ public abstract class AfStatusFragment<T> extends AfTabFragment implements Statu
         mHelper.showProgress();
     }
 
-    public void showError(String error) {
+    public void showError(@NonNull String error) {
         mHelper.showError(error);
     }
 
-    public void showProgress(String progress) {
+    public void showProgress(@NonNull String progress) {
         mHelper.showProgress(progress);
     }
     //</editor-fold>

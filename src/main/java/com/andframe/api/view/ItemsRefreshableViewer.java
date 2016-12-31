@@ -2,7 +2,7 @@ package com.andframe.api.view;
 
 import android.view.ViewGroup;
 
-import com.andframe.api.multistatus.OnRefreshListener;
+import com.andframe.api.pager.status.OnRefreshListener;
 
 import java.util.Date;
 

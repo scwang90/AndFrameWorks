@@ -9,7 +9,7 @@ import android.widget.GridView;
 import android.widget.ListAdapter;
 import android.widget.ListView;
 
-import com.andframe.api.multistatus.OnScrollToBottomListener;
+import com.andframe.api.pager.items.OnScrollToBottomListener;
 import com.andframe.api.view.ItemsViewer;
 import com.andframe.api.view.Viewer;
 

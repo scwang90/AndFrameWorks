@@ -1,4 +1,4 @@
-package com.andframe.adapter.listitem;
+package com.andframe.adapter.itemviewer;
 
 import android.content.Context;
 import android.view.LayoutInflater;
@@ -8,7 +8,7 @@ import android.view.ViewGroup;
 import com.andframe.annotation.interpreter.Injecter;
 import com.andframe.annotation.interpreter.LayoutBinder;
 import com.andframe.annotation.interpreter.ViewBinder;
-import com.andframe.api.adapter.ListItem;
+import com.andframe.api.adapter.ItemViewer;
 import com.andframe.api.view.ViewQuery;
 import com.andframe.api.view.ViewQueryHelper;
 import com.andframe.api.view.Viewer;
@@ -20,7 +20,7 @@ import com.andframe.impl.helper.AfViewQueryHelper;
  * 通用列表ITEM
  * @param <T>
  */
-public abstract class AfListItem<T> implements ListItem<T>, Viewer, ViewQueryHelper {
+public abstract class AfItemViewer<T> implements ItemViewer<T>, Viewer, ViewQueryHelper {
 	
 	private int layoutId;
 
@@ -28,10 +28,10 @@ public abstract class AfListItem<T> implements ListItem<T>, Viewer, ViewQueryHel
 	protected int mIndex;
 	protected View mLayout;
 
-	public AfListItem() {
+	public AfItemViewer() {
 	}
 	
-	public AfListItem(int layoutId) {
+	public AfItemViewer(int layoutId) {
 		this.layoutId = layoutId;
 	}
 

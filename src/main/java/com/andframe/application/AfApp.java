@@ -12,14 +12,15 @@ import android.content.res.Resources;
 import android.os.Bundle;
 import android.os.Environment;
 import android.support.annotation.CallSuper;
+import android.support.annotation.NonNull;
 import android.util.Log;
 
 import com.andframe.BuildConfig;
 import com.andframe.api.DialogBuilder;
-import com.andframe.api.multistatus.MoreFooter;
-import com.andframe.api.multistatus.RefreshLayouter;
-import com.andframe.api.multistatus.StatusLayouter;
 import com.andframe.api.pager.PagerManager;
+import com.andframe.api.pager.items.MoreFooter;
+import com.andframe.api.pager.status.RefreshLayouter;
+import com.andframe.api.pager.status.StatusLayouter;
 import com.andframe.api.task.TaskExecutor;
 import com.andframe.api.view.ViewQuery;
 import com.andframe.api.view.Viewer;
@@ -28,9 +29,9 @@ import com.andframe.exception.AfExceptionHandler;
 import com.andframe.exception.AfToastException;
 import com.andframe.feature.AfDialogBuilder;
 import com.andframe.feature.AfViewQuery;
-import com.andframe.impl.multistatus.DefaultMoreFooter;
-import com.andframe.impl.multistatus.DefaultRefreshLayouter;
-import com.andframe.impl.multistatus.DefaultStatusLayouter;
+import com.andframe.impl.pager.items.DefaultMoreFooter;
+import com.andframe.impl.pager.status.DefaultRefreshLayouter;
+import com.andframe.impl.pager.status.DefaultStatusLayouter;
 import com.andframe.impl.pager.AfPagerManager;
 import com.andframe.task.AfTaskExecutor;
 import com.andframe.util.java.AfReflecter;
@@ -403,10 +404,12 @@ public abstract class AfApp extends Application {
 		return new AfDialogBuilder(context);
 	}
 
+	@NonNull
 	public RefreshLayouter newRefreshLayouter(Context context) {
 		return new DefaultRefreshLayouter(context);
 	}
 
+	@NonNull
 	public StatusLayouter newStatusLayouter(Context context) {
 		return new DefaultStatusLayouter(context);
 	}

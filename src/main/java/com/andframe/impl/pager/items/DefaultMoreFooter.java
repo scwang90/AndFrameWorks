@@ -1,11 +1,11 @@
-package com.andframe.impl.multistatus;
+package com.andframe.impl.pager.items;
 
 import android.widget.ProgressBar;
 import android.widget.TextView;
 
 import com.andframe.R;
 import com.andframe.annotation.view.BindView;
-import com.andframe.api.multistatus.MoreFooter;
+import com.andframe.api.pager.items.MoreFooter;
 
 
 /**

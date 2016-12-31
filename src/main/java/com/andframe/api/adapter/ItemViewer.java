@@ -4,7 +4,7 @@ import android.content.Context;
 import android.view.View;
 import android.view.ViewGroup;
 
-public interface ListItem<T> {
+public interface ItemViewer<T> /*extends Viewer*/ {
     /**
      * 将数据绑定到控件显示
      */

@@ -6,17 +6,18 @@ import android.view.View;
 import android.widget.AdapterView;
 import android.widget.ListAdapter;
 
-import com.andframe.adapter.AfHeaderFooterAdapter;
-import com.andframe.api.adapter.ListItem;
-import com.andframe.api.adapter.ListItemAdapter;
-import com.andframe.api.multistatus.MoreFooter;
-import com.andframe.api.pager.ItemsHelper;
-import com.andframe.api.pager.ItemsPager;
-import com.andframe.api.pager.StatusHelper;
+import com.andframe.annotation.mark.MarkCache;
+import com.andframe.api.adapter.HeaderFooterAdapter;
+import com.andframe.api.adapter.ItemViewer;
+import com.andframe.api.adapter.ItemViewerAdapter;
+import com.andframe.api.pager.items.ItemsHelper;
+import com.andframe.api.pager.items.ItemsPager;
+import com.andframe.api.pager.items.MoreFooter;
+import com.andframe.api.pager.status.StatusHelper;
+import com.andframe.api.task.Task;
 import com.andframe.api.view.ItemsViewer;
 import com.andframe.api.view.ViewQuery;
 import com.andframe.impl.helper.AfItemsPagerHelper;
-import com.andframe.task.AfHandlerTask;
 
 import java.util.Date;
 import java.util.List;
@@ -28,7 +29,7 @@ import java.util.List;
 
 public abstract class AfItemsFragment<T> extends AfStatusFragment<List<T>> implements ItemsPager<T> {
 
-    protected ListItemAdapter<T> mAdapter;
+    protected ItemViewerAdapter<T> mAdapter;
     protected ItemsHelper<T> mItemsHelper = newItemsHelper();
 
     @NonNull
@@ -84,6 +85,7 @@ public abstract class AfItemsFragment<T> extends AfStatusFragment<List<T>> imple
      * @param pager 页面对象
      * @return pager.findListViewById(id)
      */
+    @NonNull
     @Override
     public ItemsViewer findItemsViewer(ItemsPager<T> pager, View contentView) {
         return mItemsHelper.findItemsViewer(pager, contentView);
@@ -94,10 +96,11 @@ public abstract class AfItemsFragment<T> extends AfStatusFragment<List<T>> imple
      * 获取列表项布局Item
      * 如果重写 newAdapter 之后，本方法将无效
      *
-     * @return 实现 布局接口 ListItem 的Item兑现
-     * new LayoutItem implements ListItem<T>(){}
+     * @return 实现 布局接口 ItemViewer 的Item兑现
+     * new LayoutItem implements ItemViewer<T>(){}
      */
-    public abstract ListItem<T> newListItem(int viewType);
+    @NonNull
+    public abstract ItemViewer<T> newItemViewer(int viewType);
 
     /**
      * 获取指定数据的视图Item类型
@@ -168,7 +171,7 @@ public abstract class AfItemsFragment<T> extends AfStatusFragment<List<T>> imple
     }
 
     @Override
-    public void setLastRefreshTime(Date time) {
+    public void setLastRefreshTime(@NonNull Date time) {
         mItemsHelper.setLastRefreshTime(time);
     }
 
@@ -192,18 +195,20 @@ public abstract class AfItemsFragment<T> extends AfStatusFragment<List<T>> imple
         mItemsHelper.clearCache();
     }
 
+    @NonNull
     @Override
     public Date getCacheTime() {
         return mItemsHelper.getCacheTime();
     }
 
+    @NonNull
     @Override
-    public String getCacheKey() {
-        return null;
+    public String getCacheKey(MarkCache mark) {
+        return mItemsHelper.getCacheKey(mark);
     }
 
     @Override
-    public void putCache(List<T> list) {
+    public void putCache(@NonNull List<T> list) {
         mItemsHelper.putCache(list);
     }
 
@@ -222,7 +227,7 @@ public abstract class AfItemsFragment<T> extends AfStatusFragment<List<T>> imple
      * @return false 数据加载完毕，关闭加载更多功能 true 数据还未加载完，开启加载功能功能
      */
     @Override
-    public boolean setMoreShow(AfHandlerTask task, List<T> list) {
+    public boolean setMoreShow(@NonNull Task task, List<T> list) {
         return mItemsHelper.setMoreShow(task, list);
     }
 
@@ -251,8 +256,9 @@ public abstract class AfItemsFragment<T> extends AfStatusFragment<List<T>> imple
     /**
      * 初始化 适配器（内部调用 newAdapter）
      */
+    @NonNull
     @Override
-    public ListItemAdapter<T> initAdapter() {
+    public ItemViewerAdapter<T> initAdapter() {
         return mItemsHelper.initAdapter();
     }
 
@@ -263,8 +269,9 @@ public abstract class AfItemsFragment<T> extends AfStatusFragment<List<T>> imple
      * @param list  完成加载数据
      * @return 新的适配器
      */
+    @NonNull
     @Override
-    public ListItemAdapter<T> newAdapter(Context context, List<T> list) {
+    public ItemViewerAdapter<T> newAdapter(@NonNull Context context, @NonNull List<T> list) {
         return mAdapter = mItemsHelper.newAdapter(context, list);
     }
 
@@ -273,7 +280,7 @@ public abstract class AfItemsFragment<T> extends AfStatusFragment<List<T>> imple
      * （在bindAdapter之前执行）
      */
     @Override
-    public void bindListHeaderAndFooter(AfHeaderFooterAdapter<T> adapter) {
+    public void bindListHeaderAndFooter(HeaderFooterAdapter<T> adapter) {
         mItemsHelper.bindListHeaderAndFooter(adapter);
     }
 
@@ -283,7 +290,7 @@ public abstract class AfItemsFragment<T> extends AfStatusFragment<List<T>> imple
      * @param adapter 适配器
      */
     @Override
-    public void bindAdapter(ItemsViewer listView, ListAdapter adapter) {
+    public void bindAdapter(@NonNull ItemsViewer listView, @NonNull ListAdapter adapter) {
         mItemsHelper.bindAdapter(listView, adapter);
     }
 
@@ -315,24 +322,24 @@ public abstract class AfItemsFragment<T> extends AfStatusFragment<List<T>> imple
 
     //<editor-fold desc="任务完成">
     @Override
-    public void onTaskLoadedCache(AfHandlerTask task, List<T> list) {
+    public void onTaskLoadedCache(@NonNull Task task, List<T> list) {
         mItemsHelper.onTaskLoadedCache(task, list);
     }
 
     @Override
-    public void onTaskLoadedRefresh(AfHandlerTask task, List<T> list) {
+    public void onTaskLoadedRefresh(@NonNull Task task, List<T> list) {
         mItemsHelper.onTaskLoadedRefresh(task, list);
     }
 
     @Override
-    public void onTaskLoadedMore(AfHandlerTask task, List<T> list) {
+    public void onTaskLoadedMore(@NonNull Task task, List<T> list) {
         mItemsHelper.onTaskLoadedMore(task, list);
     }
     //</editor-fold>
 
     //<editor-fold desc="父类任务">
     @Override
-    public final void onTaskFailed(AfHandlerTask task) {
+    public final void onTaskFailed(@NonNull Task task) {
         super.onTaskFailed(task);
     }
 
@@ -347,7 +354,7 @@ public abstract class AfItemsFragment<T> extends AfStatusFragment<List<T>> imple
     }
 
     @Override
-    public final void onTaskLoaded(List<T> data) {
+    public final void onTaskLoaded(@NonNull List<T> data) {
     }
     //</editor-fold>
 

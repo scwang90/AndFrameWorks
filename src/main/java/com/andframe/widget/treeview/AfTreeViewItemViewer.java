@@ -7,13 +7,13 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.LinearLayout;
 
-import com.andframe.widget.multichoice.AfMultiChoiceItem;
+import com.andframe.widget.multichoice.AfMultiChoiceItemViewer;
 
 import static android.view.ViewGroup.LayoutParams.MATCH_PARENT;
 
 
 @SuppressWarnings("unused")
-public abstract class AfTreeViewItem<T> extends AfMultiChoiceItem<T> {
+public abstract class AfTreeViewItemViewer<T> extends AfMultiChoiceItemViewer<T> {
 
     protected int retract = 35;
     protected AfTreeNode<T> mNode = null;
@@ -21,10 +21,10 @@ public abstract class AfTreeViewItem<T> extends AfMultiChoiceItem<T> {
     protected LinearLayout mTreeViewLayout = null;
     protected AfTreeViewAdapter<T> mTreeViewAdapter = null;
 
-    public AfTreeViewItem() {
+    public AfTreeViewItemViewer() {
     }
 
-    public AfTreeViewItem(int layoutId) {
+    public AfTreeViewItemViewer(int layoutId) {
         super(layoutId);
     }
 

@@ -5,8 +5,7 @@ import android.view.ViewGroup;
 import android.widget.AdapterView;
 import android.widget.ListAdapter;
 
-import com.andframe.api.multistatus.OnScrollToBottomListener;
-
+import com.andframe.api.pager.items.OnScrollToBottomListener;
 
 /**
  * 对 多项控件（listview gridview recyclerview 或其他）  的抽象接口

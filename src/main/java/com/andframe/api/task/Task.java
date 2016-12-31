@@ -7,6 +7,8 @@ package com.andframe.api.task;
 
 public interface Task extends Runnable {
 
+
+
     /**
      * 任务状态
      */
@@ -18,7 +20,6 @@ public interface Task extends Runnable {
         finished,   //已完成
         failed,     //已失败
     }
-
     /**
      * 准备任务
      * @return true 状态变为 prepared 即将被执行 false 状态变为 canceld 将不会被执行
@@ -48,4 +49,14 @@ public interface Task extends Runnable {
      */
     Throwable exception();
 
+    /**
+     * 获取错误提示信息
+     * @param string 默认提示信息
+     */
+    String makeErrorToast(String string);
+
+    /**
+     * 通过任务的状态判断任务是否成功执行完成
+     */
+    boolean isFinish();
 }

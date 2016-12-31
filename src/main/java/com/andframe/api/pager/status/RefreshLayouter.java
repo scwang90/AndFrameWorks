@@ -1,4 +1,4 @@
-package com.andframe.api.multistatus;
+package com.andframe.api.pager.status;
 
 import android.view.View;
 import android.view.ViewGroup;

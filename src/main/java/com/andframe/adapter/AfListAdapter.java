@@ -5,11 +5,11 @@ import android.support.annotation.NonNull;
 import android.view.View;
 import android.view.ViewGroup;
 
-import com.andframe.adapter.listitem.AfListItem;
+import com.andframe.adapter.itemviewer.AfItemViewer;
 import com.andframe.adapter.recycler.RecyclerBaseAdapter;
 import com.andframe.adapter.recycler.ViewHolderItem;
-import com.andframe.api.adapter.ListItem;
-import com.andframe.api.adapter.ListItemAdapter;
+import com.andframe.api.adapter.ItemViewer;
+import com.andframe.api.adapter.ItemViewerAdapter;
 import com.andframe.exception.AfExceptionHandler;
 
 import java.util.ArrayList;
@@ -23,7 +23,7 @@ import java.util.ListIterator;
  *
  * @param <T>
  */
-public abstract class AfListAdapter<T> extends RecyclerBaseAdapter<ViewHolderItem<T>> implements ListItemAdapter<T> {
+public abstract class AfListAdapter<T> extends RecyclerBaseAdapter<ViewHolderItem<T>> implements ItemViewerAdapter<T> {
 
     //<editor-fold desc="属性字段">
     protected boolean mDataSync;
@@ -51,7 +51,8 @@ public abstract class AfListAdapter<T> extends RecyclerBaseAdapter<ViewHolderIte
     //</editor-fold>
 
     //<editor-fold desc="子类实现">
-    public abstract ListItem<T> newListItem(int viewType);
+    @NonNull
+    public abstract ItemViewer<T> newItemViewer(int viewType);
     //</editor-fold>
 
     //<editor-fold desc="集合操作">
@@ -78,8 +79,11 @@ public abstract class AfListAdapter<T> extends RecyclerBaseAdapter<ViewHolderIte
     /**
      * 适配器新增 数据刷新 接口
      */
-    public void set(List<T> list) {
+    public void set(@NonNull List<T> list) {
         if (mDataSync) {
+            if (list instanceof AfListAdapter) {
+                list = ((AfListAdapter<T>) list).getList();
+            }
             mltArray = list;
         } else {
             mltArray = new ArrayList<>(list);
@@ -250,6 +254,7 @@ public abstract class AfListAdapter<T> extends RecyclerBaseAdapter<ViewHolderIte
         return mDataSync;
     }
 
+    @NonNull
     @Override
     public List<T> getList() {
         if (mDataSync) {
@@ -262,15 +267,14 @@ public abstract class AfListAdapter<T> extends RecyclerBaseAdapter<ViewHolderIte
     @Override
     public ViewHolderItem<T> onCreateViewHolder(ViewGroup parent, int viewType) {
         try {
-            ListItem<T> item = newListItem(viewType);
-            View view = onInflateItem(item, parent);
+            ItemViewer<T> item = newItemViewer(viewType);
+            View view = inflateItem(item, parent);
             return new ViewHolderItem<>(item, view);
         } catch (Throwable e) {
             AfExceptionHandler.handle(e, "AfListAdapter.onCreateViewHolder");
-            return new ViewHolderItem<>(new AfListItem<T>() {
+            return new ViewHolderItem<>(new AfItemViewer<T>() {
                 @Override
                 public void onBinding(T model, int index) {
-
                 }
             }, new View(parent.getContext()));
         }
@@ -296,12 +300,12 @@ public abstract class AfListAdapter<T> extends RecyclerBaseAdapter<ViewHolderIte
     }
 
     @Override
-    public View onInflateItem(ListItem<T> item, ViewGroup parent) {
+    public View inflateItem(ItemViewer<T> item, ViewGroup parent) {
         return item.onCreateView(mContext, parent);
     }
 
     @Override
-    public void bindingItem(View view, ListItem<T> item, int index) {
+    public void bindingItem(View view, ItemViewer<T> item, int index) {
         item.onBinding(view, get(index), index);
     }
 

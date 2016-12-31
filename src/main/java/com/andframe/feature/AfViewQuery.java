@@ -46,7 +46,7 @@ import android.widget.SeekBar;
 import android.widget.Spinner;
 import android.widget.TextView;
 
-import com.andframe.adapter.AfListLayoutItemAdapter;
+import com.andframe.adapter.AfLayoutItemViewerAdapter;
 import com.andframe.api.view.ViewQuery;
 import com.andframe.api.view.Viewer;
 import com.andframe.listener.SafeListener;
@@ -1770,7 +1770,7 @@ public class AfViewQuery<T extends AfViewQuery<T>> implements ViewQuery<T> {
     @SuppressWarnings("unchecked")
     @Override
     public <TT> T adapter(@LayoutRes int id, List<TT> list, AdapterItemer<TT> itemer) {
-        return foreach(AdapterView.class, (ViewEacher<AdapterView>) (view) -> view.setAdapter(new AfListLayoutItemAdapter<TT>(id,view.getContext(),list) {
+        return foreach(AdapterView.class, (ViewEacher<AdapterView>) (view) -> view.setAdapter(new AfLayoutItemViewerAdapter<TT>(id, view.getContext(), list) {
             @Override
             protected void onBinding(ViewQuery<? extends ViewQuery> $, TT model, int index) {
                 itemer.onBinding($, model, index);

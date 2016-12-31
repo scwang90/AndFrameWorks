@@ -1,4 +1,4 @@
-package com.andframe.adapter.listitem;
+package com.andframe.adapter.itemviewer;
 
 import android.graphics.Bitmap;
 import android.graphics.drawable.Drawable;
@@ -8,7 +8,7 @@ import android.widget.TextView;
 
 import com.andframe.util.java.AfDateFormat;
 import com.andframe.util.java.AfReflecter;
-import com.andframe.widget.treeview.AfTreeViewItem;
+import com.andframe.widget.treeview.AfTreeViewItemViewer;
 
 import java.util.Date;
 import java.util.LinkedHashMap;
@@ -16,17 +16,17 @@ import java.util.Map.Entry;
 import java.util.Set;
 
 @SuppressWarnings("unused")
-public class AfBindItem<T> extends AfTreeViewItem<T> {
+public class AfBindItemViewer<T> extends AfTreeViewItemViewer<T> {
 
     View[] bindViews = null;
     BindItemMap bindMap;
 
-    public AfBindItem(int layoutId, BindItemMap bindMap) {
+    public AfBindItemViewer(int layoutId, BindItemMap bindMap) {
         super(layoutId);
         this.bindMap = bindMap;
     }
 
-    public AfBindItem(int layoutId, Object... binds) {
+    public AfBindItemViewer(int layoutId, Object... binds) {
         super(layoutId);
         this.bindMap = new BindItemMap(binds);
     }

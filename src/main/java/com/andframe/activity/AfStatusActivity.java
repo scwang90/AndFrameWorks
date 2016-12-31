@@ -6,12 +6,12 @@ import android.support.annotation.NonNull;
 import android.view.View;
 
 import com.andframe.annotation.view.BindViewCreated;
-import com.andframe.api.multistatus.RefreshLayouter;
-import com.andframe.api.multistatus.StatusLayouter;
-import com.andframe.api.pager.StatusHelper;
-import com.andframe.api.pager.StatusPager;
+import com.andframe.api.pager.status.RefreshLayouter;
+import com.andframe.api.pager.status.StatusHelper;
+import com.andframe.api.pager.status.StatusLayouter;
+import com.andframe.api.pager.status.StatusPager;
+import com.andframe.api.task.Task;
 import com.andframe.impl.helper.AfStatusHelper;
-import com.andframe.task.AfHandlerTask;
 
 /**
  * 多状态页面支持
@@ -31,7 +31,7 @@ public abstract class AfStatusActivity<T> extends AfActivity implements StatusPa
     }
 
     @BindViewCreated@CallSuper
-    protected void onViewCreated() throws Exception {
+    public void onViewCreated() throws Exception {
         mHelper.onViewCreated();
     }
 
@@ -52,10 +52,12 @@ public abstract class AfStatusActivity<T> extends AfActivity implements StatusPa
         return mStatusLayouter = mHelper.initStatusLayout(content);
     }
 
+    @NonNull
     public StatusLayouter newStatusLayouter(Context context) {
         return mStatusLayouter = mHelper.newStatusLayouter(context);
     }
 
+    @NonNull
     public RefreshLayouter newRefreshLayouter(Context context) {
         return mRefreshLayouter = mHelper.newRefreshLayouter(context);
     }
@@ -77,7 +79,7 @@ public abstract class AfStatusActivity<T> extends AfActivity implements StatusPa
         mHelper.onTaskFinish(data);
     }
 
-    public void onTaskFailed(AfHandlerTask task) {
+    public void onTaskFailed(@NonNull Task task) {
         mHelper.onTaskFailed(task);
     }
 
@@ -115,7 +117,7 @@ public abstract class AfStatusActivity<T> extends AfActivity implements StatusPa
         mHelper.showProgress();
     }
 
-    public void showError(String error) {
+    public void showError(@NonNull String error) {
         mHelper.showError(error);
     }
     //</editor-fold>

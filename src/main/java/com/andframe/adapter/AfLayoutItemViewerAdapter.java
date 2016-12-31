@@ -7,7 +7,6 @@ import android.view.View;
 import android.view.ViewGroup;
 
 import com.andframe.annotation.interpreter.LayoutBinder;
-import com.andframe.fragment.AfFragment;
 
 import java.util.List;
 
@@ -16,32 +15,32 @@ import java.util.List;
  * Created by SCWANG on 2016/9/2.
  */
 @SuppressWarnings("unused")
-public abstract class AfListLayoutItemAdapter<T> extends AfListItemAdapter<T> {
+public abstract class AfLayoutItemViewerAdapter<T> extends AfItemViewerAdapter<T> {
 
     int mLayoutId = -1;
 
-    public AfListLayoutItemAdapter(Context context, List<T> ltdata) {
+    public AfLayoutItemViewerAdapter(Context context, List<T> ltdata) {
         super(context, ltdata);
         initLayout(context);
     }
 
-    public AfListLayoutItemAdapter(Context context, List<T> ltdata, boolean dataSync) {
+    public AfLayoutItemViewerAdapter(Context context, List<T> ltdata, boolean dataSync) {
         super(context, ltdata, dataSync);
         initLayout(context);
     }
 
-    public AfListLayoutItemAdapter(@LayoutRes int layoutId, Context context, List<T> ltdata) {
+    public AfLayoutItemViewerAdapter(@LayoutRes int layoutId, Context context, List<T> ltdata) {
         super(context, ltdata);
         mLayoutId = layoutId;
     }
 
-    public AfListLayoutItemAdapter(@LayoutRes int layoutId, Context context, List<T> ltdata, boolean dataSync) {
+    public AfLayoutItemViewerAdapter(@LayoutRes int layoutId, Context context, List<T> ltdata, boolean dataSync) {
         super(context, ltdata, dataSync);
         mLayoutId = layoutId;
     }
 
     protected void initLayout(Context context) {
-        int layoutId = LayoutBinder.getBindLayoutId(this, context, AfListLayoutItemAdapter.class);
+        int layoutId = LayoutBinder.getBindLayoutId(this, context, AfLayoutItemViewerAdapter.class);
         if (layoutId > 0) {
             mLayoutId = layoutId;
         } else {

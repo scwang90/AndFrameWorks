@@ -1,10 +1,11 @@
 package com.andframe.adapter;
 
 import android.content.Context;
+import android.support.annotation.NonNull;
 import android.view.View;
 import android.view.ViewGroup;
 
-import com.andframe.api.adapter.ListItem;
+import com.andframe.api.adapter.ItemViewer;
 import com.andframe.api.view.ViewQuery;
 import com.andframe.application.AfApp;
 import com.andframe.impl.viewer.ViewerWarpper;
@@ -16,29 +17,30 @@ import java.util.List;
  * Created by SCWANG on 2016/9/2.
  */
 @SuppressWarnings("unused")
-public abstract class AfListItemAdapter<T> extends AfListAdapter<T> implements ListItem<T> {
+public abstract class AfItemViewerAdapter<T> extends AfListAdapter<T> implements ItemViewer<T> {
 
-    public AfListItemAdapter(Context context, List<T> ltdata) {
+    public AfItemViewerAdapter(Context context, List<T> ltdata) {
         super(context, ltdata);
     }
 
-    public AfListItemAdapter(Context context, List<T> ltdata, boolean dataSync) {
+    public AfItemViewerAdapter(Context context, List<T> ltdata, boolean dataSync) {
         super(context, ltdata, dataSync);
     }
 
+    @NonNull
     @Override
-    public ListItem<T> newListItem(int viewType) {
+    public ItemViewer<T> newItemViewer(int viewType) {
         return this;
     }
 
     @Override
     public View onCreateView(Context context, ViewGroup parent) {
-        return AfListItemAdapter.this.onCreateItemView(context, parent);
+        return onCreateItemView(context, parent);
     }
 
     @Override
     public void onBinding(View view, T model, int index) {
-        AfListItemAdapter.this.onBinding(AfApp.get().newViewQuery(new ViewerWarpper(view)), model, index);
+        onBinding(AfApp.get().newViewQuery(new ViewerWarpper(view)), model, index);
     }
 
     /**

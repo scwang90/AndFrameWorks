@@ -1,10 +1,10 @@
-package com.andframe.adapter.listitem;
+package com.andframe.adapter.itemviewer;
 
 import android.content.Context;
 import android.view.View;
 import android.view.ViewGroup;
 
-import com.andframe.api.adapter.ListItem;
+import com.andframe.api.adapter.ItemViewer;
 import com.andframe.api.ModelConvertor;
 
 /**
@@ -14,13 +14,13 @@ import com.andframe.api.ModelConvertor;
  * @param <To> 可以适配的模板
  */
 @SuppressWarnings("unused")
-public abstract class AfListItemModelConvert<From, To> implements ListItem<From>, ModelConvertor<From, To> {
+public abstract class AfItemViewerModelConvert<From, To> implements ItemViewer<From>, ModelConvertor<From, To> {
 	
-	private ListItem<To> item;
+	private ItemViewer<To> item;
 	/**
 	 * 一个可以适配页面的布局
 	 */
-	public AfListItemModelConvert(ListItem<To> item) {
+	public AfItemViewerModelConvert(ItemViewer<To> item) {
 		this.item = item;
 	}
 

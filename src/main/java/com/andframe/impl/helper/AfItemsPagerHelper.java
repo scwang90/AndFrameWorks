@@ -3,6 +3,7 @@ package com.andframe.impl.helper;
 import android.app.Activity;
 import android.content.Context;
 import android.database.DataSetObserver;
+import android.support.annotation.NonNull;
 import android.text.TextUtils;
 import android.view.View;
 import android.widget.AdapterView;
@@ -21,24 +22,25 @@ import com.andframe.annotation.pager.items.ItemsViewer;
 import com.andframe.annotation.pager.items.ItemsViewerOnly;
 import com.andframe.annotation.pager.status.StatusContentViewId;
 import com.andframe.annotation.pager.status.StatusContentViewType;
-import com.andframe.api.adapter.ListItem;
-import com.andframe.api.adapter.ListItemAdapter;
-import com.andframe.api.multistatus.MoreFooter;
-import com.andframe.api.multistatus.MoreLayouter;
-import com.andframe.api.pager.ItemsHelper;
-import com.andframe.api.pager.ItemsPager;
+import com.andframe.api.adapter.HeaderFooterAdapter;
+import com.andframe.api.adapter.ItemViewer;
+import com.andframe.api.adapter.ItemViewerAdapter;
+import com.andframe.api.pager.items.ItemsHelper;
+import com.andframe.api.pager.items.ItemsPager;
+import com.andframe.api.pager.items.MoreFooter;
+import com.andframe.api.pager.items.MoreLayouter;
+import com.andframe.api.task.Task;
 import com.andframe.api.view.ViewQuery;
 import com.andframe.api.view.ViewQueryHelper;
 import com.andframe.application.AfApp;
 import com.andframe.caches.AfPrivateCaches;
 import com.andframe.exception.AfExceptionHandler;
 import com.andframe.fragment.AfItemsFragment;
-import com.andframe.impl.multistatus.MoreFooterLayouter;
+import com.andframe.impl.pager.items.MoreFooterLayouter;
 import com.andframe.impl.viewer.ItemsViewerWrapper;
 import com.andframe.impl.viewer.ViewerWarpper;
 import com.andframe.model.Page;
 import com.andframe.task.AfDispatcher;
-import com.andframe.task.AfHandlerTask;
 import com.andframe.task.AfListViewTask;
 import com.andframe.util.java.AfReflecter;
 
@@ -154,60 +156,42 @@ public class AfItemsPagerHelper<T> extends AfStatusHelper<List<T>> implements It
         super.onViewCreated();
         mItemsPager.initCache();
         mItemsPager.initAdapter();
+        mItemsPager.bindListHeaderAndFooter(mAdapter);
+        mItemsViewer.setOnItemClickListener(mItemsPager);
+        mItemsViewer.setOnItemLongClickListener(mItemsPager);
+        mItemsPager.bindAdapter(mItemsViewer, mAdapter);
 
-//        mItemsViewer = mItemsPager.findItemsViewer(mItemsPager);
-
-//        if (mItemsViewer != null) {
-            mItemsPager.bindListHeaderAndFooter(mAdapter);
-
-            mItemsViewer.setOnItemClickListener(mItemsPager);
-            mItemsViewer.setOnItemLongClickListener(mItemsPager);
-            mItemsPager.bindAdapter(mItemsViewer, mAdapter);
-
-            if (mAdapter != null && mAdapter.size() > 0) {
-                //AfDispatcher.dispatch(() -> mItemsPager.postTask(new AbRefreshListTask(mAdapter.getList())));
-                mItemsPager.showContent();
-            } else if (mCacheClazz != null) {
-                AfDispatcher.dispatch(() -> mItemsPager.postTask(new AbLoadListTask()));
-            } else {
-                mItemsPager.showProgress();
-                AfDispatcher.dispatch(() -> mItemsPager.postTask(new AbRefreshListTask()));
-            }
-//        } else {
-//            throw new RuntimeException("findItemsViewer 返回null");
-//        }
+        if (mAdapter != null && mAdapter.size() > 0) {
+            mItemsPager.showContent();
+        } else if (mCacheClazz != null) {
+            AfDispatcher.dispatch(() -> mItemsPager.postTask(new AbLoadListTask()));
+        } else {
+            mItemsPager.showProgress();
+            AfDispatcher.dispatch(() -> mItemsPager.postTask(new AbRefreshListTask()));
+        }
     }
 
     @Override
     public View findContentView() {
         View contentView = super.findContentView();
         mItemsViewer = mItemsPager.findItemsViewer(mItemsPager, contentView);
-        if (mItemsViewer != null) {
-            Class<?> stop = mPager instanceof Activity ? AfItemsActivity.class : AfItemsFragment.class;
-            mItemsViewerOnly = AfReflecter.getAnnotation(mItemsPager.getClass(), stop, ItemsViewerOnly.class);
-            if (mItemsViewerOnly == null) {
-                if (contentView != null && contentView != mItemsViewer.getItemsView()) {
-                    StatusContentViewId id = AfReflecter.getAnnotation(mPager.getClass(), stop, StatusContentViewId.class);
-                    StatusContentViewType type = AfReflecter.getAnnotation(mPager.getClass(), stop, StatusContentViewType.class);
-                    if (id != null && id.value() == contentView.getId()) {
-                        return contentView;
-                    }
-                    if (type != null && type.value().isInstance(contentView)) {
-                        return contentView;
-                    }
+        Class<?> stop = mPager instanceof Activity ? AfItemsActivity.class : AfItemsFragment.class;
+        mItemsViewerOnly = AfReflecter.getAnnotation(mItemsPager.getClass(), stop, ItemsViewerOnly.class);
+        if (mItemsViewerOnly == null) {
+            if (contentView != null && contentView != mItemsViewer.getItemsView()) {
+                StatusContentViewId id = AfReflecter.getAnnotation(mPager.getClass(), stop, StatusContentViewId.class);
+                StatusContentViewType type = AfReflecter.getAnnotation(mPager.getClass(), stop, StatusContentViewType.class);
+                if (id != null && id.value() == contentView.getId()) {
+                    return contentView;
                 }
-            } else {
-                return null;
+                if (type != null && type.value().isInstance(contentView)) {
+                    return contentView;
+                }
             }
-            return mItemsViewer.getItemsView();
         } else {
-            throw new RuntimeException("findItemsViewer 返回null");
+            return null;
         }
-//        View view = super.findContentView();
-//        if (view != null) {
-//            return view;
-//        }
-//        return mItemsViewer != null ? mItemsViewer.getItemsView() : null;
+        return mItemsViewer.getItemsView();
     }
     //</editor-fold>
 
@@ -225,12 +209,13 @@ public class AfItemsPagerHelper<T> extends AfStatusHelper<List<T>> implements It
 
     //<editor-fold desc="适配器">
     @Override
-    public void bindAdapter(com.andframe.api.view.ItemsViewer listView, ListAdapter adapter) {
+    public void bindAdapter(@NonNull com.andframe.api.view.ItemsViewer listView, @NonNull ListAdapter adapter) {
         listView.setAdapter(adapter);
     }
 
+    @NonNull
     @Override
-    public ListItemAdapter<T> initAdapter() {
+    public ItemViewerAdapter<T> initAdapter() {
         if (mAdapter == null) {
             mAdapter = new AfHeaderFooterAdapter<T>(mItemsPager.newAdapter(mItemsPager.getContext(), new ArrayList<>())){
                 @Override
@@ -256,9 +241,10 @@ public class AfItemsPagerHelper<T> extends AfStatusHelper<List<T>> implements It
         return mAdapter;
     }
 
+    @NonNull
     @Override
-    public AfListAdapter<T> newAdapter(Context context, List<T> list) {
-        return new AbListAdapter(context, list);
+    public AfListAdapter<T> newAdapter(@NonNull Context context, @NonNull List<T> list) {
+        return new AbViewerAdapter(context, list);
     }
 
     @Override
@@ -274,7 +260,7 @@ public class AfItemsPagerHelper<T> extends AfStatusHelper<List<T>> implements It
 
     //<editor-fold desc="任务执行结束">
     @Override
-    public void onTaskLoadedCache(AfHandlerTask task, List<T> list) {
+    public void onTaskLoadedCache(@NonNull Task task, List<T> list) {
         onTaskLoadedRefresh(task, list);
         if (task.isFinish() && list != null && list.size() > 0) {
             //设置上次刷新缓存时间
@@ -283,7 +269,7 @@ public class AfItemsPagerHelper<T> extends AfStatusHelper<List<T>> implements It
     }
 
     @Override
-    public void onTaskLoadedRefresh(AfHandlerTask task, List<T> list) {
+    public void onTaskLoadedRefresh(@NonNull Task task, List<T> list) {
         if (task.isFinish()) {
             //通知列表刷新完成
             mItemsPager.finishRefresh();
@@ -312,7 +298,7 @@ public class AfItemsPagerHelper<T> extends AfStatusHelper<List<T>> implements It
     }
 
     @Override
-    public void onTaskLoadedMore(AfHandlerTask task, List<T> list) {
+    public void onTaskLoadedMore(@NonNull Task task, List<T> list) {
         // 通知列表刷新完成
         mMoreLayouter.finishLoadMore();
         if (task.isFinish()) {
@@ -335,23 +321,28 @@ public class AfItemsPagerHelper<T> extends AfStatusHelper<List<T>> implements It
     public void initCache() {
         MarkCache mark = getAnnotation(mItemsPager.getClass(), MarkCache.class);
         if (mark != null) {
-            if (mark.value().equals(MarkCache.class)) {
+            if (MarkCache.class.equals(mark.value())) {
                 Class<?> stop = mPager instanceof Activity ? AfItemsActivity.class : AfItemsFragment.class;
                 mCacheClazz = AfReflecter.getActualTypeArgument(mItemsPager, stop, 0);
             } else {
                 //noinspection unchecked
                 mCacheClazz = (Class<T>) mark.value();
             }
-            KEY_CACHELIST = mItemsPager.getCacheKey();
-            if (TextUtils.isEmpty(KEY_CACHELIST)) {
-                if (TextUtils.isEmpty(mark.key())) {
-                    KEY_CACHELIST = mItemsPager.getClass().getName();
-                } else {
-                    KEY_CACHELIST = mark.key();
-                }
-            }
+            KEY_CACHELIST = mItemsPager.getCacheKey(mark);
         }
     }
+
+    @NonNull
+    @Override
+    public String getCacheKey(MarkCache mark) {
+        if (TextUtils.isEmpty(mark.key())) {
+            KEY_CACHELIST = mItemsPager.getClass().getName();
+        } else {
+            KEY_CACHELIST = mark.key();
+        }
+        return KEY_CACHELIST;
+    }
+
     @Override
     public void putCache() {
         if (mAdapter != null && !mAdapter.isEmpty()) {
@@ -365,10 +356,11 @@ public class AfItemsPagerHelper<T> extends AfStatusHelper<List<T>> implements It
     }
 
     @Override
-    public void putCache(List<T> list) {
+    public void putCache(@NonNull List<T> list) {
         mItemsPager.onTaskPutCache(list);
     }
 
+    @NonNull
     @Override
     public Date getCacheTime() {
         return new Date(AfPrivateCaches.getInstance(KEY_CACHELIST).getLong(KEY_CACHETIME, 0));
@@ -403,14 +395,7 @@ public class AfItemsPagerHelper<T> extends AfStatusHelper<List<T>> implements It
     }
 
     @Override
-    public void setLastRefreshTime(Date time) {
-        if (mRefreshLayouter != null) {
-            mRefreshLayouter.setLastRefreshTime(time);
-        }
-    }
-
-    @Override
-    public void bindListHeaderAndFooter(AfHeaderFooterAdapter<T> adapter) {
+    public void bindListHeaderAndFooter(@NonNull HeaderFooterAdapter<T> adapter) {
         if (mRefreshLayouter instanceof MoreLayouter) {
             mMoreLayouter = ((MoreLayouter) mRefreshLayouter);
         } else {
@@ -436,25 +421,25 @@ public class AfItemsPagerHelper<T> extends AfStatusHelper<List<T>> implements It
 
     }
 
-    protected void addHeaderView(AfHeaderFooterAdapter<T> adapter, View view) {
+    protected void addHeaderView(HeaderFooterAdapter<T> adapter, View view) {
         if (view != null) {
             if (!mItemsViewer.addHeaderView(view)) {
                 adapter.addHeaderView(view);
             }
             mHeaderFooterViews.add(view);
         } else {
-            AfExceptionHandler.handle("MultiItemsHeader指定View为null","AfItemsPagerHelper.addHeaderView");
+            AfExceptionHandler.handle("ItemsHeader指定View为null","AfItemsPagerHelper.addHeaderView");
         }
     }
 
-    protected void addFooterView(AfHeaderFooterAdapter<T> adapter, View view) {
+    protected void addFooterView(HeaderFooterAdapter<T> adapter, View view) {
         if (view != null) {
             if (!mItemsViewer.addFooterView(view)) {
                 adapter.addFooterView(view);
             }
             mHeaderFooterViews.add(view);
         } else {
-            AfExceptionHandler.handle("MultiItemsFooter指定View为null","AfItemsPagerHelper.addFooterView");
+            AfExceptionHandler.handle("ItemsFooter指定View为null","AfItemsPagerHelper.addFooterView");
         }
     }
 
@@ -475,7 +460,7 @@ public class AfItemsPagerHelper<T> extends AfStatusHelper<List<T>> implements It
      * @return false 数据加载完毕，关闭加载更多功能 true 数据还未加载完，开启加载功能功能
      */
     @Override
-    public boolean setMoreShow(AfHandlerTask task, List<T> list) {
+    public boolean setMoreShow(@NonNull Task task, List<T> list) {
         boolean loadFinish = list.size() >= AfListViewTask.PAGE_SIZE;
         mMoreLayouter.setLoadMoreEnabled(loadFinish);
         return loadFinish;
@@ -490,6 +475,7 @@ public class AfItemsPagerHelper<T> extends AfStatusHelper<List<T>> implements It
     //</editor-fold>
 
     //<editor-fold desc="组件加载">
+    @NonNull
     @Override
     public com.andframe.api.view.ItemsViewer findItemsViewer(ItemsPager<T> pager, View contentView) {
         View itemView;
@@ -576,18 +562,19 @@ public class AfItemsPagerHelper<T> extends AfStatusHelper<List<T>> implements It
     /**
      * ListView数据适配器（事件已经转发getItemLayout，无实际处理代码）
      */
-    protected class AbListAdapter extends AfListAdapter<T> {
+    protected class AbViewerAdapter extends AfListAdapter<T> {
 
-        public AbListAdapter(Context context, List<T> ltdata) {
+        public AbViewerAdapter(Context context, List<T> ltdata) {
             super(context, ltdata);
         }
 
         /**
          * 转发事件到 AfListViewActivity.this.getItemLayout(data);
          */
+        @NonNull
         @Override
-        public ListItem<T> newListItem(int viewType) {
-            return mItemsPager.newListItem(viewType);
+        public ItemViewer<T> newItemViewer(int viewType) {
+            return mItemsPager.newItemViewer(viewType);
         }
 
         @Override
@@ -633,13 +620,7 @@ public class AfItemsPagerHelper<T> extends AfStatusHelper<List<T>> implements It
      */
     protected class AbRefreshListTask extends AbStatusTask {
 
-        private List<T> mList;
-
         public AbRefreshListTask() {
-        }
-
-        public AbRefreshListTask(List<T> list) {
-            mList = list;
         }
 
         @Override
@@ -650,9 +631,6 @@ public class AfItemsPagerHelper<T> extends AfStatusHelper<List<T>> implements It
 
         @Override
         protected List<T> onLoadData() throws Exception {
-            if (mList != null && mList.size() > 0) {
-                return mList;
-            }
             data = mItemsPager.onTaskLoadList(new Page(AfListViewTask.PAGE_SIZE, 0));
             mItemsPager.onTaskPutCache(data);
             return data;

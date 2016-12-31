@@ -5,7 +5,7 @@ import android.widget.AbsListView;
 import android.widget.AdapterView;
 import android.widget.ListAdapter;
 
-import com.andframe.api.multistatus.OnScrollToBottomListener;
+import com.andframe.api.pager.items.OnScrollToBottomListener;
 import com.andframe.api.view.ItemsViewer;
 
 /**

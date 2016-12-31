@@ -1,12 +1,12 @@
-package com.andframe.impl.multistatus;
+package com.andframe.impl.pager.status;
 
 import android.content.Context;
 import android.graphics.drawable.Drawable;
 import android.support.v4.widget.SwipeRefreshLayout;
 import android.view.View;
 
-import com.andframe.api.multistatus.OnRefreshListener;
-import com.andframe.api.multistatus.RefreshLayouter;
+import com.andframe.api.pager.status.OnRefreshListener;
+import com.andframe.api.pager.status.RefreshLayouter;
 
 import java.util.Date;
 

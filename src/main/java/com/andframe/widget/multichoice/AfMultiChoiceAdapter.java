@@ -6,7 +6,7 @@ import android.view.View;
 import android.view.ViewGroup;
 
 import com.andframe.adapter.AfListAdapter;
-import com.andframe.api.adapter.ListItem;
+import com.andframe.api.adapter.ItemViewer;
 
 import java.util.ArrayList;
 import java.util.Collection;
@@ -80,7 +80,7 @@ public abstract class AfMultiChoiceAdapter<T> extends AfListAdapter<T>{
 	}
 	
 	@Override
-	public void set(List<T> ltdata) {
+	public void set(@NonNull List<T> ltdata) {
 		if(isMultiChoiceMode()){
 			super.set(ltdata);
 			mChoiceNumber = 0;
@@ -128,23 +128,24 @@ public abstract class AfMultiChoiceAdapter<T> extends AfListAdapter<T>{
 		}
 	}
 
+	@NonNull
 	@Override
-	public ListItem<T> newListItem(int viewType) {
+	public ItemViewer<T> newItemViewer(int viewType) {
 		return newMultiChoiceItem();
 	}
 	
-	protected abstract AfMultiChoiceItem<T> newMultiChoiceItem();
+	protected abstract AfMultiChoiceItemViewer<T> newMultiChoiceItem();
 
 	@Override
-	public void bindingItem(View view, ListItem<T> item, int index) {
+	public void bindingItem(View view, ItemViewer<T> item, int index) {
 		//return super.bindingItem(item, index);
-		AfMultiChoiceItem<T> mcitem = (AfMultiChoiceItem<T>)item;
-		AfMultiChoiceItem.SelectStatus status = AfMultiChoiceItem.SelectStatus.NONE;
+		AfMultiChoiceItemViewer<T> mcitem = (AfMultiChoiceItemViewer<T>)item;
+		AfMultiChoiceItemViewer.SelectStatus status = AfMultiChoiceItemViewer.SelectStatus.NONE;
 		if(mIsSelecteds != null){
 			if(mIsSelecteds[index]){
-				status = AfMultiChoiceItem.SelectStatus.SELECTED;
+				status = AfMultiChoiceItemViewer.SelectStatus.SELECTED;
 			}else{
-				status = AfMultiChoiceItem.SelectStatus.UNSELECT;
+				status = AfMultiChoiceItemViewer.SelectStatus.UNSELECT;
 			}
 		}
 		mcitem.setSelectStatus(mltArray.get(index), status);
@@ -289,10 +290,10 @@ public abstract class AfMultiChoiceAdapter<T> extends AfListAdapter<T>{
 	}
 	
 	@Override
-	public View onInflateItem(ListItem<T> item, ViewGroup parent) {
-		View view = super.onInflateItem(item, parent);
-		if (item instanceof AfMultiChoiceItem) {
-			return ((AfMultiChoiceItem<T>)item).inflateLayout(view,this);
+	public View inflateItem(ItemViewer<T> item, ViewGroup parent) {
+		View view = super.inflateItem(item, parent);
+		if (item instanceof AfMultiChoiceItemViewer) {
+			return ((AfMultiChoiceItemViewer<T>)item).inflateLayout(view,this);
 		}
 		return view;
 	}

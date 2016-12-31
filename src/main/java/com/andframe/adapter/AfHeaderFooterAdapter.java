@@ -1,13 +1,15 @@
 package com.andframe.adapter;
 
 import android.content.Context;
+import android.support.annotation.NonNull;
 import android.view.View;
 import android.view.ViewGroup;
 
-import com.andframe.adapter.listitem.AfListItem;
+import com.andframe.adapter.itemviewer.AfItemViewer;
 import com.andframe.adapter.recycler.ViewHolderItem;
-import com.andframe.api.adapter.ListItem;
-import com.andframe.api.adapter.ListItemAdapter;
+import com.andframe.api.adapter.HeaderFooterAdapter;
+import com.andframe.api.adapter.ItemViewer;
+import com.andframe.api.adapter.ItemViewerAdapter;
 import com.andframe.api.view.Viewer;
 import com.andframe.exception.AfExceptionHandler;
 import com.andframe.impl.wrapper.ListItemAdapterWrapper;
@@ -20,12 +22,12 @@ import java.util.List;
  * Created by SCWANG on 2016/8/5.
  */
 @SuppressWarnings("unused")
-public class AfHeaderFooterAdapter<T> extends ListItemAdapterWrapper<T> {
+public class AfHeaderFooterAdapter<T> extends ListItemAdapterWrapper<T> implements HeaderFooterAdapter<T> {
 
-    protected List<ListItem<T>> mHeaders = new ArrayList<>();
-    protected List<ListItem<T>> mFooters = new ArrayList<>();
+    protected List<ItemViewer<T>> mHeaders = new ArrayList<>();
+    protected List<ItemViewer<T>> mFooters = new ArrayList<>();
 
-    public AfHeaderFooterAdapter(ListItemAdapter<T> wrapped) {
+    public AfHeaderFooterAdapter(@NonNull ItemViewerAdapter<T> wrapped) {
         super(wrapped);
     }
 
@@ -65,11 +67,11 @@ public class AfHeaderFooterAdapter<T> extends ListItemAdapterWrapper<T> {
     @Override
     public ViewHolderItem<T> onCreateViewHolder(ViewGroup parent, int viewType) {
         try {
-            ListItem<T> item = newListItem(viewType);
-            View view = onInflateItem(item, parent);
+            ItemViewer<T> item = newItemViewer(viewType);
+            View view = inflateItem(item, parent);
             if (view == null) {
                 view = new View(parent.getContext());
-                AfExceptionHandler.handle("onInflateItem 返回 null", "AfListAdapter.onCreateViewHolder.onInflateItem");
+                AfExceptionHandler.handle("inflateItem 返回 null", "AfListAdapter.onCreateViewHolder.inflateItem");
             }
             return new ViewHolderItem<>(item, view);
         } catch (Throwable e) {
@@ -122,8 +124,9 @@ public class AfHeaderFooterAdapter<T> extends ListItemAdapterWrapper<T> {
         return super.getItemViewType(position - mHeaders.size());
     }
 
+    @NonNull
     @Override
-    public ListItem<T> newListItem(int viewType) {
+    public ItemViewer<T> newItemViewer(int viewType) {
         int type = viewType - super.getViewTypeCount();
         if (type >= 0) {
             if (type < mHeaders.size()) {
@@ -134,10 +137,10 @@ public class AfHeaderFooterAdapter<T> extends ListItemAdapterWrapper<T> {
                 return mFooters.get(type);
             }
         }
-        return super.newListItem(viewType);
+        return super.newItemViewer(viewType);
     }
 
-    public void bindingItem(View view, ListItem<T> item, int index) {
+    public void bindingItem(View view, ItemViewer<T> item, int index) {
         if (index < mHeaders.size()) {
             item.onBinding(view, get(index), index);
         } else if (index - mHeaders.size() - super.getItemCount() >= 0) {
@@ -151,7 +154,7 @@ public class AfHeaderFooterAdapter<T> extends ListItemAdapterWrapper<T> {
 
     //<editor-fold desc="功能方法">
 
-    public boolean addHeader(ListItem<T> item) {
+    public boolean addHeader(ItemViewer<T> item) {
         if (item != null && !mHeaders.contains(item)) {
             mHeaders.add(item);
             notifyDataSetChanged();
@@ -160,7 +163,7 @@ public class AfHeaderFooterAdapter<T> extends ListItemAdapterWrapper<T> {
     }
 
     public boolean addHeaderLayout(int layoutId) {
-        return addHeader(new AfListItem<T>(layoutId) {
+        return addHeader(new AfItemViewer<T>(layoutId) {
             @Override
             public void onBinding(T model, int index) {
             }
@@ -168,10 +171,10 @@ public class AfHeaderFooterAdapter<T> extends ListItemAdapterWrapper<T> {
     }
 
     public boolean addHeaderView(View view) {
-        return addHeader(new ListItem<T>() {
+        return addHeader(new AfItemViewer<T>() {
             View mView = view;
             @Override
-            public void onBinding(View view, T model, int index) {
+            public void onBinding(T model, int index) {
             }
             @Override
             public View onCreateView(Context context, ViewGroup parent) {
@@ -180,7 +183,7 @@ public class AfHeaderFooterAdapter<T> extends ListItemAdapterWrapper<T> {
         });
     }
 
-    public boolean addFooter(ListItem<T> item) {
+    public boolean addFooter(ItemViewer<T> item) {
         if (item != null && !mFooters.contains(item)) {
             mFooters.add(item);
             notifyDataSetChanged();
@@ -189,7 +192,7 @@ public class AfHeaderFooterAdapter<T> extends ListItemAdapterWrapper<T> {
     }
 
     public boolean addFooterLayout(int layoutId) {
-        return addFooter(new AfListItem<T>(layoutId) {
+        return addFooter(new AfItemViewer<T>(layoutId) {
             @Override
             public void onBinding(T model, int index) {
             }
@@ -197,7 +200,7 @@ public class AfHeaderFooterAdapter<T> extends ListItemAdapterWrapper<T> {
     }
 
     public boolean addFooterView(View view) {
-        return addFooter(new AfListItem<T>() {
+        return addFooter(new AfItemViewer<T>() {
             {mLayout = view;}
             @Override
             public void onBinding(T model, int index) {
@@ -209,7 +212,7 @@ public class AfHeaderFooterAdapter<T> extends ListItemAdapterWrapper<T> {
         });
     }
 
-    public boolean removeHeader(ListItem<T> item) {
+    public boolean removeHeader(ItemViewer<T> item) {
         if (mHeaders.remove(item)) {
             notifyDataSetChanged();
             return true;
@@ -217,7 +220,7 @@ public class AfHeaderFooterAdapter<T> extends ListItemAdapterWrapper<T> {
         return false;
     }
 
-    public boolean removeFooter(ListItem<T> item) {
+    public boolean removeFooter(ItemViewer<T> item) {
         if (mFooters.remove(item)) {
             notifyDataSetChanged();
             return true;
@@ -227,7 +230,7 @@ public class AfHeaderFooterAdapter<T> extends ListItemAdapterWrapper<T> {
 
     public boolean removeHeaderView(View view) {
         for (int i = 0; i < mHeaders.size(); i++) {
-            ListItem<T> item = mHeaders.get(i);
+            ItemViewer<T> item = mHeaders.get(i);
             if (item instanceof Viewer && ((Viewer) item).getView() == view) {
                 mHeaders.remove(i);
                 notifyDataSetChanged();
@@ -239,7 +242,7 @@ public class AfHeaderFooterAdapter<T> extends ListItemAdapterWrapper<T> {
 
     public boolean removeFooterView(View view) {
         for (int i = 0; i < mFooters.size(); i++) {
-            ListItem<T> item = mFooters.get(i);
+            ItemViewer<T> item = mFooters.get(i);
             if (item instanceof Viewer && ((Viewer) item).getView() == view) {
                 mFooters.remove(i);
                 notifyDataSetChanged();
@@ -259,7 +262,7 @@ public class AfHeaderFooterAdapter<T> extends ListItemAdapterWrapper<T> {
 
     public boolean hasHeaderView(View view) {
         for (int i = 0; i < mHeaders.size(); i++) {
-            ListItem<T> item = mHeaders.get(i);
+            ItemViewer<T> item = mHeaders.get(i);
             if (item instanceof Viewer && ((Viewer) item).getView() == view) {
                 return true;
             }
@@ -269,7 +272,7 @@ public class AfHeaderFooterAdapter<T> extends ListItemAdapterWrapper<T> {
 
     public boolean hasFooterView(View view) {
         for (int i = 0; i < mFooters.size(); i++) {
-            ListItem<T> item = mFooters.get(i);
+            ItemViewer<T> item = mFooters.get(i);
             if (item instanceof Viewer && ((Viewer) item).getView() == view) {
                 return true;
             }

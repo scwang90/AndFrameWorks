@@ -1,11 +1,11 @@
-package com.andframe.impl.multistatus;
+package com.andframe.impl.pager.items;
 
 import android.content.Context;
 import android.view.View;
 import android.view.ViewGroup;
 
-import com.andframe.api.adapter.ListItem;
-import com.andframe.api.multistatus.MoreFooter;
+import com.andframe.api.adapter.ItemViewer;
+import com.andframe.api.pager.items.MoreFooter;
 import com.andframe.api.view.Viewer;
 
 /**
@@ -13,7 +13,7 @@ import com.andframe.api.view.Viewer;
  * Created by SCWANG on 2016/10/27.
  */
 
-public class MoreFooterHolder<T> implements ListItem<T>, Viewer {
+public class MoreFooterHolder<T> implements ItemViewer<T>, Viewer {
 
     MoreFooter footer;
 

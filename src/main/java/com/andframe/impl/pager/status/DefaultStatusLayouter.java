@@ -1,4 +1,4 @@
-package com.andframe.impl.multistatus;
+package com.andframe.impl.pager.status;
 
 import android.content.Context;
 import android.text.TextUtils;
@@ -9,8 +9,8 @@ import android.widget.FrameLayout;
 import android.widget.TextView;
 
 import com.andframe.R;
-import com.andframe.api.multistatus.OnRefreshListener;
-import com.andframe.api.multistatus.StatusLayouter;
+import com.andframe.api.pager.status.OnRefreshListener;
+import com.andframe.api.pager.status.StatusLayouter;
 import com.andframe.module.AfFrameSelector;
 
 import static android.view.ViewGroup.LayoutParams.MATCH_PARENT;

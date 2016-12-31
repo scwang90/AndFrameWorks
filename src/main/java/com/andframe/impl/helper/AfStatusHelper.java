@@ -3,6 +3,7 @@ package com.andframe.impl.helper;
 import android.app.Activity;
 import android.content.Context;
 import android.support.annotation.CallSuper;
+import android.support.annotation.NonNull;
 import android.support.v4.view.ViewPager;
 import android.support.v7.widget.RecyclerView;
 import android.text.TextUtils;
@@ -23,15 +24,15 @@ import com.andframe.annotation.pager.status.StatusError;
 import com.andframe.annotation.pager.status.StatusInvalidNet;
 import com.andframe.annotation.pager.status.StatusLayout;
 import com.andframe.annotation.pager.status.StatusProgress;
-import com.andframe.api.multistatus.RefreshLayouter;
-import com.andframe.api.multistatus.StatusLayouter;
-import com.andframe.api.pager.StatusHelper;
-import com.andframe.api.pager.StatusPager;
+import com.andframe.api.pager.status.RefreshLayouter;
+import com.andframe.api.pager.status.StatusHelper;
+import com.andframe.api.pager.status.StatusLayouter;
+import com.andframe.api.pager.status.StatusPager;
+import com.andframe.api.task.Task;
 import com.andframe.application.AfApp;
 import com.andframe.exception.AfExceptionHandler;
 import com.andframe.fragment.AfStatusFragment;
 import com.andframe.task.AfHandlerDataTask;
-import com.andframe.task.AfHandlerTask;
 import com.andframe.util.internal.TAG;
 import com.andframe.util.java.AfReflecter;
 
@@ -39,6 +40,7 @@ import java.lang.annotation.Annotation;
 import java.util.ArrayList;
 import java.util.Collection;
 import java.util.Collections;
+import java.util.Date;
 import java.util.List;
 import java.util.Queue;
 import java.util.concurrent.LinkedBlockingQueue;
@@ -65,7 +67,7 @@ public class AfStatusHelper<T> implements StatusHelper<T> {
     }
 
     @Override
-    public void setLoadOnViewCreated(boolean loadOrNot) {
+    public void setLoadTaskOnViewCreated(boolean loadOrNot) {
         mLoadOnViewCreated = loadOrNot;
     }
 
@@ -95,6 +97,13 @@ public class AfStatusHelper<T> implements StatusHelper<T> {
             mPager.onTaskFinish(mModel);
         } else {
             mPager.showEmpty();
+        }
+    }
+
+    @Override
+    public void setLastRefreshTime(@NonNull Date time) {
+        if (mRefreshLayouter != null) {
+            mRefreshLayouter.setLastRefreshTime(time);
         }
     }
 
@@ -227,10 +236,12 @@ public class AfStatusHelper<T> implements StatusHelper<T> {
         return null;
     }
 
+    @NonNull
     public StatusLayouter newStatusLayouter(Context context) {
         return AfApp.get().newStatusLayouter(context);
     }
 
+    @NonNull
     public RefreshLayouter newRefreshLayouter(Context context) {
         return AfApp.get().newRefreshLayouter(context);
     }
@@ -265,7 +276,7 @@ public class AfStatusHelper<T> implements StatusHelper<T> {
         }
     }
 
-    public void onTaskFailed(AfHandlerTask task) {
+    public void onTaskFailed(@NonNull Task task) {
         if (mModel != null) {
             mPager.showContent();
             mPager.makeToastShort(task.makeErrorToast(mPager.getContext().getString(R.string.status_load_fail)));
@@ -325,7 +336,7 @@ public class AfStatusHelper<T> implements StatusHelper<T> {
         }
     }
 
-    public void showError(String error) {
+    public void showError(@NonNull String error) {
         if (mRefreshLayouter != null && mRefreshLayouter.isRefreshing()) {
             mRefreshLayouter.setRefreshComplete();
         } else if (mStatusLayouter == null || !mStatusLayouter.isProgress()) {
@@ -339,7 +350,7 @@ public class AfStatusHelper<T> implements StatusHelper<T> {
     }
 
     @Override
-    public void showProgress(String progress) {
+    public void showProgress(@NonNull String progress) {
         if (mStatusLayouter != null) {
             mStatusLayouter.showProgress(progress);
         } else {

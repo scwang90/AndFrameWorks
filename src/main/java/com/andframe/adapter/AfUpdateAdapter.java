@@ -4,7 +4,7 @@ import android.view.View;
 import android.view.ViewGroup;
 
 import com.andframe.adapter.recycler.ViewHolderItem;
-import com.andframe.api.adapter.ListItem;
+import com.andframe.api.adapter.ItemViewer;
 
 import java.util.AbstractMap.SimpleEntry;
 import java.util.HashMap;
@@ -18,7 +18,7 @@ import java.util.Map;
 @SuppressWarnings("unused")
 public class AfUpdateAdapter<T> extends AfListAdapterWrapper<T> {
 
-    protected Map<View, SimpleEntry<Integer, ListItem<T>>> itemTMap = new HashMap<>();
+    protected Map<View, SimpleEntry<Integer, ItemViewer<T>>> itemTMap = new HashMap<>();
 
     public AfUpdateAdapter(AfListAdapter<T> wrapped) {
         super(wrapped);
@@ -48,7 +48,7 @@ public class AfUpdateAdapter<T> extends AfListAdapterWrapper<T> {
         bindingItem(holder.itemView, holder.getItem(), position);
     }
     @Override
-    public void bindingItem(View view, ListItem<T> item, int index) {
+    public void bindingItem(View view, ItemViewer<T> item, int index) {
         itemTMap.put(view, new SimpleEntry<>(index, item));
         super.bindingItem(view, item, index);
     }
@@ -64,7 +64,7 @@ public class AfUpdateAdapter<T> extends AfListAdapterWrapper<T> {
     }
 
     public void update(T model) {
-        for (Map.Entry<View, SimpleEntry<Integer, ListItem<T>>> entry : itemTMap.entrySet()) {
+        for (Map.Entry<View, SimpleEntry<Integer, ItemViewer<T>>> entry : itemTMap.entrySet()) {
             int index = entry.getValue().getKey();
             if (index > -1 && index < getCount()) {
                 T itemModel = get(index);
@@ -77,7 +77,7 @@ public class AfUpdateAdapter<T> extends AfListAdapterWrapper<T> {
     //</editor-fold>
 
     //<editor-fold desc="子类重写">
-    protected void onUpdate(View view, ListItem<T> item, int index, T model) {
+    protected void onUpdate(View view, ItemViewer<T> item, int index, T model) {
         item.onBinding(view, model, index);
     }
     //</editor-fold>

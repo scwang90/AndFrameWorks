@@ -1,9 +1,9 @@
-package com.andframe.impl.multistatus;
+package com.andframe.impl.pager.items;
 
-import com.andframe.adapter.AfHeaderFooterAdapter;
-import com.andframe.api.multistatus.MoreFooter;
-import com.andframe.api.multistatus.MoreLayouter;
-import com.andframe.api.multistatus.OnMoreListener;
+import com.andframe.api.adapter.HeaderFooterAdapter;
+import com.andframe.api.pager.items.MoreFooter;
+import com.andframe.api.pager.items.MoreLayouter;
+import com.andframe.api.pager.items.OnMoreListener;
 import com.andframe.api.view.ItemsViewer;
 
 /**
@@ -11,11 +11,11 @@ import com.andframe.api.view.ItemsViewer;
  * Created by SCWANG on 2016/11/19.
  */
 
-public class MoreFooterLayouter<T> implements MoreLayouter{
+public class MoreFooterLayouter<T> implements MoreLayouter {
     private MoreFooter mMoreFooter;
-    private AfHeaderFooterAdapter<T> mAdapter;
+    private HeaderFooterAdapter<T> mAdapter;
 
-    public MoreFooterLayouter(MoreFooter footer, AfHeaderFooterAdapter<T> adapter, ItemsViewer itemsViewer) {
+    public MoreFooterLayouter(MoreFooter footer, HeaderFooterAdapter<T> adapter, ItemsViewer itemsViewer) {
         this.mMoreFooter = footer;
         this.mAdapter = adapter;
         this.mMoreFooter.onCreateView(itemsViewer.getItemsView().getContext(), null);

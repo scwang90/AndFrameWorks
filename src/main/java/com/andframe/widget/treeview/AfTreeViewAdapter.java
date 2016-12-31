@@ -6,9 +6,9 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.AdapterView;
 
-import com.andframe.api.adapter.ListItem;
+import com.andframe.api.adapter.ItemViewer;
 import com.andframe.widget.multichoice.AfMultiChoiceAdapter;
-import com.andframe.widget.multichoice.AfMultiChoiceItem;
+import com.andframe.widget.multichoice.AfMultiChoiceItemViewer;
 
 import java.util.ArrayList;
 import java.util.Collection;
@@ -29,7 +29,7 @@ public abstract class AfTreeViewAdapter<T> extends AfMultiChoiceAdapter<T> imple
 	protected AfTreeNodeClickable<T> mTreeNodeClickable = null;
 	protected List<AfTreeNode<T>> mNodeShow = new ArrayList<>();
 
-	protected abstract AfTreeViewItem<T> newTreeViewItem();
+	protected abstract AfTreeViewItemViewer<T> newTreeViewItem();
 
 	public AfTreeViewAdapter(Context context, List<T> ltdata, AfTreeEstablisher<T> establisher) {
 		this(context, ltdata, establisher, false);
@@ -51,7 +51,7 @@ public abstract class AfTreeViewAdapter<T> extends AfMultiChoiceAdapter<T> imple
 	}
 
 	@Override
-	protected final AfMultiChoiceItem<T> newMultiChoiceItem() {
+	protected final AfMultiChoiceItemViewer<T> newMultiChoiceItem() {
 		return newTreeViewItem();
 	}
 
@@ -60,29 +60,29 @@ public abstract class AfTreeViewAdapter<T> extends AfMultiChoiceAdapter<T> imple
 	}
 	
 	@Override
-	public View onInflateItem(ListItem<T> item, ViewGroup parent) {
-		View view = super.onInflateItem(item, parent);
-		if (item instanceof AfTreeViewItem) {
-			return ((AfTreeViewItem<T>)item).inflateLayout(view, this);
+	public View inflateItem(ItemViewer<T> item, ViewGroup parent) {
+		View view = super.inflateItem(item, parent);
+		if (item instanceof AfTreeViewItemViewer) {
+			return ((AfTreeViewItemViewer<T>)item).inflateLayout(view, this);
 		}
 		return view;
 	}
 	
 	@Override
-	public void bindingItem(View view, ListItem<T> item, int index) {
-		AfTreeViewItem<T> tvitem = (AfTreeViewItem<T>)item;
+	public void bindingItem(View view, ItemViewer<T> item, int index) {
+		AfTreeViewItemViewer<T> tvitem = (AfTreeViewItemViewer<T>)item;
 		AfTreeNode<T> node = mNodeShow.get(index);
 		tvitem.setNode(node);
 //		return super.bindingItem(item, index);
 		/**
 		 * 添加树形多选 2016-7-1
 		 */
-		AfMultiChoiceItem.SelectStatus status = AfMultiChoiceItem.SelectStatus.NONE;
+		AfMultiChoiceItemViewer.SelectStatus status = AfMultiChoiceItemViewer.SelectStatus.NONE;
 		if(isMultiChoiceMode()){
 			if(node.isSelected){
-				status = AfMultiChoiceItem.SelectStatus.SELECTED;
+				status = AfMultiChoiceItemViewer.SelectStatus.SELECTED;
 			}else{
-				status = AfMultiChoiceItem.SelectStatus.UNSELECT;
+				status = AfMultiChoiceItemViewer.SelectStatus.UNSELECT;
 			}
 		}
 		tvitem.setSelectStatus(node.value, status);
@@ -102,7 +102,7 @@ public abstract class AfTreeViewAdapter<T> extends AfMultiChoiceAdapter<T> imple
 			/**
 			 * 添加树形多选 2016-7-1
 			 */
-			AfTreeViewItem<T> item = newTreeViewItem();
+			AfTreeViewItemViewer<T> item = newTreeViewItem();
 			item.setNode(node);
 			if (item.isCanSelect(node.value, index)) {
 				int count = mChoiceNumber;
@@ -167,7 +167,7 @@ public abstract class AfTreeViewAdapter<T> extends AfMultiChoiceAdapter<T> imple
 	}
 
 	@Override
-	public void set(List<T> ltdata) {
+	public void set(@NonNull List<T> ltdata) {
 		mltOriginData = new ArrayList<>(ltdata);
 		mRootNode = mEstablisher.establish(mltOriginData,mDefaultExpanded);
 		updateNodeListToShow();

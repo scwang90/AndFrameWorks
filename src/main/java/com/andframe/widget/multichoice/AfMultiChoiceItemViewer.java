@@ -11,7 +11,7 @@ import android.widget.CheckBox;
 import android.widget.LinearLayout;
 import android.widget.LinearLayout.LayoutParams;
 
-import com.andframe.adapter.listitem.AfListItem;
+import com.andframe.adapter.itemviewer.AfItemViewer;
 
 import static android.view.ViewGroup.LayoutParams.MATCH_PARENT;
 import static android.view.ViewGroup.LayoutParams.WRAP_CONTENT;
@@ -21,7 +21,7 @@ import static android.view.ViewGroup.LayoutParams.WRAP_CONTENT;
  * @param <T>
  */
 @SuppressWarnings("unused")
-public abstract class AfMultiChoiceItem<T> extends AfListItem<T> implements OnClickListener{
+public abstract class AfMultiChoiceItemViewer<T> extends AfItemViewer<T> implements OnClickListener{
 
 	public enum SelectStatus{
 		NONE,UNSELECT,SELECTED
@@ -41,10 +41,10 @@ public abstract class AfMultiChoiceItem<T> extends AfListItem<T> implements OnCl
 
 	protected int mSelectDisplay = SD_BACKGROUNG;
 	
-	public AfMultiChoiceItem() {
+	public AfMultiChoiceItemViewer() {
 	}
 
-	public AfMultiChoiceItem(int layoutId) {
+	public AfMultiChoiceItemViewer(int layoutId) {
 		super(layoutId);
 	}
 

@@ -11,7 +11,7 @@ import android.widget.WrapperListAdapter;
 
 import com.andframe.adapter.recycler.DataSetObservable;
 import com.andframe.adapter.recycler.ViewHolderItem;
-import com.andframe.api.adapter.ListItem;
+import com.andframe.api.adapter.ItemViewer;
 
 import java.util.Collection;
 import java.util.Comparator;
@@ -115,7 +115,7 @@ public class AfListAdapterWrapper<T> extends AfListAdapter<T> implements Wrapper
 	//<editor-fold desc="Wrapper AfListAdapter">
 
 	@Override
-	public void bindingItem(View view, ListItem<T> item, int index) {
+	public void bindingItem(View view, ItemViewer<T> item, int index) {
 		wrapped.bindingItem(view, item, index);
 	}
 
@@ -124,6 +124,7 @@ public class AfListAdapterWrapper<T> extends AfListAdapter<T> implements Wrapper
 		return wrapped.getItemCount();
 	}
 
+	@NonNull
 	@Override
 	public List<T> getList() {
 		return wrapped.getList();
@@ -134,9 +135,10 @@ public class AfListAdapterWrapper<T> extends AfListAdapter<T> implements Wrapper
 		return wrapped.isDataSync();
 	}
 
+	@NonNull
 	@Override
-	public ListItem<T> newListItem(int viewType) {
-		return wrapped.newListItem(viewType);
+	public ItemViewer<T> newItemViewer(int viewType) {
+		return wrapped.newItemViewer(viewType);
 	}
 
 	@Override
@@ -150,12 +152,12 @@ public class AfListAdapterWrapper<T> extends AfListAdapter<T> implements Wrapper
 	}
 
 	@Override
-	public View onInflateItem(ListItem<T> item, ViewGroup parent) {
-		return wrapped.onInflateItem(item, parent);
+	public View inflateItem(ItemViewer<T> item, ViewGroup parent) {
+		return wrapped.inflateItem(item, parent);
 	}
 
 	@Override
-	public void set(List<T> list) {
+	public void set(@NonNull List<T> list) {
 		wrapped.set(list);
 	}
 	//</editor-fold>

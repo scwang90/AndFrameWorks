@@ -6,9 +6,7 @@ import android.view.View;
 /**
  * Viewer 框架视图接口
  * @author 树朾
- * 主要用于 优化 传统的 findViewById 方法
  */
-@SuppressWarnings("unused")
 public interface Viewer {
 
 	Context getContext();
@@ -16,10 +14,6 @@ public interface Viewer {
 	View getView();
 
 	View findViewById(int id);
-
-//	View findViewByType(Class<? extends View> type);
-//
-//	View[] findViewsByType(Class<? extends View> type);
 
 	<T extends View> T findViewByID(int id);
 
