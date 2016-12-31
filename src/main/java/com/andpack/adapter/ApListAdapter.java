@@ -3,7 +3,7 @@ package com.andpack.adapter;
 import android.content.Context;
 import android.support.annotation.LayoutRes;
 
-import com.andframe.adapter.AfListLayoutItemAdapter;
+import com.andframe.adapter.AfLayoutItemViewerAdapter;
 import com.andframe.api.view.ViewQuery;
 import com.andpack.api.ApItemBinder;
 
@@ -14,7 +14,7 @@ import java.util.List;
  * Created by SCWANG on 2016/11/10.
  */
 
-public class ApListAdapter<T> extends AfListLayoutItemAdapter<T> {
+public class ApListAdapter<T> extends AfLayoutItemViewerAdapter<T> {
 
     protected ApItemBinder<T> binder;
 

@@ -14,8 +14,8 @@ import android.widget.FrameLayout;
 import android.widget.ScrollView;
 
 import com.andframe.$;
-import com.andframe.api.multistatus.OnRefreshListener;
-import com.andframe.api.multistatus.RefreshLayouter;
+import com.andframe.api.pager.status.OnRefreshListener;
+import com.andframe.api.pager.status.RefreshLayouter;
 import com.andframe.task.AfDispatcher;
 import com.andframe.util.android.AfDensity;
 import com.andframe.util.java.AfReflecter;

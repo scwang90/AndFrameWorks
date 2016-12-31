@@ -1,11 +1,12 @@
 package com.andpack.fragment;
 
 import android.content.Context;
+import android.support.annotation.NonNull;
 import android.support.v4.app.Fragment;
 
-import com.andframe.api.adapter.ListItem;
-import com.andframe.api.adapter.ListItemAdapter;
-import com.andframe.api.multistatus.RefreshLayouter;
+import com.andframe.api.adapter.ItemViewer;
+import com.andframe.api.adapter.ItemViewerAdapter;
+import com.andframe.api.pager.status.RefreshLayouter;
 import com.andframe.api.view.ViewQuery;
 import com.andframe.exception.AfToastException;
 import com.andframe.feature.AfBundle;
@@ -44,21 +45,23 @@ public abstract class ApItemsFragment<T> extends AfItemsFragment<T> implements A
     }
 
     @Override
-    protected void onViewCreated() throws Exception {
+    public void onViewCreated() throws Exception {
         mApHelper.onViewCreated();
         super.onViewCreated();
     }
 
 
+    @NonNull
     @Override
-    public ListItemAdapter<T> newAdapter(Context context, List<T> list) {
-        ListItemAdapter<T> adapter = mApHelper.newAdapter(context,list);
+    public ItemViewerAdapter<T> newAdapter(@NonNull Context context, @NonNull List<T> list) {
+        ItemViewerAdapter<T> adapter = mApHelper.newAdapter(context,list);
         if (adapter != null) {
             return mAdapter = adapter;
         }
         return super.newAdapter(context, list);
     }
 
+    @NonNull
     @Override
     public RefreshLayouter newRefreshLayouter(Context context) {
         RefreshLayouter layouter = mApHelper.createRefreshLayouter(context);
@@ -78,9 +81,10 @@ public abstract class ApItemsFragment<T> extends AfItemsFragment<T> implements A
         ApFragmentActivity.startResult(clazz, request, args);
     }
 
+    @NonNull
     @Override
-    public ListItem<T> newListItem(int viewType) {
-        throw new AfToastException("请重写 newListItem(int viewType) 方法");
+    public ItemViewer<T> newItemViewer(int viewType) {
+        throw new AfToastException("请重写 newItemViewer(int viewType) 方法");
     }
 
     @Override

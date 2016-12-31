@@ -14,7 +14,7 @@ import com.andframe.api.view.ViewQuery;
 import com.andframe.util.java.AfReflecter;
 import com.andframe.widget.treeview.AfTreeEstablisher;
 import com.andframe.widget.treeview.AfTreeViewAdapter;
-import com.andframe.widget.treeview.AfTreeViewItem;
+import com.andframe.widget.treeview.AfTreeViewItemViewer;
 
 import java.util.ArrayList;
 import java.util.Arrays;
@@ -42,8 +42,8 @@ public class ApViewTreeAdapter extends AfTreeViewAdapter<View> {
     }
 
     @Override
-    protected AfTreeViewItem<View> newTreeViewItem() {
-        return new AfTreeViewItem<View>(android.R.layout.activity_list_item) {
+    protected AfTreeViewItemViewer<View> newTreeViewItem() {
+        return new AfTreeViewItemViewer<View>(android.R.layout.activity_list_item) {
             @Override
             public View onCreateView(Context context, ViewGroup parent) {
                 LinearLayout root = new LinearLayout(context);

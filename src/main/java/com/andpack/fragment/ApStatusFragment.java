@@ -1,10 +1,11 @@
 package com.andpack.fragment;
 
 import android.content.Context;
+import android.support.annotation.NonNull;
 import android.support.v4.app.Fragment;
 import android.view.View;
 
-import com.andframe.api.multistatus.RefreshLayouter;
+import com.andframe.api.pager.status.RefreshLayouter;
 import com.andframe.feature.AfBundle;
 import com.andframe.feature.AfView;
 import com.andframe.fragment.AfStatusFragment;
@@ -40,7 +41,7 @@ public class ApStatusFragment<T> extends AfStatusFragment<T> implements ApPager 
     }
 
     @Override
-    protected void onViewCreated() throws Exception {
+    public void onViewCreated() throws Exception {
         mApHelper.onViewCreated();
         super.onViewCreated();
     }
@@ -54,6 +55,7 @@ public class ApStatusFragment<T> extends AfStatusFragment<T> implements ApPager 
         return super.findContentView();
     }
 
+    @NonNull
     @Override
     public RefreshLayouter newRefreshLayouter(Context context) {
         RefreshLayouter layouter = mApHelper.createRefreshLayouter(context);
@@ -69,7 +71,7 @@ public class ApStatusFragment<T> extends AfStatusFragment<T> implements ApPager 
     }
 
     @Override
-    public void onTaskLoaded(T model) {
+    public void onTaskLoaded(@NonNull T model) {
 
     }
 

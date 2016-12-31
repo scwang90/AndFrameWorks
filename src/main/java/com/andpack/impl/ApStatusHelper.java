@@ -3,7 +3,7 @@ package com.andpack.impl;
 import android.content.Context;
 import android.view.View;
 
-import com.andframe.api.multistatus.RefreshLayouter;
+import com.andframe.api.pager.status.RefreshLayouter;
 import com.andpack.api.ApPager;
 
 /**

@@ -2,8 +2,8 @@ package com.andpack.impl;
 
 import android.content.Context;
 
-import com.andframe.adapter.AfListLayoutItemAdapter;
-import com.andframe.api.adapter.ListItemAdapter;
+import com.andframe.adapter.AfLayoutItemViewerAdapter;
+import com.andframe.api.adapter.ItemViewerAdapter;
 import com.andframe.api.view.ViewQuery;
 import com.andframe.util.java.AfReflecter;
 import com.andpack.annotation.BindItemLayout;
@@ -32,9 +32,9 @@ public class ApItemsHelper<T> extends ApStatusHelper {
     }
 
 
-    public ListItemAdapter<T> newAdapter(Context context, List<T> list) {
+    public ItemViewerAdapter<T> newAdapter(Context context, List<T> list) {
         if (mItemLayout != null) {
-            return new AfListLayoutItemAdapter<T>(mItemLayout.value(), context, list) {
+            return new AfLayoutItemViewerAdapter<T>(mItemLayout.value(), context, list) {
                 @Override
                 protected void onBinding(ViewQuery<? extends ViewQuery> $, T model, int index) {
                     mItemPager.onItemBinding($, model, index);

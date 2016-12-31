@@ -2,12 +2,13 @@ package com.andpack.activity;
 
 import android.content.Context;
 import android.os.Bundle;
+import android.support.annotation.NonNull;
 import android.support.annotation.StyleRes;
 import android.support.v4.app.Fragment;
 import android.view.View;
 
 import com.andframe.activity.AfStatusActivity;
-import com.andframe.api.multistatus.RefreshLayouter;
+import com.andframe.api.pager.status.RefreshLayouter;
 import com.andframe.feature.AfIntent;
 import com.andpack.api.ApPager;
 import com.andpack.impl.ApStatusHelper;
@@ -76,6 +77,7 @@ public abstract class ApStatusActivity<T> extends AfStatusActivity<T> implements
         return super.findContentView();
     }
 
+    @NonNull
     @Override
     public RefreshLayouter newRefreshLayouter(Context context) {
         RefreshLayouter layouter = mApHelper.createRefreshLayouter(context);
