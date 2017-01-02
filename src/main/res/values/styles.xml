@@ -23,7 +23,6 @@
 
     <style name="AppTheme.CommonBar.Panel">
         <item name="android:layout_marginTop">@dimen/padding_common</item>
-        <item name="android:layout_marginBottom">@dimen/padding_common</item>
         <item name="android:orientation">vertical</item>
         <item name="android:background">@color/white</item>
     </style>
@@ -45,7 +44,6 @@
 
     <style name="AppTheme.CommonBar.Bar.Alone">
         <item name="android:layout_marginTop">@dimen/padding_common</item>
-        <item name="android:layout_marginBottom">@dimen/padding_common</item>
         <item name="android:background">@drawable/af_selector_background_white</item>
     </style>
 
