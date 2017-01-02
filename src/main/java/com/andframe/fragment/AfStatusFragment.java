@@ -37,6 +37,11 @@ public abstract class AfStatusFragment<T> extends AfTabFragment implements Statu
     }
 
     @Override
+    public void setModel(@NonNull T model) {
+        mHelper.setModel(model);
+    }
+
+    @Override
     public void setLoadTaskOnViewCreated(boolean loadOrNot) {
         mHelper.setLoadTaskOnViewCreated(loadOrNot);
     }

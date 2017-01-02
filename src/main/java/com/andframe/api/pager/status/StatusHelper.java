@@ -37,7 +37,19 @@ public interface StatusHelper<T> extends EmptyVerdicter<T>, OnRefreshListener {
     void setLoadTaskOnViewCreated(boolean loadOrNot);
 
     /**
-     * 查找内容视图（如 ListView，GridView或者整个布局作为内容视图）
+     * 在onViewCreated之前设置可以加载任务的执行
+     * @param model 数据
+     */
+    void setModel(@NonNull T model);
+
+    /**
+     * 查找内容视图
+     * 默认会查找 以下控件
+     * <br>1、 @{@link android.widget.AbsListView} 的所有子类
+     * <br>    包括 @{@link android.widget.ListView} @{@link android.widget.GridView} 等等
+     * <br>2、 @{@link android.support.v7.widget.RecyclerView} 以及其子类（自定义的子类）
+     * <br>3、 @{@link android.widget.ScrollView} 以及其子类（自定义的子类）
+     * <br>4、 或者整个布局作为内容视图
      * 内容视图将会被包裹一层【下拉刷新控件】和【多页状态控件】
      * @return 如果返回null将不会包裹【下拉刷新控件】和【多页状态控件】也会相应失去对应的功能
      */

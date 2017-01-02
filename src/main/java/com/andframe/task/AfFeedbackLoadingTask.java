@@ -24,7 +24,7 @@ public class AfFeedbackLoadingTask<T> extends AfFeedbackTask {
     protected LoadTasker<T> tasker;
     protected LoadEmptyHandler empty = this::makeToastNull;
     protected LoadSuccessHandler<T> success;
-    protected EmptyVerdicter<T> isempty = model -> model instanceof Collection ? ((Collection) model).isEmpty() : model != null;
+    protected EmptyVerdicter<T> isempty = model -> model instanceof Collection ? ((Collection) model).isEmpty() : model == null;
     protected boolean mFeedbackOnEmpty = false;
 
     public AfFeedbackLoadingTask(@NonNull CharSequence intent, @NonNull Pager pager) {

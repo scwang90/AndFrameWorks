@@ -3,8 +3,9 @@ package com.andframe.task;
 import android.support.annotation.NonNull;
 
 import com.andframe.R;
-import com.andframe.api.task.Tasker;
 import com.andframe.api.pager.Pager;
+import com.andframe.api.task.TaskExceptionHandler;
+import com.andframe.api.task.Tasker;
 import com.andframe.exception.AfExceptionHandler;
 
 import java.lang.ref.WeakReference;
@@ -20,6 +21,8 @@ public class AfFeedbackTask extends AfHandlerTask {
     protected Runnable success;
     protected CharSequence intent;
     protected WeakReference<Pager> mPager;
+    protected TaskExceptionHandler exceptionHandler;
+    protected boolean mFeedbackOnException = true;
     protected boolean mFeedbackOnSuccess = true;
 
     public AfFeedbackTask(@NonNull CharSequence intent, @NonNull Pager pager) {
@@ -47,6 +50,16 @@ public class AfFeedbackTask extends AfHandlerTask {
         return this;
     }
 
+    public AfFeedbackTask exception(TaskExceptionHandler exceptionHandler) {
+        return exception(true, exceptionHandler);
+    }
+
+    public AfFeedbackTask exception(boolean feedback, TaskExceptionHandler exceptionHandler) {
+        this.exceptionHandler = exceptionHandler;
+        this.mFeedbackOnException = feedback;
+        return this;
+    }
+
     @Override
     protected boolean onPrepare() {
         showProgressDialog();
@@ -63,6 +76,9 @@ public class AfFeedbackTask extends AfHandlerTask {
             }
         } else {
             makeToastFail(mException);
+            if (exceptionHandler != null) {
+                exceptionHandler.onTaskException(mException);
+            }
         }
     }
 
@@ -92,7 +108,7 @@ public class AfFeedbackTask extends AfHandlerTask {
 
     protected void makeToastFail(Throwable e) {
         Pager pager = mPager.get();
-        if (pager != null) {
+        if (pager != null && mFeedbackOnException) {
             pager.makeToastShort(AfExceptionHandler.tip(e, String.format(pager.getContext().getString(R.string.task_format_fail), intent)));
         }
     }

@@ -71,6 +71,10 @@ public class AfStatusHelper<T> implements StatusHelper<T> {
         mLoadOnViewCreated = loadOrNot;
     }
 
+    @Override
+    public void setModel(@NonNull T model) {
+        mModel = model;
+    }
 
     @CallSuper
     public void onViewCreated() throws Exception {

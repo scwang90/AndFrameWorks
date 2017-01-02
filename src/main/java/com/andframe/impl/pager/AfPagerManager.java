@@ -2,10 +2,11 @@ package com.andframe.impl.pager;
 
 import android.app.Activity;
 import android.content.Context;
-import android.support.v4.app.Fragment;
 
+import com.andframe.activity.AfActivity;
 import com.andframe.api.pager.PagerManager;
 import com.andframe.application.AfApp;
+import com.andframe.fragment.AfFragment;
 
 import java.util.Stack;
 
@@ -25,84 +26,84 @@ public class AfPagerManager implements PagerManager {
         return instance;
     }
 
-    public static void activityCreated(Activity activity) {
+    public static void activityCreated(AfActivity activity) {
         getInstance().onActivityCreated(activity);
     }
 
-    public static void activityDestroy(Activity activity) {
+    public static void activityDestroy(AfActivity activity) {
         getInstance().onActivityDestroy(activity);
     }
 
-    public static void activityResume(Activity activity) {
+    public static void activityResume(AfActivity activity) {
         getInstance().onActivityResume(activity);
     }
 
-    public static void activityPause(Activity activity) {
+    public static void activityPause(AfActivity activity) {
         getInstance().onActivityPause(activity);
     }
 
-    public static void fragmentAttach(Fragment fragment, Context context) {
+    public static void fragmentAttach(AfFragment fragment, Context context) {
         getInstance().onFragmentAttach(fragment, context);
     }
 
-    public static void fragmentDetach(Fragment fragment) {
+    public static void fragmentDetach(AfFragment fragment) {
         getInstance().onFragmentDetach(fragment);
     }
 
-    public static void fragmentResume(Fragment fragment) {
+    public static void fragmentResume(AfFragment fragment) {
         getInstance().onFragmentResume(fragment);
     }
 
-    public static void fragmentPause(Fragment fragment) {
+    public static void fragmentPause(AfFragment fragment) {
         getInstance().onFragmentPause(fragment);
     }
 
 
     //<editor-fold desc="功能实现">
     // 当前主页面
-    private Stack<Activity> mStackActivity = new Stack<>();
+    private Stack<AfActivity> mStackActivity = new Stack<>();
 
     @Override
-    public void onActivityCreated(Activity activity) {
+    public void onActivityCreated(AfActivity activity) {
         if (!mStackActivity.contains(activity)) {
             mStackActivity.push(activity);
         }
     }
 
     @Override
-    public void onActivityDestroy(Activity activity) {
+    public void onActivityDestroy(AfActivity activity) {
         if (mStackActivity.contains(activity)) {
             mStackActivity.remove(activity);
         }
     }
 
     @Override
-    public void onActivityResume(Activity activity) {
+    public void onActivityResume(AfActivity activity) {
 
     }
 
     @Override
-    public void onActivityPause(Activity activity) {
+    public void onActivityPause(AfActivity activity) {
 
     }
 
     @Override
-    public void onFragmentAttach(Fragment fragment, Context context) {
+    public void onFragmentAttach(AfFragment fragment, Context context) {
 
     }
 
     @Override
-    public void onFragmentDetach(Fragment fragment) {
+    public void onFragmentDetach(AfFragment fragment) {
 
     }
 
     @Override
-    public void onFragmentResume(Fragment fragment) {
+    public void onFragmentResume(AfFragment fragment) {
 
     }
 
     @Override
-    public void onFragmentPause(Fragment fragment) {
+    public void onFragmentPause(AfFragment fragment) {
 
     }
 
@@ -112,7 +113,7 @@ public class AfPagerManager implements PagerManager {
     }
 
     @Override
-    public boolean hasActivity(Class<? extends Activity> clazz) {
+    public boolean hasActivity(Class<? extends AfActivity> clazz) {
         for (Activity activity : mStackActivity) {
             if (activity.getClass().equals(clazz)) {
                 return true;
@@ -122,7 +123,7 @@ public class AfPagerManager implements PagerManager {
     }
 
     @Override
-    public Activity currentActivity() {
+    public AfActivity currentActivity() {
         if (mStackActivity.isEmpty()) {
             return null;
         }
@@ -130,8 +131,8 @@ public class AfPagerManager implements PagerManager {
     }
 
     @Override
-    public Activity getActivity(Class<? extends Activity> clazz) {
-        for (Activity activity : mStackActivity) {
+    public AfActivity getActivity(Class<? extends AfActivity> clazz) {
+        for (AfActivity activity : mStackActivity) {
             if (activity.getClass().equals(clazz)) {
                 return activity;
             }
@@ -141,14 +142,14 @@ public class AfPagerManager implements PagerManager {
 
     @Override
     public void finishCurrentActivity() {
-        Activity activity = currentActivity();
+        AfActivity activity = currentActivity();
         if (activity != null) {
             activity.finish();
         }
     }
 
     @Override
-    public void finishActivity(Activity activity) {
+    public void finishActivity(AfActivity activity) {
         if (activity != null && mStackActivity.contains(activity)) {
             activity.finish();
         }

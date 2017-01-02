@@ -1,8 +1,9 @@
 package com.andframe.api.pager;
 
-import android.app.Activity;
 import android.content.Context;
-import android.support.v4.app.Fragment;
+
+import com.andframe.activity.AfActivity;
+import com.andframe.fragment.AfFragment;
 
 /**
  * 页面堆栈管理器
@@ -11,23 +12,23 @@ import android.support.v4.app.Fragment;
 
 public interface PagerManager {
 
-    void onActivityCreated(Activity activity);
-    void onActivityDestroy(Activity activity);
-    void onActivityResume(Activity activity);
-    void onActivityPause(Activity activity);
+    void onActivityCreated(AfActivity activity);
+    void onActivityDestroy(AfActivity activity);
+    void onActivityResume(AfActivity activity);
+    void onActivityPause(AfActivity activity);
 
-    void onFragmentAttach(Fragment fragment, Context context);
-    void onFragmentDetach(Fragment fragment);
-    void onFragmentResume(Fragment fragment);
-    void onFragmentPause(Fragment fragment);
+    void onFragmentAttach(AfFragment fragment, Context context);
+    void onFragmentDetach(AfFragment fragment);
+    void onFragmentResume(AfFragment fragment);
+    void onFragmentPause(AfFragment fragment);
 
     boolean hasActivityRuning();
-    boolean hasActivity(Class<? extends Activity> clazz);
+    boolean hasActivity(Class<? extends AfActivity> clazz);
 
-    Activity currentActivity();
-    Activity getActivity(Class<? extends Activity> clazz);
+    AfActivity currentActivity();
+    AfActivity getActivity(Class<? extends AfActivity> clazz);
 
     void finishCurrentActivity();
-    void finishActivity(Activity activity);
+    void finishActivity(AfActivity activity);
     void finishAllActivity();
 }

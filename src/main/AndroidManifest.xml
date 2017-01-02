@@ -21,6 +21,21 @@
             android:screenOrientation="portrait"
             android:windowSoftInputMode="stateHidden|adjustPan"/>
 
+        <activity android:name=".activity.AfFragmentSingleTopActivity"
+            android:screenOrientation="portrait"
+            android:windowSoftInputMode="stateHidden|adjustPan"
+            android:launchMode="singleTop"/>
+
+        <activity android:name=".activity.AfFragmentSingleInstanceActivity"
+            android:screenOrientation="portrait"
+            android:windowSoftInputMode="stateHidden|adjustPan"
+            android:launchMode="singleInstance"/>
+
+        <activity android:name=".activity.AfFragmentSingleTaskActivity"
+            android:screenOrientation="portrait"
+            android:windowSoftInputMode="stateHidden|adjustPan"
+            android:launchMode="singleTask"/>
+
     </application>
 
 </manifest>
