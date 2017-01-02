@@ -13,6 +13,25 @@
             android:screenOrientation="portrait"
             android:theme="@style/AppTheme.SwipeBack"
             android:windowSoftInputMode="stateHidden|adjustPan"/>
+
+        <activity android:name=".activity.ApFragmentSingleTopActivity"
+            android:screenOrientation="portrait"
+            android:theme="@style/AppTheme.SwipeBack"
+            android:windowSoftInputMode="stateHidden|adjustPan"
+            android:launchMode="singleTop"/>
+
+        <activity android:name=".activity.ApFragmentSingleInstanceActivity"
+            android:screenOrientation="portrait"
+            android:theme="@style/AppTheme.SwipeBack"
+            android:windowSoftInputMode="stateHidden|adjustPan"
+            android:launchMode="singleInstance"/>
+
+        <activity android:name=".activity.ApFragmentSingleTaskActivity"
+            android:screenOrientation="portrait"
+            android:theme="@style/AppTheme.SwipeBack"
+            android:windowSoftInputMode="stateHidden|adjustPan"
+            android:launchMode="singleTask"/>
+
     </application>
 
 </manifest>

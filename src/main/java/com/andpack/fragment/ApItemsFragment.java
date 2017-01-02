@@ -71,16 +71,6 @@ public abstract class ApItemsFragment<T> extends AfItemsFragment<T> implements A
         return super.newRefreshLayouter(context);
     }
 
-    @Override
-    public void startFragment(Class<? extends Fragment> clazz, Object... args) {
-        ApFragmentActivity.start(clazz, args);
-    }
-
-    @Override
-    public void startFragmentForResult(Class<? extends Fragment> clazz, int request, Object... args) {
-        ApFragmentActivity.startResult(clazz, request, args);
-    }
-
     @NonNull
     @Override
     public ItemViewer<T> newItemViewer(int viewType) {
@@ -90,5 +80,15 @@ public abstract class ApItemsFragment<T> extends AfItemsFragment<T> implements A
     @Override
     public void onItemBinding(ViewQuery<? extends ViewQuery> $, T model, int index) {
 
+    }
+
+    @Override
+    public void startFragment(Class<? extends Fragment> clazz, Object... args) {
+        ApFragmentActivity.start(clazz, args);
+    }
+
+    @Override
+    public void startFragmentForResult(Class<? extends Fragment> clazz, int request, Object... args) {
+        ApFragmentActivity.startResult(clazz, request, args);
     }
 }
