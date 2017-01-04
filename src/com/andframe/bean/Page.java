@@ -86,7 +86,7 @@ public class Page implements Serializable{
      * @return （从0开始）
      */
     public int getcurrentPage() {
-        return FirstResult / MaxResult;
+        return MaxResult == 0 ? 0 : FirstResult / MaxResult;
     }
 
     public String getOrder() {

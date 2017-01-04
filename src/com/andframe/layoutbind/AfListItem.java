@@ -6,18 +6,19 @@ import android.view.View;
 import android.view.ViewGroup;
 
 import com.andframe.activity.framework.AfView;
+import com.andframe.activity.framework.AfViewable;
 import com.andframe.activity.framework.IViewQuery;
 import com.andframe.adapter.AfListAdapter.IListItem;
 import com.andframe.annotation.interpreter.Injecter;
 import com.andframe.annotation.interpreter.LayoutBinder;
 import com.andframe.annotation.interpreter.ViewBinder;
-import com.andframe.application.AfApp;
+import com.andframe.helper.android.AfViewQueryHelper;
 
 /**
  * 通用列表ITEM
  * @param <T>
  */
-public abstract class AfListItem<T> implements IListItem<T> {
+public abstract class AfListItem<T> implements IListItem<T> , AfViewable {
 	
 	private int layoutId;
 
@@ -56,21 +57,53 @@ public abstract class AfListItem<T> implements IListItem<T> {
 		return mLayout = inflater.inflate(getLayoutId(inflater.getContext()), parent, false);
 	}
 
-	/**
-	 * 开始 IViewQuery 查询
-	 * @param id 控件Id
-	 */
-	@SuppressWarnings("unused")
-	protected IViewQuery $(int... id) {
-		IViewQuery query = AfApp.get().getViewQuery(mLayout);
-		if (id == null || id.length == 0) {
-			return query;
-		}
-		return query.$(id[0]);
+
+	//<editor-fold desc="IViewQuery 集成">
+	IViewQuery<? extends IViewQuery> $$ = AfViewQueryHelper.newHelper(this);
+
+	public IViewQuery<? extends IViewQuery> $(View... views) {
+		return $$.$(views);
 	}
-	@SuppressWarnings("unused")
-	protected IViewQuery $(View view) {
-		return AfApp.get().getViewQuery(view);
+
+	public IViewQuery<? extends IViewQuery> $(Integer id, int... ids) {
+		return $$.$(id, ids);
 	}
+
+	public IViewQuery<? extends IViewQuery> $(String idvalue, String... idvalues) {
+		return $$.$(idvalue);
+	}
+
+	public IViewQuery<? extends IViewQuery> $(Class<? extends View> type, Class<? extends View>... types) {
+		return $$.$(type, types);
+	}
+	//</editor-fold>
+
+
+	//<editor-fold desc="Viewr 接口实现">
+	@Override
+	public Context getContext() {
+		return mLayout == null ? null : mLayout.getContext();
+	}
+
+	@Override
+	public View getView() {
+		return mLayout;
+	}
+
+	@Override
+	public View findViewById(int id) {
+		return mLayout == null ? null : mLayout.findViewById(id);
+	}
+
+	@Override
+	public <TT extends View> TT findViewByID(int id) {
+		return mLayout == null ? null : new AfView(mLayout).findViewByID(id);
+	}
+
+	@Override
+	public <TT extends View> TT findViewById(int id, Class<TT> clazz) {
+		return mLayout == null ? null : new AfView(mLayout).findViewById(id, clazz);
+	}
+	//</editor-fold>
 
 }
