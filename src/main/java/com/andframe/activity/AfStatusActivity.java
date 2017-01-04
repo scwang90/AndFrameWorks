@@ -13,6 +13,8 @@ import com.andframe.api.pager.status.StatusPager;
 import com.andframe.api.task.Task;
 import com.andframe.impl.helper.AfStatusHelper;
 
+import java.util.Date;
+
 /**
  * 多状态页面支持
  * Created by SCWANG on 2016/10/20.
@@ -34,6 +36,22 @@ public abstract class AfStatusActivity<T> extends AfActivity implements StatusPa
     public void onViewCreated() throws Exception {
         mHelper.onViewCreated();
     }
+
+    @Override
+    public void setModel(@NonNull T model) {
+        mHelper.setModel(model);
+    }
+
+    @Override
+    public void setLoadTaskOnViewCreated(boolean loadOrNot) {
+        mHelper.setLoadTaskOnViewCreated(loadOrNot);
+    }
+
+    @Override
+    public void setLastRefreshTime(@NonNull Date time) {
+        mHelper.setLastRefreshTime(time);
+    }
+
 
     public boolean isLoading() {
         return mHelper.isLoading();
@@ -119,6 +137,10 @@ public abstract class AfStatusActivity<T> extends AfActivity implements StatusPa
 
     public void showError(@NonNull String error) {
         mHelper.showError(error);
+    }
+
+    public void showProgress(@NonNull String progress) {
+        mHelper.showProgress(progress);
     }
     //</editor-fold>
 
