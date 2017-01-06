@@ -621,8 +621,25 @@ public interface ViewQuery<T extends ViewQuery<T>> {
     T progress(int progress);
     T visibility(boolean isvisibe);
     T animation(Animation animation);
-    T rotation(float rotation);
     T background(Drawable drawable);
+
+    T x(float x);
+    T y(float y);
+    T z(float y);
+    T scaleX(float x);
+    T scaleY(float y);
+    T translationX(float x);
+    T translationY(float y);
+    T translationZ(float y);
+    T pivotX(float x);
+    T pivotY(float y);
+    T rotationX(float x);
+    T rotationY(float y);
+    T rotation(float rotation);
+    T scrollX(int x);
+    T scrollY(int y);
+    T alpha(float x);
+
     T addView(View... views);
     T addView(View view, int index);
     T addView(View view, int width, int height);
