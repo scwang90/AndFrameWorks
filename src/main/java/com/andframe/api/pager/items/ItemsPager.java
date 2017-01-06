@@ -3,9 +3,9 @@ package com.andframe.api.pager.items;
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
 
+import com.andframe.api.Paging;
 import com.andframe.api.adapter.ItemViewer;
 import com.andframe.api.pager.status.StatusPager;
-import com.andframe.model.Page;
 
 import java.util.List;
 
@@ -24,11 +24,11 @@ public interface ItemsPager<T> extends StatusPager<List<T>>, ItemsHelper<T> {
 
     /**
      * 分页加载数据
-     * @param page 分页数据
+     * @param paging 分页数据(null表示不使用分页功能)
      * @throws Exception
      */
     @Nullable
-    List<T> onTaskLoadList(Page page) throws Exception;
+    List<T> onTaskLoadList(@Nullable Paging paging) throws Exception;
 
     /**
      * 列表点击事件

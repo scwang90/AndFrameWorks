@@ -9,10 +9,11 @@ import android.widget.AdapterView.OnItemLongClickListener;
 import android.widget.ListAdapter;
 
 import com.andframe.annotation.mark.MarkCache;
+import com.andframe.api.Paging;
 import com.andframe.api.adapter.HeaderFooterAdapter;
 import com.andframe.api.adapter.ItemViewerAdapter;
 import com.andframe.api.pager.status.StatusHelper;
-import com.andframe.api.task.Task;
+import com.andframe.api.task.TaskWithPaging;
 import com.andframe.api.view.ItemsViewer;
 import com.andframe.api.view.ViewQueryHelper;
 
@@ -147,7 +148,7 @@ public interface ItemsHelper<T> extends StatusHelper<List<T>>, OnItemClickListen
      * @param task 加载缓存的任务对象
      * @param list 任务加载返回的缓存数据
      */
-    void onTaskLoadedCache(@NonNull Task task, @Nullable List<T> list);
+    void onTaskLoadedCache(@NonNull TaskWithPaging task, @Nullable List<T> list);
     //</editor-fold>
 
     //<editor-fold desc="任务相关">
@@ -158,7 +159,7 @@ public interface ItemsHelper<T> extends StatusHelper<List<T>>, OnItemClickListen
      * @param task 执行刷新的任务对象
      * @param list 刷新任务返回的数据
      */
-    void onTaskLoadedRefresh(@NonNull Task task, @Nullable List<T> list);
+    void onTaskLoadedRefresh(@NonNull TaskWithPaging task, @Nullable List<T> list);
 
     /**
      * 加载更多数据结束
@@ -166,26 +167,43 @@ public interface ItemsHelper<T> extends StatusHelper<List<T>>, OnItemClickListen
      * @param task 加载更多的任务对象
      * @param list 加载更多返回的数据
      */
-    void onTaskLoadedMore(@NonNull Task task, @Nullable List<T> list);
+    void onTaskLoadedMore(@NonNull TaskWithPaging task, @Nullable List<T> list);
 
     //</editor-fold>
 
     //<editor-fold desc="页面状态">
+
     /**
      * 刷新任务执行成功之后显示数据
      */
     void finishRefresh();
+
     /**
      * 刷新任务加载失败后更新显示失败的状态
      */
     void finishRefreshFail();
+
     /**
-     * 数据加载完毕之后控制页面是否显示加载更多的状态
+     * 数据加载完毕之后控制页面是否显示加载更多的状态 内部会调用 @setLoadMoreEnabled
      * @param task 加载数据的任务
      * @param list 任务加载返回的数据
      * @return 返回 false 并且【非第一次加载跟多】时候 会默认提示 所有数据加载完毕
      */
-    boolean setMoreShow(@NonNull Task task, @Nullable List<T> list);
+    boolean setMoreShow(@NonNull TaskWithPaging task, @Nullable List<T> list);
+
+    /**
+     * 手动设置页面是否显示加载更多的状态
+     * @param enabled true 可以加载更多，false 关闭分页
+     */
+    void setLoadMoreEnabled(boolean enabled);
+
+    /**
+     * 创建分页对象
+     * @param size 分页大小
+     * @param start 开始位置
+     */
+    Paging newPaging(int size, int start);
+
     //</editor-fold>
 
 }

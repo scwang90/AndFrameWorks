@@ -2,11 +2,13 @@ package com.andframe.fragment;
 
 import android.content.Context;
 import android.support.annotation.NonNull;
+import android.support.annotation.Nullable;
 import android.view.View;
 import android.widget.AdapterView;
 import android.widget.ListAdapter;
 
 import com.andframe.annotation.mark.MarkCache;
+import com.andframe.api.Paging;
 import com.andframe.api.adapter.HeaderFooterAdapter;
 import com.andframe.api.adapter.ItemViewer;
 import com.andframe.api.adapter.ItemViewerAdapter;
@@ -15,6 +17,7 @@ import com.andframe.api.pager.items.ItemsPager;
 import com.andframe.api.pager.items.MoreFooter;
 import com.andframe.api.pager.status.StatusHelper;
 import com.andframe.api.task.Task;
+import com.andframe.api.task.TaskWithPaging;
 import com.andframe.api.view.ItemsViewer;
 import com.andframe.api.view.ViewQuery;
 import com.andframe.impl.helper.AfItemsPagerHelper;
@@ -227,8 +230,27 @@ public abstract class AfItemsFragment<T> extends AfStatusFragment<List<T>> imple
      * @return false 数据加载完毕，关闭加载更多功能 true 数据还未加载完，开启加载功能功能
      */
     @Override
-    public boolean setMoreShow(@NonNull Task task, List<T> list) {
+    public boolean setMoreShow(@NonNull TaskWithPaging task, @Nullable List<T> list) {
         return mItemsHelper.setMoreShow(task, list);
+    }
+
+    /**
+     * 手动设置页面是否显示加载更多的状态
+     * @param enabled true 可以加载更多，false 关闭分页
+     */
+    @Override
+    public void setLoadMoreEnabled(boolean enabled) {
+        mItemsHelper.setLoadMoreEnabled(enabled);
+    }
+
+    /**
+     * 创建分页对象
+     * @param size 分页大小
+     * @param start 开始位置
+     */
+    @Override
+    public Paging newPaging(int size, int start) {
+        return mItemsHelper.newPaging(size, start);
     }
 
     /**
@@ -280,7 +302,7 @@ public abstract class AfItemsFragment<T> extends AfStatusFragment<List<T>> imple
      * （在bindAdapter之前执行）
      */
     @Override
-    public void bindListHeaderAndFooter(HeaderFooterAdapter<T> adapter) {
+    public void bindListHeaderAndFooter(@NonNull HeaderFooterAdapter<T> adapter) {
         mItemsHelper.bindListHeaderAndFooter(adapter);
     }
 
@@ -315,24 +337,24 @@ public abstract class AfItemsFragment<T> extends AfStatusFragment<List<T>> imple
     }
 
 //    @Override
-//    public List<T> onTaskLoadList(Page page) throws Exception {
+//    public List<T> onTaskLoadList(Paging paging) throws Exception {
 //        return mItemsHelper.onTaskLoadList(page);
 //    }
     //</editor-fold>
 
     //<editor-fold desc="任务完成">
     @Override
-    public void onTaskLoadedCache(@NonNull Task task, List<T> list) {
+    public void onTaskLoadedCache(@NonNull TaskWithPaging task, List<T> list) {
         mItemsHelper.onTaskLoadedCache(task, list);
     }
 
     @Override
-    public void onTaskLoadedRefresh(@NonNull Task task, List<T> list) {
+    public void onTaskLoadedRefresh(@NonNull TaskWithPaging task, List<T> list) {
         mItemsHelper.onTaskLoadedRefresh(task, list);
     }
 
     @Override
-    public void onTaskLoadedMore(@NonNull Task task, List<T> list) {
+    public void onTaskLoadedMore(@NonNull TaskWithPaging task, List<T> list) {
         mItemsHelper.onTaskLoadedMore(task, list);
     }
     //</editor-fold>

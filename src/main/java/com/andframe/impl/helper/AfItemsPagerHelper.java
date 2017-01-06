@@ -4,6 +4,7 @@ import android.app.Activity;
 import android.content.Context;
 import android.database.DataSetObserver;
 import android.support.annotation.NonNull;
+import android.support.annotation.Nullable;
 import android.text.TextUtils;
 import android.view.View;
 import android.widget.AdapterView;
@@ -22,6 +23,7 @@ import com.andframe.annotation.pager.items.ItemsViewer;
 import com.andframe.annotation.pager.items.ItemsViewerOnly;
 import com.andframe.annotation.pager.status.StatusContentViewId;
 import com.andframe.annotation.pager.status.StatusContentViewType;
+import com.andframe.api.Paging;
 import com.andframe.api.adapter.HeaderFooterAdapter;
 import com.andframe.api.adapter.ItemViewer;
 import com.andframe.api.adapter.ItemViewerAdapter;
@@ -29,7 +31,7 @@ import com.andframe.api.pager.items.ItemsHelper;
 import com.andframe.api.pager.items.ItemsPager;
 import com.andframe.api.pager.items.MoreFooter;
 import com.andframe.api.pager.items.MoreLayouter;
-import com.andframe.api.task.Task;
+import com.andframe.api.task.TaskWithPaging;
 import com.andframe.api.view.ViewQuery;
 import com.andframe.api.view.ViewQueryHelper;
 import com.andframe.application.AfApp;
@@ -260,7 +262,7 @@ public class AfItemsPagerHelper<T> extends AfStatusHelper<List<T>> implements It
 
     //<editor-fold desc="任务执行结束">
     @Override
-    public void onTaskLoadedCache(@NonNull Task task, List<T> list) {
+    public void onTaskLoadedCache(@NonNull TaskWithPaging task, List<T> list) {
         onTaskLoadedRefresh(task, list);
         if (task.isFinish() && list != null && list.size() > 0) {
             //设置上次刷新缓存时间
@@ -269,7 +271,7 @@ public class AfItemsPagerHelper<T> extends AfStatusHelper<List<T>> implements It
     }
 
     @Override
-    public void onTaskLoadedRefresh(@NonNull Task task, List<T> list) {
+    public void onTaskLoadedRefresh(@NonNull TaskWithPaging task, List<T> list) {
         if (task.isFinish()) {
             //通知列表刷新完成
             mItemsPager.finishRefresh();
@@ -298,7 +300,7 @@ public class AfItemsPagerHelper<T> extends AfStatusHelper<List<T>> implements It
     }
 
     @Override
-    public void onTaskLoadedMore(@NonNull Task task, List<T> list) {
+    public void onTaskLoadedMore(@NonNull TaskWithPaging task, List<T> list) {
         // 通知列表刷新完成
         mMoreLayouter.finishLoadMore();
         if (task.isFinish()) {
@@ -460,10 +462,23 @@ public class AfItemsPagerHelper<T> extends AfStatusHelper<List<T>> implements It
      * @return false 数据加载完毕，关闭加载更多功能 true 数据还未加载完，开启加载功能功能
      */
     @Override
-    public boolean setMoreShow(@NonNull Task task, List<T> list) {
-        boolean loadFinish = list.size() >= AfListViewTask.PAGE_SIZE;
-        mMoreLayouter.setLoadMoreEnabled(loadFinish);
+    public boolean setMoreShow(@NonNull TaskWithPaging task, List<T> list) {
+        if (task.getPaging() == null) {
+            return false;
+        }
+        boolean loadFinish = list.size() >= task.getPaging().getPageSize();
+        mItemsPager.setLoadMoreEnabled(loadFinish);
         return loadFinish;
+    }
+
+    @Override
+    public Paging newPaging(int size, int start) {
+        return new Page(size, size);
+    }
+
+    @Override
+    public void setLoadMoreEnabled(boolean enabled) {
+        mMoreLayouter.setLoadMoreEnabled(enabled);
     }
 
     @Override
@@ -507,7 +522,7 @@ public class AfItemsPagerHelper<T> extends AfStatusHelper<List<T>> implements It
 
     //<editor-fold desc="任务加载">
 //    @Override
-//    public List<T> onTaskLoadList(Page page) {
+//    public List<T> onTaskLoadList(Paging paging) {
 //        return null;
 //    }
 
@@ -590,7 +605,16 @@ public class AfItemsPagerHelper<T> extends AfStatusHelper<List<T>> implements It
 
     //<editor-fold desc="加载任务">
 
-    protected class AbLoadListTask extends AbStatusTask {
+    protected class AbLoadListTask extends AbStatusTask implements TaskWithPaging {
+
+        private Page mPaging;
+
+        @Nullable
+        @Override
+        public Paging getPaging() {
+            return mPaging;
+        }
+
         @Override
         protected void onHandle(List<T> list) {
             super.onHandle(list);
@@ -609,7 +633,7 @@ public class AfItemsPagerHelper<T> extends AfStatusHelper<List<T>> implements It
             if (list != null && list.size() > 0) {
                 return list;
             }
-            data = mItemsPager.onTaskLoadList(new Page(AfListViewTask.PAGE_SIZE, 0));
+            data = mItemsPager.onTaskLoadList(mPaging = new Page(AfListViewTask.PAGE_SIZE, 0));
             mItemsPager.onTaskPutCache(data);
             return data;
         }
@@ -618,9 +642,17 @@ public class AfItemsPagerHelper<T> extends AfStatusHelper<List<T>> implements It
     /**
      * 刷新数据任务
      */
-    protected class AbRefreshListTask extends AbStatusTask {
+    protected class AbRefreshListTask extends AbStatusTask implements TaskWithPaging {
+
+        private Paging paging;
 
         public AbRefreshListTask() {
+        }
+
+        @Nullable
+        @Override
+        public Paging getPaging() {
+            return paging;
         }
 
         @Override
@@ -631,7 +663,7 @@ public class AfItemsPagerHelper<T> extends AfStatusHelper<List<T>> implements It
 
         @Override
         protected List<T> onLoadData() throws Exception {
-            data = mItemsPager.onTaskLoadList(new Page(AfListViewTask.PAGE_SIZE, 0));
+            data = mItemsPager.onTaskLoadList(paging = newPaging(AfListViewTask.PAGE_SIZE, 0));
             mItemsPager.onTaskPutCache(data);
             return data;
         }
@@ -646,7 +678,15 @@ public class AfItemsPagerHelper<T> extends AfStatusHelper<List<T>> implements It
     /**
      * 获取更多数据任务
      */
-    protected class AbMoreListTask extends AbStatusTask {
+    protected class AbMoreListTask extends AbStatusTask implements TaskWithPaging  {
+
+        private Paging paging;
+
+        @Nullable
+        @Override
+        public Paging getPaging() {
+            return paging;
+        }
 
         @Override
         protected void onHandle(List<T> list) {
@@ -656,7 +696,7 @@ public class AfItemsPagerHelper<T> extends AfStatusHelper<List<T>> implements It
 
         @Override
         protected List<T> onLoadData() throws Exception {
-            data =  mItemsPager.onTaskLoadList(new Page(AfListViewTask.PAGE_SIZE, mAdapter.size()));
+            data =  mItemsPager.onTaskLoadList(paging = newPaging(AfListViewTask.PAGE_SIZE, mAdapter.size()));
             mItemsPager.onTaskPushCache(data);
             return data;
         }

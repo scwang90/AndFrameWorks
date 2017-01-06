@@ -1,12 +1,14 @@
 package com.andframe.model;
 
+import com.andframe.api.Paging;
+
 /**
  * 分页查询类
  * 分页查询开始索引、开始分页等从 0 开始索引
  * @author 树朾
  */
 @SuppressWarnings("unused")
-public class Page {
+public class Page implements Paging{
 
     public boolean IsASC = true;
     public String Order = "";
@@ -84,8 +86,31 @@ public class Page {
      * 转换成当前页码
      * @return （从0开始）
      */
-    public int getcurrentPage() {
+    public int getPageIndex() {
         return FirstResult / MaxResult;
+    }
+
+    @Override
+    public int getPageStart() {
+        return FirstResult;
+    }
+
+    @Override
+    public Paging setPageSize(int size) {
+        MaxResult = size;
+        return this;
+    }
+
+    @Override
+    public Paging setPageIndex(int index) {
+        FirstResult = index * MaxResult;
+        return this;
+    }
+
+    @Override
+    public Paging setPageStart(int start) {
+        FirstResult = start;
+        return this;
     }
 
     public String getOrder() {

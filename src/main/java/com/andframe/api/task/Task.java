@@ -7,8 +7,6 @@ package com.andframe.api.task;
 
 public interface Task extends Runnable {
 
-
-
     /**
      * 任务状态
      */

@@ -3,10 +3,10 @@ package com.andframe.task;
 import android.os.Handler;
 import android.os.Looper;
 
-import com.andframe.api.task.HandlerTask;
+import com.andframe.api.task.TaskWithHandler;
 import com.andframe.exception.AfExceptionHandler;
 
-public abstract class AfHandlerTask extends AfTask implements HandlerTask {
+public abstract class AfHandlerTask extends AfTask implements TaskWithHandler {
 
 	protected OnTaskFinishListener mListener;
 	protected static Handler mHandler = new Handler(Looper.getMainLooper());
