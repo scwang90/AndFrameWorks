@@ -35,12 +35,11 @@ public interface ItemsHelper<T> extends StatusHelper<List<T>>, OnItemClickListen
      * <br>1、 @{@link android.widget.AbsListView} 的所有子类
      * <br>    包括 @{@link android.widget.ListView} @{@link android.widget.GridView} 等等
      * <br>2、 @{@link android.support.v7.widget.RecyclerView} 以及其子类（自定义的子类）
-     * @param pager 页面对象
      * @param contentView @{@link com.andframe.api.pager.status.StatusPager} 中的内容视图
      * @return 被抽象的 @{@link ItemsViewer} 对象
      */
     @NonNull
-    ItemsViewer findItemsViewer(ItemsPager<T> pager, View contentView);
+    ItemsViewer findItemsViewer(View contentView);
 
     /**
      * 如果@newRefreshLayouter中返回的下拉刷新控件】@{@link com.andframe.api.pager.status.RefreshLayouter}
@@ -89,6 +88,11 @@ public interface ItemsHelper<T> extends StatusHelper<List<T>>, OnItemClickListen
      * @return 默认0
      */
     int getItemViewType(int position);
+
+    /**
+     * 数据改变
+     */
+    void onDateChenged();
 
     //</editor-fold>
 

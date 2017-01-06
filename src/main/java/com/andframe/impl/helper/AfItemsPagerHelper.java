@@ -127,7 +127,7 @@ public class AfItemsPagerHelper<T> extends AfStatusHelper<List<T>> implements It
     public AfItemsPagerHelper(ItemsPager<T> itemsPager) {
         super(itemsPager);
         this.mItemsPager = itemsPager;
-        this.$$= new AfViewQueryHelper(new ViewerWarpper(itemsPager.getView()) {
+        this.$$ = new AfViewQueryHelper(new ViewerWarpper(itemsPager.getView()) {
             @Override
             public Context getContext() {
                 return itemsPager.getContext();
@@ -176,7 +176,7 @@ public class AfItemsPagerHelper<T> extends AfStatusHelper<List<T>> implements It
     @Override
     public View findContentView() {
         View contentView = super.findContentView();
-        mItemsViewer = mItemsPager.findItemsViewer(mItemsPager, contentView);
+        mItemsViewer = mItemsPager.findItemsViewer(contentView);
         Class<?> stop = mPager instanceof Activity ? AfItemsActivity.class : AfItemsFragment.class;
         mItemsViewerOnly = AfReflecter.getAnnotation(mItemsPager.getClass(), stop, ItemsViewerOnly.class);
         if (mItemsViewerOnly == null) {
@@ -228,11 +228,7 @@ public class AfItemsPagerHelper<T> extends AfStatusHelper<List<T>> implements It
             mAdapter.registerDataSetObserver(new DataSetObserver() {
                 @Override
                 public void onChanged() {
-                    if (/*mAdapter.isEmpty()*/mItemsPager.isEmpty(mAdapter.getList())) {
-                        mItemsPager.showEmpty();
-                    } else {
-                        mItemsPager.showContent();
-                    }
+                    mItemsPager.onDateChenged();
                 }
             });
         } else {
@@ -258,6 +254,16 @@ public class AfItemsPagerHelper<T> extends AfStatusHelper<List<T>> implements It
     public int getItemViewType(int position) {
         return 0;
     }
+
+    @Override
+    public void onDateChenged() {
+        if (mItemsPager.isEmpty(mAdapter.getList())) {
+            mItemsPager.showEmpty();
+        } else {
+            mItemsPager.showContent();
+        }
+    }
+
     //</editor-fold>
 
     //<editor-fold desc="任务执行结束">
@@ -370,10 +376,11 @@ public class AfItemsPagerHelper<T> extends AfStatusHelper<List<T>> implements It
 
     @Override
     public void onTaskPushCache(List<T> list) {
-        if (mCacheClazz != null) {
+        if (mCacheClazz != null && list != null && list.size() > 0) {
             AfPrivateCaches cache = AfPrivateCaches.getInstance(KEY_CACHELIST);
-            list.addAll(0, cache.getList(KEY_CACHELIST, mCacheClazz));
-            cache.putList(KEY_CACHELIST, list);
+            List<T> cacheList = cache.getList(KEY_CACHELIST, mCacheClazz);
+            cacheList.addAll(0, list);
+            cache.putList(KEY_CACHELIST, cacheList);
         }
     }
 
@@ -473,7 +480,7 @@ public class AfItemsPagerHelper<T> extends AfStatusHelper<List<T>> implements It
 
     @Override
     public Paging newPaging(int size, int start) {
-        return new Page(size, size);
+        return new Page(size, start);
     }
 
     @Override
@@ -492,20 +499,20 @@ public class AfItemsPagerHelper<T> extends AfStatusHelper<List<T>> implements It
     //<editor-fold desc="组件加载">
     @NonNull
     @Override
-    public com.andframe.api.view.ItemsViewer findItemsViewer(ItemsPager<T> pager, View contentView) {
+    public com.andframe.api.view.ItemsViewer findItemsViewer(View contentView) {
         View itemView;
         Class<?> stop = mPager instanceof Activity ? AfItemsActivity.class : AfItemsFragment.class;
-        ItemsViewer viewer = AfReflecter.getAnnotation(pager.getClass(), stop, ItemsViewer.class);
-        ItemsViewerOnly viewerOnly = AfReflecter.getAnnotation(pager.getClass(), stop, ItemsViewerOnly.class);
+        ItemsViewer viewer = AfReflecter.getAnnotation(mPager.getClass(), stop, ItemsViewer.class);
+        ItemsViewerOnly viewerOnly = AfReflecter.getAnnotation(mPager.getClass(), stop, ItemsViewerOnly.class);
         if (viewer != null) {
-            itemView = pager.findViewById(viewer.value());
+            itemView = mPager.findViewById(viewer.value());
         } else if (viewerOnly != null && viewerOnly.value() > 0) {
-            itemView = pager.findViewById(viewerOnly.value());
+            itemView = mPager.findViewById(viewerOnly.value());
         } else {
             if (ItemsViewerWrapper.isWrappeder(contentView)) {
                 itemView = contentView;
             } else {
-                itemView = ItemsViewerWrapper.searchItemsView(pager);
+                itemView = ItemsViewerWrapper.searchItemsView(mPager);
             }
         }
 
@@ -607,12 +614,12 @@ public class AfItemsPagerHelper<T> extends AfStatusHelper<List<T>> implements It
 
     protected class AbLoadListTask extends AbStatusTask implements TaskWithPaging {
 
-        private Page mPaging;
+        private Paging paging;
 
         @Nullable
         @Override
         public Paging getPaging() {
-            return mPaging;
+            return paging;
         }
 
         @Override
@@ -633,7 +640,7 @@ public class AfItemsPagerHelper<T> extends AfStatusHelper<List<T>> implements It
             if (list != null && list.size() > 0) {
                 return list;
             }
-            data = mItemsPager.onTaskLoadList(mPaging = new Page(AfListViewTask.PAGE_SIZE, 0));
+            data = mItemsPager.onTaskLoadList(paging = mItemsPager.newPaging(AfListViewTask.PAGE_SIZE, 0));
             mItemsPager.onTaskPutCache(data);
             return data;
         }
@@ -663,7 +670,7 @@ public class AfItemsPagerHelper<T> extends AfStatusHelper<List<T>> implements It
 
         @Override
         protected List<T> onLoadData() throws Exception {
-            data = mItemsPager.onTaskLoadList(paging = newPaging(AfListViewTask.PAGE_SIZE, 0));
+            data = mItemsPager.onTaskLoadList(paging = mItemsPager.newPaging(AfListViewTask.PAGE_SIZE, 0));
             mItemsPager.onTaskPutCache(data);
             return data;
         }
@@ -696,7 +703,7 @@ public class AfItemsPagerHelper<T> extends AfStatusHelper<List<T>> implements It
 
         @Override
         protected List<T> onLoadData() throws Exception {
-            data =  mItemsPager.onTaskLoadList(paging = newPaging(AfListViewTask.PAGE_SIZE, mAdapter.size()));
+            data =  mItemsPager.onTaskLoadList(paging = mItemsPager.newPaging(AfListViewTask.PAGE_SIZE, mAdapter.size()));
             mItemsPager.onTaskPushCache(data);
             return data;
         }

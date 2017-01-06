@@ -84,14 +84,12 @@ public abstract class AfItemsActivity<T> extends AfStatusActivity<List<T>> imple
     /**
      *
      * 获取列表控件
-     *
-     * @param pager 页面对象
      * @return pager.findListViewById(id)
      */
     @NonNull
     @Override
-    public ItemsViewer findItemsViewer(ItemsPager<T> pager, View contentView) {
-        return mItemsHelper.findItemsViewer(pager, contentView);
+    public ItemsViewer findItemsViewer(View contentView) {
+        return mItemsHelper.findItemsViewer(contentView);
     }
 
     /**
@@ -119,6 +117,11 @@ public abstract class AfItemsActivity<T> extends AfStatusActivity<List<T>> imple
     @Override
     public int getViewTypeCount() {
         return mItemsHelper.getViewTypeCount();
+    }
+
+    @Override
+    public void onDateChenged() {
+        mItemsHelper.onDateChenged();
     }
 
     //</editor-fold>
