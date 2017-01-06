@@ -2,6 +2,7 @@ package com.andpack.annotation.interpreter;
 
 import android.app.Activity;
 import android.content.res.Resources;
+import android.support.v4.content.ContextCompat;
 import android.view.View;
 
 import com.andframe.$;
@@ -17,6 +18,7 @@ import com.andpack.annotation.statusbar.StatusBarPaddingS;
 import com.andpack.annotation.statusbar.StatusBarPaddingType;
 import com.andpack.annotation.statusbar.StatusBarTranslucent;
 import com.andpack.annotation.statusbar.StatusBarTranslucentDark;
+import com.andpack.application.ApApp;
 import com.andpack.util.ApStatusBarUtil;
 
 /**
@@ -80,7 +82,8 @@ public class StatusBarInterpreter {
 
     private static void defaultTranslucent(Pager pager, StatusBarTranslucent translucent, StatusBarTranslucentDark translucentDark) {
         if (translucent == null && translucentDark == null && (pager instanceof Activity || pager.getActivity() instanceof AfFragmentActivity)) {
-            ApStatusBarUtil.immersive(pager.getActivity());
+            translucent = ApApp.getApp().defaultStatusBarTranslucent();
+            ApStatusBarUtil.immersive(pager.getActivity(), ContextCompat.getColor(pager.getContext(), translucent.color()), translucent.value());
         }
     }
 
