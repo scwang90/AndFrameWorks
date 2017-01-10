@@ -1,5 +1,8 @@
 package com.andmail.kernel;
 
+import com.andmail.api.MailReader;
+import com.andmail.api.model.MailReaderModel;
+
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Locale;
@@ -14,9 +17,7 @@ import javax.mail.Part;
 import javax.mail.Session;
 import javax.mail.Store;
 
-import com.andmail.model.MailFolder;
-
-public class MailKernel {
+public class AmMailReader implements MailReader {
 	
 	static{
 		MailcapCommandMap mc = (MailcapCommandMap) CommandMap.getDefaultCommandMap();
@@ -37,10 +38,10 @@ public class MailKernel {
 		}
 	}
 	
-	protected MailFolder mMailFolder = null;   
+	protected MailReaderModel mMailFolder = null;
 	protected Properties mProperties = new Properties();   
 	
-	public MailKernel(MailFolder folder) {
+	public AmMailReader(MailReaderModel folder) {
 		mMailFolder = folder;
 		setProtocol(Protocol.DEFAULT);
 	}
@@ -58,12 +59,12 @@ public class MailKernel {
 
 	protected Store connect() throws Exception{
 		Store store = Session.getDefaultInstance(mProperties).getStore();
-		store.connect(mMailFolder.host, mMailFolder.username, mMailFolder.password); 
+		store.connect(mMailFolder.getHost(), mMailFolder.getUsername(), mMailFolder.getPassword());
 		return store;
 	}
 	
 	protected Folder getFolder(Store store) throws Exception{
-		return getFolder(store, mMailFolder.folder);
+		return getFolder(store, mMailFolder.getFolder());
 	}
 	
 	protected Folder getFolder(Store store,String foldername) throws Exception{
@@ -98,7 +99,7 @@ public class MailKernel {
 
 	protected void getHtmlPartPart(Part part, List<Part> ltParts) throws Exception {
 		String contenttype = part.getContentType().toLowerCase(Locale.ENGLISH);
-		if (contenttype.indexOf("text/html") >= 0) {
+		if (contenttype.contains("text/html")) {
 			ltParts.add(part);
 		}
 	}

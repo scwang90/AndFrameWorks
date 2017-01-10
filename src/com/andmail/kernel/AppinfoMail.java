@@ -1,24 +1,20 @@
 package com.andmail.kernel;
 
-import com.andframe.application.AfApplication;
-import com.andmail.model.MailModel;
+import android.content.Context;
 
-public abstract class AppinfoMail extends MailResender{
+import com.andmail.api.model.MailSenderModel;
+
+public abstract class AppinfoMail extends MailResender {
 	
 	protected String mailtype = "";
 	protected static String appinfo = "";
 
-	public AppinfoMail(MailModel model, String sendto, String subject,
-			String content) {
-		super(model, sendto, subject, content);
+	public AppinfoMail(Context context, String subject, String content) {
+		super(context, subject, content);
 	}
 
-	public AppinfoMail(MailModel model, String subject, String content) {
-		super(model, subject, content);
-	}
-
-	public AppinfoMail(String subject, String content) {
-		super(subject, content);
+	public AppinfoMail(Context context, MailSenderModel model, String subject, String content) {
+		super(context, model, subject, content);
 	}
 
 	@Override
@@ -28,9 +24,8 @@ public abstract class AppinfoMail extends MailResender{
 	}
 	
 	protected void packAppinfo() {
-		AfApplication app = AfApplication.getApp();
 		mContent = mContent  + "\r\n\r\n" + appinfo;
-		mSubject = mSubject+" "+mailtype+" "+ app.getAppName();
+		mSubject = mSubject+" "+mailtype;
 	}
 	
 	public static void updateAppinfo(String info) {

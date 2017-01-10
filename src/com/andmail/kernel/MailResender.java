@@ -1,117 +1,155 @@
 package com.andmail.kernel;
 
+import android.content.Context;
+import android.content.SharedPreferences;
+
+import com.andmail.api.model.MailSenderModel;
+
+import java.io.ByteArrayInputStream;
+import java.io.ByteArrayOutputStream;
+import java.io.ObjectInputStream;
+import java.io.ObjectOutputStream;
+import java.io.Serializable;
+import java.security.MessageDigest;
+import java.text.DateFormat;
+import java.text.SimpleDateFormat;
 import java.util.Date;
 import java.util.HashSet;
+import java.util.Locale;
+import java.util.Map;
 import java.util.Set;
 
-import android.os.Message;
+/**
+ * 可重发的邮件发送器
+ */
+public class MailResender extends AmMailSender {
 
-import com.andframe.application.AfApplication;
-import com.andframe.application.AfExceptionHandler;
-import com.andframe.caches.AfSharedPreference;
-import com.andframe.util.java.AfDateFormat;
-import com.andmail.model.MailModel;
-import com.google.gson.Gson;
+	private static final String CACHE_KEY = "25262223115182804102";
+	private static final String CACHE_NAME = "02979904115182804102";
 
-public class MailResender extends MailSender{
+	private ResendEntityCache mCache;
 
-	public ResendEntityCache mCache = new ResendEntityCache();
-
-	public MailResender(String subject, String content) {
+	MailResender(Context context, String subject, String content) {
 		super(subject, content);
+		mCache = new ResendEntityCache(context);
 	}
 	
-	public MailResender(MailModel model, String sendto, String subject,
-			String content) {
-		super(model, sendto, subject, content);
-	}
-
-	public MailResender(MailModel model, String subject, String content) {
+	MailResender(Context context, MailSenderModel model, String subject, String content) {
 		super(model, subject, content);
+		mCache = new ResendEntityCache(context);
 	}
 
 	@Override
-	protected void onException(Throwable e) {
-		super.onException(e);
-		mCache.addExceptionHandlerSet(new ResendEntity(this,e));
-	}
-	
-	@Override
-	protected void onWorking(/*Message msg*/) throws Exception {
-		super.onWorking(/*msg*/);
+	public void onTaskException(Exception e) {
+		super.onTaskException(e);
 		try {
+			mCache.addExceptionHandlerSet(new ResendEntity(this,e));
+		} catch (Exception e1) {
+			e1.printStackTrace();
+		}
+	}
+
+	@Override
+	protected Void doInBackground(Void... params) {
+		super.doInBackground(params);
+		try {
+			DateFormat format = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss", Locale.CHINESE);
 			Set<ResendEntity> sethanlder = mCache.getExceptionHandlerSet(null);
 			for (ResendEntity entity : sethanlder) {
-				String content = AfDateFormat.FULL.format(entity.mSendTime);
+				String content = format.format(entity.mSendTime);
 				content = "原始时间:"+content +"\r\n\r\n"+entity.mContent+entity.mException;
-				new MailSender(mModel,mSendTo,entity.mSubject,content).send();
+				new AmMailSender(mModel,entity.mSubject,content).send();
+				newMailKerneler(mModel).create(mModel.getFrom(), mModel.getSendto()).send();
 			}
 			sethanlder.clear();
 			mCache.putExceptionHandlerSet(sethanlder);
 		} catch (Throwable e) {
+			e.printStackTrace();
 		}
+		return null;
 	}
 	
-	public static class ResendEntity{
+	private static class ResendEntity implements Serializable {
 		
-		public String mSubject = "";
-		public String mContent = "";
-		public String mException = "";
-		public Date mSendTime = new Date();
-		
-		public ResendEntity() {
-		}
-		
-		public ResendEntity(MailResender mail,Throwable e) {
+		String mSubject = "";
+		String mContent = "";
+		String mException = "";
+		Date mSendTime = new Date();
+
+		ResendEntity(MailResender mail, Throwable e) {
 			mSubject = mail.mSubject;
 			mContent = mail.mContent;
-			mException = "\r\n\r\n重发异常:\r\n" + AfExceptionHandler.getExceptionName(e) + 
-			"\r\n\r\n重发信息:\r\n" + AfExceptionHandler.getExceptionMessage(e) + 
-			"\r\n\r\n重发堆栈:\r\n" + AfExceptionHandler.getPackageStackTraceInfo(e);
+			mException = "\r\n\r\n重发异常:\r\n" + e.getClass() +
+			"\r\n\r\n重发信息:\r\n" + e.getMessage() +
+			"\r\n\r\n重发堆栈:\r\n" + e.getStackTrace()[0];
+		}
+
+		int size() {
+			return mSubject.length() * 2 + mContent.length() * 2 + mException.length() * 2 + 8;
 		}
 	}
 
-	public static class ResendEntityCache extends AfSharedPreference {
-		
-		private static final String CACHE_KEY = "25262223115182804102";
-		private static final String CACHE_NAME = "02979904115182804102";
+	private static class ResendEntityCache {
 
-		public ResendEntityCache() {
-			super(AfApplication.getApp(), CACHE_NAME);
+		private final SharedPreferences mShared;
+
+		ResendEntityCache(Context context) {
+			mShared = context.getSharedPreferences(CACHE_NAME, Context.MODE_PRIVATE);
 		}
 
-		public Set<ResendEntity> getExceptionHandlerSet(Set<ResendEntity> defvalue) {
-			Set<String> strset = getStringSet(CACHE_KEY, null);
-			if (strset == null) {
-				return defvalue;
-			}
-			Gson json = new Gson();
-			Set<ResendEntity> setHandler = new HashSet<ResendEntity>();
+		Set<ResendEntity> getExceptionHandlerSet(Set<ResendEntity> defvalue) {
+			Set<ResendEntity> setHandler = new HashSet<>();
+			Map<String, ?> all = mShared.getAll();
 			try {
-				for (String jvalue : strset) {
-					setHandler.add(json.fromJson(jvalue, ResendEntity.class));
-				}
-			} catch (Throwable e) {
+				for (Map.Entry<String, ?> entry : all.entrySet()) {
+                    byte[] bytes = entry.getValue().toString().getBytes("Unicode");
+                    ObjectInputStream stream = new ObjectInputStream(new ByteArrayInputStream(bytes));
+                    setHandler.add((ResendEntity) stream.readObject());
+                }
+			} catch (Exception e) {
 				e.printStackTrace();
+				return defvalue;
 			}
 			return setHandler;
 		}
 
-		public void putExceptionHandlerSet(Set<ResendEntity> sthandler) {
-			Gson json = new Gson();
-			Set<String> strset = new HashSet<String>();
-			for (ResendEntity handler : sthandler) {
-				strset.add(json.toJson(handler));
+		void putExceptionHandlerSet(Set<ResendEntity> sthandler) throws Exception {
+			SharedPreferences.Editor edit = mShared.edit();
+			edit.clear();
+			for (ResendEntity entity : sthandler) {
+				ByteArrayOutputStream byteStream = new ByteArrayOutputStream(entity.size());
+				ObjectOutputStream outputStream = new ObjectOutputStream(byteStream);
+				outputStream.writeObject(entity);
+				byte[] bytes = byteStream.toByteArray();
+				edit.putString(getMD5(bytes), new String(bytes, "Unicode"));
 			}
-			putStringSet(CACHE_KEY, strset);
+			edit.commit();
 		}
 
-		public void addExceptionHandlerSet(ResendEntity handler) {
-			Gson json = new Gson();
-			Set<String> strset = getStringSet(CACHE_KEY, new HashSet<String>());
-			strset.add(json.toJson(handler));
-			putStringSet(CACHE_KEY, strset);
+		void addExceptionHandlerSet(ResendEntity entity) throws Exception {
+			SharedPreferences.Editor edit = mShared.edit();
+			edit.clear();
+			ByteArrayOutputStream byteStream = new ByteArrayOutputStream(entity.size());
+			ObjectOutputStream outputStream = new ObjectOutputStream(byteStream);
+			outputStream.writeObject(entity);
+			byte[] bytes = byteStream.toByteArray();
+			edit.putString(getMD5(bytes), new String(bytes, "utf-8"));
+			edit.commit();
 		}
 	}
 
+	public static String getMD5(byte[] bytes) throws Exception {
+		MessageDigest md5 = MessageDigest.getInstance("MD5");
+		md5.update(bytes);
+		byte[] m = md5.digest();//加密
+		return getString(m);
+	}
+
+	private static String getString(byte[] b){
+		StringBuilder sb = new StringBuilder();
+		for (byte aB : b) {
+			sb.append(aB);
+		}
+		return sb.toString();
+	}
 }
