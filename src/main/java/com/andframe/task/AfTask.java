@@ -99,7 +99,7 @@ public abstract class AfTask implements Task, OnCancelListener {
 				return false;
 			}
 		}
-		return mStatus != Status.canceld;
+		return mStatus == Status.prepared;
 	}
 	/**
 	 * 任务准备开始 （在UI线程中）
