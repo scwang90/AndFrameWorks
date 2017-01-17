@@ -14,6 +14,7 @@ import android.support.annotation.DrawableRes;
 import android.support.annotation.LayoutRes;
 import android.support.annotation.Nullable;
 import android.support.v4.content.ContextCompat;
+import android.support.v4.view.ViewCompat;
 import android.support.v7.widget.LinearLayoutCompat;
 import android.text.Editable;
 import android.text.Html;
@@ -1301,14 +1302,153 @@ public class AfViewQuery<T extends AfViewQuery<T>> implements ViewQuery<T> {
     }
 
     @Override
-    public T rotation(float rotation) {
-        return foreach((ViewEacher<View>) view -> view.setRotation(rotation));
-    }
-
-    @Override
     public T background(Drawable drawable) {
         //noinspection deprecation
         return foreach((ViewEacher<View>) view -> view.setBackgroundDrawable(drawable));
+    }
+
+    @Override
+    public T scrollX(int x) {
+        if (Build.VERSION.SDK_INT >= 14) {
+            return foreach((ViewEacher<View>) view -> view.setScrollX(x));
+        } else {
+            return foreach((ViewEacher<View>) view -> view.scrollBy(x, view.getScrollY()));
+        }
+    }
+
+    @Override
+    public T scrollY(int y) {
+        if (Build.VERSION.SDK_INT >= 14) {
+            return foreach((ViewEacher<View>) view -> view.setScrollY(y));
+        } else {
+            return foreach((ViewEacher<View>) view -> view.scrollBy(view.getScrollX(), y));
+        }
+    }
+
+    @Override
+    public T scaleX(float x) {
+        if (Build.VERSION.SDK_INT >= 11) {
+            return foreach((ViewEacher<View>) view -> view.setScaleX(x));
+        } else {
+            return foreach((ViewEacher<View>) view -> ViewCompat.setScaleX(view, x));
+        }
+    }
+
+    @Override
+    public T scaleY(float y) {
+        if (Build.VERSION.SDK_INT >= 11) {
+            return foreach((ViewEacher<View>) view -> view.setScaleY(y));
+        } else {
+            return foreach((ViewEacher<View>) view -> ViewCompat.setScaleY(view, y));
+        }
+    }
+
+    @Override
+    public T translationX(float x) {
+        if (Build.VERSION.SDK_INT >= 11) {
+            return foreach((ViewEacher<View>) view -> view.setTranslationX(x));
+        } else {
+            return foreach((ViewEacher<View>) view -> ViewCompat.setTranslationX(view, x));
+        }
+    }
+
+    @Override
+    public T translationY(float y) {
+        if (Build.VERSION.SDK_INT >= 11) {
+            return foreach((ViewEacher<View>) view -> view.setTranslationY(y));
+        } else {
+            return foreach((ViewEacher<View>) view -> ViewCompat.setTranslationY(view, y));
+        }
+    }
+
+    @Override
+    public T translationZ(float y) {
+        if (Build.VERSION.SDK_INT >= 21) {
+            return foreach((ViewEacher<View>) view -> view.setTranslationZ(y));
+        } else {
+            return foreach((ViewEacher<View>) view -> ViewCompat.setTranslationZ(view, y));
+        }
+    }
+
+    @Override
+    public T x(float x) {
+        if (Build.VERSION.SDK_INT >= 11) {
+            return foreach((ViewEacher<View>) view -> view.setX(x));
+        } else {
+            return foreach((ViewEacher<View>) view -> ViewCompat.setX(view, x));
+        }
+    }
+
+    @Override
+    public T y(float y) {
+        if (Build.VERSION.SDK_INT >= 11) {
+            return foreach((ViewEacher<View>) view -> view.setY(y));
+        } else {
+            return foreach((ViewEacher<View>) view -> ViewCompat.setY(view, y));
+        }
+    }
+
+    @Override
+    public T z(float y) {
+        if (Build.VERSION.SDK_INT >= 21) {
+            return foreach((ViewEacher<View>) view -> view.setZ(y));
+        } else {
+            return self();
+        }
+    }
+
+    @Override
+    public T pivotX(float x) {
+        if (Build.VERSION.SDK_INT >= 11) {
+            return foreach((ViewEacher<View>) view -> view.setPivotX(x));
+        } else {
+            return foreach((ViewEacher<View>) view -> ViewCompat.setPivotX(view, x));
+        }
+    }
+
+    @Override
+    public T pivotY(float y) {
+        if (Build.VERSION.SDK_INT >= 11) {
+            return foreach((ViewEacher<View>) view -> view.setPivotY(y));
+        } else {
+            return foreach((ViewEacher<View>) view -> ViewCompat.setPivotY(view, y));
+        }
+    }
+
+    @Override
+    public T rotationX(float x) {
+        if (Build.VERSION.SDK_INT >= 11) {
+            return foreach((ViewEacher<View>) view -> view.setRotationX(x));
+        } else {
+            return foreach((ViewEacher<View>) view -> ViewCompat.setRotationX(view, x));
+        }
+    }
+
+    @Override
+    public T rotationY(float y) {
+        if (Build.VERSION.SDK_INT >= 11) {
+            return foreach((ViewEacher<View>) view -> view.setRotationY(y));
+        } else {
+            return foreach((ViewEacher<View>) view -> ViewCompat.setRotationY(view, y));
+        }
+    }
+
+    @Override
+    public T rotation(float rotation) {
+        if (Build.VERSION.SDK_INT >= 11) {
+            return foreach((ViewEacher<View>) view -> view.setRotation(rotation));
+        } else {
+            return foreach((ViewEacher<View>) view -> ViewCompat.setRotation(view, rotation));
+        }
+    }
+
+    @Override
+    public T alpha(float x) {
+        if (Build.VERSION.SDK_INT >= 11) {
+            return foreach((ViewEacher<View>) view -> view.setAlpha(x));
+        } else {
+            return foreach((ViewEacher<View>) view -> ViewCompat.setAlpha(view, x));
+        }
     }
 
     @Override
