@@ -136,9 +136,9 @@ public abstract class ApUpdateService {
 
 		@Override
 		public boolean onPrepare(Boolean ndfeedback) {
-			Activity activity = AfPagerManager.getInstance().currentActivity();
-			if (activity instanceof AfActivity && ndfeedback) {
-				((AfActivity)activity).makeToastShort("正在检查更新...");
+			AfActivity activity = AfPagerManager.getInstance().currentActivity();
+			if (activity != null && ndfeedback) {
+				activity.makeToastShort("正在检查更新...");
 			}
 			return super.onPrepare(ndfeedback);
 		}
@@ -151,9 +151,9 @@ public abstract class ApUpdateService {
 		@Override
 		public void onTaskHandle(Boolean ndfeedback, AfDataTask task) {
 			mInstance.showNeedUpdate();
-			Activity activity = AfPagerManager.getInstance().currentActivity();
-			if (activity instanceof AfActivity && !mInstance.isNeedUpdate() && ndfeedback) {
-				((AfActivity)activity).makeToastShort("恭喜你，目前已经是最新版本！");
+			AfActivity activity = AfPagerManager.getInstance().currentActivity();
+			if (activity != null && !mInstance.isNeedUpdate() && ndfeedback) {
+				activity.makeToastShort("恭喜你，目前已经是最新版本！");
 			}
 		}
 	}

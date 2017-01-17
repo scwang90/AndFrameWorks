@@ -13,6 +13,7 @@ import com.andframe.api.view.Viewer;
 import com.andframe.application.AfApp;
 import com.andframe.application.AfAppSettings;
 import com.andframe.exception.AfExceptionHandler;
+import com.andpack.annotation.statusbar.StatusBarTranslucent;
 import com.andpack.impl.ApDialogBuilder;
 import com.andpack.impl.ApExceptionHandler;
 import com.andpack.impl.ApRefreshLayout;
@@ -29,6 +30,7 @@ import com.squareup.leakcanary.RefWatcher;
 
 import java.io.File;
 import java.io.IOException;
+import java.lang.annotation.Annotation;
 
 /**
  *
@@ -185,6 +187,23 @@ public class ApApp extends AfApp {
     @Override
     public AfAppSettings newAppSetting() {
         return new ApAppSettings(this);
+    }
+
+    public StatusBarTranslucent defaultStatusBarTranslucent() {
+        return new StatusBarTranslucent(){
+            @Override
+            public Class<? extends Annotation> annotationType() {
+                return StatusBarTranslucent.class;
+            }
+            @Override
+            public float value() {
+                return 0.0f;
+            }
+            @Override
+            public int color() {
+                return android.R.color.black;
+            }
+        };
     }
 
     //</editor-fold>

@@ -35,8 +35,6 @@
         <item name="android:paddingRight">@dimen/padding_common</item>
         <!--<item name="android:paddingTop">@dimen/padding_common_d</item>-->
         <!--<item name="android:paddingBottom">@dimen/padding_common_d</item>-->
-        <!--<item name="android:paddingLeft">@dimen/padding_common</item>-->
-        <!--<item name="android:paddingRight">@dimen/padding_common</item>-->
 
         <item name="android:background">?android:attr/selectableItemBackground</item>
         <!--<item name="android:background">@drawable/af_selector_background_white</item>-->
@@ -78,8 +76,6 @@
         <item name="android:paddingRight">@dimen/padding_common_d</item>
         <item name="android:drawablePadding">@dimen/padding_common</item>
         <!--<item name="android:layout_marginEnd">@dimen/padding_common_d</item>-->
-        <item name="android:layout_marginRight">@dimen/padding_common_d</item>
-        <item name="android:layout_marginLeft">@dimen/padding_common_d</item>
         <item name="android:layout_gravity">center_vertical</item>
     </style>
 
