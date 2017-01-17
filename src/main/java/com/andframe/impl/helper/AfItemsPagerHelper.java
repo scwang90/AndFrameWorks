@@ -31,6 +31,7 @@ import com.andframe.api.pager.items.ItemsHelper;
 import com.andframe.api.pager.items.ItemsPager;
 import com.andframe.api.pager.items.MoreFooter;
 import com.andframe.api.pager.items.MoreLayouter;
+import com.andframe.api.task.Task;
 import com.andframe.api.task.TaskWithPaging;
 import com.andframe.api.view.ViewQuery;
 import com.andframe.api.view.ViewQueryHelper;
@@ -200,12 +201,12 @@ public class AfItemsPagerHelper<T> extends AfStatusHelper<List<T>> implements It
     //<editor-fold desc="任务发送">
     @Override
     public boolean onMore() {
-        return mItemsPager.postTask(new AbMoreListTask()).prepare();
+        return mItemsPager.postTask(new AbMoreListTask()).status() != Task.Status.canceld;
     }
 
     @Override
     public boolean onRefresh() {
-        return mItemsPager.postTask(new AbRefreshListTask()).prepare();
+        return mItemsPager.postTask(new AbRefreshListTask()).status() != Task.Status.canceld;
     }
     //</editor-fold>
 

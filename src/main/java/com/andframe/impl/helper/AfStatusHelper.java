@@ -94,7 +94,7 @@ public class AfStatusHelper<T> implements StatusHelper<T> {
 
         if (mLoadOnViewCreated && mModel == null) {
             mLoadOnViewCreated = false;
-            if (mPager.postTask(new LoadTask()).prepare()) {
+            if (mPager.postTask(new LoadTask()).status() != Task.Status.canceld) {
                 mPager.showProgress();
             }
         } else if (mModel != null) {
