@@ -648,6 +648,12 @@ public class AfDownloader {
         }
 
         @Override
+        protected void onException(Throwable e) {
+            super.onException(e);
+            mHandler.sendMessage(mHandler.obtainMessage(0, this));
+        }
+
+        @Override
         public boolean handleMessage(Message msg) {
             if (!isFail()) {
                 if (msg.what == DOWNLOAD_PROGRESS) {

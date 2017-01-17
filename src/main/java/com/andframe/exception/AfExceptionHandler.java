@@ -52,14 +52,6 @@ public class AfExceptionHandler implements UncaughtExceptionHandler {
         return INSTANCE;
     }
 
-
-    public static String handleTip(Throwable e, String remark) {
-        if (INSTANCE != null) {
-            INSTANCE.onHandleTip(e, remark);
-        }
-        return remark;
-    }
-
     public String onHandleTip(Throwable e, String tip) {
         int index = 0;
         Throwable ex = e;
