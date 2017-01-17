@@ -91,9 +91,7 @@ public abstract class AfTask implements Task, OnCancelListener {
 	public boolean prepare() {
 		if (mStatus == Status.none) {
 			try {
-				if (onPrepare()) {
-					mStatus = Status.prepared;
-				}
+				mStatus = onPrepare() ? Status.prepared : Status.canceld;
 			} catch (Throwable e) {
 				mStatus = Status.canceld;
 				String remark = "AfTask("+getClass().getName()+").onPrepare";
@@ -101,7 +99,7 @@ public abstract class AfTask implements Task, OnCancelListener {
 				return false;
 			}
 		}
-		return mStatus == Status.prepared;
+		return mStatus != Status.canceld;
 	}
 	/**
 	 * 任务准备开始 （在UI线程中）
