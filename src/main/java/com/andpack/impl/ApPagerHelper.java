@@ -23,6 +23,13 @@ import com.andpack.api.ApPager;
 import com.andpack.application.ApApp;
 
 import org.greenrobot.eventbus.EventBus;
+import org.greenrobot.eventbus.Subscribe;
+
+import java.lang.annotation.Annotation;
+import java.lang.reflect.Method;
+import java.lang.reflect.Modifier;
+import java.util.HashMap;
+import java.util.Map;
 
 import me.imid.swipebacklayout.lib.SwipeBackLayout;
 import me.imid.swipebacklayout.lib.app.SwipeBackActivityHelper;
@@ -44,7 +51,32 @@ public class ApPagerHelper {
 
     public ApPagerHelper(ApPager pager) {
         this.pager = pager;
-        mEventBus = AfReflecter.getAnnotation(pager.getClass(), getStopClass(), RegisterEventBus.class);
+        initRegisterEventBus();
+    }
+
+    protected static Map<Class, Method[]> mEventBusMap = new HashMap<>();
+
+    private void initRegisterEventBus() {
+        Method[] methods = mEventBusMap.get(pager.getClass());
+        if (methods == null) {
+            methods = AfReflecter.getMethodAnnotation(pager.getClass(), getStopClass(), Subscribe.class);
+            mEventBusMap.put(pager.getClass(), methods);
+        }
+        if (methods.length > 0) {
+            for (Method method : methods) {
+                int modifiers = method.getModifiers();
+                if (!Modifier.isPublic(modifiers) || Modifier.isStatic(modifiers)) {
+                    pager.makeToastShort("被标记[Subscribe]的方法必须是public并且不能是static");
+                    return;
+                }
+            }
+            mEventBus = new RegisterEventBus() {
+                @Override
+                public Class<? extends Annotation> annotationType() {
+                    return RegisterEventBus.class;
+                }
+            };
+        }
     }
 
     @NonNull
