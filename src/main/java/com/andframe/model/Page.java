@@ -8,7 +8,7 @@ import com.andframe.api.Paging;
  * @author 树朾
  */
 @SuppressWarnings("unused")
-public class Page implements Paging{
+public class Page implements Paging {
 
     public boolean IsASC = true;
     public String Order = "";
