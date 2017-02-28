@@ -5,6 +5,7 @@ import android.content.res.Resources;
 import android.support.design.widget.AppBarLayout;
 import android.support.design.widget.CoordinatorLayout;
 import android.support.v7.widget.RecyclerView;
+import android.view.MotionEvent;
 import android.view.View;
 import android.view.ViewGroup;
 import android.view.ViewPropertyAnimator;
@@ -103,7 +104,15 @@ public class ApRefreshLayout implements RefreshLayouter<TwinklingRefreshLayout>/
         if (content instanceof CoordinatorLayout) {
             AppBarLayout layout = $.query(content).$(AppBarLayout.class).view();
             if (layout != null) {
-                setRealContentView(new AppBarLayoutWrapper(layout, contentView));
+//                setRealContentView(new AppBarLayoutWrapper(layout, contentView));
+                layout.addOnOffsetChangedListener((appBarLayout, verticalOffset) -> {
+                    if (verticalOffset >= 0) {
+                        mTwinkling.setTwinklingEnabled(true);
+                    } else {
+                        mTwinkling.setTwinklingEnabled(false);
+                    }
+                });
+                return;
             }
         }
         if (contentView != null && contentView != content && !mTwinkling.hasRealContentView()) {
@@ -180,7 +189,9 @@ public class ApRefreshLayout implements RefreshLayouter<TwinklingRefreshLayout>/
 
     public class TwinklingRefreshLayoutEx extends TwinklingRefreshLayout {
 
-        ChildViewWrapper wrapper = null;
+
+        private ChildViewWrapper wrapper = null;
+        private boolean mTwinklingEnabled = true;
 
         public TwinklingRefreshLayoutEx(Context context) {
             super(context);
@@ -214,6 +225,14 @@ public class ApRefreshLayout implements RefreshLayouter<TwinklingRefreshLayout>/
             return wrapper != null;
         }
 
+        public void setTwinklingEnabled(boolean enabled) {
+            mTwinklingEnabled = enabled;
+        }
+
+        @Override
+        public boolean onInterceptTouchEvent(MotionEvent ev) {
+            return mTwinklingEnabled && super.onInterceptTouchEvent(ev);
+        }
     }
 
     private class ChildViewWrapper extends View {
@@ -270,14 +289,16 @@ public class ApRefreshLayout implements RefreshLayouter<TwinklingRefreshLayout>/
         }
 
         @Override
+        protected void finalize() throws Throwable {
+            super.finalize();
+            this.appBarLayout.removeOnOffsetChangedListener(this);
+        }
+
+        @Override
         public boolean canScrollVertically(int direction) {
-            boolean canScrollVertically;
-            if (direction < 0) {
-                canScrollVertically = verticalOffset != 0;
-            } else {
-                canScrollVertically = verticalOffset == 0;
-            }
-            return canScrollVertically||(contentView==null||contentView.canScrollVertically(direction));
+            return (direction < 0 && verticalOffset != 0)
+                    || appBarLayout.canScrollVertically(direction)
+                    || (contentView == null || contentView.canScrollVertically(direction));
         }
 
         @Override
@@ -285,4 +306,5 @@ public class ApRefreshLayout implements RefreshLayouter<TwinklingRefreshLayout>/
             this.verticalOffset = verticalOffset;
         }
     }
+
 }
