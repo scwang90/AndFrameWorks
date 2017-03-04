@@ -873,8 +873,11 @@ public class AfViewQuery<T extends AfViewQuery<T>> implements ViewQuery<T> {
         }
         if (idvalues.length > 0) {
             for (String value : idvalues) {
-                listId.add(resources.getIdentifier(value,"id",packageName));
+                listId.add(resources.getIdentifier(value, "id", packageName));
             }
+        } else if (idvalue == null) {
+            mTargetViews = new View[]{getRootView()};
+            return self();
         }
         int[] ids = new int[listId.size() - 1];
         for (int i = 0; i < ids.length; i++) {

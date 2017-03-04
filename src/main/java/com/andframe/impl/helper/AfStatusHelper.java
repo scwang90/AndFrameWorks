@@ -24,6 +24,7 @@ import com.andframe.annotation.pager.status.StatusError;
 import com.andframe.annotation.pager.status.StatusInvalidNet;
 import com.andframe.annotation.pager.status.StatusLayout;
 import com.andframe.annotation.pager.status.StatusProgress;
+import com.andframe.annotation.pager.status.idname.StatusContentViewId$;
 import com.andframe.api.pager.status.RefreshLayouter;
 import com.andframe.api.pager.status.StatusHelper;
 import com.andframe.api.pager.status.StatusLayouter;
@@ -117,6 +118,16 @@ public class AfStatusHelper<T> implements StatusHelper<T> {
         StatusContentViewId id = AfReflecter.getAnnotation(mPager.getClass(), stop, StatusContentViewId.class);
         if (id != null) {
             return mPager.findViewById(id.value());
+        }
+        StatusContentViewId$ id$ = AfReflecter.getAnnotation(mPager.getClass(), stop, StatusContentViewId$.class);
+        if (id$ != null) {
+            Context context = mPager.getContext();
+            if (context != null) {
+                int idv = context.getResources().getIdentifier(id$.value(), "id", context.getPackageName());
+                if (idv > 0) {
+                    return mPager.findViewById(idv);
+                }
+            }
         }
         StatusContentViewType type = AfReflecter.getAnnotation(mPager.getClass(), stop, StatusContentViewType.class);
         if (type != null) {

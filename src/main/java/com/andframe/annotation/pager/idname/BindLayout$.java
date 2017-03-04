@@ -1,4 +1,4 @@
-package com.andframe.annotation.pager;
+package com.andframe.annotation.pager.idname;
 
 import java.lang.annotation.ElementType;
 import java.lang.annotation.Retention;

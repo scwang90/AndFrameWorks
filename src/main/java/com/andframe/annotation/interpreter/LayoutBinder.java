@@ -5,7 +5,7 @@ import android.app.Dialog;
 import android.content.Context;
 
 import com.andframe.annotation.pager.BindLayout;
-import com.andframe.annotation.pager.BindLayout$;
+import com.andframe.annotation.pager.idname.BindLayout$;
 import com.andframe.exception.AfExceptionHandler;
 import com.andframe.impl.wrapper.ViewWrapper;
 import com.andframe.util.java.AfReflecter;

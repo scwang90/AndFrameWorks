@@ -21,8 +21,11 @@ import com.andframe.annotation.pager.items.ItemsFooter;
 import com.andframe.annotation.pager.items.ItemsHeader;
 import com.andframe.annotation.pager.items.ItemsViewer;
 import com.andframe.annotation.pager.items.ItemsViewerOnly;
+import com.andframe.annotation.pager.items.idname.ItemsFooter$;
+import com.andframe.annotation.pager.items.idname.ItemsHeader$;
 import com.andframe.annotation.pager.status.StatusContentViewId;
 import com.andframe.annotation.pager.status.StatusContentViewType;
+import com.andframe.annotation.pager.status.idname.StatusContentViewId$;
 import com.andframe.api.Paging;
 import com.andframe.api.adapter.HeaderFooterAdapter;
 import com.andframe.api.adapter.ItemViewer;
@@ -183,9 +186,19 @@ public class AfItemsPagerHelper<T> extends AfStatusHelper<List<T>> implements It
         if (mItemsViewerOnly == null) {
             if (contentView != null && contentView != mItemsViewer.getItemsView()) {
                 StatusContentViewId id = AfReflecter.getAnnotation(mPager.getClass(), stop, StatusContentViewId.class);
+                StatusContentViewId$ id$ = AfReflecter.getAnnotation(mPager.getClass(), stop, StatusContentViewId$.class);
                 StatusContentViewType type = AfReflecter.getAnnotation(mPager.getClass(), stop, StatusContentViewType.class);
                 if (id != null && id.value() == contentView.getId()) {
                     return contentView;
+                }
+                if (id$ != null) {
+                    Context context = mPager.getContext();
+                    if (context != null) {
+                        int idv = context.getResources().getIdentifier(id$.value(), "id", context.getPackageName());
+                        if (idv > 0 && idv == contentView.getId()) {
+                            return contentView;
+                        }
+                    }
                 }
                 if (type != null && type.value().isInstance(contentView)) {
                     return contentView;
@@ -421,11 +434,33 @@ public class AfItemsPagerHelper<T> extends AfStatusHelper<List<T>> implements It
             for (int id : headers.value()) {
                 addHeaderView(adapter, $.query(mPager).$(id).breakView());
             }
+        } else {
+            Context context = mPager.getContext();
+            ItemsHeader$ headers$ = AfReflecter.getAnnotation(mPager.getClass(), stop, ItemsHeader$.class);
+            if (headers$ != null && context != null) {
+                for (String id$ : headers$.value()) {
+                    int id = context.getResources().getIdentifier(id$, "id", context.getPackageName());
+                    if (id > 0) {
+                        addHeaderView(adapter, $.query(mPager).$(id).breakView());
+                    }
+                }
+            }
         }
         ItemsFooter footers = AfReflecter.getAnnotation(mPager.getClass(), stop, ItemsFooter.class);
         if (footers != null) {
             for (int id : footers.value()) {
                 addFooterView(adapter, $.query(mPager).$(id).breakView());
+            }
+        } else {
+            Context context = mPager.getContext();
+            ItemsFooter$ footers$ = AfReflecter.getAnnotation(mPager.getClass(), stop, ItemsFooter$.class);
+            if (footers$ != null && context != null) {
+                for (String id$ : footers$.value()) {
+                    int id = context.getResources().getIdentifier(id$, "id", context.getPackageName());
+                    if (id > 0) {
+                        addFooterView(adapter, $.query(mPager).$(id).breakView());
+                    }
+                }
             }
         }
 
