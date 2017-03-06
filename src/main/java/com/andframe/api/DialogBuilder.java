@@ -5,7 +5,9 @@ import android.app.Dialog;
 import android.app.TimePickerDialog;
 import android.content.DialogInterface;
 import android.view.View;
+import android.widget.DatePicker;
 import android.widget.EditText;
+import android.widget.TimePicker;
 
 import java.util.Date;
 
@@ -38,6 +40,31 @@ public interface DialogBuilder {
      */
     interface OnDateTimeSetListener{
         void onDateTimeSet(int year, int month, int day, int hour, int minute);
+    }
+
+    /**
+     * 时间验证
+     */
+    interface OnDateSetVerifyListener extends DatePickerDialog.OnDateSetListener {
+        /**
+         * 验证时间是否符合条件
+         * @param view 时间控件
+         * @return true 符合条件 false 不符合条件（将不会关闭对话框）
+         */
+        boolean onPreDateSet(DatePicker view, int year, int month, int dayOfMonth);
+    }
+    /**
+     * 时间验证
+     */
+    interface OnTimeSetVerifyListener extends TimePickerDialog.OnTimeSetListener {
+        /**
+         * 验证时间是否符合条件
+         * @param view 时间控件
+         * @param hourOfDay 小时
+         * @param minute 分钟
+         * @return true 符合条件 false 不符合条件（将不会关闭对话框）
+         */
+        boolean onPreTimeSet(TimePicker view, int hourOfDay, int minute);
     }
     //</editor-fold>
 

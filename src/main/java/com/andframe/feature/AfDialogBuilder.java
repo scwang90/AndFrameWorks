@@ -25,10 +25,12 @@ import android.view.ViewGroup;
 import android.view.ViewGroup.LayoutParams;
 import android.view.Window;
 import android.widget.CheckBox;
+import android.widget.DatePicker;
 import android.widget.EditText;
 import android.widget.LinearLayout;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
+import android.widget.TimePicker;
 
 import com.andframe.activity.AfActivity;
 import com.andframe.api.DialogBuilder;
@@ -868,7 +870,27 @@ public class AfDialogBuilder implements DialogBuilder {
         calender.setTime(value);
         int hour = calender.get(Calendar.HOUR_OF_DAY);
         int minute = calender.get(Calendar.MINUTE);
-        AlertDialog tDialog = new TimePickerDialog(mContext, new SafeListener(listener) , hour, minute, true);
+        AlertDialog tDialog = new TimePickerDialog(mContext, new SafeListener(listener) , hour, minute, true) {
+            @Override
+            public void show() {
+                super.show();
+                if (listener instanceof OnTimeSetVerifyListener) {
+                    getButton(BUTTON_POSITIVE).setOnClickListener(v -> {
+                        try {
+                            TimePicker picker = AfReflecter.getMemberByType(this, TimePicker.class);
+                            if (picker == null) {
+                                this.dismiss();
+                                super.onClick(this, BUTTON_POSITIVE);
+                            } else if (((OnTimeSetVerifyListener) listener).onPreTimeSet(picker, picker.getCurrentHour(), picker.getCurrentMinute())) {
+                                this.dismiss();
+                            }
+                        } catch (IllegalAccessException e) {
+                            e.printStackTrace();
+                        }
+                    });
+                }
+            }
+        };
         if (title != null && title.length() > 0) {
             tDialog.setTitle(title);
         }
@@ -921,7 +943,27 @@ public class AfDialogBuilder implements DialogBuilder {
         int year = calender.get(Calendar.YEAR);
         int month = calender.get(Calendar.MONTH);
         int day = calender.get(Calendar.DAY_OF_MONTH);
-        AlertDialog tDialog = new DatePickerDialog(mContext, new SafeListener(listener) , year, month, day);
+        AlertDialog tDialog = new DatePickerDialog(mContext, new SafeListener(listener) , year, month, day) {
+            @Override
+            public void show() {
+                super.show();
+                if (listener instanceof OnDateSetVerifyListener) {
+                    getButton(BUTTON_POSITIVE).setOnClickListener(v -> {
+                        try {
+                            DatePicker picker = AfReflecter.getMemberByType(this, DatePicker.class);
+                            if (picker == null) {
+                                this.dismiss();
+                                super.onClick(this, BUTTON_POSITIVE);
+                            } else if (((OnDateSetVerifyListener) listener).onPreDateSet(picker, picker.getYear(), picker.getMonth(), picker.getDayOfMonth())) {
+                                this.dismiss();
+                            }
+                        } catch (IllegalAccessException e) {
+                            e.printStackTrace();
+                        }
+                    });
+                }
+            }
+        };
         if (title != null && title.length() > 0) {
             tDialog.setTitle(title);
         }
