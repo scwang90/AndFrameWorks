@@ -30,6 +30,7 @@ import com.lzy.imagepicker.bean.ImageItem;
 import com.lzy.imagepicker.ui.ImageGridActivity;
 import com.lzy.imagepicker.view.CropImageView;
 
+import java.nio.charset.Charset;
 import java.text.DateFormat;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
@@ -37,6 +38,7 @@ import java.util.Calendar;
 import java.util.Date;
 import java.util.List;
 import java.util.Locale;
+import java.util.regex.Pattern;
 
 @SuppressWarnings("unused")
 public class ApCommonBarBinder {
@@ -501,6 +503,39 @@ public class ApCommonBarBinder {
 
         public TextBinder verify(TextVerify verify) {
             this.verify = verify;
+            return self();
+        }
+
+        public TextBinder verifyPersonName() {
+            this.verify(text -> {
+                if (TextUtils.isEmpty(text)) {
+                    throw new ApCommonBarBinder.VerifyException("名称不能为空");
+                }
+                Pattern numex = Pattern.compile("\\d");
+                if (numex.matcher(text).find()) {
+                    throw new ApCommonBarBinder.VerifyException("名称中不能有数字");
+                }
+                boolean hasch = Pattern.compile("[\\u4e00-\\u9fa5]").matcher(text).find();
+                boolean hasen = Pattern.compile("[a-zA-Z]").matcher(text).find();
+                if (hasch && hasen) {
+                    throw new ApCommonBarBinder.VerifyException("中文名称不能有混有英文");
+                }
+                if (text.getBytes(Charset.forName("gbk")).length > 16) {
+                    throw new ApCommonBarBinder.VerifyException("名称不能超过8个汉字或16个字符");
+                }
+            });
+            return self();
+        }
+
+        public TextBinder verifyPhone() {
+            this.verify(text -> {
+                if (TextUtils.isEmpty(text)) {
+                    throw new ApCommonBarBinder.VerifyException("请输入手机号码");
+                }
+                if (!text.matches("1[345789]\\d{9}")) {
+                    throw new ApCommonBarBinder.VerifyException("请输入正确的手机号码");
+                }
+            });
             return self();
         }
     }
