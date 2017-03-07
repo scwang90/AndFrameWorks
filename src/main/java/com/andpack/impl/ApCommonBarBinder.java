@@ -506,34 +506,76 @@ public class ApCommonBarBinder {
             return self();
         }
 
-        public TextBinder verifyPersonName() {
+        public TextBinder verifyPersonName(String... names) {
+            String name = names.length > 0 ? names[0] : "姓名";
             this.verify(text -> {
                 if (TextUtils.isEmpty(text)) {
-                    throw new ApCommonBarBinder.VerifyException("名称不能为空");
+                    throw new VerifyException(name + "不能为空");
                 }
                 Pattern numex = Pattern.compile("\\d");
                 if (numex.matcher(text).find()) {
-                    throw new ApCommonBarBinder.VerifyException("名称中不能有数字");
+                    throw new VerifyException(name + "中不能有数字");
                 }
                 boolean hasch = Pattern.compile("[\\u4e00-\\u9fa5]").matcher(text).find();
                 boolean hasen = Pattern.compile("[a-zA-Z]").matcher(text).find();
                 if (hasch && hasen) {
-                    throw new ApCommonBarBinder.VerifyException("中文名称不能有混有英文");
+                    throw new VerifyException("中文" + name + "不能有混有英文");
                 }
                 if (text.getBytes(Charset.forName("gbk")).length > 16) {
-                    throw new ApCommonBarBinder.VerifyException("名称不能超过8个汉字或16个字符");
+                    throw new VerifyException(name + "不能超过8个汉字或16个字符");
                 }
             });
             return self();
         }
 
-        public TextBinder verifyPhone() {
+        public TextBinder verifyPhone(String... names) {
+            String name = names.length > 0 ? names[0] : "手机号码";
             this.verify(text -> {
                 if (TextUtils.isEmpty(text)) {
-                    throw new ApCommonBarBinder.VerifyException("请输入手机号码");
+                    throw new VerifyException("请输入" + name);
                 }
                 if (!text.matches("1[345789]\\d{9}")) {
-                    throw new ApCommonBarBinder.VerifyException("请输入正确的手机号码");
+                    throw new VerifyException("请输入正确的" + name);
+                }
+            });
+            return self();
+        }
+        public TextBinder verifyIdNumber(String... names) throws Exception {
+            String name = names.length > 0 ? names[0] : "身份证号";
+            this.verify(text -> {
+                if (TextUtils.isEmpty(text)) {
+                    throw new VerifyException("请输入" + name);
+                }
+                int[] n = new int[]{1, 0, (int)'x', 9, 8, 7, 6, 5, 4, 3, 2};
+                int[] b = new int[]{7, 9, 10, 5, 8, 4, 2, 1, 6, 3, 7, 9, 10, 5, 8, 4, 2};
+                if (text.length() != 15 && text.length() != 18) {
+                    throw new VerifyException(name + "必须为 15 位或18位");
+                }
+                String o = text.length() == 18 ? text.substring(0, 17) : text.substring(0, 6) + "19" + text.substring(6, 14);//id.substring(6, 16);
+                if(!o.matches("^\\d+$")){//if (!/^\d+$/.test(o)) {
+                    throw new VerifyException(name + "除最后一位外，必须为数字！");
+                }
+                int y = Integer.valueOf(o.substring(6, 10));
+                int m = Integer.valueOf(o.substring(10, 12)) - 1;
+                int d = Integer.valueOf(o.substring(12, 14));
+                Calendar birth = Calendar.getInstance();
+                birth.set(Calendar.YEAR, y);
+                birth.set(Calendar.MONTH,m);
+                birth.set(Calendar.DAY_OF_MONTH, d);
+                int ly = birth.get(Calendar.YEAR);
+                int lm = birth.get(Calendar.MONTH);
+                int ld = birth.get(Calendar.DAY_OF_MONTH);
+                Calendar now = Calendar.getInstance();
+                if (ly != y || lm != m || ld != d || birth.after(now) || now.get(Calendar.YEAR) - ly > 140) {
+                    throw new VerifyException(name + "出生年月输入错误！");
+                }
+                int g = 0,h = 0;
+                for (; g < 17; g++) {
+                    h = h + Integer.valueOf(o.charAt(g)+"") * b[g];
+                }
+                o += ""+n[h %= 11];
+                if (text.length() == 18 && !text.toLowerCase(Locale.ENGLISH).equals(o)) {
+                    throw new VerifyException(name + "最后一位校验码输入错误，正确校验码为：" + o.substring(17, 18) + "！");
                 }
             });
             return self();
