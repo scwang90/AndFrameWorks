@@ -504,11 +504,17 @@ public class ApCommonBarBinder {
             return self();
         }
 
+        /**
+         * 自定义验证规则
+         */
         public TextBinder verify(TextVerify verify) {
             this.verify = verify;
             return self();
         }
 
+        /**
+         * 指定为姓名的验证格式
+         */
         public TextBinder verifyPersonName(String... names) {
             String name = names.length > 0 ? names[0] : "姓名";
             this.verify(text -> {
@@ -531,6 +537,9 @@ public class ApCommonBarBinder {
             return self();
         }
 
+        /**
+         * 指定为手机号码验证格式
+         */
         public TextBinder verifyPhone(String... names) {
             String name = names.length > 0 ? names[0] : "手机号码";
             this.verify(text -> {
@@ -543,7 +552,11 @@ public class ApCommonBarBinder {
             });
             return self();
         }
-        public TextBinder verifyIdNumber(String... names) throws Exception {
+
+        /**
+         * 指定为身份证的验证格式
+         */
+        public TextBinder verifyIdNumber(String... names) {
             String name = names.length > 0 ? names[0] : "身份证号";
             this.verify(text -> {
                 if (TextUtils.isEmpty(text)) {
