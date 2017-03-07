@@ -44,6 +44,9 @@ import java.util.regex.Pattern;
 public class ApCommonBarBinder {
 
     public interface ClickHook {
+        /**
+         * @return true 将会拦截点击事件 false 不会拦截
+         */
         boolean onBinderClick(Binder binder);
     }
     public interface InputBind {

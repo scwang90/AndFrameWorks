@@ -15,11 +15,13 @@ import java.lang.reflect.Field;
 public class MustChecker {
 
     public static void checkMust(Object obj) throws Exception {
-        for (Field field: AfReflecter.getFieldAnnotation(obj.getClass(), Must.class)) {
-            field.setAccessible(true);
-            Object value = field.get(obj);
-            if (value == null || (value instanceof String && TextUtils.isEmpty(value.toString()))) {
-                throw new AfToastException(field.getAnnotation(Must.class).value());
+        if (obj != null) {
+            for (Field field: AfReflecter.getFieldAnnotation(obj.getClass(), Must.class)) {
+                field.setAccessible(true);
+                Object value = field.get(obj);
+                if (value == null || (value instanceof String && TextUtils.isEmpty(value.toString()))) {
+                    throw new AfToastException(field.getAnnotation(Must.class).value());
+                }
             }
         }
     }
