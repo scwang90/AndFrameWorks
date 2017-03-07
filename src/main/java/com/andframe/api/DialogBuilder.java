@@ -43,7 +43,7 @@ public interface DialogBuilder {
     }
 
     /**
-     * 时间验证
+     * 日期验证
      */
     interface OnDateSetVerifyListener extends DatePickerDialog.OnDateSetListener {
         /**
@@ -66,6 +66,27 @@ public interface DialogBuilder {
          */
         boolean onPreTimeSet(TimePicker view, int hourOfDay, int minute);
     }
+
+    /**
+     * 日期时间验证
+     */
+    interface OnDateTimeSetVerifyListener extends OnDateTimeSetListener {
+        /**
+         * 验证时间是否符合条件
+         * @param view 时间控件
+         * @return true 符合条件 false 不符合条件（将不会关闭对话框）
+         */
+        boolean onPreDateSet(DatePicker view, int year, int month, int dayOfMonth);
+        /**
+         * 验证时间是否符合条件
+         * @param view 时间控件
+         * @param hourOfDay 小时
+         * @param minute 分钟
+         * @return true 符合条件 false 不符合条件（将不会关闭对话框）
+         */
+        boolean onPreTimeSet(TimePicker view, int hourOfDay, int minute);
+    }
+
     //</editor-fold>
 
     //<editor-fold desc="普通按钮对话框">

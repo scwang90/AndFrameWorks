@@ -812,13 +812,55 @@ public class AfDialogBuilder implements DialogBuilder {
         final AlertDialog tDialog = new DatePickerDialog(mContext, new SafeListener((view, year1, month1, day1) -> {
             int hour = calender.get(Calendar.HOUR_OF_DAY);
             int minute = calender.get(Calendar.MINUTE);
-            Dialog tDialog1 = new TimePickerDialog(mContext, new SafeListener((OnTimeSetListener)(view1, hour1, minute1) -> listener.onDateTimeSet(year1, month1, day1, hour1, minute1)), hour, minute, true);
+            Dialog tDialog1 = new TimePickerDialog(mContext, new SafeListener((OnTimeSetListener)(view1, hour1, minute1) -> listener.onDateTimeSet(year1, month1, day1, hour1, minute1)), hour, minute, true){
+                @Override
+                public void show() {
+                    super.show();
+                    if (listener instanceof OnDateTimeSetVerifyListener) {
+                        getButton(BUTTON_POSITIVE).setOnClickListener(v -> {
+                            try {
+                                TimePicker picker = AfReflecter.getMemberByType(this, TimePicker.class);
+                                if (picker == null) {
+                                    this.dismiss();
+                                    super.onClick(this, BUTTON_POSITIVE);
+                                } else if (((OnDateTimeSetVerifyListener) listener).onPreTimeSet(picker, picker.getCurrentHour(), picker.getCurrentMinute())) {
+                                    this.dismiss();
+                                    super.onClick(this, BUTTON_POSITIVE);
+                                }
+                            } catch (IllegalAccessException e) {
+                                e.printStackTrace();
+                            }
+                        });
+                    }
+                }
+            };;
             if (title != null && title.length() > 0) {
                 tDialog1.setTitle(title);
             }
             tDialog1.show();
             tDialog1.setCancelable(true);
-        }), year, month, day);
+        }), year, month, day) {
+            @Override
+            public void show() {
+                super.show();
+                if (listener instanceof OnDateTimeSetVerifyListener) {
+                    getButton(BUTTON_POSITIVE).setOnClickListener(v -> {
+                        try {
+                            DatePicker picker = AfReflecter.getMemberByType(this, DatePicker.class);
+                            if (picker == null) {
+                                this.dismiss();
+                                super.onClick(this, BUTTON_POSITIVE);
+                            } else if (((OnDateTimeSetVerifyListener) listener).onPreDateSet(picker, picker.getYear(), picker.getMonth(), picker.getDayOfMonth())) {
+                                this.dismiss();
+                                super.onClick(this, BUTTON_POSITIVE);
+                            }
+                        } catch (IllegalAccessException e) {
+                            e.printStackTrace();
+                        }
+                    });
+                }
+            }
+        };
         if (title != null && title.length() > 0) {
             tDialog.setTitle(title);
         }

@@ -11,8 +11,13 @@ import java.util.Date;
  */
 @SuppressWarnings("unused")
 public abstract class OnSimpleDateSetListener implements DatePickerDialog.OnDateSetListener {
+
+    protected boolean isSeted = false;
+
     @Override
     public void onDateSet(DatePicker view, int year, int month, int day) {
+        if (!isSeted) {
+            isSeted = true;
 //        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.HONEYCOMB_MR1 && view != null) {
 //            onDateSet(new Date(view.getCalendarView().getDate()), year, month, day);
 //        } else {
@@ -23,6 +28,7 @@ public abstract class OnSimpleDateSetListener implements DatePickerDialog.OnDate
             calender.set(Calendar.DAY_OF_MONTH, day);
             onDateSet(calender.getTime(), year, month, day);
 //        }
+        }
     }
 
     protected abstract void onDateSet(Date date, int year, int month, int day);

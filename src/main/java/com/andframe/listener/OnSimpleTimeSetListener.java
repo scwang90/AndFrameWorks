@@ -11,13 +11,19 @@ import java.util.Date;
  */
 @SuppressWarnings("unused")
 public abstract class OnSimpleTimeSetListener implements TimePickerDialog.OnTimeSetListener {
+
+    protected boolean isSeted = false;
+
     @Override
     public void onTimeSet(TimePicker view, int hour, int minute) {
-        Calendar calender = Calendar.getInstance();
-        calender.setTime(new Date(0));
-        calender.set(Calendar.HOUR_OF_DAY, hour);
-        calender.set(Calendar.MINUTE, minute);
-        onTimeSet(calender.getTime(), hour, minute);
+        if (!isSeted) {
+            isSeted = true;
+            Calendar calender = Calendar.getInstance();
+            calender.setTime(new Date(0));
+            calender.set(Calendar.HOUR_OF_DAY, hour);
+            calender.set(Calendar.MINUTE, minute);
+            onTimeSet(calender.getTime(), hour, minute);
+        }
     }
 
     protected abstract void onTimeSet(Date time, int hour, int minute);
