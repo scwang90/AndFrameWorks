@@ -76,7 +76,9 @@
         <item name="android:paddingRight">@dimen/padding_common_d</item>
         <item name="android:drawablePadding">@dimen/padding_common</item>
         <!--<item name="android:layout_marginEnd">@dimen/padding_common_d</item>-->
-        <item name="android:layout_gravity">center_vertical</item>
+        <item name="android:layout_gravity">center_vertical|end</item>
+        <item name="android:layout_centerVertical">true</item>
+        <item name="android:layout_alignParentRight">true</item>
     </style>
 
     <style name="AppTheme.Layout">
