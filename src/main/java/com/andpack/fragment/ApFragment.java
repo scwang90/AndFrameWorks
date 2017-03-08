@@ -1,5 +1,6 @@
 package com.andpack.fragment;
 
+import android.support.annotation.CallSuper;
 import android.support.v4.app.Fragment;
 
 import com.andframe.annotation.view.BindViewCreated;
@@ -24,6 +25,7 @@ public class ApFragment extends AfTabFragment implements ApPager {
         super.onCreate(bundle, view);
     }
 
+    @CallSuper
     @BindViewCreated
     protected void onViewCreated() throws Exception {
         mApHelper.onViewCreated();
