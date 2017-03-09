@@ -3,6 +3,7 @@ package com.andframe.annotation.interpreter;
 import android.text.TextUtils;
 
 import com.andframe.annotation.Must;
+import com.andframe.api.pager.Pager;
 import com.andframe.exception.AfToastException;
 import com.andframe.util.java.AfReflecter;
 
@@ -26,4 +27,15 @@ public class MustChecker {
         }
     }
 
+    public static boolean checkMust(Pager pager, Object obj) {
+        try {
+            checkMust(obj);
+            return true;
+        } catch (Exception e) {
+            if (pager != null) {
+                pager.makeToastShort("请先完善信息", e);
+            }
+            return false;
+        }
+    }
 }
