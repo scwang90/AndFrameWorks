@@ -429,11 +429,22 @@ public class ApCommonBarBinder {
         }
         @Override
         public void afterTextChanged(Editable s) {
+            caches.put(key, s.toString());
             AfDispatcher.dispatch(() -> {
                 if (bind != null) {
                     bind.onBind(s.toString());
                 }
             });
+        }
+
+        @Override
+        public void onRestoreCache(String key) {
+            value(caches.getString(key, ""));
+        }
+
+        public InputBinder value(String value) {
+            $(idvalue).text(value);
+            return self();
         }
     }
 
