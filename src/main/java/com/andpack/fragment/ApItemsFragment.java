@@ -91,4 +91,9 @@ public abstract class ApItemsFragment<T> extends AfItemsFragment<T> implements A
     public void startFragmentForResult(Class<? extends Fragment> clazz, int request, Object... args) {
         ApFragmentActivity.startResult(clazz, request, args);
     }
+
+    @Override
+    public void postEvent(Object event) {
+        mApHelper.postEvent(event);
+    }
 }

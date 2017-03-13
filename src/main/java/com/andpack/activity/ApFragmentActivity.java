@@ -78,6 +78,11 @@ public class ApFragmentActivity extends AfFragmentActivity implements ApPager {
         super.finish();
     }
 
+    @Override
+    public void postEvent(Object event) {
+        mApHelper.postEvent(event);
+    }
+
     //<editor-fold desc="跳转封装">
     public static void start(Class<? extends Fragment> clazz, Object... params){
         AfActivity activity = AfPagerManager.getInstance().currentActivity();

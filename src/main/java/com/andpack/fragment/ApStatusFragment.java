@@ -85,4 +85,8 @@ public class ApStatusFragment<T> extends AfStatusFragment<T> implements ApPager 
         ApFragmentActivity.startResult(this, clazz, request, args);
     }
 
+    @Override
+    public void postEvent(Object event) {
+        mApHelper.postEvent(event);
+    }
 }

@@ -8,4 +8,5 @@ import com.andframe.api.pager.Pager;
  */
 public interface ApPager extends Pager {
 
+    void postEvent(Object event);
 }

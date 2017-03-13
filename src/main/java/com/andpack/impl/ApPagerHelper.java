@@ -182,4 +182,8 @@ public class ApPagerHelper {
         }
         return false;
     }
+
+    public void postEvent(Object event) {
+        EventBus.getDefault().post(event);
+    }
 }

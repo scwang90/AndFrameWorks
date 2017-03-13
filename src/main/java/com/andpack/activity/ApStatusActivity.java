@@ -13,6 +13,8 @@ import com.andframe.feature.AfIntent;
 import com.andpack.api.ApPager;
 import com.andpack.impl.ApStatusHelper;
 
+import org.greenrobot.eventbus.EventBus;
+
 /**
  * 多状态页面支持
  * Created by SCWANG on 2016/10/21.
@@ -95,5 +97,10 @@ public abstract class ApStatusActivity<T> extends AfStatusActivity<T> implements
     @Override
     public void startFragmentForResult(Class<? extends Fragment> clazz, int request, Object... args) {
         ApFragmentActivity.startResult(clazz, request, args);
+    }
+
+    @Override
+    public void postEvent(Object event) {
+        mApHelper.postEvent(event);
     }
 }
