@@ -56,10 +56,7 @@ public abstract class Response {
 
 	public String getBody() {
 		parser();
-		if (body == null) {
-			return orgbody;
-		}
-		return body;
+		return body == null ? orgbody : body;
 	}
 
 	public void setBody(String body) {
@@ -76,19 +73,13 @@ public abstract class Response {
 
 	public <T> T to(Class<T> returnType) throws IOException {
 		parser();
-		if (body == null) {
-			return GsonUtil.toObject(orgbody, returnType);
-		}
-		return GsonUtil.toObject(body, returnType);
+		return body == null ? GsonUtil.toObject(orgbody, returnType) : GsonUtil.toObject(body, returnType);
 	}
 
 	public <T> List<T> toList(Class<T> returnType)
 			throws Exception {
 		parser();
-		if (body == null) {
-			return GsonUtil.toObjects(orgbody, returnType);
-		}
-		return GsonUtil.toObjects(body, returnType);
+		return body == null ? GsonUtil.toObjects(orgbody, returnType) : GsonUtil.toObjects(body, returnType);
 	}
 
 	public <T> T orgTo(Class<T> returnType) throws IOException {
