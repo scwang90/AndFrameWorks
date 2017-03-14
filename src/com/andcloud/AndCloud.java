@@ -3,8 +3,6 @@ package com.andcloud;
 import android.content.Context;
 
 import com.andcloud.model.Deploy;
-import com.andframe.application.AfApplication;
-import com.andframe.application.AfExceptionHandler;
 import com.avos.avoscloud.AVAnalytics;
 import com.avos.avoscloud.AVOSCloud;
 import com.avos.avoscloud.AVObject;
@@ -12,21 +10,28 @@ import com.tencent.tauth.Tencent;
 import com.umeng.analytics.AnalyticsConfig;
 import com.umeng.analytics.MobclickAgent;
 
+import org.greenrobot.eventbus.EventBus;
+
 public class AndCloud implements LoadDeployListener{
 
 	@SuppressWarnings("serial")
 	public static Deploy Deploy = new Deploy(){{setRemark("default");}};
 	private static String mChannel;
 	private static String mDefchannel;
+	private static boolean mDebug;
+
+	private static void postEvent(Object event) {
+		EventBus.getDefault().post(event);
+	}
 
 	@Override
 	public void onLoadDeployFailed() {
-		AfApplication.getApp().onEvent(CloudEvent.CLOUD_DEPLOY_FAILED);
+		postEvent(new CloudEvent(CloudEvent.CLOUD_DEPLOY_FAILED));
 	}
 
 	@Override
 	public void onLoadDeployFinish(Deploy deploy) {
-		AfApplication.getApp().onEvent(CloudEvent.CLOUD_DEPLOY_FINISHED,deploy,""+deploy.isBusinessModel());
+		postEvent(new CloudEvent(CloudEvent.CLOUD_DEPLOY_FINISHED,""+deploy.isBusinessModel()));
 	}
 
 	public static abstract class QQAuthHelper{
@@ -34,6 +39,7 @@ public class AndCloud implements LoadDeployListener{
 	}
 
 	private static Tencent mTencent;
+
 	public static void initializeQQAuth(Context appcontext,String appid){
 		mTencent = Tencent.createInstance(appid, appcontext);
 	}
@@ -48,11 +54,12 @@ public class AndCloud implements LoadDeployListener{
 		try {
 			AVObject.registerSubclass(clazz);
 		} catch (Throwable e) {
-			AfExceptionHandler.handle(e, "AndCloud.registerSubclass");
+			postEvent(new CloudExceptionEvent(e, "AndCloud.registerSubclass"));
 		}
 	}
 
-	public static void initializeDeploy(Context context,String defchannel,String channel){
+	public static void initializeDeploy(Context context, String defchannel, String channel, boolean isDebug) {
+		mDebug = isDebug;
 		mChannel = channel;
 		mDefchannel = defchannel;
 		//DeployCheckTask.deploy(context, listener,defchannel,channel);
@@ -73,7 +80,7 @@ public class AndCloud implements LoadDeployListener{
 			AVAnalytics.setAppChannel(channel);
 //		    AVAnalytics.enableCrashReport(context, true);
 		} catch (Throwable e) {
-			AfExceptionHandler.handle(e, "AndCloud.initialize");
+			postEvent(new CloudExceptionEvent(e, "AndCloud.initialize"));
 		}
 	}
 
@@ -81,7 +88,7 @@ public class AndCloud implements LoadDeployListener{
 		try {
 			AnalyticsConfig.setAppkey(appkey);
 			AnalyticsConfig.setChannel(channel);
-			MobclickAgent.setDebugMode(AfApplication.getApp().isDebug());
+			MobclickAgent.setDebugMode(mDebug);
 //			SDK在统计Fragment时，需要关闭Activity自带的页面统计，
 //			然后在每个页面中重新集成页面统计的代码(包括调用了 onResume 和 onPause 的Activity)。
 			MobclickAgent.openActivityDurationTrack(false);
@@ -89,7 +96,7 @@ public class AndCloud implements LoadDeployListener{
 //			MobclickAgent.setSessionContinueMillis(1000);
 			MobclickAgent.updateOnlineConfig(context);
 		} catch (Throwable e) {
-			AfExceptionHandler.handle(e, "MobclickAgent.updateOnlineConfig");
+			postEvent(new CloudExceptionEvent(e, "AndCloud.updateOnlineConfig"));
 		}
 	}
 

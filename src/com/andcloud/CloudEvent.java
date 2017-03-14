@@ -8,4 +8,15 @@ public class CloudEvent {
 	/** 加载deploy成功 */
 	public static final String CLOUD_DEPLOY_FINISHED = CLOUD_PREFIX + "deploy_finished";
 
+	public String event;
+	public String param;
+
+	public CloudEvent(String event) {
+		this.event = event;
+	}
+
+	public CloudEvent(String event, String param) {
+		this.event = event;
+		this.param = param;
+	}
 }
