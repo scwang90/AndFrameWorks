@@ -46,6 +46,7 @@
     </style>
 
     <style name="AppTheme.CommonBar.Content" parent="AndFrame.Label">
+        <item name="android:singleLine">false</item>
         <!--<item name="android:layout_margin">@dimen/padding_common_d</item>-->
         <item name="android:gravity">center_vertical</item>
         <!--<item name="android:paddingTop">2dp</item>-->
