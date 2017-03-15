@@ -5,7 +5,12 @@ package com.andadvert.exception;
  * Created by SCWANG on 2017/3/15.
  */
 public class ExceptionHandler {
-    public static void handle(Throwable throwable, String remark) {
+
+    public static void handle(Throwable e, String remark) {
+
+    }
+
+    public static void handleAttach(Throwable e, String remark) {
 
     }
 }

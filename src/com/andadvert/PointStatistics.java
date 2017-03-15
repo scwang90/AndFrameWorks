@@ -1,19 +1,19 @@
 package com.andadvert;
 
-import java.util.Date;
-import java.util.Timer;
-
 import android.content.Context;
+import android.os.Handler;
+import android.os.Looper;
 
 import com.andadvert.event.AdvertEvent;
 import com.andadvert.listener.PointsNotifier;
-import com.andframe.activity.framework.AfActivity;
-import com.andframe.application.AfApplication;
-import com.andframe.application.AfExceptionHandler;
-import com.andframe.caches.AfDurableCache;
-import com.andframe.caches.AfPrivateCaches;
-import com.andframe.thread.AfTimerTask;
-import com.andframe.util.java.AfDateFormat;
+import com.andadvert.util.ACache;
+
+import org.greenrobot.eventbus.EventBus;
+
+import java.text.DateFormat;
+import java.text.SimpleDateFormat;
+import java.util.Date;
+import java.util.Locale;
 
 public class PointStatistics {
 
@@ -24,131 +24,131 @@ public class PointStatistics {
 	//标记 点数 改变记录
 	private static final String KEY_PONTNOTE = "09620090231252804102";
 	//定时器时间周期（一分钟）
-	private static final long TIME_PERIOD = 60*1000;
-	//点数获取定时器
-	private static Timer mTimer = new Timer();
+	private static final long TIME_PERIOD = 60 * 1000;
 	//定时器任务
-	private static AfTimerTask mTimerTask = null;
+	static MonitorTask mTimerTask = null;
 
-	private static class MonitorTask extends AfTimerTask implements PointsNotifier{
+	private static class MonitorTask implements Runnable, PointsNotifier {
 
-		@Override
-		protected void onTimer() {
-			Context context = AfApplication.getApp();
-			AfActivity activity = AfApplication.getApp().getCurActivity();
-			if (activity != null && !activity.isRecycled()) {
-				context = activity;
-			}
-			AdvertAdapter.getInstance().getPoints(context,this);
+		private Context context;
+		private Handler handler;
+
+		public MonitorTask(Context context, Handler handler) {
+			this.context = context.getApplicationContext();
+			this.handler = handler;
+			handler.post(this);
 		}
 
+		@Override
+		public void run() {
+//			Context context = AfApplication.getApp();
+//			AfActivity activity = AfApplication.getApp().getCurActivity();
+//			if (activity != null && !activity.isRecycled()) {
+//				context = activity;
+//			}
+			if (handler != null) {
+				AdvertAdapter.getInstance().getPoints(context, this);
+				handler.postDelayed(this, TIME_PERIOD);
+			} else {
+				context = null;
+			}
+		}
 		@Override
 		public void getPointsFailed(String error) {
-
 		}
-
 		@Override
 		public void getPoints(String currency, int point) {
-			doStaticsPoint(point, currency);
+			doStaticsPoint(context, point, currency);
+		}
+
+		public void cancel() {
+			handler = null;
 		}
 	}
 	
 	//读取老版本记录
-	static {
-		try {
-			AfDurableCache cache = AfDurableCache.getInstance();
-			if(cache.getInt(KEY_LASTPONT, 0) > 0){
-				AfPrivateCaches pcache = AfPrivateCaches.getInstance();
-				pcache.put(KEY_PONTNOTE, cache.getString(KEY_PONTNOTE, ""));
-				pcache.put(KEY_LASTPONT, cache.getInt(KEY_LASTPONT, 0));
-				pcache.put(KEY_PONTCHANGE, cache.getInt(KEY_PONTCHANGE, 0));
-				cache.put(KEY_LASTPONT, 0);
-				cache.put(KEY_PONTNOTE, "");
-				cache.put(KEY_PONTCHANGE, 0);
-			}
-		} catch (Throwable e) {
-		}
-	}
+//	static {
+//		try {
+//			AfDurableCache cache = AfDurableCache.getInstance();
+//			if(cache.getInt(KEY_LASTPONT, 0) > 0){
+//				AfPrivateCaches pcache = AfPrivateCaches.getInstance();
+//				pcache.put(KEY_PONTNOTE, cache.getString(KEY_PONTNOTE, ""));
+//				pcache.put(KEY_LASTPONT, cache.getInt(KEY_LASTPONT, 0));
+//				pcache.put(KEY_PONTCHANGE, cache.getInt(KEY_PONTCHANGE, 0));
+//				cache.put(KEY_LASTPONT, 0);
+//				cache.put(KEY_PONTNOTE, "");
+//				cache.put(KEY_PONTCHANGE, 0);
+//			}
+//		} catch (Throwable e) {
+//		}
+//	}
 	
-	public static void start(){
+	public static void start(Context context){
 		if (mTimerTask == null) {
-			mTimerTask = new MonitorTask();
-			try{
-				mTimer.schedule(mTimerTask, TIME_PERIOD, TIME_PERIOD);
-			}catch(Throwable e){
-				AfExceptionHandler.handle(e, "PointStatistics.start.schedule");
-			}
+			mTimerTask = new MonitorTask(context, new Handler(Looper.getMainLooper()));
 		}
 	}
 
 	public static void stop(){
 		if (mTimerTask != null) {
-			try {
-				mTimerTask.cancel();
-			} catch (Throwable e) {
-				AfExceptionHandler.handleAttach(e, "PointStatistics.TimerTask.cancel");
-			}
+			mTimerTask.cancel();
 			mTimerTask = null;
 		}
 	}
 	
-	public static void doStaticsPoint(int point, String currency) {
-		AfPrivateCaches cache = AfPrivateCaches.getInstance();
-		int last = cache.get(KEY_LASTPONT, 0, Integer.class);
-		cache.put(KEY_LASTPONT, point);
+	public static void doStaticsPoint(Context context, int point, String currency) {
+		ACache cache = ACache.get(context);
+		DateFormat FULL = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss", Locale.CHINESE);
+		int last = Integer.valueOf(cache.getAsString(KEY_LASTPONT, "0"));
+		cache.put(KEY_LASTPONT, String.valueOf(point));
 		if (last != point) {
-			String notes = cache.getString(KEY_PONTNOTE, "");
-			notes += AfDateFormat.FULL.format(new Date())+" ";
+			String notes = cache.getAsString(KEY_PONTNOTE, "");
+			notes += FULL.format(new Date()) + " ";
 			if (last < point) {
-				String local = last+"+"+(point-last)+"="+point+"\r\n";
+				String local = last + "+" + (point - last) + "=" + point + "\r\n";
 				notes += local;
-				AfApplication app = AfApplication.getApp();
+//				AfApplication app = AfApplication.getApp();
+//				app.onUpdateAppinfo();
 				AdvertAdapter adapter = AdvertAdapter.getInstance();
-				app.onUpdateAppinfo();
-				if (last > 0 && (point-last) >= 50) {
-					if ((point-last) > 1000) {
-						AfApplication.getApp().onEvent(AdvertEvent.ADVERT_POINT_INCREASE_CHEAT,currency+"-"+local);
-						//NotiftyMail.sendNotifty(currency+"点数作弊", local);
-						adapter.spendPoints(AfApplication.getApp(), point-last, new PointsNotifier() {
-							public void getPointsFailed(String error) {}
-							public void getPoints(String currency, int point) {}
+				if (last > 0 && (point - last) >= 50) {
+					if ((point - last) > 1000) {//点数作弊
+						EventBus.getDefault().post(new AdvertEvent(AdvertEvent.ADVERT_POINT_INCREASE_CHEAT, currency + "-" + local));
+						adapter.spendPoints(context, point - last, new PointsNotifier() {
+							public void getPointsFailed(String error) {
+							}
+							public void getPoints(String currency, int point) {
+							}
 						});
 						return;
-					}else {
-
-						//new NotiftyMail(adapter.getCurrency()+"点数增加", local).sendTask();
-						cache.put(KEY_PONTCHANGE, 1+cache.getInt(KEY_PONTCHANGE, 0));
-						AfApplication.getApp().onEvent(AdvertEvent.ADVERT_POINT_INCREASE,local);
-//						AfApplication.getApp().onEvent("pointIncrease.poetry",local);
+					} else {//点数增加
+						cache.put(KEY_PONTCHANGE, String.valueOf(1 + Integer.valueOf(cache.getAsString(KEY_PONTCHANGE, String.valueOf(0)))));
+						EventBus.getDefault().post(new AdvertEvent(AdvertEvent.ADVERT_POINT_INCREASE, local));
 					}
 				}
 				if (last > 0 && point > last) {
 				}
 			}else {
-				notes += last+"-"+(last-point)+"="+point+"\r\n";
+				notes += last + "-" + (last - point) + "=" + point + "\r\n";
 			}
 			cache.put(KEY_PONTNOTE, notes);
 		}
 	}
 
-	public static String getPointStatistics() {
-		AfPrivateCaches cache = AfPrivateCaches.getInstance();
-		return cache.getString(KEY_PONTNOTE, "");
+	public static String getPointStatistics(Context context) {
+		return ACache.get(context).getAsString(KEY_PONTNOTE, "");
 	}
 
-	public static String getAttractStatistics() {
-		AfPrivateCaches cache = AfPrivateCaches.getInstance();
-		return cache.getString("66603395431241904102", "");
+//	public static String getAttractStatistics() {
+//		AfPrivateCaches cache = AfPrivateCaches.getInstance();
+//		return cache.getString("66603395431241904102", "");
+//	}
+
+	public static int getPoint(Context context) {
+		return Integer.valueOf(ACache.get(context).getAsString(KEY_LASTPONT, String.valueOf(0)));
 	}
 
-	public static int getPoint() {
-		AfPrivateCaches cache = AfPrivateCaches.getInstance();
-		return cache.get(KEY_LASTPONT, 0, Integer.class);
-	}
-
-	public static int getPointIncreaseCount() {
-		AfPrivateCaches cache = AfPrivateCaches.getInstance();
-		return cache.get(KEY_PONTCHANGE, 0, Integer.class);
+	public static int getPointIncreaseCount(Context context) {
+		return Integer.valueOf(ACache.get(context).getAsString(KEY_PONTCHANGE, String.valueOf(0)));
 	}
 	
 }

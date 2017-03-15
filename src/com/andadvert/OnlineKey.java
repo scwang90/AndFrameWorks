@@ -2,7 +2,7 @@ package com.andadvert;
 
 import android.content.Context;
 
-import com.andframe.application.AfExceptionHandler;
+import com.andadvert.exception.ExceptionHandler;
 
 import java.util.Locale;
 
@@ -41,7 +41,7 @@ public class OnlineKey {
 			try {
 				return "true".equals(bool.toLowerCase(Locale.ENGLISH));
 			} catch (Throwable e) {
-				AfExceptionHandler.handle(e, "获取服务器【"+detail+"】出现异常");
+				ExceptionHandler.handle(e, "获取服务器【"+detail+"】出现异常");
 			}
 		}
 		return defaul;
@@ -60,7 +60,7 @@ public class OnlineKey {
 			try {
 				return Integer.valueOf(integer);
 			} catch (Throwable e) {
-				AfExceptionHandler.handle(e, "获取服务器【"+detail+"】出现异常");
+				ExceptionHandler.handle(e, "获取服务器【"+detail+"】出现异常");
 			}
 		}
 		return defaul;
@@ -79,7 +79,7 @@ public class OnlineKey {
 			try {
 				return Double.valueOf(integer);
 			} catch (Throwable e) {
-				AfExceptionHandler.handle(e, "获取服务器【"+detail+"】出现异常");
+				ExceptionHandler.handle(e, "获取服务器【"+detail+"】出现异常");
 			}
 		}
 		return defaul;

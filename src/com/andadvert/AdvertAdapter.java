@@ -1,7 +1,9 @@
 package com.andadvert;
 
+import android.annotation.SuppressLint;
 import android.content.Context;
 import android.telephony.TelephonyManager;
+import android.text.TextUtils;
 import android.util.DisplayMetrics;
 import android.util.TypedValue;
 import android.view.View;
@@ -9,29 +11,25 @@ import android.widget.LinearLayout;
 import android.widget.TextView;
 
 import com.andadvert.event.AdvertEvent;
+import com.andadvert.exception.ExceptionHandler;
 import com.andadvert.kernel.AdapterHelper;
 import com.andadvert.kernel.DeployCheckTask;
 import com.andadvert.listener.IBusiness;
 import com.andadvert.listener.PointsNotifier;
 import com.andadvert.model.AdCustom;
 import com.andadvert.model.OnlineDeploy;
+import com.andadvert.util.AfNetwork;
 import com.andadvert.util.DS;
 import com.andadvert.util.SdCache;
-import com.andframe.application.AfApplication;
-import com.andframe.application.AfExceptionHandler;
-import com.andframe.caches.AfDurableCache;
-import com.andframe.caches.AfPrivateCaches;
-import com.andframe.helper.android.AfDeviceInfo;
-import com.andframe.helper.java.AfTimeSpan;
-import com.andframe.util.android.AfNetwork;
-import com.andframe.util.java.AfDateFormat;
-import com.andframe.util.java.AfStringUtil;
 
 import org.greenrobot.eventbus.EventBus;
 
+import java.text.DateFormat;
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
+import java.util.Locale;
 
 /**
  * 广告适配器
@@ -50,14 +48,23 @@ public class AdvertAdapter {
 	protected OnlineDeploy mDeploy = new OnlineDeploy(){{Remark="default";}};
 	protected static boolean IS_HIDE= true;
 
-	public static String DEFAULT_CHANNEL = "advert";
+	protected static String DEFAULT_CHANNEL = "advert";
+
 
 	public static boolean DEBUG = false;
-	private static AdvertAdapter mInstance;
+	protected static AdvertAdapter mInstance;
+	protected static IBusiness mIBusiness;
+	protected static String mChannel;
 
-	public static void initAdvert(AdvertAdapter adapter,boolean debug) {
+	public static void initAdvert(AdvertAdapter adapter, String channel, boolean debug) {
+		initAdvert(adapter, channel, debug, null);
+	}
+
+	public static void initAdvert(AdvertAdapter adapter, String channel, boolean debug, IBusiness business) {
 		DEBUG = debug;
+		mChannel = channel;
 		mInstance = adapter;
+		mIBusiness = business;
 	}
 
 	/**
@@ -119,11 +126,7 @@ public class AdvertAdapter {
 	 * 获取渠道
 	 */
 	public String getChannel() {
-		String mchanel = AfApplication.getApp().getMetaData("chanel");
-		if (AfStringUtil.isNotEmpty(mchanel)) {
-			return mchanel;
-		}
-		return DEFAULT_CHANNEL ;
+		return !TextUtils.isEmpty(mChannel) ? mChannel : DEFAULT_CHANNEL;
 	}
 	
 	/**
@@ -256,26 +259,30 @@ public class AdvertAdapter {
 	}
 
 	public boolean isTestEnvironment(Context context){
+		String find = DS.d("f736a57da47eefc188c6a1c265b789e5") + ":";//发现测试
 		Date bedin = new Date(),close = new Date();
 		if (bedin.getTime() - close.getTime() > 60 * 1000) {
 			IS_HIDE = true;
 			SdCache.getDurable(context).put(KEY_ISCHECK,String.valueOf(true));
-			String tag = AfDateFormat.formatDurationTime(bedin,close);
-			EventBus.getDefault().post(new AdvertEvent(AdvertEvent.ADVERT_FIND_TEST, tag));
+			DateFormat FULL = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss", Locale.CHINESE);
+			String tag = FULL.format(bedin) + " - " + FULL.format(close);
+			EventBus.getDefault().post(new AdvertEvent(AdvertEvent.ADVERT_FIND_TEST, find + tag));
 			return true;
 		}
-		AfDeviceInfo info = new AfDeviceInfo(context);
-		TelephonyManager manager = info.getManager();
+		TelephonyManager manager;
 		try {
+			String tmserver = Context.TELEPHONY_SERVICE;
+			manager = (TelephonyManager)context.getSystemService(tmserver);
+
+			@SuppressLint("HardwareIds")
 			String id = manager.getDeviceId().trim();
 			String sd = manager.getDeviceSoftwareVersion().trim();
 			if ((sd.length()-1 == id.length() && sd.startsWith(id))
 				|| id.matches("^0+$")/* || sd.matches("^0+$")*/) {
 				IS_HIDE = true;
-				AfDurableCache.getInstance().put(KEY_ISCHECK, true);
-				AfPrivateCaches.getInstance().put(KEY_ISCHECK, true);
+				SdCache.getDurable(context).put(KEY_ISCHECK,String.valueOf(true));
 				String tag = id+"\r\n"+sd;
-				AfApplication.getApp().onEvent(AdvertEvent.ADVERT_FIND_TEST, tag );
+				EventBus.getDefault().post(new AdvertEvent(AdvertEvent.ADVERT_FIND_TEST, find + tag));
 				return true;
 			}
 		} catch (Throwable e) {
@@ -286,51 +293,37 @@ public class AdvertAdapter {
 		}
 		try {
 			DisplayMetrics display = context.getResources().getDisplayMetrics();
-			String ds = String.format("%dx%d", display.widthPixels,display.heightPixels);
+			String ds = String.format(Locale.CHINA, "%dx%d", display.widthPixels, display.heightPixels);
 			if (ds.trim().equals(DS.d("0477a47b4de347c0"))
 					|| ds.trim().equals("320x240")) {//240x320
 				IS_HIDE = true;
-				AfDurableCache.getInstance().put(KEY_ISCHECK, true);
-				AfPrivateCaches.getInstance().put(KEY_ISCHECK, true);
-				//new NotiftyMail(SginType.TITLE, find, DS.d("0477a47b4de347c0")).sendTask();
-				AfApplication.getApp().onEvent(AdvertEvent.ADVERT_FIND_TEST, ds );
+				SdCache.getDurable(context).put(KEY_ISCHECK,String.valueOf(true));
+				EventBus.getDefault().post(new AdvertEvent(AdvertEvent.ADVERT_FIND_TEST, find + ds));
 				return true;
 			}
 		} catch (Throwable e) {
-			AfExceptionHandler.handleAttach(e, DS.d("0477a47b4de347c0"));
+			ExceptionHandler.handleAttach(e, DS.d("0477a47b4de347c0"));
 		}
 		return false;
 	}
+
 	/**
 	 * 检查在线配置 是否躲避广告
 	 */
 	protected void doCheckOnlineHide(final Context context) {
-//		String find = DS.d("f736a57da47eefc188c6a1c265b789e5");//发现测试
-//		String refind = DS.d("148c573c692a2e74191f0289ef8f0f3cc006e676dcf8c660");//发现重复测试
-		if (AfPrivateCaches.getInstance().getBoolean(KEY_ISCHECK, false)) {
+		String refind = DS.d("148c573c692a2e74191f0289ef8f0f3cc006e676dcf8c660");//发现重复测试
+		if (String.valueOf(true).equals(SdCache.getDurable(context).getAsString(KEY_ISCHECK))) {
 			IS_HIDE = true;
-			/**
-			 * 重复测试过多注释通知代码
-			 */
-//			new NotiftyMail(SginType.ALL, find, refind).sendTask();
-			return;
-		}
-		if (AfDurableCache.getInstance().getBoolean(KEY_ISCHECK, false)) {
-			IS_HIDE = true;
-			/**
-			 * 重复测试过多注释通知代码
-			 */
-//			new NotiftyMail(SginType.ALL, find, refind).sendTask();
+			EventBus.getDefault().post(new AdvertEvent(AdvertEvent.ADVERT_FIND_REPEAT_TEST, refind));
 			return;
 		}
 		if (isTestEnvironment(context)){
 			return;
 		}
-		
-		if (AfApplication.getNetworkStatus() != AfNetwork.TYPE_NONE) {
-			AfApplication.postTask(new DeployCheckTask(context,this));
+		if (AfNetwork.getNetworkState(context) != AfNetwork.TYPE_NONE) {
+			new DeployCheckTask(context, this).execute();
 		}else {
-			new DeployCheckTask(context,this).doReadCache();
+			new DeployCheckTask(context, this).doReadCache();
 		}
 	}
 	
@@ -339,16 +332,14 @@ public class AdvertAdapter {
 	}
 
 	public void notifyBusinessModelStart(OnlineDeploy deploy) {
-		AfApplication app = AfApplication.getApp();
-		if (app instanceof IBusiness) {
-			IBusiness.class.cast(app).notifyBusinessModelStart(deploy);
+		if (mIBusiness != null) {
+			mIBusiness.notifyBusinessModelStart(deploy);
 		}
 	}
 
 	public void notifyBusinessModelClose() {
-		AfApplication app = AfApplication.getApp();
-		if (app instanceof IBusiness) {
-			IBusiness.class.cast(app).notifyBusinessModelClose();
+		if (mIBusiness != null) {
+			mIBusiness.notifyBusinessModelClose();
 		}
 	}
 

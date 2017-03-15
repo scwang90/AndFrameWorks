@@ -122,6 +122,7 @@ public class DeployCheckTask extends AsyncTask<Void,Void,Void>  {
 			//AfToastException异常 会发生 但是概率很低 1% 关闭通知
 			ExceptionHandler.handle(mThrowable, "CheckDeploy error");
 			mAdapter.helper.onCheckOnlineHideFail(mThrowable);
+			doReadCache();
 		} else {
 
 			ACache cache = ACache.get(mContext);

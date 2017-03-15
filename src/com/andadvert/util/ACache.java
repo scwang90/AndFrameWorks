@@ -150,9 +150,13 @@ public class ACache {
      * @return String 数据
      */
     public String getAsString(String key) {
+        return getAsString(key, "");
+    }
+
+    public String getAsString(String key, String def) {
         File file = mCache.get(key);
         if (!file.exists())
-            return null;
+            return def;
         boolean removeFile = false;
         BufferedReader in = null;
         try {
@@ -183,6 +187,7 @@ public class ACache {
                 remove(key);
         }
     }
+
 
     // =======================================
     // ============= JSONObject 数据 读写 ==============

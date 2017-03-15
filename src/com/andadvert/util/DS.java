@@ -1,14 +1,15 @@
 package com.andadvert.util;
 
-import com.andframe.application.AfApplication;
-import com.andframe.helper.android.AfDesHelper;
+import java.math.BigInteger;
+import java.security.MessageDigest;
+import java.security.NoSuchAlgorithmException;
 
 
 public class DS {
 	
 	private static String key = "92abf7a35f196b52";//广告
 
-	static AfDesHelper u = new AfDesHelper(AfApplication.getApp().getDesKey());
+	static AfDesHelper u = new AfDesHelper(getDesKey());
 	
 	public static String d(String v) {
 		try {
@@ -20,5 +21,13 @@ public class DS {
 
 	public static String ad() {
 		return d(key);
+	}
+
+	public static String getDesKey() {
+		try {
+			return new BigInteger(1, MessageDigest.getInstance("MD5").digest(new byte[0])).toString(16);
+		} catch (NoSuchAlgorithmException e) {
+			return "";
+		}
 	}
 }
