@@ -38,9 +38,6 @@ import java.util.List;
 @SuppressWarnings("unused")
 public class AdvertAdapter {
 
-	/** 单例Key */
-	public static final String KEY_ADVERT = "KEY_ADVERT";
-
 	/**在线配置**/
 	public static final String KEY_DEPLOY = "KEY_DEPLOY";
 	/** 标记审核机器 */
@@ -52,22 +49,28 @@ public class AdvertAdapter {
 
 	public static String DEFAULT_CHANNEL = "advert";
 
-	public String getValue() {
-		return mDeploy.Remark;
+	public static boolean DEBUG = false;
+	private static AdvertAdapter mInstance;
+
+	public static void initAdvert(AdvertAdapter adapter,boolean debug) {
+		DEBUG = debug;
+		mInstance = adapter;
 	}
 
 	/**
 	 * 获取全局 广告适配器
 	 */
 	public static AdvertAdapter getInstance(){
-		String key = KEY_ADVERT;
-		AdvertAdapter adapter = AfApplication.getApp().getSingleton(key);
-		if (adapter == null) {
-			adapter = new AdvertAdapter();
-			AfApplication.getApp().setSingleton(key,adapter);
+		AdvertAdapter adapter = mInstance;
+		if (mInstance == null) {
+			mInstance = new AdvertAdapter();
 		}
-		return adapter;
-//		return mAdvertAdapter = AfApplication.getApp().getPlugin(key);
+		return mInstance;
+	}
+
+
+	public String getValue() {
+		return mDeploy.Remark;
 	}
 
 	/**
@@ -251,7 +254,7 @@ public class AdvertAdapter {
 
 	public boolean isTestEnvironment(Context context){
 		Date bedin = new Date(),close = new Date();
-		if (AfTimeSpan.FromDate(bedin, close).Compare(AfTimeSpan.FromMinutes(1)) > 0) {
+		if (bedin.getTime() - close.getTime() > 60 * 1000) {
 			IS_HIDE = true;
 			AfDurableCache.getInstance().put(KEY_ISCHECK, true);
 			AfPrivateCaches.getInstance().put(KEY_ISCHECK, true);
@@ -353,7 +356,7 @@ public class AdvertAdapter {
 	 */
 	public boolean isTimeTested() {
 		Date bedin = new Date(),close = new Date();
-		return AfTimeSpan.FromDate(bedin, close).GreaterThan(AfTimeSpan.FromMinutes(1));
+		return bedin.getTime() - close.getTime() > 60 * 1000;
 	}
 	
 	public AdapterHelper helper = new AdapterHelper() {

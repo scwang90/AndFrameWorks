@@ -2,17 +2,14 @@ package com.andadvert.kernel;
 
 import android.content.Context;
 import android.os.AsyncTask;
+import android.text.TextUtils;
+import android.widget.Toast;
 
 import com.andadvert.AdvertAdapter;
+import com.andadvert.exception.ExceptionHandler;
 import com.andadvert.model.OnlineDeploy;
 import com.andadvert.util.ACache;
-import com.andframe.application.AfApplication;
-import com.andframe.application.AfExceptionHandler;
-import com.andframe.caches.AfPrivateCaches;
-import com.andframe.exception.AfToastException;
-import com.andframe.helper.java.AfTimeSpan;
-import com.andframe.util.java.AfStringUtil;
-import com.andframe.util.java.AfVersion;
+import com.andadvert.util.AfVersion;
 import com.google.gson.Gson;
 
 import java.util.ArrayList;
@@ -31,7 +28,8 @@ public class DeployCheckTask extends AsyncTask<Void,Void,Void>  {
 	protected Context mContext;
 	private AdvertAdapter mAdapter;
 	private static boolean mIsOnlineHideChecking = false;
-	
+	private Throwable mThrowable;
+
 	public DeployCheckTask(Context context,AdvertAdapter adapter) {
 		mContext = context;
 		mAdapter = adapter;
@@ -69,20 +67,21 @@ public class DeployCheckTask extends AsyncTask<Void,Void,Void>  {
 				this.doAnalysisDeploy(deploy);
 				end = new Date();
 			} catch (Throwable e) {
-				e.printStackTrace();
+				mThrowable = e;
 			} finally {
 				mIsOnlineHideChecking  = false;
+				publishProgress();
 			}
 		}
 		return null;
 	}
 
-	public void doAnalysisDeploy(String onlinekey) throws Exception {
+	private void doAnalysisDeploy(String onlinekey) throws Exception {
 		Gson gson = new Gson();
 		String[] keys = onlinekey.split("\\|");
-		List<OnlineDeploy> configs = new ArrayList<OnlineDeploy>();
+		List<OnlineDeploy> configs = new ArrayList<>();
 		for (String json : keys) {
-			if (AfStringUtil.isNotEmpty(json)) {
+			if (!TextUtils.isEmpty(json)) {
 				OnlineDeploy config = gson.fromJson(json, OnlineDeploy.class);
 				config.Verson = AfVersion.transformVersion(config.Version);
 				configs.add(config);
@@ -95,7 +94,7 @@ public class DeployCheckTask extends AsyncTask<Void,Void,Void>  {
 	private void doConfig(List<OnlineDeploy> configs, String channel) {
 		for (OnlineDeploy config : configs) {
 			if (config.Name.equals(channel)) {
-				if (config.Verson == 0 || config.Verson == AfApplication.getVersionCode()) {
+				if (config.Verson == 0 || config.Verson == AfVersion.getPackageVersionCode(mContext)) {
 					mAdapter.helper.setValue(config);
 					break;
 				}
@@ -104,10 +103,9 @@ public class DeployCheckTask extends AsyncTask<Void,Void,Void>  {
 	}
 	
 	public void doReadCache() {
-		AfPrivateCaches caches = AfPrivateCaches.getInstance();
-		if (!caches.getBoolean(KEY_SHOWAD, true)) {
+		ACache cache = ACache.get(mContext);
+		if (String.valueOf(true).equals(cache.getAsString(KEY_SHOWAD))) {
 			mAdapter.helper.setHide(false);
-			return;
 		}
 	}
 	
@@ -118,29 +116,25 @@ public class DeployCheckTask extends AsyncTask<Void,Void,Void>  {
 	}
 
 	@Override
-	protected boolean onHandle(/*Message msg*/) {
+	protected void onProgressUpdate(Void... values) {
 		mIsOnlineHideChecking = false;
-		if (isFail()) {
+		if (mThrowable != null) {
 			//AfToastException异常 会发生 但是概率很低 1% 关闭通知
-			if (!(mException instanceof AfToastException)) {
-				AfExceptionHandler.handle(mException, "WapsCheckDeploy error");
-			}
-			mAdapter.helper.onCheckOnlineHideFail(mException);
-		}else if(AfApplication.getApp().isDebug()){
-			String tip = "Waps耗时" + (1.0f*(end.getTime()-bedin.getTime())/1000)+"秒";
-			AfApplication.getApp().getCurActivity().makeToastLong(tip);
+			ExceptionHandler.handle(mThrowable, "CheckDeploy error");
+			mAdapter.helper.onCheckOnlineHideFail(mThrowable);
+		} else {
 
-		}
-		if(isFinish()){
-			AfPrivateCaches caches = AfPrivateCaches.getInstance();
-			caches.put(KEY_SHOWAD, mAdapter.helper.isHide());
+			ACache cache = ACache.get(mContext);
+			cache.put(KEY_SHOWAD, String.valueOf(!mAdapter.helper.isHide()));
 			if (!mAdapter.helper.isHide()) {
 				mAdapter.notifyBusinessModelStart(mAdapter.helper.getDeploy());
 			}else {
 				mAdapter.notifyBusinessModelClose();
 			}
+			if(AdvertAdapter.DEBUG){
+				String tip = "检测耗时" + (1.0f*(end.getTime()-bedin.getTime())/1000)+"秒";
+				Toast.makeText(mContext,tip,Toast.LENGTH_LONG).show();
+			}
 		}
-		return false;
 	}
-	
 }
