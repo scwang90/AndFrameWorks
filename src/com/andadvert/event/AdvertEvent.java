@@ -11,5 +11,16 @@ public class AdvertEvent {
 	public static final String ADVERT_POINT_INCREASE_IMPORTUNE = ADVERT_PREFIX + "point_increase_importune";
 	/** 墨点点数增加 */
 	public static final String ADVERT_POINT_INCREASE = ADVERT_PREFIX + "point_increase";
-	
+
+	public String event;
+	public String param;
+
+	public AdvertEvent(String event) {
+		this.event = event;
+	}
+
+	public AdvertEvent(String event, String param) {
+		this.event = event;
+		this.param = param;
+	}
 }

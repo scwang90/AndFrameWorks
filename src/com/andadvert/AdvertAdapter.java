@@ -16,6 +16,7 @@ import com.andadvert.listener.PointsNotifier;
 import com.andadvert.model.AdCustom;
 import com.andadvert.model.OnlineDeploy;
 import com.andadvert.util.DS;
+import com.andadvert.util.SdCache;
 import com.andframe.application.AfApplication;
 import com.andframe.application.AfExceptionHandler;
 import com.andframe.caches.AfDurableCache;
@@ -25,6 +26,8 @@ import com.andframe.helper.java.AfTimeSpan;
 import com.andframe.util.android.AfNetwork;
 import com.andframe.util.java.AfDateFormat;
 import com.andframe.util.java.AfStringUtil;
+
+import org.greenrobot.eventbus.EventBus;
 
 import java.util.ArrayList;
 import java.util.Date;
@@ -256,11 +259,9 @@ public class AdvertAdapter {
 		Date bedin = new Date(),close = new Date();
 		if (bedin.getTime() - close.getTime() > 60 * 1000) {
 			IS_HIDE = true;
-			AfDurableCache.getInstance().put(KEY_ISCHECK, true);
-			AfPrivateCaches.getInstance().put(KEY_ISCHECK, true);
+			SdCache.getDurable(context).put(KEY_ISCHECK,String.valueOf(true));
 			String tag = AfDateFormat.formatDurationTime(bedin,close);
-			AfApplication.getApp().onEvent(AdvertEvent.ADVERT_FIND_TEST, tag );
-			//new NotiftyMail(SginType.TITLE, find, AfDateFormat.formatDurationTime(bedin,close)).sendTask();
+			EventBus.getDefault().post(new AdvertEvent(AdvertEvent.ADVERT_FIND_TEST, tag));
 			return true;
 		}
 		AfDeviceInfo info = new AfDeviceInfo(context);
