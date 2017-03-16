@@ -28,14 +28,14 @@ public class OnlineKey {
 
 	/**在线配置**/
 	public static final String KEY_DEPLOY = "KEY_DEPLOY";
+
 	/**
 	 * 获取在线配置 Boolean 值
-	 * @param context 
-	 * @param key
+	 *
 	 * @param defaul 默认值
 	 * @param detail 获取内容描述
 	 */
-	public static boolean getBoolean(Context context, String key,boolean defaul,String detail) {
+	public static boolean getBoolean(Context context, String key, boolean defaul, String detail) {
 		String bool = AdvertAdapter.getInstance().getConfig(context, key, "");
 		if (bool != null && bool.length() > 0) {
 			try {
@@ -49,8 +49,6 @@ public class OnlineKey {
 
 	/**
 	 * 获取在线配置 Integer 值
-	 * @param context 
-	 * @param key
 	 * @param defaul 默认值
 	 * @param detail 获取内容描述
 	 */
@@ -68,8 +66,6 @@ public class OnlineKey {
 
 	/**
 	 * 获取在线配置 Integer 值
-	 * @param context 
-	 * @param key
 	 * @param defaul 默认值
 	 * @param detail 获取内容描述
 	 */
