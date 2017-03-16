@@ -31,4 +31,6 @@ public interface PagerManager {
     void finishCurrentActivity();
     void finishActivity(AfActivity activity);
     void finishAllActivity();
+
+    void startForeground();
 }

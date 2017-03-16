@@ -11,6 +11,7 @@ import com.andframe.activity.AfActivity;
 import com.andframe.api.Cacher;
 import com.andframe.api.DialogBuilder;
 import com.andframe.api.ModelConvertor;
+import com.andframe.api.event.EventManager;
 import com.andframe.api.pager.PagerManager;
 import com.andframe.api.task.TaskExecutor;
 import com.andframe.api.view.ViewModuler;
@@ -48,7 +49,7 @@ public class $ {
         <From,To> List<To> convertList(@NonNull Iterable<From> froms, @NonNull ModelConvertor<From,To> convertor);
     }
 
-    public interface Api extends $$,TaskExecutor, DialogBuilder, ViewQuery, Cacher {
+    public interface Api extends $$,TaskExecutor, DialogBuilder, ViewQuery, Cacher, EventManager {
     }
 
     @SuppressWarnings("MethodNameSameAsClassName")
@@ -72,7 +73,7 @@ public class $ {
         return AfPrivateCaches.getInstance(name);
     }
 
-    public static PagerManager manager(){
+    public static PagerManager pager(){
         return AfPagerManager.getInstance();
     }
 
@@ -108,6 +109,10 @@ public class $ {
 
     public static TaskExecutor task() {
         return AfTaskExecutor.getInstance();
+    }
+
+    public static EventManager event() {
+        return AfApp.get().getEventManager();
     }
 
     public static void dispatch(Runnable runnable){
@@ -173,6 +178,8 @@ public class $ {
                     return method.invoke(AfApp.get().newViewQuery(getLastViewer()), objects);
                 } else if (method.getDeclaringClass().isAssignableFrom(Cacher.class)) {
                     return method.invoke(AfPrivateCaches.getInstance(getLastString()), objects);
+                } else if (method.getDeclaringClass().isAssignableFrom(EventManager.class)) {
+                    return method.invoke(AfApp.get().getEventManager(), objects);
                 } else if (method.getDeclaringClass().isAssignableFrom($$.class)) {
                     return method.invoke(this, objects);
                 }

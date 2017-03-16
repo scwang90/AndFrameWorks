@@ -17,6 +17,7 @@ import android.util.Log;
 
 import com.andframe.BuildConfig;
 import com.andframe.api.DialogBuilder;
+import com.andframe.api.event.EventManager;
 import com.andframe.api.pager.PagerManager;
 import com.andframe.api.pager.items.MoreFooter;
 import com.andframe.api.pager.status.RefreshLayouter;
@@ -25,6 +26,7 @@ import com.andframe.api.task.TaskExecutor;
 import com.andframe.api.view.ViewQuery;
 import com.andframe.api.view.Viewer;
 import com.andframe.caches.AfJsonCache;
+import com.andframe.exception.AfException;
 import com.andframe.exception.AfExceptionHandler;
 import com.andframe.exception.AfToastException;
 import com.andframe.feature.AfDialogBuilder;
@@ -424,6 +426,10 @@ public abstract class AfApp extends Application {
 
 	public PagerManager newPagerManager() {
 		return new AfPagerManager();
+	}
+
+	public EventManager getEventManager() {
+		throw new AfException("如果项目中要使用事件组件，请先在App重写getEventManager方法");
 	}
 	//</editor-fold>
 
