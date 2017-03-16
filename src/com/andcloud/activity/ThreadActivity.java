@@ -1,14 +1,5 @@
 package com.andcloud.activity;
 
-import java.io.ByteArrayOutputStream;
-import java.io.File;
-import java.io.FileNotFoundException;
-import java.io.FileOutputStream;
-import java.io.IOException;
-import java.io.OutputStream;
-import java.util.List;
-import java.util.concurrent.atomic.AtomicBoolean;
-
 import android.annotation.SuppressLint;
 import android.annotation.TargetApi;
 import android.app.Activity;
@@ -57,6 +48,14 @@ import com.avos.avoscloud.feedback.FeedbackAgent;
 import com.avos.avoscloud.feedback.FeedbackThread;
 import com.avos.avoscloud.feedback.FeedbackThread.SyncCallback;
 import com.avos.avoscloud.feedback.Resources;
+
+import java.io.ByteArrayOutputStream;
+import java.io.File;
+import java.io.FileOutputStream;
+import java.io.IOException;
+import java.io.OutputStream;
+import java.util.List;
+import java.util.concurrent.atomic.AtomicBoolean;
 
 public class ThreadActivity extends Activity {
 
@@ -483,6 +482,7 @@ public class ThreadActivity extends Activity {
 
 			try {
 				LogUtil.avlog.d("img picked:" + filePath);
+				assert filePath != null;
 				File attachmentFile = new File(filePath);
 				thread.add(new Comment(attachmentFile));
 				adapter.notifyDataSetChanged();
@@ -491,7 +491,7 @@ public class ThreadActivity extends Activity {
 				smoothScrollToBottom();
 				thread.sync(syncCallback);
 				feedbackInput.setText("");
-			} catch (AVException e) {
+			} catch (Throwable e) {
 				e.printStackTrace();
 			}
 		}
@@ -639,7 +639,7 @@ public class ThreadActivity extends Activity {
 			} else {
 				holder.timestamp.setText(DateUtils.getRelativeTimeSpanString(
 						comment.getCreatedAt().getTime(),
-						System.currentTimeMillis() - 1, 0l,
+						System.currentTimeMillis() - 1, 0L,
 						DateUtils.FORMAT_ABBREV_ALL));
 			}
 			return convertView;
@@ -674,7 +674,7 @@ public class ThreadActivity extends Activity {
 
 		public ImageCache(Context context) {
 			this.context = context;
-			bitmapCache = new LruCache<String, Bitmap>(cacheSize);
+			bitmapCache = new LruCache<>(cacheSize);
 		}
 
 		static String getFileName(String fileUrl) {
@@ -713,7 +713,7 @@ public class ThreadActivity extends Activity {
 		public Bitmap setImage(String key, byte[] data) {
 			OutputStream os = null;
 			OutputStream thumbnailOS = null;
-			byte[] imageData = null;
+			byte[] imageData;
 			Bitmap thumbnail = null;
 			try {
 				Bitmap tempBM = Bitmap.createScaledBitmap(
@@ -731,8 +731,6 @@ public class ThreadActivity extends Activity {
 
 				thumbnail = BitmapFactory.decodeByteArray(imageData, 0,
 						imageData.length);
-			} catch (FileNotFoundException e) {
-				e.printStackTrace();
 			} catch (IOException e) {
 				e.printStackTrace();
 			} finally {

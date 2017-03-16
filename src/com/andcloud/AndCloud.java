@@ -71,11 +71,11 @@ public class AndCloud implements LoadDeployListener{
 		}
 	}
 
-	public static void initializeAvos(Context context,String appid,String appkey,String channel) {
+	public static void initializeAvos(Context context, String appid, String appkey, String channel) {
 		try {
 			AndCloud.registerSubclass(Deploy.class);
 			// 初始化应用 Id 和 应用 Key，您可以在应用设置菜单里找到这些信息
-			AVOSCloud.initialize(context,appid,appkey);
+			AVOSCloud.initialize(context, appid, appkey);
 //		    AVAnalytics.start(this);
 			AVAnalytics.setAppChannel(channel);
 //		    AVAnalytics.enableCrashReport(context, true);
@@ -97,6 +97,62 @@ public class AndCloud implements LoadDeployListener{
 			MobclickAgent.updateOnlineConfig(context);
 		} catch (Throwable e) {
 			postEvent(new CloudExceptionEvent(e, "AndCloud.updateOnlineConfig"));
+		}
+	}
+
+	public static void pause(Context context) {
+		try {
+			AVAnalytics.onPause(context);
+		} catch (Throwable e) {
+			postEvent(new CloudExceptionEvent(e, "AbActivity.pause.AVAnalytics"));
+		}
+		try {
+			MobclickAgent.onPageEnd( context.getClass().getSimpleName());
+			MobclickAgent.onPause(context);
+		} catch (Throwable e) {
+			postEvent(new CloudExceptionEvent(e, "AbActivity.pause.MobclickAgent"));
+		}
+	}
+
+	public static void resume(Context context) {
+		try {
+			AVAnalytics.onResume(context);
+		} catch (Throwable e) {
+			postEvent(new CloudExceptionEvent(e, "AbActivity.resume.AVAnalytics"));
+		}
+		try {
+			MobclickAgent.onPageStart(context.getClass().getSimpleName());
+			MobclickAgent.onResume(context);
+		} catch (Throwable e) {
+			postEvent(new CloudExceptionEvent(e, "AbActivity.resume.MobclickAgent"));
+		}
+	}
+
+	public static void event(Context context,String eventId) {
+		try {
+			eventId = eventId.replace('.', '_');
+			AVAnalytics.onEvent(context, eventId);
+		} catch (Throwable e) {
+			postEvent(new CloudExceptionEvent(e, "AbActivity.event.AVAnalytics"));
+		}
+		try {
+			MobclickAgent.onEvent(context, eventId);
+		} catch (Throwable e) {
+			postEvent(new CloudExceptionEvent(e, "AbActivity.event.MobclickAgent"));
+		}
+	}
+
+	public static void event(Context context, String eventId, String tag) {
+		try {
+			eventId = eventId.replace('.', '_');
+			AVAnalytics.onEvent(context, eventId,tag);
+		} catch (Throwable e) {
+			postEvent(new CloudExceptionEvent(e, "AbActivity.event.AVAnalytics.tag"));
+		}
+		try {
+			MobclickAgent.onEvent(context, eventId,tag);
+		} catch (Throwable e) {
+			postEvent(new CloudExceptionEvent(e, "AbActivity.event.MobclickAgent.tag"));
 		}
 	}
 
