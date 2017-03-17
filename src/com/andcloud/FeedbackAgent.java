@@ -1,18 +1,17 @@
 package com.andcloud;
 
-import java.util.List;
-
-import android.app.Notification;
 import android.content.Context;
 import android.content.Intent;
 
 import com.andcloud.activity.ThreadActivity;
-import com.andframe.application.AfExceptionHandler;
-import com.andframe.application.AfNotifyCenter;
 import com.avos.avoscloud.AVException;
 import com.avos.avoscloud.feedback.Comment;
 import com.avos.avoscloud.feedback.FeedbackThread;
 import com.avos.avoscloud.feedback.FeedbackThread.SyncCallback;
+
+import java.util.List;
+
+import static com.andcloud.AndCloud.postEvent;
 
 public class FeedbackAgent {
 
@@ -44,7 +43,6 @@ public class FeedbackAgent {
 	}
 
 	public void sync() {
-		
 		try {
 			final List<Comment> comments = FeedbackThread.getInstance().getCommentsList();
 			FeedbackThread.getInstance().sync(new SyncCallback() {
@@ -57,14 +55,15 @@ public class FeedbackAgent {
 					if (comments != null && comments.size() > oldcount) {
 						oldcount = comments.size();
 						//startActivity(FeedbacksActivity.class);
-						Intent intent = new Intent(mContext, ThreadActivity.class);
-						Notification notify = AfNotifyCenter.getNotification("用户反馈", "您有新的消息", intent);
-						AfNotifyCenter.notify(notify, 1256);
+//						Intent intent = new Intent(mContext, ThreadActivity.class);
+//						Notification notify = AfNotifyCenter.getNotification("用户反馈", "您有新的消息", intent);
+//						AfNotifyCenter.notify(notify, 1256);
+						postEvent(new CloudFeedbackEvent(comments));
 					}
 				}
 			});
 		} catch (Throwable e) {
-			AfExceptionHandler.handle(e, ("FeedbackAgent.FeedbackThread.sync"));
+			postEvent(new CloudExceptionEvent(e, "FeedbackAgent.FeedbackThread.sync"));
 		}
 	}
 }

@@ -1,9 +1,8 @@
 package com.andcloud.domain;
 
+import com.andcloud.AndCloud;
 import com.andcloud.model.AvUser;
-import com.andframe.application.AfApplication;
-import com.andframe.exception.AfToastException;
-import com.andframe.util.android.AfNetwork;
+import com.andcloud.util.AfNetwork;
 import com.avos.avoscloud.AVException;
 import com.avos.avoscloud.AVUser;
 
@@ -27,8 +26,8 @@ public class AvUserDomain extends AvDomain<AvUser>{
 			AvUser.logOut();
 			return AvUser.logIn(username, password,AvUser.class);
 		} catch (AVException e){
-			if (AfNetwork.getNetworkState(AfApplication.getApp()) == AfNetwork.TYPE_MOBILE){
-				throw new AfToastException("您的移动网络可能不稳定，请切换WIFI再试");
+			if (AfNetwork.getNetworkState(AndCloud.getContext()) == AfNetwork.TYPE_MOBILE){
+				throw new Exception("您的移动网络可能不稳定，请切换WIFI再试");
 			} else {
 				throw e;
 			}

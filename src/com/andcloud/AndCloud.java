@@ -1,5 +1,6 @@
 package com.andcloud;
 
+import android.annotation.SuppressLint;
 import android.content.Context;
 
 import com.andcloud.model.Deploy;
@@ -19,9 +20,15 @@ public class AndCloud implements LoadDeployListener{
 	private static String mChannel;
 	private static String mDefchannel;
 	private static boolean mDebug;
+	@SuppressLint("StaticFieldLeak")
+	private static Context mContext;
 
-	private static void postEvent(Object event) {
+	public static void postEvent(Object event) {
 		EventBus.getDefault().post(event);
+	}
+
+	public static Context getContext() {
+		return mContext;
 	}
 
 	@Override
@@ -59,15 +66,16 @@ public class AndCloud implements LoadDeployListener{
 	}
 
 	public static void initializeDeploy(Context context, String defchannel, String channel, boolean isDebug) {
+		mContext = context.getApplicationContext();
 		mDebug = isDebug;
 		mChannel = channel;
 		mDefchannel = defchannel;
 		//DeployCheckTask.deploy(context, listener,defchannel,channel);
 	}
 
-	public static void deploy(Context context,LoadDeployListener listener){
+	public static void deploy(Context context, LoadDeployListener listener) {
 		if (mChannel != null && mDefchannel != null) {
-			DeployCheckTask.deploy(context, listener,mDefchannel,mChannel);
+			DeployCheckTask.deploy(context, listener, mDefchannel, mChannel);
 		}
 	}
 
