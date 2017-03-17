@@ -276,7 +276,7 @@ public class AfViewQuery<T extends AfViewQuery<T>> implements ViewQuery<T> {
 
     @Override
     public T toChilds() {
-        return $(childs());
+        return $(children());
     }
 
     @Override
@@ -334,7 +334,7 @@ public class AfViewQuery<T extends AfViewQuery<T>> implements ViewQuery<T> {
     }
 
     @Override
-    public T mixChilds() {
+    public T mixChildren() {
         View[] views = Arrays.copyOf(this.mTargetViews, this.mTargetViews.length);
         return toChilds().mixView(views);
     }
@@ -1561,6 +1561,45 @@ public class AfViewQuery<T extends AfViewQuery<T>> implements ViewQuery<T> {
 
     //<editor-fold desc="容器布局">
 
+    //<editor-fold desc="基本操作">
+
+    @Override
+    public T removeView(View view) {
+        return foreach(ViewGroup.class, (ViewEacher<ViewGroup>) group -> group.removeView(view));
+    }
+
+    @Override
+    public T removeViewAt(int index) {
+        return foreach(ViewGroup.class, (ViewEacher<ViewGroup>) group -> group.removeViewAt(index));
+    }
+
+    @Override
+    public T removeViews(int start, int count) {
+        return foreach(ViewGroup.class, (ViewEacher<ViewGroup>) group -> group.removeViews(start, count));
+    }
+
+    @Override
+    public T removeViewInLayout(View view) {
+        return foreach(ViewGroup.class, (ViewEacher<ViewGroup>) group -> group.removeViewInLayout(view));
+    }
+
+    @Override
+    public T removeAllViews() {
+        return foreach(ViewGroup.class, ViewGroup::removeAllViews);
+    }
+
+    @Override
+    public T removeViewsInLayout(int start, int count) {
+        return foreach(ViewGroup.class, (ViewEacher<ViewGroup>) group -> group.removeViewsInLayout(start, count));
+    }
+
+    @Override
+    public T removeAllViewsInLayout() {
+        return foreach(ViewGroup.class, ViewGroup::removeAllViewsInLayout);
+    }
+
+    //</editor-fold>
+
     //<editor-fold desc="添加子控件">
     @Override
     public T addView(View... views) {
@@ -1644,7 +1683,7 @@ public class AfViewQuery<T extends AfViewQuery<T>> implements ViewQuery<T> {
     }
 
     @Override
-    public View[] childs() {
+    public View[] children() {
         return foreach(ViewGroup.class, view -> {
             View[] views = new View[view.getChildCount()];
             for (int i = 0; i < views.length; i++) {
@@ -1657,8 +1696,8 @@ public class AfViewQuery<T extends AfViewQuery<T>> implements ViewQuery<T> {
 
     //<editor-fold desc="分离操作">
     @Override
-    public View[] breakChilds() {
-        return $(childs()).foreach(view -> {
+    public View[] breakChildren() {
+        return $(children()).foreach(view -> {
             ViewParent parent = view.getParent();
             if (parent instanceof ViewGroup) {
                 ((ViewGroup) parent).removeView(view);

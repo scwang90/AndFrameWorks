@@ -119,7 +119,7 @@ public interface ViewQuery<T extends ViewQuery<T>> {
      * 将当前选择 View 所有子View 添加到选择对象中
      * @see ViewQuery#toChilds()
      */
-    T mixChilds();
+    T mixChildren();
     /**
      * 将当前选择 View 的父容器 添加到选择对象中
      * @see ViewQuery#toParent()
@@ -778,6 +778,19 @@ public interface ViewQuery<T extends ViewQuery<T>> {
 
     //<editor-fold desc="容器布局">
 
+    //<editor-fold desc="基本操作">
+
+    T removeView(View view);
+    T removeViewAt(int index);
+    T removeViewInLayout(View view);
+    T removeViewsInLayout(int start, int count);
+    T removeViews(int start, int count);
+    T removeAllViews();
+    T removeAllViewsInLayout();
+
+    //</editor-fold>
+
+
     //<editor-fold desc="添加子控件">
     T addView(View... views);
     T addView(View view, int index);
@@ -789,8 +802,8 @@ public interface ViewQuery<T extends ViewQuery<T>> {
 
     //<editor-fold desc="获取子控件">
     int childCount();
-    View[] childs();
     View childAt(int index);
+    View[] children();
     //</editor-fold>
 
     //<editor-fold desc="分离操作">
@@ -805,7 +818,7 @@ public interface ViewQuery<T extends ViewQuery<T>> {
     /**
      * 把当前选中 View 删除其所有子空间并，并返回
      */
-    View[] breakChilds();
+    View[] breakChildren();
 
     //</editor-fold>
 
