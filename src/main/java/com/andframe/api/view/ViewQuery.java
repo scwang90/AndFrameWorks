@@ -5,40 +5,29 @@ import android.content.res.ColorStateList;
 import android.graphics.Bitmap;
 import android.graphics.Point;
 import android.graphics.Rect;
+import android.graphics.RectF;
 import android.graphics.Typeface;
 import android.graphics.drawable.Drawable;
+import android.support.annotation.ColorRes;
+import android.support.annotation.DimenRes;
 import android.support.annotation.DrawableRes;
 import android.support.annotation.LayoutRes;
 import android.support.annotation.Nullable;
 import android.support.annotation.StringRes;
 import android.support.v7.widget.LinearLayoutCompat;
 import android.text.Editable;
-import android.text.Spanned;
 import android.text.TextWatcher;
 import android.view.View;
 import android.view.ViewGroup;
 import android.view.animation.Animation;
-import android.webkit.WebView;
 import android.widget.Adapter;
 import android.widget.AdapterView;
-import android.widget.Button;
-import android.widget.CheckBox;
 import android.widget.EditText;
 import android.widget.ExpandableListAdapter;
-import android.widget.ExpandableListView;
-import android.widget.Gallery;
-import android.widget.GridView;
-import android.widget.ImageView;
-import android.widget.ListView;
-import android.widget.ProgressBar;
-import android.widget.RatingBar;
-import android.widget.ScrollView;
-import android.widget.SeekBar;
-import android.widget.Spinner;
-import android.widget.TextView;
 
 import java.util.Date;
 import java.util.List;
+import java.util.Locale;
 
 /**
  * 安卓版 JQuery 接口
@@ -47,633 +36,574 @@ import java.util.List;
 @SuppressWarnings("unused")
 public interface ViewQuery<T extends ViewQuery<T>> {
 
+    //<editor-fold desc="选择器">
+
+    //<editor-fold desc="基本选择">
     /**
-     * 设置
-     *
-     * @param id the id
-     * @return self
+     * 根据 控件Id 选择一个或多个 View
      */
-    T id(int id);
-
+    T $(Integer id, int... ids);
     /**
-     * Set the rating of a RatingBar.
-     *
-     * @param rating the rating
-     * @return self
+     * 根据 控件Id名 选择一个或多个 View
      */
-    T rating(float rating);
-
-
+    T $(String idvalue, String... idvalues);
     /**
-     * Set the text of a TextView.
-     *
-     * @param resid the resid
-     * @return self
+     * 根据 控件类型 选择一个或多个 View
      */
-    T text(@StringRes int resid);
-
-
+    T $(Class<? extends View> type);
     /**
-     * Set the text of a TextView with localized formatted string
-     * from application's package's default string table
-     *
-     * @param resid the resid
-     * @return self
-     * @see Context#getString(int, Object...)
+     * 根据 控件类型 选择一个或多个 View
      */
-    T text(int resid, Object... formatArgs);
-
-
+    T $(Class<? extends View>[] types);
     /**
-     * Set the text of a TextView.
-     *
-     * @param text the text
-     * @return self
+     * 直接制定选择的目标 View
      */
-    T text(CharSequence text);
+    T $(View... views);
+    //</editor-fold>
 
+    //<editor-fold desc="选择变换">
 
     /**
-     * Set the text of a TextView. Hide the View (gone) if text is empty.
-     *
-     * @param text        the text
-     * @param goneIfEmpty hide if text is null or length is 0
-     * @return self
+     * 如果当前选中 View ，并且 View 存在于父容器中，toPrev() 将会把选择对象转移到前一个 View
+     * 如果 View 已经是第一个 View， 将会丢失选择对象（没有选择对象）
      */
-
-    T text(CharSequence text, boolean goneIfEmpty);
-
-
+    T toPrev();
     /**
-     * Set the text of a TextView.
-     *
-     * @param text the text
-     * @return self
+     * 如果当前选中 View ，并且 View 存在于父容器中，toNext() 将会把选择对象转移到下一个 View
+     * 如果 View 已经是最后的 View， 将会丢失选择对象（没有选择对象）
      */
-    T text(Spanned text);
-
-
+    T toNext();
     /**
-     * Set the text color of a TextView. Note that it's not a color resource id.
-     *
-     * @param color color code in ARGB
-     * @return self
+     * 如果当前选中 View ，并且 View 存在子 View，toChild() 将会把选择对象按照指定 index 转向子View
+     * 如果 View 没有子View 或者 index 越界，将会丢失选择对象（没有选择对象）
+     * @param index 如果不传 默认0 如果 传多个只去第一个
      */
-    T textColor(int color);
-
-
+    T toChild(int... index);
     /**
-     * Set the text color of a TextView from  a color resource id.
-     *
-     * @param id color resource id
-     * @return self
+     * 如果当前选中 View ，并且 View 存在子 View，toChilds() 将会把选择对象转向一个或者多个子 View
+     * 如果 View 没有子View 或者 index 越界，将会丢失选择对象（没有选择对象）
      */
-    T textColorId(int id);
-
-
+    T toChilds();
     /**
-     * Set the text typeface of a TextView.
-     *
-     * @param typeface typeface
-     * @return self
+     * 如果当前选中 View ，存在与父容器中， toParent() 将会把选择对象转向父容器
+     * 如果 View 没有父容器，将会丢失选择对象（没有选择对象）
      */
-    T typeface(Typeface typeface);
-
-
+    T toParent();
     /**
-     * Set the text size (in sp) of a TextView.
-     *
-     * @param size size
-     * @return self
+     * 直接把选择对象转向查询器持有的最根（root）视图 View
      */
-    T textSize(float size);
+    T toRoot();
+    //</editor-fold>
 
-
+    //<editor-fold desc="合并选择">
     /**
-     * Set the adapter of an AdapterView.
-     *
-     * @param adapter adapter
-     * @return self
+     * 将新的 views 添加到选择对象中
      */
-
-    T adapter(Adapter adapter);
-
-
+    T mixView(View... views);
     /**
-     * Set the adapter of an ExpandableListView.
-     *
-     * @param adapter adapter
-     * @return self
+     * 将当前选择 View 的前一个View 添加到选择对象中
+     * @see ViewQuery#toPrev()
      */
-    T adapter(ExpandableListAdapter adapter);
-
-
+    T mixPrev();
     /**
-     * Set the image of an ImageView.
-     *
-     * @param resid the resource id
-     * @return self
+     * 将当前选择 View 的下一个View 添加到选择对象中
+     * @see ViewQuery#toNext()
      */
-    T image(int resid);
-
-
+    T mixNext();
     /**
-     * Set the image of an ImageView.
-     *
-     * @param drawable the drawable
-     * @return self
+     * 将当前选择 View 指定子View 添加到选择对象中
+     * @see ViewQuery#toChild(int...)
      */
-    T image(Drawable drawable);
-
-
+    T mixChild(int... index);
     /**
-     * Set the image of an ImageView.
-     *
-     * @param bm Bitmap
-     * @return self
+     * 将当前选择 View 所有子View 添加到选择对象中
+     * @see ViewQuery#toChilds()
      */
-    T image(Bitmap bm);
-
-
+    T mixChilds();
     /**
-     * Set the image of an ImageView.
-     *
-     * @param url Image url.
-     * @return self
+     * 将当前选择 View 的父容器 添加到选择对象中
+     * @see ViewQuery#toParent()
      */
+    T mixParent();
 
-    T image(String url);
+    //</editor-fold>
 
-
+    //<editor-fold desc="获取选择">
     /**
-     * Set tag object of a View.
-     *
-     * @return self
-     */
-    T tag(Object tag);
-
-    /**
-     * Set tag object of a View.
-     *
-     * @return self
-     */
-    T tag(int key, Object tag);
-
-    /**
-     * Enable a View.
-     *
-     * @param enabled state
-     * @return self
-     */
-    T enabled(boolean enabled);
-
-    /**
-     * Set checked state of a compound button.
-     *
-     * @param checked state
-     * @return self
-     */
-    T checked(boolean checked);
-
-
-    /**
-     * Get checked state of a compound button.
-     *
-     * @return checked
-     */
-    boolean isChecked();
-
-    /**
-     * Set clickable for a View.
-     *
-     * @return self
-     */
-    T clickable(boolean clickable);
-
-
-    /**
-     * Set View visibility to View.GONE.
-     *
-     * @return self
-     */
-    T gone();
-
-    /**
-     * Set View visibility to View.INVISIBLE.
-     *
-     * @return self
-     */
-    T invisible();
-
-    /**
-     * Set View visibility to View.VISIBLE.
-     *
-     * @return self
-     */
-    T visible();
-
-    /**
-     * Set View visibility, such as View.VISIBLE.
-     *
-     * @return self
-     */
-    T visibility(int visibility);
-
-
-    /**
-     * Set View background.
-     *
-     * @param id the id
-     * @return self
-     */
-    T background(int id);
-
-    /**
-     * Set View background color.
-     *
-     * @param color color code in ARGB
-     * @return self
-     */
-    T backgroundColor(int color);
-
-    /**
-     * Notify a ListView that the data of it's adapter is changed.
-     *
-     * @return self
-     */
-    T dataChanged();
-
-
-    /**
-     * Checks if the current View exist.
-     *
-     * @return true, if is exist
+     * 判断 $ 选择器是否成选择了 View
      */
     boolean isExist();
 
     /**
-     * Gets the tag of the View.
-     *
-     * @return tag
+     * 获取所有选择的 View
      */
-    Object getTag();
-
+    View[] views();
     /**
-     * Gets the tag of the View.
-     *
-     * @param id the id
-     * @return tag
-     */
-    Object getTag(int id);
-
-    /**
-     * Gets the current View as an View.
-     *
-     * @return View
+     * 获取选择的 View （默认第一个）
+     * @param indexs 可以指定选择的索引
      */
     View getView(int... indexs);
 
     /**
-     * Gets the current View as an image View.
-     *
-     * @return ImageView
-     */
-    ImageView getImageView();
-
-    /**
-     * Gets the current View as an Gallery.
-     *
-     * @return Gallery
-     */
-    @SuppressWarnings("deprecation")
-    Gallery getGallery();
-
-
-    /**
-     * Gets the current View as a text View.
-     *
-     * @return TextView
-     */
-    TextView getTextView();
-
-    /**
-     * Gets the current View as an edit text.
-     *
-     * @return EditText
-     */
-    EditText getEditText();
-
-    /**
-     * Gets the current View as an progress bar.
-     *
-     * @return ProgressBar
-     */
-    ProgressBar getProgressBar();
-
-    /**
-     * Gets the current View as seek bar.
-     *
-     * @return SeekBar
-     */
-
-    SeekBar getSeekBar();
-
-    /**
-     * Gets the current View as a button.
-     *
-     * @return Button
-     */
-    Button getButton();
-
-    /**
-     * Gets the current View as a checkbox.
-     *
-     * @return CheckBox
-     */
-    CheckBox getCheckBox();
-
-    /**
-     * Gets the current View as a listview.
-     *
-     * @return ListView
-     */
-    ListView getListView();
-
-    /**
-     * Gets the current View as a ExpandableListView.
-     *
-     * @return ExpandableListView
-     */
-    ExpandableListView getExpandableListView();
-
-    /**
-     * Gets the current View as a gridview.
-     *
-     * @return GridView
-     */
-    GridView getGridView();
-
-    /**
-     * Gets the current View as a RatingBar.
-     *
-     * @return RatingBar
-     */
-    RatingBar getRatingBar();
-
-    /**
-     * Gets the current View as a webview.
-     *
-     * @return WebView
-     */
-    WebView getWebView();
-
-    /**
-     * Gets the current View as a spinner.
-     *
-     * @return Spinner
-     */
-    Spinner getSpinner();
-
-    /**
-     * Gets the editable.
-     *
-     * @return the editable
-     */
-    Editable getEditable();
-
-    /**
-     * Gets the text of a TextView.
-     *
-     * @return the text
-     */
-    CharSequence getText();
-
-    /**
-     * Gets the selected item if current View is an adapter View.
-     *
-     * @return selected
-     */
-    Object getSelectedItem();
-
-
-    /**
-     * Gets the selected item position if current View is an adapter View.
-     * <p>
-     * Returns AdapterView.INVALID_POSITION if not valid.
-     *
-     * @return selected position
-     */
-    int getSelectedItemPosition();
-
-    /**
-     * Register a callback method for when the View is clicked.
-     *
-     * @param listener The callback method.
-     * @return self
-     */
-    T clicked(View.OnClickListener listener);
-
-    /**
-     * Register a callback method for when the View is long clicked.
-     *
-     * @param listener The callback method.
-     * @return self
-     */
-    T longClicked(View.OnLongClickListener listener);
-
-    /**
-     * Register a callback method for when an item is clicked in the ListView.
-     *
-     * @param listener The callback method.
-     * @return self
-     */
-    T itemClicked(AdapterView.OnItemClickListener listener);
-
-
-    /**
-     * Register a callback method for when an item is long clicked in the ListView.
-     *
-     * @param listener The callback method.
-     * @return self
-     */
-    T itemLongClicked(AdapterView.OnItemLongClickListener listener);
-
-
-    /**
-     * Set selected item of an AdapterView.
-     *
-     * @param position The position of the item to be selected.
-     * @return self
-     */
-    T setSelection(int position);
-
-
-    /**
-     * Register a callback method for when a textview text is changed. Method must have signature of method(CharSequence s, int start, int before, int count)).
-     *
-     * @param method The method name of the callback.
-     * @return self
-     */
-    T textChanged(TextWatcher method);
-
-
-    /**
-     * Set the margin of a View. Notes all parameters are in DIP, not in pixel.
-     *
-     * @param leftDip   the left dip
-     * @param topDip    the top dip
-     * @param rightDip  the right dip
-     * @param bottomDip the bottom dip
-     * @return self
-     */
-    T margin(float leftDip, float topDip, float rightDip, float bottomDip);
-
-    /**
-     * Set the width of a View in dip.
-     * Can also be ViewGroup.LayoutParams.FILL_PARENT, ViewGroup.LayoutParams.WRAP_CONTENT, or ViewGroup.LayoutParams.MATCH_PARENT.
-     *
-     * @param px width in px
-     * @return self
-     */
-
-    T width(int px);
-
-    /**
-     * Set the height of a View in dip.
-     * Can also be ViewGroup.LayoutParams.FILL_PARENT, ViewGroup.LayoutParams.WRAP_CONTENT, or ViewGroup.LayoutParams.MATCH_PARENT.
-     *
-     * @param px height in px
-     * @return self
-     */
-
-    T height(int px);
-
-    /**
-     * 自定义扩展接口
+     * 获取选择其的 root Viewer
      */
     Viewer rootViewer();
-    ScrollView getScrollView();
-    View[] views();
+
+    /**
+     * 获取选择的 View （默认第一个） （模板返回）
+     * @param indexs 可以指定选择的索引
+     */
     <TT extends View> TT view(int... indexs);
+    /**
+     * 根据类型 获取选择的 View （默认第一个） （模板返回）
+     */
     <TT extends View> TT[] views(Class<TT> clazz);
+    /**
+     * 根据类型 获取选择的 View （默认第一个） （模板返回）
+     */
     <TT extends View> TT view(Class<TT> clazz ,int... indexs);
+    //</editor-fold>
+
+    //<editor-fold desc="选择遍历">
+    T foreach(ViewEacher<View> eacher);
+    <TT> T foreach(Class<TT> clazz, ViewEacher<TT> eacher);
+    <TTT> TTT foreach(ViewReturnEacher<View,TTT> eacher);
+    <TT,TTT> TTT foreach(Class<TT> clazz, ViewReturnEacher<TT,TTT> eacher);
+    <TT,TTT> TTT foreach(Class<TT> clazz, ViewReturnEacher<TT,TTT> eacherm, TTT defvalue);
+    //</editor-fold>
+
+    //</editor-fold>
+
+    //<editor-fold desc="所有View">
+
+    //<editor-fold desc="基本设置">
+    /**
+     * 设置当前选中 View 的 Id
+     */
+    T id(int id);
+
+    /**
+     * 设置当前选中 View 的 tag.
+     */
+    T tag(Object tag);
+
+    /**
+     * 设置当前选中 View 的 key tag.
+     */
+    T tag(int key, Object tag);
+
+    /**
+     * 设置当前选中 View 的显示状态（visibility）, 例如 View.VISIBLE.
+     */
+    T visibility(int visibility);
+
+    /**
+     * 设置当前选中 View 的 enabled 状态.
+     * @param enabled 状态
+     */
+    T enabled(boolean enabled);
+
+    /**
+     * 设置当前选中 View 的 可点击（clickable） 状态.
+     */
+    T clickable(boolean clickable);
+
+    /**
+     * 设置当前选中 View 的背景（background）.
+     * @param id 背景资源Id
+     */
+    T background(int id);
+
+    /**
+     * 设置当前选中 View 的背景（background）.
+     * @param drawable Drawable背景资源对象
+     */
+    T background(Drawable drawable);
+
+    /**
+     * 设置当前选中 View 的背景颜色（backgroundColor）.
+     * @param color ARGB格式的颜色值
+     */
+    T backgroundColor(int color);
+
+    /**
+     * 设置当前选中 View 动画
+     */
+    T animation(Animation animation);
+
+    //</editor-fold>
+
+    //<editor-fold desc="基本获取">
+    /**
+     * 获取当前选中 View 的 Id
+     */
+    int id();
+
+    /**
+     * 获取当前选中 View 的 tag
+     */
+    Object tag();
+
+    /**
+     * 获取当前选中 View 的 tag. 根据 key 获取
+     * @param key setTag 时指定的 key
+     */
+    Object tag(int key);
+
+    //</editor-fold>
+
+    //<editor-fold desc="扩展设置">
+
+    /**
+     * 设置当前选中 View 的显示状态（visibility）为 关闭（View.GONE）.
+     */
+    T gone();
+
+    /**
+     * 设置当前选中 View 的显示状态（visibility）为 隐藏（View.INVISIBLE）.
+     */
+    T invisible();
+
+    /**
+     * 设置当前选中 View 的显示状态（visibility）为 显示（View.VISIBLE）.
+     */
+    T visible();
+
+    /**
+     * 使用 boolean 设置当前选中 View 的显示
+     * @param isvisibe true->VISIBLE false->GONE
+     */
+    T visibility(boolean isvisibe);
+
+    //</editor-fold>
+
+    //<editor-fold desc="扩展获取">
+    /**
+     * 获取当前选中 View 是否显示
+     */
     boolean isVisible();
-    int gravity();
-    float rating();
-    T $(Integer id, int... ids);
-    T $(String idvalue, String... idvalues);
-    T $(Class<? extends View> type);
-    T $(Class<? extends View>[] types);
-    T $(View... views);
-    T gravity(int gravity);
-    T maxLines(int lines);
-    T singleLine(boolean... singleLine);
-    T orientation(@LinearLayoutCompat.OrientationMode int orientation);
-    T toggle();
-    T inputType(int type);
-    T textFormat(String format);
-    T text(String format, Object... args);
-    T html(String format, Object... args);
-    T hint(int hintId);
-    T hint(CharSequence hint);
-    T hint(String format, Object... args);
 
-    T time(Date time);
-    T time(String format, Date time);
-    T timeDay(Date time);
-    T timeDate(Date time);
-    T timeFull(Date time);
-    T timeStandard(Date time);
-    T timeDynamic(Date time);
+    /**
+     * 测量试图的尺寸
+     */
+    Point measure();
 
-    T textSizeId(int id);
-    T textColor(ColorStateList color);
-    T textColorListId(int id);
-    T size(int width, int height);
-    T size(float width, float height);
+    /**
+     * 获取当前选中 View 的外边距（margin）
+     */
+    Rect margin();
+
+    /**
+     * 获取当前选中 View 的内边距（padding）
+     */
+    Rect padding();
+
+    //</editor-fold>
+
+    //<editor-fold desc="边距尺寸">
+
+    //<editor-fold desc="尺寸">
+    /**
+     * 设置当前选中 View 的宽度. 以 px 为单位.
+     * 也可以使用 FILL_PARENT , WRAP_CONTENT , MATCH_PARENT.
+     */
+    T width(int px);
     T width(float dp);
+    /**
+     * 设置当前选中 View 的高度. 以 px 为单位.
+     * 也可以使用 FILL_PARENT , WRAP_CONTENT , MATCH_PARENT.
+     */
+    T height(int px);
     T height(float dp);
-    T margin(int px);
-    T marginLeft(int px) ;
-    T marginRight(int px);
-    T marginTop(int px);
-    T marginBottom(int px);
+    /**
+     * 设置当前选中 View 的尺寸（宽和高）. 以 px 为单位.
+     * 也可以使用 FILL_PARENT , WRAP_CONTENT , MATCH_PARENT.
+     */
+    T size(int widthPx, int heightPx);
+    T size(float widthDp, float heightDp);
+
+    //</editor-fold>
+
+    //<editor-fold desc="内边距">
+
     T padding(int px);
+    T padding(float dp);
+
+    T padding(Rect rectPx);
+    T padding(RectF rectDp);
+
     T paddingLeft(int px) ;
     T paddingRight(int px);
     T paddingTop(int px);
     T paddingBottom(int px);
-    T margin(float dp);
-    T marginLeft(float dp);
-    T marginRight(float dp);
-    T marginTop(float dp);
-    T marginBottom(float dp);
-    T padding(float dp);
+
     T paddingLeft(float dp);
     T paddingRight(float dp);
     T paddingTop(float dp);
     T paddingBottom(float dp);
-    T padding(int left, int top, int right, int bottom);
-    T margin(int left, int top, int right, int bottom);
-    T padding(float leftdp, float topdp, float rightdp, float bottomdp);
-    T margin(Rect margin);
-    T padding(Rect padding);
-    T progress(int progress);
-    T visibility(boolean isvisibe);
-    T animation(Animation animation);
-    T background(Drawable drawable);
 
-    T x(float x);
-    T y(float y);
-    T z(float y);
-    T scaleX(float x);
-    T scaleY(float y);
-    T translationX(float x);
-    T translationY(float y);
-    T translationZ(float y);
-    T pivotX(float x);
-    T pivotY(float y);
-    T rotationX(float x);
-    T rotationY(float y);
+    T padding(int leftPx, int topPx, int rightPx, int bottomPx);
+    T padding(float leftDp, float topDp, float rightDp, float bottomDp);
+
+    //</editor-fold>
+
+    //<editor-fold desc="外边距">
+
+    T margin(int px);
+    T margin(float dp);
+
+    T margin(Rect rectPx);
+    T margin(RectF rectDp);
+
+    T marginLeft(int px);
+    T marginRight(int px);
+    T marginTop(int px);
+    T marginBottom(int px);
+
+    T marginLeft(float dp);
+    T marginRight(float dp);
+    T marginTop(float dp);
+    T marginBottom(float dp);
+
+    T margin(int leftPx, int topPx, int rightPx, int bottomPx);
+    T margin(float leftDp, float topDp, float rightDp, float bottomDp);
+
+    //</editor-fold>
+
+    //</editor-fold>
+
+    //<editor-fold desc="视图变换">
+    T alpha(float a);
+    T scaleX(float scale);
+    T scaleY(float scale);
+    T rotationX(float rotation);
+    T rotationY(float rotation);
     T rotation(float rotation);
-    T scrollX(int x);
-    T scrollY(int y);
-    T alpha(float x);
 
-    T addView(View... views);
-    T addView(View view, int index);
-    T addView(View view, int width, int height);
-    T addView(View view, ViewGroup.LayoutParams params);
-    T addView(View view, int index, ViewGroup.LayoutParams params);
-    T replace(View view);
+    T x(int px);
+    T y(int px);
+    T z(int px);
+    T scrollX(int px);
+    T scrollY(int px);
+    T translationX(int px);
+    T translationY(int px);
+    T translationZ(int px);
+    T pivotX(int px);
+    T pivotY(int px);
 
-    T image(String url, int widthpx, int heightpx);
+    T x(float dp);
+    T y(float dp);
+    T z(float dp);
+    T scrollX(float dp);
+    T scrollY(float dp);
+    T translationX(float dp);
+    T translationY(float dp);
+    T translationZ(float dp);
+    T pivotX(float dp);
+    T pivotY(float dp);
+    //</editor-fold>
 
-    T toPrev();
-    T toNext();
-    T toChild(int index);
-    T toChilds();
-    T toParent();
-    T toRoot();
-    T mixView(View... views);
-    T mixPrev();
-    T mixNext();
-    T mixChild(int index);
-    T mixChilds();
+    //</editor-fold>
 
-    View breakView();
-    View[] breakViews();
-    View[] childs();
-    View[] breakChilds();
-    View childAt(int index);
-    Point measure();
-    Rect padding();
-    Rect margin();
-    int childCount();
-    int orientation();
+    //<editor-fold desc="共用方法">
+    /**
+     * 获取当前选择 View 的 Gravity
+     * 支持 LinearLayout,TextView,RelativeLayout
+     */
+    int gravity();
+    /**
+     * 设置当前选择 View 的 Gravity
+     * 支持 LinearLayout,TextView,RelativeLayout
+     */
+    T gravity(int gravity);
 
-    T drawablePadding(int padding);
-    T drawablePadding(float padding);
+    //</editor-fold>
+
+    //<editor-fold desc="TextView">
+
+    //<editor-fold desc="基本设置">
+    /**
+     * 设置当前选中 TextView 的 文本（text）.
+     * @param resid 字符串资源
+     */
+    T text(@StringRes int resid);
+
+    /**
+     * 设置当前选中 TextView 的 文本（text）（带有格式化符号）
+     * @param resid 字符串资源 （带有格式化符号）
+     * @param formatArgs 格式化参数
+     * @see Context#getString(int, Object...)
+     */
+    T text(@StringRes int resid, Object... formatArgs);
+
+    /**
+     * 设置当前选中 TextView 的 文本（text）.
+     * @param text 文本内容
+     */
+    T text(CharSequence text);
+
+    /**
+     * 设置当前选中 TextView 的 提示（hint） .
+     * @param resid 字符串资源
+     */
+    T hint(@StringRes int resid);
+
+    /**
+     * 设置当前选中 TextView 的 提示（hint）.
+     * @param hint 提示内容
+     */
+    T hint(CharSequence hint);
+
+    /**
+     * 设置当前选中 TextView 的字体颜色（TextColor）. ARGB格式的颜色值，注意不是颜色Id
+     * @param color ARGB格式的颜色值，注意不是颜色Id
+     */
+    T textColor(int color);
+
+    /**
+     * 设置当前选中 TextView 的字体颜色（TextColor）. 颜色资源Id
+     * @param id 颜色资源Id
+     */
+    T textColorId(@StringRes int id);
+
+    /**
+     * 设置当前选中 TextView 的字体颜色（TextColor）. 颜色状态列表 ColorStateList
+     */
+    T textColor(ColorStateList color);
+
+    /**
+     * 设置当前选中 TextView 的字体颜色（TextColor）. 颜色状态列表 ColorStateList 资源Id
+     */
+    T textColorListId(@ColorRes int id);
+
+    /**
+     * 设置当前选中 TextView 的字体大小（TextSize）. sp 单位
+     * @param size sp为单位的字体大小值
+     */
+    T textSize(float size);
+
+    /**
+     * 设置当前选中 TextView 的字体大小（TextSize）. 指定资源Id
+     * @param id 距离资源Id
+     */
+    T textSizeId(@DimenRes int id);
+
+    /**
+     * 设置当前选中 TextView 的最大行数（MaxLines）.
+     */
+    T maxLines(int lines);
+
+    /**
+     * 设置当前选中 TextView 是否单行显示（SingleLine）.
+     * @param singleLine 不传时默认true
+     */
+    T singleLine(boolean... singleLine);
+
+    /**
+     * 设置当前选中 TextView 的输入类型.
+     * @see android.text.InputType
+     */
+    T inputType(int type);
+
+    /**
+     * 设置当前选中 TextView 的字体.
+     * @param typeface 字体
+     */
+    T typeface(Typeface typeface);
+
+    //</editor-fold>
+
+    //<editor-fold desc="扩展设置">
+
+    /**
+     * 设置当前选中 TextView 的 文本（text） 如果内容为空将隐藏 View
+     * @param text 文本内容
+     * @param goneIfEmpty 如果内容为空将隐藏 View
+     */
+
+    T text(CharSequence text, boolean goneIfEmpty);
+
+    /**
+     * 为当前选中 TextView 设置格式化字符串
+     * 例如 当前职位 “小明”
+     * 执行 textFormat("你好 %s")
+     * 结果变为 “你好 小明”
+     * @param format 格式化 （只能含有一个 %s，如果没有%s，效果将和 text(format) 一样）
+     */
+    T textFormat(String format);
+
+    /**
+     * 设置当前选中 TextView 的 文本（text） 为 格式化的结果值.
+     * @see String#format(Locale, String, Object...)
+     * @param format 格式化字符串
+     * @param args 格式化参数
+     */
+    T text(String format, Object... args);
+    /**
+     * 设置当前选中 TextView 的 提示（hint） 为 格式化的结果值.
+     * @see String#format(Locale, String, Object...)
+     * @param format 格式化字符串
+     * @param args 格式化参数
+     */
+    T hint(String format, Object... args);
+    /**
+     * 设置当前选中 TextView 的 文本（text） 为 格式化的结果值（可以有HTML标签效果）.
+     * 例如：html("一共有（<font color='#%s'><big>%d</big></font>）个结果",R.color.red,5);
+     * 结果："一共有（5）个结果" （其中 5 的字体会变大,并且为红色）
+     * @see String#format(Locale, String, Object...)
+     * @param format 格式化字符串
+     * @param args 格式化参数
+     */
+    T html(String format, Object... args);
+
+    //</editor-fold>
+
+    //<editor-fold desc="时间设置">
+    /**
+     * 设置当前选中 TextView 的 文本（text） 为 time 的时间格式化 （HH:mm:ss）.
+     */
+    T time(Date time);
+    /**
+     * 设置当前选中 TextView 的 文本（text） 为 time 的指定时间格式化 .
+     */
+    T time(String format, Date time);
+    /**
+     * 设置当前选中 TextView 的 文本（text） 为 time 的天格式化（M-d）.
+     */
+    T timeDay(Date time);
+    /**
+     * 设置当前选中 TextView 的 文本（text） 为 time 的日期格式化（y-M-d）.
+     */
+    T timeDate(Date time);
+    /**
+     * 设置当前选中 TextView 的 文本（text） 为 time 的日期时间格式化（yyyy年MM月dd日 HH时mm分ss秒）.
+     */
+    T timeFull(Date time);
+    /**
+     * 设置当前选中 TextView 的 文本（text） 为 time 的标准格式化（yyyy-MM-dd HH:mm:ss）.
+     */
+    T timeStandard(Date time);
+    /**
+     * 设置当前选中 TextView 的 文本（text） 为 time 的动态格式化（例如：3分钟前，昨天）.
+     */
+    T timeDynamic(Date time);
+    //</editor-fold>
+
+    //<editor-fold desc="基本获取">
+    /**
+     * 获取 TextView 的 文本（text）.
+     */
+    CharSequence text();
+    /**
+     获取 TextView 的 提示（hint）.
+     */
+    CharSequence hint();
+
+    //</editor-fold>
+
+    //<editor-fold desc="复合图片">
+    T drawablePadding(int px);
+    T drawablePadding(float dp);
     T drawableLeft(@DrawableRes int id);
     T drawableTop(@DrawableRes int id);
     T drawableRight(@DrawableRes int id);
@@ -684,20 +614,241 @@ public interface ViewQuery<T extends ViewQuery<T>> {
     T drawableBottom(Drawable drawable);
     T drawables(@Nullable Drawable left, @Nullable Drawable top,
                 @Nullable Drawable right, @Nullable Drawable bottom);
+    //</editor-fold>
 
+    //</editor-fold>
+
+    //<editor-fold desc="RatingBar">
+    /**
+     * 设置当前选中 RatingBar 的值（rating）
+     */
+    T rating(float rating);
+
+    /**
+     * 获取当前选中 RatingBar 的值（rating）
+     */
+    float rating();
+    //</editor-fold>
+
+    //<editor-fold desc="列表控件">
+
+    //<editor-fold desc="基本设置">
+    /**
+     * 设置当前选中 AdapterView 的适配器.
+     * @param adapter 适配器 adapter
+     */
+    T adapter(Adapter adapter);
+
+    /**
+     * 设置当前选中 ExpandableListView 的适配器.
+     * @param adapter 适配器 adapter
+     */
+    T adapter(ExpandableListAdapter adapter);
+
+    /**
+     * 通知当前选中适配器控件（AdapterView 如 ListView）数据改变
+     */
+    T dataChanged();
+
+    /**
+     * 设置当前选中 AdapterView 的选择索引.
+     */
+    T setSelection(int position);
+    
+    //</editor-fold>
+
+    //<editor-fold desc="扩展控件">
     <TT> T adapter(@LayoutRes int id, List<TT> list, AdapterItemer<TT> itemer);
+    //</editor-fold>
 
-    interface AdapterItemer<T> {
-        void onBinding(ViewQuery $, T model, int index);
-    }
+    //<editor-fold desc="基本获取">
+    /**
+     * 获取当前选择 AdapterView 的选择项.
+     * @return 选择对象
+     */
+    Object getSelectedItem();
 
-    T foreach(ViewEacher<View> eacher);
-    <TT> T foreach(Class<TT> clazz, ViewEacher<TT> eacher);
+    /**
+     * 获取当前选择 AdapterView 的选择索引.
+     * @return 如果没选择将反回 AdapterView.INVALID_POSITION
+     */
+    int getSelectedItemPosition();
 
-    <TTT> TTT foreach(ViewReturnEacher<View,TTT> eacher);
-    <TT,TTT> TTT foreach(Class<TT> clazz, ViewReturnEacher<TT,TTT> eacher);
-    <TT,TTT> TTT foreach(Class<TT> clazz, ViewReturnEacher<TT,TTT> eacherm, TTT defvalue);
+    //</editor-fold>
 
+    //</editor-fold>
+
+    //<editor-fold desc="ImageView">
+
+    /**
+     * 设置当前选中 ImageView 的图片.
+     * @param resid 图片资源Id
+     */
+    T image(int resid);
+
+    /**
+     * 设置当前选中 ImageView 的图片.
+     * @param drawable Drawabled图片对象
+     */
+    T image(Drawable drawable);
+
+    /**
+     * 设置当前选中 ImageView 的图片.
+     * @param bitmap Bitmap 位图对象
+     */
+    T image(Bitmap bitmap);
+
+    /**
+     * 设置当前选中 ImageView 的图片.
+     * @param url 图片Url（不限于本地url，也可以是网络yrl，但是要自行重写本方法实现网络获取并缓存）.
+     */
+    T image(String url);
+
+    /**
+     * 设置当前选中 ImageView 的图片. 并制定下载图片的尺寸（需要自行重写方法实现，仅作为扩展接口使用）
+     * @param url 图片Url（不限于本地url，也可以是网络yrl，但是要自行重写本方法实现网络获取并缓存）.
+     */
+    T image(String url, int widthPx, int heightPx);
+
+    //</editor-fold>
+
+    //<editor-fold desc="EditText">
+
+    //<editor-fold desc="基本设置">
+    /**
+     * Convenience for {@link android.widget.EditText#setSelection(int, int)}.
+     */
+    T selection(int start, int stop);
+
+    /**
+     * Convenience for {@link android.widget.EditText#setSelection(int)}.
+     */
+    T selection(int index);
+
+    /**
+     * Convenience for {@link android.widget.EditText#selectAll}.
+     */
+    T selectAll();
+
+    /**
+     * Convenience for {@link android.widget.EditText#extendSelection}.
+     */
+    T extendSelection(int index);
+    //</editor-fold>
+
+    //<editor-fold desc="基本获取">
+    /**
+     * 获取当前选中 EditText 的 内容.
+     * @see EditText#getEditableText()
+     */
+    Editable editable();
+    //</editor-fold>
+
+    //</editor-fold>
+
+    //<editor-fold desc="CompoundButton">
+    /**
+     * 设置当前选中 CompoundButton 的 checked状态.
+     */
+    T checked(boolean checked);
+
+    /**
+     * 获取当前选中 CompoundButton 的 checked状态.
+     */
+    boolean isChecked();
+
+    /**
+     * 设置当前选中 CompoundButton checked 值为自反（开关触发器）
+     */
+    T toggle();
+
+    //</editor-fold>
+
+    //<editor-fold desc="ProgressBar">
+    int progress() ;
+    int secondaryProgress();
+    T progress(int progress);
+    T secondaryProgress(int secondaryProgress);
+    //</editor-fold>
+
+    //<editor-fold desc="LinearLayout">
+    int orientation();
+    T orientation(@LinearLayoutCompat.OrientationMode int orientation);
+    //</editor-fold>
+
+    //<editor-fold desc="容器布局">
+
+    //<editor-fold desc="添加子控件">
+    T addView(View... views);
+    T addView(View view, int index);
+    T addView(View view, int widthPx, int heightPx);
+    T addView(View view, float widthDp, float heightDp);
+    T addView(View view, ViewGroup.LayoutParams params);
+    T addView(View view, int index, ViewGroup.LayoutParams params);
+    //</editor-fold>
+
+    //<editor-fold desc="获取子控件">
+    int childCount();
+    View[] childs();
+    View childAt(int index);
+    //</editor-fold>
+
+    //<editor-fold desc="分离操作">
+    /**
+     * 把当前选中 View 从其父容器中删除，并返回 （第一个选中的 View）
+     */
+    View breakView();
+    /**
+     * 把当前选中 View 从其父容器中删除，并返回 （所有选中的View）
+     */
+    View[] breakViews();
+    /**
+     * 把当前选中 View 删除其所有子空间并，并返回
+     */
+    View[] breakChilds();
+
+    //</editor-fold>
+
+    //<editor-fold desc="替换操作">
+    /**
+     * 将当前选择的 View 从其父容器中删除，并使用新的 View 添加到 父容器中，实现替换
+     * @param view 新的 View（如果新的 View 已经存在父容器，将会被分离出来）
+     */
+    T replace(View view);
+
+    //</editor-fold>
+
+    //</editor-fold>
+
+    //<editor-fold desc="事件绑定">
+    /**
+     * 注册点击事件
+     */
+    T clicked(View.OnClickListener listener);
+
+    /**
+     * 注册长按事件
+     */
+    T longClicked(View.OnLongClickListener listener);
+
+    /**
+     * 列表控件 Item 点击事件
+     */
+    T itemClicked(AdapterView.OnItemClickListener listener);
+
+    /**
+     * 列表控件 Item 长按事件
+     */
+    T itemLongClicked(AdapterView.OnItemLongClickListener listener);
+
+    /**
+     * 注册当前选择 Textview 的 文本改变监听器 TextWatcher
+     */
+    T textChanged(TextWatcher watcher);
+
+    //</editor-fold>
+
+    //<editor-fold desc="子接口定义">
     interface ViewEacher<TT> {
         void each(TT view);
     }
@@ -706,5 +857,9 @@ public interface ViewQuery<T extends ViewQuery<T>> {
         TTT each(TT view);
     }
 
+    interface AdapterItemer<T> {
+        void onBinding(ViewQuery $, T model, int index);
+    }
+    //</editor-fold>
 
 }

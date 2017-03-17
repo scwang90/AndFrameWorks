@@ -63,7 +63,7 @@ public abstract class AfViewModuler extends ViewerWarpper implements Viewer, Vie
 			return ((AfActivity) getContext());
 		}
 		Activity activity = AfPagerManager.getInstance().currentActivity();
-		if (activity instanceof AfActivity) {
+		if (activity != null) {
 			return (AfActivity) activity;
 		}
 		return null;
