@@ -1,11 +1,10 @@
 package com.andframe.model;
 
+import java.util.Date;
 import java.util.UUID;
 
 @SuppressWarnings("unused")
 public class Exceptional {
-
-
 
     public enum Statut {
         NEW ,//新的错误
@@ -27,12 +26,15 @@ public class Exceptional {
     public Statut Status = Statut.NEW;
     public int ScreneWidth;
     public int ScreneHeight;
+    public Date Time;
 
     public Exceptional() {
+        this.Time = new Date();
     }
 
     public Exceptional(String Name, String Message,
                        String Stack, String Version, String Thread) {
+        this.Time = new Date();
         this.Name = Name;
         this.Message = Message;
         this.Stack = Stack;
