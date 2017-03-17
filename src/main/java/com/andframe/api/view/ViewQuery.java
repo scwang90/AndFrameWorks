@@ -231,9 +231,15 @@ public interface ViewQuery<T extends ViewQuery<T>> {
      */
     T animation(Animation animation);
 
+    /**
+     * 设置当前选中 View 动画 (并启动)
+     */
+    T startAnimation(Animation animation);
+
     //</editor-fold>
 
     //<editor-fold desc="基本获取">
+
     /**
      * 获取当前选中 View 的 Id
      */

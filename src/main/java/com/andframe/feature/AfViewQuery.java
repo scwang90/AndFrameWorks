@@ -529,6 +529,11 @@ public class AfViewQuery<T extends AfViewQuery<T>> implements ViewQuery<T> {
         return foreach((ViewEacher<View>) view -> view.setAnimation(animation));
     }
 
+    @Override
+    public T startAnimation(Animation animation) {
+        return foreach((ViewEacher<View>) view -> view.startAnimation(animation));
+    }
+
     //</editor-fold>
 
     //<editor-fold desc="基本获取">
