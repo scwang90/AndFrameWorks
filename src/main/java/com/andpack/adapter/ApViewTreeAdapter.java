@@ -37,7 +37,7 @@ public class ApViewTreeAdapter extends AfTreeViewAdapter<View> {
     public ApViewTreeAdapter(View root) {
         super(root.getContext(),
                 new ArrayList<>(Collections.singletonList(root)),
-                new AfTreeEstablisher<>(model -> Arrays.asList($.query(model).childs())),
+                new AfTreeEstablisher<>(model -> Arrays.asList($.query(model).children())),
                 true);
     }
 
