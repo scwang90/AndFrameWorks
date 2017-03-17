@@ -2,7 +2,7 @@ package com.andmail;
 
 public class ExceptionMail /*extends AppinfoMail*/ {
 
-//	private String md5 = AfApplication.getApp().getDesKey();
+//	private String md5 = AfApp.get().getDesKey();
 //	private Exceptional mExceptional;
 //
 //	public ExceptionMail(Exceptional ex) {
