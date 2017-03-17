@@ -41,8 +41,8 @@ public class PointStatistics {
 
 		@Override
 		public void run() {
-//			Context context = AfApplication.getApp();
-//			AfActivity activity = AfApplication.getApp().getCurActivity();
+//			Context context = AfApp.get();
+//			AfActivity activity = $.pager().currentActivity();
 //			if (activity != null && !activity.isRecycled()) {
 //				context = activity;
 //			}
@@ -107,7 +107,7 @@ public class PointStatistics {
 			if (last < point) {
 				String local = last + "+" + (point - last) + "=" + point + "\r\n";
 				notes += local;
-//				AfApplication app = AfApplication.getApp();
+//				AfApplication app = AfApp.get();
 //				app.onUpdateAppinfo();
 				AdvertAdapter adapter = AdvertAdapter.getInstance();
 				if (last > 0 && (point - last) >= 50) {
