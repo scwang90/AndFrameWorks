@@ -54,9 +54,9 @@ public class ApCommonBarBinder {
     }
 
     private Pager pager;
-    private ViewQuery query;
     private String hintPrefix = "";
     private AfPrivateCaches caches;
+    private ViewQuery<? extends ViewQuery> query;
 
     public ApCommonBarBinder(Pager pager) {
         this.pager = pager;
@@ -68,10 +68,10 @@ public class ApCommonBarBinder {
         this.hintPrefix = hintPrefix;
     }
 
-    public ViewQuery $(Integer id, int... ids) {
+    public ViewQuery<? extends ViewQuery> $(Integer id, int... ids) {
         return query.$(id, ids);
     }
-    public ViewQuery $(View... views) {
+    public ViewQuery<? extends ViewQuery> $(View... views) {
         return query.$(views);
     }
 
@@ -191,7 +191,7 @@ public class ApCommonBarBinder {
         }
 
         public T hintTextViewId(int id) {
-            this.hint = hintPrefix + $(id).getText();
+            this.hint = hintPrefix + $(id).text();
             return self();
         }
 
@@ -461,12 +461,12 @@ public class ApCommonBarBinder {
 
         @Override
         public void start() {
-            $.dialog(pager).inputText(hint, lastval == null ? $(idvalue).getText().toString().replace(valueSuffix,"") : lastval, type, this);
+            $.dialog(pager).inputText(hint, lastval == null ? $(idvalue).text().toString().replace(valueSuffix,"") : lastval, type, this);
         }
 
         public TextBinder value(String text) {
             if (!TextUtils.isEmpty(text)) {
-                onInputTextComfirm($(idvalue).getEditText(), text);
+                onInputTextComfirm($(idvalue).view(), text);
             }
             return self();
         }
