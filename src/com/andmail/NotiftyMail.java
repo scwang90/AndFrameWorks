@@ -1,27 +1,31 @@
 package com.andmail;
 
-import com.andframe.application.AfApplication;
-import com.andframe.caches.AfPrivateCaches;
-import com.andframe.util.java.AfMD5;
-import com.andmail.kernel.AppinfoMail;
+import android.content.Context;
 
-public class NotiftyMail extends AppinfoMail{
-	
+import com.andmail.kernel.AppinfoMail;
+import com.andmail.util.ACache;
+import com.andmail.util.AfMD5;
+
+public class NotiftyMail extends AppinfoMail {
+
 	public enum SginType{
-		TITLE,CONTENT,ALL
+		TITLE,CONTENT,ALL;
 	}
 
-	private String md5 = AfApplication.getApp().getDesKey();
+	private ACache mCache;
+	private String md5 = AfMD5.getMD5("");
 	private boolean mSendOnce = false;
 
-	public NotiftyMail(String title,String content) {
-		super(title, content);
+	public NotiftyMail(Context context, String title, String content) {
+		super(context, title, content);
+		mCache = getaCache(context);
 		mailtype = "事件通知";
 		md5 = AfMD5.getMD5(title+content);
 	}
 
-	public NotiftyMail(SginType type,String title,String content) {
-		super(title, content);
+	public NotiftyMail(Context context, SginType type,String title,String content) {
+		super(context, title, content);
+		mCache = getaCache(context);
 		mailtype = "事件通知";
 		switch (type) {
 		case TITLE:
@@ -38,39 +42,43 @@ public class NotiftyMail extends AppinfoMail{
 			break;
 		}
 	}
-	
-	public NotiftyMail(boolean sendonce,String title,String content) {
-		this(title, content);
+
+	public NotiftyMail(Context context, boolean sendonce,String title,String content) {
+		this(context, title, content);
+		mCache = getaCache(context);
 		mailtype = "事件通知";
 		mSendOnce = sendonce;
 	}
 
-	public static void sendNotifty(String title,String content){
-		new NotiftyMail(title, content).sendTask();
+	private ACache getaCache(Context context) {
+		return ACache.get(context, "NotiftyMail");
+	}
+
+	public static void sendNotifty(Context context, String title,String content){
+		new NotiftyMail(context, title, content).sendTask();
 	}
 	
-	public static void sendNotifty(SginType type,String title,String content){
-		new NotiftyMail(type, title, content).sendTask();
+	public static void sendNotifty(Context context, SginType type,String title,String content){
+		new NotiftyMail(context, type, title, content).sendTask();
 	}
 	
-	public static void sendNotifty(boolean sendonce,String title,String content){
-		new NotiftyMail(sendonce, title, content).sendTask();
+	public static void sendNotifty(Context context, boolean sendonce,String title,String content){
+		new NotiftyMail(context, sendonce, title, content).sendTask();
 	}
 
 	@Override
 	public void send() throws Exception {
-		AfPrivateCaches cache = AfPrivateCaches.getInstance();
-		if (!mSendOnce || cache.get(md5, String.class) == null) {//标记相同错误只发送一次
+		if (!mSendOnce || mCache.getAsString(md5) == null) {//标记相同错误只发送一次
 			super.send();
-			cache.put(md5, md5);
+			mCache.put(md5, md5);
 		}
 	}
-	
+
 	@Override
-	protected void onException(Throwable e) {
-		super.onException(e);
+	public void onTaskException(Exception e) {
+		super.onTaskException(e);
 		if (mSendOnce) {
-			AfPrivateCaches.getInstance().put(md5, md5);
+			mCache.put(md5, md5);
 		}
 	}
 }
