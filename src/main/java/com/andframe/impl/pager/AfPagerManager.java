@@ -6,6 +6,7 @@ import android.content.Context;
 import com.andframe.activity.AfActivity;
 import com.andframe.api.pager.PagerManager;
 import com.andframe.application.AfApp;
+import com.andframe.exception.AfException;
 import com.andframe.fragment.AfFragment;
 
 import java.util.Stack;
@@ -163,5 +164,11 @@ public class AfPagerManager implements PagerManager {
             }
         }
     }
+
+    @Override
+    public void startForeground() {
+        throw new AfException("如要使用startForeground功能，请自行继承AfPagerManager并实现startForeground");
+    }
+
     //</editor-fold>
 }
