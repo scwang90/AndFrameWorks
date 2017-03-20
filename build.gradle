@@ -2,7 +2,7 @@ apply plugin: 'com.android.library'
 apply plugin: 'me.tatarka.retrolambda'
 
 dependencies {
-    compile 'com.android.support:support-v4:23.2.0'
+    compile 'com.android.support:support-v4:25.3.0'
     compile 'com.google.code.gson:gson:2.4'
 }
 
