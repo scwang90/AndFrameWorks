@@ -25,6 +25,7 @@ public abstract class AfMultiChoiceItem<T> extends AfListItem<T> implements OnCl
 
 	protected static final int SD_CHECK = 0;
 	protected static final int SD_BACKGROUNG = 1;
+	protected static final int SD_CHECK_LEFT = 2;
 	
 	protected T mModel = null;
 	protected SelectStatus mSelectStatus = SelectStatus.NONE;
@@ -47,7 +48,7 @@ public abstract class AfMultiChoiceItem<T> extends AfListItem<T> implements OnCl
 	public void onBinding(T model, int index) {
 		if(!onBinding(mModel = model,index,mSelectStatus)
 				&& mMultiChoiceCheckBox!=null) {
-			if(mSelectDisplay == SD_CHECK){
+			if(mSelectDisplay == SD_CHECK || mSelectDisplay == SD_CHECK_LEFT){
 				if (isCanSelect(model, index)) {
 					switch (mSelectStatus) {
 						case NONE:
@@ -119,7 +120,12 @@ public abstract class AfMultiChoiceItem<T> extends AfListItem<T> implements OnCl
 			mMultiChoiceCheckBox.setFocusable(false);
 			mMultiChoiceCheckBox.setVisibility(View.GONE);
 
-			mMultiChoiceLayout.addView(mMultiChoiceCheckBox,lpcheck);
+			if (mSelectDisplay == SD_CHECK_LEFT) {
+				mMultiChoiceCheckBox.setLayoutParams(lpcheck);
+				mMultiChoiceLayout.addView(mMultiChoiceCheckBox, 0);
+			} else {
+				mMultiChoiceLayout.addView(mMultiChoiceCheckBox, lpcheck);
+			}
 		} catch (Exception e) {
 			e.printStackTrace();
 		}
