@@ -70,7 +70,7 @@ public abstract class AfListItem<T> implements IListItem<T> , AfViewable {
 	}
 
 	public IViewQuery<? extends IViewQuery> $(String idvalue, String... idvalues) {
-		return $$.$(idvalue);
+		return $$.$(idvalue, idvalues);
 	}
 
 	public IViewQuery<? extends IViewQuery> $(Class<? extends View> type, Class<? extends View>... types) {

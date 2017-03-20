@@ -34,6 +34,7 @@ import com.andframe.exception.AfToastException;
 import com.andframe.feature.AfBundle;
 import com.andframe.feature.AfDialogBuilder;
 import com.andframe.feature.AfIntent;
+import com.andframe.helper.android.AfViewQueryHelper;
 import com.andframe.thread.AfData2Task;
 import com.andframe.thread.AfData3Task;
 import com.andframe.thread.AfDataTask;
@@ -91,21 +92,25 @@ public abstract class AfFragment extends Fragment implements AfPageable {
     protected boolean mIsRecycled = false;
     //</editor-fold>
 
-    /**
-     * 开始 IViewQuery 查询
-     * @param id 控件Id
-     */
-    protected IViewQuery $(int... id) {
-        IViewQuery query = AfApp.get().getViewQuery(mRootView);
-        if (id == null || id.length == 0) {
-            return query;
-        }
-        return query.$(null,id);
+    //<editor-fold desc="IViewQuery 集成">
+    IViewQuery<? extends IViewQuery> $$ = AfViewQueryHelper.newHelper(this);
+
+    public IViewQuery<? extends IViewQuery> $(View... views) {
+        return $$.$(views);
     }
-    @SuppressWarnings("unused")
-    protected IViewQuery $(View view) {
-        return AfApp.get().getViewQuery(view);
+
+    public IViewQuery<? extends IViewQuery> $(Integer id, int... ids) {
+        return $$.$(id, ids);
     }
+
+    public IViewQuery<? extends IViewQuery> $(String idvalue, String... idvalues) {
+        return $$.$(idvalue, idvalues);
+    }
+
+    public IViewQuery<? extends IViewQuery> $(Class<? extends View> type, Class<? extends View>... types) {
+        return $$.$(type, types);
+    }
+    //</editor-fold>
 
     public AfActivity getAfActivity() {
         if (super.getActivity() instanceof AfActivity) {
