@@ -1167,13 +1167,14 @@ public class AfViewQuery<T extends AfViewQuery<T>> implements ViewQuery<T> {
 
     //<editor-fold desc="基本获取">
 
-    public CharSequence text() {
-        return foreach(TextView.class, TextView::getText);
+    public String text() {
+        return foreach(TextView.class, (ViewReturnEacher<TextView, String>) view -> view.getText().toString());
     }
 
-    public CharSequence hint() {
-        return foreach(TextView.class, TextView::getHint);
+    public String hint() {
+        return foreach(TextView.class, (ViewReturnEacher<TextView, String>) view -> view.getHint().toString());
     }
+
     //</editor-fold>
 
     //<editor-fold desc="扩展设置">
