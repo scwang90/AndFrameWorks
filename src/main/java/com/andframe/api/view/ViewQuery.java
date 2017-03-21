@@ -610,11 +610,11 @@ public interface ViewQuery<T extends ViewQuery<T>> {
     /**
      * 获取 TextView 的 文本（text）.
      */
-    CharSequence text();
+    String text();
     /**
      获取 TextView 的 提示（hint）.
      */
-    CharSequence hint();
+    String hint();
 
     //</editor-fold>
 
