@@ -17,6 +17,7 @@ import android.util.Log;
 
 import com.andframe.BuildConfig;
 import com.andframe.api.DialogBuilder;
+import com.andframe.api.Toaster;
 import com.andframe.api.event.EventManager;
 import com.andframe.api.pager.PagerManager;
 import com.andframe.api.pager.items.MoreFooter;
@@ -31,6 +32,7 @@ import com.andframe.exception.AfExceptionHandler;
 import com.andframe.exception.AfToastException;
 import com.andframe.feature.AfDialogBuilder;
 import com.andframe.feature.AfViewQuery;
+import com.andframe.impl.AfToaster;
 import com.andframe.impl.pager.items.DefaultMoreFooter;
 import com.andframe.impl.pager.status.DefaultRefreshLayouter;
 import com.andframe.impl.pager.status.DefaultStatusLayouter;
@@ -376,13 +378,6 @@ public abstract class AfApp extends Application {
 		return false;
 	}
 
-	/**
-	 * 获取 前台页面是否在运行
-	 */
-	public synchronized boolean isForegroundRunning() {
-		return AfPagerManager.getInstance().hasActivityRuning();
-	}
-
 	//</editor-fold>
 
 	//<editor-fold desc="组件创建">
@@ -428,8 +423,12 @@ public abstract class AfApp extends Application {
 		return new AfPagerManager();
 	}
 
+	public Toaster newToaster() {
+		return new AfToaster();
+	}
+
 	public EventManager getEventManager() {
-		throw new AfException("如果项目中要使用事件组件，请先在App重写getEventManager方法");
+		throw new AfException("如果项目中要使用事件组件，请先在App重写getEventManager方法，建议使用流行的EventBus来实现");
 	}
 	//</editor-fold>
 

@@ -1,6 +1,7 @@
 package com.andframe.caches;
 
 import com.andframe.application.AfApp;
+import com.andframe.exception.AfExceptionHandler;
 
 import java.util.HashMap;
 
@@ -18,7 +19,7 @@ public class AfDurableCache extends AfJsonCache
 	private static AfDurableCache mInstance = null;
 	
 	private AfDurableCache() throws Exception {
-		super(AfApp.get(),getPath(), CACHE_NAME);
+		super(AfApp.get(), getPath(), CACHE_NAME);
 	}
 
 	/**
@@ -29,7 +30,7 @@ public class AfDurableCache extends AfJsonCache
 			try {
 				mInstance = new AfDurableCache();
 			} catch (Throwable e) {
-//				AfExceptionHandler.handle(e, "获取持久缓存失败");
+				AfExceptionHandler.handle(e, "获取持久缓存失败");
 			}
 		}
 		return mInstance;

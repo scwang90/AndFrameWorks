@@ -11,14 +11,20 @@ import com.andframe.activity.AfActivity;
 import com.andframe.api.Cacher;
 import com.andframe.api.DialogBuilder;
 import com.andframe.api.ModelConvertor;
+import com.andframe.api.Toaster;
 import com.andframe.api.event.EventManager;
 import com.andframe.api.pager.PagerManager;
+import com.andframe.api.task.Task;
 import com.andframe.api.task.TaskExecutor;
+import com.andframe.api.task.Tasker;
 import com.andframe.api.view.ViewModuler;
 import com.andframe.api.view.ViewQuery;
 import com.andframe.api.view.Viewer;
 import com.andframe.application.AfApp;
+import com.andframe.caches.AfDurableCache;
 import com.andframe.caches.AfPrivateCaches;
+import com.andframe.fragment.AfFragment;
+import com.andframe.impl.AfToaster;
 import com.andframe.impl.pager.AfPagerManager;
 import com.andframe.impl.viewer.ViewerWarpper;
 import com.andframe.task.AfDispatcher;
@@ -52,6 +58,12 @@ public class $ {
     public interface Api extends $$,TaskExecutor, DialogBuilder, ViewQuery, Cacher, EventManager {
     }
 
+    public static final Toaster toast = new ToasterWrapper(AfToaster.getInstance());
+
+    public static final PagerManager pager = new PagerManagerWrapper(AfPagerManager.getInstance());
+
+    public static final TaskExecutor task = new TaskExecutorWrapper(AfTaskExecutor.getInstance());
+
     @SuppressWarnings("MethodNameSameAsClassName")
     @MainThread
     public static Api $(Object... withs) {
@@ -63,6 +75,18 @@ public class $ {
     public static Api with(Object... withs) {
         lastWiths = withs;
         return api;
+    }
+
+    public static Toaster toast() {
+        return AfToaster.getInstance();
+    }
+
+    public static Cacher durable() {
+        return AfDurableCache.getInstance();
+    }
+
+    public static Cacher durable(String name) {
+        return AfDurableCache.getInstance(name);
     }
 
     public static Cacher cache() {
@@ -213,4 +237,157 @@ public class $ {
         }
 
     }
+
+    //<editor-fold desc="Wrapper">
+    protected static class ToasterWrapper implements Toaster {
+
+        Toaster wrapped;
+
+        public ToasterWrapper(Toaster wrapped) {
+            this.wrapped = wrapped;
+        }
+
+        @Override
+        public void makeToastLong(int resid) {
+            wrapped.makeToastLong(resid);
+        }
+
+        @Override
+        public void makeToastShort(int resid) {
+            wrapped.makeToastShort(resid);
+        }
+
+        @Override
+        public void makeToastLong(CharSequence tip) {
+            wrapped.makeToastLong(tip);
+        }
+
+        @Override
+        public void makeToastShort(CharSequence tip) {
+            wrapped.makeToastShort(tip);
+        }
+
+        @Override
+        public void makeToastShort(CharSequence tip, Throwable e) {
+            wrapped.makeToastShort(tip, e);
+        }
+    }
+
+    protected static class TaskExecutorWrapper implements TaskExecutor {
+
+        TaskExecutor wrapped;
+
+        public TaskExecutorWrapper(TaskExecutor wrapped) {
+            this.wrapped = wrapped;
+        }
+
+        @Override
+        @MainThread
+        public void execute(Tasker runnable) {
+            wrapped.execute(runnable);
+        }
+
+        @Override
+        @MainThread
+        public void execute(Task task) {
+            wrapped.execute(task);
+        }
+
+        @Override
+        public <T extends Task> T postTask(T task) {
+            return wrapped.postTask(task);
+        }
+    }
+
+    protected static class PagerManagerWrapper implements PagerManager {
+        PagerManager wrapped;
+
+        public PagerManagerWrapper(PagerManager wrapped) {
+            this.wrapped = wrapped;
+        }
+
+        @Override
+        public void onActivityCreated(AfActivity activity) {
+            wrapped.onActivityCreated(activity);
+        }
+
+        @Override
+        public void onActivityDestroy(AfActivity activity) {
+            wrapped.onActivityDestroy(activity);
+        }
+
+        @Override
+        public void onActivityResume(AfActivity activity) {
+            wrapped.onActivityResume(activity);
+        }
+
+        @Override
+        public void onActivityPause(AfActivity activity) {
+            wrapped.onActivityPause(activity);
+        }
+
+        @Override
+        public void onFragmentAttach(AfFragment fragment, Context context) {
+            wrapped.onFragmentAttach(fragment, context);
+        }
+
+        @Override
+        public void onFragmentDetach(AfFragment fragment) {
+            wrapped.onFragmentDetach(fragment);
+        }
+
+        @Override
+        public void onFragmentResume(AfFragment fragment) {
+            wrapped.onFragmentResume(fragment);
+        }
+
+        @Override
+        public void onFragmentPause(AfFragment fragment) {
+            wrapped.onFragmentPause(fragment);
+        }
+
+        @Override
+        public boolean hasActivityRuning() {
+            return wrapped.hasActivityRuning();
+        }
+
+        @Override
+        public boolean hasActivity(Class<? extends AfActivity> clazz) {
+            return wrapped.hasActivity(clazz);
+        }
+
+        @Override
+        public AfActivity currentActivity() {
+            return wrapped.currentActivity();
+        }
+
+        @Override
+        public AfActivity getActivity(Class<? extends AfActivity> clazz) {
+            return wrapped.getActivity(clazz);
+        }
+
+        @Override
+        public void finishCurrentActivity() {
+            wrapped.finishCurrentActivity();
+        }
+
+        @Override
+        public void finishActivity(AfActivity activity) {
+            wrapped.finishActivity(activity);
+        }
+
+        @Override
+        public void finishAllActivity() {
+            wrapped.finishAllActivity();
+        }
+
+        @Override
+        public void startForeground() {
+            wrapped.startForeground();
+        }
+    }
+
+
+    //</editor-fold>
+
 }

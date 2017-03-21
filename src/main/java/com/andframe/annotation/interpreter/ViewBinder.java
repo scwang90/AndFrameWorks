@@ -169,7 +169,7 @@ public class ViewBinder {
                 if (view != null) {
                     view.setOnTouchListener(new EventListener(handler).touch(method));
                 } else {
-                    notFindView(root, id, TAG(handler, "bindTouch.") + method.getName());
+                    notFindView(handler, id, TAG(handler, "bindTouch.") + method.getName());
                 }
             }
         }
@@ -183,7 +183,7 @@ public class ViewBinder {
                 if (view != null) {
                     view.setOnClickListener(new EventListener(handler).click(method, bind.intervalTime()));
                 } else {
-                    notFindView(root, id, TAG(handler, "doBindClick.") + method.getName());
+                    notFindView(handler, id, TAG(handler, "doBindClick.") + method.getName());
                 }
             }
         }
@@ -197,7 +197,7 @@ public class ViewBinder {
                 if (view != null) {
                     view.setOnLongClickListener(new EventListener(handler).longClick(method));
                 } else {
-                    notFindView(root, id, TAG(handler, "doBindLongClick.") + method.getName());
+                    notFindView(handler, id, TAG(handler, "doBindLongClick.") + method.getName());
                 }
             }
         }
@@ -216,7 +216,7 @@ public class ViewBinder {
                 if (view instanceof AdapterView) {
                     ((AdapterView) view).setOnItemClickListener(new EventListener(handler).itemClick(method, bind.intervalTime()));
                 } else {
-                    notFindView(root, id, TAG(handler, "bindItemClickLongClick.") + method.getName());
+                    notFindView(handler, id, TAG(handler, "bindItemClickLongClick.") + method.getName());
                 }
             }
         }
@@ -235,7 +235,7 @@ public class ViewBinder {
                 if (view instanceof AdapterView) {
                     ((AdapterView) view).setOnItemLongClickListener(new EventListener(handler).itemLongClick(method));
                 } else {
-                    notFindView(root, id, TAG(handler, "bindItemLongClick.") + method.getName());
+                    notFindView(handler, id, TAG(handler, "bindItemLongClick.") + method.getName());
                 }
             }
         }
@@ -249,7 +249,7 @@ public class ViewBinder {
                 if (view instanceof CompoundButton) {
                     ((CompoundButton) view).setOnCheckedChangeListener(new EventListener(handler).checkedChange(method));
                 } else {
-                    notFindView(root, id, TAG(handler, "bindCheckedChange.") + method.getName());
+                    notFindView(handler, id, TAG(handler, "bindCheckedChange.") + method.getName());
                 }
             }
         }
@@ -263,7 +263,7 @@ public class ViewBinder {
                 if (view instanceof RadioGroup) {
                     ((RadioGroup) view).setOnCheckedChangeListener(new EventListener(handler).checkedChangeGroup(method));
                 } else {
-                    notFindView(root, id, TAG(handler, "bindCheckedChangeGroup.") + method.getName());
+                    notFindView(handler, id, TAG(handler, "bindCheckedChangeGroup.") + method.getName());
                 }
             }
         }
@@ -280,7 +280,7 @@ public class ViewBinder {
                         view.setOnTouchListener(new EventListener(handler).touch(method));
                     }
                 } else {
-                    notFindView(type.toString(), TAG(handler, "bindTouch.") + method.getName());
+                    notFindView(handler, type.toString(), TAG(handler, "bindTouch.") + method.getName());
                 }
             }
         }
@@ -296,7 +296,7 @@ public class ViewBinder {
                         view.setOnClickListener(new EventListener(handler).click(method, bind.intervalTime()));
                     }
                 } else {
-                    notFindView(type.toString(), TAG(handler, "doBindClick.") + method.getName());
+                    notFindView(handler, type.toString(), TAG(handler, "doBindClick.") + method.getName());
                 }
             }
         }
@@ -312,7 +312,7 @@ public class ViewBinder {
                         view.setOnLongClickListener(new EventListener(handler).longClick(method));
                     }
                 } else {
-                    notFindView(type.toString(), TAG(handler, "doBindLongClick.") + method.getName());
+                    notFindView(handler, type.toString(), TAG(handler, "doBindLongClick.") + method.getName());
                 }
             }
         }
@@ -329,7 +329,7 @@ public class ViewBinder {
                 if (view != null) {
                     view.setOnTouchListener(new EventListener(handler).touch(method));
                 } else {
-                    notFindView(root, id, TAG(handler, "bindTouch$.") + method.getName());
+                    notFindView(handler, id, TAG(handler, "bindTouch$.") + method.getName());
                 }
             }
         }
@@ -343,7 +343,7 @@ public class ViewBinder {
                 if (view != null) {
                     view.setOnClickListener(new EventListener(handler).click(method, bind.intervalTime()));
                 } else {
-                    notFindView(root, id, TAG(handler, "doBindClick$.") + method.getName());
+                    notFindView(handler, id, TAG(handler, "doBindClick$.") + method.getName());
                 }
             }
         }
@@ -357,7 +357,7 @@ public class ViewBinder {
                 if (view != null) {
                     view.setOnLongClickListener(new EventListener(handler).longClick(method));
                 } else {
-                    notFindView(root, id, TAG(handler, "doBindLongClick$.") + method.getName());
+                    notFindView(handler, id, TAG(handler, "doBindLongClick$.") + method.getName());
                 }
             }
         }
@@ -376,7 +376,7 @@ public class ViewBinder {
                 if (view instanceof AdapterView) {
                     ((AdapterView) view).setOnItemClickListener(new EventListener(handler).itemClick(method, bind.intervalTime()));
                 } else {
-                    notFindView(root, id, TAG(handler, "bindItemClickLongClick$.") + method.getName());
+                    notFindView(handler, id, TAG(handler, "bindItemClickLongClick$.") + method.getName());
                 }
             }
         }
@@ -395,7 +395,7 @@ public class ViewBinder {
                 if (view instanceof AdapterView) {
                     ((AdapterView) view).setOnItemLongClickListener(new EventListener(handler).itemLongClick(method));
                 } else {
-                    notFindView(root, id, TAG(handler, "bindItemLongClick$.") + method.getName());
+                    notFindView(handler, id, TAG(handler, "bindItemLongClick$.") + method.getName());
                 }
             }
         }
@@ -409,7 +409,7 @@ public class ViewBinder {
                 if (view instanceof CompoundButton) {
                     ((CompoundButton) view).setOnCheckedChangeListener(new EventListener(handler).checkedChange(method));
                 } else {
-                    notFindView(root, id, TAG(handler, "bindCheckedChange$.") + method.getName());
+                    notFindView(handler, id, TAG(handler, "bindCheckedChange$.") + method.getName());
                 }
             }
         }
@@ -423,7 +423,7 @@ public class ViewBinder {
                 if (view instanceof RadioGroup) {
                     ((RadioGroup) view).setOnCheckedChangeListener(new EventListener(handler).checkedChangeGroup(method));
                 } else {
-                    notFindView(root, id, TAG(handler, "bindCheckedChangeGroup$.") + method.getName());
+                    notFindView(handler, id, TAG(handler, "bindCheckedChangeGroup$.") + method.getName());
                 }
             }
         }
@@ -484,7 +484,7 @@ public class ViewBinder {
             } else if (field.getType().isInstance(list.get(0))) {
                 field.set(handler, list.get(0));
             } else {
-                notFindView(root, ids[0], TAG(handler, "doBindView.") + field.getName());
+                notFindView(handler, ids[0], TAG(handler, "doBindView.") + field.getName());
             }
         }
     }
@@ -540,7 +540,7 @@ public class ViewBinder {
                     id = LayoutBinder.getBindLayoutId(field.getType(), root.getContext(), AfViewModuler.class);
                 }
                 if (id <= 0) {
-                    AfExceptionHandler.handle("ViewModuler 必须指定BindLayout",TAG(handler, "doBindViewModule.") + field.getName());
+                    AfExceptionHandler.handle("ViewModuler("+type.getSimpleName()+") 必须指定BindLayout",TAG(handler, "doBindViewModule.") + field.getName());
                 } else if (AfViewModuler.class.isAssignableFrom(type)) {
                     //noinspection unchecked
                     value = AfViewModuler.init(handler, (Class<? extends AfViewModuler>) type, root, id);
@@ -802,20 +802,20 @@ public class ViewBinder {
     //</editor-fold>
 
     //<editor-fold desc="异常处理">
-    private static void notFindView(Viewer root, int id, String tag) {
+    private static void notFindView(Object handler, int id, String tag) {
         try {
             String name = AfApp.get().getResources().getResourceName(id);
-            notFindView(name, tag);
+            notFindView(handler, name, tag);
         } catch (Resources.NotFoundException e) {
-            notFindView(null, tag);
+            notFindView(handler, null, tag);
         }
     }
 
-    private static void notFindView(String name, String tag) {
+    private static void notFindView(Object handler, String name, String tag) {
         if (name == null) {
             AfExceptionHandler.handle("无效ID，无法绑定", tag);
         } else {
-            AfExceptionHandler.handle("找不到" + name + "，无法绑定", tag);
+            AfExceptionHandler.handle("为["+handler.getClass().getSimpleName()+"]匹配View的时候找不到" + name + "，无法绑定", tag);
         }
     }
     //</editor-fold>

@@ -18,7 +18,7 @@ import android.support.v7.widget.LinearLayoutCompat;
 import android.text.Editable;
 import android.text.TextWatcher;
 import android.view.View;
-import android.view.ViewGroup;
+import android.view.ViewGroup.LayoutParams;
 import android.view.animation.Animation;
 import android.widget.Adapter;
 import android.widget.AdapterView;
@@ -132,7 +132,7 @@ public interface ViewQuery<T extends ViewQuery<T>> {
     /**
      * 判断 $ 选择器是否成选择了 View
      */
-    boolean isExist();
+    boolean exist();
 
     /**
      * 获取所有选择的 View
@@ -236,6 +236,11 @@ public interface ViewQuery<T extends ViewQuery<T>> {
      */
     T startAnimation(Animation animation);
 
+    /**
+     * 获取当前选中 View 的 LayoutParams
+     */
+    T layoutParams(LayoutParams params);
+
     //</editor-fold>
 
     //<editor-fold desc="基本获取">
@@ -255,6 +260,11 @@ public interface ViewQuery<T extends ViewQuery<T>> {
      * @param key setTag 时指定的 key
      */
     Object tag(int key);
+
+    /**
+     * 获取当前选中 View 的 LayoutParams
+     */
+    LayoutParams layoutParams();
 
     //</editor-fold>
 
@@ -284,6 +294,7 @@ public interface ViewQuery<T extends ViewQuery<T>> {
     //</editor-fold>
 
     //<editor-fold desc="扩展获取">
+
     /**
      * 获取当前选中 View 是否显示
      */
@@ -802,8 +813,8 @@ public interface ViewQuery<T extends ViewQuery<T>> {
     T addView(View view, int index);
     T addView(View view, int widthPx, int heightPx);
     T addView(View view, float widthDp, float heightDp);
-    T addView(View view, ViewGroup.LayoutParams params);
-    T addView(View view, int index, ViewGroup.LayoutParams params);
+    T addView(View view, LayoutParams params);
+    T addView(View view, int index, LayoutParams params);
     //</editor-fold>
 
     //<editor-fold desc="获取子控件">

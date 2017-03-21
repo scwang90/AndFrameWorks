@@ -6,6 +6,7 @@ import android.content.Intent;
 import android.support.v4.app.Fragment;
 
 import com.andframe.api.Constanter;
+import com.andframe.api.Toaster;
 import com.andframe.api.view.Viewer;
 import com.andframe.task.AfData2Task;
 import com.andframe.task.AfData3Task;
@@ -17,7 +18,7 @@ import com.andframe.task.AfTask;
  * Created by SCWANG on 2016/9/1.
  */
 @SuppressWarnings("unused")
-public interface Pager extends Viewer, Constanter {
+public interface Pager extends Viewer, Toaster, Constanter {
 
     boolean isRecycled();
 
@@ -33,19 +34,6 @@ public interface Pager extends Viewer, Constanter {
     void startFragmentForResult(Class<? extends Fragment> clazz, int request, Object... args);
 
     void startActivityForResult(Class<? extends Activity> clazz, int request, Object... args);
-    //</editor-fold>
-
-    //<editor-fold desc="气泡提示">
-    void makeToastLong(int resid);
-
-    void makeToastShort(int resid);
-
-    void makeToastLong(CharSequence tip);
-
-    void makeToastShort(CharSequence tip);
-
-    void makeToastShort(CharSequence tip, Throwable e);
-
     //</editor-fold>
 
     //<editor-fold desc="异步任务">
