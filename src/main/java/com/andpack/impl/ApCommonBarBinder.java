@@ -461,12 +461,12 @@ public class ApCommonBarBinder {
 
         @Override
         public void start() {
-            $.dialog(pager).inputText(hint, lastval == null ? $(idvalue).text().toString().replace(valueSuffix,"") : lastval, type, this);
+            $.dialog(pager).inputText(hint, lastval == null ? $(idvalue).text().replace(valueSuffix,"") : lastval, type, this);
         }
 
         public TextBinder value(String text) {
             if (!TextUtils.isEmpty(text)) {
-                onInputTextComfirm($(idvalue).view(), text);
+                onInputTextComfirm(null, text);
             }
             return self();
         }
