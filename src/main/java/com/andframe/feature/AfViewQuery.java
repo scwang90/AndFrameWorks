@@ -1162,6 +1162,11 @@ public class AfViewQuery<T extends AfViewQuery<T>> implements ViewQuery<T> {
     }
 
     @Override
+    public T textSize(int type, float size) {
+        return foreach(TextView.class, (ViewEacher<TextView>) (view) -> view.setTextSize(type,size));
+    }
+
+    @Override
     public T maxLines(int lines) {
         return foreach(TextView.class, (ViewEacher<TextView>) (view) -> view.setMaxLines(lines));
     }
@@ -1175,6 +1180,12 @@ public class AfViewQuery<T extends AfViewQuery<T>> implements ViewQuery<T> {
     public T typeface(Typeface typeface) {
         return foreach(TextView.class, (ViewEacher<TextView>) (view) -> view.setTypeface(typeface));
     }
+
+    @Override
+    public T shadowLayer(float radius, float dx, float dy, int color) {
+        return foreach(TextView.class, (ViewEacher<TextView>) (view) -> view.setShadowLayer(radius, dx, dy, color));
+    }
+
     //</editor-fold>
 
     //<editor-fold desc="基本获取">

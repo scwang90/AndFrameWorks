@@ -7,4 +7,6 @@ package com.andframe.api.event;
 
 public interface EventManager {
     void post(Object event);
+
+    void postSticky(Object event);
 }

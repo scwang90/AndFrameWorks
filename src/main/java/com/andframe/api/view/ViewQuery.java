@@ -495,15 +495,20 @@ public interface ViewQuery<T extends ViewQuery<T>> {
 
     /**
      * 设置当前选中 TextView 的字体大小（TextSize）. sp 单位
-     * @param size sp为单位的字体大小值
      */
-    T textSize(float size);
+    T textSize(float sp);
 
     /**
      * 设置当前选中 TextView 的字体大小（TextSize）. 指定资源Id
      * @param id 距离资源Id
      */
     T textSizeId(@DimenRes int id);
+
+    /**
+     * 设置当前选中 TextView 的字体大小（TextSize）. 指定资源Id
+     * @param type @see {@link android.util.TypedValue}
+     */
+    T textSize(int type, float size);
 
     /**
      * 设置当前选中 TextView 的最大行数（MaxLines）.
@@ -527,6 +532,12 @@ public interface ViewQuery<T extends ViewQuery<T>> {
      * @param typeface 字体
      */
     T typeface(Typeface typeface);
+
+    /**
+     * 设置当前选中 TextView 的阴影.
+     * @see android.widget.TextView#setShadowLayer(float, float, float, int)
+     */
+    T shadowLayer(float radius, float dx, float dy, int color);
 
     //</editor-fold>
 
