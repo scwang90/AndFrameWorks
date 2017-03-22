@@ -7,6 +7,7 @@ import android.widget.ImageView;
 
 import com.andframe.$;
 import com.andframe.api.DialogBuilder;
+import com.andframe.api.event.EventManager;
 import com.andframe.api.pager.status.RefreshLayouter;
 import com.andframe.api.view.ViewQuery;
 import com.andframe.api.view.Viewer;
@@ -204,6 +205,11 @@ public class ApApp extends AfApp {
                 return android.R.color.black;
             }
         };
+    }
+
+    @Override
+    public EventManager getEventManager() {
+        return ApEventManager.getInstance();
     }
 
     //</editor-fold>

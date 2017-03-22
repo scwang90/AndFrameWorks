@@ -1,0 +1,32 @@
+package com.andpack.application;
+
+import com.andframe.api.event.EventManager;
+
+import org.greenrobot.eventbus.EventBus;
+
+/**
+ * 事件管理器
+ * Created by SCWANG on 2017/3/22.
+ */
+
+public class ApEventManager implements EventManager {
+
+    private static EventManager mInstance;
+
+    @Override
+    public void post(Object event) {
+        EventBus.getDefault().post(event);
+    }
+
+    @Override
+    public void postSticky(Object event) {
+        EventBus.getDefault().postSticky(event);
+    }
+
+    public static EventManager getInstance() {
+        if (mInstance == null) {
+            mInstance = new ApEventManager();
+        }
+        return mInstance;
+    }
+}
