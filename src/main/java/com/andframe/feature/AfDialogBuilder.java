@@ -17,6 +17,8 @@ import android.content.DialogInterface.OnClickListener;
 import android.content.DialogInterface.OnMultiChoiceClickListener;
 import android.content.DialogInterface.OnShowListener;
 import android.os.Build;
+import android.os.Handler;
+import android.os.Looper;
 import android.text.InputType;
 import android.text.TextUtils;
 import android.util.TypedValue;
@@ -553,7 +555,7 @@ public class AfDialogBuilder implements DialogBuilder {
             return dialog;
         } else {
             final Dialog dialog = showDialog(title, msgKey, oKey, okListener, "取消", cancleListener);
-            dialog.getWindow().getDecorView().postDelayed(() -> {
+            new Handler(Looper.getMainLooper()).postDelayed(() -> {
                 FindTextViewWithText builderHelper = FindTextViewWithText.invoke((ViewGroup) dialog.getWindow().getDecorView(), msgKey);
                 if (builderHelper != null) {
                     builderHelper.parent.removeViewAt(builderHelper.index);
