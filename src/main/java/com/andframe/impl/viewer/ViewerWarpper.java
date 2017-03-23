@@ -63,11 +63,11 @@ public class ViewerWarpper implements Viewer {
         if (view != null) {
             return view.findViewById(id);
         }
-        if (activity != null) {
-            return activity.findViewById(id);
-        }
         if (fragment != null && fragment.getView() != null) {
             return fragment.getView().findViewById(id);
+        }
+        if (activity != null) {
+            return activity.findViewById(id);
         }
         return null;
     }
