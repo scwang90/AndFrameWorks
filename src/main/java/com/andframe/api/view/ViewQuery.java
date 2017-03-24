@@ -793,10 +793,15 @@ public interface ViewQuery<T extends ViewQuery<T>> {
     //</editor-fold>
 
     //<editor-fold desc="ProgressBar">
+    int max();
     int progress() ;
     int secondaryProgress();
+    T max(int max);
     T progress(int progress);
     T secondaryProgress(int secondaryProgress);
+    //</editor-fold>
+
+    //<editor-fold desc="SeekBar">
     //</editor-fold>
 
     //<editor-fold desc="LinearLayout">

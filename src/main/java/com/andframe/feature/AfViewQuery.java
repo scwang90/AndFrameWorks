@@ -1497,6 +1497,11 @@ public class AfViewQuery<T extends AfViewQuery<T>> implements ViewQuery<T> {
     }
 
     @Override
+    public int max() {
+        return foreach(ProgressBar.class, ProgressBar::getMax);
+    }
+
+    @Override
     public T secondaryProgress(int secondaryProgress) {
         return foreach(ProgressBar.class,(ViewEacher<ProgressBar>) (view) -> view.setSecondaryProgress(secondaryProgress));
     }
@@ -1504,6 +1509,11 @@ public class AfViewQuery<T extends AfViewQuery<T>> implements ViewQuery<T> {
     @Override
     public int secondaryProgress() {
         return foreach(ProgressBar.class, ProgressBar::getSecondaryProgress);
+    }
+
+    @Override
+    public T max(int max) {
+        return foreach(ProgressBar.class,(ViewEacher<ProgressBar>) (view) -> view.setMax(max));
     }
     //</editor-fold>
 

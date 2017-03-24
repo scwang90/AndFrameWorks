@@ -6,6 +6,7 @@ import android.content.DialogInterface;
 import android.view.MotionEvent;
 import android.view.View;
 import android.widget.DatePicker;
+import android.widget.SeekBar;
 import android.widget.TimePicker;
 
 import com.andframe.api.DialogBuilder;
@@ -16,11 +17,12 @@ import com.andframe.exception.AfExceptionHandler;
  * Created by SCWANG on 2016/11/26.
  */
 
-//@SuppressWarnings("unused")
+@SuppressWarnings("unused")
 public class SafeListener implements
         View.OnClickListener,
         View.OnLongClickListener,
         View.OnTouchListener,
+        SeekBar.OnSeekBarChangeListener,
         DialogInterface.OnClickListener,
         DialogInterface.OnCancelListener,
         DialogInterface.OnMultiChoiceClickListener,
@@ -28,15 +30,16 @@ public class SafeListener implements
         TimePickerDialog.OnTimeSetListener,
         DialogBuilder.OnDateTimeSetListener{
 
-    View.OnClickListener clickListener;
-    View.OnLongClickListener longClockListener;
-    View.OnTouchListener touthListener;
-    DialogInterface.OnClickListener dialogClickListener;
-    DialogInterface.OnCancelListener cancelListener;
-    DialogInterface.OnMultiChoiceClickListener multiChoiceClickListener;
-    DatePickerDialog.OnDateSetListener dateSetListener;
-    TimePickerDialog.OnTimeSetListener timeSetListener;
-    DialogBuilder.OnDateTimeSetListener dateTimeSetListener;
+    private View.OnClickListener clickListener;
+    private View.OnLongClickListener longClockListener;
+    private View.OnTouchListener touthListener;
+    private SeekBar.OnSeekBarChangeListener seekBarChangeListener;
+    private DialogInterface.OnClickListener dialogClickListener;
+    private DialogInterface.OnCancelListener cancelListener;
+    private DialogInterface.OnMultiChoiceClickListener multiChoiceClickListener;
+    private DatePickerDialog.OnDateSetListener dateSetListener;
+    private TimePickerDialog.OnTimeSetListener timeSetListener;
+    private DialogBuilder.OnDateTimeSetListener dateTimeSetListener;
 
     public SafeListener(View.OnClickListener clickListener) {
         this.clickListener = clickListener;
@@ -48,6 +51,10 @@ public class SafeListener implements
 
     public SafeListener(View.OnTouchListener touthListener) {
         this.touthListener = touthListener;
+    }
+
+    public SafeListener(SeekBar.OnSeekBarChangeListener seekBarChangeListener) {
+        this.seekBarChangeListener = seekBarChangeListener;
     }
 
     public SafeListener(DialogInterface.OnClickListener dialogClickListener) {
@@ -175,6 +182,39 @@ public class SafeListener implements
                 dateTimeSetListener.onDateTimeSet(year, month, day, hour, minute);
             } catch (Throwable e) {
                 AfExceptionHandler.handle(e, "SafeListener.dateTimeSetListener.onDateTimeSet");
+            }
+        }
+    }
+
+    @Override
+    public void onProgressChanged(SeekBar seekBar, int progress, boolean fromUser) {
+        if (seekBarChangeListener != null) {
+            try {
+                seekBarChangeListener.onProgressChanged(seekBar, progress, fromUser);
+            } catch (Throwable e) {
+                AfExceptionHandler.handle(e, "SafeListener.seekBarChangeListener.onProgressChanged");
+            }
+        }
+    }
+
+    @Override
+    public void onStartTrackingTouch(SeekBar seekBar) {
+        if (seekBarChangeListener != null) {
+            try {
+                seekBarChangeListener.onStartTrackingTouch(seekBar);
+            } catch (Throwable e) {
+                AfExceptionHandler.handle(e, "SafeListener.seekBarChangeListener.onStartTrackingTouch");
+            }
+        }
+    }
+
+    @Override
+    public void onStopTrackingTouch(SeekBar seekBar) {
+        if (seekBarChangeListener != null) {
+            try {
+                seekBarChangeListener.onStopTrackingTouch(seekBar);
+            } catch (Throwable e) {
+                AfExceptionHandler.handle(e, "SafeListener.seekBarChangeListener.onStopTrackingTouch");
             }
         }
     }
