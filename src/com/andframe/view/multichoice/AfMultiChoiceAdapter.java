@@ -243,6 +243,18 @@ public abstract class AfMultiChoiceAdapter<T> extends AfListAdapter<T>{
 		return list;
 	}
 
+	public int selectCount() {
+		int count = 0;
+		if(mIsSelecteds != null && mIsSelecteds.length == mltArray.size()){
+			for (boolean mIsSelected : mIsSelecteds) {
+				if (mIsSelected) {
+					count++;
+				}
+			}
+		}
+		return count;
+	}
+
 	public void selectAll() {
 		if(mIsSelecteds != null){
 			mChoiceNumber = getCount();
