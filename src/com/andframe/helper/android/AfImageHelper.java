@@ -22,8 +22,6 @@ public class AfImageHelper {
 
 	/**
 	 *  Drawable 转换 Bitmap
-	 * @param drawable
-	 * @return
 	 */
 	public Bitmap drawableToBitmap(Drawable drawable) {
 		Bitmap bitmap = Bitmap.createBitmap(
@@ -42,7 +40,6 @@ public class AfImageHelper {
 
 	/**
 	 * 转换图片灰色
-	 * @param context
 	 * @param bitmap 传入BitmapDrawable对象
 	 * @return 直接返回原有 BitmapDrawable 不会复制新的 BitmapDrawable
 	 */
