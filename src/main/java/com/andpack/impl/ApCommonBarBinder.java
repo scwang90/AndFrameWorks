@@ -14,6 +14,7 @@ import android.util.DisplayMetrics;
 import android.view.View;
 import android.widget.DatePicker;
 import android.widget.EditText;
+import android.widget.SeekBar;
 
 import com.andframe.$;
 import com.andframe.api.DialogBuilder;
@@ -21,6 +22,7 @@ import com.andframe.api.pager.Pager;
 import com.andframe.api.view.ViewQuery;
 import com.andframe.caches.AfPrivateCaches;
 import com.andframe.feature.AfIntent;
+import com.andframe.listener.SafeListener;
 import com.andframe.task.AfDispatcher;
 import com.andframe.util.java.AfDateFormat;
 import com.andpack.activity.ApFragmentActivity;
@@ -91,6 +93,14 @@ public class ApCommonBarBinder {
         return new CheckBinder(idvalue);
     }
 
+    public SwitchBinder Switch(int idvalue) {
+        return new SwitchBinder(idvalue);
+    }
+
+    public SeekBarBinder seek(int idvalue) {
+        return new SeekBarBinder(idvalue);
+    }
+
     public DateBinder date(int idvalue) {
         return new DateBinder(idvalue);
     }
@@ -129,6 +139,10 @@ public class ApCommonBarBinder {
 
     public interface CheckLambda {
         void check(Binder binder, boolean isChecked);
+    }
+
+    public interface SeekLambda {
+        void seek(Binder binder, int value, boolean fromUser);
     }
 
     public interface ImageLambda {
@@ -260,6 +274,7 @@ public class ApCommonBarBinder {
 
         SelectBinder(int idvalue, CharSequence[] items) {
             super(idvalue);
+            hint = "请选择";
             this.items = items;
         }
 
@@ -707,6 +722,61 @@ public class ApCommonBarBinder {
         public CheckBinder lambda(CheckLambda lambda) {
             this.lambda = lambda;
             return self();
+        }
+    }
+
+    public class SwitchBinder extends CheckBinder {
+        SwitchBinder(int idvalue) {
+            super(idvalue);
+        }
+    }
+
+    public class SeekBarBinder extends Binder<SeekBarBinder, Integer> implements SeekBar.OnSeekBarChangeListener {
+
+        private SeekLambda lambda;
+
+        SeekBarBinder(int idvalue) {
+            super(idvalue);
+            SeekBar view = $(idvalue).view(SeekBar.class);
+            if (view != null) {
+                view.setOnSeekBarChangeListener(new SafeListener((SeekBar.OnSeekBarChangeListener) this));
+            }
+        }
+
+        public SeekBarBinder max(int max) {
+            $(idvalue).max(max);
+            return self();
+        }
+
+        public SeekBarBinder value(int value) {
+            $(idvalue).progress(value);
+            return self();
+        }
+
+        public SeekBarBinder lambda(SeekLambda lambda) {
+            this.lambda = lambda;
+            return self();
+        }
+
+        @Override
+        protected void start() {
+        }
+
+        @Override
+        public void onProgressChanged(SeekBar seekBar, int progress, boolean fromUser) {
+            if (lambda != null) {
+                lambda.seek(this, progress, fromUser);
+            }
+        }
+
+        @Override
+        public void onStartTrackingTouch(SeekBar seekBar) {
+
+        }
+
+        @Override
+        public void onStopTrackingTouch(SeekBar seekBar) {
+
         }
     }
 
