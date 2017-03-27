@@ -276,8 +276,13 @@ public class AfViewQuery<T extends AfViewQuery<T>> implements ViewQuery<T> {
     }
 
     @Override
-    public T toChilds() {
+    public T toChildren() {
         return $(children());
+    }
+
+    @Override
+    public T toChildrenTree() {
+        return $(childrenTree());
     }
 
     @Override
@@ -337,7 +342,13 @@ public class AfViewQuery<T extends AfViewQuery<T>> implements ViewQuery<T> {
     @Override
     public T mixChildren() {
         View[] views = Arrays.copyOf(this.mTargetViews, this.mTargetViews.length);
-        return toChilds().mixView(views);
+        return toChildren().mixView(views);
+    }
+
+    @Override
+    public T mixChildrenTree() {
+        View[] views = Arrays.copyOf(this.mTargetViews, this.mTargetViews.length);
+        return toChildrenTree().mixView(views);
     }
 
     @Override
@@ -1731,6 +1742,28 @@ public class AfViewQuery<T extends AfViewQuery<T>> implements ViewQuery<T> {
             return views;
         }, new View[0]);
     }
+
+    @Override
+    public View[] childrenTree() {
+        return foreach(ViewGroup.class, view -> {
+            List<View> children = new ArrayList<>();
+            Queue<View> views = new LinkedBlockingQueue<>(Collections.singletonList(view));
+            while (!views.isEmpty()) {
+                View cview = views.poll();
+                if (cview != view) {
+                    children.add(cview);
+                }
+                if (cview instanceof ViewGroup) {
+                    ViewGroup group = (ViewGroup) cview;
+                    for (int j = 0; j < group.getChildCount(); j++) {
+                        views.add(group.getChildAt(j));
+                    }
+                }
+            }
+            return children.toArray(new View[children.size()]);
+        }, new View[0]);
+    }
+
     //</editor-fold>
 
     //<editor-fold desc="分离操作">

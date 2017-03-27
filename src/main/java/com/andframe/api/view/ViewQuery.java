@@ -80,10 +80,16 @@ public interface ViewQuery<T extends ViewQuery<T>> {
      */
     T toChild(int... index);
     /**
-     * 如果当前选中 View ，并且 View 存在子 View，toChilds() 将会把选择对象转向一个或者多个子 View
+     * 如果当前选中 View ，并且 View 存在子 View，toChildren() 将会把选择对象转向一个或者多个子 View
      * 如果 View 没有子View 或者 index 越界，将会丢失选择对象（没有选择对象）
      */
-    T toChilds();
+    T toChildren();
+    /**
+     * 递归树
+     * 如果当前选中 View ，并且 View 存在子 View，toChildrenTree() 将会把选择对象转向一个或者多个子 View 及其递归子 View
+     * 如果 View 没有子View 或者 index 越界，将会丢失选择对象（没有选择对象）
+     */
+    T toChildrenTree();
     /**
      * 如果当前选中 View ，存在与父容器中， toParent() 将会把选择对象转向父容器
      * 如果 View 没有父容器，将会丢失选择对象（没有选择对象）
@@ -117,9 +123,14 @@ public interface ViewQuery<T extends ViewQuery<T>> {
     T mixChild(int... index);
     /**
      * 将当前选择 View 所有子View 添加到选择对象中
-     * @see ViewQuery#toChilds()
+     * @see ViewQuery#toChildren()
      */
     T mixChildren();
+    /**
+     * 将当前选择 View 所有子View(递归) 添加到选择对象中
+     * @see ViewQuery#toChildren()
+     */
+    T mixChildrenTree();
     /**
      * 将当前选择 View 的父容器 添加到选择对象中
      * @see ViewQuery#toParent()
@@ -837,6 +848,7 @@ public interface ViewQuery<T extends ViewQuery<T>> {
     int childCount();
     View childAt(int index);
     View[] children();
+    View[] childrenTree();
     //</editor-fold>
 
     //<editor-fold desc="分离操作">
