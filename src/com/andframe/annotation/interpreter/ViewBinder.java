@@ -286,10 +286,14 @@ public class ViewBinder {
                     } else if (clazz.equals(AfContactsRefreshView.class) && root != null) {
                         value = new AfContactsRefreshView(root, bind.value()[0]);
                     } else if (root != null
-                            && (field.getType().isAnnotationPresent(BindLayout.class) || id > 0)
+                            && (id > 0
+                            || field.getType().isAnnotationPresent(BindLayout.class)
+                            || field.getType().isAnnotationPresent(BindLayout$.class))
                             /*&& AfViewModule.class.isAssignableFrom(field.getType())*/) {
-                        if (id <= 0) {
+                        if (id <= 0 && field.getType().isAnnotationPresent(BindLayout.class)) {
                             id = field.getType().getAnnotation(BindLayout.class).value();
+                        } else if (id <= 0 && field.getType().isAnnotationPresent(BindLayout$.class)) {
+                            id = ids(root, field.getType().getAnnotation(BindLayout$.class).value())[0];
                         }
                         //Class<? extends AfViewModule> type = (Class<? extends AfViewModule>) field.getType();
                         if (field.getType().isArray()) {
@@ -478,7 +482,7 @@ public class ViewBinder {
     }
 
     private static void bindViewModule$(Object handler, AfViewable root) {
-        for (Field field : AfReflecter.getFieldAnnotation(handler.getClass(), getStopType(handler), BindViewModule.class)) {
+        for (Field field : AfReflecter.getFieldAnnotation(handler.getClass(), getStopType(handler), BindViewModule$.class)) {
             try {
                 Class<?> clazz = field.getType();
                 BindViewModule$ bind = field.getAnnotation(BindViewModule$.class);
@@ -500,9 +504,13 @@ public class ViewBinder {
                     } else if (clazz.equals(AfContactsRefreshView.class) && root != null) {
                         value = new AfContactsRefreshView(root, id);
                     } else if (root != null
-                            && (field.getType().isAnnotationPresent(BindLayout$.class) || id > 0)
+                            && (id > 0
+                            || field.getType().isAnnotationPresent(BindLayout.class)
+                            || field.getType().isAnnotationPresent(BindLayout$.class))
                             /*&& AfViewModule.class.isAssignableFrom(field.getType())*/) {
-                        if (id <= 0) {
+                        if (id <= 0 && field.getType().isAnnotationPresent(BindLayout.class)) {
+                            id = field.getType().getAnnotation(BindLayout.class).value();
+                        } else if (id <= 0 && field.getType().isAnnotationPresent(BindLayout$.class)) {
                             id = ids(root, field.getType().getAnnotation(BindLayout$.class).value())[0];
                         }
                         //Class<? extends AfViewModule> type = (Class<? extends AfViewModule>) field.getType();
