@@ -32,6 +32,7 @@ import com.andframe.annotation.view.BindTouch$;
 import com.andframe.annotation.view.BindView;
 import com.andframe.annotation.view.BindView$;
 import com.andframe.annotation.view.BindViewModule;
+import com.andframe.annotation.view.BindViewModule$;
 import com.andframe.application.AfExceptionHandler;
 import com.andframe.layoutbind.AfFrameSelector;
 import com.andframe.layoutbind.AfModuleNodata;
@@ -480,9 +481,9 @@ public class ViewBinder {
         for (Field field : AfReflecter.getFieldAnnotation(handler.getClass(), getStopType(handler), BindViewModule.class)) {
             try {
                 Class<?> clazz = field.getType();
-                BindViewModule bind = field.getAnnotation(BindViewModule.class);
+                BindViewModule$ bind = field.getAnnotation(BindViewModule$.class);
                 List<Object> list = new ArrayList<>();
-                for (int id : bind.value()) {
+                for (int id : ids(root, bind.value())) {
                     Object value = null;
                     if (clazz.equals(AfModuleTitlebar.class) && root != null) {
                         value = new AfModuleTitlebarImpl(root);
@@ -497,7 +498,7 @@ public class ViewBinder {
                     } else if (clazz.equals(AfModuleProgress.class) && root != null) {
                         value = new AfModuleProgressImpl(root);
                     } else if (clazz.equals(AfContactsRefreshView.class) && root != null) {
-                        value = new AfContactsRefreshView(root, bind.value()[0]);
+                        value = new AfContactsRefreshView(root, id);
                     } else if (root != null
                             && (field.getType().isAnnotationPresent(BindLayout$.class) || id > 0)
                             /*&& AfViewModule.class.isAssignableFrom(field.getType())*/) {
