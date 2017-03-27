@@ -62,7 +62,25 @@ public abstract class AfSelectorTitlebar extends AfModuleAlpha
 			}
 		}
 	}
-	
+
+	@Override
+	protected void onCreated(AfViewable viewable, View view) {
+		super.onCreated(viewable, view);
+		mTvText = findTitleSelectTvText(viewable);
+		mBtFinish = findTitleSelectBtFinish(viewable);
+		mOperate = findTitleSelectOperate(viewable);
+		if(isValid()){
+			mTvText.setText(String.format(TEXT_FORMAT, 0,1));
+			mBtFinish.setOnClickListener(this);
+			if (Build.VERSION.SDK_INT >= 11) {
+				mOperate.setOnClickListener(this);
+				mOperate.setEnabled(false);
+			}else {
+				mOperate.setVisibility(View.GONE);
+			}
+		}
+	}
+
 	protected abstract View findTitleSelectBtFinish(AfViewable view);
 	protected abstract View findTitleSelectOperate(AfViewable view);
 	protected abstract TextView findTitleSelectTvText(AfViewable view);

@@ -1,5 +1,6 @@
 package com.andframe.layoutbind;
 
+import android.view.View;
 import android.widget.TextView;
 
 import com.andframe.activity.framework.AfViewable;
@@ -29,7 +30,16 @@ public abstract class AfModuleProgress extends AfViewModule{
 			mTvDescription.setText("正在加载...");
 		}
 	}
-	
+
+	@Override
+	protected void onCreated(AfViewable viewable, View view) {
+		super.onCreated(viewable, view);
+		if(isValid()){
+			mTvDescription = findDescription(viewable);
+			mTvDescription.setText("正在加载...");
+		}
+	}
+
 	/**
 	 * 获取信息提示 TextView
 	 * @param view
