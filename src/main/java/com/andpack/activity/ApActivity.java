@@ -37,7 +37,7 @@ public class ApActivity extends AfActivity implements ApPager {
     }
 
     @BindViewCreated
-    protected void onViewCreated() throws Exception {
+    public void onViewCreated() throws Exception {
         mApHelper.onViewCreated();
     }
 

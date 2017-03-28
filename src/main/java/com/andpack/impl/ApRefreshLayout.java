@@ -2,6 +2,7 @@ package com.andpack.impl;
 
 import android.content.Context;
 import android.content.res.Resources;
+import android.support.annotation.IdRes;
 import android.support.design.widget.AppBarLayout;
 import android.support.design.widget.CoordinatorLayout;
 import android.support.v7.widget.RecyclerView;
@@ -43,6 +44,7 @@ public class ApRefreshLayout implements RefreshLayouter<TwinklingRefreshLayout>/
 
     private boolean isRefreshing = false;
     private OnRefreshListener mOnRefreshListener;
+    private int mRealContentId = 0;
     //    private OnMoreListener mOnMoreListener;
 
     public ApRefreshLayout(Context context) {
@@ -69,6 +71,11 @@ public class ApRefreshLayout implements RefreshLayouter<TwinklingRefreshLayout>/
         mTwinkling.setOnRefreshListener(twinklingListener);
     }
 
+    public ApRefreshLayout setRealContentId(@IdRes int Id) {
+        mRealContentId = Id;
+        return this;
+    }
+
     public TwinklingRefreshLayout getLayout() {
         return mTwinkling;
     }
@@ -76,10 +83,14 @@ public class ApRefreshLayout implements RefreshLayouter<TwinklingRefreshLayout>/
     @Override
     public void setContenView(View content) {
         View contentView = null;
-        if (content instanceof AbsListView) {
+        if (mRealContentId > 0) {
+            contentView = content.findViewById(mRealContentId);
+        }
+        if (contentView == null && content instanceof AbsListView) {
             contentView = content;
             FrameLayout layout = new FrameLayout(content.getContext());
             layout.addView(content, MATCH_PARENT, MATCH_PARENT);
+            layout.setBackgroundDrawable(content.getBackground());
             content = layout;
         }
         mTwinkling.addView(content, MATCH_PARENT, MATCH_PARENT);
@@ -273,37 +284,6 @@ public class ApRefreshLayout implements RefreshLayouter<TwinklingRefreshLayout>/
 
         public void setOrginView(View view) {
             this.view = view;
-        }
-    }
-
-    private class AppBarLayoutWrapper extends View implements AppBarLayout.OnOffsetChangedListener {
-        private final View contentView;
-        private final AppBarLayout appBarLayout;
-        private int verticalOffset;
-
-        public AppBarLayoutWrapper(AppBarLayout appBarLayout, View contentView) {
-            super(appBarLayout.getContext());
-            this.appBarLayout = appBarLayout;
-            this.contentView = contentView;
-            this.appBarLayout.addOnOffsetChangedListener(this);
-        }
-
-        @Override
-        protected void finalize() throws Throwable {
-            super.finalize();
-            this.appBarLayout.removeOnOffsetChangedListener(this);
-        }
-
-        @Override
-        public boolean canScrollVertically(int direction) {
-            return (direction < 0 && verticalOffset != 0)
-                    || appBarLayout.canScrollVertically(direction)
-                    || (contentView == null || contentView.canScrollVertically(direction));
-        }
-
-        @Override
-        public void onOffsetChanged(AppBarLayout appBarLayout, int verticalOffset) {
-            this.verticalOffset = verticalOffset;
         }
     }
 

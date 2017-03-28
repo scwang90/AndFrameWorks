@@ -14,7 +14,7 @@ public class ApMainActivity extends ApActivity {
     protected boolean mDoubleBackKeyPressed = true;
 
     @Override
-    protected void onViewCreated() throws Exception {
+    public void onViewCreated() throws Exception {
         super.onViewCreated();
         if (ApAppSettings.settings().isAutoUpdate()) {
             ApUpdateService.getInstance().checkUpdate();
