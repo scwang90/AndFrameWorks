@@ -59,6 +59,7 @@ public abstract class AfViewModuler extends ViewerWarpper implements Viewer, Vie
 	}
 
 	protected Pager getPager() {
+
 		if (getContext() instanceof AfActivity) {
 			return ((AfActivity) getContext());
 		}

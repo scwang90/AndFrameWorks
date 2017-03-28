@@ -48,7 +48,7 @@ public abstract class BaseMoreFooter extends AfItemViewer<Object> implements Mor
     }
 
     @Override
-    protected void onViewCreated(View view) {
+    public void onViewCreated(View view) {
         super.onViewCreated(view);
         view.setOnClickListener(new SafeListener((OnCancelListener) v -> triggerLoadMore()));
     }

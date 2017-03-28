@@ -288,7 +288,19 @@ public abstract class AfMultiChoiceAdapter<T> extends AfListAdapter<T>{
 			}
 		}
 	}
-	
+
+	public int selectCount() {
+		int count = 0;
+		if(mIsSelecteds != null && mIsSelecteds.length == mltArray.size()){
+			for (boolean mIsSelected : mIsSelecteds) {
+				if (mIsSelected) {
+					count++;
+				}
+			}
+		}
+		return count;
+	}
+
 	@Override
 	public View inflateItem(ItemViewer<T> item, ViewGroup parent) {
 		View view = super.inflateItem(item, parent);

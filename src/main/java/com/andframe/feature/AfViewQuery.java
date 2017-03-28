@@ -595,8 +595,18 @@ public class AfViewQuery<T extends AfViewQuery<T>> implements ViewQuery<T> {
     }
 
     @Override
-    public T visibility(boolean isvisibe) {
+    public T gone(boolean gone) {
+        return visibility(gone ? View.GONE : View.VISIBLE);
+    }
+
+    @Override
+    public T visible(boolean isvisibe) {
         return visibility(isvisibe ? View.VISIBLE : View.GONE);
+    }
+
+    @Override
+    public T invisible(boolean invisible) {
+        return visibility(invisible ? View.INVISIBLE : View.VISIBLE);
     }
 
     //</editor-fold>

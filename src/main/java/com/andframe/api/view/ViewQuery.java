@@ -223,7 +223,7 @@ public interface ViewQuery<T extends ViewQuery<T>> {
      * 设置当前选中 View 的背景（background）.
      * @param id 背景资源Id
      */
-    T background(int id);
+    T background(@DrawableRes int id);
 
     /**
      * 设置当前选中 View 的背景（background）.
@@ -298,9 +298,21 @@ public interface ViewQuery<T extends ViewQuery<T>> {
 
     /**
      * 使用 boolean 设置当前选中 View 的显示
+     * @param gone true->GONE false->VISIBLE
+     */
+    T gone(boolean gone);
+
+    /**
+     * 使用 boolean 设置当前选中 View 的显示
      * @param isvisibe true->VISIBLE false->GONE
      */
-    T visibility(boolean isvisibe);
+    T visible(boolean isvisibe);
+
+    /**
+     * 使用 boolean 设置当前选中 View 的显示
+     * @param invisible true->INVISIBLE false->VISIBLE
+     */
+    T invisible(boolean invisible);
 
     //</editor-fold>
 
@@ -492,7 +504,7 @@ public interface ViewQuery<T extends ViewQuery<T>> {
      * 设置当前选中 TextView 的字体颜色（TextColor）. 颜色资源Id
      * @param id 颜色资源Id
      */
-    T textColorId(@StringRes int id);
+    T textColorId(@ColorRes int id);
 
     /**
      * 设置当前选中 TextView 的字体颜色（TextColor）. 颜色状态列表 ColorStateList

@@ -46,7 +46,7 @@ public abstract class AfItemViewer<T> implements ItemViewer<T>, Viewer, ViewQuer
 	}
 	
 //	@Override
-	protected void onViewCreated(View view) {
+	public void onViewCreated(View view) {
 		Injecter.doInject(this, view.getContext());
 		ViewBinder.doBind(this);
 	}
