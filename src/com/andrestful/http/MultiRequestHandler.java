@@ -470,6 +470,7 @@ public class MultiRequestHandler extends RequestHandler {
         StringBuilder buffer = new StringBuilder();
         for (String line; (line = br.readLine()) != null; ) {
             buffer.append(line);
+            buffer.append('\n');
         }
         is.close();
 
