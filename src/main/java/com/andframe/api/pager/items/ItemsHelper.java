@@ -205,7 +205,9 @@ public interface ItemsHelper<T> extends StatusHelper<List<T>>, OnItemClickListen
      * 创建分页对象
      * @param size 分页大小
      * @param start 开始位置
+     * @return null 表示不需要分頁
      */
+    @Nullable
     Paging newPaging(int size, int start);
 
     //</editor-fold>

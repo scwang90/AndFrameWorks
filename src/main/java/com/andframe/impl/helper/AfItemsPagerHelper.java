@@ -19,6 +19,7 @@ import com.andframe.adapter.AfListAdapter;
 import com.andframe.annotation.mark.MarkCache;
 import com.andframe.annotation.pager.items.ItemsFooter;
 import com.andframe.annotation.pager.items.ItemsHeader;
+import com.andframe.annotation.pager.items.ItemsSinglePage;
 import com.andframe.annotation.pager.items.ItemsViewer;
 import com.andframe.annotation.pager.items.ItemsViewerOnly;
 import com.andframe.annotation.pager.items.idname.ItemsFooter$;
@@ -75,6 +76,7 @@ public class AfItemsPagerHelper<T> extends AfStatusHelper<List<T>> implements It
 
     protected List<View> mHeaderFooterViews = new ArrayList<>();
 
+    protected boolean mIsNeedPaging = true;
     //<editor-fold desc="缓存相关">
     /**
      * 缓存使用的 class 对象（json要用到）
@@ -154,6 +156,11 @@ public class AfItemsPagerHelper<T> extends AfStatusHelper<List<T>> implements It
                 return view;
             }
         });
+        Class<?> stop = mPager instanceof Activity ? AfItemsActivity.class : AfItemsFragment.class;
+        ItemsSinglePage singlePage = AfReflecter.getAnnotation(mItemsPager.getClass(), stop, ItemsSinglePage.class);
+        if (singlePage != null) {
+            mIsNeedPaging = false;
+        }
     }
 
     @Override
@@ -514,9 +521,10 @@ public class AfItemsPagerHelper<T> extends AfStatusHelper<List<T>> implements It
         return loadFinish;
     }
 
+    @Nullable
     @Override
     public Paging newPaging(int size, int start) {
-        return new Page(size, start);
+        return mIsNeedPaging ? new Page(size, start) : null;
     }
 
     @Override

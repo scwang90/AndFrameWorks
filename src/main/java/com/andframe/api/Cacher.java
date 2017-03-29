@@ -9,13 +9,13 @@ import java.util.List;
  */
 public interface Cacher {
 
-    void put(String key, Object value);
+    Cacher put(String key, Object value);
 
-    void putList(String key, List<?> values);
+    Cacher putList(String key, List<?> values);
 
-    void putList(String key, Object[] values);
+    Cacher putList(String key, Object[] values);
 
-    void pushList(String key, List values);
+    Cacher pushList(String key, List values);
 
     <T> T get(String key, Class<T> clazz);
 

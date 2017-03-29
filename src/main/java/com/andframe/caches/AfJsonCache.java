@@ -48,8 +48,9 @@ public class AfJsonCache implements Cacher {
     }
 
     @Override
-    public void put(String key, Object value) {
+    public Cacher put(String key, Object value) {
         mShared.putString(key, AfJsoner.toJson(value));
+        return this;
     }
 
     /**
@@ -57,12 +58,13 @@ public class AfJsonCache implements Cacher {
      * （新的列表会覆盖原来的所有内容）
      */
     @Override
-    public void putList(String key, List<?> values) {
+    public Cacher putList(String key, List<?> values) {
         List<String> set = new ArrayList<>();
         for (Object value : values) {
             set.add(AfJsoner.toJson(value));
         }
         mShared.putStringList(key, set);
+        return this;
     }
 
     /**
@@ -70,12 +72,13 @@ public class AfJsonCache implements Cacher {
      * （新的列表会覆盖原来的所有内容）
      */
     @Override
-    public void putList(String key, Object[] values) {
+    public Cacher putList(String key, Object[] values) {
         List<String> set = new ArrayList<>();
         for (Object value : values) {
             set.add(AfJsoner.toJson(value));
         }
         mShared.putStringList(key, set);
+        return this;
     }
 
     /**
@@ -83,12 +86,13 @@ public class AfJsonCache implements Cacher {
      * （新的内容会和老的内容一起保存）
      */
     @Override
-    public void pushList(String key, List values) {
+    public Cacher pushList(String key, List values) {
         List<String> set = new ArrayList<>(mShared.getStringList(key, new ArrayList<>()));
         for (Object value : values) {
             set.add(AfJsoner.toJson(value));
         }
         mShared.putStringList(key, set);
+        return this;
     }
 
     @Override

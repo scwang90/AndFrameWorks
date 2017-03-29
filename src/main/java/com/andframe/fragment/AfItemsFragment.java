@@ -251,6 +251,7 @@ public abstract class AfItemsFragment<T> extends AfStatusFragment<List<T>> imple
      * @param size 分页大小
      * @param start 开始位置
      */
+    @Nullable
     @Override
     public Paging newPaging(int size, int start) {
         return mItemsHelper.newPaging(size, start);
