@@ -152,8 +152,11 @@ public class AfAppSettings {
 	public void setSetting(String key,Object value){
 		mShared.put(key, value);
 	}
-	
-    public<T> T getSetting(String key,Class<T> clazz) {
-    	return mShared.get(key, clazz);
-    }
+
+	public<T> T getSetting(String key,Class<T> clazz) {
+		return mShared.get(key, clazz);
+	}
+	public<T> T getSetting(String key, Class<T> clazz, T def) {
+		return mShared.get(key, def, clazz);
+	}
 }
