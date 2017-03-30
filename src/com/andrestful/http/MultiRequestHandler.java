@@ -36,6 +36,8 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 import java.util.Map.Entry;
+import java.util.regex.Matcher;
+import java.util.regex.Pattern;
 
 /**
  * 多实例请求对象
@@ -465,7 +467,13 @@ public class MultiRequestHandler extends RequestHandler {
         } else {
             is = http.getErrorStream();
         }
-        InputStreamReader isr = new InputStreamReader(is, config.charset);
+        String charset = config.charset;
+        String type = http.getHeaderField("Content-Type") + "";
+        Matcher matcher = Pattern.compile("charset=(\\w+)", Pattern.CASE_INSENSITIVE).matcher(type);
+        if (matcher.find()) {
+            charset = matcher.group(1);
+        }
+        InputStreamReader isr = new InputStreamReader(is, charset);
         BufferedReader br = new BufferedReader(isr);
         StringBuilder buffer = new StringBuilder();
         for (String line; (line = br.readLine()) != null; ) {
