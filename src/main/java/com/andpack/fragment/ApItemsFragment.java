@@ -96,4 +96,9 @@ public abstract class ApItemsFragment<T> extends AfItemsFragment<T> implements A
     public void postEvent(Object event) {
         mApHelper.postEvent(event);
     }
+
+    @Override
+    public void initItemEffect() {
+        mApHelper.initItemEffect();
+    }
 }

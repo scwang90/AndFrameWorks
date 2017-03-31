@@ -118,4 +118,9 @@ public abstract class ApItemsActivity<T> extends AfItemsActivity<T> implements A
     public void postEvent(Object event) {
         mApHelper.postEvent(event);
     }
+
+    @Override
+    public void initItemEffect() {
+        mApHelper.initItemEffect();
+    }
 }

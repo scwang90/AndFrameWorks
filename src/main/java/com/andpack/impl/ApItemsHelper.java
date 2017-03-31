@@ -1,6 +1,7 @@
 package com.andpack.impl;
 
 import android.content.Context;
+import android.support.v7.widget.RecyclerView;
 
 import com.andframe.adapter.AfLayoutItemViewerAdapter;
 import com.andframe.api.adapter.ItemViewerAdapter;
@@ -8,6 +9,8 @@ import com.andframe.api.view.ViewQuery;
 import com.andframe.util.java.AfReflecter;
 import com.andpack.annotation.BindItemLayout;
 import com.andpack.api.ApItemsPager;
+import com.twotoasters.jazzylistview.effects.SlideInEffect;
+import com.twotoasters.jazzylistview.recyclerview.JazzyRecyclerViewScrollListener;
 
 import java.util.List;
 
@@ -29,8 +32,17 @@ public class ApItemsHelper<T> extends ApStatusHelper {
     public void onViewCreated() {
         super.onViewCreated();
         mItemLayout = AfReflecter.getAnnotation(pager.getClass(), getStopClass(), BindItemLayout.class);
+        mItemPager.initItemEffect();
     }
 
+    public void initItemEffect() {
+        ViewQuery $ = mItemPager.$(RecyclerView.class);
+        if ($.exist()) {
+            JazzyRecyclerViewScrollListener listener = new JazzyRecyclerViewScrollListener();
+            listener.setTransitionEffect(new SlideInEffect());
+            $.foreach(RecyclerView.class, (ViewQuery.ViewEacher<RecyclerView>) view -> view.addOnScrollListener(listener));
+        }
+    }
 
     public ItemViewerAdapter<T> newAdapter(Context context, List<T> list) {
         if (mItemLayout != null) {
