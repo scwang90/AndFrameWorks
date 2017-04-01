@@ -189,7 +189,12 @@
     <style name="AndFrame.CommonBar.Panel">
         <item name="android:layout_marginTop">@dimen/padding_common</item>
         <item name="android:orientation">vertical</item>
-        <item name="android:background">@color/white</item>
+        <item name="android:background">@drawable/af_background_panel</item>
+    </style>
+
+    <style name="AndFrame.CommonBar.PanelLayout">
+        <item name="android:orientation">vertical</item>
+        <item name="android:paddingBottom">@dimen/padding_common</item>
     </style>
 
     <style name="AndFrame.CommonBar.Bar">

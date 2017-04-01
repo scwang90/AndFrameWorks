@@ -291,7 +291,7 @@ public abstract class AfListAdapter<T> extends RecyclerBaseAdapter<ViewHolderIte
 
     @Override
     public Object getItem(int i) {
-        return mltArray.get(i);
+        return get(i);
     }
 
     @Override

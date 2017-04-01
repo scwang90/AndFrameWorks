@@ -653,20 +653,48 @@ public class AfViewQuery<T extends AfViewQuery<T>> implements ViewQuery<T> {
     }
 
     @Override
+    public T width(float dp) {
+        size(true, dp, true);
+        return self();
+    }
+
+    @Override
+    public T minWidth(int px) {
+        return foreach((ViewEacher<View>) view -> view.setMinimumWidth(px));
+    }
+
+    @Override
+    public T minWidth(float dp) {
+        return foreach(view -> {
+            float scale = getContext().getResources().getDisplayMetrics().density;
+            int px = (int) (scale * dp + 0.5f);
+            view.setMinimumWidth(px);
+        });
+    }
+
+    @Override
     public T height(int height) {
         return size(false, height, false);
     }
 
     @Override
-    public T width(float dip) {
-        size(true, dip, true);
+    public T height(float dp) {
+        size(false, dp, true);
         return self();
     }
 
     @Override
-    public T height(float dip) {
-        size(false, dip, true);
-        return self();
+    public T minHeight(int px) {
+        return foreach((ViewEacher<View>) view -> view.setMinimumHeight(px));
+    }
+
+    @Override
+    public T minHeight(float dp) {
+        return foreach(view -> {
+            float scale = getContext().getResources().getDisplayMetrics().density;
+            int px = (int) (scale * dp + 0.5f);
+            view.setMinimumHeight(px);
+        });
     }
 
     @Override
@@ -694,13 +722,13 @@ public class AfViewQuery<T extends AfViewQuery<T>> implements ViewQuery<T> {
         });
     }
 
-    private T size(boolean width, float n, boolean dip) {
+    private T size(boolean width, float n, boolean dp) {
         return foreach(view -> {
             LayoutParams lp = view.getLayoutParams();
             if (lp != null) {
                 Context context = getContext();
                 float tn = n;
-                if (tn > 0 && dip) {
+                if (tn > 0 && dp) {
                     float scale = context.getResources().getDisplayMetrics().density;
                     tn = (int) (scale * tn + 0.5f);
                 }

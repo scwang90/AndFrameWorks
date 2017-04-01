@@ -344,17 +344,27 @@ public interface ViewQuery<T extends ViewQuery<T>> {
 
     //<editor-fold desc="尺寸">
     /**
-     * 设置当前选中 View 的宽度. 以 px 为单位.
+     * 设置当前选中 View 的宽度.
      * 也可以使用 FILL_PARENT , WRAP_CONTENT , MATCH_PARENT.
      */
     T width(int px);
     T width(float dp);
     /**
-     * 设置当前选中 View 的高度. 以 px 为单位.
+     * 设置当前选中 View 的最小宽度.
+     */
+    T minWidth(int px);
+    T minWidth(float dp);
+    /**
+     * 设置当前选中 View 的高度.
      * 也可以使用 FILL_PARENT , WRAP_CONTENT , MATCH_PARENT.
      */
     T height(int px);
     T height(float dp);
+    /**
+     * 设置当前选中 View 的最小高度.
+     */
+    T minHeight(int px);
+    T minHeight(float dp);
     /**
      * 设置当前选中 View 的尺寸（宽和高）. 以 px 为单位.
      * 也可以使用 FILL_PARENT , WRAP_CONTENT , MATCH_PARENT.
