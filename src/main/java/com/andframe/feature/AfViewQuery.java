@@ -1227,7 +1227,12 @@ public class AfViewQuery<T extends AfViewQuery<T>> implements ViewQuery<T> {
 
     @Override
     public T typeface(Typeface typeface) {
-        return foreach(TextView.class, (ViewEacher<TextView>) (view) -> view.setTypeface(typeface));
+        try {
+            return foreach(TextView.class, (ViewEacher<TextView>) (view) -> view.setTypeface(typeface));
+        } catch (Exception e) {
+            e.printStackTrace();
+            return self();
+        }
     }
 
     @Override
