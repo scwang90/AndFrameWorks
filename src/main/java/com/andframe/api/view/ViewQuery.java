@@ -839,7 +839,7 @@ public interface ViewQuery<T extends ViewQuery<T>> {
 
     //<editor-fold desc="LinearLayout">
     int orientation();
-    T orientation(@LinearLayoutCompat.OrientationMode int orientation);
+    T orientation(/*@LinearLayoutCompat.OrientationMode */int orientation);
     //</editor-fold>
 
     //<editor-fold desc="容器布局">

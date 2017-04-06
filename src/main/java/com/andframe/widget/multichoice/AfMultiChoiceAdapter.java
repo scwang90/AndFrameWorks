@@ -131,10 +131,10 @@ public abstract class AfMultiChoiceAdapter<T> extends AfListAdapter<T>{
 	@NonNull
 	@Override
 	public ItemViewer<T> newItemViewer(int viewType) {
-		return newMultiChoiceItem();
+		return newMultiChoiceItem(viewType);
 	}
 	
-	protected abstract AfMultiChoiceItemViewer<T> newMultiChoiceItem();
+	protected abstract AfMultiChoiceItemViewer<T> newMultiChoiceItem(int viewType);
 
 	@Override
 	public void bindingItem(View view, ItemViewer<T> item, int index) {

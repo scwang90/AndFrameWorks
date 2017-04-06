@@ -29,7 +29,7 @@ public abstract class AfTreeViewAdapter<T> extends AfMultiChoiceAdapter<T> imple
 	protected AfTreeNodeClickable<T> mTreeNodeClickable = null;
 	protected List<AfTreeNode<T>> mNodeShow = new ArrayList<>();
 
-	protected abstract AfTreeViewItemViewer<T> newTreeViewItem();
+	protected abstract AfTreeViewItemViewer<T> newTreeViewItem(int viewType);
 
 	public AfTreeViewAdapter(Context context, List<T> ltdata, AfTreeEstablisher<T> establisher) {
 		this(context, ltdata, establisher, false);
@@ -51,8 +51,8 @@ public abstract class AfTreeViewAdapter<T> extends AfMultiChoiceAdapter<T> imple
 	}
 
 	@Override
-	protected final AfMultiChoiceItemViewer<T> newMultiChoiceItem() {
-		return newTreeViewItem();
+	protected AfMultiChoiceItemViewer<T> newMultiChoiceItem(int viewType) {
+		return newTreeViewItem(viewType);
 	}
 
 	public boolean isItemClickable(int index) {
@@ -102,7 +102,7 @@ public abstract class AfTreeViewAdapter<T> extends AfMultiChoiceAdapter<T> imple
 			/**
 			 * 添加树形多选 2016-7-1
 			 */
-			AfTreeViewItemViewer<T> item = newTreeViewItem();
+			AfTreeViewItemViewer<T> item = newTreeViewItem(getItemViewType(index));
 			item.setNode(node);
 			if (item.isCanSelect(node.value, index)) {
 				int count = mChoiceNumber;
