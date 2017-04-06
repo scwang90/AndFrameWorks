@@ -29,6 +29,7 @@ import java.io.UnsupportedEncodingException;
 import java.net.HttpURLConnection;
 import java.net.URL;
 import java.net.URLEncoder;
+import java.nio.charset.Charset;
 import java.security.InvalidParameterException;
 import java.util.ArrayList;
 import java.util.Arrays;
@@ -467,11 +468,17 @@ public class MultiRequestHandler extends RequestHandler {
         } else {
             is = http.getErrorStream();
         }
-        String charset = config.charset;
+        Charset charset = Charset.forName(config.charset);
         String type = http.getHeaderField("Content-Type") + "";
-        Matcher matcher = Pattern.compile("charset=(\\w+)", Pattern.CASE_INSENSITIVE).matcher(type);
+        Matcher matcher = Pattern.compile("charset=([^\\s]+)", Pattern.CASE_INSENSITIVE).matcher(type);
         if (matcher.find()) {
-            charset = matcher.group(1);
+            try {
+                charset = Charset.forName(config.charset);
+            } catch (Throwable e) {
+                if (DEBUD) {
+                    e.printStackTrace();
+                }
+            }
         }
         InputStreamReader isr = new InputStreamReader(is, charset);
         BufferedReader br = new BufferedReader(isr);
