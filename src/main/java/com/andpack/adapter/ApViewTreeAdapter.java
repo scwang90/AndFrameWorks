@@ -42,7 +42,7 @@ public class ApViewTreeAdapter extends AfTreeViewAdapter<View> {
     }
 
     @Override
-    protected AfTreeViewItemViewer<View> newTreeViewItem() {
+    protected AfTreeViewItemViewer<View> newTreeViewItem(int viewType) {
         return new AfTreeViewItemViewer<View>(android.R.layout.activity_list_item) {
             @Override
             public View onCreateView(Context context, ViewGroup parent) {
