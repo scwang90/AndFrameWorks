@@ -14,7 +14,6 @@ import android.support.annotation.DrawableRes;
 import android.support.annotation.LayoutRes;
 import android.support.annotation.Nullable;
 import android.support.annotation.StringRes;
-import android.support.v7.widget.LinearLayoutCompat;
 import android.text.Editable;
 import android.text.TextWatcher;
 import android.view.View;
@@ -25,6 +24,7 @@ import android.widget.AdapterView;
 import android.widget.EditText;
 import android.widget.ExpandableListAdapter;
 
+import java.io.File;
 import java.util.Date;
 import java.util.List;
 import java.util.Locale;
@@ -648,6 +648,17 @@ public interface ViewQuery<T extends ViewQuery<T>> {
      * 设置当前选中 TextView 的 文本（text） 为 time 的动态格式化（例如：3分钟前，昨天）.
      */
     T timeDynamic(Date time);
+    /**
+     * 设置当前选中 TextView 的字体.
+     * @param typefaceFile 字体文件
+     */
+    T typeface(File typefaceFile);
+    /**
+     * 设置当前选中 TextView 的字体.
+     * @param typefacePath 字体文件
+     */
+    T typeface(String typefacePath);
+
     //</editor-fold>
 
     //<editor-fold desc="基本获取">

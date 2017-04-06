@@ -52,6 +52,7 @@ import com.andframe.listener.SafeListener;
 import com.andframe.util.android.AfMeasure;
 import com.andframe.util.java.AfDateFormat;
 
+import java.io.File;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Collections;
@@ -1229,6 +1230,28 @@ public class AfViewQuery<T extends AfViewQuery<T>> implements ViewQuery<T> {
     public T typeface(Typeface typeface) {
         try {
             return foreach(TextView.class, (ViewEacher<TextView>) (view) -> view.setTypeface(typeface));
+        } catch (Exception e) {
+            e.printStackTrace();
+            return self();
+        }
+    }
+
+    @Override
+    public T typeface(File typefaceFile) {
+        try {
+            Typeface typeface = Typeface.createFromFile(typefaceFile);
+            return typeface(typeface);
+        } catch (Exception e) {
+            e.printStackTrace();
+            return self();
+        }
+    }
+
+    @Override
+    public T typeface(String typefacePath) {
+        try {
+            Typeface typeface = Typeface.createFromFile(typefacePath);
+            return typeface(typeface);
         } catch (Exception e) {
             e.printStackTrace();
             return self();
