@@ -35,6 +35,11 @@ public class PagerWrapper implements Pager {
     }
 
     @Override
+    public void finish() {
+        pager.finish();
+    }
+
+    @Override
     public Context getContext() {
         return viewer.getContext();
     }

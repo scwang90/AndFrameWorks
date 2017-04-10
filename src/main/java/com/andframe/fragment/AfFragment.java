@@ -7,6 +7,7 @@ import android.content.Intent;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
+import android.support.v4.app.FragmentActivity;
 import android.view.KeyEvent;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -365,6 +366,16 @@ public abstract class AfFragment extends Fragment implements Pager, ViewQueryHel
      * 离开本页面
      */
     protected void onSwitchLeave() {
+    }
+
+    /**
+     * 结束页面(只有Activity为AfFragmentActivity时生效)
+     */
+    public void finish() {
+        FragmentActivity activity = getActivity();
+        if (activity instanceof AfFragmentActivity) {
+            activity.finish();
+        }
     }
 
     //</editor-fold>

@@ -24,6 +24,8 @@ public interface Pager extends Viewer, Toaster, Constanter {
 
     Activity getActivity();
 
+    void finish();
+
     //<editor-fold desc="页面切换">
     void startActivity(Intent intent);
 
