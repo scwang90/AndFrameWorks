@@ -13,7 +13,7 @@ import com.andframe.api.adapter.ItemViewer;
 @SuppressWarnings("unused")
 public class AfMultiChoiceItemWrapper<T> extends AfMultiChoiceItemViewer<T> {
 
-	private ItemViewer<T> mWrappedItem;
+	protected ItemViewer<T> mWrappedItem;
 
 	public AfMultiChoiceItemWrapper(ItemViewer<T> wrapped) {
 		super();
@@ -22,7 +22,9 @@ public class AfMultiChoiceItemWrapper<T> extends AfMultiChoiceItemViewer<T> {
 
 	@Override
 	public View onCreateView(Context context, ViewGroup parent) {
-		return mWrappedItem.onCreateView(context, parent);
+		mLayout = mWrappedItem.onCreateView(context, parent);
+		onViewCreated(mLayout);
+		return mLayout;
 	}
 
 	@Override
