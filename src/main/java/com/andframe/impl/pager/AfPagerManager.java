@@ -2,11 +2,15 @@ package com.andframe.impl.pager;
 
 import android.app.Activity;
 import android.content.Context;
+import android.content.Intent;
+import android.support.v4.app.Fragment;
 
 import com.andframe.activity.AfActivity;
+import com.andframe.activity.AfFragmentActivity;
 import com.andframe.api.pager.PagerManager;
 import com.andframe.application.AfApp;
 import com.andframe.exception.AfException;
+import com.andframe.feature.AfIntent;
 import com.andframe.fragment.AfFragment;
 
 import java.util.Stack;
@@ -168,6 +172,46 @@ public class AfPagerManager implements PagerManager {
     @Override
     public void startForeground() {
         throw new AfException("如要使用startForeground功能，请自行继承AfPagerManager并实现startForeground");
+    }
+
+    @Override
+    public void startActivity(Class<? extends Activity> clazz, Object... args) {
+        AfActivity activity = currentActivity();
+        if (activity != null && activity.isRecycled()) {
+            activity.startActivity(clazz, args);
+        } else {
+            AfApp app = AfApp.get();
+            AfIntent intent = new AfIntent(app, clazz);
+            intent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
+            intent.putKeyVaules(args);
+            app.startActivity(intent);
+        }
+    }
+
+    @Override
+    public void startFragment(Class<? extends Fragment> clazz, Object... args) {
+        AfActivity activity = currentActivity();
+        if (activity != null && activity.isRecycled()) {
+            activity.startFragment(clazz, args);
+        } else {
+            AfFragmentActivity.start(clazz, args);
+        }
+    }
+
+    @Override
+    public void startActivityForResult(Class<? extends Activity> clazz, int request, Object... args) {
+        AfActivity activity = currentActivity();
+        if (activity != null && activity.isRecycled()) {
+            activity.startActivityForResult(clazz, request, args);
+        }
+    }
+
+    @Override
+    public void startFragmentForResult(Class<? extends Fragment> clazz, int request, Object... args) {
+        AfActivity activity = currentActivity();
+        if (activity != null && activity.isRecycled()) {
+            activity.startFragment(clazz, request, args);
+        }
     }
 
     //</editor-fold>

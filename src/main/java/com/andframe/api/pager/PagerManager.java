@@ -1,6 +1,8 @@
 package com.andframe.api.pager;
 
+import android.app.Activity;
 import android.content.Context;
+import android.support.v4.app.Fragment;
 
 import com.andframe.activity.AfActivity;
 import com.andframe.fragment.AfFragment;
@@ -33,4 +35,9 @@ public interface PagerManager {
     void finishAllActivity();
 
     void startForeground();
+
+    void startActivity(Class<? extends Activity> clazz, Object... args);
+    void startFragment(Class<? extends Fragment> clazz, Object... args);
+    void startActivityForResult(Class<? extends Activity> clazz, int request, Object... args);
+    void startFragmentForResult(Class<? extends Fragment> clazz, int request, Object... args);
 }

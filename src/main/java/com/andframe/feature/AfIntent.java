@@ -55,6 +55,15 @@ public class AfIntent extends Intent implements Extrater {
 
     public AfIntent(Context context, Class<? extends Activity> clazz, Object... args) {
         this(context, clazz);
+        putKeyVaules(args);
+    }
+
+    public AfIntent newTask() {
+        addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
+        return this;
+    }
+
+    public AfIntent putKeyVaules(Object... args) {
         if (args != null && args.length > 0) {
             for (int i = 0; i < args.length / 2; i++) {
                 if (args[2 * i] instanceof String) {
@@ -67,6 +76,7 @@ public class AfIntent extends Intent implements Extrater {
                 }
             }
         }
+        return this;
     }
 
     public void put(String _key, Object value) {

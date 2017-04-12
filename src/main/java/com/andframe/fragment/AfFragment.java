@@ -14,7 +14,6 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Toast;
 
-import com.andframe.activity.AfActivity;
 import com.andframe.activity.AfFragmentActivity;
 import com.andframe.annotation.interpreter.Injecter;
 import com.andframe.annotation.interpreter.LayoutBinder;
@@ -41,6 +40,8 @@ import com.andframe.task.AfTaskExecutor;
 
 import java.util.ArrayList;
 import java.util.List;
+
+import static android.app.Activity.RESULT_OK;
 
 /**
  * 框架 AfFragment
@@ -149,9 +150,11 @@ public abstract class AfFragment extends Fragment implements Pager, ViewQueryHel
         AfFragmentActivity.startResult(this, clazz, request, args);
     }
 
+    @Override
     public void setResultOk(Object... args) {
-        if (getActivity() instanceof AfActivity) {
-            ((AfActivity) getActivity()).setResultOk(args);
+        FragmentActivity activity = getActivity();
+        if (activity != null) {
+            activity.setResult(RESULT_OK, new AfIntent().putKeyVaules(args));
         }
     }
     //</editor-fold>
@@ -422,6 +425,17 @@ public abstract class AfFragment extends Fragment implements Pager, ViewQueryHel
     @Override
     public boolean isRecycled() {
         return mIsRecycled;
+    }
+
+    @Override
+    public boolean isFinishing() {
+        FragmentActivity activity = getActivity();
+        return activity != null && activity.isFinishing();
+    }
+
+    @Override
+    public boolean isShowing() {
+        return !isRecycled() && !isFinishing();
     }
 
     @Override

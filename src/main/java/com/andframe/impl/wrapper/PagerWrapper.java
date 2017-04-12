@@ -15,10 +15,10 @@ import com.andframe.task.AfDataTask;
 import com.andframe.task.AfTask;
 
 /**
- * PagerWrapper
+ * PagerWrapper 实现 pager 和 viewer 的分离
  * Created by SCWANG on 2016/12/22.
  */
-
+@SuppressWarnings("unused")
 public class PagerWrapper implements Pager {
 
     protected Pager pager;
@@ -37,6 +37,11 @@ public class PagerWrapper implements Pager {
     @Override
     public void finish() {
         pager.finish();
+    }
+
+    @Override
+    public void setResultOk(Object... args) {
+        pager.setResultOk(args);
     }
 
     @Override
@@ -67,6 +72,16 @@ public class PagerWrapper implements Pager {
     @Override
     public boolean isRecycled() {
         return pager.isRecycled();
+    }
+
+    @Override
+    public boolean isFinishing() {
+        return pager.isFinishing();
+    }
+
+    @Override
+    public boolean isShowing() {
+        return pager.isShowing();
     }
 
     @Override

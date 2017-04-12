@@ -21,12 +21,17 @@ import com.andframe.task.AfTask;
 public interface Pager extends Viewer, Toaster, Constanter {
 
     boolean isRecycled();
+    boolean isFinishing();
+    boolean isShowing();//!isRecycled() && !isFinishing()
 
     Activity getActivity();
 
     void finish();
 
+    void setResultOk(Object... args);
+
     //<editor-fold desc="页面切换">
+
     void startActivity(Intent intent);
 
     void startFragment(Class<? extends Fragment> clazz, Object... args);

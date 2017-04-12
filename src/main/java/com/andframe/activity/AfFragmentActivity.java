@@ -40,12 +40,16 @@ public class AfFragmentActivity extends AfActivity {
 
     //<editor-fold desc="跳转封装">
     public static void start(Class<? extends Fragment> clazz, Object... params){
+        List<Object> list = new ArrayList<>(Arrays.asList(params));
+        list.add(0, clazz.getName());
+        list.add(0, EXTRA_FRAGMENT);
+
         AfActivity activity = AfPagerManager.getInstance().currentActivity();
         if (activity != null) {
-            List<Object> list = new ArrayList<>(Arrays.asList(params));
-            list.add(0,clazz.getName());
-            list.add(0,EXTRA_FRAGMENT);
             (activity).startActivity(getActivityClazz(clazz), list.toArray());
+        } else {
+            AfApp app = AfApp.get();
+            app.startActivity(new AfIntent(app, getActivityClazz(clazz),list.toArray()).newTask());
         }
     }
     public static void startResult(Class<? extends Fragment> clazz,int request, Object... params){

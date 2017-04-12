@@ -385,6 +385,26 @@ public class $ {
         public void startForeground() {
             wrapped.startForeground();
         }
+
+        @Override
+        public void startActivity(Class<? extends Activity> clazz, Object... args) {
+            wrapped.startActivity(clazz, args);
+        }
+
+        @Override
+        public void startFragment(Class<? extends Fragment> clazz, Object... args) {
+            wrapped.startFragment(clazz, args);
+        }
+
+        @Override
+        public void startActivityForResult(Class<? extends Activity> clazz, int request, Object... args) {
+            wrapped.startActivityForResult(clazz, request, args);
+        }
+
+        @Override
+        public void startFragmentForResult(Class<? extends Fragment> clazz, int request, Object... args) {
+            wrapped.startFragmentForResult(clazz, request, args);
+        }
     }
 
 
