@@ -575,7 +575,11 @@ public interface ViewQuery<T extends ViewQuery<T>> {
     //</editor-fold>
 
     //<editor-fold desc="扩展设置">
-
+    /**
+     * 转换当前选中 TextView 的 文本（text）
+     * @param transverter 文本转换器
+     */
+    T text(TextTransverter transverter);
     /**
      * 设置当前选中 TextView 的 文本（text） 如果内容为空将隐藏 View
      * @param text 文本内容
@@ -950,6 +954,14 @@ public interface ViewQuery<T extends ViewQuery<T>> {
 
     interface AdapterItemer<T> {
         void onBinding(ViewQuery $, T model, int index);
+    }
+
+    interface Converter<F, T> {
+        T convert(F f);
+    }
+
+    interface TextTransverter extends Converter<String,String> {
+
     }
     //</editor-fold>
 

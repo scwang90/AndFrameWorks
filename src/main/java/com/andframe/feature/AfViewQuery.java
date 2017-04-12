@@ -1278,6 +1278,12 @@ public class AfViewQuery<T extends AfViewQuery<T>> implements ViewQuery<T> {
     //</editor-fold>
 
     //<editor-fold desc="扩展设置">
+
+    @Override
+    public T text(TextTransverter transverter) {
+        return foreach(TextView.class, (ViewEacher<TextView>) (view) -> view.setText(transverter.convert(view.getText().toString())));
+    }
+
     @Override
     public T text(CharSequence text, boolean goneIfEmpty) {
         if (goneIfEmpty && TextUtils.isEmpty(text)) {
