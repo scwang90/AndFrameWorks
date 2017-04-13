@@ -8,11 +8,11 @@ import android.support.v4.app.Fragment;
 import android.view.View;
 
 import com.andframe.api.pager.Pager;
+import com.andframe.api.task.Task;
 import com.andframe.api.view.Viewer;
 import com.andframe.task.AfData2Task;
 import com.andframe.task.AfData3Task;
 import com.andframe.task.AfDataTask;
-import com.andframe.task.AfTask;
 
 /**
  * PagerWrapper 实现 pager 和 viewer 的分离
@@ -140,7 +140,7 @@ public class PagerWrapper implements Pager {
     }
 
     @Override
-    public <T extends AfTask> T postTask(T task) {
+    public <T extends Task> T postTask(T task) {
         return pager.postTask(task);
     }
 

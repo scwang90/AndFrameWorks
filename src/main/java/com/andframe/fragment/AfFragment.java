@@ -22,6 +22,7 @@ import com.andframe.annotation.interpreter.ViewBinder;
 import com.andframe.annotation.lifecycle.OnCreateView;
 import com.andframe.api.DialogBuilder;
 import com.andframe.api.pager.Pager;
+import com.andframe.api.task.Task;
 import com.andframe.api.view.ViewQuery;
 import com.andframe.api.view.ViewQueryHelper;
 import com.andframe.application.AfApp;
@@ -35,7 +36,6 @@ import com.andframe.impl.pager.AfPagerManager;
 import com.andframe.task.AfData2Task;
 import com.andframe.task.AfData3Task;
 import com.andframe.task.AfDataTask;
-import com.andframe.task.AfTask;
 import com.andframe.task.AfTaskExecutor;
 
 import java.util.ArrayList;
@@ -102,7 +102,7 @@ public abstract class AfFragment extends Fragment implements Pager, ViewQueryHel
      * 抛送任务到Worker执行
      * @param task 任务标识
      */
-    public <T extends AfTask> T postTask(T task) {
+    public <T extends Task> T postTask(T task) {
         return AfTaskExecutor.getInstance().postTask(task);
     }
 

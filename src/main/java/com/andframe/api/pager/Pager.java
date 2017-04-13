@@ -7,11 +7,11 @@ import android.support.v4.app.Fragment;
 
 import com.andframe.api.Constanter;
 import com.andframe.api.Toaster;
+import com.andframe.api.task.Task;
 import com.andframe.api.view.Viewer;
 import com.andframe.task.AfData2Task;
 import com.andframe.task.AfData3Task;
 import com.andframe.task.AfDataTask;
-import com.andframe.task.AfTask;
 
 /**
  * 框架页面接口 Pager
@@ -44,7 +44,7 @@ public interface Pager extends Viewer, Toaster, Constanter {
     //</editor-fold>
 
     //<editor-fold desc="异步任务">
-    <T extends AfTask> T postTask(T task);
+    <T extends Task> T postTask(T task);
 
     <T> AfDataTask postDataTask(T t, AfDataTask.OnTaskHandlerListener<T> task);
 

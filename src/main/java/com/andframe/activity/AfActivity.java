@@ -21,6 +21,7 @@ import com.andframe.annotation.interpreter.LifeCycleInjecter;
 import com.andframe.annotation.interpreter.ViewBinder;
 import com.andframe.api.DialogBuilder;
 import com.andframe.api.pager.Pager;
+import com.andframe.api.task.Task;
 import com.andframe.api.view.ViewQuery;
 import com.andframe.api.view.ViewQueryHelper;
 import com.andframe.application.AfApp;
@@ -33,7 +34,6 @@ import com.andframe.task.AfData2Task;
 import com.andframe.task.AfData3Task;
 import com.andframe.task.AfDataTask;
 import com.andframe.task.AfDispatcher;
-import com.andframe.task.AfTask;
 import com.andframe.task.AfTaskExecutor;
 import com.andframe.util.java.AfReflecter;
 import com.andframe.util.java.AfStackTrace;
@@ -443,7 +443,7 @@ public abstract class AfActivity extends AppCompatActivity implements Pager, Vie
      * 抛送任务到Worker执行
      */
     @Override
-    public <T extends AfTask> T postTask(T task) {
+    public <T extends Task> T postTask(T task) {
         return AfTaskExecutor.getInstance().postTask(task);
     }
 
