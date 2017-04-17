@@ -18,7 +18,9 @@ import android.support.annotation.LayoutRes;
 import android.support.annotation.Nullable;
 import android.support.annotation.StringRes;
 import android.support.v4.content.ContextCompat;
+import android.support.v4.view.PagerAdapter;
 import android.support.v4.view.ViewCompat;
+import android.support.v4.view.ViewPager;
 import android.support.v7.widget.LinearLayoutCompat;
 import android.support.v7.widget.RecyclerView;
 import android.text.Editable;
@@ -1680,6 +1682,25 @@ public class AfViewQuery<T extends AfViewQuery<T>> implements ViewQuery<T> {
         });
     }
     //</editor-fold>
+
+    //<editor-fold desc="ViewPager">
+    @Override
+    public T adapter(PagerAdapter adapter) {
+        return foreach(ViewPager.class, (ViewEacher<ViewPager>) (view) -> view.setAdapter(adapter));
+    }
+
+    @Override
+    public T currentItem(int item) {
+        return foreach(ViewPager.class, (ViewEacher<ViewPager>) (view) -> view.setCurrentItem(item));
+    }
+
+    @Override
+    public T currentItem(int item, boolean smoothScroll) {
+        return foreach(ViewPager.class, (ViewEacher<ViewPager>) (view) -> view.setCurrentItem(item, smoothScroll));
+    }
+
+    //</editor-fold>
+
 
     //<editor-fold desc="容器布局">
 

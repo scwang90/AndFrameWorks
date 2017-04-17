@@ -14,6 +14,7 @@ import android.support.annotation.DrawableRes;
 import android.support.annotation.LayoutRes;
 import android.support.annotation.Nullable;
 import android.support.annotation.StringRes;
+import android.support.v4.view.PagerAdapter;
 import android.text.Editable;
 import android.text.TextWatcher;
 import android.view.View;
@@ -855,6 +856,12 @@ public interface ViewQuery<T extends ViewQuery<T>> {
     //<editor-fold desc="LinearLayout">
     int orientation();
     T orientation(/*@LinearLayoutCompat.OrientationMode */int orientation);
+    //</editor-fold>
+
+    //<editor-fold desc="ViewPager">
+    T adapter(PagerAdapter adapter);
+    T currentItem(int item);
+    T currentItem(int item, boolean smoothScroll);
     //</editor-fold>
 
     //<editor-fold desc="容器布局">

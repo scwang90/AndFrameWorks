@@ -218,20 +218,20 @@ public abstract class AfApp extends Application {
 	/**
 	 * 获取App工作目录
 	 */
-	public synchronized String getPrivatePath(String type) {
+	public synchronized File getPrivatePath(String type) {
 		File file = new File(getCacheDir(), type);
 		if (!file.exists() && !file.mkdirs()) {
 			if (isDebug()) {
 				new IOException("获取私有路径失败").printStackTrace();
 			}
 		}
-		return file.getPath();
+		return file;
 	}
 
 	/**
 	 * 获取App工作目录
 	 */
-	public synchronized String getWorkspacePath(String type) {
+	public synchronized File getWorkspacePath(String type) {
 		File workspace;
 		if (hasExternalStorage()) {
 			String sdcard = Environment.getExternalStorageDirectory().getPath();
@@ -242,21 +242,21 @@ public abstract class AfApp extends Application {
 		} else {
 			return getPrivatePath(type);
 		}
-		return workspace.getPath();
+		return workspace;
 	}
 
 	/**
 	 * 获取caches目录
 	 */
-	public synchronized String getCachesPath(String type) {
-		File caches = new File(getWorkspacePath("caches"));
+	public synchronized File getCachesPath(String type) {
+		File caches = getWorkspacePath("caches");
 		caches = new File(caches, type);
 		if (!caches.exists() && !caches.mkdirs()) {
 			if (isDebug()) {
 				new IOException("获取缓存路径失败").printStackTrace();
 			}
 		}
-		return caches.getPath();
+		return caches;
 	}
 
 	/**

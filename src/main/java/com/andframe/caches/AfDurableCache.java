@@ -37,7 +37,7 @@ public class AfDurableCache extends AfJsonCache
 	}
 
 	public static String getPath() {
-		return AfApp.get().getCachesPath("Durable");
+		return AfApp.get().getCachesPath("Durable").getPath();
 	}
 
 	private static HashMap<String, AfDurableCache> mHashMap = new HashMap<>();
