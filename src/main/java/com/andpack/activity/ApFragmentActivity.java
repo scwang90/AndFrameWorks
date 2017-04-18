@@ -79,6 +79,16 @@ public class ApFragmentActivity extends AfFragmentActivity implements ApPager {
     }
 
     @Override
+    public void startFragment(Class<? extends Fragment> clazz, Object... args) {
+        ApFragmentActivity.start(clazz, args);
+    }
+
+    @Override
+    public void startFragmentForResult(Class<? extends Fragment> clazz, int request, Object... args) {
+        ApFragmentActivity.startResult(clazz, request, args);
+    }
+
+    @Override
     public void postEvent(Object event) {
         mApHelper.postEvent(event);
     }
