@@ -15,6 +15,7 @@ import android.support.annotation.LayoutRes;
 import android.support.annotation.Nullable;
 import android.support.annotation.StringRes;
 import android.support.v4.view.PagerAdapter;
+import android.support.v4.view.ViewPager;
 import android.text.Editable;
 import android.text.TextWatcher;
 import android.view.View;
@@ -859,9 +860,25 @@ public interface ViewQuery<T extends ViewQuery<T>> {
     //</editor-fold>
 
     //<editor-fold desc="ViewPager">
+    /**
+     * 设置当前选中 ViewPager 的 PagerAdapter.
+     * @see ViewPager#setAdapter(PagerAdapter)
+     */
     T adapter(PagerAdapter adapter);
     T currentItem(int item);
     T currentItem(int item, boolean smoothScroll);
+    /**
+     * 添加当前选中 ViewPager 的 OnPageChangeListener.
+     * @see ViewPager#addOnPageChangeListener(ViewPager.OnPageChangeListener)
+     */
+    T pageChanged(ViewPager.OnPageChangeListener listener);
+    /**
+     * 添加当前选中 ViewPager 的 OnPageChangeListener.
+     * @see OnPageSelectedListener 简单版的监听器
+     * @see ViewPager#addOnPageChangeListener(ViewPager.OnPageChangeListener)
+     */
+    T pageSelected(OnPageSelectedListener listener);
+    int currentItem();
     //</editor-fold>
 
     //<editor-fold desc="容器布局">
@@ -969,6 +986,16 @@ public interface ViewQuery<T extends ViewQuery<T>> {
 
     interface TextTransverter extends Converter<String,String> {
 
+    }
+
+    interface OnPageSelectedListener {
+        /**
+         * This method will be invoked when a new page becomes selected. Animation is not
+         * necessarily complete.
+         *
+         * @param position Position index of the new selected page.
+         */
+        void onPageSelected(int position);
     }
     //</editor-fold>
 

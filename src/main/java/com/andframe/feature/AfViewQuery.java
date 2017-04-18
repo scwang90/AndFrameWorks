@@ -1699,8 +1699,28 @@ public class AfViewQuery<T extends AfViewQuery<T>> implements ViewQuery<T> {
         return foreach(ViewPager.class, (ViewEacher<ViewPager>) (view) -> view.setCurrentItem(item, smoothScroll));
     }
 
-    //</editor-fold>
+    @Override
+    public T pageChanged(ViewPager.OnPageChangeListener listener) {
+        return foreach(ViewPager.class, (ViewEacher<ViewPager>) (view) -> view.addOnPageChangeListener(listener));
+    }
 
+    @Override
+    public T pageSelected(OnPageSelectedListener listener) {
+        return pageChanged(new ViewPager.OnPageChangeListener() {
+            public void onPageScrolled(int position, float positionOffset, int positionOffsetPixels) {}
+            public void onPageSelected(int position) {
+                listener.onPageSelected(position);
+            }
+            public void onPageScrollStateChanged(int state) {}
+        });
+    }
+
+    @Override
+    public int currentItem() {
+        return foreach(ViewPager.class, ViewPager::getCurrentItem);
+    }
+
+    //</editor-fold>
 
     //<editor-fold desc="容器布局">
 

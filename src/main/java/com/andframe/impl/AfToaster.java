@@ -30,6 +30,12 @@ public class AfToaster implements Toaster {
     }
 
     @Override
+    public void makeToastLong(CharSequence tip, Throwable e) {
+        tip = AfExceptionHandler.tip(e, tip.toString());
+        Toast.makeText(AfApp.get(), tip, Toast.LENGTH_LONG).show();
+    }
+
+    @Override
     public void makeToastShort(int resid) {
         Toast.makeText(AfApp.get(), resid, Toast.LENGTH_SHORT).show();
     }

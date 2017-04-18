@@ -263,6 +263,11 @@ public class $ {
         }
 
         @Override
+        public void makeToastLong(CharSequence tip, Throwable e) {
+            wrapped.makeToastLong(tip, e);
+        }
+
+        @Override
         public void makeToastShort(CharSequence tip) {
             wrapped.makeToastShort(tip);
         }

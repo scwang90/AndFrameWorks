@@ -130,6 +130,11 @@ public class PagerWrapper implements Pager {
     }
 
     @Override
+    public void makeToastLong(CharSequence tip, Throwable e) {
+        pager.makeToastLong(tip, e);
+    }
+
+    @Override
     public void makeToastShort(CharSequence tip) {
         pager.makeToastShort(tip);
     }

@@ -426,6 +426,12 @@ public abstract class AfActivity extends AppCompatActivity implements Pager, Vie
     }
 
     @Override
+    public void makeToastLong(CharSequence tip, Throwable e) {
+        tip = AfExceptionHandler.tip(e, tip.toString());
+        Toast.makeText(this, tip, Toast.LENGTH_LONG).show();
+    }
+
+    @Override
     public void makeToastShort(CharSequence tip) {
         Toast.makeText(this, tip, Toast.LENGTH_SHORT).show();
     }
@@ -433,7 +439,7 @@ public abstract class AfActivity extends AppCompatActivity implements Pager, Vie
     @Override
     public void makeToastShort(CharSequence tip, Throwable e) {
         tip = AfExceptionHandler.tip(e, tip.toString());
-        Toast.makeText(this, tip, Toast.LENGTH_LONG).show();
+        Toast.makeText(this, tip, Toast.LENGTH_SHORT).show();
     }
     //</editor-fold>
 

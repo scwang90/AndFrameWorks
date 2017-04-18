@@ -13,6 +13,8 @@ public interface Toaster {
 
     void makeToastLong(CharSequence tip);
 
+    void makeToastLong(CharSequence tip, Throwable e);
+
     void makeToastShort(CharSequence tip);
 
     void makeToastShort(CharSequence tip, Throwable e);
