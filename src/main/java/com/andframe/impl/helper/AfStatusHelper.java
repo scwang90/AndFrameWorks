@@ -5,14 +5,14 @@ import android.content.Context;
 import android.support.annotation.CallSuper;
 import android.support.annotation.NonNull;
 import android.support.v4.view.ViewPager;
+import android.support.v4.widget.NestedScrollView;
 import android.support.v7.widget.RecyclerView;
 import android.text.TextUtils;
 import android.view.View;
 import android.view.ViewGroup;
 import android.view.ViewParent;
 import android.webkit.WebView;
-import android.widget.GridView;
-import android.widget.ListView;
+import android.widget.AbsListView;
 import android.widget.ScrollView;
 
 import com.andframe.R;
@@ -138,11 +138,11 @@ public class AfStatusHelper<T> implements StatusHelper<T> {
         do {
             View view = views.poll();
             if (view != null) {
-                if (view instanceof ListView
-                        || view instanceof GridView
+                if (view instanceof AbsListView
                         || view instanceof RecyclerView
                         || view instanceof ScrollView
-                        || view instanceof WebView) {
+                        || view instanceof WebView
+                        || view instanceof NestedScrollView) {
                     return view;
                 } else if (view instanceof ViewGroup) {
                     ViewGroup group = (ViewGroup) view;
