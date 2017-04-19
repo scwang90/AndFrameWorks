@@ -1,19 +1,9 @@
-<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:background="#fff"
     android:orientation="vertical" >
-    
-    <include layout="@layout/avoscloud_feedback_thread_actionbar"
-        android:layout_height="45dp"
-        android:layout_width="match_parent"
-        />
-    <RelativeLayout
-	    android:layout_width="match_parent"
-	    android:layout_height="match_parent"
-	    android:background="#fff"
-	    android:orientation="vertical" >
 
     <RelativeLayout
         android:id="@+id/avoscloud_feedback_input_wrapper"
@@ -96,6 +86,5 @@
         android:dividerHeight="0dp"
         android:transcriptMode="normal" >
     </ListView>
-	</RelativeLayout>
 
-</LinearLayout>
+</RelativeLayout>
