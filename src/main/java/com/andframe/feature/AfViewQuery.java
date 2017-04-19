@@ -1301,6 +1301,11 @@ public class AfViewQuery<T extends AfViewQuery<T>> implements ViewQuery<T> {
     }
 
     @Override
+    public T textElse(CharSequence text, CharSequence defvalue) {
+        return foreach(TextView.class, (ViewEacher<TextView>) (view) -> view.setText(TextUtils.isEmpty(text) ? defvalue : text));
+    }
+
+    @Override
     public T hint(String format, Object... args) {
         return foreach(TextView.class, (ViewEacher<TextView>) (view) -> view.setHint(String.format(format, args)));
     }

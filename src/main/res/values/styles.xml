@@ -210,6 +210,14 @@
         <!--<item name="android:background">@drawable/af_selector_background_white</item>-->
     </style>
 
+    <style name="AndFrame.CommonBar.Bar.Header">
+        <item name="android:paddingTop">0dp</item>
+        <item name="android:paddingBottom">0dp</item>
+        <item name="android:paddingLeft">@dimen/padding_common</item>
+        <item name="android:paddingRight">@dimen/padding_common</item>
+        <item name="android:background">?android:attr/selectableItemBackground</item>
+    </style>
+
     <style name="AndFrame.CommonBar.Bar.Alone">
         <item name="android:layout_marginTop">@dimen/padding_common</item>
         <item name="android:background">@drawable/af_selector_background_white</item>
