@@ -1,6 +1,8 @@
 package com.avos.avoscloud;
 
-import java.util.Set;
+import com.avos.avoscloud.ops.AVOp;
+
+import java.util.Map;
 
 /**
  * 开放权限
@@ -10,7 +12,7 @@ import java.util.Set;
 public class AvUser extends AVUser {
 
     @Override
-    public Set<String> getPendingKeys() {
-        return super.getPendingKeys();
+    public Map<String, AVOp> getOperationQueue() {
+        return super.getOperationQueue();
     }
 }

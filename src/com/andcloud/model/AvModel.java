@@ -1,6 +1,8 @@
 package com.andcloud.model;
 
-import java.util.Set;
+import com.avos.avoscloud.ops.AVOp;
+
+import java.util.Map;
 
 /**
  * 抽象接口
@@ -11,5 +13,5 @@ public interface AvModel {
     String getClassName();
     String getObjectId();
     Object get(String key);
-    Set<String> getPendingKeys();
+    Map<String, AVOp> getOperationQueue();
 }
