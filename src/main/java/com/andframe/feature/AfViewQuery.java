@@ -1532,6 +1532,12 @@ public class AfViewQuery<T extends AfViewQuery<T>> implements ViewQuery<T> {
     public T image(String url, int widthpx, int heightpx) {
         return foreach(ImageView.class, (ViewEacher<ImageView>) (view) -> view.setImageURI(Uri.parse(url)));
     }
+
+    @Override
+    public T image(String url, int resId) {
+        return image(resId).image(url);
+    }
+
     //</editor-fold>
 
     //<editor-fold desc="EditText">

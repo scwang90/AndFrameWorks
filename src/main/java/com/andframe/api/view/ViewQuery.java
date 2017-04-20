@@ -802,6 +802,13 @@ public interface ViewQuery<T extends ViewQuery<T>> {
      */
     T image(String url, int widthPx, int heightPx);
 
+    /**
+     * 设置当前选中 ImageView 的图片. 否则设置默认资源图片
+     * @param url 图片Url（不限于本地url，也可以是网络yrl，但是要自行重写本方法实现网络获取并缓存）.
+     * @param resId 默认资源图片
+     */
+    T image(String url, int resId);
+
     //</editor-fold>
 
     //<editor-fold desc="EditText">
