@@ -19,7 +19,7 @@ public class AndCloud implements LoadDeployListener{
 	public static Deploy Deploy = new Deploy(){{setRemark("default");}};
 	private static String mChannel;
 	private static String mDefchannel;
-	private static boolean mDebug;
+	public static boolean mDebug = false;
 	@SuppressLint("StaticFieldLeak")
 	private static Context mContext;
 

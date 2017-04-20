@@ -52,7 +52,7 @@ public class AvDomain<T extends AVObject> {
 		AVQuery<T> query = getQuery();
 		query.setSkip(0);
 		query.setLimit(1);
-		query.whereEqualTo(AvObject.objectId,objectId);
+		query.whereEqualTo(AvObject.Id,objectId);
 		for (T model : query.find()) {
 			return model;
 		}

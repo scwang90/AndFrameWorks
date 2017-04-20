@@ -1,7 +1,9 @@
 package com.andcloud.model;
 
+import com.andcloud.AndCloud;
+import com.avos.avoscloud.AVException;
 import com.avos.avoscloud.AVFile;
-import com.avos.avoscloud.AVUser;
+import com.avos.avoscloud.SaveCallback;
 
 import java.util.Date;
 
@@ -10,7 +12,7 @@ import java.util.Date;
  *
  * @author 树朾
  */
-public class AvUser extends AVUser {
+public class AvUser extends com.avos.avoscloud.AvUser implements AvModel {
 
     /**
      * 昵称
@@ -74,5 +76,21 @@ public class AvUser extends AVUser {
 
     public void setLastLogin(Date lastLogin) {
         put(LastLogin, lastLogin);
+    }
+
+    @Override
+    public void saveInBackground() {
+        if (AndCloud.mDebug) {
+            super.saveInBackground(new SaveCallback() {
+                @Override
+                public void done(AVException e) {
+                    if (e != null) {
+                        e.printStackTrace();
+                    }
+                }
+            });
+        } else {
+            super.saveInBackground();
+        }
     }
 }
