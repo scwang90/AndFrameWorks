@@ -1240,24 +1240,20 @@ public class AfViewQuery<T extends AfViewQuery<T>> implements ViewQuery<T> {
 
     @Override
     public T typeface(File typefaceFile) {
-        try {
-            Typeface typeface = Typeface.createFromFile(typefaceFile);
-            return typeface(typeface);
-        } catch (Exception e) {
-            e.printStackTrace();
-            return self();
+        if (typefaceFile.exists()) {
+            try {
+                Typeface typeface = Typeface.createFromFile(typefaceFile);
+                return typeface(typeface);
+            } catch (Exception e) {
+                e.printStackTrace();
+            }
         }
+        return self();
     }
 
     @Override
     public T typeface(String typefacePath) {
-        try {
-            Typeface typeface = Typeface.createFromFile(typefacePath);
-            return typeface(typeface);
-        } catch (Exception e) {
-            e.printStackTrace();
-            return self();
-        }
+        return typeface(new File(typefacePath));
     }
 
     @Override
