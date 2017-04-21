@@ -899,8 +899,9 @@ public interface ViewQuery<T extends ViewQuery<T>> {
     T removeAllViews();
     T removeAllViewsInLayout();
 
-    //</editor-fold>
+    T clipToPadding(boolean clip);
 
+    //</editor-fold>
 
     //<editor-fold desc="添加子控件">
     T addView(View... views);
