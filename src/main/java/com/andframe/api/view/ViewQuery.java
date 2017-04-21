@@ -591,6 +591,22 @@ public interface ViewQuery<T extends ViewQuery<T>> {
     T text(CharSequence text, boolean goneIfEmpty);
 
     /**
+     * 设置当前选中 TextView 的 文本（text） 为 格式化的结果值.
+     * @see String#format(Locale, String, Object...)
+     * @param format 格式化字符串
+     * @param args 格式化参数
+     */
+    T text(String format, Object... args);
+
+    /**
+     * 设置当前选中 TextView 的 文本（text） 为 text 否则如果TextUtils.isEmpty(text)使用 默认值defvalue.
+     * @see android.text.TextUtils#isEmpty(CharSequence)
+     * @param text 文本内容
+     * @param defvalue 默认值，如果 TextUtils.isEmpty(text)
+     */
+    T textElse(CharSequence text, CharSequence defvalue);
+
+    /**
      * 为当前选中 TextView 设置格式化字符串
      * 例如 当前职位 “小明”
      * 执行 textFormat("你好 %s")
@@ -598,14 +614,6 @@ public interface ViewQuery<T extends ViewQuery<T>> {
      * @param format 格式化 （只能含有一个 %s，如果没有%s，效果将和 text(format) 一样）
      */
     T textFormat(String format);
-
-    /**
-     * 设置当前选中 TextView 的 文本（text） 为 格式化的结果值.
-     * @see String#format(Locale, String, Object...)
-     * @param format 格式化字符串
-     * @param args 格式化参数
-     */
-    T text(String format, Object... args);
     /**
      * 设置当前选中 TextView 的 提示（hint） 为 格式化的结果值.
      * @see String#format(Locale, String, Object...)
@@ -793,6 +801,13 @@ public interface ViewQuery<T extends ViewQuery<T>> {
      * @param url 图片Url（不限于本地url，也可以是网络yrl，但是要自行重写本方法实现网络获取并缓存）.
      */
     T image(String url, int widthPx, int heightPx);
+
+    /**
+     * 设置当前选中 ImageView 的图片. 否则设置默认资源图片
+     * @param url 图片Url（不限于本地url，也可以是网络yrl，但是要自行重写本方法实现网络获取并缓存）.
+     * @param resId 默认资源图片
+     */
+    T image(String url, int resId);
 
     //</editor-fold>
 

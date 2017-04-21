@@ -1240,24 +1240,20 @@ public class AfViewQuery<T extends AfViewQuery<T>> implements ViewQuery<T> {
 
     @Override
     public T typeface(File typefaceFile) {
-        try {
-            Typeface typeface = Typeface.createFromFile(typefaceFile);
-            return typeface(typeface);
-        } catch (Exception e) {
-            e.printStackTrace();
-            return self();
+        if (typefaceFile.exists()) {
+            try {
+                Typeface typeface = Typeface.createFromFile(typefaceFile);
+                return typeface(typeface);
+            } catch (Exception e) {
+                e.printStackTrace();
+            }
         }
+        return self();
     }
 
     @Override
     public T typeface(String typefacePath) {
-        try {
-            Typeface typeface = Typeface.createFromFile(typefacePath);
-            return typeface(typeface);
-        } catch (Exception e) {
-            e.printStackTrace();
-            return self();
-        }
+        return typeface(new File(typefacePath));
     }
 
     @Override
@@ -1298,6 +1294,11 @@ public class AfViewQuery<T extends AfViewQuery<T>> implements ViewQuery<T> {
     @Override
     public T text(String format, Object... args) {
         return foreach(TextView.class, (ViewEacher<TextView>) (view) -> view.setText(String.format(format, args)));
+    }
+
+    @Override
+    public T textElse(CharSequence text, CharSequence defvalue) {
+        return foreach(TextView.class, (ViewEacher<TextView>) (view) -> view.setText(TextUtils.isEmpty(text) ? defvalue : text));
     }
 
     @Override
@@ -1531,6 +1532,12 @@ public class AfViewQuery<T extends AfViewQuery<T>> implements ViewQuery<T> {
     public T image(String url, int widthpx, int heightpx) {
         return foreach(ImageView.class, (ViewEacher<ImageView>) (view) -> view.setImageURI(Uri.parse(url)));
     }
+
+    @Override
+    public T image(String url, int resId) {
+        return image(resId).image(url);
+    }
+
     //</editor-fold>
 
     //<editor-fold desc="EditText">
