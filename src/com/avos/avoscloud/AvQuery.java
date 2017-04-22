@@ -1,9 +1,9 @@
 package com.avos.avoscloud;
 
-import android.support.v4.util.ArrayMap;
 import android.text.TextUtils;
 
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
@@ -14,7 +14,7 @@ import java.util.Map;
 
 public class AvQuery<T extends AVObject> extends AVQuery<T> {
 
-    public static Map<String, String> mQueryMap = new ArrayMap<>();
+    public static Map<String, String> mQueryMap = new HashMap<>();
 
     public AvQuery(String theClassName, Class<T> clazz) {
         super(theClassName, clazz);
