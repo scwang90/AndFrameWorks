@@ -5,6 +5,7 @@ import com.avos.avoscloud.AVException;
 import com.avos.avoscloud.AVObject;
 import com.avos.avoscloud.AVQuery;
 import com.avos.avoscloud.AVQuery.CachePolicy;
+import com.avos.avoscloud.AvQuery;
 
 import java.lang.reflect.GenericArrayType;
 import java.lang.reflect.ParameterizedType;
@@ -25,7 +26,7 @@ public class AvDomain<T extends AVObject> {
 	}
 
 	public static <T extends AVObject> AVQuery<T> getQuery(Class<T> clazz){
-		AVQuery<T> query = AVObject.getQuery(clazz);
+		AVQuery<T> query = new AvQuery<>(AvObject.getTableName(clazz), clazz);//;AVObject.getQuery(clazz);
 //		query.setMaxCacheAge(TimeUnit.DAYS.toMillis(1));
 //		query.setMaxCacheAge(AfTimeSpan.FromDays(1).getTotalMilliseconds());
 		query.setCachePolicy(CachePolicy.CACHE_ELSE_NETWORK);

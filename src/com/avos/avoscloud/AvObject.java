@@ -15,4 +15,9 @@ public class AvObject extends AVObject {
     public Map<String, AVOp> getOperationQueue() {
         return super.getOperationQueue();
     }
+
+
+    public static String getTableName(Class<? extends AVObject> clazz) {
+        return getSubClassName(clazz);
+    }
 }
