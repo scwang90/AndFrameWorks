@@ -33,6 +33,11 @@ public interface ItemViewerAdapter<T> extends List<T>, ListAdapter, RecyclerAdap
      * @param list 新的数据
      */
     void set(@NonNull List<T> list);
+
+    /**
+     * 添加新的数据（和 {@link List#add(Object)} 相对应）
+     */
+    void put(T model);
     //</editor-fold>
 
     /**

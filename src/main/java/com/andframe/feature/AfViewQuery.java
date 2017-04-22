@@ -1538,6 +1538,11 @@ public class AfViewQuery<T extends AfViewQuery<T>> implements ViewQuery<T> {
         return image(resId).image(url);
     }
 
+    @Override
+    public T avatar(String url) {
+        return image(url);
+    }
+
     //</editor-fold>
 
     //<editor-fold desc="EditText">

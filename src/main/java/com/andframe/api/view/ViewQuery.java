@@ -809,6 +809,12 @@ public interface ViewQuery<T extends ViewQuery<T>> {
      */
     T image(String url, int resId);
 
+    /**
+     * 设置当前选中 ImageView 的图片 为头像
+     * @param url 图片Url（不限于本地url，也可以是网络yrl，但是要自行重写本方法实现网络获取并缓存）.
+     */
+    T avatar(String url);
+
     //</editor-fold>
 
     //<editor-fold desc="EditText">

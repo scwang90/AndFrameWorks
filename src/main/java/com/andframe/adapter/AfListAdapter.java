@@ -91,6 +91,11 @@ public abstract class AfListAdapter<T> extends RecyclerBaseAdapter<ViewHolderIte
         notifyDataSetChanged();
     }
 
+    @Override
+    public void put(T model) {
+        add(0, model);
+    }
+
     /**
      * 适配器新增 单个数据刷新 接口
      */

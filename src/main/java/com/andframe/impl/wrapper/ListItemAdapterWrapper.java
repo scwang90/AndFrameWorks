@@ -179,6 +179,12 @@ public class ListItemAdapterWrapper<T> extends RecyclerBaseAdapter<ViewHolderIte
     public void set(@NonNull List<T> list) {
         wrapped.set(list);
     }
+
+    @Override
+    public void put(T model) {
+        wrapped.put(model);
+    }
+
     //</editor-fold>
 
     //<editor-fold desc="Wrapper BaseAdapter">
