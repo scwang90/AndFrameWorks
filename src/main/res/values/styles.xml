@@ -248,14 +248,15 @@
         <item name="android:layout_height">wrap_content</item>
     </style>
 
-    <style name="AndFrame.CommonBar.Value" parent="AndFrame.Label.Assistant">
+    <style name="AndFrame.CommonBar.Value" parent="AndFrame.Label.Discription">
         <item name="android:layout_width">0dp</item>
         <item name="android:layout_weight">1</item>
         <item name="android:layout_height">wrap_content</item>
+        <item name="android:textColor">@color/colorTextAssistant</item>
         <item name="android:gravity">right|end</item>
         <item name="android:paddingTop">@dimen/padding_common</item>
         <item name="android:paddingBottom">@dimen/padding_common</item>
-        <item name="android:paddingLeft">@dimen/padding_common_d</item>
+        <item name="android:paddingLeft">@dimen/padding_common_h</item>
         <item name="android:paddingRight">@dimen/padding_common_d</item>
         <item name="android:drawablePadding">@dimen/padding_common</item>
         <!--<item name="android:layout_marginEnd">@dimen/padding_common_d</item>-->
