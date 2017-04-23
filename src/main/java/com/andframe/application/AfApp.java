@@ -264,7 +264,7 @@ public abstract class AfApp extends Application {
      */
 	public boolean hasExternalStorage() {
 		return Environment.MEDIA_MOUNTED.equals(Environment.getExternalStorageState())
-				|| !Environment.isExternalStorageRemovable();
+				/*|| !Environment.isExternalStorageRemovable()*/;
 	}
 
 	@Override
