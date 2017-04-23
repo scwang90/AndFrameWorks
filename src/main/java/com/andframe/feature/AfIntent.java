@@ -22,7 +22,7 @@ import java.util.UUID;
  */
 @SuppressLint("ParcelCreator")
 @SuppressWarnings("unused")
-public class AfIntent extends Intent implements Extrater {
+public class AfIntent extends Intent implements Extrater<AfIntent> {
 
     public AfIntent() {
         super();
@@ -79,7 +79,7 @@ public class AfIntent extends Intent implements Extrater {
         return this;
     }
 
-    public void put(String _key, Object value) {
+    public AfIntent put(String _key, Object value) {
         if (value != null && putOrgin(_key, value) == null) {
             if (value.getClass().isArray()) {
                 putList(_key, (Object[]) value);
@@ -90,6 +90,7 @@ public class AfIntent extends Intent implements Extrater {
                 putExtra(_key + "[0]", AfJsoner.toJson(value));
             }
         }
+        return this;
     }
 
     public Object getOrgin(String _key, Object defaul, Class<?> clazz) {
@@ -225,20 +226,22 @@ public class AfIntent extends Intent implements Extrater {
         return null;
     }
 
-    public void putList(String _key, List<?> value) {
+    public AfIntent putList(String _key, List<?> value) {
         int length = value.size();
         putExtra(_key + "[o]", AfJsoner.toJson(length));
         for (int i = 0; i < length; i++) {
             putExtra(_key + "[" + i + "]", AfJsoner.toJson(value.get(i)));
         }
+        return this;
     }
 
-    public void putList(String _key, Object[] value) {
+    public AfIntent putList(String _key, Object[] value) {
         int length = value.length;
         putExtra(_key + "[o]", AfJsoner.toJson(length));
         for (int i = 0; i < length; i++) {
             putExtra(_key + "[" + i + "]", AfJsoner.toJson(value[i]));
         }
+        return this;
     }
 
     public <T> T get(String _key, Class<T> clazz) {

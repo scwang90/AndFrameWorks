@@ -17,7 +17,7 @@ import java.util.UUID;
  *         包装 Android Bundle 支持任意对象传输
  */
 @SuppressWarnings("unused")
-public class AfBundle implements Extrater {
+public class AfBundle implements Extrater<AfBundle> {
 
     protected Bundle mBundle;
 
@@ -33,8 +33,7 @@ public class AfBundle implements Extrater {
         return mBundle;
     }
 
-
-    public void put(String _key, Object value) {
+    public AfBundle put(String _key, Object value) {
         if (value != null && !putOrgin(_key, value)) {
             if (value.getClass().isArray()) {
                 putList(_key, (Object[]) value);
@@ -45,6 +44,7 @@ public class AfBundle implements Extrater {
                 mBundle.putString(_key + "[0]", AfJsoner.toJson(value));
             }
         }
+        return this;
     }
 
     public Object getOrgin(String _key, Object defaul, Class<?> clazz) {
@@ -183,20 +183,22 @@ public class AfBundle implements Extrater {
         return ret;
     }
 
-    public void putList(String _key, List<?> value) {
+    public AfBundle putList(String _key, List<?> value) {
         int length = value.size();
         mBundle.putString(_key + "[o]", AfJsoner.toJson(length));
         for (int i = 0; i < length; i++) {
             mBundle.putString(_key + "[" + i + "]", AfJsoner.toJson(value.get(i)));
         }
+        return this;
     }
 
-    public void putList(String _key, Object[] value) {
+    public AfBundle putList(String _key, Object[] value) {
         int length = value.length;
         mBundle.putString(_key + "[o]", AfJsoner.toJson(length));
         for (int i = 0; i < length; i++) {
             mBundle.putString(_key + "[" + i + "]", AfJsoner.toJson(value[i]));
         }
+        return this;
     }
 
     public <T> T get(String _key, Class<T> clazz) {

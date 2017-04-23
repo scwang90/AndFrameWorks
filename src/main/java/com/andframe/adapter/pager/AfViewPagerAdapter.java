@@ -1,4 +1,4 @@
-package com.andframe.adapter;
+package com.andframe.adapter.pager;
 
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentManager;

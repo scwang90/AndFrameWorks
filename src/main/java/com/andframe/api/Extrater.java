@@ -9,11 +9,11 @@ import java.util.UUID;
  * @author 树朾
  */
 @SuppressWarnings("unused")
-public interface Extrater {
+public interface Extrater<ST extends Extrater> {
 
-	 void put(String _key, Object value);
+	 ST put(String _key, Object value);
 
-	 void putList(String _key, List<? extends Object> value);
+	 ST putList(String _key, List<? extends Object> value);
 
 	 <T> T get(String _key,Class<T> clazz);
 
