@@ -4,7 +4,7 @@ import android.content.Context;
 import android.support.annotation.LayoutRes;
 
 import com.andframe.adapter.AfLayoutItemViewerAdapter;
-import com.andframe.api.view.ViewQuery;
+import com.andframe.api.viewer.ViewQuery;
 import com.andpack.api.ApItemBinder;
 
 import java.util.List;

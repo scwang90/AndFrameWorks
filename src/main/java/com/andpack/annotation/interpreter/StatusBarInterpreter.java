@@ -8,7 +8,7 @@ import android.view.View;
 import com.andframe.$;
 import com.andframe.activity.AfFragmentActivity;
 import com.andframe.api.pager.Pager;
-import com.andframe.api.view.ViewQuery;
+import com.andframe.api.viewer.ViewQuery;
 import com.andframe.util.java.AfReflecter;
 import com.andpack.annotation.statusbar.StatusBarMargin;
 import com.andpack.annotation.statusbar.idname.StatusBarMargin$;

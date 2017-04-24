@@ -7,7 +7,7 @@ import android.view.View;
 
 import com.andframe.api.pager.status.RefreshLayouter;
 import com.andframe.feature.AfBundle;
-import com.andframe.feature.AfView;
+import com.andframe.impl.viewer.AfView;
 import com.andframe.fragment.AfStatusFragment;
 import com.andpack.activity.ApFragmentActivity;
 import com.andpack.api.ApPager;

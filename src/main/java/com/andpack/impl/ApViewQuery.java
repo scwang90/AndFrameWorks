@@ -2,8 +2,8 @@ package com.andpack.impl;
 
 import android.widget.ImageView;
 
-import com.andframe.api.view.Viewer;
-import com.andframe.feature.AfViewQuery;
+import com.andframe.api.viewer.Viewer;
+import com.andframe.impl.viewer.AfViewQuery;
 import com.nostra13.universalimageloader.core.ImageLoader;
 import com.nostra13.universalimageloader.core.assist.ImageSize;
 

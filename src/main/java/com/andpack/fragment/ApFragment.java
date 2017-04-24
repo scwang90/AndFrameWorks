@@ -5,7 +5,7 @@ import android.support.v4.app.Fragment;
 
 import com.andframe.annotation.view.BindViewCreated;
 import com.andframe.feature.AfBundle;
-import com.andframe.feature.AfView;
+import com.andframe.impl.viewer.AfView;
 import com.andframe.fragment.AfTabFragment;
 import com.andpack.activity.ApFragmentActivity;
 import com.andpack.api.ApPager;

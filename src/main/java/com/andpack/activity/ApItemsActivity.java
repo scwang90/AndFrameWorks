@@ -11,7 +11,7 @@ import com.andframe.activity.AfItemsActivity;
 import com.andframe.api.adapter.ItemViewer;
 import com.andframe.api.adapter.ItemViewerAdapter;
 import com.andframe.api.pager.status.RefreshLayouter;
-import com.andframe.api.view.ViewQuery;
+import com.andframe.api.viewer.ViewQuery;
 import com.andframe.exception.AfToastException;
 import com.andframe.feature.AfIntent;
 import com.andpack.api.ApItemsPager;
