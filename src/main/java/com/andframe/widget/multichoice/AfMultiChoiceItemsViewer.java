@@ -10,7 +10,7 @@ import android.widget.ListView;
 import android.widget.WrapperListAdapter;
 
 import com.andframe.api.pager.items.OnScrollToBottomListener;
-import com.andframe.api.view.ItemsViewer;
+import com.andframe.api.viewer.ItemsViewer;
 import com.andframe.module.AfSelectorBottombar;
 import com.andframe.module.AfSelectorTitlebar;
 

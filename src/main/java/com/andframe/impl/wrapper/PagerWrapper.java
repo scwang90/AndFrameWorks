@@ -9,7 +9,7 @@ import android.view.View;
 
 import com.andframe.api.pager.Pager;
 import com.andframe.api.task.Task;
-import com.andframe.api.view.Viewer;
+import com.andframe.api.viewer.Viewer;
 import com.andframe.task.AfData2Task;
 import com.andframe.task.AfData3Task;
 import com.andframe.task.AfDataTask;

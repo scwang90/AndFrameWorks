@@ -2,9 +2,9 @@ package com.andframe.impl.helper;
 
 import android.view.View;
 
-import com.andframe.api.view.ViewQuery;
-import com.andframe.api.view.ViewQueryHelper;
-import com.andframe.api.view.Viewer;
+import com.andframe.api.viewer.ViewQuery;
+import com.andframe.api.viewer.ViewQueryHelper;
+import com.andframe.api.viewer.Viewer;
 import com.andframe.application.AfApp;
 
 import java.lang.reflect.InvocationHandler;

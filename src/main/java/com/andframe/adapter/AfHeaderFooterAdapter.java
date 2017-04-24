@@ -10,7 +10,7 @@ import com.andframe.adapter.recycler.ViewHolderItem;
 import com.andframe.api.adapter.HeaderFooterAdapter;
 import com.andframe.api.adapter.ItemViewer;
 import com.andframe.api.adapter.ItemViewerAdapter;
-import com.andframe.api.view.Viewer;
+import com.andframe.api.viewer.Viewer;
 import com.andframe.exception.AfExceptionHandler;
 import com.andframe.impl.wrapper.ListItemAdapterWrapper;
 

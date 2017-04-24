@@ -3,7 +3,7 @@ package com.andframe.fragment;
 import android.support.v4.app.Fragment;
 
 import com.andframe.feature.AfBundle;
-import com.andframe.feature.AfView;
+import com.andframe.impl.viewer.AfView;
 
 import java.util.ArrayList;
 import java.util.List;

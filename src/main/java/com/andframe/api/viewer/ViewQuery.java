@@ -1,4 +1,4 @@
-package com.andframe.api.view;
+package com.andframe.api.viewer;
 
 import android.content.Context;
 import android.content.res.ColorStateList;
@@ -25,6 +25,8 @@ import android.widget.Adapter;
 import android.widget.AdapterView;
 import android.widget.EditText;
 import android.widget.ExpandableListAdapter;
+
+import com.andframe.impl.viewer.AfViewQuery;
 
 import java.io.File;
 import java.util.Date;
@@ -787,7 +789,7 @@ public interface ViewQuery<T extends ViewQuery<T>> {
     /**
      * 设置当前选中 ImageView 的图片.
      * 要自行重写本方法实现网络获取并缓存
-     * 继承 {@link com.andframe.feature.AfViewQuery} 重写本方法
+     * 继承 {@link AfViewQuery} 重写本方法
      * 并在 {@link com.andframe.application.AfApp#newViewQuery(Viewer)} 中返回新的子类
      * @param url 图片Url（不限于本地url，也可以是网络url，但是需要重写实现）.
      */
@@ -796,7 +798,7 @@ public interface ViewQuery<T extends ViewQuery<T>> {
     /**
      * 设置当前选中 ImageView 的图片. 并制定下载图片的尺寸（需要自行重写方法实现，仅作为扩展接口使用）
      * 要自行重写本方法实现网络获取并缓存
-     * 继承 {@link com.andframe.feature.AfViewQuery} 重写本方法
+     * 继承 {@link AfViewQuery} 重写本方法
      * 并在 {@link com.andframe.application.AfApp#newViewQuery(Viewer)} 中返回新的子类
      * @param url 图片Url（不限于本地url，也可以是网络yrl，但是要自行重写本方法实现网络获取并缓存）.
      */

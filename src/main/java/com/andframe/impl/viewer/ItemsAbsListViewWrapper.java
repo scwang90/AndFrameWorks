@@ -6,7 +6,7 @@ import android.widget.AdapterView;
 import android.widget.ListAdapter;
 
 import com.andframe.api.pager.items.OnScrollToBottomListener;
-import com.andframe.api.view.ItemsViewer;
+import com.andframe.api.viewer.ItemsViewer;
 
 /**
  * ListView

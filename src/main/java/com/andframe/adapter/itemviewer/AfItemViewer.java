@@ -9,10 +9,10 @@ import com.andframe.annotation.interpreter.Injecter;
 import com.andframe.annotation.interpreter.LayoutBinder;
 import com.andframe.annotation.interpreter.ViewBinder;
 import com.andframe.api.adapter.ItemViewer;
-import com.andframe.api.view.ViewQuery;
-import com.andframe.api.view.ViewQueryHelper;
-import com.andframe.api.view.Viewer;
-import com.andframe.feature.AfView;
+import com.andframe.api.viewer.ViewQuery;
+import com.andframe.api.viewer.ViewQueryHelper;
+import com.andframe.api.viewer.Viewer;
+import com.andframe.impl.viewer.AfView;
 import com.andframe.fragment.AfFragment;
 import com.andframe.impl.helper.AfViewQueryHelper;
 

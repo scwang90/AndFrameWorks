@@ -4,7 +4,7 @@ import com.andframe.api.adapter.HeaderFooterAdapter;
 import com.andframe.api.pager.items.MoreFooter;
 import com.andframe.api.pager.items.MoreLayouter;
 import com.andframe.api.pager.items.OnMoreListener;
-import com.andframe.api.view.ItemsViewer;
+import com.andframe.api.viewer.ItemsViewer;
 
 /**
  * 通过 MoreFooter 实现的 加载更多 Layouter

@@ -1,6 +1,6 @@
 <resources xmlns:tools="http://schemas.android.com/tools">
 
-    <style name="AppThemeBase" parent="Theme.AppCompat.DayNight.NoActionBar">
+    <style name="AndFrameBase" parent="Theme.AppCompat.DayNight.NoActionBar">
         <!-- Customize your theme here. -->
         <item name="colorPrimary">@color/colorPrimary</item>
         <item name="colorPrimaryDark">@color/colorPrimaryDark</item>
@@ -9,7 +9,7 @@
         <item name="android:windowBackground">@color/colorBackgroudDark</item>
     </style>
 
-    <style name="AppTheme" parent="AppThemeBase">
+    <style name="AppTheme" parent="AndFrameBase">
         <!-- Customize your theme here. -->
     </style>
 
@@ -263,6 +263,27 @@
         <item name="android:layout_gravity">center_vertical|end</item>
         <item name="android:layout_centerVertical">true</item>
         <item name="android:layout_alignParentRight">true</item>
+    </style>
+    <style name="AndFrame.Layout">
+        <item name="android:layout_width">match_parent</item>
+        <item name="android:layout_height">wrap_content</item>
+        <item name="android:paddingTop">@dimen/padding_common_v</item>
+        <item name="android:paddingBottom">@dimen/padding_common_v</item>
+        <item name="android:paddingLeft">@dimen/padding_common_h</item>
+        <item name="android:paddingRight">@dimen/padding_common_h</item>
+    </style>
+
+    <style name="AndFrame.Layout.Clickable">
+        <item name="android:background">?android:attr/selectableItemBackground</item>
+    </style>
+
+    <style name="AndFrame.Layout.Wrap">
+        <item name="android:layout_width">wrap_content</item>
+        <item name="android:layout_height">wrap_content</item>
+    </style>
+    <style name="AndFrame.Layout.Match">
+        <item name="android:layout_width">match_parent</item>
+        <item name="android:layout_height">match_parent</item>
     </style>
 
 </resources>

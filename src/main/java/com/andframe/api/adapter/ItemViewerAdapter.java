@@ -11,7 +11,7 @@ import com.andframe.adapter.recycler.ViewHolderItem;
 import java.util.List;
 
 /**
- * 可以使用 @{@link com.andframe.api.view.ItemsViewer} 填充 列表控件的 适配器接口
+ * 可以使用 @{@link com.andframe.api.viewer.ItemsViewer} 填充 列表控件的 适配器接口
  * <br>使用提醒
  * <br>适配器对@{@link List}中的集合操作都会自动触发 @notifyDataSetChanged
  * <br>如果需要连续进行集合操作请先使用 @getList 用返回的List进行操作，再手动触发  @notifyDataSetChanged

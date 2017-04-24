@@ -7,7 +7,7 @@ import android.widget.AdapterView;
 import android.widget.ListAdapter;
 import android.widget.ListView;
 
-import com.andframe.api.view.ItemsViewer;
+import com.andframe.api.viewer.ItemsViewer;
 import com.andframe.widget.multichoice.AfMultiChoiceItemsViewer;
 import com.andframe.widget.multichoice.AfMultiChoiceAdapter;
 

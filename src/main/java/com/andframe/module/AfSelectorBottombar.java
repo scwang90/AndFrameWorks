@@ -9,7 +9,7 @@ import android.view.View.OnClickListener;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
 
-import com.andframe.api.view.Viewer;
+import com.andframe.api.viewer.Viewer;
 import com.andframe.widget.multichoice.AfMultiChoiceAdapter;
 import com.andframe.widget.multichoice.AfMultiChoiceAdapter.GenericityListener;
 

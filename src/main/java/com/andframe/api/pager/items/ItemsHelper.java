@@ -14,8 +14,8 @@ import com.andframe.api.adapter.HeaderFooterAdapter;
 import com.andframe.api.adapter.ItemViewerAdapter;
 import com.andframe.api.pager.status.StatusHelper;
 import com.andframe.api.task.TaskWithPaging;
-import com.andframe.api.view.ItemsViewer;
-import com.andframe.api.view.ViewQueryHelper;
+import com.andframe.api.viewer.ItemsViewer;
+import com.andframe.api.viewer.ViewQueryHelper;
 
 import java.util.Date;
 import java.util.List;
@@ -92,7 +92,7 @@ public interface ItemsHelper<T> extends StatusHelper<List<T>>, OnItemClickListen
     /**
      * 数据改变
      */
-    void onDateChenged();
+    void onDataChenged();
 
     //</editor-fold>
 

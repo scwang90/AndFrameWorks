@@ -6,7 +6,7 @@ import android.view.ViewGroup;
 
 import com.andframe.api.adapter.ItemViewer;
 import com.andframe.api.pager.items.MoreFooter;
-import com.andframe.api.view.Viewer;
+import com.andframe.api.viewer.Viewer;
 
 /**
  *

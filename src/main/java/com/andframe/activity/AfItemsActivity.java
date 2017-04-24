@@ -18,8 +18,8 @@ import com.andframe.api.pager.items.MoreFooter;
 import com.andframe.api.pager.status.StatusHelper;
 import com.andframe.api.task.Task;
 import com.andframe.api.task.TaskWithPaging;
-import com.andframe.api.view.ItemsViewer;
-import com.andframe.api.view.ViewQuery;
+import com.andframe.api.viewer.ItemsViewer;
+import com.andframe.api.viewer.ViewQuery;
 import com.andframe.impl.helper.AfItemsPagerHelper;
 
 import java.util.Date;
@@ -120,8 +120,8 @@ public abstract class AfItemsActivity<T> extends AfStatusActivity<List<T>> imple
     }
 
     @Override
-    public void onDateChenged() {
-        mItemsHelper.onDateChenged();
+    public void onDataChenged() {
+        mItemsHelper.onDataChenged();
     }
 
     //</editor-fold>

@@ -6,7 +6,7 @@ import android.view.View.OnClickListener;
 import android.view.ViewGroup;
 import android.widget.CompoundButton;
 
-import com.andframe.api.view.Viewer;
+import com.andframe.api.viewer.Viewer;
 
 @SuppressWarnings("unused")
 public class AfLayoutCheckBox extends AfViewModuler implements OnClickListener{

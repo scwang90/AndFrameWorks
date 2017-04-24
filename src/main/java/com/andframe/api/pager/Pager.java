@@ -8,7 +8,7 @@ import android.support.v4.app.Fragment;
 import com.andframe.api.Constanter;
 import com.andframe.api.Toaster;
 import com.andframe.api.task.Task;
-import com.andframe.api.view.Viewer;
+import com.andframe.api.viewer.Viewer;
 import com.andframe.task.AfData2Task;
 import com.andframe.task.AfData3Task;
 import com.andframe.task.AfDataTask;

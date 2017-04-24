@@ -1,4 +1,4 @@
-package com.andframe.feature;
+package com.andframe.impl.viewer;
 
 import android.content.Context;
 import android.content.res.ColorStateList;
@@ -48,8 +48,8 @@ import android.widget.RelativeLayout;
 import android.widget.TextView;
 
 import com.andframe.adapter.AfLayoutItemViewerAdapter;
-import com.andframe.api.view.ViewQuery;
-import com.andframe.api.view.Viewer;
+import com.andframe.api.viewer.ViewQuery;
+import com.andframe.api.viewer.Viewer;
 import com.andframe.listener.SafeListener;
 import com.andframe.util.android.AfMeasure;
 import com.andframe.util.java.AfDateFormat;

@@ -5,7 +5,7 @@ import android.content.Context;
 import android.support.v4.app.Fragment;
 import android.view.View;
 
-import com.andframe.api.view.Viewer;
+import com.andframe.api.viewer.Viewer;
 
 /**
  * Viewer 封装实现

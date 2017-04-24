@@ -8,7 +8,7 @@ import android.view.View;
 import android.view.View.OnClickListener;
 import android.widget.TextView;
 
-import com.andframe.api.view.Viewer;
+import com.andframe.api.viewer.Viewer;
 import com.andframe.widget.multichoice.AfMultiChoiceAdapter;
 import com.andframe.widget.multichoice.AfMultiChoiceAdapter.GenericityListener;
 

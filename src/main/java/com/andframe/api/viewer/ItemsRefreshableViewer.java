@@ -1,4 +1,4 @@
-package com.andframe.api.view;
+package com.andframe.api.viewer;
 
 import android.view.ViewGroup;
 

@@ -4,8 +4,8 @@ import android.annotation.SuppressLint;
 import android.view.View;
 import android.widget.FrameLayout;
 
-import com.andframe.api.view.ViewModuler;
-import com.andframe.api.view.Viewer;
+import com.andframe.api.viewer.ViewModuler;
+import com.andframe.api.viewer.Viewer;
 
 import java.util.ArrayList;
 import java.util.List;

@@ -1,11 +1,10 @@
-package com.andframe.feature;
+package com.andframe.impl.viewer;
 
 import android.view.View;
 import android.view.ViewGroup;
 import android.view.ViewParent;
 
-import com.andframe.api.view.Viewer;
-import com.andframe.impl.viewer.ViewerWarpper;
+import com.andframe.api.viewer.Viewer;
 
 /**
  * AfView 框架视图类

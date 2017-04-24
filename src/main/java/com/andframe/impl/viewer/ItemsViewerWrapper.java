@@ -10,8 +10,8 @@ import android.widget.ListAdapter;
 import android.widget.ListView;
 
 import com.andframe.api.pager.items.OnScrollToBottomListener;
-import com.andframe.api.view.ItemsViewer;
-import com.andframe.api.view.Viewer;
+import com.andframe.api.viewer.ItemsViewer;
+import com.andframe.api.viewer.Viewer;
 
 import java.util.Collections;
 import java.util.Queue;

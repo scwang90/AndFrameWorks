@@ -4,7 +4,7 @@ import android.view.View;
 import android.widget.TextView;
 
 import com.andframe.R;
-import com.andframe.api.view.Viewer;
+import com.andframe.api.viewer.Viewer;
 
 public class AfSelectorTitlebarImpl extends AfSelectorTitlebar {
 

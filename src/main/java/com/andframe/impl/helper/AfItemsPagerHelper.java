@@ -37,8 +37,8 @@ import com.andframe.api.pager.items.MoreFooter;
 import com.andframe.api.pager.items.MoreLayouter;
 import com.andframe.api.task.Task;
 import com.andframe.api.task.TaskWithPaging;
-import com.andframe.api.view.ViewQuery;
-import com.andframe.api.view.ViewQueryHelper;
+import com.andframe.api.viewer.ViewQuery;
+import com.andframe.api.viewer.ViewQueryHelper;
 import com.andframe.application.AfApp;
 import com.andframe.caches.AfPrivateCaches;
 import com.andframe.exception.AfExceptionHandler;
@@ -68,7 +68,7 @@ public class AfItemsPagerHelper<T> extends AfStatusHelper<List<T>> implements It
 
     protected MoreLayouter mMoreLayouter;
     protected MoreFooter mMoreFooter;
-    protected com.andframe.api.view.ItemsViewer mItemsViewer;
+    protected com.andframe.api.viewer.ItemsViewer mItemsViewer;
     protected AfHeaderFooterAdapter<T> mAdapter;
 
     protected ViewQueryHelper $$ ;
@@ -232,7 +232,7 @@ public class AfItemsPagerHelper<T> extends AfStatusHelper<List<T>> implements It
 
     //<editor-fold desc="适配器">
     @Override
-    public void bindAdapter(@NonNull com.andframe.api.view.ItemsViewer listView, @NonNull ListAdapter adapter) {
+    public void bindAdapter(@NonNull com.andframe.api.viewer.ItemsViewer listView, @NonNull ListAdapter adapter) {
         listView.setAdapter(adapter);
     }
 
@@ -249,7 +249,7 @@ public class AfItemsPagerHelper<T> extends AfStatusHelper<List<T>> implements It
             mAdapter.registerDataSetObserver(new DataSetObserver() {
                 @Override
                 public void onChanged() {
-                    mItemsPager.onDateChenged();
+                    mItemsPager.onDataChenged();
                 }
             });
         } else {
@@ -277,7 +277,7 @@ public class AfItemsPagerHelper<T> extends AfStatusHelper<List<T>> implements It
     }
 
     @Override
-    public void onDateChenged() {
+    public void onDataChenged() {
         if (mItemsPager.isEmpty(mAdapter.getList())) {
             mItemsPager.showEmpty();
         } else {
@@ -543,7 +543,7 @@ public class AfItemsPagerHelper<T> extends AfStatusHelper<List<T>> implements It
     //<editor-fold desc="组件加载">
     @NonNull
     @Override
-    public com.andframe.api.view.ItemsViewer findItemsViewer(View contentView) {
+    public com.andframe.api.viewer.ItemsViewer findItemsViewer(View contentView) {
         View itemView;
         Class<?> stop = mPager instanceof Activity ? AfItemsActivity.class : AfItemsFragment.class;
         ItemsViewer viewer = AfReflecter.getAnnotation(mPager.getClass(), stop, ItemsViewer.class);
