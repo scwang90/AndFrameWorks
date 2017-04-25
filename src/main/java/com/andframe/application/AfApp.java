@@ -24,14 +24,14 @@ import com.andframe.api.pager.items.MoreFooter;
 import com.andframe.api.pager.status.RefreshLayouter;
 import com.andframe.api.pager.status.StatusLayouter;
 import com.andframe.api.task.TaskExecutor;
-import com.andframe.api.viewer.ViewQuery;
-import com.andframe.api.viewer.Viewer;
+import com.andframe.api.view.ViewQuery;
+import com.andframe.api.view.Viewer;
 import com.andframe.caches.AfJsonCache;
 import com.andframe.exception.AfException;
 import com.andframe.exception.AfExceptionHandler;
 import com.andframe.exception.AfToastException;
 import com.andframe.feature.AfDialogBuilder;
-import com.andframe.impl.viewer.AfViewQuery;
+import com.andframe.feature.AfViewQuery;
 import com.andframe.impl.AfToaster;
 import com.andframe.impl.pager.items.DefaultMoreFooter;
 import com.andframe.impl.pager.status.DefaultRefreshLayouter;
@@ -216,31 +216,31 @@ public abstract class AfApp extends Application {
 
 	//<editor-fold desc="目录分类">
 	/**
-	 * 获取app工作目录
+	 * 获取App工作目录
 	 */
-	public synchronized file getprivatepath(string type) {
-		file file = new file(getcachedir(), type);
+	public synchronized File getPrivatePath(String type) {
+		File file = new File(getCacheDir(), type);
 		if (!file.exists() && !file.mkdirs()) {
-			if (isdebug()) {
-				new ioexception("获取私有路径失败").printstacktrace();
+			if (isDebug()) {
+				new IOException("获取私有路径失败").printStackTrace();
 			}
 		}
 		return file;
 	}
 
 	/**
-	 * 获取app工作目录
+	 * 获取App工作目录
 	 */
-	public synchronized file getworkspacepath(string type) {
-		file workspace;
-		if (hasexternalstorage()) {
-			string sdcard = environment.getexternalstoragedirectory().getpath();
-			workspace = new file(sdcard + "/" + getappname() + "/" + type);
+	public synchronized File getWorkspacePath(String type) {
+		File workspace;
+		if (hasExternalStorage()) {
+			String sdcard = Environment.getExternalStorageDirectory().getPath();
+			workspace = new File(sdcard + "/" + getAppName() + "/" + type);
 			if (!workspace.exists() && !workspace.mkdirs()) {
-				return getprivatepath(type);
+				return getPrivatePath(type);
 			}
 		} else {
-			return getprivatepath(type);
+			return getPrivatePath(type);
 		}
 		return workspace;
 	}
@@ -248,12 +248,12 @@ public abstract class AfApp extends Application {
 	/**
 	 * 获取caches目录
 	 */
-	public synchronized file getcachespath(string type) {
-		file caches = getworkspacepath("caches");
-		caches = new file(caches, type);
+	public synchronized File getCachesPath(String type) {
+		File caches = getWorkspacePath("caches");
+		caches = new File(caches, type);
 		if (!caches.exists() && !caches.mkdirs()) {
-			if (isdebug()) {
-				new ioexception("获取缓存路径失败").printstacktrace();
+			if (isDebug()) {
+				new IOException("获取缓存路径失败").printStackTrace();
 			}
 		}
 		return caches;
@@ -262,44 +262,44 @@ public abstract class AfApp extends Application {
 	/**
 	 * 是否存在扩展卡
      */
-	public boolean hasexternalstorage() {
-		return environment.media_mounted.equals(environment.getexternalstoragestate())
-				/*|| !environment.isexternalstorageremovable()*/;
+	public boolean hasExternalStorage() {
+		return Environment.MEDIA_MOUNTED.equals(Environment.getExternalStorageState())
+				/*|| !Environment.isExternalStorageRemovable()*/;
 	}
 
-	@override
-	public file getexternalcachedir() {
-		file path;
-		if (hasexternalstorage()) {
-			path = super.getexternalcachedir();
+	@Override
+	public File getExternalCacheDir() {
+		File path;
+		if (hasExternalStorage()) {
+			path = super.getExternalCacheDir();
 		} else {
-			path = super.getcachedir();
+			path = super.getCacheDir();
 		}
-		if (path != null && !path.exists() && !path.mkdirs() && isdebug()) {
-			log.w(afapp.class.getname(), "getexternalcachedir.mkdirs fail");
+		if (path != null && !path.exists() && !path.mkdirs() && isDebug()) {
+			Log.w(AfApp.class.getName(), "getExternalCacheDir.mkdirs fail");
 		} else if (path == null) {
-			log.w(afapp.class.getname(), "path = null");
+			Log.w(AfApp.class.getName(), "path = null");
 		}
 		return path;
 	}
 
-	@suppresswarnings("unused")
-	public file getexternalcachedir(string type) {
-		return new file(getexternalcachedir(), type);
+	@SuppressWarnings("unused")
+	public File getExternalCacheDir(String type) {
+		return new File(getExternalCacheDir(), type);
 	}
 
-	@override
-	public file getexternalfilesdir(string type) {
-		file path;
-		if (hasexternalstorage()) {
-			path = super.getexternalfilesdir(type);
+	@Override
+	public File getExternalFilesDir(String type) {
+		File path;
+		if (hasExternalStorage()) {
+			path = super.getExternalFilesDir(type);
 		} else {
-			path = new file(super.getcachedir(), type);
+			path = new File(super.getCacheDir(), type);
 		}
-		if (path != null && !path.exists() && !path.mkdirs() && isdebug()) {
-			log.w(afapp.class.getname(), "getexternalcachedir.mkdirs fail");
+		if (path != null && !path.exists() && !path.mkdirs() && isDebug()) {
+			Log.w(AfApp.class.getName(), "getExternalCacheDir.mkdirs fail");
 		} else if (path == null) {
-			log.w(afapp.class.getname(), "path = null");
+			Log.w(AfApp.class.getName(), "path = null");
 		}
 		return path;
 	}
