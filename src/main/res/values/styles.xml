@@ -1,6 +1,6 @@
 <resources xmlns:tools="http://schemas.android.com/tools">
 
-    <style name="AndFrameBase" parent="Theme.AppCompat.DayNight.NoActionBar">
+    <style name="AppThemeBase" parent="Theme.AppCompat.DayNight.NoActionBar">
         <!-- Customize your theme here. -->
         <item name="colorPrimary">@color/colorPrimary</item>
         <item name="colorPrimaryDark">@color/colorPrimaryDark</item>
@@ -9,7 +9,7 @@
         <item name="android:windowBackground">@color/colorBackgroudDark</item>
     </style>
 
-    <style name="AppTheme" parent="AndFrameBase">
+    <style name="AppTheme" parent="AppThemeBase">
         <!-- Customize your theme here. -->
     </style>
 
