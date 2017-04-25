@@ -11,8 +11,8 @@
     <string name="refresh_footer_loading">正在加载</string>
 
     <string name="items_refresh_fail">刷新失败</string>
-    <string name="items_loadmore_fail">获取更多失败！</string>
-    <string name="items_loadmore_all">数据全部加载完毕！</string>
+    <string name="items_loadmore_fail">获取更多失败</string>
+    <string name="items_loadmore_all">数据全部加载完毕</string>
 
     <string name="status_load_fail">加载失败</string>
     <string name="status_loading">正在加载…</string>

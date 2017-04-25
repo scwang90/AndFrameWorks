@@ -1,6 +1,7 @@
 package com.andframe.fragment;
 
 import android.content.Context;
+import android.support.annotation.CallSuper;
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
 import android.view.View;
@@ -81,6 +82,10 @@ public abstract class AfItemsFragment<T> extends AfStatusFragment<List<T>> imple
     //</editor-fold>
 
     //<editor-fold desc="子类实现">
+    @Override@CallSuper
+    public View findContentView() {
+        return super.findContentView();
+    }
     /**
      *
      * 获取列表控件

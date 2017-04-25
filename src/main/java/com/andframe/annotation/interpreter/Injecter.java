@@ -498,7 +498,11 @@ public class Injecter {
                             }
                         };
                     } else {
-                        intent = new AfIntent(fragment.getActivity().getIntent());
+                        if (context instanceof Activity && fragment.getActivity() == null) {
+                            intent = new AfIntent(((Activity)context).getIntent());
+                        } else {
+                            intent = new AfIntent(fragment.getActivity().getIntent());
+                        }
                     }
                 }
                 Object value;
