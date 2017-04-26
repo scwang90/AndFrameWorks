@@ -45,15 +45,62 @@ import java.util.regex.Pattern;
 @SuppressWarnings("unused")
 public class ApCommonBarBinder {
 
+    //<editor-fold desc="接口定义">
     public interface ClickHook {
         /**
          * @return true 将会拦截点击事件 false 不会拦截
          */
         boolean onBinderClick(Binder binder);
     }
+    public interface SelectBind {
+        void text(Binder binder, String text, int which);
+    }
+
+    public interface MultiChoiceBind {
+        void text(Binder binder, String text, int count, boolean[] checkedItems);
+    }
+
+    public interface TextBind {
+        void text(Binder binder, String text);
+    }
+
+    public interface DateBind {
+        void text(Binder binder, Date date);
+    }
+
+    public interface CheckBind {
+        void check(Binder binder, boolean isChecked);
+    }
+
+    public interface SeekBind {
+        void seek(Binder binder, int value, boolean fromUser);
+    }
     public interface InputBind {
         void onBind(String value);
     }
+    public interface ImageBind {
+        /**
+         * @param binder Binder 对象
+         * @param path 图片路径
+         * @return true 已经显示图片（Binder 将不会自动显示） false （Binder 将会自动显示）
+         */
+        boolean image(Binder binder, String path);
+    }
+
+    public interface TextVerify {
+        void verify(String text) throws VerifyException;
+    }
+
+    public interface MultiChoiceVerify {
+        void verify(int count, boolean[] checkedItems) throws VerifyException;
+    }
+
+    public static class VerifyException extends Exception {
+        public VerifyException(String message) {
+            super(message);
+        }
+    }
+    //</editor-fold>
 
     private Pager pager;
     private String hintPrefix = "";
@@ -121,52 +168,6 @@ public class ApCommonBarBinder {
         return new ImageBinder(idimage);
     }
 
-    public interface SelectLambda {
-        void text(Binder binder, String text, int which);
-    }
-
-    public interface MultiChoiceLambda {
-        void text(Binder binder, String text, int count, boolean[] checkedItems);
-    }
-
-    public interface TextLambda {
-        void text(Binder binder, String text);
-    }
-
-    public interface DateLambda {
-        void text(Binder binder, Date date);
-    }
-
-    public interface CheckLambda {
-        void check(Binder binder, boolean isChecked);
-    }
-
-    public interface SeekLambda {
-        void seek(Binder binder, int value, boolean fromUser);
-    }
-
-    public interface ImageLambda {
-        /**
-         * @param binder Binder 对象
-         * @param path 图片路径
-         * @return true 已经显示图片（Binder 将不会自动显示） false （Binder 将会自动显示）
-         */
-        boolean image(Binder binder, String path);
-    }
-
-    public interface TextVerify {
-        void verify(String text) throws VerifyException;
-    }
-
-    public interface MultiChoiceVerify {
-        void verify(int count, boolean[] checkedItems) throws VerifyException;
-    }
-
-    public static class VerifyException extends Exception {
-        public VerifyException(String message) {
-            super(message);
-        }
-    }
 
     public abstract class Binder<T extends Binder, LASTVAL> implements View.OnClickListener{
         public int idvalue;
@@ -269,7 +270,7 @@ public class ApCommonBarBinder {
 
     public class SelectBinder extends Binder<SelectBinder, Void> implements DialogInterface.OnClickListener {
 
-        private SelectLambda lambda;
+        private SelectBind bind;
         private final CharSequence[] items;
 
         SelectBinder(int idvalue, CharSequence[] items) {
@@ -295,13 +296,13 @@ public class ApCommonBarBinder {
             if (key != null && dialog != null) {
                 caches.put(key, which);
             }
-            if (lambda != null) {
-                lambda.text(this, items[which].toString(), which);
+            if (bind != null) {
+                bind.text(this, items[which].toString(), which);
             }
         }
 
-        public SelectBinder lambda(SelectLambda lambda) {
-            this.lambda = lambda;
+        public SelectBinder bind(SelectBind bind) {
+            this.bind = bind;
             return self();
         }
 
@@ -326,7 +327,7 @@ public class ApCommonBarBinder {
 
         private boolean[] checkedItems;
         private CharSequence[] items;
-        private MultiChoiceLambda lambda;
+        private MultiChoiceBind bind;
         private MultiChoiceVerify verify;
 
         MultiChoiceBinder(int idvalue, CharSequence[] items) {
@@ -372,8 +373,8 @@ public class ApCommonBarBinder {
             return self();
         }
 
-        public MultiChoiceBinder lambda(MultiChoiceLambda lambda) {
-            this.lambda = lambda;
+        public MultiChoiceBinder bind(MultiChoiceBind bind) {
+            this.bind = bind;
             return self();
         }
 
@@ -406,8 +407,8 @@ public class ApCommonBarBinder {
                 }
                 caches.putList(key, list);
             }
-            if (lambda != null) {
-                lambda.text(this, builder.toString(), count, checkedItems);
+            if (bind != null) {
+                bind.text(this, builder.toString(), count, checkedItems);
             }
         }
     }
@@ -466,7 +467,7 @@ public class ApCommonBarBinder {
     public class TextBinder extends Binder<TextBinder, String> implements DialogBuilder.InputTextListener {
 
         private int type = InputType.TYPE_CLASS_TEXT;
-        private TextLambda lambda;
+        private TextBind bind;
         private TextVerify verify;
         private String valueSuffix = "";
 
@@ -509,8 +510,8 @@ public class ApCommonBarBinder {
             if (key != null && input != null) {
                 caches.put(key, value);
             }
-            if (lambda != null) {
-                lambda.text(this, value);
+            if (bind != null) {
+                bind.text(this, value);
             }
             return true;
         }
@@ -525,8 +526,8 @@ public class ApCommonBarBinder {
             return self();
         }
 
-        public TextBinder lambda(TextLambda lambda) {
-            this.lambda = lambda;
+        public TextBinder bind(TextBind bind) {
+            this.bind = bind;
             return self();
         }
 
@@ -626,7 +627,7 @@ public class ApCommonBarBinder {
 
     public class DateBinder extends Binder<DateBinder, Date> implements DatePickerDialog.OnDateSetListener {
 
-        private DateLambda lambda;
+        private DateBind bind;
         private DateFormat format = AfDateFormat.DATE;
 
         DateBinder(int idvalue) {
@@ -663,20 +664,20 @@ public class ApCommonBarBinder {
         public void onDateSet(DatePicker view, int year, int month, int day) {
             lastval = AfDateFormat.parser(year, month, day);
             $(idvalue).text(format.format(lastval));
-            if (lambda != null) {
-                lambda.text(this, lastval);
+            if (bind != null) {
+                bind.text(this, lastval);
             }
         }
 
-        public DateBinder bind(DateLambda lambda) {
-            this.lambda = lambda;
+        public DateBinder bind(DateBind bind) {
+            this.bind = bind;
             return self();
         }
     }
 
     public class CheckBinder extends Binder<CheckBinder, Boolean> {
 
-        private CheckLambda lambda;
+        private CheckBind bind;
 
         CheckBinder(int idvalue) {
             super(idvalue);
@@ -694,8 +695,8 @@ public class ApCommonBarBinder {
         public CheckBinder value(boolean isChecked) {
             lastval = isChecked;
             $(idvalue).checked(isChecked);
-            if (lambda != null) {
-                lambda.check(this, isChecked);
+            if (bind != null) {
+                bind.check(this, isChecked);
             }
             return self();
         }
@@ -714,13 +715,13 @@ public class ApCommonBarBinder {
             if (key != null) {
                 caches.put(key, lastval);
             }
-            if (lambda != null) {
-                lambda.check(this, lastval);
+            if (bind != null) {
+                bind.check(this, lastval);
             }
         }
 
-        public CheckBinder lambda(CheckLambda lambda) {
-            this.lambda = lambda;
+        public CheckBinder bind(CheckBind bind) {
+            this.bind = bind;
             return self();
         }
     }
@@ -733,7 +734,7 @@ public class ApCommonBarBinder {
 
     public class SeekBarBinder extends Binder<SeekBarBinder, Integer> implements SeekBar.OnSeekBarChangeListener {
 
-        private SeekLambda lambda;
+        private SeekBind bind;
 
         SeekBarBinder(int idvalue) {
             super(idvalue);
@@ -753,8 +754,8 @@ public class ApCommonBarBinder {
             return self();
         }
 
-        public SeekBarBinder lambda(SeekLambda lambda) {
-            this.lambda = lambda;
+        public SeekBarBinder bind(SeekBind bind) {
+            this.bind = bind;
             return self();
         }
 
@@ -764,8 +765,8 @@ public class ApCommonBarBinder {
 
         @Override
         public void onProgressChanged(SeekBar seekBar, int progress, boolean fromUser) {
-            if (lambda != null) {
-                lambda.seek(this, progress, fromUser);
+            if (bind != null) {
+                bind.seek(this, progress, fromUser);
             }
         }
 
@@ -821,7 +822,7 @@ public class ApCommonBarBinder {
         private int outPutX = 0;           //裁剪保存宽度
         private int outPutY = 0;           //裁剪保存高度
         private int request_image = 1000;
-        private ImageLambda lambda;
+        private ImageBind bind;
         private CropImageView.Style style = CropImageView.Style.RECTANGLE;
 
         ImageBinder(int idimage) {
@@ -891,7 +892,7 @@ public class ApCommonBarBinder {
                 //noinspection unchecked
                 List<ImageItem> images = (ArrayList<ImageItem>) intent.getSerializableExtra(ImagePicker.EXTRA_RESULT_ITEMS);
                 if (images != null && images.size() > 0) {
-                    if (lambda != null && !lambda.image(this, images.get(0).path)) {
+                    if (bind != null && !bind.image(this, images.get(0).path)) {
                         $.query(pager).$(idvalue).image(images.get(0).path);
                     }
                 } else {
@@ -900,8 +901,8 @@ public class ApCommonBarBinder {
             }
         }
 
-        public ImageBinder lambda(ImageLambda lambda) {
-            this.lambda = lambda;
+        public ImageBinder bind(ImageBind bind) {
+            this.bind = bind;
             return self();
         }
 
