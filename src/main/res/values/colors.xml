@@ -37,12 +37,15 @@
     <color name="colorPrimaryLight">#44C6F6</color>
 
     <color name="redPrimary">#EE4444</color>
-    <color name="redPrimaryDark">#CC3344</color>
+    <color name="redPrimaryDark">#CC3333</color>
     <color name="redPrimaryLight">#FF5555</color>
 
-    <color name="bluePrimary">#1177EE</color>
-    <color name="bluePrimaryDark">#0066DD</color>
-    <color name="bluePrimaryLight">#2277FF</color>
+    <!--<color name="bluePrimary">#1177EE</color>-->
+    <!--<color name="bluePrimaryDark">#0066DD</color>-->
+    <!--<color name="bluePrimaryLight">#2277FF</color>-->
+    <color name="bluePrimary">#3198F2</color>
+    <color name="bluePrimaryDark">#2187E1</color>
+    <color name="bluePrimaryLight">#42A9FF</color>
 
     <color name="greenPrimary">#1bc98e</color>
     <color name="greenPrimaryDark">#18ab79</color>

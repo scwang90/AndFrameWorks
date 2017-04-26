@@ -232,8 +232,8 @@ public class AfItemsPagerHelper<T> extends AfStatusHelper<List<T>> implements It
 
     //<editor-fold desc="适配器">
     @Override
-    public void bindAdapter(@NonNull com.andframe.api.viewer.ItemsViewer listView, @NonNull ListAdapter adapter) {
-        listView.setAdapter(adapter);
+    public void bindAdapter(@NonNull com.andframe.api.viewer.ItemsViewer itemsViewer, @NonNull ListAdapter adapter) {
+        itemsViewer.setAdapter(adapter);
     }
 
     @NonNull

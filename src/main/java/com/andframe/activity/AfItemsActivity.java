@@ -317,12 +317,12 @@ public abstract class AfItemsActivity<T> extends AfStatusActivity<List<T>> imple
 
     /**
      * 绑定适配器
-     * @param listView 列表
+     * @param itemsViewer 列表
      * @param adapter 适配器
      */
     @Override
-    public void bindAdapter(@NonNull ItemsViewer listView, @NonNull ListAdapter adapter) {
-        mItemsHelper.bindAdapter(listView, adapter);
+    public void bindAdapter(@NonNull ItemsViewer itemsViewer, @NonNull ListAdapter adapter) {
+        mItemsHelper.bindAdapter(itemsViewer, adapter);
     }
 
     //<editor-fold desc="任务相关">
