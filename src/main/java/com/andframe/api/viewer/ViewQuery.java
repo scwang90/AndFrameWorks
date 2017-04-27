@@ -11,6 +11,7 @@ import android.graphics.drawable.Drawable;
 import android.support.annotation.ColorRes;
 import android.support.annotation.DimenRes;
 import android.support.annotation.DrawableRes;
+import android.support.annotation.IdRes;
 import android.support.annotation.LayoutRes;
 import android.support.annotation.Nullable;
 import android.support.annotation.StringRes;
@@ -46,7 +47,7 @@ public interface ViewQuery<T extends ViewQuery<T>> {
     /**
      * 根据 控件Id 选择一个或多个 View
      */
-    T $(Integer id, int... ids);
+    T $(@IdRes Integer id, @IdRes int... ids);
     /**
      * 根据 控件Id名 选择一个或多个 View
      */
