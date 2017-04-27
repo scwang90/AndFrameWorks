@@ -4,6 +4,8 @@ import android.app.Activity;
 import android.app.Dialog;
 import android.content.DialogInterface;
 import android.content.res.Resources;
+import android.support.annotation.IdRes;
+import android.support.annotation.StringRes;
 import android.support.v4.app.Fragment;
 import android.text.Editable;
 import android.text.InputType;
@@ -76,7 +78,7 @@ public class ApCommonBarBinder {
         void seek(Binder binder, int value, boolean fromUser);
     }
     public interface InputBind {
-        void onBind(String value);
+        void onBind(Binder binder, String value);
     }
     public interface ImageBind {
         /**
@@ -88,7 +90,7 @@ public class ApCommonBarBinder {
     }
 
     public interface TextVerify {
-        void verify(String text) throws VerifyException;
+        String verify(String text) throws VerifyException;
     }
 
     public interface DateVerify {
@@ -128,47 +130,47 @@ public class ApCommonBarBinder {
         return query.$(views);
     }
 
-    public TextBinder text(int idvalue) {
+    public TextBinder text(@IdRes int idvalue) {
         return new TextBinder(idvalue);
     }
 
-    public InputBinder input(int idvalue) {
+    public InputBinder input(@IdRes int idvalue) {
         return new InputBinder(idvalue);
     }
 
-    public SelectBinder select(int idvalue, CharSequence[] items) {
+    public SelectBinder select(@IdRes int idvalue, CharSequence[] items) {
         return new SelectBinder(idvalue, items);
     }
 
-    public CheckBinder check(int idvalue) {
+    public CheckBinder check(@IdRes int idvalue) {
         return new CheckBinder(idvalue);
     }
 
-    public SwitchBinder Switch(int idvalue) {
+    public SwitchBinder Switch(@IdRes int idvalue) {
         return new SwitchBinder(idvalue);
     }
 
-    public SeekBarBinder seek(int idvalue) {
+    public SeekBarBinder seek(@IdRes int idvalue) {
         return new SeekBarBinder(idvalue);
     }
 
-    public DateBinder date(int idvalue) {
+    public DateBinder date(@IdRes int idvalue) {
         return new DateBinder(idvalue);
     }
 
-    public MultiChoiceBinder multiChoice(int idvalue, CharSequence[] items) {
+    public MultiChoiceBinder multiChoice(@IdRes int idvalue, CharSequence[] items) {
         return new MultiChoiceBinder(idvalue, items);
     }
 
-    public ActivityBinder activity(int idvalue, Class<? extends Activity> clazz, Object... args) {
+    public ActivityBinder activity(@IdRes int idvalue, Class<? extends Activity> clazz, Object... args) {
         return new ActivityBinder(idvalue, clazz, args);
     }
 
-    public FragmentBinder fragment(int idvalue, Class<? extends Fragment> clazz, Object... args) {
+    public FragmentBinder fragment(@IdRes int idvalue, Class<? extends Fragment> clazz, Object... args) {
         return new FragmentBinder(idvalue, clazz, args);
     }
 
-    public ImageBinder image(int idimage) {
+    public ImageBinder image(@IdRes int idimage) {
         return new ImageBinder(idimage);
     }
 
@@ -206,13 +208,14 @@ public class ApCommonBarBinder {
             return self();
         }
 
+        //<editor-fold desc="提示信息">
+        CharSequence getName(String dname, String[] names) {
+            return names.length > 0 ? names[0] : (TextUtils.isEmpty(name) ? dname : name);
+        }
+
         public T hintPrefix(CharSequence hintPrefix) {
             this.hintPrefix = hintPrefix;
             return hint(hintPrefix + name.toString());
-        }
-
-        CharSequence getName(String dname, String[] names) {
-            return names.length > 0 ? names[0] : (TextUtils.isEmpty(name) ? dname : name);
         }
 
         public T name(CharSequence name) {
@@ -220,13 +223,13 @@ public class ApCommonBarBinder {
             return hint(hintPrefix + name.toString());
         }
 
-        public T nameTextViewId(int id) {
-            this.name = hintPrefix + $(id).text();
+        public T nameTextViewId(@IdRes int id) {
+            this.name = $(id).text();
             return hint(hintPrefix + name.toString());
         }
 
-        public T nameResId(int id) {
-            this.name = hintPrefix + pager.getContext().getString(id);
+        public T nameResId(@StringRes int id) {
+            this.name = pager.getContext().getString(id);
             return hint(hintPrefix + name.toString());
         }
 
@@ -235,15 +238,16 @@ public class ApCommonBarBinder {
             return self();
         }
 
-        public T hintTextViewId(int id) {
+        public T hintTextViewId(@IdRes int id) {
             this.hint = hintPrefix + $(id).text();
             return self();
         }
 
-        public T hintResId(int id) {
+        public T hintResId(@StringRes int id) {
             this.hint = hintPrefix + pager.getContext().getString(id);
             return self();
         }
+        //</editor-fold>
 
         public T cache(Object... keys) {
             if (keys.length == 0) {
@@ -479,7 +483,7 @@ public class ApCommonBarBinder {
             caches.put(key, s.toString());
             AfDispatcher.dispatch(() -> {
                 if (bind != null) {
-                    bind.onBind(s.toString());
+                    bind.onBind(this, s.toString());
                 }
             });
         }
@@ -514,9 +518,9 @@ public class ApCommonBarBinder {
             $.dialog(pager).inputText(hint, lastval == null ? $(idvalue).text().replace(valueSuffix,"") : lastval, type, this);
         }
 
-        public TextBinder value(String text) {
-            if (!TextUtils.isEmpty(text)) {
-                onInputTextComfirm(null, text);
+        public TextBinder value(Object text) {
+            if (text != null && !TextUtils.isEmpty(text.toString())) {
+                onInputTextComfirm(null, text.toString());
             }
             return self();
         }
@@ -533,7 +537,7 @@ public class ApCommonBarBinder {
         public boolean onInputTextComfirm(EditText input, String value) {
             if (verify != null && input != null) {
                 try {
-                    verify.verify(value);
+                    value = verify.verify(value);
                 } catch (VerifyException e) {
                     pager.makeToastShort(e.getMessage());
                     return false;
@@ -565,6 +569,7 @@ public class ApCommonBarBinder {
             return self();
         }
 
+        //<editor-fold desc="输入验证">
         /**
          * 自定义验证规则
          */
@@ -575,12 +580,13 @@ public class ApCommonBarBinder {
         /**
          * 指定不为空
          */
-        public void verifyNotEmpty(String... names) {
+        public TextBinder verifyNotEmpty(String... names) {
             CharSequence name = getName("值", names);
-            this.verify(text -> {
+            return this.verify(text -> {
                 if (TextUtils.isEmpty(text.trim())) {
                     throw new VerifyException(name + "不能为空");
                 }
+                return text;
             });
         }
 
@@ -589,7 +595,8 @@ public class ApCommonBarBinder {
          */
         public TextBinder verifyPersonName(String... names) {
             CharSequence name = getName("姓名", names);
-            this.verify(text -> {
+            inputType(InputType.TYPE_CLASS_TEXT|InputType.TYPE_TEXT_VARIATION_PERSON_NAME);
+            return this.verify(text -> {
                 if (TextUtils.isEmpty(text)) {
                     throw new VerifyException(name + "不能为空");
                 }
@@ -605,8 +612,8 @@ public class ApCommonBarBinder {
                 if (text.getBytes(Charset.forName("gbk")).length > 16) {
                     throw new VerifyException(name + "不能超过8个汉字或16个字符");
                 }
+                return text;
             });
-            return self();
         }
 
         /**
@@ -614,39 +621,104 @@ public class ApCommonBarBinder {
          */
         public TextBinder verifyPhone(String... names) {
             CharSequence name = getName("手机号码", names);
-            this.verify(text -> {
+            inputType(InputType.TYPE_CLASS_PHONE);
+            return this.verify(text -> {
                 if (TextUtils.isEmpty(text)) {
                     throw new VerifyException("请输入" + name);
                 }
                 if (!text.matches("1[345789]\\d{9}")) {
                     throw new VerifyException("请输入正确的" + name);
                 }
+                return text;
             });
-            return self();
+        }
+        /**
+         * 指定为Int
+         */
+        public TextBinder verifyInt(String... names) {
+            CharSequence name = getName("数值", names);
+            inputType(InputType.TYPE_CLASS_NUMBER|InputType.TYPE_NUMBER_FLAG_SIGNED);
+            return this.verify(text -> {
+                if (TextUtils.isEmpty(text)) {
+                    throw new VerifyException("请输入" + name);
+                }
+                try {
+                    text = String.valueOf(Integer.parseInt(text));
+                } catch (NumberFormatException e) {
+                    throw new VerifyException("请输入正确的" + name);
+                }
+                return text;
+            });
+        }
+        /**
+         * 指定为Uint
+         */
+        public TextBinder verifyUint(String... names) {
+            CharSequence name = getName("数值", names);
+            inputType(InputType.TYPE_CLASS_NUMBER);
+            return this.verify(text -> {
+                if (TextUtils.isEmpty(text)) {
+                    throw new VerifyException("请输入" + name);
+                }
+                try {
+                    float v = Integer.parseInt(text);
+                    if (v < 0) {
+                        throw new VerifyException(name + "不能是负数");
+                    }
+                    text = String.valueOf(v);
+                } catch (NumberFormatException e) {
+                    throw new VerifyException("请输入正确的" + name);
+                }
+                return text;
+            });
         }
         /**
          * 指定为Float
          */
         public TextBinder verifyFloat(String... names) {
             CharSequence name = getName("数值", names);
-            this.verify(text -> {
+            inputType(InputType.TYPE_CLASS_NUMBER|InputType.TYPE_NUMBER_FLAG_DECIMAL|InputType.TYPE_NUMBER_FLAG_SIGNED);
+            return this.verify(text -> {
+                if (TextUtils.isEmpty(text)) {
+                    throw new VerifyException("请输入" + name);
+                }
+                try {
+                    text = String.valueOf(Float.parseFloat(text));
+                } catch (NumberFormatException e) {
+                    throw new VerifyException("请输入正确的" + name);
+                }
+                return text;
+            });
+        }
+        /**
+         * 指定为Ufloat
+         */
+        public TextBinder verifyUfloat(String... names) {
+            CharSequence name = getName("数值", names);
+            inputType(InputType.TYPE_CLASS_NUMBER|InputType.TYPE_NUMBER_FLAG_DECIMAL);
+            return this.verify(text -> {
                 if (TextUtils.isEmpty(text)) {
                     throw new VerifyException("请输入" + name);
                 }
                 try {
                     float v = Float.parseFloat(text);
+                    if (v < 0) {
+                        throw new VerifyException(name + "不能是负数");
+                    }
+                    text = String.valueOf(v);
                 } catch (NumberFormatException e) {
                     throw new VerifyException("请输入正确的" + name);
                 }
+                return text;
             });
-            return self();
         }
         /**
          * 指定为身份证的验证格式
          */
         public TextBinder verifyIdNumber(String... names) {
             CharSequence name = getName("身份证号", names);
-            this.verify(text -> {
+            inputType(InputType.TYPE_CLASS_TEXT);
+            return this.verify(text -> {
                 if (TextUtils.isEmpty(text)) {
                     throw new VerifyException("请输入" + name);
                 }
@@ -681,10 +753,10 @@ public class ApCommonBarBinder {
                 if (text.length() == 18 && !text.toLowerCase(Locale.ENGLISH).equals(o)) {
                     throw new VerifyException(name + "最后一位校验码输入错误，正确校验码为：" + o.substring(17, 18) + "！");
                 }
+                return text;
             });
-            return self();
         }
-
+        //</editor-fold>
     }
 
     public class DateBinder extends Binder<DateBinder, Date> implements OnDateSetVerifyListener {
