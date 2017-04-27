@@ -7,11 +7,11 @@ import android.view.View;
 import android.view.ViewGroup;
 
 /**
- * AfFragmentPagerAdapter
+ * AfPagerFragmentTabAdapter
  * Created by Administrator on 2016/2/24 0024.
  */
 @SuppressWarnings("unused")
-public class AfFragmentPagerAdapter extends FragmentStatePagerAdapter {
+public class AfPagerFragmentTabAdapter extends FragmentStatePagerAdapter {
 
     public interface TabItem {
         String name();
@@ -21,7 +21,7 @@ public class AfFragmentPagerAdapter extends FragmentStatePagerAdapter {
     protected final TabItem[] items;
     protected final Fragment[] fragments;
 
-    public AfFragmentPagerAdapter(FragmentManager manager, TabItem... items) {
+    public AfPagerFragmentTabAdapter(FragmentManager manager, TabItem... items) {
         super(manager);
         this.items = items;
         this.fragments = new Fragment[items.length];

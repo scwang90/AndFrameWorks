@@ -11,13 +11,13 @@ import android.view.ViewGroup;
  * Created by Administrator on 2016/2/24 0024.
  */
 @SuppressWarnings("unused")
-public class AfViewPagerAdapter extends FragmentStatePagerAdapter {
+public class AfPagerFragmentAdapter extends FragmentStatePagerAdapter {
 
     protected final Class<? extends Fragment>[] clazzs;
     protected final Fragment[] fragments;
 
     @SafeVarargs
-    public AfViewPagerAdapter(FragmentManager manager, Class<? extends Fragment>... fragments) {
+    public AfPagerFragmentAdapter(FragmentManager manager, Class<? extends Fragment>... fragments) {
         super(manager);
         this.clazzs = fragments;
         this.fragments = new Fragment[fragments.length];
