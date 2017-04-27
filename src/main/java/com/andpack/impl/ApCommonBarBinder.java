@@ -661,7 +661,7 @@ public class ApCommonBarBinder {
                     throw new VerifyException("请输入" + name);
                 }
                 try {
-                    float v = Integer.parseInt(text);
+                    int v = Integer.parseInt(text);
                     if (v < 0) {
                         throw new VerifyException(name + "不能是负数");
                     }
