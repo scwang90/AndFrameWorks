@@ -1,7 +1,6 @@
 package com.andpack.impl;
 
 import android.app.Activity;
-import android.app.DatePickerDialog;
 import android.app.Dialog;
 import android.content.DialogInterface;
 import android.content.res.Resources;
@@ -18,6 +17,7 @@ import android.widget.SeekBar;
 
 import com.andframe.$;
 import com.andframe.api.DialogBuilder;
+import com.andframe.api.DialogBuilder.OnDateSetVerifyListener;
 import com.andframe.api.pager.Pager;
 import com.andframe.api.viewer.ViewQuery;
 import com.andframe.caches.AfPrivateCaches;
@@ -89,6 +89,10 @@ public class ApCommonBarBinder {
 
     public interface TextVerify {
         void verify(String text) throws VerifyException;
+    }
+
+    public interface DateVerify {
+        void verify(Date date) throws VerifyException;
     }
 
     public interface MultiChoiceVerify {
@@ -172,7 +176,9 @@ public class ApCommonBarBinder {
     public abstract class Binder<T extends Binder, LASTVAL> implements View.OnClickListener{
         public int idvalue;
         public String key = null;
-        public CharSequence hint = "请输入";
+        public CharSequence hintPrefix = ApCommonBarBinder.this.hintPrefix;
+        public CharSequence hint = hintPrefix;
+        public CharSequence name = "";
         public Binder next;
         public LASTVAL lastval;
         public Runnable start;
@@ -200,8 +206,32 @@ public class ApCommonBarBinder {
             return self();
         }
 
-        public T hint(String hint) {
-            this.hint = hintPrefix + hint;
+        public T hintPrefix(CharSequence hintPrefix) {
+            this.hintPrefix = hintPrefix;
+            return hint(hintPrefix + name.toString());
+        }
+
+        CharSequence getName(String dname, String[] names) {
+            return names.length > 0 ? names[0] : (TextUtils.isEmpty(name) ? dname : name);
+        }
+
+        public T name(CharSequence name) {
+            this.name = name;
+            return hint(hintPrefix + name.toString());
+        }
+
+        public T nameTextViewId(int id) {
+            this.name = hintPrefix + $(id).text();
+            return hint(hintPrefix + name.toString());
+        }
+
+        public T nameResId(int id) {
+            this.name = hintPrefix + pager.getContext().getString(id);
+            return hint(hintPrefix + name.toString());
+        }
+
+        public T hint(CharSequence hint) {
+            this.hint = hint;
             return self();
         }
 
@@ -275,8 +305,8 @@ public class ApCommonBarBinder {
 
         SelectBinder(int idvalue, CharSequence[] items) {
             super(idvalue);
-            hint = "请选择";
             this.items = items;
+            this.hintPrefix("请选择");
         }
 
         @Override
@@ -334,6 +364,7 @@ public class ApCommonBarBinder {
             super(idvalue);
             this.items = items;
             this.checkedItems = new boolean[items.length];
+            this.hintPrefix("请选择");
         }
 
         public MultiChoiceBinder verify(MultiChoiceVerify verify) {
@@ -473,6 +504,9 @@ public class ApCommonBarBinder {
 
         TextBinder(int idvalue) {
             super(idvalue);
+            if (TextUtils.isEmpty(hintPrefix)) {
+                this.hintPrefix("请输入");
+            }
         }
 
         @Override
@@ -538,12 +572,23 @@ public class ApCommonBarBinder {
             this.verify = verify;
             return self();
         }
+        /**
+         * 指定不为空
+         */
+        public void verifyNotEmpty(String... names) {
+            CharSequence name = getName("值", names);
+            this.verify(text -> {
+                if (TextUtils.isEmpty(text.trim())) {
+                    throw new VerifyException(name + "不能为空");
+                }
+            });
+        }
 
         /**
          * 指定为姓名的验证格式
          */
         public TextBinder verifyPersonName(String... names) {
-            String name = names.length > 0 ? names[0] : "姓名";
+            CharSequence name = getName("姓名", names);
             this.verify(text -> {
                 if (TextUtils.isEmpty(text)) {
                     throw new VerifyException(name + "不能为空");
@@ -568,7 +613,7 @@ public class ApCommonBarBinder {
          * 指定为手机号码验证格式
          */
         public TextBinder verifyPhone(String... names) {
-            String name = names.length > 0 ? names[0] : "手机号码";
+            CharSequence name = getName("手机号码", names);
             this.verify(text -> {
                 if (TextUtils.isEmpty(text)) {
                     throw new VerifyException("请输入" + name);
@@ -579,12 +624,28 @@ public class ApCommonBarBinder {
             });
             return self();
         }
-
+        /**
+         * 指定为Float
+         */
+        public TextBinder verifyFloat(String... names) {
+            CharSequence name = getName("数值", names);
+            this.verify(text -> {
+                if (TextUtils.isEmpty(text)) {
+                    throw new VerifyException("请输入" + name);
+                }
+                try {
+                    float v = Float.parseFloat(text);
+                } catch (NumberFormatException e) {
+                    throw new VerifyException("请输入正确的" + name);
+                }
+            });
+            return self();
+        }
         /**
          * 指定为身份证的验证格式
          */
         public TextBinder verifyIdNumber(String... names) {
-            String name = names.length > 0 ? names[0] : "身份证号";
+            CharSequence name = getName("身份证号", names);
             this.verify(text -> {
                 if (TextUtils.isEmpty(text)) {
                     throw new VerifyException("请输入" + name);
@@ -623,11 +684,13 @@ public class ApCommonBarBinder {
             });
             return self();
         }
+
     }
 
-    public class DateBinder extends Binder<DateBinder, Date> implements DatePickerDialog.OnDateSetListener {
+    public class DateBinder extends Binder<DateBinder, Date> implements OnDateSetVerifyListener {
 
         private DateBind bind;
+        private DateVerify verify;
         private DateFormat format = AfDateFormat.DATE;
 
         DateBinder(int idvalue) {
@@ -661,6 +724,19 @@ public class ApCommonBarBinder {
         }
 
         @Override
+        public boolean onPreDateSet(DatePicker view, int year, int month, int dayOfMonth) {
+            if (verify != null && view != null) {
+                try {
+                    verify.verify(AfDateFormat.parser(year,month,dayOfMonth));
+                } catch (VerifyException e) {
+                    pager.makeToastShort(e.getMessage());
+                    return false;
+                }
+            }
+            return true;
+        }
+
+        @Override
         public void onDateSet(DatePicker view, int year, int month, int day) {
             lastval = AfDateFormat.parser(year, month, day);
             $(idvalue).text(format.format(lastval));
@@ -672,6 +748,49 @@ public class ApCommonBarBinder {
         public DateBinder bind(DateBind bind) {
             this.bind = bind;
             return self();
+        }
+
+        /**
+         * 自定义验证规则
+         */
+        public DateBinder verify(DateVerify verify) {
+            this.verify = verify;
+            return self();
+        }
+        /**
+         * 指定为之后的时间
+         */
+        public void verifyAfterNow(String... names) {
+            CharSequence name = getName("日期", names);
+            this.verify(date -> {
+                if (date.getTime() < System.currentTimeMillis()) {
+                    throw new VerifyException(name + "不能是现在之前");
+                }
+            });
+        }
+        /**
+         * 指定为今天之后的时间
+         */
+        public void verifyAfterToday(String... names) {
+            CharSequence name = getName("日期", names);
+            this.verify(date -> {
+                long today = AfDateFormat.roundDate(new Date(new Date().getTime() + 24L * 60 * 60 * 1000)).getTime() - 1;
+                if (date.getTime() < today) {
+                    throw new VerifyException(name + "必须是今天以后");
+                }
+            });
+        }
+        /**
+         * 指定为今天之后的时间
+         */
+        public void verifyAfterWithToday(String... names) {
+            CharSequence name = getName("日期", names);
+            this.verify(date -> {
+                long today = AfDateFormat.roundDate(new Date()).getTime() - 1;
+                if (date.getTime() < today) {
+                    throw new VerifyException(name + "不能早于今天");
+                }
+            });
         }
     }
 
