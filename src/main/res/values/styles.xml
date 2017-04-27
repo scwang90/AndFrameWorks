@@ -200,6 +200,7 @@
         <item name="android:layout_height">match_parent</item>
         <item name="android:orientation">vertical</item>
         <item name="android:paddingBottom">@dimen/padding_common</item>
+        <item name="android:background">@color/colorBackgroudDark</item>
     </style>
 
     <style name="AndFrame.CommonBar.Bar">
