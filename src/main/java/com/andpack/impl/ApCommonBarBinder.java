@@ -577,11 +577,22 @@ public class ApCommonBarBinder {
             this.verify = verify;
             return self();
         }
+
+        public TextBinder verifyChinese(String... names) {
+            CharSequence name = getName("值", names);
+            return this.verify(text -> {
+                if (!text.matches("[\\u4E00-\\u9FA5]+")) {
+                    throw new VerifyException(name + "只能是中文");
+                }
+                return text;
+            });
+        }
         /**
          * 指定不为空
          */
         public TextBinder verifyNotEmpty(String... names) {
             CharSequence name = getName("值", names);
+            inputType(InputType.TYPE_CLASS_TEXT|InputType.TYPE_TEXT_VARIATION_PERSON_NAME);
             return this.verify(text -> {
                 if (TextUtils.isEmpty(text.trim())) {
                     throw new VerifyException(name + "不能为空");
