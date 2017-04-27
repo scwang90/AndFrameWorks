@@ -360,6 +360,9 @@ public class AfJsoner {
             clazz = ((Class) obj);
         } else {
             clazz = obj.getClass();
+            if (clazz.isAnonymousClass()) {
+                clazz = clazz.getSuperclass();
+            }
         }
         List<Field> fileds = new ArrayList<>();
         for (Field field : AfReflecter.getField(clazz)) {

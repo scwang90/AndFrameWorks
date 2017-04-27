@@ -142,7 +142,7 @@
     <style name="AndFrame.Toolbar" parent="AndFrame.Label">
         <item name="android:layout_width">match_parent</item>
         <item name="android:layout_height">?attr/actionBarSize</item>
-        <item name="android:background">@color/colorPrimary</item>
+        <item name="android:background">?attr/colorPrimary</item>
         <item name="android:theme">@style/ThemeOverlay.AppCompat.Dark.ActionBar</item>
         <item name="android:textSize">@dimen/textsize_titlebar</item>
         <item name="android:textColor">@color/colorToolbarText</item>

@@ -610,7 +610,7 @@ public interface ViewQuery<T extends ViewQuery<T>> {
 
     /**
      * 为当前选中 TextView 设置格式化字符串
-     * 例如 当前职位 “小明”
+     * 例如 当前值为 “小明”
      * 执行 textFormat("你好 %s")
      * 结果变为 “你好 小明”
      * @param format 格式化 （只能含有一个 %s，如果没有%s，效果将和 text(format) 一样）
