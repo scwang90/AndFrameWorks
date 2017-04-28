@@ -16,10 +16,13 @@ import android.view.View;
 import android.widget.DatePicker;
 import android.widget.EditText;
 import android.widget.SeekBar;
+import android.widget.TimePicker;
 
 import com.andframe.$;
 import com.andframe.api.DialogBuilder;
 import com.andframe.api.DialogBuilder.OnDateSetVerifyListener;
+import com.andframe.api.DialogBuilder.OnDateTimeSetVerifyListener;
+import com.andframe.api.DialogBuilder.OnTimeSetVerifyListener;
 import com.andframe.api.pager.Pager;
 import com.andframe.api.viewer.ViewQuery;
 import com.andframe.caches.AfPrivateCaches;
@@ -67,7 +70,7 @@ public class ApCommonBarBinder {
     }
 
     public interface DateBind {
-        void text(Binder binder, Date date);
+        void date(Binder binder, Date date);
     }
 
     public interface CheckBind {
@@ -156,6 +159,14 @@ public class ApCommonBarBinder {
 
     public DateBinder date(@IdRes int idvalue) {
         return new DateBinder(idvalue);
+    }
+
+    public TimeBinder time(@IdRes int idvalue) {
+        return new TimeBinder(idvalue);
+    }
+
+    public DateTimeBinder datetime(@IdRes int idvalue) {
+        return new DateTimeBinder(idvalue);
     }
 
     public MultiChoiceBinder multiChoice(@IdRes int idvalue, CharSequence[] items) {
@@ -770,14 +781,88 @@ public class ApCommonBarBinder {
         //</editor-fold>
     }
 
-    public class DateBinder extends Binder<DateBinder, Date> implements OnDateSetVerifyListener {
+    public abstract class AbstractDateBinder<T extends Binder> extends Binder<T, Date> {
 
-        private DateBind bind;
-        private DateVerify verify;
-        private DateFormat format = AfDateFormat.DATE;
+        DateBind bind;
+        DateVerify verify;
+        DateFormat format = AfDateFormat.DATE;
+
+        AbstractDateBinder(int idvalue) {
+            super(idvalue);
+        }
+
+        public abstract T value(Date date);
+
+        public T format(DateFormat format) {
+            this.format = format;
+            return self();
+        }
+
+        public T format(String format) {
+            return format(new SimpleDateFormat(format, Locale.CHINA));
+        }
+
+        public T initNow() {
+            return value(new Date());
+        }
+
+        public T bind(DateBind bind) {
+            this.bind = bind;
+            return self();
+        }
+
+        /**
+         * 自定义验证规则
+         */
+        public T verify(DateVerify verify) {
+            this.verify = verify;
+            return self();
+        }
+
+        /**
+         * 指定为之后的时间
+         */
+        public void verifyAfterNow(String... names) {
+            CharSequence name = getName("时间", names);
+            this.verify(date -> {
+                if (date.getTime() < System.currentTimeMillis()) {
+                    throw new VerifyException(name + "不能是现在之前");
+                }
+            });
+        }
+
+        /**
+         * 指定为今天之后的时间
+         */
+        public void verifyAfterToday(String... names) {
+            CharSequence name = getName("日期", names);
+            this.verify(date -> {
+                long today = AfDateFormat.roundDate(new Date(new Date().getTime() + 24L * 60 * 60 * 1000)).getTime() - 1;
+                if (date.getTime() < today) {
+                    throw new VerifyException(name + "必须是今天以后");
+                }
+            });
+        }
+
+        /**
+         * 指定为今天之后的时间
+         */
+        public void verifyAfterWithToday(String... names) {
+            CharSequence name = getName("日期", names);
+            this.verify(date -> {
+                long today = AfDateFormat.roundDate(new Date()).getTime() - 1;
+                if (date.getTime() < today) {
+                    throw new VerifyException(name + "不能早于今天");
+                }
+            });
+        }
+    }
+
+    public class DateBinder extends AbstractDateBinder<DateBinder> implements OnDateSetVerifyListener {
 
         DateBinder(int idvalue) {
             super(idvalue);
+            format = AfDateFormat.DATE;
         }
 
         @Override
@@ -785,25 +870,11 @@ public class ApCommonBarBinder {
             $.dialog(pager).selectDate(hint, lastval == null ? new Date() : lastval, this);
         }
 
-        @SuppressWarnings("unused")
-        public DateBinder initNow() {
-            return value(new Date());
-        }
-
         public DateBinder value(Date date) {
             Calendar now = Calendar.getInstance();
             now.setTime(date);
             onDateSet(null, now.get(Calendar.YEAR), now.get(Calendar.MONTH), now.get(Calendar.DAY_OF_MONTH));
             return self();
-        }
-
-        public DateBinder format(DateFormat format) {
-            this.format = format;
-            return self();
-        }
-
-        public DateBinder format(String format) {
-            return format(new SimpleDateFormat(format, Locale.CHINA));
         }
 
         @Override
@@ -824,56 +895,106 @@ public class ApCommonBarBinder {
             lastval = AfDateFormat.parser(year, month, day);
             $(idvalue).text(format.format(lastval));
             if (bind != null) {
-                bind.text(this, lastval);
+                bind.date(this, lastval);
             }
         }
+    }
 
-        public DateBinder bind(DateBind bind) {
-            this.bind = bind;
+    public class TimeBinder extends AbstractDateBinder<TimeBinder> implements OnTimeSetVerifyListener {
+
+        TimeBinder(int idvalue) {
+            super(idvalue);
+            format = AfDateFormat.TIME;
+        }
+
+        @Override
+        public void start() {
+            $.dialog(pager).selectTime(hint, lastval == null ? new Date() : lastval, this);
+        }
+
+        public TimeBinder value(Date date) {
+            Calendar now = Calendar.getInstance();
+            now.setTime(date);
+            onTimeSet(null, now.get(Calendar.HOUR_OF_DAY), now.get(Calendar.MINUTE));
             return self();
         }
 
-        /**
-         * 自定义验证规则
-         */
-        public DateBinder verify(DateVerify verify) {
-            this.verify = verify;
+        @Override
+        public boolean onPreTimeSet(TimePicker view, int hourOfDay, int minute) {
+            if (verify != null && view != null) {
+                try {
+                    verify.verify(AfDateFormat.parser(hourOfDay,minute));
+                } catch (VerifyException e) {
+                    pager.makeToastShort(e.getMessage());
+                    return false;
+                }
+            }
+            return true;
+        }
+
+        @Override
+        public void onTimeSet(TimePicker view, int hourOfDay, int minute) {
+            lastval = AfDateFormat.parser(hourOfDay, minute);
+            $(idvalue).text(format.format(lastval));
+            if (bind != null) {
+                bind.date(this, lastval);
+            }
+        }
+    }
+
+    public class DateTimeBinder extends AbstractDateBinder<DateTimeBinder> implements OnDateTimeSetVerifyListener {
+
+        DateTimeBinder(int idvalue) {
+            super(idvalue);
+            format = AfDateFormat.STANDARD;
+        }
+
+        @Override
+        public void start() {
+            $.dialog(pager).selectDateTime(hint, lastval == null ? new Date() : lastval, this);
+        }
+
+        public DateTimeBinder value(Date date) {
+            Calendar now = Calendar.getInstance();
+            now.setTime(date);
+            onDateTimeSet(now.get(Calendar.YEAR), now.get(Calendar.MONTH), now.get(Calendar.DAY_OF_MONTH),
+                    now.get(Calendar.HOUR_OF_DAY), now.get(Calendar.MINUTE));
             return self();
         }
-        /**
-         * 指定为之后的时间
-         */
-        public void verifyAfterNow(String... names) {
-            CharSequence name = getName("日期", names);
-            this.verify(date -> {
-                if (date.getTime() < System.currentTimeMillis()) {
-                    throw new VerifyException(name + "不能是现在之前");
+
+        @Override
+        public boolean onPreDateSet(DatePicker view, int year, int month, int dayOfMonth) {
+            if (verify != null && view != null) {
+                try {
+                    verify.verify(AfDateFormat.parser(year,month,dayOfMonth));
+                } catch (VerifyException e) {
+                    pager.makeToastShort(e.getMessage());
+                    return false;
                 }
-            });
+            }
+            return true;
         }
-        /**
-         * 指定为今天之后的时间
-         */
-        public void verifyAfterToday(String... names) {
-            CharSequence name = getName("日期", names);
-            this.verify(date -> {
-                long today = AfDateFormat.roundDate(new Date(new Date().getTime() + 24L * 60 * 60 * 1000)).getTime() - 1;
-                if (date.getTime() < today) {
-                    throw new VerifyException(name + "必须是今天以后");
+
+        @Override
+        public boolean onPreTimeSet(TimePicker view, int hourOfDay, int minute) {
+            if (verify != null && view != null) {
+                try {
+                    verify.verify(AfDateFormat.parser(hourOfDay, minute));
+                } catch (VerifyException e) {
+                    pager.makeToastShort(e.getMessage());
+                    return false;
                 }
-            });
+            }
+            return true;
         }
-        /**
-         * 指定为今天之后的时间
-         */
-        public void verifyAfterWithToday(String... names) {
-            CharSequence name = getName("日期", names);
-            this.verify(date -> {
-                long today = AfDateFormat.roundDate(new Date()).getTime() - 1;
-                if (date.getTime() < today) {
-                    throw new VerifyException(name + "不能早于今天");
-                }
-            });
+
+        @Override
+        public void onDateTimeSet(int year, int month, int day, int hour, int minute) {
+            lastval = AfDateFormat.parser(year, month, day, hour, minute);
+            $(idvalue).text(format.format(lastval));
+            if (bind != null) {
+                bind.date(this, lastval);
+            }
         }
     }
 
