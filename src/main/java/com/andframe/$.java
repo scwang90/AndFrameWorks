@@ -16,7 +16,7 @@ import com.andframe.api.event.EventManager;
 import com.andframe.api.pager.PagerManager;
 import com.andframe.api.task.Task;
 import com.andframe.api.task.TaskExecutor;
-import com.andframe.api.task.Tasker;
+import com.andframe.api.task.handler.WorkingHandler;
 import com.andframe.api.viewer.ViewModuler;
 import com.andframe.api.viewer.ViewQuery;
 import com.andframe.api.viewer.Viewer;
@@ -288,7 +288,7 @@ public class $ {
 
         @Override
         @MainThread
-        public void execute(Tasker runnable) {
+        public void execute(WorkingHandler runnable) {
             wrapped.execute(runnable);
         }
 

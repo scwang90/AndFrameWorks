@@ -2,6 +2,9 @@ package com.andframe.api.task;
 
 import android.support.annotation.MainThread;
 
+import com.andframe.api.task.builder.Builder;
+import com.andframe.api.task.handler.WorkingHandler;
+
 /**
  * 任务执行器
  * Created by SCWANG on 2016/9/2.
@@ -9,8 +12,10 @@ import android.support.annotation.MainThread;
 @SuppressWarnings("unused")
 public interface TaskExecutor {
 
+    Builder builder();
+
     @MainThread
-    void execute(Tasker runnable);
+    void execute(WorkingHandler runnable);
 
     @MainThread
     void execute(Task task);

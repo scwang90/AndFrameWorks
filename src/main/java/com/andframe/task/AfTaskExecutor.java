@@ -6,9 +6,11 @@ import android.support.annotation.NonNull;
 
 import com.andframe.api.task.Task;
 import com.andframe.api.task.TaskExecutor;
-import com.andframe.api.task.Tasker;
+import com.andframe.api.task.builder.Builder;
+import com.andframe.api.task.handler.WorkingHandler;
 import com.andframe.application.AfApp;
 import com.andframe.exception.AfExceptionHandler;
+import com.andframe.impl.task.TaskBuilder;
 import com.andframe.util.internal.TAG;
 import com.andframe.util.java.AfDateGuid;
 import com.andframe.util.java.AfReflecter;
@@ -84,7 +86,7 @@ public class AfTaskExecutor implements TaskExecutor {
      * information on the order of execution.
      */
     @MainThread
-    public void execute(Tasker runnable) {
+    public void execute(WorkingHandler runnable) {
         sDefaultExecutor.execute(() -> {
             try {
                 runnable.onWorking();
@@ -109,7 +111,13 @@ public class AfTaskExecutor implements TaskExecutor {
         }
         return task;
     }
-//    /**
+
+    @Override
+    public Builder builder() {
+        return new TaskBuilder();
+    }
+
+    //    /**
 //     * 抛送带数据任务到Worker执行
 //     */
 //    @Override

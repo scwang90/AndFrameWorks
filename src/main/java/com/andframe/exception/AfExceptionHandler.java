@@ -98,13 +98,13 @@ public class AfExceptionHandler implements UncaughtExceptionHandler {
             final Activity activity = AfPagerManager.getInstance().currentActivity();
             if (activity != null && mIsShowDialog) {
                 AfDispatcher.dispatch(() -> doShowDialog(activity, "程序崩溃了", msg, msg1 -> {
-                    if (Looper.getMainLooper().getThread() == thread) {
-                        mDefaultHandler.uncaughtException(thread, ex);
-                    }
+//                    if (Looper.getMainLooper().getThread() == thread) {
+//                        mDefaultHandler.uncaughtException(thread, ex);
+//                    }
                     return false;
                 }), 1000);
             } else {
-                mDefaultHandler.uncaughtException(thread, ex);
+//                mDefaultHandler.uncaughtException(thread, ex);
             }
             if (Looper.getMainLooper().getThread() == thread) {
                 AfReflecter.setMemberByType(Looper.class, null, Looper.class);
@@ -119,9 +119,9 @@ public class AfExceptionHandler implements UncaughtExceptionHandler {
             e.printStackTrace();
         }
 
-        if (mDefaultHandler != null) {
-            mDefaultHandler.uncaughtException(thread, ex);
-        }
+//        if (mDefaultHandler != null) {
+//            mDefaultHandler.uncaughtException(thread, ex);
+//        }
     }
 
     protected void onHandleAttachException(Throwable ex, String remark, final String handlerid) {

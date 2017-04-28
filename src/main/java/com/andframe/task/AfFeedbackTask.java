@@ -4,8 +4,8 @@ import android.support.annotation.NonNull;
 
 import com.andframe.R;
 import com.andframe.api.pager.Pager;
-import com.andframe.api.task.TaskExceptionHandler;
-import com.andframe.api.task.Tasker;
+import com.andframe.api.task.handler.ExceptionHandler;
+import com.andframe.api.task.handler.WorkingHandler;
 import com.andframe.exception.AfExceptionHandler;
 
 import java.lang.ref.WeakReference;
@@ -17,11 +17,11 @@ import java.lang.ref.WeakReference;
 
 public class AfFeedbackTask extends AfHandlerTask {
 
-    protected Tasker working;
+    protected WorkingHandler working;
     protected Runnable success;
     protected CharSequence intent;
     protected WeakReference<Pager> mPager;
-    protected TaskExceptionHandler exceptionHandler;
+    protected ExceptionHandler exceptionHandler;
     protected boolean mFeedbackOnException = true;
     protected boolean mFeedbackOnSuccess = true;
 
@@ -35,7 +35,7 @@ public class AfFeedbackTask extends AfHandlerTask {
         this.success = success;
     }
 
-    public AfFeedbackTask working(Tasker working) {
+    public AfFeedbackTask working(WorkingHandler working) {
         this.working = working;
         return this;
     }
@@ -50,11 +50,11 @@ public class AfFeedbackTask extends AfHandlerTask {
         return this;
     }
 
-    public AfFeedbackTask exception(TaskExceptionHandler exceptionHandler) {
+    public AfFeedbackTask exception(ExceptionHandler exceptionHandler) {
         return exception(true, exceptionHandler);
     }
 
-    public AfFeedbackTask exception(boolean feedback, TaskExceptionHandler exceptionHandler) {
+    public AfFeedbackTask exception(boolean feedback, ExceptionHandler exceptionHandler) {
         this.exceptionHandler = exceptionHandler;
         this.mFeedbackOnException = feedback;
         return this;

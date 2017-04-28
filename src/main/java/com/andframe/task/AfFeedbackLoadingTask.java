@@ -5,10 +5,10 @@ import android.support.annotation.NonNull;
 import com.andframe.R;
 import com.andframe.api.EmptyVerdicter;
 import com.andframe.api.pager.Pager;
-import com.andframe.api.task.LoadEmptyHandler;
-import com.andframe.api.task.LoadSuccessHandler;
-import com.andframe.api.task.LoadTasker;
-import com.andframe.api.task.Tasker;
+import com.andframe.api.task.handler.LoadEmptyHandler;
+import com.andframe.api.task.handler.LoadSuccessHandler;
+import com.andframe.api.task.handler.LoadingHandler;
+import com.andframe.api.task.handler.WorkingHandler;
 
 import java.lang.ref.WeakReference;
 import java.util.Collection;
@@ -21,7 +21,7 @@ import java.util.Collection;
 public class AfFeedbackLoadingTask<T> extends AfFeedbackTask {
 
     protected T data;
-    protected LoadTasker<T> tasker;
+    protected LoadingHandler<T> tasker;
     protected LoadEmptyHandler empty = this::makeToastNull;
     protected LoadSuccessHandler<T> success;
     protected EmptyVerdicter<T> isempty = model -> model instanceof Collection ? ((Collection) model).isEmpty() : model == null;
@@ -40,7 +40,7 @@ public class AfFeedbackLoadingTask<T> extends AfFeedbackTask {
 
     //<editor-fold desc="Description">
     @Deprecated@Override
-    public final AfFeedbackTask working(Tasker working) {
+    public final AfFeedbackTask working(WorkingHandler working) {
         return super.working(working);
     }
 
@@ -71,7 +71,7 @@ public class AfFeedbackLoadingTask<T> extends AfFeedbackTask {
         return this;
     }
 
-    public AfFeedbackLoadingTask<T> loading(LoadTasker<T> working) {
+    public AfFeedbackLoadingTask<T> loading(LoadingHandler<T> working) {
         this.tasker = working;
         return this;
     }
