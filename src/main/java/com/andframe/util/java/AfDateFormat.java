@@ -127,12 +127,30 @@ public class AfDateFormat {
 				formatTime(endDate);
 	}
 
+	public static Date parser(int hour, int minute) {
+		Calendar calender = Calendar.getInstance();
+		calender.set(Calendar.HOUR_OF_DAY, hour);
+		calender.set(Calendar.MINUTE, minute);
+		return calender.getTime();
+	}
+
 	public static Date parser(int year, int month, int day) {
 		Calendar calender = Calendar.getInstance();
 		calender.set(Calendar.YEAR, year);
 		calender.set(Calendar.MONTH, month);
 		calender.set(Calendar.DAY_OF_MONTH, day);
 		return roundDate(calender.getTime());
+	}
+
+	public static Date parser(int year, int month, int day, int hour, int minute) {
+		Calendar calender = Calendar.getInstance();
+		calender.set(Calendar.YEAR, year);
+		calender.set(Calendar.MONTH, month);
+		calender.set(Calendar.DAY_OF_MONTH, day);
+		calender.set(Calendar.HOUR_OF_DAY, hour);
+		calender.set(Calendar.MINUTE, minute);
+		calender.set(Calendar.SECOND, 0);
+		return calender.getTime();
 	}
 
 	/**

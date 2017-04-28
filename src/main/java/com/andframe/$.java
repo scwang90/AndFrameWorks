@@ -16,6 +16,7 @@ import com.andframe.api.event.EventManager;
 import com.andframe.api.pager.PagerManager;
 import com.andframe.api.task.Task;
 import com.andframe.api.task.TaskExecutor;
+import com.andframe.api.task.builder.Builder;
 import com.andframe.api.task.handler.WorkingHandler;
 import com.andframe.api.viewer.ViewModuler;
 import com.andframe.api.viewer.ViewQuery;
@@ -284,6 +285,11 @@ public class $ {
 
         public TaskExecutorWrapper(TaskExecutor wrapped) {
             this.wrapped = wrapped;
+        }
+
+        @Override
+        public Builder builder() {
+            return wrapped.builder();
         }
 
         @Override

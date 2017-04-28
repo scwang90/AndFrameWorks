@@ -5,7 +5,6 @@ import android.support.annotation.NonNull;
 import com.andframe.R;
 import com.andframe.api.EmptyVerdicter;
 import com.andframe.api.pager.Pager;
-import com.andframe.api.task.handler.LoadEmptyHandler;
 import com.andframe.api.task.handler.LoadSuccessHandler;
 import com.andframe.api.task.handler.LoadingHandler;
 import com.andframe.api.task.handler.WorkingHandler;
@@ -22,7 +21,7 @@ public class AfFeedbackLoadingTask<T> extends AfFeedbackTask {
 
     protected T data;
     protected LoadingHandler<T> tasker;
-    protected LoadEmptyHandler empty = this::makeToastNull;
+    protected Runnable empty = this::makeToastNull;
     protected LoadSuccessHandler<T> success;
     protected EmptyVerdicter<T> isempty = model -> model instanceof Collection ? ((Collection) model).isEmpty() : model == null;
     protected boolean mFeedbackOnEmpty = false;
@@ -55,12 +54,12 @@ public class AfFeedbackLoadingTask<T> extends AfFeedbackTask {
     }
     //</editor-fold>
 
-    public AfFeedbackLoadingTask<T> empty(LoadEmptyHandler empty) {
+    public AfFeedbackLoadingTask<T> empty(Runnable empty) {
         this.empty = empty;
         return this;
     }
 
-    public AfFeedbackLoadingTask<T> empty(boolean feedback, LoadEmptyHandler empty) {
+    public AfFeedbackLoadingTask<T> empty(boolean feedback, Runnable empty) {
         this.mFeedbackOnEmpty = feedback;
         this.empty = empty;
         return this;
@@ -95,7 +94,7 @@ public class AfFeedbackLoadingTask<T> extends AfFeedbackTask {
                 if (!isempty.isEmpty(data)) {
                     success.onSuccess(data);
                 } else {
-                    empty.onEmpty();
+                    empty.run();
                 }
             }
         } else {
