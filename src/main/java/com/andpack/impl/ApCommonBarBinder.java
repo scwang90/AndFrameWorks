@@ -12,10 +12,14 @@ import android.text.InputType;
 import android.text.TextUtils;
 import android.text.TextWatcher;
 import android.util.DisplayMetrics;
+import android.view.Gravity;
 import android.view.View;
 import android.widget.DatePicker;
 import android.widget.EditText;
+import android.widget.LinearLayout;
+import android.widget.NumberPicker;
 import android.widget.SeekBar;
+import android.widget.TextView;
 import android.widget.TimePicker;
 
 import com.andframe.$;
@@ -59,6 +63,10 @@ public class ApCommonBarBinder {
     }
     public interface SelectBind {
         void text(Binder binder, String text, int which);
+    }
+
+    public interface NumberBind {
+        void text(Binder binder, int value);
     }
 
     public interface MultiChoiceBind {
@@ -114,11 +122,11 @@ public class ApCommonBarBinder {
     private Pager pager;
     private String hintPrefix = "";
     private AfPrivateCaches caches;
-    private ViewQuery<? extends ViewQuery> query;
+    private ViewQuery<? extends ViewQuery> $$;
 
     public ApCommonBarBinder(Pager pager) {
         this.pager = pager;
-        this.query = $.query(pager);
+        this.$$ = $.query(pager);
         this.caches = AfPrivateCaches.getInstance(pager.getClass().getName());
     }
 
@@ -127,21 +135,29 @@ public class ApCommonBarBinder {
     }
 
     public ViewQuery<? extends ViewQuery> $(Integer id, int... ids) {
-        return query.$(id, ids);
+        return $$.$(id, ids);
     }
     public ViewQuery<? extends ViewQuery> $(View... views) {
-        return query.$(views);
+        return $$.$(views);
     }
 
     public TextBinder text(@IdRes int idvalue) {
         return new TextBinder(idvalue);
     }
 
+    public TextBinder textLines(@IdRes int idvalue) {
+        return new TextLinesBinder(idvalue);
+    }
+
+    public SelectNumber selectNumber(@IdRes int idvalue) {
+        return new SelectNumber(idvalue);
+    }
+
     public InputBinder input(@IdRes int idvalue) {
         return new InputBinder(idvalue);
     }
 
-    public SelectBinder select(@IdRes int idvalue, CharSequence[] items) {
+    public SelectBinder select(@IdRes int idvalue, CharSequence... items) {
         return new SelectBinder(idvalue, items);
     }
 
@@ -318,7 +334,7 @@ public class ApCommonBarBinder {
         private SelectBind bind;
         private final CharSequence[] items;
 
-        SelectBinder(int idvalue, CharSequence[] items) {
+        SelectBinder(int idvalue, CharSequence... items) {
             super(idvalue);
             this.items = items;
             this.hintPrefix("请选择");
@@ -365,6 +381,72 @@ public class ApCommonBarBinder {
                 }
             }
             return self();
+        }
+    }
+
+    public class SelectNumber extends Binder<SelectNumber, Integer> {
+
+        private int minValue = 14;
+        private int maxValue = 100;
+        private String unit;
+        private NumberBind bind;
+
+        public SelectNumber(int idvalue) {
+            super(idvalue);
+            lastval = minValue;
+            this.hintPrefix("请选择");
+        }
+
+        public void bind(NumberBind bind) {
+            this.bind = bind;
+        }
+
+        @Override
+        protected void start() {
+            TextView textview = new TextView(pager.getContext());
+            NumberPicker picker = new NumberPicker(pager.getContext());
+            picker.setMinValue(minValue);
+            picker.setMaxValue(maxValue);
+            picker.setValue(lastval);
+            textview.setText(TextUtils.isEmpty(unit) ? name : unit);
+            View view = $(new LinearLayout(pager.getContext()))
+                    .addView(picker).addView(textview).gravity(Gravity.CENTER_VERTICAL).view();
+            $.dialog(pager).showViewDialog(hint, view, "确定", (d, i) -> onNumberSelected(picker, picker.getValue()), "取消", null);
+        }
+
+        public SelectNumber value(int value) {
+            onNumberSelected(null, value);
+            return self();
+        }
+
+        public SelectNumber unit(String unit) {
+            this.unit = unit;
+            return self();
+        }
+
+        public SelectNumber range(int min, int max) {
+            minValue = Math.min(min,max);
+            maxValue = Math.max(min,max);
+            lastval = lastval == null ? minValue : lastval;
+            return self();
+        }
+
+        public SelectNumber rangeAge() {
+            minValue = 14;
+            maxValue = 100;
+            lastval = lastval == null ? minValue : lastval;
+            return self();
+        }
+
+        private void onNumberSelected(NumberPicker picker, int value) {
+            lastval = value;
+            $(idvalue).text(String.valueOf(value));
+            if (key != null && picker != null) {
+                caches.put(key, value);
+            }
+            if (bind != null) {
+                bind.text(this, value);
+            }
         }
     }
 
@@ -512,10 +594,10 @@ public class ApCommonBarBinder {
 
     public class TextBinder extends Binder<TextBinder, String> implements DialogBuilder.InputTextListener {
 
-        private int type = InputType.TYPE_CLASS_TEXT;
         private TextBind bind;
         private TextVerify verify;
-        private String valueSuffix = "";
+        protected String valueSuffix = "";
+        protected int type = InputType.TYPE_CLASS_TEXT;
 
         TextBinder(int idvalue) {
             super(idvalue);
@@ -587,6 +669,26 @@ public class ApCommonBarBinder {
         public TextBinder verify(TextVerify verify) {
             this.verify = verify;
             return self();
+        }
+
+        public TextBinder verifyMaxByte(int max, String... names) {
+            CharSequence name = getName("值", names);
+            return this.verify(text -> {
+                if (text.getBytes(Charset.forName("gbk")).length > max) {
+                    throw new VerifyException(name + "不能超过" + max + "个字符");
+                }
+                return text;
+            });
+        }
+
+        public TextBinder verifyMaxChinese(int max, String... names) {
+            CharSequence name = getName("值", names);
+            return this.verify(text -> {
+                if (text.getBytes(Charset.forName("gbk")).length > max*2) {
+                    throw new VerifyException(name + "不能超过" + max + "个汉字或" + (max * 2) + "个字符");
+                }
+                return text;
+            });
         }
 
         public TextBinder verifyChinese(String... names) {
@@ -778,7 +880,20 @@ public class ApCommonBarBinder {
                 return text;
             });
         }
+
         //</editor-fold>
+    }
+
+    public class TextLinesBinder extends TextBinder {
+
+        TextLinesBinder(int idvalue) {
+            super(idvalue);
+        }
+
+        @Override
+        public void start() {
+            $.dialog(pager).inputLines(hint, lastval == null ? $(idvalue).text().replace(valueSuffix,"") : lastval, type, this);
+        }
     }
 
     public abstract class AbstractDateBinder<T extends Binder> extends Binder<T, Date> {

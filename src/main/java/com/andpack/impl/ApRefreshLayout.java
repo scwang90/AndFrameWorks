@@ -167,9 +167,9 @@ public class ApRefreshLayout implements RefreshLayouter<TwinklingRefreshLayout>/
 //        mTwinkling.finishLoadmore();
 //    }
 //
-    TwinklingRefreshLayout.OnRefreshListener twinklingListener = new com.lcodecore.tkrefreshlayout.TwinklingRefreshLayout.OnRefreshListener(){
+    TwinklingRefreshLayout.OnRefreshListener twinklingListener = new TwinklingRefreshLayout.OnRefreshListener(){
         @Override
-        public void onRefresh(com.lcodecore.tkrefreshlayout.TwinklingRefreshLayout refreshLayout) {
+        public void onRefresh(TwinklingRefreshLayout refreshLayout) {
             if (mOnRefreshListener != null) {
                 if (mOnRefreshListener.onRefresh()) {
                     isRefreshing = true;
@@ -180,7 +180,6 @@ public class ApRefreshLayout implements RefreshLayouter<TwinklingRefreshLayout>/
                 AfDispatcher.dispatch(() -> setRefreshComplete(), 2000);
             }
         }
-
 //        @Override
 //        public void onLoadMore(TwinklingRefreshLayout refreshLayout) {
 //            if (mOnMoreListener != null) {
