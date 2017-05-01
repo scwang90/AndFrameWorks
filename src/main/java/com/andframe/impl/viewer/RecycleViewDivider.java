@@ -26,7 +26,7 @@ public class RecycleViewDivider extends RecyclerView.ItemDecoration {
      */
     public RecycleViewDivider(Context context) {
         mContext = context;
-        mOrientation = VERTICAL;
+        mOrientation = HORIZONTAL;
     }
 
     /**

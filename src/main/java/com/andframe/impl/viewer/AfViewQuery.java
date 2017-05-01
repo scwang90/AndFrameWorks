@@ -1686,9 +1686,9 @@ public class AfViewQuery<T extends AfViewQuery<T>> implements ViewQuery<T> {
         return foreach(view -> {
             if (view instanceof TextView) {
                 ((TextView) view).setGravity(gravity);
-            } else if (view instanceof RelativeLayout && Build.VERSION.SDK_INT > 16) {
+            } else if (view instanceof RelativeLayout) {
                 ((RelativeLayout) view).setGravity(gravity);
-            } else if (view instanceof LinearLayout && Build.VERSION.SDK_INT > 23) {
+            } else if (view instanceof LinearLayout) {
                 ((LinearLayout) view).setGravity(gravity);
             }
         });

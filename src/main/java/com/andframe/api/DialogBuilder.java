@@ -334,7 +334,7 @@ public interface DialogBuilder {
      */
     Dialog multiChoice(CharSequence title, CharSequence[] items, boolean[] checkedItems, DialogInterface.OnMultiChoiceClickListener listener, DialogInterface.OnClickListener lpositive);
 
-        //</editor-fold>
+    //</editor-fold>
 
     //<editor-fold desc="输入对话框">
     /**
@@ -372,6 +372,44 @@ public interface DialogBuilder {
      * @param listener 监听器
      */
     Dialog inputText(CharSequence title, final CharSequence defaul, int type, final InputTextListener listener);
+    //</editor-fold>
+
+    //<editor-fold desc="多行输入框">
+    /**
+     * 弹出一个文本输入框
+     *
+     * @param title    标题
+     * @param listener 监听器
+     */
+    Dialog inputLines(CharSequence title, InputTextListener listener);
+
+    /**
+     * 弹出一个文本输入框
+     *
+     * @param title    标题
+     * @param type     android.text.InputType
+     * @param listener 监听器
+     */
+    Dialog inputLines(CharSequence title, int type, InputTextListener listener);
+
+    /**
+     * 弹出一个文本输入框
+     *
+     * @param title    标题
+     * @param defaul   默认值
+     * @param listener 监听器
+     */
+    Dialog inputLines(CharSequence title, CharSequence defaul, InputTextListener listener);
+
+    /**
+     * 弹出一个文本输入框
+     *
+     * @param title    标题
+     * @param defaul   默认值
+     * @param type     android.text.InputType
+     * @param listener 监听器
+     */
+    Dialog inputLines(CharSequence title, final CharSequence defaul, int type, final InputTextListener listener);
     //</editor-fold>
 
     //<editor-fold desc="不再提示对话框">

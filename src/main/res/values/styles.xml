@@ -191,8 +191,8 @@
     </style>
 
     <style name="AndFrame.CommonBar.Panel">
-        <item name="android:paddingTop">@dimen/division_line</item>
-        <item name="android:paddingBottom">@dimen/division_line</item>
+        <!--<item name="android:paddingTop">@dimen/division_line</item>-->
+        <!--<item name="android:paddingBottom">@dimen/division_line</item>-->
         <item name="android:layout_marginTop">@dimen/padding_common</item>
         <item name="android:orientation">vertical</item>
         <item name="android:background">@drawable/af_background_panel</item>

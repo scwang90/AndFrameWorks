@@ -83,13 +83,9 @@ public class AfStatusHelper<T> implements StatusHelper<T> {
         if (content != null) {
             mRefreshLayouter = mPager.initRefreshLayout(content);
             if (mRefreshLayouter != null) {
-                mRefreshLayouter.setOnRefreshListener(mPager);
                 mStatusLayouter = mPager.initStatusLayout(mRefreshLayouter.getLayout());
             } else {
                 mStatusLayouter = mPager.initStatusLayout(content);
-            }
-            if (mStatusLayouter != null) {
-                mStatusLayouter.setOnRefreshListener(mPager);
             }
         }
 
@@ -142,7 +138,8 @@ public class AfStatusHelper<T> implements StatusHelper<T> {
                         || view instanceof RecyclerView
                         || view instanceof ScrollView
                         || view instanceof WebView
-                        || view instanceof NestedScrollView) {
+                        || view instanceof NestedScrollView
+                        || view instanceof ViewPager) {
                     return view;
                 } else if (view instanceof ViewGroup) {
                     ViewGroup group = (ViewGroup) view;
@@ -174,6 +171,7 @@ public class AfStatusHelper<T> implements StatusHelper<T> {
             ViewGroup.LayoutParams params = content.getLayoutParams();
             RefreshLayouter layouter = mPager.newRefreshLayouter(content.getContext());
             layouter.setContenView(content);
+            layouter.setOnRefreshListener(mPager);
 
             group.addView(layouter.getLayout(), i, params);
 
@@ -204,6 +202,7 @@ public class AfStatusHelper<T> implements StatusHelper<T> {
             ViewGroup.LayoutParams params = content.getLayoutParams();
             StatusLayouter layouter = mPager.newStatusLayouter(content.getContext());
             layouter.setContenView(content);
+            layouter.setOnRefreshListener(mPager);
 
             group.addView(layouter.getLayout(), i, params);
 

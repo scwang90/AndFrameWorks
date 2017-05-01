@@ -22,6 +22,7 @@ import android.os.Looper;
 import android.text.InputType;
 import android.text.TextUtils;
 import android.util.TypedValue;
+import android.view.Gravity;
 import android.view.View;
 import android.view.ViewGroup;
 import android.view.ViewGroup.LayoutParams;
@@ -39,6 +40,7 @@ import com.andframe.api.DialogBuilder;
 import com.andframe.caches.AfPrivateCaches;
 import com.andframe.exception.AfExceptionHandler;
 import com.andframe.listener.SafeListener;
+import com.andframe.util.android.AfDensity;
 import com.andframe.util.java.AfReflecter;
 
 import java.util.Calendar;
@@ -459,7 +461,6 @@ public class AfDialogBuilder implements DialogBuilder {
         return dialog.show();
     }
 
-
     //<editor-fold desc="输入对话框">
     /**
      * 弹出一个文本输入框
@@ -514,6 +515,122 @@ public class AfDialogBuilder implements DialogBuilder {
 
         final CharSequence oKey = "确定";
         final CharSequence msgKey = "$inputText$";
+
+        OnClickListener cancleListener = (dialog, which) -> {
+            AfSoftKeyboard.hideSoftKeyboard(input);
+            if (listener instanceof InputTextCancelable) {
+                ((InputTextCancelable) listener).onInputTextCancel(input);
+            }
+            if (dialog != null) {
+                dialog.dismiss();
+            }
+        };
+        final OnClickListener okListener = (dialog, which) -> {
+            if (listener.onInputTextComfirm(input, input.getText().toString())) {
+                AfSoftKeyboard.hideSoftKeyboard(input);
+                if (dialog != null) {
+                    dialog.dismiss();
+                }
+            }
+        };
+        final OnShowListener showListener = dialog -> {
+            AfSoftKeyboard.showSoftkeyboard(input);
+            if (defaullength > 3 && defaul.toString().matches("[^.]+\\.[a-zA-Z]\\w{1,3}")) {
+                input.setSelection(0, defaul.toString().lastIndexOf('.'));
+            } else {
+                input.setSelection(0, defaullength);
+            }
+        };
+
+        if (mBuildNative) {
+            Builder builder = new AlertDialog.Builder(mContext);
+            builder.setView(input);
+            builder.setCancelable(false);
+            builder.setTitle(title);
+            builder.setPositiveButton("确定", new SafeListener());
+            builder.setNegativeButton("取消", cancleListener);
+            final AlertDialog dialog = builder.create();
+            dialog.setOnShowListener(showListener);
+            dialog.show();
+            dialog.getButton(AlertDialog.BUTTON_POSITIVE).setOnClickListener(v -> new SafeListener(okListener).onClick(dialog, 0));
+            return dialog;
+        } else {
+            final Dialog dialog = showDialog(title, msgKey, oKey, okListener, "取消", cancleListener);
+            new Handler(Looper.getMainLooper()).postDelayed(() -> {
+                FindTextViewWithText builderHelper = FindTextViewWithText.invoke((ViewGroup) dialog.getWindow().getDecorView(), msgKey);
+                if (builderHelper != null) {
+                    builderHelper.parent.removeViewAt(builderHelper.index);
+                    builderHelper.parent.addView(input,builderHelper.index,builderHelper.textView.getLayoutParams());
+                    showListener.onShow(dialog);
+                    builderHelper = FindTextViewWithText.invoke((ViewGroup) dialog.getWindow().getDecorView(), oKey);
+                    if (builderHelper != null) {
+                        builderHelper.textView.setOnClickListener(v -> new SafeListener(okListener).onClick(dialog, 0));
+                    }
+                }
+            }, mBuildDelayed);
+            return dialog;
+        }
+    }
+    //</editor-fold>
+
+    //<editor-fold desc="多行输入框">
+    /**
+     * 弹出一个文本输入框
+     *
+     * @param title    标题
+     * @param listener 监听器
+     */
+    @Override
+    public Dialog inputLines(CharSequence title, InputTextListener listener) {
+        return inputLines(title, "", InputType.TYPE_CLASS_TEXT, listener);
+    }
+
+    /**
+     * 弹出一个文本输入框
+     *
+     * @param title    标题
+     * @param type     android.text.InputType
+     * @param listener 监听器
+     */
+    @Override
+    public Dialog inputLines(CharSequence title, int type, InputTextListener listener) {
+        return inputLines(title, "", type, listener);
+    }
+
+    /**
+     * 弹出一个文本输入框
+     *
+     * @param title    标题
+     * @param defaul   默认值
+     * @param listener 监听器
+     */
+    @Override
+    public Dialog inputLines(CharSequence title, CharSequence defaul, InputTextListener listener) {
+        return inputLines(title, defaul, InputType.TYPE_CLASS_TEXT, listener);
+    }
+
+    /**
+     * 弹出一个文本输入框
+     *
+     * @param title    标题
+     * @param defaul   默认值
+     * @param type     android.text.InputType
+     * @param listener 监听器
+     */
+    @Override
+    public Dialog inputLines(CharSequence title, final CharSequence defaul, int type, final InputTextListener listener) {
+        final EditText input = new EditText(mContext);
+        final int defaullength = defaul != null ? defaul.length() : 0;
+        input.setText(defaul);
+        input.clearFocus();
+        input.setInputType(type|InputType.TYPE_TEXT_FLAG_MULTI_LINE);
+        input.setGravity(Gravity.TOP);
+        input.setSingleLine(false);
+        input.setHorizontallyScrolling(false);
+        input.setMinHeight(AfDensity.dp2px(100));
+
+        final CharSequence oKey = "确定";
+        final CharSequence msgKey = "$inputLines$";
 
         OnClickListener cancleListener = (dialog, which) -> {
             AfSoftKeyboard.hideSoftKeyboard(input);
