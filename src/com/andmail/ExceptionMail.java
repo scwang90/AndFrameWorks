@@ -34,7 +34,7 @@ public class ExceptionMail /*extends AppinfoMail*/ {
 //
 //	@Override
 //	public void send() throws Exception {
-//		AfPrivateCaches cache = AfPrivateCaches.getInstance();
+//		Cacher cache = $.cache();
 //		if (cache.get(md5, String.class) == null) {//标记相同错误只发送一次
 //			super.send();
 //			cache.put(md5, md5);
@@ -44,6 +44,6 @@ public class ExceptionMail /*extends AppinfoMail*/ {
 //	@Override
 //	protected void onException(Throwable e) {
 //		super.onException(e);
-//		AfPrivateCaches.getInstance().put(md5, md5);
+//		$.cache().put(md5, md5);
 //	}
 }
