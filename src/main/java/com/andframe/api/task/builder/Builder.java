@@ -1,5 +1,6 @@
 package com.andframe.api.task.builder;
 
+import com.andframe.api.pager.Pager;
 import com.andframe.api.task.Task;
 import com.andframe.api.task.handler.ExceptionHandler;
 import com.andframe.api.task.handler.PrepareHandler;
@@ -17,6 +18,7 @@ public interface Builder {
     Builder success(Runnable runnable);
     Builder exception(ExceptionHandler handler);
     <T> LoadBuilder<T> load(Class<T> clazz);
+    WaitBuilder wait(Pager pager, String master);
     void post();
     Task build();
 }

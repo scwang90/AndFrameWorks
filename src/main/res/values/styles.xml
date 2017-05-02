@@ -16,6 +16,30 @@
     <style name="AndFrame">
     </style>
 
+    <style name="AndFrame.Match">
+        <item name="android:layout_width">match_parent</item>
+    </style>
+
+    <style name="AndFrame.Match.Wrap">
+        <item name="android:layout_height">wrap_content</item>
+    </style>
+
+    <style name="AndFrame.Match.Match">
+        <item name="android:layout_height">match_parent</item>
+    </style>
+
+    <style name="AndFrame.Wrap">
+        <item name="android:layout_width">wrap_content</item>
+    </style>
+
+    <style name="AndFrame.Wrap.Wrap">
+        <item name="android:layout_height">wrap_content</item>
+    </style>
+
+    <style name="AndFrame.Wrap.Match">
+        <item name="android:layout_height">match_parent</item>
+    </style>
+
     <style name="AndFrame.Divison">
         <item name="android:layout_width">match_parent</item>
         <item name="android:layout_height">@dimen/division_line</item>
@@ -50,9 +74,7 @@
         <item name="android:layerType">software</item>
     </style>
 
-    <style name="AndFrame.Label">
-        <item name="android:layout_width">wrap_content</item>
-        <item name="android:layout_height">wrap_content</item>
+    <style name="AndFrame.Label" parent="AndFrame.Wrap.Wrap">
         <item name="android:gravity">center_vertical</item>
         <item name="android:singleLine">true</item>
         <item name="android:textSize">@dimen/textsize_content</item>
@@ -97,13 +119,11 @@
         <item name="android:textSize">@dimen/textsize_content</item>
     </style>
 
-    <style name="AndFrame.Button">
+    <style name="AndFrame.Button" parent="AndFrame.Wrap.Wrap">
         <item name="android:layout_marginTop">10dp</item>
         <item name="android:layout_marginBottom">10dp</item>
         <item name="android:layout_marginLeft">10dp</item>
         <item name="android:layout_marginRight">10dp</item>
-        <item name="android:layout_width">wrap_content</item>
-        <item name="android:layout_height">wrap_content</item>
         <item name="android:paddingTop">10dp</item>
         <item name="android:paddingBottom">10dp</item>
         <item name="android:paddingLeft">20dp</item>
@@ -185,7 +205,7 @@
         <item name="android:textColor">@color/colorToolbarTextDark</item>
     </style>
 
-    <style name="AndFrame.CommonBar">
+    <style name="AndFrame.CommonBar" parent="AndFrame.Match.Wrap">
         <item name="android:layout_width">match_parent</item>
         <item name="android:layout_height">wrap_content</item>
     </style>
@@ -269,9 +289,7 @@
         <item name="android:layout_alignParentRight">true</item>
     </style>
 
-    <style name="AndFrame.Layout">
-        <item name="android:layout_width">match_parent</item>
-        <item name="android:layout_height">wrap_content</item>
+    <style name="AndFrame.Layout" parent="AndFrame.Match.Wrap">
         <item name="android:paddingTop">@dimen/padding_common_v</item>
         <item name="android:paddingBottom">@dimen/padding_common_v</item>
         <item name="android:paddingLeft">@dimen/padding_common_h</item>

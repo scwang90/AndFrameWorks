@@ -1,22 +1,24 @@
 package com.andframe.impl.task;
 
+
+import com.andframe.R;
+import com.andframe.api.pager.Pager;
+
 import java.util.Collection;
 
 /**
- * 内部加载任务实现
- * Created by SCWANG on 2017/4/28.
+ * 集成等待对话框的数据加载任务
+ * Created by SCWANG on 2017/5/3.
  */
-
-class InternalLoadTask<T> extends InternalTask {
+class InternalWaitLoadTask<T> extends InternalWaitTask {
 
     private T data;
-    private LoadTaskBuilder<T> builder;
+    private WaitLoadTaskBuilder<T> builder;
 
-    InternalLoadTask(LoadTaskBuilder<T> builder) {
+    InternalWaitLoadTask(WaitLoadTaskBuilder<T> builder) {
         super(builder);
         this.builder = builder;
     }
-
     @Override
     protected void onWorking() throws Exception {
         super.onWorking();
@@ -46,5 +48,21 @@ class InternalLoadTask<T> extends InternalTask {
             return ((Collection) data).isEmpty();
         }
         return data == null;
+    }
+
+    @Override
+    protected void makeToastSucccess() {
+        if (isEmpty(data)) {
+            makeToastEmpty();
+        } else {
+            super.makeToastSucccess();
+        }
+    }
+
+    private void makeToastEmpty() {
+        Pager pager = builder.pager.get();
+        if (pager != null && builder.feedbackOnEmpty) {
+            pager.makeToastShort(String.format(pager.getContext().getString(R.string.task_format_success),builder.master));
+        }
     }
 }

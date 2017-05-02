@@ -1,0 +1,67 @@
+package com.andframe.impl.task;
+
+import com.andframe.R;
+import com.andframe.api.pager.Pager;
+import com.andframe.exception.AfExceptionHandler;
+
+/**
+ * 带等待对话框的任务
+ * Created by SCWANG on 2017/5/3.
+ */
+class InternalWaitTask extends InternalTask {
+
+    private WaitTaskBuilder builder;
+
+    InternalWaitTask(WaitTaskBuilder builder) {
+        super(builder);
+        this.builder = builder;
+    }
+
+    @Override
+    protected boolean onPrepare() {
+        showProgressDialog();
+        return super.onPrepare();
+    }
+
+    @Override
+    protected void onHandle() {
+        hideProgressDialog();
+        if (isFinish()) {
+            makeToastSucccess();
+        } else {
+            makeToastFail(mException);
+        }
+        super.onHandle();
+    }
+
+    //<editor-fold desc="对话框实现">
+    private void showProgressDialog() {
+        Pager pager = builder.pager.get();
+        if (pager != null) {
+            pager.showProgressDialog(String.format(pager.getContext().getString(R.string.task_format_loading),builder.master));
+        }
+    }
+
+    protected void makeToastSucccess() {
+        Pager pager = builder.pager.get();
+        if (pager != null && builder.feedbackOnSuccess) {
+            pager.makeToastShort(String.format(pager.getContext().getString(R.string.task_format_success),builder.master));
+        }
+    }
+
+    private void makeToastFail(Throwable e) {
+        Pager pager = builder.pager.get();
+        if (pager != null && builder.feedbackOnException) {
+            pager.makeToastShort(AfExceptionHandler.tip(e, String.format(pager.getContext().getString(R.string.task_format_fail), builder.master)));
+        }
+    }
+
+    private void hideProgressDialog() {
+        Pager pager = builder.pager.get();
+        if (pager != null) {
+            pager.hideProgressDialog();
+        }
+    }
+    //</editor-fold>
+
+}
