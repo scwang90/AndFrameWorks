@@ -374,7 +374,7 @@ public class ApCommonBarBinder {
             return self();
         }
 
-        public SelectBinder value(String value) {
+        public SelectBinder value(CharSequence value) {
             for (int i = 0; i < items.length; i++) {
                 if (TextUtils.equals(items[i].toString(), value)) {
                     onClick(null, i);
