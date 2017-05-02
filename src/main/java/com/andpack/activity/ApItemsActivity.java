@@ -46,7 +46,7 @@ public abstract class ApItemsActivity<T> extends AfItemsActivity<T> implements A
     }
 
     @Override
-    public void onViewCreated() throws Exception {
+    public void onViewCreated()  {
         mApHelper.onViewCreated();
         super.onViewCreated();
     }

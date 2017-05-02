@@ -45,7 +45,7 @@ public abstract class ApItemsFragment<T> extends AfItemsFragment<T> implements A
     }
 
     @Override
-    public void onViewCreated() throws Exception {
+    public void onViewCreated()  {
         mApHelper.onViewCreated();
         super.onViewCreated();
     }

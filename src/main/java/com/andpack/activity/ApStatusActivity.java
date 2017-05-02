@@ -37,7 +37,7 @@ public abstract class ApStatusActivity<T> extends AfStatusActivity<T> implements
     }
 
     @Override
-    public void onViewCreated() throws Exception {
+    public void onViewCreated()  {
         mApHelper.onViewCreated();
         super.onViewCreated();
     }

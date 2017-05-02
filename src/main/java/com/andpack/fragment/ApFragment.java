@@ -27,7 +27,7 @@ public class ApFragment extends AfTabFragment implements ApPager {
 
     @CallSuper
     @BindViewCreated
-    public void onViewCreated() throws Exception {
+    public void onViewCreated()  {
         mApHelper.onViewCreated();
     }
 

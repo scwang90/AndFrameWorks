@@ -176,15 +176,6 @@ public class ApApp extends AfApp {
         return new ApRefreshLayout(context);
     }
 
-    public ApUpdateService newUpdateService() {
-        return new ApUpdateService(this) {
-            @Override
-            protected ServiceVersionInfo infoFromService(String version) throws Exception {
-                return null;
-            }
-        };
-    }
-
     @Override
     public AfAppSettings newAppSetting() {
         return new ApAppSettings(this);
@@ -208,8 +199,8 @@ public class ApApp extends AfApp {
     }
 
     @Override
-    public EventManager getEventManager() {
-        return ApEventManager.getInstance();
+    public EventManager newEventManager() {
+        return new ApEventManager();
     }
 
     //</editor-fold>

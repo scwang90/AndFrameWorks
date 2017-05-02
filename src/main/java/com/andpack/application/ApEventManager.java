@@ -11,8 +11,6 @@ import org.greenrobot.eventbus.EventBus;
 
 public class ApEventManager implements EventManager {
 
-    private static EventManager mInstance;
-
     @Override
     public void post(Object event) {
         EventBus.getDefault().post(event);
@@ -21,12 +19,5 @@ public class ApEventManager implements EventManager {
     @Override
     public void postSticky(Object event) {
         EventBus.getDefault().postSticky(event);
-    }
-
-    public static EventManager getInstance() {
-        if (mInstance == null) {
-            mInstance = new ApEventManager();
-        }
-        return mInstance;
     }
 }

@@ -23,13 +23,13 @@ import android.widget.TextView;
 import android.widget.TimePicker;
 
 import com.andframe.$;
+import com.andframe.api.Cacher;
 import com.andframe.api.DialogBuilder;
 import com.andframe.api.DialogBuilder.OnDateSetVerifyListener;
 import com.andframe.api.DialogBuilder.OnDateTimeSetVerifyListener;
 import com.andframe.api.DialogBuilder.OnTimeSetVerifyListener;
 import com.andframe.api.pager.Pager;
 import com.andframe.api.viewer.ViewQuery;
-import com.andframe.caches.AfPrivateCaches;
 import com.andframe.feature.AfIntent;
 import com.andframe.listener.SafeListener;
 import com.andframe.task.AfDispatcher;
@@ -121,13 +121,13 @@ public class ApCommonBarBinder {
 
     private Pager pager;
     private String hintPrefix = "";
-    private AfPrivateCaches caches;
+    private Cacher cacher;
     private ViewQuery<? extends ViewQuery> $$;
 
     public ApCommonBarBinder(Pager pager) {
         this.pager = pager;
         this.$$ = $.query(pager);
-        this.caches = AfPrivateCaches.getInstance(pager.getClass().getName());
+        this.cacher = $.cache(pager.getClass().getName());
     }
 
     public void setHintPrefix(String hintPrefix) {
@@ -347,7 +347,7 @@ public class ApCommonBarBinder {
 
         @Override
         public void onRestoreCache(String key) {
-            int i = caches.getInt(key, -1);
+            int i = cacher.getInt(key, -1);
             value(i);
         }
 
@@ -355,7 +355,7 @@ public class ApCommonBarBinder {
         public void onClick(DialogInterface dialog, int which) {
             $(idvalue).text(items[which]);
             if (key != null && dialog != null) {
-                caches.put(key, which);
+                cacher.put(key, which);
             }
             if (bind != null) {
                 bind.text(this, items[which].toString(), which);
@@ -442,7 +442,7 @@ public class ApCommonBarBinder {
             lastval = value;
             $(idvalue).text(String.valueOf(value));
             if (key != null && picker != null) {
-                caches.put(key, value);
+                cacher.put(key, value);
             }
             if (bind != null) {
                 bind.text(this, value);
@@ -476,7 +476,7 @@ public class ApCommonBarBinder {
 
         @Override
         public void onRestoreCache(String key) {
-            List<Boolean> list = caches.getList(key, Boolean.class);
+            List<Boolean> list = cacher.getList(key, Boolean.class);
             if (list != null && list.size() == checkedItems.length) {
                 for (int i = 0; i < checkedItems.length; i++) {
                     checkedItems[i] = list.get(i);
@@ -533,7 +533,7 @@ public class ApCommonBarBinder {
                 for (boolean bool : checkedItems) {
                     list.add(bool);
                 }
-                caches.putList(key, list);
+                cacher.putList(key, list);
             }
             if (bind != null) {
                 bind.text(this, builder.toString(), count, checkedItems);
@@ -573,7 +573,7 @@ public class ApCommonBarBinder {
         }
         @Override
         public void afterTextChanged(Editable s) {
-            caches.put(key, s.toString());
+            cacher.put(key, s.toString());
             AfDispatcher.dispatch(() -> {
                 if (bind != null) {
                     bind.onBind(this, s.toString());
@@ -583,7 +583,7 @@ public class ApCommonBarBinder {
 
         @Override
         public void onRestoreCache(String key) {
-            value(caches.getString(key, ""));
+            value(cacher.getString(key, ""));
         }
 
         public InputBinder value(String value) {
@@ -620,7 +620,7 @@ public class ApCommonBarBinder {
 
         @Override
         public void onRestoreCache(String key) {
-            String text = caches.getString(key, null);
+            String text = cacher.getString(key, null);
             if (text != null) {
                 onInputTextComfirm(null, text);
             }
@@ -639,7 +639,7 @@ public class ApCommonBarBinder {
             lastval = value;
             $(idvalue).text(value + valueSuffix);
             if (key != null && input != null) {
-                caches.put(key, value);
+                cacher.put(key, value);
             }
             if (bind != null) {
                 bind.text(this, value);
@@ -1124,7 +1124,7 @@ public class ApCommonBarBinder {
 
         @Override
         public void onRestoreCache(String key) {
-            Boolean bool = caches.get(key, null, Boolean.class);
+            Boolean bool = cacher.get(key, null, Boolean.class);
             if (bool != null) {
                 value(bool);
             }
@@ -1151,7 +1151,7 @@ public class ApCommonBarBinder {
         public void start() {
             lastval = $(idvalue).isChecked();
             if (key != null) {
-                caches.put(key, lastval);
+                cacher.put(key, lastval);
             }
             if (bind != null) {
                 bind.check(this, lastval);

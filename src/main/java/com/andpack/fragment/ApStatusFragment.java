@@ -41,7 +41,7 @@ public class ApStatusFragment<T> extends AfStatusFragment<T> implements ApPager 
     }
 
     @Override
-    public void onViewCreated() throws Exception {
+    public void onViewCreated()  {
         mApHelper.onViewCreated();
         super.onViewCreated();
     }

@@ -1,7 +1,7 @@
 package com.andpack.activity;
 
+import com.andframe.$;
 import com.andpack.application.ApAppSettings;
-import com.andpack.application.ApUpdateService;
 
 /**
  * 通用页面基类
@@ -14,10 +14,10 @@ public class ApMainActivity extends ApActivity {
     protected boolean mDoubleBackKeyPressed = true;
 
     @Override
-    public void onViewCreated() throws Exception {
+    public void onViewCreated()  {
         super.onViewCreated();
         if (ApAppSettings.settings().isAutoUpdate()) {
-            ApUpdateService.getInstance().checkUpdate();
+            $.update().checkUpdate();
         }
     }
 
