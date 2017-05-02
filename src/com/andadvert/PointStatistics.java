@@ -69,9 +69,9 @@ public class PointStatistics {
 	//读取老版本记录
 //	static {
 //		try {
-//			AfDurableCache cache = AfDurableCache.getInstance();
+//			Cacher cache = $.durable();
 //			if(cache.getInt(KEY_LASTPONT, 0) > 0){
-//				AfPrivateCaches pcache = AfPrivateCaches.getInstance();
+//				Cacher pcache = $.cache();
 //				pcache.put(KEY_PONTNOTE, cache.getString(KEY_PONTNOTE, ""));
 //				pcache.put(KEY_LASTPONT, cache.getInt(KEY_LASTPONT, 0));
 //				pcache.put(KEY_PONTCHANGE, cache.getInt(KEY_PONTCHANGE, 0));
@@ -139,7 +139,7 @@ public class PointStatistics {
 	}
 
 //	public static String getAttractStatistics() {
-//		AfPrivateCaches cache = AfPrivateCaches.getInstance();
+//		Cacher cache = $.cache();
 //		return cache.getString("66603395431241904102", "");
 //	}
 
