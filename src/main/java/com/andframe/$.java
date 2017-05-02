@@ -5,6 +5,7 @@ import android.content.Context;
 import android.support.annotation.MainThread;
 import android.support.annotation.NonNull;
 import android.support.v4.app.Fragment;
+import android.util.SparseArray;
 import android.view.View;
 
 import com.andframe.activity.AfActivity;
@@ -14,6 +15,7 @@ import com.andframe.api.ModelConvertor;
 import com.andframe.api.Toaster;
 import com.andframe.api.event.EventManager;
 import com.andframe.api.pager.PagerManager;
+import com.andframe.api.service.UpdateService;
 import com.andframe.api.task.Task;
 import com.andframe.api.task.TaskExecutor;
 import com.andframe.api.task.builder.Builder;
@@ -22,14 +24,10 @@ import com.andframe.api.viewer.ViewModuler;
 import com.andframe.api.viewer.ViewQuery;
 import com.andframe.api.viewer.Viewer;
 import com.andframe.application.AfApp;
-import com.andframe.caches.AfDurableCache;
-import com.andframe.caches.AfPrivateCaches;
 import com.andframe.fragment.AfFragment;
-import com.andframe.impl.AfToaster;
 import com.andframe.impl.pager.AfPagerManager;
 import com.andframe.impl.viewer.ViewerWarpper;
 import com.andframe.task.AfDispatcher;
-import com.andframe.task.AfTaskExecutor;
 
 import java.lang.reflect.Array;
 import java.lang.reflect.InvocationHandler;
@@ -59,11 +57,11 @@ public class $ {
     public interface Api extends $$,TaskExecutor, DialogBuilder, ViewQuery, Cacher, EventManager {
     }
 
-    public static final Toaster toast = new ToasterWrapper(AfToaster.getInstance());
+    public static final Toaster toast = new ToasterWrapper(getInstanceToast());
 
     public static final PagerManager pager = new PagerManagerWrapper(AfPagerManager.getInstance());
 
-    public static final TaskExecutor task = new TaskExecutorWrapper(AfTaskExecutor.getInstance());
+    public static final TaskExecutor task = new TaskExecutorWrapper(getInstanceExecutor());
 
     @SuppressWarnings("MethodNameSameAsClassName")
     @MainThread
@@ -78,24 +76,101 @@ public class $ {
         return api;
     }
 
+    //<editor-fold desc="获取实例">
+    private static Toaster instanceToaster = null;
+    private static Toaster getInstanceToast() {
+        if (instanceToaster == null) {
+            instanceToaster = AfApp.get().newToaster();
+        }
+        return instanceToaster;
+    }
+    private static Cacher instanceDurableCacher = null;
+    private static Cacher getInstanceDurableCacher() {
+        if(instanceDurableCacher == null){
+            instanceDurableCacher = AfApp.get().newDurableCacher();
+        }
+        return instanceDurableCacher;
+    }
+    private static SparseArray<Cacher> arrayDurable = new SparseArray<>();
+    private static Cacher getInstanceDurableCacher(String name) {
+        Cacher cacher = arrayDurable.get(name.hashCode());
+        if(cacher == null){
+            cacher = AfApp.get().newDurableCacher(name);
+            arrayDurable.put(name.hashCode(), cacher);
+        }
+        return cacher;
+    }
+
+    private static Cacher instancePrivateCacher = null;
+    private static Cacher getInstancePrivateCacher() {
+        if(instancePrivateCacher == null){
+            instancePrivateCacher = AfApp.get().newPrivateCacher();
+        }
+        return instancePrivateCacher;
+    }
+    private static SparseArray<Cacher> arrayPrivate = new SparseArray<>();
+    private static Cacher getInstancePrivateCacher(String name) {
+        Cacher cacher = arrayPrivate.get(name.hashCode());
+        if(cacher == null){
+            cacher = AfApp.get().newPrivateCacher(name);
+            arrayPrivate.put(name.hashCode(), cacher);
+        }
+        return cacher;
+    }
+    private static TaskExecutor instanceExecutor;
+    private static TaskExecutor getInstanceExecutor() {
+        if (instanceExecutor == null) {
+            instanceExecutor = AfApp.get().newTaskExecutor();
+        }
+        return instanceExecutor;
+    }
+    private static EventManager instanceEventManager;
+    private static EventManager getInstanceEventManager() {
+        if (instanceEventManager == null) {
+            instanceEventManager = AfApp.get().newEventManager();
+        }
+        return instanceEventManager;
+    }
+    private static UpdateService mInstanceUpdateService;
+    private static UpdateService getmInstanceUpdateService() {
+        if (mInstanceUpdateService == null) {
+            mInstanceUpdateService = AfApp.get().newUpdateService();
+        }
+        return mInstanceUpdateService;
+    }
+    //</editor-fold>
+
+    //<editor-fold desc="快速分类">
     public static Toaster toast() {
-        return AfToaster.getInstance();
+        return getInstanceToast();
     }
 
     public static Cacher durable() {
-        return AfDurableCache.getInstance();
+        return getInstanceDurableCacher();
     }
 
     public static Cacher durable(String name) {
-        return AfDurableCache.getInstance(name);
+        return getInstanceDurableCacher(name);
     }
 
     public static Cacher cache() {
-        return AfPrivateCaches.getInstance();
+        return getInstancePrivateCacher();
     }
 
     public static Cacher cache(String name) {
-        return AfPrivateCaches.getInstance(name);
+        return getInstancePrivateCacher(name);
+    }
+
+    public static TaskExecutor task() {
+        return getInstanceExecutor();
+    }
+
+    public static EventManager event() {
+        return getInstanceEventManager();
+    }
+
+    public static UpdateService update() {
+        return getmInstanceUpdateService();
     }
 
     public static PagerManager pager(){
@@ -131,14 +206,7 @@ public class $ {
     public static ViewQuery<? extends ViewQuery> query(AfActivity activity) {
         return AfApp.get().newViewQuery(new ViewerWarpper(activity.getView()));
     }
-
-    public static TaskExecutor task() {
-        return AfTaskExecutor.getInstance();
-    }
-
-    public static EventManager event() {
-        return AfApp.get().getEventManager();
-    }
+    //</editor-fold>
 
     public static void dispatch(Runnable runnable){
         AfDispatcher.dispatch(runnable);
@@ -196,15 +264,15 @@ public class $ {
         public Object invoke(Object proxy, Method method, Object[] objects) throws Throwable {
             try {
                 if (method.getDeclaringClass().isAssignableFrom(TaskExecutor.class)) {
-                    return method.invoke(AfTaskExecutor.getInstance(), objects);
+                    return method.invoke(getInstanceExecutor(), objects);
                 } else if (method.getDeclaringClass().isAssignableFrom(DialogBuilder.class)) {
                     return method.invoke(AfApp.get().newDialogBuilder(getLastContext()), objects);
                 } else if (method.getDeclaringClass().isAssignableFrom(ViewQuery.class)) {
                     return method.invoke(AfApp.get().newViewQuery(getLastViewer()), objects);
                 } else if (method.getDeclaringClass().isAssignableFrom(Cacher.class)) {
-                    return method.invoke(AfPrivateCaches.getInstance(getLastString()), objects);
+                    return method.invoke(getInstancePrivateCacher(getLastString()), objects);
                 } else if (method.getDeclaringClass().isAssignableFrom(EventManager.class)) {
-                    return method.invoke(AfApp.get().getEventManager(), objects);
+                    return method.invoke(getInstanceEventManager(), objects);
                 } else if (method.getDeclaringClass().isAssignableFrom($$.class)) {
                     return method.invoke(this, objects);
                 }
@@ -240,11 +308,11 @@ public class $ {
     }
 
     //<editor-fold desc="Wrapper">
-    protected static class ToasterWrapper implements Toaster {
+    private static class ToasterWrapper implements Toaster {
 
         Toaster wrapped;
 
-        public ToasterWrapper(Toaster wrapped) {
+        ToasterWrapper(Toaster wrapped) {
             this.wrapped = wrapped;
         }
 
@@ -278,12 +346,11 @@ public class $ {
             wrapped.makeToastShort(tip, e);
         }
     }
-
-    protected static class TaskExecutorWrapper implements TaskExecutor {
+    private static class TaskExecutorWrapper implements TaskExecutor {
 
         TaskExecutor wrapped;
 
-        public TaskExecutorWrapper(TaskExecutor wrapped) {
+        TaskExecutorWrapper(TaskExecutor wrapped) {
             this.wrapped = wrapped;
         }
 
@@ -309,11 +376,10 @@ public class $ {
             return wrapped.postTask(task);
         }
     }
-
-    protected static class PagerManagerWrapper implements PagerManager {
+    private static class PagerManagerWrapper implements PagerManager {
         PagerManager wrapped;
 
-        public PagerManagerWrapper(PagerManager wrapped) {
+        PagerManagerWrapper(PagerManager wrapped) {
             this.wrapped = wrapped;
         }
 
@@ -417,8 +483,6 @@ public class $ {
             wrapped.startFragmentForResult(clazz, request, args);
         }
     }
-
-
     //</editor-fold>
 
 }

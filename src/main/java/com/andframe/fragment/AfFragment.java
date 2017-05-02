@@ -14,6 +14,7 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Toast;
 
+import com.andframe.$;
 import com.andframe.activity.AfFragmentActivity;
 import com.andframe.annotation.interpreter.Injecter;
 import com.andframe.annotation.interpreter.LayoutBinder;
@@ -30,13 +31,12 @@ import com.andframe.exception.AfExceptionHandler;
 import com.andframe.exception.AfToastException;
 import com.andframe.feature.AfBundle;
 import com.andframe.feature.AfIntent;
-import com.andframe.impl.viewer.AfView;
 import com.andframe.impl.helper.AfViewQueryHelper;
 import com.andframe.impl.pager.AfPagerManager;
+import com.andframe.impl.viewer.AfView;
 import com.andframe.task.AfData2Task;
 import com.andframe.task.AfData3Task;
 import com.andframe.task.AfDataTask;
-import com.andframe.task.AfTaskExecutor;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -103,7 +103,7 @@ public abstract class AfFragment extends Fragment implements Pager, ViewQueryHel
      * @param task 任务标识
      */
     public <T extends Task> T postTask(T task) {
-        return AfTaskExecutor.getInstance().postTask(task);
+        return $.task().postTask(task);
     }
 
     /**

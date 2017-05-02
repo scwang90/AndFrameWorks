@@ -39,7 +39,7 @@ public class AfJsonCache implements Cacher {
         mShared = new AfSharedPreference(context, name, mode);
     }
 
-    public AfJsonCache(Context context, String path, String name) throws Exception {
+    public AfJsonCache(Context context, String path, String name) {
         mShared = new AfSharedPreference(context, path, name);
     }
 

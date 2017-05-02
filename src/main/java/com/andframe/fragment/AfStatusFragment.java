@@ -32,7 +32,7 @@ public abstract class AfStatusFragment<T> extends AfTabFragment implements Statu
     }
 
     @BindViewCreated@CallSuper
-    public void onViewCreated() throws Exception {
+    public void onViewCreated()  {
         mHelper.onViewCreated();
     }
 

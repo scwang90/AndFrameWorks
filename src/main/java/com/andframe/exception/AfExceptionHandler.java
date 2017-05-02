@@ -11,7 +11,7 @@ import android.os.Message;
 import android.util.DisplayMetrics;
 
 import com.andframe.application.AfApp;
-import com.andframe.caches.AfDurableCache;
+import com.andframe.caches.AfDurableCacher;
 import com.andframe.impl.pager.AfPagerManager;
 import com.andframe.model.Exceptional;
 import com.andframe.task.AfDispatcher;
@@ -90,7 +90,7 @@ public class AfExceptionHandler implements UncaughtExceptionHandler {
                     "\r\n\r\n信息:\r\n" + getExceptionMessage(ex) +
                     "\r\n\r\n快捷:\r\n" + getPackageStackTraceInfo(ex) +
                     "\r\n\r\n堆栈:\r\n" + getStackTraceInfo(ex);
-            String path = AfDurableCache.getPath();
+            String path = AfDurableCacher.getPath();
             FileWriter writer = new FileWriter(path + "/error-" + AfDateFormat.format("y-M-d$HH-mm-ss", new Date()) + ".txt");
             writer.write(msg);
             writer.close();
@@ -132,7 +132,7 @@ public class AfExceptionHandler implements UncaughtExceptionHandler {
                     "\r\n\r\n信息:\r\n" + getExceptionMessage(ex) +
                     "\r\n\r\n快捷:\r\n" + getPackageStackTraceInfo(ex) +
                     "\r\n\r\n堆栈:\r\n" + getStackTraceInfo(ex);
-            String path = AfDurableCache.getPath();
+            String path = AfDurableCacher.getPath();
             FileWriter writer = new FileWriter(path + "/attach-" + AfDateFormat.format("y-M-d$HH-mm-ss", new Date()) + ".txt");
             writer.write(msg);
             writer.close();
@@ -155,7 +155,7 @@ public class AfExceptionHandler implements UncaughtExceptionHandler {
                     "\r\n\r\n信息:\r\n" + getExceptionMessage(ex) +
                     "\r\n\r\n快捷:\r\n" + getPackageStackTraceInfo(ex) +
                     "\r\n\r\n堆栈:\r\n" + getStackTraceInfo(ex);
-            String path = AfDurableCache.getPath();
+            String path = AfDurableCacher.getPath();
             FileWriter writer = new FileWriter(path + "/handler-" + AfDateFormat.format("y-M-d$HH-mm-ss", new Date()) + ".txt");
             writer.write(msg);
             writer.close();

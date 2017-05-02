@@ -13,6 +13,7 @@ import android.support.v4.app.NotificationCompat.Builder;
 import android.text.TextUtils;
 import android.text.format.Formatter;
 
+import com.andframe.$;
 import com.andframe.application.AfApp;
 import com.andframe.exception.AfExceptionHandler;
 import com.andframe.exception.AfToastException;
@@ -55,7 +56,7 @@ public class AfDownloader {
         entity.Name = name;
         entity.DownloadUrl = url;
         entity.DownloadPath = path;
-        AfTaskExecutor.getInstance().postTask(new DownloadTask(entity, null));
+        $.task().postTask(new DownloadTask(entity, null));
     }
 
     /**
@@ -67,7 +68,7 @@ public class AfDownloader {
         DownloadEntity entity = new DownloadEntity();
         entity.DownloadUrl = url;
         entity.DownloadPath = path;
-        AfTaskExecutor.getInstance().postTask(new DownloadTask(entity, null));
+        $.task().postTask(new DownloadTask(entity, null));
     }
 
     /**
@@ -79,7 +80,7 @@ public class AfDownloader {
         DownloadEntity entity = new DownloadEntity();
         entity.DownloadUrl = url;
         entity.DownloadPath = path;
-        AfTaskExecutor.getInstance().postTask(new DownloadTask(entity, listener));
+        $.task().postTask(new DownloadTask(entity, listener));
     }
 
     /**
@@ -87,7 +88,7 @@ public class AfDownloader {
      * @param entity 下载配置实体
      */
     public static void download(DownloadEntity entity) {
-        AfTaskExecutor.getInstance().postTask(new DownloadTask(entity, null));
+        $.task().postTask(new DownloadTask(entity, null));
     }
 
     /**
@@ -96,7 +97,7 @@ public class AfDownloader {
      * @param listener 加载进度监听器
      */
     public static void download(DownloadEntity entity, DownloadListener listener) {
-        AfTaskExecutor.getInstance().postTask(new DownloadTask(entity, listener));
+        $.task().postTask(new DownloadTask(entity, listener));
     }
 
     /**

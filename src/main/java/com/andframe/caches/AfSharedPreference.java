@@ -44,16 +44,14 @@ public class AfSharedPreference {
 	 * @param name 文件名称
 	 * @throws Exception 转换路径失败异常（SD卡被占用）
 	 */
-	public AfSharedPreference(Context context, String path, String name)
-			throws Exception {
+	public AfSharedPreference(Context context, String path, String name) {
 		try {
 			File file = setPreferencesPath(context, new File(path));
 			mShared = context.getSharedPreferences(name, Context.MODE_PRIVATE);
 			setPreferencesPath(context, file);
 		} catch (Throwable e) {
-			AfExceptionHandler.tip(e, "缓存转换路径出错 mShared="
-					+ (mShared == null ? "null" : mShared.toString()));
-			throw new Exception(e);
+			mShared = context.getSharedPreferences(name, Context.MODE_PRIVATE);
+			AfExceptionHandler.handle(e, "缓存转换路径出错 mShared=" + (mShared == null ? "null" : mShared.toString()));
 		}
 	}
 

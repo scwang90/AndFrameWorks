@@ -27,6 +27,7 @@ import com.andframe.annotation.pager.items.idname.ItemsHeader$;
 import com.andframe.annotation.pager.status.StatusContentViewId;
 import com.andframe.annotation.pager.status.StatusContentViewType;
 import com.andframe.annotation.pager.status.idname.StatusContentViewId$;
+import com.andframe.api.Cacher;
 import com.andframe.api.Paging;
 import com.andframe.api.adapter.HeaderFooterAdapter;
 import com.andframe.api.adapter.ItemViewer;
@@ -40,7 +41,6 @@ import com.andframe.api.task.TaskWithPaging;
 import com.andframe.api.viewer.ViewQuery;
 import com.andframe.api.viewer.ViewQueryHelper;
 import com.andframe.application.AfApp;
-import com.andframe.caches.AfPrivateCaches;
 import com.andframe.exception.AfExceptionHandler;
 import com.andframe.fragment.AfItemsFragment;
 import com.andframe.impl.pager.items.MoreFooterLayouter;
@@ -164,7 +164,7 @@ public class AfItemsPagerHelper<T> extends AfStatusHelper<List<T>> implements It
     }
 
     @Override
-    public void onViewCreated() throws Exception{
+    public void onViewCreated() {
         mLoadOnViewCreated = false;
         super.onViewCreated();
         mItemsPager.initCache();
@@ -392,13 +392,13 @@ public class AfItemsPagerHelper<T> extends AfStatusHelper<List<T>> implements It
     @NonNull
     @Override
     public Date getCacheTime() {
-        return new Date(AfPrivateCaches.getInstance(KEY_CACHELIST).getLong(KEY_CACHETIME, 0));
+        return new Date($.cache(KEY_CACHELIST).getLong(KEY_CACHETIME, 0));
     }
 
     @Override
     public void onTaskPushCache(List<T> list) {
         if (mCacheClazz != null && list != null && list.size() > 0) {
-            AfPrivateCaches cache = AfPrivateCaches.getInstance(KEY_CACHELIST);
+            Cacher cache = $.cache(KEY_CACHELIST);
             List<T> cacheList = cache.getList(KEY_CACHELIST, mCacheClazz);
             cacheList.addAll(0, list);
             cache.putList(KEY_CACHELIST, cacheList);
@@ -498,7 +498,7 @@ public class AfItemsPagerHelper<T> extends AfStatusHelper<List<T>> implements It
     @Override
     public void onTaskPutCache(List<T> list) {
         if (mCacheClazz != null) {
-            AfPrivateCaches cache = AfPrivateCaches.getInstance(KEY_CACHELIST);
+            Cacher cache = $.cache(KEY_CACHELIST);
             cache.putList(KEY_CACHELIST, list);
             cache.put(KEY_CACHETIME, System.currentTimeMillis());
         }
@@ -580,7 +580,7 @@ public class AfItemsPagerHelper<T> extends AfStatusHelper<List<T>> implements It
     @Override
     public List<T> onTaskLoadCache(boolean isCheckExpired) {
         if (mCacheClazz != null) {
-            AfPrivateCaches instance = AfPrivateCaches.getInstance(KEY_CACHELIST);
+            Cacher instance = $.cache(KEY_CACHELIST);
             long date = instance.getLong(KEY_CACHETIME, (0));
             if (!isCheckExpired || System.currentTimeMillis() - date < (mCacheSpan)) {
                 return instance.getList(KEY_CACHELIST, mCacheClazz);

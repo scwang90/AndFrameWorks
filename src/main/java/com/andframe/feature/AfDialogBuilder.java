@@ -35,9 +35,9 @@ import android.widget.RelativeLayout;
 import android.widget.TextView;
 import android.widget.TimePicker;
 
+import com.andframe.$;
 import com.andframe.activity.AfActivity;
 import com.andframe.api.DialogBuilder;
-import com.andframe.caches.AfPrivateCaches;
 import com.andframe.exception.AfExceptionHandler;
 import com.andframe.listener.SafeListener;
 import com.andframe.util.android.AfDensity;
@@ -817,7 +817,7 @@ public class AfDialogBuilder implements DialogBuilder {
                                 int theme, int iconres,
                                 CharSequence title, final CharSequence message, CharSequence positive, OnClickListener lpositive, CharSequence negative, OnClickListener lnegative, CharSequence neutral, OnClickListener lneutral) {
         if (!TextUtils.isEmpty(key) && defclick > -1) {
-            int click = AfPrivateCaches.getInstance(key).getInt(key, -1);
+            int click = $.cache(key).getInt(key, -1);
             if (click == defclick) {
                 OnClickListener[] clicks = {new SafeListener(lpositive), new SafeListener(lnegative), new SafeListener(lneutral)};
                 for (int i = 0; i < clicks.length; i++) {
@@ -875,7 +875,7 @@ public class AfDialogBuilder implements DialogBuilder {
                     final CheckBox finalCbTip = cbTip;
                     dialog.setOnDismissListener(dialog1 -> {
                         if (finalCbTip.isChecked()) {
-                            AfPrivateCaches.getInstance(key).put(key, defclick);
+                            $.cache(key).put(key, defclick);
                         }
                     });
                 }

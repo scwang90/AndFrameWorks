@@ -16,6 +16,7 @@ import android.support.annotation.NonNull;
 import android.util.Log;
 
 import com.andframe.BuildConfig;
+import com.andframe.api.Cacher;
 import com.andframe.api.DialogBuilder;
 import com.andframe.api.Toaster;
 import com.andframe.api.event.EventManager;
@@ -23,10 +24,13 @@ import com.andframe.api.pager.PagerManager;
 import com.andframe.api.pager.items.MoreFooter;
 import com.andframe.api.pager.status.RefreshLayouter;
 import com.andframe.api.pager.status.StatusLayouter;
+import com.andframe.api.service.UpdateService;
 import com.andframe.api.task.TaskExecutor;
 import com.andframe.api.viewer.ViewQuery;
 import com.andframe.api.viewer.Viewer;
+import com.andframe.caches.AfDurableCacher;
 import com.andframe.caches.AfJsonCache;
+import com.andframe.caches.AfPrivateCacher;
 import com.andframe.exception.AfException;
 import com.andframe.exception.AfExceptionHandler;
 import com.andframe.exception.AfToastException;
@@ -37,6 +41,7 @@ import com.andframe.impl.pager.items.DefaultMoreFooter;
 import com.andframe.impl.pager.status.DefaultRefreshLayouter;
 import com.andframe.impl.pager.status.DefaultStatusLayouter;
 import com.andframe.impl.viewer.AfViewQuery;
+import com.andframe.model.ServiceVersion;
 import com.andframe.task.AfTaskExecutor;
 import com.andframe.util.java.AfReflecter;
 
@@ -427,8 +432,33 @@ public abstract class AfApp extends Application {
 		return new AfToaster();
 	}
 
-	public EventManager getEventManager() {
+	public EventManager newEventManager() {
 		throw new AfException("如果项目中要使用事件组件，请先在App重写getEventManager方法，建议使用流行的EventBus来实现");
+	}
+
+	public UpdateService newUpdateService() {
+		return new AfUpdateService() {
+			@Override
+			protected ServiceVersion infoFromService(String version) throws Exception {
+				return new ServiceVersion();
+			}
+		};
+	}
+
+	public Cacher newDurableCacher() {
+		return new AfDurableCacher();
+	}
+
+	public Cacher newDurableCacher(String name) {
+		return new AfDurableCacher(name);
+	}
+
+	public Cacher newPrivateCacher() {
+		return new AfPrivateCacher();
+	}
+
+	public Cacher newPrivateCacher(String name) {
+		return new AfPrivateCacher(name);
 	}
 	//</editor-fold>
 

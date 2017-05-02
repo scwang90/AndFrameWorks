@@ -80,9 +80,9 @@ import com.andframe.annotation.inject.idname.InjectRes$;
 import com.andframe.api.Extrater;
 import com.andframe.application.AfApp;
 import com.andframe.application.AfAppSettings;
-import com.andframe.caches.AfDurableCache;
+import com.andframe.caches.AfDurableCacher;
 import com.andframe.caches.AfJsonCache;
-import com.andframe.caches.AfPrivateCaches;
+import com.andframe.caches.AfPrivateCacher;
 import com.andframe.caches.AfSharedPreference;
 import com.andframe.exception.AfException;
 import com.andframe.exception.AfExceptionHandler;
@@ -162,10 +162,10 @@ public class Injecter {
 //                    value = new AfImageHelper();
                 } else if (clazz.equals(AfSharedPreference.class)) {
                     value = new AfSharedPreference(context, field.getAnnotation(Inject.class).value());
-                } else if (clazz.equals(AfDurableCache.class)) {
-                    value = AfDurableCache.getInstance(field.getAnnotation(Inject.class).value());
-                } else if (clazz.equals(AfPrivateCaches.class)) {
-                    value = AfPrivateCaches.getInstance(field.getAnnotation(Inject.class).value());
+                } else if (clazz.equals(AfDurableCacher.class)) {
+                    value = new AfDurableCacher(field.getAnnotation(Inject.class).value());
+                } else if (clazz.equals(AfPrivateCacher.class)) {
+                    value = new AfPrivateCacher(field.getAnnotation(Inject.class).value());
                 } else if (clazz.equals(AfJsonCache.class)) {
                     value = new AfJsonCache(context, field.getAnnotation(Inject.class).value());
 //                } else if (clazz.equals(AfImageCaches.class)) {

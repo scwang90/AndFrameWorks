@@ -27,7 +27,7 @@ public interface StatusHelper<T> extends EmptyVerdicter<T>, OnRefreshListener {
      * 页面视图创建完成（内部会调用findContentView，initRefreshLayout，initStatusLayout）
      * @throws Exception
      */
-    void onViewCreated() throws Exception;
+    void onViewCreated() ;
 
     /**
      * 设置是否在onViewCreated中执行加载任务

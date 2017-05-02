@@ -14,6 +14,7 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Toast;
 
+import com.andframe.$;
 import com.andframe.annotation.MustLogined;
 import com.andframe.annotation.interpreter.Injecter;
 import com.andframe.annotation.interpreter.LayoutBinder;
@@ -34,7 +35,6 @@ import com.andframe.task.AfData2Task;
 import com.andframe.task.AfData3Task;
 import com.andframe.task.AfDataTask;
 import com.andframe.task.AfDispatcher;
-import com.andframe.task.AfTaskExecutor;
 import com.andframe.util.java.AfReflecter;
 import com.andframe.util.java.AfStackTrace;
 
@@ -450,7 +450,7 @@ public abstract class AfActivity extends AppCompatActivity implements Pager, Vie
      */
     @Override
     public <T extends Task> T postTask(T task) {
-        return AfTaskExecutor.getInstance().postTask(task);
+        return $.task().postTask(task);
     }
 
     /**

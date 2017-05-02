@@ -45,16 +45,6 @@ public class AfToaster implements Toaster {
         tip = AfExceptionHandler.tip(e, tip.toString());
         Toast.makeText(AfApp.get(), tip, Toast.LENGTH_SHORT).show();
     }
-
-    protected static Toaster instance = null;
-
-    public static Toaster getInstance() {
-        if (instance == null) {
-            instance = AfApp.get().newToaster();
-        }
-        return instance;
-    }
-
     //</editor-fold>
 
 }

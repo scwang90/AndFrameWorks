@@ -78,7 +78,7 @@ public class AfStatusHelper<T> implements StatusHelper<T> {
     }
 
     @CallSuper
-    public void onViewCreated() throws Exception {
+    public void onViewCreated()  {
         View content = mPager.findContentView();
         if (content != null) {
             mRefreshLayouter = mPager.initRefreshLayout(content);

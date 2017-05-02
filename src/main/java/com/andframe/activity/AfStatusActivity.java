@@ -33,7 +33,7 @@ public abstract class AfStatusActivity<T> extends AfActivity implements StatusPa
     }
 
     @BindViewCreated@CallSuper
-    public void onViewCreated() throws Exception {
+    public void onViewCreated()  {
         mHelper.onViewCreated();
     }
 
