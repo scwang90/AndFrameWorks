@@ -7,13 +7,13 @@ import android.support.annotation.StyleRes;
 import android.support.v4.app.Fragment;
 import android.view.View;
 
+import com.andframe.$;
 import com.andframe.activity.AfActivity;
 import com.andframe.activity.AfFragmentActivity;
 import com.andframe.annotation.pager.BindLaunchMode;
 import com.andframe.annotation.view.BindViewCreated;
 import com.andframe.feature.AfIntent;
 import com.andframe.fragment.AfFragment;
-import com.andframe.impl.pager.AfPagerManager;
 import com.andframe.util.java.AfReflecter;
 import com.andpack.api.ApPager;
 import com.andpack.impl.ApPagerHelper;
@@ -95,7 +95,7 @@ public class ApFragmentActivity extends AfFragmentActivity implements ApPager {
 
     //<editor-fold desc="跳转封装">
     public static void start(Class<? extends Fragment> clazz, Object... params){
-        AfActivity activity = AfPagerManager.getInstance().currentActivity();
+        AfActivity activity = $.pager().currentActivity();
         if (activity != null) {
             List<Object> list = new ArrayList<>(Arrays.asList(params));
             list.add(0,clazz.getName());
@@ -104,7 +104,7 @@ public class ApFragmentActivity extends AfFragmentActivity implements ApPager {
         }
     }
     public static void startResult(Class<? extends Fragment> clazz,int request, Object... params){
-        AfActivity activity = AfPagerManager.getInstance().currentActivity();
+        AfActivity activity = $.pager().currentActivity();
         if (activity != null) {
             List<Object> list = new ArrayList<>(Arrays.asList(params));
             list.add(0,clazz.getName());

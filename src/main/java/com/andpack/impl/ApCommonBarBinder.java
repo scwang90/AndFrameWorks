@@ -250,13 +250,13 @@ public class ApCommonBarBinder {
             return hint(hintPrefix + name.toString());
         }
 
-        public T nameTextViewId(@IdRes int id) {
-            this.name = $(id).text();
+        public T name(@StringRes int id) {
+            this.name = pager.getContext().getString(id);
             return hint(hintPrefix + name.toString());
         }
 
-        public T nameResId(@StringRes int id) {
-            this.name = pager.getContext().getString(id);
+        public T nameTxtId(@IdRes int id) {
+            this.name = $(id).text();
             return hint(hintPrefix + name.toString());
         }
 
