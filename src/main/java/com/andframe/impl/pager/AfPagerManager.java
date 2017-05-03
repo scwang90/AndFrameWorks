@@ -22,48 +22,6 @@ import java.util.Stack;
 
 public class AfPagerManager implements PagerManager {
 
-    protected static PagerManager instance = null;
-
-    public static PagerManager getInstance() {
-        if (instance == null) {
-            instance = AfApp.get().newPagerManager();
-        }
-        return instance;
-    }
-
-    public static void activityCreated(AfActivity activity) {
-        getInstance().onActivityCreated(activity);
-    }
-
-    public static void activityDestroy(AfActivity activity) {
-        getInstance().onActivityDestroy(activity);
-    }
-
-    public static void activityResume(AfActivity activity) {
-        getInstance().onActivityResume(activity);
-    }
-
-    public static void activityPause(AfActivity activity) {
-        getInstance().onActivityPause(activity);
-    }
-
-    public static void fragmentAttach(AfFragment fragment, Context context) {
-        getInstance().onFragmentAttach(fragment, context);
-    }
-
-    public static void fragmentDetach(AfFragment fragment) {
-        getInstance().onFragmentDetach(fragment);
-    }
-
-    public static void fragmentResume(AfFragment fragment) {
-        getInstance().onFragmentResume(fragment);
-    }
-
-    public static void fragmentPause(AfFragment fragment) {
-        getInstance().onFragmentPause(fragment);
-    }
-
-
     //<editor-fold desc="功能实现">
     // 当前主页面
     private Stack<AfActivity> mStackActivity = new Stack<>();

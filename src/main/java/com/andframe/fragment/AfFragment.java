@@ -32,7 +32,6 @@ import com.andframe.exception.AfToastException;
 import com.andframe.feature.AfBundle;
 import com.andframe.feature.AfIntent;
 import com.andframe.impl.helper.AfViewQueryHelper;
-import com.andframe.impl.pager.AfPagerManager;
 import com.andframe.impl.viewer.AfView;
 import com.andframe.task.AfData2Task;
 import com.andframe.task.AfData3Task;
@@ -228,7 +227,7 @@ public abstract class AfFragment extends Fragment implements Pager, ViewQueryHel
     @Override
     public void onResume() {
         try {
-            AfPagerManager.fragmentResume(this);
+            $.pager().onFragmentResume(this);
             super.onResume();
             LifeCycleInjecter.injectOnResume(this);
         } catch (Throwable ex) {
@@ -239,7 +238,7 @@ public abstract class AfFragment extends Fragment implements Pager, ViewQueryHel
     @Override
     public void onPause() {
         try {
-            AfPagerManager.fragmentPause(this);
+            $.pager().onFragmentPause(this);
             super.onPause();
             LifeCycleInjecter.injectOnPause(this);
         } catch (Throwable ex) {
@@ -270,7 +269,7 @@ public abstract class AfFragment extends Fragment implements Pager, ViewQueryHel
     @Override
     public void onAttach(Context context) {
         try {
-            AfPagerManager.fragmentAttach(this, context);
+            $.pager().onFragmentAttach(this, context);
             super.onAttach(context);
             LifeCycleInjecter.injectOnAttach(this);
         } catch (Throwable ex) {
@@ -346,7 +345,7 @@ public abstract class AfFragment extends Fragment implements Pager, ViewQueryHel
             super.onDetach();
             mIsRecycled = true;
             LifeCycleInjecter.injectonDetach(this);
-            AfPagerManager.fragmentDetach(this);
+            $.pager().onFragmentDetach(this);
         } catch (Throwable ex) {
             AfExceptionHandler.handle(ex, "AfFragment.onDestroy");
         }

@@ -25,7 +25,6 @@ import com.andframe.api.viewer.ViewQuery;
 import com.andframe.api.viewer.Viewer;
 import com.andframe.application.AfApp;
 import com.andframe.fragment.AfFragment;
-import com.andframe.impl.pager.AfPagerManager;
 import com.andframe.impl.viewer.ViewerWarpper;
 import com.andframe.task.AfDispatcher;
 
@@ -59,7 +58,7 @@ public class $ {
 
     public static final Toaster toast = new ToasterWrapper(getInstanceToast());
 
-    public static final PagerManager pager = new PagerManagerWrapper(AfPagerManager.getInstance());
+    public static final PagerManager pager = new PagerManagerWrapper(getInstancePagerManager());
 
     public static final TaskExecutor task = new TaskExecutorWrapper(getInstanceExecutor());
 
@@ -131,12 +130,20 @@ public class $ {
         }
         return instanceEventManager;
     }
-    private static UpdateService mInstanceUpdateService;
-    private static UpdateService getmInstanceUpdateService() {
-        if (mInstanceUpdateService == null) {
-            mInstanceUpdateService = AfApp.get().newUpdateService();
+    private static PagerManager instancePagerManager = null;
+    private static PagerManager getInstancePagerManager() {
+        if (instancePagerManager == null) {
+            instancePagerManager = AfApp.get().newPagerManager();
         }
-        return mInstanceUpdateService;
+        return instancePagerManager;
+    }
+
+    private static UpdateService instanceUpdateService;
+    private static UpdateService getInstanceUpdateService() {
+        if (instanceUpdateService == null) {
+            instanceUpdateService = AfApp.get().newUpdateService();
+        }
+        return instanceUpdateService;
     }
     //</editor-fold>
 
@@ -170,11 +177,11 @@ public class $ {
     }
 
     public static UpdateService update() {
-        return getmInstanceUpdateService();
+        return getInstanceUpdateService();
     }
 
     public static PagerManager pager(){
-        return AfPagerManager.getInstance();
+        return getInstancePagerManager();
     }
 
     @MainThread
