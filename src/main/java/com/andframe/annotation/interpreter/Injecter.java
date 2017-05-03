@@ -102,6 +102,9 @@ import java.lang.reflect.Type;
 import java.util.List;
 import java.util.Random;
 
+import static com.andframe.annotation.interpreter.ReflecterCacher.getFieldByHandler;
+import static com.andframe.annotation.interpreter.ReflecterCacher.getMethodByHandler;
+
 /**
  * annotation.inject 解释器
  * @author 树朾
@@ -121,22 +124,35 @@ public class Injecter {
     }
 
     public static void doInjectExtra(Object handler) {
-        injectExtra(handler, null);
+
+        Field[] fields = getFieldByHandler(handler);
+        for (Field field : fields) {
+            injectExtra(field, handler, null);
+        }
     }
 
     public static void doInject(Object handler, Context context) {
-        inject(handler, context);
-        injectRes(handler, context);
-        injectRes$(handler, context);
-        injectSystem(handler, context);
-        injectExtra(handler, context);
+
+        Field[] fields = getFieldByHandler(handler);
+        for (Field field : fields) {
+            inject(field, handler, context);
+            injectRes(field, handler, context);
+            injectRes$(field, handler, context);
+            injectSystem(field, handler, context);
+            injectExtra(field, handler, context);
+        }
+
         injectLayout(handler, context);
-        injectInit(handler, context);
-        injectDelayed(handler, context);
+
+        Method[] methods = getMethodByHandler(handler);
+        for (Method method : methods) {
+            injectInit(method, handler, context);
+            injectDelayed(method, handler, context);
+        }
     }
 
-    private static void inject(Object handler, Context context) {
-        for (Field field : AfReflecter.getFieldAnnotation(handler.getClass(), Inject.class)) {
+    private static void inject(Field field, Object handler, Context context) {
+        if (field.isAnnotationPresent(Inject.class)) {
             try {
                 Object value = null;
                 Class<?> clazz = field.getType();
@@ -188,8 +204,8 @@ public class Injecter {
     }
 
     @SuppressWarnings("deprecation")
-    private static void injectRes(Object handler, Context context) {
-        for (Field field : AfReflecter.getFieldAnnotation(handler.getClass(), InjectRes.class)) {
+    private static void injectRes(Field field, Object handler, Context context) {
+        if (field.isAnnotationPresent(InjectRes.class)) {
             try {
                 Object value = null;
                 Class<?> clazz = field.getType();
@@ -225,8 +241,8 @@ public class Injecter {
         }
     }
 
-    private static void injectRes$(Object handler, Context context) {
-        for (Field field : AfReflecter.getFieldAnnotation(handler.getClass(), InjectRes$.class)) {
+    private static void injectRes$(Field field, Object handler, Context context) {
+        if (field.isAnnotationPresent(InjectRes$.class)) {
             try {
                 Object value = null;
                 Class<?> clazz = field.getType();
@@ -264,8 +280,8 @@ public class Injecter {
     }
 
     @SuppressWarnings("deprecation")
-    private static void injectSystem(Object handler, Context context) {
-        for (Field field : AfReflecter.getFieldAnnotation(handler.getClass(), InjectSystem.class)) {
+    private static void injectSystem(Field field, Object handler, Context context) {
+        if (field.isAnnotationPresent(InjectSystem.class)) {
             try {
                 Object value = null;
                 Class<?> clazz = field.getType();
@@ -399,15 +415,15 @@ public class Injecter {
         }
     }
 
-    private static void injectDelayed(final Object handler, Context context) {
-        for (final Method method : AfReflecter.getMethodAnnotation(handler.getClass(), getStopType(handler), InjectDelayed.class)) {
+    private static void injectDelayed(Method method, final Object handler, Context context) {
+        if (method.isAnnotationPresent(InjectDelayed.class)) {
             try {
                 InjectDelayed bind = method.getAnnotation(InjectDelayed.class);
                 AfDispatcher.dispatch(new Runnable() {
                     {
                         this.mMethod = method;
                     }
-                    public final Method mMethod;
+                    final Method mMethod;
                     @Override
                     public void run() {
                         try {
@@ -436,8 +452,8 @@ public class Injecter {
         }
     }
 
-    private static void injectInit(Object handler, Context context) {
-        for (Method method : AfReflecter.getMethodAnnotation(handler.getClass(), getStopType(handler), InjectInit.class)) {
+    private static void injectInit(Method method, Object handler, Context context) {
+        if (method.isAnnotationPresent(InjectInit.class)) {
             InjectInit init = method.getAnnotation(InjectInit.class);
             try {
                 invokeMethod(handler, method);
@@ -451,12 +467,12 @@ public class Injecter {
         }
     }
 
-    private static void injectExtra(Object handler, Context context) {
+    private static void injectExtra(Field field, Object handler, Context context) {
         InjectExtraInvalid invalid = AfReflecter.getAnnotation(handler.getClass(), InjectExtraInvalid.class);
         if (invalid != null && invalid.value().length == 0) {
             return;
         }
-        for (Field field : AfReflecter.getFieldAnnotation(handler.getClass(), InjectExtra.class)) {
+        if (field.isAnnotationPresent(InjectExtra.class)) {
             InjectExtra inject = field.getAnnotation(InjectExtra.class);
             if (invalid != null) {
                 boolean find = false;
@@ -467,7 +483,7 @@ public class Injecter {
                     }
                 }
                 if (find) {
-                    continue;
+                    return;
                 }
             }
             try {

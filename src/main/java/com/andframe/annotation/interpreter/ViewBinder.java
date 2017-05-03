@@ -46,7 +46,6 @@ import com.andframe.module.AfSelectorBottombarImpl;
 import com.andframe.module.AfSelectorTitlebar;
 import com.andframe.module.AfSelectorTitlebarImpl;
 import com.andframe.module.AfViewModuler;
-import com.andframe.util.java.AfReflecter;
 
 import java.lang.reflect.Array;
 import java.lang.reflect.Field;
@@ -56,12 +55,12 @@ import java.lang.reflect.Type;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Collections;
-import java.util.HashMap;
 import java.util.List;
-import java.util.Map;
 import java.util.Queue;
 import java.util.concurrent.LinkedBlockingQueue;
 
+import static com.andframe.annotation.interpreter.ReflecterCacher.getFieldByHandler;
+import static com.andframe.annotation.interpreter.ReflecterCacher.getMethodByHandler;
 import static com.andframe.annotation.interpreter.SmartInvoke.paramAllot;
 
 
@@ -79,32 +78,6 @@ public class ViewBinder {
         }
         return "LayoutBinder(" + obj.getClass().getName() + ")." + tag;
     }
-
-    //<editor-fold desc="反射缓存">
-    private static Map<Class, Field[]> fieldCache = new HashMap<>();
-    private static Map<Class, Method[]> methodCache = new HashMap<>();
-
-    @NonNull
-    private static Field[] getFieldByHandler(Object handler) {
-        Field[] fields = fieldCache.get(handler.getClass());
-        if (fields == null) {
-            fields = AfReflecter.getField(handler.getClass(), getStopType(handler));
-            fieldCache.put(handler.getClass(), fields);
-        }
-        return fields;
-    }
-
-    @NonNull
-    private static Method[] getMethodByHandler(Object handler) {
-        Method[] methods = methodCache.get(handler.getClass());
-        if (methods == null) {
-            methods = AfReflecter.getMethod(handler.getClass(), getStopType(handler));
-            methodCache.put(handler.getClass(), methods);
-        }
-        return methods;
-    }
-    //</editor-fold>
-
 
     public static void doBind(Viewer root) {
         doBind(root, root);

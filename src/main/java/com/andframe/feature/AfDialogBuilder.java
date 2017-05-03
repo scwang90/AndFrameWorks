@@ -1044,6 +1044,7 @@ public class AfDialogBuilder implements DialogBuilder {
                                 super.onClick(this, BUTTON_POSITIVE);
                             } else if (((OnTimeSetVerifyListener) listener).onPreTimeSet(picker, picker.getCurrentHour(), picker.getCurrentMinute())) {
                                 this.dismiss();
+                                super.onClick(this, BUTTON_POSITIVE);
                             }
                         } catch (IllegalAccessException e) {
                             e.printStackTrace();
@@ -1117,6 +1118,7 @@ public class AfDialogBuilder implements DialogBuilder {
                                 super.onClick(this, BUTTON_POSITIVE);
                             } else if (((OnDateSetVerifyListener) listener).onPreDateSet(picker, picker.getYear(), picker.getMonth(), picker.getDayOfMonth())) {
                                 this.dismiss();
+                                super.onClick(this, BUTTON_POSITIVE);
                             }
                         } catch (IllegalAccessException e) {
                             e.printStackTrace();

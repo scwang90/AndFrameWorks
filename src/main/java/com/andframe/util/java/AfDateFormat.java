@@ -152,7 +152,6 @@ public class AfDateFormat {
 		calender.set(Calendar.SECOND, 0);
 		return calender.getTime();
 	}
-
 	/**
 	 * 天下取整
 	 */
