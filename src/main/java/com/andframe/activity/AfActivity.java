@@ -30,7 +30,6 @@ import com.andframe.exception.AfExceptionHandler;
 import com.andframe.feature.AfIntent;
 import com.andframe.fragment.AfFragment;
 import com.andframe.impl.helper.AfViewQueryHelper;
-import com.andframe.impl.pager.AfPagerManager;
 import com.andframe.task.AfData2Task;
 import com.andframe.task.AfData3Task;
 import com.andframe.task.AfDataTask;
@@ -156,7 +155,7 @@ public abstract class AfActivity extends AppCompatActivity implements Pager, Vie
     @Override
     protected void onCreate(Bundle bundle) {
         try {
-            AfPagerManager.activityCreated(this);
+            $.pager().onActivityCreated(this);
             if (AfStackTrace.isLoopCall()) {
                 //System.out.println("递归检测");
                 super.onCreate(bundle);
@@ -231,14 +230,14 @@ public abstract class AfActivity extends AppCompatActivity implements Pager, Vie
     protected void onResume() {
         super.onResume();
         this.mIsResume = true;
-        AfPagerManager.activityResume(this);
+        $.pager().onActivityResume(this);
         LifeCycleInjecter.injectOnResume(this);
     }
 
     @Override
     protected void onPause() {
         super.onPause();
-        AfPagerManager.activityPause(this);
+        $.pager().onActivityPause(this);
         LifeCycleInjecter.injectOnPause(this);
     }
 
@@ -268,7 +267,7 @@ public abstract class AfActivity extends AppCompatActivity implements Pager, Vie
             mIsResume = false;
             mIsRecycled = true;
             LifeCycleInjecter.injectOnDestroy(this);
-            AfPagerManager.activityDestroy(this);
+            $.pager().onActivityDestroy(this);
         } catch (Throwable ex) {
             AfExceptionHandler.handle(ex, "AfActivity.onDestroy");
         }
