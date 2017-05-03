@@ -393,7 +393,6 @@ public class ApCommonBarBinder {
 
         public SelectNumber(int idvalue) {
             super(idvalue);
-            lastval = minValue;
             this.hintPrefix("请选择");
         }
 
@@ -408,7 +407,7 @@ public class ApCommonBarBinder {
             picker.setMinValue(minValue);
             picker.setMaxValue(maxValue);
             picker.setValue(lastval);
-            textview.setText(TextUtils.isEmpty(unit) ? name : unit);
+            textview.setText(TextUtils.isEmpty(unit) ? "" : unit);
             View view = $(new LinearLayout(pager.getContext()))
                     .addView(picker).addView(textview).gravity(Gravity.CENTER_VERTICAL).view();
             $.dialog(pager).showViewDialog(hint, view, "确定", (d, i) -> onNumberSelected(picker, picker.getValue()), "取消", null);
@@ -440,7 +439,7 @@ public class ApCommonBarBinder {
 
         private void onNumberSelected(NumberPicker picker, int value) {
             lastval = value;
-            $(idvalue).text(String.valueOf(value));
+            $(idvalue).text(String.valueOf(value)+(TextUtils.isEmpty(unit) ? "" : unit));
             if (key != null && picker != null) {
                 cacher.put(key, value);
             }
@@ -901,6 +900,7 @@ public class ApCommonBarBinder {
         DateBind bind;
         DateVerify verify;
         DateFormat format = AfDateFormat.DATE;
+        boolean isManual = false;
 
         AbstractDateBinder(int idvalue) {
             super(idvalue);
@@ -971,6 +971,50 @@ public class ApCommonBarBinder {
                 }
             });
         }
+
+        public void verifyBefore(AbstractDateBinder<? extends AbstractDateBinder> binder, String... names) {
+            CharSequence name = getName("时间", names);
+            this.verify(date -> {
+                if (binder.lastval != null && date.getTime() >= binder.lastval.getTime()) {
+                    throw new VerifyException(name + "必须早于" + binder.getName("时间", names));
+                }
+            });
+        }
+
+        public void verifyBeforeWith(AbstractDateBinder<? extends AbstractDateBinder> binder, String... names) {
+            CharSequence name = getName("时间", names);
+            this.verify(date -> {
+                if (binder.lastval != null && date.getTime() > binder.lastval.getTime()) {
+                    if (binder.isManual) {
+                        throw new VerifyException(name + "不能晚于" + binder.getName("时间", names));
+                    } else {
+                        binder.value(date);
+                    }
+                }
+            });
+        }
+
+        public void verifyAfter(AbstractDateBinder<? extends AbstractDateBinder> binder, String... names) {
+            CharSequence name = getName("时间", names);
+            this.verify(date -> {
+                if (binder.lastval != null && date.getTime() <= binder.lastval.getTime()) {
+                    throw new VerifyException(name + "必须晚于" + binder.getName("时间", names));
+                }
+            });
+        }
+
+        public void verifyAfterWith(AbstractDateBinder<? extends AbstractDateBinder> binder, String... names) {
+            CharSequence name = getName("时间", names);
+            this.verify(date -> {
+                if (binder.lastval != null && date.getTime() < binder.lastval.getTime()) {
+                    if (binder.isManual) {
+                        throw new VerifyException(name + "不能早于" + binder.getName("时间", names));
+                    } else {
+                        binder.value(date);
+                    }
+                }
+            });
+        }
     }
 
     public class DateBinder extends AbstractDateBinder<DateBinder> implements OnDateSetVerifyListener {
@@ -986,6 +1030,7 @@ public class ApCommonBarBinder {
         }
 
         public DateBinder value(Date date) {
+            lastval = AfDateFormat.roundDate(date);
             Calendar now = Calendar.getInstance();
             now.setTime(date);
             onDateSet(null, now.get(Calendar.YEAR), now.get(Calendar.MONTH), now.get(Calendar.DAY_OF_MONTH));
@@ -1002,17 +1047,20 @@ public class ApCommonBarBinder {
                     return false;
                 }
             }
+//            onDateSet(view, year, month, dayOfMonth);
             return true;
         }
 
         @Override
         public void onDateSet(DatePicker view, int year, int month, int day) {
+            isManual = view != null;
             lastval = AfDateFormat.parser(year, month, day);
             $(idvalue).text(format.format(lastval));
             if (bind != null) {
                 bind.date(this, lastval);
             }
         }
+
     }
 
     public class TimeBinder extends AbstractDateBinder<TimeBinder> implements OnTimeSetVerifyListener {
@@ -1028,6 +1076,7 @@ public class ApCommonBarBinder {
         }
 
         public TimeBinder value(Date date) {
+            lastval = date;
             Calendar now = Calendar.getInstance();
             now.setTime(date);
             onTimeSet(null, now.get(Calendar.HOUR_OF_DAY), now.get(Calendar.MINUTE));
@@ -1044,11 +1093,13 @@ public class ApCommonBarBinder {
                     return false;
                 }
             }
+//            onTimeSet(view, hourOfDay, minute);
             return true;
         }
 
         @Override
         public void onTimeSet(TimePicker view, int hourOfDay, int minute) {
+            isManual = view != null;
             lastval = AfDateFormat.parser(hourOfDay, minute);
             $(idvalue).text(format.format(lastval));
             if (bind != null) {
@@ -1070,6 +1121,7 @@ public class ApCommonBarBinder {
         }
 
         public DateTimeBinder value(Date date) {
+            lastval = date;
             Calendar now = Calendar.getInstance();
             now.setTime(date);
             onDateTimeSet(now.get(Calendar.YEAR), now.get(Calendar.MONTH), now.get(Calendar.DAY_OF_MONTH),
@@ -1095,6 +1147,7 @@ public class ApCommonBarBinder {
             if (verify != null && view != null) {
                 try {
                     verify.verify(AfDateFormat.parser(hourOfDay, minute));
+                    isManual = true;
                 } catch (VerifyException e) {
                     pager.makeToastShort(e.getMessage());
                     return false;
