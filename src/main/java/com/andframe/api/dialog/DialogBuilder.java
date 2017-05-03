@@ -12,7 +12,7 @@ import android.support.annotation.AttrRes;
 import android.support.annotation.DrawableRes;
 import android.support.annotation.StringRes;
 import android.view.View;
-import android.widget.AdapterView;
+import android.widget.AdapterView.OnItemSelectedListener;
 import android.widget.ListAdapter;
 
 /**
@@ -45,12 +45,11 @@ public interface DialogBuilder {
     DialogBuilder adapter(ListAdapter adapter, OnClickListener listener);
     DialogBuilder multiChoice(@ArrayRes int itemsId, boolean[] checkedItems, OnMultiChoiceClickListener listener);
     DialogBuilder multiChoice(CharSequence[] items, boolean[] checkedItems, OnMultiChoiceClickListener listener);
-    DialogBuilder singleChoiceItems(@ArrayRes int itemsId, int checkedItem, OnClickListener listener);
-    DialogBuilder singleChoiceItems(CharSequence[] items, int checkedItem, OnClickListener listener);
-    DialogBuilder singleChoiceItems(ListAdapter adapter, int checkedItem, OnClickListener listener);
-    DialogBuilder selectedListener(AdapterView.OnItemSelectedListener listener);
+    DialogBuilder singleChoice(@ArrayRes int itemsId, int checkedItem, OnClickListener listener);
+    DialogBuilder singleChoice(CharSequence[] items, int checkedItem, OnClickListener listener);
+    DialogBuilder singleChoice(ListAdapter adapter, int checkedItem, OnClickListener listener);
+    DialogBuilder selectedListener(OnItemSelectedListener listener);
 
-    
     DialogBuilder setView(int layoutResId);
     DialogBuilder setView(View view);
 
