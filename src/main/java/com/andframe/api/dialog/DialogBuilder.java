@@ -50,8 +50,8 @@ public interface DialogBuilder {
     DialogBuilder singleChoice(ListAdapter adapter, int checkedItem, OnClickListener listener);
     DialogBuilder selectedListener(OnItemSelectedListener listener);
 
-    DialogBuilder setView(int layoutResId);
-    DialogBuilder setView(View view);
+    DialogBuilder view(int layoutResId);
+    DialogBuilder view(View view);
 
     Dialog create();
     Dialog show();
