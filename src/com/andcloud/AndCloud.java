@@ -38,7 +38,7 @@ public class AndCloud implements LoadDeployListener{
 
 	@Override
 	public void onLoadDeployFinish(Deploy deploy) {
-		postEvent(new CloudEvent(CloudEvent.CLOUD_DEPLOY_FINISHED,""+deploy.isBusinessModel()));
+		postEvent(new CloudDeployEvent(deploy));
 	}
 
 	public static abstract class QQAuthHelper{
@@ -70,7 +70,7 @@ public class AndCloud implements LoadDeployListener{
 		mDebug = isDebug;
 		mChannel = channel;
 		mDefchannel = defchannel;
-		//DeployCheckTask.deploy(context, listener,defchannel,channel);
+//		DeployCheckTask.deploy(context, listener,defchannel,channel);
 	}
 
 	public static void deploy(Context context, LoadDeployListener listener) {
