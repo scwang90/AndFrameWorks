@@ -3,6 +3,7 @@ package com.andframe.annotation.interpreter;
 import android.text.TextUtils;
 
 import com.andframe.annotation.model.IntRange;
+import com.andframe.annotation.model.MinFloat;
 import com.andframe.annotation.model.Must;
 import com.andframe.api.pager.Pager;
 import com.andframe.exception.AfToastException;
@@ -37,6 +38,17 @@ public class ModelChecker {
                         int intValue = (Integer) value;
                         if (intValue < range.from() || intValue > range.to()) {
                             throw new AfToastException(range.value());
+                        }
+                    }
+                }
+                if (field.isAnnotationPresent(MinFloat.class)) {
+                    MinFloat minFloat = field.getAnnotation(MinFloat.class);
+                    field.setAccessible(true);
+                    Object value = field.get(obj);
+                    if (value instanceof Float) {
+                        float floatValue = (Float) value;
+                        if (floatValue < minFloat.min()) {
+                            throw new AfToastException(minFloat.value());
                         }
                     }
                 }

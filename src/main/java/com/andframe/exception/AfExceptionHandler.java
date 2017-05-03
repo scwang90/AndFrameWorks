@@ -10,9 +10,9 @@ import android.os.Looper;
 import android.os.Message;
 import android.util.DisplayMetrics;
 
+import com.andframe.$;
 import com.andframe.application.AfApp;
 import com.andframe.caches.AfDurableCacher;
-import com.andframe.impl.pager.AfPagerManager;
 import com.andframe.model.Exceptional;
 import com.andframe.task.AfDispatcher;
 import com.andframe.util.java.AfDateFormat;
@@ -95,7 +95,7 @@ public class AfExceptionHandler implements UncaughtExceptionHandler {
             writer.write(msg);
             writer.close();
 
-            final Activity activity = AfPagerManager.getInstance().currentActivity();
+            final Activity activity = $.pager().currentActivity();
             if (activity != null && mIsShowDialog) {
                 AfDispatcher.dispatch(() -> doShowDialog(activity, "程序崩溃了", msg, msg1 -> {
 //                    if (Looper.getMainLooper().getThread() == thread) {
@@ -138,7 +138,7 @@ public class AfExceptionHandler implements UncaughtExceptionHandler {
             writer.close();
 
 
-            final Activity activity = AfPagerManager.getInstance().currentActivity();
+            final Activity activity = $.pager().currentActivity();
             if (activity != null && mIsShowDialog) {
                 AfDispatcher.dispatch(() -> doShowDialog(activity, "异常捕捉", msg, handlerid), 1000);
             }
@@ -160,7 +160,7 @@ public class AfExceptionHandler implements UncaughtExceptionHandler {
             writer.write(msg);
             writer.close();
 
-            final Activity activity = AfPagerManager.getInstance().currentActivity();
+            final Activity activity = $.pager().currentActivity();
             if (activity != null && mIsShowDialog) {
                 AfDispatcher.dispatch(() -> doShowDialog(activity, "异常捕捉", msg, handlerid));
             }

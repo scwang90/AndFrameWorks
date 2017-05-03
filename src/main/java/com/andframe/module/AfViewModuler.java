@@ -5,6 +5,7 @@ import android.app.Activity;
 import android.support.annotation.NonNull;
 import android.view.View;
 
+import com.andframe.$;
 import com.andframe.activity.AfActivity;
 import com.andframe.annotation.interpreter.Injecter;
 import com.andframe.annotation.interpreter.LayoutBinder;
@@ -16,7 +17,6 @@ import com.andframe.api.viewer.ViewQueryHelper;
 import com.andframe.api.viewer.Viewer;
 import com.andframe.exception.AfExceptionHandler;
 import com.andframe.impl.helper.AfViewQueryHelper;
-import com.andframe.impl.pager.AfPagerManager;
 import com.andframe.impl.viewer.ViewerWarpper;
 
 /**
@@ -63,7 +63,7 @@ public abstract class AfViewModuler extends ViewerWarpper implements Viewer, Vie
 		if (getContext() instanceof AfActivity) {
 			return ((AfActivity) getContext());
 		}
-		Activity activity = AfPagerManager.getInstance().currentActivity();
+		Activity activity = $.pager().currentActivity();
 		if (activity != null) {
 			return (AfActivity) activity;
 		}

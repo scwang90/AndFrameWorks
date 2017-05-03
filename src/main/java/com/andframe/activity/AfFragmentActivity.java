@@ -9,6 +9,7 @@ import android.support.v4.app.FragmentManager;
 import android.support.v4.app.FragmentTransaction;
 import android.widget.FrameLayout;
 
+import com.andframe.$;
 import com.andframe.annotation.MustLogined;
 import com.andframe.annotation.inject.InjectExtra;
 import com.andframe.annotation.pager.BindLaunchMode;
@@ -44,7 +45,7 @@ public class AfFragmentActivity extends AfActivity {
         list.add(0, clazz.getName());
         list.add(0, EXTRA_FRAGMENT);
 
-        AfActivity activity = AfPagerManager.getInstance().currentActivity();
+        AfActivity activity = $.pager().currentActivity();
         if (activity != null) {
             (activity).startActivity(getActivityClazz(clazz), list.toArray());
         } else {
@@ -53,7 +54,7 @@ public class AfFragmentActivity extends AfActivity {
         }
     }
     public static void startResult(Class<? extends Fragment> clazz,int request, Object... params){
-        AfActivity activity = AfPagerManager.getInstance().currentActivity();
+        AfActivity activity = $.pager().currentActivity();
         if (activity != null) {
             List<Object> list = new ArrayList<>(Arrays.asList(params));
             list.add(0,clazz.getName());

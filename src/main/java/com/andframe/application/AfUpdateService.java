@@ -156,7 +156,7 @@ public abstract class AfUpdateService implements UpdateService {
 	protected abstract ServiceVersion infoFromService(String version) throws Exception;
 
 	protected void showNeedUpdate() {
-		Activity activity = AfPagerManager.getInstance().currentActivity();
+		Activity activity = $.pager().currentActivity();
 		if (activity != null && isNeedUpdate()) {
 			String message = String.format("系统检查到可用更新\r\n" +
 							"    更新版本：%s\r\n" +
