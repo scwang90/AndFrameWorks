@@ -14,12 +14,13 @@ import java.lang.ref.WeakReference;
  * 集成等待对话框的任务 Builder
  * Created by SCWANG on 2017/5/3.
  */
+@SuppressWarnings("WeakerAccess")
 public class WaitTaskBuilder extends TaskBuilder implements WaitBuilder {
 
-    String master;
-    WeakReference<Pager> pager;
-    boolean feedbackOnSuccess = true;
-    boolean feedbackOnException = true;
+    public String master;
+    public WeakReference<Pager> pager;
+    public boolean feedbackOnSuccess = true;
+    public boolean feedbackOnException = true;
 
     public WaitTaskBuilder(TaskBuilder builder, Pager pager, String master) {
         this.master = master;

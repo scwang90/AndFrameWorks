@@ -10,12 +10,13 @@ import java.util.Collection;
  * 集成等待对话框的数据加载任务
  * Created by SCWANG on 2017/5/3.
  */
-class InternalWaitLoadTask<T> extends InternalWaitTask {
+@SuppressWarnings("WeakerAccess")
+public class InternalWaitLoadTask<T> extends InternalWaitTask {
 
-    private T data;
-    private WaitLoadTaskBuilder<T> builder;
+    protected T data;
+    protected WaitLoadTaskBuilder<T> builder;
 
-    InternalWaitLoadTask(WaitLoadTaskBuilder<T> builder) {
+    public InternalWaitLoadTask(WaitLoadTaskBuilder<T> builder) {
         super(builder);
         this.builder = builder;
     }

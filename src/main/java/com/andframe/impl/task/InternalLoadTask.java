@@ -6,13 +6,13 @@ import java.util.Collection;
  * 内部加载任务实现
  * Created by SCWANG on 2017/4/28.
  */
+@SuppressWarnings("WeakerAccess")
+public class InternalLoadTask<T> extends InternalTask {
 
-class InternalLoadTask<T> extends InternalTask {
+    protected T data;
+    protected LoadTaskBuilder<T> builder;
 
-    private T data;
-    private LoadTaskBuilder<T> builder;
-
-    InternalLoadTask(LoadTaskBuilder<T> builder) {
+    public InternalLoadTask(LoadTaskBuilder<T> builder) {
         super(builder);
         this.builder = builder;
     }

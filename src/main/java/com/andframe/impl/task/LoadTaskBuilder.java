@@ -13,13 +13,13 @@ import com.andframe.api.task.handler.PrepareHandler;
  * 任务构建器
  * Created by SCWANG on 2017/4/28.
  */
-
+@SuppressWarnings("WeakerAccess")
 public class LoadTaskBuilder<T> extends TaskBuilder implements LoadBuilder<T> {
 
-    Class<T> clazz;
-    LoadingHandler<T> loadingHandler;
-    LoadSuccessHandler<T> loadSuccessHandler;
-    Runnable emptyRunnable;
+    public Class<T> clazz;
+    public LoadingHandler<T> loadingHandler;
+    public LoadSuccessHandler<T> loadSuccessHandler;
+    public Runnable emptyRunnable;
 
     public LoadTaskBuilder(TaskBuilder builder, Class<T> clazz) {
         this.clazz = clazz;

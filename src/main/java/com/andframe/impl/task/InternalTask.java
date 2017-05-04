@@ -7,11 +7,12 @@ import com.andframe.task.AfHandlerTask;
  * Created by SCWANG on 2017/4/28.
  */
 
-class InternalTask extends AfHandlerTask {
+@SuppressWarnings("WeakerAccess")
+public class InternalTask extends AfHandlerTask {
 
-    private TaskBuilder builder;
+    protected TaskBuilder builder;
 
-    InternalTask(TaskBuilder builder) {
+    public InternalTask(TaskBuilder builder) {
         this.builder = builder;
     }
 

@@ -14,14 +14,14 @@ import com.andframe.api.task.handler.WorkingHandler;
  * 任务构建器
  * Created by SCWANG on 2017/4/28.
  */
-
+@SuppressWarnings("WeakerAccess")
 public class TaskBuilder implements Builder {
 
-    Runnable prepareRunnable;
-    PrepareHandler prepareHandler;
-    WorkingHandler workingHandler;
-    Runnable successRunnable;
-    ExceptionHandler exceptionHandler;
+    public Runnable prepareRunnable;
+    public PrepareHandler prepareHandler;
+    public WorkingHandler workingHandler;
+    public Runnable successRunnable;
+    public ExceptionHandler exceptionHandler;
 
     @Override
     public Builder prepare(Runnable prepareRunnable) {

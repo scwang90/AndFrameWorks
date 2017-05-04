@@ -8,11 +8,12 @@ import com.andframe.exception.AfExceptionHandler;
  * 带等待对话框的任务
  * Created by SCWANG on 2017/5/3.
  */
-class InternalWaitTask extends InternalTask {
+@SuppressWarnings("WeakerAccess")
+public class InternalWaitTask extends InternalTask {
 
-    private WaitTaskBuilder builder;
+    protected WaitTaskBuilder builder;
 
-    InternalWaitTask(WaitTaskBuilder builder) {
+    public InternalWaitTask(WaitTaskBuilder builder) {
         super(builder);
         this.builder = builder;
     }
@@ -35,7 +36,7 @@ class InternalWaitTask extends InternalTask {
     }
 
     //<editor-fold desc="对话框实现">
-    private void showProgressDialog() {
+    protected void showProgressDialog() {
         Pager pager = builder.pager.get();
         if (pager != null) {
             pager.showProgressDialog(String.format(pager.getContext().getString(R.string.task_format_loading),builder.master));
@@ -49,14 +50,14 @@ class InternalWaitTask extends InternalTask {
         }
     }
 
-    private void makeToastFail(Throwable e) {
+    protected void makeToastFail(Throwable e) {
         Pager pager = builder.pager.get();
         if (pager != null && builder.feedbackOnException) {
             pager.makeToastShort(AfExceptionHandler.tip(e, String.format(pager.getContext().getString(R.string.task_format_fail), builder.master)));
         }
     }
 
-    private void hideProgressDialog() {
+    protected void hideProgressDialog() {
         Pager pager = builder.pager.get();
         if (pager != null) {
             pager.hideProgressDialog();

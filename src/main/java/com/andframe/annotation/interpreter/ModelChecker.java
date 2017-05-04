@@ -4,6 +4,7 @@ import android.text.TextUtils;
 
 import com.andframe.annotation.model.IntRange;
 import com.andframe.annotation.model.MinFloat;
+import com.andframe.annotation.model.MinInt;
 import com.andframe.annotation.model.Must;
 import com.andframe.api.pager.Pager;
 import com.andframe.exception.AfToastException;
@@ -49,6 +50,16 @@ public class ModelChecker {
                         float floatValue = (Float) value;
                         if (floatValue < minFloat.min()) {
                             throw new AfToastException(minFloat.value());
+                        }
+                    }
+                } else if (field.isAnnotationPresent(MinInt.class)) {
+                    MinInt minInt = field.getAnnotation(MinInt.class);
+                    field.setAccessible(true);
+                    Object value = field.get(obj);
+                    if (value instanceof Integer) {
+                        float intValue = (Integer) value;
+                        if (intValue < minInt.min()) {
+                            throw new AfToastException(minInt.value());
                         }
                     }
                 }

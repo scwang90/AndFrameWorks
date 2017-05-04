@@ -13,15 +13,16 @@ import com.andframe.api.task.handler.WorkingHandler;
  * 集成等待对话框的数据加载任务 Builder
  * Created by SCWANG on 2017/5/3.
  */
-class WaitLoadTaskBuilder<T> extends WaitTaskBuilder implements WaitLoadBuilder<T> {
+@SuppressWarnings("WeakerAccess")
+public class WaitLoadTaskBuilder<T> extends WaitTaskBuilder implements WaitLoadBuilder<T> {
 
-    Class<T> clazz;
-    Runnable emptyRunnable;
-    LoadingHandler<T> loadingHandler;
-    LoadSuccessHandler<T> loadSuccessHandler;
-    boolean feedbackOnEmpty = true;
+    public Class<T> clazz;
+    public Runnable emptyRunnable;
+    public LoadingHandler<T> loadingHandler;
+    public LoadSuccessHandler<T> loadSuccessHandler;
+    public boolean feedbackOnEmpty = true;
 
-    WaitLoadTaskBuilder(WaitTaskBuilder builder, Class<T> clazz) {
+    public WaitLoadTaskBuilder(WaitTaskBuilder builder, Class<T> clazz) {
         super(builder, builder.pager.get(), builder.master);
         this.clazz = clazz;
         this.pager = builder.pager;
@@ -30,7 +31,7 @@ class WaitLoadTaskBuilder<T> extends WaitTaskBuilder implements WaitLoadBuilder<
         this.feedbackOnException = builder.feedbackOnException;
     }
 
-    WaitLoadTaskBuilder(LoadTaskBuilder<T> builder, Pager pager, String master) {
+    public WaitLoadTaskBuilder(LoadTaskBuilder<T> builder, Pager pager, String master) {
         super(builder, pager, master);
         this.clazz = builder.clazz;
         this.loadingHandler = builder.loadingHandler;
