@@ -149,7 +149,7 @@ public class ApCommonBarBinder {
         return new TextLinesBinder(idvalue);
     }
 
-    public SelectNumber selectNumber(@IdRes int idvalue) {
+    public SelectNumber number(@IdRes int idvalue) {
         return new SelectNumber(idvalue);
     }
 
@@ -262,11 +262,6 @@ public class ApCommonBarBinder {
 
         public T hint(CharSequence hint) {
             this.hint = hint;
-            return self();
-        }
-
-        public T hintTextViewId(@IdRes int id) {
-            this.hint = hintPrefix + $(id).text();
             return self();
         }
 
@@ -406,7 +401,9 @@ public class ApCommonBarBinder {
             NumberPicker picker = new NumberPicker(pager.getContext());
             picker.setMinValue(minValue);
             picker.setMaxValue(maxValue);
-            picker.setValue(lastval);
+            if (lastval != null) {
+                picker.setValue(lastval);
+            }
             textview.setText(TextUtils.isEmpty(unit) ? "" : unit);
             View view = $(new LinearLayout(pager.getContext()))
                     .addView(picker).addView(textview).gravity(Gravity.CENTER_VERTICAL).view();
@@ -651,7 +648,7 @@ public class ApCommonBarBinder {
             return self();
         }
 
-        public TextBinder valueSuffix(String valueSuffix) {
+        public TextBinder suffix(String valueSuffix) {
             this.valueSuffix = valueSuffix;
             return self();
         }
@@ -702,7 +699,7 @@ public class ApCommonBarBinder {
         /**
          * 指定不为空
          */
-        public TextBinder verifyNotEmpty(String... names) {
+        public TextBinder verifyNoEmpty(String... names) {
             CharSequence name = getName("值", names);
             inputType(InputType.TYPE_CLASS_TEXT|InputType.TYPE_TEXT_VARIATION_PERSON_NAME);
             return this.verify(text -> {
@@ -774,9 +771,9 @@ public class ApCommonBarBinder {
             });
         }
         /**
-         * 指定为Uint
+         * 指定为UInt(无符号整形，0和正数)
          */
-        public TextBinder verifyUint(String... names) {
+        public TextBinder verifyUInt(String... names) {
             CharSequence name = getName("数值", names);
             inputType(InputType.TYPE_CLASS_NUMBER);
             return this.verify(text -> {
@@ -787,6 +784,28 @@ public class ApCommonBarBinder {
                     int v = Integer.parseInt(text);
                     if (v < 0) {
                         throw new VerifyException(name + "不能是负数");
+                    }
+                    text = String.valueOf(v);
+                } catch (NumberFormatException e) {
+                    throw new VerifyException("请输入正确的" + name);
+                }
+                return text;
+            });
+        }
+        /**
+         * 指定为PInt(正数)
+         */
+        public TextBinder verifyPInt(String... names) {
+            CharSequence name = getName("数值", names);
+            inputType(InputType.TYPE_CLASS_NUMBER);
+            return this.verify(text -> {
+                if (TextUtils.isEmpty(text)) {
+                    throw new VerifyException("请输入" + name);
+                }
+                try {
+                    int v = Integer.parseInt(text);
+                    if (v <= 0) {
+                        throw new VerifyException(name + "必须大于0");
                     }
                     text = String.valueOf(v);
                 } catch (NumberFormatException e) {
@@ -814,9 +833,9 @@ public class ApCommonBarBinder {
             });
         }
         /**
-         * 指定为Ufloat
+         * 指定为UFloat(无符号浮点型，0和正数)
          */
-        public TextBinder verifyUfloat(String... names) {
+        public TextBinder verifyUFloat(String... names) {
             CharSequence name = getName("数值", names);
             inputType(InputType.TYPE_CLASS_NUMBER|InputType.TYPE_NUMBER_FLAG_DECIMAL);
             return this.verify(text -> {
@@ -827,6 +846,28 @@ public class ApCommonBarBinder {
                     float v = Float.parseFloat(text);
                     if (v < 0) {
                         throw new VerifyException(name + "不能是负数");
+                    }
+                    text = String.valueOf(v);
+                } catch (NumberFormatException e) {
+                    throw new VerifyException("请输入正确的" + name);
+                }
+                return text;
+            });
+        }
+        /**
+         * 指定为PFloat(正数)
+         */
+        public TextBinder verifyPFloat(String... names) {
+            CharSequence name = getName("数值", names);
+            inputType(InputType.TYPE_CLASS_NUMBER|InputType.TYPE_NUMBER_FLAG_DECIMAL);
+            return this.verify(text -> {
+                if (TextUtils.isEmpty(text)) {
+                    throw new VerifyException("请输入" + name);
+                }
+                try {
+                    float v = Float.parseFloat(text);
+                    if (v <= 0) {
+                        throw new VerifyException(name + "必须大于0");
                     }
                     text = String.valueOf(v);
                 } catch (NumberFormatException e) {
