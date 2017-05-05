@@ -16,20 +16,20 @@ import java.util.Map;
  * 反射缓存
  * Created by SCWANG on 2017/5/3.
  */
-
-class ReflecterCacher {
+@SuppressWarnings("WeakerAccess")
+public class ReflecterCacher {
 
     private static Map<Class, Field[]> fieldCache = new HashMap<>();
     private static Map<Class, Method[]> methodCache = new HashMap<>();
 
     @NonNull
-    static Field[] getFieldByHandler(Object handler) {
+    public static Field[] getFieldByHandler(Object handler) {
         return getFieldByClass(handler.getClass());
 
     }
 
     @NonNull
-    static Field[] getFieldByClass(Class clazz) {
+    public static Field[] getFieldByClass(Class clazz) {
         Field[] fields = fieldCache.get(clazz);
         if (fields == null) {
             fields = AfReflecter.getField(clazz, getStopType(clazz));
@@ -39,12 +39,12 @@ class ReflecterCacher {
     }
 
     @NonNull
-    static Method[] getMethodByHandler(Object handler) {
+    public static Method[] getMethodByHandler(Object handler) {
         return getMethodByClass(handler.getClass());
     }
 
     @NonNull
-    static Method[] getMethodByClass(Class clazz) {
+    public static Method[] getMethodByClass(Class clazz) {
         Method[] methods = methodCache.get(clazz);
         if (methods == null) {
             methods = AfReflecter.getMethod(clazz, getStopType(clazz));
@@ -53,7 +53,7 @@ class ReflecterCacher {
         return methods;
     }
 
-    private static Class<?> getStopType(Class clazz) {
+    public static Class<?> getStopType(Class clazz) {
         if (ViewWrapper.class.isAssignableFrom(clazz)) {
             return ViewWrapper.class;
         } else if (AfActivity.class.isAssignableFrom(clazz)) {

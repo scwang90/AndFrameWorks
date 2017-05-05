@@ -1,0 +1,96 @@
+package com.andframe.activity;
+
+import android.content.Context;
+import android.support.annotation.CallSuper;
+import android.support.annotation.NonNull;
+import android.view.View;
+
+import com.andframe.annotation.view.BindViewCreated;
+import com.andframe.api.pager.load.LoadHelper;
+import com.andframe.api.pager.load.LoadPager;
+import com.andframe.api.pager.status.RefreshLayouter;
+import com.andframe.api.task.Task;
+import com.andframe.impl.helper.AfLoadHelper;
+
+import java.util.Date;
+
+/**
+ * 加载页面支持
+ * Created by SCWANG on 2017/5/5.
+ */
+
+public abstract class AfLoadActivity<T> extends AfActivity implements LoadPager<T> {
+
+    protected LoadHelper<T> mHelper = newHelper();
+
+    protected RefreshLayouter mRefreshLayouter;
+
+    @NonNull
+    protected LoadHelper<T> newHelper() {
+        return new AfLoadHelper<>(this);
+    }
+
+    @BindViewCreated@CallSuper
+    public void onViewCreated()  {
+        mHelper.onViewCreated();
+    }
+
+    @Override
+    public void setModel(@NonNull T model) {
+        mHelper.setModel(model);
+    }
+
+    @Override
+    public void setLoadTaskOnViewCreated(boolean loadOrNot) {
+        mHelper.setLoadTaskOnViewCreated(loadOrNot);
+    }
+
+    @Override
+    public void setLastRefreshTime(@NonNull Date time) {
+        mHelper.setLastRefreshTime(time);
+    }
+
+
+    public boolean isLoading() {
+        return mHelper.isLoading();
+    }
+
+    //<editor-fold desc="初始化布局">
+    public View findContentView() {
+        return mHelper.findContentView();
+    }
+
+    public RefreshLayouter initRefreshLayout(View content) {
+        return mRefreshLayouter = mHelper.initRefreshLayout(content);
+    }
+
+    @NonNull
+    public RefreshLayouter newRefreshLayouter(Context context) {
+        return mRefreshLayouter = mHelper.newRefreshLayouter(context);
+    }
+    //</editor-fold>
+
+    //<editor-fold desc="数据加载">
+    @Override
+    public boolean onRefresh() {
+        return mHelper.onRefresh();
+    }
+
+    public void onTaskFinish(T data) {
+        mHelper.onTaskFinish(data);
+    }
+
+    public void onTaskFailed(@NonNull Task task) {
+        mHelper.onTaskFailed(task);
+    }
+    //</editor-fold>
+
+    //<editor-fold desc="页面状态">
+
+    public void showError(@NonNull String error) {
+        mHelper.showError(error);
+    }
+
+    //</editor-fold>
+
+}

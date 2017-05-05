@@ -5,15 +5,10 @@ import android.content.Context;
 import android.support.annotation.CallSuper;
 import android.support.annotation.NonNull;
 import android.support.v4.view.ViewPager;
-import android.support.v4.widget.NestedScrollView;
-import android.support.v7.widget.RecyclerView;
 import android.text.TextUtils;
 import android.view.View;
 import android.view.ViewGroup;
 import android.view.ViewParent;
-import android.webkit.WebView;
-import android.widget.AbsListView;
-import android.widget.ScrollView;
 
 import com.andframe.R;
 import com.andframe.activity.AfStatusActivity;
@@ -25,7 +20,6 @@ import com.andframe.annotation.pager.status.StatusInvalidNet;
 import com.andframe.annotation.pager.status.StatusLayout;
 import com.andframe.annotation.pager.status.StatusProgress;
 import com.andframe.annotation.pager.status.idname.StatusContentViewId$;
-import com.andframe.api.pager.status.RefreshLayouter;
 import com.andframe.api.pager.status.StatusHelper;
 import com.andframe.api.pager.status.StatusLayouter;
 import com.andframe.api.pager.status.StatusPager;
@@ -33,7 +27,6 @@ import com.andframe.api.task.Task;
 import com.andframe.application.AfApp;
 import com.andframe.exception.AfExceptionHandler;
 import com.andframe.fragment.AfStatusFragment;
-import com.andframe.task.AfHandlerDataTask;
 import com.andframe.util.internal.TAG;
 import com.andframe.util.java.AfReflecter;
 
@@ -41,40 +34,22 @@ import java.lang.annotation.Annotation;
 import java.util.ArrayList;
 import java.util.Collection;
 import java.util.Collections;
-import java.util.Date;
 import java.util.List;
-import java.util.Queue;
-import java.util.concurrent.LinkedBlockingQueue;
 
 /**
  * 多状态页面支持
  * Created by SCWANG on 2016/10/22.
  */
 
-public class AfStatusHelper<T> implements StatusHelper<T> {
+public class AfStatusHelper<T> extends AfLoadHelper<T> implements StatusHelper<T> {
 
     protected StatusPager<T> mPager;
 
     protected StatusLayouter mStatusLayouter;
-    protected RefreshLayouter mRefreshLayouter;
-
-    protected T mModel;
-    protected boolean mIsLoading = false;
-    protected boolean mLoadOnViewCreated = true;
-
 
     public AfStatusHelper(StatusPager<T> pager) {
+        super(pager);
         this.mPager = pager;
-    }
-
-    @Override
-    public void setLoadTaskOnViewCreated(boolean loadOrNot) {
-        mLoadOnViewCreated = loadOrNot;
-    }
-
-    @Override
-    public void setModel(@NonNull T model) {
-        mModel = model;
     }
 
     @CallSuper
@@ -101,15 +76,9 @@ public class AfStatusHelper<T> implements StatusHelper<T> {
         }
     }
 
-    @Override
-    public void setLastRefreshTime(@NonNull Date time) {
-        if (mRefreshLayouter != null) {
-            mRefreshLayouter.setLastRefreshTime(time);
-        }
-    }
-
     //<editor-fold desc="初始化布局">
     public View findContentView() {
+
         Class<?> stop = mPager instanceof Activity ? AfStatusActivity.class : AfStatusFragment.class;
         StatusContentViewId id = AfReflecter.getAnnotation(mPager.getClass(), stop, StatusContentViewId.class);
         if (id != null) {
@@ -117,7 +86,7 @@ public class AfStatusHelper<T> implements StatusHelper<T> {
         }
         StatusContentViewId$ id$ = AfReflecter.getAnnotation(mPager.getClass(), stop, StatusContentViewId$.class);
         if (id$ != null) {
-            Context context = mPager.getContext();
+            Context context = AfApp.get();
             if (context != null) {
                 int idv = context.getResources().getIdentifier(id$.value(), "id", context.getPackageName());
                 if (idv > 0) {
@@ -130,54 +99,7 @@ public class AfStatusHelper<T> implements StatusHelper<T> {
             return AfApp.get().newViewQuery(mPager).$(type.value()).view();
         }
 
-        Queue<View> views = new LinkedBlockingQueue<>(Collections.singletonList(mPager.getView()));
-        do {
-            View view = views.poll();
-            if (view != null) {
-                if (view instanceof AbsListView
-                        || view instanceof RecyclerView
-                        || view instanceof ScrollView
-                        || view instanceof WebView
-                        || view instanceof NestedScrollView
-                        || view instanceof ViewPager) {
-                    return view;
-                } else if (view instanceof ViewGroup) {
-                    ViewGroup group = (ViewGroup) view;
-                    for (int j = 0; j < group.getChildCount(); j++) {
-                        views.add(group.getChildAt(j));
-                    }
-                }
-            }
-        } while (!views.isEmpty());
-
-        return null;
-    }
-
-    public RefreshLayouter initRefreshLayout(View content) {
-        ViewParent parent = content.getParent();
-        if (parent == null) {
-            AfExceptionHandler.handle("内容视图（ContentView）没有父视图，刷新布局（RefreshLayouter）初始化失败",
-                    TAG.TAG(mPager, "AfStatusHelper", "initRefreshLayout"));
-        } else if (parent instanceof ViewPager) {
-            AfExceptionHandler.handle("内容视图（ContentView）父视图为ViewPager，刷新布局（RefreshLayouter）初始化失败，" +
-                    "请用其他布局（Layout）作为ContentView的直接父视图，ViewPager的子视图",
-                    TAG.TAG(mPager, "AfStatusHelper", "initRefreshLayout"));
-        } else if (parent instanceof ViewGroup){
-            ViewGroup group = (ViewGroup) parent;
-
-            int i = group.indexOfChild(content);
-            group.removeViewAt(i);
-
-            ViewGroup.LayoutParams params = content.getLayoutParams();
-            RefreshLayouter layouter = mPager.newRefreshLayouter(content.getContext());
-            layouter.setContenView(content);
-            layouter.setOnRefreshListener(mPager);
-
-            group.addView(layouter.getLayout(), i, params);
-
-            return layouter;
-        }
-        return null;
+        return super.findContentView();
     }
 
     public StatusLayouter initStatusLayout(View content) {
@@ -230,7 +152,7 @@ public class AfStatusHelper<T> implements StatusHelper<T> {
                 if (empty != null) {
                     String message = empty.message();
                     if (TextUtils.isEmpty(message) && empty.messageId() > 0) {
-                        message = mPager.getContext().getString(empty.messageId());
+                        message = AfApp.get().getString(empty.messageId());
                     }
                     layouter.setEmptyLayout(empty.value(), empty.txtId(), empty.btnId(), message);
                 }
@@ -254,24 +176,9 @@ public class AfStatusHelper<T> implements StatusHelper<T> {
     public StatusLayouter newStatusLayouter(Context context) {
         return AfApp.get().newStatusLayouter(context);
     }
-
-    @NonNull
-    public RefreshLayouter newRefreshLayouter(Context context) {
-        return AfApp.get().newRefreshLayouter(context);
-    }
     //</editor-fold>
 
     //<editor-fold desc="数据加载">
-
-    @Override
-    public boolean onRefresh() {
-        return mPager.postTask(new LoadTask())/*.setListener(task -> mRefreshLayouter.setRefreshComplete())*/.prepare();
-    }
-
-    @Override
-    public boolean isLoading() {
-        return mIsLoading;
-    }
 
     @Override
     public boolean isEmpty(T model) {
@@ -293,31 +200,12 @@ public class AfStatusHelper<T> implements StatusHelper<T> {
     public void onTaskFailed(@NonNull Task task) {
         if (mModel != null) {
             mPager.showContent();
-            mPager.makeToastShort(task.makeErrorToast(mPager.getContext().getString(R.string.status_load_fail)));
+            mPager.makeToastShort(task.makeErrorToast(AfApp.get().getString(R.string.status_load_fail)));
         } else {
-            mPager.showError(task.makeErrorToast(mPager.getContext().getString(R.string.status_load_fail)));
+            mPager.showError(task.makeErrorToast(AfApp.get().getString(R.string.status_load_fail)));
         }
     }
 
-//    /**
-//     * 任务加载完成
-//     * @param data 加载的数据
-//     * @return 数据是否为非空，用于框架自动显示空数据页面
-//     */
-//    public boolean onTaskLoaded(T data) {
-//        return data != null;
-//    }
-
-//    /**
-//     *
-//     * 任务加载（异步线程，由框架自动发出执行）
-//     * @return 加载的数据
-//     * @throws Exception
-//     */
-//    public T onTaskLoading() throws Exception {
-//        Thread.sleep(1000);
-//        return null;
-//    }
     //</editor-fold>
 
     //<editor-fold desc="页面状态">
@@ -345,7 +233,7 @@ public class AfStatusHelper<T> implements StatusHelper<T> {
                 if (!mStatusLayouter.isProgress())
                     mStatusLayouter.showProgress();
             } else {
-                mPager.showProgressDialog(mPager.getContext().getString(R.string.status_loading));
+                mPager.showProgressDialog(AfApp.get().getString(R.string.status_loading));
             }
         }
     }
@@ -375,41 +263,6 @@ public class AfStatusHelper<T> implements StatusHelper<T> {
             }
         }
     }
-    //</editor-fold>
-
-    //<editor-fold desc="任务类">
-
-    protected abstract class AbStatusTask extends AfHandlerDataTask<T> {
-
-        @Override
-        protected boolean onPrepare() {
-            mIsLoading = true;
-            return super.onPrepare();
-        }
-
-        @Override
-        protected void onHandle(T data) {
-            mIsLoading = false;
-        }
-    }
-
-    private class LoadTask extends AbStatusTask {
-
-        @Override
-        protected void onHandle(T data) {
-            super.onHandle(data);
-            if (isFinish()) {
-                mPager.onTaskFinish(data);
-            } else {
-                mPager.onTaskFailed(this);
-            }
-        }
-        @Override
-        protected T onLoadData() throws Exception {
-            return mModel = mPager.onTaskLoading();
-        }
-    }
-
     //</editor-fold>
 
     //<editor-fold desc="Annotation 实现类">
@@ -457,7 +310,7 @@ public class AfStatusHelper<T> implements StatusHelper<T> {
         StatusInvalidNetImpl impl = new StatusInvalidNetImpl();
         impl.value = R.layout.af_module_nodata;
         impl.txtId = R.id.module_nodata_description;
-        impl.message = mPager.getContext().getString(R.string.status_invalidnet);
+        impl.message = AfApp.get().getString(R.string.status_invalidnet);
         List<StatusInvalidNet> empties = getAnnotations(type, stoptype, StatusInvalidNet.class);
         for (StatusInvalidNet tEmpty : empties) {
             impl.combine(tEmpty);

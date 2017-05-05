@@ -656,7 +656,7 @@ public class AfItemsPagerHelper<T> extends AfStatusHelper<List<T>> implements It
 
     //<editor-fold desc="加载任务">
 
-    protected class AbLoadListTask extends AbStatusTask implements TaskWithPaging {
+    protected class AbLoadListTask extends AbLoadTask implements TaskWithPaging {
 
         private Paging paging;
 
@@ -693,7 +693,7 @@ public class AfItemsPagerHelper<T> extends AfStatusHelper<List<T>> implements It
     /**
      * 刷新数据任务
      */
-    protected class AbRefreshListTask extends AbStatusTask implements TaskWithPaging {
+    protected class AbRefreshListTask extends AbLoadTask implements TaskWithPaging {
 
         private Paging paging;
 
@@ -729,7 +729,7 @@ public class AfItemsPagerHelper<T> extends AfStatusHelper<List<T>> implements It
     /**
      * 获取更多数据任务
      */
-    protected class AbMoreListTask extends AbStatusTask implements TaskWithPaging  {
+    protected class AbMoreListTask extends AbLoadTask implements TaskWithPaging  {
 
         private Paging paging;
 
