@@ -515,13 +515,15 @@ public class FeedbackFragment extends Fragment {
         View backButton =
 		/* actionBar.getCustomView(). */view.findViewById(Resources.id
                 .avoscloud_feedback_actionbar_back(getContext()));
-        backButton.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                //onBackPressed();
-                getActivity().finish();
-            }
-        });
+        if (backButton != null) {
+            backButton.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
+                    //onBackPressed();
+                    getActivity().finish();
+                }
+            });
+        }
         // }
     }
 
