@@ -7,21 +7,20 @@ import android.support.annotation.StyleRes;
 import android.support.v4.app.Fragment;
 import android.view.View;
 
-import com.andframe.activity.AfStatusActivity;
+import com.andframe.activity.AfLoadActivity;
 import com.andframe.api.pager.status.RefreshLayouter;
-import com.andframe.api.pager.status.StatusLayouter;
 import com.andframe.feature.AfIntent;
 import com.andpack.api.ApPager;
-import com.andpack.impl.ApStatusHelper;
+import com.andpack.impl.ApLoadHelper;
 
 /**
- * 多状态页面支持
- * Created by SCWANG on 2016/10/21.
+ * 加载页面支持
+ * Created by SCWANG on 2017/5/5.
  */
 
-public abstract class ApStatusActivity<T> extends AfStatusActivity<T> implements ApPager {
+public abstract class ApLoadActivity<T> extends AfLoadActivity<T> implements ApPager {
 
-    protected ApStatusHelper mApHelper = new ApStatusHelper(this);
+    protected ApLoadHelper mApHelper = new ApLoadHelper(this);
 
     @Override
     public void setTheme(@StyleRes int resid) {
@@ -86,16 +85,6 @@ public abstract class ApStatusActivity<T> extends AfStatusActivity<T> implements
             return layouter;
         }
         return super.newRefreshLayouter(context);
-    }
-
-    @NonNull
-    @Override
-    public StatusLayouter newStatusLayouter(Context context) {
-        StatusLayouter layouter = mApHelper.newStatusLayouter(context);
-        if (layouter != null) {
-            return layouter;
-        }
-        return super.newStatusLayouter(context);
     }
 
     @Override
