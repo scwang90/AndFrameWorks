@@ -19,6 +19,6 @@ public interface Builder {
     Builder exception(ExceptionHandler handler);
     <T> LoadBuilder<T> load(Class<T> clazz);
     WaitBuilder wait(Pager pager, String master);
-    void post();
+    Task post();
     Task build();
 }

@@ -69,7 +69,7 @@ public class TaskBuilder implements Builder {
     }
 
     @Override
-    public void post() {
-        $.task().postTask(build());
+    public Task post() {
+        return $.task().postTask(build());
     }
 }
