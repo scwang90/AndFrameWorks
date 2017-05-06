@@ -11,6 +11,7 @@ import com.andframe.activity.AfItemsActivity;
 import com.andframe.api.adapter.ItemViewer;
 import com.andframe.api.adapter.ItemViewerAdapter;
 import com.andframe.api.pager.status.RefreshLayouter;
+import com.andframe.api.pager.status.StatusLayouter;
 import com.andframe.api.viewer.ViewQuery;
 import com.andframe.exception.AfToastException;
 import com.andframe.feature.AfIntent;
@@ -86,11 +87,21 @@ public abstract class ApItemsActivity<T> extends AfItemsActivity<T> implements A
     @NonNull
     @Override
     public RefreshLayouter newRefreshLayouter(Context context) {
-        RefreshLayouter layouter = mApHelper.createRefreshLayouter(context);
+        RefreshLayouter layouter = mApHelper.newRefreshLayouter(context);
         if (layouter != null) {
             return layouter;
         }
         return super.newRefreshLayouter(context);
+    }
+
+    @NonNull
+    @Override
+    public StatusLayouter newStatusLayouter(Context context) {
+        StatusLayouter layouter = mApHelper.newStatusLayouter(context);
+        if (layouter != null) {
+            return layouter;
+        }
+        return super.newStatusLayouter(context);
     }
 
     @NonNull

@@ -6,22 +6,21 @@ import android.support.v4.app.Fragment;
 import android.view.View;
 
 import com.andframe.api.pager.status.RefreshLayouter;
-import com.andframe.api.pager.status.StatusLayouter;
 import com.andframe.feature.AfBundle;
+import com.andframe.fragment.AfLoadFragment;
 import com.andframe.impl.viewer.AfView;
-import com.andframe.fragment.AfStatusFragment;
 import com.andpack.activity.ApFragmentActivity;
 import com.andpack.api.ApPager;
-import com.andpack.impl.ApStatusHelper;
+import com.andpack.impl.ApLoadHelper;
 
 /**
- * 多状态页面支持
- * Created by SCWANG on 2016/10/21.
+ * 加载页面支持
+ * Created by SCWANG on 2017/5/5.
  */
 
-public class ApStatusFragment<T> extends AfStatusFragment<T> implements ApPager {
+public abstract class ApLoadFragment<T> extends AfLoadFragment<T> implements ApPager {
 
-    protected ApStatusHelper mApHelper = new ApStatusHelper(this);
+    protected ApLoadHelper mApHelper = new ApLoadHelper(this);
 
     @Override
     protected void onCreate(AfBundle bundle, AfView view) throws Exception {
@@ -64,26 +63,6 @@ public class ApStatusFragment<T> extends AfStatusFragment<T> implements ApPager 
             return layouter;
         }
         return super.newRefreshLayouter(context);
-    }
-
-    @NonNull
-    @Override
-    public StatusLayouter newStatusLayouter(Context context) {
-        StatusLayouter layouter = mApHelper.newStatusLayouter(context);
-        if (layouter != null) {
-            return layouter;
-        }
-        return super.newStatusLayouter(context);
-    }
-
-    @Override
-    public T onTaskLoading() throws Exception {
-        return null;
-    }
-
-    @Override
-    public void onTaskLoaded(@NonNull T model) {
-
     }
 
     @Override
