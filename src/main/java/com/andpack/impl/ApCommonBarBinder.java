@@ -165,7 +165,7 @@ public class ApCommonBarBinder {
         return new CheckBinder(idvalue);
     }
 
-    public SwitchBinder Switch(@IdRes int idvalue) {
+    public SwitchBinder switcher(@IdRes int idvalue) {
         return new SwitchBinder(idvalue);
     }
 
