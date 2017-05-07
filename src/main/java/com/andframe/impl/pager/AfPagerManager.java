@@ -26,11 +26,16 @@ public class AfPagerManager implements PagerManager {
     // 当前主页面
     private Stack<AfActivity> mStackActivity = new Stack<>();
 
+    public AfPagerManager() {
+        System.out.println(this + " new - size = " + mStackActivity.size());
+    }
+
     @Override
     public void onActivityCreated(AfActivity activity) {
         if (!mStackActivity.contains(activity)) {
             mStackActivity.push(activity);
         }
+        System.out.println(this + " onActivityCreated - " + activity + " size = " + mStackActivity.size());
     }
 
     @Override
@@ -38,6 +43,7 @@ public class AfPagerManager implements PagerManager {
         if (mStackActivity.contains(activity)) {
             mStackActivity.remove(activity);
         }
+        System.out.println(this + " onActivityDestroy - " + activity + " size = " + mStackActivity.size());
     }
 
     @Override
@@ -87,6 +93,7 @@ public class AfPagerManager implements PagerManager {
 
     @Override
     public AfActivity currentActivity() {
+        System.out.println(this + " currentActivity - size = " + mStackActivity.size());
         if (mStackActivity.isEmpty()) {
             return null;
         }

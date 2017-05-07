@@ -8,7 +8,6 @@ import com.andframe.$;
 import com.andframe.activity.AfActivity;
 import com.andframe.api.service.UpdateService;
 import com.andframe.exception.AfExceptionHandler;
-import com.andframe.impl.pager.AfPagerManager;
 import com.andframe.model.ServiceVersion;
 import com.andframe.task.AfDataTask;
 import com.andframe.task.AfDownloader;
@@ -126,7 +125,7 @@ public abstract class AfUpdateService implements UpdateService {
 
 		@Override
 		public boolean onPrepare(Boolean feedback) {
-			AfActivity activity = $.pager.currentActivity();
+			AfActivity activity = $.pager().currentActivity();
 			if (activity != null && feedback) {
 				activity.makeToastShort("正在检查更新...");
 			}
@@ -141,7 +140,7 @@ public abstract class AfUpdateService implements UpdateService {
 		@Override
 		public void onTaskHandle(Boolean ndfeedback, AfDataTask task) {
 			showNeedUpdate();
-			AfActivity activity = $.pager.currentActivity();
+			AfActivity activity = $.pager().currentActivity();
 			if (activity != null && !isNeedUpdate() && ndfeedback) {
 				activity.makeToastShort("恭喜你，目前已经是最新版本！");
 			}

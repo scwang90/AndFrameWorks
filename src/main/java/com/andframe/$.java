@@ -56,12 +56,6 @@ public class $ {
     public interface Api extends $$,TaskExecutor, DialogBuilder, ViewQuery, Cacher, EventManager {
     }
 
-    public static final Toaster toast = new ToasterWrapper(getInstanceToast());
-
-    public static final PagerManager pager = new PagerManagerWrapper(getInstancePagerManager());
-
-    public static final TaskExecutor task = new TaskExecutorWrapper(getInstanceExecutor());
-
     @SuppressWarnings("MethodNameSameAsClassName")
     @MainThread
     public static Api $(Object... withs) {
