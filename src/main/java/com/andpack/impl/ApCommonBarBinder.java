@@ -1,6 +1,7 @@
 package com.andpack.impl;
 
 import android.app.Activity;
+import android.app.AlertDialog;
 import android.app.Dialog;
 import android.content.DialogInterface;
 import android.content.res.Resources;
@@ -175,6 +176,10 @@ public class ApCommonBarBinder {
 
     public DateBinder date(@IdRes int idvalue) {
         return new DateBinder(idvalue);
+    }
+
+    public MonthBinder month(@IdRes int idvalue) {
+        return new MonthBinder(idvalue);
     }
 
     public TimeBinder time(@IdRes int idvalue) {
@@ -1104,11 +1109,88 @@ public class ApCommonBarBinder {
 
     }
 
+    public class MonthBinder extends AbstractDateBinder<MonthBinder> {
+
+        private static final int YEAR_MIN = 2000;
+        private static final int YEAR_MAX = 3000;
+
+        MonthBinder(int idvalue) {
+            super(idvalue);
+            format = AfDateFormat.DATE;
+        }
+
+        @Override
+        public void start() {
+            Calendar calendar = Calendar.getInstance();
+            if (lastval != null) {
+                calendar.setTime(lastval);
+            }
+            TextView txtYear = new TextView(pager.getContext());
+            TextView txtMonth = new TextView(pager.getContext());
+            NumberPicker year = new NumberPicker(pager.getContext());
+            NumberPicker month = new NumberPicker(pager.getContext());
+            year.setMinValue(YEAR_MIN);
+            year.setMaxValue(YEAR_MAX);
+            month.setMinValue(1);
+            month.setMaxValue(12);
+            year.setValue(calendar.get(Calendar.YEAR));
+            month.setValue(calendar.get(Calendar.MONTH));
+            txtYear.setText("年");
+            txtMonth.setText("月");
+            View view = $(new LinearLayout(pager.getContext()))
+                    .addView(year).addView(txtYear)
+                    .addView(month).addView(txtMonth)
+                    .gravity(Gravity.CENTER_VERTICAL).view();
+            Dialog dialog = $.dialog(pager).showViewDialog(hint, view, "选择", null, "取消", null);
+            if (dialog instanceof AlertDialog) {
+                ((AlertDialog) dialog).getButton(AlertDialog.BUTTON_POSITIVE)
+                        .setOnClickListener(new SafeListener(new View.OnClickListener() {
+                            public void onClick(View v) {
+                                if (onPreDateSet(view, year.getValue(), month.getValue() - 1)) {
+                                    dialog.dismiss();
+                                }
+                            }
+                        }));
+            }
+        }
+
+        public MonthBinder value(Date date) {
+            lastval = AfDateFormat.roundDate(date);
+            Calendar now = Calendar.getInstance();
+            now.setTime(date);
+            onDateSet(null, now.get(Calendar.YEAR), now.get(Calendar.MONTH));
+            return self();
+        }
+
+        public boolean onPreDateSet(View view, int year, int month) {
+            if (verify != null && view != null) {
+                try {
+                    verify.verify(AfDateFormat.parser(year, month, 1));
+                } catch (VerifyException e) {
+                    pager.makeToastShort(e.getMessage());
+                    return false;
+                }
+            }
+            onDateSet(view, year, month);
+            return true;
+        }
+
+        public void onDateSet(View view, int year, int month) {
+            isManual = view != null;
+            lastval = AfDateFormat.parser(year, month, 1);
+            $(idvalue).text(format.format(lastval));
+            if (bind != null) {
+                bind.date(this, lastval);
+            }
+        }
+
+    }
+
     public class TimeBinder extends AbstractDateBinder<TimeBinder> implements OnTimeSetVerifyListener {
 
         TimeBinder(int idvalue) {
             super(idvalue);
-            format = AfDateFormat.TIME;
+            format = new SimpleDateFormat("yyyy年MM月", Locale.CHINA);
         }
 
         @Override
