@@ -4,6 +4,7 @@ import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
 
 import com.andframe.api.pager.Pager;
+import com.andframe.api.task.Task;
 
 /**
  * 加载页面支持 （自动添加【下拉刷新控件】）
@@ -25,5 +26,4 @@ public interface LoadPager<T> extends Pager, LoadHelper<T> {
      * @param model 加载的数据（不为空）
      */
     void onTaskLoaded(@NonNull T model);
-
 }

@@ -109,7 +109,7 @@ public interface StatusHelper<T> extends LoadHelper<T>, EmptyVerdicter<T> {
      * 会调用 isEmpty 来判断是否为空数据
      * @param model 任务加载的数据
      */
-    void onTaskFinish(@Nullable T model);
+    void onTaskSucceed(@Nullable T model);
 
     /**
      * 任务执行失败

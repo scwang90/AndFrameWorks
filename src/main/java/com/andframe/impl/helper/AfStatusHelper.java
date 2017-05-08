@@ -70,7 +70,7 @@ public class AfStatusHelper<T> extends AfLoadHelper<T> implements StatusHelper<T
                 mPager.showProgress();
             }
         } else if (mModel != null) {
-            mPager.onTaskFinish(mModel);
+            mPager.onTaskSucceed(mModel);
         } else {
             mPager.showEmpty();
         }
@@ -188,7 +188,16 @@ public class AfStatusHelper<T> extends AfLoadHelper<T> implements StatusHelper<T
         return model == null;
     }
 
-    public void onTaskFinish(T data) {
+    @Override
+    public void onTaskFinish(@NonNull Task task, T data) {
+        if (task.isFinish()) {
+            mPager.onTaskSucceed(data);
+        } else {
+            mPager.onTaskFailed(task);
+        }
+    }
+
+    public void onTaskSucceed(T data) {
         if (mPager.isEmpty(data)) {
             mPager.showEmpty();
         } else {

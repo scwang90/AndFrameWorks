@@ -75,8 +75,13 @@ public abstract class AfLoadFragment<T> extends AfTabFragment implements LoadPag
         return mHelper.onRefresh();
     }
 
-    public void onTaskFinish(T data) {
-        mHelper.onTaskFinish(data);
+    @Override
+    public void onTaskFinish(@NonNull Task task, T model) {
+        mHelper.onTaskFinish(task, model);
+    }
+
+    public void onTaskSucceed(T data) {
+        mHelper.onTaskSucceed(data);
     }
 
     public void onTaskFailed(@NonNull Task task) {

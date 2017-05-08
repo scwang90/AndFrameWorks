@@ -369,22 +369,28 @@ public abstract class AfItemsFragment<T> extends AfStatusFragment<List<T>> imple
     //</editor-fold>
 
     //<editor-fold desc="父类任务">
-    @Override
+
+    @Override@Deprecated
+    public final void onTaskFinish(@NonNull Task task, List<T> model) {
+        super.onTaskFinish(task, model);
+    }
+
+    @Override@Deprecated
     public final void onTaskFailed(@NonNull Task task) {
         super.onTaskFailed(task);
     }
 
-    @Override
-    public final void onTaskFinish(List<T> data) {
-        super.onTaskFinish(data);
+    @Override@Deprecated
+    public final void onTaskSucceed(List<T> data) {
+        super.onTaskSucceed(data);
     }
 
-    @Override
+    @Override@Deprecated
     public final List<T> onTaskLoading() throws Exception {
         return null;//super.onTaskLoading();
     }
 
-    @Override
+    @Override@Deprecated
     public final void onTaskLoaded(@NonNull List<T> data) {
     }
     //</editor-fold>

@@ -50,11 +50,6 @@ public abstract class AfLoadActivity<T> extends AfActivity implements LoadPager<
         mHelper.setLastRefreshTime(time);
     }
 
-
-    public boolean isLoading() {
-        return mHelper.isLoading();
-    }
-
     //<editor-fold desc="初始化布局">
     public View findContentView() {
         return mHelper.findContentView();
@@ -71,13 +66,23 @@ public abstract class AfLoadActivity<T> extends AfActivity implements LoadPager<
     //</editor-fold>
 
     //<editor-fold desc="数据加载">
+
+    public boolean isLoading() {
+        return mHelper.isLoading();
+    }
+
     @Override
     public boolean onRefresh() {
         return mHelper.onRefresh();
     }
 
-    public void onTaskFinish(T data) {
-        mHelper.onTaskFinish(data);
+    @Override
+    public void onTaskFinish(@NonNull Task task, T model) {
+        mHelper.onTaskFinish(task, model);
+    }
+
+    public void onTaskSucceed(T data) {
+        mHelper.onTaskSucceed(data);
     }
 
     public void onTaskFailed(@NonNull Task task) {

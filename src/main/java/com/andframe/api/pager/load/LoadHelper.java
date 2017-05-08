@@ -84,12 +84,18 @@ public interface LoadHelper<T> extends OnRefreshListener {
 
     //<editor-fold desc="任务加载">
     /**
+     * 任务执行完成（包括成功和失败）
+     * 内部判断之后会分发给 onTaskSucceed 或 onTaskFailed
+     * @param task 任务对象
+     * @param model 任务加载的数据
+     */
+    void onTaskFinish(@NonNull Task task, T model);
+    /**
      * 任务成功执行结束（如果model不为空会调用onTaskLoaded）
      * 会调用 isEmpty 来判断是否为空数据
      * @param model 任务加载的数据
      */
-    void onTaskFinish(@Nullable T model);
-
+    void onTaskSucceed(@Nullable T model);
     /**
      * 任务执行失败
      * @param task 发生错误的任务对象

@@ -74,7 +74,7 @@ public class AfLoadHelper<T> implements LoadHelper<T> {
             mLoadOnViewCreated = false;
             mPager.postTask(new LoadTask());
         } else if (mModel != null) {
-            mPager.onTaskFinish(mModel);
+            mPager.onTaskSucceed(mModel);
         }
     }
 
@@ -175,10 +175,19 @@ public class AfLoadHelper<T> implements LoadHelper<T> {
         return mIsLoading;
     }
 
-    public void onTaskFinish(T data) {
+    @Override
+    public void onTaskFinish(@NonNull Task task, T data) {
         if (mRefreshLayouter != null && mRefreshLayouter.isRefreshing()) {
             mRefreshLayouter.setRefreshComplete();
         }
+        if (task.isFinish()) {
+            mPager.onTaskSucceed(data);
+        } else {
+            mPager.onTaskFailed(task);
+        }
+    }
+
+    public void onTaskSucceed(T data) {
         mPager.onTaskLoaded(data);
     }
 
@@ -224,11 +233,7 @@ public class AfLoadHelper<T> implements LoadHelper<T> {
         @Override
         protected void onHandle(T data) {
             super.onHandle(data);
-            if (isFinish()) {
-                mPager.onTaskFinish(data);
-            } else {
-                mPager.onTaskFailed(this);
-            }
+            mPager.onTaskFinish(this, data);
         }
         @Override
         protected T onLoadData() throws Exception {

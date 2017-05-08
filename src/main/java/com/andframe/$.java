@@ -59,8 +59,7 @@ public class $ {
     @SuppressWarnings("MethodNameSameAsClassName")
     @MainThread
     public static Api $(Object... withs) {
-        lastWiths = withs;
-        return api;
+        return with(withs);
     }
 
     @MainThread
