@@ -39,6 +39,7 @@ import java.util.Locale;
 @SuppressWarnings("unused")
 public class AdvertAdapter {
 
+	public static int INITIAL_POINT = 100;
 	/**在线配置**/
 	public static final String KEY_DEPLOY = "KEY_DEPLOY";
 	/** 标记审核机器 */
