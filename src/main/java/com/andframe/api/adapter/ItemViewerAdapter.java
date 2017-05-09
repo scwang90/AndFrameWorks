@@ -48,12 +48,20 @@ public interface ItemViewerAdapter<T> extends List<T>, ListAdapter, RecyclerAdap
     ItemViewer<T> newItemViewer(int viewType);
 
     /**
-     *
-     * @param item
-     * @param parent
-     * @return
+     * 创建Item视图
+     * @param item item对象
+     * @param parent 父容器视图
+     * @return 创建的视图
      */
+    @NonNull
     View inflateItem(ItemViewer<T> item, ViewGroup parent);
+
+    /**
+     * 绑定Item数据
+     * @param view item的根视图
+     * @param item item对象
+     * @param index item 的索引
+     */
     void bindingItem(View view, ItemViewer<T> item, int index);
 
 

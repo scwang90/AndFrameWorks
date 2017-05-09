@@ -2,6 +2,7 @@ package com.andframe.impl.task;
 
 import com.andframe.api.pager.Pager;
 import com.andframe.api.task.Task;
+import com.andframe.api.task.builder.LoadBuilder;
 import com.andframe.api.task.builder.WaitBuilder;
 import com.andframe.api.task.builder.WaitLoadBuilder;
 import com.andframe.api.task.handler.ExceptionHandler;
@@ -9,6 +10,7 @@ import com.andframe.api.task.handler.PrepareHandler;
 import com.andframe.api.task.handler.WorkingHandler;
 
 import java.lang.ref.WeakReference;
+import java.util.List;
 
 /**
  * 集成等待对话框的任务 Builder
@@ -75,6 +77,10 @@ public class WaitTaskBuilder extends TaskBuilder implements WaitBuilder {
     }
     public <T> WaitLoadBuilder<T> load(Class<T> clazz) {
         return new WaitLoadTaskBuilder<>(this, clazz);
+    }
+    @Override
+    public <T> LoadBuilder<List<T>> loadList(Class<T> clazz) {
+        return new WaitLoadTaskBuilder<>(this, null);
     }
     //</editor-fold>
 }

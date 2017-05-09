@@ -7,6 +7,8 @@ import com.andframe.api.task.handler.LoadingHandler;
 import com.andframe.api.task.handler.PrepareHandler;
 import com.andframe.api.task.handler.WorkingHandler;
 
+import java.util.List;
+
 /**
  * 数据加载任务构建器
  * Created by SCWANG on 2017/4/28.
@@ -38,4 +40,6 @@ public interface LoadBuilder<T> extends Builder {
     Builder success(Runnable runnable);
     @Deprecated
     <TT> LoadBuilder<TT> load(Class<TT> clazz);
+    @Deprecated
+    <TT> LoadBuilder<List<TT>> loadList(Class<TT> clazz);
 }

@@ -151,6 +151,7 @@ public class AfListAdapterWrapper<T> extends AfListAdapter<T> implements Wrapper
 		return wrapped.onCreateViewHolder(parent, viewType);
 	}
 
+	@NonNull
 	@Override
 	public View inflateItem(ItemViewer<T> item, ViewGroup parent) {
 		return wrapped.inflateItem(item, parent);

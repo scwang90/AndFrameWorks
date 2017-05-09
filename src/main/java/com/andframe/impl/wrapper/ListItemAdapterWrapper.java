@@ -129,6 +129,7 @@ public class ListItemAdapterWrapper<T> extends RecyclerBaseAdapter<ViewHolderIte
         return wrapped.newItemViewer(viewType);
     }
 
+    @NonNull
     @Override
     public View inflateItem(ItemViewer<T> item, ViewGroup parent) {
         return wrapped.inflateItem(item, parent);

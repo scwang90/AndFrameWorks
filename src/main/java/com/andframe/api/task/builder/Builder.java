@@ -6,6 +6,8 @@ import com.andframe.api.task.handler.ExceptionHandler;
 import com.andframe.api.task.handler.PrepareHandler;
 import com.andframe.api.task.handler.WorkingHandler;
 
+import java.util.List;
+
 /**
  * 任务构建器
  * Created by SCWANG on 2017/4/28.
@@ -17,8 +19,9 @@ public interface Builder {
     Builder working(WorkingHandler handler);
     Builder success(Runnable runnable);
     Builder exception(ExceptionHandler handler);
-    <T> LoadBuilder<T> load(Class<T> clazz);
     WaitBuilder wait(Pager pager, String master);
+    <T> LoadBuilder<T> load(Class<T> clazz);
+    <T> LoadBuilder<List<T>> loadList(Class<T> clazz);
     Task post();
     Task build();
 }

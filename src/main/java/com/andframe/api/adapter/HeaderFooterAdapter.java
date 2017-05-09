@@ -25,5 +25,5 @@ public interface HeaderFooterAdapter<T> extends ItemViewerAdapter<T> {
     void clearFooter();
 
     boolean hasHeaderView(View view);
-    boolean hasFooterView(View view) ;
+    boolean hasFooterView(View view);
 }

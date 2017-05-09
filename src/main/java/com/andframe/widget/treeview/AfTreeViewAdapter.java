@@ -59,6 +59,7 @@ public abstract class AfTreeViewAdapter<T> extends AfMultiChoiceAdapter<T> imple
 		return mTreeNodeClickable != null && mTreeNodeClickable.isItemClickable(mNodeShow.get(index));
 	}
 	
+	@NonNull
 	@Override
 	public View inflateItem(ItemViewer<T> item, ViewGroup parent) {
 		View view = super.inflateItem(item, parent);

@@ -10,6 +10,8 @@ import com.andframe.api.task.handler.ExceptionHandler;
 import com.andframe.api.task.handler.PrepareHandler;
 import com.andframe.api.task.handler.WorkingHandler;
 
+import java.util.List;
+
 /**
  * 任务构建器
  * Created by SCWANG on 2017/4/28.
@@ -61,6 +63,11 @@ public class TaskBuilder implements Builder {
     @Override
     public <T> LoadBuilder<T> load(Class<T> clazz) {
         return new LoadTaskBuilder<>(this, clazz);
+    }
+
+    @Override
+    public <T> LoadBuilder<List<T>> loadList(Class<T> clazz) {
+        return new LoadTaskBuilder<>(this, null);
     }
 
     @Override

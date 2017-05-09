@@ -9,6 +9,8 @@ import com.andframe.api.task.handler.LoadingHandler;
 import com.andframe.api.task.handler.PrepareHandler;
 import com.andframe.api.task.handler.WorkingHandler;
 
+import java.util.List;
+
 /**
  * 集成等待对话框的数据加载任务 Builder
  * Created by SCWANG on 2017/5/3.
@@ -126,6 +128,12 @@ public class WaitLoadTaskBuilder<T> extends WaitTaskBuilder implements WaitLoadB
     public <TT> WaitLoadBuilder<TT> load(Class<TT> clazz) {
         return null;
     }
+
+    @Override
+    public <TT> WaitLoadBuilder<List<TT>> loadList(Class<TT> clazz) {
+        return null;
+    }
+
     @Override
     public WaitLoadBuilder<T> wait(Pager pager, String master) {
         return null;

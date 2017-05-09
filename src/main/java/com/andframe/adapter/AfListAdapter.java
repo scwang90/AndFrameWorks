@@ -304,6 +304,7 @@ public abstract class AfListAdapter<T> extends RecyclerBaseAdapter<ViewHolderIte
         return mltArray.size();
     }
 
+    @NonNull
     @Override
     public View inflateItem(ItemViewer<T> item, ViewGroup parent) {
         return item.onCreateView(mContext, parent);

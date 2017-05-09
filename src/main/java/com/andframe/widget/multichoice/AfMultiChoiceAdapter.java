@@ -301,6 +301,7 @@ public abstract class AfMultiChoiceAdapter<T> extends AfListAdapter<T>{
 		return count;
 	}
 
+	@NonNull
 	@Override
 	public View inflateItem(ItemViewer<T> item, ViewGroup parent) {
 		View view = super.inflateItem(item, parent);
