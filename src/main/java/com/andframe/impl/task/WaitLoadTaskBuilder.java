@@ -48,6 +48,7 @@ public class WaitLoadTaskBuilder<T> extends WaitTaskBuilder implements WaitLoadB
 
     //<editor-fold desc="特有接口">
 
+    //<editor-fold desc="设置参数">
     @Override
     public WaitLoadBuilder<T> loading(LoadingHandler<T> handler) {
         loadingHandler = handler;
@@ -81,8 +82,25 @@ public class WaitLoadTaskBuilder<T> extends WaitTaskBuilder implements WaitLoadB
         feedbackOnSuccess = feedback;
         return this;
     }
-
     //</editor-fold>
+
+    //<editor-fold desc="获取参数">
+    @Override
+    public LoadingHandler<T> loading() {
+        return loadingHandler;
+    }
+
+    @Override
+    public LoadSuccessHandler<T> loadSuccess() {
+        return loadSuccessHandler;
+    }
+
+    @Override
+    public Runnable loadEmpty() {
+        return emptyRunnable;
+    }
+    //</editor-fold>
+//</editor-fold>
 
     //<editor-fold desc="重写接口">
 

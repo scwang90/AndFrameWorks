@@ -218,6 +218,14 @@ public abstract class AfMultiChoiceAdapter<T> extends AfListAdapter<T>{
 		return false;
 	}
 
+	public T getSelectedItem() {
+		List<T> list = getSelectedItems();
+		if (list.size() == 0) {
+			return null;
+		}
+		return list.get(0);
+	}
+
 	public List<T> getSelectedItems() {
 		List<T> list = new ArrayList<>();
 		if(mIsSelecteds != null && mIsSelecteds.length == mltArray.size()){

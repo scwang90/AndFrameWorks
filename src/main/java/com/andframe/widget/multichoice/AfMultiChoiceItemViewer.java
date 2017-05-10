@@ -82,9 +82,14 @@ public abstract class AfMultiChoiceItemViewer<T> extends AfItemViewer<T> impleme
 	
 	@SuppressLint("NewApi")
 	@SuppressWarnings("deprecation")
-	public View inflateLayout(View view,AfMultiChoiceAdapter<T> adapter) {
+	public View inflateLayout(View view, AfMultiChoiceAdapter<T> adapter) {
 		mAdapter = adapter;
-		
+
+		if (mMultiChoiceLayout != null && mSelectDisplay == SD_BACKGROUNG) {
+			return view;
+		} else if (mMultiChoiceCheckBox != null && mSelectDisplay != SD_BACKGROUNG) {
+			return view;
+		}
 		
 		mMultiChoiceContent = view;
 		mMultiChoiceContent.setFocusable(false);

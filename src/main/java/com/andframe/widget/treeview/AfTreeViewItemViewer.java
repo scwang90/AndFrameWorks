@@ -29,9 +29,9 @@ public abstract class AfTreeViewItemViewer<T> extends AfMultiChoiceItemViewer<T>
     }
 
     @Override
-    public void onViewCreated(View view) {
-        super.onViewCreated(view);
-        float density = view.getContext().getResources().getDisplayMetrics().density;
+    public void onViewCreated() {
+        super.onViewCreated();
+        float density = getContext().getResources().getDisplayMetrics().density;
         retract = (int) (density * 20 + 0.5f);
     }
 

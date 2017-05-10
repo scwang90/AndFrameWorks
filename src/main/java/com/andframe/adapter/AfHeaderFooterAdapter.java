@@ -177,7 +177,7 @@ public class AfHeaderFooterAdapter<T> extends ListItemAdapterWrapper<T> implemen
             public void onBinding(T model, int index) {
             }
             @Override
-            public View onCreateView(Context context, ViewGroup parent) {
+            protected View onCreateView(ViewGroup parent, Context context) {
                 return mView;
             }
         });
@@ -206,7 +206,7 @@ public class AfHeaderFooterAdapter<T> extends ListItemAdapterWrapper<T> implemen
             public void onBinding(T model, int index) {
             }
             @Override
-            public View onCreateView(Context context, ViewGroup parent) {
+            public View onCreateView(ViewGroup parent, Context context) {
                 return mLayout;
             }
         });

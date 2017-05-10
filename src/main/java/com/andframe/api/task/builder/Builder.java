@@ -14,14 +14,24 @@ import java.util.List;
  */
 
 public interface Builder {
+
     Builder prepare(Runnable runnable);
     Builder prepare(PrepareHandler handler);
     Builder working(WorkingHandler handler);
     Builder success(Runnable runnable);
     Builder exception(ExceptionHandler handler);
+
+    Runnable prepare();
+    PrepareHandler prepareHandler();
+    WorkingHandler working();
+    Runnable success();
+    ExceptionHandler exception();
+
     WaitBuilder wait(Pager pager, String master);
     <T> LoadBuilder<T> load(Class<T> clazz);
     <T> LoadBuilder<List<T>> loadList(Class<T> clazz);
+
     Task post();
     Task build();
+
 }

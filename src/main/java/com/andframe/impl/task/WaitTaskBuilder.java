@@ -49,6 +49,17 @@ public class WaitTaskBuilder extends TaskBuilder implements WaitBuilder {
         feedbackOnException = feedback;
         return this;
     }
+
+    @Override
+    public boolean feedbackSuccess() {
+        return feedbackOnSuccess;
+    }
+
+    @Override
+    public boolean feedbackException() {
+        return feedbackOnException;
+    }
+
     //</editor-fold>
 
     @Override

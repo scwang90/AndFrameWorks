@@ -25,6 +25,7 @@ public class TaskBuilder implements Builder {
     public Runnable successRunnable;
     public ExceptionHandler exceptionHandler;
 
+    //<editor-fold desc="设置参数">
     @Override
     public Builder prepare(Runnable prepareRunnable) {
         this.prepareRunnable = prepareRunnable;
@@ -54,6 +55,34 @@ public class TaskBuilder implements Builder {
         this.exceptionHandler = exceptionHandler;
         return this;
     }
+    //</editor-fold>
+
+    //<editor-fold desc="获取参数">
+    @Override
+    public Runnable prepare() {
+        return prepareRunnable;
+    }
+
+    @Override
+    public PrepareHandler prepareHandler() {
+        return prepareHandler;
+    }
+
+    @Override
+    public WorkingHandler working() {
+        return workingHandler;
+    }
+
+    @Override
+    public Runnable success() {
+        return successRunnable;
+    }
+
+    @Override
+    public ExceptionHandler exception() {
+        return exceptionHandler;
+    }
+    //</editor-fold>
 
     @Override
     public WaitBuilder wait(Pager pager, String master) {

@@ -23,6 +23,10 @@ public interface LoadBuilder<T> extends Builder {
     LoadBuilder<T> loadSuccess(LoadSuccessHandler<T> handler);
     LoadBuilder<T> loadEmpty(Runnable runnable);
 
+    LoadingHandler<T> loading();
+    LoadSuccessHandler<T> loadSuccess();
+    Runnable loadEmpty();
+
     /**
      * 重写接口
      */
