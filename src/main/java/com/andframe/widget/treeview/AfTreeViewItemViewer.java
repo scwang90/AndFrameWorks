@@ -67,8 +67,11 @@ public abstract class AfTreeViewItemViewer<T> extends AfMultiChoiceItemViewer<T>
     @Override
     protected boolean onBinding(T model, int index, SelectStatus status) {
         if (mTreeViewLayout != null && mNode != null) {
-            mTreeViewLayout.setPadding(mNode.level * retract, 0, 0, 0);
-            return onBinding(mNode.value, index, mNode.level, mNode.isExpanded, status);
+            if (!onBinding(mNode.value, index, mNode.level, mNode.isExpanded, status)) {
+                mTreeViewLayout.setPadding(mNode.level * retract, 0, 0, 0);
+                return false;
+            }
+            return true;
         }
         return onBinding(model, index, 0, false, status);
     }
