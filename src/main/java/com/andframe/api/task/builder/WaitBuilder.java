@@ -15,6 +15,7 @@ public interface WaitBuilder extends Builder {
     /**
      * 特有接口
      */
+    String master();
     WaitBuilder success(boolean feedback, Runnable success);
     WaitBuilder exception(boolean feedback, ExceptionHandler handler);
 
@@ -36,4 +37,5 @@ public interface WaitBuilder extends Builder {
      */
     @Deprecated
     WaitBuilder wait(Pager pager, String master);
+
 }

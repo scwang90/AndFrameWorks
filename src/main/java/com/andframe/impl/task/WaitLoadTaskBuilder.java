@@ -118,7 +118,8 @@ public class WaitLoadTaskBuilder<T> extends WaitTaskBuilder implements WaitLoadB
         return this;
     }
     public WaitLoadTaskBuilder<T> success(Runnable success) {
-        return success(true, success);
+        super.success(success);
+        return this;
     }
     public WaitLoadTaskBuilder<T> exception(ExceptionHandler handler) {
         return exception(true, handler);

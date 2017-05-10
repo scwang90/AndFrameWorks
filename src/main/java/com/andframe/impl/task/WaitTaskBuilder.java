@@ -37,6 +37,11 @@ public class WaitTaskBuilder extends TaskBuilder implements WaitBuilder {
     //<editor-fold desc="特有接口">
 
     @Override
+    public String master() {
+        return master;
+    }
+
+    @Override
     public WaitBuilder success(boolean feedback, Runnable success) {
         super.success(success);
         feedbackOnSuccess = feedback;
@@ -81,7 +86,8 @@ public class WaitTaskBuilder extends TaskBuilder implements WaitBuilder {
         return this;
     }
     public WaitBuilder success(Runnable success) {
-        return success(true, success);
+        super.success(success);
+        return this;
     }
     public WaitBuilder exception(ExceptionHandler handler) {
         return exception(true, handler);
