@@ -5,6 +5,7 @@ import android.content.Context;
 import android.content.DialogInterface.OnCancelListener;
 import android.content.DialogInterface.OnClickListener;
 import android.text.TextUtils;
+import android.view.Gravity;
 import android.view.View;
 import android.widget.AdapterView;
 
@@ -76,10 +77,12 @@ public class ApDialogBuilder extends AfDialogBuilder {
         dialog.title(title.toString()).content(message.toString())//
                 .style(NormalDialog.STYLE_TWO)//
                 .btnNum(btnNum)
+                .contentGravity(message.toString().contains("\r")?Gravity.LEFT:Gravity.CENTER)
                 .btnText(textList.toArray(new String[btnNum]))//
 //                .showAnim(mBasIn)//
 //                .dismissAnim(mBasOut)//
                 .show();
+
         SafeOnBtnClickL[] ls = new SafeOnBtnClickL[]{new SafeOnBtnClickL(dialog, lpositive, 0),new SafeOnBtnClickL(dialog, lnegative, 1),new SafeOnBtnClickL(dialog, lneutral, 2)};
         List<SafeOnBtnClickL> clickLs = new ArrayList<>();
         for (int i = 0; i < ls.length && i < btnNum; i++) {
