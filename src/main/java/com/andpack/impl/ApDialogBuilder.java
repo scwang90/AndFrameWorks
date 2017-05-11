@@ -65,7 +65,7 @@ public class ApDialogBuilder extends AfDialogBuilder {
 //    }
 
     @Override
-    public Dialog showDialog(int theme, int iconres, CharSequence title, CharSequence message, CharSequence positive, OnClickListener lpositive, CharSequence negative, OnClickListener lnegative, CharSequence neutral, OnClickListener lneutral) {
+    public Dialog showDialog(int theme, int iconres, CharSequence title, CharSequence message, CharSequence negative, OnClickListener lnegative, CharSequence neutral, OnClickListener lneutral, CharSequence positive, OnClickListener lpositive) {
         int btnNum = (TextUtils.isEmpty(negative) ? 0 : 1) + (TextUtils.isEmpty(neutral) ? 0 : 1) + (TextUtils.isEmpty(positive) ? 0 : 1);
         CharSequence[] btnTexts = new CharSequence[]{positive, negative, neutral};
         List<String> textList = new ArrayList<>();
