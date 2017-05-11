@@ -80,9 +80,9 @@ public abstract class AfTreeViewItemViewer<T> extends AfMultiChoiceItemViewer<T>
         mNode = node;
     }
 
-    public boolean isCanSelect(T value, int index) {
-        return mNode == null || mNode.children == null || mNode.children.size() == 0;
-    }
+//    public boolean isCanSelect(T value, int index) {
+//        return mNode == null || mNode.children == null || mNode.children.size() == 0;
+//    }
 
     /**
      * @param level      所在树的层数（树根为0）

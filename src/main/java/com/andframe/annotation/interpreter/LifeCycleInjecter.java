@@ -1,9 +1,15 @@
 package com.andframe.annotation.interpreter;
 
+import android.content.Context;
+import android.content.Intent;
 import android.os.Bundle;
+import android.view.LayoutInflater;
+import android.view.View;
+import android.view.ViewGroup;
 
 import com.andframe.annotation.lifecycle.OnAttach;
 import com.andframe.annotation.lifecycle.OnCreate;
+import com.andframe.annotation.lifecycle.OnCreateView;
 import com.andframe.annotation.lifecycle.OnDestroy;
 import com.andframe.annotation.lifecycle.OnDestroyView;
 import com.andframe.annotation.lifecycle.OnDetach;
@@ -14,7 +20,6 @@ import com.andframe.annotation.lifecycle.OnResume;
 import com.andframe.annotation.lifecycle.OnStart;
 import com.andframe.annotation.lifecycle.OnStop;
 import com.andframe.exception.AfExceptionHandler;
-import com.andframe.util.java.AfReflecter;
 
 import java.lang.annotation.Annotation;
 import java.lang.reflect.Method;
@@ -36,126 +41,66 @@ public class LifeCycleInjecter {
     }
 
     public static Object injectLifeCycle(Object handler, Class<? extends Annotation> annotation, Object... params) {
-        for (Method method : AfReflecter.getMethodAnnotation(handler.getClass(), SmartInvoke.getStopType(handler), annotation)) {
-            try {
-                Object retvalue = invokeMethod(handler, method, params);
-                if (retvalue != null) {
-                    return retvalue;
+        for (Method method : ReflecterCacher.getMethodByHandler(handler)) {
+            if (method.isAnnotationPresent(annotation)) {
+                try {
+                    Object retvalue = invokeMethod(handler, method, params);
+                    if (retvalue != null) {
+                        return retvalue;
+                    }
+                } catch (Throwable e) {
+                    AfExceptionHandler.handle(e, TAG(handler, "injectOnCreate.invokeMethod.") + method.getName());
                 }
-            } catch (Throwable e) {
-                AfExceptionHandler.handle(e, TAG(handler, "injectOnCreate.invokeMethod.") + method.getName());
             }
         }
-        return true;
+        return null;
     }
 
     public static void injectOnCreate(Object handler, Bundle bundle) {
-        for (Method method : AfReflecter.getMethodAnnotation(handler.getClass(), SmartInvoke.getStopType(handler), OnCreate.class)) {
-            try {
-                invokeMethod(handler, method, bundle);
-            } catch (Throwable e) {
-                AfExceptionHandler.handle(e, TAG(handler, "injectOnCreate.invokeMethod.") + method.getName());
-            }
-        }
+        injectLifeCycle(handler, OnCreate.class, bundle);
     }
 
     public static void injectOnStart(Object handler) {
-        for (Method method : AfReflecter.getMethodAnnotation(handler.getClass(), SmartInvoke.getStopType(handler), OnStart.class)) {
-            try {
-                invokeMethod(handler, method);
-            } catch (Throwable e) {
-                AfExceptionHandler.handle(e, TAG(handler, "injectOnStart.invokeMethod.") + method.getName());
-            }
-        }
+        injectLifeCycle(handler, OnStart.class);
     }
 
     public static void injectOnRestart(Object handler) {
-        for (Method method : AfReflecter.getMethodAnnotation(handler.getClass(), SmartInvoke.getStopType(handler), OnRestart.class)) {
-            try {
-                invokeMethod(handler, method);
-            } catch (Throwable e) {
-                AfExceptionHandler.handle(e, TAG(handler, "injectOnRestart.invokeMethod.") + method.getName());
-            }
-        }
+        injectLifeCycle(handler, OnRestart.class);
     }
 
     public static void injectOnResume(Object handler) {
-        for (Method method : AfReflecter.getMethodAnnotation(handler.getClass(), SmartInvoke.getStopType(handler), OnResume.class)) {
-            try {
-                invokeMethod(handler, method);
-            } catch (Throwable e) {
-                AfExceptionHandler.handle(e, TAG(handler, "injectOnResume.invokeMethod.") + method.getName());
-            }
-        }
+        injectLifeCycle(handler, OnResume.class);
     }
 
     public static void injectOnPause(Object handler) {
-        for (Method method : AfReflecter.getMethodAnnotation(handler.getClass(), SmartInvoke.getStopType(handler), OnPause.class)) {
-            try {
-                invokeMethod(handler, method);
-            } catch (Throwable e) {
-                AfExceptionHandler.handle(e, TAG(handler, "injectOnPause.invokeMethod.") + method.getName());
-            }
-        }
+        injectLifeCycle(handler, OnPause.class);
     }
 
     public static void injectOnStop(Object handler) {
-        for (Method method : AfReflecter.getMethodAnnotation(handler.getClass(), SmartInvoke.getStopType(handler), OnStop.class)) {
-            try {
-                invokeMethod(handler, method);
-            } catch (Throwable e) {
-                AfExceptionHandler.handle(e, TAG(handler, "injectOnStop.invokeMethod.") + method.getName());
-            }
-        }
+        injectLifeCycle(handler, OnStop.class);
     }
 
     public static void injectOnDestroy(Object handler) {
-        for (Method method : AfReflecter.getMethodAnnotation(handler.getClass(), SmartInvoke.getStopType(handler), OnDestroy.class)) {
-            try {
-                invokeMethod(handler, method);
-            } catch (Throwable e) {
-                AfExceptionHandler.handle(e, TAG(handler, "injectOnDestroy.invokeMethod.") + method.getName());
-            }
-        }
+        injectLifeCycle(handler, OnDestroy.class);
     }
 
-    public static void injectOnAttach(Object handler) {
-        for (Method method : AfReflecter.getMethodAnnotation(handler.getClass(), SmartInvoke.getStopType(handler), OnAttach.class)) {
-            try {
-                invokeMethod(handler, method);
-            } catch (Throwable e) {
-                AfExceptionHandler.handle(e, TAG(handler, "injectOnAttach.invokeMethod.") + method.getName());
-            }
-        }
+    public static void injectOnAttach(Object handler, Context context) {
+        injectLifeCycle(handler, OnAttach.class, context);
     }
 
     public static void injectOnDestroyView(Object handler) {
-        for (Method method : AfReflecter.getMethodAnnotation(handler.getClass(), SmartInvoke.getStopType(handler), OnDestroyView.class)) {
-            try {
-                invokeMethod(handler, method);
-            } catch (Throwable e) {
-                AfExceptionHandler.handle(e, TAG(handler, "injectOnDestroyView.invokeMethod.") + method.getName());
-            }
-        }
+        injectLifeCycle(handler, OnDestroyView.class);
     }
 
     public static void injectonDetach(Object handler) {
-        for (Method method : AfReflecter.getMethodAnnotation(handler.getClass(), SmartInvoke.getStopType(handler), OnDetach.class)) {
-            try {
-                invokeMethod(handler, method);
-            } catch (Throwable e) {
-                AfExceptionHandler.handle(e, TAG(handler, "injectonDetach.invokeMethod.") + method.getName());
-            }
-        }
+        injectLifeCycle(handler, OnDetach.class);
     }
 
-    public static void injectonNewIntent(Object handler) {
-        for (Method method : AfReflecter.getMethodAnnotation(handler.getClass(), SmartInvoke.getStopType(handler), OnNewIntent.class)) {
-            try {
-                invokeMethod(handler, method);
-            } catch (Throwable e) {
-                AfExceptionHandler.handle(e, TAG(handler, "injectonDetach.invokeMethod.") + method.getName());
-            }
-        }
+    public static void injectonNewIntent(Object handler, Intent intent) {
+        injectLifeCycle(handler, OnNewIntent.class, intent);
+    }
+
+    public static View injectCreateView(Object handler, LayoutInflater inflater, ViewGroup container, Bundle bundle) {
+        return (View)injectLifeCycle(handler, OnCreateView.class, inflater, container, bundle);
     }
 }

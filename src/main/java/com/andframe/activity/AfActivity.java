@@ -215,7 +215,7 @@ public abstract class AfActivity extends AppCompatActivity implements Pager, Vie
         super.onNewIntent(intent);
         setIntent(intent);
         Injecter.doInjectExtra(this);
-        LifeCycleInjecter.injectonNewIntent(this);
+        LifeCycleInjecter.injectonNewIntent(this, intent);
         List<Fragment> fragments = getSupportFragmentManager().getFragments();
         fragments = fragments == null ? new ArrayList<>() : fragments;
         for (Fragment fragment : fragments) {

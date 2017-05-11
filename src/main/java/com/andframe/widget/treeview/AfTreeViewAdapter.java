@@ -99,35 +99,33 @@ public abstract class AfTreeViewAdapter<T> extends AfMultiChoiceAdapter<T> imple
 	@Override
 	public void onItemClick(int index) {
 		AfTreeNode<T> node = mNodeShow.get(index);
-		if (isMultiChoiceMode()) {
+		if (isMultiChoiceMode() && isCanSelect(node.value, index)) {
 			/**
 			 * 添加树形多选 2016-7-1
 			 */
-			AfTreeViewItemViewer<T> item = newTreeViewItem(getItemViewType(index));
-			item.setNode(node);
-			if (item.isCanSelect(node.value, index)) {
-				int count = mChoiceNumber;
-				if (mIsSingle) {
-					if (mLastSelectNode != null) {
-						mLastSelectNode.isSelected = false;
-					}
-					count = 1;
-					mLastSelectNode = node;
-					mLastSelectNode.isSelected = true;
-				} else {
-					node.isSelected = !node.isSelected;
-					count += node.isSelected ? 1 : -1;
+			int count = mChoiceNumber;
+			if (mIsSingle) {
+				if (mLastSelectNode != null) {
+					mLastSelectNode.isSelected = false;
 				}
-				super.onItemClick(index);
-				mChoiceNumber = count;
+				count = 1;
+				mLastSelectNode = node;
+				mLastSelectNode.isSelected = true;
 			} else {
-				node.isExpanded = !node.isExpanded;
-				updateNodeListToShow();
+				node.isSelected = !node.isSelected;
+				count += node.isSelected ? 1 : -1;
 			}
+			super.onItemClick(index);
+			mChoiceNumber = count;
 		} else {
 			node.isExpanded = !node.isExpanded;
 			updateNodeListToShow();
 		}
+	}
+
+	protected boolean isCanSelect(T value, int index) {
+		AfTreeNode<T> node = mNodeShow.get(index);
+		return node == null || node.children == null || node.children.size() == 0;
 	}
 
 	public void expandNode(AfTreeNode<T> node) {

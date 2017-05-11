@@ -30,6 +30,7 @@ import android.widget.ExpandableListAdapter;
 import com.andframe.impl.viewer.AfViewQuery;
 
 import java.io.File;
+import java.text.DateFormat;
 import java.util.Date;
 import java.util.List;
 import java.util.Locale;
@@ -646,6 +647,10 @@ public interface ViewQuery<T extends ViewQuery<T>> {
      */
     T time(String format, Date time);
     /**
+     * 设置当前选中 TextView 的 文本（text） 为 time 的指定时间格式化 .
+     */
+    T time(DateFormat format, Date time);
+    /**
      * 设置当前选中 TextView 的 文本（text） 为 time 的天格式化（M-d）.
      */
     T timeDay(Date time);
@@ -657,6 +662,10 @@ public interface ViewQuery<T extends ViewQuery<T>> {
      * 设置当前选中 TextView 的 文本（text） 为 time 的日期时间格式化（yyyy年MM月dd日 HH时mm分ss秒）.
      */
     T timeFull(Date time);
+    /**
+     * 设置当前选中 TextView 的 文本（text） 为 time 的日期时间格式化（yyyy年MM月dd日 HH时mm分）.
+     */
+    T timeSimple(Date time);
     /**
      * 设置当前选中 TextView 的 文本（text） 为 time 的标准格式化（yyyy-MM-dd HH:mm:ss）.
      */

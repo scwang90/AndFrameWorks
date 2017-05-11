@@ -127,7 +127,7 @@ public interface DialogBuilder {
      * @param negative  按钮显示信息
      * @param lnegative 点击  拒绝 按钮 响应事件
      */
-    Dialog showDialog(CharSequence title, CharSequence message, CharSequence positive, DialogInterface.OnClickListener lpositive, CharSequence negative, DialogInterface.OnClickListener lnegative);
+    Dialog showDialog(CharSequence title, CharSequence message, CharSequence negative, DialogInterface.OnClickListener lnegative, CharSequence positive, DialogInterface.OnClickListener lpositive);
 
     /**
      * 显示对话框
@@ -141,7 +141,7 @@ public interface DialogBuilder {
      * @param negative  按钮显示信息
      * @param lnegative 点击  拒绝 按钮 响应事件
      */
-    Dialog showDialog(CharSequence title, CharSequence message, CharSequence positive, DialogInterface.OnClickListener lpositive, CharSequence negative, DialogInterface.OnClickListener lnegative, CharSequence neutral, DialogInterface.OnClickListener lneutral);
+    Dialog showDialog(CharSequence title, CharSequence message, CharSequence negative, DialogInterface.OnClickListener lnegative, CharSequence neutral, DialogInterface.OnClickListener lneutral, CharSequence positive, DialogInterface.OnClickListener lpositive);
 
     /**
      * 显示对话框

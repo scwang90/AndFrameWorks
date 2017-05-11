@@ -7,6 +7,7 @@ import android.view.ViewGroup;
 import android.widget.ListAdapter;
 
 import com.andframe.adapter.recycler.ViewHolderItem;
+import com.andframe.api.query.hindler.Where;
 
 import java.util.List;
 
@@ -38,6 +39,12 @@ public interface ItemViewerAdapter<T> extends List<T>, ListAdapter, RecyclerAdap
      * 添加新的数据（和 {@link List#add(Object)} 相对应）
      */
     void put(T model);
+
+    /**
+     * 条件删除
+     * @param where 条件表达式
+     */
+    void remove(Where<T> where);
     //</editor-fold>
 
     /**

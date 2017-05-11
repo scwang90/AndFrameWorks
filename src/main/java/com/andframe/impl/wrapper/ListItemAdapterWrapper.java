@@ -14,6 +14,7 @@ import com.andframe.adapter.recycler.RecyclerBaseAdapter;
 import com.andframe.adapter.recycler.ViewHolderItem;
 import com.andframe.api.adapter.ItemViewer;
 import com.andframe.api.adapter.ItemViewerAdapter;
+import com.andframe.api.query.hindler.Where;
 
 import java.util.Collection;
 import java.util.Comparator;
@@ -400,5 +401,10 @@ public class ListItemAdapterWrapper<T> extends RecyclerBaseAdapter<ViewHolderIte
     }
     //</editor-fold>
 
-
+    //<editor-fold desc="Wrapper ListQuery">
+    @Override
+    public void remove(Where<T> where) {
+        wrapped.remove(where);
+    }
+    //</editor-fold>
 }

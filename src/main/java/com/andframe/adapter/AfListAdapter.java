@@ -10,6 +10,7 @@ import com.andframe.adapter.recycler.RecyclerBaseAdapter;
 import com.andframe.adapter.recycler.ViewHolderItem;
 import com.andframe.api.adapter.ItemViewer;
 import com.andframe.api.adapter.ItemViewerAdapter;
+import com.andframe.api.query.hindler.Where;
 import com.andframe.exception.AfExceptionHandler;
 
 import java.util.ArrayList;
@@ -251,6 +252,18 @@ public abstract class AfListAdapter<T> extends RecyclerBaseAdapter<ViewHolderIte
         return mltArray.listIterator(location);
     }
 
+    //</editor-fold>
+
+    //<editor-fold desc="列表查询">
+    @Override
+    public void remove(Where<T> where) {
+        for (int i = 0; i < mltArray.size(); i++) {
+            if (where.where(mltArray.get(i))) {
+                mltArray.remove(i--);
+            }
+        }
+        notifyDataSetChanged();
+    }
     //</editor-fold>
 
     //<editor-fold desc="适配实现">

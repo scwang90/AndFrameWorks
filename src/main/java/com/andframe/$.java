@@ -15,6 +15,7 @@ import com.andframe.api.ModelConvertor;
 import com.andframe.api.Toaster;
 import com.andframe.api.event.EventManager;
 import com.andframe.api.pager.PagerManager;
+import com.andframe.api.query.ListQuery;
 import com.andframe.api.service.UpdateService;
 import com.andframe.api.task.Task;
 import com.andframe.api.task.TaskExecutor;
@@ -190,6 +191,10 @@ public class $ {
     @MainThread
     public static DialogBuilder dialog(AfActivity activity) {
         return AfApp.get().newDialogBuilder(activity);
+    }
+
+    public static <T> ListQuery<T> query(Iterable<T> iterable) {
+        return AfApp.get().newListQuery(iterable);
     }
 
     @MainThread

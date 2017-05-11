@@ -20,7 +20,6 @@ import com.andframe.annotation.interpreter.Injecter;
 import com.andframe.annotation.interpreter.LayoutBinder;
 import com.andframe.annotation.interpreter.LifeCycleInjecter;
 import com.andframe.annotation.interpreter.ViewBinder;
-import com.andframe.annotation.lifecycle.OnCreateView;
 import com.andframe.api.DialogBuilder;
 import com.andframe.api.pager.Pager;
 import com.andframe.api.task.Task;
@@ -166,9 +165,9 @@ public abstract class AfFragment extends Fragment implements Pager, ViewQueryHel
     @Override
     public final View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle bundle) {
         try {
-            Object view = LifeCycleInjecter.injectLifeCycle(this, OnCreateView.class, inflater, container, bundle);
-            if (view instanceof View) {
-                mRootView = (View) view;
+            View view = LifeCycleInjecter.injectCreateView(this, inflater, container, bundle);
+            if (view != null) {
+                mRootView = view;
             } else {
                 mRootView = onCreateView(inflater, container);
                 if (mRootView == null) {
@@ -271,7 +270,7 @@ public abstract class AfFragment extends Fragment implements Pager, ViewQueryHel
         try {
             $.pager().onFragmentAttach(this, context);
             super.onAttach(context);
-            LifeCycleInjecter.injectOnAttach(this);
+            LifeCycleInjecter.injectOnAttach(this, context);
         } catch (Throwable ex) {
             AfExceptionHandler.handle(ex, "AfFragment.onAttach");
         }
@@ -480,7 +479,7 @@ public abstract class AfFragment extends Fragment implements Pager, ViewQueryHel
     @SuppressWarnings("UnusedParameters")
     public void onNewIntent(Intent intent) {
         Injecter.doInjectExtra(this);
-        LifeCycleInjecter.injectonNewIntent(this);
+        LifeCycleInjecter.injectonNewIntent(this, intent);
     }
     /**
      * 按下返回按键

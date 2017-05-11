@@ -23,10 +23,11 @@ import static android.view.ViewGroup.LayoutParams.WRAP_CONTENT;
 @SuppressWarnings("unused")
 public abstract class AfMultiChoiceItemViewer<T> extends AfItemViewer<T> implements OnClickListener{
 
-	public enum SelectStatus{
+	public enum SelectStatus {
 		NONE,UNSELECT,SELECTED
 	}
 
+	protected static final int SD_NONE = -1;
 	protected static final int SD_CHECK = 0;
 	protected static final int SD_BACKGROUNG = 1;
 	protected static final int SD_CHECK_LEFT = 2;
@@ -85,7 +86,9 @@ public abstract class AfMultiChoiceItemViewer<T> extends AfItemViewer<T> impleme
 	public View inflateLayout(View view, AfMultiChoiceAdapter<T> adapter) {
 		mAdapter = adapter;
 
-		if (mMultiChoiceLayout != null && mSelectDisplay == SD_BACKGROUNG) {
+		if (mSelectDisplay == SD_NONE) {
+			return view;
+		} else if (mMultiChoiceLayout != null && mSelectDisplay == SD_BACKGROUNG) {
 			return view;
 		} else if (mMultiChoiceCheckBox != null && mSelectDisplay != SD_BACKGROUNG) {
 			return view;
