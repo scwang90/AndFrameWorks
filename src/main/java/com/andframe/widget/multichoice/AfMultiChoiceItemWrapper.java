@@ -21,10 +21,8 @@ public class AfMultiChoiceItemWrapper<T> extends AfMultiChoiceItemViewer<T> {
 	}
 
 	@Override
-	public View onCreateView(Context context, ViewGroup parent) {
-		mLayout = mWrappedItem.onCreateView(context, parent);
-		onViewCreated(mLayout);
-		return mLayout;
+	protected View onCreateView(ViewGroup parent, Context context) {
+		return mWrappedItem.onCreateView(context, parent);
 	}
 
 	@Override

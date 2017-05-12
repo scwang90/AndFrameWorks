@@ -78,7 +78,7 @@ public class Page implements Paging {
      * 转换成单页条数
      * @return 返回单页条数
      */
-    public int getPageSize() {
+    public int pageSize() {
         return MaxResult;
     }
 
@@ -86,29 +86,29 @@ public class Page implements Paging {
      * 转换成当前页码
      * @return （从0开始）
      */
-    public int getPageIndex() {
+    public int pageIndex() {
         return FirstResult / MaxResult;
     }
 
     @Override
-    public int getPageStart() {
+    public int pageStart() {
         return FirstResult;
     }
 
     @Override
-    public Paging setPageSize(int size) {
+    public Paging pageSize(int size) {
         MaxResult = size;
         return this;
     }
 
     @Override
-    public Paging setPageIndex(int index) {
+    public Paging pageIndex(int index) {
         FirstResult = index * MaxResult;
         return this;
     }
 
     @Override
-    public Paging setPageStart(int start) {
+    public Paging pageStart(int start) {
         FirstResult = start;
         return this;
     }

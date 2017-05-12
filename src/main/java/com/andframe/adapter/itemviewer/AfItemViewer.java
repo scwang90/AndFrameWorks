@@ -8,13 +8,14 @@ import android.view.ViewGroup;
 import com.andframe.annotation.interpreter.Injecter;
 import com.andframe.annotation.interpreter.LayoutBinder;
 import com.andframe.annotation.interpreter.ViewBinder;
+import com.andframe.annotation.view.BindViewCreated;
 import com.andframe.api.adapter.ItemViewer;
 import com.andframe.api.viewer.ViewQuery;
 import com.andframe.api.viewer.ViewQueryHelper;
 import com.andframe.api.viewer.Viewer;
-import com.andframe.impl.viewer.AfView;
 import com.andframe.fragment.AfFragment;
 import com.andframe.impl.helper.AfViewQueryHelper;
+import com.andframe.impl.viewer.AfView;
 
 /**
  * 通用列表ITEM
@@ -45,10 +46,8 @@ public abstract class AfItemViewer<T> implements ItemViewer<T>, Viewer, ViewQuer
 		return LayoutBinder.getBindLayoutId(this, context, AfFragment.class);
 	}
 	
-//	@Override
-	public void onViewCreated(View view) {
-		Injecter.doInject(this, view.getContext());
-		ViewBinder.doBind(this);
+	@BindViewCreated
+	public void onViewCreated() {
 	}
 
 	public View getLayout() {
@@ -56,10 +55,15 @@ public abstract class AfItemViewer<T> implements ItemViewer<T>, Viewer, ViewQuer
 	}
 
 	@Override
-	public View onCreateView(Context context, ViewGroup parent) {
-		mLayout = LayoutInflater.from(context).inflate(getLayoutId(context), parent, false);
-		onViewCreated(mLayout);
+	public final View onCreateView(Context context, ViewGroup parent) {
+		mLayout = onCreateView(parent, context);
+		Injecter.doInject(this, context);
+		ViewBinder.doBind(this);
 		return mLayout;
+	}
+
+	protected View onCreateView(ViewGroup parent, Context context) {
+		return LayoutInflater.from(context).inflate(getLayoutId(context), parent, false);
 	}
 
 	@Override

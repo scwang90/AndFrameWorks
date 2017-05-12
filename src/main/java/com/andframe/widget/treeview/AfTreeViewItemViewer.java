@@ -29,9 +29,9 @@ public abstract class AfTreeViewItemViewer<T> extends AfMultiChoiceItemViewer<T>
     }
 
     @Override
-    public void onViewCreated(View view) {
-        super.onViewCreated(view);
-        float density = view.getContext().getResources().getDisplayMetrics().density;
+    public void onViewCreated() {
+        super.onViewCreated();
+        float density = getContext().getResources().getDisplayMetrics().density;
         retract = (int) (density * 20 + 0.5f);
     }
 
@@ -67,8 +67,11 @@ public abstract class AfTreeViewItemViewer<T> extends AfMultiChoiceItemViewer<T>
     @Override
     protected boolean onBinding(T model, int index, SelectStatus status) {
         if (mTreeViewLayout != null && mNode != null) {
-            mTreeViewLayout.setPadding(mNode.level * retract, 0, 0, 0);
-            return onBinding(mNode.value, index, mNode.level, mNode.isExpanded, status);
+            if (!onBinding(mNode.value, index, mNode.level, mNode.isExpanded, status)) {
+                mTreeViewLayout.setPadding(mNode.level * retract, 0, 0, 0);
+                return false;
+            }
+            return true;
         }
         return onBinding(model, index, 0, false, status);
     }
@@ -77,9 +80,9 @@ public abstract class AfTreeViewItemViewer<T> extends AfMultiChoiceItemViewer<T>
         mNode = node;
     }
 
-    public boolean isCanSelect(T value, int index) {
-        return mNode == null || mNode.children == null || mNode.children.size() == 0;
-    }
+//    public boolean isCanSelect(T value, int index) {
+//        return mNode == null || mNode.children == null || mNode.children.size() == 0;
+//    }
 
     /**
      * @param level      所在树的层数（树根为0）

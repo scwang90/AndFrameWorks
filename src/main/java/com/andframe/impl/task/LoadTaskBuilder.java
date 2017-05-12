@@ -31,6 +31,8 @@ public class LoadTaskBuilder<T> extends TaskBuilder implements LoadBuilder<T> {
     }
 
     //<editor-fold desc="特有接口">
+
+    //<editor-fold desc="设置参数">
     @Override
     public LoadBuilder<T> loading(LoadingHandler<T> loadingHandler) {
         this.loadingHandler = loadingHandler;
@@ -48,6 +50,26 @@ public class LoadTaskBuilder<T> extends TaskBuilder implements LoadBuilder<T> {
         this.emptyRunnable = emptyRunnable;
         return this;
     }
+    //</editor-fold>
+
+    //<editor-fold desc="获取参数">
+
+    @Override
+    public LoadingHandler<T> loading() {
+        return loadingHandler;
+    }
+
+    @Override
+    public LoadSuccessHandler<T> loadSuccess() {
+        return loadSuccessHandler;
+    }
+
+    @Override
+    public Runnable loadEmpty() {
+        return emptyRunnable;
+    }
+    //</editor-fold>
+
     //</editor-fold>
 
     @Override

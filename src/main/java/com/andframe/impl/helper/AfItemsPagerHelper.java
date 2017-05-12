@@ -516,7 +516,7 @@ public class AfItemsPagerHelper<T> extends AfStatusHelper<List<T>> implements It
         if (task.getPaging() == null) {
             return false;
         }
-        boolean loadFinish = list.size() >= task.getPaging().getPageSize();
+        boolean loadFinish = list.size() >= task.getPaging().pageSize();
         mItemsPager.setLoadMoreEnabled(loadFinish);
         return loadFinish;
     }

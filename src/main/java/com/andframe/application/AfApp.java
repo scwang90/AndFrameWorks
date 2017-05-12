@@ -24,6 +24,7 @@ import com.andframe.api.pager.PagerManager;
 import com.andframe.api.pager.items.MoreFooter;
 import com.andframe.api.pager.status.RefreshLayouter;
 import com.andframe.api.pager.status.StatusLayouter;
+import com.andframe.api.query.ListQuery;
 import com.andframe.api.service.UpdateService;
 import com.andframe.api.task.TaskExecutor;
 import com.andframe.api.viewer.ViewQuery;
@@ -40,6 +41,7 @@ import com.andframe.impl.pager.AfPagerManager;
 import com.andframe.impl.pager.items.DefaultMoreFooter;
 import com.andframe.impl.pager.status.DefaultRefreshLayouter;
 import com.andframe.impl.pager.status.DefaultStatusLayouter;
+import com.andframe.impl.query.AfListQuery;
 import com.andframe.impl.viewer.AfViewQuery;
 import com.andframe.model.ServiceVersion;
 import com.andframe.task.AfTaskExecutor;
@@ -392,6 +394,10 @@ public abstract class AfApp extends Application {
 	 */
 	public AfExceptionHandler newExceptionHandler() {
 		return new AfExceptionHandler();
+	}
+
+	public <T> ListQuery<T> newListQuery(Iterable<T> iterable) {
+		return new AfListQuery<T>(iterable);
 	}
 
 	public ViewQuery<? extends ViewQuery> newViewQuery(Viewer view) {

@@ -29,7 +29,7 @@ public class InternalWaitTask extends InternalTask {
         hideProgressDialog();
         if (isFinish()) {
             makeToastSucccess();
-        } else {
+        } else if (mException != null) {
             makeToastFail(mException);
         }
         super.onHandle();

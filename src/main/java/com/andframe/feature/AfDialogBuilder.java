@@ -99,7 +99,7 @@ public class AfDialogBuilder implements DialogBuilder {
      */
     @Override
     public Dialog showDialog(CharSequence title, CharSequence message, CharSequence positive, OnClickListener lpositive) {
-        return showDialog(title, message, positive, lpositive, "", null);
+        return showDialog(title, message, "", null, positive, lpositive);
     }
 
     /**
@@ -113,8 +113,8 @@ public class AfDialogBuilder implements DialogBuilder {
      * @param lnegative 点击  拒绝 按钮 响应事件
      */
     @Override
-    public Dialog showDialog(CharSequence title, CharSequence message, CharSequence positive, OnClickListener lpositive, CharSequence negative, OnClickListener lnegative) {
-        return showDialog(title, message, positive, lpositive, negative, lnegative, "", null);
+    public Dialog showDialog(CharSequence title, CharSequence message, CharSequence negative, OnClickListener lnegative, CharSequence positive, OnClickListener lpositive) {
+        return showDialog(title, message, negative, lnegative, "", null, positive, lpositive);
     }
 
     /**
@@ -130,8 +130,8 @@ public class AfDialogBuilder implements DialogBuilder {
      * @param lnegative 点击  拒绝 按钮 响应事件
      */
     @Override
-    public Dialog showDialog(CharSequence title, CharSequence message, CharSequence positive, OnClickListener lpositive, CharSequence negative, OnClickListener lnegative, CharSequence neutral, OnClickListener lneutral) {
-        return showDialog(0, title, message, positive, lpositive, negative, lnegative, neutral, lneutral);
+    public Dialog showDialog(CharSequence title, CharSequence message, CharSequence negative, OnClickListener lnegative, CharSequence neutral, OnClickListener lneutral, CharSequence positive, OnClickListener lpositive) {
+        return showDialog(0, title, message, negative, lnegative, neutral, lneutral, positive, lpositive);
     }
 
     /**
@@ -164,8 +164,8 @@ public class AfDialogBuilder implements DialogBuilder {
      * @param lnegative 点击  拒绝 按钮 响应事件
      */
     @Override
-    public Dialog showDialog(int iconres, CharSequence title, CharSequence message, CharSequence positive, OnClickListener lpositive, CharSequence negative, OnClickListener lnegative, CharSequence neutral, OnClickListener lneutral) {
-        return showDialog(-1, iconres, title, message, positive, lpositive, negative, lnegative, neutral, lneutral);
+    public Dialog showDialog(int iconres, CharSequence title, CharSequence message, CharSequence negative, OnClickListener lnegative, CharSequence neutral, OnClickListener lneutral, CharSequence positive, OnClickListener lpositive) {
+        return showDialog(-1, iconres, title, message, negative, lnegative, neutral, lneutral, positive, lpositive);
     }
 
     /**
@@ -185,7 +185,7 @@ public class AfDialogBuilder implements DialogBuilder {
     @Override
     @TargetApi(Build.VERSION_CODES.HONEYCOMB)
     public Dialog showDialog(int theme, int iconres,
-                             CharSequence title, CharSequence message, CharSequence positive, OnClickListener lpositive, CharSequence negative, OnClickListener lnegative, CharSequence neutral, OnClickListener lneutral) {
+                             CharSequence title, CharSequence message, CharSequence negative, OnClickListener lnegative, CharSequence neutral, OnClickListener lneutral, CharSequence positive, OnClickListener lpositive) {
         Builder builder = null;
         if (theme > 0) {
             try {

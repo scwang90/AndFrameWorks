@@ -1,9 +1,9 @@
 package com.andframe.annotation.interpreter;
 
-import android.app.Activity;
-import android.app.Fragment;
 import android.content.res.Resources;
 import android.support.annotation.NonNull;
+import android.support.v4.app.Fragment;
+import android.support.v4.app.FragmentActivity;
 import android.view.MotionEvent;
 import android.view.View;
 import android.view.View.OnClickListener;
@@ -39,7 +39,6 @@ import com.andframe.api.viewer.Viewer;
 import com.andframe.application.AfApp;
 import com.andframe.exception.AfExceptionHandler;
 import com.andframe.impl.viewer.ItemsViewerWrapper;
-import com.andframe.impl.wrapper.ViewWrapper;
 import com.andframe.module.AfFrameSelector;
 import com.andframe.module.AfSelectorBottombar;
 import com.andframe.module.AfSelectorBottombarImpl;
@@ -118,19 +117,6 @@ public class ViewBinder {
         }
 
         bindViewCreated(methods, handler);
-    }
-
-    private static Class<?> getStopType(Object handler) {
-        if (handler instanceof ViewWrapper) {
-            return ViewWrapper.class;
-        }
-        if (handler instanceof Activity) {
-            return Activity.class;
-        }
-        if (handler instanceof Fragment) {
-            return Fragment.class;
-        }
-        return Object.class;
     }
 
     //<editor-fold desc="事件绑定">
@@ -489,7 +475,13 @@ public class ViewBinder {
         List<Object> list = new ArrayList<>();
         for (int id : ids) {
             Object value = null;
-            if (type.equals(AfSelectorTitlebar.class)) {
+            if (Fragment.class.isAssignableFrom(type)) {
+                if (handler instanceof Fragment) {
+                    value = ((Fragment) handler).getChildFragmentManager().findFragmentById(id);
+                } else if (handler instanceof FragmentActivity) {
+                    value = ((FragmentActivity) handler).getSupportFragmentManager().findFragmentById(id);
+                }
+            } else if (type.equals(AfSelectorTitlebar.class)) {
                 value = new AfSelectorTitlebarImpl(root);
             } else if (type.equals(AfSelectorBottombar.class)) {
                 value = new AfSelectorBottombarImpl(root);

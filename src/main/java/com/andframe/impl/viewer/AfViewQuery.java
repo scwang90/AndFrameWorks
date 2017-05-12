@@ -55,6 +55,7 @@ import com.andframe.util.android.AfMeasure;
 import com.andframe.util.java.AfDateFormat;
 
 import java.io.File;
+import java.text.DateFormat;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Collections;
@@ -1356,6 +1357,11 @@ public class AfViewQuery<T extends AfViewQuery<T>> implements ViewQuery<T> {
     }
 
     @Override
+    public T time(DateFormat format, Date time) {
+        return foreach(TextView.class, (ViewEacher<TextView>) (view) -> view.setText(time == null ? "" : format.format(time)));
+    }
+
+    @Override
     public T timeDay(Date time) {
         return foreach(TextView.class, (ViewEacher<TextView>) (view) -> view.setText(time == null ? "" : AfDateFormat.DAY.format(time)));
     }
@@ -1368,6 +1374,11 @@ public class AfViewQuery<T extends AfViewQuery<T>> implements ViewQuery<T> {
     @Override
     public T timeFull(Date time) {
         return foreach(TextView.class, (ViewEacher<TextView>) (view) -> view.setText(time == null ? "" : AfDateFormat.FULL.format(time)));
+    }
+
+    @Override
+    public T timeSimple(Date time) {
+        return foreach(TextView.class, (ViewEacher<TextView>) (view) -> view.setText(time == null ? "" : AfDateFormat.SIMPLE.format(time)));
     }
 
     @Override

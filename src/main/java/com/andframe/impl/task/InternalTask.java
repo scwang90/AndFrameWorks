@@ -32,7 +32,7 @@ public class InternalTask extends AfHandlerTask {
             if (builder.successRunnable != null) {
                 builder.successRunnable.run();
             }
-        } else {
+        } else if (mException != null) {
             if (builder.exceptionHandler != null) {
                 builder.exceptionHandler.onTaskException(mException);
             }
