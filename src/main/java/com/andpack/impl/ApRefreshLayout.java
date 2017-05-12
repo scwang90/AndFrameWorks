@@ -94,7 +94,7 @@ public class ApRefreshLayout implements RefreshLayouter<TwinklingRefreshLayout>/
             content = layout;
         }
         mTwinkling.addView(content, MATCH_PARENT, MATCH_PARENT);
-        mTwinkling.setBackgroundDrawable(content.getBackground());
+        //mTwinkling.setBackgroundDrawable(content.getBackground());
         Queue<View> views = new LinkedBlockingQueue<>(Collections.singletonList(content));
         while (!views.isEmpty() && contentView == null){
             View view = views.poll();
