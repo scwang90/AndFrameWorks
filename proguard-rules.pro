@@ -16,6 +16,9 @@
 #   public *;
 #}
 
+#----------------------------------------------------------------------------------------#
+# andframe                                                                               #
+#----------------------------------------------------------------------------------------#
 #常用混淆标记
 -ignorewarnings
 -keepattributes Signature
@@ -33,8 +36,11 @@
 -keep enum com.andframe.model.** {*;}
 -keep class com.andframe.model.** {<fields>;}
 
--keepclassmembers class * {
-    @com.andframe.annotation.view.* *;
-    @com.andframe.annotation.inject.* *;
+-keepclassmembers class * implements com.andframe.api.viewer.ViewModuler {
+   <init>();
 }
+-keepclassmembers class * {
+    @com.andframe.annotation.** *;
+}
+#----------------------------------------------------------------------------------------#
 
