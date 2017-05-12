@@ -72,7 +72,7 @@ public class FeedbackFragment extends Fragment {
     FeedbackThread.SyncCallback syncCallback;
     ImageView imageButton;
     AtomicBoolean animating = new AtomicBoolean(false);
-    private static final int IMAGE_REQUEST = 657843;
+    private static final int IMAGE_REQUEST = 5120;
 
     public static final ImageCache cache = new ImageCache(
             AVOSCloud.applicationContext);
