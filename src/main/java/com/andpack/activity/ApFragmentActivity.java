@@ -101,7 +101,7 @@ public class ApFragmentActivity extends AfFragmentActivity implements ApPager {
 //            (activity).startActivity(getActivityClazz(clazz), list.toArray());
 //        }
 
-        Context context = (pager instanceof Activity) ? (Activity) pager : pager.getContext();
+        Context context = (pager instanceof Activity) ? (Activity) pager : (pager == null ? null : pager.getContext());
         if (context != null) {
             context.startActivity(new AfIntent(context,getActivityClazz(clazz)).putKeyVaules(EXTRA_FRAGMENT,clazz.getName()));
         } else {
