@@ -93,47 +93,30 @@ public class ApFragmentActivity extends AfFragmentActivity implements ApPager {
 
     //<editor-fold desc="跳转封装">
     public static void  start(Pager pager, Class<? extends Fragment> clazz, Object... params){
-//        AfActivity activity = $.pager().currentActivity();
-//        if (activity != null) {
-//            List<Object> list = new ArrayList<>(Arrays.asList(params));
-//            list.add(0,clazz.getName());
-//            list.add(0,EXTRA_FRAGMENT);
-//            (activity).startActivity(getActivityClazz(clazz), list.toArray());
-//        }
-
         Context context = (pager instanceof Activity) ? (Activity) pager : (pager == null ? null : pager.getContext());
         if (context != null) {
-            context.startActivity(new AfIntent(context,getActivityClazz(clazz)).putKeyVaules(EXTRA_FRAGMENT,clazz.getName()));
+            context.startActivity(newIntent(clazz, context,params));
         } else {
             AfApp app = AfApp.get();
-            app.startActivity(new AfIntent(app, getActivityClazz(clazz)).putKeyVaules(EXTRA_FRAGMENT,clazz.getName()).newTask());
+            app.startActivity(newIntent(clazz, app,params).newTask());
         }
     }
+
     public static void startResult(Pager pager, Class<? extends Fragment> clazz,int request, Object... params){
-//        AfActivity activity = $.pager().currentActivity();
-//        if (activity != null) {
-//            List<Object> list = new ArrayList<>(Arrays.asList(params));
-//            list.add(0,clazz.getName());
-//            list.add(0,EXTRA_FRAGMENT);
-//            (activity).startActivityForResult(getActivityClazz(clazz), request, list.toArray());
-//        }
         if (pager instanceof Activity) {
             Activity activity = (Activity) pager;
-            activity.startActivityForResult(new AfIntent(activity, getActivityClazz(clazz)).putKeyVaules(EXTRA_FRAGMENT, clazz.getName()), request);
+            activity.startActivityForResult(newIntent(clazz, activity,params), request);
         } else if(pager instanceof Fragment) {
             Fragment fragment = (Fragment) pager;
-            fragment.startActivityForResult(new AfIntent(fragment.getContext(), getActivityClazz(clazz)).putKeyVaules(EXTRA_FRAGMENT, clazz.getName()), request);
+            fragment.startActivityForResult(newIntent(clazz, fragment.getContext(),params), request);
         }
     }
-//    public static void startResult(Fragment fragment, Class<? extends Fragment> clazz,int request, Object... params){
-//        Context context = fragment.getContext();
-//        if (context != null) {
-//            List<Object> list = new ArrayList<>(Arrays.asList(params));
-//            list.add(0,clazz.getName());
-//            list.add(0,EXTRA_FRAGMENT);
-//            fragment.startActivityForResult(new AfIntent(context, getActivityClazz(clazz), list.toArray()), request);
-//        }
-//    }
+
+    private static AfIntent newIntent(Class<? extends Fragment> clazz, Context context, Object... params) {
+        return new AfIntent(context,getActivityClazz(clazz))
+                .putKeyVaules(EXTRA_FRAGMENT,clazz.getName())
+                .putKeyVaules(params);
+    }
     //</editor-fold>
 
     //<editor-fold desc="反射缓存">
