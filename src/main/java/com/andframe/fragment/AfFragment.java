@@ -140,7 +140,7 @@ public abstract class AfFragment extends Fragment implements Pager, ViewQueryHel
 
     @Override
     public void startFragment(Class<? extends Fragment> clazz, Object... args) {
-        AfFragmentActivity.start(clazz, args);
+        AfFragmentActivity.start(this, clazz, args);
     }
 
     @Override

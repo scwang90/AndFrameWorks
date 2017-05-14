@@ -394,12 +394,12 @@ public abstract class AfActivity extends AppCompatActivity implements Pager, Vie
 
     @Override
     public void startFragment(Class<? extends Fragment> clazz, Object... args) {
-        AfFragmentActivity.start(clazz, args);
+        AfFragmentActivity.start(this, clazz, args);
     }
 
     @Override
     public void startFragmentForResult(Class<? extends Fragment> clazz, int request, Object... args) {
-        AfFragmentActivity.startResult(clazz, request, args);
+        AfFragmentActivity.startResult(this, clazz, request, args);
     }
 
     @SuppressWarnings("unused")

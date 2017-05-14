@@ -159,7 +159,7 @@ public class AfPagerManager implements PagerManager {
         if (activity != null && activity.isRecycled()) {
             activity.startFragment(clazz, args);
         } else {
-            AfFragmentActivity.start(clazz, args);
+            AfFragmentActivity.start(null, clazz, args);
         }
     }
 
