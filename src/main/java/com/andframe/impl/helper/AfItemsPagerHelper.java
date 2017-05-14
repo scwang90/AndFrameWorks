@@ -199,7 +199,7 @@ public class AfItemsPagerHelper<T> extends AfStatusHelper<List<T>> implements It
                     return contentView;
                 }
                 if (id$ != null) {
-                    Context context = mPager.getContext();
+                    Context context = getContext();
                     if (context != null) {
                         int idv = context.getResources().getIdentifier(id$.value(), "id", context.getPackageName());
                         if (idv > 0 && idv == contentView.getId()) {
@@ -315,15 +315,23 @@ public class AfItemsPagerHelper<T> extends AfStatusHelper<List<T>> implements It
             mItemsPager.finishRefreshFail();
             if (mAdapter != null && mAdapter.size() > 0) {
                 mItemsPager.showContent();
-                mItemsPager.makeToastLong(task.makeErrorToast(mPager.getContext().getString(R.string.items_refresh_fail)));
+                mItemsPager.makeToastLong(task.makeErrorToast(getContext().getString(R.string.items_refresh_fail)));
             } else if (!mItemsPager.isEmpty(list)) {
 //                mItemsPager.showContent(); mAdapter.set 会触发showContent
                 mAdapter.set(list == null ? new ArrayList<>() : list);
-                mItemsPager.makeToastLong(task.makeErrorToast(mPager.getContext().getString(R.string.items_refresh_fail)));
+                mItemsPager.makeToastLong(task.makeErrorToast(getContext().getString(R.string.items_refresh_fail)));
             } else {
-                mItemsPager.showError(task.makeErrorToast(mPager.getContext().getString(R.string.items_refresh_fail)));
+                mItemsPager.showError(task.makeErrorToast(getContext().getString(R.string.items_refresh_fail)));
             }
         }
+    }
+
+    private Context getContext() {
+        Context context = mPager.getContext();
+        if (context == null) {
+            return AfApp.get();
+        }
+        return context;
     }
 
     @Override
@@ -337,10 +345,10 @@ public class AfItemsPagerHelper<T> extends AfStatusHelper<List<T>> implements It
 //                mItemsViewer.smoothScrollToPosition(mAdapter.getCount() + 1);
             }
             if (!mItemsPager.setMoreShow(task, list)) {
-                mItemsPager.makeToastShort(mPager.getContext().getString(R.string.items_loadmore_all));
+                mItemsPager.makeToastShort(getContext().getString(R.string.items_loadmore_all));
             }
         } else {
-            mItemsPager.makeToastLong(task.makeErrorToast(mPager.getContext().getString(R.string.items_loadmore_fail)));
+            mItemsPager.makeToastLong(task.makeErrorToast(getContext().getString(R.string.items_loadmore_fail)));
         }
     }
     //</editor-fold>
@@ -442,7 +450,7 @@ public class AfItemsPagerHelper<T> extends AfStatusHelper<List<T>> implements It
                 addHeaderView(adapter, $.query(mPager).$(id).breakView());
             }
         } else {
-            Context context = mPager.getContext();
+            Context context = getContext();
             ItemsHeader$ headers$ = AfReflecter.getAnnotation(mPager.getClass(), stop, ItemsHeader$.class);
             if (headers$ != null && context != null) {
                 for (String id$ : headers$.value()) {
@@ -459,7 +467,7 @@ public class AfItemsPagerHelper<T> extends AfStatusHelper<List<T>> implements It
                 addFooterView(adapter, $.query(mPager).$(id).breakView());
             }
         } else {
-            Context context = mPager.getContext();
+            Context context = getContext();
             ItemsFooter$ footers$ = AfReflecter.getAnnotation(mPager.getClass(), stop, ItemsFooter$.class);
             if (footers$ != null && context != null) {
                 for (String id$ : footers$.value()) {
