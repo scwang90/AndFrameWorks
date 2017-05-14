@@ -8,6 +8,7 @@ import android.widget.ImageView;
 import com.andframe.$;
 import com.andframe.api.DialogBuilder;
 import com.andframe.api.event.EventManager;
+import com.andframe.api.pager.PagerManager;
 import com.andframe.api.pager.status.RefreshLayouter;
 import com.andframe.api.viewer.ViewQuery;
 import com.andframe.api.viewer.Viewer;
@@ -201,6 +202,11 @@ public class ApApp extends AfApp {
     @Override
     public EventManager newEventManager() {
         return new ApEventManager();
+    }
+
+    @Override
+    public PagerManager newPagerManager() {
+        return new ApPagerManager();
     }
 
     //</editor-fold>

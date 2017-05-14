@@ -89,12 +89,12 @@ public abstract class ApLoadActivity<T> extends AfLoadActivity<T> implements ApP
 
     @Override
     public void startFragment(Class<? extends Fragment> clazz, Object... args) {
-        ApFragmentActivity.start(clazz, args);
+        ApFragmentActivity.start(this, clazz, args);
     }
 
     @Override
     public void startFragmentForResult(Class<? extends Fragment> clazz, int request, Object... args) {
-        ApFragmentActivity.startResult(clazz, request, args);
+        ApFragmentActivity.startResult(this, clazz, request, args);
     }
 
     @Override

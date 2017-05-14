@@ -88,7 +88,7 @@ public class ApStatusFragment<T> extends AfStatusFragment<T> implements ApPager 
 
     @Override
     public void startFragment(Class<? extends Fragment> clazz, Object... args) {
-        ApFragmentActivity.start(clazz, args);
+        ApFragmentActivity.start(this, clazz, args);
     }
 
     @Override

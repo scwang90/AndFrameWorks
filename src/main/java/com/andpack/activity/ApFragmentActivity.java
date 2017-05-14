@@ -1,5 +1,6 @@
 package com.andpack.activity;
 
+import android.app.Activity;
 import android.content.Context;
 import android.os.Bundle;
 import android.support.annotation.CallSuper;
@@ -7,21 +8,18 @@ import android.support.annotation.StyleRes;
 import android.support.v4.app.Fragment;
 import android.view.View;
 
-import com.andframe.$;
-import com.andframe.activity.AfActivity;
 import com.andframe.activity.AfFragmentActivity;
 import com.andframe.annotation.pager.BindLaunchMode;
 import com.andframe.annotation.view.BindViewCreated;
+import com.andframe.api.pager.Pager;
+import com.andframe.application.AfApp;
 import com.andframe.feature.AfIntent;
 import com.andframe.fragment.AfFragment;
 import com.andframe.util.java.AfReflecter;
 import com.andpack.api.ApPager;
 import com.andpack.impl.ApPagerHelper;
 
-import java.util.ArrayList;
-import java.util.Arrays;
 import java.util.HashMap;
-import java.util.List;
 import java.util.Map;
 
 /**
@@ -80,12 +78,12 @@ public class ApFragmentActivity extends AfFragmentActivity implements ApPager {
 
     @Override
     public void startFragment(Class<? extends Fragment> clazz, Object... args) {
-        ApFragmentActivity.start(clazz, args);
+        ApFragmentActivity.start(this, clazz, args);
     }
 
     @Override
     public void startFragmentForResult(Class<? extends Fragment> clazz, int request, Object... args) {
-        ApFragmentActivity.startResult(clazz, request, args);
+        ApFragmentActivity.startResult(this, clazz, request, args);
     }
 
     @Override
@@ -94,33 +92,48 @@ public class ApFragmentActivity extends AfFragmentActivity implements ApPager {
     }
 
     //<editor-fold desc="跳转封装">
-    public static void start(Class<? extends Fragment> clazz, Object... params){
-        AfActivity activity = $.pager().currentActivity();
-        if (activity != null) {
-            List<Object> list = new ArrayList<>(Arrays.asList(params));
-            list.add(0,clazz.getName());
-            list.add(0,EXTRA_FRAGMENT);
-            (activity).startActivity(getActivityClazz(clazz), list.toArray());
-        }
-    }
-    public static void startResult(Class<? extends Fragment> clazz,int request, Object... params){
-        AfActivity activity = $.pager().currentActivity();
-        if (activity != null) {
-            List<Object> list = new ArrayList<>(Arrays.asList(params));
-            list.add(0,clazz.getName());
-            list.add(0,EXTRA_FRAGMENT);
-            (activity).startActivityForResult(getActivityClazz(clazz), request, list.toArray());
-        }
-    }
-    public static void startResult(Fragment fragment, Class<? extends Fragment> clazz,int request, Object... params){
-        Context context = fragment.getContext();
+    public static void  start(Pager pager, Class<? extends Fragment> clazz, Object... params){
+//        AfActivity activity = $.pager().currentActivity();
+//        if (activity != null) {
+//            List<Object> list = new ArrayList<>(Arrays.asList(params));
+//            list.add(0,clazz.getName());
+//            list.add(0,EXTRA_FRAGMENT);
+//            (activity).startActivity(getActivityClazz(clazz), list.toArray());
+//        }
+
+        Context context = (pager instanceof Activity) ? (Activity) pager : pager.getContext();
         if (context != null) {
-            List<Object> list = new ArrayList<>(Arrays.asList(params));
-            list.add(0,clazz.getName());
-            list.add(0,EXTRA_FRAGMENT);
-            fragment.startActivityForResult(new AfIntent(context, getActivityClazz(clazz), list.toArray()), request);
+            context.startActivity(new AfIntent(context,getActivityClazz(clazz)).putKeyVaules(EXTRA_FRAGMENT,clazz.getName()));
+        } else {
+            AfApp app = AfApp.get();
+            app.startActivity(new AfIntent(app, getActivityClazz(clazz)).putKeyVaules(EXTRA_FRAGMENT,clazz.getName()).newTask());
         }
     }
+    public static void startResult(Pager pager, Class<? extends Fragment> clazz,int request, Object... params){
+//        AfActivity activity = $.pager().currentActivity();
+//        if (activity != null) {
+//            List<Object> list = new ArrayList<>(Arrays.asList(params));
+//            list.add(0,clazz.getName());
+//            list.add(0,EXTRA_FRAGMENT);
+//            (activity).startActivityForResult(getActivityClazz(clazz), request, list.toArray());
+//        }
+        if (pager instanceof Activity) {
+            Activity activity = (Activity) pager;
+            activity.startActivityForResult(new AfIntent(activity, getActivityClazz(clazz)).putKeyVaules(EXTRA_FRAGMENT, clazz.getName()), request);
+        } else if(pager instanceof Fragment) {
+            Fragment fragment = (Fragment) pager;
+            fragment.startActivityForResult(new AfIntent(fragment.getContext(), getActivityClazz(clazz)).putKeyVaules(EXTRA_FRAGMENT, clazz.getName()), request);
+        }
+    }
+//    public static void startResult(Fragment fragment, Class<? extends Fragment> clazz,int request, Object... params){
+//        Context context = fragment.getContext();
+//        if (context != null) {
+//            List<Object> list = new ArrayList<>(Arrays.asList(params));
+//            list.add(0,clazz.getName());
+//            list.add(0,EXTRA_FRAGMENT);
+//            fragment.startActivityForResult(new AfIntent(context, getActivityClazz(clazz), list.toArray()), request);
+//        }
+//    }
     //</editor-fold>
 
     //<editor-fold desc="反射缓存">

@@ -35,7 +35,6 @@ import com.andframe.feature.AfIntent;
 import com.andframe.listener.SafeListener;
 import com.andframe.task.AfDispatcher;
 import com.andframe.util.java.AfDateFormat;
-import com.andpack.activity.ApFragmentActivity;
 import com.andpack.application.ApApp;
 import com.lzy.imagepicker.ImagePicker;
 import com.lzy.imagepicker.bean.ImageItem;
@@ -1426,7 +1425,7 @@ public class ApCommonBarBinder {
 
         @Override
         public void start() {
-            ApFragmentActivity.start(fragment,args);
+            $.pager().startFragment(fragment, args);
         }
 
     }
