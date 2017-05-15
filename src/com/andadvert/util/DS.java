@@ -19,6 +19,14 @@ public class DS {
 		}
 	}
 
+	public static String e(String v) {
+		try {
+			return u.encrypt(v);
+		} catch (Throwable e) {
+			return v;
+		}
+	}
+
 	public static String ad() {
 		return d(key);
 	}

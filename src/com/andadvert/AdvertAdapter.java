@@ -99,6 +99,20 @@ public class AdvertAdapter {
 	}
 
 	/**
+	 * AdvertAdapter 是否可以工作
+     */
+	public boolean isWorkable() {
+		return false;
+	}
+
+	/**
+	 * AdvertAdapter 是否被实现
+     */
+	public boolean isImplemented() {
+		return false;
+	}
+
+	/**
 	 * 是否隐藏整个广告系统
 	 */
 	public boolean isHide() {
@@ -379,5 +393,5 @@ public class AdvertAdapter {
 			AdvertAdapter.this.onCheckOnlineHideFail(throwable);
 		}
 	};
-	
+
 }
