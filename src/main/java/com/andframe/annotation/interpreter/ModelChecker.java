@@ -11,7 +11,7 @@ import com.andframe.exception.AfToastException;
 
 import java.lang.reflect.Field;
 
-import static com.andframe.annotation.interpreter.ReflecterCacher.getFieldByHandler;
+import static com.andframe.annotation.interpreter.ReflecterCacher.getFields;
 
 /**
  * Must 检测器
@@ -22,7 +22,7 @@ public class ModelChecker {
     public static void check(Object obj) throws Exception {
         if (obj != null) {
 
-            Field[] fields = getFieldByHandler(obj);
+            Field[] fields = getFields(obj);
             for (Field field : fields) {
                 if (field.isAnnotationPresent(Must.class)) {
                     field.setAccessible(true);

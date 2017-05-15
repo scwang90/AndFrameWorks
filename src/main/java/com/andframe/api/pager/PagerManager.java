@@ -39,11 +39,20 @@ public interface PagerManager {
     void finishActivity(AfActivity activity);
     void finishAllActivity();
 
+    /**
+     * 隐式打开主页（需要子类自己实现）
+     */
     void startForeground();
+
+    /**
+     * 显示打开主页
+     */
+    void startForeground(Class<? extends AfActivity> clazz);
 
     void startActivity(Class<? extends Activity> clazz, Object... args);
     void startFragment(Class<? extends Fragment> clazz, Object... args);
     void startActivityForResult(Class<? extends Activity> clazz, int request, Object... args);
     void startFragmentForResult(Class<? extends Fragment> clazz, int request, Object... args);
+
 
 }

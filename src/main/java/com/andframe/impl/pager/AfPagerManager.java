@@ -128,7 +128,7 @@ public class AfPagerManager implements PagerManager {
     @Override
     public AfActivity getActivity(Class<? extends AfActivity> clazz) {
         for (AfActivity activity : mStackActivity) {
-            if (activity.getClass().equals(clazz)) {
+            if (clazz.isAssignableFrom(activity.getClass())) {
                 return activity;
             }
         }
@@ -162,6 +162,23 @@ public class AfPagerManager implements PagerManager {
     @Override
     public void startForeground() {
         throw new AfException("如要使用startForeground功能，请自行继承AfPagerManager并实现startForeground");
+    }
+
+    @Override
+    public void startForeground(Class<? extends AfActivity> clazz) {
+        AfActivity lastActivity = null;
+        while (mStackActivity.size() > 0) {
+            lastActivity = mStackActivity.peek();
+            if (clazz.isAssignableFrom(lastActivity.getClass())) {
+                return;
+            }
+            mStackActivity.pop().finish();
+        }
+        if (lastActivity != null) {
+            lastActivity.startActivity(clazz);
+        } else {
+            startActivity(clazz);
+        }
     }
 
     @Override

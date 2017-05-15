@@ -41,7 +41,7 @@ public class LifeCycleInjecter {
     }
 
     public static Object injectLifeCycle(Object handler, Class<? extends Annotation> annotation, Object... params) {
-        for (Method method : ReflecterCacher.getMethodByHandler(handler)) {
+        for (Method method : ReflecterCacher.getMethods(handler)) {
             if (method.isAnnotationPresent(annotation)) {
                 try {
                     Object retvalue = invokeMethod(handler, method, params);
