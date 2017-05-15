@@ -146,8 +146,8 @@ public class AfDialogBuilder implements DialogBuilder {
      * @param lnegative 点击  拒绝 按钮 响应事件
      */
     @Override
-    public Dialog showDialog(int iconres, CharSequence title, CharSequence message, CharSequence positive, OnClickListener lpositive, CharSequence negative, OnClickListener lnegative) {
-        return showDialog(iconres, title, message, positive, lpositive, negative, lnegative, "", null);
+    public Dialog showDialog(int iconres, CharSequence title, CharSequence message, CharSequence negative, OnClickListener lnegative, CharSequence positive, OnClickListener lpositive) {
+        return showDialog(iconres, title, message, negative, lnegative, "", null, positive, lpositive);
     }
 
     /**
@@ -245,8 +245,8 @@ public class AfDialogBuilder implements DialogBuilder {
      * @param lnegative 点击  拒绝 按钮 响应事件
      */
     @Override
-    public Dialog showViewDialog(CharSequence title, View view, CharSequence positive, OnClickListener lpositive, CharSequence negative, OnClickListener lnegative) {
-        return showViewDialog(title, view, positive, lpositive, negative, lnegative, "", null);
+    public Dialog showViewDialog(CharSequence title, View view, CharSequence negative, OnClickListener lnegative, CharSequence positive, OnClickListener lpositive) {
+        return showViewDialog(title, view, negative, lnegative, "", null, positive, lpositive);
     }
 
     /**
@@ -262,8 +262,8 @@ public class AfDialogBuilder implements DialogBuilder {
      * @param lnegative 点击  拒绝 按钮 响应事件
      */
     @Override
-    public Dialog showViewDialog(CharSequence title, View view, CharSequence positive, OnClickListener lpositive, CharSequence negative, OnClickListener lnegative, CharSequence neutral, OnClickListener lneutral) {
-        return showViewDialog(0, title, view, positive, lpositive, negative, lnegative, neutral, lneutral);
+    public Dialog showViewDialog(CharSequence title, View view, CharSequence negative, OnClickListener lnegative, CharSequence neutral, OnClickListener lneutral, CharSequence positive, OnClickListener lpositive) {
+        return showViewDialog(0, title, view, negative, lnegative, neutral, lneutral, positive, lpositive);
     }
 
     /**
@@ -278,8 +278,8 @@ public class AfDialogBuilder implements DialogBuilder {
      * @param lnegative 点击  拒绝 按钮 响应事件
      */
     @Override
-    public Dialog showViewDialog(int iconres, CharSequence title, View view, CharSequence positive, OnClickListener lpositive, CharSequence negative, OnClickListener lnegative) {
-        return showViewDialog(iconres, title, view, positive, lpositive, negative, lnegative, "", null);
+    public Dialog showViewDialog(int iconres, CharSequence title, View view, CharSequence negative, OnClickListener lnegative, CharSequence positive, OnClickListener lpositive) {
+        return showViewDialog(iconres, title, view, negative, lnegative, "", null, positive, lpositive);
     }
 
     /**
@@ -296,8 +296,8 @@ public class AfDialogBuilder implements DialogBuilder {
      * @param lnegative 点击  拒绝 按钮 响应事件
      */
     @Override
-    public Dialog showViewDialog(int iconres, CharSequence title, View view, CharSequence positive, OnClickListener lpositive, CharSequence negative, OnClickListener lnegative, CharSequence neutral, OnClickListener lneutral) {
-        return showViewDialog(-1, iconres, title, view, positive, lpositive, negative, lnegative, neutral, lneutral);
+    public Dialog showViewDialog(int iconres, CharSequence title, View view, CharSequence negative, OnClickListener lnegative, CharSequence neutral, OnClickListener lneutral, CharSequence positive, OnClickListener lpositive) {
+        return showViewDialog(-1, iconres, title, view, negative, lnegative, neutral, lneutral, positive, lpositive);
     }
 
     /**
@@ -317,7 +317,7 @@ public class AfDialogBuilder implements DialogBuilder {
     @Override
     @SuppressLint("NewApi")
     public Dialog showViewDialog(int theme,
-                                 int iconres, CharSequence title, View view, CharSequence positive, OnClickListener lpositive, CharSequence negative, OnClickListener lnegative, CharSequence neutral, OnClickListener lneutral) {
+                                 int iconres, CharSequence title, View view, CharSequence negative, OnClickListener lnegative, CharSequence neutral, OnClickListener lneutral, CharSequence positive, OnClickListener lpositive) {
         Builder builder = null;
         if (theme > 0) {
             try {
@@ -730,8 +730,8 @@ public class AfDialogBuilder implements DialogBuilder {
      */
     @Override
     public Dialog showKeyDialog(String key, int defclick,
-                                CharSequence title, CharSequence message, CharSequence positive, OnClickListener lpositive, CharSequence negative, OnClickListener lnegative) {
-        return showKeyDialog(key, defclick, title, message, positive, lpositive, negative, lnegative, "", null);
+                                CharSequence title, CharSequence message, CharSequence negative, OnClickListener lnegative, CharSequence positive, OnClickListener lpositive) {
+        return showKeyDialog(key, defclick, title, message, negative, lnegative, "", null, positive, lpositive);
     }
 
     /**
@@ -750,8 +750,8 @@ public class AfDialogBuilder implements DialogBuilder {
      */
     @Override
     public Dialog showKeyDialog(String key, int defclick,
-                                CharSequence title, CharSequence message, CharSequence positive, OnClickListener lpositive, CharSequence negative, OnClickListener lnegative, CharSequence neutral, OnClickListener lneutral) {
-        return showKeyDialog(key, defclick, 0, title, message, positive, lpositive, negative, lnegative, neutral, lneutral);
+                                CharSequence title, CharSequence message, CharSequence negative, OnClickListener lnegative, CharSequence neutral, OnClickListener lneutral, CharSequence positive, OnClickListener lpositive) {
+        return showKeyDialog(key, defclick, 0, title, message, negative, lnegative, neutral, lneutral, positive, lpositive);
     }
 
     /**
@@ -769,8 +769,8 @@ public class AfDialogBuilder implements DialogBuilder {
      */
     @Override
     public Dialog showKeyDialog(String key, int defclick,
-                                int iconres, CharSequence title, CharSequence message, CharSequence positive, OnClickListener lpositive, CharSequence negative, OnClickListener lnegative) {
-        return showKeyDialog(key, defclick, iconres, title, message, positive, lpositive, negative, lnegative, "", null);
+                                int iconres, CharSequence title, CharSequence message, CharSequence negative, OnClickListener lnegative, CharSequence positive, OnClickListener lpositive) {
+        return showKeyDialog(key, defclick, iconres, title, message, negative, lnegative, "", null, positive, lpositive);
     }
 
     /**
@@ -790,8 +790,8 @@ public class AfDialogBuilder implements DialogBuilder {
      */
     @Override
     public Dialog showKeyDialog(String key, int defclick,
-                                int iconres, CharSequence title, CharSequence message, CharSequence positive, OnClickListener lpositive, CharSequence negative, OnClickListener lnegative, CharSequence neutral, OnClickListener lneutral) {
-        return showKeyDialog(key, defclick, -1, iconres, title, message, positive, lpositive, negative, lnegative, neutral, lneutral);
+                                int iconres, CharSequence title, CharSequence message, CharSequence negative, OnClickListener lnegative, CharSequence neutral, OnClickListener lneutral, CharSequence positive, OnClickListener lpositive) {
+        return showKeyDialog(key, defclick, -1, iconres, title, message, negative, lnegative, neutral, lneutral, positive, lpositive);
     }
 
 
@@ -815,11 +815,11 @@ public class AfDialogBuilder implements DialogBuilder {
     @TargetApi(Build.VERSION_CODES.HONEYCOMB)
     public Dialog showKeyDialog(final String key, final int defclick,
                                 int theme, int iconres,
-                                CharSequence title, final CharSequence message, CharSequence positive, OnClickListener lpositive, CharSequence negative, OnClickListener lnegative, CharSequence neutral, OnClickListener lneutral) {
+                                CharSequence title, final CharSequence message, CharSequence negative, OnClickListener lnegative, CharSequence neutral, OnClickListener lneutral, CharSequence positive, OnClickListener lpositive) {
         if (!TextUtils.isEmpty(key) && defclick > -1) {
             int click = $.cache(key).getInt(key, -1);
             if (click == defclick) {
-                OnClickListener[] clicks = {new SafeListener(lpositive), new SafeListener(lnegative), new SafeListener(lneutral)};
+                OnClickListener[] clicks = {new SafeListener(lnegative), new SafeListener(lneutral), new SafeListener(lpositive)};
                 for (int i = 0; i < clicks.length; i++) {
                     if (i == defclick && clicks[i] != null) {
                         clicks[i].onClick(null, i);
@@ -828,7 +828,7 @@ public class AfDialogBuilder implements DialogBuilder {
                 return null;
             }
         }
-        final Dialog dialog = showDialog(theme, iconres, title, message, positive, lpositive, negative, lnegative, neutral, lneutral);
+        final Dialog dialog = showDialog(theme, iconres, title, message, negative, lnegative, neutral, lneutral, positive, lpositive);
         if (dialog != null && !TextUtils.isEmpty(key)) {
             final View decor = dialog.getWindow().getDecorView();
             decor.postDelayed(() -> {
