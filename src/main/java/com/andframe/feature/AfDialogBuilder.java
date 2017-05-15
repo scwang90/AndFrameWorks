@@ -231,7 +231,7 @@ public class AfDialogBuilder implements DialogBuilder {
      */
     @Override
     public Dialog showViewDialog(CharSequence title, View view, CharSequence positive, OnClickListener lpositive) {
-        return showViewDialog(title, view, positive, lpositive, "", null);
+        return showViewDialog(title, view, "", null, positive, lpositive);
     }
 
     /**
@@ -713,7 +713,7 @@ public class AfDialogBuilder implements DialogBuilder {
      */
     @Override
     public Dialog showKeyDialog(String key, CharSequence title, CharSequence message, CharSequence positive, OnClickListener lpositive) {
-        return showKeyDialog(key, 0, title, message, positive, lpositive, "", null);
+        return showKeyDialog(key, 0, title, message, "", null, positive, lpositive);
     }
 
     /**
