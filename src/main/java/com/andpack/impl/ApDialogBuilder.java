@@ -67,10 +67,14 @@ public class ApDialogBuilder extends AfDialogBuilder {
     @Override
     public Dialog showDialog(int theme, int iconres, CharSequence title, CharSequence message, CharSequence negative, OnClickListener lnegative, CharSequence neutral, OnClickListener lneutral, CharSequence positive, OnClickListener lpositive) {
         int btnNum = (TextUtils.isEmpty(negative) ? 0 : 1) + (TextUtils.isEmpty(neutral) ? 0 : 1) + (TextUtils.isEmpty(positive) ? 0 : 1);
-        CharSequence[] btnTexts = new CharSequence[]{negative, neutral, positive};
+        CharSequence[] btnTexts = new CharSequence[]{positive, negative, neutral};
         List<String> textList = new ArrayList<>();
         for (int i = 0; i < btnTexts.length && i < btnNum; i++) {
             textList.add(btnTexts[i].toString());
+        }
+        if (btnNum == 3) {
+            textList.add(textList.get(0));
+            textList.remove(0);
         }
 
         final NormalDialog dialog = new NormalDialog(mContext);
@@ -83,10 +87,14 @@ public class ApDialogBuilder extends AfDialogBuilder {
 //                .dismissAnim(mBasOut)//
                 .show();
 
-        SafeOnBtnClickL[] ls = new SafeOnBtnClickL[]{new SafeOnBtnClickL(dialog, lnegative, 1),new SafeOnBtnClickL(dialog, lneutral, 2),new SafeOnBtnClickL(dialog, lpositive, 0)};
+        SafeOnBtnClickL[] ls = new SafeOnBtnClickL[]{new SafeOnBtnClickL(dialog, lpositive, 0), new SafeOnBtnClickL(dialog, lnegative, 1), new SafeOnBtnClickL(dialog, lneutral, 2)};
         List<SafeOnBtnClickL> clickLs = new ArrayList<>();
         for (int i = 0; i < ls.length && i < btnNum; i++) {
             clickLs.add(ls[i]);
+        }
+        if (btnNum == 3) {
+            clickLs.add(clickLs.get(0));
+            clickLs.remove(0);
         }
 
         SafeOnBtnClickL[] array = clickLs.toArray(new SafeOnBtnClickL[btnNum]);
