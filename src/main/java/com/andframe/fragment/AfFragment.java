@@ -237,8 +237,8 @@ public abstract class AfFragment extends Fragment implements Pager, ViewQueryHel
     @Override
     public void onPause() {
         try {
-            $.pager().onFragmentPause(this);
             super.onPause();
+            $.pager().onFragmentPause(this);
             LifeCycleInjecter.injectOnPause(this);
         } catch (Throwable ex) {
             AfExceptionHandler.handle(ex, "AfFragment.onPause");
@@ -249,6 +249,7 @@ public abstract class AfFragment extends Fragment implements Pager, ViewQueryHel
     public void onStart() {
         try {
             super.onStart();
+            $.pager().onFragmentStart(this);
             LifeCycleInjecter.injectOnStart(this);
         } catch (Throwable ex) {
             AfExceptionHandler.handle(ex, "AfFragment.onStart");
@@ -259,6 +260,7 @@ public abstract class AfFragment extends Fragment implements Pager, ViewQueryHel
     public void onStop() {
         try {
             super.onStop();
+            $.pager().onFragmentStop(this);
             LifeCycleInjecter.injectOnStop(this);
         } catch (Throwable ex) {
             AfExceptionHandler.handle(ex, "AfFragment.onStop");

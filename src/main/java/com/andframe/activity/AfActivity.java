@@ -244,12 +244,14 @@ public abstract class AfActivity extends AppCompatActivity implements Pager, Vie
     @Override
     protected void onStart() {
         super.onStart();
+        $.pager().onActivityStart(this);
         LifeCycleInjecter.injectOnStart(this);
     }
 
     @Override
     protected void onRestart() {
         super.onRestart();
+        $.pager().onActivityRestart(this);
         LifeCycleInjecter.injectOnRestart(this);
     }
 
@@ -257,6 +259,7 @@ public abstract class AfActivity extends AppCompatActivity implements Pager, Vie
     protected void onStop() {
         super.onStop();
         this.mIsResume = false;
+        $.pager().onActivityStop(this);
         LifeCycleInjecter.injectOnStop(this);
     }
 

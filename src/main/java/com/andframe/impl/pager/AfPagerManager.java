@@ -27,7 +27,6 @@ public class AfPagerManager implements PagerManager {
     private Stack<AfActivity> mStackActivity = new Stack<>();
 
     public AfPagerManager() {
-        System.out.println(this + " new - size = " + mStackActivity.size());
     }
 
     @Override
@@ -35,7 +34,6 @@ public class AfPagerManager implements PagerManager {
         if (!mStackActivity.contains(activity)) {
             mStackActivity.push(activity);
         }
-        System.out.println(this + " onActivityCreated - " + activity + " size = " + mStackActivity.size());
     }
 
     @Override
@@ -43,7 +41,6 @@ public class AfPagerManager implements PagerManager {
         if (mStackActivity.contains(activity)) {
             mStackActivity.remove(activity);
         }
-        System.out.println(this + " onActivityDestroy - " + activity + " size = " + mStackActivity.size());
     }
 
     @Override
@@ -53,7 +50,25 @@ public class AfPagerManager implements PagerManager {
 
     @Override
     public void onActivityPause(AfActivity activity) {
+        if (activity.isFinishing()) {
+            if (mStackActivity.contains(activity)) {
+                mStackActivity.remove(activity);
+            }
+        }
+    }
 
+    @Override
+    public void onActivityStart(AfActivity activity) {
+
+    }
+
+    @Override
+    public void onActivityRestart(AfActivity activity) {
+
+    }
+
+    @Override
+    public void onActivityStop(AfActivity activity) {
     }
 
     @Override
@@ -73,6 +88,16 @@ public class AfPagerManager implements PagerManager {
 
     @Override
     public void onFragmentPause(AfFragment fragment) {
+
+    }
+
+    @Override
+    public void onFragmentStart(AfFragment fragment) {
+
+    }
+
+    @Override
+    public void onFragmentStop(AfFragment fragment) {
 
     }
 

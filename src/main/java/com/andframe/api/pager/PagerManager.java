@@ -18,11 +18,16 @@ public interface PagerManager {
     void onActivityDestroy(AfActivity activity);
     void onActivityResume(AfActivity activity);
     void onActivityPause(AfActivity activity);
+    void onActivityStop(AfActivity activity);
+    void onActivityRestart(AfActivity activity);
+    void onActivityStart(AfActivity activity);
 
     void onFragmentAttach(AfFragment fragment, Context context);
     void onFragmentDetach(AfFragment fragment);
     void onFragmentResume(AfFragment fragment);
     void onFragmentPause(AfFragment fragment);
+    void onFragmentStart(AfFragment fragment);
+    void onFragmentStop(AfFragment fragment);
 
     boolean hasActivityRuning();
     boolean hasActivity(Class<? extends AfActivity> clazz);
@@ -40,4 +45,5 @@ public interface PagerManager {
     void startFragment(Class<? extends Fragment> clazz, Object... args);
     void startActivityForResult(Class<? extends Activity> clazz, int request, Object... args);
     void startFragmentForResult(Class<? extends Fragment> clazz, int request, Object... args);
+
 }

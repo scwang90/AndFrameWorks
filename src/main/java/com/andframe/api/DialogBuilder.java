@@ -154,7 +154,7 @@ public interface DialogBuilder {
      * @param negative  按钮显示信息
      * @param lnegative 点击  拒绝 按钮 响应事件
      */
-    Dialog showDialog(int iconres, CharSequence title, CharSequence message, CharSequence positive, DialogInterface.OnClickListener lpositive, CharSequence negative, DialogInterface.OnClickListener lnegative);
+    Dialog showDialog(int iconres, CharSequence title, CharSequence message, CharSequence negative, DialogInterface.OnClickListener lnegative, CharSequence positive, DialogInterface.OnClickListener lpositive);
 
     /**
      * 显示对话框
@@ -169,7 +169,7 @@ public interface DialogBuilder {
      * @param negative  按钮显示信息
      * @param lnegative 点击  拒绝 按钮 响应事件
      */
-    Dialog showDialog(int iconres, CharSequence title, CharSequence message, CharSequence positive, DialogInterface.OnClickListener lpositive, CharSequence negative, DialogInterface.OnClickListener lnegative, CharSequence neutral, DialogInterface.OnClickListener lneutral);
+    Dialog showDialog(int iconres, CharSequence title, CharSequence message, CharSequence negative, DialogInterface.OnClickListener lnegative, CharSequence neutral, DialogInterface.OnClickListener lneutral, CharSequence positive, DialogInterface.OnClickListener lpositive);
 
     /**
      * 显示视图对话框
@@ -186,7 +186,7 @@ public interface DialogBuilder {
      * @param lnegative 点击  拒绝 按钮 响应事件
      */
     Dialog showDialog(int theme, int iconres,
-                             CharSequence title, CharSequence message, CharSequence positive, DialogInterface.OnClickListener lpositive, CharSequence negative, DialogInterface.OnClickListener lnegative, CharSequence neutral, DialogInterface.OnClickListener lneutral);
+                             CharSequence title, CharSequence message, CharSequence negative, DialogInterface.OnClickListener lnegative, CharSequence neutral, DialogInterface.OnClickListener lneutral, CharSequence positive, DialogInterface.OnClickListener lpositive);
     //</editor-fold>
 
     //<editor-fold desc="自定义视图对话框">
@@ -210,7 +210,7 @@ public interface DialogBuilder {
      * @param negative  按钮显示信息
      * @param lnegative 点击  拒绝 按钮 响应事件
      */
-    Dialog showViewDialog(CharSequence title, View view, CharSequence positive, DialogInterface.OnClickListener lpositive, CharSequence negative, DialogInterface.OnClickListener lnegative);
+    Dialog showViewDialog(CharSequence title, View view, CharSequence negative, DialogInterface.OnClickListener lnegative, CharSequence positive, DialogInterface.OnClickListener lpositive);
 
     /**
      * 显示视图对话框
@@ -224,7 +224,7 @@ public interface DialogBuilder {
      * @param negative  按钮显示信息
      * @param lnegative 点击  拒绝 按钮 响应事件
      */
-    Dialog showViewDialog(CharSequence title, View view, CharSequence positive, DialogInterface.OnClickListener lpositive, CharSequence negative, DialogInterface.OnClickListener lnegative, CharSequence neutral, DialogInterface.OnClickListener lneutral);
+    Dialog showViewDialog(CharSequence title, View view, CharSequence negative, DialogInterface.OnClickListener lnegative, CharSequence neutral, DialogInterface.OnClickListener lneutral, CharSequence positive, DialogInterface.OnClickListener lpositive);
 
     /**
      * 显示视图对话框
@@ -237,7 +237,7 @@ public interface DialogBuilder {
      * @param negative  按钮显示信息
      * @param lnegative 点击  拒绝 按钮 响应事件
      */
-    Dialog showViewDialog(int iconres, CharSequence title, View view, CharSequence positive, DialogInterface.OnClickListener lpositive, CharSequence negative, DialogInterface.OnClickListener lnegative);
+    Dialog showViewDialog(int iconres, CharSequence title, View view, CharSequence negative, DialogInterface.OnClickListener lnegative, CharSequence positive, DialogInterface.OnClickListener lpositive);
 
     /**
      * 显示视图对话框
@@ -252,7 +252,7 @@ public interface DialogBuilder {
      * @param negative  按钮显示信息
      * @param lnegative 点击  拒绝 按钮 响应事件
      */
-    Dialog showViewDialog(int iconres, CharSequence title, View view, CharSequence positive, DialogInterface.OnClickListener lpositive, CharSequence negative, DialogInterface.OnClickListener lnegative, CharSequence neutral, DialogInterface.OnClickListener lneutral);
+    Dialog showViewDialog(int iconres, CharSequence title, View view, CharSequence negative, DialogInterface.OnClickListener lnegative, CharSequence neutral, DialogInterface.OnClickListener lneutral, CharSequence positive, DialogInterface.OnClickListener lpositive);
 
     /**
      * 显示视图对话框
@@ -269,7 +269,7 @@ public interface DialogBuilder {
      * @param lnegative 点击  拒绝 按钮 响应事件
      */
     Dialog showViewDialog(int theme,
-                                 int iconres, CharSequence title, View view, CharSequence positive, DialogInterface.OnClickListener lpositive, CharSequence negative, DialogInterface.OnClickListener lnegative, CharSequence neutral, DialogInterface.OnClickListener lneutral);
+                                 int iconres, CharSequence title, View view, CharSequence negative, DialogInterface.OnClickListener lnegative, CharSequence neutral, DialogInterface.OnClickListener lneutral, CharSequence positive, DialogInterface.OnClickListener lpositive);
     //</editor-fold>
 
     //<editor-fold desc="单选对话框">
@@ -446,7 +446,7 @@ public interface DialogBuilder {
      * @param lnegative 点击  拒绝 按钮 响应事件
      */
     Dialog showKeyDialog(String key, int defclick,
-                                CharSequence title, CharSequence message, CharSequence positive, DialogInterface.OnClickListener lpositive, CharSequence negative, DialogInterface.OnClickListener lnegative);
+                                CharSequence title, CharSequence message, CharSequence negative, DialogInterface.OnClickListener lnegative, CharSequence positive, DialogInterface.OnClickListener lpositive);
 
     /**
      * 显示对话框(不再提示)
@@ -463,7 +463,7 @@ public interface DialogBuilder {
      * @param lnegative 点击  拒绝 按钮 响应事件
      */
     Dialog showKeyDialog(String key, int defclick,
-                                CharSequence title, CharSequence message, CharSequence positive, DialogInterface.OnClickListener lpositive, CharSequence negative, DialogInterface.OnClickListener lnegative, CharSequence neutral, DialogInterface.OnClickListener lneutral);
+                                CharSequence title, CharSequence message, CharSequence negative, DialogInterface.OnClickListener lnegative, CharSequence neutral, DialogInterface.OnClickListener lneutral, CharSequence positive, DialogInterface.OnClickListener lpositive);
 
     /**
      * 显示对话框(不再提示)
@@ -479,7 +479,7 @@ public interface DialogBuilder {
      * @param lnegative 点击  拒绝 按钮 响应事件
      */
     Dialog showKeyDialog(String key, int defclick,
-                                int iconres, CharSequence title, CharSequence message, CharSequence positive, DialogInterface.OnClickListener lpositive, CharSequence negative, DialogInterface.OnClickListener lnegative);
+                                int iconres, CharSequence title, CharSequence message, CharSequence negative, DialogInterface.OnClickListener lnegative, CharSequence positive, DialogInterface.OnClickListener lpositive);
 
     /**
      * 显示对话框(不再提示)
@@ -497,7 +497,7 @@ public interface DialogBuilder {
      * @param lnegative 点击  拒绝 按钮 响应事件
      */
     Dialog showKeyDialog(String key, int defclick,
-                                int iconres, CharSequence title, CharSequence message, CharSequence positive, DialogInterface.OnClickListener lpositive, CharSequence negative, DialogInterface.OnClickListener lnegative, CharSequence neutral, DialogInterface.OnClickListener lneutral);
+                                int iconres, CharSequence title, CharSequence message, CharSequence negative, DialogInterface.OnClickListener lnegative, CharSequence neutral, DialogInterface.OnClickListener lneutral, CharSequence positive, DialogInterface.OnClickListener lpositive);
 
 
     /**
@@ -518,7 +518,7 @@ public interface DialogBuilder {
      */
     Dialog showKeyDialog(final String key, final int defclick,
                                 int theme, int iconres,
-                                CharSequence title, final CharSequence message, CharSequence positive, DialogInterface.OnClickListener lpositive, CharSequence negative, DialogInterface.OnClickListener lnegative, CharSequence neutral, DialogInterface.OnClickListener lneutral);
+                                CharSequence title, final CharSequence message, CharSequence negative, DialogInterface.OnClickListener lnegative, CharSequence neutral, DialogInterface.OnClickListener lneutral, CharSequence positive, DialogInterface.OnClickListener lpositive);
     //</editor-fold>
 
     //<editor-fold desc="日期时间选择对话框">

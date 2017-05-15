@@ -27,7 +27,6 @@ public interface ItemsPager<T> extends StatusPager<List<T>>, ItemsHelper<T> {
      * @param paging 分页数据(null表示不使用分页功能)
      * @throws Exception
      */
-    @Nullable
     List<T> onTaskLoadList(Paging paging) throws Exception;
 
     /**
