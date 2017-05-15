@@ -57,12 +57,11 @@ public class AfTreeListView extends AfMultiChoiceItemsViewer<ListView> {
 
 	@Override
 	public void onItemClick(AdapterView<?> adview, View view, int index, long id) {
-		int position = index;// - mTargetView.getHeaderViewsCount();
-		if (position < 0 || mAdapter == null || mAdapter.isMultiChoiceMode()
-				|| mAdapter.isItemClickable(position)) {
+		if (index < 0 || mAdapter == null || mAdapter.isMultiChoiceMode()
+				|| mAdapter.isItemClickable(index)) {
 			super.onItemClick(adview, view, index, id);
 		} else {
-			mAdapter.onItemClick(position);
+			mAdapter.onItemClick(index);
 		}
 //		if (mAdapter != null && mAdapter.isMultiChoiceMode()) {
 //			super.onItemClick(adview, view, index, id);

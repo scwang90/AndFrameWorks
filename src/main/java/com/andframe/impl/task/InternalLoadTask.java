@@ -1,7 +1,5 @@
 package com.andframe.impl.task;
 
-import java.util.Collection;
-
 /**
  * 内部加载任务实现
  * Created by SCWANG on 2017/4/28.
@@ -42,9 +40,12 @@ public class InternalLoadTask<T> extends InternalTask {
     }
 
     private boolean isEmpty(T data) {
-        if (data instanceof Collection) {
-            return ((Collection) data).isEmpty();
+        if (builder.isEmptyHandler != null) {
+            return builder.isEmptyHandler.isEmpty(data);
         }
+//        if (data instanceof Collection) {
+//            return ((Collection) data).isEmpty();
+//        }
         return data == null;
     }
 }

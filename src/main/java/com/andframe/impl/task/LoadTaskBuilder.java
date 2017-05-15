@@ -4,6 +4,7 @@ import com.andframe.api.pager.Pager;
 import com.andframe.api.task.Task;
 import com.andframe.api.task.builder.LoadBuilder;
 import com.andframe.api.task.builder.WaitLoadBuilder;
+import com.andframe.api.task.handler.EmptyJudger;
 import com.andframe.api.task.handler.ExceptionHandler;
 import com.andframe.api.task.handler.LoadSuccessHandler;
 import com.andframe.api.task.handler.LoadingHandler;
@@ -20,6 +21,7 @@ public class LoadTaskBuilder<T> extends TaskBuilder implements LoadBuilder<T> {
     public LoadingHandler<T> loadingHandler;
     public LoadSuccessHandler<T> loadSuccessHandler;
     public Runnable emptyRunnable;
+    public EmptyJudger<T> isEmptyHandler;
 
     public LoadTaskBuilder(TaskBuilder builder, Class<T> clazz) {
         this.clazz = clazz;
@@ -33,6 +35,13 @@ public class LoadTaskBuilder<T> extends TaskBuilder implements LoadBuilder<T> {
     //<editor-fold desc="特有接口">
 
     //<editor-fold desc="设置参数">
+
+    @Override
+    public LoadBuilder<T> isEmpty(EmptyJudger<T> isEmptyHandler) {
+        this.isEmptyHandler = isEmptyHandler;
+        return this;
+    }
+
     @Override
     public LoadBuilder<T> loading(LoadingHandler<T> loadingHandler) {
         this.loadingHandler = loadingHandler;

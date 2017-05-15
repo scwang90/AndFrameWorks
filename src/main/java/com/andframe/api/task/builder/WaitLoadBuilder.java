@@ -1,6 +1,7 @@
 package com.andframe.api.task.builder;
 
 import com.andframe.api.pager.Pager;
+import com.andframe.api.task.handler.EmptyJudger;
 import com.andframe.api.task.handler.ExceptionHandler;
 import com.andframe.api.task.handler.LoadSuccessHandler;
 import com.andframe.api.task.handler.LoadingHandler;
@@ -22,15 +23,25 @@ public interface WaitLoadBuilder<T> extends WaitBuilder, LoadBuilder<T> {
     WaitLoadBuilder<T> loadEmpty(boolean feedback, Runnable runnable);
     WaitLoadBuilder<T> loadSuccess(boolean feedback, LoadSuccessHandler<T> handler);
 
+
     /**
      * 重写接口
      */
+    @Override
+    WaitLoadBuilder<T> isEmpty(EmptyJudger<T> handler);
+    @Override
     WaitLoadBuilder<T> prepare(Runnable runnable);
+    @Override
     WaitLoadBuilder<T> prepare(PrepareHandler handler);
+    @Override
     WaitLoadBuilder<T> loading(LoadingHandler<T> handler);
+    @Override
     WaitLoadBuilder<T> loadEmpty(Runnable runnable);
+    @Override
     WaitLoadBuilder<T> loadSuccess(LoadSuccessHandler<T> handler);
+    @Override
     WaitLoadBuilder<T> exception(ExceptionHandler handler);
+    @Override
     WaitLoadBuilder<T> exception(boolean feedback, ExceptionHandler handler);
 
     /**

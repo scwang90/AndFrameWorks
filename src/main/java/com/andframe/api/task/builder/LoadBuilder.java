@@ -1,6 +1,7 @@
 package com.andframe.api.task.builder;
 
 import com.andframe.api.pager.Pager;
+import com.andframe.api.task.handler.EmptyJudger;
 import com.andframe.api.task.handler.ExceptionHandler;
 import com.andframe.api.task.handler.LoadSuccessHandler;
 import com.andframe.api.task.handler.LoadingHandler;
@@ -19,6 +20,7 @@ public interface LoadBuilder<T> extends Builder {
     /**
      * 特有接口
      */
+    LoadBuilder<T> isEmpty(EmptyJudger<T> handler);
     LoadBuilder<T> loading(LoadingHandler<T> handler);
     LoadBuilder<T> loadSuccess(LoadSuccessHandler<T> handler);
     LoadBuilder<T> loadEmpty(Runnable runnable);

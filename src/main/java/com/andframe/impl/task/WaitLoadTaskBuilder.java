@@ -3,6 +3,7 @@ package com.andframe.impl.task;
 import com.andframe.api.pager.Pager;
 import com.andframe.api.task.Task;
 import com.andframe.api.task.builder.WaitLoadBuilder;
+import com.andframe.api.task.handler.EmptyJudger;
 import com.andframe.api.task.handler.ExceptionHandler;
 import com.andframe.api.task.handler.LoadSuccessHandler;
 import com.andframe.api.task.handler.LoadingHandler;
@@ -22,6 +23,7 @@ public class WaitLoadTaskBuilder<T> extends WaitTaskBuilder implements WaitLoadB
     public Runnable emptyRunnable;
     public LoadingHandler<T> loadingHandler;
     public LoadSuccessHandler<T> loadSuccessHandler;
+    public EmptyJudger<T> isEmptyHandler;
     public boolean feedbackOnEmpty = true;
 
     public WaitLoadTaskBuilder(WaitTaskBuilder builder, Class<T> clazz) {
@@ -49,6 +51,13 @@ public class WaitLoadTaskBuilder<T> extends WaitTaskBuilder implements WaitLoadB
     //<editor-fold desc="特有接口">
 
     //<editor-fold desc="设置参数">
+
+    @Override
+    public WaitLoadBuilder<T> isEmpty(EmptyJudger<T> handler) {
+        isEmptyHandler = handler;
+        return this;
+    }
+
     @Override
     public WaitLoadBuilder<T> loading(LoadingHandler<T> handler) {
         loadingHandler = handler;
@@ -100,7 +109,7 @@ public class WaitLoadTaskBuilder<T> extends WaitTaskBuilder implements WaitLoadB
         return emptyRunnable;
     }
     //</editor-fold>
-//</editor-fold>
+    //</editor-fold>
 
     //<editor-fold desc="重写接口">
 
