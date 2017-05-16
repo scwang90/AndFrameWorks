@@ -1,5 +1,6 @@
 package com.andframe.api.pager.status;
 
+import android.support.annotation.NonNull;
 import android.view.View;
 import android.view.ViewGroup;
 
@@ -11,6 +12,7 @@ import java.util.Date;
  */
 
 public interface RefreshLayouter<T extends ViewGroup> {
+    @NonNull
     T getLayout();
     void setContenView(View content);
     void setRefreshComplete();
