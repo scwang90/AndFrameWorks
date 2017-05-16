@@ -95,9 +95,9 @@ public class ApRefreshLayout implements RefreshLayouter<TwinklingRefreshLayout>/
             layout.setBackgroundDrawable(content.getBackground());
             content = layout;
         }
-        ViewGroup.LayoutParams params = content.getLayoutParams();
-        int height = params == null ? MATCH_PARENT : params.height;
-        mTwinkling.addView(content, MATCH_PARENT, height);
+//        ViewGroup.LayoutParams params = content.getLayoutParams();
+//        int height = params == null ? MATCH_PARENT : params.height;
+        mTwinkling.addView(content, MATCH_PARENT, MATCH_PARENT);
         //mTwinkling.setBackgroundDrawable(content.getBackground());
         Queue<View> views = new LinkedBlockingQueue<>(Collections.singletonList(content));
         while (!views.isEmpty() && contentView == null){
