@@ -3,6 +3,7 @@ package com.andpack.impl;
 import android.content.Context;
 import android.content.res.Resources;
 import android.support.annotation.IdRes;
+import android.support.annotation.NonNull;
 import android.support.design.widget.AppBarLayout;
 import android.support.design.widget.CoordinatorLayout;
 import android.support.v7.widget.RecyclerView;
@@ -76,6 +77,7 @@ public class ApRefreshLayout implements RefreshLayouter<TwinklingRefreshLayout>/
         return this;
     }
 
+    @NonNull
     public TwinklingRefreshLayout getLayout() {
         return mTwinkling;
     }
@@ -93,7 +95,9 @@ public class ApRefreshLayout implements RefreshLayouter<TwinklingRefreshLayout>/
             layout.setBackgroundDrawable(content.getBackground());
             content = layout;
         }
-        mTwinkling.addView(content, MATCH_PARENT, MATCH_PARENT);
+        ViewGroup.LayoutParams params = content.getLayoutParams();
+        int height = params == null ? MATCH_PARENT : params.height;
+        mTwinkling.addView(content, MATCH_PARENT, height);
         //mTwinkling.setBackgroundDrawable(content.getBackground());
         Queue<View> views = new LinkedBlockingQueue<>(Collections.singletonList(content));
         while (!views.isEmpty() && contentView == null){
