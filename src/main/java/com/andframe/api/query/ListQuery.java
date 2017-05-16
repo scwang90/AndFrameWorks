@@ -1,5 +1,6 @@
 package com.andframe.api.query;
 
+import com.andframe.api.query.hindler.FlatMap;
 import com.andframe.api.query.hindler.Map;
 import com.andframe.api.query.hindler.Where;
 
@@ -16,4 +17,5 @@ public interface ListQuery<T> extends Collection<T> {
     ListQuery<T> where(Where<T> where);
     List<T> toList();
     <TT> ListQuery<TT> map(Map<T,TT> map);
+    <TT> ListQuery<TT> flatMap(FlatMap<T,TT> map);
 }

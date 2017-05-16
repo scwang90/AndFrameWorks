@@ -1,6 +1,7 @@
 package com.andframe.impl.query;
 
 import com.andframe.api.query.ListQuery;
+import com.andframe.api.query.hindler.FlatMap;
 import com.andframe.api.query.hindler.Map;
 import com.andframe.api.query.hindler.Where;
 
@@ -47,6 +48,15 @@ public class AfListQuery<T> extends ArrayList<T> implements ListQuery<T> {
         AfListQuery<TT> query = new AfListQuery<>();
         for (int i = 0; i < size(); i++) {
             query.add(map.map(get(i)));
+        }
+        return query;
+    }
+
+    @Override
+    public <TT> ListQuery<TT> flatMap(FlatMap<T, TT> map) {
+        AfListQuery<TT> query = new AfListQuery<>();
+        for (int i = 0; i < size(); i++) {
+            query.addAll(map.flatMap(get(i)));
         }
         return query;
     }
