@@ -102,8 +102,8 @@ import java.lang.reflect.Type;
 import java.util.List;
 import java.util.Random;
 
-import static com.andframe.annotation.interpreter.ReflecterCacher.getFieldByHandler;
-import static com.andframe.annotation.interpreter.ReflecterCacher.getMethodByHandler;
+import static com.andframe.annotation.interpreter.ReflecterCacher.getFields;
+import static com.andframe.annotation.interpreter.ReflecterCacher.getMethods;
 
 /**
  * annotation.inject 解释器
@@ -125,7 +125,7 @@ public class Injecter {
 
     public static void doInjectExtra(Object handler) {
 
-        Field[] fields = getFieldByHandler(handler);
+        Field[] fields = getFields(handler);
         for (Field field : fields) {
             injectExtra(field, handler, null);
         }
@@ -133,7 +133,7 @@ public class Injecter {
 
     public static void doInject(Object handler, Context context) {
 
-        Field[] fields = getFieldByHandler(handler);
+        Field[] fields = getFields(handler);
         for (Field field : fields) {
             inject(field, handler, context);
             injectRes(field, handler, context);
@@ -144,7 +144,7 @@ public class Injecter {
 
         injectLayout(handler, context);
 
-        Method[] methods = getMethodByHandler(handler);
+        Method[] methods = getMethods(handler);
         for (Method method : methods) {
             injectInit(method, handler, context);
             injectDelayed(method, handler, context);

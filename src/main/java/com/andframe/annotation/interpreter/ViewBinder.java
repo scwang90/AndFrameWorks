@@ -58,8 +58,8 @@ import java.util.List;
 import java.util.Queue;
 import java.util.concurrent.LinkedBlockingQueue;
 
-import static com.andframe.annotation.interpreter.ReflecterCacher.getFieldByHandler;
-import static com.andframe.annotation.interpreter.ReflecterCacher.getMethodByHandler;
+import static com.andframe.annotation.interpreter.ReflecterCacher.getFields;
+import static com.andframe.annotation.interpreter.ReflecterCacher.getMethods;
 import static com.andframe.annotation.interpreter.SmartInvoke.paramAllot;
 
 
@@ -84,7 +84,7 @@ public class ViewBinder {
 
     public static void doBind(Object handler, Viewer root) {
 
-        Field[] fields = getFieldByHandler(handler);
+        Field[] fields = getFields(handler);
         for (Field field : fields) {
             bindView(field, handler, root);
             bindViewModule(field, handler, root);
@@ -93,7 +93,7 @@ public class ViewBinder {
             bindViewModule$(field, handler, root);
         }
 
-        Method[] methods = getMethodByHandler(handler);
+        Method[] methods = getMethods(handler);
         for (Method method : methods) {
             bindClick(method, handler, root);
             bindTouch(method, handler, root);
