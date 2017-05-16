@@ -51,7 +51,7 @@ public class DefaultRefreshLayouter implements RefreshLayouter<SwipeRefreshLayou
         }
         ViewGroup.LayoutParams params = content.getLayoutParams();
         int height = params == null ? MATCH_PARENT : params.height;
-        mRefreshLayout.addView(mContentView = content, MATCH_PARENT, height);
+        mRefreshLayout.addView(mContentView = content, MATCH_PARENT, height == 0 ? MATCH_PARENT : height);
         Drawable background = content.getBackground();
         if (background != null) {
             mRefreshLayout.setBackgroundDrawable(content.getBackground());
