@@ -136,6 +136,33 @@ public class AndCloud implements LoadDeployListener{
 		}
 	}
 
+	public static void pause(Context context,String pagename) {
+		try {
+			AVAnalytics.onPause(context, pagename);
+		} catch (Throwable e) {
+			postEvent(new CloudExceptionEvent(e, "AbActivity.pause.AVAnalytics"));
+		}
+		try {
+			MobclickAgent.onPageEnd(pagename);
+			MobclickAgent.onPause(context);
+		} catch (Throwable e) {
+			postEvent(new CloudExceptionEvent(e, "AbActivity.pause.MobclickAgent"));
+		}
+	}
+
+	public static void resume(Context context,String pagename) {
+		try {
+			AVAnalytics.onResume(context, pagename);
+		} catch (Throwable e) {
+			postEvent(new CloudExceptionEvent(e, "AbActivity.resume.AVAnalytics"));
+		}
+		try {
+			MobclickAgent.onPageStart(pagename);
+			MobclickAgent.onResume(context);
+		} catch (Throwable e) {
+			postEvent(new CloudExceptionEvent(e, "AbActivity.resume.MobclickAgent"));
+		}
+	}
 	public static void event(Context context,String eventId) {
 		try {
 			eventId = eventId.replace('.', '_');

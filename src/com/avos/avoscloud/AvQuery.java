@@ -20,6 +20,10 @@ public class AvQuery<T extends AVObject> extends AVQuery<T> {
         super(theClassName, clazz);
     }
 
+    private AvQuery(String theClassName) {
+        super(theClassName);
+    }
+
     @Override
     public List<T> find() throws AVException {
         List<T> list = super.find();
@@ -50,4 +54,31 @@ public class AvQuery<T extends AVObject> extends AVQuery<T> {
         return !keys.isEmpty();
     }
 
+    public static <T extends AVObject> AVQuery<T> or(AVQuery<T>... queries) {
+        if (queries.length > 0) {
+            return or(new AvQuery<T>(queries[0].getClassName()), queries);
+        }
+        return null;
+    }
+
+    public static <T extends AVObject> AVQuery<T> and(AVQuery<T>... queries) {
+        if (queries.length > 0) {
+            return and(new AvQuery<T>(queries[0].getClassName()), queries);
+        }
+        return null;
+    }
+
+    public static <T extends AVObject> AVQuery<T> or(AvQuery<T> result, AVQuery<T>... queries) {
+        for (AVQuery<T> query : queries) {
+            result.conditions.addOrItems(new QueryOperation("$or", "$or", query.conditions.compileWhereOperationMap()));
+        }
+        return result;
+    }
+
+    public static <T extends AVObject> AVQuery<T> and(AvQuery<T> result, AVQuery<T>... queries) {
+        for (AVQuery<T> query : queries) {
+            result.conditions.addAndItems(query.conditions);
+        }
+        return result;
+    }
 }
