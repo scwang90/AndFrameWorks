@@ -11,6 +11,7 @@ import android.widget.FrameLayout;
 
 import com.andframe.$;
 import com.andframe.activity.AfActivity;
+import com.andframe.annotation.interpreter.ReflecterCacher;
 import com.andframe.api.viewer.ViewQuery;
 import com.andframe.exception.AfExceptionHandler;
 import com.andframe.fragment.AfFragment;
@@ -59,7 +60,8 @@ public class ApPagerHelper {
     private void initRegisterEventBus() {
         Method[] methods = mEventBusMap.get(pager.getClass());
         if (methods == null) {
-            methods = AfReflecter.getMethodAnnotation(pager.getClass(), getStopClass(), Subscribe.class);
+            methods = ReflecterCacher.getMethodAnnotation(pager, Subscribe.class);
+            //methods = AfReflecter.getMethodAnnotation(pager.getClass(), getStopClass(), Subscribe.class);
             mEventBusMap.put(pager.getClass(), methods);
         }
         if (methods.length > 0) {
