@@ -1,7 +1,8 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
-    <style name="AndFrame.Toolbar.Light.WithDivison">
-        <item name="android:layout_marginBottom">-1dp</item>
-        <item name="android:elevation">1.5dp</item>
+    <style name="AndFrame.Toolbar.Light">
+        <item name="android:background">@color/colorToolbarBackgroundLight</item>
+        <item name="android:layout_marginBottom">-1.5dp</item>
+        <item name="android:elevation">1.7dp</item>
     </style>
 </resources>

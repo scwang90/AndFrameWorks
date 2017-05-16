@@ -172,13 +172,9 @@
     </style>
 
     <style name="AndFrame.Toolbar.Light">
-        <item name="android:background">@color/colorToolbarBackgroundLight</item>
+        <item name="android:background">@drawable/af_background_toolbar_white</item>
         <item name="android:theme">@style/ThemeOverlay.AppCompat.ActionBar</item>
         <item name="android:textColor">@color/colorToolbarTextDark</item>
-    </style>
-
-    <style name="AndFrame.Toolbar.Light.WithDivison">
-        <item name="android:background">@drawable/af_background_toolbar_white</item>
     </style>
 
     <style name="AndFrame.Toolbar.Title" parent="AndFrame.Label">

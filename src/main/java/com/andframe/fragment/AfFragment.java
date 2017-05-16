@@ -177,6 +177,7 @@ public abstract class AfFragment extends Fragment implements Pager, ViewQueryHel
         } catch (Throwable e) {
             makeToastShort("页面初始化异常！", e);
             AfExceptionHandler.handle(e, TAG("onCreateView"));
+            return new View(inflater.getContext());
         }
         return mRootView;
     }
@@ -322,7 +323,7 @@ public abstract class AfFragment extends Fragment implements Pager, ViewQueryHel
     public void onDestroyView() {
         try {
             super.onDestroyView();
-//		    mRootView = null;
+		    mRootView = null;
             LifeCycleInjecter.injectOnDestroyView(this);
         } catch (Throwable ex) {
             AfExceptionHandler.handle(ex, "AfFragment.onDestroyView");
