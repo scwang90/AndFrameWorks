@@ -8,7 +8,10 @@ import com.andframe.api.task.handler.LoadingHandler;
 import com.andframe.api.task.handler.PrepareHandler;
 import com.andframe.api.task.handler.WorkingHandler;
 
+import java.util.Collection;
 import java.util.List;
+import java.util.Map;
+import java.util.Set;
 
 /**
  * 数据加载任务构建器
@@ -47,5 +50,11 @@ public interface LoadBuilder<T> extends Builder {
     @Deprecated
     <TT> LoadBuilder<TT> load(Class<TT> clazz);
     @Deprecated
+    <T> LoadBuilder<Set<T>> loadSet(Class<T> clazz);
+    @Deprecated
     <TT> LoadBuilder<List<TT>> loadList(Class<TT> clazz);
+    @Deprecated
+    <T> LoadBuilder<Collection<T>> loadCollection(Class<T> clazz);
+    @Deprecated
+    <K,V> LoadBuilder<Map<K,V>> loadMap(Class<K> key, Class<V> value);
 }

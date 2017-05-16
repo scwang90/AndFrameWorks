@@ -10,7 +10,10 @@ import com.andframe.api.task.handler.ExceptionHandler;
 import com.andframe.api.task.handler.PrepareHandler;
 import com.andframe.api.task.handler.WorkingHandler;
 
+import java.util.Collection;
 import java.util.List;
+import java.util.Map;
+import java.util.Set;
 
 /**
  * 任务构建器
@@ -94,8 +97,20 @@ public class TaskBuilder implements Builder {
         return new LoadTaskBuilder<>(this, clazz);
     }
 
+    public <T> LoadBuilder<Set<T>> loadSet(Class<T> clazz) {
+        return new LoadTaskBuilder<>(this, null);
+    }
+
     @Override
     public <T> LoadBuilder<List<T>> loadList(Class<T> clazz) {
+        return new LoadTaskBuilder<>(this, null);
+    }
+
+    public <T> LoadBuilder<Collection<T>> loadCollection(Class<T> clazz) {
+        return new LoadTaskBuilder<>(this, null);
+    }
+
+    public <K,V> LoadBuilder<Map<K,V>> loadMap(Class<K> key, Class<V> value) {
         return new LoadTaskBuilder<>(this, null);
     }
 

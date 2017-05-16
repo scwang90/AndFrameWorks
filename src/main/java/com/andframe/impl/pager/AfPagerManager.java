@@ -3,6 +3,7 @@ package com.andframe.impl.pager;
 import android.app.Activity;
 import android.content.Context;
 import android.content.Intent;
+import android.support.annotation.CallSuper;
 import android.support.v4.app.Fragment;
 
 import com.andframe.activity.AfActivity;
@@ -29,14 +30,14 @@ public class AfPagerManager implements PagerManager {
     public AfPagerManager() {
     }
 
-    @Override
+    @Override@CallSuper
     public void onActivityCreated(AfActivity activity) {
         if (!mStackActivity.contains(activity)) {
             mStackActivity.push(activity);
         }
     }
 
-    @Override
+    @Override@CallSuper
     public void onActivityDestroy(AfActivity activity) {
         if (mStackActivity.contains(activity)) {
             mStackActivity.remove(activity);
@@ -48,7 +49,7 @@ public class AfPagerManager implements PagerManager {
 
     }
 
-    @Override
+    @Override@CallSuper
     public void onActivityPause(AfActivity activity) {
         if (activity.isFinishing()) {
             if (mStackActivity.contains(activity)) {

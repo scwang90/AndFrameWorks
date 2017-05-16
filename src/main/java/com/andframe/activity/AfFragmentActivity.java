@@ -7,10 +7,16 @@ import android.os.Bundle;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentManager;
 import android.support.v4.app.FragmentTransaction;
+import android.support.v7.widget.Toolbar;
+import android.text.TextUtils;
+import android.view.View;
 import android.widget.FrameLayout;
+import android.widget.TextView;
 
+import com.andframe.$;
 import com.andframe.annotation.MustLogined;
 import com.andframe.annotation.inject.InjectExtra;
+import com.andframe.annotation.interpreter.LayoutBinder;
 import com.andframe.annotation.pager.BindLaunchMode;
 import com.andframe.api.pager.Pager;
 import com.andframe.application.AfApp;
@@ -217,6 +223,46 @@ public class AfFragmentActivity extends AfActivity {
                 AfExceptionHandler.handle(e, "AfFragmentActivity Fragment 类型错误：" + mFragmentClazz);
             }
         }
+    }
+
+    public String getFragmentName() {
+        if (mFragmentClazz.endsWith("Fragment")) {
+            return mFragmentClazz;
+        }
+        if (mFragment != null) {
+            View view = mFragment.getView();
+            if (view != null) {
+                Toolbar toolbar = $.query(view).$(Toolbar.class).view();
+                if (toolbar != null) {
+                    String title = toolbar.getTitle().toString();
+                    if (!TextUtils.isEmpty(title)) {
+                        return title;
+                    }
+                    title = $.query(toolbar).$(TextView.class).text();
+                    if (!TextUtils.isEmpty(title)) {
+                        return title;
+                    }
+                }
+            }
+        }
+        Class type = typeCache.get(mFragmentClazz);
+        if (type == null) {
+            try {
+                typeCache.put(mFragmentClazz, type = Class.forName(mFragmentClazz));
+            } catch (ClassNotFoundException e) {
+                e.printStackTrace();
+            }
+        }
+        if (type != null) {
+            Context context = getContext();
+            context = context == null ? AfApp.get() : context;
+            int id = LayoutBinder.getBindLayoutId(type, context, Fragment.class);
+            String name = context.getResources().getResourceName(id);
+            if (!TextUtils.isEmpty(name)) {
+                return name;
+            }
+        }
+        return mFragmentClazz;
     }
     //</editor-fold>
 }

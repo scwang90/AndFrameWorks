@@ -2,7 +2,6 @@ package com.andframe.impl.task;
 
 import com.andframe.api.pager.Pager;
 import com.andframe.api.task.Task;
-import com.andframe.api.task.builder.LoadBuilder;
 import com.andframe.api.task.builder.WaitBuilder;
 import com.andframe.api.task.builder.WaitLoadBuilder;
 import com.andframe.api.task.handler.ExceptionHandler;
@@ -10,7 +9,10 @@ import com.andframe.api.task.handler.PrepareHandler;
 import com.andframe.api.task.handler.WorkingHandler;
 
 import java.lang.ref.WeakReference;
+import java.util.Collection;
 import java.util.List;
+import java.util.Map;
+import java.util.Set;
 
 /**
  * 集成等待对话框的任务 Builder
@@ -92,11 +94,24 @@ public class WaitTaskBuilder extends TaskBuilder implements WaitBuilder {
     public WaitBuilder exception(ExceptionHandler handler) {
         return exception(true, handler);
     }
+
     public <T> WaitLoadBuilder<T> load(Class<T> clazz) {
         return new WaitLoadTaskBuilder<>(this, clazz);
     }
     @Override
-    public <T> LoadBuilder<List<T>> loadList(Class<T> clazz) {
+    public <T> WaitLoadBuilder<Set<T>> loadSet(Class<T> clazz) {
+        return new WaitLoadTaskBuilder<>(this, null);
+    }
+    @Override
+    public <TT> WaitLoadBuilder<List<TT>> loadList(Class<TT> clazz) {
+        return new WaitLoadTaskBuilder<>(this, null);
+    }
+    @Override
+    public <T> WaitLoadBuilder<Collection<T>> loadCollection(Class<T> clazz) {
+        return new WaitLoadTaskBuilder<>(this, null);
+    }
+    @Override
+    public <K,V> WaitLoadBuilder<Map<K,V>> loadMap(Class<K> key, Class<V> value) {
         return new WaitLoadTaskBuilder<>(this, null);
     }
     //</editor-fold>

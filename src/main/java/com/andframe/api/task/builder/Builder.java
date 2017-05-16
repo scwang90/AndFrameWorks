@@ -6,7 +6,10 @@ import com.andframe.api.task.handler.ExceptionHandler;
 import com.andframe.api.task.handler.PrepareHandler;
 import com.andframe.api.task.handler.WorkingHandler;
 
+import java.util.Collection;
 import java.util.List;
+import java.util.Map;
+import java.util.Set;
 
 /**
  * 任务构建器
@@ -29,7 +32,10 @@ public interface Builder {
 
     WaitBuilder wait(Pager pager, String master);
     <T> LoadBuilder<T> load(Class<T> clazz);
+    <T> LoadBuilder<Set<T>> loadSet(Class<T> clazz);
     <T> LoadBuilder<List<T>> loadList(Class<T> clazz);
+    <T> LoadBuilder<Collection<T>> loadCollection(Class<T> clazz);
+    <K,V> LoadBuilder<Map<K,V>> loadMap(Class<K> key, Class<V> value);
 
     Task post();
     Task build();

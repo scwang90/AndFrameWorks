@@ -5,6 +5,11 @@ import com.andframe.api.task.handler.ExceptionHandler;
 import com.andframe.api.task.handler.PrepareHandler;
 import com.andframe.api.task.handler.WorkingHandler;
 
+import java.util.Collection;
+import java.util.List;
+import java.util.Map;
+import java.util.Set;
+
 /**
  * 集成等待对话框的任务 Builder
  * Created by SCWANG on 2017/5/3.
@@ -31,6 +36,10 @@ public interface WaitBuilder extends Builder {
     WaitBuilder success(Runnable success);
     WaitBuilder exception(ExceptionHandler handler);
     <T> WaitLoadBuilder<T> load(Class<T> clazz);
+    <T> WaitLoadBuilder<Set<T>> loadSet(Class<T> clazz);
+    <T> WaitLoadBuilder<List<T>> loadList(Class<T> clazz);
+    <T> WaitLoadBuilder<Collection<T>> loadCollection(Class<T> clazz);
+    <K,V> WaitLoadBuilder<Map<K,V>> loadMap(Class<K> key, Class<V> value);
 
     /**
      * 禁用接口

@@ -8,7 +8,10 @@ import com.andframe.api.task.handler.LoadingHandler;
 import com.andframe.api.task.handler.PrepareHandler;
 import com.andframe.api.task.handler.WorkingHandler;
 
+import java.util.Collection;
 import java.util.List;
+import java.util.Map;
+import java.util.Set;
 
 /**
  * 集成等待对话框的数据加载任务 Builder
@@ -58,5 +61,11 @@ public interface WaitLoadBuilder<T> extends WaitBuilder, LoadBuilder<T> {
     @Deprecated
     <TT> WaitLoadBuilder<TT> load(Class<TT> clazz);
     @Deprecated
+    <T> WaitLoadBuilder<Set<T>> loadSet(Class<T> clazz);
+    @Deprecated
     <TT> WaitLoadBuilder<List<TT>> loadList(Class<TT> clazz);
+    @Deprecated
+    <T> WaitLoadBuilder<Collection<T>> loadCollection(Class<T> clazz);
+    @Deprecated
+    <K,V> WaitLoadBuilder<Map<K,V>> loadMap(Class<K> key, Class<V> value);
 }

@@ -10,7 +10,10 @@ import com.andframe.api.task.handler.LoadingHandler;
 import com.andframe.api.task.handler.PrepareHandler;
 import com.andframe.api.task.handler.WorkingHandler;
 
+import java.util.Collection;
 import java.util.List;
+import java.util.Map;
+import java.util.Set;
 
 /**
  * 集成等待对话框的数据加载任务 Builder
@@ -153,15 +156,26 @@ public class WaitLoadTaskBuilder<T> extends WaitTaskBuilder implements WaitLoadB
     //</editor-fold>
 
     //<editor-fold desc="禁用接口">
+    @Override
     public <TT> WaitLoadBuilder<TT> load(Class<TT> clazz) {
         return null;
     }
-
+    @Override
+    public <T> WaitLoadBuilder<Set<T>> loadSet(Class<T> clazz) {
+        return null;
+    }
     @Override
     public <TT> WaitLoadBuilder<List<TT>> loadList(Class<TT> clazz) {
         return null;
     }
-
+    @Override
+    public <T> WaitLoadBuilder<Collection<T>> loadCollection(Class<T> clazz) {
+        return null;
+    }
+    @Override
+    public <K,V> WaitLoadBuilder<Map<K,V>> loadMap(Class<K> key, Class<V> value) {
+        return null;
+    }
     @Override
     public WaitLoadBuilder<T> wait(Pager pager, String master) {
         return null;
