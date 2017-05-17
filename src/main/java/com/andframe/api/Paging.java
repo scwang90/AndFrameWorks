@@ -40,4 +40,22 @@ public interface Paging {
      */
     Paging pageIndex(int index);
 
+    /**
+     * 获取排序字段
+     */
+    String order();
+    /**
+     * 获取排序字段
+     */
+    Paging order(String order);
+
+    /**
+     * 排序方向
+     */
+    boolean asc();
+
+    /**
+     * 设置排序方向
+     */
+    Paging asc(boolean asc);
 }

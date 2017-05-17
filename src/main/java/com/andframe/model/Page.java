@@ -113,11 +113,21 @@ public class Page implements Paging {
         return this;
     }
 
-    public String getOrder() {
+    public String order() {
         if (Order == null) {
             return "";
         }
         return Order;
+    }
+
+    @Override
+    public Paging order(String order) {
+        Order = order;
+        return this;
+    }
+
+    public boolean asc() {
+        return IsASC;
     }
 
     public String getAsc() {
@@ -125,6 +135,12 @@ public class Page implements Paging {
             return "";
         }
         return IsASC ? "asc" : "desc";
+    }
+
+    @Override
+    public Paging asc(boolean asc) {
+        IsASC = asc;
+        return this;
     }
 
     public String toOrderString() {
