@@ -86,7 +86,7 @@ public class AndCloud implements LoadDeployListener{
 			AVOSCloud.initialize(context, appid, appkey);
 //		    AVAnalytics.start(this);
 			AVAnalytics.setAppChannel(channel);
-//		    AVAnalytics.enableCrashReport(context, true);
+		    AVAnalytics.enableCrashReport(context, true);
 		} catch (Throwable e) {
 			postEvent(new CloudExceptionEvent(e, "AndCloud.initialize"));
 		}
