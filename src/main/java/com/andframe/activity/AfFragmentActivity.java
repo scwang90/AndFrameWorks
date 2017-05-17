@@ -145,6 +145,7 @@ public class AfFragmentActivity extends AfActivity {
 
     //<editor-fold desc="反射缓存">
     private static Map<String, Class> typeCache = new HashMap<>();
+    private static Map<String, String> nameCache = new HashMap<>();
     private Class<?> getaFragmentClass() throws ClassNotFoundException {
         Class type = typeCache.get(mFragmentClazz);
         if (type == null) {
@@ -226,8 +227,13 @@ public class AfFragmentActivity extends AfActivity {
     }
 
     public String getFragmentName() {
+        if (nameCache.containsKey(mFragmentClazz)) {
+            return nameCache.get(mFragmentClazz);
+        }
         if (mFragmentClazz.endsWith("Fragment")) {
-            return mFragmentClazz;
+            String name = mFragmentClazz.substring(mFragmentClazz.lastIndexOf('.') + 1, mFragmentClazz.length());
+            nameCache.put(mFragmentClazz, name);
+            return name;
         }
         if (mFragment != null) {
             View view = mFragment.getView();
@@ -236,10 +242,12 @@ public class AfFragmentActivity extends AfActivity {
                 if (toolbar != null) {
                     String title = toolbar.getTitle().toString();
                     if (!TextUtils.isEmpty(title)) {
+                        nameCache.put(mFragmentClazz, title);
                         return title;
                     }
                     title = $.query(toolbar).$(TextView.class).text();
                     if (!TextUtils.isEmpty(title)) {
+                        nameCache.put(mFragmentClazz, title);
                         return title;
                     }
                 }
@@ -259,9 +267,11 @@ public class AfFragmentActivity extends AfActivity {
             int id = LayoutBinder.getBindLayoutId(type, context, Fragment.class);
             String name = context.getResources().getResourceName(id);
             if (!TextUtils.isEmpty(name)) {
+                nameCache.put(mFragmentClazz, name);
                 return name;
             }
         }
+        nameCache.put(mFragmentClazz, mFragmentClazz);
         return mFragmentClazz;
     }
     //</editor-fold>

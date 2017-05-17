@@ -7,6 +7,7 @@ package com.andframe.api.event;
 
 public interface EventManager {
     void post(Object event);
-
     void postSticky(Object event);
+    void register(Object handler);
+    void unregister(Object subscriber);
 }
