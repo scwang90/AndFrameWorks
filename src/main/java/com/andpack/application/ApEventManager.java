@@ -20,4 +20,14 @@ public class ApEventManager implements EventManager {
     public void postSticky(Object event) {
         EventBus.getDefault().postSticky(event);
     }
+
+    @Override
+    public void register(Object subscriber) {
+        EventBus.getDefault().register(subscriber);
+    }
+
+    @Override
+    public void unregister(Object subscriber) {
+        EventBus.getDefault().unregister(subscriber);
+    }
 }
