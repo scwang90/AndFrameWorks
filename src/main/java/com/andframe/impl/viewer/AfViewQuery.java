@@ -1554,6 +1554,11 @@ public class AfViewQuery<T extends AfViewQuery<T>> implements ViewQuery<T> {
         return image(url);
     }
 
+    @Override
+    public T scaleType(ImageView.ScaleType scaleType) {
+        return foreach(ImageView.class, (ViewEacher<ImageView>) (view) -> view.setScaleType(scaleType));
+    }
+
     //</editor-fold>
 
     //<editor-fold desc="EditText">

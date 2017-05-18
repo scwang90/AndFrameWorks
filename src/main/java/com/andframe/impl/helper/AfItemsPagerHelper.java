@@ -287,7 +287,7 @@ public class AfItemsPagerHelper<T> extends AfStatusHelper<List<T>> implements It
 
     //</editor-fold>
 
-    //<editor-fold desc="任务执行结束">
+    //<editor-fold desc="任务结束">
     @Override
     public void onTaskLoadedCache(@NonNull TaskWithPaging task, List<T> list) {
         onTaskLoadedRefresh(task, list);
@@ -366,6 +366,7 @@ public class AfItemsPagerHelper<T> extends AfStatusHelper<List<T>> implements It
                 mCacheClazz = (Class<T>) mark.value();
             }
             KEY_CACHELIST = mItemsPager.getCacheKey(mark);
+            KEY_CACHETIME = KEY_CACHELIST + "_TIME";
         }
     }
 
@@ -410,6 +411,50 @@ public class AfItemsPagerHelper<T> extends AfStatusHelper<List<T>> implements It
             List<T> cacheList = cache.getList(KEY_CACHELIST, mCacheClazz);
             cacheList.addAll(0, list);
             cache.putList(KEY_CACHELIST, cacheList);
+        }
+    }
+
+    @Override
+    public void onTaskPutCache(List<T> list) {
+        if (mCacheClazz != null) {
+            Cacher cache = $.cache(KEY_CACHELIST);
+            cache.putList(KEY_CACHELIST, list);
+            cache.put(KEY_CACHETIME, System.currentTimeMillis());
+        }
+    }
+
+    //</editor-fold>
+
+    //<editor-fold desc="显示控制">
+    /**
+     * 根据加载的数据判断是否可以加载更多
+     * @return false 数据加载完毕，关闭加载更多功能 true 数据还未加载完，开启加载功能功能
+     */
+    @Override
+    public boolean setMoreShow(@NonNull TaskWithPaging task, List<T> list) {
+        if (task.getPaging() == null) {
+            return false;
+        }
+        boolean loadFinish = list.size() >= task.getPaging().pageSize();
+        mItemsPager.setLoadMoreEnabled(loadFinish);
+        return loadFinish;
+    }
+
+    @Nullable
+    @Override
+    public Paging newPaging(int size, int start) {
+        return mIsNeedPaging ? new Page(size, start) : null;
+    }
+
+    @Override
+    public void setLoadMoreEnabled(boolean enabled) {
+        mMoreLayouter.setLoadMoreEnabled(enabled);
+    }
+
+    @Override
+    public void showProgress() {
+        if (mItemsViewerOnly == null) {
+            super.showProgress();
         }
     }
 
@@ -503,49 +548,6 @@ public class AfItemsPagerHelper<T> extends AfStatusHelper<List<T>> implements It
         }
     }
 
-    @Override
-    public void onTaskPutCache(List<T> list) {
-        if (mCacheClazz != null) {
-            Cacher cache = $.cache(KEY_CACHELIST);
-            cache.putList(KEY_CACHELIST, list);
-            cache.put(KEY_CACHETIME, System.currentTimeMillis());
-        }
-    }
-
-    //</editor-fold>
-
-    //<editor-fold desc="显示控制">
-    /**
-     * 根据加载的数据判断是否可以加载更多
-     * @return false 数据加载完毕，关闭加载更多功能 true 数据还未加载完，开启加载功能功能
-     */
-    @Override
-    public boolean setMoreShow(@NonNull TaskWithPaging task, List<T> list) {
-        if (task.getPaging() == null) {
-            return false;
-        }
-        boolean loadFinish = list.size() >= task.getPaging().pageSize();
-        mItemsPager.setLoadMoreEnabled(loadFinish);
-        return loadFinish;
-    }
-
-    @Nullable
-    @Override
-    public Paging newPaging(int size, int start) {
-        return mIsNeedPaging ? new Page(size, start) : null;
-    }
-
-    @Override
-    public void setLoadMoreEnabled(boolean enabled) {
-        mMoreLayouter.setLoadMoreEnabled(enabled);
-    }
-
-    @Override
-    public void showProgress() {
-        if (mItemsViewerOnly == null) {
-            super.showProgress();
-        }
-    }
     //</editor-fold>
 
     //<editor-fold desc="组件加载">

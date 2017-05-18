@@ -7,7 +7,6 @@ import android.content.Context;
 import com.andframe.annotation.pager.BindLayout;
 import com.andframe.annotation.pager.idname.BindLayout$;
 import com.andframe.exception.AfExceptionHandler;
-import com.andframe.impl.wrapper.ViewWrapper;
 import com.andframe.util.java.AfReflecter;
 
 import java.util.HashMap;
@@ -28,7 +27,7 @@ public class LayoutBinder {
 
     public static void doBind(Activity activity) {
         try{
-            int layoutId = getBindLayoutId(activity, activity, Activity.class);
+            int layoutId = getBindLayoutId(activity, activity);
             if (layoutId > 0) {
                 activity.setContentView(layoutId);
             }
@@ -39,7 +38,7 @@ public class LayoutBinder {
 
     public static void doBind(Dialog dialog) {
         try{
-            int layoutId = getBindLayoutId(dialog, dialog.getContext(), Dialog.class);
+            int layoutId = getBindLayoutId(dialog, dialog.getContext());
             if (layoutId > 0) {
                 dialog.setContentView(layoutId);
             }
@@ -53,22 +52,19 @@ public class LayoutBinder {
     }
 
     public static int getBindLayoutId(Object handler, Context context) {
-        return getBindLayoutId(handler, context, ViewWrapper.class);
+        return getBindLayoutId(handler.getClass(), context);
     }
 
-    public static int getBindLayoutId(Object handler, Context context, Class<?> stop) {
-        return getBindLayoutId(handler.getClass(), context, stop);
-    }
-
-    public static int getBindLayoutId(Class<?> clazz, Context context, Class<?> stop) {
+    public static int getBindLayoutId(Class<?> clazz, Context context) {
         Integer integer = idCache.get(clazz);
         if (integer == null) {
-            idCache.put(clazz, integer = reflectLayoutId(clazz, context, stop));
+            idCache.put(clazz, integer = reflectLayoutId(clazz, context));
         }
         return integer;
     }
 
-    private static int reflectLayoutId(Class<?> clazz, Context context, Class<?> stop) {
+    private static int reflectLayoutId(Class<?> clazz, Context context) {
+        Class<?> stop = ReflecterCacher.getStopType(clazz);
         BindLayout layout = AfReflecter.getAnnotation(clazz, stop, BindLayout.class);
         if (layout != null) {
             return layout.value();

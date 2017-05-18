@@ -5,6 +5,7 @@ import android.view.ViewGroup;
 
 import com.andframe.adapter.recycler.ViewHolderItem;
 import com.andframe.api.adapter.ItemViewer;
+import com.andframe.api.adapter.ItemViewerAdapter;
 
 import java.util.AbstractMap.SimpleEntry;
 import java.util.HashMap;
@@ -16,11 +17,13 @@ import java.util.Map;
  * Created by SCWANG on 2016/8/5.
  */
 @SuppressWarnings("unused")
-public class AfUpdateAdapter<T> extends AfListAdapterWrapper<T> {
+public class AfUpdateItemViewerAdapter<T> extends AfItemViewerAdapterWrapper<T> {
+
+    protected static final int KEY_VIEW_TAG = "RecyclerBaseAdapter".hashCode();
 
     protected Map<View, SimpleEntry<Integer, ItemViewer<T>>> itemTMap = new HashMap<>();
 
-    public AfUpdateAdapter(AfListAdapter<T> wrapped) {
+    public AfUpdateItemViewerAdapter(ItemViewerAdapter<T> wrapped) {
         super(wrapped);
     }
 

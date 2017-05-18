@@ -9,9 +9,10 @@ import android.view.ViewGroup;
 import android.widget.ListAdapter;
 import android.widget.WrapperListAdapter;
 
-import com.andframe.adapter.recycler.DataSetObservable;
 import com.andframe.adapter.recycler.ViewHolderItem;
 import com.andframe.api.adapter.ItemViewer;
+import com.andframe.api.adapter.ItemViewerAdapter;
+import com.andframe.api.query.hindler.Where;
 
 import java.util.Collection;
 import java.util.Comparator;
@@ -26,15 +27,12 @@ import java.util.stream.Stream;
 
 
 @SuppressWarnings({"unused", "unchecked", "WeakerAccess"})
-public class AfListAdapterWrapper<T> extends AfListAdapter<T> implements WrapperListAdapter {
+public class AfItemViewerAdapterWrapper<T> implements ItemViewerAdapter<T> , WrapperListAdapter {
 
-	protected AfListAdapter<T> wrapped;
+	protected ItemViewerAdapter<T> wrapped;
 
-	public AfListAdapterWrapper(AfListAdapter<T> wrapped) {
-		super(wrapped.mContext, null);
+	public AfItemViewerAdapterWrapper(ItemViewerAdapter<T> wrapped) {
 		this.wrapped = wrapped;
-		//为特殊 Warpper 做准备
-		mDataSetObservable = new DataSetObservableWrapper(this);
 	}
 
 	@Override
@@ -44,35 +42,15 @@ public class AfListAdapterWrapper<T> extends AfListAdapter<T> implements Wrapper
 
 	//<editor-fold desc="由于Final导致的特殊Wrapper">
 
-	protected class DataSetObservableWrapper extends DataSetObservable {
-		public DataSetObservableWrapper(RecyclerView.Adapter adapter) {
-			super(adapter);
-		}
-		public void notifyChanged() {
-			wrapped.notifyDataSetChanged();
-		}
-
-	}
-
 	@Override
 	public void setHasStableIds(boolean hasStableIds) {
 		wrapped.setHasStableIds(hasStableIds);
-		super.setHasStableIds(hasStableIds);
 	}
 
 	@Override
 	public void unregisterAdapterDataObserver(RecyclerView.AdapterDataObserver observer) {
 		wrapped.unregisterAdapterDataObserver(observer);
 	}
-
-//	@Override
-//	public void notifyDataSetChanged() {
-//		wrapped.notifyDataSetChanged();
-//	}
-//	@Override
-//	public boolean hasStableIds() {
-//		return wrapped.hasStableIds();
-//	}
 	//</editor-fold>
 
 	//<editor-fold desc="Wrapper API-24 && JAVA_8">
@@ -112,7 +90,7 @@ public class AfListAdapterWrapper<T> extends AfListAdapter<T> implements Wrapper
 	}
 	//</editor-fold>
 
-	//<editor-fold desc="Wrapper AfListAdapter">
+	//<editor-fold desc="Wrapper ItemViewerAdapter">
 
 	@Override
 	public void bindingItem(View view, ItemViewer<T> item, int index) {
@@ -131,8 +109,13 @@ public class AfListAdapterWrapper<T> extends AfListAdapter<T> implements Wrapper
 	}
 
 	@Override
-	public boolean isDataSync() {
-		return wrapped.isDataSync();
+	public void put(T model) {
+		wrapped.put(model);
+	}
+
+	@Override
+	public void remove(Where<T> where) {
+		wrapped.remove(where);
 	}
 
 	@NonNull
@@ -161,6 +144,7 @@ public class AfListAdapterWrapper<T> extends AfListAdapter<T> implements Wrapper
 	public void set(@NonNull List<T> list) {
 		wrapped.set(list);
 	}
+
 	//</editor-fold>
 
 	//<editor-fold desc="Wrapper BaseAdapter">
@@ -387,6 +371,51 @@ public class AfListAdapterWrapper<T> extends AfListAdapter<T> implements Wrapper
 	@Override
 	public <T1> T1[] toArray(@NonNull T1[] array) {
 		return wrapped.toArray(array);
+	}
+	//</editor-fold>
+
+	//<editor-fold desc="Warpper RecyclerAdapter">
+	public ViewHolderItem<T> createViewHolder(ViewGroup parent, int viewType) {
+		return wrapped.createViewHolder(parent, viewType);
+	}
+	public void bindViewHolder(ViewHolderItem<T> holder, int position){
+		wrapped.bindViewHolder(holder, position);
+	}
+	public boolean hasStableIds(){
+		return wrapped.hasStableIds();
+	}
+	public boolean hasObservers(){
+		return wrapped.hasObservers();
+	}
+	public void notifyDataSetChanged(){
+		wrapped.notifyDataSetChanged();
+	}
+	public void notifyItemChanged(int position){
+		wrapped.notifyItemChanged(position);
+	}
+	public void notifyItemChanged(int position, Object payload){
+		wrapped.notifyItemChanged(position,payload);
+	}
+	public void notifyItemRangeChanged(int positionStart, int itemCount){
+		wrapped.notifyItemChanged(positionStart, itemCount);
+	}
+	public void notifyItemRangeChanged(int positionStart, int itemCount, Object payload){
+		wrapped.notifyItemRangeChanged(positionStart, itemCount, payload);
+	}
+	public void notifyItemInserted(int position){
+		wrapped.notifyItemInserted(position);
+	}
+	public void notifyItemMoved(int fromPosition, int toPosition){
+		wrapped.notifyItemMoved(fromPosition, toPosition);
+	}
+	public void notifyItemRangeInserted(int positionStart, int itemCount){
+		wrapped.notifyItemRangeInserted(positionStart, itemCount);
+	}
+	public void notifyItemRemoved(int position){
+		wrapped.notifyItemRemoved(position);
+	}
+	public void notifyItemRangeRemoved(int positionStart, int itemCount){
+		wrapped.notifyItemRangeRemoved(positionStart, itemCount);
 	}
 	//</editor-fold>
 
