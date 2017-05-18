@@ -1,0 +1,26 @@
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="vertical"
+    tools:context="com.yx.fitment.fragment.approval.ApprovalListPendingFragment">
+
+    <android.support.v7.widget.Toolbar style="@style/AndFrame.Toolbar.Light"
+        app:navigationIcon="?attr/homeAsUpIndicator">
+        <TextView style="@style/AndFrame.Toolbar.Title.Dark"
+                  android:id="@+id/toolbar_title"
+                  android:text="@string/app_name"/>
+        <TextView style="@style/AndFrame.Toolbar.Action"
+                  android:id="@+id/toolbar_right_txt"/>
+        <ImageView style="@style/AndFrame.Toolbar.Action"
+                   android:contentDescription="@string/app_name"
+                   android:id="@+id/toolbar_right_img"/>
+    </android.support.v7.widget.Toolbar>
+
+    <android.support.v7.widget.RecyclerView
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        tools:listitem="@layout/ap_common_listitem"/>
+
+</LinearLayout>

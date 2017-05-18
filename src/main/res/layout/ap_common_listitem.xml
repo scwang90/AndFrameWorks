@@ -1,0 +1,70 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout style="@style/AndFrame.Layout"
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/acl_layout"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:orientation="horizontal">
+
+    <LinearLayout
+        android:id="@+id/acl_title_lyt"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content">
+        <ImageView
+            android:id="@+id/acl_avatar"
+            android:layout_width="38dp"
+            android:layout_height="38dp"
+            android:layout_marginRight="@dimen/padding_common_d"
+            android:layout_marginEnd="@dimen/padding_common_d"
+            android:contentDescription="@string/app_name"
+            android:src="@android:drawable/sym_def_app_icon" />
+
+        <LinearLayout
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:orientation="vertical">
+            <TextView style="@style/AndFrame.Label.Title"
+                android:id="@+id/acl_title"
+                tools:text="标题控件"/>
+            <TextView style="@style/AndFrame.Label.Assistant"
+                android:id="@+id/acl_title_vice"
+                tools:text="标题下方副控件"/>
+        </LinearLayout>
+    </LinearLayout>
+
+    <TextView style="@style/AndFrame.Label.Assistant"
+        android:id="@+id/acl_corner"
+        android:layout_alignParentEnd="true"
+        android:layout_alignParentRight="true"
+        tools:text="yyyy-MM-dd HH:mm"/>
+
+    <TextView style="@style/AndFrame.Label"
+        android:id="@+id/acl_left1"
+        android:layout_below="@+id/acl_title_lyt"
+        android:layout_marginTop="@dimen/padding_common_d"
+        tools:text="@string/app_name" />
+
+    <TextView style="@style/AndFrame.Label.Discription"
+        android:id="@+id/acl_left2"
+        android:layout_below="@+id/acl_left1"
+        android:layout_marginTop="@dimen/padding_common_d"
+        tools:text="@string/app_name" />
+
+    <TextView style="@style/AndFrame.Label"
+        android:id="@+id/acl_right1"
+        android:layout_marginTop="@dimen/padding_common_d"
+        android:layout_alignParentEnd="true"
+        android:layout_alignParentRight="true"
+        android:layout_below="@+id/acl_title_lyt"
+        tools:text="@string/app_name"  />
+
+    <TextView style="@style/AndFrame.Label.Discription"
+        android:id="@+id/acl_right2"
+        android:layout_marginTop="@dimen/padding_common_d"
+        android:layout_alignParentEnd="true"
+        android:layout_alignParentRight="true"
+        android:layout_below="@+id/acl_right1"
+        tools:text="@string/app_name" />
+
+</RelativeLayout>
