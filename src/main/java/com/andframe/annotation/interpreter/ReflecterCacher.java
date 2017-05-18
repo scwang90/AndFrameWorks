@@ -1,5 +1,6 @@
 package com.andframe.annotation.interpreter;
 
+import android.app.Dialog;
 import android.support.annotation.NonNull;
 
 import com.andframe.activity.AfActivity;
@@ -73,6 +74,8 @@ public class ReflecterCacher {
     public static Class<?> getStopType(Class clazz) {
         if (ViewWrapper.class.isAssignableFrom(clazz)) {
             return ViewWrapper.class;
+        } else if (Dialog.class.isAssignableFrom(clazz)) {
+            return Dialog.class;
         } else if (AfActivity.class.isAssignableFrom(clazz)) {
             return AfActivity.class;
         } else if (AfFragment.class.isAssignableFrom(clazz)) {
