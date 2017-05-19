@@ -32,12 +32,11 @@ public class StatusBarInterpreter {
         Activity activity = pager.getActivity();
         Resources resources = activity.getResources();
         StatusBarTranslucent translucent = AfReflecter.getAnnotation(pager.getClass(), Activity.class, StatusBarTranslucent.class);
+        StatusBarTranslucentDark translucentDark = AfReflecter.getAnnotation(pager.getClass(), Activity.class, StatusBarTranslucentDark.class);
         if (translucent != null) {
             ret = true;
             ApStatusBarUtil.immersive(activity, resources.getColor(translucent.color()), translucent.value());
-        }
-        StatusBarTranslucentDark translucentDark = AfReflecter.getAnnotation(pager.getClass(), Activity.class, StatusBarTranslucentDark.class);
-        if (translucentDark != null) {
+        } else if (translucentDark != null) {
             ret = true;
             ApStatusBarUtil.darkMode(activity, resources.getColor(translucentDark.color()), translucentDark.value());
         }

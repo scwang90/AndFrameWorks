@@ -89,6 +89,7 @@ public class ApPickerCameraFragment extends ApFragment {
                 }
             }
             finish();
+            finish();
         }
     }
 

@@ -15,6 +15,7 @@ import com.andpack.fragment.ApFragment;
 import com.lzy.imagepicker.ImagePicker;
 import com.lzy.imagepicker.bean.ImageItem;
 import com.lzy.imagepicker.loader.ImageLoader;
+import com.lzy.imagepicker.ui.ImageGridActivity;
 
 import java.io.File;
 import java.util.ArrayList;
@@ -78,6 +79,7 @@ public class ApPickerImageFragment extends ApFragment {
                 public void clearMemoryCache() {}
             });
         }
+        startActivityForResult(ImageGridActivity.class,REQUEST_IMAGE);
     }
     /**
      * 页面跳转数据返回接受和处理
@@ -103,6 +105,7 @@ public class ApPickerImageFragment extends ApFragment {
             } else {
                 makeToastShort("没有选择数据");
             }
+            finish();
             finish();
         }
     }

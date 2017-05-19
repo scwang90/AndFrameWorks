@@ -4,11 +4,11 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:orientation="vertical"
-    tools:context="com.yx.fitment.fragment.approval.ApprovalListPendingFragment">
+    tools:context="com.andpack.fragment.common.ApItemsCommonFragment">
 
-    <android.support.v7.widget.Toolbar style="@style/AndFrame.Toolbar.Light"
+    <android.support.v7.widget.Toolbar style="@style/AndFrame.Toolbar"
         app:navigationIcon="?attr/homeAsUpIndicator">
-        <TextView style="@style/AndFrame.Toolbar.Title.Dark"
+        <TextView style="@style/AndFrame.Toolbar.Title"
                   android:id="@+id/toolbar_title"
                   android:text="@string/app_name"/>
         <TextView style="@style/AndFrame.Toolbar.Action"

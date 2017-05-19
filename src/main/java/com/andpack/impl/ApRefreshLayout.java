@@ -33,6 +33,7 @@ import java.util.Queue;
 import java.util.concurrent.LinkedBlockingQueue;
 
 import static android.view.ViewGroup.LayoutParams.MATCH_PARENT;
+import static android.view.ViewGroup.LayoutParams.WRAP_CONTENT;
 
 /**
  * 使用第三方刷新控件 PullRefreshLayout
@@ -97,6 +98,9 @@ public class ApRefreshLayout implements RefreshLayouter<TwinklingRefreshLayout>/
         }
         ViewGroup.LayoutParams params = content.getLayoutParams();
         int height = params == null ? MATCH_PARENT : params.height;
+        if (params != null && params.height == WRAP_CONTENT) {
+            params.height = MATCH_PARENT;
+        }
         mTwinkling.addView(content, MATCH_PARENT, height == 0 ? MATCH_PARENT : height);
         //mTwinkling.setBackgroundDrawable(content.getBackground());
         Queue<View> views = new LinkedBlockingQueue<>(Collections.singletonList(content));
