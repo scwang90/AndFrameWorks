@@ -264,7 +264,7 @@ public class AfFragmentActivity extends AfActivity {
         if (type != null) {
             Context context = getContext();
             context = context == null ? AfApp.get() : context;
-            int id = LayoutBinder.getBindLayoutId(type, context, Fragment.class);
+            int id = LayoutBinder.getBindLayoutId(type, context);
             String name = context.getResources().getResourceName(id);
             if (!TextUtils.isEmpty(name)) {
                 nameCache.put(mFragmentClazz, name);

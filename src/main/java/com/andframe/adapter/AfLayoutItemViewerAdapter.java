@@ -40,7 +40,7 @@ public abstract class AfLayoutItemViewerAdapter<T> extends AfItemViewerAdapter<T
     }
 
     protected void initLayout(Context context) {
-        int layoutId = LayoutBinder.getBindLayoutId(this, context, AfLayoutItemViewerAdapter.class);
+        int layoutId = LayoutBinder.getBindLayoutId(this, context);
         if (layoutId > 0) {
             mLayoutId = layoutId;
         } else {

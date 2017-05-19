@@ -115,6 +115,7 @@ public abstract class AfTask implements Task, OnCancelListener {
 
 	public AfTask reset() {
 		mStatus = Status.none;
+		mException = null;
 		return this;
 	}
 }

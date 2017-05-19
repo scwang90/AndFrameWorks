@@ -13,7 +13,6 @@ import com.andframe.api.adapter.ItemViewer;
 import com.andframe.api.viewer.ViewQuery;
 import com.andframe.api.viewer.ViewQueryHelper;
 import com.andframe.api.viewer.Viewer;
-import com.andframe.fragment.AfFragment;
 import com.andframe.impl.helper.AfViewQueryHelper;
 import com.andframe.impl.viewer.AfView;
 
@@ -43,7 +42,7 @@ public abstract class AfItemViewer<T> implements ItemViewer<T>, Viewer, ViewQuer
 		if (layoutId != 0) {
 			return layoutId;
 		}
-		return LayoutBinder.getBindLayoutId(this, context, AfFragment.class);
+		return LayoutBinder.getBindLayoutId(this, context);
 	}
 	
 	@BindViewCreated

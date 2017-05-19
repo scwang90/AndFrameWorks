@@ -70,8 +70,9 @@ public class DefaultStatusLayouter implements StatusLayouter {
         if (mContentView != null) {
             mFrameLayout.removeView(mContentView);
         }
-        mFrameLayout.addView(content, MATCH_PARENT, MATCH_PARENT);
-        mContentView = content;
+        ViewGroup.LayoutParams params = content.getLayoutParams();
+        int height = params == null ? MATCH_PARENT : params.height;
+        mFrameLayout.addView(mContentView = content, MATCH_PARENT, height == 0 ? MATCH_PARENT : height);
     }
 
     @Override

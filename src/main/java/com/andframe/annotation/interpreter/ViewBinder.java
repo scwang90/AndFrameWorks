@@ -502,7 +502,7 @@ public class ViewBinder {
                     type = (Class<?>) parameterized.getActualTypeArguments()[0];
                 }
                 if (id <= 0) {
-                    id = LayoutBinder.getBindLayoutId(field.getType(), root.getContext(), AfViewModuler.class);
+                    id = LayoutBinder.getBindLayoutId(field.getType(), root.getContext());
                 }
                 if (id <= 0) {
                     AfExceptionHandler.handle("ViewModuler("+type.getSimpleName()+") 必须指定BindLayout",TAG(handler, "doBindViewModule.") + field.getName());

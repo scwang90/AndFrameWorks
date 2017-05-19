@@ -47,7 +47,7 @@ public abstract class AfViewModuler extends ViewerWarpper implements Viewer, Vie
 	}
 
 	public static <T extends AfViewModuler> T init(Object handler, Class<T> clazz, Viewer viewable) {
-		int layoutId = LayoutBinder.getBindLayoutId(clazz, viewable.getContext(), AfViewModuler.class);
+		int layoutId = LayoutBinder.getBindLayoutId(clazz, viewable.getContext());
 		if (layoutId <= 0) {
 			return null;
 		}
@@ -75,7 +75,7 @@ public abstract class AfViewModuler extends ViewerWarpper implements Viewer, Vie
 	 * 子类构造函数中必须调用这个函数
 	 */
 	protected void initializeComponent(@NonNull Viewer viewer){
-		int layoutId = LayoutBinder.getBindLayoutId(this, viewer.getContext(), AfViewModuler.class);
+		int layoutId = LayoutBinder.getBindLayoutId(this, viewer.getContext());
 		if (layoutId > 0) {
 			view = viewer.findViewById(layoutId);
 			setTarget(viewer, view);
