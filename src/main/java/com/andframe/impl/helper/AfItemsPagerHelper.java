@@ -20,10 +20,11 @@ import com.andframe.annotation.mark.MarkCache;
 import com.andframe.annotation.pager.items.ItemsFooter;
 import com.andframe.annotation.pager.items.ItemsHeader;
 import com.andframe.annotation.pager.items.ItemsSinglePage;
-import com.andframe.annotation.pager.items.ItemsViewer;
+import com.andframe.annotation.pager.items.ItemsViewerId;
 import com.andframe.annotation.pager.items.ItemsViewerOnly;
 import com.andframe.annotation.pager.items.idname.ItemsFooter$;
 import com.andframe.annotation.pager.items.idname.ItemsHeader$;
+import com.andframe.annotation.pager.items.idname.ItemsViewerId$;
 import com.andframe.annotation.pager.status.StatusContentViewId;
 import com.andframe.annotation.pager.status.StatusContentViewType;
 import com.andframe.annotation.pager.status.idname.StatusContentViewId$;
@@ -38,6 +39,7 @@ import com.andframe.api.pager.items.MoreFooter;
 import com.andframe.api.pager.items.MoreLayouter;
 import com.andframe.api.task.Task;
 import com.andframe.api.task.TaskWithPaging;
+import com.andframe.api.viewer.ItemsViewer;
 import com.andframe.api.viewer.ViewQuery;
 import com.andframe.api.viewer.ViewQueryHelper;
 import com.andframe.application.AfApp;
@@ -553,13 +555,20 @@ public class AfItemsPagerHelper<T> extends AfStatusHelper<List<T>> implements It
     //<editor-fold desc="组件加载">
     @NonNull
     @Override
-    public com.andframe.api.viewer.ItemsViewer findItemsViewer(View contentView) {
-        View itemView;
+    public ItemsViewer findItemsViewer(View contentView) {
+        View itemView = null;
         Class<?> stop = mPager instanceof Activity ? AfItemsActivity.class : AfItemsFragment.class;
-        ItemsViewer viewer = AfReflecter.getAnnotation(mPager.getClass(), stop, ItemsViewer.class);
+        ItemsViewerId viewer = AfReflecter.getAnnotation(mPager.getClass(), stop, ItemsViewerId.class);
+        ItemsViewerId$ viewer$ = AfReflecter.getAnnotation(mPager.getClass(), stop, ItemsViewerId$.class);
         ItemsViewerOnly viewerOnly = AfReflecter.getAnnotation(mPager.getClass(), stop, ItemsViewerOnly.class);
         if (viewer != null) {
             itemView = mPager.findViewById(viewer.value());
+        } else if (viewer$ != null) {
+            Context context = getContext();
+            int id = context.getResources().getIdentifier(viewer$.value(), "id", context.getPackageName());
+            if (id > 0) {
+                itemView = mPager.findViewById(id);
+            }
         } else if (viewerOnly != null && viewerOnly.value() > 0) {
             itemView = mPager.findViewById(viewerOnly.value());
         } else {

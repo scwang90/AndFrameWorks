@@ -8,11 +8,11 @@ import java.lang.annotation.RetentionPolicy;
 import java.lang.annotation.Target;
 
 /**
- * 页面绑定 ItemsViewer
+ * 页面绑定 ItemsViewerId
  * Created by SCWANG on 2016/3/8.
  */
 @Target(ElementType.TYPE)
 @Retention(RetentionPolicy.RUNTIME)
-public @interface ItemsViewer {
+public @interface ItemsViewerId {
     @IdRes int value();
 }

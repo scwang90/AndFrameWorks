@@ -24,6 +24,9 @@ public interface DialogBuilder {
      * inputText 的监听器
      */
     interface InputTextListener {
+        /**
+         * @return false 表示输入验证错误，需要重新输入
+         */
         boolean onInputTextComfirm(EditText input, String value);
     }
 
