@@ -47,6 +47,7 @@ public class ApRefreshLayout implements RefreshLayouter<TwinklingRefreshLayout>/
     private boolean isRefreshing = false;
     private OnRefreshListener mOnRefreshListener;
     private int mRealContentId = 0;
+    private boolean mIsAddContented = false;
     //    private OnMoreListener mOnMoreListener;
 
     public ApRefreshLayout(Context context) {
@@ -134,9 +135,11 @@ public class ApRefreshLayout implements RefreshLayouter<TwinklingRefreshLayout>/
                 return;
             }
         }
-        if (contentView != null && contentView != content && !mTwinkling.hasRealContentView()) {
-            setRealContentView(contentView);
-        }
+//        if (contentView != null && contentView != content && !mTwinkling.hasRealContentView()) {
+//            setRealContentView(contentView);
+//        }
+        setRealContentView(contentView == null ? content : contentView);
+        mIsAddContented = true;
     }
 
     @Override
@@ -205,6 +208,17 @@ public class ApRefreshLayout implements RefreshLayouter<TwinklingRefreshLayout>/
         return this;
     }
 
+    public void setOnPullListener(OnPullListener listener) {
+        if (mIsAddContented) {
+            ChildViewWrapper wrapper = mTwinkling.getWrapper();
+            wrapper.setOnPullListener(listener);
+        }
+    }
+
+    public interface OnPullListener {
+        void onPulled(float offset);
+    }
+
     public class TwinklingRefreshLayoutEx extends TwinklingRefreshLayout {
 
 
@@ -239,6 +253,10 @@ public class ApRefreshLayout implements RefreshLayouter<TwinklingRefreshLayout>/
             wrapperChildView();
         }
 
+        public ChildViewWrapper getWrapper() {
+            return wrapper;
+        }
+
         public boolean hasRealContentView() {
             return wrapper != null;
         }
@@ -257,6 +275,7 @@ public class ApRefreshLayout implements RefreshLayouter<TwinklingRefreshLayout>/
 
         private View view;
         private View realView;
+        private OnPullListener mPullListener;
 
         public ChildViewWrapper(View view,View realView) {
             super(view.getContext());
@@ -272,6 +291,9 @@ public class ApRefreshLayout implements RefreshLayouter<TwinklingRefreshLayout>/
         @Override
         public void setTranslationY(float translationY) {
             view.setTranslationY(translationY);
+            if (mPullListener != null) {
+                mPullListener.onPulled(translationY);
+            }
         }
 
         @Override
@@ -291,6 +313,10 @@ public class ApRefreshLayout implements RefreshLayouter<TwinklingRefreshLayout>/
 
         public void setOrginView(View view) {
             this.view = view;
+        }
+
+        public void setOnPullListener(OnPullListener listener) {
+            mPullListener = listener;
         }
     }
 
