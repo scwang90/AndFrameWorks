@@ -197,6 +197,10 @@
         <item name="android:paddingRight">@dimen/padding_common_h</item>
     </style>
 
+    <style name="AndFrame.Toolbar.Action.Dark">
+        <item name="android:textColor">@color/colorToolbarTextDark</item>
+    </style>
+
     <style name="AndFrame.Toolbar.Title.Dark">
         <item name="android:textColor">@color/colorToolbarTextDark</item>
     </style>
