@@ -411,7 +411,7 @@ public class ApCommonBarBinder {
             textview.setText(TextUtils.isEmpty(unit) ? "" : unit);
             View view = $(new LinearLayout(pager.getContext()))
                     .addView(picker).addView(textview).gravity(Gravity.CENTER_VERTICAL).view();
-            $.dialog(pager).showViewDialog(hint, view, "确定", (d, i) -> onNumberSelected(picker, picker.getValue()), "取消", null);
+            $.dialog(pager).showViewDialog(hint, view, "取消", null, "确定", (d, i) -> onNumberSelected(picker, picker.getValue()));
         }
 
         public SelectNumber value(int value) {
@@ -1140,7 +1140,7 @@ public class ApCommonBarBinder {
                     .addView(year).addView(txtYear)
                     .addView(month).addView(txtMonth)
                     .gravity(Gravity.CENTER_VERTICAL).view();
-            Dialog dialog = $.dialog(pager).showViewDialog(hint, view, "选择", null, "取消", null);
+            Dialog dialog = $.dialog(pager).showViewDialog(hint, view, "取消", null, "选择", null);
             if (dialog instanceof AlertDialog) {
                 ((AlertDialog) dialog).getButton(AlertDialog.BUTTON_POSITIVE)
                         .setOnClickListener(new SafeListener(new View.OnClickListener() {
