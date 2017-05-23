@@ -381,8 +381,8 @@ public abstract class AfItemsActivity<T> extends AfStatusActivity<List<T>> imple
     }
 
     @Override@Deprecated
-    public final void onTaskSucceed(List<T> data) {
-        super.onTaskSucceed(data);
+    public final void onTaskSucceed(List<T> model) {
+        super.onTaskSucceed(model);
     }
 
     @Override@Deprecated

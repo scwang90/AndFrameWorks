@@ -81,8 +81,8 @@ public abstract class AfLoadActivity<T> extends AfActivity implements LoadPager<
         mHelper.onTaskFinish(task, model);
     }
 
-    public void onTaskSucceed(T data) {
-        mHelper.onTaskSucceed(data);
+    public void onTaskSucceed(T model) {
+        mHelper.onTaskSucceed(model);
     }
 
     public void onTaskFailed(@NonNull Task task) {

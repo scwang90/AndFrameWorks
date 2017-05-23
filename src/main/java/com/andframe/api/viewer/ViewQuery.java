@@ -430,11 +430,29 @@ public interface ViewQuery<T extends ViewQuery<T>> {
     //</editor-fold>
 
     //<editor-fold desc="视图变换">
+    /**
+     * @see View#setAlpha(float)
+     */
     T alpha(float a);
+    /**
+     * @see View#setScaleX(float)
+     */
     T scaleX(float scale);
+    /**
+     * @see View#setScaleY(float)
+     */
     T scaleY(float scale);
+    /**
+     * @see View#setRotationX(float)
+     */
     T rotationX(float rotation);
+    /**
+     * @see View#setRotationY(float)
+     */
     T rotationY(float rotation);
+    /**
+     * @see View#setRotation(float)
+     */
     T rotation(float rotation);
 
     T x(int px);
