@@ -1,10 +1,10 @@
 package com.andframe.api.query.hindler;
 
 /**
- * 对象映射器
+ * 循环遍历
  * Created by SCWANG on 2017/5/11.
  */
 
-public interface Map<F,T> {
-    T map(F model);
+public interface Foreach<T> {
+    void foreach(int index, T model);
 }
