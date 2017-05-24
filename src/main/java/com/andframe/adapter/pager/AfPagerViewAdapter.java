@@ -12,6 +12,7 @@ import java.util.List;
 
 public abstract class AfPagerViewAdapter<T> extends PagerAdapter {
 
+    //<editor-fold desc="PagerAdapter">
     protected static final int KEY_VIEW_TAG = "AfPagerViewAdapter".hashCode();
 
     protected List<T> list;
@@ -53,4 +54,6 @@ public abstract class AfPagerViewAdapter<T> extends PagerAdapter {
     }
 
     public abstract ItemViewer<T> newItemViewer();
+    //</editor-fold>
+
 }
