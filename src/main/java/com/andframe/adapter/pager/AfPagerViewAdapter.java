@@ -5,6 +5,7 @@ import android.view.View;
 import android.view.ViewGroup;
 
 import com.andframe.api.adapter.ItemViewer;
+import com.andframe.api.query.hindler.Where;
 
 import java.util.ArrayList;
 import java.util.Collection;
@@ -54,6 +55,15 @@ public abstract class AfPagerViewAdapter<T> extends PagerAdapter {
     }
 
     public abstract ItemViewer<T> newItemViewer();
+
+    public void remove(Where<T> where) {
+        for (int i = 0; i < list.size(); i++) {
+            if (where.where(list.get(i))) {
+                list.remove(i--);
+            }
+        }
+        notifyDataSetChanged();
+    }
     //</editor-fold>
 
 }
