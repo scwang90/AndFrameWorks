@@ -543,4 +543,164 @@ class TextScanner {
         }
         return path;
     }
+
+    public static CharSequence zoomPath(String val, float ratioWidth, float ratioHeight) {
+        TextScanner scan = new TextScanner(val);
+
+        int pathCommand;
+        float xAxisRotation;
+        Boolean largeArcFlag, sweepFlag;
+
+        StringBuilder path = new StringBuilder();
+
+        if (scan.empty())
+            return path;
+
+        pathCommand = scan.nextChar();
+
+        if (pathCommand != 'M' && pathCommand != 'm')
+            return path;  // Invalid path - doesn't start with a move
+
+        while (true) {
+            scan.skipWhitespace();
+
+            switch (pathCommand) {
+                // Move
+                case 'M':
+                case 'm':
+                    path.append((char) pathCommand);
+                    path.append(scan.nextFloat()*ratioWidth);
+                    path.append(',');
+                    path.append(scan.checkedNextFloat(0)*ratioHeight);
+                    // Any subsequent coord pairs should be treated as a lineto.
+                    pathCommand = (pathCommand == 'm') ? 'l' : 'L';
+                    break;
+                // Line
+                case 'L':
+                case 'l':
+                    path.append((char) pathCommand);
+                    path.append(scan.nextFloat()*ratioWidth);
+                    path.append(',');
+                    path.append(scan.checkedNextFloat(0)*ratioHeight);
+                    break;
+
+                // Cubic bezier
+                case 'C':
+                case 'c':
+                    path.append((char) pathCommand);
+                    path.append(scan.nextFloat()*ratioWidth);
+                    path.append(',');
+                    path.append(scan.checkedNextFloat(0)*ratioHeight);
+                    path.append(' ');
+                    path.append(scan.checkedNextFloat(0)*ratioWidth);
+                    path.append(',');
+                    path.append(scan.checkedNextFloat(0)*ratioHeight);
+                    path.append(' ');
+                    path.append(scan.checkedNextFloat(0)*ratioWidth);
+                    path.append(',');
+                    path.append(scan.checkedNextFloat(0)*ratioHeight);
+                    break;
+
+                // Smooth curve (first control point calculated)
+                case 'S':
+                case 's':
+                    path.append((char) pathCommand);
+                    path.append(scan.nextFloat()*ratioWidth);
+                    path.append(',');
+                    path.append(scan.checkedNextFloat(0)*ratioHeight);
+                    path.append(' ');
+                    path.append(scan.checkedNextFloat(0)*ratioWidth);
+                    path.append(',');
+                    path.append(scan.checkedNextFloat(0)*ratioHeight);
+                    break;
+
+                // Close path
+                case 'Z':
+                case 'z':
+                    path.append((char) pathCommand);
+                    break;
+
+                // Horizontal line
+                case 'H':
+                case 'h':
+                    path.append((char) pathCommand);
+                    path.append(scan.nextFloat()*ratioWidth);
+                    break;
+
+                // Vertical line
+                case 'V':
+                case 'v':
+                    path.append((char) pathCommand);
+                    path.append(scan.nextFloat()*ratioHeight);
+                    break;
+
+                // Quadratic bezier
+                case 'Q':
+                case 'q':
+                    path.append((char) pathCommand);
+                    path.append(scan.nextFloat()*ratioWidth);
+                    path.append(',');
+                    path.append(scan.checkedNextFloat(0)*ratioHeight);
+                    path.append(' ');
+                    path.append(scan.checkedNextFloat(0)*ratioWidth);
+                    path.append(',');
+                    path.append(scan.checkedNextFloat(0)*ratioHeight);
+                    break;
+
+                // Smooth quadratic bezier
+                case 'T':
+                case 't':
+                    path.append((char) pathCommand);
+                    path.append(scan.nextFloat()*ratioWidth);
+                    path.append(',');
+                    path.append(scan.checkedNextFloat(0)*ratioHeight);
+                    break;
+
+                // Arc
+                case 'A':
+                case 'a':
+                    path.append((char) pathCommand);
+//                    rx = scan.nextFloat();
+//                    ry = scan.checkedNextFloat(rx);
+                    path.append(scan.nextFloat()*ratioWidth);
+                    path.append(',');
+                    path.append(scan.checkedNextFloat(0)*ratioHeight);
+
+
+                    xAxisRotation = scan.checkedNextFloat(0);
+                    largeArcFlag = scan.checkedNextFlag(xAxisRotation);
+                    sweepFlag = scan.checkedNextFlag(largeArcFlag);
+                    path.append(' ');
+                    path.append(xAxisRotation);
+                    path.append(' ');
+                    path.append(largeArcFlag == null ? 0 : 1);
+                    path.append(',');
+                    path.append(sweepFlag == null ? 0 : 1);
+
+                    if (sweepFlag != null) {
+//                        x = scan.possibleNextFloat();
+//                        y = scan.checkedNextFloat(x);
+                        path.append(' ');
+                        path.append(scan.possibleNextFloat()*ratioWidth);
+                        path.append(',');
+                        path.append(scan.checkedNextFloat(0)*ratioHeight);
+                    }
+                    break;
+
+                default:
+                    return path;
+            }
+
+            scan.skipCommaWhitespace();
+            if (scan.empty())
+                break;
+
+            // Test to see if there is another set of coords for the current path command
+            if (scan.hasLetter()) {
+                // Nope, so get the new path command instead
+                pathCommand = scan.nextChar();
+            }
+        }
+        return path;
+    }
 }

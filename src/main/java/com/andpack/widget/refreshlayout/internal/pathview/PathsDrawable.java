@@ -30,6 +30,7 @@ public class PathsDrawable extends Drawable {
     private static final Region REGION = new Region();
     private static final Region MAX_CLIP = new Region(Integer.MIN_VALUE,
             Integer.MIN_VALUE,Integer.MAX_VALUE, Integer.MAX_VALUE);
+    private String[] mOrginPaths;
 
     public PathsDrawable() {
         mPaint = new Paint();
@@ -60,10 +61,45 @@ public class PathsDrawable extends Drawable {
                 }
             }
         }
+        super.setBounds(0, 0, mWidth, mHeight);
     }
 
+    @Override
+    public void setBounds(int left, int top, int right, int bottom) {
+        this.setBounds(new Rect(left, top, right, bottom));
+    }
+
+    @Override
+    public void setBounds(@NonNull Rect bounds) {
+        if (mOrginPaths != null && mOrginPaths.length > 0) {
+            if (bounds.width() != mWidth || bounds.height() != mHeight) {
+                float ratioWidth = 1f * bounds.width() / mWidth;
+                float ratioHeight = 1f * bounds.height() / mHeight;
+                String[] paths = zoomPaths(mOrginPaths, ratioWidth, ratioHeight);
+                mPaths = new ArrayList<>();
+                for (String path : paths) {
+                    Path parser = parserPath(path);
+                    mPaths.add(parser);
+                }
+                onMeasure();
+            }
+        }
+    }
+
+    private String[] zoomPaths(String[] paths, float ratioWidth, float ratioHeight) {
+        String[] outpaths = new String[paths.length];
+        for (int i = 0; i < paths.length; i++) {
+            outpaths[i] = zoomPath(paths[i], ratioWidth, ratioHeight);
+        }
+        return outpaths;
+    }
+
+    private String zoomPath(String path, float ratioWidth, float ratioHeight) {
+        return TextScanner.zoomPath(path, ratioWidth, ratioHeight).toString();
+    }
 
     public void parserPaths(String... paths) {
+        mOrginPaths = paths;
         mPaths = new ArrayList<>();
         for (String path : paths) {
             Path parser = parserPath(path);
