@@ -42,7 +42,7 @@ public class PathsDrawable extends Drawable {
         int suggestedMinimumWidth = 1;
         int suggestedMinimumHeight = 1;
         mWidth = mHeight = 1;
-        mStartX = mStartY = 0;
+        mStartX = mStartY = -1;
         if (mPaths != null) {
             for (Path path : mPaths) {
                 REGION.setPath(path, MAX_CLIP);
@@ -53,13 +53,19 @@ public class PathsDrawable extends Drawable {
                 if (suggestedMinimumHeight < bounds.height()) {
                     mHeight = suggestedMinimumHeight = bounds.height();
                 }
-                if (mStartX == 0 || mStartX > bounds.left) {
+                if (mStartX == -1 || mStartX > bounds.left) {
                     mStartX = bounds.left;
                 }
-                if (mStartY == 0 || mStartY > bounds.top) {
+                if (mStartY == -1 || mStartY > bounds.top) {
                     mStartY = bounds.top;
                 }
             }
+        }
+        if (mStartX == -1) {
+            mStartX = 0;
+        }
+        if (mStartY == -1) {
+            mStartY = 0;
         }
         super.setBounds(0, 0, mWidth, mHeight);
     }
