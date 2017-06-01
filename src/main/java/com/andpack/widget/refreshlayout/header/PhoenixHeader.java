@@ -75,7 +75,7 @@ public class PhoenixHeader extends View implements RefreshHeader, SizeDefinition
 
     private static int[] skyColors = new int[]{
             0xff38adc1,
-            0xff70d8e2,
+            0x88ffffff,
     };
     private static String[] skyPaths = new String[]{
             "M0,0L1600,0L1600,1040L0,1040z",
@@ -188,7 +188,9 @@ public class PhoenixHeader extends View implements RefreshHeader, SizeDefinition
 
     @Override
     public void setPrimaryColor(int... colors) {
-
+        if (mDrawableSky != null) {
+            mDrawableSky.parserColors(colors[0], skyColors[1]);
+        }
     }
 
     @NonNull
