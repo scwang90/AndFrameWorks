@@ -880,6 +880,69 @@ public class ApCommonBarBinder {
                 return text;
             });
         }
+
+        /**
+         * 指定为Float
+         */
+        public TextBinder verifyDouble(String... names) {
+            CharSequence name = getName("数值", names);
+            inputType(InputType.TYPE_CLASS_NUMBER|InputType.TYPE_NUMBER_FLAG_DECIMAL|InputType.TYPE_NUMBER_FLAG_SIGNED);
+            return this.verify(text -> {
+                if (TextUtils.isEmpty(text)) {
+                    throw new VerifyException("请输入" + name);
+                }
+                try {
+                    text = String.valueOf(Double.parseDouble(text));
+                } catch (NumberFormatException e) {
+                    throw new VerifyException("请输入正确的" + name);
+                }
+                return text;
+            });
+        }
+        /**
+         * 指定为UDouble(无符号浮点型，0和正数)
+         */
+        public TextBinder verifyUDouble(String... names) {
+            CharSequence name = getName("数值", names);
+            inputType(InputType.TYPE_CLASS_NUMBER|InputType.TYPE_NUMBER_FLAG_DECIMAL);
+            return this.verify(text -> {
+                if (TextUtils.isEmpty(text)) {
+                    throw new VerifyException("请输入" + name);
+                }
+                try {
+                    Double v = Double.parseDouble(text);
+                    if (v < 0) {
+                        throw new VerifyException(name + "不能是负数");
+                    }
+                    text = String.valueOf(v);
+                } catch (NumberFormatException e) {
+                    throw new VerifyException("请输入正确的" + name);
+                }
+                return text;
+            });
+        }
+        /**
+         * 指定为PDouble(正数)
+         */
+        public TextBinder verifyPDouble(String... names) {
+            CharSequence name = getName("数值", names);
+            inputType(InputType.TYPE_CLASS_NUMBER|InputType.TYPE_NUMBER_FLAG_DECIMAL);
+            return this.verify(text -> {
+                if (TextUtils.isEmpty(text)) {
+                    throw new VerifyException("请输入" + name);
+                }
+                try {
+                    Double v = Double.parseDouble(text);
+                    if (v <= 0) {
+                        throw new VerifyException(name + "必须大于0");
+                    }
+                    text = String.valueOf(v);
+                } catch (NumberFormatException e) {
+                    throw new VerifyException("请输入正确的" + name);
+                }
+                return text;
+            });
+        }
         /**
          * 指定为身份证的验证格式
          */
