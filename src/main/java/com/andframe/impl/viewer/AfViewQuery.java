@@ -1662,11 +1662,11 @@ public class AfViewQuery<T extends AfViewQuery<T>> implements ViewQuery<T> {
     //<editor-fold desc="事件绑定">
 
     public T clicked(View.OnClickListener listener) {
-        return foreach((ViewEacher<View>) view -> view.setOnClickListener(new SafeListener(listener)));
+        return foreach((ViewEacher<View>) view -> view.setOnClickListener(listener==null?null:new SafeListener(listener)));
     }
 
     public T longClicked(View.OnLongClickListener listener) {
-        return foreach((ViewEacher<View>) view -> view.setOnLongClickListener(listener));
+        return foreach((ViewEacher<View>) view -> view.setOnLongClickListener(listener==null?null:new SafeListener(listener)));
     }
 
     public T itemClicked(AdapterView.OnItemClickListener listener) {
