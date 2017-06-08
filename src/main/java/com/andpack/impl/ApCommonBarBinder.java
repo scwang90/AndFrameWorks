@@ -29,8 +29,8 @@ import com.andframe.api.DialogBuilder;
 import com.andframe.api.DialogBuilder.OnDateSetVerifyListener;
 import com.andframe.api.DialogBuilder.OnDateTimeSetVerifyListener;
 import com.andframe.api.DialogBuilder.OnTimeSetVerifyListener;
-import com.andframe.api.pager.Pager;
 import com.andframe.api.viewer.ViewQuery;
+import com.andframe.api.viewer.Viewer;
 import com.andframe.feature.AfIntent;
 import com.andframe.listener.SafeListener;
 import com.andframe.task.AfDispatcher;
@@ -119,15 +119,15 @@ public class ApCommonBarBinder {
     }
     //</editor-fold>
 
-    private Pager pager;
+    private Viewer viewer;
     private String hintPrefix = "";
     private Cacher cacher;
     private ViewQuery<? extends ViewQuery> $$;
 
-    public ApCommonBarBinder(Pager pager) {
-        this.pager = pager;
-        this.$$ = $.query(pager);
-        this.cacher = $.cache(pager.getClass().getName());
+    public ApCommonBarBinder(Viewer viewer) {
+        this.viewer = viewer;
+        this.$$ = $.query(viewer);
+        this.cacher = $.cache(viewer.getClass().getName());
     }
 
     public void setHintPrefix(String hintPrefix) {
@@ -255,7 +255,7 @@ public class ApCommonBarBinder {
         }
 
         public T name(@StringRes int id) {
-            this.name = pager.getContext().getString(id);
+            this.name = viewer.getContext().getString(id);
             return hint(hintPrefix + name.toString());
         }
 
@@ -270,7 +270,7 @@ public class ApCommonBarBinder {
         }
 
         public T hintResId(@StringRes int id) {
-            this.hint = hintPrefix + pager.getContext().getString(id);
+            this.hint = hintPrefix + viewer.getContext().getString(id);
             return self();
         }
         //</editor-fold>
@@ -341,7 +341,7 @@ public class ApCommonBarBinder {
 
         @Override
         public void start() {
-            $.dialog(pager).selectItem(hint, items, this);
+            $.dialog(viewer).selectItem(hint, items, this);
         }
 
         @Override
@@ -401,17 +401,17 @@ public class ApCommonBarBinder {
 
         @Override
         protected void start() {
-            TextView textview = new TextView(pager.getContext());
-            NumberPicker picker = new NumberPicker(pager.getContext());
+            TextView textview = new TextView(viewer.getContext());
+            NumberPicker picker = new NumberPicker(viewer.getContext());
             picker.setMinValue(minValue);
             picker.setMaxValue(maxValue);
             if (lastval != null) {
                 picker.setValue(lastval);
             }
             textview.setText(TextUtils.isEmpty(unit) ? "" : unit);
-            View view = $(new LinearLayout(pager.getContext()))
+            View view = $(new LinearLayout(viewer.getContext()))
                     .addView(picker).addView(textview).gravity(Gravity.CENTER_VERTICAL).view();
-            $.dialog(pager).showViewDialog(hint, view, "取消", null, "确定", (d, i) -> onNumberSelected(picker, picker.getValue()));
+            $.dialog(viewer).showViewDialog(hint, view, "取消", null, "确定", (d, i) -> onNumberSelected(picker, picker.getValue()));
         }
 
         public SelectNumber value(int value) {
@@ -471,7 +471,7 @@ public class ApCommonBarBinder {
 
         @Override
         public void start() {
-            $.dialog(pager).multiChoice(hint, items, checkedItems, null, this);
+            $.dialog(viewer).multiChoice(hint, items, checkedItems, null, this);
         }
 
         @Override
@@ -496,7 +496,7 @@ public class ApCommonBarBinder {
         public MultiChoiceBinder value(boolean... checkedItems) {
             if (checkedItems.length == this.checkedItems.length) {
                 this.checkedItems = checkedItems;
-                onClick(new Dialog(pager.getContext()), 0);
+                onClick(new Dialog(viewer.getContext()), 0);
             }
             return self();
         }
@@ -523,7 +523,7 @@ public class ApCommonBarBinder {
                 try {
                     verify.verify(count, checkedItems);
                 } catch (VerifyException e) {
-                    pager.makeToastShort(e.getMessage());
+                    $.toast(viewer).makeToastShort(e.getMessage());
                     return;
                 }
             }
@@ -608,7 +608,7 @@ public class ApCommonBarBinder {
 
         @Override
         public void start() {
-            $.dialog(pager).inputText(hint, lastval == null ? $(idvalue).text().replace(valueSuffix,"") : lastval, type, this);
+            $.dialog(viewer).inputText(hint, lastval == null ? $(idvalue).text().replace(valueSuffix,"") : lastval, type, this);
         }
 
         public TextBinder value(Object text) {
@@ -632,7 +632,7 @@ public class ApCommonBarBinder {
                 try {
                     value = verify.verify(value);
                 } catch (VerifyException e) {
-                    pager.makeToastShort(e.getMessage());
+                    $.toast(viewer).makeToastShort(e.getMessage());
                     return false;
                 }
             }
@@ -999,7 +999,7 @@ public class ApCommonBarBinder {
 
         @Override
         public void start() {
-            $.dialog(pager).inputLines(hint, lastval == null ? $(idvalue).text().replace(valueSuffix,"") : lastval, type, this);
+            $.dialog(viewer).inputLines(hint, lastval == null ? $(idvalue).text().replace(valueSuffix,"") : lastval, type, this);
         }
     }
 
@@ -1134,7 +1134,7 @@ public class ApCommonBarBinder {
 
         @Override
         public void start() {
-            $.dialog(pager).selectDate(hint, lastval == null ? new Date() : lastval, this);
+            $.dialog(viewer).selectDate(hint, lastval == null ? new Date() : lastval, this);
         }
 
         public DateBinder value(Date date) {
@@ -1151,7 +1151,7 @@ public class ApCommonBarBinder {
                 try {
                     verify.verify(AfDateFormat.parser(year,month,dayOfMonth));
                 } catch (VerifyException e) {
-                    pager.makeToastShort(e.getMessage());
+                    $.toast(viewer).makeToastShort(e.getMessage());
                     return false;
                 }
             }
@@ -1187,10 +1187,10 @@ public class ApCommonBarBinder {
             if (lastval != null) {
                 calendar.setTime(lastval);
             }
-            TextView txtYear = new TextView(pager.getContext());
-            TextView txtMonth = new TextView(pager.getContext());
-            NumberPicker year = new NumberPicker(pager.getContext());
-            NumberPicker month = new NumberPicker(pager.getContext());
+            TextView txtYear = new TextView(viewer.getContext());
+            TextView txtMonth = new TextView(viewer.getContext());
+            NumberPicker year = new NumberPicker(viewer.getContext());
+            NumberPicker month = new NumberPicker(viewer.getContext());
             year.setMinValue(YEAR_MIN);
             year.setMaxValue(YEAR_MAX);
             month.setMinValue(1);
@@ -1199,11 +1199,11 @@ public class ApCommonBarBinder {
             month.setValue(calendar.get(Calendar.MONTH));
             txtYear.setText("年");
             txtMonth.setText("月");
-            View view = $(new LinearLayout(pager.getContext()))
+            View view = $(new LinearLayout(viewer.getContext()))
                     .addView(year).addView(txtYear)
                     .addView(month).addView(txtMonth)
                     .gravity(Gravity.CENTER_VERTICAL).view();
-            Dialog dialog = $.dialog(pager).showViewDialog(hint, view, "取消", null, "选择", null);
+            Dialog dialog = $.dialog(viewer).showViewDialog(hint, view, "取消", null, "选择", null);
             if (dialog instanceof AlertDialog) {
                 ((AlertDialog) dialog).getButton(AlertDialog.BUTTON_POSITIVE)
                         .setOnClickListener(new SafeListener(new View.OnClickListener() {
@@ -1229,7 +1229,7 @@ public class ApCommonBarBinder {
                 try {
                     verify.verify(AfDateFormat.parser(year, month, 1));
                 } catch (VerifyException e) {
-                    pager.makeToastShort(e.getMessage());
+                    $.toast(viewer).makeToastShort(e.getMessage());
                     return false;
                 }
             }
@@ -1257,7 +1257,7 @@ public class ApCommonBarBinder {
 
         @Override
         public void start() {
-            $.dialog(pager).selectTime(hint, lastval == null ? new Date() : lastval, this);
+            $.dialog(viewer).selectTime(hint, lastval == null ? new Date() : lastval, this);
         }
 
         public TimeBinder value(Date date) {
@@ -1274,7 +1274,7 @@ public class ApCommonBarBinder {
                 try {
                     verify.verify(AfDateFormat.parser(hourOfDay,minute));
                 } catch (VerifyException e) {
-                    pager.makeToastShort(e.getMessage());
+                    $.toast(viewer).makeToastShort(e.getMessage());
                     return false;
                 }
             }
@@ -1302,7 +1302,7 @@ public class ApCommonBarBinder {
 
         @Override
         public void start() {
-            $.dialog(pager).selectDateTime(hint, lastval == null ? new Date() : lastval, this);
+            $.dialog(viewer).selectDateTime(hint, lastval == null ? new Date() : lastval, this);
         }
 
         public DateTimeBinder value(Date date) {
@@ -1320,7 +1320,7 @@ public class ApCommonBarBinder {
                 try {
                     verify.verify(AfDateFormat.parser(year,month,dayOfMonth));
                 } catch (VerifyException e) {
-                    pager.makeToastShort(e.getMessage());
+                    $.toast(viewer).makeToastShort(e.getMessage());
                     return false;
                 }
             }
@@ -1334,7 +1334,7 @@ public class ApCommonBarBinder {
                     verify.verify(AfDateFormat.parser(hourOfDay, minute));
                     isManual = true;
                 } catch (VerifyException e) {
-                    pager.makeToastShort(e.getMessage());
+                    $.toast(viewer).makeToastShort(e.getMessage());
                     return false;
                 }
             }
@@ -1470,7 +1470,8 @@ public class ApCommonBarBinder {
 
         @Override
         public void start() {
-            pager.startActivity(activity, args);
+//            viewer.startActivity(activity, args);
+            $.pager().startActivity(activity, args);
         }
 
     }
@@ -1531,11 +1532,12 @@ public class ApCommonBarBinder {
             } else {
                 picker.setCrop(false);
             }
-            pager.startActivityForResult(ImageGridActivity.class,request_image);
+            $.pager().startActivityForResult(ImageGridActivity.class, request_image);
+            //viewer.startActivityForResult(ImageGridActivity.class,request_image);
         }
 
         public ImageBinder image(String url) {
-            $.query(pager).$(idvalue).image(url);
+            $.query(viewer).$(idvalue).image(url);
             return self();
         }
 
@@ -1569,10 +1571,10 @@ public class ApCommonBarBinder {
                 List<ImageItem> images = (ArrayList<ImageItem>) intent.getSerializableExtra(ImagePicker.EXTRA_RESULT_ITEMS);
                 if (images != null && images.size() > 0) {
                     if (bind != null && !bind.image(this, images.get(0).path)) {
-                        $.query(pager).$(idvalue).image(images.get(0).path);
+                        $.query(viewer).$(idvalue).image(images.get(0).path);
                     }
                 } else {
-                    pager.makeToastShort("没有数据");
+                    $.toast(viewer).makeToastShort("没有数据");
                 }
             }
         }
