@@ -209,7 +209,9 @@ public class AfPagerManager implements PagerManager {
     @Override
     public void startActivityForResult(Class<? extends Activity> clazz, int request, Object... args) {
         AfActivity activity = currentActivity();
-        if (activity != null && activity.isRecycled()) {
+        if (activity instanceof AfFragmentActivity) {
+            ((AfFragmentActivity) activity).getFragment().startActivityForResult(new AfIntent(activity,clazz).putKeyVaules(args), request);
+        } else if (activity != null && activity.isRecycled()) {
             activity.startActivityForResult(clazz, request, args);
         }
     }

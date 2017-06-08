@@ -434,10 +434,6 @@ public abstract class AfApp extends Application {
 		return new AfPagerManager();
 	}
 
-	public Toaster newToaster() {
-		return new AfToaster();
-	}
-
 	public EventManager newEventManager() {
 		throw new AfException("如果项目中要使用事件组件，请先在App重写getEventManager方法，建议使用流行的EventBus来实现");
 	}
@@ -466,6 +462,13 @@ public abstract class AfApp extends Application {
 	public Cacher newPrivateCacher(String name) {
 		return new AfPrivateCacher(name);
 	}
-	//</editor-fold>
+
+	public Toaster newToaster(Viewer viewer) {
+		return new AfToaster(viewer);
+	}
+	public Toaster newToaster() {
+		return new AfToaster();
+	}
+    //</editor-fold>
 
 }

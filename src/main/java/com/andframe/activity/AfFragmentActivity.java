@@ -226,6 +226,10 @@ public class AfFragmentActivity extends AfActivity {
         }
     }
 
+    public Fragment getFragment() {
+        return mFragment;
+    }
+
     public String getFragmentName() {
         if (nameCache.containsKey(mFragmentClazz)) {
             return nameCache.get(mFragmentClazz);

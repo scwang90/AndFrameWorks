@@ -73,6 +73,9 @@ public class $ {
         }
         return instanceToaster;
     }
+    private static Toaster getInstanceToast(Viewer viewer) {
+        return AfApp.get().newToaster(viewer);
+    }
     private static Cacher instanceDurableCacher = null;
     private static Cacher getInstanceDurableCacher() {
         if(instanceDurableCacher == null){
@@ -140,6 +143,9 @@ public class $ {
     //<editor-fold desc="快速分类">
     public static Toaster toast() {
         return getInstanceToast();
+    }
+    public static Toaster toast(Viewer viewer) {
+        return getInstanceToast(viewer);
     }
 
     public static Cacher durable() {
