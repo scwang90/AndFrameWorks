@@ -17,7 +17,7 @@ public class AfDateFormat {
 	 */
 	public static DateFormat DATE = new SimpleDateFormat("y-M-d",LOCALE);
 	public static DateFormat TIME = new SimpleDateFormat("HH:mm:ss",LOCALE);
-	public static DateFormat SIMPLE = new SimpleDateFormat("yyyy年M月d日 HH:mm",LOCALE);
+	public static DateFormat SIMPLE = new SimpleDateFormat("yyyy-M-d HH:mm",LOCALE);
 	public static DateFormat FULL = new SimpleDateFormat("yyyy年MM月dd日 HH时mm分ss秒",LOCALE);
 	public static DateFormat STANDARD = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss",LOCALE);
 
