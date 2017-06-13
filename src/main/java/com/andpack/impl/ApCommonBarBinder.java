@@ -270,7 +270,7 @@ public class ApCommonBarBinder {
         }
 
         public T hintResId(@StringRes int id) {
-            this.hint = hintPrefix + viewer.getContext().getString(id);
+            this.hint = viewer.getContext().getString(id);
             return self();
         }
         //</editor-fold>
