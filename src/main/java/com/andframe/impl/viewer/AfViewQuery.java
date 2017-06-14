@@ -1,5 +1,6 @@
 package com.andframe.impl.viewer;
 
+import android.annotation.TargetApi;
 import android.content.Context;
 import android.content.res.ColorStateList;
 import android.content.res.Resources;
@@ -31,6 +32,7 @@ import android.util.TypedValue;
 import android.view.View;
 import android.view.ViewGroup;
 import android.view.ViewGroup.LayoutParams;
+import android.view.ViewGroup.MarginLayoutParams;
 import android.view.ViewParent;
 import android.view.animation.Animation;
 import android.widget.Adapter;
@@ -638,8 +640,8 @@ public class AfViewQuery<T extends AfViewQuery<T>> implements ViewQuery<T> {
     public Rect margin() {
         return foreach(view -> {
             LayoutParams lp = view.getLayoutParams();
-            if (lp instanceof ViewGroup.MarginLayoutParams) {
-                ViewGroup.MarginLayoutParams params = (ViewGroup.MarginLayoutParams) lp;
+            if (lp instanceof MarginLayoutParams) {
+                MarginLayoutParams params = (MarginLayoutParams) lp;
                 return new Rect(params.leftMargin, params.topMargin, params.rightMargin, params.bottomMargin);
             }
             return null;
@@ -726,6 +728,28 @@ public class AfViewQuery<T extends AfViewQuery<T>> implements ViewQuery<T> {
         });
     }
 
+    @Override
+    public int width() {
+        return foreach(View::getWidth);
+    }
+
+    @Override
+    public int height() {
+        return foreach(View::getHeight);
+    }
+
+    @Override
+    @TargetApi(16)
+    public int minWidth() {
+        return foreach(View::getMinimumWidth);
+    }
+
+    @Override
+    @TargetApi(16)
+    public int minHeight() {
+        return foreach(View::getMinimumHeight);
+    }
+
     private T size(boolean width, float n, boolean dp) {
         return foreach(view -> {
             LayoutParams lp = view.getLayoutParams();
@@ -773,8 +797,8 @@ public class AfViewQuery<T extends AfViewQuery<T>> implements ViewQuery<T> {
     public T margin(int left, int top, int right, int bottom) {
         return foreach(view -> {
             LayoutParams lp = view.getLayoutParams();
-            if (lp instanceof ViewGroup.MarginLayoutParams) {
-                ((ViewGroup.MarginLayoutParams) lp).setMargins(left, top, right, bottom);
+            if (lp instanceof MarginLayoutParams) {
+                ((MarginLayoutParams) lp).setMargins(left, top, right, bottom);
                 view.setLayoutParams(lp);
             }
         });
@@ -783,16 +807,60 @@ public class AfViewQuery<T extends AfViewQuery<T>> implements ViewQuery<T> {
     public T margin(float leftDp, float topDp, float rightDp, float bottomDp) {
         return foreach(view -> {
             LayoutParams lp = view.getLayoutParams();
-            if (lp instanceof ViewGroup.MarginLayoutParams) {
+            if (lp instanceof MarginLayoutParams) {
                 Context context = getContext();
                 float scale = context.getResources().getDisplayMetrics().density;
                 int left = (int) (scale * leftDp + 0.5f);
                 int top = (int) (scale * topDp + 0.5f);
                 int right = (int) (scale * rightDp + 0.5f);
                 int bottom = (int) (scale * bottomDp + 0.5f);
-                ((ViewGroup.MarginLayoutParams) lp).setMargins(left, top, right, bottom);
+                ((MarginLayoutParams) lp).setMargins(left, top, right, bottom);
                 view.setLayoutParams(lp);
             }
+        });
+    }
+
+    @Override
+    public int marginLeft() {
+        return foreach(view -> {
+            LayoutParams lp = view.getLayoutParams();
+            if (lp instanceof MarginLayoutParams) {
+                return ((MarginLayoutParams) lp).leftMargin;
+            }
+            return 0;
+        });
+    }
+
+    @Override
+    public int marginRight() {
+        return foreach(view -> {
+            LayoutParams lp = view.getLayoutParams();
+            if (lp instanceof MarginLayoutParams) {
+                return ((MarginLayoutParams) lp).rightMargin;
+            }
+            return 0;
+        });
+    }
+
+    @Override
+    public int marginTop() {
+        return foreach(view -> {
+            LayoutParams lp = view.getLayoutParams();
+            if (lp instanceof MarginLayoutParams) {
+                return ((MarginLayoutParams) lp).topMargin;
+            }
+            return 0;
+        });
+    }
+
+    @Override
+    public int marginBottom() {
+        return foreach(view -> {
+            LayoutParams lp = view.getLayoutParams();
+            if (lp instanceof MarginLayoutParams) {
+                return ((MarginLayoutParams) lp).bottomMargin;
+            }
+            return 0;
         });
     }
 
@@ -800,8 +868,8 @@ public class AfViewQuery<T extends AfViewQuery<T>> implements ViewQuery<T> {
     public T marginLeft(int px) {
         return foreach(view -> {
             LayoutParams lp = view.getLayoutParams();
-            if (lp instanceof ViewGroup.MarginLayoutParams) {
-                ViewGroup.MarginLayoutParams params = (ViewGroup.MarginLayoutParams) lp;
+            if (lp instanceof MarginLayoutParams) {
+                MarginLayoutParams params = (MarginLayoutParams) lp;
                 params.setMargins(px, params.topMargin, params.rightMargin, params.bottomMargin);
                 view.setLayoutParams(lp);
             }
@@ -812,8 +880,8 @@ public class AfViewQuery<T extends AfViewQuery<T>> implements ViewQuery<T> {
     public T marginRight(int px) {
         return foreach(view -> {
             LayoutParams lp = view.getLayoutParams();
-            if (lp instanceof ViewGroup.MarginLayoutParams) {
-                ViewGroup.MarginLayoutParams params = (ViewGroup.MarginLayoutParams) lp;
+            if (lp instanceof MarginLayoutParams) {
+                MarginLayoutParams params = (MarginLayoutParams) lp;
                 params.setMargins(params.leftMargin, params.topMargin, px, params.bottomMargin);
                 view.setLayoutParams(lp);
             }
@@ -824,8 +892,8 @@ public class AfViewQuery<T extends AfViewQuery<T>> implements ViewQuery<T> {
     public T marginTop(int px) {
         return foreach(view -> {
             LayoutParams lp = view.getLayoutParams();
-            if (lp instanceof ViewGroup.MarginLayoutParams) {
-                ViewGroup.MarginLayoutParams params = (ViewGroup.MarginLayoutParams) lp;
+            if (lp instanceof MarginLayoutParams) {
+                MarginLayoutParams params = (MarginLayoutParams) lp;
                 params.setMargins(params.leftMargin, px, params.rightMargin, params.bottomMargin);
                 view.setLayoutParams(lp);
             }
@@ -836,8 +904,8 @@ public class AfViewQuery<T extends AfViewQuery<T>> implements ViewQuery<T> {
     public T marginBottom(int px) {
         return foreach(view -> {
             LayoutParams lp = view.getLayoutParams();
-            if (lp instanceof ViewGroup.MarginLayoutParams) {
-                ViewGroup.MarginLayoutParams params = (ViewGroup.MarginLayoutParams) lp;
+            if (lp instanceof MarginLayoutParams) {
+                MarginLayoutParams params = (MarginLayoutParams) lp;
                 params.setMargins(params.leftMargin, params.topMargin, params.rightMargin, px);
                 view.setLayoutParams(lp);
             }
@@ -848,10 +916,10 @@ public class AfViewQuery<T extends AfViewQuery<T>> implements ViewQuery<T> {
     public T marginLeft(float dp) {
         return foreach(view -> {
             LayoutParams lp = view.getLayoutParams();
-            if (lp instanceof ViewGroup.MarginLayoutParams) {
+            if (lp instanceof MarginLayoutParams) {
                 float scale = getContext().getResources().getDisplayMetrics().density;
                 int px = (int) (scale * dp + 0.5f);
-                ViewGroup.MarginLayoutParams params = (ViewGroup.MarginLayoutParams) lp;
+                MarginLayoutParams params = (MarginLayoutParams) lp;
                 params.setMargins(px, params.topMargin, params.rightMargin, params.bottomMargin);
                 view.setLayoutParams(lp);
             }
@@ -862,10 +930,10 @@ public class AfViewQuery<T extends AfViewQuery<T>> implements ViewQuery<T> {
     public T marginRight(float dp) {
         return foreach(view -> {
             LayoutParams lp = view.getLayoutParams();
-            if (lp instanceof ViewGroup.MarginLayoutParams) {
+            if (lp instanceof MarginLayoutParams) {
                 float scale = getContext().getResources().getDisplayMetrics().density;
                 int px = (int) (scale * dp + 0.5f);
-                ViewGroup.MarginLayoutParams params = (ViewGroup.MarginLayoutParams) lp;
+                MarginLayoutParams params = (MarginLayoutParams) lp;
                 params.setMargins(params.leftMargin, params.topMargin, px, params.bottomMargin);
                 view.setLayoutParams(lp);
             }
@@ -876,10 +944,10 @@ public class AfViewQuery<T extends AfViewQuery<T>> implements ViewQuery<T> {
     public T marginTop(float dp) {
         return foreach(view -> {
             LayoutParams lp = view.getLayoutParams();
-            if (lp instanceof ViewGroup.MarginLayoutParams) {
+            if (lp instanceof MarginLayoutParams) {
                 float scale = getContext().getResources().getDisplayMetrics().density;
                 int px = (int) (scale * dp + 0.5f);
-                ViewGroup.MarginLayoutParams params = (ViewGroup.MarginLayoutParams) lp;
+                MarginLayoutParams params = (MarginLayoutParams) lp;
                 params.setMargins(params.leftMargin, px, params.rightMargin, params.bottomMargin);
                 view.setLayoutParams(lp);
             }
@@ -890,10 +958,10 @@ public class AfViewQuery<T extends AfViewQuery<T>> implements ViewQuery<T> {
     public T marginBottom(float dp) {
         return foreach(view -> {
             LayoutParams lp = view.getLayoutParams();
-            if (lp instanceof ViewGroup.MarginLayoutParams) {
+            if (lp instanceof MarginLayoutParams) {
                 float scale = getContext().getResources().getDisplayMetrics().density;
                 int px = (int) (scale * dp + 0.5f);
-                ViewGroup.MarginLayoutParams params = (ViewGroup.MarginLayoutParams) lp;
+                MarginLayoutParams params = (MarginLayoutParams) lp;
                 params.setMargins(params.leftMargin, params.topMargin, params.rightMargin, px);
                 view.setLayoutParams(lp);
             }
@@ -932,6 +1000,26 @@ public class AfViewQuery<T extends AfViewQuery<T>> implements ViewQuery<T> {
             int bottom = (int) (scale * bottomDp + 0.5f);
             view.setPadding(left, top, right, bottom);
         });
+    }
+
+    @Override
+    public int paddingLeft() {
+        return foreach(View::getPaddingLeft);
+    }
+
+    @Override
+    public int paddingRight() {
+        return foreach(View::getPaddingRight);
+    }
+
+    @Override
+    public int paddingTop() {
+        return foreach(View::getPaddingTop);
+    }
+
+    @Override
+    public int paddingBottom() {
+        return foreach(View::getPaddingBottom);
     }
 
     @Override

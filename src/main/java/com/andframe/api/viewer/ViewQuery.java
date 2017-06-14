@@ -1,5 +1,6 @@
 package com.andframe.api.viewer;
 
+import android.annotation.TargetApi;
 import android.content.Context;
 import android.content.res.ColorStateList;
 import android.graphics.Bitmap;
@@ -349,7 +350,7 @@ public interface ViewQuery<T extends ViewQuery<T>> {
 
     //<editor-fold desc="边距尺寸">
 
-    //<editor-fold desc="尺寸">
+    //<editor-fold desc="尺寸设置">
     /**
      * 设置当前选中 View 的宽度.
      * 也可以使用 FILL_PARENT , WRAP_CONTENT , MATCH_PARENT.
@@ -381,7 +382,29 @@ public interface ViewQuery<T extends ViewQuery<T>> {
 
     //</editor-fold>
 
-    //<editor-fold desc="内边距">
+    //<editor-fold desc="尺寸获取">
+    /**
+     * 获取当前选中 View 的宽度.
+     */
+    int width();
+    /**
+     * 获取当前选中 View 的高度.
+     */
+    int height();
+    /**
+     * 获取当前选中 View 的最小宽度.
+     */
+    @TargetApi(16)
+    int minWidth();
+    /**
+     * 获取当前选中 View 的最小高度.
+     */
+    @TargetApi(16)
+    int minHeight();
+
+    //</editor-fold>
+
+    //<editor-fold desc="内边距写">
 
     T padding(int px);
     T padding(float dp);
@@ -404,7 +427,16 @@ public interface ViewQuery<T extends ViewQuery<T>> {
 
     //</editor-fold>
 
-    //<editor-fold desc="外边距">
+    //<editor-fold desc="内边距读">
+
+    int paddingLeft() ;
+    int paddingRight();
+    int paddingTop();
+    int paddingBottom();
+
+    //</editor-fold>
+
+    //<editor-fold desc="外边距写">
 
     T margin(int px);
     T margin(float dp);
@@ -424,6 +456,15 @@ public interface ViewQuery<T extends ViewQuery<T>> {
 
     T margin(int leftPx, int topPx, int rightPx, int bottomPx);
     T margin(float leftDp, float topDp, float rightDp, float bottomDp);
+
+    //</editor-fold>
+
+    //<editor-fold desc="外边距读">
+
+    int marginLeft() ;
+    int marginRight();
+    int marginTop();
+    int marginBottom();
 
     //</editor-fold>
 
