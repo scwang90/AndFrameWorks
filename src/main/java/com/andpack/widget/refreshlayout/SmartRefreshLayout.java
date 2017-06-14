@@ -1081,17 +1081,29 @@ public class SmartRefreshLayout extends ViewGroup  implements NestedScrollingPar
      * 完成刷新
      */
     public SmartRefreshLayout finisRefresh(){
-        postDelayed(this::resetStatus, 1000);
-        return this;
+        return finisRefresh(1000);
     }
     /**
      * 完成加载
      */
     public SmartRefreshLayout finisLoadmore(){
-        postDelayed(this::resetStatus, 1000);
-        return this;
+        return finisLoadmore(1000);
     }
 
+    /**
+     * 完成刷新
+     */
+    public SmartRefreshLayout finisRefresh(int delayed){
+        postDelayed(this::resetStatus, delayed);
+        return this;
+    }
+    /**
+     * 完成加载
+     */
+    public SmartRefreshLayout finisLoadmore(int delayed){
+        postDelayed(this::resetStatus, delayed);
+        return this;
+    }
     /**
      * 自动刷新
      */

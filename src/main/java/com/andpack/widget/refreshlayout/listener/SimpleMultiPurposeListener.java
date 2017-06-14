@@ -13,12 +13,12 @@ import com.andpack.widget.refreshlayout.constant.RefreshState;
 public class SimpleMultiPurposeListener implements OnMultiPurposeListener {
 
     @Override
-    public void onHeaderPulling(RefreshHeader header, int offset, int bottomHeight, int extendHeight) {
+    public void onHeaderPulling(RefreshHeader header, int offset, int headHeight, int extendHeight) {
 
     }
 
     @Override
-    public void onHeaderReleasing(RefreshHeader header, int offset, int bottomHeight, int extendHeight) {
+    public void onHeaderReleasing(RefreshHeader header, int offset, int headHeight, int extendHeight) {
 
     }
 
@@ -33,12 +33,12 @@ public class SimpleMultiPurposeListener implements OnMultiPurposeListener {
     }
 
     @Override
-    public void onFooterPulling(RefreshFooter footer, int offset, int headHeight, int extendHeight) {
+    public void onFooterPulling(RefreshFooter footer, int offset, int bottomHeight, int extendHeight) {
 
     }
 
     @Override
-    public void onFooterReleasing(RefreshFooter footer, int offset, int headHeight, int extendHeight) {
+    public void onFooterReleasing(RefreshFooter footer, int offset, int bottomHeight, int extendHeight) {
 
     }
 
