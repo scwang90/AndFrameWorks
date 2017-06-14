@@ -15,7 +15,7 @@ import static android.view.ViewGroup.LayoutParams.MATCH_PARENT;
 @SuppressWarnings("unused")
 public abstract class AfTreeViewItemViewer<T> extends AfMultiChoiceItemViewer<T> {
 
-    protected int retract = 35;
+    protected int retractDp = 35;
     protected AfTreeNode<T> mNode = null;
     protected View mTreeViewContent = null;
     protected LinearLayout mTreeViewLayout = null;
@@ -32,7 +32,7 @@ public abstract class AfTreeViewItemViewer<T> extends AfMultiChoiceItemViewer<T>
     public void onViewCreated() {
         super.onViewCreated();
         float density = getContext().getResources().getDisplayMetrics().density;
-        retract = (int) (density * 20 + 0.5f);
+        retractDp = (int) (density * 20 + 0.5f);
     }
 
     @SuppressLint("NewApi")
@@ -68,7 +68,7 @@ public abstract class AfTreeViewItemViewer<T> extends AfMultiChoiceItemViewer<T>
     protected boolean onBinding(T model, int index, SelectStatus status) {
         if (mTreeViewLayout != null && mNode != null) {
             if (!onBinding(mNode.value, index, mNode.level, mNode.isExpanded, status)) {
-                mTreeViewLayout.setPadding(mNode.level * retract, 0, 0, 0);
+                mTreeViewLayout.setPadding(mNode.level * retractDp, 0, 0, 0);
                 return false;
             }
             return true;
