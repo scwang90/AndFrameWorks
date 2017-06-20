@@ -18,7 +18,7 @@ import com.andframe.exception.AfExceptionHandler;
 import com.andpack.annotation.statusbar.StatusBarTranslucent;
 import com.andpack.impl.ApDialogBuilder;
 import com.andpack.impl.ApExceptionHandler;
-import com.andpack.impl.ApRefreshLayout;
+import com.andpack.impl.ApRefreshLayouter;
 import com.andpack.impl.ApViewQuery;
 import com.lzy.imagepicker.ImagePicker;
 import com.nostra13.universalimageloader.cache.disc.impl.ext.ApDiskCache;
@@ -174,7 +174,7 @@ public class ApApp extends AfApp {
     @NonNull
     @Override
     public RefreshLayouter newRefreshLayouter(Context context) {
-        return new ApRefreshLayout(context);
+        return new ApRefreshLayouter(context);
     }
 
     @Override
