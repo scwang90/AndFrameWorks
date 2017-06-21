@@ -11,6 +11,7 @@ import com.andframe.$;
 import com.andframe.api.pager.status.OnRefreshListener;
 import com.andframe.api.pager.status.RefreshLayouter;
 import com.scwang.smartrefresh.layout.SmartRefreshLayout;
+import com.scwang.smartrefresh.layout.api.RefreshHeader;
 import com.scwang.smartrefresh.layout.header.BezierRadarHeader;
 
 import java.util.Date;
@@ -25,25 +26,27 @@ import static android.widget.ListPopupWindow.WRAP_CONTENT;
 
 public class ApRefreshLayouter implements RefreshLayouter<SmartRefreshLayout> {
 
-    private final SmartRefreshLayout mRefreshLayout;
+    protected final SmartRefreshLayout mRefreshLayout;
 
     static {
         SmartRefreshLayout.setDefaultRefreshHeaderCreater((context, layout) -> new BezierRadarHeader(context));
     }
 
     public ApRefreshLayouter(Context context) {
-        BezierRadarHeader header = new BezierRadarHeader(context);
         mRefreshLayout = new SmartRefreshLayout(context);
-        mRefreshLayout.setRefreshHeader(header);
+        mRefreshLayout.setRefreshHeader(newHeader(context));
         mRefreshLayout.setEnableLoadmore(false);
     }
 
     public ApRefreshLayouter(Context context, int primaryId, int frontId) {
-        BezierRadarHeader header = new BezierRadarHeader(context);
         mRefreshLayout = new SmartRefreshLayout(context);
-        mRefreshLayout.setRefreshHeader(header);
+        mRefreshLayout.setRefreshHeader(newHeader(context));
         mRefreshLayout.setEnableLoadmore(false);
         mRefreshLayout.setPrimaryColorsId(primaryId, frontId);
+    }
+
+    protected RefreshHeader newHeader(Context context) {
+        return new BezierRadarHeader(context);
     }
 
     @NonNull
