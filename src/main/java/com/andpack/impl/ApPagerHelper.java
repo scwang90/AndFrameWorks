@@ -4,6 +4,8 @@ import android.app.Activity;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.support.annotation.StyleRes;
+import android.support.v4.app.Fragment;
+import android.support.v4.content.ContextCompat;
 import android.support.v7.widget.Toolbar;
 import android.view.View;
 import android.view.ViewGroup;
@@ -18,6 +20,8 @@ import com.andframe.fragment.AfFragment;
 import com.andframe.listener.SafeListener;
 import com.andframe.util.java.AfReflecter;
 import com.andpack.R;
+import com.andpack.activity.ApFragmentActivity;
+import com.andpack.annotation.BackgroundTranslucent;
 import com.andpack.annotation.RegisterEventBus;
 import com.andpack.annotation.interpreter.StatusBarInterpreter;
 import com.andpack.api.ApPager;
@@ -34,6 +38,9 @@ import java.util.Map;
 
 import me.imid.swipebacklayout.lib.SwipeBackLayout;
 import me.imid.swipebacklayout.lib.app.SwipeBackActivityHelper;
+
+import static android.support.v4.graphics.ColorUtils.setAlphaComponent;
+import static com.andframe.util.java.AfReflecter.getAnnotation;
 
 /**
  * 页面基类帮助类
@@ -150,6 +157,7 @@ public class ApPagerHelper {
             if (mSwipeBackHelper != null) {
                 mSwipeBackHelper.onPostCreate();
                 SwipeBackLayout layout = mSwipeBackHelper.getSwipeBackLayout();
+                performBackgroundTranslucent(layout);
                 ViewGroup root = (ViewGroup)pager.getActivity().getWindow().getDecorView();
                 FrameLayout frame = new FrameLayout(pager.getContext());
                 for (int i = 0; i < root.getChildCount(); i++) {
@@ -169,6 +177,24 @@ public class ApPagerHelper {
             }
         } catch (Throwable e) {
             AfExceptionHandler.handle(e, ("SwipeBackActivityHelper.onPostCreate 失败"));
+        }
+    }
+
+    private void performBackgroundTranslucent(SwipeBackLayout layout) {
+        BackgroundTranslucent translucent;
+        if (pager instanceof ApFragmentActivity) {
+            Class<?> fragment = ((ApFragmentActivity) pager).getFragmentClazz();
+            translucent = getAnnotation(fragment, Fragment.class, BackgroundTranslucent.class);
+        } else {
+            translucent = getAnnotation(pager.getClass(), getStopClass(), BackgroundTranslucent.class);
+        }
+        if (translucent != null && layout.getChildCount() > 0) {
+            View view = layout.getChildAt(0);
+            if (view != null) {
+                view.setBackgroundColor(0);
+            }
+            int color = ContextCompat.getColor(layout.getContext(), translucent.color());
+            layout.setBackgroundColor(setAlphaComponent(color, (int) (255 * translucent.value())));
         }
     }
 
