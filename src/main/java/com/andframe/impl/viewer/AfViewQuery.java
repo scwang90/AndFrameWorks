@@ -1882,6 +1882,11 @@ public class AfViewQuery<T extends AfViewQuery<T>> implements ViewQuery<T> {
         return foreach(ViewGroup.class, (ViewEacher<ViewGroup>) view -> view.setClipToPadding(clip));
     }
 
+    @Override
+    public T clipChildren(boolean clip) {
+        return foreach(ViewGroup.class, (ViewEacher<ViewGroup>) view -> view.setClipChildren(clip));
+    }
+
     //</editor-fold>
 
     //<editor-fold desc="添加子控件">

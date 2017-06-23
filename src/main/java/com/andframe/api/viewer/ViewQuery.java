@@ -999,6 +999,7 @@ public interface ViewQuery<T extends ViewQuery<T>> {
     T removeAllViewsInLayout();
 
     T clipToPadding(boolean clip);
+    T clipChildren(boolean clip);
 
     //</editor-fold>
 

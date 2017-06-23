@@ -61,7 +61,7 @@ public abstract class AfUpdateService implements UpdateService {
 			entity.Notify = new AfDownloader.NotifyEntity();
 			entity.Notify.ContentTitle = AfApp.get().getAppName() + "更新";
 			entity.Notify.FailText = "更新下载失败";
-			entity.Notify.FailText = "更新下载完成";
+			entity.Notify.FinishText = "更新下载完成";
 			AfDownloader.download(entity, managerListener = new DownloadListener());
 		}
 	}
