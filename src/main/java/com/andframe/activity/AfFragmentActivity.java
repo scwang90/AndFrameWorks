@@ -132,7 +132,7 @@ public class AfFragmentActivity extends AfActivity {
 
     protected void checkMustLoginedOnCreate() {
         try {
-            Class<?> fragment = getaFragmentClass();
+            Class<?> fragment = getFragmentClass();
             MustLogined must = AfReflecter.getAnnotation(fragment, Fragment.class, MustLogined.class);
             if (must != null && !AfApp.get().isUserLogined()) {
                 interruptReplaceFragment = true;
@@ -146,7 +146,7 @@ public class AfFragmentActivity extends AfActivity {
     //<editor-fold desc="反射缓存">
     private static Map<String, Class> typeCache = new HashMap<>();
     private static Map<String, String> nameCache = new HashMap<>();
-    private Class<?> getaFragmentClass() throws ClassNotFoundException {
+    private Class<?> getFragmentClass() throws ClassNotFoundException {
         Class type = typeCache.get(mFragmentClazz);
         if (type == null) {
             typeCache.put(mFragmentClazz, type = Class.forName(mFragmentClazz));
@@ -215,7 +215,7 @@ public class AfFragmentActivity extends AfActivity {
     protected void replaceFragment() {
         if (!interruptReplaceFragment) {
             try {
-                mFragment = (Fragment)getaFragmentClass().newInstance();
+                mFragment = (Fragment) getFragmentClass().newInstance();
                 FragmentManager manager = getSupportFragmentManager();
                 FragmentTransaction transaction = manager.beginTransaction();
                 transaction.replace(widget_frame, mFragment);
@@ -228,6 +228,14 @@ public class AfFragmentActivity extends AfActivity {
 
     public Fragment getFragment() {
         return mFragment;
+    }
+
+    public Class<?> getFragmentClazz() {
+        try {
+            return getFragmentClass();
+        } catch (ClassNotFoundException e) {
+            return null;
+        }
     }
 
     public String getFragmentName() {

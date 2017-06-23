@@ -157,6 +157,14 @@ public abstract class AfTreeViewAdapter<T> extends AfMultiChoiceAdapter<T> imple
 	}
 
 	@Override
+	public void clear() {
+		super.clear();
+		mltOriginData.clear();
+		mRootNode = mEstablisher.establish(mltOriginData,mDefaultExpanded);
+		updateNodeListToShow();
+	}
+
+	@Override
 	public boolean addAll(@NonNull Collection<? extends T> ltdata) {
 		boolean ret = mltOriginData.addAll(ltdata);
 		mRootNode = mEstablisher.establish(mltOriginData,mDefaultExpanded);

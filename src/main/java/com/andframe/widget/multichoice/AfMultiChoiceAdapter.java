@@ -62,7 +62,7 @@ public abstract class AfMultiChoiceAdapter<T> extends AfListAdapter<T>{
 	public int getChoiceNumber() {
 		return mChoiceNumber;
 	}
-	
+
 	@Override
 	public boolean addAll(@NonNull Collection<? extends T> ltdata) {
 		if(isMultiChoiceMode() && ltdata.size() > 0){
