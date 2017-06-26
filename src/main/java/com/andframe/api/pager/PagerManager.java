@@ -22,6 +22,7 @@ public interface PagerManager {
     void onActivityRestart(AfActivity activity);
     void onActivityStart(AfActivity activity);
 
+    void onFragmentCreate(AfFragment fragment);
     void onFragmentAttach(AfFragment fragment, Context context);
     void onFragmentDetach(AfFragment fragment);
     void onFragmentResume(AfFragment fragment);

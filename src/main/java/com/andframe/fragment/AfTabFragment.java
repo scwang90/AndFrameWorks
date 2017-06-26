@@ -1,6 +1,9 @@
 package com.andframe.fragment;
 
+import android.os.Bundle;
+import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
+import android.view.View;
 
 import com.andframe.feature.AfBundle;
 import com.andframe.impl.viewer.AfView;
@@ -20,17 +23,10 @@ public abstract class AfTabFragment extends AfFragment {
     // 标识创建视图的时候是否需要Switch
     private Boolean mIsNeedSwitch = false;
 
-    /**
-     * 自定义 View onCreate(Bundle)
-     */
-    protected void onCreate(AfBundle bundle, AfView view) throws Exception {
-
-    }
-
     @Override
-    protected final void onCreate(AfView rootView, AfBundle bundle) throws Exception {
+    public void onViewCreated(View view, @Nullable Bundle savedInstanceState) {
+        super.onViewCreated(view, savedInstanceState);
         mIsCreateView = true;
-        onCreate(bundle, rootView);
         if (mIsNeedSwitch) {
             mIsNeedSwitch = false;
             if (mSwitchCount == 0) {

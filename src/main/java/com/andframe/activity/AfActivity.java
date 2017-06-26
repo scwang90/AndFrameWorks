@@ -6,6 +6,7 @@ import android.app.Dialog;
 import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
+import android.support.annotation.CallSuper;
 import android.support.v4.app.Fragment;
 import android.support.v7.app.AppCompatActivity;
 import android.view.KeyEvent;
@@ -30,9 +31,6 @@ import com.andframe.exception.AfExceptionHandler;
 import com.andframe.feature.AfIntent;
 import com.andframe.fragment.AfFragment;
 import com.andframe.impl.helper.AfViewQueryHelper;
-import com.andframe.task.AfData2Task;
-import com.andframe.task.AfData3Task;
-import com.andframe.task.AfDataTask;
 import com.andframe.task.AfDispatcher;
 import com.andframe.util.java.AfReflecter;
 import com.andframe.util.java.AfStackTrace;
@@ -44,6 +42,7 @@ import java.util.List;
  * 框架 Activity
  * Created by SCWANG on 2016/9/1.
  */
+@SuppressWarnings("RestrictedApi")
 public abstract class AfActivity extends AppCompatActivity implements Pager, ViewQueryHelper {
 
     protected View mRootView = null;
@@ -143,14 +142,19 @@ public abstract class AfActivity extends AppCompatActivity implements Pager, Vie
         super.setContentView(view, params);
         mRootView = view;
         ViewBinder.doBind(this);
+        onViewCreated();
+    }
+
+    @CallSuper
+    protected void onViewCreated() {
     }
     //</editor-fold>
 
     //<editor-fold desc="生命周期">
 
     /**
-     * final 原始 onCreate(Bundle bundle)
-     * 子类只能重写 onCreate(Bundle bundle,AfIntent intent)
+     * final 原始 onCreated(Bundle bundle)
+     * 子类只能重写 onCreated(Bundle bundle,AfIntent intent)
      */
     @Override
     protected void onCreate(Bundle bundle) {
@@ -181,29 +185,29 @@ public abstract class AfActivity extends AppCompatActivity implements Pager, Vie
             //handle 可能会根据 Activity 弹窗提示错误信息
             //当前 Activity 即将关闭，提示窗口也会关闭
             //用定时器 等到原始 Activity 再提示弹窗
-            AfDispatcher.dispatch(() -> AfExceptionHandler.handle(e, TAG() + ".onCreate"), 500);
+            AfDispatcher.dispatch(() -> AfExceptionHandler.handle(e, TAG() + ".onCreated"), 500);
             super.onCreate(bundle);
             makeToastShort("页面启动失败", e);
             this.finish();
         }
 
         try {
-            this.onCreate(bundle, new AfIntent(getIntent()));
+            this.onCreated(bundle);
             LifeCycleInjecter.injectOnCreate(this, bundle);
         } catch (Exception e) {
-            AfDispatcher.dispatch(() -> AfExceptionHandler.handle(e, TAG() + ".onCreate"), 500);
+            AfDispatcher.dispatch(() -> AfExceptionHandler.handle(e, TAG() + ".onCreated"), 500);
             makeToastShort("页面启动失败", e);
             this.finish();
         }
     }
 
     /**
-     * 新的 onCreate 实现
+     * 新的 onCreated 实现
      * 重写的 时候 一般情况下请 调用
-     * super.onCreate(bundle,intent);
+     * super.onCreated(bundle,intent);
      */
-    @SuppressWarnings("UnusedParameters")
-    protected void onCreate(Bundle bundle, AfIntent intent) {
+    @CallSuper
+    protected void onCreated(Bundle bundle) {
         super.onCreate(bundle);
         if (bundle != null) {
             AfApp.get().onRestoreInstanceState();
@@ -453,30 +457,6 @@ public abstract class AfActivity extends AppCompatActivity implements Pager, Vie
     @Override
     public <T extends Task> T postTask(T task) {
         return $.task().postTask(task);
-    }
-
-    /**
-     * 抛送带数据任务到Worker执行
-     */
-    @Override
-    public <T> AfDataTask postDataTask(T t, AfDataTask.OnTaskHandlerListener<T> task) {
-        return postTask(new AfDataTask<>(t, task));
-    }
-
-    /**
-     * 抛送带数据任务到Worker执行
-     */
-    @Override
-    public <T, TT> AfData2Task postDataTask(T t, TT tt, AfData2Task.OnData2TaskHandlerListener<T, TT> task) {
-        return postTask(new AfData2Task<>(t, tt, task));
-    }
-
-    /**
-     * 抛送带数据任务到Worker执行
-     */
-    @Override
-    public <T, TT, TTT> AfData3Task postDataTask(T t, TT tt, TTT ttt, AfData3Task.OnData3TaskHandlerListener<T, TT, TTT> task) {
-        return postTask(new AfData3Task<>(t, tt, ttt, task));
     }
     //</editor-fold>
 

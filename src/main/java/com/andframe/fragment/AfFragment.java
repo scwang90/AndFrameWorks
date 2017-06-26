@@ -5,6 +5,7 @@ import android.app.Dialog;
 import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
+import android.support.annotation.CallSuper;
 import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentActivity;
@@ -28,13 +29,8 @@ import com.andframe.api.viewer.ViewQueryHelper;
 import com.andframe.application.AfApp;
 import com.andframe.exception.AfExceptionHandler;
 import com.andframe.exception.AfToastException;
-import com.andframe.feature.AfBundle;
 import com.andframe.feature.AfIntent;
 import com.andframe.impl.helper.AfViewQueryHelper;
-import com.andframe.impl.viewer.AfView;
-import com.andframe.task.AfData2Task;
-import com.andframe.task.AfData3Task;
-import com.andframe.task.AfDataTask;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -103,27 +99,6 @@ public abstract class AfFragment extends Fragment implements Pager, ViewQueryHel
     public <T extends Task> T postTask(T task) {
         return $.task().postTask(task);
     }
-
-    /**
-     * 抛送带数据任务到Worker执行
-     */
-    public <T> AfDataTask postDataTask(T t, AfDataTask.OnTaskHandlerListener<T> task) {
-        return postTask(new AfDataTask<>(t, task));
-    }
-
-    /**
-     * 抛送带数据任务到Worker执行
-     */
-    public <T, TT> AfData2Task postDataTask(T t, TT tt, AfData2Task.OnData2TaskHandlerListener<T, TT> task) {
-        return postTask(new AfData2Task<>(t, tt, task));
-    }
-
-    /**
-     * 抛送带数据任务到Worker执行
-     */
-    public <T, TT, TTT> AfData3Task postDataTask(T t, TT tt, TTT ttt, AfData3Task.OnData3TaskHandlerListener<T, TT, TTT> task) {
-        return postTask(new AfData3Task<>(t, tt, ttt, task));
-    }
     //</editor-fold>
 
     //<editor-fold desc="页面切换">
@@ -187,11 +162,16 @@ public abstract class AfFragment extends Fragment implements Pager, ViewQueryHel
         super.onViewCreated(view, savedInstanceState);
         try {
             ViewBinder.doBind(this);
-            onCreate(new AfView(mRootView), new AfBundle(getArguments()));
+            onViewCreated();
         } catch (Exception e) {
-            makeToastShort("页面初始化异常！", e);
+            makeToastShort("AfFragment#ViewBinder.doBind异常！", e);
             AfExceptionHandler.handle(e, TAG("onViewCreated"));
         }
+    }
+
+    @CallSuper
+    protected void onViewCreated() {
+
     }
 
     /**
@@ -205,23 +185,23 @@ public abstract class AfFragment extends Fragment implements Pager, ViewQueryHel
         return null;
     }
 
-    /**
-     * 自定义 View onCreate(Bundle)
-     */
-    protected void onCreate(AfView rootView, AfBundle bundle) throws Exception {
-
-    }
-
     @Override
     public final void onCreate(Bundle bundle) {
-        super.onCreate(bundle);
         try {
+            $.pager().onFragmentCreate(this);
+            super.onCreate(bundle);
             Injecter.doInject(this, getContext());
             LifeCycleInjecter.injectOnCreate(this, bundle);
+            onCreated();
         } catch (Throwable e) {
             AfExceptionHandler.handle(e, TAG("onCreate.doInject"));
-            makeToastShort("页面初始化异常！", e);
+            makeToastShort("AfFragment#onCreate异常！", e);
         }
+    }
+
+    @CallSuper
+    protected void onCreated() {
+
     }
 
     @Override
@@ -307,6 +287,7 @@ public abstract class AfFragment extends Fragment implements Pager, ViewQueryHel
      * @see AfFragment#onActivityResult(int, int, android.content.Intent)
      * {@link AfFragment#onActivityResult(int, int, android.content.Intent)}
      */
+    @SuppressWarnings("RestrictedApi")
     protected void onActivityResult(AfIntent intent, int requestcode, int resultcode) {
         super.onActivityResult(requestcode, resultcode, intent);
         List<Fragment> fragments = getChildFragmentManager().getFragments();

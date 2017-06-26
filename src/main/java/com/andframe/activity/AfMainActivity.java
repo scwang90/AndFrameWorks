@@ -4,7 +4,6 @@ package com.andframe.activity;
 import android.support.annotation.CallSuper;
 
 import com.andframe.$;
-import com.andframe.annotation.view.BindViewCreated;
 import com.andframe.application.AfAppSettings;
 
 /**
@@ -17,8 +16,9 @@ public class AfMainActivity extends AfActivity {
     protected long mExitInterval = 2000;
     protected boolean mDoubleBackKeyPressed = true;
 
-    @BindViewCreated@CallSuper
+    @CallSuper
     public void onViewCreated()  {
+        super.onViewCreated();
         if (AfAppSettings.getInstance().isAutoUpdate()) {
             $.update().checkUpdate();
         }

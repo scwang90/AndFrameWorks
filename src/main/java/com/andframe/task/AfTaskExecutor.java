@@ -13,7 +13,6 @@ import com.andframe.exception.AfExceptionHandler;
 import com.andframe.impl.task.TaskBuilder;
 import com.andframe.util.internal.TAG;
 import com.andframe.util.java.AfDateGuid;
-import com.andframe.util.java.AfReflecter;
 
 import java.util.concurrent.BlockingQueue;
 import java.util.concurrent.Executor;
@@ -44,12 +43,6 @@ public class AfTaskExecutor implements TaskExecutor {
                 String name = AfDateGuid.NewID();
                 if (AfApp.get().isDebug()) {
                     name = task.getClass().getSimpleName();
-                    if (task instanceof AfDataTask || task instanceof AfData2Task || task instanceof AfData3Task) {
-                        Object listener = AfReflecter.getMemberNoException(task, "listener");
-                        if (listener != null) {
-                            name = listener.getClass().getSimpleName();
-                        }
-                    }
                 }
                 return new Thread(r, "AfTaskExecutor-" + name + " #" + mCount.getAndIncrement());
             }

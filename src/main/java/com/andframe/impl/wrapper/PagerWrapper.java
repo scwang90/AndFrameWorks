@@ -10,9 +10,6 @@ import android.view.View;
 import com.andframe.api.pager.Pager;
 import com.andframe.api.task.Task;
 import com.andframe.api.viewer.Viewer;
-import com.andframe.task.AfData2Task;
-import com.andframe.task.AfData3Task;
-import com.andframe.task.AfDataTask;
 
 /**
  * PagerWrapper 实现 pager 和 viewer 的分离
@@ -147,21 +144,6 @@ public class PagerWrapper implements Pager {
     @Override
     public <T extends Task> T postTask(T task) {
         return pager.postTask(task);
-    }
-
-    @Override
-    public <T> AfDataTask postDataTask(T t, AfDataTask.OnTaskHandlerListener<T> task) {
-        return pager.postDataTask(t, task);
-    }
-
-    @Override
-    public <T, TT> AfData2Task postDataTask(T t, TT tt, AfData2Task.OnData2TaskHandlerListener<T, TT> task) {
-        return pager.postDataTask(t, tt, task);
-    }
-
-    @Override
-    public <T, TT, TTT> AfData3Task postDataTask(T t, TT tt, TTT ttt, AfData3Task.OnData3TaskHandlerListener<T, TT, TTT> task) {
-        return pager.postDataTask(t, tt, ttt, task);
     }
 
     @Override

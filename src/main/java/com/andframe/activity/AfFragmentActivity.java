@@ -100,8 +100,8 @@ public class AfFragmentActivity extends AfActivity {
     protected String mFragmentClazz = null;
 
     @Override
-    protected void onCreate(Bundle bundle, AfIntent intent) {
-        super.onCreate(bundle, intent);
+    protected void onCreated(Bundle bundle) {
+        super.onCreated(bundle);
         checkMustLoginedOnCreate();
         FrameLayout frameLayout = new FrameLayout(this);
         frameLayout.setId(widget_frame);

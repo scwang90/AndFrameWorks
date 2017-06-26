@@ -5,7 +5,6 @@ import android.support.annotation.CallSuper;
 import android.support.annotation.NonNull;
 import android.view.View;
 
-import com.andframe.annotation.view.BindViewCreated;
 import com.andframe.api.pager.load.LoadHelper;
 import com.andframe.api.pager.load.LoadPager;
 import com.andframe.api.pager.status.RefreshLayouter;
@@ -30,8 +29,9 @@ public abstract class AfLoadActivity<T> extends AfActivity implements LoadPager<
         return new AfLoadHelper<>(this);
     }
 
-    @BindViewCreated@CallSuper
+    @CallSuper
     public void onViewCreated()  {
+        super.onViewCreated();
         mHelper.onViewCreated();
     }
 

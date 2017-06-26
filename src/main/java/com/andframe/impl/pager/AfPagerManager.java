@@ -73,6 +73,11 @@ public class AfPagerManager implements PagerManager {
     }
 
     @Override
+    public void onFragmentCreate(AfFragment fragment) {
+
+    }
+
+    @Override
     public void onFragmentAttach(AfFragment fragment, Context context) {
 
     }

@@ -9,9 +9,9 @@ import com.andframe.activity.AfActivity;
 import com.andframe.api.service.UpdateService;
 import com.andframe.exception.AfExceptionHandler;
 import com.andframe.model.ServiceVersion;
-import com.andframe.task.AfDataTask;
 import com.andframe.task.AfDownloader;
 import com.andframe.task.AfDownloader.DownloadEntity;
+import com.andframe.task.AfHandlerTask;
 
 import java.io.File;
 
@@ -43,7 +43,7 @@ public abstract class AfUpdateService implements UpdateService {
 
 	@Override
 	public void checkUpdate(boolean feedback) {
-		$.task().postTask(new AfDataTask<>(feedback, new CheckUpdateTask()));
+		$.task().postTask(new CheckUpdateTask(feedback));
 	}
 
 	public AfUpdateService() {
@@ -121,27 +121,33 @@ public abstract class AfUpdateService implements UpdateService {
 		return curver < server;
 	}
 
-	public class CheckUpdateTask extends AfDataTask.AbDataTaskHandler<Boolean> {
+	public class CheckUpdateTask extends AfHandlerTask {
+
+		private boolean feedback;
+
+		public CheckUpdateTask(boolean feedback) {
+			this.feedback = feedback;
+		}
 
 		@Override
-		public boolean onPrepare(Boolean feedback) {
+		public boolean onPrepare() {
 			AfActivity activity = $.pager().currentActivity();
 			if (activity != null && feedback) {
 				activity.makeToastShort("正在检查更新...");
 			}
-			return super.onPrepare(feedback);
+			return super.onPrepare();
 		}
 
 		@Override
-		public void onTaskBackground(Boolean ndfeedback) throws Exception {
+		protected void onWorking() throws Exception {
 			mVersionInfo = infoFromService(mVersion);
 		}
 
 		@Override
-		public void onTaskHandle(Boolean ndfeedback, AfDataTask task) {
+		protected void onHandle() {
 			showNeedUpdate();
 			AfActivity activity = $.pager().currentActivity();
-			if (activity != null && !isNeedUpdate() && ndfeedback) {
+			if (activity != null && !isNeedUpdate() && feedback) {
 				activity.makeToastShort("恭喜你，目前已经是最新版本！");
 			}
 		}
