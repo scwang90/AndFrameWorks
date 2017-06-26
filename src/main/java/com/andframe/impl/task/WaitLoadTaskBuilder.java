@@ -152,6 +152,10 @@ public class WaitLoadTaskBuilder<T> extends WaitTaskBuilder implements WaitLoadB
 
     //</editor-fold>
 
+    public WaitLoadTaskBuilder<T> fina11y(Runnable finallyRunnable) {
+        super.fina11y(finallyRunnable);
+        return this;
+    }
 
     //</editor-fold>
 

@@ -32,6 +32,7 @@ public class WaitTaskBuilder extends TaskBuilder implements WaitBuilder {
         this.prepareRunnable = builder.prepareRunnable;
         this.prepareHandler = builder.prepareHandler;
         this.workingHandler = builder.workingHandler;
+        this.finallyRunnable = builder.finallyRunnable;
         this.successRunnable = builder.successRunnable;
         this.exceptionHandler = builder.exceptionHandler;
     }
@@ -93,6 +94,11 @@ public class WaitTaskBuilder extends TaskBuilder implements WaitBuilder {
     }
     public WaitBuilder exception(ExceptionHandler handler) {
         return exception(true, handler);
+    }
+
+    public WaitBuilder fina11y(Runnable finallyRunnable) {
+        super.fina11y(finallyRunnable);
+        return this;
     }
 
     public <T> WaitLoadBuilder<T> load(Class<T> clazz) {

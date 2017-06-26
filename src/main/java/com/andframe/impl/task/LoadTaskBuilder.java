@@ -28,6 +28,7 @@ public class LoadTaskBuilder<T> extends TaskBuilder implements LoadBuilder<T> {
         this.prepareRunnable = builder.prepareRunnable;
         this.prepareHandler = builder.prepareHandler;
         this.workingHandler = builder.workingHandler;
+        this.finallyRunnable = builder.finallyRunnable;
         this.successRunnable = builder.successRunnable;
         this.exceptionHandler = builder.exceptionHandler;
     }
@@ -99,6 +100,12 @@ public class LoadTaskBuilder<T> extends TaskBuilder implements LoadBuilder<T> {
     }
     public LoadBuilder<T> exception(ExceptionHandler handler) {
         super.exception(handler);
+        return this;
+    }
+
+    @Override
+    public LoadBuilder<T> fina11y(Runnable finallyRunnable) {
+        super.fina11y(finallyRunnable);
         return this;
     }
 

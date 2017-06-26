@@ -34,6 +34,7 @@ public interface WaitBuilder extends Builder {
     WaitBuilder prepare(PrepareHandler handler);
     WaitBuilder working(WorkingHandler handler);
     WaitBuilder success(Runnable success);
+    WaitBuilder fina11y(Runnable fina11y);
     WaitBuilder exception(ExceptionHandler handler);
     <T> WaitLoadBuilder<T> load(Class<T> clazz);
     <T> WaitLoadBuilder<Set<T>> loadSet(Class<T> clazz);

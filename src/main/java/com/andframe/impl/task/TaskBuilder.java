@@ -26,6 +26,7 @@ public class TaskBuilder implements Builder {
     public PrepareHandler prepareHandler;
     public WorkingHandler workingHandler;
     public Runnable successRunnable;
+    public Runnable finallyRunnable;
     public ExceptionHandler exceptionHandler;
 
     //<editor-fold desc="设置参数">
@@ -50,6 +51,12 @@ public class TaskBuilder implements Builder {
     @Override
     public Builder success(Runnable successRunnable) {
         this.successRunnable = successRunnable;
+        return this;
+    }
+
+    @Override
+    public Builder fina11y(Runnable finallyRunnable) {
+        this.finallyRunnable = finallyRunnable;
         return this;
     }
 

@@ -22,6 +22,7 @@ public interface Builder {
     Builder prepare(PrepareHandler handler);
     Builder working(WorkingHandler handler);
     Builder success(Runnable runnable);
+    Builder fina11y(Runnable runnable);
     Builder exception(ExceptionHandler handler);
 
     Runnable prepare();

@@ -28,6 +28,9 @@ public class InternalTask extends AfHandlerTask {
 
     @Override
     protected void onHandle() {
+        if (builder.finallyRunnable != null) {
+            builder.finallyRunnable.run();
+        }
         if (isFinish()) {
             if (builder.successRunnable != null) {
                 builder.successRunnable.run();

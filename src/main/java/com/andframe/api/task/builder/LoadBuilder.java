@@ -37,6 +37,7 @@ public interface LoadBuilder<T> extends Builder {
      */
     LoadBuilder<T> prepare(Runnable runnable);
     LoadBuilder<T> prepare(PrepareHandler handler);
+    LoadBuilder<T> fina11y(Runnable fina11y);
     LoadBuilder<T> exception(ExceptionHandler handler);
     WaitLoadBuilder<T> wait(Pager pager, String master);
 

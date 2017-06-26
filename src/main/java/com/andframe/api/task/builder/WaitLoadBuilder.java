@@ -46,7 +46,8 @@ public interface WaitLoadBuilder<T> extends WaitBuilder, LoadBuilder<T> {
     WaitLoadBuilder<T> exception(ExceptionHandler handler);
     @Override
     WaitLoadBuilder<T> exception(boolean feedback, ExceptionHandler handler);
-
+    @Override
+    WaitLoadBuilder<T> fina11y(Runnable fina11y);
     /**
      * 禁用接口
      */
