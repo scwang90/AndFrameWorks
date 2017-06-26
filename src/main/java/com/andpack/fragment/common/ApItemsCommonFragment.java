@@ -1,5 +1,6 @@
 package com.andpack.fragment.common;
 
+import android.support.annotation.CallSuper;
 import android.support.annotation.IdRes;
 import android.support.annotation.StringRes;
 import android.view.LayoutInflater;
@@ -39,6 +40,7 @@ public abstract class ApItemsCommonFragment<T> extends ApItemsFragment<T> {
     }
 
     @Override
+    @CallSuper
     public void onViewCreated() {
         super.onViewCreated();
         BindTitle title = AfReflecter.getAnnotation(getClass(), ApItemsCommonFragment.class, BindTitle.class);
@@ -87,6 +89,7 @@ public abstract class ApItemsCommonFragment<T> extends ApItemsFragment<T> {
         }
 
         @Override
+        @CallSuper
         public void onViewCreated() {
             super.onViewCreated();
             ensureLayout();

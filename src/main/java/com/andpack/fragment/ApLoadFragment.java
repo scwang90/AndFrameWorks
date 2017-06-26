@@ -1,14 +1,13 @@
 package com.andpack.fragment;
 
 import android.content.Context;
+import android.support.annotation.CallSuper;
 import android.support.annotation.NonNull;
 import android.support.v4.app.Fragment;
 import android.view.View;
 
 import com.andframe.api.pager.status.RefreshLayouter;
-import com.andframe.feature.AfBundle;
 import com.andframe.fragment.AfLoadFragment;
-import com.andframe.impl.viewer.AfView;
 import com.andpack.activity.ApFragmentActivity;
 import com.andpack.api.ApPager;
 import com.andpack.impl.ApLoadHelper;
@@ -23,9 +22,9 @@ public abstract class ApLoadFragment<T> extends AfLoadFragment<T> implements ApP
     protected ApLoadHelper mApHelper = new ApLoadHelper(this);
 
     @Override
-    protected void onCreate(AfBundle bundle, AfView view) throws Exception {
+    protected void onCreated() {
         mApHelper.onCreate();
-        super.onCreate(bundle, view);
+        super.onCreated();
     }
 
     @Override
@@ -41,6 +40,7 @@ public abstract class ApLoadFragment<T> extends AfLoadFragment<T> implements ApP
     }
 
     @Override
+    @CallSuper
     public void onViewCreated()  {
         mApHelper.onViewCreated();
         super.onViewCreated();

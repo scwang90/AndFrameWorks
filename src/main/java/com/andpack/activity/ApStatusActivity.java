@@ -2,6 +2,7 @@ package com.andpack.activity;
 
 import android.content.Context;
 import android.os.Bundle;
+import android.support.annotation.CallSuper;
 import android.support.annotation.NonNull;
 import android.support.annotation.StyleRes;
 import android.support.v4.app.Fragment;
@@ -10,7 +11,6 @@ import android.view.View;
 import com.andframe.activity.AfStatusActivity;
 import com.andframe.api.pager.status.RefreshLayouter;
 import com.andframe.api.pager.status.StatusLayouter;
-import com.andframe.feature.AfIntent;
 import com.andpack.api.ApPager;
 import com.andpack.impl.ApStatusHelper;
 
@@ -30,12 +30,13 @@ public abstract class ApStatusActivity<T> extends AfStatusActivity<T> implements
     }
 
     @Override
-    protected void onCreate(Bundle bundle, AfIntent intent) {
+    protected void onCreated(Bundle bundle) {
         mApHelper.onCreate();
-        super.onCreate(bundle, intent);
+        super.onCreated(bundle);
     }
 
     @Override
+    @CallSuper
     public void onViewCreated()  {
         mApHelper.onViewCreated();
         super.onViewCreated();
@@ -51,8 +52,8 @@ public abstract class ApStatusActivity<T> extends AfStatusActivity<T> implements
 
     @Override
     protected void onPostCreate(Bundle bundle) {
-        super.onPostCreate(bundle);
         mApHelper.onPostCreate(bundle);
+        super.onPostCreate(bundle);
     }
 
     @Override

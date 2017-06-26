@@ -10,7 +10,6 @@ import android.view.View;
 
 import com.andframe.activity.AfFragmentActivity;
 import com.andframe.annotation.pager.BindLaunchMode;
-import com.andframe.annotation.view.BindViewCreated;
 import com.andframe.api.pager.Pager;
 import com.andframe.application.AfApp;
 import com.andframe.feature.AfIntent;
@@ -38,9 +37,9 @@ public class ApFragmentActivity extends AfFragmentActivity implements ApPager {
     }
 
     @Override
-    protected void onCreate(Bundle bundle, AfIntent intent) {
+    protected void onCreated(Bundle bundle) {
         mApHelper.onCreate();
-        super.onCreate(bundle, intent);
+        super.onCreated(bundle);
     }
 
     @Override
@@ -49,9 +48,10 @@ public class ApFragmentActivity extends AfFragmentActivity implements ApPager {
         super.onDestroy();
     }
 
-    @BindViewCreated@CallSuper
+    @CallSuper
     public void onViewCreated() {
         mApHelper.onViewCreated();
+        super.onViewCreated();
     }
 
     @Override
@@ -64,8 +64,8 @@ public class ApFragmentActivity extends AfFragmentActivity implements ApPager {
 
     @Override
     protected void onPostCreate(Bundle savedInstanceState) {
-        super.onPostCreate(savedInstanceState);
         mApHelper.onPostCreate(savedInstanceState);
+        super.onPostCreate(savedInstanceState);
     }
 
     @Override

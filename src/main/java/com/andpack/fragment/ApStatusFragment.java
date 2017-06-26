@@ -1,14 +1,13 @@
 package com.andpack.fragment;
 
 import android.content.Context;
+import android.support.annotation.CallSuper;
 import android.support.annotation.NonNull;
 import android.support.v4.app.Fragment;
 import android.view.View;
 
 import com.andframe.api.pager.status.RefreshLayouter;
 import com.andframe.api.pager.status.StatusLayouter;
-import com.andframe.feature.AfBundle;
-import com.andframe.impl.viewer.AfView;
 import com.andframe.fragment.AfStatusFragment;
 import com.andpack.activity.ApFragmentActivity;
 import com.andpack.api.ApPager;
@@ -24,9 +23,9 @@ public class ApStatusFragment<T> extends AfStatusFragment<T> implements ApPager 
     protected ApStatusHelper mApHelper = new ApStatusHelper(this);
 
     @Override
-    protected void onCreate(AfBundle bundle, AfView view) throws Exception {
+    protected void onCreated() {
         mApHelper.onCreate();
-        super.onCreate(bundle, view);
+        super.onCreated();
     }
 
     @Override
@@ -42,6 +41,7 @@ public class ApStatusFragment<T> extends AfStatusFragment<T> implements ApPager 
     }
 
     @Override
+    @CallSuper
     public void onViewCreated()  {
         mApHelper.onViewCreated();
         super.onViewCreated();

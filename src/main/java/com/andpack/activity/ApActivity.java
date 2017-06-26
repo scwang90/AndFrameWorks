@@ -1,12 +1,12 @@
 package com.andpack.activity;
 
 import android.os.Bundle;
+import android.support.annotation.CallSuper;
 import android.support.annotation.StyleRes;
 import android.support.v4.app.Fragment;
 import android.view.View;
 
 import com.andframe.activity.AfActivity;
-import com.andframe.annotation.view.BindViewCreated;
 import com.andpack.api.ApPager;
 import com.andpack.impl.ApPagerHelper;
 
@@ -25,9 +25,9 @@ public class ApActivity extends AfActivity implements ApPager {
     }
 
     @Override
-    protected void onCreate(Bundle bundle) {
+    protected void onCreated(Bundle bundle) {
         mApHelper.onCreate();
-        super.onCreate(bundle);
+        super.onCreated(bundle);
     }
 
     @Override
@@ -36,9 +36,10 @@ public class ApActivity extends AfActivity implements ApPager {
         super.onDestroy();
     }
 
-    @BindViewCreated
+    @CallSuper
     public void onViewCreated()  {
         mApHelper.onViewCreated();
+        super.onViewCreated();
     }
 
     @Override
@@ -51,8 +52,8 @@ public class ApActivity extends AfActivity implements ApPager {
 
     @Override
     protected void onPostCreate(Bundle savedInstanceState) {
-        super.onPostCreate(savedInstanceState);
         mApHelper.onPostCreate(savedInstanceState);
+        super.onPostCreate(savedInstanceState);
     }
 
     @Override

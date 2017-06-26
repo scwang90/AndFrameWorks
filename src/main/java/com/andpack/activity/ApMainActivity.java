@@ -1,5 +1,7 @@
 package com.andpack.activity;
 
+import android.support.annotation.CallSuper;
+
 import com.andframe.$;
 import com.andpack.application.ApAppSettings;
 
@@ -14,6 +16,7 @@ public class ApMainActivity extends ApActivity {
     protected boolean mDoubleBackKeyPressed = true;
 
     @Override
+    @CallSuper
     public void onViewCreated()  {
         super.onViewCreated();
         if (ApAppSettings.settings().isAutoUpdate()) {
