@@ -54,15 +54,24 @@ public class MultiRequestHandler extends RequestHandler {
     public MultiRequestHandler() {
         // singleton
         config = new Config();//Loader.load("config.properties");
+        initConfig();
     }
 
     public MultiRequestHandler(Config config) {
         this.config = config;
+        initConfig();
     }
 
     public MultiRequestHandler(String properties) {
         // singleton
         config = Loader.load(properties);
+        initConfig();
+    }
+
+    protected void initConfig() {
+        if (config.usecookies) {
+            enableCookie(true);
+        }
     }
 
     @SuppressWarnings("unused")

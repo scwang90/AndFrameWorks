@@ -107,7 +107,7 @@ public abstract class RequestHandler {
 
 	protected void saveCookie(Map<String, String> cookies) {
 		if (mCookiePreferences != null) {
-			mCookiePreferences.edit().putString(KEY_COOKIE, getCookie()).commit();
+			mCookiePreferences.edit().putString(KEY_COOKIE, getCookie()).apply();
 		}
 	}
 
@@ -124,7 +124,7 @@ public abstract class RequestHandler {
 			cookies.clear();
 		}
 		if (mCookiePreferences != null) {
-			mCookiePreferences.edit().putString(KEY_COOKIE, "").commit();
+			mCookiePreferences.edit().putString(KEY_COOKIE, "").apply();
 		}
 	}
 }

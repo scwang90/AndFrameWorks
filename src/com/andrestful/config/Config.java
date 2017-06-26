@@ -25,6 +25,8 @@ public class Config {
     /** 接收类型 */
     public AcceptedMediaType responseMediaType = AcceptedMediaType.json;
 
+    public boolean usecookies = false;
+
     public String status_ok = "true";
     public String status = null;
     public String result = null;
