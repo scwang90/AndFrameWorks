@@ -165,7 +165,7 @@ public class WaitLoadTaskBuilder<T> extends WaitTaskBuilder implements WaitLoadB
         return null;
     }
     @Override
-    public <T> WaitLoadBuilder<Set<T>> loadSet(Class<T> clazz) {
+    public <TT> WaitLoadBuilder<Set<TT>> loadSet(Class<TT> clazz) {
         return null;
     }
     @Override
@@ -173,7 +173,7 @@ public class WaitLoadTaskBuilder<T> extends WaitTaskBuilder implements WaitLoadB
         return null;
     }
     @Override
-    public <T> WaitLoadBuilder<Collection<T>> loadCollection(Class<T> clazz) {
+    public <TT> WaitLoadBuilder<Collection<TT>> loadCollection(Class<TT> clazz) {
         return null;
     }
     @Override
