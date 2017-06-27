@@ -83,4 +83,18 @@ public class ReflecterCacher {
         }
         return Object.class;
     }
+
+    public static Class<?> getStopType(Object handler) {
+        if (handler instanceof ViewWrapper) {
+            return ViewWrapper.class;
+        } else if (handler instanceof Dialog) {
+            return Dialog.class;
+        } else if (handler instanceof Activity) {
+            return Activity.class;
+        } else if (handler instanceof Fragment) {
+            return Fragment.class;
+        }
+        return Object.class;
+    }
+
 }
