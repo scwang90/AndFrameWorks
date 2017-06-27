@@ -1,10 +1,10 @@
 package com.andframe.annotation.interpreter;
 
+import android.app.Activity;
 import android.app.Dialog;
 import android.support.annotation.NonNull;
+import android.support.v4.app.Fragment;
 
-import com.andframe.activity.AfActivity;
-import com.andframe.fragment.AfFragment;
 import com.andframe.impl.wrapper.ViewWrapper;
 import com.andframe.util.java.AfReflecter;
 
@@ -76,10 +76,10 @@ public class ReflecterCacher {
             return ViewWrapper.class;
         } else if (Dialog.class.isAssignableFrom(clazz)) {
             return Dialog.class;
-        } else if (AfActivity.class.isAssignableFrom(clazz)) {
-            return AfActivity.class;
-        } else if (AfFragment.class.isAssignableFrom(clazz)) {
-            return AfFragment.class;
+        } else if (Activity.class.isAssignableFrom(clazz)) {
+            return Activity.class;
+        } else if (Fragment.class.isAssignableFrom(clazz)) {
+            return Fragment.class;
         }
         return Object.class;
     }

@@ -21,6 +21,7 @@ import com.andframe.annotation.interpreter.Injecter;
 import com.andframe.annotation.interpreter.LayoutBinder;
 import com.andframe.annotation.interpreter.LifeCycleInjecter;
 import com.andframe.annotation.interpreter.ViewBinder;
+import com.andframe.annotation.view.BindViewCreated;
 import com.andframe.api.DialogBuilder;
 import com.andframe.api.pager.Pager;
 import com.andframe.api.task.Task;
@@ -142,10 +143,9 @@ public abstract class AfActivity extends AppCompatActivity implements Pager, Vie
         super.setContentView(view, params);
         mRootView = view;
         ViewBinder.doBind(this);
-        onViewCreated();
     }
 
-    @CallSuper
+    @CallSuper@BindViewCreated
     protected void onViewCreated() {
     }
     //</editor-fold>
