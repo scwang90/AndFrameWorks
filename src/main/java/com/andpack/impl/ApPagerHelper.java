@@ -117,9 +117,6 @@ public class ApPagerHelper {
     }
 
     public void onDestroyView() {
-        if (mEventBus != null) {
-            EventBus.getDefault().unregister(pager);
-        }
     }
 
     public void onViewCreated() {
