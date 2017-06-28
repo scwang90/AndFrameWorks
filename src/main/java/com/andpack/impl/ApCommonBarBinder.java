@@ -1573,8 +1573,8 @@ public class ApCommonBarBinder {
                     if (bind != null && !bind.image(this, images.get(0).path)) {
                         $.query(viewer).$(idvalue).image(images.get(0).path);
                     }
-                } else {
-                    $.toast(viewer).makeToastShort("没有数据");
+//                } else {
+//                    $.toast(viewer).makeToastShort("没有数据");
                 }
             }
         }
