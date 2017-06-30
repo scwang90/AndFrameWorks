@@ -112,7 +112,7 @@ public class ApFragmentActivity extends AfFragmentActivity implements ApPager {
         }
     }
 
-    private static AfIntent newIntent(Class<? extends Fragment> clazz, Context context, Object... params) {
+    public static AfIntent newIntent(Class<? extends Fragment> clazz, Context context, Object... params) {
         return new AfIntent(context,getActivityClazz(clazz))
                 .putKeyVaules(EXTRA_FRAGMENT,clazz.getName())
                 .putKeyVaules(params);
