@@ -88,6 +88,7 @@ public class AfTaskExecutor implements TaskExecutor {
     }
 
     public <T extends Task> T postTask(T task) {
+        task.reset();
         if (Looper.getMainLooper().getThread() == Thread.currentThread()) {
             execute(task);
         } else {
