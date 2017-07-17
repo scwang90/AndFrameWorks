@@ -82,6 +82,7 @@
     </style>
 
     <style name="AndFrame.Label.Layout">
+        <item name="android:gravity">center</item>
         <item name="android:paddingTop">@dimen/padding_common_v</item>
         <item name="android:paddingBottom">@dimen/padding_common_v</item>
         <item name="android:paddingLeft">@dimen/padding_common_h</item>
