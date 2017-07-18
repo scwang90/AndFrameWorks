@@ -310,7 +310,7 @@ public abstract class AfItemsFragment<T> extends AfStatusFragment<List<T>> imple
      * 为列表添加 Header 和 Footer
      * （在bindAdapter之前执行）
      */
-    @Override
+    @Override@CallSuper
     public void bindListHeaderAndFooter(@NonNull HeaderFooterAdapter<T> adapter) {
         mItemsHelper.bindListHeaderAndFooter(adapter);
     }
