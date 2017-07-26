@@ -17,6 +17,7 @@ import com.andpack.fragment.ApItemsFragment;
 
 import java.util.ArrayList;
 import java.util.Arrays;
+import java.util.Collection;
 import java.util.Collections;
 import java.util.HashSet;
 import java.util.List;
@@ -140,6 +141,11 @@ public abstract class ApItemsCommonFragment<T> extends ApItemsFragment<T> {
 
         @Override
         public ViewQuery<? extends ViewQuery> $(View... views) {
+            return ensureViews(super.$(views));
+        }
+
+        @Override
+        public ViewQuery<? extends ViewQuery> $(Collection<View> views) {
             return ensureViews(super.$(views));
         }
 

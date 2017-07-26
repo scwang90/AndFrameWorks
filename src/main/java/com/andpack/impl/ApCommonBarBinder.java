@@ -32,6 +32,7 @@ import com.andframe.api.DialogBuilder.OnTimeSetVerifyListener;
 import com.andframe.api.viewer.ViewQuery;
 import com.andframe.api.viewer.Viewer;
 import com.andframe.feature.AfIntent;
+import com.andframe.impl.task.TaskBuilder;
 import com.andframe.listener.SafeListener;
 import com.andframe.task.AfDispatcher;
 import com.andframe.util.java.AfDateFormat;
@@ -216,6 +217,7 @@ public class ApCommonBarBinder {
         public LASTVAL lastval;
         public Runnable start;
         public ClickHook clickHook;
+        public TaskBuilder taskBuilder;
 
         Binder(int idvalue) {
             this.idvalue = idvalue;
@@ -318,6 +320,10 @@ public class ApCommonBarBinder {
         public T start(Runnable start) {
             this.start = start;
             return self();
+        }
+
+        public void task(TaskBuilder builder) {
+            taskBuilder = builder;
         }
 
         protected abstract void start();
