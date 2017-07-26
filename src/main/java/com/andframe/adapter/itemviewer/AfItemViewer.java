@@ -16,6 +16,8 @@ import com.andframe.api.viewer.Viewer;
 import com.andframe.impl.helper.AfViewQueryHelper;
 import com.andframe.impl.viewer.AfView;
 
+import java.util.Collection;
+
 /**
  * 通用列表ITEM
  * @param <T>
@@ -80,6 +82,11 @@ public abstract class AfItemViewer<T> implements ItemViewer<T>, Viewer, ViewQuer
 
 	@Override
 	public ViewQuery<? extends ViewQuery> $(View... views) {
+		return $$.$(views);
+	}
+
+	@Override
+	public ViewQuery<? extends ViewQuery> $(Collection<View> views) {
 		return $$.$(views);
 	}
 

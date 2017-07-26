@@ -34,6 +34,7 @@ import com.andframe.feature.AfIntent;
 import com.andframe.impl.helper.AfViewQueryHelper;
 
 import java.util.ArrayList;
+import java.util.Collection;
 import java.util.List;
 
 import static android.app.Activity.RESULT_OK;
@@ -55,6 +56,11 @@ public abstract class AfFragment extends Fragment implements Pager, ViewQueryHel
 
     @Override
     public ViewQuery<? extends ViewQuery> $(View... views) {
+        return $$.$(views);
+    }
+
+    @Override
+    public ViewQuery<? extends ViewQuery> $(Collection<View> views) {
         return $$.$(views);
     }
 

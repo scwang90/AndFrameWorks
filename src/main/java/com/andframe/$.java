@@ -32,6 +32,7 @@ import java.lang.reflect.ParameterizedType;
 import java.lang.reflect.Proxy;
 import java.lang.reflect.Type;
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.List;
 
 /**
@@ -197,6 +198,11 @@ public class $ {
 
     public static <T> ListQuery<T> query(Iterable<T> iterable) {
         return AfApp.get().newListQuery(iterable);
+    }
+
+    @SafeVarargs
+    public static <T> ListQuery<T> query(T... arrays) {
+        return AfApp.get().newListQuery(Arrays.asList(arrays));
     }
 
     @MainThread

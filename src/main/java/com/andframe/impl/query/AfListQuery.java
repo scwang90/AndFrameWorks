@@ -14,6 +14,7 @@ import java.util.List;
  * ListQuery 实现类
  * Created by SCWANG on 2017/5/11.
  */
+@SuppressWarnings("ALL")
 public class AfListQuery<T> extends ArrayList<T> implements ListQuery<T> {
 
     public AfListQuery() {

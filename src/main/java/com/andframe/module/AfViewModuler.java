@@ -19,6 +19,8 @@ import com.andframe.exception.AfExceptionHandler;
 import com.andframe.impl.helper.AfViewQueryHelper;
 import com.andframe.impl.viewer.ViewerWarpper;
 
+import java.util.Collection;
+
 /**
  * 视图模块实现基类
  */
@@ -149,7 +151,10 @@ public abstract class AfViewModuler extends ViewerWarpper implements Viewer, Vie
 	public ViewQuery<? extends ViewQuery> $(View... views) {
 		return $$.$(views);
 	}
-
+	@Override
+	public ViewQuery<? extends ViewQuery> $(Collection<View> views) {
+		return $$.$(views);
+	}
 	@Override
 	public ViewQuery<? extends ViewQuery> $(Integer id, int... ids) {
 		return $$.$(id, ids);

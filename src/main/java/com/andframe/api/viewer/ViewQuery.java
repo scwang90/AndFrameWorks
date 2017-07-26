@@ -33,6 +33,7 @@ import com.andframe.impl.viewer.AfViewQuery;
 
 import java.io.File;
 import java.text.DateFormat;
+import java.util.Collection;
 import java.util.Date;
 import java.util.List;
 import java.util.Locale;
@@ -67,6 +68,10 @@ public interface ViewQuery<T extends ViewQuery<T>> {
      * 直接制定选择的目标 View
      */
     T $(View... views);
+    /**
+     * 直接制定选择的目标 View
+     */
+    T $(Collection<View> views);
     //</editor-fold>
 
     //<editor-fold desc="选择变换">

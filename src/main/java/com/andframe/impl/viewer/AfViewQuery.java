@@ -60,6 +60,7 @@ import java.io.File;
 import java.text.DateFormat;
 import java.util.ArrayList;
 import java.util.Arrays;
+import java.util.Collection;
 import java.util.Collections;
 import java.util.Date;
 import java.util.List;
@@ -219,6 +220,17 @@ public class AfViewQuery<T extends AfViewQuery<T>> implements ViewQuery<T> {
         }
         return self();
     }
+
+    @Override
+    public T $(Collection<View> views) {
+        if (views.size() == 0) {
+            mTargetViews = new View[]{getRootView()};
+        } else {
+            mTargetViews = views.toArray(new View[views.size()]);
+        }
+        return self();
+    }
+
     //</editor-fold>
 
     //<editor-fold desc="选择变换">

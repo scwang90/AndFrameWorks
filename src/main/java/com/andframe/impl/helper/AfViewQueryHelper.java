@@ -10,6 +10,7 @@ import com.andframe.application.AfApp;
 import java.lang.reflect.InvocationHandler;
 import java.lang.reflect.Method;
 import java.lang.reflect.Proxy;
+import java.util.Collection;
 
 /**
  * ViewQuery 继承帮助类
@@ -44,6 +45,11 @@ public class AfViewQueryHelper implements ViewQueryHelper, InvocationHandler {
      */
     @SuppressWarnings("unused")
     public ViewQuery<? extends ViewQuery> $(View... views) {
+        return getQuery().$(views);
+    }
+
+    @Override
+    public ViewQuery<? extends ViewQuery> $(Collection<View> views) {
         return getQuery().$(views);
     }
 

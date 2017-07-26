@@ -37,6 +37,7 @@ import com.andframe.util.java.AfReflecter;
 import com.andframe.util.java.AfStackTrace;
 
 import java.util.ArrayList;
+import java.util.Collection;
 import java.util.List;
 
 /**
@@ -69,6 +70,11 @@ public abstract class AfActivity extends AppCompatActivity implements Pager, Vie
 
     @Override
     public ViewQuery<? extends ViewQuery> $(View... views) {
+        return $$.$(views);
+    }
+
+    @Override
+    public ViewQuery<? extends ViewQuery> $(Collection<View> views) {
         return $$.$(views);
     }
 

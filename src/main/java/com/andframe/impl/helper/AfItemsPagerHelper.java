@@ -54,6 +54,7 @@ import com.andframe.task.AfListViewTask;
 import com.andframe.util.java.AfReflecter;
 
 import java.util.ArrayList;
+import java.util.Collection;
 import java.util.Date;
 import java.util.List;
 
@@ -107,6 +108,11 @@ public class AfItemsPagerHelper<T> extends AfStatusHelper<List<T>> implements It
     //<editor-fold desc="ViewQuery 集成">
     @Override
     public ViewQuery<? extends ViewQuery> $(View... views) {
+        return $$.$(views);
+    }
+
+    @Override
+    public ViewQuery<? extends ViewQuery> $(Collection<View> views) {
         return $$.$(views);
     }
 

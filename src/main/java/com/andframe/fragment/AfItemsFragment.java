@@ -23,6 +23,7 @@ import com.andframe.api.viewer.ItemsViewer;
 import com.andframe.api.viewer.ViewQuery;
 import com.andframe.impl.helper.AfItemsPagerHelper;
 
+import java.util.Collection;
 import java.util.Date;
 import java.util.List;
 
@@ -58,6 +59,11 @@ public abstract class AfItemsFragment<T> extends AfStatusFragment<List<T>> imple
 
     @Override
     public ViewQuery<? extends ViewQuery> $(View... views) {
+        return mItemsHelper.$(views);
+    }
+
+    @Override
+    public ViewQuery<? extends ViewQuery> $(Collection<View> views) {
         return mItemsHelper.$(views);
     }
 
