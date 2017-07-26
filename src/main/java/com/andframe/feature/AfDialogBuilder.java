@@ -1042,7 +1042,7 @@ public class AfDialogBuilder implements DialogBuilder {
                             if (picker == null) {
                                 this.dismiss();
                                 super.onClick(this, BUTTON_POSITIVE);
-                            } else if (((OnTimeSetVerifyListener) listener).onPreTimeSet(picker, picker.getCurrentHour(), picker.getCurrentMinute())) {
+                            } else if (((OnTimeSetVerifyListener) listener).onPreTimeSet(this, picker, picker.getCurrentHour(), picker.getCurrentMinute())) {
                                 this.dismiss();
                                 super.onClick(this, BUTTON_POSITIVE);
                             }

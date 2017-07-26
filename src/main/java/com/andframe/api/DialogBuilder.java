@@ -62,12 +62,14 @@ public interface DialogBuilder {
     interface OnTimeSetVerifyListener extends TimePickerDialog.OnTimeSetListener {
         /**
          * 验证时间是否符合条件
+         *
+         * @param timePickerDialog
          * @param view 时间控件
          * @param hourOfDay 小时
          * @param minute 分钟
          * @return true 符合条件 false 不符合条件（将不会关闭对话框）
          */
-        boolean onPreTimeSet(TimePicker view, int hourOfDay, int minute);
+        boolean onPreTimeSet(TimePickerDialog dialog, TimePicker view, int hourOfDay, int minute);
     }
 
     /**
