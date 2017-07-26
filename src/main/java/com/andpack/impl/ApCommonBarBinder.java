@@ -3,6 +3,7 @@ package com.andpack.impl;
 import android.app.Activity;
 import android.app.AlertDialog;
 import android.app.Dialog;
+import android.app.TimePickerDialog;
 import android.content.DialogInterface;
 import android.content.res.Resources;
 import android.support.annotation.IdRes;
@@ -29,10 +30,11 @@ import com.andframe.api.DialogBuilder;
 import com.andframe.api.DialogBuilder.OnDateSetVerifyListener;
 import com.andframe.api.DialogBuilder.OnDateTimeSetVerifyListener;
 import com.andframe.api.DialogBuilder.OnTimeSetVerifyListener;
+import com.andframe.api.task.builder.Builder;
+import com.andframe.api.task.builder.WaitBuilder;
 import com.andframe.api.viewer.ViewQuery;
 import com.andframe.api.viewer.Viewer;
 import com.andframe.feature.AfIntent;
-import com.andframe.impl.task.TaskBuilder;
 import com.andframe.listener.SafeListener;
 import com.andframe.task.AfDispatcher;
 import com.andframe.util.java.AfDateFormat;
@@ -62,6 +64,11 @@ public class ApCommonBarBinder {
          */
         boolean onBinderClick(Binder binder);
     }
+
+    public interface TaskBuilder<T> {
+        Builder builder(T value);
+    }
+
     public interface SelectBind {
         void text(Binder binder, String text, int which);
     }
@@ -217,7 +224,7 @@ public class ApCommonBarBinder {
         public LASTVAL lastval;
         public Runnable start;
         public ClickHook clickHook;
-        public TaskBuilder taskBuilder;
+        public TaskBuilder<LASTVAL> taskBuilder;
 
         Binder(int idvalue) {
             this.idvalue = idvalue;
@@ -322,7 +329,7 @@ public class ApCommonBarBinder {
             return self();
         }
 
-        public void task(TaskBuilder builder) {
+        public void task(TaskBuilder<LASTVAL> builder) {
             taskBuilder = builder;
         }
 
@@ -1275,13 +1282,31 @@ public class ApCommonBarBinder {
         }
 
         @Override
-        public boolean onPreTimeSet(TimePicker view, int hourOfDay, int minute) {
+        public boolean onPreTimeSet(TimePickerDialog dialog, TimePicker view, int hourOfDay, int minute) {
             if (verify != null && view != null) {
                 try {
                     verify.verify(AfDateFormat.parser(hourOfDay,minute));
                 } catch (VerifyException e) {
                     $.toast(viewer).makeToastShort(e.getMessage());
                     return false;
+                }
+            }
+            if (taskBuilder != null) {
+                Builder builded = taskBuilder.builder(AfDateFormat.parser(hourOfDay, minute));
+                if (builded instanceof WaitBuilder) {
+                    WaitBuilder builder = (WaitBuilder) builded;
+                    Runnable success = builder.success();
+                    builder.success(() -> {
+                        if (success != null) {
+                            success.run();
+                        }
+                        onTimeSet(view, hourOfDay, minute);
+                        dialog.dismiss();
+                    });
+                    builded.post();
+                    return false;
+                } else if (builded != null) {
+                    builded.post();
                 }
             }
 //            onTimeSet(view, hourOfDay, minute);
