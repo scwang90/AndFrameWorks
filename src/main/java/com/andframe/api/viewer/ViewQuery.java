@@ -898,6 +898,16 @@ public interface ViewQuery<T extends ViewQuery<T>> {
      */
     T scaleType(ImageView.ScaleType scaleType);
 
+    /**
+     * 设置 TintColor
+     */
+    T imageTintColor(int color);
+
+    /**
+     * 设置 TintColorId
+     */
+    T imageTintColorId(@ColorRes int colorId);
+
     //</editor-fold>
 
     //<editor-fold desc="EditText">

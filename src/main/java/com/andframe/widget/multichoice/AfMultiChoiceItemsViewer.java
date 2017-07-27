@@ -66,6 +66,11 @@ public class AfMultiChoiceItemsViewer<T extends ViewGroup> implements
         mItemsViewer.setDivisionEnable(enable);
     }
 
+    @Override
+    public void setNestedScrollingEnabled(boolean enable) {
+        mItemsViewer.setNestedScrollingEnabled(enable);
+    }
+
     /**
      * Deprecated. Use {@link #setAdapter(AfMultiChoiceAdapter adapter)} from
      * now on.

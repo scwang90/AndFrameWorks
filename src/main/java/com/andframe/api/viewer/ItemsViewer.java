@@ -34,4 +34,9 @@ public interface ItemsViewer<T extends ViewGroup> {
      * super.onViewCreated() 或者 setAdapter() 之前设置才有效
      */
     void setDivisionEnable(boolean enable);
+
+    /**
+     * 设置是否开启嵌套滚动
+     */
+    void setNestedScrollingEnabled(boolean enable);
 }

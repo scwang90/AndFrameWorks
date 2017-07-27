@@ -101,6 +101,11 @@ public class ItemsViewerWrapper implements ItemsViewer<ViewGroup> {
     }
 
     @Override
+    public void setNestedScrollingEnabled(boolean enable) {
+        itemsViewer.setNestedScrollingEnabled(enable);
+    }
+
+    @Override
     public void setOnItemClickListener(AdapterView.OnItemClickListener listener) {
         itemsViewer.setOnItemClickListener(listener);
     }

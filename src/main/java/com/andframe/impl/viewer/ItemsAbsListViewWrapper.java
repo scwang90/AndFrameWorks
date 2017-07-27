@@ -1,5 +1,6 @@
 package com.andframe.impl.viewer;
 
+import android.os.Build;
 import android.view.View;
 import android.widget.AbsListView;
 import android.widget.AdapterView;
@@ -73,6 +74,13 @@ public class ItemsAbsListViewWrapper<T extends AbsListView> implements ItemsView
     @Override
     public void setDivisionEnable(boolean enable) {
 
+    }
+
+    @Override
+    public void setNestedScrollingEnabled(boolean enable) {
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
+            mItemsView.setNestedScrollingEnabled(enable);
+        }
     }
 
     @Override

@@ -77,6 +77,11 @@ public class ItemsRecyclerViewWrapper implements ItemsViewer<RecyclerView> {
     }
 
     @Override
+    public void setNestedScrollingEnabled(boolean enable) {
+        mItemsView.setNestedScrollingEnabled(enable);
+    }
+
+    @Override
     public void setAdapter(ListAdapter adapter) {
         if (adapter instanceof Adapter) {
             RecyclerView.LayoutManager layoutManager = mItemsView.getLayoutManager();

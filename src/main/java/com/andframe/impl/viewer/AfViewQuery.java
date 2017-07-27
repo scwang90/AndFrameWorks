@@ -1659,6 +1659,22 @@ public class AfViewQuery<T extends AfViewQuery<T>> implements ViewQuery<T> {
         return foreach(ImageView.class, (ViewEacher<ImageView>) (view) -> view.setScaleType(scaleType));
     }
 
+    @Override
+    public T imageTintColor(int color) {
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
+            return foreach(ImageView.class, (ViewEacher<ImageView>) (view) -> view.setImageTintList(ColorStateList.valueOf(color)));
+        }
+        return self();
+    }
+
+    @Override
+    public T imageTintColorId(@ColorRes int colorId) {
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
+            return foreach(ImageView.class, (ViewEacher<ImageView>) (view) -> view.setImageTintList(ContextCompat.getColorStateList(getContext(),colorId)));
+        }
+        return self();
+    }
+
     //</editor-fold>
 
     //<editor-fold desc="EditText">
