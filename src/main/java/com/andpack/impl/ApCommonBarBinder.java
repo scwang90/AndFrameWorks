@@ -20,6 +20,7 @@ import android.widget.DatePicker;
 import android.widget.EditText;
 import android.widget.LinearLayout;
 import android.widget.NumberPicker;
+import android.widget.RadioGroup;
 import android.widget.SeekBar;
 import android.widget.TextView;
 import android.widget.TimePicker;
@@ -98,6 +99,9 @@ public class ApCommonBarBinder {
     }
     public interface InputBind {
         void onBind(Binder binder, String value);
+    }
+    public interface RadioGroupBind {
+        void onBind(Binder binder, RadioGroup group, @IdRes int checkedId, int index);
     }
     public interface ImageBind {
         /**
@@ -213,6 +217,9 @@ public class ApCommonBarBinder {
         return new ImageBinder(idimage);
     }
 
+    public RadioGroupBinder radioGroup(int id) {
+        return new RadioGroupBinder(id);
+    }
 
     public abstract class Binder<T extends Binder, LASTVAL> implements View.OnClickListener{
         public int idvalue;
@@ -1617,4 +1624,33 @@ public class ApCommonBarBinder {
 
     }
 
+    public class RadioGroupBinder extends Binder<RadioGroupBinder,Integer> implements RadioGroup.OnCheckedChangeListener {
+
+        private RadioGroupBind bind;
+
+        RadioGroupBinder(int idvalue) {
+            super(idvalue);
+            $(idvalue).clicked(null).foreach(RadioGroup.class, (ViewQuery.ViewEacher<RadioGroup>) view -> {
+                view.setOnCheckedChangeListener(this);
+            });
+        }
+
+        @Override
+        protected void start() {
+
+        }
+
+        @Override
+        public void onCheckedChanged(RadioGroup group, @IdRes int checkedId) {
+            if (bind != null) {
+                int index = group.indexOfChild(group.findViewById(checkedId));
+                bind.onBind(this, group, checkedId, index);
+            }
+        }
+
+        public RadioGroupBinder bind(RadioGroupBind bind) {
+            this.bind = bind;
+            return self();
+        }
+    }
 }
