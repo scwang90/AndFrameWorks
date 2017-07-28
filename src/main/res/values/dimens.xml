@@ -24,6 +24,7 @@
     <!--<dimen name="textsize_titlelarge">18sp</dimen>-->
     <!--<dimen name="textsize_titlebar">20sp</dimen>-->
 
+    <dimen name="textsize_min">10sp</dimen>
     <dimen name="textsize_small">12sp</dimen>
     <dimen name="textsize_content">14sp</dimen>
     <dimen name="textsize_titlesmall">16sp</dimen>
