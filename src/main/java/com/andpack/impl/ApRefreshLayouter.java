@@ -84,7 +84,11 @@ public class ApRefreshLayouter implements RefreshLayouter<SmartRefreshLayout> {
 
     @Override
     public void setOnRefreshListener(OnRefreshListener listener) {
-        mRefreshLayout.setOnRefreshListener(refreshlayout -> listener.onRefresh());
+        mRefreshLayout.setOnRefreshListener(refreshlayout -> {
+            if (!listener.onRefresh()) {
+                mRefreshLayout.finishRefresh(0, false);
+            }
+        });
     }
 
     @Override
