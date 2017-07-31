@@ -107,6 +107,10 @@
         <item name="android:textSize">@dimen/textsize_small</item>
     </style>
 
+    <style name="AndFrame.Label.Min">
+        <item name="android:textSize">@dimen/textsize_min</item>
+    </style>
+
     <style name="AndFrame.Label.Discription">
         <item name="android:gravity">top</item>
         <item name="android:lineSpacingExtra">5dp</item>
@@ -216,7 +220,7 @@
         <!--<item name="android:paddingBottom">@dimen/division_line</item>-->
         <item name="android:layout_marginTop">@dimen/padding_common</item>
         <item name="android:orientation">vertical</item>
-        <item name="android:background">@drawable/af_background_panel</item>
+        <item name="android:background">#5fff</item>
     </style>
 
     <style name="AndFrame.CommonBar.PanelLayout">
@@ -249,7 +253,7 @@
 
     <style name="AndFrame.CommonBar.Bar.Alone">
         <item name="android:layout_marginTop">@dimen/padding_common</item>
-        <item name="android:background">@drawable/af_background_panel</item>
+        <item name="android:background">#5fff</item>
     </style>
 
     <style name="AndFrame.CommonBar.Content" parent="AndFrame.Label">
