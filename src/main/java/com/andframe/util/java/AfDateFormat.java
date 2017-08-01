@@ -173,4 +173,12 @@ public class AfDateFormat {
 			return new Date(0);
 		}
 	}
+
+	public static boolean isSameYear(Date date1, Date date2) {
+		Calendar calender = Calendar.getInstance();
+		calender.setTime(date1);
+		int year = calender.get(Calendar.YEAR);
+		calender.setTime(date2);
+		return year == calender.get(Calendar.YEAR);
+	}
 }

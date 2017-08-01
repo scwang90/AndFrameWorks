@@ -320,6 +320,20 @@ public abstract class AfTreeViewAdapter<T> extends AfMultiChoiceAdapter<T> imple
 		return list;
 	}
 
+	@Override
+	public int selectCount() {
+		return peekSelectedItems().size();
+	}
+
+	@Override
+	public T getSelectedItem() {
+		List<T> list = getSelectedItems();
+		if (list.size() == 0) {
+			return null;
+		}
+		return list.get(0);
+	}
+
 	private void peekSelectedItems(List<T> list, AfTreeNode<T> node) {
 		if (node.isSelected) {
 			list.add(node.value);
