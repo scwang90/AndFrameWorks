@@ -5,9 +5,6 @@ import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
 import android.view.View;
 
-import com.andframe.feature.AfBundle;
-import com.andframe.impl.viewer.AfView;
-
 import java.util.ArrayList;
 import java.util.List;
 
@@ -38,6 +35,7 @@ public abstract class AfTabFragment extends AfFragment {
 
     @Override
     public final void setUserVisibleHint(boolean isVisibleToUser) {
+        boolean userVisibleHint = getUserVisibleHint();
         super.setUserVisibleHint(isVisibleToUser);
         if (isVisibleToUser) {
             if (mIsCreateView) {
@@ -48,7 +46,7 @@ public abstract class AfTabFragment extends AfFragment {
             } else {
                 mIsNeedSwitch = true;
             }
-        } else {
+        } else if (mSwitchCount > 0 && userVisibleHint) {
             this.onSwitchLeave();
         }
     }
