@@ -181,7 +181,7 @@ public interface ViewQuery<T extends ViewQuery<T>> {
     /**
      * 根据类型 获取选择的 View （默认第一个） （模板返回）
      */
-    <TT extends View> TT[] views(Class<TT> clazz);
+    <TT extends View> TT[] views(Class<TT> clazz, TT[] tt);
     /**
      * 根据类型 获取选择的 View （默认第一个） （模板返回）
      */

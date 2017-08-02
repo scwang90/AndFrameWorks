@@ -472,7 +472,7 @@ public class AfViewQuery<T extends AfViewQuery<T>> implements ViewQuery<T> {
     }
 
     @Override
-    public <TT extends View> TT[] views(Class<TT> clazz) {
+    public <TT extends View> TT[] views(Class<TT> clazz,TT[] tt) {
         List<TT> list = new ArrayList<>();
         if (mTargetViews != null) {
             for (View view : mTargetViews) {
@@ -482,7 +482,7 @@ public class AfViewQuery<T extends AfViewQuery<T>> implements ViewQuery<T> {
             }
         }
         //noinspection unchecked
-        return (TT[])list.toArray();
+        return list.toArray(tt);
     }
 
     @Override

@@ -55,12 +55,16 @@
     <color name="yellowPrimaryDark">#c6bc31</color>
     <color name="yellowPrimaryLight">#ece472</color>
 
-    <color name="purplePrimary">#8A6DE9</color>
-    <color name="purplePrimaryDark">#795CD8</color>
-    <color name="purplePrimaryLight">#9B7EFA</color>
-
     <color name="orangePrimary">#EE8822</color>
     <color name="orangePrimaryDark">#DD7711</color>
     <color name="orangePrimaryLight">#FF9933</color>
+
+    <color name="pinkPrimary">#EE7777</color>
+    <color name="pinkPrimaryDark">#DD6666</color>
+    <color name="pinkPrimaryLight">#FF8888</color>
+
+    <color name="purplePrimary">#8A6DE9</color>
+    <color name="purplePrimaryDark">#795CD8</color>
+    <color name="purplePrimaryLight">#9B7EFA</color>
 
 </resources>

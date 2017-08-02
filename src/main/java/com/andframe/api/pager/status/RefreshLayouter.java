@@ -16,6 +16,7 @@ public interface RefreshLayouter<T extends ViewGroup> {
     T getLayout();
     void setContenView(View content);
     void setRefreshComplete();
+    void setRefreshFailed();
     void setOnRefreshListener(OnRefreshListener listener);
     void setLastRefreshTime(Date date);
 

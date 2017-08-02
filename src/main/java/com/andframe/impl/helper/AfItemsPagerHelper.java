@@ -479,7 +479,7 @@ public class AfItemsPagerHelper<T> extends AfStatusHelper<List<T>> implements It
     @Override
     public void finishRefreshFail() {
         if (mRefreshLayouter != null && mRefreshLayouter.isRefreshing()) {
-            mRefreshLayouter.setRefreshComplete();
+            mRefreshLayouter.setRefreshFailed();
         } else if (mStatusLayouter == null || !mStatusLayouter.isProgress()) {
             mItemsPager.hideProgressDialog();
         }
