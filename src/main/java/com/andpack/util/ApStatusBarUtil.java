@@ -104,6 +104,8 @@ public class ApStatusBarUtil {
         } else if (Build.VERSION.SDK_INT >= 19) {
             window.addFlags(WindowManager.LayoutParams.FLAG_TRANSLUCENT_STATUS);
             setTranslucentView((ViewGroup) window.getDecorView(), color, alpha);
+        } else {
+            immersive(window,color,alpha);
         }
 //        if (Build.VERSION.SDK_INT >= 21) {
 //            window.clearFlags(WindowManager.LayoutParams.FLAG_TRANSLUCENT_STATUS);
