@@ -1008,6 +1008,52 @@ public class ApCommonBarBinder {
             });
         }
 
+        /**
+         * 验证 Float 的金额范围
+         */
+        public TextBinder verifyFloatMoney(String... names) {
+            CharSequence name = getName("金额", names);
+            inputType(InputType.TYPE_CLASS_NUMBER|InputType.TYPE_NUMBER_FLAG_DECIMAL);
+            return this.verify(text -> {
+                if (TextUtils.isEmpty(text)) {
+                    throw new VerifyException("请输入" + name);
+                }
+                try {
+                    Double v = Double.parseDouble(text);
+                    if (v <= 0) {
+                        throw new VerifyException(name + "必须大于0");
+                    }
+                    text = String.valueOf(v);
+                } catch (NumberFormatException e) {
+                    throw new VerifyException("请输入正确的" + name);
+                }
+                return text;
+            });
+        }
+
+        /**
+         * 验证 Double 的金额范围
+         */
+        public TextBinder verifyDoubleMoney(String... names) {
+            CharSequence name = getName("金额", names);
+            inputType(InputType.TYPE_CLASS_NUMBER|InputType.TYPE_NUMBER_FLAG_DECIMAL);
+            return this.verify(text -> {
+                if (TextUtils.isEmpty(text)) {
+                    throw new VerifyException("请输入" + name);
+                }
+                try {
+                    Double v = Double.parseDouble(text);
+                    if (v <= 0) {
+                        throw new VerifyException(name + "必须大于0");
+                    }
+                    text = String.valueOf(v);
+                } catch (NumberFormatException e) {
+                    throw new VerifyException("请输入正确的" + name);
+                }
+                return text;
+            });
+        }
+
         //</editor-fold>
     }
 
