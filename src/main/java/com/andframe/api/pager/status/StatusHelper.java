@@ -4,6 +4,8 @@ import android.content.Context;
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
 import android.view.View;
+import android.view.ViewGroup;
+import android.view.ViewGroup.LayoutParams;
 
 import com.andframe.api.EmptyVerdicter;
 import com.andframe.api.pager.load.LoadHelper;
@@ -55,7 +57,6 @@ public interface StatusHelper<T> extends LoadHelper<T>, EmptyVerdicter<T> {
      */
     @Nullable
     View findContentView();
-
     /**
      * 初始化【下拉刷新控件】，内部会调用 newRefreshLayouter
      * @param content findContentView 返回的内容视图
@@ -87,6 +88,18 @@ public interface StatusHelper<T> extends LoadHelper<T>, EmptyVerdicter<T> {
      */
     @NonNull
     StatusLayouter newStatusLayouter(Context context);
+
+    /**
+     * 初始化【下拉刷新控件和多页状态控件】，内部会调用 initRefreshLayout 和 initStatusLayout
+     * @param content findContentView 返回的内容视图
+     */
+    void initRefreshAndStatusLayouter(View content);
+
+    /**
+     * 注入 【下拉刷新控件和多页状态控件】 并排序：默认【下拉刷新控件】在【多页状态控件】内部
+     */
+    void initRefreshAndStatusLayouterOrder(Layouter refresh, Layouter status, View content, ViewGroup parent, int index, LayoutParams lp);
+
     //</editor-fold>
 
     //<editor-fold desc="状态显示">

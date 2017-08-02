@@ -1,6 +1,5 @@
 package com.andframe.api.pager.status;
 
-import android.view.View;
 import android.view.ViewGroup;
 
 /**
@@ -8,9 +7,7 @@ import android.view.ViewGroup;
  * Created by SCWANG on 2016/10/20.
  */
 
-public interface StatusLayouter {
-    ViewGroup getLayout();
-    void setContenView(View content);
+public interface StatusLayouter<T extends ViewGroup> extends Layouter<T> {
     void setOnRefreshListener(OnRefreshListener listener);
     void setEmptyLayout(int layoutId);
     void setEmptyLayout(int layoutId, int msgId);

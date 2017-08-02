@@ -20,6 +20,8 @@ import com.andframe.annotation.pager.status.StatusInvalidNet;
 import com.andframe.annotation.pager.status.StatusLayout;
 import com.andframe.annotation.pager.status.StatusProgress;
 import com.andframe.annotation.pager.status.idname.StatusContentViewId$;
+import com.andframe.api.pager.status.Layouter;
+import com.andframe.api.pager.status.RefreshLayouter;
 import com.andframe.api.pager.status.StatusHelper;
 import com.andframe.api.pager.status.StatusLayouter;
 import com.andframe.api.pager.status.StatusPager;
@@ -56,12 +58,7 @@ public class AfStatusHelper<T> extends AfLoadHelper<T> implements StatusHelper<T
     public void onViewCreated()  {
         View content = mPager.findContentView();
         if (content != null) {
-            mRefreshLayouter = mPager.initRefreshLayout(content);
-            if (mRefreshLayouter != null) {
-                mStatusLayouter = mPager.initStatusLayout(mRefreshLayouter.getLayout());
-            } else {
-                mStatusLayouter = mPager.initStatusLayout(content);
-            }
+            mPager.initRefreshAndStatusLayouter(content);
         }
 
         if (mLoadOnViewCreated && mModel == null) {
@@ -102,74 +99,99 @@ public class AfStatusHelper<T> extends AfLoadHelper<T> implements StatusHelper<T
         return super.findContentView();
     }
 
-    public StatusLayouter initStatusLayout(View content) {
+    @Override
+    public boolean cheackContentViewStruct(View content) {
         ViewParent parent = content.getParent();
         if (parent == null) {
-            if (mRefreshLayouter == null || mRefreshLayouter.getLayout() != content) {
-                AfExceptionHandler.handle("内容视图（ContentView）没有父视图，刷新布局（StatusLayouter）初始化失败",
-                        TAG.TAG(mPager, "AfStatusHelper", "initStatusLayout"));
-            }
+            AfExceptionHandler.handle("内容视图（ContentView）没有父视图，刷新布局（RefreshLayouter/StatusLayouter）初始化失败",
+                    TAG.TAG(mPager, "AfStatusHelper", "cheackContentViewStruct"));
+            return false;
         } else if (parent instanceof ViewPager) {
-            if (mRefreshLayouter == null || mRefreshLayouter.getLayout() != content) {
-                AfExceptionHandler.handle("内容视图（ContentView）父视图为ViewPager，刷新布局（StatusLayouter）初始化失败，" +
-                                "请用其他布局（Layout）作为ContentView的直接父视图，ViewPager的子视图",
-                        TAG.TAG(mPager, "AfStatusHelper", "initStatusLayout"));
-            }
-        } else if (parent instanceof ViewGroup){
-            ViewGroup group = (ViewGroup) parent;
+            AfExceptionHandler.handle("内容视图（ContentView）父视图为ViewPager，刷新布局（RefreshLayouter/StatusLayouter）初始化失败，" +
+                            "请用其他布局（Layout）作为ContentView的直接父视图，ViewPager的子视图",
+                    TAG.TAG(mPager, "AfStatusHelper", "cheackContentViewStruct"));
+            return false;
+        }
+        return true;
+    }
 
+    @Override
+    public void initRefreshAndStatusLayouter(View content) {
+        if (cheackContentViewStruct(content)) {
+            mRefreshLayouter = mPager.initRefreshLayout(content);
+            mStatusLayouter = mPager.initStatusLayout(content);
+
+            ViewGroup group = (ViewGroup) content.getParent();
             int i = group.indexOfChild(content);
             group.removeViewAt(i);
-
             ViewGroup.LayoutParams params = content.getLayoutParams();
-            StatusLayouter layouter = mPager.newStatusLayouter(content.getContext());
-            layouter.setContenView(content);
-            layouter.setOnRefreshListener(mPager);
 
-            group.addView(layouter.getLayout(), i, params);
-
-            Class<?> stop = mPager instanceof Activity ? AfStatusActivity.class : AfStatusFragment.class;
-            StatusLayout status = AfReflecter.getAnnotation(mPager.getClass(), stop, StatusLayout.class);
-            if (status != null) {
-                layouter.setEmptyLayout(status.empty(), status.emptyTxtId());
-                layouter.setProgressLayout(status.progress(), status.progressTxtId());
-                if (status.error() > 0) {
-                    layouter.setErrorLayout(status.error(), status.errorTxtId());
-                }
-                if (status.invalidNet() > 0) {
-                    layouter.setInvalidnetLayout(status.invalidNet(), status.invalidNetTxtId());
-                }
-            } else {
-//            StatusEmpty empty = AfReflecter.getAnnotation(mPager.getClass(), stop, StatusEmpty.class);
-//            StatusError error = AfReflecter.getAnnotation(mPager.getClass(), stop, StatusError.class);
-//            StatusProgress progress = AfReflecter.getAnnotation(mPager.getClass(), stop, StatusProgress.class);
-//            StatusInvalidNet invalidNet = AfReflecter.getAnnotation(mPager.getClass(), stop, StatusInvalidNet.class);
-                StatusEmpty empty = combineStatusEmpty(mPager.getClass(), stop);
-                StatusError error = combineStatusError(mPager.getClass(), stop);
-                StatusProgress progress = combineStatusProgress(mPager.getClass(), stop);
-                StatusInvalidNet invalidNet = combineStatusInvalidNet(mPager.getClass(), stop);
-
-                if (empty != null) {
-                    String message = empty.message();
-                    if (TextUtils.isEmpty(message) && empty.messageId() > 0) {
-                        message = AfApp.get().getString(empty.messageId());
-                    }
-                    layouter.setEmptyLayout(empty.value(), empty.txtId(), empty.btnId(), message);
-                }
-                if (error != null) {
-                    layouter.setErrorLayout(error.value(), error.txtId(), error.btnId());
-                }
-                if (invalidNet != null) {
-                    layouter.setInvalidnetLayout(invalidNet.value(), invalidNet.txtId(), invalidNet.btnId());
-                }
-                if (progress != null) {
-                    layouter.setProgressLayout(progress.value(), progress.txtId());
-                }
-            }
-            layouter.autoCompletedLayout();
-            return layouter;
+            mPager.initRefreshAndStatusLayouterOrder(mRefreshLayouter,mStatusLayouter,content, group, i, params);
         }
-        return null;
+    }
+
+    @Override
+    public void initRefreshAndStatusLayouterOrder(Layouter refresh, Layouter status, View content, ViewGroup parent, int index, ViewGroup.LayoutParams lp) {
+        if (refresh != null && status != null) {
+            refresh.setContenView(content);
+            status.setContenView(this.mRefreshLayouter.getLayout());
+            parent.addView(status.getLayout(), index, lp);
+        } else if (refresh != null) {
+            refresh.setContenView(content);
+            parent.addView(refresh.getLayout(), index, lp);
+        } else if (status != null) {
+            status.setContenView(content);
+            parent.addView(status.getLayout(), index, lp);
+        }
+    }
+
+    @Override
+    public RefreshLayouter initRefreshLayout(View content) {
+        RefreshLayouter layouter = mPager.newRefreshLayouter(content.getContext());
+        layouter.setOnRefreshListener(mPager);
+        return layouter;
+    }
+
+    public StatusLayouter initStatusLayout(View content) {
+        StatusLayouter layouter = mPager.newStatusLayouter(content.getContext());
+        layouter.setOnRefreshListener(mPager);
+
+        Class<?> stop = mPager instanceof Activity ? AfStatusActivity.class : AfStatusFragment.class;
+        StatusLayout status = AfReflecter.getAnnotation(mPager.getClass(), stop, StatusLayout.class);
+        if (status != null) {
+            layouter.setEmptyLayout(status.empty(), status.emptyTxtId());
+            layouter.setProgressLayout(status.progress(), status.progressTxtId());
+            if (status.error() > 0) {
+                layouter.setErrorLayout(status.error(), status.errorTxtId());
+            }
+            if (status.invalidNet() > 0) {
+                layouter.setInvalidnetLayout(status.invalidNet(), status.invalidNetTxtId());
+            }
+        } else {
+            StatusEmpty empty = combineStatusEmpty(mPager.getClass(), stop);
+            StatusError error = combineStatusError(mPager.getClass(), stop);
+            StatusProgress progress = combineStatusProgress(mPager.getClass(), stop);
+            StatusInvalidNet invalidNet = combineStatusInvalidNet(mPager.getClass(), stop);
+
+            if (empty != null) {
+                String message = empty.message();
+                if (TextUtils.isEmpty(message) && empty.messageId() > 0) {
+                    message = AfApp.get().getString(empty.messageId());
+                }
+                layouter.setEmptyLayout(empty.value(), empty.txtId(), empty.btnId(), message);
+            }
+            if (error != null) {
+                layouter.setErrorLayout(error.value(), error.txtId(), error.btnId());
+            }
+            if (invalidNet != null) {
+                layouter.setInvalidnetLayout(invalidNet.value(), invalidNet.txtId(), invalidNet.btnId());
+            }
+            if (progress != null) {
+                layouter.setProgressLayout(progress.value(), progress.txtId());
+            }
+        }
+        layouter.autoCompletedLayout();
+        return layouter;
     }
 
     @NonNull

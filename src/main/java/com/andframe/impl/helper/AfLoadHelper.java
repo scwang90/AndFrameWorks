@@ -130,29 +130,39 @@ public class AfLoadHelper<T> implements LoadHelper<T> {
         return null;
     }
 
-    public RefreshLayouter initRefreshLayout(View content) {
+    public boolean cheackContentViewStruct(View content) {
         ViewParent parent = content.getParent();
         if (parent == null) {
             AfExceptionHandler.handle("内容视图（ContentView）没有父视图，刷新布局（RefreshLayouter）初始化失败",
-                    TAG.TAG(mPager, "AfLoadHelper", "initRefreshLayout"));
+                    TAG.TAG(mPager, "AfLoadHelper", "cheackContentViewStruct"));
+            return false;
         } else if (parent instanceof ViewPager) {
             AfExceptionHandler.handle("内容视图（ContentView）父视图为ViewPager，刷新布局（RefreshLayouter）初始化失败，" +
-                    "请用其他布局（Layout）作为ContentView的直接父视图，ViewPager的子视图",
-                    TAG.TAG(mPager, "AfLoadHelper", "initRefreshLayout"));
-        } else if (parent instanceof ViewGroup){
-            ViewGroup group = (ViewGroup) parent;
+                            "请用其他布局（Layout）作为ContentView的直接父视图，ViewPager的子视图",
+                    TAG.TAG(mPager, "AfLoadHelper", "cheackContentViewStruct"));
+            return false;
+        }
+        return true;
+    }
 
-            int i = group.indexOfChild(content);
-            group.removeViewAt(i);
+    public RefreshLayouter initRefreshLayout(View content) {
+        if (cheackContentViewStruct(content)) {
+            ViewParent parent = content.getParent();
+            if (parent instanceof ViewGroup){
+                ViewGroup group = (ViewGroup) parent;
 
-            ViewGroup.LayoutParams params = content.getLayoutParams();
-            RefreshLayouter layouter = mPager.newRefreshLayouter(content.getContext());
-            layouter.setContenView(content);
-            layouter.setOnRefreshListener(mPager);
+                int i = group.indexOfChild(content);
+                group.removeViewAt(i);
 
-            group.addView(layouter.getLayout(), i, params);
+                ViewGroup.LayoutParams params = content.getLayoutParams();
+                RefreshLayouter layouter = mPager.newRefreshLayouter(content.getContext());
+                layouter.setContenView(content);
+                layouter.setOnRefreshListener(mPager);
 
-            return layouter;
+                group.addView(layouter.getLayout(), i, params);
+
+                return layouter;
+            }
         }
         return null;
     }

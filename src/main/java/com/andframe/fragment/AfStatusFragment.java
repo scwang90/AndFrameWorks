@@ -3,7 +3,9 @@ package com.andframe.fragment;
 import android.content.Context;
 import android.support.annotation.NonNull;
 import android.view.View;
+import android.view.ViewGroup;
 
+import com.andframe.api.pager.status.Layouter;
 import com.andframe.api.pager.status.StatusHelper;
 import com.andframe.api.pager.status.StatusLayouter;
 import com.andframe.api.pager.status.StatusPager;
@@ -35,6 +37,16 @@ public abstract class AfStatusFragment<T> extends AfLoadFragment<T> implements S
 
     //<editor-fold desc="初始化布局">
 
+
+    @Override
+    public void initRefreshAndStatusLayouter(View content) {
+        mStatusHelper.initRefreshAndStatusLayouter(content);
+    }
+
+    @Override
+    public void initRefreshAndStatusLayouterOrder(Layouter refresh, Layouter status, View content, ViewGroup parent, int index, ViewGroup.LayoutParams lp) {
+        mStatusHelper.initRefreshAndStatusLayouterOrder(refresh, status, content, parent, index, lp);
+    }
 
     public StatusLayouter initStatusLayout(View content) {
         return mStatusLayouter = mStatusHelper.initStatusLayout(content);
