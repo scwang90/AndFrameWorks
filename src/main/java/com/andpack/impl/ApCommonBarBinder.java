@@ -1018,8 +1018,17 @@ public class ApCommonBarBinder {
                 if (TextUtils.isEmpty(text)) {
                     throw new VerifyException("请输入" + name);
                 }
+                for (int i = text.length() - 1, accuracy = 0; i >= 0; i--) {
+                    char c = text.charAt(i);
+                    if (c <= '9' && (c > '0' || (accuracy > 0 && c == '0'))) {
+                        accuracy++;
+                        if (accuracy > 7) {
+                            throw new VerifyException(name + "有效数字位数不能超过7位");
+                        }
+                    }
+                }
                 try {
-                    Double v = Double.parseDouble(text);
+                    Float v = Float.parseFloat(text);
                     if (v <= 0) {
                         throw new VerifyException(name + "必须大于0");
                     }
@@ -1040,6 +1049,15 @@ public class ApCommonBarBinder {
             return this.verify(text -> {
                 if (TextUtils.isEmpty(text)) {
                     throw new VerifyException("请输入" + name);
+                }
+                for (int i = text.length() - 1, accuracy = 0; i >= 0; i--) {
+                    char c = text.charAt(i);
+                    if (c <= '9' && (c > '0' || (accuracy > 0 && c == '0'))) {
+                        accuracy++;
+                        if (accuracy > 15) {
+                            throw new VerifyException(name + "有效数字位数不能超过15位");
+                        }
+                    }
                 }
                 try {
                     Double v = Double.parseDouble(text);
