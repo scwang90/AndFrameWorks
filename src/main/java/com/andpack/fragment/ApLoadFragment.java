@@ -66,6 +66,16 @@ public abstract class ApLoadFragment<T> extends AfLoadFragment<T> implements ApP
     }
 
     @Override
+    public T onTaskLoading() throws Exception {
+        return null;
+    }
+
+    @Override
+    public void onTaskLoaded(@NonNull T model) {
+
+    }
+
+    @Override
     public void startFragment(Class<? extends Fragment> clazz, Object... args) {
         ApFragmentActivity.start(this, clazz, args);
     }
