@@ -23,6 +23,11 @@ public abstract class AfPagerViewAdapter<T> extends PagerAdapter {
         this.list = new ArrayList<>(collection);
     }
 
+    public void refresh(Collection<T> collection) {
+        list = new ArrayList<>(collection);
+        notifyDataSetChanged();
+    }
+
     @Override
     public int getCount() {
         return list.size();
