@@ -5,7 +5,7 @@ public class IdQualified {
     public final int id;
     public final String packageName;
 
-    IdQualified(String packageName, int id) {
+    public IdQualified(String packageName, int id) {
         this.id = id;
         this.packageName = packageName;
     }

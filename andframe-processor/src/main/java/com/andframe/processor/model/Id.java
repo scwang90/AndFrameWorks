@@ -17,13 +17,13 @@ public class Id {
     public final CodeBlock code;
     public final boolean qualifed;
 
-    Id(int value) {
+    public Id(int value) {
         this.value = value;
         this.code = CodeBlock.of("$L", value);
         this.qualifed = false;
     }
 
-    Id(int value, ClassName className, String resourceName) {
+    public Id(int value, ClassName className, String resourceName) {
         this.value = value;
         this.code = className.topLevelClassName().equals(ANDROID_R)
                 ? CodeBlock.of("$L.$N", className, resourceName)

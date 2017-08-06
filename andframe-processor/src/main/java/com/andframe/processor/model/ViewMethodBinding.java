@@ -12,7 +12,7 @@ public class ViewMethodBinding {
     public final boolean required;
     public final List<Parameter> parameters;
 
-    ViewMethodBinding(String name, List<Parameter> parameters, boolean required) {
+    public ViewMethodBinding(String name, List<Parameter> parameters, boolean required) {
         this.name = name;
         this.required = required;
         this.parameters = Collections.unmodifiableList(parameters);

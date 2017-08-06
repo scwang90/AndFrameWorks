@@ -4,12 +4,12 @@ import com.squareup.javapoet.ClassName;
 import com.squareup.javapoet.ParameterizedTypeName;
 import com.squareup.javapoet.TypeName;
 
-final class ViewFieldBinding implements MemberViewBinding {
+public class ViewFieldBinding {
   private final String name;
   private final TypeName type;
   private final boolean required;
 
-  ViewFieldBinding(String name, TypeName type, boolean required) {
+  public ViewFieldBinding(String name, TypeName type, boolean required) {
     this.name = name;
     this.type = type;
     this.required = required;
@@ -30,7 +30,7 @@ final class ViewFieldBinding implements MemberViewBinding {
     return (ClassName) type;
   }
 
-  @Override public String getDescription() {
+  @Override public String toString() {
     return "field '" + name + "'";
   }
 

@@ -1,18 +1,24 @@
 package com.andframe.processor.util;
 
+import com.andframe.annotation.Optional;
 import com.andframe.processor.constant.ClassNames;
 import com.squareup.javapoet.TypeName;
 
+import java.lang.annotation.Annotation;
+import java.util.LinkedHashSet;
 import java.util.List;
+import java.util.Set;
 
 import javax.lang.model.element.AnnotationMirror;
 import javax.lang.model.element.Element;
+import javax.lang.model.element.ExecutableElement;
 import javax.lang.model.element.TypeElement;
 import javax.lang.model.type.DeclaredType;
 import javax.lang.model.type.TypeKind;
 import javax.lang.model.type.TypeMirror;
 
 import static com.andframe.processor.constant.Constants.NULLABLE_ANNOTATION_NAME;
+import static javax.lang.model.element.ElementKind.INTERFACE;
 
 /**
  * 工具集
@@ -35,9 +41,18 @@ public class Utils {
         return false;
     }
 
+    public static boolean isInterface(TypeMirror typeMirror) {
+        return typeMirror instanceof DeclaredType && ((DeclaredType) typeMirror).asElement().getKind() == INTERFACE;
+    }
+
     public static boolean isFieldRequired(Element element) {
         return !hasAnnotationWithName(element, NULLABLE_ANNOTATION_NAME);
     }
+
+    public static boolean isListenerRequired(ExecutableElement element) {
+        return element.getAnnotation(Optional.class) == null;
+    }
+
     /**
      * typeMirror 和 otherType 是否是同类型
      */
@@ -95,4 +110,25 @@ public class Utils {
         return false;
     }
 
+    /** Returns the first duplicate element inside an array, null if there are no duplicates. */
+    public static Integer findDuplicate(int[] array) {
+        Set<Integer> seenElements = new LinkedHashSet<>();
+
+        for (int element : array) {
+            if (!seenElements.add(element)) {
+                return element;
+            }
+        }
+
+        return null;
+    }
+
+    public static AnnotationMirror getMirror(Element element, Class<? extends Annotation> annotation) {
+        for (AnnotationMirror annotationMirror : element.getAnnotationMirrors()) {
+            if (annotationMirror.getAnnotationType().toString().equals(annotation.getCanonicalName())) {
+                return annotationMirror;
+            }
+        }
+        return null;
+    }
 }
