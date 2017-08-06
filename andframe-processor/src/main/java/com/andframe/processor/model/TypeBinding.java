@@ -111,6 +111,10 @@ public class TypeBinding {
             return true;
         }
 
+        public void addResource(ResourceBinding binding) {
+            resourceBindings.add(binding);
+        }
+
         public void addViewFieldsBinding(ViewFieldsBinding binding) {
             this.viewFieldsBinding.add(binding);
         }

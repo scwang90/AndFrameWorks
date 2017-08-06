@@ -3,12 +3,27 @@ package com.andframe.processor;
 import com.andframe.annotation.BindLayout;
 import com.andframe.annotation.listener.internal.ListenerClass;
 import com.andframe.annotation.listener.internal.ListenerMethod;
+import com.andframe.annotation.resource.BindAnim;
+import com.andframe.annotation.resource.BindArray;
+import com.andframe.annotation.resource.BindBitmap;
+import com.andframe.annotation.resource.BindBool;
+import com.andframe.annotation.resource.BindColor;
+import com.andframe.annotation.resource.BindDimen;
+import com.andframe.annotation.resource.BindDrawable;
+import com.andframe.annotation.resource.BindFloat;
+import com.andframe.annotation.resource.BindFont;
+import com.andframe.annotation.resource.BindInt;
+import com.andframe.annotation.resource.BindString;
 import com.andframe.annotation.view.BindView;
 import com.andframe.annotation.view.BindViews;
 import com.andframe.processor.constant.ClassNames;
 import com.andframe.processor.model.Id;
 import com.andframe.processor.model.IdQualified;
 import com.andframe.processor.model.Parameter;
+import com.andframe.processor.model.ResourceAnimationBinding;
+import com.andframe.processor.model.ResourceDrawableBinding;
+import com.andframe.processor.model.ResourceFieldBinding;
+import com.andframe.processor.model.ResourceTypefaceBinding;
 import com.andframe.processor.model.TypeBinding;
 import com.andframe.processor.model.TypeLayoutBinding;
 import com.andframe.processor.model.ViewFieldBinding;
@@ -64,13 +79,20 @@ import javax.lang.model.util.Elements;
 import javax.lang.model.util.Types;
 import javax.tools.Diagnostic;
 
+import static com.andframe.processor.constant.Constants.ANIMATION_TYPE;
 import static com.andframe.processor.constant.Constants.BINDINGS;
+import static com.andframe.processor.constant.Constants.BITMAP_TYPE;
+import static com.andframe.processor.constant.Constants.COLOR_STATE_LIST_TYPE;
+import static com.andframe.processor.constant.Constants.DRAWABLE_TYPE;
 import static com.andframe.processor.constant.Constants.LISTENERS;
 import static com.andframe.processor.constant.Constants.LIST_TYPE;
 import static com.andframe.processor.constant.Constants.OPTION_DEBUGGABLE;
 import static com.andframe.processor.constant.Constants.OPTION_SDK_INT;
 import static com.andframe.processor.constant.Constants.RESOURCES;
 import static com.andframe.processor.constant.Constants.RESOURCE_TYPES;
+import static com.andframe.processor.constant.Constants.STRING_TYPE;
+import static com.andframe.processor.constant.Constants.TYPED_ARRAY_TYPE;
+import static com.andframe.processor.constant.Constants.TYPEFACE_TYPE;
 import static com.andframe.processor.model.Id.NO_ID;
 import static com.andframe.processor.util.Utils.findDuplicate;
 import static com.andframe.processor.util.Utils.getMirror;
@@ -170,6 +192,117 @@ public class AndFrameProcessor extends AbstractProcessor {
 
         scanForRClasses(env);
 
+
+        // Process each @BindAnim element.
+        for (Element element : env.getElementsAnnotatedWith(BindAnim.class)) {
+            if (!SuperficialValidation.validateElement(element)) continue;
+            try {
+                parseResourceAnimation(element, builderMap, erasedTargetNames);
+            } catch (Exception e) {
+                logParsingError(element, BindAnim.class, e);
+            }
+        }
+
+        // Process each @BindArray element.
+        for (Element element : env.getElementsAnnotatedWith(BindArray.class)) {
+            if (!SuperficialValidation.validateElement(element)) continue;
+            try {
+                parseResourceArray(element, builderMap, erasedTargetNames);
+            } catch (Exception e) {
+                logParsingError(element, BindArray.class, e);
+            }
+        }
+
+        // Process each @BindBitmap element.
+        for (Element element : env.getElementsAnnotatedWith(BindBitmap.class)) {
+            if (!SuperficialValidation.validateElement(element)) continue;
+            try {
+                parseResourceBitmap(element, builderMap, erasedTargetNames);
+            } catch (Exception e) {
+                logParsingError(element, BindBitmap.class, e);
+            }
+        }
+
+        // Process each @BindBool element.
+        for (Element element : env.getElementsAnnotatedWith(BindBool.class)) {
+            if (!SuperficialValidation.validateElement(element)) continue;
+            try {
+                parseResourceBool(element, builderMap, erasedTargetNames);
+            } catch (Exception e) {
+                logParsingError(element, BindBool.class, e);
+            }
+        }
+
+        // Process each @BindColor element.
+        for (Element element : env.getElementsAnnotatedWith(BindColor.class)) {
+            if (!SuperficialValidation.validateElement(element)) continue;
+            try {
+                parseResourceColor(element, builderMap, erasedTargetNames);
+            } catch (Exception e) {
+                logParsingError(element, BindColor.class, e);
+            }
+        }
+
+        // Process each @BindDimen element.
+        for (Element element : env.getElementsAnnotatedWith(BindDimen.class)) {
+            if (!SuperficialValidation.validateElement(element)) continue;
+            try {
+                parseResourceDimen(element, builderMap, erasedTargetNames);
+            } catch (Exception e) {
+                logParsingError(element, BindDimen.class, e);
+            }
+        }
+
+        // Process each @BindDrawable element.
+        for (Element element : env.getElementsAnnotatedWith(BindDrawable.class)) {
+            if (!SuperficialValidation.validateElement(element)) continue;
+            try {
+                parseResourceDrawable(element, builderMap, erasedTargetNames);
+            } catch (Exception e) {
+                logParsingError(element, BindDrawable.class, e);
+            }
+        }
+
+        // Process each @BindFloat element.
+        for (Element element : env.getElementsAnnotatedWith(BindFloat.class)) {
+            if (!SuperficialValidation.validateElement(element)) continue;
+            try {
+                parseResourceFloat(element, builderMap, erasedTargetNames);
+            } catch (Exception e) {
+                logParsingError(element, BindFloat.class, e);
+            }
+        }
+
+        // Process each @BindFont element.
+        for (Element element : env.getElementsAnnotatedWith(BindFont.class)) {
+            if (!SuperficialValidation.validateElement(element)) continue;
+            try {
+                parseResourceFont(element, builderMap, erasedTargetNames);
+            } catch (Exception e) {
+                logParsingError(element, BindFont.class, e);
+            }
+        }
+
+        // Process each @BindInt element.
+        for (Element element : env.getElementsAnnotatedWith(BindInt.class)) {
+            if (!SuperficialValidation.validateElement(element)) continue;
+            try {
+                parseResourceInt(element, builderMap, erasedTargetNames);
+            } catch (Exception e) {
+                logParsingError(element, BindInt.class, e);
+            }
+        }
+
+        // Process each @BindString element.
+        for (Element element : env.getElementsAnnotatedWith(BindString.class)) {
+            if (!SuperficialValidation.validateElement(element)) continue;
+            try {
+                parseResourceString(element, builderMap, erasedTargetNames);
+            } catch (Exception e) {
+                logParsingError(element, BindString.class, e);
+            }
+        }
+
         // Process each @FindView element.
         for (Element element : env.getElementsAnnotatedWith(BindLayout.class)) {
             // we don't SuperficialValidation.validateElement(element)
@@ -235,6 +368,7 @@ public class AndFrameProcessor extends AbstractProcessor {
         return bindingMap;
     }
 
+    //<editor-fold desc="绑定视图">
     private void parseBindLayout(Element element, Map<TypeElement, TypeBinding.Builder> builderMap,
                                  Set<TypeElement> erasedTargetNames) {
         TypeElement enclosingElement = (TypeElement) element;
@@ -420,6 +554,9 @@ public class AndFrameProcessor extends AbstractProcessor {
 
         erasedTargetNames.add(enclosingElement);
     }
+    //</editor-fold>
+
+    //<editor-fold desc="绑定事件">
     private void findAndParseListener(RoundEnvironment env,
                                       Class<? extends Annotation> annotationClass,
                                       Map<TypeElement, TypeBinding.Builder> builderMap, Set<TypeElement> erasedTargetNames) {
@@ -627,6 +764,402 @@ public class AndFrameProcessor extends AbstractProcessor {
         // Add the type-erased version to the valid binding targets set.
         erasedTargetNames.add(enclosingElement);
     }
+    //</editor-fold>
+
+    //<editor-fold desc="绑定资源">
+    private void parseResourceAnimation(Element element,
+                                        Map<TypeElement, TypeBinding.Builder> builderMap, Set<TypeElement> erasedTargetNames) {
+        boolean hasError = false;
+        TypeElement enclosingElement = (TypeElement) element.getEnclosingElement();
+
+        // Verify that the target type is Animation.
+        if (!ANIMATION_TYPE.equals(element.asType().toString())) {
+            error(element, "@%s field type must be 'Animation'. (%s.%s)",
+                    BindAnim.class.getSimpleName(), enclosingElement.getQualifiedName(),
+                    element.getSimpleName());
+            hasError = true;
+        }
+
+        // Verify common generated code restrictions.
+        hasError |= isInaccessibleViaGeneratedCode(BindAnim.class, "fields", element, enclosingElement);
+        hasError |= isBindingInWrongPackage(BindAnim.class, element, enclosingElement);
+
+        if (hasError) {
+            return;
+        }
+
+        // Assemble information on the field.
+        String name = element.getSimpleName().toString();
+        int id = element.getAnnotation(BindAnim.class).value();
+        IdQualified qualifiedId = elementToQualifiedId(element, id);
+        TypeBinding.Builder builder = getOrCreateBindingBuilder(builderMap, enclosingElement);
+        builder.addResource(new ResourceAnimationBinding(getId(qualifiedId), name));
+
+        erasedTargetNames.add(enclosingElement);
+    }
+
+    private void parseResourceBool(Element element,
+                                   Map<TypeElement, TypeBinding.Builder> builderMap, Set<TypeElement> erasedTargetNames) {
+        boolean hasError = false;
+        TypeElement enclosingElement = (TypeElement) element.getEnclosingElement();
+
+        // Verify that the target type is bool.
+        if (element.asType().getKind() != TypeKind.BOOLEAN) {
+            error(element, "@%s field type must be 'boolean'. (%s.%s)",
+                    BindBool.class.getSimpleName(), enclosingElement.getQualifiedName(),
+                    element.getSimpleName());
+            hasError = true;
+        }
+
+        // Verify common generated code restrictions.
+        hasError |= isInaccessibleViaGeneratedCode(BindBool.class, "fields", element, enclosingElement);
+        hasError |= isBindingInWrongPackage(BindBool.class, element, enclosingElement);
+
+        if (hasError) {
+            return;
+        }
+
+        // Assemble information on the field.
+        String name = element.getSimpleName().toString();
+        int id = element.getAnnotation(BindBool.class).value();
+        IdQualified qualifiedId = elementToQualifiedId(element, id);
+        TypeBinding.Builder builder = getOrCreateBindingBuilder(builderMap, enclosingElement);
+        builder.addResource(
+                new ResourceFieldBinding(getId(qualifiedId), name, ResourceFieldBinding.Type.BOOL));
+
+        erasedTargetNames.add(enclosingElement);
+    }
+
+    private void parseResourceColor(Element element,
+                                    Map<TypeElement, TypeBinding.Builder> builderMap, Set<TypeElement> erasedTargetNames) {
+        boolean hasError = false;
+        TypeElement enclosingElement = (TypeElement) element.getEnclosingElement();
+
+        // Verify that the target type is int or ColorStateList.
+        boolean isColorStateList = false;
+        TypeMirror elementType = element.asType();
+        if (COLOR_STATE_LIST_TYPE.equals(elementType.toString())) {
+            isColorStateList = true;
+        } else if (elementType.getKind() != TypeKind.INT) {
+            error(element, "@%s field type must be 'int' or 'ColorStateList'. (%s.%s)",
+                    BindColor.class.getSimpleName(), enclosingElement.getQualifiedName(),
+                    element.getSimpleName());
+            hasError = true;
+        }
+
+        // Verify common generated code restrictions.
+        hasError |= isInaccessibleViaGeneratedCode(BindColor.class, "fields", element, enclosingElement);
+        hasError |= isBindingInWrongPackage(BindColor.class, element, enclosingElement);
+
+        if (hasError) {
+            return;
+        }
+
+        // Assemble information on the field.
+        String name = element.getSimpleName().toString();
+        int id = element.getAnnotation(BindColor.class).value();
+        IdQualified qualifiedId = elementToQualifiedId(element, id);
+        TypeBinding.Builder builder = getOrCreateBindingBuilder(builderMap, enclosingElement);
+        builder.addResource(new ResourceFieldBinding(getId(qualifiedId), name,
+                isColorStateList ? ResourceFieldBinding.Type.COLOR_STATE_LIST
+                        : ResourceFieldBinding.Type.COLOR));
+
+        erasedTargetNames.add(enclosingElement);
+    }
+
+    private void parseResourceDimen(Element element,
+                                    Map<TypeElement, TypeBinding.Builder> builderMap, Set<TypeElement> erasedTargetNames) {
+        boolean hasError = false;
+        TypeElement enclosingElement = (TypeElement) element.getEnclosingElement();
+
+        // Verify that the target type is int or ColorStateList.
+        boolean isInt = false;
+        TypeMirror elementType = element.asType();
+        if (elementType.getKind() == TypeKind.INT) {
+            isInt = true;
+        } else if (elementType.getKind() != TypeKind.FLOAT) {
+            error(element, "@%s field type must be 'int' or 'float'. (%s.%s)",
+                    BindDimen.class.getSimpleName(), enclosingElement.getQualifiedName(),
+                    element.getSimpleName());
+            hasError = true;
+        }
+
+        // Verify common generated code restrictions.
+        hasError |= isInaccessibleViaGeneratedCode(BindDimen.class, "fields", element, enclosingElement);
+        hasError |= isBindingInWrongPackage(BindDimen.class, element, enclosingElement);
+
+        if (hasError) {
+            return;
+        }
+
+        // Assemble information on the field.
+        String name = element.getSimpleName().toString();
+        int id = element.getAnnotation(BindDimen.class).value();
+        IdQualified qualifiedId = elementToQualifiedId(element, id);
+        TypeBinding.Builder builder = getOrCreateBindingBuilder(builderMap, enclosingElement);
+        builder.addResource(new ResourceFieldBinding(getId(qualifiedId), name,
+                isInt ? ResourceFieldBinding.Type.DIMEN_AS_INT : ResourceFieldBinding.Type.DIMEN_AS_FLOAT));
+
+        erasedTargetNames.add(enclosingElement);
+    }
+
+    private void parseResourceBitmap(Element element,
+                                     Map<TypeElement, TypeBinding.Builder> builderMap, Set<TypeElement> erasedTargetNames) {
+        boolean hasError = false;
+        TypeElement enclosingElement = (TypeElement) element.getEnclosingElement();
+
+        // Verify that the target type is Bitmap.
+        if (!BITMAP_TYPE.equals(element.asType().toString())) {
+            error(element, "@%s field type must be 'Bitmap'. (%s.%s)",
+                    BindBitmap.class.getSimpleName(), enclosingElement.getQualifiedName(),
+                    element.getSimpleName());
+            hasError = true;
+        }
+
+        // Verify common generated code restrictions.
+        hasError |= isInaccessibleViaGeneratedCode(BindBitmap.class, "fields", element, enclosingElement);
+        hasError |= isBindingInWrongPackage(BindBitmap.class, element, enclosingElement);
+
+        if (hasError) {
+            return;
+        }
+
+        // Assemble information on the field.
+        String name = element.getSimpleName().toString();
+        int id = element.getAnnotation(BindBitmap.class).value();
+        IdQualified qualifiedId = elementToQualifiedId(element, id);
+        TypeBinding.Builder builder = getOrCreateBindingBuilder(builderMap, enclosingElement);
+        builder.addResource(
+                new ResourceFieldBinding(getId(qualifiedId), name, ResourceFieldBinding.Type.BITMAP));
+
+        erasedTargetNames.add(enclosingElement);
+    }
+
+    private void parseResourceDrawable(Element element,
+                                       Map<TypeElement, TypeBinding.Builder> builderMap, Set<TypeElement> erasedTargetNames) {
+        boolean hasError = false;
+        TypeElement enclosingElement = (TypeElement) element.getEnclosingElement();
+
+        // Verify that the target type is Drawable.
+        if (!DRAWABLE_TYPE.equals(element.asType().toString())) {
+            error(element, "@%s field type must be 'Drawable'. (%s.%s)",
+                    BindDrawable.class.getSimpleName(), enclosingElement.getQualifiedName(),
+                    element.getSimpleName());
+            hasError = true;
+        }
+
+        // Verify common generated code restrictions.
+        hasError |= isInaccessibleViaGeneratedCode(BindDrawable.class, "fields", element, enclosingElement);
+        hasError |= isBindingInWrongPackage(BindDrawable.class, element, enclosingElement);
+
+        if (hasError) {
+            return;
+        }
+
+        // Assemble information on the field.
+        String name = element.getSimpleName().toString();
+        int id = element.getAnnotation(BindDrawable.class).value();
+        int tint = element.getAnnotation(BindDrawable.class).tint();
+        IdQualified qualifiedId = elementToQualifiedId(element, id);
+        IdQualified qualifiedTint = elementToQualifiedId(element, tint);
+        TypeBinding.Builder builder = getOrCreateBindingBuilder(builderMap, enclosingElement);
+        builder.addResource(new ResourceDrawableBinding(getId(qualifiedId), name, getId(qualifiedTint)));
+
+        erasedTargetNames.add(enclosingElement);
+    }
+
+    private void parseResourceFloat(Element element,
+                                    Map<TypeElement, TypeBinding.Builder> builderMap, Set<TypeElement> erasedTargetNames) {
+        boolean hasError = false;
+        TypeElement enclosingElement = (TypeElement) element.getEnclosingElement();
+
+        // Verify that the target type is float.
+        if (element.asType().getKind() != TypeKind.FLOAT) {
+            error(element, "@%s field type must be 'float'. (%s.%s)",
+                    BindFloat.class.getSimpleName(), enclosingElement.getQualifiedName(),
+                    element.getSimpleName());
+            hasError = true;
+        }
+
+        // Verify common generated code restrictions.
+        hasError |= isInaccessibleViaGeneratedCode(BindFloat.class, "fields", element, enclosingElement);
+        hasError |= isBindingInWrongPackage(BindFloat.class, element, enclosingElement);
+
+        if (hasError) {
+            return;
+        }
+
+        // Assemble information on the field.
+        String name = element.getSimpleName().toString();
+        int id = element.getAnnotation(BindFloat.class).value();
+        IdQualified qualifiedId = elementToQualifiedId(element, id);
+        TypeBinding.Builder builder = getOrCreateBindingBuilder(builderMap, enclosingElement);
+        builder.addResource(
+                new ResourceFieldBinding(getId(qualifiedId), name, ResourceFieldBinding.Type.FLOAT));
+
+        erasedTargetNames.add(enclosingElement);
+    }
+
+    private void parseResourceFont(Element element,
+                                   Map<TypeElement, TypeBinding.Builder> builderMap, Set<TypeElement> erasedTargetNames) {
+        boolean hasError = false;
+        TypeElement enclosingElement = (TypeElement) element.getEnclosingElement();
+
+        // Verify that the target type is a Typeface.
+        if (!TYPEFACE_TYPE.equals(element.asType().toString())) {
+            error(element, "@%s field type must be 'Typeface'. (%s.%s)",
+                    BindFont.class.getSimpleName(), enclosingElement.getQualifiedName(),
+                    element.getSimpleName());
+            hasError = true;
+        }
+
+        // Verify common generated code restrictions.
+        hasError |= isInaccessibleViaGeneratedCode(BindFont.class, "fields", element, enclosingElement);
+        hasError |= isBindingInWrongPackage(BindFont.class, element, enclosingElement);
+
+        // Assemble information on the field.
+        String name = element.getSimpleName().toString();
+        BindFont bindFont = element.getAnnotation(BindFont.class);
+
+        int styleValue = bindFont.style();
+        ResourceTypefaceBinding.TypefaceStyles style = ResourceTypefaceBinding.TypefaceStyles.fromValue(styleValue);
+        if (style == null) {
+            error(element, "@%s style must be NORMAL, BOLD, ITALIC, or BOLD_ITALIC. (%s.%s)",
+                    BindFont.class.getSimpleName(), enclosingElement.getQualifiedName(), name);
+            hasError = true;
+        }
+
+        if (hasError) {
+            return;
+        }
+
+        TypeBinding.Builder builder = getOrCreateBindingBuilder(builderMap, enclosingElement);
+        IdQualified qualifiedId = elementToQualifiedId(element, bindFont.value());
+        builder.addResource(new ResourceTypefaceBinding(getId(qualifiedId), name, style));
+
+        erasedTargetNames.add(enclosingElement);
+    }
+
+    private void parseResourceInt(Element element,
+                                  Map<TypeElement, TypeBinding.Builder> builderMap, Set<TypeElement> erasedTargetNames) {
+        boolean hasError = false;
+        TypeElement enclosingElement = (TypeElement) element.getEnclosingElement();
+
+        // Verify that the target type is int.
+        if (element.asType().getKind() != TypeKind.INT) {
+            error(element, "@%s field type must be 'int'. (%s.%s)", BindInt.class.getSimpleName(),
+                    enclosingElement.getQualifiedName(), element.getSimpleName());
+            hasError = true;
+        }
+
+        // Verify common generated code restrictions.
+        hasError |= isInaccessibleViaGeneratedCode(BindInt.class, "fields", element, enclosingElement);
+        hasError |= isBindingInWrongPackage(BindInt.class, element, enclosingElement);
+
+        if (hasError) {
+            return;
+        }
+
+        // Assemble information on the field.
+        String name = element.getSimpleName().toString();
+        int id = element.getAnnotation(BindInt.class).value();
+        IdQualified qualifiedId = elementToQualifiedId(element, id);
+        TypeBinding.Builder builder = getOrCreateBindingBuilder(builderMap, enclosingElement);
+        builder.addResource(
+                new ResourceFieldBinding(getId(qualifiedId), name, ResourceFieldBinding.Type.INT));
+
+        erasedTargetNames.add(enclosingElement);
+    }
+
+    private void parseResourceString(Element element,
+                                     Map<TypeElement, TypeBinding.Builder> builderMap, Set<TypeElement> erasedTargetNames) {
+        boolean hasError = false;
+        TypeElement enclosingElement = (TypeElement) element.getEnclosingElement();
+
+        // Verify that the target type is String.
+        if (!STRING_TYPE.equals(element.asType().toString())) {
+            error(element, "@%s field type must be 'String'. (%s.%s)",
+                    BindString.class.getSimpleName(), enclosingElement.getQualifiedName(),
+                    element.getSimpleName());
+            hasError = true;
+        }
+
+        // Verify common generated code restrictions.
+        hasError |= isInaccessibleViaGeneratedCode(BindString.class, "fields", element, enclosingElement);
+        hasError |= isBindingInWrongPackage(BindString.class, element, enclosingElement);
+
+        if (hasError) {
+            return;
+        }
+
+        // Assemble information on the field.
+        String name = element.getSimpleName().toString();
+        int id = element.getAnnotation(BindString.class).value();
+        IdQualified qualifiedId = elementToQualifiedId(element, id);
+        TypeBinding.Builder builder = getOrCreateBindingBuilder(builderMap, enclosingElement);
+        builder.addResource(
+                new ResourceFieldBinding(getId(qualifiedId), name, ResourceFieldBinding.Type.STRING));
+
+        erasedTargetNames.add(enclosingElement);
+    }
+
+    private void parseResourceArray(Element element,
+                                    Map<TypeElement, TypeBinding.Builder> builderMap, Set<TypeElement> erasedTargetNames) {
+        boolean hasError = false;
+        TypeElement enclosingElement = (TypeElement) element.getEnclosingElement();
+
+        // Verify that the target type is supported.
+        ResourceFieldBinding.Type type = getArrayResourceMethodName(element);
+        if (type == null) {
+            error(element,
+                    "@%s field type must be one of: String[], int[], CharSequence[], %s. (%s.%s)",
+                    BindArray.class.getSimpleName(), TYPED_ARRAY_TYPE, enclosingElement.getQualifiedName(),
+                    element.getSimpleName());
+            hasError = true;
+        }
+
+        // Verify common generated code restrictions.
+        hasError |= isInaccessibleViaGeneratedCode(BindArray.class, "fields", element, enclosingElement);
+        hasError |= isBindingInWrongPackage(BindArray.class, element, enclosingElement);
+
+        if (hasError) {
+            return;
+        }
+
+        // Assemble information on the field.
+        String name = element.getSimpleName().toString();
+        int id = element.getAnnotation(BindArray.class).value();
+        IdQualified qualifiedId = elementToQualifiedId(element, id);
+        TypeBinding.Builder builder = getOrCreateBindingBuilder(builderMap, enclosingElement);
+        builder.addResource(new ResourceFieldBinding(getId(qualifiedId), name, type));
+
+        erasedTargetNames.add(enclosingElement);
+    }
+
+    /**
+     * binding, null if the element type is not supported.
+     */
+    private static ResourceFieldBinding.Type getArrayResourceMethodName(Element element) {
+        TypeMirror typeMirror = element.asType();
+        if (TYPED_ARRAY_TYPE.equals(typeMirror.toString())) {
+            return ResourceFieldBinding.Type.TYPED_ARRAY;
+        }
+        if (TypeKind.ARRAY.equals(typeMirror.getKind())) {
+            ArrayType arrayType = (ArrayType) typeMirror;
+            String componentType = arrayType.getComponentType().toString();
+            if (STRING_TYPE.equals(componentType)) {
+                return ResourceFieldBinding.Type.STRING_ARRAY;
+            } else if ("int".equals(componentType)) {
+                return ResourceFieldBinding.Type.INT_ARRAY;
+            } else if ("java.lang.CharSequence".equals(componentType)) {
+                return ResourceFieldBinding.Type.TEXT_ARRAY;
+            }
+        }
+        return null;
+    }
+    //</editor-fold>
+
+
     private Set<Class<? extends Annotation>> getSupportedAnnotations() {
         Set<Class<? extends Annotation>> annotations = new LinkedHashSet<>();
         annotations.addAll(BINDINGS);

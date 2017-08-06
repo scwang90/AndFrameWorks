@@ -39,7 +39,14 @@ public class Constants {
 
     public static final String OPTION_SDK_INT = "andframe.minSdk";
     public static final String OPTION_DEBUGGABLE = "andframe.debug";
+    public static final String COLOR_STATE_LIST_TYPE = "android.content.res.ColorStateList";
+    public static final String BITMAP_TYPE = "android.graphics.Bitmap";
+    public static final String ANIMATION_TYPE = "android.view.animation.Animation";
+    public static final String DRAWABLE_TYPE = "android.graphics.drawable.Drawable";
+    public static final String TYPED_ARRAY_TYPE = "android.content.res.TypedArray";
+    public static final String TYPEFACE_TYPE = "android.graphics.Typeface";
     public static final String NULLABLE_ANNOTATION_NAME = "Nullable";
+    public static final String STRING_TYPE = "java.lang.String";
     public static final String LIST_TYPE = List.class.getCanonicalName();
 
     public static final List<String> RESOURCE_TYPES = Arrays.asList(

@@ -17,6 +17,12 @@ public class ClassNames {
     public static final ClassName SUPPRESS_LINT = ClassName.get("android.annotation", "SuppressLint");
     public static final ClassName ANDFRAME_UTILS = ClassName.get("com.andframe.util", "Utils");
 
+    public static final ClassName BITMAP_FACTORY = ClassName.get("android.graphics", "BitmapFactory");
+    public static final ClassName CONTEXT_COMPAT =
+            ClassName.get("android.support.v4.content", "ContextCompat");
+    public static final ClassName ANIMATION_UTILS =
+            ClassName.get("android.view.animation", "AnimationUtils");
+
     private ClassNames() {
     }
 }
