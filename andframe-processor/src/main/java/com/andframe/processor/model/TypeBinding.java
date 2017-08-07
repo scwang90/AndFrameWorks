@@ -13,6 +13,7 @@ import java.util.Collections;
 import java.util.LinkedHashMap;
 import java.util.List;
 import java.util.Map;
+import java.util.Set;
 
 import javax.lang.model.element.TypeElement;
 import javax.lang.model.type.TypeMirror;
@@ -33,14 +34,14 @@ public class TypeBinding {
     public final TypeName targetTypeName;
     public final ClassName bindingClassName;
     public final List<ViewBinding> viewBindings;
-    public final List<ViewFieldsBinding> collectionBindings;
+    public final List<ViewFieldsBinding> viewFieldsBindings;
     public final List<ResourceBinding> resourceBindings;
     public final TypeLayoutBinding typeLayoutBinding;
 
     private TypeBinding(TypeName targetTypeName, ClassName bindingClassName,
                        boolean isView, boolean isActivity, boolean isDialog,
                        List<ViewBinding> viewBindings,
-                       List<ViewFieldsBinding> collectionBindings,
+                       List<ViewFieldsBinding> viewFieldsBindings,
                        List<ResourceBinding> resourceBindings, TypeLayoutBinding typeLayoutBinding) {
         this.isView = isView;
         this.isDialog = isDialog;
@@ -49,7 +50,7 @@ public class TypeBinding {
         this.bindingClassName = bindingClassName;
         this.viewBindings = viewBindings;
         this.typeLayoutBinding = typeLayoutBinding;
-        this.collectionBindings = collectionBindings;
+        this.viewFieldsBindings = viewFieldsBindings;
         this.resourceBindings = resourceBindings;
     }
 
@@ -86,7 +87,7 @@ public class TypeBinding {
 
         private final Map<Id, ViewBinding.Builder> viewIdMap = new LinkedHashMap<>();
         private final List<ResourceBinding> resourceBindings = new ArrayList<>();
-        private final List<ViewFieldsBinding> viewFieldsBinding = new ArrayList<>();
+        private final List<ViewFieldsBinding> viewFieldsBindings = new ArrayList<>();
 
 
         private Builder(TypeName targetTypeName, ClassName bindingClassName,
@@ -99,7 +100,7 @@ public class TypeBinding {
         }
 
         public void addField(Id id, ViewFieldBinding binding) {
-            getOrCreateViewBindings(id).setFieldBinding(binding);
+            getOrCreateViewBindings(id).addFieldBindings(binding);
         }
 
         public boolean addMethod(Id id, ListenerClass listener, ListenerMethod method, ViewMethodBinding binding) {
@@ -116,7 +117,7 @@ public class TypeBinding {
         }
 
         public void addViewFieldsBinding(ViewFieldsBinding binding) {
-            this.viewFieldsBinding.add(binding);
+            this.viewFieldsBindings.add(binding);
         }
 
         public void setTypeLayoutBinding(TypeLayoutBinding binding) {
@@ -128,11 +129,11 @@ public class TypeBinding {
             if (builder == null) {
                 return null;
             }
-            ViewFieldBinding fieldBinding = builder.fieldBinding;
-            if (fieldBinding == null) {
+            List<ViewFieldBinding> fieldBindings = builder.fieldBindings;
+            if (fieldBindings.size() == 0) {
                 return null;
             }
-            return fieldBinding.getName();
+            return fieldBindings.get(0).getName();
         }
 
         private ViewBinding.Builder getOrCreateViewBindings(Id id) {
@@ -148,11 +149,30 @@ public class TypeBinding {
             for (ViewBinding.Builder builder : viewIdMap.values()) {
                 viewBindings.add(builder.build());
             }
-            return new TypeBinding(targetTypeName, bindingClassName, isView, isActivity, isDialog,
+            return new TypeBinding(targetTypeName, bindingClassName,
+                    isView, isActivity, isDialog,
                     viewBindings.build(),
-                    Collections.unmodifiableList(viewFieldsBinding),
+                    Collections.unmodifiableList(viewFieldsBindings),
                     Collections.unmodifiableList(resourceBindings),
                     typeLayoutBinding);
+        }
+
+        public void setExtendBinding(TypeBinding binding) {
+            this.resourceBindings.addAll(binding.resourceBindings);
+            this.viewFieldsBindings.addAll(binding.viewFieldsBindings);
+            this.typeLayoutBinding = (typeLayoutBinding==null)?binding.typeLayoutBinding:typeLayoutBinding;
+            for (ViewBinding viewBinding : binding.viewBindings) {
+                for (ViewFieldBinding viewFieldBinding : viewBinding.fieldBindings) {
+                    addField(viewBinding.id, viewFieldBinding);
+                }
+                for (Map.Entry<ListenerClass, Map<ListenerMethod, Set<ViewMethodBinding>>> entry : viewBinding.methodBindings.entrySet()) {
+                    for (Map.Entry<ListenerMethod, Set<ViewMethodBinding>> methodSetEntry : entry.getValue().entrySet()) {
+                        for (ViewMethodBinding viewMethodBinding : methodSetEntry.getValue()) {
+                            addMethod(viewBinding.id, entry.getKey(), methodSetEntry.getKey(), viewMethodBinding);
+                        }
+                    }
+                }
+            }
         }
     }
 }

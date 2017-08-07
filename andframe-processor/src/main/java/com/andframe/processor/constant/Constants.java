@@ -50,7 +50,7 @@ public class Constants {
     public static final String LIST_TYPE = List.class.getCanonicalName();
 
     public static final List<String> RESOURCE_TYPES = Arrays.asList(
-            "layout", "array", "attr", "bool", "color", "dimen", "drawable", "id", "integer", "string"
+            "layout", "array", "attr", "bool", "color", "dimen", "drawable", "id", "integer", "string", "mipmap"
     );
 
     public static final List<Class<? extends Annotation>> BINDINGS = Arrays.asList(
@@ -86,4 +86,7 @@ public class Constants {
             BindOnTextChanged.class,
             BindOnTouch.class
     );
+
+    private Constants() {
+    }
 }

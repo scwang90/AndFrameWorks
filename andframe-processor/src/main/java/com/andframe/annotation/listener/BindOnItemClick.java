@@ -31,6 +31,4 @@ public @interface BindOnItemClick {
      */
     int[] value() default {-1};
 	String[] idname() default {""};
-
-    int intervalTime() default 1000;
 }

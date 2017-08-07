@@ -9,13 +9,15 @@ import com.squareup.javapoet.ClassName;
 
 public class ClassNames {
     public static final ClassName ANDROID_VIEW = ClassName.get("android.view", "View");
-    public static final ClassName ANDROID_DIALOG = ClassName.get("android.view", "Dialog");
-    public static final ClassName ANDROID_ACTIVITY = ClassName.get("android.view", "Activity");
+    public static final ClassName ANDROID_DIALOG = ClassName.get("android.app", "Dialog");
+    public static final ClassName ANDROID_ACTIVITY = ClassName.get("android.app", "Activity");
     public static final ClassName ANDROID_CONTEXT = ClassName.get("android.content", "Context");
     public static final ClassName ANDROID_RESOURCES = ClassName.get("android.content.res", "Resources");
     public static final ClassName ANDROID_R = ClassName.get("android", "R");
+    public static final ClassName VIEWGROUP_LAYOUTPARAMS = ClassName.get("android.view.ViewGroup", "LayoutParams");
     public static final ClassName SUPPRESS_LINT = ClassName.get("android.annotation", "SuppressLint");
     public static final ClassName ANDFRAME_UTILS = ClassName.get("com.andframe.util", "Utils");
+    public static final ClassName ANDFRAME_LISTENER = ClassName.get("com.andframe.listener", "SafeListener");
 
     public static final ClassName BITMAP_FACTORY = ClassName.get("android.graphics", "BitmapFactory");
     public static final ClassName CONTEXT_COMPAT =

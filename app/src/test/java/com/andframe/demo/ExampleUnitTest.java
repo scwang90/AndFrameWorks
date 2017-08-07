@@ -1,4 +1,4 @@
-package com.andframe;
+package com.andframe.demo;
 
 import org.junit.Test;
 

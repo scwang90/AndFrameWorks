@@ -26,12 +26,12 @@ public class ResourceDrawableBinding extends ResourceBinding {
 
   @Override public CodeBlock render(int sdk) {
     if (tintAttributeId.value != 0) {
-      return CodeBlock.of("target.$L = $T.getTintedDrawable(context, $L, $L)", name, ANDFRAME_UTILS, id.code,
+      return CodeBlock.of("$L = $T.getTintedDrawable(context, $L, $L)", name, ANDFRAME_UTILS, id.code,
           tintAttributeId.code);
     }
     if (sdk >= 21) {
-      return CodeBlock.of("target.$L = context.getDrawable($L)", name, id.code);
+      return CodeBlock.of("$L = context.getDrawable($L)", name, id.code);
     }
-    return CodeBlock.of("target.$L = $T.getDrawable(context, $L)", name, CONTEXT_COMPAT, id.code);
+    return CodeBlock.of("$L = $T.getDrawable(context, $L)", name, CONTEXT_COMPAT, id.code);
   }
 }

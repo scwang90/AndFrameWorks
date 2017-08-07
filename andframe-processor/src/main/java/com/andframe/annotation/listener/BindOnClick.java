@@ -14,9 +14,9 @@ import static java.lang.annotation.RetentionPolicy.CLASS;
 @ListenerClass(
         targetType = "android.view.View",
         setter = "setOnClickListener",
-        type = "com.andframe.annotation.listener.internal.DebouncingOnClickListener",
+        type = "android.view.View.OnClickListener",
         method = @ListenerMethod(
-                name = "doClick",
+                name = "onClick",
                 parameters = "android.view.View"
         )
 )
@@ -26,6 +26,4 @@ public @interface BindOnClick {
      */
     int[] value() default {-1};
 	String[] idname() default {""};
-
-    int intervalTime() default 1000;
 }

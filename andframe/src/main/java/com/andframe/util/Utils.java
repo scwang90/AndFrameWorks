@@ -4,6 +4,8 @@ import android.support.annotation.IdRes;
 import android.view.View;
 
 import java.lang.reflect.Array;
+import java.util.Arrays;
+import java.util.List;
 
 /**
  * 工具集
@@ -64,6 +66,11 @@ public class Utils {
     @SafeVarargs
     public static <T> T[] arrayOf(T... views) {
         return filterNull(views);
+    }
+
+    @SafeVarargs
+    public static <T> List<T> listOf(T... views) {
+        return Arrays.asList(views);
     }
 
     private static <T> T[] filterNull(T[] views) {

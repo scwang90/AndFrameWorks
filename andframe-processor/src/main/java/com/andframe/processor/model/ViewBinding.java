@@ -19,19 +19,21 @@ public class ViewBinding {
 
     public final Id id;
     public final Map<ListenerClass, Map<ListenerMethod, Set<ViewMethodBinding>>> methodBindings;
-    public final ViewFieldBinding fieldBinding;
+    public final List<ViewFieldBinding> fieldBindings;
 
     ViewBinding(Id id, Map<ListenerClass, Map<ListenerMethod, Set<ViewMethodBinding>>> methodBindings,
-                ViewFieldBinding fieldBinding) {
+                List<ViewFieldBinding> fieldBindings) {
         this.id = id;
         this.methodBindings = methodBindings;
-        this.fieldBinding = fieldBinding;
+        this.fieldBindings = fieldBindings;
     }
 
     public List<Object> getRequiredBindings() {
         List<Object> requiredBindings = new ArrayList<>();
-        if (fieldBinding != null && fieldBinding.isRequired()) {
-            requiredBindings.add(fieldBinding);
+        for (ViewFieldBinding fieldBinding : fieldBindings) {
+            if (fieldBinding != null && fieldBinding.isRequired()) {
+                requiredBindings.add(fieldBinding);
+            }
         }
         for (Map<ListenerMethod, Set<ViewMethodBinding>> methodBinding : methodBindings.values()) {
             for (Set<ViewMethodBinding> set : methodBinding.values()) {
@@ -46,7 +48,7 @@ public class ViewBinding {
     }
 
     public boolean isSingleFieldBinding() {
-        return methodBindings.isEmpty() && fieldBinding != null;
+        return methodBindings.isEmpty() && fieldBindings.size() > 0;
     }
 
     public boolean requiresLocal() {
@@ -65,7 +67,7 @@ public class ViewBinding {
 
     public static final class Builder {
         private final Id id;
-        ViewFieldBinding fieldBinding;
+        List<ViewFieldBinding> fieldBindings = new ArrayList<>();
         private final Map<ListenerClass, Map<ListenerMethod, Set<ViewMethodBinding>>> methodBindings =
                 new LinkedHashMap<>();
 
@@ -94,15 +96,12 @@ public class ViewBinding {
             set.add(binding);
         }
 
-        public void setFieldBinding(ViewFieldBinding fieldBinding) {
-            if (this.fieldBinding != null) {
-                throw new AssertionError();
-            }
-            this.fieldBinding = fieldBinding;
+        public void addFieldBindings(ViewFieldBinding fieldBinding) {
+            this.fieldBindings.add(fieldBinding);
         }
 
         public ViewBinding build() {
-            return new ViewBinding(id, methodBindings, fieldBinding);
+            return new ViewBinding(id, methodBindings, fieldBindings);
         }
     }
 }

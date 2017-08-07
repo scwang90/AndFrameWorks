@@ -58,6 +58,6 @@ public class ResourceTypefaceBinding extends ResourceBinding {
         if (style != TypefaceStyles.NORMAL) {
             typeface = CodeBlock.of("$1T.create($2L, $1T.$3L)", TYPEFACE, typeface, style);
         }
-        return CodeBlock.of("target.$L = $L", name, typeface);
+        return CodeBlock.of("$L = $L", name, typeface);
     }
 }

@@ -17,6 +17,7 @@ import com.andframe.annotation.resource.BindString;
 import com.andframe.annotation.view.BindView;
 import com.andframe.annotation.view.BindViews;
 import com.andframe.processor.constant.ClassNames;
+import com.andframe.processor.converter.JavaConverter;
 import com.andframe.processor.model.Id;
 import com.andframe.processor.model.IdQualified;
 import com.andframe.processor.model.Parameter;
@@ -33,6 +34,7 @@ import com.google.auto.common.SuperficialValidation;
 import com.google.auto.service.AutoService;
 import com.google.common.collect.ImmutableSet;
 import com.squareup.javapoet.ClassName;
+import com.squareup.javapoet.JavaFile;
 import com.squareup.javapoet.TypeName;
 import com.sun.source.tree.ClassTree;
 import com.sun.source.util.Trees;
@@ -40,6 +42,7 @@ import com.sun.tools.javac.code.Symbol;
 import com.sun.tools.javac.tree.JCTree;
 import com.sun.tools.javac.tree.TreeScanner;
 
+import java.io.IOException;
 import java.io.PrintWriter;
 import java.io.StringWriter;
 import java.lang.annotation.Annotation;
@@ -109,9 +112,8 @@ import static javax.lang.model.element.Modifier.STATIC;
 @AutoService(Processor.class)
 public class AndFrameProcessor extends AbstractProcessor {
 
-
-    private int sdk;
-    private boolean debuggable;
+    private int sdk = 1;
+    private boolean debug;
     private Filer filer;
     private Trees trees;
     private Types typeUtils;
@@ -127,7 +129,7 @@ public class AndFrameProcessor extends AbstractProcessor {
         typeUtils = env.getTypeUtils();
         elementUtils = env.getElementUtils();
 
-        debuggable = !"false".equals(env.getOptions().get(OPTION_DEBUGGABLE));
+        debug = !"false".equals(env.getOptions().get(OPTION_DEBUGGABLE));
 
         try {
             trees = Trees.instance(processingEnv);
@@ -174,12 +176,12 @@ public class AndFrameProcessor extends AbstractProcessor {
             TypeElement typeElement = entry.getKey();
             TypeBinding binding = entry.getValue();
 
-//            JavaFile javaFile = binding.brewJava(sdk, debuggable);
-//            try {
-//                javaFile.writeTo(filer);
-//            } catch (IOException e) {
-//                error(typeElement, "Unable to write binding for type %s: %s", typeElement, e.getMessage());
-//            }
+            JavaFile javaFile = JavaConverter.bindingToJava(binding, sdk, debug);
+            try {
+                javaFile.writeTo(filer);
+            } catch (IOException e) {
+                error(typeElement, "Unable to write binding for type %s: %s", typeElement, e.getMessage());
+            }
         }
         return false;
     }
@@ -357,7 +359,7 @@ public class AndFrameProcessor extends AbstractProcessor {
             } else {
                 TypeBinding parentBinding = bindingMap.get(parentType);
                 if (parentBinding != null) {
-                    builder.setParent(parentBinding);
+                    builder.setExtendBinding(parentBinding);
                     bindingMap.put(type, builder.build());
                 } else {
                     // Has a superclass binding but we haven't built it yet. Re-enqueue for later.

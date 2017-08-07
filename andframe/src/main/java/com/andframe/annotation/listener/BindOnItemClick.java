@@ -48,6 +48,4 @@ public @interface BindOnItemClick {
      */
     @IdRes int[] value() default {View.NO_ID};
 	String[] idname() default {""};
-
-    int intervalTime() default 1000;
 }

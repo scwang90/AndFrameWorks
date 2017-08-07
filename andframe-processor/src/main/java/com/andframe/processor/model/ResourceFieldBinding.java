@@ -51,7 +51,7 @@ public class ResourceFieldBinding extends ResourceBinding {
                     return method;
                 }
             }
-            throw new AssertionError();
+            throw new AssertionError("methods = " + methods + " sdk = " + sdk);
         }
     }
 
@@ -99,15 +99,15 @@ public class ResourceFieldBinding extends ResourceBinding {
         ResourceMethod method = type.methodForSdk(sdk);
         if (method.typeName == null) {
             if (method.requiresResources) {
-                return CodeBlock.of("target.$L = res.$L($L)", name, method.name, id.code);
+                return CodeBlock.of("$L = res.$L($L)", name, method.name, id.code);
             }
-            return CodeBlock.of("target.$L = context.$L($L)", name, method.name, id.code);
+            return CodeBlock.of("$L = context.$L($L)", name, method.name, id.code);
         }
         if (method.requiresResources) {
-            return CodeBlock.of("target.$L = $T.$L(res, $L)", name, method.typeName, method.name,
+            return CodeBlock.of("$L = $T.$L(res, $L)", name, method.typeName, method.name,
                     id.code);
         }
-        return CodeBlock.of("target.$L = $T.$L(context, $L)", name, method.typeName, method.name,
+        return CodeBlock.of("$L = $T.$L(context, $L)", name, method.typeName, method.name,
                 id.code);
     }
 }
