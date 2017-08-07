@@ -263,8 +263,10 @@ public class JavaConverter {
             }
 
             if (!ANDROID_VIEW.toString().equals(listenerClass.targetType())) {
+                unbindMethod.beginControlFlow("if ($N instanceof $T)", fieldName, bestGuess(listenerClass.targetType()));
                 unbindMethod.addStatement("(($T) $N).$N($N)", bestGuess(listenerClass.targetType()),
                         fieldName, removerOrSetter(listenerClass, requiresRemoval), listenerField);
+                unbindMethod.endControlFlow();
             } else {
                 unbindMethod.addStatement("$N.$N($N)", fieldName,
                         removerOrSetter(listenerClass, requiresRemoval), listenerField);
