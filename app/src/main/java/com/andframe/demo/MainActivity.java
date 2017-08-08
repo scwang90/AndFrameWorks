@@ -8,6 +8,7 @@ import android.support.v7.app.AppCompatActivity;
 import android.view.MenuItem;
 import android.view.MotionEvent;
 import android.view.View;
+import android.widget.AdapterView;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -75,7 +76,7 @@ public abstract class MainActivity extends AppCompatActivity implements BottomNa
     }
 
     @BindOnItemClick(R.id.message)
-    public void onItemClick(int index) {
+    public void onItemClick(AdapterView adapterView, AdapterView view, int index) {
 
     }
 

@@ -4,6 +4,7 @@ import com.andframe.annotation.listener.BindOnTouch;
 import com.andframe.annotation.listener.internal.ListenerClass;
 import com.andframe.annotation.listener.internal.ListenerMethod;
 import com.andframe.processor.constant.ClassNames;
+import com.andframe.processor.constant.ComponentType;
 import com.andframe.processor.model.Parameter;
 import com.andframe.processor.model.ResourceBinding;
 import com.andframe.processor.model.TypeBinding;
@@ -17,16 +18,10 @@ import com.squareup.javapoet.ClassName;
 import com.squareup.javapoet.CodeBlock;
 import com.squareup.javapoet.JavaFile;
 import com.squareup.javapoet.MethodSpec;
-import com.squareup.javapoet.ParameterizedTypeName;
 import com.squareup.javapoet.TypeName;
 import com.squareup.javapoet.TypeSpec;
-import com.squareup.javapoet.WildcardTypeName;
 
-import java.lang.reflect.Field;
 import java.util.ArrayList;
-import java.util.Arrays;
-import java.util.Collection;
-import java.util.Iterator;
 import java.util.List;
 import java.util.Map;
 import java.util.Set;
@@ -37,6 +32,9 @@ import static com.andframe.processor.constant.ClassNames.ANDROID_CONTEXT;
 import static com.andframe.processor.constant.ClassNames.ANDROID_RESOURCES;
 import static com.andframe.processor.constant.ClassNames.ANDROID_VIEW;
 import static com.andframe.processor.constant.ClassNames.SUPPRESS_LINT;
+import static com.andframe.processor.util.Utils.asHumanDescription;
+import static com.andframe.processor.util.Utils.bestGuess;
+import static com.andframe.processor.util.Utils.getListenerMethods;
 import static com.andframe.processor.util.Utils.requiresCast;
 import static java.util.Collections.singletonList;
 import static javax.lang.model.element.Modifier.PRIVATE;
@@ -57,6 +55,11 @@ public class JavaConverter {
     }
 
     public static JavaFile bindingToJava(TypeBinding binding, int sdk, boolean debug) {
+        if (binding.componentType == ComponentType.Activity) {
+            return new TypeActivityConverter(binding).convert(sdk, debug);
+        } else if (binding.componentType == ComponentType.Fragment) {
+            return new TypeFragmentConverter(binding).convert(sdk, debug);
+        }
         return JavaFile.builder(binding.bindingClassName.packageName(),
                 new JavaConverter(binding).createType(sdk, debug))
                 .addFileComment("Generated code from AndFrame. Do not modify!")
@@ -72,14 +75,12 @@ public class JavaConverter {
 
         result.superclass(binding.targetTypeName);
 
-        if (binding.isView) {
+        if (binding.componentType == null) {
             result.addMethod(createBindingConstructorForView());
-        } else if (binding.isActivity) {
-        } else if (binding.isDialog) {
             result.addMethod(createBindingConstructorForDialog());
         }
-        if (binding.typeLayoutBinding != null) {
-            result.addMethod(createLayoutBindingMethod(binding.typeLayoutBinding));
+        if (binding.layoutBinding != null) {
+            result.addMethod(createLayoutBindingMethod(binding.layoutBinding));
         } else if (hasViewBindings()) {
             result.addMethods(createViewBindingMethodInvokers());
         }
@@ -96,7 +97,7 @@ public class JavaConverter {
         MethodSpec.Builder builder = MethodSpec.constructorBuilder()
                 .addModifiers(PUBLIC)
                 .addParameter(binding.targetTypeName, "target");
-        if (constructorNeedsView()) {
+        if (hasViewBindings()) {
             builder.addStatement("this(target, target)");
         } else {
             builder.addStatement("this(target, getContext())");
@@ -108,7 +109,7 @@ public class JavaConverter {
         MethodSpec.Builder builder = MethodSpec.constructorBuilder()
                 .addModifiers(PUBLIC)
                 .addParameter(binding.targetTypeName, "target");
-        if (constructorNeedsView()) {
+        if (hasViewBindings()) {
             builder.addStatement("this(target, getWindow().getDecorView())");
         } else {
             builder.addStatement("this(target, getContext())");
@@ -130,18 +131,18 @@ public class JavaConverter {
     }
 
     private MethodSpec createViewBindingMethod(int sdk, boolean debuggable) {
-        MethodSpec.Builder constructor = MethodSpec.methodBuilder("bindViews$")
+        MethodSpec.Builder methodSpec = MethodSpec.methodBuilder("bindViews$")
                 .addModifiers(PRIVATE);
 
         if (hasUnqualifiedResourceBindings()) {
             // Aapt can change IDs out from underneath us, just suppress since all will work at runtime.
-            constructor.addAnnotation(AnnotationSpec.builder(SuppressWarnings.class)
+            methodSpec.addAnnotation(AnnotationSpec.builder(SuppressWarnings.class)
                     .addMember("value", "$S", "ResourceType")
                     .build());
         }
 
         if (hasOnTouchMethodBindings()) {
-            constructor.addAnnotation(AnnotationSpec.builder(SUPPRESS_LINT)
+            methodSpec.addAnnotation(AnnotationSpec.builder(SUPPRESS_LINT)
                     .addMember("value", "$S", "ClickableViewAccessibility")
                     .build());
         }
@@ -149,34 +150,34 @@ public class JavaConverter {
         if (hasViewBindings()) {
             if (hasViewLocal()) {
                 // Local variable in which all views will be temporarily stored.
-                constructor.addStatement("$T view,source = getWindow().getDecorView()", ClassNames.ANDROID_VIEW);
+                methodSpec.addStatement("$T view,source = getWindow().getDecorView()", ClassNames.ANDROID_VIEW);
             } else {
-                constructor.addStatement("$T source = getWindow().getDecorView()", ClassNames.ANDROID_VIEW);
+                methodSpec.addStatement("$T source = getWindow().getDecorView()", ClassNames.ANDROID_VIEW);
             }
             for (ViewBinding viewBinding : binding.viewBindings) {
-                addViewBinding(constructor, viewBinding, debuggable);
+                addViewBinding(methodSpec, viewBinding, debuggable);
             }
             for (ViewFieldsBinding viewBinding : binding.viewFieldsBindings) {
-                constructor.addStatement("$L", viewBinding.render(debuggable));
+                methodSpec.addStatement("$L", viewBinding.render(debuggable));
             }
             if (!binding.resourceBindings.isEmpty()) {
-                constructor.addCode("\n");
+                methodSpec.addCode("\n");
             }
         }
 
         if (!binding.resourceBindings.isEmpty()) {
-            if (constructorNeedsView()) {
-                constructor.addStatement("$T context = source.getContext()", ANDROID_CONTEXT);
+            if (hasViewBindings()) {
+                methodSpec.addStatement("$T context = source.getContext()", ANDROID_CONTEXT);
             }
             if (hasResourceBindingsNeedingResource(sdk)) {
-                constructor.addStatement("$T res = context.getResources()", ANDROID_RESOURCES);
+                methodSpec.addStatement("$T res = context.getResources()", ANDROID_RESOURCES);
             }
             for (ResourceBinding resourceBinding : binding.resourceBindings) {
-                constructor.addStatement("$L", resourceBinding.render(sdk));
+                methodSpec.addStatement("$L", resourceBinding.render(sdk));
             }
         }
 
-        return constructor.build();
+        return methodSpec.build();
     }
 
     private MethodSpec createBindingUnbindMethod(TypeSpec.Builder bindingClass) {
@@ -294,22 +295,22 @@ public class JavaConverter {
 
     //<editor-fold desc="代码实现">
 
-    private void addViewBinding(MethodSpec.Builder result, ViewBinding binding, boolean debuggable) {
-        if (binding.isSingleFieldBinding()) {
+    private void addViewBinding(MethodSpec.Builder methodSpec, ViewBinding viewBinding, boolean debuggable) {
+        if (viewBinding.isSingleFieldBinding()) {
             // Optimize the common case where there's a single binding directly to a field.
-            for (ViewFieldBinding fieldBinding : binding.fieldBindings){
+            for (ViewFieldBinding fieldBinding : viewBinding.fieldBindings){
                 CodeBlock.Builder builder = CodeBlock.builder()
                         .add("$L = ", fieldBinding.getName());
                 boolean requiresCast = requiresCast(fieldBinding.getType());
                 if (!debuggable || (!requiresCast && !fieldBinding.isRequired())) {
-                    builder.add("source.findViewById($L)", binding.id.code);
+                    builder.add("source.findViewById($L)", viewBinding.id.code);
                 } else {
                     builder.add("$T.find", ANDFRAME_UTILS);
                     builder.add(fieldBinding.isRequired() ? "RequiredView" : "OptionalView");
                     if (requiresCast) {
                         builder.add("AsType");
                     }
-                    builder.add("(source, $L", binding.id.code);
+                    builder.add("(source, $L", viewBinding.id.code);
                     if (fieldBinding.isRequired() || requiresCast) {
                         builder.add(", $S", asHumanDescription(singletonList(fieldBinding)));
                     }
@@ -318,21 +319,21 @@ public class JavaConverter {
                     }
                     builder.add(")");
                 }
-                result.addStatement("$L", builder.build());
+                methodSpec.addStatement("$L", builder.build());
             }
             return;
         }
 
-        List<?> requiredBindings = binding.getRequiredBindings();
+        List<?> requiredBindings = viewBinding.getRequiredBindings();
         if (!debuggable || requiredBindings.isEmpty()) {
-            result.addStatement("view = source.findViewById($L)", binding.id.code);
-        } else if (!binding.isBoundToRoot()) {
-            result.addStatement("view = $T.findRequiredView(source, $L, $S)", ANDFRAME_UTILS,
-                    binding.id.code, asHumanDescription(requiredBindings));
+            methodSpec.addStatement("view = source.findViewById($L)", viewBinding.id.code);
+        } else if (!viewBinding.isBoundToRoot()) {
+            methodSpec.addStatement("view = $T.findRequiredView(source, $L, $S)", ANDFRAME_UTILS,
+                    viewBinding.id.code, asHumanDescription(requiredBindings));
         }
 
-        addFieldBinding(result, binding, debuggable);
-        addMethodBindings(result, binding, debuggable);
+        addFieldBinding(methodSpec, viewBinding, debuggable);
+        addMethodBindings(methodSpec, viewBinding, debuggable);
     }
 
     private void addFieldBinding(MethodSpec.Builder result, ViewBinding viewBinding, boolean debuggable) {
@@ -622,79 +623,6 @@ public class JavaConverter {
 //        }
 //    }
 
-    private static List<ListenerMethod> getListenerMethods(ListenerClass listener) {
-        if (listener.method().length == 1) {
-            return Arrays.asList(listener.method());
-        }
-
-        try {
-            List<ListenerMethod> methods = new ArrayList<>();
-            Class<? extends Enum<?>> callbacks = listener.callbacks();
-            for (Enum<?> callbackMethod : callbacks.getEnumConstants()) {
-                Field callbackField = callbacks.getField(callbackMethod.name());
-                ListenerMethod method = callbackField.getAnnotation(ListenerMethod.class);
-                if (method == null) {
-                    throw new IllegalStateException(String.format("@%s's %s.%s missing @%s annotation.",
-                            callbacks.getEnclosingClass().getSimpleName(), callbacks.getSimpleName(),
-                            callbackMethod.name(), ListenerMethod.class.getSimpleName()));
-                }
-                methods.add(method);
-            }
-            return methods;
-        } catch (NoSuchFieldException e) {
-            throw new AssertionError(e);
-        }
-    }
-
-    static String asHumanDescription(Collection<?> bindings) {
-        Iterator<?> iterator = bindings.iterator();
-        switch (bindings.size()) {
-            case 1:
-                return iterator.next().toString();
-            case 2:
-                return iterator.next().toString() + " and " + iterator.next().toString();
-            default:
-                StringBuilder builder = new StringBuilder();
-                for (int i = 0, count = bindings.size(); i < count; i++) {
-                    if (i != 0) {
-                        builder.append(", ");
-                    }
-                    if (i == count - 1) {
-                        builder.append("and ");
-                    }
-                    builder.append(iterator.next().toString());
-                }
-                return builder.toString();
-        }
-    }
-
-    private static TypeName bestGuess(String type) {
-        switch (type) {
-            case "void": return TypeName.VOID;
-            case "boolean": return TypeName.BOOLEAN;
-            case "byte": return TypeName.BYTE;
-            case "char": return TypeName.CHAR;
-            case "double": return TypeName.DOUBLE;
-            case "float": return TypeName.FLOAT;
-            case "int": return TypeName.INT;
-            case "long": return TypeName.LONG;
-            case "short": return TypeName.SHORT;
-            default:
-                int left = type.indexOf('<');
-                if (left != -1) {
-                    ClassName typeClassName = ClassName.bestGuess(type.substring(0, left));
-                    List<TypeName> typeArguments = new ArrayList<>();
-                    do {
-                        typeArguments.add(WildcardTypeName.subtypeOf(Object.class));
-                        left = type.indexOf('<', left + 1);
-                    } while (left != -1);
-                    return ParameterizedTypeName.get(typeClassName,
-                            typeArguments.toArray(new TypeName[typeArguments.size()]));
-                }
-                return ClassName.bestGuess(type);
-        }
-    }
-
     /** True when this type's bindings require a view hierarchy. */
     private boolean hasViewBindings() {
         return !binding.viewBindings.isEmpty() || !binding.viewFieldsBindings.isEmpty();
@@ -758,11 +686,6 @@ public class JavaConverter {
             }
         }
         return false;
-    }
-
-    /** True if this binding requires a view. Otherwise only a context is needed. */
-    private boolean constructorNeedsView() {
-        return hasViewBindings();
     }
     //</editor-fold>
 

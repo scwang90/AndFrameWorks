@@ -387,8 +387,9 @@ public class AndFrameProcessor extends AbstractProcessor {
         }
         Name simpleName = element.getSimpleName();
         Name qualifiedName = enclosingElement.getQualifiedName();
-        if (!isSubtypeOfType(elementType, ClassNames.ANDROID_ACTIVITY)) {
-            error(element, "@%s class must extend from Activity. (%s.%s)",
+        if (!isSubtypeOfType(elementType, ClassNames.ANDROID_ACTIVITY) &&
+                !isSubtypeOfType(elementType, ClassNames.SUPPORT_FRAGMENT)) {
+            error(element, "@%s class must extend from Activity or Fragment. (%s.%s)",
                     BindLayout.class.getSimpleName(), qualifiedName, simpleName);
             hasError = true;
         }
@@ -409,7 +410,7 @@ public class AndFrameProcessor extends AbstractProcessor {
         String name = simpleName.toString();
         TypeName type = TypeName.get(elementType);
 
-        builder.setTypeLayoutBinding(new TypeLayoutBinding(name, type, getId(qualifiedId)));
+        builder.setLayoutBinding(new TypeLayoutBinding(name, type, getId(qualifiedId)));
 
         // Add the type-erased version to the valid binding targets set.
         erasedTargetNames.add(enclosingElement);

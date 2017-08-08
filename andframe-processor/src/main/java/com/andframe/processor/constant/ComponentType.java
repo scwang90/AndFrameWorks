@@ -9,7 +9,7 @@ import com.squareup.javapoet.ClassName;
 
 public enum  ComponentType {
     Activity(ClassNames.ANDROID_ACTIVITY),
-    Fragment(ClassNames.SUPPRESS_FRAGMENT),;
+    Fragment(ClassNames.SUPPORT_FRAGMENT),;
 
     public ClassName className;
 

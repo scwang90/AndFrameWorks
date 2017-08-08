@@ -52,20 +52,14 @@ public class ViewBinding {
     }
 
     public boolean requiresLocal() {
-        if (isBoundToRoot()) {
-            return false;
-        }
-        if (isSingleFieldBinding()) {
-            return false;
-        }
-        return true;
+        return !isBoundToRoot() && !isSingleFieldBinding();
     }
 
     public boolean isBoundToRoot() {
         return Id.NO_ID.equals(id);
     }
 
-    public static final class Builder {
+    static final class Builder {
         private final Id id;
         List<ViewFieldBinding> fieldBindings = new ArrayList<>();
         private final Map<ListenerClass, Map<ListenerMethod, Set<ViewMethodBinding>>> methodBindings =
@@ -75,12 +69,12 @@ public class ViewBinding {
             this.id = id;
         }
 
-        public boolean hasMethodBinding(ListenerClass listener, ListenerMethod method) {
+        boolean hasMethodBinding(ListenerClass listener, ListenerMethod method) {
             Map<ListenerMethod, Set<ViewMethodBinding>> methods = methodBindings.get(listener);
             return methods != null && methods.containsKey(method);
         }
 
-        public void addMethodBinding(ListenerClass listener, ListenerMethod method, ViewMethodBinding binding) {
+        void addMethodBinding(ListenerClass listener, ListenerMethod method, ViewMethodBinding binding) {
             Map<ListenerMethod, Set<ViewMethodBinding>> methods = methodBindings.get(listener);
             Set<ViewMethodBinding> set = null;
             if (methods == null) {
@@ -96,11 +90,11 @@ public class ViewBinding {
             set.add(binding);
         }
 
-        public void addFieldBindings(ViewFieldBinding fieldBinding) {
+        void addFieldBindings(ViewFieldBinding fieldBinding) {
             this.fieldBindings.add(fieldBinding);
         }
 
-        public ViewBinding build() {
+        ViewBinding build() {
             return new ViewBinding(id, methodBindings, fieldBindings);
         }
     }

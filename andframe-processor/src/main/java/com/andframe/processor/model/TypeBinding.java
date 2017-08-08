@@ -3,6 +3,7 @@ package com.andframe.processor.model;
 import com.andframe.annotation.listener.internal.ListenerClass;
 import com.andframe.annotation.listener.internal.ListenerMethod;
 import com.andframe.processor.constant.ClassNames;
+import com.andframe.processor.constant.ComponentType;
 import com.google.common.collect.ImmutableList;
 import com.squareup.javapoet.ClassName;
 import com.squareup.javapoet.ParameterizedTypeName;
@@ -28,28 +29,24 @@ import static com.google.auto.common.MoreElements.getPackage;
 
 public class TypeBinding {
 
-    public final boolean isView;
-    public final boolean isActivity;
-    public final boolean isDialog;
+    public final ComponentType componentType;
     public final TypeName targetTypeName;
     public final ClassName bindingClassName;
     public final List<ViewBinding> viewBindings;
     public final List<ViewFieldsBinding> viewFieldsBindings;
     public final List<ResourceBinding> resourceBindings;
-    public final TypeLayoutBinding typeLayoutBinding;
+    public final TypeLayoutBinding layoutBinding;
 
     private TypeBinding(TypeName targetTypeName, ClassName bindingClassName,
-                       boolean isView, boolean isActivity, boolean isDialog,
-                       List<ViewBinding> viewBindings,
-                       List<ViewFieldsBinding> viewFieldsBindings,
-                       List<ResourceBinding> resourceBindings, TypeLayoutBinding typeLayoutBinding) {
-        this.isView = isView;
-        this.isDialog = isDialog;
-        this.isActivity = isActivity;
+                        ComponentType componentType,
+                        List<ViewBinding> viewBindings,
+                        List<ViewFieldsBinding> viewFieldsBindings,
+                        List<ResourceBinding> resourceBindings, TypeLayoutBinding layoutBinding) {
+        this.componentType = componentType;
         this.targetTypeName = targetTypeName;
         this.bindingClassName = bindingClassName;
         this.viewBindings = viewBindings;
-        this.typeLayoutBinding = typeLayoutBinding;
+        this.layoutBinding = layoutBinding;
         this.viewFieldsBindings = viewFieldsBindings;
         this.resourceBindings = resourceBindings;
     }
@@ -57,10 +54,6 @@ public class TypeBinding {
 
     public static Builder newBuilder(TypeElement enclosingElement) {
         TypeMirror typeMirror = enclosingElement.asType();
-
-        boolean isView = isSubtypeOfType(typeMirror, ClassNames.ANDROID_VIEW);
-        boolean isActivity = isSubtypeOfType(typeMirror, ClassNames.ANDROID_ACTIVITY);
-        boolean isDialog = isSubtypeOfType(typeMirror, ClassNames.ANDROID_DIALOG);
 
         TypeName targetType = TypeName.get(typeMirror);
         if (targetType instanceof ParameterizedTypeName) {
@@ -72,31 +65,29 @@ public class TypeBinding {
                 packageName.length() + 1).replace('.', '$');
         ClassName bindingClassName = ClassName.get(packageName, className + "$");
 
-        return new Builder(targetType, bindingClassName, isView, isActivity, isDialog);
+        if (isSubtypeOfType(typeMirror, ClassNames.ANDROID_ACTIVITY)) {
+            return new Builder(targetType, bindingClassName, ComponentType.Activity);
+        }
+        return new Builder(targetType, bindingClassName, ComponentType.Fragment);
     }
 
     public static final class Builder {
 
-        private final TypeName targetTypeName;
-        private final ClassName bindingClassName;
-        private final boolean isView;
-        private final boolean isActivity;
-        private final boolean isDialog;
+        private final TypeName targetName;
+        private final ClassName bindingName;
+        private final ComponentType componentType;
 
-        private TypeLayoutBinding typeLayoutBinding;
+        private TypeLayoutBinding layoutBinding;
 
         private final Map<Id, ViewBinding.Builder> viewIdMap = new LinkedHashMap<>();
         private final List<ResourceBinding> resourceBindings = new ArrayList<>();
         private final List<ViewFieldsBinding> viewFieldsBindings = new ArrayList<>();
 
 
-        private Builder(TypeName targetTypeName, ClassName bindingClassName,
-                        boolean isView, boolean isActivity, boolean isDialog) {
-            this.targetTypeName = targetTypeName;
-            this.bindingClassName = bindingClassName;
-            this.isView = isView;
-            this.isActivity = isActivity;
-            this.isDialog = isDialog;
+        private Builder(TypeName targetName, ClassName bindingName, ComponentType componentType) {
+            this.targetName = targetName;
+            this.bindingName = bindingName;
+            this.componentType = componentType;
         }
 
         public void addField(Id id, ViewFieldBinding binding) {
@@ -120,8 +111,8 @@ public class TypeBinding {
             this.viewFieldsBindings.add(binding);
         }
 
-        public void setTypeLayoutBinding(TypeLayoutBinding binding) {
-            this.typeLayoutBinding = binding;
+        public void setLayoutBinding(TypeLayoutBinding binding) {
+            this.layoutBinding = binding;
         }
 
         public String findExistingBindingName(Id id) {
@@ -149,18 +140,18 @@ public class TypeBinding {
             for (ViewBinding.Builder builder : viewIdMap.values()) {
                 viewBindings.add(builder.build());
             }
-            return new TypeBinding(targetTypeName, bindingClassName,
-                    isView, isActivity, isDialog,
+            return new TypeBinding(targetName, bindingName,
+                    componentType,
                     viewBindings.build(),
                     Collections.unmodifiableList(viewFieldsBindings),
                     Collections.unmodifiableList(resourceBindings),
-                    typeLayoutBinding);
+                    layoutBinding);
         }
 
         public void setExtendBinding(TypeBinding binding) {
             this.resourceBindings.addAll(binding.resourceBindings);
             this.viewFieldsBindings.addAll(binding.viewFieldsBindings);
-            this.typeLayoutBinding = (typeLayoutBinding==null)?binding.typeLayoutBinding:typeLayoutBinding;
+            this.layoutBinding = (layoutBinding ==null)?binding.layoutBinding : layoutBinding;
             for (ViewBinding viewBinding : binding.viewBindings) {
                 for (ViewFieldBinding viewFieldBinding : viewBinding.fieldBindings) {
                     addField(viewBinding.id, viewFieldBinding);

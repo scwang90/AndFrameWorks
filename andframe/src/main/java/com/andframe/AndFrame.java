@@ -3,7 +3,12 @@ package com.andframe;
 import android.app.Activity;
 import android.app.Application;
 import android.app.Instrumentation;
+import android.content.Context;
 import android.content.Intent;
+import android.os.Bundle;
+import android.util.AttributeSet;
+import android.view.LayoutInflater;
+import android.view.View;
 
 import com.andframe.util.AfReflecter;
 
@@ -14,19 +19,39 @@ import com.andframe.util.AfReflecter;
 
 public class AndFrame {
     public static void init(Application app) {
-        // 整个框架的核心
-        // 反射获取mMainThread
-        // getBaseContext()返回的是ContextImpl对象 ContextImpl中包含ActivityThread mMainThread这个对象
+        XmlFactory.attach(app);
         AfReflecter.setMemberNoException(app.getBaseContext(), "mMainThread.mInstrumentation", new InstrumentationIoc());
     }
 
     private static class InstrumentationIoc extends Instrumentation {
+        @Override
+        public void callActivityOnCreate(Activity activity, Bundle icicle) {
+            XmlFactory.attach(activity);
+            super.callActivityOnCreate(activity, icicle);
+        }
+
         @Override
         public Activity newActivity(ClassLoader cl, String className, Intent intent) throws InstantiationException, IllegalAccessException, ClassNotFoundException {
             try {
                 return (Activity)cl.loadClass(className+"$").newInstance();
             } catch (ClassNotFoundException e) {
                 return super.newActivity(cl, className, intent);
+            }
+        }
+    }
+
+    private static class XmlFactory implements LayoutInflater.Factory {
+        XmlFactory() {
+        }
+        @Override
+        public View onCreateView(String name, Context context, AttributeSet attrs) {
+            return null;
+        }
+
+        static void attach(Context context) {
+            LayoutInflater inflater = LayoutInflater.from(context);
+            if (inflater != null) {
+                inflater.setFactory(new XmlFactory());
             }
         }
     }
