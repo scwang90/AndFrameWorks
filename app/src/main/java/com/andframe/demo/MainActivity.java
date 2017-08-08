@@ -30,7 +30,7 @@ import java.util.List;
 import butterknife.OnPageChange;
 
 @BindLayout(R.layout.activity_main)
-public abstract class MainActivity extends AppCompatActivity implements BottomNavigationView.OnNavigationItemSelectedListener {
+public class MainActivity extends AppCompatActivity implements BottomNavigationView.OnNavigationItemSelectedListener {
 
     @BindView(R.id.message)
     TextView mTextMessage;
