@@ -15,6 +15,7 @@ public abstract class AfPagerViewAdapter<T> extends PagerAdapter {
 
     //<editor-fold desc="PagerAdapter">
     protected static final int KEY_VIEW_TAG = "AfPagerViewAdapter".hashCode();
+    protected static final int KEY_VIEW_INDEX = "AfPagerViewAdapter.INDEX".hashCode();
 
     protected List<T> list;
     protected View[] views = new View[3];
@@ -26,6 +27,16 @@ public abstract class AfPagerViewAdapter<T> extends PagerAdapter {
     public void refresh(Collection<T> collection) {
         list = new ArrayList<>(collection);
         notifyDataSetChanged();
+        for (View view : views) {
+            if (view != null) {
+                //noinspection unchecked
+                ItemViewer<T> viewer = (ItemViewer<T>) view.getTag(KEY_VIEW_TAG);
+                Integer inedx = (Integer)view.getTag(KEY_VIEW_INDEX);
+                if (inedx < list.size()) {
+                    viewer.onBinding(view, list.get(inedx), inedx);
+                }
+            }
+        }
     }
 
     @Override
@@ -51,6 +62,7 @@ public abstract class AfPagerViewAdapter<T> extends PagerAdapter {
             //noinspection unchecked
             viewer = (ItemViewer<T>) view.getTag(KEY_VIEW_TAG);
         }
+        view.setTag(KEY_VIEW_INDEX, position);
         viewer.onBinding(view, list.get(position), position);
         return view;
     }
