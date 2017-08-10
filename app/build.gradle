@@ -28,6 +28,7 @@ dependencies {
     compile 'com.android.support:appcompat-v7:25.3.1'
     compile 'com.android.support:design:25.3.1'
     compile 'com.android.support:support-vector-drawable:25.3.1'
+
     compile 'com.scwang.smartrefresh:SmartRefreshLayout:1.0.3'
     compile 'com.scwang.smartrefresh:SmartRefreshHeader:1.0.3'//没有使用特殊Header，可以不加这行
 
@@ -39,5 +40,5 @@ dependencies {
     annotationProcessor 'com.jakewharton:butterknife-compiler:8.8.0'
 
     compile "org.androidannotations:androidannotations-api:4.3.1"
-    annotationProcessor "org.androidannotations:androidannotations:4.3.1"
+//    annotationProcessor "org.androidannotations:androidannotations:4.3.1"
 }

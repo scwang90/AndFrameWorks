@@ -2,7 +2,9 @@ package com.andframe.demo;
 
 import android.graphics.drawable.Drawable;
 import android.os.Bundle;
+import android.os.PersistableBundle;
 import android.support.annotation.NonNull;
+import android.support.annotation.Nullable;
 import android.support.design.widget.BottomNavigationView;
 import android.support.v7.app.AppCompatActivity;
 import android.view.MenuItem;
@@ -29,6 +31,7 @@ import java.util.List;
 
 import butterknife.OnPageChange;
 
+//@EActivity(R.layout.activity_main)
 @BindLayout(R.layout.activity_main)
 public class MainActivity extends AppCompatActivity implements BottomNavigationView.OnNavigationItemSelectedListener {
 
@@ -54,8 +57,8 @@ public class MainActivity extends AppCompatActivity implements BottomNavigationV
     int primaryColor;
 
     @Override
-    protected void onCreate(Bundle savedInstanceState) {
-        super.onCreate(savedInstanceState);
+    public void onCreate(@Nullable Bundle savedInstanceState, @Nullable PersistableBundle persistentState) {
+        super.onCreate(savedInstanceState, persistentState);
         mTextMessage.setBackgroundDrawable(drawable);
         mNavigationView.setOnNavigationItemSelectedListener(this);
         mNavigationView.setBackgroundColor(primaryColor);
