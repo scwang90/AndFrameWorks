@@ -6,11 +6,16 @@ import android.content.Context;
 import android.content.SharedPreferences;
 
 import java.io.InputStream;
+import java.io.OutputStream;
 import java.util.LinkedHashMap;
 import java.util.Map;
 
 @SuppressWarnings({"deprecation", "unused"})
 public abstract class RequestHandler {
+
+	public interface UploadWriter {
+		void onWriter(OutputStream output);
+	}
 
 	private static RequestHandler instance;
 	private static final String KEY_COOKIE = "RequestHandler.Cookie";
@@ -73,6 +78,8 @@ public abstract class RequestHandler {
 	public abstract Response doUpload(String path, Map<String, String> headers, Map<String, Object> params, Object... files) throws Exception;
 
 	public abstract Response doUpload(String path, Map<String, String> headers, Map<String, Object> params, String name, InputStream input) throws Exception;
+
+	public abstract Response doUpload(String path, Map<String, String> headers, Map<String, Object> params, String name, UploadWriter writer) throws Exception;
 
 	public abstract Response doRequest(HttpMethod method, String path, Map<String, String> headers, Object body, Map<String, Object> params) throws Exception ;
 
