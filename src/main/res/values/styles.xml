@@ -16,6 +16,45 @@
     <style name="AndFrame">
     </style>
 
+    <style name="AndFrame.Weight1">
+        <item name="android:layout_width">0dp</item>
+        <item name="android:layout_weight">1</item>
+    </style>
+
+    <style name="AndFrame.Weight1.Wrap">
+        <item name="android:layout_height">wrap_content</item>
+    </style>
+
+    <style name="AndFrame.Weight1.Match">
+        <item name="android:layout_height">match_parent</item>
+    </style>
+
+    <style name="AndFrame.Weight2">
+        <item name="android:layout_width">0dp</item>
+        <item name="android:layout_weight">2</item>
+    </style>
+
+    <style name="AndFrame.Weight2.Wrap">
+        <item name="android:layout_height">wrap_content</item>
+    </style>
+
+    <style name="AndFrame.Weight2.Match">
+        <item name="android:layout_height">match_parent</item>
+    </style>
+
+    <style name="AndFrame.Weight3">
+        <item name="android:layout_width">0dp</item>
+        <item name="android:layout_weight">3</item>
+    </style>
+
+    <style name="AndFrame.Weight3.Wrap">
+        <item name="android:layout_height">wrap_content</item>
+    </style>
+
+    <style name="AndFrame.Weight3.Match">
+        <item name="android:layout_height">match_parent</item>
+    </style>
+
     <style name="AndFrame.Match">
         <item name="android:layout_width">match_parent</item>
     </style>
@@ -26,6 +65,21 @@
 
     <style name="AndFrame.Match.Match">
         <item name="android:layout_height">match_parent</item>
+    </style>
+
+    <style name="AndFrame.Match.Weight1">
+        <item name="android:layout_weight">1</item>
+        <item name="android:layout_height">0dp</item>
+    </style>
+
+    <style name="AndFrame.Match.Weight2">
+        <item name="android:layout_weight">2</item>
+        <item name="android:layout_height">0dp</item>
+    </style>
+
+    <style name="AndFrame.Match.Weight3">
+        <item name="android:layout_weight">3</item>
+        <item name="android:layout_height">0dp</item>
     </style>
 
     <style name="AndFrame.Wrap">
