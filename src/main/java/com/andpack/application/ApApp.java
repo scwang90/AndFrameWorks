@@ -15,6 +15,7 @@ import com.andframe.api.viewer.Viewer;
 import com.andframe.application.AfApp;
 import com.andframe.application.AfAppSettings;
 import com.andframe.exception.AfExceptionHandler;
+import com.andpack.R;
 import com.andpack.annotation.statusbar.StatusBarTranslucent;
 import com.andpack.impl.ApDialogBuilder;
 import com.andpack.impl.ApExceptionHandler;
@@ -174,7 +175,7 @@ public class ApApp extends AfApp {
     @NonNull
     @Override
     public RefreshLayouter newRefreshLayouter(Context context) {
-        return new ApRefreshLayouter(context);
+        return new ApRefreshLayouter(context, R.color.colorPrimary, R.color.white);
     }
 
     @Override
