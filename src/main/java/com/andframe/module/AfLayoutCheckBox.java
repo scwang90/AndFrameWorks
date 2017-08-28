@@ -26,8 +26,8 @@ public class AfLayoutCheckBox extends AfViewModuler implements OnClickListener{
     }
 
     @Override
-    protected void onCreated(Viewer viewable, View view) {
-        super.onCreated(viewable, view);
+    public void onViewCreated() {
+        super.onViewCreated();
         if (view instanceof CompoundButton) {
             mButton = ((CompoundButton) view);
             mButton.setClickable(false);

@@ -85,4 +85,9 @@ public class AfListQuery<T> extends ArrayList<T> implements ListQuery<T> {
     public List<T> toList() {
         return this;
     }
+
+    @Override
+    public T[] toArrays(T... a) {
+        return toArray(a);
+    }
 }

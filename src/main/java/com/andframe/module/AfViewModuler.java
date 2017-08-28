@@ -106,6 +106,9 @@ public abstract class AfViewModuler extends ViewerWarpper implements Viewer, Vie
 	public void onBindHandler(Object handler) {
 
 	}
+	public void onViewCreated() {
+
+	}
 
 	private void setTarget(Viewer viewer, View target) {
 		if (target != null) {
@@ -117,6 +120,7 @@ public abstract class AfViewModuler extends ViewerWarpper implements Viewer, Vie
 	protected void onCreated(Viewer viewable, View view) {
 		Injecter.doInject(this, getContext());
 		ViewBinder.doBind(this);
+		onViewCreated();
 	}
 
 	@Override

@@ -19,6 +19,7 @@ public interface ListQuery<T> extends Collection<T> {
     ListQuery<T> where(Where<T> where);
     ListQuery<T> foreach(Foreach<T> foreach);
     List<T> toList();
+    T[] toArrays(T... a);
     <TT> ListQuery<TT> map(Map<T,TT> map);
     <TT> ListQuery<TT> mapIndex(MapIndex<T,TT> map);
     <TT> ListQuery<TT> flatMap(FlatMap<T,TT> map);
