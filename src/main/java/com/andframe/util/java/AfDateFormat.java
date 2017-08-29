@@ -181,4 +181,26 @@ public class AfDateFormat {
 		calender.setTime(date2);
 		return year == calender.get(Calendar.YEAR);
 	}
+
+	public static boolean isSameMonth(Date date1, Date date2) {
+		Calendar calender = Calendar.getInstance();
+		calender.setTime(date1);
+		int year = calender.get(Calendar.YEAR);
+		int month = calender.get(Calendar.MONTH);
+		calender.setTime(date2);
+		return year == calender.get(Calendar.YEAR)
+				&& month == calender.get(Calendar.MONTH);
+	}
+
+	public static boolean isSameDay(Date date1, Date date2) {
+		Calendar calender = Calendar.getInstance();
+		calender.setTime(date1);
+		int year = calender.get(Calendar.YEAR);
+		int month = calender.get(Calendar.MONTH);
+		int day = calender.get(Calendar.DAY_OF_MONTH);
+		calender.setTime(date2);
+		return year == calender.get(Calendar.YEAR)
+				&& month == calender.get(Calendar.MONTH)
+				&& day == calender.get(Calendar.DAY_OF_MONTH);
+	}
 }
