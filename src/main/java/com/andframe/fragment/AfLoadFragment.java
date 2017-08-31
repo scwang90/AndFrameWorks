@@ -76,14 +76,17 @@ public abstract class AfLoadFragment<T> extends AfTabFragment implements LoadPag
     }
 
     @Override
+    @CallSuper
     public void onTaskFinish(@NonNull Task task, T model) {
         mHelper.onTaskFinish(task, model);
     }
 
+    @CallSuper
     public void onTaskSucceed(T data) {
         mHelper.onTaskSucceed(data);
     }
 
+    @CallSuper
     public void onTaskFailed(@NonNull Task task) {
         mHelper.onTaskFailed(task);
     }

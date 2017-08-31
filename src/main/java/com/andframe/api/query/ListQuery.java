@@ -23,4 +23,6 @@ public interface ListQuery<T> extends Collection<T> {
     <TT> ListQuery<TT> map(Map<T,TT> map);
     <TT> ListQuery<TT> mapIndex(MapIndex<T,TT> map);
     <TT> ListQuery<TT> flatMap(FlatMap<T,TT> map);
+
+    String join(CharSequence delimiter);
 }

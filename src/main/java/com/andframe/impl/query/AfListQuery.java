@@ -1,5 +1,7 @@
 package com.andframe.impl.query;
 
+import android.text.TextUtils;
+
 import com.andframe.api.query.ListQuery;
 import com.andframe.api.query.hindler.FlatMap;
 import com.andframe.api.query.hindler.Foreach;
@@ -90,4 +92,10 @@ public class AfListQuery<T> extends ArrayList<T> implements ListQuery<T> {
     public T[] toArrays(T... a) {
         return toArray(a);
     }
+
+    @Override
+    public String join(CharSequence delimiter) {
+        return TextUtils.join(delimiter, this);
+    }
+
 }
