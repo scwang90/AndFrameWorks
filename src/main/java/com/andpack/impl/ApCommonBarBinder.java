@@ -849,7 +849,7 @@ public class ApCommonBarBinder {
                     throw new VerifyException("请输入" + name);
                 }
                 try {
-                    text = String.valueOf(Float.parseFloat(text));
+                    text = String.valueOf(Float.parseFloat(text)).replace(".0", "");;
                 } catch (NumberFormatException e) {
                     throw new VerifyException("请输入正确的" + name);
                 }
@@ -871,7 +871,7 @@ public class ApCommonBarBinder {
                     if (v < 0) {
                         throw new VerifyException(name + "不能是负数");
                     }
-                    text = String.valueOf(v);
+                    text = String.valueOf(v).replace(".0", "");
                 } catch (NumberFormatException e) {
                     throw new VerifyException("请输入正确的" + name);
                 }
@@ -893,7 +893,7 @@ public class ApCommonBarBinder {
                     if (v <= 0) {
                         throw new VerifyException(name + "必须大于0");
                     }
-                    text = String.valueOf(v);
+                    text = String.valueOf(v).replace(".0", "");;
                 } catch (NumberFormatException e) {
                     throw new VerifyException("请输入正确的" + name);
                 }
@@ -912,7 +912,7 @@ public class ApCommonBarBinder {
                     throw new VerifyException("请输入" + name);
                 }
                 try {
-                    text = String.valueOf(Double.parseDouble(text));
+                    text = String.valueOf(Double.parseDouble(text)).replace(".0", "");;
                 } catch (NumberFormatException e) {
                     throw new VerifyException("请输入正确的" + name);
                 }
@@ -934,7 +934,7 @@ public class ApCommonBarBinder {
                     if (v < 0) {
                         throw new VerifyException(name + "不能是负数");
                     }
-                    text = String.valueOf(v);
+                    text = String.valueOf(v).replace(".0", "");;
                 } catch (NumberFormatException e) {
                     throw new VerifyException("请输入正确的" + name);
                 }
@@ -956,7 +956,7 @@ public class ApCommonBarBinder {
                     if (v <= 0) {
                         throw new VerifyException(name + "必须大于0");
                     }
-                    text = String.valueOf(v);
+                    text = String.valueOf(v).replace(".0", "");;
                 } catch (NumberFormatException e) {
                     throw new VerifyException("请输入正确的" + name);
                 }
@@ -1032,7 +1032,7 @@ public class ApCommonBarBinder {
                     if (v <= 0) {
                         throw new VerifyException(name + "必须大于0");
                     }
-                    text = String.valueOf(v);
+                    text = String.valueOf(v).replace(".0", "");;
                 } catch (NumberFormatException e) {
                     throw new VerifyException("请输入正确的" + name);
                 }
@@ -1064,7 +1064,7 @@ public class ApCommonBarBinder {
                     if (v <= 0) {
                         throw new VerifyException(name + "必须大于0");
                     }
-                    text = String.valueOf(v);
+                    text = String.valueOf(v).replace(".0", "");;
                 } catch (NumberFormatException e) {
                     throw new VerifyException("请输入正确的" + name);
                 }
@@ -1280,7 +1280,7 @@ public class ApCommonBarBinder {
             month.setMinValue(1);
             month.setMaxValue(12);
             year.setValue(calendar.get(Calendar.YEAR));
-            month.setValue(calendar.get(Calendar.MONTH));
+            month.setValue(calendar.get(Calendar.MONTH) + 1);
             txtYear.setText("年");
             txtMonth.setText("月");
             View view = $(new LinearLayout(viewer.getContext()))

@@ -38,9 +38,13 @@ public class ApDialogBuilder extends AfDialogBuilder {
             sitems[i] = items[i].toString();
         }
         final ActionSheetDialog dialog = new ActionSheetDialog(mContext, sitems, null);
-        dialog.title(title.toString())//
-                .titleTextSize_SP(14.5f)//
-                .show();
+        if (TextUtils.isEmpty(title)) {
+            dialog.show();
+        } else {
+            dialog.title(title.toString())//
+                    .titleTextSize_SP(14.5f)//
+                    .show();
+        }
         dialog.setOnOperItemClickL((AdapterView<?> parent, View view, int position, long id) -> {
             dialog.dismiss();
             new SafeListener(listener).onClick(dialog, position);
