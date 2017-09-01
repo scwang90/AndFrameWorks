@@ -45,6 +45,12 @@ public class ApRefreshLayouter implements RefreshLayouter<SmartRefreshLayout> {
         mRefreshLayout.setPrimaryColorsId(primaryId, frontId);
     }
 
+    public ApRefreshLayouter(SmartRefreshLayout refreshLayout) {
+        mRefreshLayout = refreshLayout;
+        mRefreshLayout.setRefreshHeader(newHeader(refreshLayout.getContext()));
+        mRefreshLayout.setEnableLoadmore(false);
+    }
+
     protected RefreshHeader newHeader(Context context) {
         return new BezierRadarHeader(context);
     }
