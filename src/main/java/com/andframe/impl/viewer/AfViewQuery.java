@@ -139,7 +139,7 @@ public class AfViewQuery<T extends AfViewQuery<T>> implements ViewQuery<T> {
 
     @Override
     public T $(String idvalue, String... idvalues) {
-        if (mRootView == null) {
+        if (mRootView == null || mRootView.getView() == null) {
             return self();
         }
         List<Integer> listId = new ArrayList<>(idvalues.length + 1);
@@ -166,6 +166,9 @@ public class AfViewQuery<T extends AfViewQuery<T>> implements ViewQuery<T> {
 
     @Override
     public T $(Class<? extends View> type) {
+        if (mRootView == null || mRootView.getView() == null) {
+            return self();
+        }
         Queue<View> views = new LinkedBlockingQueue<>(Collections.singletonList(mRootView.getView()));
         List<View> list = new ArrayList<>();
         do {
@@ -188,6 +191,9 @@ public class AfViewQuery<T extends AfViewQuery<T>> implements ViewQuery<T> {
 
     @Override@SafeVarargs
     public final T $(Class<? extends View>... types) {
+        if (mRootView == null || mRootView.getView() == null) {
+            return self();
+        }
         List<View> list = new ArrayList<>();
         Queue<View> views = new LinkedBlockingQueue<>(Collections.singletonList(mRootView.getView()));
         while (!views.isEmpty() && types.length > 0) {
