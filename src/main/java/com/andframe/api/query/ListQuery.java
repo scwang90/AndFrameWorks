@@ -15,9 +15,11 @@ import java.util.List;
  */
 
 public interface ListQuery<T> extends Collection<T> {
+
     ListQuery<T> remove(Where<T> where);
     ListQuery<T> where(Where<T> where);
     ListQuery<T> foreach(Foreach<T> foreach);
+    ListQuery<T> append(T t);
     List<T> toList();
     T[] toArrays(T... a);
     <TT> ListQuery<TT> map(Map<T,TT> map);
@@ -25,4 +27,5 @@ public interface ListQuery<T> extends Collection<T> {
     <TT> ListQuery<TT> flatMap(FlatMap<T,TT> map);
 
     String join(CharSequence delimiter);
+
 }

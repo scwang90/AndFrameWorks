@@ -413,6 +413,7 @@ public interface ViewQuery<T extends ViewQuery<T>> {
 
     T padding(int px);
     T padding(float dp);
+    T paddingRes(@DimenRes int dimen);
 
     T padding(Rect rectPx);
     T padding(RectF rectDp);
@@ -422,6 +423,11 @@ public interface ViewQuery<T extends ViewQuery<T>> {
     T paddingTop(int px);
     T paddingBottom(int px);
 
+    T paddingLeftRes(@DimenRes int dimen);
+    T paddingRightRes(@DimenRes int dimen);
+    T paddingTopRes(@DimenRes int dimen);
+    T paddingBottomRes(@DimenRes int dimen);
+
     T paddingLeft(float dp);
     T paddingRight(float dp);
     T paddingTop(float dp);
@@ -429,6 +435,7 @@ public interface ViewQuery<T extends ViewQuery<T>> {
 
     T padding(int leftPx, int topPx, int rightPx, int bottomPx);
     T padding(float leftDp, float topDp, float rightDp, float bottomDp);
+    T paddingRes(@DimenRes int left, @DimenRes int top, @DimenRes int right, @DimenRes int bottom);
 
     //</editor-fold>
 

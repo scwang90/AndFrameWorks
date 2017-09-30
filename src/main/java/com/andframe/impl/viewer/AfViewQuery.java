@@ -1004,6 +1004,11 @@ public class AfViewQuery<T extends AfViewQuery<T>> implements ViewQuery<T> {
     }
 
     @Override
+    public T paddingRes(@DimenRes int dimen) {
+        return paddingRes(dimen, dimen, dimen, dimen);
+    }
+
+    @Override
     public T padding(int px) {
         return padding(px,px,px,px);
     }
@@ -1046,6 +1051,17 @@ public class AfViewQuery<T extends AfViewQuery<T>> implements ViewQuery<T> {
     }
 
     @Override
+    public T paddingRes(@DimenRes int left, @DimenRes int top, @DimenRes int right, @DimenRes int bottom) {
+        return foreach(view -> {
+            Resources resources = view.getResources();
+            view.setPadding(resources.getDimensionPixelOffset(left),
+                    resources.getDimensionPixelOffset(top),
+                    resources.getDimensionPixelOffset(right),
+                    resources.getDimensionPixelOffset(bottom));
+        });
+    }
+
+    @Override
     public T paddingLeft(int px) {
         return foreach((ViewEacher<View>) view -> view.setPadding(px, view.getPaddingTop(), view.getPaddingRight(), view.getPaddingBottom()));
     }
@@ -1063,6 +1079,36 @@ public class AfViewQuery<T extends AfViewQuery<T>> implements ViewQuery<T> {
     @Override
     public T paddingBottom(int px) {
         return foreach((ViewEacher<View>) view -> view.setPadding(view.getPaddingLeft(), view.getPaddingTop(), view.getPaddingRight(), px));
+    }
+
+    @Override
+    public T paddingLeftRes(@DimenRes int dimen) {
+        return foreach(view -> {
+            int padding = view.getResources().getDimensionPixelOffset(dimen);
+            view.setPadding(padding, view.getPaddingTop(), view.getPaddingRight(), view.getPaddingBottom());
+        });
+    }
+
+    @Override
+    public T paddingRightRes(@DimenRes int dimen) {
+        return foreach(view -> {
+            int padding = view.getResources().getDimensionPixelOffset(dimen);
+            view.setPadding(view.getPaddingLeft(), view.getPaddingTop(), padding, view.getPaddingBottom());
+        });
+    }
+    @Override
+    public T paddingTopRes(@DimenRes int dimen) {
+        return foreach(view -> {
+            int padding = view.getResources().getDimensionPixelOffset(dimen);
+            view.setPadding(view.getPaddingLeft(), padding, view.getPaddingRight(), view.getPaddingBottom());
+        });
+    }
+    @Override
+    public T paddingBottomRes(@DimenRes int dimen) {
+        return foreach(view -> {
+            int padding = view.getResources().getDimensionPixelOffset(dimen);
+            view.setPadding(view.getPaddingLeft(), view.getPaddingTop(), view.getPaddingRight(), padding);
+        });
     }
 
     @Override
