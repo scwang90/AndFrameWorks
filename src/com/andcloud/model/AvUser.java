@@ -21,7 +21,7 @@ public class AvUser extends com.avos.avoscloud.AvUser implements AvModel {
     /**
      * 个性化头像
      */
-    public static final String Avator = "Avator";
+    public static final String Avatar = "Avatar";
     /**
      * 性别
      */
@@ -46,12 +46,12 @@ public class AvUser extends com.avos.avoscloud.AvUser implements AvModel {
         return this.getString(NickName);
     }
 
-    public AVFile getAvator() {
-        return getAVFile(Avator);
+    public AVFile getAvatar() {
+        return getAVFile(Avatar);
     }
 
-    public void setAvator(AVFile avator) {
-        put(Avator, avator);
+    public void setAvatar(AVFile avatar) {
+        put(Avatar, avatar);
     }
 
     public boolean getGender() {
