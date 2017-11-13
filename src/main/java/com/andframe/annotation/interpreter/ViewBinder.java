@@ -489,7 +489,7 @@ public class ViewBinder {
                 value = new AfFrameSelector(root, id);
             } else if (type.equals(ItemsViewerWrapper.class) || type.equals(ItemsViewer.class)) {
                 if (id > 0) {
-                    value = new ItemsViewerWrapper(root.findViewById(id));
+                    value = new ItemsViewerWrapper((View)root.findViewById(id));
                 } else {
                     value = new ItemsViewerWrapper(root);
                 }

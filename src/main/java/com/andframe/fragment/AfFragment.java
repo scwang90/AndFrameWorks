@@ -448,17 +448,6 @@ public abstract class AfFragment extends Fragment implements Pager, ViewQueryHel
         }
         return null;
     }
-
-    @Override
-    @SuppressWarnings("unchecked")
-    public <T extends View> T findViewByID(int id) {
-        try {
-            return (T) findViewById(id);
-        } catch (Throwable e) {
-            AfExceptionHandler.handle(e, TAG("findViewByID"));
-        }
-        return null;
-    }
     //</editor-fold>
 
     //<editor-fold desc="新建事件">

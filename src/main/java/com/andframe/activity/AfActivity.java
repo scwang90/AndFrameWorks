@@ -380,17 +380,6 @@ public abstract class AfActivity extends AppCompatActivity implements Pager, Vie
         }
         return null;
     }
-
-    @Override
-    @SuppressWarnings("unchecked")
-    public <T extends View> T findViewByID(int id) {
-        try {
-            return (T) findViewById(id);
-        } catch (Throwable e) {
-            AfExceptionHandler.handle(e, TAG("findViewByID"));
-        }
-        return null;
-    }
     //</editor-fold>
 
     //<editor-fold desc="页面切换">

@@ -17,7 +17,7 @@ public class AfFrameSelector extends AfViewModuler {
 	private FrameLayout mFrameLayout = null;
 
 	public AfFrameSelector(Viewer viewer, int id) {
-		view = mFrameLayout = viewer.findViewByID(id);
+		view = mFrameLayout = viewer.findViewById(id);
 	}
 
 	public AfFrameSelector(FrameLayout frameLayout) {

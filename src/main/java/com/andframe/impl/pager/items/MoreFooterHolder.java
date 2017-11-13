@@ -42,14 +42,8 @@ public class MoreFooterHolder<T> implements ItemViewer<T>, Viewer {
     }
 
     @Override
-    public View findViewById(int id) {
+    public <TT extends View> TT  findViewById(int id) {
         return footer.getView().findViewById(id);
-    }
-
-    @Override
-    public <TT extends View> TT findViewByID(int id) {
-        //noinspection unchecked
-        return (TT)findViewById(id);
     }
 
     @Override

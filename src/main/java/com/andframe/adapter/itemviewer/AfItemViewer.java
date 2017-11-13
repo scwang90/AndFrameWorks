@@ -123,13 +123,8 @@ public abstract class AfItemViewer<T> implements ItemViewer<T>, Viewer, ViewQuer
 	}
 
 	@Override
-	public View findViewById(int id) {
+	public <TT extends View> TT  findViewById(int id) {
 		return mLayout == null ? null : mLayout.findViewById(id);
-	}
-
-	@Override
-	public <TT extends View> TT findViewByID(int id) {
-		return mLayout == null ? null : new AfView(mLayout).findViewByID(id);
 	}
 
 	@Override

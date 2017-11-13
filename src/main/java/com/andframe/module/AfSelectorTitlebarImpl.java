@@ -29,7 +29,7 @@ public class AfSelectorTitlebarImpl extends AfSelectorTitlebar {
 	}
 	@Override
 	protected TextView findTitleSelectTvText(Viewer view) {
-		return view.findViewByID(R.id.af_titlebar_select_text);
+		return view.findViewById(R.id.af_titlebar_select_text);
 	}
 
 }

@@ -52,13 +52,8 @@ public class PagerWrapper implements Pager {
     }
 
     @Override
-    public View findViewById(int id) {
+    public <T extends View> T findViewById(int id) {
         return viewer.findViewById(id);
-    }
-
-    @Override
-    public <T extends View> T findViewByID(int id) {
-        return viewer.findViewByID(id);
     }
 
     @Override

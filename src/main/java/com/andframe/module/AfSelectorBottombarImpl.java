@@ -26,12 +26,12 @@ public class AfSelectorBottombarImpl extends AfSelectorBottombar {
 	
 	@Override
 	protected ImageView getFunctionViewMore(Viewer view) {
-		return view.findViewByID(R.id.af_bottombar_select_more);
+		return view.findViewById(R.id.af_bottombar_select_more);
 	}
 
 	@Override
 	protected LinearLayout getFunctionLayout(Viewer view) {
-		return view.findViewByID(R.id.af_bottombar_select_contain);
+		return view.findViewById(R.id.af_bottombar_select_contain);
 	}
 	
 	@Override

@@ -59,7 +59,7 @@ public class ViewerWarpper implements Viewer {
     }
 
     @Override
-    public View findViewById(int id) {
+    public <T extends View> T findViewById(int id) {
         if (view != null) {
             return view.findViewById(id);
         }
@@ -70,12 +70,6 @@ public class ViewerWarpper implements Viewer {
             return activity.findViewById(id);
         }
         return null;
-    }
-
-    @Override
-    public <T extends View> T findViewByID(int id) {
-        //noinspection unchecked
-        return (T)findViewById(id);
     }
 
     @Override

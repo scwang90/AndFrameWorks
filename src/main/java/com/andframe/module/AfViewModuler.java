@@ -34,7 +34,7 @@ public abstract class AfViewModuler extends ViewerWarpper implements Viewer, Vie
 			module = clazz.newInstance();
 			if (module != null && !module.isValid()) {
 				AfViewModuler viewModule = module;
-				viewModule.setTarget(viewable, viewable.findViewByID(viewId));
+				viewModule.setTarget(viewable, viewable.findViewById(viewId));
 				viewModule.onBindHandler(handler);
 			}
 			return module;
