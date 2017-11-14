@@ -2,12 +2,9 @@ package com.andpack.impl;
 
 import android.content.Context;
 import android.support.annotation.NonNull;
-import android.support.design.widget.AppBarLayout;
-import android.support.design.widget.CoordinatorLayout;
 import android.view.View;
 import android.view.ViewGroup;
 
-import com.andframe.$;
 import com.andframe.api.pager.status.OnRefreshListener;
 import com.andframe.api.pager.status.RefreshLayouter;
 import com.scwang.smartrefresh.layout.SmartRefreshLayout;
@@ -36,6 +33,7 @@ public class ApRefreshLayouter implements RefreshLayouter<SmartRefreshLayout> {
         mRefreshLayout = new SmartRefreshLayout(context);
         mRefreshLayout.setRefreshHeader(newHeader(context));
         mRefreshLayout.setEnableLoadmore(false);
+        mRefreshLayout.setEnableOverScrollBounce(false);
     }
 
     public ApRefreshLayouter(Context context, int primaryId, int frontId) {
@@ -43,12 +41,14 @@ public class ApRefreshLayouter implements RefreshLayouter<SmartRefreshLayout> {
         mRefreshLayout.setRefreshHeader(newHeader(context));
         mRefreshLayout.setEnableLoadmore(false);
         mRefreshLayout.setPrimaryColorsId(primaryId, frontId);
+        mRefreshLayout.setEnableOverScrollBounce(false);
     }
 
     public ApRefreshLayouter(SmartRefreshLayout refreshLayout) {
         mRefreshLayout = refreshLayout;
         mRefreshLayout.setRefreshHeader(newHeader(refreshLayout.getContext()));
         mRefreshLayout.setEnableLoadmore(false);
+        mRefreshLayout.setEnableOverScrollBounce(false);
     }
 
     protected RefreshHeader newHeader(Context context) {
@@ -69,18 +69,6 @@ public class ApRefreshLayouter implements RefreshLayouter<SmartRefreshLayout> {
             params.height = MATCH_PARENT;
         }
         mRefreshLayout.addView(content, MATCH_PARENT, height == 0 ? MATCH_PARENT : height);
-        if (content instanceof CoordinatorLayout) {
-            AppBarLayout layout = $.query(content).$(AppBarLayout.class).view();
-            if (layout != null) {
-                layout.addOnOffsetChangedListener((appBarLayout, verticalOffset) -> {
-                    if (verticalOffset >= 0) {
-                        mRefreshLayout.setEnabled(true);
-                    } else {
-                        mRefreshLayout.setEnabled(false);
-                    }
-                });
-            }
-        }
     }
 
     @Override

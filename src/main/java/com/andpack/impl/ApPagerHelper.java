@@ -19,7 +19,6 @@ import com.andframe.exception.AfExceptionHandler;
 import com.andframe.fragment.AfFragment;
 import com.andframe.listener.SafeListener;
 import com.andframe.util.java.AfReflecter;
-import com.andpack.R;
 import com.andpack.activity.ApFragmentActivity;
 import com.andpack.annotation.BackgroundTranslucent;
 import com.andpack.annotation.RegisterEventBus;
@@ -94,7 +93,7 @@ public class ApPagerHelper {
     }
 
     public void setTheme(@StyleRes int resid) {
-        mIsUsingSwipeBack = resid == R.style.AppTheme_SwipeBack;
+//        mIsUsingSwipeBack = resid == R.style.AppTheme_SwipeBack;
     }
 
     public void onCreate() {
