@@ -177,7 +177,7 @@ public class AfLoadHelper<T> implements LoadHelper<T> {
 
     @Override
     public boolean onRefresh() {
-        return mPager.postTask(new LoadTask()).prepare();
+        return mPager.postTask(new LoadTask()).status() != Task.Status.canceld;
     }
 
     @Override

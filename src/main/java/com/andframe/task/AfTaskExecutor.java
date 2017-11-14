@@ -82,7 +82,7 @@ public class AfTaskExecutor implements TaskExecutor {
 
     @MainThread
     public void execute(Task task) {
-        if (/*!task.isCanceled()*/task.status() != Task.Status.canceld && task.prepare()) {
+        if (task.status() != Task.Status.canceld && task.prepare()) {
             sDefaultExecutor.execute(task);
         }
     }
