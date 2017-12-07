@@ -43,8 +43,8 @@ public class ApActivity extends AfActivity implements ApPager {
     }
 
     @Override
-    public View findViewById(int id) {
-        View v = super.findViewById(id);
+    public <T extends View> T findViewById(int id) {
+        T v = super.findViewById(id);
         if (v == null)
             return mApHelper.findViewById(id);
         return v;

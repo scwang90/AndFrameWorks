@@ -1,5 +1,6 @@
 package com.andpack.impl;
 
+import android.annotation.SuppressLint;
 import android.app.Activity;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
@@ -133,10 +134,11 @@ public class ApPagerHelper {
         }
     }
 
-    public View findViewById(int id) {
+    public <T extends View> T findViewById(int id) {
         if (mSwipeBackHelper != null) {
             try {
-                return mSwipeBackHelper.findViewById(id);
+                //noinspection unchecked
+                return (T)mSwipeBackHelper.findViewById(id);
             } catch (Throwable e) {
                 AfExceptionHandler.handle(e, ("SwipeBackActivityHelper.findViewById 失败"));
             }
@@ -176,6 +178,7 @@ public class ApPagerHelper {
         }
     }
 
+    @SuppressLint("Range")
     private void performBackgroundTranslucent(SwipeBackLayout layout) {
         BackgroundTranslucent translucent;
         if (pager instanceof ApFragmentActivity) {
