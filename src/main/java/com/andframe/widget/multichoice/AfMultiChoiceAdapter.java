@@ -1,6 +1,5 @@
 package com.andframe.widget.multichoice;
 
-import android.content.Context;
 import android.support.annotation.NonNull;
 import android.view.View;
 import android.view.ViewGroup;
@@ -31,20 +30,17 @@ public abstract class AfMultiChoiceAdapter<T> extends AfListAdapter<T>{
 	}
 	
 	protected int mChoiceNumber = 0;
-	protected Context mContext = null;
 	protected boolean mIsSingle = false;
 	protected boolean[] mIsSelecteds = null;
 	protected List<MultiChoiceListener<T>> mListeners = new ArrayList<>();
 	protected List<GenericityListener> mGenericityListeners = new ArrayList<>();
 	
-	public AfMultiChoiceAdapter(Context context, List<T> ltdata) {
-		super(context, ltdata);
-		mContext = context;
+	public AfMultiChoiceAdapter(List<T> ltdata) {
+		super(ltdata);
 	}
 
-	public AfMultiChoiceAdapter(Context context, List<T> ltdata, boolean dataSync) {
-		super(context, ltdata, dataSync);
-		mContext = context;
+	public AfMultiChoiceAdapter(List<T> ltdata, boolean dataSync) {
+		super(ltdata, dataSync);
 	}
 
 	public void addListener(MultiChoiceListener<T> listener) {

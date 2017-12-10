@@ -19,12 +19,12 @@ import java.util.List;
 @SuppressWarnings("unused")
 public abstract class AfItemViewerAdapter<T> extends AfListAdapter<T> implements ItemViewer<T> {
 
-    public AfItemViewerAdapter(Context context, List<T> ltdata) {
-        super(context, ltdata);
+    public AfItemViewerAdapter(List<T> ltdata) {
+        super(ltdata);
     }
 
-    public AfItemViewerAdapter(Context context, List<T> ltdata, boolean dataSync) {
-        super(context, ltdata, dataSync);
+    public AfItemViewerAdapter(List<T> ltdata, boolean dataSync) {
+        super(ltdata, dataSync);
     }
 
     @NonNull

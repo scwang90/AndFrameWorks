@@ -185,7 +185,7 @@ public abstract class AfFragment extends Fragment implements Pager, ViewQueryHel
      */
     protected View onCreateView(LayoutInflater inflater, ViewGroup container) {
         int layoutId = LayoutBinder.getBindLayoutId(this, inflater.getContext());
-        if (layoutId > 0) {
+        if (layoutId != 0) {
             return inflater.inflate(layoutId, container, false);
         }
         return null;

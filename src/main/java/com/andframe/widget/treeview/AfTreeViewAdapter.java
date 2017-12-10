@@ -1,6 +1,5 @@
 package com.andframe.widget.treeview;
 
-import android.content.Context;
 import android.support.annotation.NonNull;
 import android.view.View;
 import android.view.ViewGroup;
@@ -31,12 +30,12 @@ public abstract class AfTreeViewAdapter<T> extends AfMultiChoiceAdapter<T> imple
 
 	protected abstract AfTreeViewItemViewer<T> newTreeViewItem(int viewType);
 
-	public AfTreeViewAdapter(Context context, List<T> ltdata, AfTreeEstablisher<T> establisher) {
-		this(context, ltdata, establisher, false);
+	public AfTreeViewAdapter(List<T> ltdata, AfTreeEstablisher<T> establisher) {
+		this(ltdata, establisher, false);
 	}
 	
-	public AfTreeViewAdapter(Context context, List<T> ltdata, AfTreeEstablisher<T> establisher,boolean isExpanded) {
-		super(context, new ArrayList<>());
+	public AfTreeViewAdapter(List<T> ltdata, AfTreeEstablisher<T> establisher,boolean isExpanded) {
+		super(new ArrayList<>());
 		mltOriginData = ltdata;
 		mEstablisher = establisher;
 		mDefaultExpanded = isExpanded;

@@ -1,18 +1,16 @@
 package com.andframe.widget.multichoice;
 
-import android.content.Context;
-
 import java.util.List;
 
 public abstract class AfMultiChoiceNormalityAdapter<T> extends AfMultiChoiceAdapter<T>{
 
-	public AfMultiChoiceNormalityAdapter(Context context, List<T> ltdata) {
-		super(context, ltdata);
+	public AfMultiChoiceNormalityAdapter(List<T> ltdata) {
+		super(ltdata);
 		beginMultiChoice();
 	}
 
-	public AfMultiChoiceNormalityAdapter(Context context, List<T> ltdata, boolean dataSync) {
-		super(context, ltdata, dataSync);
+	public AfMultiChoiceNormalityAdapter(List<T> ltdata, boolean dataSync) {
+		super(ltdata, dataSync);
 		beginMultiChoice();
 	}
 

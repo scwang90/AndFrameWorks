@@ -1,6 +1,5 @@
 package com.andframe.adapter;
 
-import android.content.Context;
 import android.support.annotation.NonNull;
 import android.view.View;
 import android.view.ViewGroup;
@@ -14,6 +13,7 @@ import com.andframe.api.query.hindler.Where;
 import com.andframe.exception.AfExceptionHandler;
 
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.Collection;
 import java.util.Iterator;
 import java.util.List;
@@ -24,30 +24,35 @@ import java.util.ListIterator;
  *
  * @param <T>
  */
+@SuppressWarnings("unused")
 public abstract class AfListAdapter<T> extends RecyclerBaseAdapter<ViewHolderItem<T>> implements ItemViewerAdapter<T> {
 
     //<editor-fold desc="属性字段">
+    @SuppressWarnings("WeakerAccess")
     protected boolean mDataSync;
-    protected Context mContext;
     protected List<T> mltArray = new ArrayList<>();
     //</editor-fold>
 
     //<editor-fold desc="构造方法">
-    public AfListAdapter(Context context, List<T> list) {
-        this(context, list, true);
+
+    public AfListAdapter(T[] arrays) {
+        this(Arrays.asList(arrays), false);
+    }
+
+    public AfListAdapter(List<T> list) {
+        this(list, true);
     }
 
     /**
      * @param dataSync 数据同步（true） 适配器的数据和外部的list同步 （false）适配器的数据独立管理
      */
-    public AfListAdapter(Context context, List<T> list, boolean dataSync) {
+    public AfListAdapter(List<T> list, boolean dataSync) {
         if (dataSync && list != null) {
             mltArray = list;
         } else if (list != null) {
             mltArray.addAll(list);
         }
         mDataSync = dataSync;
-        mContext = context;
     }
     //</editor-fold>
 
@@ -241,6 +246,7 @@ public abstract class AfListAdapter<T> extends RecyclerBaseAdapter<ViewHolderIte
         return mltArray.lastIndexOf(object);
     }
 
+    @NonNull
     @Override
     public ListIterator<T> listIterator() {
         return mltArray.listIterator();
@@ -320,7 +326,7 @@ public abstract class AfListAdapter<T> extends RecyclerBaseAdapter<ViewHolderIte
     @NonNull
     @Override
     public View inflateItem(ItemViewer<T> item, ViewGroup parent) {
-        return item.onCreateView(mContext, parent);
+        return item.onCreateView(parent.getContext(), parent);
     }
 
     @Override

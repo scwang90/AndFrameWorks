@@ -1633,7 +1633,7 @@ public class AfViewQuery<T extends AfViewQuery<T>> implements ViewQuery<T> {
     //<editor-fold desc="扩展设置">
     @Override@SuppressWarnings("unchecked")
     public <TT> T adapter(@LayoutRes int id, List<TT> list, AdapterItemer<TT> itemer) {
-        AfLayoutItemViewerAdapter<TT> adapter = new AfLayoutItemViewerAdapter<TT>(id, getContext(), list) {
+        AfLayoutItemViewerAdapter<TT> adapter = new AfLayoutItemViewerAdapter<TT>(id, list) {
             @Override
             protected void onBinding(ViewQuery<? extends ViewQuery> $, TT model, int index) {
                 itemer.onBinding($, model, index);

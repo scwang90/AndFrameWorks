@@ -271,7 +271,7 @@ public class AfItemsPagerHelper<T> extends AfStatusHelper<List<T>> implements It
     @NonNull
     @Override
     public AfListAdapter<T> newAdapter(@NonNull Context context, @NonNull List<T> list) {
-        return new AbViewerAdapter(context, list);
+        return new AbViewerAdapter(list);
     }
 
     @Override
@@ -655,8 +655,8 @@ public class AfItemsPagerHelper<T> extends AfStatusHelper<List<T>> implements It
      */
     protected class AbViewerAdapter extends AfListAdapter<T> {
 
-        public AbViewerAdapter(Context context, List<T> ltdata) {
-            super(context, ltdata);
+        public AbViewerAdapter(List<T> ltdata) {
+            super(ltdata);
         }
 
         /**

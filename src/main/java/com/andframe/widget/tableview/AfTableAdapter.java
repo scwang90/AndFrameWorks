@@ -1,6 +1,5 @@
 package com.andframe.widget.tableview;
 
-import android.content.Context;
 import android.support.annotation.NonNull;
 import android.view.View;
 import android.view.ViewGroup;
@@ -19,8 +18,8 @@ public class AfTableAdapter extends AfListAdapter<Object> {
 
 	protected AfTable mTable = null;
 
-	public AfTableAdapter(Context context, AfTable table, List<?> ltdata) {
-		super(context, new ArrayList<>(ltdata));
+	public AfTableAdapter(AfTable table, List<?> ltdata) {
+		super(new ArrayList<>(ltdata));
 		mTable = table;
 	}
 
@@ -45,7 +44,7 @@ public class AfTableAdapter extends AfListAdapter<Object> {
 		AfTableRow row ;
 		try {
 			if (view == null) {
-				row = new AfTableRow(mContext, mTable);
+				row = new AfTableRow(parent.getContext(), mTable);
 				view = row;
 			} else {
 				row = (AfTableRow) view;

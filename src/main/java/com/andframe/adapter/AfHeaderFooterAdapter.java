@@ -69,6 +69,7 @@ public class AfHeaderFooterAdapter<T> extends ListItemAdapterWrapper<T> implemen
         try {
             ItemViewer<T> item = newItemViewer(viewType);
             View view = inflateItem(item, parent);
+            //noinspection ConstantConditions
             if (view == null) {
                 view = new View(parent.getContext());
                 AfExceptionHandler.handle("inflateItem 返回 null", "AfListAdapter.onCreateViewHolder.inflateItem");

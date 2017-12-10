@@ -19,37 +19,34 @@ public abstract class AfLayoutItemViewerAdapter<T> extends AfItemViewerAdapter<T
 
     int mLayoutId = -1;
 
-    public AfLayoutItemViewerAdapter(Context context, List<T> ltdata) {
-        super(context, ltdata);
-        initLayout(context);
+    public AfLayoutItemViewerAdapter(List<T> ltdata) {
+        super(ltdata);
     }
 
-    public AfLayoutItemViewerAdapter(Context context, List<T> ltdata, boolean dataSync) {
-        super(context, ltdata, dataSync);
-        initLayout(context);
+    public AfLayoutItemViewerAdapter(List<T> ltdata, boolean dataSync) {
+        super(ltdata, dataSync);
     }
 
-    public AfLayoutItemViewerAdapter(@LayoutRes int layoutId, Context context, List<T> ltdata) {
-        super(context, ltdata);
+    public AfLayoutItemViewerAdapter(@LayoutRes int layoutId, List<T> ltdata) {
+        super(ltdata);
         mLayoutId = layoutId;
     }
 
-    public AfLayoutItemViewerAdapter(@LayoutRes int layoutId, Context context, List<T> ltdata, boolean dataSync) {
-        super(context, ltdata, dataSync);
+    public AfLayoutItemViewerAdapter(@LayoutRes int layoutId, List<T> ltdata, boolean dataSync) {
+        super(ltdata, dataSync);
         mLayoutId = layoutId;
-    }
-
-    protected void initLayout(Context context) {
-        int layoutId = LayoutBinder.getBindLayoutId(this, context);
-        if (layoutId > 0) {
-            mLayoutId = layoutId;
-        } else {
-            throw new RuntimeException("请使用BindLayout注解标记你的适配器！");
-        }
     }
 
     @Override
     protected View onCreateItemView(Context context, ViewGroup parent) {
+        if (mLayoutId == -1) {
+            int layoutId = LayoutBinder.getBindLayoutId(this, context);
+            if (layoutId > 0) {
+                mLayoutId = layoutId;
+            } else {
+                throw new RuntimeException("请使用BindLayout注解标记你的适配器！");
+            }
+        }
         return LayoutInflater.from(context).inflate(mLayoutId, parent, false);
     }
 
