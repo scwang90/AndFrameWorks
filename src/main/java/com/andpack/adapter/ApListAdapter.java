@@ -1,6 +1,5 @@
 package com.andpack.adapter;
 
-import android.content.Context;
 import android.support.annotation.LayoutRes;
 
 import com.andframe.adapter.AfLayoutItemViewerAdapter;
@@ -18,8 +17,8 @@ public class ApListAdapter<T> extends AfLayoutItemViewerAdapter<T> {
 
     protected ApItemBinder<T> binder;
 
-    public ApListAdapter(Context context, List<T> ltdata, ApItemBinder<T> binder, @LayoutRes int layoutId) {
-        super(layoutId, context, ltdata);
+    public ApListAdapter(List<T> ltdata, ApItemBinder<T> binder, @LayoutRes int layoutId) {
+        super(layoutId, ltdata);
         this.binder = binder;
     }
 

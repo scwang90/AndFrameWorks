@@ -1,6 +1,5 @@
 package com.andpack.impl;
 
-import android.content.Context;
 import android.support.v7.widget.RecyclerView;
 
 import com.andframe.adapter.AfLayoutItemViewerAdapter;
@@ -44,9 +43,9 @@ public class ApItemsHelper<T> extends ApStatusHelper {
         }
     }
 
-    public ItemViewerAdapter<T> newAdapter(Context context, List<T> list) {
+    public ItemViewerAdapter<T> newAdapter(List<T> list) {
         if (mItemLayout != null) {
-            return new AfLayoutItemViewerAdapter<T>(mItemLayout.value(), context, list) {
+            return new AfLayoutItemViewerAdapter<T>(mItemLayout.value(), list) {
                 @Override
                 protected void onBinding(ViewQuery<? extends ViewQuery> $, T model, int index) {
                     mItemPager.onItemBinding($, model, index);

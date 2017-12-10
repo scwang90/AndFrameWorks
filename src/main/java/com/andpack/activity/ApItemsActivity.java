@@ -78,7 +78,7 @@ public abstract class ApItemsActivity<T> extends AfItemsActivity<T> implements A
     @NonNull
     @Override
     public ItemViewerAdapter<T> newAdapter(@NonNull Context context, @NonNull List<T> list) {
-        ItemViewerAdapter<T> adapter = mApHelper.newAdapter(context,list);
+        ItemViewerAdapter<T> adapter = mApHelper.newAdapter(list);
         if (adapter != null) {
             return mAdapter = adapter;
         }

@@ -35,9 +35,8 @@ import static com.andframe.R.color.colorTextTitle;
 public class ApViewTreeAdapter extends AfTreeViewAdapter<View> {
 
     public ApViewTreeAdapter(View root) {
-        super(root.getContext(),
-                new ArrayList<>(Collections.singletonList(root)),
-                new AfTreeEstablisher<>(model -> Arrays.asList($.query(model).children())),
+        super(new ArrayList<>(Collections.singletonList(root)),
+              new AfTreeEstablisher<>(model -> Arrays.asList($.query(model).children())),
                 true);
     }
 
