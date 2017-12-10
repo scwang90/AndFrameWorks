@@ -28,6 +28,7 @@ import android.text.Editable;
 import android.text.Html;
 import android.text.TextUtils;
 import android.text.TextWatcher;
+import android.util.SparseArray;
 import android.util.TypedValue;
 import android.view.View;
 import android.view.ViewGroup;
@@ -77,6 +78,7 @@ public class AfViewQuery<T extends AfViewQuery<T>> implements ViewQuery<T> {
 
     protected Viewer mRootView = null;
     protected View[] mTargetViews = null;
+    protected SparseArray<View> mCacheArray = null;
 
     public AfViewQuery(Viewer view) {
         mRootView = view;
@@ -90,8 +92,21 @@ public class AfViewQuery<T extends AfViewQuery<T>> implements ViewQuery<T> {
     }
 
     public View findViewById(int id) {
+        if (mCacheArray != null) {
+            View view = mCacheArray.get(id);
+            if (view != null) {
+                return view;
+            }
+        }
         if (mRootView != null) {
-            return mRootView.findViewById(id);
+            View view = mRootView.findViewById(id);
+            if (view != null) {
+                if (mCacheArray == null) {
+                    mCacheArray = new SparseArray<>();
+                }
+                mCacheArray.append(id, view);
+            }
+            return view;
         }
         return null;
     }
