@@ -20,6 +20,7 @@ import com.andframe.exception.AfExceptionHandler;
 import com.andframe.fragment.AfFragment;
 import com.andframe.listener.SafeListener;
 import com.andframe.util.java.AfReflecter;
+import com.andpack.R;
 import com.andpack.activity.ApFragmentActivity;
 import com.andpack.annotation.BackgroundTranslucent;
 import com.andpack.annotation.RegisterEventBus;
@@ -88,6 +89,7 @@ public class ApPagerHelper {
         }
     }
 
+    @SuppressWarnings("WeakerAccess")
     @NonNull
     protected Class<?> getStopClass() {
         return pager instanceof Activity ? AfActivity.class : AfFragment.class;
@@ -101,10 +103,10 @@ public class ApPagerHelper {
         if (mEventBus != null) {
             EventBus.getDefault().register(pager);
         }
-//        if (mIsUsingSwipeBack) {
-//            mSwipeBackHelper = new SwipeBackActivityHelper(pager.getActivity());
-//            mSwipeBackHelper.onActivityCreate();
-//        }
+        if (mIsUsingSwipeBack) {
+            mSwipeBackHelper = new SwipeBackActivityHelper(pager.getActivity());
+            mSwipeBackHelper.onActivityCreate();
+        }
     }
 
     public void onDestroy() {
