@@ -1455,6 +1455,9 @@ public class AfViewQuery<T extends AfViewQuery<T>> implements ViewQuery<T> {
         if (goneIfEmpty && TextUtils.isEmpty(text)) {
             return gone();
         } else {
+            if (goneIfEmpty && !isVisible()) {
+                visible();
+            }
             return text(text);
         }
     }
