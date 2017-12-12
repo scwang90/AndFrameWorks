@@ -1463,8 +1463,8 @@ public class AfViewQuery<T extends AfViewQuery<T>> implements ViewQuery<T> {
     }
 
     @Override
-    public T text(String format, Object... args) {
-        return foreach(TextView.class, (ViewEacher<TextView>) (view) -> view.setText(String.format(format, args)));
+    public T text(CharSequence format, Object... args) {
+        return foreach(TextView.class, (ViewEacher<TextView>) (view) -> view.setText(String.format(format+"", args)));
     }
 
     @Override
@@ -1473,8 +1473,8 @@ public class AfViewQuery<T extends AfViewQuery<T>> implements ViewQuery<T> {
     }
 
     @Override
-    public T hint(String format, Object... args) {
-        return foreach(TextView.class, (ViewEacher<TextView>) (view) -> view.setHint(String.format(format, args)));
+    public T hint(CharSequence format, Object... args) {
+        return foreach(TextView.class, (ViewEacher<TextView>) (view) -> view.setHint(String.format(format+"", args)));
     }
 
     @Override

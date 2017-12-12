@@ -672,7 +672,7 @@ public interface ViewQuery<T extends ViewQuery<T>> {
      * @param format 格式化字符串
      * @param args 格式化参数
      */
-    T text(String format, Object... args);
+    T text(CharSequence format, Object... args);
 
     /**
      * 设置当前选中 TextView 的 文本（text） 为 text 否则如果TextUtils.isEmpty(text)使用 默认值defvalue.
@@ -696,7 +696,7 @@ public interface ViewQuery<T extends ViewQuery<T>> {
      * @param format 格式化字符串
      * @param args 格式化参数
      */
-    T hint(String format, Object... args);
+    T hint(CharSequence format, Object... args);
     /**
      * 设置当前选中 TextView 的 文本（text） 为 格式化的结果值（可以有HTML标签效果）.
      * 例如：html("一共有（<font color='#%s'><big>%d</big></font>）个结果",R.color.red,5);
