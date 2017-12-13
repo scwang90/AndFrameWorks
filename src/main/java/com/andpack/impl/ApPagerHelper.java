@@ -20,7 +20,6 @@ import com.andframe.exception.AfExceptionHandler;
 import com.andframe.fragment.AfFragment;
 import com.andframe.listener.SafeListener;
 import com.andframe.util.java.AfReflecter;
-import com.andpack.R;
 import com.andpack.activity.ApFragmentActivity;
 import com.andpack.annotation.BackgroundTranslucent;
 import com.andpack.annotation.RegisterEventBus;
@@ -113,7 +112,7 @@ public class ApPagerHelper {
         if (mEventBus != null) {
             EventBus.getDefault().unregister(pager);
         }
-        if (ApApp.getApp().isDebug()) {
+        if (ApApp.getApp().isDebug() && ApApp.getApp().getRefWatcher() != null) {
             ApApp.getApp().getRefWatcher().watch(this);
         }
     }

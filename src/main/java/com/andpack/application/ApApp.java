@@ -67,7 +67,7 @@ public class ApApp extends AfApp {
         initRecovery(this);
     }
 
-    private void initRecovery(Context context) {
+    protected void initRecovery(Context context) {
 //        Class<? extends Activity> activityClass = getMainActivityClass();
 //        if (activityClass == null) {
 //            return;
@@ -105,7 +105,7 @@ public class ApApp extends AfApp {
         return null;
     }
 
-    private void initLeakCanary() {
+    protected void initLeakCanary() {
         try {
             if (!LeakCanary.isInAnalyzerProcess(this) && isDebug()) {
                 mRefWatcher = LeakCanary.install(this);
@@ -118,7 +118,7 @@ public class ApApp extends AfApp {
     }
 
 
-    private void initImagePicker(Context context) {
+    protected void initImagePicker(Context context) {
         ImagePicker picker = ImagePicker.getInstance();
         picker.setImageLoader(new com.lzy.imagepicker.loader.ImageLoader() {
             @Override
