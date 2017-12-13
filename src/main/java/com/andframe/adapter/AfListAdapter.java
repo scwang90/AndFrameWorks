@@ -35,6 +35,10 @@ public abstract class AfListAdapter<T> extends RecyclerBaseAdapter<ViewHolderIte
 
     //<editor-fold desc="构造方法">
 
+    public AfListAdapter() {
+        mDataSync = true;
+    }
+
     public AfListAdapter(T[] arrays) {
         this(Arrays.asList(arrays), false);
     }
