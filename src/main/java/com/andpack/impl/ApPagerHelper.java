@@ -26,6 +26,7 @@ import com.andpack.annotation.RegisterEventBus;
 import com.andpack.annotation.interpreter.StatusBarInterpreter;
 import com.andpack.api.ApPager;
 import com.andpack.application.ApApp;
+import com.squareup.leakcanary.RefWatcher;
 
 import org.greenrobot.eventbus.EventBus;
 import org.greenrobot.eventbus.Subscribe;
@@ -112,8 +113,12 @@ public class ApPagerHelper {
         if (mEventBus != null) {
             EventBus.getDefault().unregister(pager);
         }
-        if (ApApp.getApp().isDebug() && ApApp.getApp().getRefWatcher() != null) {
-            ApApp.getApp().getRefWatcher().watch(this);
+
+        if (ApApp.getApp().isDebug() && pager instanceof Activity) {
+            RefWatcher watcher = ApApp.getApp().getRefWatcher();
+            if (watcher != null) {
+                watcher.watch(pager);
+            }
         }
     }
 
