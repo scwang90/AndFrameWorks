@@ -175,7 +175,10 @@
 
     <style name="AndFrame.Label.Assistant">
         <item name="android:textColor">@color/colorTextAssistant</item>
-        <item name="android:textSize">@dimen/textsize_content</item>
+    </style>
+
+    <style name="AndFrame.Label.Gray">
+        <item name="android:textColor">@color/colorTextGray</item>
     </style>
 
     <style name="AndFrame.Button" parent="AndFrame.Wrap.Wrap">
