@@ -121,12 +121,13 @@ public class AfStatusHelper<T> extends AfLoadHelper<T> implements StatusHelper<T
             mRefreshLayouter = mPager.initRefreshLayout(content);
             mStatusLayouter = mPager.initStatusLayout(content);
 
-            ViewGroup group = (ViewGroup) content.getParent();
-            int i = group.indexOfChild(content);
-            group.removeViewAt(i);
-            ViewGroup.LayoutParams params = content.getLayoutParams();
-
-            mPager.initRefreshAndStatusLayouterOrder(mRefreshLayouter,mStatusLayouter,content, group, i, params);
+            if (mStatusLayouter != null || mRefreshLayouter != null) {
+                ViewGroup group = (ViewGroup) content.getParent();
+                int i = group.indexOfChild(content);
+                group.removeViewAt(i);
+                ViewGroup.LayoutParams params = content.getLayoutParams();
+                mPager.initRefreshAndStatusLayouterOrder(mRefreshLayouter,mStatusLayouter,content, group, i, params);
+            }
         }
     }
 
