@@ -196,6 +196,17 @@ public interface ViewQuery<T extends ViewQuery<T>> {
     <TT,TTT> TTT foreach(Class<TT> clazz, ViewReturnEacher<TT,TTT> eacherm, TTT defvalue);
     //</editor-fold>
 
+    //<editor-fold desc="缓存设置">
+    /**
+     * 设置是否开启缓存
+     */
+    T cacheIdEnable(boolean enable);
+    /**
+     * 清除缓存
+     */
+    T clearIdCache();
+    //</editor-fold>
+
     //</editor-fold>
 
     //<editor-fold desc="所有View">

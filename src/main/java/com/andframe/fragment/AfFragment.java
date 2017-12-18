@@ -21,6 +21,7 @@ import com.andframe.annotation.interpreter.Injecter;
 import com.andframe.annotation.interpreter.LayoutBinder;
 import com.andframe.annotation.interpreter.LifeCycleInjecter;
 import com.andframe.annotation.interpreter.ViewBinder;
+import com.andframe.annotation.lifecycle.OnDestroyView;
 import com.andframe.annotation.view.BindViewCreated;
 import com.andframe.api.DialogBuilder;
 import com.andframe.api.pager.Pager;
@@ -82,6 +83,11 @@ public abstract class AfFragment extends Fragment implements Pager, ViewQueryHel
     @Override
     public ViewQuery<? extends ViewQuery> $(Class<? extends View>[] types) {
         return $$.$(types);
+    }
+
+    @OnDestroyView
+    private void OnDestroyView() {
+        $$.clearIdCache();
     }
     //</editor-fold>
 

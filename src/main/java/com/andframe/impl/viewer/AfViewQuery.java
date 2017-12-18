@@ -100,10 +100,7 @@ public class AfViewQuery<T extends AfViewQuery<T>> implements ViewQuery<T> {
         }
         if (mRootView != null) {
             View view = mRootView.findViewById(id);
-            if (view != null) {
-                if (mCacheArray == null) {
-                    mCacheArray = new SparseArray<>();
-                }
+            if (view != null && mCacheArray != null) {
                 mCacheArray.append(id, view);
             }
             return view;
@@ -455,6 +452,25 @@ public class AfViewQuery<T extends AfViewQuery<T>> implements ViewQuery<T> {
             }
         }
         return defvalue;
+    }
+
+    @Override
+    public T cacheIdEnable(boolean enable) {
+        if (mCacheArray != null && !enable) {
+            mCacheArray.clear();
+            mCacheArray = null;
+        } else if (enable && mCacheArray == null) {
+            mCacheArray = new SparseArray<>();
+        }
+        return self();
+    }
+
+    @Override
+    public T clearIdCache() {
+        if (mCacheArray != null) {
+            mCacheArray.clear();
+        }
+        return self();
     }
     //</editor-fold>
 

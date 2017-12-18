@@ -41,7 +41,6 @@ import com.andframe.api.task.Task;
 import com.andframe.api.task.TaskWithPaging;
 import com.andframe.api.viewer.ItemsViewer;
 import com.andframe.api.viewer.ViewQuery;
-import com.andframe.api.viewer.ViewQueryHelper;
 import com.andframe.application.AfApp;
 import com.andframe.exception.AfExceptionHandler;
 import com.andframe.fragment.AfItemsFragment;
@@ -74,7 +73,7 @@ public class AfItemsPagerHelper<T> extends AfStatusHelper<List<T>> implements It
     protected com.andframe.api.viewer.ItemsViewer mItemsViewer;
     protected AfHeaderFooterAdapter<T> mAdapter;
 
-    protected ViewQueryHelper $$ ;
+    protected ViewQuery<? extends ViewQuery> $$ ;
     protected ItemsViewerOnly mItemsViewerOnly;
 
     protected List<View> mHeaderFooterViews = new ArrayList<>();
@@ -141,18 +140,18 @@ public class AfItemsPagerHelper<T> extends AfStatusHelper<List<T>> implements It
     public AfItemsPagerHelper(ItemsPager<T> itemsPager) {
         super(itemsPager);
         this.mItemsPager = itemsPager;
-        this.$$ = new AfViewQueryHelper(new ViewerWarpper(itemsPager.getView()) {
+        this.$$ = AfViewQueryHelper.newHelper(new ViewerWarpper(itemsPager.getView()) {
             @Override
             public Context getContext() {
-                return itemsPager.getContext();
+                return mItemsPager.getContext();
             }
             @Override
             public View getView() {
-                return itemsPager.getView();
+                return mItemsPager.getView();
             }
             @Override
             public View findViewById(int id) {
-                View view = itemsPager.findViewById(id);
+                View view = mItemsPager.findViewById(id);
                 if (view == null && mAdapter != null) {
                     for (View HeaderFooterView : mHeaderFooterViews) {
                         view = HeaderFooterView.findViewById(id);
@@ -164,6 +163,29 @@ public class AfItemsPagerHelper<T> extends AfStatusHelper<List<T>> implements It
                 return view;
             }
         });
+//        this.$$ = new AfViewQueryHelper(new ViewerWarpper(itemsPager.getView()) {
+//            @Override
+//            public Context getContext() {
+//                return itemsPager.getContext();
+//            }
+//            @Override
+//            public View getView() {
+//                return itemsPager.getView();
+//            }
+//            @Override
+//            public View findViewById(int id) {
+//                View view = itemsPager.findViewById(id);
+//                if (view == null && mAdapter != null) {
+//                    for (View HeaderFooterView : mHeaderFooterViews) {
+//                        view = HeaderFooterView.findViewById(id);
+//                        if (view != null) {
+//                            return view;
+//                        }
+//                    }
+//                }
+//                return view;
+//            }
+//        });
         Class<?> stop = mPager instanceof Activity ? AfItemsActivity.class : AfItemsFragment.class;
         ItemsSinglePage singlePage = AfReflecter.getAnnotation(mItemsPager.getClass(), stop, ItemsSinglePage.class);
         if (singlePage != null) {
