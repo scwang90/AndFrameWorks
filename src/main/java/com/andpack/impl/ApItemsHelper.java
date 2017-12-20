@@ -8,7 +8,7 @@ import com.andframe.api.viewer.ViewQuery;
 import com.andframe.util.java.AfReflecter;
 import com.andpack.annotation.BindItemLayout;
 import com.andpack.api.ApItemsPager;
-import com.twotoasters.jazzylistview.effects.SlideInEffect;
+import com.twotoasters.jazzylistview.effects.FadeEffect;
 import com.twotoasters.jazzylistview.recyclerview.JazzyRecyclerViewScrollListener;
 
 import java.util.List;
@@ -38,7 +38,7 @@ public class ApItemsHelper<T> extends ApStatusHelper {
         ViewQuery $ = mItemPager.$(RecyclerView.class);
         if ($.exist()) {
             JazzyRecyclerViewScrollListener listener = new JazzyRecyclerViewScrollListener();
-            listener.setTransitionEffect(new SlideInEffect());
+            listener.setTransitionEffect(new FadeEffect());
             $.foreach(RecyclerView.class, (ViewQuery.ViewEacher<RecyclerView>) view -> view.addOnScrollListener(listener));
         }
     }
