@@ -14,6 +14,8 @@ import java.lang.reflect.Type;
 import java.util.ArrayList;
 import java.util.Collection;
 import java.util.Date;
+import java.util.HashMap;
+import java.util.Iterator;
 import java.util.LinkedHashMap;
 import java.util.List;
 import java.util.Map;
@@ -59,6 +61,8 @@ public class AfJsoner {
                 return (T) json;
             } else if (Date.class.equals(clazz)) {
                 return clazz.cast(new Date(Long.parseLong(json)));
+            } else if (Map.class.equals(clazz) || HashMap.class.equals(clazz) || LinkedHashMap.class.equals(clazz)) {
+                return (T)jsonToMap(new JSONObject(json));
             }
             if (clazz.isArray()) {
                 List<?> list = fromJsons(new JSONArray(json), clazz.getComponentType());
@@ -68,6 +72,33 @@ public class AfJsoner {
         } catch (JSONException e) {
             throw new RuntimeException(e);
         }
+    }
+
+    private static Map<String, Object> jsonToMap(JSONObject jsonObject) {
+        Map<String, Object> map = new LinkedHashMap<>();
+        Iterator<String> iterator = jsonObject.keys();
+        while (iterator.hasNext()) {
+            String next = iterator.next();
+            Object opt = jsonObject.opt(next);
+            if (opt instanceof JSONObject) {
+                map.put(next, jsonToMap((JSONObject)opt));
+            } else if (opt instanceof JSONArray) {
+                List list = new ArrayList();
+                JSONArray array = ((JSONArray) opt);
+                for (int i = 0; i < array.length(); i++) {
+                    opt = array.opt(i);
+                    if (opt instanceof JSONObject) {
+                        list.add(jsonToMap((JSONObject) opt));
+                    } else {
+                        list.add(opt);
+                    }
+                }
+                map.put(next, list);
+            } else {
+                map.put(next, opt);
+            }
+        }
+        return map;
     }
 
     public static <T> T fromJson(JSONObject object, Class<T> clazz) {

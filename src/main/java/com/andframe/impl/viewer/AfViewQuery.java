@@ -1882,6 +1882,12 @@ public class AfViewQuery<T extends AfViewQuery<T>> implements ViewQuery<T> {
     public T textChanged(TextWatcher method) {
         return foreach(TextView.class, (ViewEacher<TextView>) view -> view.addTextChangedListener(method));
     }
+
+    @Override
+    public T checkChanged(CompoundButton.OnCheckedChangeListener listener) {
+        return foreach(CompoundButton.class, (ViewEacher<CompoundButton>) view -> view.setOnCheckedChangeListener(listener));
+    }
+
     //</editor-fold>
 
     //<editor-fold desc="共用方法">

@@ -150,6 +150,7 @@ public class AfDateFormat {
 		calender.set(Calendar.HOUR_OF_DAY, hour);
 		calender.set(Calendar.MINUTE, minute);
 		calender.set(Calendar.SECOND, 0);
+		calender.set(Calendar.MILLISECOND,0);
 		return calender.getTime();
 	}
 	/**

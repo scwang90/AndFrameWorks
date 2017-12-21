@@ -25,6 +25,7 @@ import android.view.ViewGroup.LayoutParams;
 import android.view.animation.Animation;
 import android.widget.Adapter;
 import android.widget.AdapterView;
+import android.widget.CompoundButton;
 import android.widget.EditText;
 import android.widget.ExpandableListAdapter;
 import android.widget.ImageView;
@@ -1104,6 +1105,11 @@ public interface ViewQuery<T extends ViewQuery<T>> {
      * 注册当前选择 Textview 的 文本改变监听器 TextWatcher
      */
     T textChanged(TextWatcher watcher);
+
+    /**
+     * 注册当前选择 CompoundButton 的 选中改变监听器 OnCheckedChangeListener
+     */
+    T checkChanged(CompoundButton.OnCheckedChangeListener listener);
 
     //</editor-fold>
 
