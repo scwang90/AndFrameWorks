@@ -1,5 +1,7 @@
 package com.andframe.util.java;
 
+import android.support.annotation.NonNull;
+
 import java.text.DateFormat;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
@@ -203,5 +205,15 @@ public class AfDateFormat {
 		return year == calender.get(Calendar.YEAR)
 				&& month == calender.get(Calendar.MONTH)
 				&& day == calender.get(Calendar.DAY_OF_MONTH);
+	}
+
+	public static String formatTimeSpan(@NonNull Date start,@NonNull Date close,@NonNull String split, String... formats) {
+		String formatYear = formats.length > 0 ? formats[0] : "Y-M-d";
+		String formatDate = formats.length > 1 ? formats[1] : formatYear;
+		if (isSameYear(start, close)) {
+			return String.format("%s %s %s", format(formatDate, start), split, format(formatDate, close));
+		} else {
+			return String.format("%s %s %s", format(formatYear, start), split, format(formatYear, close));
+		}
 	}
 }

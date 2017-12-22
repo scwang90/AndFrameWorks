@@ -16,6 +16,7 @@ import android.support.annotation.ColorRes;
 import android.support.annotation.DimenRes;
 import android.support.annotation.DrawableRes;
 import android.support.annotation.LayoutRes;
+import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
 import android.support.annotation.StringRes;
 import android.support.v4.content.ContextCompat;
@@ -1538,12 +1539,12 @@ public class AfViewQuery<T extends AfViewQuery<T>> implements ViewQuery<T> {
     }
 
     @Override
-    public T time(String format, Date time) {
+    public T time(@NonNull String format, Date time) {
         return foreach(TextView.class, (ViewEacher<TextView>) (view) -> view.setText(time == null ? "" : AfDateFormat.format(format, time)));
     }
 
     @Override
-    public T time(DateFormat format, Date time) {
+    public T time(@NonNull DateFormat format, Date time) {
         return foreach(TextView.class, (ViewEacher<TextView>) (view) -> view.setText(time == null ? "" : format.format(time)));
     }
 
@@ -1574,7 +1575,12 @@ public class AfViewQuery<T extends AfViewQuery<T>> implements ViewQuery<T> {
 
     @Override
     public T timeDynamic(Date time) {
-        return foreach(TextView.class, (ViewEacher<TextView>) (view) -> view.setText(time == null ? "" : AfDateFormat.formatTime(time)));
+        return foreach(TextView.class, (ViewEacher<TextView>) (view) -> view.setText(AfDateFormat.formatTime(time)));
+    }
+
+    @Override
+    public T timeSpan(Date start, Date close, @NonNull String split, String... formats) {
+        return foreach(TextView.class, (ViewEacher<TextView>) (view) -> view.setText(AfDateFormat.formatTimeSpan(start, close, split, formats)));
     }
     //</editor-fold>
 
