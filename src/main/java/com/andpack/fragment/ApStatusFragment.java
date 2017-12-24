@@ -87,6 +87,17 @@ public class ApStatusFragment<T> extends AfStatusFragment<T> implements ApPager 
     }
 
     @Override
+    @SuppressWarnings("unchecked")
+    public boolean startPager(Class clazz, Object... args) {
+        if (Fragment.class.isAssignableFrom(clazz)) {
+            ApFragmentActivity.start(this, clazz, args);
+        } else {
+            return super.startPager(clazz, args);
+        }
+        return true;
+    }
+
+    @Override
     public void startFragment(Class<? extends Fragment> clazz, Object... args) {
         ApFragmentActivity.start(this, clazz, args);
     }

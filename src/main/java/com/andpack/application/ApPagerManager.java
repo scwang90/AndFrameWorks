@@ -12,6 +12,18 @@ import com.andpack.activity.ApFragmentActivity;
  */
 
 public class ApPagerManager extends AfPagerManager {
+
+    @Override
+    @SuppressWarnings("unchecked")
+    public boolean startPager(Class clazz, Object... args) {
+        if (Fragment.class.isAssignableFrom(clazz)) {
+            startFragment(clazz, args);
+        } else {
+            return super.startPager(clazz, args);
+        }
+        return true;
+    }
+
     @Override
     public void startFragment(Class<? extends Fragment> clazz, Object... args) {
         AfActivity activity = currentActivity();
