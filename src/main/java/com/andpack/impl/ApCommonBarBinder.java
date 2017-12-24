@@ -1090,7 +1090,7 @@ public class ApCommonBarBinder {
     public abstract class AbstractDateBinder<T extends Binder> extends Binder<T, Date> {
 
         DateBind bind;
-        DateVerify verify;
+        List<DateVerify> verifys = new ArrayList<>();
         DateFormat format = AfDateFormat.DATE;
         boolean isManual = false;
 
@@ -1122,16 +1122,16 @@ public class ApCommonBarBinder {
          * 自定义验证规则
          */
         public T verify(DateVerify verify) {
-            this.verify = verify;
+            this.verifys.add(verify);
             return self();
         }
 
         /**
          * 指定为之后的时间
          */
-        public void verifyAfterNow(String... names) {
+        public T verifyAfterNow(String... names) {
             CharSequence name = getName("时间", names);
-            this.verify(date -> {
+            return this.verify(date -> {
                 if (date.getTime() < System.currentTimeMillis()) {
                     throw new VerifyException(name + "不能是现在之前");
                 }
@@ -1141,9 +1141,9 @@ public class ApCommonBarBinder {
         /**
          * 指定为今天之后的时间
          */
-        public void verifyAfterToday(String... names) {
+        public T verifyAfterToday(String... names) {
             CharSequence name = getName("日期", names);
-            this.verify(date -> {
+            return this.verify(date -> {
                 long today = AfDateFormat.roundDate(new Date(new Date().getTime() + 24L * 60 * 60 * 1000)).getTime() - 1;
                 if (date.getTime() < today) {
                     throw new VerifyException(name + "必须是今天以后");
@@ -1154,9 +1154,9 @@ public class ApCommonBarBinder {
         /**
          * 指定为今天之后的时间
          */
-        public void verifyAfterWithToday(String... names) {
+        public T verifyAfterWithToday(String... names) {
             CharSequence name = getName("日期", names);
-            this.verify(date -> {
+            return this.verify(date -> {
                 long today = AfDateFormat.roundDate(new Date()).getTime() - 1;
                 if (date.getTime() < today) {
                     throw new VerifyException(name + "不能早于今天");
@@ -1164,18 +1164,18 @@ public class ApCommonBarBinder {
             });
         }
 
-        public void verifyBefore(AbstractDateBinder<? extends AbstractDateBinder> binder, String... names) {
+        public T verifyBefore(AbstractDateBinder<? extends AbstractDateBinder> binder, String... names) {
             CharSequence name = getName("时间", names);
-            this.verify(date -> {
+            return this.verify(date -> {
                 if (binder.lastval != null && date.getTime() >= binder.lastval.getTime()) {
                     throw new VerifyException(name + "必须早于" + binder.getName("时间", names));
                 }
             });
         }
 
-        public void verifyBeforeWith(AbstractDateBinder<? extends AbstractDateBinder> binder, String... names) {
+        public T verifyBeforeWith(AbstractDateBinder<? extends AbstractDateBinder> binder, String... names) {
             CharSequence name = getName("时间", names);
-            this.verify(date -> {
+            return this.verify(date -> {
                 if (binder.lastval != null && date.getTime() > binder.lastval.getTime()) {
                     if (binder.isManual) {
                         throw new VerifyException(name + "不能晚于" + binder.getName("时间", names));
@@ -1186,18 +1186,18 @@ public class ApCommonBarBinder {
             });
         }
 
-        public void verifyAfter(AbstractDateBinder<? extends AbstractDateBinder> binder, String... names) {
+        public T verifyAfter(AbstractDateBinder<? extends AbstractDateBinder> binder, String... names) {
             CharSequence name = getName("时间", names);
-            this.verify(date -> {
+            return this.verify(date -> {
                 if (binder.lastval != null && date.getTime() <= binder.lastval.getTime()) {
                     throw new VerifyException(name + "必须晚于" + binder.getName("时间", names));
                 }
             });
         }
 
-        public void verifyAfterWith(AbstractDateBinder<? extends AbstractDateBinder> binder, String... names) {
+        public T verifyAfterWith(AbstractDateBinder<? extends AbstractDateBinder> binder, String... names) {
             CharSequence name = getName("时间", names);
-            this.verify(date -> {
+            return this.verify(date -> {
                 if (binder.lastval != null && date.getTime() < binder.lastval.getTime()) {
                     if (binder.isManual) {
                         throw new VerifyException(name + "不能早于" + binder.getName("时间", names));
@@ -1231,9 +1231,11 @@ public class ApCommonBarBinder {
 
         @Override
         public boolean onPreDateSet(DatePicker view, int year, int month, int dayOfMonth) {
-            if (verify != null && view != null) {
+            if (verifys != null && view != null) {
                 try {
-                    verify.verify(AfDateFormat.parser(year,month,dayOfMonth));
+                    for (DateVerify verify : verifys) {
+                        verify.verify(AfDateFormat.parser(year,month,dayOfMonth));
+                    }
                 } catch (VerifyException e) {
                     $.toast(viewer).makeToastShort(e.getMessage());
                     return false;
@@ -1309,9 +1311,11 @@ public class ApCommonBarBinder {
         }
 
         public boolean onPreDateSet(View view, int year, int month) {
-            if (verify != null && view != null) {
+            if (verifys != null && view != null) {
                 try {
-                    verify.verify(AfDateFormat.parser(year, month, 1));
+                    for (DateVerify verify : verifys) {
+                        verify.verify(AfDateFormat.parser(year, month, 1));
+                    }
                 } catch (VerifyException e) {
                     $.toast(viewer).makeToastShort(e.getMessage());
                     return false;
@@ -1354,9 +1358,11 @@ public class ApCommonBarBinder {
 
         @Override
         public boolean onPreTimeSet(TimePickerDialog dialog, TimePicker view, int hourOfDay, int minute) {
-            if (verify != null && view != null) {
+            if (verifys != null && view != null) {
                 try {
-                    verify.verify(AfDateFormat.parser(hourOfDay,minute));
+                    for (DateVerify verify : verifys) {
+                        verify.verify(AfDateFormat.parser(hourOfDay,minute));
+                    }
                 } catch (VerifyException e) {
                     $.toast(viewer).makeToastShort(e.getMessage());
                     return false;
@@ -1418,9 +1424,11 @@ public class ApCommonBarBinder {
 
         @Override
         public boolean onPreDateSet(DatePicker view, int year, int month, int dayOfMonth) {
-            if (verify != null && view != null) {
+            if (verifys != null && view != null) {
                 try {
-                    verify.verify(AfDateFormat.parser(year,month,dayOfMonth));
+                    for (DateVerify verify : verifys) {
+                        verify.verify(AfDateFormat.parser(year,month,dayOfMonth));
+                    }
                 } catch (VerifyException e) {
                     $.toast(viewer).makeToastShort(e.getMessage());
                     return false;
@@ -1431,9 +1439,11 @@ public class ApCommonBarBinder {
 
         @Override
         public boolean onPreTimeSet(TimePicker view, int hourOfDay, int minute) {
-            if (verify != null && view != null) {
+            if (verifys != null && view != null) {
                 try {
-                    verify.verify(AfDateFormat.parser(hourOfDay, minute));
+                    for (DateVerify verify : verifys) {
+                        verify.verify(AfDateFormat.parser(hourOfDay, minute));
+                    }
                     isManual = true;
                 } catch (VerifyException e) {
                     $.toast(viewer).makeToastShort(e.getMessage());
