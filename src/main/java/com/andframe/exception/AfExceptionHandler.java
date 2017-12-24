@@ -321,13 +321,12 @@ public class AfExceptionHandler implements UncaughtExceptionHandler {
         final String ttitle = title;
         final String tmsg = msg;
         final Callback tcallback = callback;
-        final Context tactivity = activity;
         final Looper tLooper = looper;
+        final Builder dialog = new Builder(activity);
         new Thread(() -> {
             try {
                 Looper.prepare();
                 mDialogMap.put(tid, ttitle);
-                Builder dialog = new Builder(tactivity);
                 dialog.setTitle(ttitle);
                 dialog.setCancelable(false);
                 dialog.setMessage(tmsg);

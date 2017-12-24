@@ -4,6 +4,10 @@ import java.util.List;
 
 public abstract class AfMultiChoiceNormalityAdapter<T> extends AfMultiChoiceAdapter<T>{
 
+	public AfMultiChoiceNormalityAdapter() {
+		beginMultiChoice();
+	}
+
 	public AfMultiChoiceNormalityAdapter(List<T> ltdata) {
 		super(ltdata);
 		beginMultiChoice();

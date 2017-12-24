@@ -8,6 +8,7 @@ import android.view.View;
 import android.widget.AdapterView;
 import android.widget.ListAdapter;
 
+import com.andframe.annotation.lifecycle.OnDestroyView;
 import com.andframe.annotation.mark.MarkCache;
 import com.andframe.api.Paging;
 import com.andframe.api.adapter.HeaderFooterAdapter;
@@ -80,6 +81,11 @@ public abstract class AfItemsFragment<T> extends AfStatusFragment<List<T>> imple
     @Override
     public ViewQuery<? extends ViewQuery> $(Class<? extends View>[] types) {
         return mItemsHelper.$(types);
+    }
+
+    @OnDestroyView
+    private void OnDestroyView() {
+        mItemsHelper.$().clearIdCache();
     }
     //</editor-fold>
 
@@ -399,6 +405,7 @@ public abstract class AfItemsFragment<T> extends AfStatusFragment<List<T>> imple
     @Override@Deprecated
     public final void onTaskLoaded(@NonNull List<T> data) {
     }
+
     //</editor-fold>
 
     //</editor-fold>

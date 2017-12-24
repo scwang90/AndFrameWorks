@@ -34,7 +34,10 @@ public abstract class AfMultiChoiceAdapter<T> extends AfListAdapter<T>{
 	protected boolean[] mIsSelecteds = null;
 	protected List<MultiChoiceListener<T>> mListeners = new ArrayList<>();
 	protected List<GenericityListener> mGenericityListeners = new ArrayList<>();
-	
+
+	public AfMultiChoiceAdapter() {
+	}
+
 	public AfMultiChoiceAdapter(List<T> ltdata) {
 		super(ltdata);
 	}

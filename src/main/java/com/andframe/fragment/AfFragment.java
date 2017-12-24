@@ -44,6 +44,7 @@ import static android.app.Activity.RESULT_OK;
  * 框架 AfFragment
  * @author 树朾
  */
+@SuppressWarnings("UnusedReturnValue")
 public abstract class AfFragment extends Fragment implements Pager, ViewQueryHelper {
 
     //<editor-fold desc="属性字段">
@@ -115,6 +116,18 @@ public abstract class AfFragment extends Fragment implements Pager, ViewQueryHel
     //</editor-fold>
 
     //<editor-fold desc="页面切换">
+
+    @SuppressWarnings("unchecked")
+    public boolean startPager(Class clazz, Object... args) {
+        if (Fragment.class.isAssignableFrom(clazz)) {
+            startFragment(clazz,args);
+        } else if (Activity.class.isAssignableFrom(clazz)) {
+            startActivity(clazz, args);
+        } else {
+            return false;
+        }
+        return true;
+    }
 
     @Override
     public void startActivity(Class<? extends Activity> clazz,Object... args) {

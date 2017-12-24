@@ -201,6 +201,18 @@ public class AfPagerManager implements PagerManager {
         }
     }
 
+    @SuppressWarnings("unchecked")
+    public boolean startPager(Class clazz, Object... args) {
+        if (Fragment.class.isAssignableFrom(clazz)) {
+            startFragment(clazz,args);
+        } else if (Activity.class.isAssignableFrom(clazz)) {
+            startActivity(clazz, args);
+        } else {
+            return false;
+        }
+        return true;
+    }
+
     @Override
     public void startFragment(Class<? extends Fragment> clazz, Object... args) {
         AfActivity activity = currentActivity();

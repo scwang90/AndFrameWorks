@@ -384,6 +384,18 @@ public abstract class AfActivity extends AppCompatActivity implements Pager, Vie
 
     //<editor-fold desc="页面切换">
 
+    @SuppressWarnings("unchecked")
+    public boolean startPager(Class clazz, Object... args) {
+        if (Fragment.class.isAssignableFrom(clazz)) {
+            startFragment(clazz,args);
+        } else if (Activity.class.isAssignableFrom(clazz)) {
+            startActivity(clazz, args);
+        } else {
+            return false;
+        }
+        return true;
+    }
+
     @Override
     public void startActivity(Class<? extends Activity> clazz, Object... args) {
         startActivity(new AfIntent(this, clazz, args));
