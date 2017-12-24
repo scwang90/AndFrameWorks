@@ -14,6 +14,7 @@ import android.support.annotation.DimenRes;
 import android.support.annotation.DrawableRes;
 import android.support.annotation.IdRes;
 import android.support.annotation.LayoutRes;
+import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
 import android.support.annotation.StringRes;
 import android.support.v4.view.PagerAdapter;
@@ -25,6 +26,7 @@ import android.view.ViewGroup.LayoutParams;
 import android.view.animation.Animation;
 import android.widget.Adapter;
 import android.widget.AdapterView;
+import android.widget.CompoundButton;
 import android.widget.EditText;
 import android.widget.ExpandableListAdapter;
 import android.widget.ImageView;
@@ -728,11 +730,11 @@ public interface ViewQuery<T extends ViewQuery<T>> {
     /**
      * 设置当前选中 TextView 的 文本（text） 为 time 的指定时间格式化 .
      */
-    T time(String format, Date time);
+    T time(@NonNull String format, Date time);
     /**
      * 设置当前选中 TextView 的 文本（text） 为 time 的指定时间格式化 .
      */
-    T time(DateFormat format, Date time);
+    T time(@NonNull DateFormat format, Date time);
     /**
      * 设置当前选中 TextView 的 文本（text） 为 time 的天格式化（M-d）.
      */
@@ -757,6 +759,11 @@ public interface ViewQuery<T extends ViewQuery<T>> {
      * 设置当前选中 TextView 的 文本（text） 为 time 的动态格式化（例如：3分钟前，昨天）.
      */
     T timeDynamic(Date time);
+    /**
+     * 设置当前选中 TextView 的 文本（text） 为 start-close 开始和结束
+     */
+    T timeSpan(Date start, Date close, @NonNull String split, String... formats);
+
     /**
      * 设置当前选中 TextView 的字体.
      * @param typefaceFile 字体文件
@@ -1104,6 +1111,11 @@ public interface ViewQuery<T extends ViewQuery<T>> {
      * 注册当前选择 Textview 的 文本改变监听器 TextWatcher
      */
     T textChanged(TextWatcher watcher);
+
+    /**
+     * 注册当前选择 CompoundButton 的 选中改变监听器 OnCheckedChangeListener
+     */
+    T checkChanged(CompoundButton.OnCheckedChangeListener listener);
 
     //</editor-fold>
 
