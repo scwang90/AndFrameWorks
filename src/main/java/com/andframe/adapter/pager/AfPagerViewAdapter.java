@@ -39,6 +39,10 @@ public abstract class AfPagerViewAdapter<T> extends PagerAdapter {
         }
     }
 
+    public List<T> getList() {
+        return list;
+    }
+
     @Override
     public int getCount() {
         return list.size();
