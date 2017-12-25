@@ -4,6 +4,7 @@ import android.content.Context;
 import android.support.annotation.NonNull;
 import android.view.View;
 import android.view.ViewGroup;
+import android.view.ViewParent;
 
 import com.andframe.api.pager.status.OnRefreshListener;
 import com.andframe.api.pager.status.RefreshLayouter;
@@ -69,6 +70,19 @@ public class ApRefreshLayouter implements RefreshLayouter<SmartRefreshLayout> {
             params.height = MATCH_PARENT;
         }
         mRefreshLayout.addView(content, MATCH_PARENT, height == 0 ? MATCH_PARENT : height);
+    }
+
+    @Override
+    public void wrapper(View content) {
+        ViewParent parent = content.getParent();
+        if (parent instanceof ViewGroup) {
+            ViewGroup group = (ViewGroup) parent;
+            ViewGroup.LayoutParams params = content.getLayoutParams();
+            int index = group.indexOfChild(content);
+            group.removeViewAt(index);
+            setContenView(content);
+            group.addView(getLayout(),index,params);
+        }
     }
 
     @Override
