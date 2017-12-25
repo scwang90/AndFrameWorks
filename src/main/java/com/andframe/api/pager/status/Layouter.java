@@ -13,4 +13,5 @@ public interface Layouter<T extends ViewGroup> {
     @NonNull
     T getLayout();
     void setContenView(View content);
+    void wrapper(View content);
 }

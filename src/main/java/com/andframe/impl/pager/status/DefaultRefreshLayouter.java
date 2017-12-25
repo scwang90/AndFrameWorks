@@ -6,6 +6,7 @@ import android.support.annotation.NonNull;
 import android.support.v4.widget.SwipeRefreshLayout;
 import android.view.View;
 import android.view.ViewGroup;
+import android.view.ViewParent;
 
 import com.andframe.api.pager.status.OnRefreshListener;
 import com.andframe.api.pager.status.RefreshLayouter;
@@ -55,6 +56,19 @@ public class DefaultRefreshLayouter implements RefreshLayouter<SwipeRefreshLayou
         Drawable background = content.getBackground();
         if (background != null) {
             mRefreshLayout.setBackgroundDrawable(content.getBackground());
+        }
+    }
+
+    @Override
+    public void wrapper(View content) {
+        ViewParent parent = content.getParent();
+        if (parent instanceof ViewGroup) {
+            ViewGroup group = (ViewGroup) parent;
+            ViewGroup.LayoutParams params = content.getLayoutParams();
+            int index = group.indexOfChild(content);
+            group.removeViewAt(index);
+            setContenView(content);
+            group.addView(getLayout(),index,params);
         }
     }
 

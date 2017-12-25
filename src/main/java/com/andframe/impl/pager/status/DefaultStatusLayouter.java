@@ -1,10 +1,12 @@
 package com.andframe.impl.pager.status;
 
 import android.content.Context;
+import android.support.annotation.NonNull;
 import android.text.TextUtils;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.view.ViewParent;
 import android.widget.FrameLayout;
 import android.widget.TextView;
 
@@ -59,6 +61,7 @@ public class DefaultStatusLayouter implements StatusLayouter {
         }
     }
 
+    @NonNull
     @Override
     public ViewGroup getLayout() {
         return mFrameLayout;
@@ -73,6 +76,19 @@ public class DefaultStatusLayouter implements StatusLayouter {
         ViewGroup.LayoutParams params = content.getLayoutParams();
         int height = params == null ? MATCH_PARENT : params.height;
         mFrameLayout.addView(mContentView = content, MATCH_PARENT, height == 0 ? MATCH_PARENT : height);
+    }
+
+    @Override
+    public void wrapper(View content) {
+        ViewParent parent = content.getParent();
+        if (parent instanceof ViewGroup) {
+            ViewGroup group = (ViewGroup) parent;
+            ViewGroup.LayoutParams params = content.getLayoutParams();
+            int index = group.indexOfChild(content);
+            group.removeViewAt(index);
+            setContenView(content);
+            group.addView(getLayout(),index,params);
+        }
     }
 
     @Override
