@@ -142,7 +142,7 @@ public class WaitLoadTaskBuilder<T> extends WaitTaskBuilder implements WaitLoadB
 
     @Override
     public WaitLoadTaskBuilder<T> loadSuccess(LoadSuccessHandler<T> loadSuccessHandler) {
-        return loadSuccess(true, loadSuccessHandler);
+        return loadSuccess(false, loadSuccessHandler);
     }
 
     @Override

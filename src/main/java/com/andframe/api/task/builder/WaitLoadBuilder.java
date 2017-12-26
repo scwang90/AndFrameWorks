@@ -18,6 +18,7 @@ import java.util.Set;
  * Created by SCWANG on 2017/5/3.
  */
 
+@SuppressWarnings("SameParameterValue")
 public interface WaitLoadBuilder<T> extends WaitBuilder, LoadBuilder<T> {
 
     /**

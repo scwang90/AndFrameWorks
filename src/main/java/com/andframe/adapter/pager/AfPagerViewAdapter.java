@@ -39,8 +39,18 @@ public abstract class AfPagerViewAdapter<T> extends PagerAdapter {
         }
     }
 
-    public List<T> getList() {
-        return list;
+    public void set(int index, T t) {
+        list.set(index, t);
+        notifyDataSetChanged();
+        View view = views[index % views.length];
+        if (view != null) {
+            //noinspection unchecked
+            ItemViewer<T> viewer = (ItemViewer<T>) view.getTag(KEY_VIEW_TAG);
+            Integer viewinedx = (Integer)view.getTag(KEY_VIEW_INDEX);
+            if (viewinedx == index) {
+                viewer.onBinding(view, t, index);
+            }
+        }
     }
 
     @Override
