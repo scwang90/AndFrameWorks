@@ -760,6 +760,14 @@ public interface ViewQuery<T extends ViewQuery<T>> {
      */
     T timeDynamic(Date time);
     /**
+     * 设置当前选中 TextView 的 文本（text） 为 time 的动态格式化（例如：MM-dd 或 yyyy-MM-dd）.
+     */
+    T timeDynamicDate(Date time);
+    /**
+     * 设置当前选中 TextView 的 文本（text） 为 time 的动态格式化（例如：MM-dd HH:mm 或 yyyy-MM-dd HH:mm）.
+     */
+    T timeDynamicDateTime(Date time);
+    /**
      * 设置当前选中 TextView 的 文本（text） 为 start-close 开始和结束
      */
     T timeSpan(Date start, Date close, @NonNull String split, String... formats);

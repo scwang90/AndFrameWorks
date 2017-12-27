@@ -41,6 +41,20 @@ public class AfDateFormat {
 		return DATE.format(date);
 	}
 
+	public static String formatDateTime(Date date) {
+		if (date == null) {
+			return "";
+		}
+		Calendar calender = Calendar.getInstance();
+		int thisyear = calender.get(Calendar.YEAR);
+		calender.setTime(date);
+		int dateyear = calender.get(Calendar.YEAR);
+		if (thisyear == dateyear) {
+			return format("M月d日 HH:mm", date);
+		}
+		return SIMPLE.format(date);
+	}
+
 	public static String formatTime(Date date) {
 		if (date == null) {
 			return "";
@@ -87,6 +101,7 @@ public class AfDateFormat {
 		}
 	}
 
+
 	/**
 	 * 格式化时间长度（如：45时12分）
 	 * @param duration 秒数
@@ -94,7 +109,6 @@ public class AfDateFormat {
 	public static String formatDuration(long duration) {
 		return formatDuration(duration, 2);
 	}
-
 
 	/**
 	 * 格式化时间长度（如：45时12分）
@@ -143,7 +157,6 @@ public class AfDateFormat {
 		calender.set(Calendar.DAY_OF_MONTH, day);
 		return roundDate(calender.getTime());
 	}
-
 	public static Date parser(int year, int month, int day, int hour, int minute) {
 		Calendar calender = Calendar.getInstance();
 		calender.set(Calendar.YEAR, year);
@@ -165,6 +178,7 @@ public class AfDateFormat {
 			return new Date(0);
 		}
 	}
+
 	/**
 	 * 月下取整
 	 */

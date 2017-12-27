@@ -1579,6 +1579,16 @@ public class AfViewQuery<T extends AfViewQuery<T>> implements ViewQuery<T> {
     }
 
     @Override
+    public T timeDynamicDate(Date time) {
+        return foreach(TextView.class, (ViewEacher<TextView>) (view) -> view.setText(AfDateFormat.formatDate(time)));
+    }
+
+    @Override
+    public T timeDynamicDateTime(Date time) {
+        return foreach(TextView.class, (ViewEacher<TextView>) (view) -> view.setText(AfDateFormat.formatDateTime(time)));
+    }
+
+    @Override
     public T timeSpan(Date start, Date close, @NonNull String split, String... formats) {
         return foreach(TextView.class, (ViewEacher<TextView>) (view) -> view.setText(AfDateFormat.formatTimeSpan(start, close, split, formats)));
     }
