@@ -6,6 +6,7 @@ import com.andframe.annotation.model.IntRange;
 import com.andframe.annotation.model.MinFloat;
 import com.andframe.annotation.model.MinInt;
 import com.andframe.annotation.model.Must;
+import com.andframe.annotation.model.Regex;
 import com.andframe.api.pager.Pager;
 import com.andframe.exception.AfToastException;
 
@@ -29,6 +30,22 @@ public class ModelChecker {
                     Object value = field.get(obj);
                     if (value == null || (value instanceof String && TextUtils.isEmpty(value.toString()))) {
                         throw new AfToastException(field.getAnnotation(Must.class).value());
+                    }
+                }
+                if (field.isAnnotationPresent(Regex.class)) {
+                    field.setAccessible(true);
+                    Object value = field.get(obj);
+                    if (value != null) {
+                        Regex annotation = field.getAnnotation(Regex.class);
+                        for (String regex : annotation.value()) {
+                            if (value.toString().matches(regex)) {
+                                value = null;
+                                break;
+                            }
+                        }
+                        if (value != null) {
+                            throw new AfToastException(annotation.message());
+                        }
                     }
                 }
                 if (field.isAnnotationPresent(IntRange.class)) {
