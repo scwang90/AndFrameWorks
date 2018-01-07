@@ -107,6 +107,11 @@ public class PagerWrapper implements Pager {
     }
 
     @Override
+    public boolean startPager(Class clazz, Object... args) {
+        return pager.startPager(clazz, args);
+    }
+
+    @Override
     public void makeToastLong(int resid) {
         pager.makeToastLong(resid);
     }
