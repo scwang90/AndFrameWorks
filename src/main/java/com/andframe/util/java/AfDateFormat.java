@@ -55,6 +55,82 @@ public class AfDateFormat {
 		return SIMPLE.format(date);
 	}
 
+	public static String formatCountdownToDay(Date date) {
+		if (date == null) {
+			return "";
+		}
+		Date roundNow = roundDate(new Date());
+		Date roundDate = roundDate(date);
+		if (roundNow.equals(roundDate)) {
+			return "今天";
+		} else {
+			long span = roundDate.getTime() - roundNow.getTime();
+			if (span > 0) {
+				return (span / 24 / 3600 / 1000) + "天";
+			} else {
+				return "已过" + (-span / 24 / 3600 / 1000) + "天";
+			}
+		}
+	}
+
+	public static String formatCountdownToHour(Date date) {
+		if (date == null) {
+			return "";
+		}
+		Date roundNow = roundHour(new Date());
+		Date roundDate = roundHour(date);
+		if (roundNow.equals(roundDate)) {
+			return "现在";
+		} else {
+			String day = "";
+			long span = roundDate.getTime() - roundNow.getTime();
+			int dayspan = 24 * 3600 * 1000;
+			if (span < 0) {
+				day = "已过";
+				span = -span;
+			}
+			if (span > dayspan) {
+				long daytime = (span - (span % dayspan));
+				day = day + ((daytime) / 24 / 3600 / 1000) + "天";
+				span = span - daytime;
+			}
+			return day + (span / 3600 / 1000) + "时";
+		}
+	}
+
+	public static String formatCountdownToMinute(Date date) {
+		if (date == null) {
+			return "";
+		}
+		Date roundNow = roundMinute(new Date());
+		Date roundDate = roundMinute(date);
+		if (roundNow.equals(roundDate)) {
+			return "现在";
+		} else {
+			String day = "";
+			long span = roundDate.getTime() - roundNow.getTime();
+			int dayspan = 24 * 3600 * 1000;
+			if (span < 0) {
+				day = "已过";
+				span = -span;
+			}
+			if (span > dayspan) {
+				long daytime = (span - (span % dayspan));
+				day = day + (daytime / dayspan) + "天";
+				span = span - daytime;
+			}
+			int hourspan = 3600 * 1000;
+			if (span > hourspan) {
+				long hourtime = (span - (span % hourspan));
+				day = day + (hourtime / hourspan) + "时";
+				span = span - hourtime;
+			} else if (day.contains("天")) {
+				day = day + "0时";
+			}
+			return day + (span / 60 / 1000) + "分";
+		}
+	}
+
 	public static String formatTime(Date date) {
 		if (date == null) {
 			return "";
@@ -186,6 +262,29 @@ public class AfDateFormat {
 		try {
 			DateFormat format = new SimpleDateFormat("y-M", LOCALE);
 			return format.parse(format.format(date));
+		} catch (ParseException e) {
+			return new Date(0);
+		}
+	}
+
+	/**
+	 * 小时下取整
+	 */
+	public static Date roundHour(Date date) {
+		try {
+			DateFormat format = new SimpleDateFormat("y-M-d HH", LOCALE);
+			return format.parse(format.format(date));
+		} catch (ParseException e) {
+			return new Date(0);
+		}
+	}
+
+	/**
+	 * 分钟下取整
+	 */
+	public static Date roundMinute(Date date) {
+		try {
+			return SIMPLE.parse(SIMPLE.format(date));
 		} catch (ParseException e) {
 			return new Date(0);
 		}
