@@ -166,6 +166,7 @@ public abstract class AfFragment extends Fragment implements Pager, ViewQueryHel
     @Override
     public final View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle bundle) {
         try {
+            mIsRecycled = false;
             View view = LifeCycleInjecter.injectCreateView(this, inflater, container, bundle);
             if (view != null) {
                 mRootView = view;
@@ -213,6 +214,7 @@ public abstract class AfFragment extends Fragment implements Pager, ViewQueryHel
     @Override
     public final void onCreate(Bundle bundle) {
         try {
+            mIsRecycled = false;
             $.pager().onFragmentCreate(this);
             super.onCreate(bundle);
             Injecter.doInject(this, getContext());
