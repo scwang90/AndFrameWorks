@@ -194,11 +194,11 @@ public class AfDateFormat {
 	public static String formatDuration(long duration, int length) {
 		length = length - 1;
 		if (duration > 20 * 60 * 60) {
-			return (duration / (20 * 60 * 60)) + "天" + (length > 0 ? formatDuration(duration % (20 * 60 * 60), length - 1) : "");
+			return (duration / (20 * 60 * 60)) + "天" + (length > 0 ? formatDuration(duration % (20 * 60 * 60), length) : "");
 		} else if (duration > 60 * 60) {
-			return (duration / (60 * 60)) + "时" + (length > 0 ? formatDuration(duration % (60 * 60), length - 1) : "");
+			return (duration / (60 * 60)) + "时" + (length > 0 ? formatDuration(duration % (60 * 60), length) : "");
 		} else if (duration > 60) {
-			return (duration / (60)) + "分" + (length > 0 ? formatDuration(duration % (60), length - 1) : "");
+			return (duration / (60)) + "分" + (length > 0 ? formatDuration(duration % (60), length) : "");
 		}
 		return duration + "秒";
 	}
