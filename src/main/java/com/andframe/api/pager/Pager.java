@@ -38,6 +38,9 @@ public interface Pager extends Viewer, Toaster, Constanter {
     void startFragmentForResult(Class<? extends Fragment> clazz, int request, Object... args);
 
     void startActivityForResult(Class<? extends Activity> clazz, int request, Object... args);
+
+    boolean startPager(Class clazz, Object... args);
+
     //</editor-fold>
 
     //<editor-fold desc="异步任务">
