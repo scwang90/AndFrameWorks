@@ -64,12 +64,12 @@ public class AfStatusHelper<T> extends AfLoadHelper<T> implements StatusHelper<T
         if (mLoadOnViewCreated && mModel == null) {
             mLoadOnViewCreated = false;
             if (mPager.postTask(new LoadTask()).status() != Task.Status.canceld) {
-                mPager.showProgress();
+                mPager.showStatus(StatusLayouter.Status.progress);
             }
         } else if (mModel != null) {
             mPager.onTaskSucceed(mModel);
         } else {
-            mPager.showEmpty();
+            mPager.showStatus(StatusLayouter.Status.empty);
         }
     }
 
@@ -222,25 +222,55 @@ public class AfStatusHelper<T> extends AfLoadHelper<T> implements StatusHelper<T
 
     public void onTaskSucceed(T data) {
         if (mPager.isEmpty(data)) {
-            mPager.showEmpty();
+            mPager.showStatus(StatusLayouter.Status.empty);
         } else {
-            mPager.showContent();
+            mPager.showStatus(StatusLayouter.Status.content);
             mPager.onTaskLoaded(data);
         }
     }
 
     public void onTaskFailed(@NonNull Task task) {
         if (mModel != null) {
-            mPager.showContent();
+            mPager.showStatus(StatusLayouter.Status.content);
             mPager.makeToastShort(task.makeErrorToast(AfApp.get().getString(R.string.status_load_fail)));
         } else {
-            mPager.showError(task.makeErrorToast(AfApp.get().getString(R.string.status_load_fail)));
+            mPager.showStatus(StatusLayouter.Status.error, task.makeErrorToast(AfApp.get().getString(R.string.status_load_fail)));
         }
     }
 
     //</editor-fold>
 
     //<editor-fold desc="页面状态">
+    @Override
+    public void showStatus(StatusLayouter.Status status, String... msg) {
+        switch (status) {
+            case other:
+                break;
+            case progress:
+                if (msg.length == 0) {
+                    mPager.showProgress();
+                } else {
+                    mPager.showProgress(msg[0]);
+                }
+                break;
+            case content:
+                mPager.showContent();
+                break;
+            case empty:
+                mPager.showEmpty();
+                break;
+            case error:
+                if (msg.length == 0) {
+                    mPager.showError("未知错误");
+                } else {
+                    mPager.showError(msg[0]);
+                }
+                break;
+            case invaludnet:
+                break;
+        }
+    }
+
     public void showEmpty() {
         if (mStatusLayouter != null && !mStatusLayouter.isEmpty()) {
             mStatusLayouter.showEmpty();

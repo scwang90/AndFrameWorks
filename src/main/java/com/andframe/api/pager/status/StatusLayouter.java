@@ -8,6 +8,11 @@ import android.view.ViewGroup;
  */
 
 public interface StatusLayouter<T extends ViewGroup> extends Layouter<T> {
+
+    enum Status{
+        other,progress,content,empty,error,invaludnet
+    }
+
     void setOnRefreshListener(OnRefreshListener listener);
     void setEmptyLayout(int layoutId);
     void setEmptyLayout(int layoutId, int msgId);

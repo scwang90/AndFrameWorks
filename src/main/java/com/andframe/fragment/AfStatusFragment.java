@@ -70,6 +70,11 @@ public abstract class AfStatusFragment<T> extends AfLoadFragment<T> implements S
     //</editor-fold>
 
     //<editor-fold desc="页面状态">
+    @Override
+    public void showStatus(StatusLayouter.Status status, String... msg) {
+        mStatusHelper.showStatus(status, msg);
+    }
+
     public void showEmpty() {
         mStatusHelper.showEmpty();
     }

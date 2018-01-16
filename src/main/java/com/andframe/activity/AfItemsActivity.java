@@ -34,6 +34,7 @@ import java.util.List;
 
 public abstract class AfItemsActivity<T> extends AfStatusActivity<List<T>> implements ItemsPager<T> {
 
+    protected ItemsViewer mItemsViewer;
     protected ItemViewerAdapter<T> mAdapter;
     protected ItemsHelper<T> mItemsHelper = newItemsHelper();
 
@@ -100,7 +101,7 @@ public abstract class AfItemsActivity<T> extends AfStatusActivity<List<T>> imple
     @NonNull
     @Override
     public ItemsViewer findItemsViewer(View contentView) {
-        return mItemsHelper.findItemsViewer(contentView);
+        return mItemsViewer = mItemsHelper.findItemsViewer(contentView);
     }
 
     /**

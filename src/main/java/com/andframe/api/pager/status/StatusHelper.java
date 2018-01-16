@@ -114,6 +114,7 @@ public interface StatusHelper<T> extends LoadHelper<T>, EmptyVerdicter<T> {
     void showContent();
     void showProgress(@NonNull String progress);
     void showError(@NonNull String error);
+    void showStatus(StatusLayouter.Status status, String... msg);
     //</editor-fold>
 
     //<editor-fold desc="任务加载">
