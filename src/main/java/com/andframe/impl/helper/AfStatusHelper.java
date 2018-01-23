@@ -231,7 +231,13 @@ public class AfStatusHelper<T> extends AfLoadHelper<T> implements StatusHelper<T
 
     public void onTaskFailed(@NonNull Task task) {
         if (mModel != null) {
-            mPager.showStatus(StatusLayouter.Status.content);
+            if (task.exception() instanceof java.net.BindException ||
+                    task.exception() instanceof java.net.NoRouteToHostException ||
+                    task.exception() instanceof java.net.SocketException) {
+                mPager.showStatus(StatusLayouter.Status.invaludnet);
+            } else {
+                mPager.showStatus(StatusLayouter.Status.content);
+            }
             mPager.makeToastShort(task.makeErrorToast(AfApp.get().getString(R.string.status_load_fail)));
         } else {
             mPager.showStatus(StatusLayouter.Status.error, task.makeErrorToast(AfApp.get().getString(R.string.status_load_fail)));

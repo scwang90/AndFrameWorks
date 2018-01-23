@@ -16,7 +16,7 @@
 
     <string name="status_load_fail">加载失败</string>
     <string name="status_loading">正在加载…</string>
-    <string name="status_invalidnet">当前无网络</string>
+    <string name="status_invalidnet">网络异常</string>
 
     <string name="task_format_loading">正在%s…</string>
     <string name="task_format_success">%s成功</string>
