@@ -24,7 +24,7 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:orientation="vertical">
-            <TextView style="@style/AndFrame.Label.Title"
+            <TextView style="@style/AndFrame.Label.Title.Small"
                 android:id="@+id/acl_title"
                 tools:text="标题控件"/>
             <TextView style="@style/AndFrame.Label.Assistant"
