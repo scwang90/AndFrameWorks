@@ -102,8 +102,8 @@ public class AfDateFormat {
 		if (date == null) {
 			return "";
 		}
-		Date roundNow = roundMinute(new Date());
-		Date roundDate = roundMinute(date);
+		Date roundNow = new Date();
+		Date roundDate = new Date(date.getTime());
 		if (roundNow.equals(roundDate)) {
 			return "现在";
 		} else {
@@ -127,7 +127,16 @@ public class AfDateFormat {
 			} else if (day.contains("天")) {
 				day = day + "0时";
 			}
-			return day + (span / 60 / 1000) + "分";
+			int minutespan = 60 * 1000;
+			if (span > minutespan) {
+				long minutetime = (span - (span % minutespan));
+				day = day + (minutetime / minutespan) + "分";
+				span = span - minutetime;
+			} else if (day.contains("时")) {
+				day = day + "0分";
+			}
+
+			return day + (span / 1000) + "秒";
 		}
 	}
 
