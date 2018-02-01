@@ -8,5 +8,5 @@ import com.andframe.api.pager.items.ItemsPager;
  */
 public interface ApItemsPager<T> extends ApPager, ItemsPager<T>, ApItemBinder<T> {
 
-    void initItemEffect();
+//    void initItemEffect();
 }

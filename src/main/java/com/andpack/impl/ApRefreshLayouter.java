@@ -27,20 +27,20 @@ public class ApRefreshLayouter implements RefreshLayouter<SmartRefreshLayout> {
     protected final SmartRefreshLayout mRefreshLayout;
 
     static {
-        SmartRefreshLayout.setDefaultRefreshHeaderCreater((context, layout) -> new BezierRadarHeader(context));
+        SmartRefreshLayout.setDefaultRefreshHeaderCreator((context, layout) -> new BezierRadarHeader(context));
     }
 
     public ApRefreshLayouter(Context context) {
         mRefreshLayout = new SmartRefreshLayout(context);
         mRefreshLayout.setRefreshHeader(newHeader(context));
-        mRefreshLayout.setEnableLoadmore(false);
+        mRefreshLayout.setEnableLoadMore(false);
         mRefreshLayout.setEnableOverScrollBounce(false);
     }
 
     public ApRefreshLayouter(Context context, int primaryId, int frontId) {
         mRefreshLayout = new SmartRefreshLayout(context);
         mRefreshLayout.setRefreshHeader(newHeader(context));
-        mRefreshLayout.setEnableLoadmore(false);
+        mRefreshLayout.setEnableLoadMore(false);
         mRefreshLayout.setPrimaryColorsId(primaryId, frontId);
         mRefreshLayout.setEnableOverScrollBounce(false);
     }
@@ -48,7 +48,7 @@ public class ApRefreshLayouter implements RefreshLayouter<SmartRefreshLayout> {
     public ApRefreshLayouter(SmartRefreshLayout refreshLayout) {
         mRefreshLayout = refreshLayout;
         mRefreshLayout.setRefreshHeader(newHeader(refreshLayout.getContext()));
-        mRefreshLayout.setEnableLoadmore(false);
+        mRefreshLayout.setEnableLoadMore(false);
         mRefreshLayout.setEnableOverScrollBounce(false);
     }
 
@@ -63,7 +63,7 @@ public class ApRefreshLayouter implements RefreshLayouter<SmartRefreshLayout> {
     }
 
     @Override
-    public void setContenView(View content) {
+    public void setContentView(View content) {
         ViewGroup.LayoutParams params = content.getLayoutParams();
         int height = params == null ? MATCH_PARENT : params.height;
         if (params != null && params.height == WRAP_CONTENT) {
@@ -80,7 +80,7 @@ public class ApRefreshLayouter implements RefreshLayouter<SmartRefreshLayout> {
             ViewGroup.LayoutParams params = content.getLayoutParams();
             int index = group.indexOfChild(content);
             group.removeViewAt(index);
-            setContenView(content);
+            setContentView(content);
             group.addView(getLayout(),index,params);
         }
     }
@@ -97,7 +97,7 @@ public class ApRefreshLayouter implements RefreshLayouter<SmartRefreshLayout> {
 
     @Override
     public void setOnRefreshListener(OnRefreshListener listener) {
-        mRefreshLayout.setOnRefreshListener(refreshlayout -> {
+        mRefreshLayout.setOnRefreshListener(refreshLayout -> {
             if (!listener.onRefresh()) {
                 mRefreshLayout.finishRefresh(0, false);
             }
