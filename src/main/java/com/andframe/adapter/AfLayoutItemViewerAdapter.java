@@ -15,7 +15,7 @@ import java.util.List;
  * Created by SCWANG on 2016/9/2.
  */
 @SuppressWarnings("unused")
-public abstract class AfLayoutItemViewerAdapter<T> extends AfItemViewerAdapter<T> {
+public abstract class AfLayoutItemViewerAdapter<T> extends AfItemsViewerAdapter<T> {
 
     int mLayoutId = -1;
 

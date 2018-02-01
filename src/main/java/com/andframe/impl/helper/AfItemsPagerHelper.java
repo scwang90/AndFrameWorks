@@ -14,6 +14,7 @@ import android.widget.ListView;
 import com.andframe.$;
 import com.andframe.R;
 import com.andframe.activity.AfItemsActivity;
+import com.andframe.adapter.AfAnimatedAdapter;
 import com.andframe.adapter.AfHeaderFooterAdapter;
 import com.andframe.adapter.AfListAdapter;
 import com.andframe.annotation.mark.MarkCache;
@@ -30,9 +31,10 @@ import com.andframe.annotation.pager.status.StatusContentViewType;
 import com.andframe.annotation.pager.status.idname.StatusContentViewId$;
 import com.andframe.api.Cacher;
 import com.andframe.api.Paging;
+import com.andframe.api.adapter.AnimatedAdapter;
 import com.andframe.api.adapter.HeaderFooterAdapter;
 import com.andframe.api.adapter.ItemViewer;
-import com.andframe.api.adapter.ItemViewerAdapter;
+import com.andframe.api.adapter.ItemsViewerAdapter;
 import com.andframe.api.pager.items.ItemsHelper;
 import com.andframe.api.pager.items.ItemsPager;
 import com.andframe.api.pager.items.MoreFooter;
@@ -64,6 +66,7 @@ import static com.andframe.util.java.AfReflecter.getAnnotation;
  *
  * Created by SCWANG on 2016/9/7.
  */
+@SuppressWarnings({"WeakerAccess", "unchecked"})
 public class AfItemsPagerHelper<T> extends AfStatusHelper<List<T>> implements ItemsHelper<T> {
 
     //<editor-fold desc="属性字段">
@@ -72,7 +75,7 @@ public class AfItemsPagerHelper<T> extends AfStatusHelper<List<T>> implements It
     protected MoreLayouter mMoreLayouter;
     protected MoreFooter mMoreFooter;
     protected com.andframe.api.viewer.ItemsViewer mItemsViewer;
-    protected AfHeaderFooterAdapter<T> mAdapter;
+    protected ItemsViewerAdapter<T> mAdapter;
 
     protected ViewQuery<? extends ViewQuery> $$ ;
     protected ItemsViewerOnly mItemsViewerOnly;
@@ -200,7 +203,6 @@ public class AfItemsPagerHelper<T> extends AfStatusHelper<List<T>> implements It
         super.onViewCreated();
         mItemsPager.initCache();
         mItemsPager.initAdapter();
-        mItemsPager.bindListHeaderAndFooter(mAdapter);
         mItemsViewer.setOnItemClickListener(mItemsPager);
         mItemsViewer.setOnItemLongClickListener(mItemsPager);
         mItemsPager.bindAdapter(mItemsViewer, mAdapter);
@@ -269,24 +271,24 @@ public class AfItemsPagerHelper<T> extends AfStatusHelper<List<T>> implements It
 
     @NonNull
     @Override
-    public ItemViewerAdapter<T> initAdapter() {
+    public ItemsViewerAdapter<T> initAdapter() {
         if (mAdapter == null) {
-            mAdapter = new AfHeaderFooterAdapter<T>(mItemsPager.newAdapter(mItemsPager.getContext(), new ArrayList<>())){
+            mAdapter = mItemsPager.newAdapter(mItemsPager.getContext(), new ArrayList<>());
+            AfAnimatedAdapter<T> animatedAdapter = new AfAnimatedAdapter<>(mAdapter);
+            mItemsPager.initItemsAnimated(animatedAdapter);
+            AfHeaderFooterAdapter<T> headerFooterAdapter = new AfHeaderFooterAdapter<T>(animatedAdapter){
                 @Override
                 public int getViewTypeCount() {
                     return super.getViewTypeCount() + 1;
                 }
             };
-            mAdapter.registerDataSetObserver(new DataSetObserver() {
+            (mAdapter = headerFooterAdapter).registerDataSetObserver(new DataSetObserver() {
                 @Override
                 public void onChanged() {
                     mItemsPager.onDataChenged();
                 }
             });
-        } else {
-            mAdapter.clearHeader();
-            mAdapter.clearFooter();
-            mHeaderFooterViews.clear();
+            mItemsPager.initHeaderAndFooter(headerFooterAdapter);
         }
         return mAdapter;
     }
@@ -509,7 +511,12 @@ public class AfItemsPagerHelper<T> extends AfStatusHelper<List<T>> implements It
     }
 
     @Override
-    public void bindListHeaderAndFooter(@NonNull HeaderFooterAdapter<T> adapter) {
+    public void initItemsAnimated(AnimatedAdapter<T> animatedAdapter) {
+        animatedAdapter.setEnableAnimated(true);
+    }
+
+    @Override
+    public void initHeaderAndFooter(@NonNull HeaderFooterAdapter<T> adapter) {
         if (mRefreshLayouter instanceof MoreLayouter) {
             mMoreLayouter = ((MoreLayouter) mRefreshLayouter);
         } else {

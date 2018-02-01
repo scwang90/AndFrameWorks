@@ -18,7 +18,7 @@ import java.util.List;
  * <br>如果需要连续进行集合操作请先使用 @getList 用返回的List进行操作，再手动触发  @notifyDataSetChanged
  * Created by SCWANG on 2016/9/10.
  */
-public interface ItemViewerAdapter<T> extends List<T>, ListAdapter, RecyclerAdapter<ViewHolderItem<T>> {
+public interface ItemsViewerAdapter<T> extends List<T>, ListAdapter, RecyclerAdapter<ViewHolderItem<T>> {
 
     //<editor-fold desc="列表扩展">
     /**

@@ -3,7 +3,6 @@ package com.andframe.impl.pager.status;
 import android.content.Context;
 import android.support.annotation.NonNull;
 import android.text.TextUtils;
-import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.view.ViewParent;
@@ -69,7 +68,7 @@ public class DefaultStatusLayouter implements StatusLayouter {
 
     //<editor-fold desc="视图初始化">
     @Override
-    public void setContenView(View content) {
+    public void setContentView(View content) {
         if (mContentView != null) {
             mFrameLayout.removeView(mContentView);
         }
@@ -86,7 +85,7 @@ public class DefaultStatusLayouter implements StatusLayouter {
             ViewGroup.LayoutParams params = content.getLayoutParams();
             int index = group.indexOfChild(content);
             group.removeViewAt(index);
-            setContenView(content);
+            setContentView(content);
             group.addView(getLayout(),index,params);
         }
     }
@@ -106,7 +105,7 @@ public class DefaultStatusLayouter implements StatusLayouter {
         if (mProgressLayout != null) {
             mFrameLayout.removeView(mProgressLayout);
         }
-        mProgressLayout = LayoutInflater.from(mFrameLayout.getContext()).inflate(layoutId, null);
+        mProgressLayout = View.inflate(mFrameLayout.getContext(), layoutId, null);
         mProgressTextView = (TextView) mProgressLayout.findViewById(msgId);
         mFrameLayout.addView(mProgressLayout);
     }
@@ -131,7 +130,7 @@ public class DefaultStatusLayouter implements StatusLayouter {
         if (mEmptyLayout != null) {
             mFrameLayout.removeView(mEmptyLayout);
         }
-        mEmptyLayout = LayoutInflater.from(mFrameLayout.getContext()).inflate(layoutId, null);
+        mEmptyLayout = View.inflate(mFrameLayout.getContext(), layoutId, null);
         mEmptyTextView = (TextView) mEmptyLayout.findViewById(msgId);
         if (mEmptyTextView != null && !TextUtils.isEmpty(message)) {
             mEmptyTextView.setText(message);
@@ -152,7 +151,7 @@ public class DefaultStatusLayouter implements StatusLayouter {
         if (mErrorLayout != null) {
             mFrameLayout.removeView(mErrorLayout);
         }
-        mErrorLayout = LayoutInflater.from(mFrameLayout.getContext()).inflate(layoutId, null);
+        mErrorLayout = View.inflate(mFrameLayout.getContext(), layoutId, null);
         mErrorTextView = (TextView) mErrorLayout.findViewById(msgId);
         View btn = mErrorLayout.findViewById(btnId);
         btn = btn == null ? mErrorLayout : btn;
@@ -175,7 +174,7 @@ public class DefaultStatusLayouter implements StatusLayouter {
         if (mInvalidnetLayout != null) {
             mFrameLayout.removeView(mInvalidnetLayout);
         }
-        mInvalidnetLayout = LayoutInflater.from(mFrameLayout.getContext()).inflate(layoutId, null);
+        mInvalidnetLayout = View.inflate(mFrameLayout.getContext(), layoutId, null);
         mInvalidnetTextView = (TextView) mInvalidnetLayout.findViewById(msgId);
         View btn = mInvalidnetLayout.findViewById(btnId);
         btn = btn == null ? mInvalidnetLayout : btn;

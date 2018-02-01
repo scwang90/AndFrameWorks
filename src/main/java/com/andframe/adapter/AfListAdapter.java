@@ -8,7 +8,7 @@ import com.andframe.adapter.itemviewer.AfItemViewer;
 import com.andframe.adapter.recycler.RecyclerBaseAdapter;
 import com.andframe.adapter.recycler.ViewHolderItem;
 import com.andframe.api.adapter.ItemViewer;
-import com.andframe.api.adapter.ItemViewerAdapter;
+import com.andframe.api.adapter.ItemsViewerAdapter;
 import com.andframe.api.query.hindler.Where;
 import com.andframe.exception.AfExceptionHandler;
 
@@ -25,7 +25,7 @@ import java.util.ListIterator;
  * @param <T>
  */
 @SuppressWarnings("unused")
-public abstract class AfListAdapter<T> extends RecyclerBaseAdapter<ViewHolderItem<T>> implements ItemViewerAdapter<T> {
+public abstract class AfListAdapter<T> extends RecyclerBaseAdapter<ViewHolderItem<T>> implements ItemsViewerAdapter<T> {
 
     //<editor-fold desc="属性字段">
     @SuppressWarnings("WeakerAccess")

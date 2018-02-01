@@ -10,9 +10,10 @@ import android.widget.ListAdapter;
 
 import com.andframe.annotation.mark.MarkCache;
 import com.andframe.api.Paging;
+import com.andframe.api.adapter.AnimatedAdapter;
 import com.andframe.api.adapter.HeaderFooterAdapter;
 import com.andframe.api.adapter.ItemViewer;
-import com.andframe.api.adapter.ItemViewerAdapter;
+import com.andframe.api.adapter.ItemsViewerAdapter;
 import com.andframe.api.pager.items.ItemsHelper;
 import com.andframe.api.pager.items.ItemsPager;
 import com.andframe.api.pager.items.MoreFooter;
@@ -35,7 +36,7 @@ import java.util.List;
 public abstract class AfItemsActivity<T> extends AfStatusActivity<List<T>> implements ItemsPager<T> {
 
     protected ItemsViewer mItemsViewer;
-    protected ItemViewerAdapter<T> mAdapter;
+    protected ItemsViewerAdapter<T> mAdapter;
     protected ItemsHelper<T> mItemsHelper = newItemsHelper();
 
     @NonNull
@@ -295,7 +296,7 @@ public abstract class AfItemsActivity<T> extends AfStatusActivity<List<T>> imple
      */
     @NonNull
     @Override
-    public ItemViewerAdapter<T> initAdapter() {
+    public ItemsViewerAdapter<T> initAdapter() {
         return mItemsHelper.initAdapter();
     }
 
@@ -309,8 +310,17 @@ public abstract class AfItemsActivity<T> extends AfStatusActivity<List<T>> imple
      */
     @NonNull
     @Override
-    public ItemViewerAdapter<T> newAdapter(@NonNull Context context, @NonNull List<T> list) {
+    public ItemsViewerAdapter<T> newAdapter(@NonNull Context context, @NonNull List<T> list) {
         return mAdapter = mItemsHelper.newAdapter(context, list);
+    }
+
+    /**
+     * 如果页面列表需要改变列表动画属性可以重写本方法添加
+     * @param adapter 带有动画的适配器
+     */
+    @Override
+    public void initItemsAnimated(AnimatedAdapter<T> adapter) {
+        mItemsHelper.initItemsAnimated(adapter);
     }
 
     /**
@@ -318,8 +328,8 @@ public abstract class AfItemsActivity<T> extends AfStatusActivity<List<T>> imple
      * （在bindAdapter之前执行）
      */
     @Override@CallSuper
-    public void bindListHeaderAndFooter(@NonNull HeaderFooterAdapter<T> adapter) {
-        mItemsHelper.bindListHeaderAndFooter(adapter);
+    public void initHeaderAndFooter(@NonNull HeaderFooterAdapter<T> adapter) {
+        mItemsHelper.initHeaderAndFooter(adapter);
     }
 
     /**

@@ -8,10 +8,12 @@ import android.widget.AdapterView.OnItemClickListener;
 import android.widget.AdapterView.OnItemLongClickListener;
 import android.widget.ListAdapter;
 
+import com.andframe.adapter.AfAnimatedAdapter;
 import com.andframe.annotation.mark.MarkCache;
 import com.andframe.api.Paging;
+import com.andframe.api.adapter.AnimatedAdapter;
 import com.andframe.api.adapter.HeaderFooterAdapter;
-import com.andframe.api.adapter.ItemViewerAdapter;
+import com.andframe.api.adapter.ItemsViewerAdapter;
 import com.andframe.api.pager.status.StatusHelper;
 import com.andframe.api.task.TaskWithPaging;
 import com.andframe.api.viewer.ItemsViewer;
@@ -53,7 +55,7 @@ public interface ItemsHelper<T> extends StatusHelper<List<T>>, OnItemClickListen
      * @return 默认返回的适配器并不是@newAdapter中返回的适配器，而是被包装过的适配器对象
      */
     @NonNull
-    ItemViewerAdapter<T> initAdapter();
+    ItemsViewerAdapter<T> initAdapter();
 
     /**
      * 创建适配器（子类在自定义适配器时最好继承@{@link com.andframe.adapter.AfListAdapter}）
@@ -61,7 +63,7 @@ public interface ItemsHelper<T> extends StatusHelper<List<T>>, OnItemClickListen
      * @param list 初始数据
      */
     @NonNull
-    ItemViewerAdapter<T> newAdapter(@NonNull Context context, @NonNull List<T> list);
+    ItemsViewerAdapter<T> newAdapter(@NonNull Context context, @NonNull List<T> list);
 
     /**
      * 把适配绑定到列表控件
@@ -71,10 +73,16 @@ public interface ItemsHelper<T> extends StatusHelper<List<T>>, OnItemClickListen
     void bindAdapter(@NonNull ItemsViewer itemsViewer, @NonNull ListAdapter adapter);
 
     /**
+     * 如果页面列表需要改变列表动画属性可以重写本方法添加
+     * @param adapter 带有动画的适配器
+     */
+    void initItemsAnimated(AnimatedAdapter<T> adapter);
+
+    /**
      * 如果页面列表需要头部或者尾部可以重写本方法添加
      * @param adapter 带有头部和尾部的适配器
      */
-    void bindListHeaderAndFooter(@NonNull HeaderFooterAdapter<T> adapter);
+    void initHeaderAndFooter(@NonNull HeaderFooterAdapter<T> adapter);
 
     /**
      * 获取列表ItemView 的类型总数

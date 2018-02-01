@@ -156,7 +156,7 @@ public class AfLoadHelper<T> implements LoadHelper<T> {
 
                 ViewGroup.LayoutParams params = content.getLayoutParams();
                 RefreshLayouter layouter = mPager.newRefreshLayouter(content.getContext());
-                layouter.setContenView(content);
+                layouter.setContentView(content);
                 layouter.setOnRefreshListener(mPager);
 
                 group.addView(layouter.getLayout(), i, params);

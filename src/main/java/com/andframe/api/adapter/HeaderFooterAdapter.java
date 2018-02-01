@@ -7,7 +7,8 @@ import android.view.View;
  * Created by SCWANG on 2016/12/31.
  */
 
-public interface HeaderFooterAdapter<T> extends ItemViewerAdapter<T> {
+@SuppressWarnings({"unused", "UnusedReturnValue"})
+public interface HeaderFooterAdapter<T> extends ItemsViewerAdapter<T> {
 
     boolean addHeader(ItemViewer<T> item);
     boolean addHeaderLayout(int layoutId);

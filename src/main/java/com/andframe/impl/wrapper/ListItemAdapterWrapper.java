@@ -13,7 +13,7 @@ import com.andframe.adapter.recycler.DataSetObservable;
 import com.andframe.adapter.recycler.RecyclerBaseAdapter;
 import com.andframe.adapter.recycler.ViewHolderItem;
 import com.andframe.api.adapter.ItemViewer;
-import com.andframe.api.adapter.ItemViewerAdapter;
+import com.andframe.api.adapter.ItemsViewerAdapter;
 import com.andframe.api.query.hindler.Where;
 
 import java.util.Collection;
@@ -31,12 +31,12 @@ import java.util.stream.Stream;
  * ListItemAdapterWrapper
  * Created by SCWANG on 2016/10/29.
  */
+@SuppressWarnings("WeakerAccess")
+public class ListItemAdapterWrapper<T> extends RecyclerBaseAdapter<ViewHolderItem<T>> implements ItemsViewerAdapter<T>, WrapperListAdapter {
 
-public class ListItemAdapterWrapper<T> extends RecyclerBaseAdapter<ViewHolderItem<T>> implements ItemViewerAdapter<T>, WrapperListAdapter {
+    protected ItemsViewerAdapter<T> wrapped;
 
-    protected ItemViewerAdapter<T> wrapped;
-
-    public ListItemAdapterWrapper(ItemViewerAdapter<T> wrapped) {
+    public ListItemAdapterWrapper(ItemsViewerAdapter<T> wrapped) {
         this.wrapped = wrapped;
         //为特殊 Warpper 做准备
         mDataSetObservable = new DataSetObservableWrapper(this);

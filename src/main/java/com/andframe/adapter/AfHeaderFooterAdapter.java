@@ -9,7 +9,7 @@ import com.andframe.adapter.itemviewer.AfItemViewer;
 import com.andframe.adapter.recycler.ViewHolderItem;
 import com.andframe.api.adapter.HeaderFooterAdapter;
 import com.andframe.api.adapter.ItemViewer;
-import com.andframe.api.adapter.ItemViewerAdapter;
+import com.andframe.api.adapter.ItemsViewerAdapter;
 import com.andframe.api.viewer.Viewer;
 import com.andframe.exception.AfExceptionHandler;
 import com.andframe.impl.wrapper.ListItemAdapterWrapper;
@@ -18,7 +18,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 /**
- * 可直接更新状态(不刷新列表)的适配器
+ * 适配器-带 Header 和 Footer
  * Created by SCWANG on 2016/8/5.
  */
 @SuppressWarnings("unused")
@@ -27,7 +27,7 @@ public class AfHeaderFooterAdapter<T> extends ListItemAdapterWrapper<T> implemen
     protected List<ItemViewer<T>> mHeaders = new ArrayList<>();
     protected List<ItemViewer<T>> mFooters = new ArrayList<>();
 
-    public AfHeaderFooterAdapter(@NonNull ItemViewerAdapter<T> wrapped) {
+    public AfHeaderFooterAdapter(@NonNull ItemsViewerAdapter<T> wrapped) {
         super(wrapped);
     }
 

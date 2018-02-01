@@ -134,14 +134,14 @@ public class AfStatusHelper<T> extends AfLoadHelper<T> implements StatusHelper<T
     @Override
     public void initRefreshAndStatusLayouterOrder(Layouter refresh, Layouter status, View content, ViewGroup parent, int index, ViewGroup.LayoutParams lp) {
         if (refresh != null && status != null) {
-            refresh.setContenView(content);
-            status.setContenView(refresh.getLayout());
+            refresh.setContentView(content);
+            status.setContentView(refresh.getLayout());
             parent.addView(status.getLayout(), index, lp);
         } else if (refresh != null) {
-            refresh.setContenView(content);
+            refresh.setContentView(content);
             parent.addView(refresh.getLayout(), index, lp);
         } else if (status != null) {
-            status.setContenView(content);
+            status.setContentView(content);
             parent.addView(status.getLayout(), index, lp);
         }
     }

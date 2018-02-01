@@ -46,7 +46,7 @@ public class DefaultRefreshLayouter implements RefreshLayouter<SwipeRefreshLayou
     }
 
     @Override
-    public void setContenView(View content) {
+    public void setContentView(View content) {
         if (mContentView != null) {
             mRefreshLayout.removeView(mContentView);
         }
@@ -67,7 +67,7 @@ public class DefaultRefreshLayouter implements RefreshLayouter<SwipeRefreshLayou
             ViewGroup.LayoutParams params = content.getLayoutParams();
             int index = group.indexOfChild(content);
             group.removeViewAt(index);
-            setContenView(content);
+            setContentView(content);
             group.addView(getLayout(),index,params);
         }
     }

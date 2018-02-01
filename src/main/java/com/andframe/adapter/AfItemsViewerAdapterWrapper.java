@@ -11,7 +11,7 @@ import android.widget.WrapperListAdapter;
 
 import com.andframe.adapter.recycler.ViewHolderItem;
 import com.andframe.api.adapter.ItemViewer;
-import com.andframe.api.adapter.ItemViewerAdapter;
+import com.andframe.api.adapter.ItemsViewerAdapter;
 import com.andframe.api.query.hindler.Where;
 
 import java.util.Collection;
@@ -27,11 +27,11 @@ import java.util.stream.Stream;
 
 
 @SuppressWarnings({"unused", "unchecked", "WeakerAccess"})
-public class AfItemViewerAdapterWrapper<T> implements ItemViewerAdapter<T> , WrapperListAdapter {
+public class AfItemsViewerAdapterWrapper<T> implements ItemsViewerAdapter<T>, WrapperListAdapter {
 
-	protected ItemViewerAdapter<T> wrapped;
+	protected ItemsViewerAdapter<T> wrapped;
 
-	public AfItemViewerAdapterWrapper(ItemViewerAdapter<T> wrapped) {
+	public AfItemsViewerAdapterWrapper(ItemsViewerAdapter<T> wrapped) {
 		this.wrapped = wrapped;
 	}
 
@@ -90,7 +90,7 @@ public class AfItemViewerAdapterWrapper<T> implements ItemViewerAdapter<T> , Wra
 	}
 	//</editor-fold>
 
-	//<editor-fold desc="Wrapper ItemViewerAdapter">
+	//<editor-fold desc="Wrapper ItemsViewerAdapter">
 
 	@Override
 	public void bindingItem(View view, ItemViewer<T> item, int index) {

@@ -124,7 +124,7 @@ public abstract class AfActivity extends AppCompatActivity implements Pager, Vie
      */
     @Override
     public void setContentView(int res) {
-        setContentView(LayoutInflater.from(this).inflate(res, null));
+        setContentView(View.inflate(this, res, null));
     }
 
     /**

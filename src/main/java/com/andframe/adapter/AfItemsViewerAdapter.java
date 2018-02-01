@@ -17,13 +17,13 @@ import java.util.List;
  * Created by SCWANG on 2016/9/2.
  */
 @SuppressWarnings("unused")
-public abstract class AfItemViewerAdapter<T> extends AfListAdapter<T> implements ItemViewer<T> {
+public abstract class AfItemsViewerAdapter<T> extends AfListAdapter<T> implements ItemViewer<T> {
 
-    public AfItemViewerAdapter(List<T> ltdata) {
+    public AfItemsViewerAdapter(List<T> ltdata) {
         super(ltdata);
     }
 
-    public AfItemViewerAdapter(List<T> ltdata, boolean dataSync) {
+    public AfItemsViewerAdapter(List<T> ltdata, boolean dataSync) {
         super(ltdata, dataSync);
     }
 
