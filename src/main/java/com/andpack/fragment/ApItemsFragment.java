@@ -6,7 +6,7 @@ import android.support.annotation.NonNull;
 import android.support.v4.app.Fragment;
 
 import com.andframe.api.adapter.ItemViewer;
-import com.andframe.api.adapter.ItemViewerAdapter;
+import com.andframe.api.adapter.ItemsViewerAdapter;
 import com.andframe.api.pager.status.RefreshLayouter;
 import com.andframe.api.pager.status.StatusLayouter;
 import com.andframe.api.viewer.ViewQuery;
@@ -54,8 +54,8 @@ public abstract class ApItemsFragment<T> extends AfItemsFragment<T> implements A
 
     @NonNull
     @Override
-    public ItemViewerAdapter<T> newAdapter(@NonNull Context context, @NonNull List<T> list) {
-        ItemViewerAdapter<T> adapter = mApHelper.newAdapter(list);
+    public ItemsViewerAdapter<T> newAdapter(@NonNull Context context, @NonNull List<T> list) {
+        ItemsViewerAdapter<T> adapter = mApHelper.newAdapter(list);
         if (adapter != null) {
             return mAdapter = adapter;
         }
@@ -119,8 +119,8 @@ public abstract class ApItemsFragment<T> extends AfItemsFragment<T> implements A
         mApHelper.postEvent(event);
     }
 
-    @Override
-    public void initItemEffect() {
-        mApHelper.initItemEffect();
-    }
+//    @Override
+//    public void initItemEffect() {
+//        mApHelper.initItemEffect();
+//    }
 }

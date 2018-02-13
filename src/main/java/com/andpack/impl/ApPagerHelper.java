@@ -20,6 +20,7 @@ import com.andframe.exception.AfExceptionHandler;
 import com.andframe.fragment.AfFragment;
 import com.andframe.listener.SafeListener;
 import com.andframe.util.java.AfReflecter;
+import com.andpack.R;
 import com.andpack.activity.ApFragmentActivity;
 import com.andpack.annotation.BackgroundTranslucent;
 import com.andpack.annotation.RegisterEventBus;
@@ -47,6 +48,7 @@ import static com.andframe.util.java.AfReflecter.getAnnotation;
  * 页面基类帮助类
  * Created by SCWANG on 2016/9/3.
  */
+@SuppressWarnings("unused")
 public class ApPagerHelper {
 
     protected ApPager pager;
@@ -95,8 +97,8 @@ public class ApPagerHelper {
         return pager instanceof Activity ? AfActivity.class : AfFragment.class;
     }
 
-    public void setTheme(@StyleRes int resid) {
-//        mIsUsingSwipeBack = resid == R.style.AppTheme_SwipeBack;
+    public void setTheme(@StyleRes int resId) {
+        mIsUsingSwipeBack = resId == R.style.AppTheme_SwipeBack;
     }
 
     public void onCreate() {

@@ -3,13 +3,13 @@ package com.andpack.impl;
 import android.support.v7.widget.RecyclerView;
 
 import com.andframe.adapter.AfLayoutItemViewerAdapter;
-import com.andframe.api.adapter.ItemViewerAdapter;
+import com.andframe.api.adapter.ItemsViewerAdapter;
 import com.andframe.api.viewer.ViewQuery;
 import com.andframe.util.java.AfReflecter;
 import com.andpack.annotation.BindItemLayout;
 import com.andpack.api.ApItemsPager;
-import com.twotoasters.jazzylistview.effects.FadeEffect;
-import com.twotoasters.jazzylistview.recyclerview.JazzyRecyclerViewScrollListener;
+//import com.twotoasters.jazzylistview.effects.FadeEffect;
+//import com.twotoasters.jazzylistview.recyclerview.JazzyRecyclerViewScrollListener;
 
 import java.util.List;
 
@@ -31,19 +31,19 @@ public class ApItemsHelper<T> extends ApStatusHelper {
     public void onViewCreated() {
         super.onViewCreated();
         mItemLayout = AfReflecter.getAnnotation(pager.getClass(), getStopClass(), BindItemLayout.class);
-        mItemPager.initItemEffect();
+//        mItemPager.initItemEffect();
     }
 
-    public void initItemEffect() {
-        ViewQuery $ = mItemPager.$(RecyclerView.class);
-        if ($.exist()) {
-            JazzyRecyclerViewScrollListener listener = new JazzyRecyclerViewScrollListener();
-            listener.setTransitionEffect(new FadeEffect());
-            $.foreach(RecyclerView.class, (ViewQuery.ViewEacher<RecyclerView>) view -> view.addOnScrollListener(listener));
-        }
-    }
+//    public void initItemEffect() {
+//        ViewQuery $ = mItemPager.$(RecyclerView.class);
+//        if ($.exist()) {
+//            JazzyRecyclerViewScrollListener listener = new JazzyRecyclerViewScrollListener();
+//            listener.setTransitionEffect(new FadeEffect());
+//            $.foreach(RecyclerView.class, (ViewQuery.ViewEacher<RecyclerView>) view -> view.addOnScrollListener(listener));
+//        }
+//    }
 
-    public ItemViewerAdapter<T> newAdapter(List<T> list) {
+    public ItemsViewerAdapter<T> newAdapter(List<T> list) {
         if (mItemLayout != null) {
             return new AfLayoutItemViewerAdapter<T>(mItemLayout.value(), list) {
                 @Override
