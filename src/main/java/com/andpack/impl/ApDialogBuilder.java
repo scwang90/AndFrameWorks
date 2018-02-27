@@ -85,7 +85,7 @@ public class ApDialogBuilder extends AfDialogBuilder {
         dialog.title(title.toString()).content(message.toString())//
                 .style(NormalDialog.STYLE_TWO)//
                 .btnNum(btnNum)
-                .contentGravity(message.toString().contains("\r")?Gravity.LEFT:Gravity.CENTER)
+                .contentGravity(message.toString().contains("\r")?Gravity.START:Gravity.CENTER)
                 .btnText(textList.toArray(new String[btnNum]))//
 //                .showAnim(mBasIn)//
 //                .dismissAnim(mBasOut)//
