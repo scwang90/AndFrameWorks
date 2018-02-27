@@ -272,24 +272,22 @@ public class AfItemsPagerHelper<T> extends AfStatusHelper<List<T>> implements It
     @NonNull
     @Override
     public ItemsViewerAdapter<T> initAdapter() {
-        if (mAdapter == null) {
-            mAdapter = mItemsPager.newAdapter(mItemsPager.getContext(), new ArrayList<>());
-            AfAnimatedAdapter<T> animatedAdapter = new AfAnimatedAdapter<>(mAdapter);
-            mItemsPager.initItemsAnimated(animatedAdapter);
-            AfHeaderFooterAdapter<T> headerFooterAdapter = new AfHeaderFooterAdapter<T>(animatedAdapter){
-                @Override
-                public int getViewTypeCount() {
-                    return super.getViewTypeCount() + 1;
-                }
-            };
-            (mAdapter = headerFooterAdapter).registerDataSetObserver(new DataSetObserver() {
-                @Override
-                public void onChanged() {
-                    mItemsPager.onDataChenged();
-                }
-            });
-            mItemsPager.initHeaderAndFooter(headerFooterAdapter);
-        }
+        mAdapter = mItemsPager.newAdapter(mItemsPager.getContext(), new ArrayList<>());
+        AfAnimatedAdapter<T> animatedAdapter = new AfAnimatedAdapter<>(mAdapter);
+        mItemsPager.initItemsAnimated(animatedAdapter);
+        AfHeaderFooterAdapter<T> headerFooterAdapter = new AfHeaderFooterAdapter<T>(animatedAdapter){
+            @Override
+            public int getViewTypeCount() {
+                return super.getViewTypeCount() + 1;
+            }
+        };
+        (mAdapter = headerFooterAdapter).registerDataSetObserver(new DataSetObserver() {
+            @Override
+            public void onChanged() {
+                mItemsPager.onDataChenged();
+            }
+        });
+        mItemsPager.initHeaderAndFooter(headerFooterAdapter);
         return mAdapter;
     }
 
