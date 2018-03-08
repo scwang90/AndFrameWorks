@@ -26,7 +26,9 @@
     <color name="colorDivision">#dedede</color>
 
     <color name="colorTextTitle">#333333</color>
-    <color name="colorTextContent">#444444</color>
+    <color name="colorTextDeepness">#444444</color>
+    <color name="colorTextContent">#555555</color>
+    <color name="colorTextThinness">#666666</color>
     <color name="colorTextAssistant">#777777</color>
     <color name="colorTextGray">#999999</color>
 
