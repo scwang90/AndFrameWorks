@@ -90,7 +90,7 @@ public class ItemsRecyclerViewWrapper implements ItemsViewer<RecyclerView> {
                 mItemsView.setLayoutManager(mLinearLayoutManager);
                 if (mDivisionEnable) {
                     RecycleViewDivider dividerLine = new RecycleViewDivider(mItemsView.getContext());
-                    dividerLine.sizeId(R.dimen.division_line).colorId(R.color.colorDivison);
+                    dividerLine.sizeId(R.dimen.division_line).colorId(R.color.colorDivision);
                     mItemsView.addItemDecoration(dividerLine);
                 }
             }

@@ -57,8 +57,8 @@ public class AfStatusHelper<T> extends AfLoadHelper<T> implements StatusHelper<T
     @CallSuper
     public void onViewCreated()  {
         View content = mPager.findContentView();
-        if (content != null) {
-            mPager.initRefreshAndStatusLayouter(content);
+        if (content != null && checkContentViewStruct(content)) {
+            mPager.initRefreshAndStatusLayouter(content, content);
         }
 
         if (mLoadOnViewCreated && mModel == null) {
@@ -100,33 +100,65 @@ public class AfStatusHelper<T> extends AfLoadHelper<T> implements StatusHelper<T
     }
 
     @Override
-    public boolean cheackContentViewStruct(View content) {
+    public boolean checkContentViewStruct(View content) {
         ViewParent parent = content.getParent();
         if (parent == null) {
             AfExceptionHandler.handle("内容视图（ContentView）没有父视图，刷新布局（RefreshLayouter/StatusLayouter）初始化失败",
-                    TAG.TAG(mPager, "AfStatusHelper", "cheackContentViewStruct"));
+                    TAG.TAG(mPager, "AfStatusHelper", "checkContentViewStruct"));
             return false;
         } else if (parent instanceof ViewPager) {
             AfExceptionHandler.handle("内容视图（ContentView）父视图为ViewPager，刷新布局（RefreshLayouter/StatusLayouter）初始化失败，" +
                             "请用其他布局（Layout）作为ContentView的直接父视图，ViewPager的子视图",
-                    TAG.TAG(mPager, "AfStatusHelper", "cheackContentViewStruct"));
+                    TAG.TAG(mPager, "AfStatusHelper", "checkContentViewStruct"));
             return false;
         }
         return true;
     }
 
     @Override
-    public void initRefreshAndStatusLayouter(View content) {
-        if (cheackContentViewStruct(content)) {
-            mRefreshLayouter = mPager.initRefreshLayout(content);
-            mStatusLayouter = mPager.initStatusLayout(content);
+    public void initRefreshAndStatusLayouter(@NonNull View refreshContent, @NonNull View statusContent) {
+        mRefreshLayouter = mPager.initRefreshLayout(refreshContent);
+        mStatusLayouter = mPager.initStatusLayout(statusContent);
 
-            if (mStatusLayouter != null || mRefreshLayouter != null) {
-                ViewGroup group = (ViewGroup) content.getParent();
-                int i = group.indexOfChild(content);
+        if (mStatusLayouter != null || mRefreshLayouter != null) {
+            if (refreshContent == statusContent) {
+                ViewGroup group = (ViewGroup) refreshContent.getParent();
+                int i = group.indexOfChild(refreshContent);
                 group.removeViewAt(i);
-                ViewGroup.LayoutParams params = content.getLayoutParams();
-                mPager.initRefreshAndStatusLayouterOrder(mRefreshLayouter,mStatusLayouter,content, group, i, params);
+                ViewGroup.LayoutParams params = refreshContent.getLayoutParams();
+                mPager.initRefreshAndStatusLayouterOrder(mRefreshLayouter, mStatusLayouter, refreshContent, group, i, params);
+            } else {
+                boolean isStatusOtter = true;
+                for (ViewParent status = statusContent.getParent() ; status != null; status = status.getParent()) {
+                    if (status == refreshContent) {
+                        isStatusOtter = false;
+                        break;
+                    }
+                }
+
+                ViewGroup refreshGroup = (ViewGroup) refreshContent.getParent();
+                int refreshIndex = refreshGroup.indexOfChild(refreshContent);
+                ViewGroup.LayoutParams refreshParams = refreshContent.getLayoutParams();
+                if (mRefreshLayouter != null) {
+                    refreshGroup.removeViewAt(refreshIndex);
+                    mRefreshLayouter.setContentView(refreshContent);
+                    if (isStatusOtter || mStatusLayouter == null) {
+                        refreshGroup.addView(mRefreshLayouter.getLayout(),refreshIndex,refreshParams);
+                    }
+                }
+
+                if (mStatusLayouter != null) {
+                    ViewGroup statusGroup = (ViewGroup) statusContent.getParent();
+                    int statusIndex = statusGroup.indexOfChild(statusContent);
+                    statusGroup.removeViewAt(statusIndex);
+                    ViewGroup.LayoutParams statusParams = statusContent.getLayoutParams();
+                    mStatusLayouter.setContentView(statusContent);
+                    statusGroup.addView(mStatusLayouter.getLayout(),statusIndex,statusParams);
+                }
+
+                if (mRefreshLayouter != null && mStatusLayouter != null && !isStatusOtter) {
+                    refreshGroup.addView(mRefreshLayouter.getLayout(),refreshIndex,refreshParams);
+                }
             }
         }
     }

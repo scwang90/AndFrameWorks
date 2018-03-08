@@ -5,7 +5,7 @@
     <shape android:shape="line">
         <stroke
             android:width="2dp"
-            android:color="@color/colorDivison"
+            android:color="@color/colorDivision"
             android:dashWidth="6dp"
             android:dashGap="2dp"
             />

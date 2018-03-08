@@ -130,23 +130,23 @@ public class AfLoadHelper<T> implements LoadHelper<T> {
         return null;
     }
 
-    public boolean cheackContentViewStruct(View content) {
+    public boolean checkContentViewStruct(View content) {
         ViewParent parent = content.getParent();
         if (parent == null) {
             AfExceptionHandler.handle("内容视图（ContentView）没有父视图，刷新布局（RefreshLayouter）初始化失败",
-                    TAG.TAG(mPager, "AfLoadHelper", "cheackContentViewStruct"));
+                    TAG.TAG(mPager, "AfLoadHelper", "checkContentViewStruct"));
             return false;
         } else if (parent instanceof ViewPager) {
             AfExceptionHandler.handle("内容视图（ContentView）父视图为ViewPager，刷新布局（RefreshLayouter）初始化失败，" +
                             "请用其他布局（Layout）作为ContentView的直接父视图，ViewPager的子视图",
-                    TAG.TAG(mPager, "AfLoadHelper", "cheackContentViewStruct"));
+                    TAG.TAG(mPager, "AfLoadHelper", "checkContentViewStruct"));
             return false;
         }
         return true;
     }
 
     public RefreshLayouter initRefreshLayout(View content) {
-        if (cheackContentViewStruct(content)) {
+        if (checkContentViewStruct(content)) {
             ViewParent parent = content.getParent();
             if (parent instanceof ViewGroup){
                 ViewGroup group = (ViewGroup) parent;

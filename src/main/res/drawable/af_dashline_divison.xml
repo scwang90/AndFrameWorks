@@ -3,7 +3,7 @@
     android:shape="line">
     <stroke
         android:width="@dimen/division_line"
-        android:color="@color/colorDivison"
+        android:color="@color/colorDivision"
         android:dashGap="2dp"
         android:dashWidth="6dp" />
     <!-- 虚线的高度 -->

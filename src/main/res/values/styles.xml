@@ -6,7 +6,7 @@
         <item name="colorPrimaryDark">@color/colorPrimaryDark</item>
         <item name="colorAccent">@color/bluePrimary</item>
         <item name="android:textColorHint">@color/gray_light</item>
-        <item name="android:windowBackground">@color/colorBackgroudDark</item>
+        <item name="android:windowBackground">@color/colorBackgroundDark</item>
     </style>
 
     <style name="AppTheme" parent="AppThemeBase">
@@ -94,20 +94,20 @@
         <item name="android:layout_height">match_parent</item>
     </style>
 
-    <style name="AndFrame.Divison">
+    <style name="AndFrame.Division">
         <item name="android:layout_width">match_parent</item>
         <item name="android:layout_height">@dimen/division_line</item>
-        <item name="android:background">@color/colorDivison</item>
-        <item name="android:divider">@color/colorDivison</item>
+        <item name="android:background">@color/colorDivision</item>
+        <item name="android:divider">@color/colorDivision</item>
         <item name="android:dividerHeight">@dimen/division_line</item>
     </style>
 
-    <style name="AndFrame.Divison.Middle">
+    <style name="AndFrame.Division.Middle">
         <item name="android:layout_marginLeft">@dimen/padding_common</item>
         <!--<item name="android:layout_marginStart">@dimen/padding_common</item>-->
     </style>
 
-    <style name="AndFrame.Divison.Dash">
+    <style name="AndFrame.Division.Dash">
         <item name="android:layout_height">2dp</item>
         <item name="android:dividerHeight">2dp</item>
         <item name="android:background">@drawable/af_dashline_divison</item>
@@ -115,14 +115,14 @@
         <item name="android:layerType">software</item>
     </style>
 
-    <style name="AndFrame.Divison.Vertical">
+    <style name="AndFrame.Division.Vertical">
         <item name="android:layout_height">match_parent</item>
         <item name="android:layout_width">@dimen/division_line</item>
         <item name="android:layout_gravity">center_vertical</item>
-        <item name="android:background">@color/colorDivison</item>
+        <item name="android:background">@color/colorDivision</item>
     </style>
 
-    <style name="AndFrame.Divison.Vertical.Dash">
+    <style name="AndFrame.Division.Vertical.Dash">
         <item name="android:layout_width">2dp</item>
         <item name="android:background">@drawable/af_dashline_divison_vertical</item>
         <item name="android:layerType">software</item>
@@ -284,7 +284,7 @@
         <item name="android:layout_height">match_parent</item>
         <item name="android:orientation">vertical</item>
         <item name="android:paddingBottom">@dimen/padding_common</item>
-        <item name="android:background">@color/colorBackgroudDark</item>
+        <item name="android:background">@color/colorBackgroundDark</item>
     </style>
 
     <style name="AndFrame.CommonBar.Bar">

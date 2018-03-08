@@ -16,7 +16,7 @@
             android:id="@+id/af_titlebar_select_finish"
             android:contentDescription="@string/app_name"
             android:src="@drawable/af_icon_goback"/>
-        <View style="@style/AndFrame.Divison.Vertical"
+        <View style="@style/AndFrame.Division.Vertical"
             android:layout_width="1dp"
             android:layout_marginTop="@dimen/padding_common"
             android:layout_marginBottom="@dimen/padding_common"

@@ -39,8 +39,8 @@ public abstract class AfStatusActivity<T> extends AfLoadActivity<T> implements S
     //<editor-fold desc="初始化布局">
 
     @Override
-    public void initRefreshAndStatusLayouter(View content) {
-        mStatusHelper.initRefreshAndStatusLayouter(content);
+    public void initRefreshAndStatusLayouter(@NonNull View refreshContent, @NonNull View statusContent) {
+        mStatusHelper.initRefreshAndStatusLayouter(refreshContent, statusContent);
     }
 
     @Override

@@ -63,7 +63,6 @@ public interface DialogBuilder {
         /**
          * 验证时间是否符合条件
          *
-         * @param timePickerDialog
          * @param view 时间控件
          * @param hourOfDay 小时
          * @param minute 分钟

@@ -91,9 +91,10 @@ public interface StatusHelper<T> extends LoadHelper<T>, EmptyVerdicter<T> {
 
     /**
      * 初始化【下拉刷新控件和多页状态控件】，内部会调用 initRefreshLayout 和 initStatusLayout
-     * @param content findContentView 返回的内容视图
+     * @param refreshContent findContentView 返回的内容视图
+     * @param statusContent findContentView 返回的内容视图
      */
-    void initRefreshAndStatusLayouter(View content);
+    void initRefreshAndStatusLayouter(@NonNull View refreshContent,@NonNull View statusContent);
 
     /**
      * 注入 【下拉刷新控件和多页状态控件】 并排序：默认【下拉刷新控件】在【多页状态控件】内部

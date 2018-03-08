@@ -9,10 +9,11 @@
     <color name="green">#00FF00</color>
     <color name="blue">#0000FF</color>
 
+    <color name="cyan">#00DDDD</color>
     <color name="yellow">#FFFF00</color>
-    <color name="orange">#ff6200</color>
-    <color name="pink">#FF87EF</color>
-    <color name="purple">#AA00EF</color>
+    <color name="orange">#FF8800</color>
+    <color name="pink">#FF88FF</color>
+    <color name="purple">#8800FF</color>
 
     <color name="gray_black">#444444</color>
     <color name="gray_dark">#666666</color>
@@ -20,9 +21,9 @@
     <color name="gray_light">#acacac</color>
     <color name="gray_white">#ebebeb</color>
 
-    <color name="colorBackgroud">#FFFFFF</color>
-    <color name="colorBackgroudDark">#f2f2f2</color>
-    <color name="colorDivison">#dedede</color>
+    <color name="colorBackground">#FFFFFF</color>
+    <color name="colorBackgroundDark">#f2f2f2</color>
+    <color name="colorDivision">#dedede</color>
 
     <color name="colorTextTitle">#333333</color>
     <color name="colorTextContent">#444444</color>
@@ -36,6 +37,35 @@
     <color name="colorPrimary">#33B5E5</color>
     <color name="colorPrimaryDark">#22A4D4</color>
     <color name="colorPrimaryLight">#44C6F6</color>
+
+    <color name="colorRed">#EE4444</color>
+    <color name="colorRedDark">#CC3333</color>
+    <color name="colorRedLight">#FF5555</color>
+
+    <color name="colorBlue">#3198F2</color>
+    <color name="colorBlueDark">#2187E1</color>
+    <color name="colorBlueLight">#42A9FF</color>
+
+    <color name="colorGreen">#1bc98e</color>
+    <color name="colorGreenDark">#18ab79</color>
+    <color name="colorGreenLight">#5fd9b0</color>
+
+    <color name="colorYellow">#e4d836</color>
+    <color name="colorYellowDark">#c6bc31</color>
+    <color name="colorYellowLight">#ece472</color>
+
+    <color name="colorOrange">#EE8822</color>
+    <color name="colorOrangeDark">#DD7711</color>
+    <color name="colorOrangeLight">#FF9933</color>
+
+    <color name="colorPink">#EE7777</color>
+    <color name="colorPinkDark">#DD6666</color>
+    <color name="colorPinkLight">#FF8888</color>
+
+    <color name="colorPurple">#8A6DE9</color>
+    <color name="colorPurpleDark">#795CD8</color>
+    <color name="colorPurpleLight">#9B7EFA</color>
+
 
     <color name="redPrimary">#EE4444</color>
     <color name="redPrimaryDark">#CC3333</color>
@@ -67,5 +97,6 @@
     <color name="purplePrimary">#8A6DE9</color>
     <color name="purplePrimaryDark">#795CD8</color>
     <color name="purplePrimaryLight">#9B7EFA</color>
+
 
 </resources>
