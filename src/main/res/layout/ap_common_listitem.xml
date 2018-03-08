@@ -45,7 +45,7 @@
         android:layout_marginTop="@dimen/padding_common_d"
         tools:text="@string/app_name" />
 
-    <TextView style="@style/AndFrame.Label.Discription"
+    <TextView style="@style/AndFrame.Label.Description"
         android:id="@+id/acl_left2"
         android:layout_below="@+id/acl_left1"
         android:layout_marginTop="@dimen/padding_common_d"
@@ -59,7 +59,7 @@
         android:layout_below="@+id/acl_title_lyt"
         tools:text="@string/app_name"  />
 
-    <TextView style="@style/AndFrame.Label.Discription"
+    <TextView style="@style/AndFrame.Label.Description"
         android:id="@+id/acl_right2"
         android:layout_marginTop="@dimen/padding_common_d"
         android:layout_alignParentEnd="true"
