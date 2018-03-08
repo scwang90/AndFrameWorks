@@ -10,9 +10,11 @@ import com.andframe.api.adapter.ItemsViewerAdapter;
 import com.andframe.api.pager.status.RefreshLayouter;
 import com.andframe.api.pager.status.StatusLayouter;
 import com.andframe.api.viewer.ViewQuery;
+import com.andframe.exception.AfException;
 import com.andframe.exception.AfToastException;
 import com.andframe.fragment.AfItemsFragment;
 import com.andpack.activity.ApFragmentActivity;
+import com.andpack.annotation.BindItemLayout;
 import com.andpack.api.ApItemsPager;
 import com.andpack.impl.ApItemsHelper;
 
@@ -85,7 +87,7 @@ public abstract class ApItemsFragment<T> extends AfItemsFragment<T> implements A
     @NonNull
     @Override
     public ItemViewer<T> newItemViewer(int viewType) {
-        throw new AfToastException("请重写 newItemViewer(int viewType) 方法");
+        throw new AfException("请添加 @BindItemLayout 注解 或 者重写 newItemViewer(int viewType) 方法");
     }
 
     @Override

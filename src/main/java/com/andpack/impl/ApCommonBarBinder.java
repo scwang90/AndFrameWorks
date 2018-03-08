@@ -7,6 +7,7 @@ import android.app.TimePickerDialog;
 import android.content.DialogInterface;
 import android.content.res.Resources;
 import android.support.annotation.IdRes;
+import android.support.annotation.Nullable;
 import android.support.annotation.StringRes;
 import android.support.v4.app.Fragment;
 import android.text.Editable;
@@ -153,64 +154,64 @@ public class ApCommonBarBinder {
         return $$.$(views);
     }
 
-    public TextBinder text(@IdRes int idvalue) {
-        return new TextBinder(idvalue);
+    public TextBinder text(@IdRes int idValue) {
+        return new TextBinder(idValue);
     }
 
-    public TextBinder textLines(@IdRes int idvalue) {
-        return new TextLinesBinder(idvalue);
+    public TextBinder textLines(@IdRes int idValue) {
+        return new TextLinesBinder(idValue);
     }
 
-    public SelectNumber number(@IdRes int idvalue) {
-        return new SelectNumber(idvalue);
+    public SelectNumber number(@IdRes int idValue) {
+        return new SelectNumber(idValue);
     }
 
-    public InputBinder input(@IdRes int idvalue) {
-        return new InputBinder(idvalue);
+    public InputBinder input(@IdRes int idValue) {
+        return new InputBinder(idValue);
     }
 
-    public SelectBinder select(@IdRes int idvalue, CharSequence... items) {
-        return new SelectBinder(idvalue, items);
+    public SelectBinder select(@IdRes int idValue, CharSequence... items) {
+        return new SelectBinder(idValue, items);
     }
 
-    public CheckBinder check(@IdRes int idvalue) {
-        return new CheckBinder(idvalue);
+    public CheckBinder check(@IdRes int idValue) {
+        return new CheckBinder(idValue);
     }
 
-    public SwitchBinder switcher(@IdRes int idvalue) {
-        return new SwitchBinder(idvalue);
+    public SwitchBinder switcher(@IdRes int idValue) {
+        return new SwitchBinder(idValue);
     }
 
-    public SeekBarBinder seek(@IdRes int idvalue) {
-        return new SeekBarBinder(idvalue);
+    public SeekBarBinder seek(@IdRes int idValue) {
+        return new SeekBarBinder(idValue);
     }
 
-    public DateBinder date(@IdRes int idvalue) {
-        return new DateBinder(idvalue);
+    public DateBinder date(@IdRes int idValue) {
+        return new DateBinder(idValue);
     }
 
-    public MonthBinder month(@IdRes int idvalue) {
-        return new MonthBinder(idvalue);
+    public MonthBinder month(@IdRes int idValue) {
+        return new MonthBinder(idValue);
     }
 
-    public TimeBinder time(@IdRes int idvalue) {
-        return new TimeBinder(idvalue);
+    public TimeBinder time(@IdRes int idValue) {
+        return new TimeBinder(idValue);
     }
 
-    public DateTimeBinder datetime(@IdRes int idvalue) {
-        return new DateTimeBinder(idvalue);
+    public DateTimeBinder datetime(@IdRes int idValue) {
+        return new DateTimeBinder(idValue);
     }
 
-    public MultiChoiceBinder multiChoice(@IdRes int idvalue, CharSequence[] items) {
-        return new MultiChoiceBinder(idvalue, items);
+    public MultiChoiceBinder multiChoice(@IdRes int idValue, CharSequence[] items) {
+        return new MultiChoiceBinder(idValue, items);
     }
 
-    public ActivityBinder activity(@IdRes int idvalue, Class<? extends Activity> clazz, Object... args) {
-        return new ActivityBinder(idvalue, clazz, args);
+    public ActivityBinder activity(@IdRes int idValue, Class<? extends Activity> clazz, Object... args) {
+        return new ActivityBinder(idValue, clazz, args);
     }
 
-    public FragmentBinder fragment(@IdRes int idvalue, Class<? extends Fragment> clazz, Object... args) {
-        return new FragmentBinder(idvalue, clazz, args);
+    public FragmentBinder fragment(@IdRes int idValue, Class<? extends Fragment> clazz, Object... args) {
+        return new FragmentBinder(idValue, clazz, args);
     }
 
     public ImageBinder image(@IdRes int idimage) {
@@ -222,7 +223,7 @@ public class ApCommonBarBinder {
     }
 
     public abstract class Binder<T extends Binder, LASTVAL> implements View.OnClickListener{
-        public int idvalue;
+        public int idValue;
         public String key = null;
         public CharSequence hintPrefix = ApCommonBarBinder.this.hintPrefix;
         public CharSequence hint = hintPrefix;
@@ -233,20 +234,20 @@ public class ApCommonBarBinder {
         public ClickHook clickHook;
         public TaskBuilder<LASTVAL> taskBuilder;
 
-        Binder(int idvalue) {
-            this.idvalue = idvalue;
-            $(idvalue).clicked(this);
+        Binder(int idValue) {
+            this.idValue = idValue;
+            $(idValue).clicked(this);
         }
 
         public T click(int idclick) {
             $(idclick).clicked(this);
-            $(idvalue).clicked(null).clickable(false);
+            $(idValue).clicked(null).clickable(false);
             return self();
         }
 
         public T click(View view) {
             $(view).clicked(this);
-            $(idvalue).clicked(null).clickable(false);
+            $(idValue).clicked(null).clickable(false);
             return self();
         }
 
@@ -293,7 +294,7 @@ public class ApCommonBarBinder {
 
         public T cache(Object... keys) {
             if (keys.length == 0) {
-                key = String.valueOf(idvalue);
+                key = String.valueOf(idValue);
             } else {
                 key = String.valueOf(keys[0]);
             }
@@ -353,8 +354,8 @@ public class ApCommonBarBinder {
         private SelectBind bind;
         private final CharSequence[] items;
 
-        SelectBinder(int idvalue, CharSequence... items) {
-            super(idvalue);
+        SelectBinder(int idValue, CharSequence... items) {
+            super(idValue);
             this.items = items;
             this.hintPrefix("请选择");
         }
@@ -372,7 +373,7 @@ public class ApCommonBarBinder {
 
         @Override
         public void onClick(DialogInterface dialog, int which) {
-            $(idvalue).text(items[which]);
+            $(idValue).text(items[which]);
             if (key != null && dialog != null) {
                 cacher.put(key, which);
             }
@@ -410,8 +411,8 @@ public class ApCommonBarBinder {
         private String unit;
         private NumberBind bind;
 
-        public SelectNumber(int idvalue) {
-            super(idvalue);
+        public SelectNumber(int idValue) {
+            super(idValue);
             this.hintPrefix("请选择");
         }
 
@@ -460,7 +461,7 @@ public class ApCommonBarBinder {
 
         private void onNumberSelected(NumberPicker picker, int value) {
             lastval = value;
-            $(idvalue).text(String.valueOf(value)+(TextUtils.isEmpty(unit) ? "" : unit));
+            $(idValue).text(String.valueOf(value)+(TextUtils.isEmpty(unit) ? "" : unit));
             if (key != null && picker != null) {
                 cacher.put(key, value);
             }
@@ -477,8 +478,8 @@ public class ApCommonBarBinder {
         private MultiChoiceBind bind;
         private MultiChoiceVerify verify;
 
-        MultiChoiceBinder(int idvalue, CharSequence[] items) {
-            super(idvalue);
+        MultiChoiceBinder(int idValue, CharSequence[] items) {
+            super(idValue);
             this.items = items;
             this.checkedItems = new boolean[items.length];
             this.hintPrefix("请选择");
@@ -547,7 +548,7 @@ public class ApCommonBarBinder {
                     return;
                 }
             }
-            $(idvalue).text(builder);
+            $(idValue).text(builder);
             if (key != null && dialog != null) {
                 List<Boolean> list = new ArrayList<>(checkedItems.length);
                 for (boolean bool : checkedItems) {
@@ -565,18 +566,18 @@ public class ApCommonBarBinder {
 
         private InputBind bind;
 
-        InputBinder(int idvalue) {
-            super(idvalue);
+        InputBinder(int idValue) {
+            super(idValue);
         }
 
         public InputBinder inputType(int type) {
-            $(idvalue).inputType(type);
+            $(idValue).inputType(type);
             return self();
         }
 
         public InputBinder bind(InputBind bind) {
             this.bind = bind;
-            $(idvalue).textChanged(this);
+            $(idValue).textChanged(this);
             return self();
         }
         @Override
@@ -607,7 +608,7 @@ public class ApCommonBarBinder {
         }
 
         public InputBinder value(String value) {
-            $(idvalue).text(value);
+            $(idValue).text(value);
             return self();
         }
     }
@@ -619,8 +620,8 @@ public class ApCommonBarBinder {
         protected String valueSuffix = "";
         protected int type = InputType.TYPE_CLASS_TEXT;
 
-        TextBinder(int idvalue) {
-            super(idvalue);
+        TextBinder(int idValue) {
+            super(idValue);
             if (TextUtils.isEmpty(hintPrefix)) {
                 this.hintPrefix("请输入");
             }
@@ -628,7 +629,7 @@ public class ApCommonBarBinder {
 
         @Override
         public void start() {
-            $.dialog(viewer).inputText(hint, lastval == null ? $(idvalue).text().replace(valueSuffix,"") : lastval, type, this);
+            $.dialog(viewer).inputText(hint, lastval == null ? $(idValue).text().replace(valueSuffix,"") : lastval, type, this);
         }
 
         public TextBinder value(Object text) {
@@ -657,7 +658,7 @@ public class ApCommonBarBinder {
                 }
             }
             lastval = value;
-            $(idvalue).text(value + valueSuffix);
+            $(idValue).text(value + valueSuffix);
             if (key != null && input != null) {
                 cacher.put(key, value);
             }
@@ -1077,25 +1078,25 @@ public class ApCommonBarBinder {
 
     public class TextLinesBinder extends TextBinder {
 
-        TextLinesBinder(int idvalue) {
-            super(idvalue);
+        TextLinesBinder(int idValue) {
+            super(idValue);
         }
 
         @Override
         public void start() {
-            $.dialog(viewer).inputLines(hint, lastval == null ? $(idvalue).text().replace(valueSuffix,"") : lastval, type, this);
+            $.dialog(viewer).inputLines(hint, lastval == null ? $(idValue).text().replace(valueSuffix,"") : lastval, type, this);
         }
     }
 
     public abstract class AbstractDateBinder<T extends Binder> extends Binder<T, Date> {
 
         DateBind bind;
-        List<DateVerify> verifys = new ArrayList<>();
+        List<DateVerify> verifies = new ArrayList<>();
         DateFormat format = AfDateFormat.DATE;
         boolean isManual = false;
 
-        AbstractDateBinder(int idvalue) {
-            super(idvalue);
+        AbstractDateBinder(int idValue) {
+            super(idValue);
         }
 
         public abstract T value(Date date);
@@ -1122,7 +1123,7 @@ public class ApCommonBarBinder {
          * 自定义验证规则
          */
         public T verify(DateVerify verify) {
-            this.verifys.add(verify);
+            this.verifies.add(verify);
             return self();
         }
 
@@ -1211,8 +1212,8 @@ public class ApCommonBarBinder {
 
     public class DateBinder extends AbstractDateBinder<DateBinder> implements OnDateSetVerifyListener {
 
-        DateBinder(int idvalue) {
-            super(idvalue);
+        DateBinder(int idValue) {
+            super(idValue);
             format = AfDateFormat.DATE;
         }
 
@@ -1221,19 +1222,21 @@ public class ApCommonBarBinder {
             $.dialog(viewer).selectDate(hint, lastval == null ? new Date() : lastval, this);
         }
 
-        public DateBinder value(Date date) {
-            lastval = AfDateFormat.roundDate(date);
-            Calendar now = Calendar.getInstance();
-            now.setTime(date);
-            onDateSet(null, now.get(Calendar.YEAR), now.get(Calendar.MONTH), now.get(Calendar.DAY_OF_MONTH));
+        public DateBinder value(@Nullable Date date) {
+            if (date != null) {
+                lastval = AfDateFormat.roundDate(date);
+                Calendar now = Calendar.getInstance();
+                now.setTime(date);
+                onDateSet(null, now.get(Calendar.YEAR), now.get(Calendar.MONTH), now.get(Calendar.DAY_OF_MONTH));
+            }
             return self();
         }
 
         @Override
         public boolean onPreDateSet(DatePicker view, int year, int month, int dayOfMonth) {
-            if (verifys != null && view != null) {
+            if (verifies != null && view != null) {
                 try {
-                    for (DateVerify verify : verifys) {
+                    for (DateVerify verify : verifies) {
                         verify.verify(AfDateFormat.parser(year,month,dayOfMonth));
                     }
                 } catch (VerifyException e) {
@@ -1249,7 +1252,7 @@ public class ApCommonBarBinder {
         public void onDateSet(DatePicker view, int year, int month, int day) {
             isManual = view != null;
             lastval = AfDateFormat.parser(year, month, day);
-            $(idvalue).text(format.format(lastval));
+            $(idValue).text(format.format(lastval));
             if (bind != null) {
                 bind.date(this, lastval);
             }
@@ -1262,8 +1265,8 @@ public class ApCommonBarBinder {
         private static final int YEAR_MIN = 2000;
         private static final int YEAR_MAX = 3000;
 
-        MonthBinder(int idvalue) {
-            super(idvalue);
+        MonthBinder(int idValue) {
+            super(idValue);
             format = AfDateFormat.DATE;
         }
 
@@ -1292,11 +1295,9 @@ public class ApCommonBarBinder {
             Dialog dialog = $.dialog(viewer).showViewDialog(hint, view, "取消", null, "选择", null);
             if (dialog instanceof AlertDialog) {
                 ((AlertDialog) dialog).getButton(AlertDialog.BUTTON_POSITIVE)
-                        .setOnClickListener(new SafeListener(new View.OnClickListener() {
-                            public void onClick(View v) {
-                                if (onPreDateSet(view, year.getValue(), month.getValue() - 1)) {
-                                    dialog.dismiss();
-                                }
+                        .setOnClickListener(new SafeListener((View.OnClickListener) v -> {
+                            if (onPreDateSet(view, year.getValue(), month.getValue() - 1)) {
+                                dialog.dismiss();
                             }
                         }));
             }
@@ -1311,9 +1312,9 @@ public class ApCommonBarBinder {
         }
 
         public boolean onPreDateSet(View view, int year, int month) {
-            if (verifys != null && view != null) {
+            if (verifies != null && view != null) {
                 try {
-                    for (DateVerify verify : verifys) {
+                    for (DateVerify verify : verifies) {
                         verify.verify(AfDateFormat.parser(year, month, 1));
                     }
                 } catch (VerifyException e) {
@@ -1328,7 +1329,7 @@ public class ApCommonBarBinder {
         public void onDateSet(View view, int year, int month) {
             isManual = view != null;
             lastval = AfDateFormat.parser(year, month, 1);
-            $(idvalue).text(format.format(lastval));
+            $(idValue).text(format.format(lastval));
             if (bind != null) {
                 bind.date(this, lastval);
             }
@@ -1338,8 +1339,8 @@ public class ApCommonBarBinder {
 
     public class TimeBinder extends AbstractDateBinder<TimeBinder> implements OnTimeSetVerifyListener {
 
-        TimeBinder(int idvalue) {
-            super(idvalue);
+        TimeBinder(int idValue) {
+            super(idValue);
             format = new SimpleDateFormat("yyyy年MM月", Locale.CHINA);
         }
 
@@ -1358,9 +1359,9 @@ public class ApCommonBarBinder {
 
         @Override
         public boolean onPreTimeSet(TimePickerDialog dialog, TimePicker view, int hourOfDay, int minute) {
-            if (verifys != null && view != null) {
+            if (verifies != null && view != null) {
                 try {
-                    for (DateVerify verify : verifys) {
+                    for (DateVerify verify : verifies) {
                         verify.verify(AfDateFormat.parser(hourOfDay,minute));
                     }
                 } catch (VerifyException e) {
@@ -1394,7 +1395,7 @@ public class ApCommonBarBinder {
         public void onTimeSet(TimePicker view, int hourOfDay, int minute) {
             isManual = view != null;
             lastval = AfDateFormat.parser(hourOfDay, minute);
-            $(idvalue).text(format.format(lastval));
+            $(idValue).text(format.format(lastval));
             if (bind != null) {
                 bind.date(this, lastval);
             }
@@ -1403,8 +1404,8 @@ public class ApCommonBarBinder {
 
     public class DateTimeBinder extends AbstractDateBinder<DateTimeBinder> implements OnDateTimeSetVerifyListener {
 
-        DateTimeBinder(int idvalue) {
-            super(idvalue);
+        DateTimeBinder(int idValue) {
+            super(idValue);
             format = AfDateFormat.STANDARD;
         }
 
@@ -1424,9 +1425,9 @@ public class ApCommonBarBinder {
 
         @Override
         public boolean onPreDateSet(DatePicker view, int year, int month, int dayOfMonth) {
-            if (verifys != null && view != null) {
+            if (verifies != null && view != null) {
                 try {
-                    for (DateVerify verify : verifys) {
+                    for (DateVerify verify : verifies) {
                         verify.verify(AfDateFormat.parser(year,month,dayOfMonth));
                     }
                 } catch (VerifyException e) {
@@ -1439,9 +1440,9 @@ public class ApCommonBarBinder {
 
         @Override
         public boolean onPreTimeSet(TimePicker view, int hourOfDay, int minute) {
-            if (verifys != null && view != null) {
+            if (verifies != null && view != null) {
                 try {
-                    for (DateVerify verify : verifys) {
+                    for (DateVerify verify : verifies) {
                         verify.verify(AfDateFormat.parser(hourOfDay, minute));
                     }
                     isManual = true;
@@ -1456,7 +1457,7 @@ public class ApCommonBarBinder {
         @Override
         public void onDateTimeSet(int year, int month, int day, int hour, int minute) {
             lastval = AfDateFormat.parser(year, month, day, hour, minute);
-            $(idvalue).text(format.format(lastval));
+            $(idValue).text(format.format(lastval));
             if (bind != null) {
                 bind.date(this, lastval);
             }
@@ -1467,9 +1468,9 @@ public class ApCommonBarBinder {
 
         private CheckBind bind;
 
-        CheckBinder(int idvalue) {
-            super(idvalue);
-            lastval = $(idvalue).isChecked();
+        CheckBinder(int idValue) {
+            super(idValue);
+            lastval = $(idValue).isChecked();
         }
 
         @Override
@@ -1482,7 +1483,7 @@ public class ApCommonBarBinder {
 
         public CheckBinder value(boolean isChecked) {
             lastval = isChecked;
-            $(idvalue).checked(isChecked);
+            $(idValue).checked(isChecked);
             if (bind != null) {
                 bind.check(this, isChecked);
             }
@@ -1491,15 +1492,15 @@ public class ApCommonBarBinder {
 
         @Override
         public void onClick(View v) {
-            if (v != null && v.getId() != idvalue) {
-                lastval = $(idvalue).toggle().isChecked();
+            if (v != null && v.getId() != idValue) {
+                lastval = $(idValue).toggle().isChecked();
             }
             super.onClick(v);
         }
 
         @Override
         public void start() {
-            lastval = $(idvalue).isChecked();
+            lastval = $(idValue).isChecked();
             if (key != null) {
                 cacher.put(key, lastval);
             }
@@ -1515,8 +1516,8 @@ public class ApCommonBarBinder {
     }
 
     public class SwitchBinder extends CheckBinder {
-        SwitchBinder(int idvalue) {
-            super(idvalue);
+        SwitchBinder(int idValue) {
+            super(idValue);
         }
     }
 
@@ -1524,21 +1525,21 @@ public class ApCommonBarBinder {
 
         private SeekBind bind;
 
-        SeekBarBinder(int idvalue) {
-            super(idvalue);
-            SeekBar view = $(idvalue).view(SeekBar.class);
+        SeekBarBinder(int idValue) {
+            super(idValue);
+            SeekBar view = $(idValue).view(SeekBar.class);
             if (view != null) {
                 view.setOnSeekBarChangeListener(new SafeListener((SeekBar.OnSeekBarChangeListener) this));
             }
         }
 
         public SeekBarBinder max(int max) {
-            $(idvalue).max(max);
+            $(idValue).max(max);
             return self();
         }
 
         public SeekBarBinder value(int value) {
-            $(idvalue).progress(value);
+            $(idValue).progress(value);
             return self();
         }
 
@@ -1574,8 +1575,8 @@ public class ApCommonBarBinder {
         private final Object[] args;
         private Class<? extends Activity> activity;
 
-        ActivityBinder(int idvalue, Class<? extends Activity> activity, Object... args) {
-            super(idvalue);
+        ActivityBinder(int idValue, Class<? extends Activity> activity, Object... args) {
+            super(idValue);
             this.args = args;
             this.activity = activity;
         }
@@ -1593,8 +1594,8 @@ public class ApCommonBarBinder {
         private final Object[] args;
         private Class<? extends Fragment> fragment;
 
-        FragmentBinder(int idvalue, Class<? extends Fragment> fragment, Object... args) {
-            super(idvalue);
+        FragmentBinder(int idValue, Class<? extends Fragment> fragment, Object... args) {
+            super(idValue);
             this.args = args;
             this.fragment = fragment;
         }
@@ -1649,7 +1650,7 @@ public class ApCommonBarBinder {
         }
 
         public ImageBinder image(String url) {
-            $.query(viewer).$(idvalue).image(url);
+            $.query(viewer).$(idValue).image(url);
             return self();
         }
 
@@ -1683,7 +1684,7 @@ public class ApCommonBarBinder {
                 List<ImageItem> images = (ArrayList<ImageItem>) intent.getSerializableExtra(ImagePicker.EXTRA_RESULT_ITEMS);
                 if (images != null && images.size() > 0) {
                     if (bind != null && !bind.image(this, images.get(0).path)) {
-                        $.query(viewer).$(idvalue).image(images.get(0).path);
+                        $.query(viewer).$(idValue).image(images.get(0).path);
                     }
 //                } else {
 //                    $.toast(viewer).makeToastShort("没有数据");
@@ -1702,9 +1703,9 @@ public class ApCommonBarBinder {
 
         private RadioGroupBind bind;
 
-        RadioGroupBinder(int idvalue) {
-            super(idvalue);
-            $(idvalue).clicked(null).foreach(RadioGroup.class, (ViewQuery.ViewEacher<RadioGroup>) view -> {
+        RadioGroupBinder(int idValue) {
+            super(idValue);
+            $(idValue).clicked(null).foreach(RadioGroup.class, (ViewQuery.ViewEacher<RadioGroup>) view -> {
                 view.setOnCheckedChangeListener(this);
             });
         }

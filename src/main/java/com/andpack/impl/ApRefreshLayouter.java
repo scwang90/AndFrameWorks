@@ -10,6 +10,7 @@ import com.andframe.api.pager.status.OnRefreshListener;
 import com.andframe.api.pager.status.RefreshLayouter;
 import com.scwang.smartrefresh.layout.SmartRefreshLayout;
 import com.scwang.smartrefresh.layout.api.RefreshHeader;
+import com.scwang.smartrefresh.layout.constant.RefreshState;
 import com.scwang.smartrefresh.layout.header.BezierRadarHeader;
 
 import java.util.Date;
@@ -69,7 +70,8 @@ public class ApRefreshLayouter implements RefreshLayouter<SmartRefreshLayout> {
         if (params != null && params.height == WRAP_CONTENT) {
             params.height = MATCH_PARENT;
         }
-        mRefreshLayout.addView(content, MATCH_PARENT, height == 0 ? MATCH_PARENT : height);
+//        mRefreshLayout.addView(content, MATCH_PARENT, height == 0 ? MATCH_PARENT : height);
+        mRefreshLayout.setRefreshContent(content, MATCH_PARENT, height == 0 ? MATCH_PARENT : height);
     }
 
     @Override
@@ -111,6 +113,6 @@ public class ApRefreshLayouter implements RefreshLayouter<SmartRefreshLayout> {
 
     @Override
     public boolean isRefreshing() {
-        return mRefreshLayout.isRefreshing();
+        return mRefreshLayout.getState() == RefreshState.Refreshing;
     }
 }
