@@ -54,6 +54,7 @@ import android.widget.TextView;
 import com.andframe.adapter.AfLayoutItemViewerAdapter;
 import com.andframe.api.viewer.ViewQuery;
 import com.andframe.api.viewer.Viewer;
+import com.andframe.application.AfApp;
 import com.andframe.listener.SafeListener;
 import com.andframe.util.android.AfMeasure;
 import com.andframe.util.java.AfDateFormat;
@@ -126,6 +127,14 @@ public class AfViewQuery<T extends AfViewQuery<T>> implements ViewQuery<T> {
         return (T) this;
     }
 
+    protected T redirect() {
+        if (mTargetViews.length == 1 && mTargetViews[0] != null) {
+            //noinspection unchecked
+            return (T) AfApp.get().newViewQuery(new ViewerWarpper(mTargetViews[0]));
+        }
+        return self();
+    }
+
     //</editor-fold>
 
     //<editor-fold desc="选择器">
@@ -147,7 +156,7 @@ public class AfViewQuery<T extends AfViewQuery<T>> implements ViewQuery<T> {
                 mTargetViews[i] = findViewById(ids[i]);
             }
         }
-        return self();
+        return redirect();
     }
 
     @Override
@@ -199,7 +208,7 @@ public class AfViewQuery<T extends AfViewQuery<T>> implements ViewQuery<T> {
             }
         } while (!views.isEmpty());
         mTargetViews = list.toArray(new View[list.size()]);
-        return self();
+        return redirect();
     }
 
     @Override@SafeVarargs
@@ -227,7 +236,7 @@ public class AfViewQuery<T extends AfViewQuery<T>> implements ViewQuery<T> {
             }
         }
         mTargetViews = list.toArray(new View[list.size()]);
-        return self();
+        return redirect();
     }
 
     @Override
@@ -237,7 +246,7 @@ public class AfViewQuery<T extends AfViewQuery<T>> implements ViewQuery<T> {
         } else {
             mTargetViews = views;
         }
-        return self();
+        return redirect();
     }
 
     @Override
@@ -247,7 +256,7 @@ public class AfViewQuery<T extends AfViewQuery<T>> implements ViewQuery<T> {
         } else {
             mTargetViews = views.toArray(new View[views.size()]);
         }
-        return self();
+        return redirect();
     }
 
     //</editor-fold>
@@ -270,7 +279,7 @@ public class AfViewQuery<T extends AfViewQuery<T>> implements ViewQuery<T> {
                 }
             }
         }
-        return self();
+        return redirect();
     }
 
     @Override
@@ -290,7 +299,7 @@ public class AfViewQuery<T extends AfViewQuery<T>> implements ViewQuery<T> {
                 }
             }
         }
-        return self();
+        return redirect();
     }
 
     @Override
@@ -309,7 +318,7 @@ public class AfViewQuery<T extends AfViewQuery<T>> implements ViewQuery<T> {
                 }
             }
         }
-        return self();
+        return redirect();
     }
 
     @Override
@@ -331,7 +340,7 @@ public class AfViewQuery<T extends AfViewQuery<T>> implements ViewQuery<T> {
                 }
             }
         }
-        return self();
+        return redirect();
     }
 
     @Override
