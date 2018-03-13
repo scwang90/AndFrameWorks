@@ -15,8 +15,8 @@
             android:id="@+id/acl_avatar"
             android:layout_width="38dp"
             android:layout_height="38dp"
-            android:layout_marginRight="@dimen/padding_common_d"
-            android:layout_marginEnd="@dimen/padding_common_d"
+            android:layout_marginRight="@dimen/dimenPaddingDiminutive"
+            android:layout_marginEnd="@dimen/dimenPaddingDiminutive"
             android:contentDescription="@string/app_name"
             android:src="@android:drawable/sym_def_app_icon" />
 
@@ -42,18 +42,18 @@
     <TextView style="@style/AndFrame.Label"
         android:id="@+id/acl_left1"
         android:layout_below="@+id/acl_title_lyt"
-        android:layout_marginTop="@dimen/padding_common_d"
+        android:layout_marginTop="@dimen/dimenPaddingDiminutive"
         tools:text="@string/app_name" />
 
     <TextView style="@style/AndFrame.Label.Description"
         android:id="@+id/acl_left2"
         android:layout_below="@+id/acl_left1"
-        android:layout_marginTop="@dimen/padding_common_d"
+        android:layout_marginTop="@dimen/dimenPaddingDiminutive"
         tools:text="@string/app_name" />
 
     <TextView style="@style/AndFrame.Label"
         android:id="@+id/acl_right1"
-        android:layout_marginTop="@dimen/padding_common_d"
+        android:layout_marginTop="@dimen/dimenPaddingDiminutive"
         android:layout_alignParentEnd="true"
         android:layout_alignParentRight="true"
         android:layout_below="@+id/acl_title_lyt"
@@ -61,7 +61,7 @@
 
     <TextView style="@style/AndFrame.Label.Description"
         android:id="@+id/acl_right2"
-        android:layout_marginTop="@dimen/padding_common_d"
+        android:layout_marginTop="@dimen/dimenPaddingDiminutive"
         android:layout_alignParentEnd="true"
         android:layout_alignParentRight="true"
         android:layout_below="@+id/acl_right1"
