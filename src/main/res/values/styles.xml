@@ -4,7 +4,7 @@
         <!-- Customize your theme here. -->
         <item name="colorPrimary">@color/colorPrimary</item>
         <item name="colorPrimaryDark">@color/colorPrimaryDark</item>
-        <item name="colorAccent">@color/bluePrimary</item>
+        <item name="colorAccent">@color/colorBlue</item>
         <item name="android:textColorHint">@color/gray_light</item>
         <item name="android:windowBackground">@color/colorBackgroundDark</item>
     </style>
@@ -96,10 +96,10 @@
 
     <style name="AndFrame.Division">
         <item name="android:layout_width">match_parent</item>
-        <item name="android:layout_height">@dimen/division_line</item>
+        <item name="android:layout_height">@dimen/dimenDivisionLine</item>
         <item name="android:background">@color/colorDivision</item>
         <item name="android:divider">@color/colorDivision</item>
-        <item name="android:dividerHeight">@dimen/division_line</item>
+        <item name="android:dividerHeight">@dimen/dimenDivisionLine</item>
     </style>
 
     <style name="AndFrame.Division.Middle">
@@ -114,21 +114,21 @@
     <style name="AndFrame.Division.Dash">
         <item name="android:layout_height">2dp</item>
         <item name="android:dividerHeight">2dp</item>
-        <item name="android:background">@drawable/af_dashline_division</item>
-        <item name="android:divider">@drawable/af_dashline_division</item>
+        <item name="android:background">@drawable/af_division_dash</item>
+        <item name="android:divider">@drawable/af_division_dash</item>
         <item name="android:layerType">software</item>
     </style>
 
     <style name="AndFrame.Division.Vertical">
         <item name="android:layout_height">match_parent</item>
-        <item name="android:layout_width">@dimen/division_line</item>
+        <item name="android:layout_width">@dimen/dimenDivisionLine</item>
         <item name="android:layout_gravity">center_vertical</item>
         <item name="android:background">@color/colorDivision</item>
     </style>
 
     <style name="AndFrame.Division.Vertical.Dash">
         <item name="android:layout_width">2dp</item>
-        <item name="android:background">@drawable/af_dashline_division_vertical</item>
+        <item name="android:background">@drawable/af_division_dash_vertical</item>
         <item name="android:layerType">software</item>
     </style>
 
@@ -285,8 +285,8 @@
     </style>
 
     <style name="AndFrame.CommonBar.Panel">
-        <!--<item name="android:paddingTop">@dimen/division_line</item>-->
-        <!--<item name="android:paddingBottom">@dimen/division_line</item>-->
+        <!--<item name="android:paddingTop">@dimen/dimenDivisionLine</item>-->
+        <!--<item name="android:paddingBottom">@dimen/dimenDivisionLine</item>-->
         <item name="android:layout_marginTop">@dimen/dimenPaddingCommon</item>
         <item name="android:orientation">vertical</item>
         <item name="android:background">@drawable/af_background_panel</item>
@@ -322,7 +322,7 @@
 
     <style name="AndFrame.CommonBar.Bar.Alone">
         <item name="android:layout_marginTop">@dimen/dimenPaddingCommon</item>
-        <item name="android:background">@drawable/af_background_panel</item>
+        <item name="android:background">@drawable/af_background_panel_bar</item>
     </style>
 
     <style name="AndFrame.CommonBar.Content" parent="AndFrame.Label">

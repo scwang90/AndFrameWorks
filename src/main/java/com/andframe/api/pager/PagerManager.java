@@ -12,6 +12,7 @@ import com.andframe.fragment.AfFragment;
  * Created by SCWANG on 2016/11/29.
  */
 
+@SuppressWarnings("unused")
 public interface PagerManager {
 
     void onActivityCreated(AfActivity activity);
@@ -35,6 +36,7 @@ public interface PagerManager {
 
     AfActivity currentActivity();
     AfActivity getActivity(Class<? extends AfActivity> clazz);
+    AfFragment getFragment(Class<? extends AfFragment> clazz);
 
     void finishCurrentActivity();
     void finishActivity(AfActivity activity);

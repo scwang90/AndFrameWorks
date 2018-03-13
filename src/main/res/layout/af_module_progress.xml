@@ -32,6 +32,6 @@
         android:layout_below="@+id/module_progress_logo"
         android:text="正在努力加载中..."
         android:textColor="#d2d2d2"
-        android:textSize="@dimen/textsize_content" />
+        android:textSize="@dimen/dimenTextContent" />
 
 </RelativeLayout>

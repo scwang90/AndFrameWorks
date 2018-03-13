@@ -142,6 +142,21 @@ public class AfPagerManager implements PagerManager {
     }
 
     @Override
+    public AfFragment getFragment(Class<? extends AfFragment> clazz) {
+        for (AfActivity activity : mStackActivity) {
+            if (activity instanceof AfFragmentActivity) {
+                if (((AfFragmentActivity) activity).getFragmentClazz().isAssignableFrom(activity.getClass())) {
+                    Fragment fragment = ((AfFragmentActivity) activity).getFragment();
+                    if (fragment instanceof AfFragment) {
+                        return (AfFragment) fragment;
+                    }
+                }
+            }
+        }
+        return null;
+    }
+
+    @Override
     public void finishCurrentActivity() {
         AfActivity activity = currentActivity();
         if (activity != null) {

@@ -25,13 +25,6 @@ public class ModelChecker {
 
             Field[] fields = getFields(obj);
             for (Field field : fields) {
-                if (field.isAnnotationPresent(Must.class)) {
-                    field.setAccessible(true);
-                    Object value = field.get(obj);
-                    if (value == null || (value instanceof String && TextUtils.isEmpty(value.toString()))) {
-                        throw new AfToastException(field.getAnnotation(Must.class).value());
-                    }
-                }
                 if (field.isAnnotationPresent(Regex.class)) {
                     field.setAccessible(true);
                     Object value = field.get(obj);
@@ -46,6 +39,13 @@ public class ModelChecker {
                         if (value != null) {
                             throw new AfToastException(annotation.message());
                         }
+                    }
+                }
+                if (field.isAnnotationPresent(Must.class)) {
+                    field.setAccessible(true);
+                    Object value = field.get(obj);
+                    if (value == null || (value instanceof String && TextUtils.isEmpty(value.toString()))) {
+                        throw new AfToastException(field.getAnnotation(Must.class).value());
                     }
                 }
                 if (field.isAnnotationPresent(IntRange.class)) {

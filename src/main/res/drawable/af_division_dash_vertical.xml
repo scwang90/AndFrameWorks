@@ -10,6 +10,6 @@
             android:dashGap="2dp"
             />
         <!-- 虚线的高度 -->
-        <size android:height="@dimen/division_line" />
+        <size android:height="@dimen/dimenDivisionLine" />
     </shape>
 </rotate>

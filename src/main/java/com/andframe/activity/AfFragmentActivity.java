@@ -14,7 +14,7 @@ import android.widget.FrameLayout;
 import android.widget.TextView;
 
 import com.andframe.$;
-import com.andframe.annotation.MustLogined;
+import com.andframe.annotation.MustLogin;
 import com.andframe.annotation.inject.InjectExtra;
 import com.andframe.annotation.interpreter.LayoutBinder;
 import com.andframe.annotation.pager.BindLaunchMode;
@@ -133,7 +133,7 @@ public class AfFragmentActivity extends AfActivity {
     protected void checkMustLoginedOnCreate() {
         try {
             Class<?> fragment = getFragmentClass();
-            MustLogined must = AfReflecter.getAnnotation(fragment, Fragment.class, MustLogined.class);
+            MustLogin must = AfReflecter.getAnnotation(fragment, Fragment.class, MustLogin.class);
             if (must != null && !AfApp.get().isUserLogined()) {
                 interruptReplaceFragment = true;
                 startLoginPager(must);
@@ -187,7 +187,7 @@ public class AfFragmentActivity extends AfActivity {
     /**
      * 启动指定的登录页面
      */
-    protected void startLoginPager(MustLogined must) {
+    protected void startLoginPager(MustLogin must) {
         if (Activity.class.isAssignableFrom(must.value())) {
             startActivityForResult(new Intent(this,must.value()), REQUSET_LOGIN);
         } else if (Fragment.class.isAssignableFrom(must.value())) {

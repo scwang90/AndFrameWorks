@@ -68,37 +68,4 @@
     <color name="colorPurpleDark">#795CD8</color>
     <color name="colorPurpleLight">#9B7EFA</color>
 
-
-    <color name="redPrimary">#EE4444</color>
-    <color name="redPrimaryDark">#CC3333</color>
-    <color name="redPrimaryLight">#FF5555</color>
-
-    <!--<color name="bluePrimary">#1177EE</color>-->
-    <!--<color name="bluePrimaryDark">#0066DD</color>-->
-    <!--<color name="bluePrimaryLight">#2277FF</color>-->
-    <color name="bluePrimary">#3198F2</color>
-    <color name="bluePrimaryDark">#2187E1</color>
-    <color name="bluePrimaryLight">#42A9FF</color>
-
-    <color name="greenPrimary">#1bc98e</color>
-    <color name="greenPrimaryDark">#18ab79</color>
-    <color name="greenPrimaryLight">#5fd9b0</color>
-
-    <color name="yellowPrimary">#e4d836</color>
-    <color name="yellowPrimaryDark">#c6bc31</color>
-    <color name="yellowPrimaryLight">#ece472</color>
-
-    <color name="orangePrimary">#EE8822</color>
-    <color name="orangePrimaryDark">#DD7711</color>
-    <color name="orangePrimaryLight">#FF9933</color>
-
-    <color name="pinkPrimary">#EE7777</color>
-    <color name="pinkPrimaryDark">#DD6666</color>
-    <color name="pinkPrimaryLight">#FF8888</color>
-
-    <color name="purplePrimary">#8A6DE9</color>
-    <color name="purplePrimaryDark">#795CD8</color>
-    <color name="purplePrimaryLight">#9B7EFA</color>
-
-
 </resources>
