@@ -41,13 +41,6 @@ public class ModelChecker {
                         }
                     }
                 }
-                if (field.isAnnotationPresent(Must.class)) {
-                    field.setAccessible(true);
-                    Object value = field.get(obj);
-                    if (value == null || (value instanceof String && TextUtils.isEmpty(value.toString()))) {
-                        throw new AfToastException(field.getAnnotation(Must.class).value());
-                    }
-                }
                 if (field.isAnnotationPresent(IntRange.class)) {
                     IntRange range = field.getAnnotation(IntRange.class);
                     field.setAccessible(true);
@@ -78,6 +71,15 @@ public class ModelChecker {
                         if (intValue < minInt.min()) {
                             throw new AfToastException(minInt.value());
                         }
+                    }
+                }
+            }
+            for (Field field : fields) {
+                if (field.isAnnotationPresent(Must.class)) {
+                    field.setAccessible(true);
+                    Object value = field.get(obj);
+                    if (value == null || (value instanceof String && TextUtils.isEmpty(value.toString()))) {
+                        throw new AfToastException(field.getAnnotation(Must.class).value());
                     }
                 }
             }
