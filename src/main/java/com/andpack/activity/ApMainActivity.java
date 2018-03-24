@@ -30,7 +30,7 @@ public class ApMainActivity extends ApActivity {
         if (!isHandled && mDoubleBackKeyPressed) {
             isHandled = true;
             if ((System.currentTimeMillis() - mExitTime) > mExitInterval) {
-                makeToastShort("再按一次退出程序");
+                makeToastShort("再按一次退出");
                 mExitTime = System.currentTimeMillis();
             } else {
                 this.finish();

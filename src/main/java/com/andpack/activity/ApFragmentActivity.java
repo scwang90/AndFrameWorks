@@ -31,9 +31,9 @@ public class ApFragmentActivity extends AfFragmentActivity implements ApPager {
     protected ApPagerHelper mApHelper = new ApPagerHelper(this);
 
     @Override
-    public void setTheme(@StyleRes int resid) {
-        mApHelper.setTheme(resid);
-        super.setTheme(resid);
+    public void setTheme(@StyleRes int resId) {
+        mApHelper.setTheme(resId);
+        super.setTheme(resId);
     }
 
     @Override
