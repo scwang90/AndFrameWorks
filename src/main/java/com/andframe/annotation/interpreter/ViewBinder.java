@@ -40,8 +40,8 @@ import com.andframe.application.AfApp;
 import com.andframe.exception.AfExceptionHandler;
 import com.andframe.impl.viewer.ItemsViewerWrapper;
 import com.andframe.module.AfFrameSelector;
-import com.andframe.module.AfSelectorBottombar;
-import com.andframe.module.AfSelectorBottombarImpl;
+import com.andframe.module.AfSelectorBottomBar;
+import com.andframe.module.AfSelectorBottomBarImpl;
 import com.andframe.module.AfSelectorTitlebar;
 import com.andframe.module.AfSelectorTitlebarImpl;
 import com.andframe.module.AfViewModuler;
@@ -483,8 +483,8 @@ public class ViewBinder {
                 }
             } else if (type.equals(AfSelectorTitlebar.class)) {
                 value = new AfSelectorTitlebarImpl(root);
-            } else if (type.equals(AfSelectorBottombar.class)) {
-                value = new AfSelectorBottombarImpl(root);
+            } else if (type.equals(AfSelectorBottomBar.class)) {
+                value = new AfSelectorBottomBarImpl(root);
             } else if (type.equals(AfFrameSelector.class)) {
                 value = new AfFrameSelector(root, id);
             } else if (type.equals(ItemsViewerWrapper.class) || type.equals(ItemsViewer.class)) {
