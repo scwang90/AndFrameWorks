@@ -11,7 +11,7 @@ import android.widget.WrapperListAdapter;
 
 import com.andframe.api.pager.items.OnScrollToBottomListener;
 import com.andframe.api.viewer.ItemsViewer;
-import com.andframe.module.AfSelectorBottombar;
+import com.andframe.module.AfSelectorBottomBar;
 import com.andframe.module.AfSelectorTitlebar;
 
 @SuppressWarnings("unused")
@@ -22,7 +22,7 @@ public class AfMultiChoiceItemsViewer<T extends ViewGroup> implements
     protected OnItemLongClickListener mItemLongClickListener = null;
     protected AfMultiChoiceAdapter<?> mAdapter = null;
     protected AfSelectorTitlebar mSelectorTitlebar = null;
-    protected AfSelectorBottombar mSelectorBottombar = null;
+    protected AfSelectorBottomBar mSelectorBottombar = null;
     protected ItemsViewer<T> mItemsViewer;
 
     public AfMultiChoiceItemsViewer(ItemsViewer<T> itemsViewer) {
@@ -109,7 +109,7 @@ public class AfMultiChoiceItemsViewer<T extends ViewGroup> implements
         }
     }
 
-    public void setSelector(AfSelectorBottombar selector) {
+    public void setSelector(AfSelectorBottomBar selector) {
         this.mSelectorBottombar = selector;
         if (mAdapter != null && selector != null) {
             mSelectorBottombar.setAdapter(mAdapter);

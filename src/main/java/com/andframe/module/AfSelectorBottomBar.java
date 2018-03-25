@@ -20,32 +20,32 @@ import java.util.Map.Entry;
 import static android.view.View.GONE;
 import static android.view.View.VISIBLE;
 
-public abstract class AfSelectorBottombar extends AfModuleAlpha implements
+public abstract class AfSelectorBottomBar extends AfModuleAlpha implements
 		OnClickListener, GenericityListener, OnMenuItemClickListener {
 
 	public static final int MAX_ICON = 4;
 
 	protected int function = 0;
 	protected ImageView mMore;
-	protected LinearLayout mContaint;
+	protected LinearLayout mContain;
 	protected OnMenuItemClickListener mListener;
-	protected HashMap<String, Integer> mMeuns = new HashMap<>();
+	protected HashMap<String, Integer> mMenus = new HashMap<>();
 
 	protected abstract int getSelectorDrawableResId();
 	protected abstract ImageView getFunctionViewMore(Viewer view);
 	protected abstract LinearLayout getFunctionLayout(Viewer view);
 
-	protected AfSelectorBottombar() {
+	protected AfSelectorBottomBar() {
 	}
 
-	protected AfSelectorBottombar(Viewer view, int viewid) {
+	protected AfSelectorBottomBar(Viewer view, int viewid) {
 		initializeComponent(view, viewid);
 	}
 
 	private void initView(Viewer viewer) {
 		mMore = getFunctionViewMore(viewer);
 		mMore.setVisibility(GONE);
-		mContaint = getFunctionLayout(viewer);
+		mContain = getFunctionLayout(viewer);
 		mMore.setOnClickListener(this);
 		view.setVisibility(GONE);
 	}
@@ -57,26 +57,26 @@ public abstract class AfSelectorBottombar extends AfModuleAlpha implements
 	}
 
 	public void addFunction(int id, int imageid, String detail) {
-		if (mContaint.findViewById(id) == null) {
+		if (mContain.findViewById(id) == null) {
 			if (function < MAX_ICON) {
 				ImageView view = new ImageView(mMore.getContext());
-				int backid = getSelectorDrawableResId();
+				int backId = getSelectorDrawableResId();
 				view.setId(id);
 				view.setScaleType(mMore.getScaleType());
 				view.setLayoutParams(mMore.getLayoutParams());
 				view.setImageResource(imageid);
-				view.setBackgroundResource(backid);
+				view.setBackgroundResource(backId);
 				view.setContentDescription(detail);
 				view.setOnClickListener(this);
-				mContaint.addView(view, mContaint.indexOfChild(mMore));
+				mContain.addView(view, mContain.indexOfChild(mMore));
 				if (function == MAX_ICON - 1) {
 					putMeun(id, detail);
 				}
 			} else {
 				if (mMore.getVisibility() != VISIBLE) {
 					mMore.setVisibility(VISIBLE);
-					mContaint.removeViewAt(mContaint.indexOfChild(mMore) - 1);
-	//				mContaint.addView(mMore);
+					mContain.removeViewAt(mContain.indexOfChild(mMore) - 1);
+	//				mContain.addView(mMore);
 				}
 				putMeun(id, detail);
 			}
@@ -85,10 +85,10 @@ public abstract class AfSelectorBottombar extends AfModuleAlpha implements
 	}
 
 	private void putMeun(int id, String detail) {
-		if (mMeuns == null) {
-            mMeuns = new HashMap<>();
+		if (mMenus == null) {
+            mMenus = new HashMap<>();
         }
-		mMeuns.put(detail, id);
+		mMenus.put(detail, id);
 	}
 
 	public void setMenuItemListener(OnMenuItemClickListener listener) {
@@ -112,7 +112,7 @@ public abstract class AfSelectorBottombar extends AfModuleAlpha implements
 	public void onClick(View v) {
 		if (v == mMore) {
 			PopupMenu pm = new PopupMenu(v.getContext(), v);
-			for (Entry<String, Integer> entry : mMeuns.entrySet()) {
+			for (Entry<String, Integer> entry : mMenus.entrySet()) {
 				pm.getMenu().add(1, entry.getValue(), 2, entry.getKey());
 			}
 			pm.setOnMenuItemClickListener(this);

@@ -6,7 +6,7 @@ import android.widget.LinearLayout;
 import com.andframe.R;
 import com.andframe.api.viewer.Viewer;
 
-public class AfSelectorBottombarImpl extends AfSelectorBottombar {
+public class AfSelectorBottomBarImpl extends AfSelectorBottomBar {
 
 	public static final int ID_EDIT = R.drawable.af_bottom_edit;
 	public static final int ID_DELETE = R.drawable.af_bottom_delete;
@@ -17,10 +17,10 @@ public class AfSelectorBottombarImpl extends AfSelectorBottombar {
 	public static final String DETAIL_OK = "完成";
 
 	@SuppressWarnings("unused")
-	protected AfSelectorBottombarImpl() {
+	protected AfSelectorBottomBarImpl() {
 	}
 
-	public AfSelectorBottombarImpl(Viewer page) {
+	public AfSelectorBottomBarImpl(Viewer page) {
 		super(page,R.id.af_bottombar_select_layout);
 	}
 	
