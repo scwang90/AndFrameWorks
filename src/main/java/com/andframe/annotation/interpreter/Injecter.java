@@ -77,6 +77,7 @@ import com.andframe.annotation.inject.InjectLayout;
 import com.andframe.annotation.inject.InjectRes;
 import com.andframe.annotation.inject.InjectSystem;
 import com.andframe.annotation.inject.idname.InjectRes$;
+import com.andframe.api.Cacher;
 import com.andframe.api.Extrater;
 import com.andframe.application.AfApp;
 import com.andframe.application.AfAppSettings;
@@ -178,6 +179,8 @@ public class Injecter {
 //                    value = new AfImageHelper();
                 } else if (clazz.equals(AfSharedPreference.class)) {
                     value = new AfSharedPreference(context, field.getAnnotation(Inject.class).value());
+                } else if (clazz.equals(Cacher.class)) {
+                    value = new AfDurableCacher(field.getAnnotation(Inject.class).value());
                 } else if (clazz.equals(AfDurableCacher.class)) {
                     value = new AfDurableCacher(field.getAnnotation(Inject.class).value());
                 } else if (clazz.equals(AfPrivateCacher.class)) {

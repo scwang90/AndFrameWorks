@@ -12,6 +12,7 @@ import java.io.File;
 import java.lang.reflect.Field;
 import java.util.Date;
 import java.util.List;
+import java.util.Map;
 import java.util.Set;
 
 /**
@@ -53,6 +54,10 @@ public class AfSharedPreference {
 			mShared = context.getSharedPreferences(name, Context.MODE_PRIVATE);
 			AfExceptionHandler.handle(e, "缓存转换路径出错 mShared=" + (mShared == null ? "null" : mShared.toString()));
 		}
+	}
+
+	public Map<String, ?> getAll() {
+		return mShared.getAll();
 	}
 
 	private File setPreferencesPath(Context context, File file) {
