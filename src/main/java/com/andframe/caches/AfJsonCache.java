@@ -141,6 +141,16 @@ public class AfJsonCache implements Cacher {
     }
 
     @Override
+    public void remove(String key) {
+        mShared.remove(key);
+    }
+
+    @Override
+    public void remove(String... keys) {
+        mShared.remove(keys);
+    }
+
+    @Override
     public boolean isEmpty(String key) {
         try {
             return mShared.getString(key, "").equals("") &&

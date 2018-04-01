@@ -7,6 +7,7 @@ import com.andframe.api.query.hindler.MapIndex;
 import com.andframe.api.query.hindler.Where;
 
 import java.util.Collection;
+import java.util.Comparator;
 import java.util.List;
 
 /**
@@ -16,9 +17,10 @@ import java.util.List;
 
 public interface ListQuery<T> extends Collection<T> {
 
-    ListQuery<T> remove(Where<T> where);
-    ListQuery<T> where(Where<T> where);
-    ListQuery<T> foreach(Foreach<T> foreach);
+    ListQuery<T> rank(Comparator<? super T> comparator);
+    ListQuery<T> remove(Where<? super T> where);
+    ListQuery<T> where(Where<? super T> where);
+    ListQuery<T> foreach(Foreach<? super T> foreach);
     ListQuery<T> append(T t);
     List<T> toList();
     T[] toArrays(T... a);

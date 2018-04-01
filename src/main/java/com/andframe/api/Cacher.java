@@ -26,6 +26,10 @@ public interface Cacher {
 
     void clear();
 
+    void remove(String key);
+
+    void remove(String... keys);
+
     boolean isEmpty(String key);
 
     boolean getBoolean(String key, boolean value);

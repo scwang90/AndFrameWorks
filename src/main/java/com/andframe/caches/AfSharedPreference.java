@@ -82,11 +82,11 @@ public class AfSharedPreference {
 		return oldfile;
 	}
 
-	public SharedPreferences getSharedPreferences() {
+	public SharedPreferences shared() {
 		return mShared;
 	}
 
-	public Editor getSharePrefereEditor() {
+	public Editor editor() {
 		return mShared.edit();
 	}
 
@@ -128,7 +128,7 @@ public class AfSharedPreference {
 	}
 
 	public void putStringSet(String key, Set<String> value) {
-		Editor editor = getSharePrefereEditor();
+		Editor editor = editor();
 		editor.putStringSet(key, value);
 		editor.commit();
 	}
@@ -147,7 +147,7 @@ public class AfSharedPreference {
 	}
 
 	public void putStringList(String key, List<String> value) {
-		Editor editor = getSharePrefereEditor();
+		Editor editor = editor();
 		String jvalue = "";
 		try {
 			jvalue = AfJsoner.toJson(value);
@@ -158,31 +158,31 @@ public class AfSharedPreference {
 	}
 
 	public void putBoolean(String key, boolean value) {
-		Editor editor = getSharePrefereEditor();
+		Editor editor = editor();
 		editor.putBoolean(key, value);
 		editor.commit();
 	}
 
 	public void putString(String key, String value) {
-		Editor editor = getSharePrefereEditor();
+		Editor editor = editor();
 		editor.putString(key, value);
 		editor.commit();
 	}
 
 	public void putFloat(String key, float value) {
-		Editor editor = getSharePrefereEditor();
+		Editor editor = editor();
 		editor.putFloat(key, value);
 		editor.commit();
 	}
 
 	public void putInt(String key, int value) {
-		Editor editor = getSharePrefereEditor();
+		Editor editor = editor();
 		editor.putInt(key, value);
 		editor.commit();
 	}
 
 	public void putLong(String key, long value) {
-		Editor editor = getSharePrefereEditor();
+		Editor editor = editor();
 		editor.putLong(key, value);
 		editor.commit();
 	}
@@ -192,8 +192,22 @@ public class AfSharedPreference {
 	}
 
 	public void clear() {
-		Editor editor = getSharePrefereEditor();
+		Editor editor = editor();
 		editor.clear();
+		editor.commit();
+	}
+
+	public void remove(String key) {
+		Editor editor = editor();
+		editor.remove(key);
+		editor.commit();
+	}
+
+	public void remove(String... keys) {
+		Editor editor = editor();
+		for (String key : keys) {
+			editor.remove(key);
+		}
 		editor.commit();
 	}
 }

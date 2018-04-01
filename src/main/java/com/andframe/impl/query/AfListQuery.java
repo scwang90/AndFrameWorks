@@ -10,6 +10,7 @@ import com.andframe.api.query.hindler.MapIndex;
 import com.andframe.api.query.hindler.Where;
 
 import java.util.ArrayList;
+import java.util.Comparator;
 import java.util.List;
 
 /**
@@ -27,7 +28,13 @@ public class AfListQuery<T> extends ArrayList<T> implements ListQuery<T> {
     }
 
     @Override
-    public ListQuery<T> remove(Where<T> where) {
+    public ListQuery<T> rank(Comparator<? super T> comparator) {
+        super.sort(comparator);
+        return this;
+    }
+
+    @Override
+    public ListQuery<T> remove(Where<? super T> where) {
         for (int i = 0; i < size(); i++) {
             if (where.where(get(i))) {
                 remove(i--);
@@ -37,7 +44,7 @@ public class AfListQuery<T> extends ArrayList<T> implements ListQuery<T> {
     }
 
     @Override
-    public ListQuery<T> where(Where<T> where) {
+    public ListQuery<T> where(Where<? super T> where) {
         AfListQuery<T> query = new AfListQuery<>();
         for (int i = 0; i < size(); i++) {
             T model = get(i);
@@ -49,7 +56,7 @@ public class AfListQuery<T> extends ArrayList<T> implements ListQuery<T> {
     }
 
     @Override
-    public ListQuery<T> foreach(Foreach<T> foreach) {
+    public ListQuery<T> foreach(Foreach<? super T> foreach) {
         for (int i = 0; i < size(); i++) {
             foreach.foreach(i, get(i));
         }
