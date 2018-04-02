@@ -40,6 +40,7 @@ public class SafeListener implements
     private DatePickerDialog.OnDateSetListener dateSetListener;
     private TimePickerDialog.OnTimeSetListener timeSetListener;
     private DialogBuilder.OnDateTimeSetListener dateTimeSetListener;
+    private long lastTime = 0;
 
     public SafeListener(View.OnClickListener clickListener) {
         this.clickListener = clickListener;
@@ -142,8 +143,10 @@ public class SafeListener implements
 
     @Override
     public void onClick(View v) {
-        if (clickListener != null) {
+        long thisTime = System.currentTimeMillis();
+        if (clickListener != null && thisTime - lastTime > 1000) {
             try {
+                lastTime = thisTime;
                 clickListener.onClick(v);
             } catch (Throwable e) {
                 AfExceptionHandler.handle(e, "SafeListener.clickListener.onClick");

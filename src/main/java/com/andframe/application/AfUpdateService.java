@@ -50,7 +50,7 @@ public abstract class AfUpdateService implements UpdateService {
 		mVersion = AfApp.get().getVersion();
 	}
 
-	private void start(String url, String version) {
+	protected void start(String url, String version) {
 		if (mEntity != null && mEntity.Name.startsWith(version)) {
 			instanll(new File(mEntity.getFullPath()));
 		} else {
