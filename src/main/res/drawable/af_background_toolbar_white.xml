@@ -2,5 +2,5 @@
 <layer-list xmlns:android="http://schemas.android.com/apk/res/android">
     <item android:drawable="@color/colorDivision"/>
     <item android:drawable="@color/colorToolbarBackgroundLight"
-        android:bottom="@dimen/division_line"/>
+        android:bottom="@dimen/dimenDivisionLine"/>
 </layer-list>

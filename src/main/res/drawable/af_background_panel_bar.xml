@@ -4,4 +4,5 @@
     <item android:drawable="@color/white"
         android:top="@dimen/dimenDivisionLine"
         android:bottom="@dimen/dimenDivisionLine"/>
+    <item android:drawable="@drawable/af_selector_background"/>
 </layer-list>

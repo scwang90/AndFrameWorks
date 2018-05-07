@@ -9,6 +9,7 @@ import java.util.ArrayList;
 import java.util.Date;
 import java.util.HashSet;
 import java.util.List;
+import java.util.Map;
 
 /**
  * AfJsonCache
@@ -45,6 +46,11 @@ public class AfJsonCache implements Cacher {
 
     public AfSharedPreference getShared() {
         return mShared;
+    }
+
+
+    public Map<String, ?> getAll() {
+        return mShared.getAll();
     }
 
     @Override
@@ -132,6 +138,16 @@ public class AfJsonCache implements Cacher {
     @Override
     public void clear() {
         mShared.clear();
+    }
+
+    @Override
+    public void remove(String key) {
+        mShared.remove(key);
+    }
+
+    @Override
+    public void remove(String... keys) {
+        mShared.remove(keys);
     }
 
     @Override

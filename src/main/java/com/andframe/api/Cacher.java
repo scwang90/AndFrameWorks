@@ -2,6 +2,7 @@ package com.andframe.api;
 
 import java.util.Date;
 import java.util.List;
+import java.util.Map;
 
 /**
  * 缓存器接口
@@ -25,6 +26,10 @@ public interface Cacher {
 
     void clear();
 
+    void remove(String key);
+
+    void remove(String... keys);
+
     boolean isEmpty(String key);
 
     boolean getBoolean(String key, boolean value);
@@ -38,4 +43,6 @@ public interface Cacher {
     long getLong(String key, long value);
 
     Date getDate(String key, Date value);
+
+    Map<String, ?> getAll();
 }
