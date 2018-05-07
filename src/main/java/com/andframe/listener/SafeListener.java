@@ -48,8 +48,8 @@ public class SafeListener implements
     }
 
     public SafeListener(View.OnClickListener listener, int intervalTime) {
+        this.clickListener = listener;
         this.intervalTime = intervalTime;
-        this.clickListener = clickListener;
     }
 
     public SafeListener(View.OnLongClickListener longClockListener) {
