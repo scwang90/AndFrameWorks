@@ -130,4 +130,9 @@ public class TaskBuilder implements Builder {
     public Task post() {
         return $.task().postTask(build());
     }
+
+    @Override
+    public Task post(long delay) {
+        return $.task().postTask(build(), delay);
+    }
 }

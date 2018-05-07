@@ -28,7 +28,7 @@ public class InternalWaitTask extends InternalTask {
     protected void onHandle() {
         hideProgressDialog();
         if (isFinish()) {
-            makeToastSucccess();
+            makeToastSuccess();
         } else if (mException != null) {
             makeToastFail(mException);
         }
@@ -43,7 +43,7 @@ public class InternalWaitTask extends InternalTask {
         }
     }
 
-    protected void makeToastSucccess() {
+    protected void makeToastSuccess() {
         Pager pager = builder.pager.get();
         if (pager != null && builder.feedbackOnSuccess) {
             pager.makeToastShort(String.format(pager.getContext().getString(R.string.task_format_success),builder.master));

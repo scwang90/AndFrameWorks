@@ -89,7 +89,7 @@ public class WaitTaskBuilder extends TaskBuilder implements WaitBuilder {
         return this;
     }
     public WaitBuilder success(Runnable success) {
-        this.success(false, success);
+        this.success(true, success);
         return this;
     }
     public WaitBuilder exception(ExceptionHandler handler) {

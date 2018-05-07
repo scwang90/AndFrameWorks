@@ -100,6 +100,7 @@ import java.lang.reflect.Field;
 import java.lang.reflect.Method;
 import java.lang.reflect.ParameterizedType;
 import java.lang.reflect.Type;
+import java.lang.reflect.WildcardType;
 import java.util.List;
 import java.util.Random;
 
@@ -533,8 +534,13 @@ public class Injecter {
                     value = Array.newInstance(type, list.size());
                     value = list.toArray((Object[]) value);
                 } else if (List.class.equals(type)) {
-                    ParameterizedType parameterized = (ParameterizedType) generic;
-                    type = (Class<?>) parameterized.getActualTypeArguments()[0];
+                    ParameterizedType parameterizedType = (ParameterizedType) generic;
+                    Type typeArgument = parameterizedType.getActualTypeArguments()[0];
+                    if (typeArgument instanceof Class) {
+                        type = (Class<?>) parameterizedType.getActualTypeArguments()[0];
+                    } else if (typeArgument instanceof WildcardType) {
+                        type = (Class<?>) ((WildcardType) typeArgument).getUpperBounds()[0];
+                    }
                     value = intent.getList(inject.value(), type);
                 } else {
                     value = intent.get(inject.value(), type);

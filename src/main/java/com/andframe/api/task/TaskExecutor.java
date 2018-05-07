@@ -22,9 +22,6 @@ public interface TaskExecutor {
 
     <T extends Task> T postTask(T task);
 
-//    <T> AfDataTask postDataTask(T t, OnTaskHandlerListener<T> task);
-//
-//    <T, TT> AfData2Task postDataTask(T t, TT tt, OnData2TaskHandlerListener<T, TT> task);
-//
-//    <T, TT, TTT> AfData3Task postDataTask(T t, TT tt, TTT ttt, OnData3TaskHandlerListener<T, TT, TTT> task);
+    <T extends Task> T postTask(T task, long delay);
+
 }

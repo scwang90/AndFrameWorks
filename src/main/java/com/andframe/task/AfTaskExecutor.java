@@ -97,6 +97,12 @@ public class AfTaskExecutor implements TaskExecutor {
         return task;
     }
 
+    public <T extends Task> T postTask(T task, long delay) {
+        task.reset();
+        AfDispatcher.dispatch(() -> execute(task), delay);
+        return task;
+    }
+
     @Override
     public Builder builder() {
         return new TaskBuilder();

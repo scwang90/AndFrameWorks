@@ -30,6 +30,7 @@ import android.widget.CompoundButton;
 import android.widget.EditText;
 import android.widget.ExpandableListAdapter;
 import android.widget.ImageView;
+import android.widget.RadioGroup;
 
 import com.andframe.impl.viewer.AfViewQuery;
 
@@ -671,6 +672,7 @@ public interface ViewQuery<T extends ViewQuery<T>> {
      * @param transverter 文本转换器
      */
     T text(TextTransverter transverter);
+
     /**
      * 设置当前选中 TextView 的 文本（text） 如果内容为空将隐藏 View
      * @param text 文本内容
@@ -1131,6 +1133,11 @@ public interface ViewQuery<T extends ViewQuery<T>> {
      * 注册当前选择 CompoundButton 的 选中改变监听器 OnCheckedChangeListener
      */
     T checkChanged(CompoundButton.OnCheckedChangeListener listener);
+
+    /**
+     * 注册当前选择 RadioGroup 的 选中改变监听器 OnCheckedChangeListener
+     */
+    T radioChanged(RadioGroup.OnCheckedChangeListener listener);
 
     //</editor-fold>
 

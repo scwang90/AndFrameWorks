@@ -47,6 +47,7 @@ import android.widget.ExpandableListView;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.ProgressBar;
+import android.widget.RadioGroup;
 import android.widget.RatingBar;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
@@ -1888,26 +1889,32 @@ public class AfViewQuery<T extends AfViewQuery<T>> implements ViewQuery<T> {
 
     //<editor-fold desc="事件绑定">
 
+    @Override
     public T clicked(View.OnClickListener listener) {
         return foreach((ViewEacher<View>) view -> view.setOnClickListener(listener==null?null:new SafeListener(listener)));
     }
 
+    @Override
     public T clicked(View.OnClickListener listener, int intervalTime) {
         return foreach((ViewEacher<View>) view -> view.setOnClickListener(listener==null?null:new SafeListener(listener, intervalTime)));
     }
 
+    @Override
     public T longClicked(View.OnLongClickListener listener) {
         return foreach((ViewEacher<View>) view -> view.setOnLongClickListener(listener==null?null:new SafeListener(listener)));
     }
 
+    @Override
     public T itemClicked(AdapterView.OnItemClickListener listener) {
         return foreach(AdapterView.class, (ViewEacher<AdapterView>) view -> view.setOnItemClickListener(listener));
     }
 
+    @Override
     public T itemLongClicked(AdapterView.OnItemLongClickListener listener) {
         return foreach(AdapterView.class, (ViewEacher<AdapterView>) view -> view.setOnItemLongClickListener(listener));
     }
 
+    @Override
     public T textChanged(TextWatcher method) {
         return foreach(TextView.class, (ViewEacher<TextView>) view -> view.addTextChangedListener(method));
     }
@@ -1915,6 +1922,11 @@ public class AfViewQuery<T extends AfViewQuery<T>> implements ViewQuery<T> {
     @Override
     public T checkChanged(CompoundButton.OnCheckedChangeListener listener) {
         return foreach(CompoundButton.class, (ViewEacher<CompoundButton>) view -> view.setOnCheckedChangeListener(listener));
+    }
+
+    @Override
+    public T radioChanged(RadioGroup.OnCheckedChangeListener listener) {
+        return foreach(RadioGroup.class, (ViewEacher<RadioGroup>) view -> view.setOnCheckedChangeListener(listener));
     }
 
     //</editor-fold>

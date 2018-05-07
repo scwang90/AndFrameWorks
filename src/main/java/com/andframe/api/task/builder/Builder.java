@@ -38,7 +38,7 @@ public interface Builder {
     <T> LoadBuilder<Collection<T>> loadCollection(Class<T> clazz);
     <K,V> LoadBuilder<Map<K,V>> loadMap(Class<K> key, Class<V> value);
 
-    Task post();
     Task build();
-
+    Task post();
+    Task post(long delay);
 }

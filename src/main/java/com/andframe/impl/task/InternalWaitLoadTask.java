@@ -53,11 +53,11 @@ public class InternalWaitLoadTask<T> extends InternalWaitTask {
     }
 
     @Override
-    protected void makeToastSucccess() {
+    protected void makeToastSuccess() {
         if (isEmpty(data)) {
             makeToastEmpty();
         } else {
-            super.makeToastSucccess();
+            super.makeToastSuccess();
         }
     }
 
