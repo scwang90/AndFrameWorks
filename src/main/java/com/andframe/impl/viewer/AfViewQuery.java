@@ -1892,6 +1892,10 @@ public class AfViewQuery<T extends AfViewQuery<T>> implements ViewQuery<T> {
         return foreach((ViewEacher<View>) view -> view.setOnClickListener(listener==null?null:new SafeListener(listener)));
     }
 
+    public T clicked(View.OnClickListener listener, int intervalTime) {
+        return foreach((ViewEacher<View>) view -> view.setOnClickListener(listener==null?null:new SafeListener(listener, intervalTime)));
+    }
+
     public T longClicked(View.OnLongClickListener listener) {
         return foreach((ViewEacher<View>) view -> view.setOnLongClickListener(listener==null?null:new SafeListener(listener)));
     }

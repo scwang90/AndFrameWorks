@@ -41,8 +41,14 @@ public class SafeListener implements
     private TimePickerDialog.OnTimeSetListener timeSetListener;
     private DialogBuilder.OnDateTimeSetListener dateTimeSetListener;
     private long lastTime = 0;
+    private int intervalTime = 0;
 
     public SafeListener(View.OnClickListener clickListener) {
+        this(clickListener, 1000);
+    }
+
+    public SafeListener(View.OnClickListener listener, int intervalTime) {
+        this.intervalTime = intervalTime;
         this.clickListener = clickListener;
     }
 
@@ -144,7 +150,7 @@ public class SafeListener implements
     @Override
     public void onClick(View v) {
         long thisTime = System.currentTimeMillis();
-        if (clickListener != null && thisTime - lastTime > 1000) {
+        if (clickListener != null && thisTime - lastTime > intervalTime) {
             try {
                 lastTime = thisTime;
                 clickListener.onClick(v);

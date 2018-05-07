@@ -1096,9 +1096,16 @@ public interface ViewQuery<T extends ViewQuery<T>> {
 
     //<editor-fold desc="事件绑定">
     /**
-     * 注册点击事件
+     * 注册点击事件（intervalTime = 1000）
+     * @param listener 点击时间监听器
      */
     T clicked(View.OnClickListener listener);
+    /**
+     * 注册点击事件
+     * @param intervalTime 时间间隔（防止屏幕接触不良导致的点击抖动和多次点击事件触发）
+     * @param listener 点击时间监听器
+     */
+    T clicked(View.OnClickListener listener, int intervalTime);
 
     /**
      * 注册长按事件
