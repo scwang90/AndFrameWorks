@@ -28,7 +28,7 @@
         android:layout_height="wrap_content"
         android:layout_centerHorizontal="true"
         android:layout_below="@+id/module_nodata_text"
-        android:text="@string/af_module_nodata_description"
+        android:text="@string/status_empty_data"
         android:textColor="#d2d2d2"
         android:textSize="@dimen/dimenTextContent" />
 

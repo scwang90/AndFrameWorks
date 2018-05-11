@@ -376,10 +376,10 @@ public class AfItemsPagerHelper<T> extends AfStatusHelper<List<T>> implements It
 //                mItemsViewer.smoothScrollToPosition(mAdapter.getCount() + 1);
             }
             if (!mItemsPager.setMoreShow(task, list)) {
-                mItemsPager.makeToastShort(getContext().getString(R.string.items_loadmore_all));
+                mItemsPager.makeToastShort(getContext().getString(R.string.items_loading_all));
             }
         } else {
-            mItemsPager.makeToastLong(task.makeErrorToast(getContext().getString(R.string.items_loadmore_fail)));
+            mItemsPager.makeToastLong(task.makeErrorToast(getContext().getString(R.string.items_loading_fail)));
         }
     }
     //</editor-fold>

@@ -12,6 +12,7 @@ import android.widget.TextView;
 import com.andframe.R;
 import com.andframe.api.pager.status.OnRefreshListener;
 import com.andframe.api.pager.status.StatusLayouter;
+import com.andframe.application.AfApp;
 import com.andframe.module.AfFrameSelector;
 
 import static android.view.ViewGroup.LayoutParams.MATCH_PARENT;
@@ -29,11 +30,11 @@ public class DefaultStatusLayouter implements StatusLayouter {
     protected View mEmptyLayout;
     protected View mErrorLayout;
     protected View mProgressLayout;
-    protected View mInvalidnetLayout;
+    protected View mInvalidNetLayout;
     protected TextView mErrorTextView;
     protected TextView mEmptyTextView;
     protected TextView mProgressTextView;
-    protected TextView mInvalidnetTextView;
+    protected TextView mInvalidNetTextView;
     protected OnRefreshListener mOnRefreshListener;
     protected View.OnClickListener mOnRefreshClickListener = new View.OnClickListener() {
         @Override
@@ -43,10 +44,6 @@ public class DefaultStatusLayouter implements StatusLayouter {
             }
         }
     };
-
-//    private AfModuleNodata mModuleEmpty;
-//    private AfModuleNodata mModuleError;
-//    private AfModuleNodata mModuleProgress;
 
     public DefaultStatusLayouter(Context content) {
         this(new FrameLayout(content));
@@ -160,25 +157,26 @@ public class DefaultStatusLayouter implements StatusLayouter {
     }
 
     @Override
-    public void setInvalidnetLayout(int layoutId) {
-        setInvalidnetLayout(layoutId, 0, 0);
+    public void setInvalidNetLayout(int layoutId) {
+        setInvalidNetLayout(layoutId, 0, 0);
     }
 
     @Override
-    public void setInvalidnetLayout(int layoutId, int msgId) {
-        setInvalidnetLayout(layoutId, msgId, 0);
+    public void setInvalidNetLayout(int layoutId, int msgId) {
+        setInvalidNetLayout(layoutId, msgId, 0);
     }
 
     @Override
-    public void setInvalidnetLayout(int layoutId, int msgId, int btnId) {
-        if (mInvalidnetLayout != null) {
-            mFrameLayout.removeView(mInvalidnetLayout);
+    public void setInvalidNetLayout(int layoutId, int msgId, int btnId) {
+        if (mInvalidNetLayout != null) {
+            mFrameLayout.removeView(mInvalidNetLayout);
         }
-        mInvalidnetLayout = View.inflate(mFrameLayout.getContext(), layoutId, null);
-        mInvalidnetTextView = (TextView) mInvalidnetLayout.findViewById(msgId);
-        View btn = mInvalidnetLayout.findViewById(btnId);
-        btn = btn == null ? mInvalidnetLayout : btn;
+        mInvalidNetLayout = View.inflate(mFrameLayout.getContext(), layoutId, null);
+        mInvalidNetTextView = (TextView) mInvalidNetLayout.findViewById(msgId);
+        View btn = mInvalidNetLayout.findViewById(btnId);
+        btn = btn == null ? mInvalidNetLayout : btn;
         btn.setOnClickListener(mOnRefreshClickListener);
+        mFrameLayout.addView(mInvalidNetLayout);
     }
 
     @Override
@@ -192,8 +190,8 @@ public class DefaultStatusLayouter implements StatusLayouter {
         if (mProgressLayout == null) {
             setProgressLayout(R.layout.af_module_progress, R.id.module_progress_loadinfo);
         }
-        if (mInvalidnetLayout == null) {
-            setInvalidnetLayout(R.layout.af_module_nodata, R.id.module_nodata_description);
+        if (mInvalidNetLayout == null) {
+            setInvalidNetLayout(R.layout.af_module_nodata, R.id.module_nodata_description);
         }
     }
     //</editor-fold>
@@ -241,19 +239,23 @@ public class DefaultStatusLayouter implements StatusLayouter {
     }
 
     @Override
-    public void showInvalidnet() {
-        if (mInvalidnetLayout != null) {
-            mFrameSelector.selectFrame(mInvalidnetLayout);
+    public void showInvalidNet() {
+        if (mInvalidNetLayout != null) {
+            mFrameSelector.selectFrame(mInvalidNetLayout);
+        } else {
+            showError(AfApp.get().getString(R.string.status_invalid_net));
         }
     }
 
     @Override
-    public void showInvalidnet(String message) {
-        if (mInvalidnetLayout != null) {
-            mFrameSelector.selectFrame(mInvalidnetLayout);
-            if (mInvalidnetTextView != null) {
-                mInvalidnetTextView.setText(message);
+    public void showInvalidNet(String message) {
+        if (mInvalidNetLayout != null) {
+            mFrameSelector.selectFrame(mInvalidNetLayout);
+            if (mInvalidNetTextView != null) {
+                mInvalidNetTextView.setText(message);
             }
+        } else {
+            showError(message);
         }
     }
 

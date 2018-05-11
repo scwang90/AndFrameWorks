@@ -76,6 +76,11 @@ public abstract class AfStatusActivity<T> extends AfLoadActivity<T> implements S
         mStatusHelper.showStatus(status, msg);
     }
 
+    @Override
+    public void showInvalidNet() {
+        mStatusHelper.showInvalidNet();
+    }
+
     public void showEmpty() {
         mStatusHelper.showEmpty();
     }

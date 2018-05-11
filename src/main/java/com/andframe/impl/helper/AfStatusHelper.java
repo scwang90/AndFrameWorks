@@ -2,6 +2,8 @@ package com.andframe.impl.helper;
 
 import android.app.Activity;
 import android.content.Context;
+import android.net.ConnectivityManager;
+import android.net.NetworkInfo;
 import android.support.annotation.CallSuper;
 import android.support.annotation.NonNull;
 import android.support.v4.view.ViewPager;
@@ -194,11 +196,11 @@ public class AfStatusHelper<T> extends AfLoadHelper<T> implements StatusHelper<T
         if (status != null) {
             layouter.setEmptyLayout(status.empty(), status.emptyTxtId());
             layouter.setProgressLayout(status.progress(), status.progressTxtId());
-            if (status.error() > 0) {
+            if (status.error() !=  0) {
                 layouter.setErrorLayout(status.error(), status.errorTxtId());
             }
-            if (status.invalidNet() > 0) {
-                layouter.setInvalidnetLayout(status.invalidNet(), status.invalidNetTxtId());
+            if (status.invalidNet() != 0) {
+                layouter.setInvalidNetLayout(status.invalidNet(), status.invalidNetTxtId());
             }
         } else {
             StatusEmpty empty = combineStatusEmpty(mPager.getClass(), stop);
@@ -208,7 +210,7 @@ public class AfStatusHelper<T> extends AfLoadHelper<T> implements StatusHelper<T
 
             if (empty != null) {
                 String message = empty.message();
-                if (TextUtils.isEmpty(message) && empty.messageId() > 0) {
+                if (TextUtils.isEmpty(message) && empty.messageId() !=  0) {
                     message = AfApp.get().getString(empty.messageId());
                 }
                 layouter.setEmptyLayout(empty.value(), empty.txtId(), empty.btnId(), message);
@@ -217,7 +219,7 @@ public class AfStatusHelper<T> extends AfLoadHelper<T> implements StatusHelper<T
                 layouter.setErrorLayout(error.value(), error.txtId(), error.btnId());
             }
             if (invalidNet != null) {
-                layouter.setInvalidnetLayout(invalidNet.value(), invalidNet.txtId(), invalidNet.btnId());
+                layouter.setInvalidNetLayout(invalidNet.value(), invalidNet.txtId(), invalidNet.btnId());
             }
             if (progress != null) {
                 layouter.setProgressLayout(progress.value(), progress.txtId());
@@ -263,16 +265,29 @@ public class AfStatusHelper<T> extends AfLoadHelper<T> implements StatusHelper<T
 
     public void onTaskFailed(@NonNull Task task) {
         if (mModel != null) {
+            mPager.showStatus(StatusLayouter.Status.content);
+            mPager.makeToastShort(task.makeErrorToast(AfApp.get().getString(R.string.status_load_fail)));
+        } else {
             if (task.exception() instanceof java.net.BindException ||
                     task.exception() instanceof java.net.NoRouteToHostException ||
                     task.exception() instanceof java.net.SocketException) {
-                mPager.showStatus(StatusLayouter.Status.invaludnet);
+                mPager.showStatus(StatusLayouter.Status.invalidNet);
             } else {
-                mPager.showStatus(StatusLayouter.Status.content);
+                try {
+                    ConnectivityManager manager;
+                    manager = (ConnectivityManager) mPager.getContext().getSystemService(Context.CONNECTIVITY_SERVICE);
+                    if (manager != null) {
+                        NetworkInfo network = manager.getActiveNetworkInfo();
+                        if (network != null && network.getState() == NetworkInfo.State.CONNECTED) {
+                            mPager.showStatus(StatusLayouter.Status.error, task.makeErrorToast(AfApp.get().getString(R.string.status_load_fail)));
+                            return;
+                        }
+                    }
+                    mPager.showStatus(StatusLayouter.Status.invalidNet);
+                } catch (Throwable e) {
+                    mPager.showStatus(StatusLayouter.Status.error, task.makeErrorToast(AfApp.get().getString(R.string.status_load_fail)));
+                }
             }
-            mPager.makeToastShort(task.makeErrorToast(AfApp.get().getString(R.string.status_load_fail)));
-        } else {
-            mPager.showStatus(StatusLayouter.Status.error, task.makeErrorToast(AfApp.get().getString(R.string.status_load_fail)));
         }
     }
 
@@ -304,7 +319,8 @@ public class AfStatusHelper<T> extends AfLoadHelper<T> implements StatusHelper<T
                     mPager.showError(msg[0]);
                 }
                 break;
-            case invaludnet:
+            case invalidNet:
+                mPager.showInvalidNet();
                 break;
         }
     }
@@ -335,6 +351,15 @@ public class AfStatusHelper<T> extends AfLoadHelper<T> implements StatusHelper<T
             } else {
                 mPager.showProgressDialog(AfApp.get().getString(R.string.status_loading));
             }
+        }
+    }
+
+    @Override
+    public void showInvalidNet() {
+        if (mStatusLayouter != null) {
+            mStatusLayouter.showInvalidNet();
+        } else {
+            mPager.makeToastShort(AfApp.get().getString(R.string.status_invalid_net));
         }
     }
 
@@ -410,7 +435,7 @@ public class AfStatusHelper<T> extends AfLoadHelper<T> implements StatusHelper<T
         StatusInvalidNetImpl impl = new StatusInvalidNetImpl();
         impl.value = R.layout.af_module_nodata;
         impl.txtId = R.id.module_nodata_description;
-        impl.message = AfApp.get().getString(R.string.status_invalidnet);
+        impl.message = AfApp.get().getString(R.string.status_invalid_net);
         List<StatusInvalidNet> empties = getAnnotations(type, stoptype, StatusInvalidNet.class);
         for (StatusInvalidNet tEmpty : empties) {
             impl.combine(tEmpty);
@@ -477,10 +502,10 @@ public class AfStatusHelper<T> extends AfLoadHelper<T> implements StatusHelper<T
 //        }
 
         public void combine(StatusEmpty annotation) {
-            this.value = annotation.value() > 0 ? annotation.value() : value;
-            this.txtId = annotation.txtId() > 0 ? annotation.txtId() : txtId;
-            this.btnId = annotation.btnId() > 0 ? annotation.btnId() : btnId;
-            this.messageId = annotation.messageId() > 0 ? annotation.messageId() : messageId;
+            this.value = annotation.value() != 0 ? annotation.value() : value;
+            this.txtId = annotation.txtId() != 0 ? annotation.txtId() : txtId;
+            this.btnId = annotation.btnId() != 0 ? annotation.btnId() : btnId;
+            this.messageId = annotation.messageId() != 0 ? annotation.messageId() : messageId;
             this.message = TextUtils.isEmpty(annotation.message()) ? message : annotation.message();
         }
     }
@@ -499,9 +524,9 @@ public class AfStatusHelper<T> extends AfLoadHelper<T> implements StatusHelper<T
 //        }
 
         public void combine(StatusError annotation) {
-            this.value = annotation.value() > 0 ? annotation.value() : value;
-            this.txtId = annotation.txtId() > 0 ? annotation.txtId() : txtId;
-            this.btnId = annotation.btnId() > 0 ? annotation.btnId() : btnId;
+            this.value = annotation.value() != 0 ? annotation.value() : value;
+            this.txtId = annotation.txtId() != 0 ? annotation.txtId() : txtId;
+            this.btnId = annotation.btnId() != 0 ? annotation.btnId() : btnId;
         }
     }
 
@@ -519,9 +544,9 @@ public class AfStatusHelper<T> extends AfLoadHelper<T> implements StatusHelper<T
 //        }
 
         public void combine(StatusInvalidNet annotation) {
-            this.value = annotation.value() > 0 ? annotation.value() : value;
-            this.txtId = annotation.txtId() > 0 ? annotation.txtId() : txtId;
-            this.btnId = annotation.btnId() > 0 ? annotation.btnId() : btnId;
+            this.value = annotation.value() != 0 ? annotation.value() : value;
+            this.txtId = annotation.txtId() != 0 ? annotation.txtId() : txtId;
+            this.btnId = annotation.btnId() != 0 ? annotation.btnId() : btnId;
         }
     }
 
@@ -539,8 +564,8 @@ public class AfStatusHelper<T> extends AfLoadHelper<T> implements StatusHelper<T
 //        }
 
         public void combine(StatusProgress annotation) {
-            this.value = annotation.value() > 0 ? annotation.value() : value;
-            this.txtId = annotation.txtId() > 0 ? annotation.txtId() : txtId;
+            this.value = annotation.value() != 0 ? annotation.value() : value;
+            this.txtId = annotation.txtId() != 0 ? annotation.txtId() : txtId;
             this.message = TextUtils.isEmpty(annotation.message()) ? message : annotation.message();
         }
     }

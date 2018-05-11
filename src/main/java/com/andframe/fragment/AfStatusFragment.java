@@ -87,6 +87,11 @@ public abstract class AfStatusFragment<T> extends AfLoadFragment<T> implements S
         mStatusHelper.showProgress();
     }
 
+    @Override
+    public void showInvalidNet() {
+        mStatusHelper.showInvalidNet();
+    }
+
     public void showProgress(@NonNull String progress) {
         mStatusHelper.showProgress(progress);
     }

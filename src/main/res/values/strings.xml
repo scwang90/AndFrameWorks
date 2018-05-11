@@ -2,27 +2,27 @@
 
     <string name="app_name">AndFrame</string>
 
-    <string name="refresh_header_pulldown">下拉刷新</string>
+    <string name="refresh_header_pull_down">下拉刷新</string>
     <string name="refresh_header_release">释放刷新</string>
     <string name="refresh_header_update">更新于</string>
-    <string name="refresh_footer_pullup">上拉获取更多</string>
+    <string name="refresh_footer_pull_up">上拉获取更多</string>
     <string name="refresh_footer_release">释放获取更多</string>
     <string name="refresh_footer_more">查看更多</string>
     <string name="refresh_footer_loading">正在加载</string>
 
     <string name="items_refresh_fail">刷新失败，稍候重试</string>
-    <string name="items_loadmore_fail">获取更多失败，稍候重试</string>
-    <string name="items_loadmore_all">数据全部加载完毕</string>
+    <string name="items_loading_fail">获取更多失败，稍候重试</string>
+    <string name="items_loading_all">数据全部加载完毕</string>
 
     <string name="status_load_fail">加载失败，稍候重试</string>
     <string name="status_loading">正在加载…</string>
-    <string name="status_invalidnet">网络异常，请检查网络</string>
+    <string name="status_invalid_net">网络异常，请检查网络</string>
+    <string name="status_empty_data">暂无数据，点击屏幕刷新</string>
 
     <string name="task_format_loading">正在%s…</string>
     <string name="task_format_success">%s成功</string>
     <string name="task_format_empty">%s为空</string>
     <string name="task_format_fail">%s失败</string>
-    <string name="task_format_nulldata">%s返回数据为空</string>
-    <string name="af_module_nodata_description">暂无数据，点击屏幕刷新</string>
+    <string name="task_format_empty_data">%s返回数据为空</string>
 
 </resources>

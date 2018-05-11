@@ -111,6 +111,7 @@ public interface StatusHelper<T> extends LoadHelper<T>, EmptyVerdicter<T> {
      * 也可以自己实现
      */
     void showEmpty();
+    void showInvalidNet();
     void showProgress();
     void showContent();
     void showProgress(@NonNull String progress);
