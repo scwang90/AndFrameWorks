@@ -1,5 +1,8 @@
 package com.andframe.api;
 
+import android.support.annotation.NonNull;
+import android.support.annotation.Nullable;
+
 import java.util.Date;
 import java.util.List;
 import java.util.Map;
@@ -18,10 +21,13 @@ public interface Cacher {
 
     Cacher pushList(String key, List values);
 
+    @Nullable
     <T> T get(String key, Class<T> clazz);
 
+    @Nullable
     <T> T get(String key, T defaul, Class<T> clazz);
 
+    @NonNull
     <T> List<T> getList(String key, Class<T> clazz);
 
     void clear();

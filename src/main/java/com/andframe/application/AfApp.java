@@ -13,6 +13,7 @@ import android.os.Bundle;
 import android.os.Environment;
 import android.support.annotation.CallSuper;
 import android.support.annotation.NonNull;
+import android.support.annotation.Nullable;
 import android.util.Log;
 
 import com.andframe.BuildConfig;
@@ -84,6 +85,17 @@ public abstract class AfApp extends Application {
 
 	public AfApp() {
 		mApp = this;
+	}
+
+	public static <APP extends Application,AFP extends AfApp> AfApp wrapper(@NonNull APP app,@Nullable AFP afp) {
+		mApp = afp != null ? afp : new AfApp() { };
+		mApp.attachBaseContext(app.getBaseContext());
+		try {
+			mApp.initApp();
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
+		return mApp;
 	}
 
 	public static AfApp get() {

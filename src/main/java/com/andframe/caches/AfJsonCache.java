@@ -1,6 +1,8 @@
 package com.andframe.caches;
 
 import android.content.Context;
+import android.support.annotation.NonNull;
+import android.support.annotation.Nullable;
 
 import com.andframe.api.Cacher;
 import com.andframe.feature.AfJsoner;
@@ -101,11 +103,13 @@ public class AfJsonCache implements Cacher {
         return this;
     }
 
+    @Nullable
     @Override
     public <T> T get(String key, Class<T> clazz) {
         return get(key, null, clazz);
     }
 
+    @Nullable
     @Override
     public <T> T get(String key, T defaul, Class<T> clazz) {
         T value = null;
@@ -122,6 +126,7 @@ public class AfJsonCache implements Cacher {
      *
      * @return 即使缓存不存在 也不会返回null 而是空列表
      */
+    @NonNull
     @Override
     public <T> List<T> getList(String key, Class<T> clazz) {
         List<T> list = new ArrayList<>();
