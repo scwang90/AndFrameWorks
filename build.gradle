@@ -47,7 +47,7 @@ dependencies {
         exclude group: 'com.android.support'
     }
     compile 'com.nostra13.universalimageloader:universal-image-loader:1.9.5'
-    compile 'com.scwang.smartrefresh:SmartRefreshLayout:1.1.0-alpha-2'
+    compile 'com.scwang.smartrefresh:SmartRefreshLayout:1.1.0-alpha-5'
     compile 'me.imid.swipebacklayout.lib:library:1.1.0'
     compile 'org.greenrobot:eventbus:3.0.0'
 

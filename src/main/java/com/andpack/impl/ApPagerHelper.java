@@ -156,7 +156,7 @@ public class ApPagerHelper {
 
     public void onPostCreate(Bundle bundle) {
         try {
-            if (mIsUsingSwipeBack) {
+            if (mIsUsingSwipeBack && mSwipeBackHelper == null) {
                 mSwipeBackHelper = new SwipeBackActivityHelper(pager.getActivity());
                 mSwipeBackHelper.onActivityCreate();
             }
@@ -208,9 +208,9 @@ public class ApPagerHelper {
     public boolean finish() {
         try {
             if (mSwipeBackHelper != null) {
-                mSwipeBackHelper.getSwipeBackLayout().scrollToFinishActivity();
+//                mSwipeBackHelper.getSwipeBackLayout().scrollToFinishActivity();
                 mSwipeBackHelper = null;
-                return true;
+//                return true;
             }
         } catch (Throwable e) {
             AfExceptionHandler.handle(e, ("SwipeBackActivityHelper.scrollToFinishActivity 失败"));

@@ -1,13 +1,19 @@
 <resources>
 
     <!-- Base application theme. -->
-    <style name="AppTheme" parent="AppThemeBase">
+    <style name="AppThemeBase" parent="Theme.AppCompat.DayNight.NoActionBar">
         <!-- Customize your theme here. -->
+        <item name="colorPrimary">@color/colorPrimary</item>
+        <item name="colorPrimaryDark">@color/colorPrimaryDark</item>
+        <item name="colorAccent">@color/colorBlue</item>
+        <item name="android:textColorHint">@color/gray_light</item>
+        <item name="android:windowBackground">@color/colorBackgroundDark</item>
+        <item name="android:windowAnimationStyle">@style/AppTheme.Animation.Activity</item>
     </style>
 
     <style name="AppTheme.SwipeBack" parent="AppTheme">
         <item name="android:windowIsTranslucent">true</item>
-        <item name="android:windowAnimationStyle">@style/activityAnimation</item>
+        <!--<item name="android:windowAnimationStyle">@style/AppTheme.Animation.Activity</item>-->
         <!--<item name="android:windowBackground">@android:color/transparent</item>-->
     </style>
 
@@ -17,13 +23,14 @@
         <item name="android:background">?android:attr/selectableItemBackground</item>
     </style>
 
-    <style name="activityAnimation" parent="@android:style/Animation">
-        <item name="android:windowEnterAnimation">@anim/page_enter</item>
-        <item name="android:windowExitAnimation">@anim/page_exit</item>
-        <item name="android:activityOpenEnterAnimation">@anim/page_enter</item>
-        <item name="android:activityOpenExitAnimation">@anim/slide_out_left</item>
-        <item name="android:activityCloseEnterAnimation">@anim/slide_in_left</item>
-        <item name="android:activityCloseExitAnimation">@anim/page_exit</item>
+    <style name="AppTheme.Animation" parent="@android:style/Animation.Activity">
+    </style>
+
+    <style name="AppTheme.Animation.Activity">
+        <item name="android:activityOpenEnterAnimation">@anim/activity_open_in</item>
+        <item name="android:activityOpenExitAnimation">@anim/activity_open_out</item>
+        <item name="android:activityCloseEnterAnimation">@anim/activity_close_in</item>
+        <item name="android:activityCloseExitAnimation">@anim/activity_close_out</item>
     </style>
 
 </resources>
