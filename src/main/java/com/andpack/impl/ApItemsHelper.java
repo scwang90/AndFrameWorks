@@ -1,17 +1,16 @@
 package com.andpack.impl;
 
-import android.support.v7.widget.RecyclerView;
-
 import com.andframe.adapter.AfLayoutItemViewerAdapter;
 import com.andframe.api.adapter.ItemsViewerAdapter;
 import com.andframe.api.viewer.ViewQuery;
 import com.andframe.util.java.AfReflecter;
 import com.andpack.annotation.BindItemLayout;
 import com.andpack.api.ApItemsPager;
-//import com.twotoasters.jazzylistview.effects.FadeEffect;
-//import com.twotoasters.jazzylistview.recyclerview.JazzyRecyclerViewScrollListener;
 
 import java.util.List;
+
+//import com.twotoasters.jazzylistview.effects.FadeEffect;
+//import com.twotoasters.jazzylistview.recyclerview.JazzyRecyclerViewScrollListener;
 
 /**
  * 页面基类帮助类
@@ -20,7 +19,7 @@ import java.util.List;
 public class ApItemsHelper<T> extends ApStatusHelper {
 
     private BindItemLayout mItemLayout;
-    private ApItemsPager<T> mItemPager;
+    protected ApItemsPager<T> mItemPager;
 
     public ApItemsHelper(ApItemsPager<T> pager) {
         super(pager);

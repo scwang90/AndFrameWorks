@@ -17,8 +17,8 @@ public class ApListAdapter<T> extends AfLayoutItemViewerAdapter<T> {
 
     protected ApItemBinder<T> binder;
 
-    public ApListAdapter(List<T> ltdata, ApItemBinder<T> binder, @LayoutRes int layoutId) {
-        super(layoutId, ltdata);
+    public ApListAdapter(List<T> list, ApItemBinder<T> binder, @LayoutRes int layoutId) {
+        super(layoutId, list);
         this.binder = binder;
     }
 

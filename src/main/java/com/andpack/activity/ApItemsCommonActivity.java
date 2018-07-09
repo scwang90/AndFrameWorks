@@ -1,32 +1,24 @@
-package com.andpack.fragment.common;
+package com.andpack.activity;
 
 import android.support.annotation.IdRes;
 import android.support.annotation.Nullable;
 import android.support.annotation.StringRes;
-import android.view.LayoutInflater;
 import android.view.View;
-import android.view.ViewGroup;
 
-import com.andpack.fragment.ApItemsFragment;
 import com.andpack.impl.ApItemsCommonHelper;
 
 /**
- * 通用列表页面
- * Created by SCWANG on 2017/5/18.
+ *
+ * Created by SCWANG on 2016/9/7.
  */
-public abstract class ApItemsCommonFragment<T> extends ApItemsFragment<T> {
+public abstract class ApItemsCommonActivity<T>  extends ApItemsActivity<T> {
 
     protected ApItemsCommonHelper<T> mApItemsCommonHelper;// = new ApItemsCommonHelper<>(this);
 
-    public ApItemsCommonFragment() {
+    public ApItemsCommonActivity() {
         super(null);
         this.mApItemsCommonHelper = new ApItemsCommonHelper<>(this);
         this.mApHelper = mApItemsCommonHelper;
-    }
-
-    @Override
-    protected View onCreateView(LayoutInflater inflater, ViewGroup container) {
-        return mApItemsCommonHelper.onCreateView(inflater, container);
     }
 
     protected void setToolbarActionTxt(@StringRes int txtId) {

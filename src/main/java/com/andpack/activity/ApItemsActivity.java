@@ -26,7 +26,15 @@ import java.util.List;
  */
 public abstract class ApItemsActivity<T> extends AfItemsActivity<T> implements ApItemsPager<T> {
 
-    protected ApItemsHelper<T> mApHelper = new ApItemsHelper<>(this);
+    protected ApItemsHelper<T> mApHelper;// = new ApItemsHelper<>(this);
+
+    public ApItemsActivity() {
+        this.mApHelper = new ApItemsHelper<>(this);
+    }
+
+    public ApItemsActivity(ApItemsHelper<T> helper) {
+        this.mApHelper = helper;
+    }
 
     @Override
     public void setTheme(@StyleRes int resid) {

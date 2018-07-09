@@ -70,13 +70,13 @@ public class ApPickerCameraFragment extends ApFragment {
     /**
      * 页面跳转数据返回接受和处理
      * @param intent      Intent 的子类 支持对象持久化
-     * @param requestcode 请求码
-     * @param resultcode  返回码
+     * @param requestCode 请求码
+     * @param resultCode  返回码
      */
     @Override
-    protected void onActivityResult(final AfIntent intent, int requestcode, int resultcode) {
-        if(requestcode == REQUEST_CAMERA){
-            if(resultcode == Activity.RESULT_OK) {
+    protected void onActivityResult(final AfIntent intent, int requestCode, int resultCode) {
+        if(requestCode == REQUEST_CAMERA){
+            if(resultCode == Activity.RESULT_OK) {
                 if (mTmpCameraFile != null) {
                     selectedListener.onSelected(mTmpCameraFile);
                 }

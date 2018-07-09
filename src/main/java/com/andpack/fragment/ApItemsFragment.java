@@ -11,10 +11,8 @@ import com.andframe.api.pager.status.RefreshLayouter;
 import com.andframe.api.pager.status.StatusLayouter;
 import com.andframe.api.viewer.ViewQuery;
 import com.andframe.exception.AfException;
-import com.andframe.exception.AfToastException;
 import com.andframe.fragment.AfItemsFragment;
 import com.andpack.activity.ApFragmentActivity;
-import com.andpack.annotation.BindItemLayout;
 import com.andpack.api.ApItemsPager;
 import com.andpack.impl.ApItemsHelper;
 
@@ -26,7 +24,15 @@ import java.util.List;
  */
 public abstract class ApItemsFragment<T> extends AfItemsFragment<T> implements ApItemsPager<T> {
 
-    protected ApItemsHelper<T> mApHelper = new ApItemsHelper<>(this);
+    protected ApItemsHelper<T> mApHelper;// = new ApItemsHelper<>(this);
+
+    public ApItemsFragment() {
+        this.mApHelper = new ApItemsHelper<>(this);
+    }
+
+    public ApItemsFragment(ApItemsHelper<T> helper) {
+        this.mApHelper = helper;
+    }
 
     @Override
     protected void onCreated() {

@@ -214,8 +214,8 @@ public class ApCommonBarBinder {
         return new FragmentBinder(idValue, clazz, args);
     }
 
-    public ImageBinder image(@IdRes int idimage) {
-        return new ImageBinder(idimage);
+    public ImageBinder image(@IdRes int idImage) {
+        return new ImageBinder(idImage);
     }
 
     public RadioGroupBinder radioGroup(int id) {
@@ -634,7 +634,7 @@ public class ApCommonBarBinder {
 
         public TextBinder value(Object text) {
             if (text != null && !TextUtils.isEmpty(text.toString())) {
-                onInputTextComfirm(null, text.toString());
+                onInputTextConfirm(null, text.toString());
             }
             return self();
         }
@@ -643,12 +643,12 @@ public class ApCommonBarBinder {
         public void onRestoreCache(String key) {
             String text = cacher.getString(key, null);
             if (text != null) {
-                onInputTextComfirm(null, text);
+                onInputTextConfirm(null, text);
             }
         }
 
         @Override
-        public boolean onInputTextComfirm(EditText input, String value) {
+        public boolean onInputTextConfirm(EditText input, String value) {
             if (verify != null && input != null) {
                 try {
                     value = verify.verify(value);
@@ -1609,14 +1609,14 @@ public class ApCommonBarBinder {
 
     public class ImageBinder extends Binder<ImageBinder, Void> {
 
-        private int outPutX = 0;           //裁剪保存宽度
-        private int outPutY = 0;           //裁剪保存高度
-        private int request_image = 1000;
-        private ImageBind bind;
-        private CropImageView.Style style = CropImageView.Style.RECTANGLE;
+        protected int outPutX = 0;           //裁剪保存宽度
+        protected int outPutY = 0;           //裁剪保存高度
+        protected int request_image = 1000;
+        protected ImageBind bind;
+        protected CropImageView.Style style = CropImageView.Style.RECTANGLE;
 
-        ImageBinder(int idimage) {
-            super(idimage);
+        protected ImageBinder(int idImage) {
+            super(idImage);
         }
 
         @Override
@@ -1677,8 +1677,8 @@ public class ApCommonBarBinder {
             return self();
         }
 
-        public void onActivityResult(AfIntent intent, int requestcode, int resultcode) {
-            if (requestcode == request_image /*&& resultcode == Activity.RESULT_OK*/) {
+        public void onActivityResult(AfIntent intent, int requestCode, int resultCode) {
+            if (requestCode == request_image /*&& resultCode == Activity.RESULT_OK*/) {
                 new CropImageView(ApApp.get()).setOnBitmapSaveCompleteListener(null);
                 //noinspection unchecked
                 List<ImageItem> images = (ArrayList<ImageItem>) intent.getSerializableExtra(ImagePicker.EXTRA_RESULT_ITEMS);
