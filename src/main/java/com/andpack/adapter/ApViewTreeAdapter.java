@@ -51,11 +51,11 @@ public class ApViewTreeAdapter extends AfTreeViewAdapter<View> {
                 TextView content = new TextView(context);
                 ImageView image = new ImageView(context);
                 LinearLayout ll = new LinearLayout(context);
-                $$.$(image).id(icon).size(40f, 40f).margin(5f);
-                $$.$(title).id(text1).singleLine(true).textColorId(colorTextTitle).textSizeId(R.dimen.dimenTextSmall);
-                $$.$(content).id(text2).margin(0,5f,0,0).textColorId(colorTextContent).textSizeId(R.dimen.dimenTextContent);
-                $$.$(ll).orientation(VERTICAL).padding(5f).addView(title).addView(content);
-                $$.$(root).backgroundColor(0xfff9f9f9).padding(5f).addView(image).addView(ll);
+                $$.with(image).id(icon).size(40f, 40f).margin(5f);
+                $$.with(title).id(text1).singleLine(true).textColorId(colorTextTitle).textSizeId(R.dimen.dimenTextSmall);
+                $$.with(content).id(text2).margin(0,5f,0,0).textColorId(colorTextContent).textSizeId(R.dimen.dimenTextContent);
+                $$.with(ll).orientation(VERTICAL).padding(5f).addView(title).addView(content);
+                $$.with(root).backgroundColor(0xfff9f9f9).padding(5f).addView(image).addView(ll);
                 return root;
             }
 

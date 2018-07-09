@@ -148,10 +148,10 @@ public class ApCommonBarBinder {
     }
 
     public ViewQuery<? extends ViewQuery> $(Integer id, int... ids) {
-        return $$.$(id, ids);
+        return $$.query(id, ids);
     }
     public ViewQuery<? extends ViewQuery> $(View... views) {
-        return $$.$(views);
+        return $$.with(views);
     }
 
     public TextBinder text(@IdRes int idValue) {
@@ -1650,7 +1650,7 @@ public class ApCommonBarBinder {
         }
 
         public ImageBinder image(String url) {
-            $.query(viewer).$(idValue).image(url);
+            $.query(viewer).query(idValue).image(url);
             return self();
         }
 
@@ -1684,7 +1684,7 @@ public class ApCommonBarBinder {
                 List<ImageItem> images = (ArrayList<ImageItem>) intent.getSerializableExtra(ImagePicker.EXTRA_RESULT_ITEMS);
                 if (images != null && images.size() > 0) {
                     if (bind != null && !bind.image(this, images.get(0).path)) {
-                        $.query(viewer).$(idValue).image(images.get(0).path);
+                        $.query(viewer).query(idValue).image(images.get(0).path);
                     }
 //                } else {
 //                    $.toast(viewer).makeToastShort("没有数据");

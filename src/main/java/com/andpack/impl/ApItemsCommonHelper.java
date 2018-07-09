@@ -63,10 +63,10 @@ public class ApItemsCommonHelper<T> extends ApItemsHelper<T> {
         Class<?> stop = mItemPager instanceof Activity ? ApItemsCommonActivity.class : ApItemsCommonFragment.class;
         BindTitle title = AfReflecter.getAnnotation(mItemPager.getClass(), stop, BindTitle.class);
         if (title != null) {
-            if (title.value() > 0) {
-                mItemPager.getViewQuery().$(R.id.toolbar_title).text(title.value());
+            if (title.value() != 0) {
+                mItemPager.getViewQuery().query(R.id.toolbar_title).text(title.value());
             } else {
-                mItemPager.getViewQuery().$(R.id.toolbar_title).text(title.title());
+                mItemPager.getViewQuery().query(R.id.toolbar_title).text(title.title());
             }
         }
     }
@@ -76,7 +76,7 @@ public class ApItemsCommonHelper<T> extends ApItemsHelper<T> {
     }
 
     public void setToolbarActionTxt(@StringRes int txtId,@Nullable View.OnClickListener listener) {
-        mItemPager.getViewQuery().$(R.id.toolbar_right_txt).text(txtId).clicked(listener);
+        mItemPager.getViewQuery().query(R.id.toolbar_right_txt).text(txtId).clicked(listener);
     }
 
     public void setToolbarActionTxt(CharSequence txt) {
@@ -84,7 +84,7 @@ public class ApItemsCommonHelper<T> extends ApItemsHelper<T> {
     }
 
     public void setToolbarActionTxt(CharSequence txt,@Nullable View.OnClickListener listener) {
-        mItemPager.getViewQuery().$(R.id.toolbar_right_txt).text(txt).clicked(listener);
+        mItemPager.getViewQuery().query(R.id.toolbar_right_txt).text(txt).clicked(listener);
     }
 
     public void setToolbarActionImg(@IdRes int imgId) {
@@ -92,7 +92,7 @@ public class ApItemsCommonHelper<T> extends ApItemsHelper<T> {
     }
 
     public void setToolbarActionImg(@IdRes int imgId, @Nullable View.OnClickListener listener) {
-        mItemPager.getViewQuery().$(R.id.toolbar_right_img).image(imgId).clicked(listener);
+        mItemPager.getViewQuery().query(R.id.toolbar_right_img).image(imgId).clicked(listener);
     }
 
     /**
@@ -170,6 +170,36 @@ public class ApItemsCommonHelper<T> extends ApItemsHelper<T> {
             return ensureViews(super.$(views));
         }
 
+        @Override
+        public ViewQuery<? extends ViewQuery> query(Integer id, int... ids) {
+            return ensureViews(super.query(id, ids));
+        }
+
+        @Override
+        public ViewQuery<? extends ViewQuery> query(String idValue, String... idValues) {
+            return ensureViews(super.query(idValue, idValues));
+        }
+
+        @Override
+        public ViewQuery<? extends ViewQuery> query(Class<? extends View> type) {
+            return ensureViews(super.query(type));
+        }
+
+        @Override
+        public ViewQuery<? extends ViewQuery> query(Class<? extends View>[] types) {
+            return ensureViews(super.query(types));
+        }
+
+        @Override
+        public ViewQuery<? extends ViewQuery> with(View... views) {
+            return ensureViews(super.with(views));
+        }
+
+        @Override
+        public ViewQuery<? extends ViewQuery> with(Collection<View> views) {
+            return ensureViews(super.with(views));
+        }
+
         protected ViewQuery<? extends ViewQuery> ensureViews(ViewQuery<? extends ViewQuery> $) {
             if (!ensureLayout) {
                 for (View view : $.views()) {
@@ -182,13 +212,13 @@ public class ApItemsCommonHelper<T> extends ApItemsHelper<T> {
         protected void ensureView(View view) {
             Queue<View> views = new LinkedBlockingQueue<>(Collections.singletonList(view));
             while (!views.isEmpty()) {
-                View cview = views.poll();
-                int hash = cview.hashCode();
+                View childView = views.poll();
+                int hash = childView.hashCode();
                 if (!ensureSet.contains(hash)) {
                     ensureSet.add(hash);
-                    cview.setVisibility(View.VISIBLE);
+                    childView.setVisibility(View.VISIBLE);
                     if (view.getParent() instanceof ViewGroup) {
-                        ViewGroup parent = (ViewGroup) cview.getParent();
+                        ViewGroup parent = (ViewGroup) childView.getParent();
                         if (parent.getVisibility() != View.VISIBLE && parent != mLayout) {
                             views.add(parent);
                         }

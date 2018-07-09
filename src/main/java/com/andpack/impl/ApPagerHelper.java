@@ -132,7 +132,7 @@ public class ApPagerHelper {
             StatusBarInterpreter.interpreter(pager);
             if (pager.getView() != null) {
                 $.query(pager.getView())
-                        .$(Toolbar.class)
+                        .query(Toolbar.class)
                         .foreach(Toolbar.class, (ViewQuery.ViewEacher<Toolbar>)
                                 view -> view.setNavigationOnClickListener(new SafeListener(
                                         (View.OnClickListener) v -> pager.getActivity().finish())));
