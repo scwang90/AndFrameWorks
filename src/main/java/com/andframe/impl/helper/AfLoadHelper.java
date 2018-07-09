@@ -104,7 +104,7 @@ public class AfLoadHelper<T> implements LoadHelper<T> {
         }
         LoadContentViewType type = AfReflecter.getAnnotation(mPager.getClass(), stop, LoadContentViewType.class);
         if (type != null) {
-            return AfApp.get().newViewQuery(mPager).$(type.value()).view();
+            return AfApp.get().newViewQuery(mPager).query(type.value()).view();
         }
 
         Queue<View> views = new LinkedBlockingQueue<>(Collections.singletonList(mPager.getView()));

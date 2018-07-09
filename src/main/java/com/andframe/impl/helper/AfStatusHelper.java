@@ -95,7 +95,7 @@ public class AfStatusHelper<T> extends AfLoadHelper<T> implements StatusHelper<T
         }
         StatusContentViewType type = AfReflecter.getAnnotation(mPager.getClass(), stop, StatusContentViewType.class);
         if (type != null) {
-            return AfApp.get().newViewQuery(mPager).$(type.value()).view();
+            return AfApp.get().newViewQuery(mPager).query(type.value()).view();
         }
 
         return super.findContentView();

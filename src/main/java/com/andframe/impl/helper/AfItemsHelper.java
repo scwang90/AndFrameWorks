@@ -546,7 +546,7 @@ public class AfItemsHelper<T> extends AfStatusHelper<List<T>> implements ItemsHe
         ItemsHeader headers = AfReflecter.getAnnotation(mPager.getClass(), stop, ItemsHeader.class);
         if (headers != null) {
             for (int id : headers.value()) {
-                addHeaderView(adapter, $.query(mPager).$(id).breakView());
+                addHeaderView(adapter, $.query(mPager).query(id).breakView());
             }
         } else {
             Context context = getContext();
@@ -555,7 +555,7 @@ public class AfItemsHelper<T> extends AfStatusHelper<List<T>> implements ItemsHe
                 for (String id$ : headers$.value()) {
                     int id = context.getResources().getIdentifier(id$, "id", context.getPackageName());
                     if (id > 0) {
-                        addHeaderView(adapter, $.query(mPager).$(id).breakView());
+                        addHeaderView(adapter, $.query(mPager).query(id).breakView());
                     }
                 }
             }
@@ -563,7 +563,7 @@ public class AfItemsHelper<T> extends AfStatusHelper<List<T>> implements ItemsHe
         ItemsFooter footers = AfReflecter.getAnnotation(mPager.getClass(), stop, ItemsFooter.class);
         if (footers != null) {
             for (int id : footers.value()) {
-                addFooterView(adapter, $.query(mPager).$(id).breakView());
+                addFooterView(adapter, $.query(mPager).query(id).breakView());
             }
         } else {
             Context context = getContext();
@@ -572,7 +572,7 @@ public class AfItemsHelper<T> extends AfStatusHelper<List<T>> implements ItemsHe
                 for (String id$ : footers$.value()) {
                     int id = context.getResources().getIdentifier(id$, "id", context.getPackageName());
                     if (id > 0) {
-                        addFooterView(adapter, $.query(mPager).$(id).breakView());
+                        addFooterView(adapter, $.query(mPager).query(id).breakView());
                     }
                 }
             }

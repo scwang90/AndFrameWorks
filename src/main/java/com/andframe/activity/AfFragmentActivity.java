@@ -246,14 +246,14 @@ public class AfFragmentActivity extends AfActivity {
         if (mFragment != null) {
             View view = mFragment.getView();
             if (view != null) {
-                Toolbar toolbar = $.query(view).$(Toolbar.class).view();
+                Toolbar toolbar = $.query(view).query(Toolbar.class).view();
                 if (toolbar != null) {
                     CharSequence title = toolbar.getTitle();
                     if (!TextUtils.isEmpty(title)) {
                         nameCache.put(mFragmentClazz, title.toString());
                         return title.toString();
                     }
-                    title = $.query(toolbar).$(TextView.class).text();
+                    title = $.query(toolbar).query(TextView.class).text();
                     if (!TextUtils.isEmpty(title)) {
                         nameCache.put(mFragmentClazz, title.toString());
                         return title.toString();

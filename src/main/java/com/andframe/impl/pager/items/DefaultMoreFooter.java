@@ -27,9 +27,9 @@ public class DefaultMoreFooter extends BaseMoreFooter implements MoreFooter {
     @Override
     protected void onUpdateStatus(boolean isLoading, boolean allLoadFinish) {
         if (mIsLoading) {
-            $(mProgressBar).visible().$(mTextView).visible().text("正在加载...");
+            $(mProgressBar).visible().with(mTextView).visible().text("正在加载...");
         } else if (mEnabled) {
-            $(mProgressBar).gone().$(mTextView).visible().text("点击查看更多");
+            $(mProgressBar).gone().with(mTextView).visible().text("点击查看更多");
         } else {
             $(mProgressBar, mTextView).gone();
         }

@@ -54,27 +54,27 @@ public interface ViewQuery<T extends ViewQuery<T>> {
     /**
      * 根据 控件Id 选择一个或多个 View
      */
-    T $(@IdRes Integer id, @IdRes int... ids);
+    T query(@IdRes Integer id, @IdRes int... ids);
     /**
      * 根据 控件Id名 选择一个或多个 View
      */
-    T $(String idValue, String... idValues);
+    T query(String idValue, String... idValues);
     /**
      * 根据 控件类型 选择一个或多个 View
      */
-    T $(Class<? extends View> type);
+    T query(Class<? extends View> type);
     /**
      * 根据 控件类型 选择一个或多个 View
      */
-    T $(Class<? extends View>[] types);
+    T query(Class<? extends View>[] types);
     /**
      * 直接制定选择的目标 View
      */
-    T $(View... views);
+    T with(View... views);
     /**
      * 直接制定选择的目标 View
      */
-    T $(Collection<View> views);
+    T with(Collection<View> views);
     //</editor-fold>
 
     //<editor-fold desc="选择变换">

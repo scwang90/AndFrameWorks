@@ -1,5 +1,6 @@
 package com.andframe.impl.viewer;
 
+import android.annotation.SuppressLint;
 import android.annotation.TargetApi;
 import android.content.Context;
 import android.content.res.ColorStateList;
@@ -152,7 +153,7 @@ public class AfViewQuery<T extends AfViewQuery<T>> implements ViewQuery<T> {
 
     //<editor-fold desc="基本选择">
     @Override
-    public T $(Integer id, int... ids) {
+    public T query(Integer id, int... ids) {
         if (id != null) {
             this.mTargetViews = new View[ids.length + 1];
             this.mTargetViews[0] = findViewById(id);
@@ -171,7 +172,7 @@ public class AfViewQuery<T extends AfViewQuery<T>> implements ViewQuery<T> {
     }
 
     @Override
-    public T $(String idValue, String... idValues) {
+    public T query(String idValue, String... idValues) {
         if (mRootView == null || mRootView.getView() == null) {
             return self();
         }
@@ -194,24 +195,24 @@ public class AfViewQuery<T extends AfViewQuery<T>> implements ViewQuery<T> {
         for (int i = 0; i < ids.length; i++) {
             ids[i] = listId.get(i + 1);
         }
-        return $(listId.get(0), ids);
+        return query(listId.get(0), ids);
     }
 
     @Override
-    public T $(Class<? extends View> type) {
+    public T query(Class<? extends View> type) {
         if (mRootView == null || mRootView.getView() == null) {
             return self();
         }
         Queue<View> views = new LinkedBlockingQueue<>(Collections.singletonList(mRootView.getView()));
         List<View> list = new ArrayList<>();
         do {
-            View cview = views.poll();
-            if (cview != null) {
-                if (type != null && type.isInstance(cview)) {
-                    list.add(cview);
+            View view = views.poll();
+            if (view != null) {
+                if (type != null && type.isInstance(view)) {
+                    list.add(view);
                 }
-                if (cview instanceof ViewGroup) {
-                    ViewGroup group = (ViewGroup) cview;
+                if (view instanceof ViewGroup) {
+                    ViewGroup group = (ViewGroup) view;
                     for (int j = 0; j < group.getChildCount(); j++) {
                         views.add(group.getChildAt(j));
                     }
@@ -223,7 +224,7 @@ public class AfViewQuery<T extends AfViewQuery<T>> implements ViewQuery<T> {
     }
 
     @Override@SafeVarargs
-    public final T $(Class<? extends View>... types) {
+    public final T query(Class<? extends View>... types) {
         if (mRootView == null || mRootView.getView() == null) {
             return self();
         }
@@ -251,7 +252,7 @@ public class AfViewQuery<T extends AfViewQuery<T>> implements ViewQuery<T> {
     }
 
     @Override
-    public T $(View... views) {
+    public T with(View... views) {
         if (views.length == 0) {
             mTargetViews = new View[]{getRootView()};
         } else {
@@ -261,7 +262,7 @@ public class AfViewQuery<T extends AfViewQuery<T>> implements ViewQuery<T> {
     }
 
     @Override
-    public T $(Collection<View> views) {
+    public T with(Collection<View> views) {
         if (views.size() == 0) {
             mTargetViews = new View[]{getRootView()};
         } else {
@@ -334,12 +335,12 @@ public class AfViewQuery<T extends AfViewQuery<T>> implements ViewQuery<T> {
 
     @Override
     public T toChildren() {
-        return $(children());
+        return with(children());
     }
 
     @Override
     public T toChildrenTree() {
-        return $(childrenTree());
+        return with(childrenTree());
     }
 
     @Override
@@ -365,13 +366,13 @@ public class AfViewQuery<T extends AfViewQuery<T>> implements ViewQuery<T> {
     @Override
     public T mixView(View... views) {
         if (views.length > 0) {
-            View[] orgins = mTargetViews;
-            mTargetViews = new View[orgins.length + views.length];
+            View[] origins = mTargetViews;
+            mTargetViews = new View[origins.length + views.length];
             for (int i = 0; i < mTargetViews.length; i++) {
                 if (i < views.length) {
                     mTargetViews[i] = views[i];
                 } else {
-                    mTargetViews[i] = orgins[i - views.length];
+                    mTargetViews[i] = origins[i - views.length];
                 }
             }
         }
@@ -586,7 +587,8 @@ public class AfViewQuery<T extends AfViewQuery<T>> implements ViewQuery<T> {
     }
 
     @Override
-    public T background(int id) {
+    @SuppressLint("ResourceType")
+    public T background(@DrawableRes int id) {
         return foreach((view) -> {
             if (id > 0) {
                 view.setBackgroundResource(id);
@@ -639,10 +641,12 @@ public class AfViewQuery<T extends AfViewQuery<T>> implements ViewQuery<T> {
                 ((LinearLayout.LayoutParams) lp).gravity = gravity;
             } else if (lp instanceof LinearLayoutCompat.LayoutParams) {
                 ((LinearLayoutCompat.LayoutParams) lp).gravity = gravity;
-            } else if (lp instanceof Toolbar.LayoutParams) {
-                ((Toolbar.LayoutParams) lp).gravity = gravity;
             } else if (lp instanceof android.support.v7.widget.Toolbar.LayoutParams) {
                 ((android.support.v7.widget.Toolbar.LayoutParams) lp).gravity = gravity;
+            } else if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
+                if (lp instanceof Toolbar.LayoutParams) {
+                    ((Toolbar.LayoutParams) lp).gravity = gravity;
+                }
             }
             view.setLayoutParams(lp);
         });
@@ -1726,8 +1730,8 @@ public class AfViewQuery<T extends AfViewQuery<T>> implements ViewQuery<T> {
     public <TT> T adapter(@LayoutRes int id, List<TT> list, AdapterItemer<TT> itemer) {
         AfLayoutItemViewerAdapter<TT> adapter = new AfLayoutItemViewerAdapter<TT>(id, list) {
             @Override
-            protected void onBinding(ViewQuery<? extends ViewQuery> $, TT model, int index) {
-                itemer.onBinding($, model, index);
+            protected void onBinding(ViewQuery<? extends ViewQuery> viewQuery, TT model, int index) {
+                itemer.onBinding(viewQuery, model, index);
             }
         };
         return foreach(ViewGroup.class, view -> {
@@ -2200,7 +2204,7 @@ public class AfViewQuery<T extends AfViewQuery<T>> implements ViewQuery<T> {
     //<editor-fold desc="分离操作">
     @Override
     public View[] breakChildren() {
-        return $(children()).foreach(view -> {
+        return with(children()).foreach(view -> {
             ViewParent parent = view.getParent();
             if (parent instanceof ViewGroup) {
                 ((ViewGroup) parent).removeView(view);

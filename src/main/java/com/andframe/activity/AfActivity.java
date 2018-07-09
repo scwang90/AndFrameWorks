@@ -79,32 +79,62 @@ public abstract class AfActivity extends AppCompatActivity implements Pager, Vie
 
     @Override
     public ViewQuery<? extends ViewQuery> $(View... views) {
-        return $$.$(views);
+        return $$.with(views);
     }
 
     @Override
     public ViewQuery<? extends ViewQuery> $(Collection<View> views) {
-        return $$.$(views);
+        return $$.with(views);
     }
 
     @Override
     public ViewQuery<? extends ViewQuery> $(Integer id, int... ids) {
-        return $$.$(id, ids);
+        return $$.query(id, ids);
     }
 
     @Override
     public ViewQuery<? extends ViewQuery> $(String idValue, String... idValues) {
-        return $$.$(idValue);
+        return $$.query(idValue);
     }
 
     @Override
     public ViewQuery<? extends ViewQuery> $(Class<? extends View> type) {
-        return $$.$(type);
+        return $$.query(type);
     }
 
     @Override
     public ViewQuery<? extends ViewQuery> $(Class<? extends View>[] types) {
-        return $$.$(types);
+        return $$.query(types);
+    }
+
+    @Override
+    public ViewQuery<? extends ViewQuery> with(View... views) {
+        return $$.with(views);
+    }
+
+    @Override
+    public ViewQuery<? extends ViewQuery> with(Collection<View> views) {
+        return $$.with(views);
+    }
+
+    @Override
+    public ViewQuery<? extends ViewQuery> query(Integer id, int... ids) {
+        return $$.query(id, ids);
+    }
+
+    @Override
+    public ViewQuery<? extends ViewQuery> query(String idValue, String... idValues) {
+        return $$.query(idValue);
+    }
+
+    @Override
+    public ViewQuery<? extends ViewQuery> query(Class<? extends View> type) {
+        return $$.query(type);
+    }
+
+    @Override
+    public ViewQuery<? extends ViewQuery> query(Class<? extends View>[] types) {
+        return $$.query(types);
     }
     //</editor-fold>
 
