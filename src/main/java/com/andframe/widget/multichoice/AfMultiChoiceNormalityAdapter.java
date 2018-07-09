@@ -8,13 +8,13 @@ public abstract class AfMultiChoiceNormalityAdapter<T> extends AfMultiChoiceAdap
 		beginMultiChoice();
 	}
 
-	public AfMultiChoiceNormalityAdapter(List<T> ltdata) {
-		super(ltdata);
+	public AfMultiChoiceNormalityAdapter(List<T> list) {
+		super(list);
 		beginMultiChoice();
 	}
 
-	public AfMultiChoiceNormalityAdapter(List<T> ltdata, boolean dataSync) {
-		super(ltdata, dataSync);
+	public AfMultiChoiceNormalityAdapter(List<T> list, boolean dataSync) {
+		super(list, dataSync);
 		beginMultiChoice();
 	}
 

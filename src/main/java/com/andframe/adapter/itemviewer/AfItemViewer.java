@@ -96,8 +96,8 @@ public abstract class AfItemViewer<T> implements ItemViewer<T>, Viewer, ViewQuer
 	}
 
 	@Override
-	public ViewQuery<? extends ViewQuery> $(String idvalue, String... idvalues) {
-		return $$.$(idvalue);
+	public ViewQuery<? extends ViewQuery> $(String idValue, String... idValues) {
+		return $$.$(idValue);
 	}
 
 	@Override

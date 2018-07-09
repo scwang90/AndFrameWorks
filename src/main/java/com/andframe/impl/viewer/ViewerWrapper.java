@@ -12,26 +12,34 @@ import com.andframe.api.viewer.Viewer;
  * Created by SCWANG on 2016/10/29.
  */
 
-public class ViewerWarpper implements Viewer {
+public class ViewerWrapper implements Viewer {
 
     protected View view;
+    protected Viewer viewer;
     protected Activity activity;
     protected Fragment fragment;
 
-    public ViewerWarpper(View view) {
+    public ViewerWrapper(Viewer viewer) {
+        this.viewer = viewer;
+    }
+
+    public ViewerWrapper(View view) {
         this.view = view;
     }
 
-    public ViewerWarpper(Activity activity) {
+    public ViewerWrapper(Activity activity) {
         this.activity = activity;
     }
 
-    public ViewerWarpper(Fragment fragment) {
+    public ViewerWrapper(Fragment fragment) {
         this.fragment = fragment;
     }
 
     @Override
     public Context getContext() {
+        if (viewer != null) {
+            return viewer.getContext();
+        }
         if (activity != null) {
             return activity;
         }
@@ -46,6 +54,9 @@ public class ViewerWarpper implements Viewer {
 
     @Override
     public View getView() {
+        if (viewer != null) {
+            return viewer.getView();
+        }
         if (view != null) {
             return view;
         }
@@ -60,6 +71,9 @@ public class ViewerWarpper implements Viewer {
 
     @Override
     public <T extends View> T findViewById(int id) {
+        if (viewer != null) {
+            return viewer.findViewById(id);
+        }
         if (view != null) {
             return view.findViewById(id);
         }

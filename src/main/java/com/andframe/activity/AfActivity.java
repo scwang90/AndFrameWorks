@@ -68,6 +68,16 @@ public abstract class AfActivity extends AppCompatActivity implements Pager, Vie
     protected ViewQuery<? extends ViewQuery> $$ = AfViewQueryHelper.newHelper(this);
 
     @Override
+    public void setViewQuery(ViewQuery<? extends ViewQuery> viewQuery) {
+        this.$$ = viewQuery;
+    }
+
+    @Override
+    public ViewQuery<? extends ViewQuery> getViewQuery() {
+        return $$;
+    }
+
+    @Override
     public ViewQuery<? extends ViewQuery> $(View... views) {
         return $$.$(views);
     }
@@ -83,8 +93,8 @@ public abstract class AfActivity extends AppCompatActivity implements Pager, Vie
     }
 
     @Override
-    public ViewQuery<? extends ViewQuery> $(String idvalue, String... idvalues) {
-        return $$.$(idvalue);
+    public ViewQuery<? extends ViewQuery> $(String idValue, String... idValues) {
+        return $$.$(idValue);
     }
 
     @Override
@@ -315,18 +325,18 @@ public abstract class AfActivity extends AppCompatActivity implements Pager, Vie
      *
      * @see android.support.v4.app.FragmentActivity#onActivityResult(int, int, android.content.Intent)
      * final 重写 onActivityResult 使用 try-catch 调用
-     * onActivityResult(AfIntent intent, int requestcode,int resultcode)
-     * @see AfActivity#onActivityResult(AfIntent intent, int requestcode, int resultcode)
-     * {@link AfActivity#onActivityResult(AfIntent intent, int requestcode, int resultcode)}
+     * onActivityResult(AfIntent intent, int requestCode,int resultCode)
+     * @see AfActivity#onActivityResult(AfIntent intent, int requestCode, int resultCode)
+     * {@link AfActivity#onActivityResult(AfIntent intent, int requestCode, int resultCode)}
      */
     @Override
-    protected void onActivityResult(int requestcode, int resultcode, Intent data) {
+    protected void onActivityResult(int requestCode, int resultCode, Intent data) {
         try {
             if (AfStackTrace.isLoopCall()) {
                 //System.out.println("递归检测");
                 return;
             }
-            onActivityResult(new AfIntent(data), requestcode, resultcode);
+            onActivityResult(new AfIntent(data), requestCode, resultCode);
         } catch (Throwable e) {
             AfExceptionHandler.handle(e, TAG() + ".onActivityResult");
             makeToastShort("反馈信息读取错误！", e);
@@ -334,17 +344,17 @@ public abstract class AfActivity extends AppCompatActivity implements Pager, Vie
     }
 
     /**
-     * 安全 onActivityResult(AfIntent intent, int requestcode,int resultcode)
-     * 在onActivityResult(int requestcode, int resultCode, Intent data) 中调用
+     * 安全 onActivityResult(AfIntent intent, int requestCode,int resultCode)
+     * 在onActivityResult(int requestCode, int resultCode, Intent data) 中调用
      * 并使用 try-catch 提高安全性，子类请重写这个方法
      *
      * @param intent      Intent 的子类 支持对象持久化
-     * @param requestcode 请求码
-     * @param resultcode  返回码
+     * @param requestCode 请求码
+     * @param resultCode  返回码
      * @see AfActivity#onActivityResult(int, int, android.content.Intent)
      */
-    protected void onActivityResult(AfIntent intent, int requestcode, int resultcode) throws Exception {
-        super.onActivityResult(requestcode, resultcode, intent);
+    protected void onActivityResult(AfIntent intent, int requestCode, int resultCode) throws Exception {
+        super.onActivityResult(requestCode, resultCode, intent);
     }
 
     //</editor-fold>

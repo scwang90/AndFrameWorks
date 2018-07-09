@@ -17,23 +17,34 @@ import com.andframe.impl.helper.AfStatusHelper;
  */
 public abstract class AfStatusFragment<T> extends AfLoadFragment<T> implements StatusPager<T> {
 
-    protected StatusHelper<T> mStatusHelper = newStatusHelper();
+    protected StatusHelper<T> mStatusHelper;// = newStatusHelper();
 
     protected StatusLayouter mStatusLayouter;
 
-    @NonNull
-    @Override
-    protected StatusHelper<T> newHelper() {
-        return mStatusHelper = newStatusHelper();
+    public AfStatusFragment() {
+        super(null);
+        this.mStatusHelper = new AfStatusHelper<>(this);
+        this.mHelper = mStatusHelper;
     }
 
-    @NonNull
-    protected StatusHelper<T> newStatusHelper() {
-        if (mHelper instanceof StatusHelper) {
-            return ((StatusHelper<T>) mHelper);
-        }
-        return new AfStatusHelper<>(this);
+    public AfStatusFragment(StatusHelper<T> helper) {
+        super(helper);
+        this.mStatusHelper = helper;
     }
+
+    //    @NonNull
+//    @Override
+//    protected StatusHelper<T> newHelper() {
+//        return mStatusHelper = newStatusHelper();
+//    }
+//
+//    @NonNull
+//    protected StatusHelper<T> newStatusHelper() {
+//        if (mHelper instanceof StatusHelper) {
+//            return ((StatusHelper<T>) mHelper);
+//        }
+//        return new AfStatusHelper<>(this);
+//    }
 
     //<editor-fold desc="初始化布局">
 

@@ -100,10 +100,10 @@ public class AfHeaderFooterAdapter<T> extends ListItemAdapterWrapper<T> implemen
         return get(i);
     }
 
-    @Override
-    public int getCount() {
-        return this.getItemCount();
-    }
+//    @Override
+//    public int getCount() {
+//        return this.getItemCount();
+//    }
 
     @Override
     public int getItemCount() {

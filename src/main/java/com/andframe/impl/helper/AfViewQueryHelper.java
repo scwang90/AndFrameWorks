@@ -61,8 +61,8 @@ public class AfViewQueryHelper implements /*ViewQueryHelper, */InvocationHandler
 //    }
 //
 //    @Override
-//    public ViewQuery<? extends ViewQuery> $(String idvalue, String... idvalues) {
-//        return getQuery().$(idvalue, idvalues);
+//    public ViewQuery<? extends ViewQuery> $(String idValue, String... idValues) {
+//        return getQuery().$(idValue, idValues);
 //    }
 //
 //    @Override
@@ -72,7 +72,7 @@ public class AfViewQueryHelper implements /*ViewQueryHelper, */InvocationHandler
 
     @Override
     public Object invoke(Object proxy, Method method, Object[] args) throws Throwable {
-        if (mViewQuery == null || mViewQuery.rootViewer() != viewer) {
+        if (mViewQuery == null/* || mViewQuery.rootViewer() != viewer*/) {
             mViewQuery = AfApp.get().newViewQuery(viewer);
             mViewQuery.cacheIdEnable(true);
         }

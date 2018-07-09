@@ -26,6 +26,7 @@ import java.io.File;
 import java.io.FileOutputStream;
 import java.io.InputStream;
 import java.io.OutputStream;
+import java.lang.ref.WeakReference;
 import java.net.URL;
 import java.net.URLConnection;
 import java.util.ArrayList;
@@ -117,7 +118,7 @@ public class AfDownloader {
     public static boolean isDownloading(String url) {
         for (int i = 0; i < DownloadTask.mltDownloading.size(); i++) {
             DownloadTask task = DownloadTask.mltDownloading.get(i);
-            if (TextUtils.equals(task.mEndityUrl, url)) {
+            if (TextUtils.equals(task.mEntityUrl, url)) {
                 return true;
             }
         }
@@ -132,7 +133,7 @@ public class AfDownloader {
     public static boolean isDownloading(Object tag) {
         for (int i = 0; i < DownloadTask.mltDownloading.size(); i++) {
             DownloadTask task = DownloadTask.mltDownloading.get(i);
-            if (task.mEndity.tag == tag) {
+            if (task.mEntity.tag == tag) {
                 return true;
             }
         }
@@ -162,13 +163,13 @@ public class AfDownloader {
     public static DownloadListener setListener(String url, DownloadListener listener) {
         for (int i = 0; i < DownloadTask.mltDownloading.size(); i++) {
             DownloadTask task = DownloadTask.mltDownloading.get(i);
-            if (listener != null && TextUtils.equals(task.mEndityUrl, url)) {
+            if (listener != null && TextUtils.equals(task.mEntityUrl, url)) {
                 DownloadListener cListener = task.setDownloadListener(listener);
                 if (cListener != listener && cListener instanceof DownloadManagerListener
                         && listener instanceof DownloadViewerListener) {
                     DownloadViewerListener vListener = (DownloadViewerListener) listener;
                     DownloadManagerListener mListener = (DownloadManagerListener) cListener;
-                    if (mListener.setDownloadListener(task.mEndity, vListener)) {
+                    if (mListener.setDownloadListener(task.mEntity, vListener)) {
                         return vListener;
                     }
                 }
@@ -329,9 +330,9 @@ public class AfDownloader {
         /**
          * 通知栏点击事件
          *
-         * @param endity 下载实体描述
+         * @param entity 下载实体描述
          */
-        void notifyClick(DownloadEntity endity);
+        void notifyClick(DownloadEntity entity);
 
         /**
          * 下载完成
@@ -366,7 +367,7 @@ public class AfDownloader {
         }
 
         @Override
-        public void notifyClick(DownloadEntity endity) {
+        public void notifyClick(DownloadEntity entity) {
 
         }
 
@@ -445,12 +446,12 @@ public class AfDownloader {
         private static Random rand = new Random();
 
         private Builder mBuilder;
-        private NotifyEntity mEotify;
+        private NotifyEntity mEntity;
         private NotificationManager mManager;
-        private int notifyid = 1000 + rand.nextInt(1000);
+        private int notifyId = 1000 + rand.nextInt(1000);
 
         public Notifier(Context context, DownloadEntity entity) {
-            mEotify = entity.Notify;
+            mEntity = entity.Notify;
             mBuilder = new Builder(context);
             mBuilder.setSmallIcon(android.R.drawable.stat_sys_download);
 
@@ -458,8 +459,8 @@ public class AfDownloader {
             int flag = PendingIntent.FLAG_CANCEL_CURRENT;
             AfIntent intent = new AfIntent(FILE_NOTIFICATION);
             intent.put(FILE_NOTIFICATION, entity.DownloadUrl);
-            PendingIntent pintent = PendingIntent.getBroadcast(context, 0, intent, flag);
-            mBuilder.setContentIntent(pintent);
+            PendingIntent pIntent = PendingIntent.getBroadcast(context, 0, intent, flag);
+            mBuilder.setContentIntent(pIntent);
 //			}
 
             // 构造 Manager
@@ -470,42 +471,42 @@ public class AfDownloader {
         public void notifyProgress(int max, int precent, boolean indeterminate) {
             mBuilder.setProgress(max, precent, false);// 设置为false，表示刻度
             mBuilder.setContentText("已下载 " + precent + "% ");
-            mManager.notify(notifyid, mBuilder.build());
+            mManager.notify(notifyId, mBuilder.build());
         }
 
         public void notifyStart() {
-            mBuilder.setContentTitle(mEotify.getContentTitle());
-            mBuilder.setTicker(mEotify.getContentTitle());
+            mBuilder.setContentTitle(mEntity.getContentTitle());
+            mBuilder.setTicker(mEntity.getContentTitle());
 //			mBuilder.setTicker("正在下载...");
             mBuilder.setAutoCancel(false);
             mBuilder.setOngoing(true);
-            mManager.notify(notifyid, mBuilder.build());
+            mManager.notify(notifyId, mBuilder.build());
         }
 
         public void notifyFinish() {
             mBuilder.setProgress(100, 100, false);// 设置为false，表示刻度
             mBuilder.setSmallIcon(android.R.drawable.stat_sys_download_done);
-            mBuilder.setTicker(mEotify.getFinishText());
-            mBuilder.setContentText(mEotify.getFinishText());
+            mBuilder.setTicker(mEntity.getFinishText());
+            mBuilder.setContentText(mEntity.getFinishText());
 //			mBuilder.setContentText("文件下载完成，大小"+mBack.Size);
 //			mBuilder.setTicker("背景下载完成，点击设置");
             mBuilder.setAutoCancel(true);
             mBuilder.setOngoing(false);
 
-            mManager.notify(notifyid, mBuilder.build());
+            mManager.notify(notifyId, mBuilder.build());
         }
 
         public void notifyFail() {
             mBuilder.setSmallIcon(android.R.drawable.stat_sys_download_done);
-            mBuilder.setTicker(mEotify.getFailText());
-            mBuilder.setContentText(mEotify.getFailText());
+            mBuilder.setTicker(mEntity.getFailText());
+            mBuilder.setContentText(mEntity.getFailText());
             mBuilder.setAutoCancel(true);
             mBuilder.setOngoing(false);
-            mManager.notify(notifyid, mBuilder.build());
+            mManager.notify(notifyId, mBuilder.build());
         }
 
         public void cancel() {
-            mManager.cancel(notifyid);
+            mManager.cancel(notifyId);
         }
 
     }
@@ -516,14 +517,14 @@ public class AfDownloader {
         public static final int DOWNLOAD_PROGRESS = 10;
 
         private Handler mHandler;
-        private DownloadEntity mEndity;
+        private DownloadEntity mEntity;
         private Notifier mNotifier;
-        private String mEndityUrl;
+        private String mEntityUrl;
         private String mDownloadPath;
-        private DownloadListener mListener;
         private File mTempFile;
-        private int mPrecent = 0;
+        private WeakReference<DownloadListener> mListener;
 
+        private int mPercent = 0;
         private long mCount = 0;
         private long mTotal = 0;
         /**
@@ -536,11 +537,11 @@ public class AfDownloader {
         private static Map<String, DownloadTask> mNotifyMap = new HashMap<>();
 
 
-        public DownloadTask(DownloadEntity endity, DownloadListener listener) {
-            mEndity = endity;
-            mListener = listener;
-            mEndityUrl = endity.DownloadUrl;
-            mDownloadPath = endity.getFullPath();
+        public DownloadTask(DownloadEntity entity, DownloadListener listener) {
+            mEntity = entity;
+            mListener = new WeakReference<>(listener);
+            mEntityUrl = entity.DownloadUrl;
+            mDownloadPath = entity.getFullPath();
             mHandler = new Handler(Looper.getMainLooper(),this);
         }
 
@@ -552,44 +553,50 @@ public class AfDownloader {
          * 如果等于 传入的监听器 绑定成功 否则 上一个监听器拒绝新的绑定
          */
         public DownloadListener setDownloadListener(DownloadListener listener) {
-            if (mListener == null || mListener.onBreakAway(mEndity)) {
-                mListener = listener;
-                if (mListener != null) {
-                    mListener.onDownloadStart(mEndity);
+            DownloadListener oldListener = mListener == null ? null : mListener.get();
+            if (oldListener == null || oldListener.onBreakAway(mEntity)) {
+                mListener = new WeakReference<>(listener);
+                if (listener != null) {
+                    listener.onDownloadStart(mEntity);
                 }
             }
-            return mListener;
+            return mListener == null ? null : mListener.get();
         }
 
         @Override
         protected boolean onPrepare() {
             mltDownloading.add(this);
             // 构造 通知
-            if (mEndity.Notify != null) {
-                mNotifier = new Notifier(AfApp.get(), mEndity);
+            if (mEntity.Notify != null) {
+                mNotifier = new Notifier(AfApp.get(), mEntity);
                 mNotifier.notifyStart();
             }
-            if (mListener != null) {
-                mListener.onDownloadStart(mEndity);
+            DownloadListener listener = mListener == null ? null : mListener.get();
+            if (listener != null) {
+                listener.onDownloadStart(mEntity);
             }
             return super.onPrepare();
         }
 
         @Override
         protected void onWorking() throws Exception {
-            if (!mEndity.isDownloaded()) {
+            if (!mEntity.isDownloaded()) {
                 // 构造URL
-                URL url = new URL(mEndityUrl);
+                URL url = new URL(mEntityUrl);
                 // 打开连接
                 URLConnection con = url.openConnection();
-                //获得文件的长度
-                int contentLength = con.getContentLength();
-                System.out.println("长度 :"+contentLength);
+//                //获得文件的长度
+//                int contentLength = con.getContentLength();
                 // 输入流
                 InputStream input = new BufferedInputStream(con.getInputStream());
 
                 //创建文件并开始下载
                 mTempFile = new File(mDownloadPath);
+//                if (mTempFile.exists() && mTempFile.length() == contentLength) {
+//                    System.out.println("文件已经下载~");
+//                    mHandler.sendMessage(mHandler.obtainMessage(DOWNLOAD_FINISH, this));
+//                    return;
+//                }
                 if (mTempFile.exists() && !mTempFile.delete()) {
                     throw new AfToastException("删除原有文件失败");
                 }
@@ -603,26 +610,26 @@ public class AfDownloader {
                 // 创建一个新的写入流，讲读取到的图像数据写入到文件中
                 OutputStream output = new BufferedOutputStream(new FileOutputStream(mTempFile));
 
-                int read, precent;
+                int read, percent;
                 byte[] buffer = new byte[1024];
                 long now, last = System.currentTimeMillis();
                 long count = 0, length = con.getContentLength();
-                mEndity.Size = Formatter.formatFileSize(AfApp.get(), length);
+                mEntity.Size = Formatter.formatFileSize(AfApp.get(), length);
                 mCount = count;
                 mTotal = length;
                 mHandler.sendMessage(mHandler.obtainMessage(DOWNLOAD_PROGRESS, this));
                 while ((read = input.read(buffer)) != -1 && mStatus != Status.canceld/*!mIsCanceled*/) {
                     count += read;
                     output.write(buffer, 0, read);
-                    precent = (int) (((double) count / length) * 100);
+                    percent = (int) (((double) count / length) * 100);
                     // 每下载完成3%就通知任务栏进行修改下载进度
                     now = System.currentTimeMillis();
-                    if (precent - mPrecent >= 3 || now - last > 500) {
-                        last = now;
-                        mPrecent = precent;
+                    if ((percent - mPercent >= 3 && (now - last) > 250) || now - last > 500) {
+                        mPercent = percent;
                         mCount = count;
                         mTotal = length;
                         mHandler.sendMessage(mHandler.obtainMessage(DOWNLOAD_PROGRESS, this));
+                        last = now;
                     }
                 }
                 output.flush();
@@ -633,18 +640,21 @@ public class AfDownloader {
                     //noinspection ResultOfMethodCallIgnored
                     mTempFile.delete();
                 } else {
+                    mPercent = 100;
                     mHandler.sendMessage(mHandler.obtainMessage(DOWNLOAD_FINISH, this));
                 }
                 mStatus = Status.canceld;
                 //mIsCanceled = true;
             } else {
+                mPercent = 100;
                 mHandler.sendMessage(mHandler.obtainMessage(DOWNLOAD_FINISH, this));
             }
         }
 
         public void notifyClick() {
-            if (mListener != null) {
-                mListener.notifyClick(mEndity);
+            DownloadListener listener = mListener == null ? null : mListener.get();
+            if (listener != null) {
+                listener.notifyClick(mEntity);
             }
         }
 
@@ -656,26 +666,29 @@ public class AfDownloader {
 
         @Override
         public boolean handleMessage(Message msg) {
+            DownloadListener listener = mListener == null ? null : mListener.get();
             if (!isFail()) {
                 if (msg.what == DOWNLOAD_PROGRESS) {
                     // 更新状态栏上的下载进度信息
                     if (mNotifier != null) {
-                        mNotifier.notifyProgress(100, mPrecent, false);
+                        System.out.println("handleMessage:DOWNLOAD_PROGRESS:"+mPercent);
+                        mNotifier.notifyProgress(100, mPercent, false);
                     }
-                    if (mListener != null) {
-                        mListener.onDownloadProgress(mEndity, 0.01f * mPrecent, mCount, mTotal);
+                    if (listener != null) {
+                        listener.onDownloadProgress(mEntity, 0.01f * mPercent, mCount, mTotal);
                     }
                 } else if (msg.what == DOWNLOAD_FINISH) {
-                    mEndity.setDownloaded();
+                    mEntity.setDownloaded();
                     mltDownloading.remove(this);
-                    boolean neednotify = true;
-                    if (mListener != null && mListener.onDownloadFinish(mEndity)) {
-                        neednotify = false;
+                    boolean needNotify = true;
+                    if (listener != null && listener.onDownloadFinish(mEntity)) {
+                        needNotify = false;
                     }
                     if (mNotifier != null) {
-                        if (neednotify) {
+                        System.out.println("handleMessage:DOWNLOAD_FINISH:"+mPercent);
+                        if (needNotify) {
                             mNotifier.notifyFinish();
-                            mNotifyMap.put(mEndityUrl, this);
+                            mNotifyMap.put(mEntityUrl, this);
                         } else {
                             mNotifier.cancel();
                         }
@@ -683,16 +696,16 @@ public class AfDownloader {
                 }
             } else {
                 mltDownloading.remove(this);
-                boolean neednotify = true;
-                if (mListener != null && mListener.onDownloadFail(mEndity, mErrors, mException)) {
-                    neednotify = false;
+                boolean needNotify = true;
+                if (listener != null && listener.onDownloadFail(mEntity, mErrors, mException)) {
+                    needNotify = false;
                 }
                 if (mNotifier != null) {
-                    if (neednotify) {
-                        mEndity.Error = mErrors;
-                        mEndity.Excption = mException;
+                    if (needNotify) {
+                        mEntity.Error = mErrors;
+                        mEntity.Excption = mException;
                         mNotifier.notifyFail();
-                        mNotifyMap.put(mEndityUrl, this);
+                        mNotifyMap.put(mEntityUrl, this);
                     } else {
                         mNotifier.cancel();
                     }

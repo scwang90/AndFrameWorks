@@ -19,14 +19,22 @@ import java.util.Date;
  */
 public abstract class AfLoadFragment<T> extends AfTabFragment implements LoadPager<T> {
 
-    protected LoadHelper<T> mHelper = newHelper();
+    protected LoadHelper<T> mHelper;// = newHelper();
 
     protected RefreshLayouter mRefreshLayouter;
 
-    @NonNull
-    protected LoadHelper<T> newHelper() {
-        return new AfLoadHelper<>(this);
+    public AfLoadFragment() {
+        this.mHelper = new AfLoadHelper<>(this);
     }
+
+    public AfLoadFragment(LoadHelper<T> mHelper) {
+        this.mHelper = mHelper;
+    }
+
+    //    @NonNull
+//    protected LoadHelper<T> newHelper() {
+//        return new AfLoadHelper<>(this);
+//    }
 
     @CallSuper
     public void onViewCreated()  {

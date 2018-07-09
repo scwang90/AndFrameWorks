@@ -8,6 +8,7 @@ import android.support.v4.app.Fragment;
 import com.andframe.api.Constanter;
 import com.andframe.api.Toaster;
 import com.andframe.api.task.Task;
+import com.andframe.api.viewer.ViewQuery;
 import com.andframe.api.viewer.Viewer;
 
 /**
@@ -71,6 +72,18 @@ public interface Pager extends Viewer, Toaster, Constanter {
      * 是否正在显示进度对话框
      */
     boolean isProgressDialogShowing();
+
+    /**
+     * 设置 viewQuery
+     * @param viewQuery new viewQuery
+     */
+    void setViewQuery(ViewQuery<? extends ViewQuery> viewQuery);
+
+    /**
+     * 获取 ViewQuery
+     * @return ViewQuery
+     */
+    ViewQuery<? extends ViewQuery> getViewQuery();
     //</editor-fold>
 
 }

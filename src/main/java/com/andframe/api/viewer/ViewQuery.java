@@ -58,7 +58,7 @@ public interface ViewQuery<T extends ViewQuery<T>> {
     /**
      * 根据 控件Id名 选择一个或多个 View
      */
-    T $(String idvalue, String... idvalues);
+    T $(String idValue, String... idValues);
     /**
      * 根据 控件类型 选择一个或多个 View
      */
@@ -177,6 +177,13 @@ public interface ViewQuery<T extends ViewQuery<T>> {
     Viewer rootViewer();
 
     /**
+     * 设置新的 root Viewer
+     * @param viewer new Viewer
+     * @return old Viewer
+     */
+    Viewer rootViewer(@NonNull Viewer viewer);
+
+    /**
      * 获取选择的 View （默认第一个） （模板返回）
      * @param indexs 可以指定选择的索引
      */
@@ -196,7 +203,7 @@ public interface ViewQuery<T extends ViewQuery<T>> {
     <TT> T foreach(Class<TT> clazz, ViewEacher<TT> eacher);
     <TTT> TTT foreach(ViewReturnEacher<View,TTT> eacher);
     <TT,TTT> TTT foreach(Class<TT> clazz, ViewReturnEacher<TT,TTT> eacher);
-    <TT,TTT> TTT foreach(Class<TT> clazz, ViewReturnEacher<TT,TTT> eacherm, TTT defvalue);
+    <TT,TTT> TTT foreach(Class<TT> clazz, ViewReturnEacher<TT,TTT> eacherm, TTT defValue);
     //</editor-fold>
 
     //<editor-fold desc="缓存设置">
@@ -278,6 +285,11 @@ public interface ViewQuery<T extends ViewQuery<T>> {
      * 获取当前选中 View 的 LayoutParams
      */
     T layoutParams(LayoutParams params);
+
+    /**
+     * 设置布局的 layout_gravity
+     */
+    T layoutGravity(int gravity);
 
     //</editor-fold>
 
@@ -690,12 +702,12 @@ public interface ViewQuery<T extends ViewQuery<T>> {
     T text(CharSequence format, Object... args);
 
     /**
-     * 设置当前选中 TextView 的 文本（text） 为 text 否则如果TextUtils.isEmpty(text)使用 默认值defvalue.
+     * 设置当前选中 TextView 的 文本（text） 为 text 否则如果TextUtils.isEmpty(text)使用 默认值defValue.
      * @see android.text.TextUtils#isEmpty(CharSequence)
      * @param text 文本内容
-     * @param defvalue 默认值，如果 TextUtils.isEmpty(text)
+     * @param defValue 默认值，如果 TextUtils.isEmpty(text)
      */
-    T textElse(CharSequence text, CharSequence defvalue);
+    T textElse(CharSequence text, CharSequence defValue);
 
     /**
      * 为当前选中 TextView 设置格式化字符串

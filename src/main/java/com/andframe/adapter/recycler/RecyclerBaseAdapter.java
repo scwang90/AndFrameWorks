@@ -37,7 +37,8 @@ public abstract class RecyclerBaseAdapter<T extends RecyclerView.ViewHolder> ext
 
 	//<editor-fold desc="接口转换连接">
 	@Override
-	public int getCount() {
+	@Deprecated
+	public final int getCount() {
 		return getItemCount();
 	}
 
@@ -119,7 +120,7 @@ public abstract class RecyclerBaseAdapter<T extends RecyclerView.ViewHolder> ext
 	}
 
 	public boolean isEmpty() {
-		return getCount() == 0;
+		return getItemCount() == 0;
 	}
 	//</editor-fold>
 }

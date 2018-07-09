@@ -4,11 +4,13 @@ import android.app.Activity;
 import android.app.Dialog;
 import android.content.Context;
 import android.content.Intent;
+import android.support.annotation.NonNull;
 import android.support.v4.app.Fragment;
 import android.view.View;
 
 import com.andframe.api.pager.Pager;
 import com.andframe.api.task.Task;
+import com.andframe.api.viewer.ViewQuery;
 import com.andframe.api.viewer.Viewer;
 
 /**
@@ -21,12 +23,12 @@ public class PagerWrapper implements Pager {
     protected Pager pager;
     protected Viewer viewer;
 
-    public PagerWrapper(Pager pager) {
+    public PagerWrapper(@NonNull Pager pager) {
         this.pager = pager;
         this.viewer = pager;
     }
 
-    public PagerWrapper(Pager pager, Viewer viewer) {
+    public PagerWrapper(@NonNull Pager pager, @NonNull Viewer viewer) {
         this.pager = pager;
         this.viewer = viewer;
     }
@@ -164,5 +166,15 @@ public class PagerWrapper implements Pager {
     @Override
     public boolean isProgressDialogShowing() {
         return pager.isProgressDialogShowing();
+    }
+
+    @Override
+    public void setViewQuery(ViewQuery<? extends ViewQuery> viewQuery) {
+        pager.setViewQuery(viewQuery);
+    }
+
+    @Override
+    public ViewQuery<? extends ViewQuery> getViewQuery() {
+        return pager.getViewQuery();
     }
 }

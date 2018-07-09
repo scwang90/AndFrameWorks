@@ -1,6 +1,7 @@
 package com.andframe.widget.multichoice;
 
 import android.support.annotation.NonNull;
+import android.support.annotation.Nullable;
 import android.view.View;
 import android.view.ViewGroup;
 
@@ -38,12 +39,12 @@ public abstract class AfMultiChoiceAdapter<T> extends AfListAdapter<T>{
 	public AfMultiChoiceAdapter() {
 	}
 
-	public AfMultiChoiceAdapter(List<T> ltdata) {
-		super(ltdata);
+	public AfMultiChoiceAdapter(List<T> list) {
+		super(list);
 	}
 
-	public AfMultiChoiceAdapter(List<T> ltdata, boolean dataSync) {
-		super(ltdata, dataSync);
+	public AfMultiChoiceAdapter(List<T> list, boolean dataSync) {
+		super(list, dataSync);
 	}
 
 	public void addListener(MultiChoiceListener<T> listener) {
@@ -63,32 +64,32 @@ public abstract class AfMultiChoiceAdapter<T> extends AfListAdapter<T>{
 	}
 
 	@Override
-	public boolean addAll(@NonNull Collection<? extends T> ltdata) {
-		if(isMultiChoiceMode() && ltdata.size() > 0){
+	public boolean addAll(@NonNull Collection<? extends T> list) {
+		if(isMultiChoiceMode() && list.size() > 0){
 			boolean[] old = mIsSelecteds;
-			mIsSelecteds = new boolean[old.length+ltdata.size()];
+			mIsSelecteds = new boolean[old.length+list.size()];
 			System.arraycopy(old, 0, mIsSelecteds, 0, old.length);
-			boolean ret = super.addAll(ltdata);
+			boolean ret = super.addAll(list);
 			for (GenericityListener listener : mGenericityListeners) {
-				listener.onMultiChoiceAddData(this, ltdata);
+				listener.onMultiChoiceAddData(this, list);
 			}
 			return ret;
 		}else{
-			return super.addAll(ltdata);
+			return super.addAll(list);
 		}
 	}
 	
 	@Override
-	public void set(@NonNull List<T> ltdata) {
+	public void set(@NonNull List<T> list) {
 		if(isMultiChoiceMode()){
-			super.set(ltdata);
+			super.set(list);
 			mChoiceNumber = 0;
-			mIsSelecteds = new boolean[ltdata.size()];
+			mIsSelecteds = new boolean[list.size()];
 			for (GenericityListener listener : mGenericityListeners) {
 				listener.onMultiChoiceChanged(this, 0, mIsSelecteds.length);
 			}
 		}else{
-			super.set(ltdata);
+			super.set(list);
 		}
 	}
 	
@@ -217,6 +218,7 @@ public abstract class AfMultiChoiceAdapter<T> extends AfListAdapter<T>{
 		return false;
 	}
 
+	@Nullable
 	public T getSelectedItem() {
 		List<T> list = getSelectedItems();
 		if (list.size() == 0) {
@@ -225,6 +227,7 @@ public abstract class AfMultiChoiceAdapter<T> extends AfListAdapter<T>{
 		return list.get(0);
 	}
 
+	@NonNull
 	public List<T> getSelectedItems() {
 		List<T> list = new ArrayList<>();
 		if(mIsSelecteds != null && mIsSelecteds.length == mltArray.size()){
@@ -238,6 +241,7 @@ public abstract class AfMultiChoiceAdapter<T> extends AfListAdapter<T>{
 		return list;
 	}
 
+	@NonNull
 	public List<T> peekSelectedItems() {
 		List<T> list = new ArrayList<>();
 		if(mIsSelecteds != null && mIsSelecteds.length == mltArray.size()){

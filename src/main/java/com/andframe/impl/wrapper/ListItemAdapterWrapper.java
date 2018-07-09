@@ -195,10 +195,10 @@ public class ListItemAdapterWrapper<T> extends RecyclerBaseAdapter<ViewHolderIte
         return wrapped.areAllItemsEnabled();
     }
 
-    @Override
-    public int getCount() {
-        return wrapped.getCount();
-    }
+//    @Override
+//    public int getCount() {
+//        return wrapped.getCount();
+//    }
 
     @Override
     public Object getItem(int i) {

@@ -19,21 +19,21 @@ public abstract class AfLayoutItemViewerAdapter<T> extends AfItemsViewerAdapter<
 
     int mLayoutId = -1;
 
-    public AfLayoutItemViewerAdapter(List<T> ltdata) {
-        super(ltdata);
+    public AfLayoutItemViewerAdapter(List<T> list) {
+        super(list);
     }
 
-    public AfLayoutItemViewerAdapter(List<T> ltdata, boolean dataSync) {
-        super(ltdata, dataSync);
+    public AfLayoutItemViewerAdapter(List<T> list, boolean dataSync) {
+        super(list, dataSync);
     }
 
-    public AfLayoutItemViewerAdapter(@LayoutRes int layoutId, List<T> ltdata) {
-        super(ltdata);
+    public AfLayoutItemViewerAdapter(@LayoutRes int layoutId, List<T> list) {
+        super(list);
         mLayoutId = layoutId;
     }
 
-    public AfLayoutItemViewerAdapter(@LayoutRes int layoutId, List<T> ltdata, boolean dataSync) {
-        super(ltdata, dataSync);
+    public AfLayoutItemViewerAdapter(@LayoutRes int layoutId, List<T> list, boolean dataSync) {
+        super(list, dataSync);
         mLayoutId = layoutId;
     }
 

@@ -14,6 +14,7 @@
     <dimen name="dimenPaddingHorizontal">15dp</dimen>
     <dimen name="dimenPaddingVertical">10dp</dimen>
     <dimen name="dimenPaddingDiminutive">5dp</dimen>
+    <dimen name="dimenPaddingMin">2.5dp</dimen>
     <dimen name="dimenPaddingLarge">25dp</dimen>
 
     <dimen name="dimenDivisionLine">0.5dp</dimen>

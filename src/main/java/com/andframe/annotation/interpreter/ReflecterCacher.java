@@ -4,6 +4,11 @@ import android.app.Activity;
 import android.app.Dialog;
 import android.support.annotation.NonNull;
 import android.support.v4.app.Fragment;
+import android.view.View;
+import android.view.ViewGroup;
+import android.widget.FrameLayout;
+import android.widget.LinearLayout;
+import android.widget.RelativeLayout;
 
 import com.andframe.impl.wrapper.ViewWrapper;
 import com.andframe.util.java.AfReflecter;
@@ -80,6 +85,18 @@ public class ReflecterCacher {
             return Activity.class;
         } else if (Fragment.class.isAssignableFrom(clazz)) {
             return Fragment.class;
+        } else if (FrameLayout.class.isAssignableFrom(clazz)) {
+            return FrameLayout.class;
+        } else if (RelativeLayout.class.isAssignableFrom(clazz)) {
+            return RelativeLayout.class;
+        } else if (RelativeLayout.class.isAssignableFrom(clazz)) {
+            return RelativeLayout.class;
+        } else if (LinearLayout.class.isAssignableFrom(clazz)) {
+            return LinearLayout.class;
+        } else if (ViewGroup.class.isAssignableFrom(clazz)) {
+            return ViewGroup.class;
+        } else if (View.class.isAssignableFrom(clazz)) {
+            return View.class;
         }
         return Object.class;
     }

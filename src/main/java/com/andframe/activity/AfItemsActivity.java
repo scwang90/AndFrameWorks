@@ -21,10 +21,8 @@ import com.andframe.api.pager.status.StatusHelper;
 import com.andframe.api.task.Task;
 import com.andframe.api.task.TaskWithPaging;
 import com.andframe.api.viewer.ItemsViewer;
-import com.andframe.api.viewer.ViewQuery;
-import com.andframe.impl.helper.AfItemsPagerHelper;
+import com.andframe.impl.helper.AfItemsHelper;
 
-import java.util.Collection;
 import java.util.Date;
 import java.util.List;
 
@@ -50,39 +48,44 @@ public abstract class AfItemsActivity<T> extends AfStatusActivity<List<T>> imple
         if (mHelper instanceof ItemsHelper) {
             return ((ItemsHelper<T>) mHelper);
         }
-        return new AfItemsPagerHelper<>(this);
+        return new AfItemsHelper<>(this);
     }
 
     //<editor-fold desc="查询转发">
-    @Override
-    public ViewQuery<? extends ViewQuery> $(Integer id, int... ids) {
-        return mItemsHelper.$(id, ids);
-    }
-
-    @Override
-    public ViewQuery<? extends ViewQuery> $(View... views) {
-        return mItemsHelper.$(views);
-    }
-
-    @Override
-    public ViewQuery<? extends ViewQuery> $(Collection<View> views) {
-        return mItemsHelper.$(views);
-    }
-
-    @Override
-    public ViewQuery<? extends ViewQuery> $(String idvalue, String... idvalues) {
-        return mItemsHelper.$(idvalue, idvalues);
-    }
-
-    @Override
-    public ViewQuery<? extends ViewQuery> $(Class<? extends View> type) {
-        return mItemsHelper.$(type);
-    }
-
-    @Override
-    public ViewQuery<? extends ViewQuery> $(Class<? extends View>[] types) {
-        return mItemsHelper.$(types);
-    }
+//    @Override
+//    public ViewQuery<? extends ViewQuery> $(Integer id, int... ids) {
+//        return mItemsHelper.$(id, ids);
+//    }
+//
+//    @Override
+//    public ViewQuery<? extends ViewQuery> $(View... views) {
+//        return mItemsHelper.$(views);
+//    }
+//
+//    @Override
+//    public ViewQuery<? extends ViewQuery> $(Collection<View> views) {
+//        return mItemsHelper.$(views);
+//    }
+//
+//    @Override
+//    public ViewQuery<? extends ViewQuery> $(String idValue, String... idValues) {
+//        return mItemsHelper.$(idValue, idValues);
+//    }
+//
+//    @Override
+//    public ViewQuery<? extends ViewQuery> $(Class<? extends View> type) {
+//        return mItemsHelper.$(type);
+//    }
+//
+//    @Override
+//    public ViewQuery<? extends ViewQuery> $(Class<? extends View>[] types) {
+//        return mItemsHelper.$(types);
+//    }
+//
+//    @OnDestroyView
+//    private void OnDestroyView() {
+//        mItemsHelper.$().clearIdCache();
+//    }
     //</editor-fold>
 
     //<editor-fold desc="初始化">
@@ -302,7 +305,7 @@ public abstract class AfItemsActivity<T> extends AfStatusActivity<List<T>> imple
 
 
     /**
-     * 根据数据ltdata新建一个 适配器 重写这个方法之后getItemLayout方法将失效
+     * 根据数据list新建一个 适配器 重写这个方法之后getItemLayout方法将失效
      *
      * @param context Context对象
      * @param list  完成加载数据

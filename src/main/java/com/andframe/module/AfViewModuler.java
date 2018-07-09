@@ -17,7 +17,7 @@ import com.andframe.api.viewer.ViewQueryHelper;
 import com.andframe.api.viewer.Viewer;
 import com.andframe.exception.AfExceptionHandler;
 import com.andframe.impl.helper.AfViewQueryHelper;
-import com.andframe.impl.viewer.ViewerWarpper;
+import com.andframe.impl.viewer.ViewerWrapper;
 
 import java.util.Collection;
 
@@ -26,7 +26,7 @@ import java.util.Collection;
  */
 @SuppressLint("ViewConstructor")
 @SuppressWarnings("unused")
-public abstract class AfViewModuler extends ViewerWarpper implements Viewer, ViewModuler, ViewQueryHelper {
+public abstract class AfViewModuler extends ViewerWrapper implements Viewer, ViewModuler, ViewQueryHelper {
 
 	public static <T extends AfViewModuler> T init(Object handler, Class<T> clazz, Viewer viewable, int viewId) {
 		T module = null;
@@ -165,8 +165,8 @@ public abstract class AfViewModuler extends ViewerWarpper implements Viewer, Vie
 	}
 
 	@Override
-	public ViewQuery<? extends ViewQuery> $(String idvalue, String... idvalues) {
-		return $$.$(idvalue);
+	public ViewQuery<? extends ViewQuery> $(String idValue, String... idValues) {
+		return $$.$(idValue);
 	}
 
 	@Override

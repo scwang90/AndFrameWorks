@@ -8,7 +8,6 @@ import android.widget.AdapterView.OnItemClickListener;
 import android.widget.AdapterView.OnItemLongClickListener;
 import android.widget.ListAdapter;
 
-import com.andframe.adapter.AfAnimatedAdapter;
 import com.andframe.annotation.mark.MarkCache;
 import com.andframe.api.Paging;
 import com.andframe.api.adapter.AnimatedAdapter;
@@ -17,7 +16,6 @@ import com.andframe.api.adapter.ItemsViewerAdapter;
 import com.andframe.api.pager.status.StatusHelper;
 import com.andframe.api.task.TaskWithPaging;
 import com.andframe.api.viewer.ItemsViewer;
-import com.andframe.api.viewer.ViewQueryHelper;
 
 import java.util.Date;
 import java.util.List;
@@ -27,7 +25,7 @@ import java.util.List;
  * 具备【数据缓存】和【数据分页】以及 StatusHelper 中的功能
  * Created by SCWANG on 2016/9/7.
  */
-public interface ItemsHelper<T> extends StatusHelper<List<T>>, OnItemClickListener, OnItemLongClickListener, OnMoreListener, ViewQueryHelper {
+public interface ItemsHelper<T> extends StatusHelper<List<T>>, OnItemClickListener, OnItemLongClickListener, OnMoreListener/*, ViewQueryHelper*/ {
 
     //<editor-fold desc="初始方法">
 
@@ -217,6 +215,13 @@ public interface ItemsHelper<T> extends StatusHelper<List<T>>, OnItemClickListen
      */
     @Nullable
     Paging newPaging(int size, int start);
+
+//    /**
+//     * 包装 ViewQuery
+//     * @param $$ 源
+//     * @return 包装之后的 ViewQuery
+//     */
+//    ViewQuery<? extends ViewQuery> wrap(ViewQuery<? extends ViewQuery> $$);
 
     //</editor-fold>
 

@@ -318,7 +318,8 @@ public abstract class AfListAdapter<T> extends RecyclerBaseAdapter<ViewHolderIte
     }
 
     @Override
-    public Object getItem(int i) {
+    @Deprecated
+    public final Object getItem(int i) {
         return get(i);
     }
 

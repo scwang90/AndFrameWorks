@@ -83,4 +83,8 @@ public interface ItemsViewerAdapter<T> extends List<T>, ListAdapter, RecyclerAda
     void unregisterDataSetObserver(DataSetObserver observer);
     //</editor-fold>
 
+
+    @Deprecated
+    int getCount();
+
 }

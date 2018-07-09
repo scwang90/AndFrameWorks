@@ -72,14 +72,14 @@ public class AfTableRow extends LinearLayout implements OnClickListener {
 		}
 	}
 
-	public void Binding(AfTable table, List<?> ltdata, int position)
+	public void Binding(AfTable table, List<?> list, int position)
 			throws Exception {
 		if ((position & 1) == 1) {
 			this.setBackground(this, table.BackgroundIdRow);
 		} else {
 			this.setBackgroundColor(0);
 		}
-		Object data = ltdata.get(position);
+		Object data = list.get(position);
 		Class<?> clazz = data.getClass();
 		AfColumn[] column = table.getColumns();
 		for (int i = 0; i < column.length; i++) {

@@ -23,6 +23,7 @@ import android.support.v4.content.ContextCompat;
 import android.support.v4.view.PagerAdapter;
 import android.support.v4.view.ViewCompat;
 import android.support.v4.view.ViewPager;
+import android.support.v4.widget.DrawerLayout;
 import android.support.v7.widget.LinearLayoutCompat;
 import android.support.v7.widget.RecyclerView;
 import android.text.Editable;
@@ -44,6 +45,7 @@ import android.widget.CompoundButton;
 import android.widget.EditText;
 import android.widget.ExpandableListAdapter;
 import android.widget.ExpandableListView;
+import android.widget.FrameLayout;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.ProgressBar;
@@ -51,6 +53,7 @@ import android.widget.RadioGroup;
 import android.widget.RatingBar;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
+import android.widget.Toolbar;
 
 import com.andframe.adapter.AfLayoutItemViewerAdapter;
 import com.andframe.api.viewer.ViewQuery;
@@ -123,6 +126,13 @@ public class AfViewQuery<T extends AfViewQuery<T>> implements ViewQuery<T> {
         return mRootView;
     }
 
+    @Override
+    public Viewer rootViewer(@NonNull Viewer viewer) {
+        Viewer old = mRootView;
+        mRootView = viewer;
+        return old;
+    }
+
     protected T self() {
         //noinspection unchecked
         return (T) this;
@@ -131,7 +141,7 @@ public class AfViewQuery<T extends AfViewQuery<T>> implements ViewQuery<T> {
     protected T redirect() {
         if (mTargetViews.length == 1 && mTargetViews[0] != null) {
             //noinspection unchecked
-            return (T) AfApp.get().newViewQuery(new ViewerWarpper(mTargetViews[0]));
+            return (T) AfApp.get().newViewQuery(new ViewerWrapper(mTargetViews[0]));
         }
         return self();
     }
@@ -161,22 +171,22 @@ public class AfViewQuery<T extends AfViewQuery<T>> implements ViewQuery<T> {
     }
 
     @Override
-    public T $(String idvalue, String... idvalues) {
+    public T $(String idValue, String... idValues) {
         if (mRootView == null || mRootView.getView() == null) {
             return self();
         }
-        List<Integer> listId = new ArrayList<>(idvalues.length + 1);
+        List<Integer> listId = new ArrayList<>(idValues.length + 1);
         Context context = getContext();
         String packageName = context.getPackageName();
         Resources resources = context.getResources();
-        if (idvalue != null) {
-            listId.add(resources.getIdentifier(idvalue,"id",packageName));
+        if (idValue != null) {
+            listId.add(resources.getIdentifier(idValue,"id",packageName));
         }
-        if (idvalues.length > 0) {
-            for (String value : idvalues) {
+        if (idValues.length > 0) {
+            for (String value : idValues) {
                 listId.add(resources.getIdentifier(value, "id", packageName));
             }
-        } else if (idvalue == null) {
+        } else if (idValue == null) {
             mTargetViews = new View[]{getRootView()};
             return self();
         }
@@ -451,7 +461,7 @@ public class AfViewQuery<T extends AfViewQuery<T>> implements ViewQuery<T> {
     }
 
     @Override
-    public <TT, TTT> TTT foreach(Class<TT> clazz, ViewReturnEacher<TT, TTT> eacher, TTT defvalue) {
+    public <TT, TTT> TTT foreach(Class<TT> clazz, ViewReturnEacher<TT, TTT> eacher, TTT defValue) {
         if (mTargetViews != null) {
             for (View view : mTargetViews) {
                 if (view != null && clazz.isInstance(view)) {
@@ -462,7 +472,7 @@ public class AfViewQuery<T extends AfViewQuery<T>> implements ViewQuery<T> {
                 }
             }
         }
-        return defvalue;
+        return defValue;
     }
 
     @Override
@@ -615,6 +625,27 @@ public class AfViewQuery<T extends AfViewQuery<T>> implements ViewQuery<T> {
     @Override
     public T layoutParams(LayoutParams params) {
         return foreach((ViewEacher<View>) view -> view.setLayoutParams(params));
+    }
+
+    @Override
+    public T layoutGravity(int gravity) {
+        return foreach(view -> {
+            LayoutParams lp = view.getLayoutParams();
+            if (lp instanceof FrameLayout.LayoutParams) {
+                ((FrameLayout.LayoutParams) lp).gravity = gravity;
+            } else if (lp instanceof DrawerLayout.LayoutParams) {
+                ((DrawerLayout.LayoutParams) lp).gravity = gravity;
+            } else if (lp instanceof LinearLayout.LayoutParams) {
+                ((LinearLayout.LayoutParams) lp).gravity = gravity;
+            } else if (lp instanceof LinearLayoutCompat.LayoutParams) {
+                ((LinearLayoutCompat.LayoutParams) lp).gravity = gravity;
+            } else if (lp instanceof Toolbar.LayoutParams) {
+                ((Toolbar.LayoutParams) lp).gravity = gravity;
+            } else if (lp instanceof android.support.v7.widget.Toolbar.LayoutParams) {
+                ((android.support.v7.widget.Toolbar.LayoutParams) lp).gravity = gravity;
+            }
+            view.setLayoutParams(lp);
+        });
     }
 
     //</editor-fold>
@@ -1495,8 +1526,8 @@ public class AfViewQuery<T extends AfViewQuery<T>> implements ViewQuery<T> {
     }
 
     @Override
-    public T textElse(CharSequence text, CharSequence defvalue) {
-        return foreach(TextView.class, (ViewEacher<TextView>) (view) -> view.setText(TextUtils.isEmpty(text) ? defvalue : text));
+    public T textElse(CharSequence text, CharSequence defValue) {
+        return foreach(TextView.class, (ViewEacher<TextView>) (view) -> view.setText(TextUtils.isEmpty(text) ? defValue : text));
     }
 
     @Override

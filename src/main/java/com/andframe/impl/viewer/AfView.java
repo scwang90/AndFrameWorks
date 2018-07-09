@@ -11,7 +11,7 @@ import com.andframe.api.viewer.Viewer;
  * @author 树朾
  * 实现了 Viewer 接口 优化 findViewById 方法
  */
-public class AfView extends ViewerWarpper implements Viewer {
+public class AfView extends ViewerWrapper implements Viewer {
 
 	private View mRootView;
 

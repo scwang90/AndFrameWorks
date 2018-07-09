@@ -57,6 +57,16 @@ public abstract class AfFragment extends Fragment implements Pager, ViewQueryHel
     protected ViewQuery<? extends ViewQuery> $$ = AfViewQueryHelper.newHelper(this);
 
     @Override
+    public void setViewQuery(ViewQuery<? extends ViewQuery> viewQuery) {
+        this.$$ = viewQuery;
+    }
+
+    @Override
+    public ViewQuery<? extends ViewQuery> getViewQuery() {
+        return $$;
+    }
+
+    @Override
     public ViewQuery<? extends ViewQuery> $(View... views) {
         return $$.$(views);
     }
@@ -72,8 +82,8 @@ public abstract class AfFragment extends Fragment implements Pager, ViewQueryHel
     }
 
     @Override
-    public ViewQuery<? extends ViewQuery> $(String idvalue, String... idvalues) {
-        return $$.$(idvalue);
+    public ViewQuery<? extends ViewQuery> $(String idValue, String... idValues) {
+        return $$.$(idValue);
     }
 
     @Override
@@ -290,14 +300,14 @@ public abstract class AfFragment extends Fragment implements Pager, ViewQueryHel
      *
      * @see android.support.v4.app.FragmentActivity#onActivityResult(int, int, android.content.Intent)
      * final 重写 onActivityResult 使用 try-catch 调用
-     * onActivityResult(AfIntent intent, int requestcode,int resultcode)
-     * @see AfFragment#onActivityResult(AfIntent intent, int requestcode, int resultcode)
-     * {@link AfFragment#onActivityResult(AfIntent intent, int requestcode, int resultcode)}
+     * onActivityResult(AfIntent intent, int requestCode,int resultCode)
+     * @see AfFragment#onActivityResult(AfIntent intent, int requestCode, int resultCode)
+     * {@link AfFragment#onActivityResult(AfIntent intent, int requestCode, int resultCode)}
      */
     @Override
-    public final void onActivityResult(int requestcode, int resultcode, Intent data) {
+    public final void onActivityResult(int requestCode, int resultCode, Intent data) {
         try {
-            onActivityResult(new AfIntent(data), requestcode, resultcode);
+            onActivityResult(new AfIntent(data), requestCode, resultCode);
         } catch (Throwable e) {
             if (!(e instanceof AfToastException)) {
                 AfExceptionHandler.handle(e, TAG("onActivityResult"));
@@ -307,22 +317,22 @@ public abstract class AfFragment extends Fragment implements Pager, ViewQueryHel
     }
 
     /**
-     * 安全 onActivityResult(AfIntent intent, int requestcode,int resultcode)
-     * 在onActivityResult(int requestcode, int resultCode, Intent data) 中调用
+     * 安全 onActivityResult(AfIntent intent, int requestCode,int resultCode)
+     * 在onActivityResult(int requestCode, int resultCode, Intent data) 中调用
      * 并使用 try-catch 提高安全性，子类请重写这个方法
      *
      * @see AfFragment#onActivityResult(int, int, android.content.Intent)
      * {@link AfFragment#onActivityResult(int, int, android.content.Intent)}
      */
     @SuppressWarnings("RestrictedApi")
-    protected void onActivityResult(AfIntent intent, int requestcode, int resultcode) {
-        super.onActivityResult(requestcode, resultcode, intent);
+    protected void onActivityResult(AfIntent intent, int requestCode, int resultCode) {
+        super.onActivityResult(requestCode, resultCode, intent);
         List<Fragment> fragments = getChildFragmentManager().getFragments();
         fragments = fragments == null ? new ArrayList<>() : fragments;
         for (Fragment fragment : fragments) {
             if (fragment != null && fragment.getUserVisibleHint() && fragment instanceof AfFragment) {
                 AfFragment afment = (AfFragment) fragment;
-                afment.onActivityResult(intent, requestcode, resultcode);
+                afment.onActivityResult(intent, requestCode, resultCode);
             }
         }
     }

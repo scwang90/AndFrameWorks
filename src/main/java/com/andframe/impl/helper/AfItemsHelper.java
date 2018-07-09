@@ -43,20 +43,18 @@ import com.andframe.api.pager.status.StatusLayouter;
 import com.andframe.api.task.Task;
 import com.andframe.api.task.TaskWithPaging;
 import com.andframe.api.viewer.ItemsViewer;
-import com.andframe.api.viewer.ViewQuery;
 import com.andframe.application.AfApp;
 import com.andframe.exception.AfExceptionHandler;
 import com.andframe.fragment.AfItemsFragment;
 import com.andframe.impl.pager.items.MoreFooterLayouter;
 import com.andframe.impl.viewer.ItemsViewerWrapper;
-import com.andframe.impl.viewer.ViewerWarpper;
+import com.andframe.impl.viewer.ViewerWrapper;
 import com.andframe.model.Page;
 import com.andframe.task.AfDispatcher;
 import com.andframe.task.AfListViewTask;
 import com.andframe.util.java.AfReflecter;
 
 import java.util.ArrayList;
-import java.util.Collection;
 import java.util.Date;
 import java.util.List;
 
@@ -67,7 +65,7 @@ import static com.andframe.util.java.AfReflecter.getAnnotation;
  * Created by SCWANG on 2016/9/7.
  */
 @SuppressWarnings({"WeakerAccess", "unchecked"})
-public class AfItemsPagerHelper<T> extends AfStatusHelper<List<T>> implements ItemsHelper<T> {
+public class AfItemsHelper<T> extends AfStatusHelper<List<T>> implements ItemsHelper<T> {
 
     //<editor-fold desc="属性字段">
     protected ItemsPager<T> mItemsPager;
@@ -77,7 +75,7 @@ public class AfItemsPagerHelper<T> extends AfStatusHelper<List<T>> implements It
     protected com.andframe.api.viewer.ItemsViewer mItemsViewer;
     protected ItemsViewerAdapter<T> mAdapter;
 
-    protected ViewQuery<? extends ViewQuery> $$ ;
+//    protected ViewQuery<? extends ViewQuery> $$ ;
     protected ItemsViewerOnly mItemsViewerOnly;
 
     protected List<View> mHeaderFooterViews = new ArrayList<>();
@@ -102,57 +100,49 @@ public class AfItemsPagerHelper<T> extends AfStatusHelper<List<T>> implements It
 
     protected String TAG(String tag) {
         if (mItemsPager == null) {
-            return "AfItemsPagerHelper(null)." + tag;
+            return "AfItemsHelper(null)." + tag;
         }
-        return "AfItemsPagerHelper(" + mItemsPager.getClass().getName() + ")." + tag;
+        return "AfItemsHelper(" + mItemsPager.getClass().getName() + ")." + tag;
     }
 
 
     //<editor-fold desc="ViewQuery 集成">
-    @Override
-    public ViewQuery<? extends ViewQuery> $(View... views) {
-        return $$.$(views);
-    }
-
-    @Override
-    public ViewQuery<? extends ViewQuery> $(Collection<View> views) {
-        return $$.$(views);
-    }
-
-    @Override
-    public ViewQuery<? extends ViewQuery> $(Integer id, int... ids) {
-        return $$.$(id, ids);
-    }
-
-    @Override
-    public ViewQuery<? extends ViewQuery> $(String idvalue, String... idvalues) {
-        return $$.$(idvalue, idvalues);
-    }
-
-    @Override
-    public ViewQuery<? extends ViewQuery> $(Class<? extends View> type) {
-        return $$.$(type);
-    }
-
-    @Override
-    public ViewQuery<? extends ViewQuery> $(Class<? extends View>[] types) {
-        return $$.$(types);
-    }
+//    @Override
+//    public ViewQuery<? extends ViewQuery> $(View... views) {
+//        return $$.$(views);
+//    }
+//
+//    @Override
+//    public ViewQuery<? extends ViewQuery> $(Collection<View> views) {
+//        return $$.$(views);
+//    }
+//
+//    @Override
+//    public ViewQuery<? extends ViewQuery> $(Integer id, int... ids) {
+//        return $$.$(id, ids);
+//    }
+//
+//    @Override
+//    public ViewQuery<? extends ViewQuery> $(String idValue, String... idValues) {
+//        return $$.$(idValue, idValues);
+//    }
+//
+//    @Override
+//    public ViewQuery<? extends ViewQuery> $(Class<? extends View> type) {
+//        return $$.$(type);
+//    }
+//
+//    @Override
+//    public ViewQuery<? extends ViewQuery> $(Class<? extends View>[] types) {
+//        return $$.$(types);
+//    }
     //</editor-fold>
 
     //<editor-fold desc="初始化">
-    public AfItemsPagerHelper(ItemsPager<T> itemsPager) {
+    public AfItemsHelper(ItemsPager<T> itemsPager) {
         super(itemsPager);
         this.mItemsPager = itemsPager;
-        this.$$ = AfViewQueryHelper.newHelper(new ViewerWarpper(itemsPager.getView()) {
-            @Override
-            public Context getContext() {
-                return mItemsPager.getContext();
-            }
-            @Override
-            public View getView() {
-                return mItemsPager.getView();
-            }
+        this.mItemsPager.setViewQuery(AfViewQueryHelper.newHelper(new ViewerWrapper(itemsPager) {
             @Override
             public View findViewById(int id) {
                 View view = mItemsPager.findViewById(id);
@@ -166,19 +156,19 @@ public class AfItemsPagerHelper<T> extends AfStatusHelper<List<T>> implements It
                 }
                 return view;
             }
-        });
-//        this.$$ = new AfViewQueryHelper(new ViewerWarpper(itemsPager.getView()) {
+        }));
+//        this.$$ = AfViewQueryHelper.newHelper(new ViewerWrapper(itemsPager.getView()) {
 //            @Override
 //            public Context getContext() {
-//                return itemsPager.getContext();
+//                return mItemsPager.getContext();
 //            }
 //            @Override
 //            public View getView() {
-//                return itemsPager.getView();
+//                return mItemsPager.getView();
 //            }
 //            @Override
 //            public View findViewById(int id) {
-//                View view = itemsPager.findViewById(id);
+//                View view = mItemsPager.findViewById(id);
 //                if (view == null && mAdapter != null) {
 //                    for (View HeaderFooterView : mHeaderFooterViews) {
 //                        view = HeaderFooterView.findViewById(id);
@@ -196,6 +186,34 @@ public class AfItemsPagerHelper<T> extends AfStatusHelper<List<T>> implements It
             mIsNeedPaging = false;
         }
     }
+
+//    @Override
+//    public ViewQuery<? extends ViewQuery> wrap(ViewQuery<? extends ViewQuery> $$) {
+//        $$.rootViewer(new ViewerWrapper(mItemsPager.getView()) {
+//            @Override
+//            public Context getContext() {
+//                return mItemsPager.getContext();
+//            }
+//            @Override
+//            public View getView() {
+//                return mItemsPager.getView();
+//            }
+//            @Override
+//            public View findViewById(int id) {
+//                View view = mItemsPager.findViewById(id);
+//                if (view == null && mAdapter != null) {
+//                    for (View HeaderFooterView : mHeaderFooterViews) {
+//                        view = HeaderFooterView.findViewById(id);
+//                        if (view != null) {
+//                            return view;
+//                        }
+//                    }
+//                }
+//                return view;
+//            }
+//        });
+//        return $$;
+//    }
 
     @Override
     public void onViewCreated() {
@@ -569,7 +587,7 @@ public class AfItemsPagerHelper<T> extends AfStatusHelper<List<T>> implements It
             }
             mHeaderFooterViews.add(view);
         } else {
-            AfExceptionHandler.handle("ItemsHeader指定View为null","AfItemsPagerHelper.addHeaderView");
+            AfExceptionHandler.handle("ItemsHeader指定View为null","AfItemsHelper.addHeaderView");
         }
     }
 
@@ -580,7 +598,7 @@ public class AfItemsPagerHelper<T> extends AfStatusHelper<List<T>> implements It
             }
             mHeaderFooterViews.add(view);
         } else {
-            AfExceptionHandler.handle("ItemsFooter指定View为null","AfItemsPagerHelper.addFooterView");
+            AfExceptionHandler.handle("ItemsFooter指定View为null","AfItemsHelper.addFooterView");
         }
     }
 
@@ -683,8 +701,8 @@ public class AfItemsPagerHelper<T> extends AfStatusHelper<List<T>> implements It
      */
     protected class AbViewerAdapter extends AfListAdapter<T> {
 
-        public AbViewerAdapter(List<T> ltdata) {
-            super(ltdata);
+        public AbViewerAdapter(List<T> list) {
+            super(list);
         }
 
         /**

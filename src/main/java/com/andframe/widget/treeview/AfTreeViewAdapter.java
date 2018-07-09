@@ -30,17 +30,17 @@ public abstract class AfTreeViewAdapter<T> extends AfMultiChoiceAdapter<T> imple
 
 	protected abstract AfTreeViewItemViewer<T> newTreeViewItem(int viewType);
 
-	public AfTreeViewAdapter(List<T> ltdata, AfTreeEstablisher<T> establisher) {
-		this(ltdata, establisher, false);
+	public AfTreeViewAdapter(List<T> list, AfTreeEstablisher<T> establisher) {
+		this(list, establisher, false);
 	}
 	
-	public AfTreeViewAdapter(List<T> ltdata, AfTreeEstablisher<T> establisher,boolean isExpanded) {
+	public AfTreeViewAdapter(List<T> list, AfTreeEstablisher<T> establisher,boolean isExpanded) {
 		super(new ArrayList<>());
-		mltOriginData = ltdata;
+		mltOriginData = list;
 		mEstablisher = establisher;
 		mDefaultExpanded = isExpanded;
 		//构造树形
- 		mRootNode = mEstablisher.establish(ltdata,isExpanded);
+ 		mRootNode = mEstablisher.establish(list,isExpanded);
 		//将树形显示到列表
 		establishNodeListToShow(mltArray, mNodeShow, mRootNode);
 	}
@@ -164,8 +164,8 @@ public abstract class AfTreeViewAdapter<T> extends AfMultiChoiceAdapter<T> imple
 	}
 
 	@Override
-	public boolean addAll(@NonNull Collection<? extends T> ltdata) {
-		boolean ret = mltOriginData.addAll(ltdata);
+	public boolean addAll(@NonNull Collection<? extends T> list) {
+		boolean ret = mltOriginData.addAll(list);
 		mRootNode = mEstablisher.establish(mltOriginData,mDefaultExpanded);
 		restoreTreeNode(mRootNode, mNodeShow);
 		updateNodeListToShow();
@@ -173,8 +173,8 @@ public abstract class AfTreeViewAdapter<T> extends AfMultiChoiceAdapter<T> imple
 	}
 
 	@Override
-	public void set(@NonNull List<T> ltdata) {
-		mltOriginData = new ArrayList<>(ltdata);
+	public void set(@NonNull List<T> list) {
+		mltOriginData = new ArrayList<>(list);
 		mRootNode = mEstablisher.establish(mltOriginData,mDefaultExpanded);
 		updateNodeListToShow();
 	}
@@ -300,7 +300,8 @@ public abstract class AfTreeViewAdapter<T> extends AfMultiChoiceAdapter<T> imple
 		return false;
 	}
 
-	@Override
+	@NonNull
+    @Override
 	public List<T> getSelectedItems() {
 		List<T> list = new ArrayList<>();
 		if(isMultiChoiceMode()) {
@@ -310,6 +311,7 @@ public abstract class AfTreeViewAdapter<T> extends AfMultiChoiceAdapter<T> imple
 		return list;
 	}
 
+	@NonNull
 	@Override
 	public List<T> peekSelectedItems() {
 		List<T> list = new ArrayList<>();

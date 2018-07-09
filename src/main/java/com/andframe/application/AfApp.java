@@ -183,10 +183,10 @@ public abstract class AfApp extends Application {
 	/**
 	 * 获取在Application 中定义的 meta-data
 	 * @param key 键
-	 * @param defvalue 默认值
-	 * @return meta-data or defvalue
+	 * @param defValue 默认值
+	 * @return meta-data or defValue
 	 */
-	public String getMetaData(String key,String defvalue) {
+	public String getMetaData(String key,String defValue) {
 		try {
 			Object data = getMetaData().get(key);
 			if (data == null) {
@@ -197,7 +197,7 @@ public abstract class AfApp extends Application {
 		} catch (Throwable e) {
 			//AfExceptionHandler.handle(e, "AfApplication.getMetaData");
 		}
-		return defvalue;
+		return defValue;
 	}
 
 

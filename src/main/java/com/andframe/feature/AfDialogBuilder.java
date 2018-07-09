@@ -508,7 +508,7 @@ public class AfDialogBuilder implements DialogBuilder {
     @Override
     public Dialog inputText(CharSequence title, final CharSequence defaul, int type, final InputTextListener listener) {
         final EditText input = new EditText(mContext);
-        final int defaullength = defaul != null ? defaul.length() : 0;
+        final int defaultLength = defaul != null ? defaul.length() : 0;
         input.setText(defaul);
         input.clearFocus();
         input.setInputType(type);
@@ -516,8 +516,8 @@ public class AfDialogBuilder implements DialogBuilder {
         final CharSequence oKey = "确定";
         final CharSequence msgKey = "$inputText$";
 
-        OnClickListener cancleListener = (dialog, which) -> {
-            AfSoftKeyboard.hideSoftKeyboard(input);
+        OnClickListener cancelListener = (dialog, which) -> {
+            AfSoftInput.hideSoftInput(input);
             if (listener instanceof InputTextCancelable) {
                 ((InputTextCancelable) listener).onInputTextCancel(input);
             }
@@ -526,19 +526,19 @@ public class AfDialogBuilder implements DialogBuilder {
             }
         };
         final OnClickListener okListener = (dialog, which) -> {
-            if (listener.onInputTextComfirm(input, input.getText().toString())) {
-                AfSoftKeyboard.hideSoftKeyboard(input);
+            if (listener.onInputTextConfirm(input, input.getText().toString())) {
+                AfSoftInput.hideSoftInput(input);
                 if (dialog != null) {
                     dialog.dismiss();
                 }
             }
         };
         final OnShowListener showListener = dialog -> {
-            AfSoftKeyboard.showSoftkeyboard(input);
-            if (defaullength > 3 && defaul.toString().matches("[^.]+\\.[a-zA-Z]\\w{1,3}")) {
+            AfSoftInput.showSoftInput(input);
+            if (defaultLength > 3 && defaul.toString().matches("[^.]+\\.[a-zA-Z]\\w{1,3}")) {
                 input.setSelection(0, defaul.toString().lastIndexOf('.'));
             } else {
-                input.setSelection(0, defaullength);
+                input.setSelection(0, defaultLength);
             }
         };
 
@@ -548,14 +548,14 @@ public class AfDialogBuilder implements DialogBuilder {
             builder.setCancelable(false);
             builder.setTitle(title);
             builder.setPositiveButton("确定", new SafeListener());
-            builder.setNegativeButton("取消", cancleListener);
+            builder.setNegativeButton("取消", cancelListener);
             final AlertDialog dialog = builder.create();
             dialog.setOnShowListener(showListener);
             dialog.show();
             dialog.getButton(AlertDialog.BUTTON_POSITIVE).setOnClickListener(v -> new SafeListener(okListener).onClick(dialog, 0));
             return dialog;
         } else {
-            final Dialog dialog = showDialog(title, msgKey, oKey, okListener, "取消", cancleListener);
+            final Dialog dialog = showDialog(title, msgKey, oKey, okListener, "取消", cancelListener);
             new Handler(Looper.getMainLooper()).postDelayed(() -> {
                 FindTextViewWithText builderHelper = FindTextViewWithText.invoke((ViewGroup) dialog.getWindow().getDecorView(), msgKey);
                 if (builderHelper != null) {
@@ -633,7 +633,7 @@ public class AfDialogBuilder implements DialogBuilder {
         final CharSequence msgKey = "$inputLines$";
 
         OnClickListener cancleListener = (dialog, which) -> {
-            AfSoftKeyboard.hideSoftKeyboard(input);
+            AfSoftInput.hideSoftInput(input);
             if (listener instanceof InputTextCancelable) {
                 ((InputTextCancelable) listener).onInputTextCancel(input);
             }
@@ -642,15 +642,15 @@ public class AfDialogBuilder implements DialogBuilder {
             }
         };
         final OnClickListener okListener = (dialog, which) -> {
-            if (listener.onInputTextComfirm(input, input.getText().toString())) {
-                AfSoftKeyboard.hideSoftKeyboard(input);
+            if (listener.onInputTextConfirm(input, input.getText().toString())) {
+                AfSoftInput.hideSoftInput(input);
                 if (dialog != null) {
                     dialog.dismiss();
                 }
             }
         };
         final OnShowListener showListener = dialog -> {
-            AfSoftKeyboard.showSoftkeyboard(input);
+            AfSoftInput.showSoftInput(input);
             if (defaullength > 3 && defaul.toString().matches("[^.]+\\.[a-zA-Z]\\w{1,3}")) {
                 input.setSelection(0, defaul.toString().lastIndexOf('.'));
             } else {

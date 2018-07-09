@@ -37,7 +37,7 @@ import static android.R.id.widget_frame;
 @SuppressWarnings("unused")
 public class AfFragmentActivity extends AfActivity {
 
-    protected static final String EXTRA_FRAGMENT = "EXTRA_FRAGMENT";
+    public static final String EXTRA_FRAGMENT = "EXTRA_FRAGMENT";
 
     private Fragment mFragment;
 
@@ -114,10 +114,10 @@ public class AfFragmentActivity extends AfActivity {
 
     //<editor-fold desc="事件转发">
     @Override
-    protected void onActivityResult(int requestcode, int resultcode, Intent data) {
-        super.onActivityResult(requestcode, resultcode, data);
-        if (requestcode < 0xFFFF && mFragment != null) {
-            mFragment.onActivityResult(requestcode, resultcode, data);
+    protected void onActivityResult(int requestCode, int resultCode, Intent data) {
+        super.onActivityResult(requestCode, resultCode, data);
+        if (requestCode < 0xFFFF && mFragment != null) {
+            mFragment.onActivityResult(requestCode, resultCode, data);
         }
     }
     //</editor-fold>
@@ -131,15 +131,11 @@ public class AfFragmentActivity extends AfActivity {
      */
 
     protected void checkMustLoginedOnCreate() {
-        try {
-            Class<?> fragment = getFragmentClass();
-            MustLogin must = AfReflecter.getAnnotation(fragment, Fragment.class, MustLogin.class);
-            if (must != null && !AfApp.get().isUserLogined()) {
-                interruptReplaceFragment = true;
-                startLoginPager(must);
-            }
-        } catch (ClassNotFoundException e) {
-            e.printStackTrace();
+        Class<?> fragment = getFragmentClazz();
+        MustLogin must = AfReflecter.getAnnotation(fragment, Fragment.class, MustLogin.class);
+        if (must != null && !AfApp.get().isUserLogined()) {
+            interruptReplaceFragment = true;
+            startLoginPager(must);
         }
     }
 
@@ -198,9 +194,9 @@ public class AfFragmentActivity extends AfActivity {
     }
 
     @Override
-    protected void onActivityResult(AfIntent intent, int requestcode, int resultcode) throws Exception {
-        super.onActivityResult(intent, requestcode, resultcode);
-        if (requestcode == REQUSET_LOGIN) {
+    protected void onActivityResult(AfIntent intent, int requestCode, int resultCode) throws Exception {
+        super.onActivityResult(intent, requestCode, resultCode);
+        if (requestCode == REQUSET_LOGIN) {
             if (AfApp.get().isUserLogined()) {
                 interruptReplaceFragment = false;
                 replaceFragment();
@@ -215,7 +211,7 @@ public class AfFragmentActivity extends AfActivity {
     protected void replaceFragment() {
         if (!interruptReplaceFragment) {
             try {
-                mFragment = (Fragment) getFragmentClass().newInstance();
+                mFragment = (Fragment) getFragmentClazz().newInstance();
                 FragmentManager manager = getSupportFragmentManager();
                 FragmentTransaction transaction = manager.beginTransaction();
                 transaction.replace(widget_frame, mFragment);

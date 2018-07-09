@@ -27,7 +27,7 @@ public interface DialogBuilder {
         /**
          * @return false 表示输入验证错误，需要重新输入
          */
-        boolean onInputTextComfirm(EditText input, String value);
+        boolean onInputTextConfirm(EditText input, String value);
     }
 
     /**

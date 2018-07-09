@@ -1,5 +1,6 @@
 package com.andframe.adapter;
 
+import android.support.v4.util.ArrayMap;
 import android.view.View;
 import android.view.ViewGroup;
 
@@ -8,7 +9,6 @@ import com.andframe.api.adapter.ItemViewer;
 import com.andframe.api.adapter.ItemsViewerAdapter;
 
 import java.util.AbstractMap.SimpleEntry;
-import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
@@ -21,7 +21,7 @@ public class AfUpdateItemViewerAdapter<T> extends AfItemsViewerAdapterWrapper<T>
 
     protected static final int KEY_VIEW_TAG = "RecyclerBaseAdapter".hashCode();
 
-    protected Map<View, SimpleEntry<Integer, ItemViewer<T>>> itemTMap = new HashMap<>();
+    protected ArrayMap<View, SimpleEntry<Integer, ItemViewer<T>>> itemTMap = new ArrayMap<>();
 
     public AfUpdateItemViewerAdapter(ItemsViewerAdapter<T> wrapped) {
         super(wrapped);

@@ -8,7 +8,7 @@ import android.view.ViewGroup;
 import com.andframe.api.adapter.ItemViewer;
 import com.andframe.api.viewer.ViewQuery;
 import com.andframe.application.AfApp;
-import com.andframe.impl.viewer.ViewerWarpper;
+import com.andframe.impl.viewer.ViewerWrapper;
 
 import java.util.List;
 
@@ -19,12 +19,12 @@ import java.util.List;
 @SuppressWarnings("unused")
 public abstract class AfItemsViewerAdapter<T> extends AfListAdapter<T> implements ItemViewer<T> {
 
-    public AfItemsViewerAdapter(List<T> ltdata) {
-        super(ltdata);
+    public AfItemsViewerAdapter(List<T> list) {
+        super(list);
     }
 
-    public AfItemsViewerAdapter(List<T> ltdata, boolean dataSync) {
-        super(ltdata, dataSync);
+    public AfItemsViewerAdapter(List<T> list, boolean dataSync) {
+        super(list, dataSync);
     }
 
     @NonNull
@@ -40,7 +40,7 @@ public abstract class AfItemsViewerAdapter<T> extends AfListAdapter<T> implement
 
     @Override
     public void onBinding(View view, T model, int index) {
-        onBinding(AfApp.get().newViewQuery(new ViewerWarpper(view)), model, index);
+        onBinding(AfApp.get().newViewQuery(new ViewerWrapper(view)), model, index);
     }
 
     /**

@@ -18,8 +18,8 @@ public class AfTableAdapter extends AfListAdapter<Object> {
 
 	protected AfTable mTable = null;
 
-	public AfTableAdapter(AfTable table, List<?> ltdata) {
-		super(new ArrayList<>(ltdata));
+	public AfTableAdapter(AfTable table, List<?> list) {
+		super(new ArrayList<>(list));
 		mTable = table;
 	}
 

@@ -22,7 +22,7 @@ public interface ViewQueryHelper {
     ViewQuery<? extends ViewQuery> $(View... views);
     ViewQuery<? extends ViewQuery> $(Collection<View> views);
 
-    ViewQuery<? extends ViewQuery> $(String idvalue, String... idvalues);
+    ViewQuery<? extends ViewQuery> $(String idValue, String... idValues);
     ViewQuery<? extends ViewQuery> $(Class<? extends View> type);
     ViewQuery<? extends ViewQuery> $(Class<? extends View>[] types);
 }
