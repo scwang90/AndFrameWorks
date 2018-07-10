@@ -133,7 +133,7 @@ public class AfFragmentActivity extends AfActivity {
     protected void checkMustLoginedOnCreate() {
         Class<?> fragment = getFragmentClazz();
         MustLogin must = AfReflecter.getAnnotation(fragment, Fragment.class, MustLogin.class);
-        if (must != null && !AfApp.get().isUserLogined()) {
+        if (must != null && !AfApp.get().isUserLoggedIn()) {
             interruptReplaceFragment = true;
             startLoginPager(must);
         }
@@ -197,7 +197,7 @@ public class AfFragmentActivity extends AfActivity {
     protected void onActivityResult(AfIntent intent, int requestCode, int resultCode) throws Exception {
         super.onActivityResult(intent, requestCode, resultCode);
         if (requestCode == REQUSET_LOGIN) {
-            if (AfApp.get().isUserLogined()) {
+            if (AfApp.get().isUserLoggedIn()) {
                 interruptReplaceFragment = false;
                 replaceFragment();
             } else {

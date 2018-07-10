@@ -163,7 +163,7 @@ public abstract class AfApp extends Application {
 			int type = PackageManager.GET_META_DATA;
 			PackageManager manager = this.getPackageManager();
 			ApplicationInfo info = manager.getApplicationInfo(name, type);
-			return info.metaData;
+			return info.metaData == null ? new Bundle() : info.metaData;
 		} catch (PackageManager.NameNotFoundException e) {
 			e.printStackTrace();
 			return new Bundle();
@@ -373,8 +373,8 @@ public abstract class AfApp extends Application {
 
 	//<editor-fold desc="页面状态">
 
-	public boolean isUserLogined() {
-		throw new AfToastException("App.isUserLogined必须由子类实现");
+	public boolean isUserLoggedIn() {
+		throw new AfToastException("App.isUserLoggedIn必须由子类实现");
 	}
 
 	/**

@@ -211,7 +211,7 @@ public abstract class AfActivity extends AppCompatActivity implements Pager, Vie
                 return;
             }
             MustLogin must = AfReflecter.getAnnotation(getClass(), AfActivity.class, MustLogin.class);
-            if (must != null && !AfApp.get().isUserLogined()) {
+            if (must != null && !AfApp.get().isUserLoggedIn()) {
                 if (Activity.class.isAssignableFrom(must.value())) {
                     startActivity(new Intent(this,must.value()));
                 } else if (Fragment.class.isAssignableFrom(must.value())) {

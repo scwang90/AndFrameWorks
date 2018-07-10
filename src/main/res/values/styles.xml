@@ -373,6 +373,20 @@
         <item name="android:paddingRight">@dimen/dimenPaddingHorizontal</item>
     </style>
 
+    <style name="AndFrame.Layout.Small" parent="AndFrame.Match.Wrap">
+        <item name="android:paddingTop">@dimen/dimenPaddingDiminutive</item>
+        <item name="android:paddingBottom">@dimen/dimenPaddingDiminutive</item>
+        <item name="android:paddingLeft">@dimen/dimenPaddingCommon</item>
+        <item name="android:paddingRight">@dimen/dimenPaddingCommon</item>
+    </style>
+
+    <style name="AndFrame.Layout.Min" parent="AndFrame.Match.Wrap">
+        <item name="android:paddingTop">@dimen/dimenPaddingMin</item>
+        <item name="android:paddingBottom">@dimen/dimenPaddingMin</item>
+        <item name="android:paddingLeft">@dimen/dimenPaddingDiminutive</item>
+        <item name="android:paddingRight">@dimen/dimenPaddingDiminutive</item>
+    </style>
+
     <style name="AndFrame.Layout.Clickable">
         <item name="android:background">?android:attr/selectableItemBackground</item>
     </style>
