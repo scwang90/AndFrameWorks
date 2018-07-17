@@ -109,32 +109,32 @@ public class AfItemsHelper<T> extends AfStatusHelper<List<T>> implements ItemsHe
     //<editor-fold desc="ViewQuery 集成">
 //    @Override
 //    public ViewQuery<? extends ViewQuery> $(View... views) {
-//        return $$.$(views);
+//        return $$.query(views);
 //    }
 //
 //    @Override
 //    public ViewQuery<? extends ViewQuery> $(Collection<View> views) {
-//        return $$.$(views);
+//        return $$.query(views);
 //    }
 //
 //    @Override
 //    public ViewQuery<? extends ViewQuery> $(Integer id, int... ids) {
-//        return $$.$(id, ids);
+//        return $$.query(id, ids);
 //    }
 //
 //    @Override
 //    public ViewQuery<? extends ViewQuery> $(String idValue, String... idValues) {
-//        return $$.$(idValue, idValues);
+//        return $$.query(idValue, idValues);
 //    }
 //
 //    @Override
 //    public ViewQuery<? extends ViewQuery> $(Class<? extends View> type) {
-//        return $$.$(type);
+//        return $$.query(type);
 //    }
 //
 //    @Override
 //    public ViewQuery<? extends ViewQuery> $(Class<? extends View>[] types) {
-//        return $$.$(types);
+//        return $$.query(types);
 //    }
     //</editor-fold>
 
