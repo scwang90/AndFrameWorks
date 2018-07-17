@@ -2,6 +2,7 @@ package com.andframe.widget.multichoice;
 
 import java.util.List;
 
+@SuppressWarnings("unused")
 public abstract class AfMultiChoiceNormalityAdapter<T> extends AfMultiChoiceAdapter<T>{
 
 	public AfMultiChoiceNormalityAdapter() {

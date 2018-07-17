@@ -231,16 +231,16 @@ public class AfViewQuery<T extends AfViewQuery<T>> implements ViewQuery<T> {
         List<View> list = new ArrayList<>();
         Queue<View> views = new LinkedBlockingQueue<>(Collections.singletonList(mRootView.getView()));
         while (!views.isEmpty() && types.length > 0) {
-            View cview = views.poll();
-            if (cview != null) {
-                for (Class<?> ttype : types) {
-                    if (ttype.isInstance(cview)) {
-                        list.add(cview);
+            View view = views.poll();
+            if (view != null) {
+                for (Class<?> clazz : types) {
+                    if (clazz.isInstance(view)) {
+                        list.add(view);
                         break;
                     }
                 }
-                if (cview instanceof ViewGroup) {
-                    ViewGroup group = (ViewGroup) cview;
+                if (view instanceof ViewGroup) {
+                    ViewGroup group = (ViewGroup) view;
                     for (int j = 0; j < group.getChildCount(); j++) {
                         views.add(group.getChildAt(j));
                     }

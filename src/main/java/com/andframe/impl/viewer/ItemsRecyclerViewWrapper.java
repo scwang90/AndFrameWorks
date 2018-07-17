@@ -14,29 +14,26 @@ import android.widget.AdapterView;
 import android.widget.ListAdapter;
 
 import com.andframe.R;
+import com.andframe.adapter.RecyclerInteractionAdapter;
 import com.andframe.api.pager.items.OnScrollToBottomListener;
 import com.andframe.api.viewer.ItemsViewer;
-import com.andframe.impl.wrapper.RecyclerAdapterWrapper;
 
 /**
  * RecyclerView
  * Created by SCWANG on 2016/9/14.
  */
-public class ItemsRecyclerViewWrapper implements ItemsViewer<RecyclerView> {
+public class ItemsRecyclerViewWrapper implements ItemsViewer<RecyclerView>, AdapterView.OnItemClickListener, AdapterView.OnItemLongClickListener {
 
     protected RecyclerView mItemsView;
     protected AdapterView.OnItemClickListener mOnItemClickListener;
     protected AdapterView.OnItemLongClickListener mOnItemLongClickListener;
 
-    protected View.OnClickListener mOnClickListener;
-    protected View.OnLongClickListener mOnLongClickListener;
     protected LinearLayoutManager mLinearLayoutManager;
+    protected RecyclerInteractionAdapter mInteractionAdapter;
     protected boolean mDivisionEnable = true;
 
     public ItemsRecyclerViewWrapper(RecyclerView itemView) {
         this.mItemsView = itemView;
-        mOnClickListener = v -> onItemClick(v, mItemsView.getChildAdapterPosition(v), v.getId());
-        mOnLongClickListener = v -> onItemLongClick(v, mItemsView.getChildAdapterPosition(v), v.getId());
 //        mItemsView.addOnItemTouchListener(setUpItemListener(itemView.getContext()));
     }
 
@@ -102,33 +99,10 @@ public class ItemsRecyclerViewWrapper implements ItemsViewer<RecyclerView> {
             }
             //noinspection unchecked
             Adapter<ViewHolder> holderAdapter = (Adapter<ViewHolder>) adapter;
-            mItemsView.setAdapter(new RecyclerAdapterWrapper<ViewHolder>(holderAdapter) {
-                @Override
-                public ViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
-                    ViewHolder viewHolder = super.onCreateViewHolder(parent, viewType);
-                    if (viewHolder.itemView != null) {
-                        if (viewHolder.itemView.getBackground() == null) {
-                            TypedValue typedValue = new TypedValue();
-                            Resources.Theme theme = viewHolder.itemView.getContext().getTheme();
-                            int top = viewHolder.itemView.getPaddingTop();
-                            int bottom = viewHolder.itemView.getPaddingBottom();
-                            int left = viewHolder.itemView.getPaddingLeft();
-                            int right = viewHolder.itemView.getPaddingRight();
-                            if (theme.resolveAttribute(android.R.attr.selectableItemBackground, typedValue, true)) {
-                                viewHolder.itemView.setBackgroundResource(typedValue.resourceId);
-                            } else {
-                                viewHolder.itemView.setBackgroundResource(R.drawable.af_selector_background);
-                            }
-                            viewHolder.itemView.setPadding(left, top, right, bottom);
-                        }
-                        if (!viewHolder.itemView.isClickable()) {
-                            viewHolder.itemView.setOnClickListener(mOnClickListener);
-                            viewHolder.itemView.setOnLongClickListener(mOnLongClickListener);
-                        }
-                    }
-                    return viewHolder;
-                }
-            });
+            mInteractionAdapter = new RecyclerInteractionAdapter(holderAdapter);
+            mInteractionAdapter.setOnItemClickListener(this);
+            mInteractionAdapter.setOnItemLongClickListener(this);
+            mItemsView.setAdapter(mInteractionAdapter);
         }
     }
 
@@ -150,6 +124,21 @@ public class ItemsRecyclerViewWrapper implements ItemsViewer<RecyclerView> {
     @Override
     public RecyclerView getItemsView() {
         return mItemsView;
+    }
+
+    @Override
+    public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
+        if (mOnItemClickListener != null) {
+            mOnItemClickListener.onItemClick(null, view, position, id);
+        }
+    }
+
+    @Override
+    public boolean onItemLongClick(AdapterView<?> parent, View view, int position, long id) {
+        if (mOnItemLongClickListener != null) {
+            return mOnItemLongClickListener.onItemLongClick(null, view, position, id);
+        }
+        return false;
     }
 
     //<editor-fold desc="点击事件">
@@ -187,19 +176,6 @@ public class ItemsRecyclerViewWrapper implements ItemsViewer<RecyclerView> {
 //            }
 //        };
 //    }
-
-    public void onItemClick(View view, int index, long id) {
-        if (mOnItemClickListener != null) {
-            mOnItemClickListener.onItemClick(null, view, index, id);
-        }
-    }
-
-    public boolean onItemLongClick(View view, int index, long id) {
-        if (mOnItemLongClickListener != null) {
-            mOnItemLongClickListener.onItemLongClick(null, view, index, id);
-        }
-        return false;
-    }
     //</editor-fold>
 
 }

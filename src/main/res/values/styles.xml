@@ -194,12 +194,12 @@
     </style>
 
     <style name="AndFrame.Button" parent="AndFrame.Wrap.Wrap">
-        <item name="android:layout_marginTop">10dp</item>
-        <item name="android:layout_marginBottom">10dp</item>
-        <item name="android:layout_marginLeft">10dp</item>
-        <item name="android:layout_marginRight">10dp</item>
-        <item name="android:paddingTop">10dp</item>
-        <item name="android:paddingBottom">10dp</item>
+        <item name="android:layout_marginTop">@dimen/dimenPaddingCommon</item>
+        <item name="android:layout_marginBottom">@dimen/dimenPaddingCommon</item>
+        <item name="android:layout_marginLeft">@dimen/dimenPaddingCommon</item>
+        <item name="android:layout_marginRight">@dimen/dimenPaddingCommon</item>
+        <item name="android:paddingTop">@dimen/dimenPaddingCommon</item>
+        <item name="android:paddingBottom">@dimen/dimenPaddingCommon</item>
         <item name="android:paddingLeft">20dp</item>
         <item name="android:paddingRight">20dp</item>
         <item name="android:gravity">center</item>
@@ -237,6 +237,41 @@
         <item name="android:background">@drawable/af_button_primary</item>
     </style>
 
+    <style name="AndFrame.Button.Small">
+        <item name="android:layout_marginTop">@dimen/dimenPaddingDiminutive</item>
+        <item name="android:layout_marginBottom">@dimen/dimenPaddingDiminutive</item>
+        <item name="android:layout_marginLeft">@dimen/dimenPaddingDiminutive</item>
+        <item name="android:layout_marginRight">@dimen/dimenPaddingDiminutive</item>
+        <item name="android:paddingTop">@dimen/dimenPaddingDiminutive</item>
+        <item name="android:paddingBottom">@dimen/dimenPaddingDiminutive</item>
+        <item name="android:paddingLeft">@dimen/dimenPaddingCommon</item>
+        <item name="android:paddingRight">@dimen/dimenPaddingCommon</item>
+    </style>
+
+    <style name="AndFrame.Button.Small.Gray">
+        <item name="android:background">@drawable/af_button_gray</item>
+    </style>
+
+    <style name="AndFrame.Button.Small.Blue">
+        <item name="android:background">@drawable/af_button_blue</item>
+    </style>
+
+    <style name="AndFrame.Button.Small.Green">
+        <item name="android:background">@drawable/af_button_green</item>
+    </style>
+
+    <style name="AndFrame.Button.Small.Orange">
+        <item name="android:background">@drawable/af_button_orange</item>
+    </style>
+
+    <style name="AndFrame.Button.Small.Red">
+        <item name="android:background">@drawable/af_button_red</item>
+    </style>
+    <style name="AndFrame.Button.Small.Primary">
+        <item name="android:background">@drawable/af_button_primary</item>
+    </style>
+
+
     <style name="AndFrame.Toolbar" parent="AndFrame.Label">
         <item name="android:layout_width">match_parent</item>
         <item name="android:layout_height">?attr/actionBarSize</item>
@@ -253,6 +288,11 @@
         <item name="android:background">@drawable/af_background_toolbar_white</item>
         <item name="android:theme">@style/ThemeOverlay.AppCompat.ActionBar</item>
         <item name="android:textColor">@color/colorToolbarTextDark</item>
+    </style>
+
+    <style name="AndFrame.Toolbar.Dark">
+        <item name="android:background">#cc22292c</item>
+        <item name="android:theme">@style/ThemeOverlay.AppCompat.Dark.ActionBar</item>
     </style>
 
     <style name="AndFrame.Toolbar.Title" parent="AndFrame.Label">
@@ -341,6 +381,12 @@
         <item name="android:paddingLeft">@dimen/dimenPaddingDiminutive</item>
         <item name="android:paddingRight">@dimen/dimenPaddingDiminutive</item>
         <item name="android:drawablePadding">@dimen/dimenPaddingCommon</item>
+    </style>
+
+    <style name="AndFrame.CommonBar.Content.Match">
+        <item name="android:layout_width">0dp</item>
+        <item name="android:layout_weight">1</item>
+        <item name="android:layout_height">wrap_content</item>
     </style>
 
     <style name="AndFrame.CommonBar.Content.Value">

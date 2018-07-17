@@ -292,8 +292,9 @@ public abstract class AfListAdapter<T> extends RecyclerBaseAdapter<ViewHolderIte
         }
     }
 
+    @NonNull
     @Override
-    public ViewHolderItem<T> onCreateViewHolder(ViewGroup parent, int viewType) {
+    public ViewHolderItem<T> onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
         try {
             ItemViewer<T> item = newItemViewer(viewType);
             View view = inflateItem(item, parent);
@@ -309,7 +310,7 @@ public abstract class AfListAdapter<T> extends RecyclerBaseAdapter<ViewHolderIte
     }
 
     @Override
-    public void onBindViewHolder(ViewHolderItem<T> holder, int position) {
+    public void onBindViewHolder(@NonNull ViewHolderItem<T> holder, int position) {
         try {
             bindingItem(holder.itemView, holder.getItem(), position);
         } catch (Throwable e) {
