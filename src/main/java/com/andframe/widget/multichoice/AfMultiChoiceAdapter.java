@@ -10,6 +10,7 @@ import com.andframe.api.adapter.ItemViewer;
 
 import java.util.ArrayList;
 import java.util.Collection;
+import java.util.Collections;
 import java.util.List;
 
 @SuppressWarnings("unused")
@@ -118,7 +119,12 @@ public abstract class AfMultiChoiceAdapter<T> extends AfListAdapter<T>{
 		//closeMultiChoice();
 		return super.set(index, obj);
 	}
-	
+
+	@Override
+	public boolean add(T data) {
+		return addAll(Collections.singletonList(data));
+	}
+
 	@Override
 	public void add(int index, T object) {
 		if(isMultiChoiceMode()){
