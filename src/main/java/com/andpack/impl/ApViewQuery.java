@@ -19,7 +19,7 @@ public class ApViewQuery extends AfViewQuery<ApViewQuery> {
 
     @Override
     public ApViewQuery image(String url) {
-        if (url != null) {
+        if (url != null && url.length() > 0) {
             if (url.startsWith("/")) {
                 url = "file://" + url;
             }
@@ -33,7 +33,7 @@ public class ApViewQuery extends AfViewQuery<ApViewQuery> {
 
     @Override
     public ApViewQuery image(String url, int widthpx, int heightpx) {
-        if (url != null) {
+        if (url != null && url.length() > 0) {
             if (url.startsWith("/")) {
                 url = "file://" + url;
             }
