@@ -509,6 +509,19 @@ public class AfViewQuery<T extends AfViewQuery<T>> implements ViewQuery<T> {
         return false;
     }
 
+    @Override
+    public int queryCount() {
+        int count = 0;
+        if (mTargetViews != null) {
+            for (View view : mTargetViews) {
+                if (view != null) {
+                    count++;
+                }
+            }
+        }
+        return count;
+    }
+
     public View getView(int... indexs) {
         if (mTargetViews != null && mTargetViews.length > 0) {
             if (indexs != null && indexs.length > 0 && indexs[0] < mTargetViews.length) {
@@ -1783,12 +1796,18 @@ public class AfViewQuery<T extends AfViewQuery<T>> implements ViewQuery<T> {
     }
 
     public T image(String url) {
-        return foreach(ImageView.class, (ViewEacher<ImageView>) (view) -> view.setImageURI(Uri.parse(url)));
+        if (url != null && url.length() > 0) {
+            return foreach(ImageView.class, (ViewEacher<ImageView>) (view) -> view.setImageURI(Uri.parse(url)));
+        }
+        return self();
     }
 
     @Override
     public T image(String url, int widthpx, int heightpx) {
-        return foreach(ImageView.class, (ViewEacher<ImageView>) (view) -> view.setImageURI(Uri.parse(url)));
+        if (url != null && url.length() > 0) {
+            return foreach(ImageView.class, (ViewEacher<ImageView>) (view) -> view.setImageURI(Uri.parse(url)));
+        }
+        return self();
     }
 
     @Override

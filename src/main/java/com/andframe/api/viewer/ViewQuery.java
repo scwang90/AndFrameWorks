@@ -160,7 +160,10 @@ public interface ViewQuery<T extends ViewQuery<T>> {
      * 判断 $ 选择器是否成选择了 View
      */
     boolean exist();
-
+    /**
+     * 获取查询结果的个数
+     */
+    int queryCount();
     /**
      * 获取所有选择的 View
      */
