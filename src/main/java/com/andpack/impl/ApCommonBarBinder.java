@@ -7,6 +7,7 @@ import android.app.TimePickerDialog;
 import android.content.DialogInterface;
 import android.content.res.Resources;
 import android.support.annotation.IdRes;
+import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
 import android.support.annotation.StringRes;
 import android.support.v4.app.Fragment;
@@ -17,6 +18,7 @@ import android.text.TextWatcher;
 import android.util.DisplayMetrics;
 import android.view.Gravity;
 import android.view.View;
+import android.view.ViewGroup;
 import android.widget.DatePicker;
 import android.widget.EditText;
 import android.widget.LinearLayout;
@@ -71,46 +73,28 @@ public class ApCommonBarBinder {
         Builder builder(T value);
     }
 
-    public interface SelectBind {
-        void text(Binder binder, String text, int which);
+    public interface Bind<T> {
+
     }
 
-    public interface NumberBind {
-        void text(Binder binder, int value);
+    public interface CommonBind<T> extends Bind<T> {
+        void bind(@NonNull Binder binder, @NonNull T value);
     }
 
-    public interface MultiChoiceBind {
-        void text(Binder binder, String text, int count, boolean[] checkedItems);
+    public interface SelectBind extends Bind<Void>  {
+        void text(@NonNull Binder binder, String text, int which);
     }
 
-    public interface TextBind {
-        void text(Binder binder, String text);
+    public interface MultiChoiceBind extends Bind<Void>  {
+        void text(@NonNull Binder binder, String text, int count, boolean[] checkedItems);
     }
 
-    public interface DateBind {
-        void date(Binder binder, Date date);
+    public interface SeekBind extends Bind<Integer>  {
+        void seek(@NonNull Binder binder, @NonNull Integer value, boolean fromUser);
     }
 
-    public interface CheckBind {
-        void check(Binder binder, boolean isChecked);
-    }
-
-    public interface SeekBind {
-        void seek(Binder binder, int value, boolean fromUser);
-    }
-    public interface InputBind {
-        void onBind(Binder binder, String value);
-    }
-    public interface RadioGroupBind {
-        void onBind(Binder binder, RadioGroup group, @IdRes int checkedId, int index);
-    }
-    public interface ImageBind {
-        /**
-         * @param binder Binder 对象
-         * @param path 图片路径
-         * @return true 已经显示图片（Binder 将不会自动显示） false （Binder 将会自动显示）
-         */
-        boolean image(Binder binder, String path);
+    public interface RadioGroupBind extends Bind<Integer> {
+        void onBind(@NonNull Binder binder, RadioGroup group, @IdRes int checkedId, @NonNull Integer index);
     }
 
     public interface TextVerify {
@@ -164,6 +148,14 @@ public class ApCommonBarBinder {
 
     public SelectNumber number(@IdRes int idValue) {
         return new SelectNumber(idValue);
+    }
+
+    public SelectFloat numberFloat(@IdRes int idValue) {
+        return new SelectFloat(idValue);
+    }
+
+    public SelectNumberPicker numberPicker(@IdRes int idValue) {
+        return new SelectNumberPicker(idValue);
     }
 
     public InputBinder input(@IdRes int idValue) {
@@ -222,17 +214,21 @@ public class ApCommonBarBinder {
         return new RadioGroupBinder(id);
     }
 
-    public abstract class Binder<T extends Binder, LASTVAL> implements View.OnClickListener{
-        public int idValue;
-        public String key = null;
-        public CharSequence hintPrefix = ApCommonBarBinder.this.hintPrefix;
-        public CharSequence hint = hintPrefix;
-        public CharSequence name = "";
-        public Binder next;
-        public LASTVAL lastval;
-        public Runnable start;
-        public ClickHook clickHook;
-        public TaskBuilder<LASTVAL> taskBuilder;
+    public abstract class Binder<T extends Binder, BT extends Bind<VT>, VT> implements View.OnClickListener{
+        protected int idValue;
+        protected String key = null;
+        protected CharSequence hintPrefix = ApCommonBarBinder.this.hintPrefix;
+        protected CharSequence hint = hintPrefix;
+        protected CharSequence name = "";
+        protected CharSequence actionTitle = "";
+
+        protected Binder next;
+        protected VT lastval;
+        protected BT bind;
+        protected Runnable start;
+        protected Runnable action;
+        protected ClickHook clickHook;
+        protected TaskBuilder<VT> taskBuilder;
 
         Binder(int idValue) {
             this.idValue = idValue;
@@ -253,6 +249,11 @@ public class ApCommonBarBinder {
 
         public T clickHook(ClickHook clickHook) {
             this.clickHook = clickHook;
+            return self();
+        }
+
+        public T bind(BT bind) {
+            this.bind = bind;
             return self();
         }
 
@@ -337,7 +338,12 @@ public class ApCommonBarBinder {
             return self();
         }
 
-        public void task(TaskBuilder<LASTVAL> builder) {
+        public void action(@NonNull String title,@NonNull Runnable action) {
+            this.action = action;
+            this.actionTitle = title;
+        }
+
+        public void task(TaskBuilder<VT> builder) {
             taskBuilder = builder;
         }
 
@@ -349,9 +355,8 @@ public class ApCommonBarBinder {
         }
     }
 
-    public class SelectBinder extends Binder<SelectBinder, Void> implements DialogInterface.OnClickListener {
+    public class SelectBinder extends Binder<SelectBinder, SelectBind, Void> implements DialogInterface.OnClickListener {
 
-        private SelectBind bind;
         private final CharSequence[] items;
 
         SelectBinder(int idValue, CharSequence... items) {
@@ -382,13 +387,8 @@ public class ApCommonBarBinder {
             }
         }
 
-        public SelectBinder bind(SelectBind bind) {
-            this.bind = bind;
-            return self();
-        }
-
-        public SelectBinder value(int index) {
-            if (index >= 0 && index < items.length) {
+        public SelectBinder value(Integer index) {
+            if (index != null && index >= 0 && index < items.length) {
                 onClick(null, index);
             }
             return self();
@@ -404,20 +404,16 @@ public class ApCommonBarBinder {
         }
     }
 
-    public class SelectNumber extends Binder<SelectNumber, Integer> {
+    public class SelectNumber extends Binder<SelectNumber, CommonBind<Integer>, Integer> {
 
-        private int minValue = 14;
-        private int maxValue = 100;
+        private int minValue = 0;
+        private int maxValue = 1000;
         private String unit;
-        private NumberBind bind;
+        private NumberPicker.Formatter formatter;
 
         public SelectNumber(int idValue) {
             super(idValue);
             this.hintPrefix("请选择");
-        }
-
-        public void bind(NumberBind bind) {
-            this.bind = bind;
         }
 
         @Override
@@ -429,14 +425,27 @@ public class ApCommonBarBinder {
             if (lastval != null) {
                 picker.setValue(lastval);
             }
+            picker.setFormatter(formatter);
             textview.setText(TextUtils.isEmpty(unit) ? "" : unit);
             View view = $(new LinearLayout(viewer.getContext()))
                     .addView(picker).addView(textview).gravity(Gravity.CENTER_VERTICAL).view();
-            $.dialog(viewer).showViewDialog(hint, view, "取消", null, "确定", (d, i) -> onNumberSelected(picker, picker.getValue()));
+            DialogInterface.OnClickListener click = TextUtils.isEmpty(actionTitle) ? null : (dialog, which) -> {
+                if (action != null) {
+                    action.run();
+                }
+            };
+            $.dialog(viewer).showViewDialog(hint, view, "取消", null, "确定", (d, i) -> onNumberSelected(picker, picker.getValue()), actionTitle, click);
         }
 
-        public SelectNumber value(int value) {
-            onNumberSelected(null, value);
+        public SelectNumber formatter(NumberPicker.Formatter formatter) {
+            this.formatter = formatter;
+            return self();
+        }
+
+        public SelectNumber value(Integer value) {
+            if (value != null && value >= minValue && value <= maxValue) {
+                onNumberSelected(null, value);
+            }
             return self();
         }
 
@@ -466,16 +475,261 @@ public class ApCommonBarBinder {
                 cacher.put(key, value);
             }
             if (bind != null) {
-                bind.text(this, value);
+                bind.bind(this, value);
             }
         }
     }
 
-    public class MultiChoiceBinder extends Binder<MultiChoiceBinder, Void> implements DialogInterface.OnClickListener {
+    public class SelectFloat extends Binder<SelectFloat, CommonBind<Float>, Float> {
+
+        private float minValue = 0f;
+        private float maxValue = 1000f;
+        private int partInteger = 0;
+        private int partDecimal1 = 0;
+        private int partDecimal2 = 0;
+        private boolean doublePrecision = false;
+        private String unit;
+
+        public SelectFloat(int idValue) {
+            super(idValue);
+            this.hintPrefix("请选择");
+        }
+
+        @Override
+        protected void start() {
+            TextView textview = new TextView(viewer.getContext());
+            TextView textPoint = new TextView(viewer.getContext());
+            NumberPicker pickerInteger = new NumberPicker(viewer.getContext());
+            NumberPicker pickerDecimal1 = new NumberPicker(viewer.getContext());
+            NumberPicker pickerDecimal2 = new NumberPicker(viewer.getContext());
+            pickerInteger.setMinValue((int)minValue);
+            pickerInteger.setMaxValue((int)maxValue);
+            pickerDecimal1.setMinValue(0);
+            pickerDecimal2.setMinValue(0);
+            pickerDecimal1.setMaxValue(9);
+            pickerDecimal2.setMaxValue(9);
+            if (lastval != null) {
+                pickerInteger.setValue(lastval.intValue());
+                pickerDecimal1.setValue(Float.valueOf(lastval * 10).intValue() % 10);
+                pickerDecimal2.setValue(Float.valueOf(lastval * 100).intValue() % 10);
+            }
+            textPoint.setText(".");
+            textPoint.setTextSize(30);
+            textview.setText(TextUtils.isEmpty(unit) ? "" : unit);
+            View view = $(new LinearLayout(viewer.getContext()))
+                    .addView(pickerInteger, 50f, ViewGroup.LayoutParams.WRAP_CONTENT*1f)
+                    .addView(textPoint)
+                    .addView(pickerDecimal1, 35f, ViewGroup.LayoutParams.WRAP_CONTENT*1f)
+                    .addView(pickerDecimal2, 35f, ViewGroup.LayoutParams.WRAP_CONTENT*1f)
+                    .addView(textview).gravity(Gravity.CENTER_VERTICAL).view();
+            int width = $(textPoint).measure().x;
+            $(textPoint).margin(-width / 2);
+            if (!doublePrecision) {
+                pickerDecimal2.setValue(0);
+                pickerDecimal2.setVisibility(View.GONE);
+                $(pickerInteger).width(50f);
+            }
+            NumberPicker.OnValueChangeListener listenerDecimal1 = (picker, oldVal, newVal) -> {
+                int value = pickerInteger.getValue();
+                if (value == ((int)minValue)) {
+                    value = picker.getValue();
+                    int minValue = Float.valueOf(this.minValue * 10).intValue() % 10;
+                    if (value == minValue) {
+                        pickerDecimal2.setMinValue(Float.valueOf(this.minValue * 100).intValue() % 10);
+                        pickerDecimal2.setMaxValue(9);
+                        return;
+                    }
+                } else if (value == ((int) maxValue)) {
+                    value = picker.getValue();
+                    int maxValue = Float.valueOf(this.maxValue * 10).intValue() % 10;
+                    if (value == maxValue) {
+                        pickerDecimal2.setMinValue(0);
+                        pickerDecimal2.setMaxValue(Float.valueOf(this.maxValue * 100).intValue() % 10);
+                        return;
+                    }
+                }
+                pickerDecimal2.setMinValue(0);
+                pickerDecimal2.setMaxValue(9);
+            };
+            pickerInteger.setOnValueChangedListener((picker, oldVal, newVal) -> {
+                int value = picker.getValue();
+                if (value == ((int)minValue)) {
+                    int old = pickerDecimal1.getValue();
+                    int minValue = Float.valueOf(this.minValue * 10).intValue() % 10;
+                    pickerDecimal1.setMinValue(minValue);
+                    pickerDecimal1.setMaxValue(9);
+                    listenerDecimal1.onValueChange(pickerDecimal1, old, pickerDecimal1.getValue());
+                } else if (value == ((int) maxValue)) {
+                    int old = pickerDecimal1.getValue();
+                    int maxValue = Float.valueOf(this.maxValue * 10).intValue() % 10;
+                    pickerDecimal1.setMinValue(0);
+                    pickerDecimal1.setMaxValue(maxValue);
+                    listenerDecimal1.onValueChange(pickerDecimal1, old, pickerDecimal1.getValue());
+                } else {
+                    pickerDecimal1.setMinValue(0);
+                    pickerDecimal1.setMaxValue(9);
+                    pickerDecimal2.setMinValue(0);
+                    pickerDecimal2.setMaxValue(9);
+                }
+            });
+            pickerDecimal1.setOnValueChangedListener(listenerDecimal1);
+            DialogInterface.OnClickListener click = TextUtils.isEmpty(actionTitle) ? null : (dialog, which) -> {
+                if (action != null) {
+                    action.run();
+                }
+            };
+            $.dialog(viewer).showViewDialog(hint, view, "取消", null, actionTitle, click, "确定", (d, i) -> onNumberSelected(pickerInteger, pickerDecimal1, pickerDecimal2, pickerInteger.getValue(), pickerDecimal1.getValue(), pickerDecimal2.getValue()));
+        }
+
+        public SelectFloat value(Float value) {
+            if (value != null && value >= minValue && value <= maxValue) {
+                onNumberSelected(null, null, null,
+                        value.intValue(),
+                        Float.valueOf(lastval * 10).intValue() % 10,
+                        Float.valueOf(lastval * 100).intValue() % 10);
+            }
+            return self();
+        }
+
+        public SelectFloat doublePrecision(boolean doublePrecision) {
+            this.doublePrecision = doublePrecision;
+            return self();
+        }
+
+        public SelectFloat unit(String unit) {
+            this.unit = unit;
+            return self();
+        }
+
+        public SelectFloat range(float min, float max) {
+            minValue = Math.min(min,max);
+            maxValue = Math.max(min,max);
+            lastval = lastval == null ? minValue : lastval;
+            return self();
+        }
+
+        private void onNumberSelected(NumberPicker pickerInteger, NumberPicker pickerDecimal1, NumberPicker pickerDecimal2, int valueInteger, int valueDecimal1, int valueDecimal2) {
+            lastval = (valueInteger * 100 + valueDecimal1 * 10 + valueDecimal2) / 100f;
+            $(idValue).text(String.valueOf(lastval)+(TextUtils.isEmpty(unit) ? "" : unit));
+            if (key != null && pickerInteger != null) {
+                cacher.put(key, lastval);
+            }
+            if (bind != null) {
+                bind.bind(this, lastval);
+            }
+        }
+    }
+
+    public class SelectNumberPicker extends Binder<SelectNumberPicker, CommonBind<Double>, Double> {
+
+        private int accuracyInteger = 3;
+        private int accuracyDecimal = 0;
+        private String unit;
+
+        public SelectNumberPicker(int idValue) {
+            super(idValue);
+            this.hintPrefix("请选择");
+        }
+
+        public SelectNumberPicker accuracy(int integer, int decimal) {
+            this.accuracyInteger = integer;
+            this.accuracyDecimal = decimal;
+            return self();
+        }
+
+        @Override
+        protected void start() {
+            TextView textview = new TextView(viewer.getContext());
+            TextView textPoint = new TextView(viewer.getContext());
+            List<NumberPicker> pickers = new ArrayList<>(accuracyDecimal + accuracyInteger);
+            while (pickers.size() < accuracyInteger + accuracyDecimal) {
+                NumberPicker picker = new NumberPicker(viewer.getContext());
+                picker.setMinValue(0);
+                picker.setMaxValue(9);
+                pickers.add(picker);
+                if (lastval != null) {
+                    if (pickers.size() <= accuracyInteger) {
+                        picker.setValue(Double.valueOf(lastval / Math.pow(10, accuracyInteger - pickers.size())).intValue() % 10);
+                    } else {
+                        picker.setValue(Double.valueOf(lastval * Math.pow(10, pickers.size() - accuracyInteger)).intValue() % 10);
+                    }
+                }
+            }
+            textPoint.setText(".");
+            textPoint.setTextSize(30);
+            textview.setText(TextUtils.isEmpty(unit) ? "" : unit);
+            ViewQuery<? extends ViewQuery> query = $(new LinearLayout(viewer.getContext())).gravity(Gravity.CENTER_VERTICAL);
+            for (int i = 0 ; i < accuracyInteger ; i++) {
+                query.addView(pickers.get(i), Math.min(200f / pickers.size(), 60f), ViewGroup.LayoutParams.WRAP_CONTENT * 1f);
+            }
+            if (accuracyDecimal > 0) {
+                query.addView(textPoint);
+                int width = $(textPoint).measure().x;
+                $(textPoint).margin(-width / 2);
+                for (int i = 0 ; i < accuracyDecimal ; i++) {
+                    query.addView(pickers.get(i + accuracyInteger), Math.min(200f / pickers.size(), 60f), ViewGroup.LayoutParams.WRAP_CONTENT * 1f);
+                }
+            }
+            query.addView(textview);
+            DialogInterface.OnClickListener click = TextUtils.isEmpty(actionTitle) ? null : (dialog, which) -> {
+                if (action != null) {
+                    action.run();
+                }
+            };
+            $.dialog(viewer).showViewDialog(hint, query.view(), "取消", null, actionTitle, click, "确定", (d, n) -> {
+                Double value = 0d;
+                for (int i = 0 ; i < accuracyInteger + accuracyDecimal ; i++) {
+                    value += pickers.get(i).getValue() * Math.pow(10, accuracyInteger + accuracyDecimal - i - 1);
+                }
+//                for (int i = 0 ; i < accuracyInteger ; i++) {
+//                    value += pickers.get(i).getValue() * Math.pow(10, accuracyInteger - i - 1);
+//                }
+                if (accuracyDecimal > 0) {
+                    value /= Math.pow(10,accuracyDecimal);
+//                    for (int i = 0 ; i < accuracyDecimal ; i++) {
+//                        value += pickers.get(i + accuracyInteger).getValue() * Math.pow(10,-i-1);
+//                    }
+                }
+                onNumberSelected(value, pickers);
+            });
+        }
+
+        public SelectNumberPicker value(Double value) {
+            if (value != null && value >= 0) {
+                onNumberSelected(value, null);
+            }
+            return self();
+        }
+
+
+        public SelectNumberPicker value(Float value) {
+            if (value != null && value >= 0) {
+                onNumberSelected(value, null);
+            }
+            return self();
+        }
+
+        public SelectNumberPicker unit(String unit) {
+            this.unit = unit;
+            return self();
+        }
+
+        private void onNumberSelected(double value, List<NumberPicker> pickers) {
+            lastval = value;
+            $(idValue).text(String.valueOf(lastval)+(TextUtils.isEmpty(unit) ? "" : unit));
+            if (key != null && pickers != null) {
+                cacher.put(key, lastval);
+            }
+            if (bind != null) {
+                bind.bind(this, lastval);
+            }
+        }
+    }
+
+    public class MultiChoiceBinder extends Binder<MultiChoiceBinder, MultiChoiceBind, Void> implements DialogInterface.OnClickListener {
 
         private boolean[] checkedItems;
         private CharSequence[] items;
-        private MultiChoiceBind bind;
         private MultiChoiceVerify verify;
 
         MultiChoiceBinder(int idValue, CharSequence[] items) {
@@ -498,7 +752,7 @@ public class ApCommonBarBinder {
         @Override
         public void onRestoreCache(String key) {
             List<Boolean> list = cacher.getList(key, Boolean.class);
-            if (list != null && list.size() == checkedItems.length) {
+            if (list.size() == checkedItems.length) {
                 for (int i = 0; i < checkedItems.length; i++) {
                     checkedItems[i] = list.get(i);
                 }
@@ -519,11 +773,6 @@ public class ApCommonBarBinder {
                 this.checkedItems = checkedItems;
                 onClick(new Dialog(viewer.getContext()), 0);
             }
-            return self();
-        }
-
-        public MultiChoiceBinder bind(MultiChoiceBind bind) {
-            this.bind = bind;
             return self();
         }
 
@@ -562,9 +811,7 @@ public class ApCommonBarBinder {
         }
     }
 
-    public class InputBinder extends Binder<InputBinder, String> implements TextWatcher {
-
-        private InputBind bind;
+    public class InputBinder extends Binder<InputBinder, CommonBind<String>, String> implements TextWatcher {
 
         InputBinder(int idValue) {
             super(idValue);
@@ -575,10 +822,9 @@ public class ApCommonBarBinder {
             return self();
         }
 
-        public InputBinder bind(InputBind bind) {
-            this.bind = bind;
+        public InputBinder bind(CommonBind<String> bind) {
             $(idValue).textChanged(this);
-            return self();
+            return super.bind(bind);
         }
         @Override
         protected void start() {
@@ -597,7 +843,7 @@ public class ApCommonBarBinder {
             cacher.put(key, s.toString());
             AfDispatcher.dispatch(() -> {
                 if (bind != null) {
-                    bind.onBind(this, s.toString());
+                    bind.bind(this, s.toString());
                 }
             });
         }
@@ -613,9 +859,8 @@ public class ApCommonBarBinder {
         }
     }
 
-    public class TextBinder extends Binder<TextBinder, String> implements DialogBuilder.InputTextListener {
+    public class TextBinder extends Binder<TextBinder, CommonBind<String>, String> implements DialogBuilder.InputTextListener {
 
-        private TextBind bind;
         private TextVerify verify;
         protected String valueSuffix = "";
         protected int type = InputType.TYPE_CLASS_TEXT;
@@ -663,7 +908,7 @@ public class ApCommonBarBinder {
                 cacher.put(key, value);
             }
             if (bind != null) {
-                bind.text(this, value);
+                bind.bind(this, value);
             }
             return true;
         }
@@ -675,11 +920,6 @@ public class ApCommonBarBinder {
 
         public TextBinder suffix(String valueSuffix) {
             this.valueSuffix = valueSuffix;
-            return self();
-        }
-
-        public TextBinder bind(TextBind bind) {
-            this.bind = bind;
             return self();
         }
 
@@ -1088,9 +1328,8 @@ public class ApCommonBarBinder {
         }
     }
 
-    public abstract class AbstractDateBinder<T extends Binder> extends Binder<T, Date> {
+    public abstract class AbstractDateBinder<T extends Binder> extends Binder<T, CommonBind<Date>, Date> {
 
-        DateBind bind;
         List<DateVerify> verifies = new ArrayList<>();
         DateFormat format = AfDateFormat.DATE;
         boolean isManual = false;
@@ -1112,11 +1351,6 @@ public class ApCommonBarBinder {
 
         public T initNow() {
             return value(new Date());
-        }
-
-        public T bind(DateBind bind) {
-            this.bind = bind;
-            return self();
         }
 
         /**
@@ -1254,7 +1488,7 @@ public class ApCommonBarBinder {
             lastval = AfDateFormat.parser(year, month, day);
             $(idValue).text(format.format(lastval));
             if (bind != null) {
-                bind.date(this, lastval);
+                bind.bind(this, lastval);
             }
         }
 
@@ -1331,7 +1565,7 @@ public class ApCommonBarBinder {
             lastval = AfDateFormat.parser(year, month, 1);
             $(idValue).text(format.format(lastval));
             if (bind != null) {
-                bind.date(this, lastval);
+                bind.bind(this, lastval);
             }
         }
 
@@ -1370,9 +1604,9 @@ public class ApCommonBarBinder {
                 }
             }
             if (taskBuilder != null) {
-                Builder builded = taskBuilder.builder(AfDateFormat.parser(hourOfDay, minute));
-                if (builded instanceof WaitBuilder) {
-                    WaitBuilder builder = (WaitBuilder) builded;
+                Builder taskBuilder = this.taskBuilder.builder(AfDateFormat.parser(hourOfDay, minute));
+                if (taskBuilder instanceof WaitBuilder) {
+                    WaitBuilder builder = (WaitBuilder) taskBuilder;
                     Runnable success = builder.success();
                     builder.success(() -> {
                         if (success != null) {
@@ -1381,10 +1615,10 @@ public class ApCommonBarBinder {
                         onTimeSet(view, hourOfDay, minute);
                         dialog.dismiss();
                     });
-                    builded.post();
+                    taskBuilder.post();
                     return false;
-                } else if (builded != null) {
-                    builded.post();
+                } else if (taskBuilder != null) {
+                    taskBuilder.post();
                 }
             }
 //            onTimeSet(view, hourOfDay, minute);
@@ -1397,7 +1631,7 @@ public class ApCommonBarBinder {
             lastval = AfDateFormat.parser(hourOfDay, minute);
             $(idValue).text(format.format(lastval));
             if (bind != null) {
-                bind.date(this, lastval);
+                bind.bind(this, lastval);
             }
         }
     }
@@ -1459,14 +1693,12 @@ public class ApCommonBarBinder {
             lastval = AfDateFormat.parser(year, month, day, hour, minute);
             $(idValue).text(format.format(lastval));
             if (bind != null) {
-                bind.date(this, lastval);
+                bind.bind(this, lastval);
             }
         }
     }
 
-    public class CheckBinder extends Binder<CheckBinder, Boolean> {
-
-        private CheckBind bind;
+    public class CheckBinder extends Binder<CheckBinder, CommonBind<Boolean>, Boolean> {
 
         CheckBinder(int idValue) {
             super(idValue);
@@ -1485,7 +1717,7 @@ public class ApCommonBarBinder {
             lastval = isChecked;
             $(idValue).checked(isChecked);
             if (bind != null) {
-                bind.check(this, isChecked);
+                bind.bind(this, isChecked);
             }
             return self();
         }
@@ -1505,14 +1737,10 @@ public class ApCommonBarBinder {
                 cacher.put(key, lastval);
             }
             if (bind != null) {
-                bind.check(this, lastval);
+                bind.bind(this, lastval);
             }
         }
 
-        public CheckBinder bind(CheckBind bind) {
-            this.bind = bind;
-            return self();
-        }
     }
 
     public class SwitchBinder extends CheckBinder {
@@ -1521,9 +1749,7 @@ public class ApCommonBarBinder {
         }
     }
 
-    public class SeekBarBinder extends Binder<SeekBarBinder, Integer> implements SeekBar.OnSeekBarChangeListener {
-
-        private SeekBind bind;
+    public class SeekBarBinder extends Binder<SeekBarBinder, SeekBind, Integer> implements SeekBar.OnSeekBarChangeListener {
 
         SeekBarBinder(int idValue) {
             super(idValue);
@@ -1540,11 +1766,6 @@ public class ApCommonBarBinder {
 
         public SeekBarBinder value(int value) {
             $(idValue).progress(value);
-            return self();
-        }
-
-        public SeekBarBinder bind(SeekBind bind) {
-            this.bind = bind;
             return self();
         }
 
@@ -1570,7 +1791,7 @@ public class ApCommonBarBinder {
         }
     }
 
-    public class ActivityBinder extends Binder<ActivityBinder, Void> {
+    public class ActivityBinder extends Binder<ActivityBinder, CommonBind<Void>, Void> {
 
         private final Object[] args;
         private Class<? extends Activity> activity;
@@ -1589,7 +1810,7 @@ public class ApCommonBarBinder {
 
     }
 
-    public class FragmentBinder extends Binder<FragmentBinder, Void> {
+    public class FragmentBinder extends Binder<FragmentBinder, CommonBind<Void>, Void> {
 
         private final Object[] args;
         private Class<? extends Fragment> fragment;
@@ -1607,12 +1828,11 @@ public class ApCommonBarBinder {
 
     }
 
-    public class ImageBinder extends Binder<ImageBinder, Void> {
+    public class ImageBinder extends Binder<ImageBinder, CommonBind<String>, String> {
 
         protected int outPutX = 0;           //裁剪保存宽度
         protected int outPutY = 0;           //裁剪保存高度
         protected int request_image = 1000;
-        protected ImageBind bind;
         protected CropImageView.Style style = CropImageView.Style.RECTANGLE;
 
         protected ImageBinder(int idImage) {
@@ -1654,7 +1874,7 @@ public class ApCommonBarBinder {
             return self();
         }
 
-        public void requestimage(int request_image) {
+        public void requestCode(int request_image) {
             this.request_image = request_image;
         }
 
@@ -1683,25 +1903,17 @@ public class ApCommonBarBinder {
                 //noinspection unchecked
                 List<ImageItem> images = (ArrayList<ImageItem>) intent.getSerializableExtra(ImagePicker.EXTRA_RESULT_ITEMS);
                 if (images != null && images.size() > 0) {
-                    if (bind != null && !bind.image(this, images.get(0).path)) {
-                        $.query(viewer).query(idValue).image(images.get(0).path);
-                    }
+                    bind.bind(this, images.get(0).path);
+                    $.query(viewer).query(idValue).image(images.get(0).path);
 //                } else {
 //                    $.toast(viewer).makeToastShort("没有数据");
                 }
             }
         }
 
-        public ImageBinder bind(ImageBind bind) {
-            this.bind = bind;
-            return self();
-        }
-
     }
 
-    public class RadioGroupBinder extends Binder<RadioGroupBinder,Integer> implements RadioGroup.OnCheckedChangeListener {
-
-        private RadioGroupBind bind;
+    public class RadioGroupBinder extends Binder<RadioGroupBinder, RadioGroupBind,Integer> implements RadioGroup.OnCheckedChangeListener {
 
         RadioGroupBinder(int idValue) {
             super(idValue);
@@ -1723,9 +1935,5 @@ public class ApCommonBarBinder {
             }
         }
 
-        public RadioGroupBinder bind(RadioGroupBind bind) {
-            this.bind = bind;
-            return self();
-        }
     }
 }
