@@ -2142,13 +2142,15 @@ public class AfViewQuery<T extends AfViewQuery<T>> implements ViewQuery<T> {
 
     @Override
     public T addView(View view, float widthDp, float heightDp) {
-        float density = Resources.getSystem().getDisplayMetrics().density;
+        final float density = Resources.getSystem().getDisplayMetrics().density;
+        final int width = widthDp > 0 ? ((int) (widthDp * density + 0.5f)) : (int)widthDp;
+        final int height = heightDp > 0 ? ((int) (heightDp * density + 0.5f)) : (int)heightDp;
         return foreach(ViewGroup.class, group -> {
             ViewParent parent = view.getParent();
             if (parent instanceof ViewGroup) {
                 ((ViewGroup) parent).removeView(view);
             }
-            group.addView(view, (int) (widthDp * density + 0.5f), (int) (heightDp * density + 0.5f));
+            group.addView(view, width, height);
         });
     }
 
