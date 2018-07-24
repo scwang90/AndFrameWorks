@@ -12,8 +12,6 @@ import android.widget.TimePicker;
 import com.andframe.api.DialogBuilder;
 import com.andframe.exception.AfExceptionHandler;
 
-import java.lang.ref.WeakReference;
-
 /**
  * 安全取听器
  * Created by SCWANG on 2016/11/26.
@@ -32,16 +30,16 @@ public class SafeListener implements
         TimePickerDialog.OnTimeSetListener,
         DialogBuilder.OnDateTimeSetListener{
 
-    private WeakReference<View.OnClickListener> clickListener;
-    private WeakReference<View.OnLongClickListener> longClockListener;
-    private WeakReference<View.OnTouchListener> touchListener;
-    private WeakReference<SeekBar.OnSeekBarChangeListener> seekBarChangeListener;
-    private WeakReference<DialogInterface.OnClickListener> dialogClickListener;
-    private WeakReference<DialogInterface.OnCancelListener> cancelListener;
-    private WeakReference<DialogInterface.OnMultiChoiceClickListener> multiChoiceClickListener;
-    private WeakReference<DatePickerDialog.OnDateSetListener> dateSetListener;
-    private WeakReference<TimePickerDialog.OnTimeSetListener> timeSetListener;
-    private WeakReference<DialogBuilder.OnDateTimeSetListener> dateTimeSetListener;
+    private View.OnClickListener clickListener;
+    private View.OnLongClickListener longClockListener;
+    private View.OnTouchListener touthListener;
+    private SeekBar.OnSeekBarChangeListener seekBarChangeListener;
+    private DialogInterface.OnClickListener dialogClickListener;
+    private DialogInterface.OnCancelListener cancelListener;
+    private DialogInterface.OnMultiChoiceClickListener multiChoiceClickListener;
+    private DatePickerDialog.OnDateSetListener dateSetListener;
+    private TimePickerDialog.OnTimeSetListener timeSetListener;
+    private DialogBuilder.OnDateTimeSetListener dateTimeSetListener;
     private long lastTime = 0;
     private int intervalTime = 0;
 
@@ -50,44 +48,44 @@ public class SafeListener implements
     }
 
     public SafeListener(View.OnClickListener listener, int intervalTime) {
-        this.clickListener = new WeakReference<>(listener);
+        this.clickListener = listener;
         this.intervalTime = intervalTime;
     }
 
     public SafeListener(View.OnLongClickListener longClockListener) {
-        this.longClockListener = new WeakReference<>(longClockListener);
+        this.longClockListener = longClockListener;
     }
 
-    public SafeListener(View.OnTouchListener touchListener) {
-        this.touchListener = new WeakReference<>(touchListener);
+    public SafeListener(View.OnTouchListener touthListener) {
+        this.touthListener = touthListener;
     }
 
     public SafeListener(SeekBar.OnSeekBarChangeListener seekBarChangeListener) {
-        this.seekBarChangeListener = new WeakReference<>(seekBarChangeListener);
+        this.seekBarChangeListener = seekBarChangeListener;
     }
 
     public SafeListener(DialogInterface.OnClickListener dialogClickListener) {
-        this.dialogClickListener = new WeakReference<>(dialogClickListener);
+        this.dialogClickListener = dialogClickListener;
     }
 
     public SafeListener(DialogInterface.OnMultiChoiceClickListener multiChoiceClickListener) {
-        this.multiChoiceClickListener = new WeakReference<>(multiChoiceClickListener);
+        this.multiChoiceClickListener = multiChoiceClickListener;
     }
 
     public SafeListener(DialogBuilder.OnDateTimeSetListener dateTimeSetListener) {
-        this.dateTimeSetListener = new WeakReference<>(dateTimeSetListener);
+        this.dateTimeSetListener = dateTimeSetListener;
     }
 
     public SafeListener(TimePickerDialog.OnTimeSetListener timeSetListener) {
-        this.timeSetListener = new WeakReference<>(timeSetListener);
+        this.timeSetListener = timeSetListener;
     }
 
     public SafeListener(DatePickerDialog.OnDateSetListener dateSetListener) {
-        this.dateSetListener = new WeakReference<>(dateSetListener);
+        this.dateSetListener = dateSetListener;
     }
 
     public SafeListener(DialogInterface.OnCancelListener cancelListener) {
-        this.cancelListener = new WeakReference<>(cancelListener);
+        this.cancelListener = cancelListener;
     }
 
     public SafeListener() {
@@ -96,10 +94,9 @@ public class SafeListener implements
 
     @Override
     public void onDateSet(DatePicker view, int year, int month, int dayOfMonth) {
-        DatePickerDialog.OnDateSetListener listener = dateSetListener == null ? null : dateSetListener.get();
-        if (listener != null) {
+        if (dateSetListener != null) {
             try {
-                listener.onDateSet(view, year, month, dayOfMonth);
+                dateSetListener.onDateSet(view, year, month, dayOfMonth);
             } catch (Throwable e) {
                 AfExceptionHandler.handle(e, "SafeListener.dateSetListener.onDateSet");
             }
@@ -108,10 +105,9 @@ public class SafeListener implements
 
     @Override
     public void onTimeSet(TimePicker view, int hourOfDay, int minute) {
-        TimePickerDialog.OnTimeSetListener listener = timeSetListener == null ? null : timeSetListener.get();
-        if (listener != null) {
+        if (timeSetListener != null) {
             try {
-                listener.onTimeSet(view, hourOfDay, minute);
+                timeSetListener.onTimeSet(view, hourOfDay, minute);
             } catch (Throwable e) {
                 AfExceptionHandler.handle(e, "SafeListener.timeSetListener.onTimeSet");
             }
@@ -120,10 +116,9 @@ public class SafeListener implements
 
     @Override
     public void onCancel(DialogInterface dialog) {
-        TimePickerDialog.OnCancelListener listener = cancelListener == null ? null : cancelListener.get();
-        if (listener != null) {
+        if (cancelListener != null) {
             try {
-                listener.onCancel(dialog);
+                cancelListener.onCancel(dialog);
             } catch (Throwable e) {
                 AfExceptionHandler.handle(e, "SafeListener.cancelListener.onCancel");
             }
@@ -132,10 +127,9 @@ public class SafeListener implements
 
     @Override
     public void onClick(DialogInterface dialog, int which) {
-        TimePickerDialog.OnClickListener listener = dialogClickListener == null ? null : dialogClickListener.get();
-        if (listener != null) {
+        if (dialogClickListener != null) {
             try {
-                listener.onClick(dialog, which);
+                dialogClickListener.onClick(dialog, which);
             } catch (Throwable e) {
                 AfExceptionHandler.handle(e, "SafeListener.dialogClickListener.onClick");
             }
@@ -144,10 +138,9 @@ public class SafeListener implements
 
     @Override
     public void onClick(DialogInterface dialog, int which, boolean isChecked) {
-        DialogInterface.OnMultiChoiceClickListener listener = multiChoiceClickListener == null ? null : multiChoiceClickListener.get();
-        if (listener != null) {
+        if (multiChoiceClickListener != null) {
             try {
-                listener.onClick(dialog, which, isChecked);
+                multiChoiceClickListener.onClick(dialog, which, isChecked);
             } catch (Exception e) {
                 AfExceptionHandler.handle(e, "SafeListener.multiChoiceClickListener.onClick");
             }
@@ -157,11 +150,10 @@ public class SafeListener implements
     @Override
     public void onClick(View v) {
         long thisTime = System.currentTimeMillis();
-        View.OnClickListener listener = clickListener == null ? null : clickListener.get();
-        if (listener != null && thisTime - lastTime > intervalTime) {
+        if (clickListener != null && thisTime - lastTime > intervalTime) {
             try {
                 lastTime = thisTime;
-                listener.onClick(v);
+                clickListener.onClick(v);
             } catch (Throwable e) {
                 AfExceptionHandler.handle(e, "SafeListener.clickListener.onClick");
             }
@@ -170,10 +162,9 @@ public class SafeListener implements
 
     @Override
     public boolean onLongClick(View v) {
-        View.OnLongClickListener listener = longClockListener == null ? null : longClockListener.get();
-        if (listener != null) {
+        if (longClockListener != null) {
             try {
-                return listener.onLongClick(v);
+                return longClockListener.onLongClick(v);
             } catch (Throwable e) {
                 AfExceptionHandler.handle(e, "SafeListener.longClockListener.onLongClick");
             }
@@ -183,12 +174,11 @@ public class SafeListener implements
 
     @Override
     public boolean onTouch(View v, MotionEvent event) {
-        View.OnTouchListener listener = touchListener == null ? null : touchListener.get();
-        if (listener != null) {
+        if (touthListener != null) {
             try {
-                return listener.onTouch(v, event);
+                return touthListener.onTouch(v, event);
             } catch (Throwable e) {
-                AfExceptionHandler.handle(e, "SafeListener.touchListener.onTouch");
+                AfExceptionHandler.handle(e, "SafeListener.touthListener.onTouch");
             }
         }
         return false;
@@ -196,10 +186,9 @@ public class SafeListener implements
 
     @Override
     public void onDateTimeSet(int year, int month, int day, int hour, int minute) {
-        DialogBuilder.OnDateTimeSetListener listener = dateTimeSetListener == null ? null : dateTimeSetListener.get();
-        if (listener != null) {
+        if (dateTimeSetListener != null) {
             try {
-                listener.onDateTimeSet(year, month, day, hour, minute);
+                dateTimeSetListener.onDateTimeSet(year, month, day, hour, minute);
             } catch (Throwable e) {
                 AfExceptionHandler.handle(e, "SafeListener.dateTimeSetListener.onDateTimeSet");
             }
@@ -208,10 +197,9 @@ public class SafeListener implements
 
     @Override
     public void onProgressChanged(SeekBar seekBar, int progress, boolean fromUser) {
-        SeekBar.OnSeekBarChangeListener listener = seekBarChangeListener == null ? null : seekBarChangeListener.get();
-        if (listener != null) {
+        if (seekBarChangeListener != null) {
             try {
-                listener.onProgressChanged(seekBar, progress, fromUser);
+                seekBarChangeListener.onProgressChanged(seekBar, progress, fromUser);
             } catch (Throwable e) {
                 AfExceptionHandler.handle(e, "SafeListener.seekBarChangeListener.onProgressChanged");
             }
@@ -220,10 +208,9 @@ public class SafeListener implements
 
     @Override
     public void onStartTrackingTouch(SeekBar seekBar) {
-        SeekBar.OnSeekBarChangeListener listener = seekBarChangeListener == null ? null : seekBarChangeListener.get();
-        if (listener != null) {
+        if (seekBarChangeListener != null) {
             try {
-                listener.onStartTrackingTouch(seekBar);
+                seekBarChangeListener.onStartTrackingTouch(seekBar);
             } catch (Throwable e) {
                 AfExceptionHandler.handle(e, "SafeListener.seekBarChangeListener.onStartTrackingTouch");
             }
@@ -232,10 +219,9 @@ public class SafeListener implements
 
     @Override
     public void onStopTrackingTouch(SeekBar seekBar) {
-        SeekBar.OnSeekBarChangeListener listener = seekBarChangeListener == null ? null : seekBarChangeListener.get();
-        if (listener != null) {
+        if (seekBarChangeListener != null) {
             try {
-                listener.onStopTrackingTouch(seekBar);
+                seekBarChangeListener.onStopTrackingTouch(seekBar);
             } catch (Throwable e) {
                 AfExceptionHandler.handle(e, "SafeListener.seekBarChangeListener.onStopTrackingTouch");
             }
