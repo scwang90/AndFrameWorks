@@ -620,7 +620,7 @@ public class ApCommonBarBinder {
         }
     }
 
-    public class SelectNumberPicker extends Binder<SelectNumberPicker, CommonBind<Double>, Double> {
+    public class SelectNumberPicker extends Binder<SelectNumberPicker, CommonBind<Float>, Float> {
 
         private int accuracyInteger = 3;
         private int accuracyDecimal = 0;
@@ -677,7 +677,7 @@ public class ApCommonBarBinder {
                 }
             };
             $.dialog(viewer).showViewDialog(hint, query.view(), "取消", null, actionTitle, click, "确定", (d, n) -> {
-                Double value = 0d;
+                float value = 0f;
                 for (int i = 0 ; i < accuracyInteger + accuracyDecimal ; i++) {
                     value += pickers.get(i).getValue() * Math.pow(10, accuracyInteger + accuracyDecimal - i - 1);
                 }
@@ -694,14 +694,6 @@ public class ApCommonBarBinder {
             });
         }
 
-        public SelectNumberPicker value(Double value) {
-            if (value != null && value >= 0) {
-                onNumberSelected(value, null);
-            }
-            return self();
-        }
-
-
         public SelectNumberPicker value(Float value) {
             if (value != null && value >= 0) {
                 onNumberSelected(value, null);
@@ -714,7 +706,7 @@ public class ApCommonBarBinder {
             return self();
         }
 
-        private void onNumberSelected(double value, List<NumberPicker> pickers) {
+        private void onNumberSelected(float value, List<NumberPicker> pickers) {
             lastval = value;
             $(idValue).text(String.valueOf(lastval)+(TextUtils.isEmpty(unit) ? "" : unit));
             if (key != null && pickers != null) {
