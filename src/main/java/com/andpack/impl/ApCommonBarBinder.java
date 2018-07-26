@@ -253,6 +253,16 @@ public class ApCommonBarBinder {
         }
 
         public T bind(BT bind) {
+            View prev = $(idValue).toPrev().view();
+            if(prev instanceof TextView) {
+                if ("".contentEquals(name) && hintPrefix.equals(hint)) {
+                    this.name = $(prev).text();
+                    hint(hintPrefix + name.toString());
+                    if ($(idValue).view().isClickable()) {
+                        $(idValue).clicked(null).clickable(false).toParent().clicked(this);
+                    }
+                }
+            }
             this.bind = bind;
             return self();
         }
