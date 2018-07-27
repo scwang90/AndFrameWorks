@@ -821,10 +821,10 @@ public interface ViewQuery<T extends ViewQuery<T>> {
     T drawableTop(@DrawableRes int id);
     T drawableRight(@DrawableRes int id);
     T drawableBottom(@DrawableRes int id);
-    T drawableLeft(Drawable drawable);
-    T drawableTop(Drawable drawable);
-    T drawableRight(Drawable drawable);
-    T drawableBottom(Drawable drawable);
+    T drawableLeft(@Nullable Drawable drawable);
+    T drawableTop(@Nullable Drawable drawable);
+    T drawableRight(@Nullable Drawable drawable);
+    T drawableBottom(@Nullable Drawable drawable);
     T drawables(@Nullable Drawable left, @Nullable Drawable top,
                 @Nullable Drawable right, @Nullable Drawable bottom);
     //</editor-fold>
