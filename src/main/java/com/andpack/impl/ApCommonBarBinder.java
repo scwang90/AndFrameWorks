@@ -19,8 +19,10 @@ import android.util.DisplayMetrics;
 import android.view.Gravity;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.Button;
 import android.widget.DatePicker;
 import android.widget.EditText;
+import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.NumberPicker;
 import android.widget.RadioGroup;
@@ -120,6 +122,7 @@ public class ApCommonBarBinder {
     private String hintPrefix = "";
     private Cacher cacher;
     private ViewQuery<? extends ViewQuery> $$;
+    private boolean smart = false;
 
     public ApCommonBarBinder(Viewer viewer) {
         this.viewer = viewer;
@@ -127,8 +130,14 @@ public class ApCommonBarBinder {
         this.cacher = $.cache(viewer.getClass().getName());
     }
 
-    public void setHintPrefix(String hintPrefix) {
+    public ApCommonBarBinder setHintPrefix(String hintPrefix) {
         this.hintPrefix = hintPrefix;
+        return this;
+    }
+
+    public ApCommonBarBinder setSmart(boolean smart) {
+        this.smart = smart;
+        return this;
     }
 
     public ViewQuery<? extends ViewQuery> $(Integer id, int... ids) {
@@ -235,8 +244,12 @@ public class ApCommonBarBinder {
             $(idValue).clicked(this);
         }
 
-        public T click(int idclick) {
-            $(idclick).clicked(this);
+        public ViewQuery<? extends ViewQuery> query() {
+            return $(idValue);
+        }
+
+        public T click(int idClick) {
+            $(idClick).clicked(this);
             $(idValue).clicked(null).clickable(false);
             return self();
         }
@@ -253,11 +266,17 @@ public class ApCommonBarBinder {
         }
 
         public T bind(BT bind) {
-            View prev = $(idValue).toPrev().view();
-            if(prev instanceof TextView) {
-                if ("".contentEquals(name) && hintPrefix.equals(hint)) {
-                    this.name = $(prev).text();
-                    hint(hintPrefix + name.toString());
+            if (smart) {
+                View prev = $(idValue).toPrev().view();
+                View next = $(idValue).toNext().view();
+                if(prev instanceof TextView
+                        && (next instanceof ImageView
+                        || (next != null && View.class.equals(next.getClass()))
+                        || $(idValue).view() instanceof Button)) {
+                    if ("".contentEquals(name) && hintPrefix.equals(hint)) {
+                        this.name = $(prev).text();
+                        hint(hintPrefix + name.toString());
+                    }
                     if ($(idValue).view().isClickable()) {
                         $(idValue).clicked(null).clickable(false).toParent().clicked(this);
                     }
