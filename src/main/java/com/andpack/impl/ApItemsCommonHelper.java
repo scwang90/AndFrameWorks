@@ -22,7 +22,6 @@ import com.andpack.fragment.common.ApItemsCommonFragment;
 
 import java.util.ArrayList;
 import java.util.Arrays;
-import java.util.Collection;
 import java.util.Collections;
 import java.util.HashSet;
 import java.util.List;
@@ -136,80 +135,80 @@ public class ApItemsCommonHelper<T> extends ApItemsHelper<T> {
         }
 
         @Override
-        public View findViewById(int id) {
-            return super.findViewById(id);
+        public <TT extends View> TT  findViewById(int id) {
+            return ensureView(super.findViewById(id));
         }
+//
+//        @Override
+//        public ViewQuery<? extends ViewQuery> $(Integer id, int... ids) {
+//            return ensureViews(super.$(id, ids));
+//        }
+//
+//        @Override
+//        public ViewQuery<? extends ViewQuery> $(String idValue, String... idValues) {
+//            return ensureViews(super.$(idValue, idValues));
+//        }
+//
+//        @Override
+//        public ViewQuery<? extends ViewQuery> $(Class<? extends View> type) {
+//            return ensureViews(super.$(type));
+//        }
+//
+//        @Override
+//        public ViewQuery<? extends ViewQuery> $(Class<? extends View>[] types) {
+//            return ensureViews(super.$(types));
+//        }
+//
+//        @Override
+//        public ViewQuery<? extends ViewQuery> $(View... views) {
+//            return ensureViews(super.$(views));
+//        }
+//
+//        @Override
+//        public ViewQuery<? extends ViewQuery> $(Collection<View> views) {
+//            return ensureViews(super.$(views));
+//        }
+//
+//        @Override
+//        public ViewQuery<? extends ViewQuery> query(Integer id, int... ids) {
+//            return ensureViews(super.query(id, ids));
+//        }
+//
+//        @Override
+//        public ViewQuery<? extends ViewQuery> query(String idValue, String... idValues) {
+//            return ensureViews(super.query(idValue, idValues));
+//        }
+//
+//        @Override
+//        public ViewQuery<? extends ViewQuery> query(Class<? extends View> type) {
+//            return ensureViews(super.query(type));
+//        }
+//
+//        @Override
+//        public ViewQuery<? extends ViewQuery> query(Class<? extends View>[] types) {
+//            return ensureViews(super.query(types));
+//        }
+//
+//        @Override
+//        public ViewQuery<? extends ViewQuery> with(View... views) {
+//            return ensureViews(super.with(views));
+//        }
+//
+//        @Override
+//        public ViewQuery<? extends ViewQuery> with(Collection<View> views) {
+//            return ensureViews(super.with(views));
+//        }
+//
+//        protected ViewQuery<? extends ViewQuery> ensureViews(ViewQuery<? extends ViewQuery> $) {
+//            if (!ensureLayout) {
+//                for (View view : $.views()) {
+//                    ensureView(view);
+//                }
+//            }
+//            return $;
+//        }
 
-        @Override
-        public ViewQuery<? extends ViewQuery> $(Integer id, int... ids) {
-            return ensureViews(super.$(id, ids));
-        }
-
-        @Override
-        public ViewQuery<? extends ViewQuery> $(String idValue, String... idValues) {
-            return ensureViews(super.$(idValue, idValues));
-        }
-
-        @Override
-        public ViewQuery<? extends ViewQuery> $(Class<? extends View> type) {
-            return ensureViews(super.$(type));
-        }
-
-        @Override
-        public ViewQuery<? extends ViewQuery> $(Class<? extends View>[] types) {
-            return ensureViews(super.$(types));
-        }
-
-        @Override
-        public ViewQuery<? extends ViewQuery> $(View... views) {
-            return ensureViews(super.$(views));
-        }
-
-        @Override
-        public ViewQuery<? extends ViewQuery> $(Collection<View> views) {
-            return ensureViews(super.$(views));
-        }
-
-        @Override
-        public ViewQuery<? extends ViewQuery> query(Integer id, int... ids) {
-            return ensureViews(super.query(id, ids));
-        }
-
-        @Override
-        public ViewQuery<? extends ViewQuery> query(String idValue, String... idValues) {
-            return ensureViews(super.query(idValue, idValues));
-        }
-
-        @Override
-        public ViewQuery<? extends ViewQuery> query(Class<? extends View> type) {
-            return ensureViews(super.query(type));
-        }
-
-        @Override
-        public ViewQuery<? extends ViewQuery> query(Class<? extends View>[] types) {
-            return ensureViews(super.query(types));
-        }
-
-        @Override
-        public ViewQuery<? extends ViewQuery> with(View... views) {
-            return ensureViews(super.with(views));
-        }
-
-        @Override
-        public ViewQuery<? extends ViewQuery> with(Collection<View> views) {
-            return ensureViews(super.with(views));
-        }
-
-        protected ViewQuery<? extends ViewQuery> ensureViews(ViewQuery<? extends ViewQuery> $) {
-            if (!ensureLayout) {
-                for (View view : $.views()) {
-                    ensureView(view);
-                }
-            }
-            return $;
-        }
-
-        protected void ensureView(View view) {
+        protected <TT extends View> TT ensureView(TT view) {
             Queue<View> views = new LinkedBlockingQueue<>(Collections.singletonList(view));
             while (!views.isEmpty()) {
                 View childView = views.poll();
@@ -225,6 +224,7 @@ public class ApItemsCommonHelper<T> extends ApItemsHelper<T> {
                     }
                 }
             }
+            return view;
         }
     }
 }
