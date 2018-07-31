@@ -36,6 +36,11 @@ public abstract class AfLoadActivity<T> extends AfActivity implements LoadPager<
     }
 
     @Override
+    public void onDestroyView() {
+        mHelper.onDestroyView();
+    }
+
+    @Override
     public void setModel(@NonNull T model) {
         mHelper.setModel(model);
     }

@@ -136,8 +136,8 @@ public abstract class AfItemsActivity<T> extends AfStatusActivity<List<T>> imple
     }
 
     @Override
-    public void onDataChenged() {
-        mItemsHelper.onDataChenged();
+    public void onDataChanged() {
+        mItemsHelper.onDataChanged();
     }
 
     //</editor-fold>

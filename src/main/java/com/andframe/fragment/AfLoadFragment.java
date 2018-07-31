@@ -43,6 +43,12 @@ public abstract class AfLoadFragment<T> extends AfTabFragment implements LoadPag
     }
 
     @Override
+    public void onDestroyView() {
+        super.onDestroyView();
+        mHelper.onDestroyView();
+    }
+
+    @Override
     public void setModel(@NonNull T model) {
         mHelper.setModel(model);
     }

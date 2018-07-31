@@ -79,6 +79,11 @@ public class AfLoadHelper<T> implements LoadHelper<T> {
     }
 
     @Override
+    public void onDestroyView() {
+
+    }
+
+    @Override
     public void setLastRefreshTime(@NonNull Date time) {
         if (mRefreshLayouter != null) {
             mRefreshLayouter.setLastRefreshTime(time);

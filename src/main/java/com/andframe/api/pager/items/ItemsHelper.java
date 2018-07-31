@@ -98,7 +98,7 @@ public interface ItemsHelper<T> extends StatusHelper<List<T>>, OnItemClickListen
     /**
      * 数据改变
      */
-    void onDataChenged();
+    void onDataChanged();
 
     //</editor-fold>
 
@@ -215,6 +215,7 @@ public interface ItemsHelper<T> extends StatusHelper<List<T>>, OnItemClickListen
      */
     @Nullable
     Paging newPaging(int size, int start);
+
 
 //    /**
 //     * 包装 ViewQuery

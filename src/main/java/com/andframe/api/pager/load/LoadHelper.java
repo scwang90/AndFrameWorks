@@ -28,6 +28,11 @@ public interface LoadHelper<T> extends OnRefreshListener {
     void onViewCreated() ;
 
     /**
+     * 页面视图被销毁
+     */
+    void onDestroyView();
+
+    /**
      * 设置是否在onViewCreated中执行加载任务
      * 在 onViewCreated 之前设置才有效
      * @param loadOrNot 执行加载任务或者不执行

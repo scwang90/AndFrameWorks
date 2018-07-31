@@ -148,8 +148,8 @@ public abstract class AfItemsFragment<T> extends AfStatusFragment<List<T>> imple
     }
 
     @Override
-    public void onDataChenged() {
-        mItemsHelper.onDataChenged();
+    public void onDataChanged() {
+        mItemsHelper.onDataChanged();
     }
 
     //</editor-fold>

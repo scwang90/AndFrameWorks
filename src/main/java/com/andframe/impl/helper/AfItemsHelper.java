@@ -236,6 +236,12 @@ public class AfItemsHelper<T> extends AfStatusHelper<List<T>> implements ItemsHe
     }
 
     @Override
+    public void onDestroyView() {
+        super.onDestroyView();
+        mHeaderFooterViews.clear();
+    }
+
+    @Override
     public View findContentView() {
         View contentView = super.findContentView();
         mItemsViewer = mItemsPager.findItemsViewer(contentView);
@@ -302,7 +308,7 @@ public class AfItemsHelper<T> extends AfStatusHelper<List<T>> implements ItemsHe
         (mAdapter = headerFooterAdapter).registerDataSetObserver(new DataSetObserver() {
             @Override
             public void onChanged() {
-                mItemsPager.onDataChenged();
+                mItemsPager.onDataChanged();
             }
         });
         mItemsPager.initHeaderAndFooter(headerFooterAdapter);
@@ -326,7 +332,7 @@ public class AfItemsHelper<T> extends AfStatusHelper<List<T>> implements ItemsHe
     }
 
     @Override
-    public void onDataChenged() {
+    public void onDataChanged() {
         if (mItemsPager.isEmpty(mAdapter.getList())) {
             mItemsPager.showStatus(StatusLayouter.Status.empty);
         } else {
