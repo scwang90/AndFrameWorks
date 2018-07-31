@@ -39,6 +39,7 @@ import android.view.ViewGroup.LayoutParams;
 import android.view.ViewGroup.MarginLayoutParams;
 import android.view.ViewParent;
 import android.view.animation.Animation;
+import android.webkit.WebView;
 import android.widget.Adapter;
 import android.widget.AdapterView;
 import android.widget.BaseAdapter;
@@ -1556,6 +1557,7 @@ public class AfViewQuery<T extends AfViewQuery<T>> implements ViewQuery<T> {
     public T html(String format, Object... args) {
         if (args.length == 0) {
             //noinspection deprecation
+            foreach(WebView.class, (ViewEacher<WebView>) (view) -> view.loadData(format,"text/html;charset=UTF-8",null));
             return foreach(TextView.class, (ViewEacher<TextView>) (view) -> view.setText(Html.fromHtml(format)));
         }
         Context context = null;
@@ -1581,6 +1583,7 @@ public class AfViewQuery<T extends AfViewQuery<T>> implements ViewQuery<T> {
             }
         }
         //noinspection deprecation
+        foreach(WebView.class, (ViewEacher<WebView>) (view) -> view.loadData(String.format(format, args),"text/html;charset=UTF-8",null));
         return foreach(TextView.class, (ViewEacher<TextView>) (view) -> view.setText(Html.fromHtml(String.format(format, args))));
     }
 

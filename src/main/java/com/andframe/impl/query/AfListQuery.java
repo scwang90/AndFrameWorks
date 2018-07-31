@@ -27,6 +27,10 @@ public class AfListQuery<T> extends ArrayList<T> implements ListQuery<T> {
         for (T anIterable : iterable) add(anIterable);
     }
 
+    public AfListQuery(int initialCapacity) {
+        super(initialCapacity);
+    }
+
     @Override
     public ListQuery<T> rank(Comparator<? super T> comparator) {
         super.sort(comparator);
@@ -65,12 +69,15 @@ public class AfListQuery<T> extends ArrayList<T> implements ListQuery<T> {
 
     @Override
     public ListQuery<T> append(T t) {
-        AfListQuery<T> query = new AfListQuery<>();
-        for (int i = 0; i < size(); i++) {
-            query.add(get(i));
-        }
+        AfListQuery<T> query = new AfListQuery<>(size() + 1);
+        query.addAll(this);
         query.add(t);
         return query;
+    }
+
+    @Override
+    public ListQuery<T> taken(int count) {
+        return new AfListQuery<>(subList(0,Math.min(count,size())));
     }
 
     @Override
