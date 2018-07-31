@@ -6,6 +6,7 @@ import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
 import android.support.annotation.CallSuper;
+import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentActivity;
@@ -56,7 +57,7 @@ public abstract class AfFragment extends Fragment implements Pager, ViewQueryHel
     protected ViewQuery<? extends ViewQuery> $$ = AfViewQueryHelper.newHelper(this);
 
     @Override
-    public void setViewQuery(ViewQuery<? extends ViewQuery> viewQuery) {
+    public void setViewQuery(@NonNull ViewQuery<? extends ViewQuery> viewQuery) {
         this.$$ = viewQuery;
     }
 
@@ -365,6 +366,7 @@ public abstract class AfFragment extends Fragment implements Pager, ViewQueryHel
     public void onDestroyView() {
         try {
             super.onDestroyView();
+            $$.clearIdCache();
 		    mRootView = null;
             LifeCycleInjecter.injectOnDestroyView(this);
         } catch (Throwable ex) {

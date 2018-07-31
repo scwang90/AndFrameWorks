@@ -105,39 +105,6 @@ public class AfItemsHelper<T> extends AfStatusHelper<List<T>> implements ItemsHe
         return "AfItemsHelper(" + mItemsPager.getClass().getName() + ")." + tag;
     }
 
-
-    //<editor-fold desc="ViewQuery 集成">
-//    @Override
-//    public ViewQuery<? extends ViewQuery> $(View... views) {
-//        return $$.query(views);
-//    }
-//
-//    @Override
-//    public ViewQuery<? extends ViewQuery> $(Collection<View> views) {
-//        return $$.query(views);
-//    }
-//
-//    @Override
-//    public ViewQuery<? extends ViewQuery> $(Integer id, int... ids) {
-//        return $$.query(id, ids);
-//    }
-//
-//    @Override
-//    public ViewQuery<? extends ViewQuery> $(String idValue, String... idValues) {
-//        return $$.query(idValue, idValues);
-//    }
-//
-//    @Override
-//    public ViewQuery<? extends ViewQuery> $(Class<? extends View> type) {
-//        return $$.query(type);
-//    }
-//
-//    @Override
-//    public ViewQuery<? extends ViewQuery> $(Class<? extends View>[] types) {
-//        return $$.query(types);
-//    }
-    //</editor-fold>
-
     //<editor-fold desc="初始化">
     public AfItemsHelper(ItemsPager<T> itemsPager) {
         super(itemsPager);
@@ -157,63 +124,12 @@ public class AfItemsHelper<T> extends AfStatusHelper<List<T>> implements ItemsHe
                 return view;
             }
         }));
-//        this.$$ = AfViewQueryHelper.newHelper(new ViewerWrapper(itemsPager.getView()) {
-//            @Override
-//            public Context getContext() {
-//                return mItemsPager.getContext();
-//            }
-//            @Override
-//            public View getView() {
-//                return mItemsPager.getView();
-//            }
-//            @Override
-//            public View findViewById(int id) {
-//                View view = mItemsPager.findViewById(id);
-//                if (view == null && mAdapter != null) {
-//                    for (View HeaderFooterView : mHeaderFooterViews) {
-//                        view = HeaderFooterView.findViewById(id);
-//                        if (view != null) {
-//                            return view;
-//                        }
-//                    }
-//                }
-//                return view;
-//            }
-//        });
         Class<?> stop = mPager instanceof Activity ? AfItemsActivity.class : AfItemsFragment.class;
         ItemsSinglePage singlePage = AfReflecter.getAnnotation(mItemsPager.getClass(), stop, ItemsSinglePage.class);
         if (singlePage != null) {
             mIsNeedPaging = false;
         }
     }
-
-//    @Override
-//    public ViewQuery<? extends ViewQuery> wrap(ViewQuery<? extends ViewQuery> $$) {
-//        $$.rootViewer(new ViewerWrapper(mItemsPager.getView()) {
-//            @Override
-//            public Context getContext() {
-//                return mItemsPager.getContext();
-//            }
-//            @Override
-//            public View getView() {
-//                return mItemsPager.getView();
-//            }
-//            @Override
-//            public View findViewById(int id) {
-//                View view = mItemsPager.findViewById(id);
-//                if (view == null && mAdapter != null) {
-//                    for (View HeaderFooterView : mHeaderFooterViews) {
-//                        view = HeaderFooterView.findViewById(id);
-//                        if (view != null) {
-//                            return view;
-//                        }
-//                    }
-//                }
-//                return view;
-//            }
-//        });
-//        return $$;
-//    }
 
     @Override
     public void onViewCreated() {

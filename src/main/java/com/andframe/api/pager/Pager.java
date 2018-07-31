@@ -3,6 +3,7 @@ package com.andframe.api.pager;
 import android.app.Activity;
 import android.app.Dialog;
 import android.content.Intent;
+import android.support.annotation.NonNull;
 import android.support.v4.app.Fragment;
 
 import com.andframe.api.Constanter;
@@ -77,7 +78,7 @@ public interface Pager extends Viewer, Toaster, Constanter {
      * 设置 viewQuery
      * @param viewQuery new viewQuery
      */
-    void setViewQuery(ViewQuery<? extends ViewQuery> viewQuery);
+    void setViewQuery(@NonNull ViewQuery<? extends ViewQuery> viewQuery);
 
     /**
      * 获取 ViewQuery
