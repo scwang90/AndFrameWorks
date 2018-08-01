@@ -49,7 +49,7 @@ dependencies {
         exclude group: 'com.android.support'
     }
     implementation 'com.nostra13.universalimageloader:universal-image-loader:1.9.5'
-    implementation 'com.scwang.smartrefresh:SmartRefreshLayout:1.1.0-alpha-5'
+    implementation 'com.scwang.smartrefresh:SmartRefreshLayout:1.1.0-alpha-14'
     implementation 'me.imid.swipebacklayout.lib:library:1.1.0'
     implementation 'org.greenrobot:eventbus:3.1.1'
 
