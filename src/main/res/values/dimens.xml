@@ -8,6 +8,9 @@
     <dimen name="dimenTextTitleLarge">19sp</dimen>
     <dimen name="dimenTextTitleBar">20sp</dimen>
     <dimen name="dimenTextEditText">14sp</dimen>
+
+    <dimen name="dimenTextButtonMin">13sp</dimen>
+    <dimen name="dimenTextButtonSmall">14.5sp</dimen>
     <dimen name="dimenTextButton">16sp</dimen>
 
     <dimen name="dimenPaddingCommon">10dp</dimen>

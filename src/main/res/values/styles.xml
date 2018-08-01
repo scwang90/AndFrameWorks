@@ -246,6 +246,7 @@
         <item name="android:paddingBottom">@dimen/dimenPaddingDiminutive</item>
         <item name="android:paddingLeft">@dimen/dimenPaddingCommon</item>
         <item name="android:paddingRight">@dimen/dimenPaddingCommon</item>
+        <item name="android:textSize">@dimen/dimenTextButtonSmall</item>
     </style>
 
     <style name="AndFrame.Button.Small.Gray">
@@ -268,6 +269,41 @@
         <item name="android:background">@drawable/af_button_red</item>
     </style>
     <style name="AndFrame.Button.Small.Primary">
+        <item name="android:background">@drawable/af_button_primary</item>
+    </style>
+
+    <style name="AndFrame.Button.Min">
+        <item name="android:layout_marginTop">@dimen/dimenPaddingMin</item>
+        <item name="android:layout_marginBottom">@dimen/dimenPaddingMin</item>
+        <item name="android:layout_marginLeft">@dimen/dimenPaddingMin</item>
+        <item name="android:layout_marginRight">@dimen/dimenPaddingMin</item>
+        <item name="android:paddingTop">@dimen/dimenPaddingMin</item>
+        <item name="android:paddingBottom">@dimen/dimenPaddingMin</item>
+        <item name="android:paddingLeft">@dimen/dimenPaddingDiminutive</item>
+        <item name="android:paddingRight">@dimen/dimenPaddingDiminutive</item>
+        <item name="android:textSize">@dimen/dimenTextButtonMin</item>
+    </style>
+
+    <style name="AndFrame.Button.Min.Gray">
+        <item name="android:background">@drawable/af_button_gray</item>
+    </style>
+
+    <style name="AndFrame.Button.Min.Blue">
+        <item name="android:background">@drawable/af_button_blue</item>
+    </style>
+
+    <style name="AndFrame.Button.Min.Green">
+        <item name="android:background">@drawable/af_button_green</item>
+    </style>
+
+    <style name="AndFrame.Button.Min.Orange">
+        <item name="android:background">@drawable/af_button_orange</item>
+    </style>
+
+    <style name="AndFrame.Button.Min.Red">
+        <item name="android:background">@drawable/af_button_red</item>
+    </style>
+    <style name="AndFrame.Button.Min.Primary">
         <item name="android:background">@drawable/af_button_primary</item>
     </style>
 
