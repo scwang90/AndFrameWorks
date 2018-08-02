@@ -82,6 +82,17 @@ public class ApStatusBarUtil {
         }
     }
 
+    public static void darkModeCancel(Activity activity) {
+        Window window = activity.getWindow();
+        if (isFlyme4Later()) {
+            darkModeForFlyme4(window, false);
+        } else if (isMIUI6Later()) {
+            darkModeForMIUI6(window, false);
+        } else if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M) {
+            darkModeForM(window, false);
+        }
+    }
+
     /** 设置状态栏darkMode,字体颜色及icon变黑(目前支持MIUI6以上,Flyme4以上,Android M以上) */
     public static void darkMode(Activity activity) {
         darkMode(activity.getWindow(), DEFAULT_COLOR, DEFAULT_ALPHA);
