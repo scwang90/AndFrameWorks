@@ -147,6 +147,22 @@
         <item name="android:paddingRight">@dimen/dimenPaddingHorizontal</item>
     </style>
 
+    <style name="AndFrame.Label.Layout.Small">
+        <item name="android:gravity">center</item>
+        <item name="android:paddingTop">@dimen/dimenPaddingDiminutive</item>
+        <item name="android:paddingBottom">@dimen/dimenPaddingDiminutive</item>
+        <item name="android:paddingLeft">@dimen/dimenPaddingCommon</item>
+        <item name="android:paddingRight">@dimen/dimenPaddingCommon</item>
+    </style>
+
+    <style name="AndFrame.Label.Layout.Min">
+        <item name="android:gravity">center</item>
+        <item name="android:paddingTop">@dimen/dimenPaddingMin</item>
+        <item name="android:paddingBottom">@dimen/dimenPaddingMin</item>
+        <item name="android:paddingLeft">@dimen/dimenPaddingDiminutive</item>
+        <item name="android:paddingRight">@dimen/dimenPaddingDiminutive</item>
+    </style>
+
     <style name="AndFrame.Label.Title">
         <item name="android:textColor">@color/colorTextTitle</item>
         <item name="android:textSize">@dimen/dimenTextTitle</item>
@@ -436,7 +452,7 @@
         <item name="android:layout_weight">1</item>
         <item name="android:layout_height">wrap_content</item>
         <item name="android:textColor">@color/colorTextAssistant</item>
-        <item name="android:gravity">right|end</item>
+        <item name="android:gravity">right|end|center_vertical</item>
         <item name="android:paddingTop">@dimen/dimenPaddingCommon</item>
         <item name="android:paddingBottom">@dimen/dimenPaddingCommon</item>
         <item name="android:paddingLeft">@dimen/dimenPaddingHorizontal</item>
@@ -446,6 +462,19 @@
         <item name="android:layout_gravity">center_vertical|end</item>
         <item name="android:layout_centerVertical">true</item>
         <item name="android:layout_alignParentRight">true</item>
+    </style>
+
+    <style name="AndFrame.CommonBar.Value.Arrow">
+        <item name="android:paddingRight">@dimen/dimenPaddingMin</item>
+        <item name="android:paddingTop">@dimen/dimenPaddingDiminutive</item>
+        <item name="android:paddingBottom">@dimen/dimenPaddingDiminutive</item>
+        <item name="android:drawableRight">@drawable/af_arrow_right_primary</item>
+        <item name="android:drawablePadding">@dimen/dimenPaddingMin</item>
+    </style>
+
+    <style name="AndFrame.CommonBar.Value.Arrow.Gray">
+
+        <item name="android:drawableRight">@drawable/af_arrow_right_gray</item>
     </style>
 
     <style name="AndFrame.Layout" parent="AndFrame.Match.Wrap">
