@@ -136,6 +136,7 @@ public abstract class AfMultiChoiceItemViewer<T> extends AfItemViewer<T> impleme
 			e.printStackTrace();
 		}
 		view.setBackgroundResource(0);
+		mMultiChoiceLayout.setLayoutParams(view.getLayoutParams());
 		return mMultiChoiceLayout;
 	}
 

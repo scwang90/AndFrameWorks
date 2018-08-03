@@ -6,16 +6,16 @@ import android.widget.TextView;
 import com.andframe.R;
 import com.andframe.api.viewer.Viewer;
 
-public class AfSelectorTitlebarImpl extends AfSelectorTitlebar {
+public class AfSelectorTitleBarImpl extends AfSelectorTitleBar {
 
 	public static final int ID_FINISH = R.id.af_titlebar_select_finish;
 	public static final int ID_OPERATE = R.id.af_titlebar_select_operate;
 
 	@SuppressWarnings("unused")
-	protected AfSelectorTitlebarImpl() {
+	protected AfSelectorTitleBarImpl() {
 	}
 
-	public AfSelectorTitlebarImpl(Viewer page) {
+	public AfSelectorTitleBarImpl(Viewer page) {
 		super(page,R.id.af_titlebar_select);
 	}
 

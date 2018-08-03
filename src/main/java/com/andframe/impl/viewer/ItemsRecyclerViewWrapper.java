@@ -28,6 +28,7 @@ public class ItemsRecyclerViewWrapper implements ItemsViewer<RecyclerView>, Adap
     protected LinearLayoutManager mLinearLayoutManager;
     protected RecyclerInteractionAdapter mInteractionAdapter;
     protected boolean mDivisionEnable = true;
+    protected boolean mDrawEndDivider = true;
 
     public ItemsRecyclerViewWrapper(RecyclerView itemView) {
         this.mItemsView = itemView;
@@ -66,6 +67,11 @@ public class ItemsRecyclerViewWrapper implements ItemsViewer<RecyclerView>, Adap
     }
 
     @Override
+    public void setDrawEndDivider(boolean draw) {
+        this.mDrawEndDivider = draw;
+    }
+
+    @Override
     public void setDivisionEnable(boolean enable) {
         mDivisionEnable = enable;
     }
@@ -84,6 +90,7 @@ public class ItemsRecyclerViewWrapper implements ItemsViewer<RecyclerView>, Adap
                 mItemsView.setLayoutManager(mLinearLayoutManager);
                 if (mDivisionEnable) {
                     RecycleViewDivider dividerLine = new RecycleViewDivider(mItemsView.getContext());
+                    dividerLine.drawFooter(mDrawEndDivider);
                     dividerLine.sizeId(R.dimen.dimenDivisionLine).colorId(R.color.colorDivision);
                     mItemsView.addItemDecoration(dividerLine);
                 }

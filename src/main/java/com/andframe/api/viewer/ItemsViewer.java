@@ -29,6 +29,8 @@ public interface ItemsViewer<T extends ViewGroup> {
      */
     void setOnScrollToBottomListener(OnScrollToBottomListener listener);
 
+    void setDrawEndDivider(boolean draw);
+
     /**
      * 设置分割线的显示
      * super.onViewCreated() 或者 setAdapter() 之前设置才有效

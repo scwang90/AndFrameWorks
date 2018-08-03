@@ -140,7 +140,6 @@
     </style>
 
     <style name="AndFrame.Label.Layout">
-        <item name="android:gravity">center</item>
         <item name="android:paddingTop">@dimen/dimenPaddingVertical</item>
         <item name="android:paddingBottom">@dimen/dimenPaddingVertical</item>
         <item name="android:paddingLeft">@dimen/dimenPaddingHorizontal</item>
@@ -148,7 +147,6 @@
     </style>
 
     <style name="AndFrame.Label.Layout.Small">
-        <item name="android:gravity">center</item>
         <item name="android:paddingTop">@dimen/dimenPaddingDiminutive</item>
         <item name="android:paddingBottom">@dimen/dimenPaddingDiminutive</item>
         <item name="android:paddingLeft">@dimen/dimenPaddingCommon</item>
@@ -156,7 +154,6 @@
     </style>
 
     <style name="AndFrame.Label.Layout.Min">
-        <item name="android:gravity">center</item>
         <item name="android:paddingTop">@dimen/dimenPaddingMin</item>
         <item name="android:paddingBottom">@dimen/dimenPaddingMin</item>
         <item name="android:paddingLeft">@dimen/dimenPaddingDiminutive</item>

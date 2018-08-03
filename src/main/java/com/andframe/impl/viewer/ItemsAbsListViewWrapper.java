@@ -55,7 +55,12 @@ public class ItemsAbsListViewWrapper<T extends AbsListView> implements ItemsView
             });
         }
     }
-    
+
+    @Override
+    public void setDrawEndDivider(boolean draw) {
+
+    }
+
     @Override
     public void setAdapter(ListAdapter adapter) {
         mItemsView.setAdapter(adapter);

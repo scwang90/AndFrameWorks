@@ -17,7 +17,7 @@ import java.util.HashMap;
 import java.util.Locale;
 import java.util.Map.Entry;
 
-public abstract class AfSelectorTitlebar extends AfModuleAlpha
+public abstract class AfSelectorTitleBar extends AfModuleAlpha
 	implements OnClickListener, GenericityListener, OnMenuItemClickListener {
 
 	private static final int ID_SELECTALL = -1;
@@ -44,10 +44,10 @@ public abstract class AfSelectorTitlebar extends AfModuleAlpha
 		}
 	}
 
-	protected AfSelectorTitlebar() {
+	protected AfSelectorTitleBar() {
 	}
 
-	protected AfSelectorTitlebar(Viewer viewer, int viewid) {
+	protected AfSelectorTitleBar(Viewer viewer, int viewid) {
 		initializeComponent(viewer, viewid);
 	}
 

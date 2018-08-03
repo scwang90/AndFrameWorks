@@ -42,8 +42,8 @@ import com.andframe.impl.viewer.ItemsViewerWrapper;
 import com.andframe.module.AfFrameSelector;
 import com.andframe.module.AfSelectorBottomBar;
 import com.andframe.module.AfSelectorBottomBarImpl;
-import com.andframe.module.AfSelectorTitlebar;
-import com.andframe.module.AfSelectorTitlebarImpl;
+import com.andframe.module.AfSelectorTitleBar;
+import com.andframe.module.AfSelectorTitleBarImpl;
 import com.andframe.module.AfViewModuler;
 
 import java.lang.reflect.Array;
@@ -481,8 +481,8 @@ public class ViewBinder {
                 } else if (handler instanceof FragmentActivity) {
                     value = ((FragmentActivity) handler).getSupportFragmentManager().findFragmentById(id);
                 }
-            } else if (type.equals(AfSelectorTitlebar.class)) {
-                value = new AfSelectorTitlebarImpl(root);
+            } else if (type.equals(AfSelectorTitleBar.class)) {
+                value = new AfSelectorTitleBarImpl(root);
             } else if (type.equals(AfSelectorBottomBar.class)) {
                 value = new AfSelectorBottomBarImpl(root);
             } else if (type.equals(AfFrameSelector.class)) {

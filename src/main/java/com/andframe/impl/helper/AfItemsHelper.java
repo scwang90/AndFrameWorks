@@ -546,7 +546,7 @@ public class AfItemsHelper<T> extends AfStatusHelper<List<T>> implements ItemsHe
         } else if (viewerOnly != null && viewerOnly.value() > 0) {
             itemView = mPager.findViewById(viewerOnly.value());
         } else {
-            if (ItemsViewerWrapper.isWrappeder(contentView)) {
+            if (ItemsViewerWrapper.isWrapped(contentView)) {
                 itemView = contentView;
             } else {
                 itemView = ItemsViewerWrapper.searchItemsView(mPager);

@@ -22,20 +22,22 @@ import java.util.concurrent.LinkedBlockingQueue;
  * Created by SCWANG on 2016/12/23.
  */
 
-public class ItemsViewerWrapper implements ItemsViewer<ViewGroup> {
+public class ItemsViewerWrapper<T extends ViewGroup> implements ItemsViewer<T> {
 
-    protected ItemsViewer<? extends ViewGroup> itemsViewer;
+    protected ItemsViewer<T> mItemsViewer;
 
     public ItemsViewerWrapper(Viewer viewer) {
-        this(defaultItemsViewer(searchItemsView(viewer)));
+        //noinspection unchecked
+        this((ItemsViewer<T>)defaultItemsViewer(searchItemsView(viewer)));
     }
 
     public ItemsViewerWrapper(View itemView) {
-        this(defaultItemsViewer(itemView));
+        //noinspection unchecked
+        this((ItemsViewer<T>)defaultItemsViewer(itemView));
     }
 
-    public ItemsViewerWrapper(ItemsViewer<? extends ViewGroup> itemsViewer) {
-        this.itemsViewer = itemsViewer;
+    public ItemsViewerWrapper(ItemsViewer<T> mItemsViewer) {
+        this.mItemsViewer = mItemsViewer;
     }
 
     public static View searchItemsView(Viewer viewer) {
@@ -45,7 +47,7 @@ public class ItemsViewerWrapper implements ItemsViewer<ViewGroup> {
         while (!views.isEmpty() && itemView == null) {
             view = views.poll();
             if (view != null) {
-                if (isWrappeder(view)) {
+                if (isWrapped(view)) {
                     itemView = view;
                 } else if (view instanceof ViewGroup) {
                     ViewGroup group = (ViewGroup) view;
@@ -58,7 +60,7 @@ public class ItemsViewerWrapper implements ItemsViewer<ViewGroup> {
         return itemView;
     }
 
-    public static boolean isWrappeder(View view) {
+    public static boolean isWrapped(View view) {
         return view instanceof AbsListView || view instanceof RecyclerView;
     }
 
@@ -76,51 +78,57 @@ public class ItemsViewerWrapper implements ItemsViewer<ViewGroup> {
     }
 
     @Override
-    public ViewGroup getItemsView() {
-        return itemsViewer.getItemsView();
+    public T getItemsView() {
+        //noinspection unchecked
+        return mItemsViewer.getItemsView();
     }
 
     @Override
     public void setAdapter(ListAdapter adapter) {
-        itemsViewer.setAdapter(adapter);
+        mItemsViewer.setAdapter(adapter);
     }
 
     @Override
     public boolean addHeaderView(View view) {
-        return itemsViewer.addHeaderView(view);
+        return mItemsViewer.addHeaderView(view);
     }
 
     @Override
     public boolean addFooterView(View view) {
-        return itemsViewer.addFooterView(view);
+        return mItemsViewer.addFooterView(view);
     }
 
     @Override
     public void setDivisionEnable(boolean enable) {
-        itemsViewer.setDivisionEnable(enable);
+        mItemsViewer.setDivisionEnable(enable);
     }
 
     @Override
     public void setNestedScrollingEnabled(boolean enable) {
-        itemsViewer.setNestedScrollingEnabled(enable);
+        mItemsViewer.setNestedScrollingEnabled(enable);
+    }
+
+    @Override
+    public void setDrawEndDivider(boolean draw) {
+        mItemsViewer.setDrawEndDivider(draw);
     }
 
     @Override
     public void setOnItemClickListener(AdapterView.OnItemClickListener listener) {
-        itemsViewer.setOnItemClickListener(listener);
+        mItemsViewer.setOnItemClickListener(listener);
     }
 
     @Override
     public void setOnItemLongClickListener(AdapterView.OnItemLongClickListener listener) {
-        itemsViewer.setOnItemLongClickListener(listener);
+        mItemsViewer.setOnItemLongClickListener(listener);
     }
 
     @Override
     public void setOnScrollToBottomListener(OnScrollToBottomListener listener) {
-        itemsViewer.setOnScrollToBottomListener(listener);
+        mItemsViewer.setOnScrollToBottomListener(listener);
     }
 
     public boolean isWrapped() {
-        return itemsViewer != null;
+        return mItemsViewer != null;
     }
 }

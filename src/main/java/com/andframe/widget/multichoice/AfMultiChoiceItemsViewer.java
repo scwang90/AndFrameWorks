@@ -11,22 +11,22 @@ import android.widget.WrapperListAdapter;
 
 import com.andframe.api.pager.items.OnScrollToBottomListener;
 import com.andframe.api.viewer.ItemsViewer;
+import com.andframe.impl.viewer.ItemsViewerWrapper;
 import com.andframe.module.AfSelectorBottomBar;
-import com.andframe.module.AfSelectorTitlebar;
+import com.andframe.module.AfSelectorTitleBar;
 
 @SuppressWarnings("unused")
-public class AfMultiChoiceItemsViewer<T extends ViewGroup> implements
+public class AfMultiChoiceItemsViewer<T extends ViewGroup> extends ItemsViewerWrapper<T> implements
         OnItemLongClickListener, OnItemClickListener, ItemsViewer<T> {
 
     protected OnItemClickListener mItemClickListener = null;
     protected OnItemLongClickListener mItemLongClickListener = null;
     protected AfMultiChoiceAdapter<?> mAdapter = null;
-    protected AfSelectorTitlebar mSelectorTitlebar = null;
-    protected AfSelectorBottomBar mSelectorBottombar = null;
-    protected ItemsViewer<T> mItemsViewer;
+    protected AfSelectorTitleBar mSelectorTitleBar = null;
+    protected AfSelectorBottomBar mSelectorBottomBar = null;
 
     public AfMultiChoiceItemsViewer(ItemsViewer<T> itemsViewer) {
-        this.mItemsViewer = itemsViewer;
+        super(itemsViewer);
         this.mItemsViewer.setOnItemClickListener(this);
         this.mItemsViewer.setOnItemLongClickListener(this);
     }
@@ -44,31 +44,6 @@ public class AfMultiChoiceItemsViewer<T extends ViewGroup> implements
     @Override
     public void setOnScrollToBottomListener(OnScrollToBottomListener listener) {
 
-    }
-
-    @Override
-    public T getItemsView() {
-        return mItemsViewer.getItemsView();
-    }
-
-    @Override
-    public boolean addHeaderView(View view) {
-        return mItemsViewer.addHeaderView(view);
-    }
-
-    @Override
-    public boolean addFooterView(View view) {
-        return mItemsViewer.addHeaderView(view);
-    }
-
-    @Override
-    public void setDivisionEnable(boolean enable) {
-        mItemsViewer.setDivisionEnable(enable);
-    }
-
-    @Override
-    public void setNestedScrollingEnabled(boolean enable) {
-        mItemsViewer.setNestedScrollingEnabled(enable);
     }
 
     /**
@@ -93,26 +68,26 @@ public class AfMultiChoiceItemsViewer<T extends ViewGroup> implements
         }
         if (adapter instanceof AfMultiChoiceAdapter) {
             mAdapter = (AfMultiChoiceAdapter<?>) adapter;
-            if (mSelectorTitlebar != null) {
-                mSelectorTitlebar.setAdapter(mAdapter);
+            if (mSelectorTitleBar != null) {
+                mSelectorTitleBar.setAdapter(mAdapter);
             }
-            if (mSelectorBottombar != null) {
-                mSelectorBottombar.setAdapter(mAdapter);
+            if (mSelectorBottomBar != null) {
+                mSelectorBottomBar.setAdapter(mAdapter);
             }
         }
     }
 
-    public void setSelector(AfSelectorTitlebar selector) {
-        this.mSelectorTitlebar = selector;
+    public void setSelector(AfSelectorTitleBar selector) {
+        this.mSelectorTitleBar = selector;
         if (mAdapter != null && selector != null) {
-            mSelectorTitlebar.setAdapter(mAdapter);
+            mSelectorTitleBar.setAdapter(mAdapter);
         }
     }
 
     public void setSelector(AfSelectorBottomBar selector) {
-        this.mSelectorBottombar = selector;
+        this.mSelectorBottomBar = selector;
         if (mAdapter != null && selector != null) {
-            mSelectorBottombar.setAdapter(mAdapter);
+            mSelectorBottomBar.setAdapter(mAdapter);
         }
     }
 
