@@ -22,6 +22,7 @@ import com.andframe.api.viewer.ViewModuler;
 import com.andframe.api.viewer.ViewQuery;
 import com.andframe.api.viewer.Viewer;
 import com.andframe.application.AfApp;
+import com.andframe.application.AfAppSettings;
 import com.andframe.impl.viewer.ViewerWrapper;
 import com.andframe.task.AfDispatcher;
 
@@ -179,6 +180,10 @@ public class AndFrame {
 
     public static PagerManager pager(){
         return getInstancePagerManager();
+    }
+
+    public static AfAppSettings settings() {
+        return AfAppSettings.getInstance();
     }
 
     @MainThread
