@@ -586,8 +586,8 @@ public class AfItemsHelper<T> extends AfStatusHelper<List<T>> implements ItemsHe
     //<editor-fold desc="原生事件">
     @Override
     public void onItemClick(AdapterView<?> adapterView, View view, int index, long id) {
-        if (mItemsViewer instanceof ListView) {
-            index -= ((ListView) mItemsViewer).getHeaderViewsCount();
+        if (mItemsViewer.getItemsView() instanceof ListView) {
+            index -= ((ListView) mItemsViewer.getItemsView()).getHeaderViewsCount();
         }
         if (index >= 0) {
             T model = mAdapter.get(index);

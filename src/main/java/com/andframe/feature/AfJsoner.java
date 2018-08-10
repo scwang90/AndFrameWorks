@@ -106,7 +106,9 @@ public class AfJsoner {
         Field[] fields = getJsonField(clazz);
         for (Field field : fields) {
             Object value = object.opt(field.getName());
-            if (value instanceof JSONObject) {
+            if (field.getType().isEnum()) {
+                value = Enum.valueOf((Class<? extends Enum>)field.getType(), value.toString());
+            } else if (value instanceof JSONObject) {
                 value = fromJson((JSONObject) value, field.getType());
             } else if (value instanceof JSONArray) {
                 Class<?> type = field.getType();
@@ -243,6 +245,8 @@ public class AfJsoner {
                 return value;
             } else if (Date.class.isAssignableFrom(type)) {
                 return Date.class.cast(value).getTime();
+            } else if (type.isEnum()) {
+                return value.toString();
             }
             return builderObject(value);
         }
