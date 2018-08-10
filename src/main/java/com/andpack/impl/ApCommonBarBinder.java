@@ -123,6 +123,7 @@ public class ApCommonBarBinder {
     private Cacher cacher;
     private ViewQuery<? extends ViewQuery> $$;
     private boolean smart = false;
+    private boolean readOnly = false;
 
     public ApCommonBarBinder(Viewer viewer) {
         this.viewer = viewer;
@@ -139,6 +140,12 @@ public class ApCommonBarBinder {
         this.smart = smart;
         return this;
     }
+
+    public ApCommonBarBinder setReadOnly(boolean readOnly) {
+        this.readOnly = readOnly;
+        return this;
+    }
+
 
     public ViewQuery<? extends ViewQuery> $(Integer id, int... ids) {
         return $$.query(id, ids);
@@ -241,7 +248,9 @@ public class ApCommonBarBinder {
 
         Binder(int idValue) {
             this.idValue = idValue;
-            $(idValue).clicked(this);
+            if (!readOnly) {
+                $(idValue).clicked(this);
+            }
         }
 
         public ViewQuery<? extends ViewQuery> query() {
@@ -249,14 +258,18 @@ public class ApCommonBarBinder {
         }
 
         public T click(int idClick) {
-            $(idClick).clicked(this);
-            $(idValue).clicked(null).clickable(false);
+            if (!readOnly) {
+                $(idClick).clicked(this);
+                $(idValue).clicked(null).clickable(false);
+            }
             return self();
         }
 
         public T click(View view) {
-            $(view).clicked(this);
-            $(idValue).clicked(null).clickable(false);
+            if (!readOnly) {
+                $(view).clicked(this);
+                $(idValue).clicked(null).clickable(false);
+            }
             return self();
         }
 
@@ -391,7 +404,9 @@ public class ApCommonBarBinder {
         SelectBinder(int idValue, CharSequence... items) {
             super(idValue);
             this.items = items;
-            this.hintPrefix("请选择");
+            if (TextUtils.isEmpty(hintPrefix)) {
+                this.hintPrefix("请选择");
+            }
         }
 
         @Override
