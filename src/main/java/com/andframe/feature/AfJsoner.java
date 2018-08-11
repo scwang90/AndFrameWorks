@@ -1,5 +1,8 @@
 package com.andframe.feature;
 
+import android.support.annotation.NonNull;
+import android.support.annotation.Nullable;
+
 import com.andframe.util.java.AfReflecter;
 
 import org.json.JSONArray;
@@ -33,6 +36,16 @@ public class AfJsoner {
             return builderJson(object).toString();
         } catch (JSONException e) {
             throw new RuntimeException(e);
+        }
+    }
+
+    @Nullable
+    public static <T> T fromJsonNoThrow(String json, Class<T> clazz) {
+        try {
+            return fromJson(json, clazz);
+        } catch (Exception e) {
+            e.printStackTrace();
+            return null;
         }
     }
 
