@@ -1760,10 +1760,24 @@ public class ApCommonBarBinder {
 
         @Override
         public void onClick(View v) {
+            if (clickHook != null && clickHook.onBinderClick(this)) {
+                return;
+            }
             if (v != null && v.getId() != idValue) {
                 lastval = $(idValue).toggle().isChecked();
             }
             super.onClick(v);
+        }
+
+        private void performStart() {
+            if (start == null) {
+                start();
+            } else {
+                start.run();
+            }
+            if (next != null) {
+                next.performStart();
+            }
         }
 
         @Override
