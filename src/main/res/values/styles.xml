@@ -206,6 +206,38 @@
         <item name="android:textColor">@color/colorTextGray</item>
     </style>
 
+    <style name="AndFrame.Label.Small.Assistant">
+        <item name="android:textColor">@color/colorTextAssistant</item>
+    </style>
+
+    <style name="AndFrame.Label.Small.Deepness">
+        <item name="android:textColor">@color/colorTextDeepness</item>
+    </style>
+
+    <style name="AndFrame.Label.Small.Thinness">
+        <item name="android:textColor">@color/colorTextThinness</item>
+    </style>
+
+    <style name="AndFrame.Label.Small.Gray">
+        <item name="android:textColor">@color/colorTextGray</item>
+    </style>
+
+    <style name="AndFrame.Label.Min.Assistant">
+        <item name="android:textColor">@color/colorTextAssistant</item>
+    </style>
+
+    <style name="AndFrame.Label.Min.Deepness">
+        <item name="android:textColor">@color/colorTextDeepness</item>
+    </style>
+
+    <style name="AndFrame.Label.Min.Thinness">
+        <item name="android:textColor">@color/colorTextThinness</item>
+    </style>
+
+    <style name="AndFrame.Label.Min.Gray">
+        <item name="android:textColor">@color/colorTextGray</item>
+    </style>
+
     <style name="AndFrame.Button" parent="AndFrame.Wrap.Wrap">
         <item name="android:layout_marginTop">@dimen/dimenPaddingCommon</item>
         <item name="android:layout_marginBottom">@dimen/dimenPaddingCommon</item>
