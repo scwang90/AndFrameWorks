@@ -677,9 +677,13 @@ public class AfItemsHelper<T> extends AfStatusHelper<List<T>> implements ItemsHe
             if (list != null && list.size() > 0) {
                 return list;
             }
-            data = mItemsPager.onTaskLoadList(paging = mItemsPager.newPaging(AfListViewTask.PAGE_SIZE, 0));
-            mItemsPager.onTaskPutCache(data);
-            return data;
+            try {
+                data = mItemsPager.onTaskLoadList(paging = mItemsPager.newPaging(AfListViewTask.PAGE_SIZE, 0));
+                mItemsPager.onTaskPutCache(data);
+                return data;
+            } catch (Throwable e) {
+                return mItemsPager.onTaskLoadCache(false);
+            }
         }
     }
 
