@@ -851,6 +851,9 @@ public class ApCommonBarBinder {
 
         InputBinder(int idValue) {
             super(idValue);
+            if (readOnly) {
+                $(idValue).enabled(false);
+            }
         }
 
         public InputBinder inputType(int type) {
