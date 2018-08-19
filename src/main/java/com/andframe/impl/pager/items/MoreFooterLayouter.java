@@ -12,6 +12,7 @@ import com.andframe.api.viewer.ItemsViewer;
  */
 
 public class MoreFooterLayouter<T> implements MoreLayouter {
+
     private MoreFooter mMoreFooter;
     private HeaderFooterAdapter<T> mAdapter;
 

@@ -42,6 +42,9 @@ public class ItemsAbsListViewWrapper<T extends AbsListView> implements ItemsView
             mItemsView.setOnScrollListener(null);
         } else {
             mItemsView.setOnScrollListener(new AbsListView.OnScrollListener() {
+
+                long lastTime = 0;
+
                 @Override
                 public void onScrollStateChanged(AbsListView view, int scrollState) {
                 }
@@ -49,7 +52,11 @@ public class ItemsAbsListViewWrapper<T extends AbsListView> implements ItemsView
                 public void onScroll(AbsListView view, int firstVisibleItem, int visibleItemCount, int totalItemCount) {
                     if ((mItemsView != null && mItemsView.getAdapter() != null)
                             && mItemsView.getLastVisiblePosition() == (mItemsView.getAdapter().getCount() - 1)) {
-                        listener.onScrollToBottom();
+                        long time = System.currentTimeMillis();
+                        if (time - lastTime > 1000) {
+                            listener.onScrollToBottom();
+                            lastTime = time;
+                        }
                     }
                 }
             });
