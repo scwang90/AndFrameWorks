@@ -167,7 +167,7 @@
 
     <style name="AndFrame.Label.Title.Large">
         <item name="android:textSize">@dimen/dimenTextTitleLarge</item>
-        <item name="android:textStyle">bold</item>
+        <!--<item name="android:textStyle">bold</item>-->
     </style>
 
     <style name="AndFrame.Label.Title.Small">
