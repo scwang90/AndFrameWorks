@@ -470,6 +470,23 @@
         <item name="android:layout_height">wrap_content</item>
     </style>
 
+    <style name="AndFrame.CommonBar.Content.Bar">
+        <item name="android:layout_width">match_parent</item>
+        <item name="android:paddingTop">13dp</item>
+        <item name="android:paddingBottom">13dp</item>
+        <item name="android:paddingLeft">@dimen/dimenPaddingHorizontal</item>
+        <item name="android:paddingRight">@dimen/dimenPaddingHorizontal</item>
+        <item name="android:drawableEnd">@drawable/af_arrow_right_primary</item>
+        <item name="android:drawableRight">@drawable/af_arrow_right_primary</item>
+        <item name="android:background">?android:attr/selectableItemBackground</item>
+    </style>
+
+    <style name="AndFrame.CommonBar.Content.Bar.Gray">
+        <item name="android:drawableEnd">@drawable/af_arrow_right_gray</item>
+        <item name="android:drawableRight">@drawable/af_arrow_right_gray</item>
+    </style>
+
+
     <style name="AndFrame.CommonBar.Content.Value">
         <item name="android:layout_width">0dp</item>
         <item name="android:layout_weight">1</item>
@@ -502,7 +519,6 @@
     </style>
 
     <style name="AndFrame.CommonBar.Value.Arrow.Gray">
-
         <item name="android:drawableRight">@drawable/af_arrow_right_gray</item>
     </style>
 
