@@ -87,7 +87,7 @@ public class Page implements Paging {
      * @return （从0开始）
      */
     public int pageIndex() {
-        return FirstResult / MaxResult;
+        return FirstResult / Math.max(MaxResult,1);
     }
 
     @Override

@@ -9,6 +9,7 @@ import android.graphics.Rect;
 import android.graphics.RectF;
 import android.graphics.Typeface;
 import android.graphics.drawable.Drawable;
+import android.support.annotation.ColorInt;
 import android.support.annotation.ColorRes;
 import android.support.annotation.DimenRes;
 import android.support.annotation.DrawableRes;
@@ -615,7 +616,7 @@ public interface ViewQuery<T extends ViewQuery<T>> {
      * 设置当前选中 TextView 的字体颜色（TextColor）. ARGB格式的颜色值，注意不是颜色Id
      * @param color ARGB格式的颜色值，注意不是颜色Id
      */
-    T textColor(int color);
+    T textColor(@ColorInt int color);
 
     /**
      * 设置当前选中 TextView 的字体颜色（TextColor）. 颜色资源Id
