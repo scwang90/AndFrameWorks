@@ -124,6 +124,11 @@ public class ApCommonBarBinder {
     private ViewQuery<? extends ViewQuery> $$;
     private boolean smart = false;
     private boolean readOnly = false;
+    private List<Binder> binders = new ArrayList<>();
+
+    public List<Binder> binders() {
+        return new ArrayList<>(binders);
+    }
 
     public ApCommonBarBinder(Viewer viewer) {
         this.viewer = viewer;
@@ -155,71 +160,105 @@ public class ApCommonBarBinder {
     }
 
     public TextBinder text(@IdRes int idValue) {
-        return new TextBinder(idValue);
+        TextBinder binder = new TextBinder(idValue);
+        binders.add(binder);
+        return binder;
     }
 
     public TextBinder textLines(@IdRes int idValue) {
-        return new TextLinesBinder(idValue);
+        TextLinesBinder binder = new TextLinesBinder(idValue);
+        binders.add(binder);
+        return binder;
     }
 
     public SelectNumber number(@IdRes int idValue) {
-        return new SelectNumber(idValue);
+        SelectNumber binder = new SelectNumber(idValue);
+        binders.add(binder);
+        return binder;
     }
 
     public SelectFloat numberFloat(@IdRes int idValue) {
-        return new SelectFloat(idValue);
+        SelectFloat binder = new SelectFloat(idValue);
+        binders.add(binder);
+        return binder;
     }
 
     public SelectNumberPicker numberPicker(@IdRes int idValue) {
-        return new SelectNumberPicker(idValue);
+        SelectNumberPicker binder = new SelectNumberPicker(idValue);
+        binders.add(binder);
+        return binder;
     }
 
     public InputBinder input(@IdRes int idValue) {
-        return new InputBinder(idValue);
+        InputBinder binder = new InputBinder(idValue);
+        binders.add(binder);
+        return binder;
     }
 
     public SelectBinder select(@IdRes int idValue, CharSequence... items) {
-        return new SelectBinder(idValue, items);
+        SelectBinder binder = new SelectBinder(idValue, items);
+        binders.add(binder);
+        return binder;
     }
 
     public CheckBinder check(@IdRes int idValue) {
-        return new CheckBinder(idValue);
+        CheckBinder binder = new CheckBinder(idValue);
+        binders.add(binder);
+        return binder;
     }
 
     public SwitchBinder switcher(@IdRes int idValue) {
-        return new SwitchBinder(idValue);
+        SwitchBinder binder = new SwitchBinder(idValue);
+        binders.add(binder);
+        return binder;
     }
 
     public SeekBarBinder seek(@IdRes int idValue) {
-        return new SeekBarBinder(idValue);
+        SeekBarBinder binder = new SeekBarBinder(idValue);
+        binders.add(binder);
+        return binder;
     }
 
     public DateBinder date(@IdRes int idValue) {
-        return new DateBinder(idValue);
+        DateBinder binder = new DateBinder(idValue);
+        binders.add(binder);
+        return binder;
     }
 
     public MonthBinder month(@IdRes int idValue) {
-        return new MonthBinder(idValue);
+        MonthBinder binder = new MonthBinder(idValue);
+        binders.add(binder);
+        return binder;
     }
 
     public TimeBinder time(@IdRes int idValue) {
-        return new TimeBinder(idValue);
+        TimeBinder binder = new TimeBinder(idValue);
+        binders.add(binder);
+        return binder;
     }
 
     public DateTimeBinder datetime(@IdRes int idValue) {
-        return new DateTimeBinder(idValue);
+        DateTimeBinder binder = new DateTimeBinder(idValue);
+        binders.add(binder);
+        return binder;
     }
 
     public MultiChoiceBinder multiChoice(@IdRes int idValue, CharSequence[] items) {
-        return new MultiChoiceBinder(idValue, items);
+        MultiChoiceBinder binder = new MultiChoiceBinder(idValue, items);
+        binders.add(binder);
+        return binder;
     }
 
     public ActivityBinder activity(@IdRes int idValue, Class<? extends Activity> clazz, Object... args) {
-        return new ActivityBinder(idValue, clazz, args);
+        ActivityBinder binder = new ActivityBinder(idValue, clazz, args);
+        binders.add(binder);
+        return binder;
     }
 
     public FragmentBinder fragment(@IdRes int idValue, Class<? extends Fragment> clazz, Object... args) {
-        return new FragmentBinder(idValue, clazz, args);
+        FragmentBinder binder = new FragmentBinder(idValue, clazz, args);
+        binders.add(binder);
+        return binder;
     }
 
     public ImageBinder image(@IdRes int idImage) {
@@ -245,12 +284,26 @@ public class ApCommonBarBinder {
         protected Runnable action;
         protected ClickHook clickHook;
         protected TaskBuilder<VT> taskBuilder;
+        protected boolean readOnly = ApCommonBarBinder.this.readOnly;
 
         Binder(int idValue) {
             this.idValue = idValue;
             if (!readOnly) {
                 $(idValue).clicked(this);
             }
+        }
+
+        public int idValue() {
+            return idValue;
+        }
+
+        public boolean readOnly() {
+            return readOnly;
+        }
+
+        public T readOnly(boolean value) {
+            readOnly = value;
+            return self();
         }
 
         public ViewQuery<? extends ViewQuery> query() {
@@ -358,7 +411,9 @@ public class ApCommonBarBinder {
 
         @Override
         public void onClick(View v) {
-            performStart();
+            if (!readOnly) {
+                performStart();
+            }
         }
 
         private void performStart() {
@@ -913,6 +968,12 @@ public class ApCommonBarBinder {
 
         @Override
         public void start() {
+            //todo 实现 action
+            DialogInterface.OnClickListener click = TextUtils.isEmpty(actionTitle) ? null : (dialog, which) -> {
+                if (action != null) {
+                    action.run();
+                }
+            };
             $.dialog(viewer).inputText(hint, lastval == null ? $(idValue).text().replace(valueSuffix,"") : lastval, type, this);
         }
 
@@ -1288,6 +1349,61 @@ public class ApCommonBarBinder {
             });
         }
 
+        /**
+         * 指定为残疾证的验证格式
+         */
+        public TextBinder verifyIdDisability(String... names) {
+            CharSequence name = getName("有效证件号", names);
+            inputType(InputType.TYPE_CLASS_TEXT);
+            return this.verify(text -> {
+                if (TextUtils.isEmpty(text)) {
+                    throw new VerifyException("请输入" + name);
+                }
+                int[] n = new int[]{1, 0, (int)'x', 9, 8, 7, 6, 5, 4, 3, 2};
+                int[] b = new int[]{7, 9, 10, 5, 8, 4, 2, 1, 6, 3, 7, 9, 10, 5, 8, 4, 2};
+                if (text.length() != 15 && text.length() != 18 && text.length() != 20 ) {
+                    throw new VerifyException(name + "必须为 15 位或 18 位或 20 位");
+                }
+                if (text.length() == 20) {
+                    char type = text.charAt(18);
+                    char grade = text.charAt(19);
+                    if (type < '1' || type > '7') {
+                        throw new VerifyException(name + "中残疾类别代码必须位 1~7");
+                    }
+                    if (grade < '1' || grade > '4') {
+                        throw new VerifyException(name + "中残疾等级代码必须位 1~4");
+                    }
+                }
+                String idText = text.length() == 20 ? text.substring(0,18) : text;
+                String o = idText.length() == 18 ? idText.substring(0, 17) : idText.substring(0, 6) + "19" + idText.substring(6, 14);//id.substring(6, 16);
+                if(!o.matches("^\\d+$")){//if (!/^\d+$/.test(o)) {
+                    throw new VerifyException(name + "除最后一位外，必须为数字！");
+                }
+                int y = Integer.valueOf(o.substring(6, 10));
+                int m = Integer.valueOf(o.substring(10, 12)) - 1;
+                int d = Integer.valueOf(o.substring(12, 14));
+                Calendar birth = Calendar.getInstance();
+                birth.set(Calendar.YEAR, y);
+                birth.set(Calendar.MONTH, m);
+                birth.set(Calendar.DAY_OF_MONTH, d);
+                int ly = birth.get(Calendar.YEAR);
+                int lm = birth.get(Calendar.MONTH);
+                int ld = birth.get(Calendar.DAY_OF_MONTH);
+                Calendar now = Calendar.getInstance();
+                if (ly != y || lm != m || ld != d || birth.after(now) || now.get(Calendar.YEAR) - ly > 140) {
+                    throw new VerifyException(name + "出生年月输入错误！");
+                }
+//                int g = 0,h = 0;
+//                for (; g < 17; g++) {
+//                    h = h + Integer.valueOf(o.charAt(g)+"") * b[g];
+//                }
+//                o += ""+n[h %= 11];
+//                if (idText.length() == 18 && !idText.toLowerCase(Locale.ENGLISH).equals(o)) {
+//                    throw new VerifyException(name + "最后一位校验码输入错误，正确校验码为：" + o.substring(17, 18) + "！");
+//                }
+                return text;
+            });
+        }
         /**
          * 验证 Float 的金额范围
          */
