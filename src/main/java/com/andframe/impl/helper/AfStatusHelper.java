@@ -258,8 +258,9 @@ public class AfStatusHelper<T> extends AfLoadHelper<T> implements StatusHelper<T
         if (mPager.isEmpty(data)) {
             mPager.showStatus(StatusLayouter.Status.empty);
         } else {
-            mPager.showStatus(StatusLayouter.Status.content);
-            mPager.onTaskLoaded(data);
+//            mPager.showStatus(StatusLayouter.Status.content);
+//            mPager.onTaskLoaded(data);
+            mPager.showContent(data);
         }
     }
 
@@ -341,6 +342,12 @@ public class AfStatusHelper<T> extends AfLoadHelper<T> implements StatusHelper<T
         } else {
             mPager.hideProgressDialog();
         }
+    }
+
+    @Override
+    public void showContent(@NonNull T model) {
+        mPager.showStatus(StatusLayouter.Status.content);
+        mPager.onTaskLoaded(model);
     }
 
     public void showProgress() {

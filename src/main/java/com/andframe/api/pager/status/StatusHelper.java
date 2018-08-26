@@ -114,6 +114,7 @@ public interface StatusHelper<T> extends LoadHelper<T>, EmptyVerdicter<T> {
     void showInvalidNet();
     void showProgress();
     void showContent();
+    void showContent(@NonNull T model);
     void showProgress(@NonNull String progress);
     void showError(@NonNull String error);
     void showStatus(StatusLayouter.Status status, String... msg);

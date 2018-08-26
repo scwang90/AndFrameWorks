@@ -430,6 +430,11 @@ public class AfItemsHelper<T> extends AfStatusHelper<List<T>> implements ItemsHe
     }
 
     @Override
+    public void showContent(@NonNull List<T> model) {
+        mAdapter.set(model);
+    }
+
+    @Override
     public void finishRefresh() {
         if (mRefreshLayouter != null && mRefreshLayouter.isRefreshing()) {
             mRefreshLayouter.setRefreshComplete();

@@ -86,14 +86,22 @@ public abstract class AfStatusFragment<T> extends AfLoadFragment<T> implements S
         mStatusHelper.showStatus(status, msg);
     }
 
+    @Override
     public void showEmpty() {
         mStatusHelper.showEmpty();
     }
 
+    @Override
     public void showContent() {
         mStatusHelper.showContent();
     }
 
+    @Override
+    public void showContent(@NonNull T model) {
+        mStatusHelper.showContent(model);
+    }
+
+    @Override
     public void showProgress() {
         mStatusHelper.showProgress();
     }
@@ -103,6 +111,7 @@ public abstract class AfStatusFragment<T> extends AfLoadFragment<T> implements S
         mStatusHelper.showInvalidNet();
     }
 
+    @Override
     public void showProgress(@NonNull String progress) {
         mStatusHelper.showProgress(progress);
     }
