@@ -1710,6 +1710,31 @@ public class AfViewQuery<T extends AfViewQuery<T>> implements ViewQuery<T> {
     public T drawableBottom(@DrawableRes int id) {
         return foreach(TextView.class, (ViewEacher<TextView>) view -> view.setCompoundDrawablesWithIntrinsicBounds(null, null, null, getDrawable(getContext(),id)));
     }
+
+    @Nullable
+    @Override
+    public Drawable drawableLeft() {
+        return foreach(TextView.class, view -> view.getCompoundDrawables()[0]);
+    }
+
+    @Nullable
+    @Override
+    public Drawable drawableTop() {
+        return foreach(TextView.class, view -> view.getCompoundDrawables()[1]);
+    }
+
+    @Nullable
+    @Override
+    public Drawable drawableRight() {
+        return foreach(TextView.class, view -> view.getCompoundDrawables()[2]);
+    }
+
+    @Nullable
+    @Override
+    public Drawable drawableBottom() {
+        return foreach(TextView.class, view -> view.getCompoundDrawables()[3]);
+    }
+
     //</editor-fold>
 
     //</editor-fold>
