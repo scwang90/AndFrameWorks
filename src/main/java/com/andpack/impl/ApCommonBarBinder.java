@@ -337,6 +337,7 @@ public class ApCommonBarBinder {
                 View next = $(idValue).toNext().view();
                 if(prev instanceof TextView
                         && (next instanceof ImageView
+                        || $(idValue).drawableRight() != null
                         || (next != null && View.class.equals(next.getClass()))
                         || $(idValue).view() instanceof Button)) {
                     if ("".contentEquals(name) && hintPrefix.equals(hint)) {
