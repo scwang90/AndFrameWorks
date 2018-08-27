@@ -234,6 +234,10 @@ public class AndFrame {
         AfDispatcher.dispatch(runnable, delay);
     }
 
+    public static void dispatch(long delay, Runnable runnable){
+        AfDispatcher.dispatch(runnable, delay);
+    }
+
     public static Api get() {
         return api;
     }
