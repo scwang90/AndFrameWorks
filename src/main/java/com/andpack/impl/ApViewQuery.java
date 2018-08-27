@@ -1,5 +1,6 @@
 package com.andpack.impl;
 
+import android.view.ViewGroup;
 import android.widget.ImageView;
 
 import com.andframe.api.viewer.Viewer;
@@ -25,21 +26,26 @@ public class ApViewQuery extends AfViewQuery<ApViewQuery> {
             }
             String furl = url;
             return foreach(ImageView.class, (view)-> {
-                ImageLoader.getInstance().displayImage(furl,view);
+//                ViewGroup.LayoutParams params = view.getLayoutParams();
+//                if (params != null && params.height > 0 && params.width > 0) {
+//                    ImageLoader.getInstance().displayImage(furl, view, new ImageSize(params.width, params.height));
+//                } else {
+                    ImageLoader.getInstance().displayImage(furl, view);
+//                }
             });
         }
         return self();
     }
 
     @Override
-    public ApViewQuery image(String url, int widthpx, int heightpx) {
+    public ApViewQuery image(String url, int widthPx, int heightPx) {
         if (url != null && url.length() > 0) {
             if (url.startsWith("/")) {
                 url = "file://" + url;
             }
             String furl = url;
             return foreach(ImageView.class, (view)-> {
-                ImageLoader.getInstance().displayImage(furl, view, new ImageSize(widthpx, heightpx));
+                ImageLoader.getInstance().displayImage(furl, view, new ImageSize(widthPx, heightPx));
             });
         }
         return self();

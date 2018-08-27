@@ -69,6 +69,15 @@ public class ApStatusBarUtil {
             window.getDecorView().setSystemUiVisibility(systemUiVisibility);
         }
     }
+
+    public static void color(Activity activity, int color) {
+        if (Build.VERSION.SDK_INT >= 21) {
+            Window window = activity.getWindow();
+            window.clearFlags(WindowManager.LayoutParams.FLAG_TRANSLUCENT_STATUS);
+            window.addFlags(WindowManager.LayoutParams.FLAG_DRAWS_SYSTEM_BAR_BACKGROUNDS);
+            window.setStatusBarColor(color);
+        }
+    }
     //</editor-fold>
 
     //<editor-fold desc="DarkMode">
@@ -100,6 +109,17 @@ public class ApStatusBarUtil {
 
     public static void darkMode(Activity activity, int color, @FloatRange(from = 0.0, to = 1.0) float alpha) {
         darkMode(activity.getWindow(), color, alpha);
+    }
+
+    public static void darkOnly(Activity activity) {
+        Window window = activity.getWindow();
+        if (isFlyme4Later()) {
+            darkModeForFlyme4(window, true);
+        } else if (isMIUI6Later()) {
+            darkModeForMIUI6(window, true);
+        } else if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M) {
+            darkModeForM(window, true);
+        }
     }
 
     /** 设置状态栏darkMode,字体颜色及icon变黑(目前支持MIUI6以上,Flyme4以上,Android M以上) */
