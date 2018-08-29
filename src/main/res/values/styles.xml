@@ -426,8 +426,8 @@
 
     <style name="AndFrame.CommonBar.Bar">
         <item name="android:gravity">center_vertical</item>
-        <item name="android:paddingTop">3dp</item>
-        <item name="android:paddingBottom">3dp</item>
+        <item name="android:paddingTop">@dimen/dimenPaddingMin</item>
+        <item name="android:paddingBottom">@dimen/dimenPaddingMin</item>
         <item name="android:paddingLeft">@dimen/dimenPaddingCommon</item>
         <item name="android:paddingRight">@dimen/dimenPaddingCommon</item>
         <!--<item name="android:paddingTop">@dimen/dimenPaddingDiminutive</item>-->
@@ -472,8 +472,8 @@
 
     <style name="AndFrame.CommonBar.Content.Bar">
         <item name="android:layout_width">match_parent</item>
-        <item name="android:paddingTop">13dp</item>
-        <item name="android:paddingBottom">13dp</item>
+        <item name="android:paddingTop">@dimen/dimenPaddingCommon</item>
+        <item name="android:paddingBottom">@dimen/dimenPaddingCommon</item>
         <item name="android:paddingLeft">@dimen/dimenPaddingHorizontal</item>
         <item name="android:paddingRight">@dimen/dimenPaddingHorizontal</item>
         <item name="android:drawableEnd">@drawable/af_arrow_right_primary</item>
