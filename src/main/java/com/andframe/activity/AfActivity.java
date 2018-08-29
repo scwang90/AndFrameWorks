@@ -32,6 +32,7 @@ import com.andframe.feature.AfIntent;
 import com.andframe.fragment.AfFragment;
 import com.andframe.impl.helper.AfViewQueryHelper;
 import com.andframe.task.AfDispatcher;
+import com.andframe.util.java.AfDateGuid;
 import com.andframe.util.java.AfReflecter;
 import com.andframe.util.java.AfStackTrace;
 
@@ -230,7 +231,20 @@ public abstract class AfActivity extends AppCompatActivity implements Pager, Vie
             //handle 可能会根据 Activity 弹窗提示错误信息
             //当前 Activity 即将关闭，提示窗口也会关闭
             //用定时器 等到原始 Activity 再提示弹窗
-            AfDispatcher.dispatch(() -> AfExceptionHandler.handle(e, TAG() + ".onCreated"), 500);
+            AfExceptionHandler.getInstance().saveHandleException(e, TAG() + ".onCreated");
+            AfDispatcher.dispatch(() -> {
+                final Activity activity = $.pager().currentActivity();
+                final String msg = AfExceptionHandler.getInstance().formatException(e, TAG() + ".onCreated");
+                String handlerid;
+                StackTraceElement[] stacks = e.getStackTrace();
+                if (stacks != null && stacks.length > 0) {
+                    handlerid = stacks[0].toString();
+                } else {
+                    handlerid = AfDateGuid.NewID();
+                }
+                AfExceptionHandler.doShowDialog(activity, "异常捕捉", msg, handlerid);
+            },500);
+//            AfDispatcher.dispatch(() -> AfExceptionHandler.handle(e, TAG() + ".onCreated"), 500);
             super.onCreate(bundle);
             makeToastShort("页面启动失败", e);
             this.finish();
@@ -240,7 +254,20 @@ public abstract class AfActivity extends AppCompatActivity implements Pager, Vie
             this.onCreated(bundle);
             LifeCycleInjecter.injectOnCreate(this, bundle);
         } catch (Exception e) {
-            AfDispatcher.dispatch(() -> AfExceptionHandler.handle(e, TAG() + ".onCreated"), 500);
+            AfExceptionHandler.getInstance().saveHandleException(e, TAG() + ".onCreated");
+            AfDispatcher.dispatch(() -> {
+                final Activity activity = $.pager().currentActivity();
+                final String msg = AfExceptionHandler.getInstance().formatException(e, TAG() + ".onCreated");
+                String handlerid;
+                StackTraceElement[] stacks = e.getStackTrace();
+                if (stacks != null && stacks.length > 0) {
+                    handlerid = stacks[0].toString();
+                } else {
+                    handlerid = AfDateGuid.NewID();
+                }
+                AfExceptionHandler.doShowDialog(activity, "异常捕捉", msg, handlerid);
+            },500);
+//            AfDispatcher.dispatch(() -> AfExceptionHandler.handle(e, TAG() + ".onCreated"), 500);
             makeToastShort("页面启动失败", e);
             this.finish();
         }
