@@ -756,6 +756,17 @@ public class AfViewQuery<T extends AfViewQuery<T>> implements ViewQuery<T> {
             return null;
         });
     }
+
+    @Override
+    public Bitmap screenshot() {
+        return foreach(view -> {
+            view.setDrawingCacheEnabled(true);
+            Bitmap bitmap = Bitmap.createBitmap(view.getDrawingCache());
+            view.setDrawingCacheEnabled(false);
+            return bitmap;
+        });
+    }
+
     //</editor-fold>
 
     //<editor-fold desc="尺寸边距">

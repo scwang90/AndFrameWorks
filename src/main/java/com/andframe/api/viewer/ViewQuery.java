@@ -381,6 +381,11 @@ public interface ViewQuery<T extends ViewQuery<T>> {
      */
     Rect padding();
 
+    /**
+     * 获取当前选中View 的屏幕截图
+     */
+    Bitmap screenshot();
+
     //</editor-fold>
 
     //<editor-fold desc="边距尺寸">
