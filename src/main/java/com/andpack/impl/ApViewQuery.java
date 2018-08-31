@@ -1,6 +1,5 @@
 package com.andpack.impl;
 
-import android.view.ViewGroup;
 import android.widget.ImageView;
 
 import com.andframe.api.viewer.Viewer;
