@@ -87,6 +87,11 @@ public abstract class AfStatusActivity<T> extends AfLoadActivity<T> implements S
     }
 
     @Override
+    public void showEmpty(@NonNull String message) {
+        mStatusHelper.showEmpty(message);
+    }
+
+    @Override
     public void showContent() {
         mStatusHelper.showContent();
     }

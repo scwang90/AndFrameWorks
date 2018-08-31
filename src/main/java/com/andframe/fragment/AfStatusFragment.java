@@ -92,6 +92,11 @@ public abstract class AfStatusFragment<T> extends AfLoadFragment<T> implements S
     }
 
     @Override
+    public void showEmpty(@NonNull String message) {
+        mStatusHelper.showEmpty(message);
+    }
+
+    @Override
     public void showContent() {
         mStatusHelper.showContent();
     }

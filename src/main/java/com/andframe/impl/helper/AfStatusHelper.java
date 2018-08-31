@@ -334,6 +334,15 @@ public class AfStatusHelper<T> extends AfLoadHelper<T> implements StatusHelper<T
         }
     }
 
+    @Override
+    public void showEmpty(@NonNull String message) {
+        if (mStatusLayouter != null && !mStatusLayouter.isEmpty()) {
+            mStatusLayouter.showEmpty(message);
+        } else if ((mRefreshLayouter == null || !mRefreshLayouter.isRefreshing())) {
+            mPager.hideProgressDialog();
+        }
+    }
+
     public void showContent() {
         if (mStatusLayouter != null && !mStatusLayouter.isContent()) {
             mStatusLayouter.showContent();
