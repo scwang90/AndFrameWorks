@@ -12,6 +12,7 @@ import com.scwang.smartrefresh.layout.SmartRefreshLayout;
 import com.scwang.smartrefresh.layout.api.RefreshHeader;
 import com.scwang.smartrefresh.layout.constant.RefreshState;
 import com.scwang.smartrefresh.layout.header.BezierRadarHeader;
+import com.scwang.smartrefresh.layout.header.ClassicsHeader;
 
 import java.util.Date;
 
@@ -23,6 +24,7 @@ import static android.widget.ListPopupWindow.WRAP_CONTENT;
  * Created by SCWANG on 2016/10/21.
  */
 
+@SuppressWarnings("unused")
 public class ApRefreshLayouter implements RefreshLayouter<SmartRefreshLayout> {
 
     protected final SmartRefreshLayout mRefreshLayout;
@@ -88,14 +90,19 @@ public class ApRefreshLayouter implements RefreshLayouter<SmartRefreshLayout> {
     }
 
     @Override
-    public void setRefreshComplete() {
-        mRefreshLayout.finishRefresh();
+    public void finishRefresh(boolean success) {
+        mRefreshLayout.finishRefresh(success);
     }
 
-    @Override
-    public void setRefreshFailed() {
-        mRefreshLayout.finishRefresh(false);
-    }
+    //    @Override
+//    public void setRefreshComplete() {
+//        mRefreshLayout.finishRefresh();
+//    }
+//
+//    @Override
+//    public void setRefreshFailed() {
+//        mRefreshLayout.finishRefresh(false);
+//    }
 
     @Override
     public void setOnRefreshListener(OnRefreshListener listener) {
@@ -108,7 +115,10 @@ public class ApRefreshLayouter implements RefreshLayouter<SmartRefreshLayout> {
 
     @Override
     public void setLastRefreshTime(Date date) {
-
+        final RefreshHeader header = mRefreshLayout.getRefreshHeader();
+        if (header instanceof ClassicsHeader) {
+            ((ClassicsHeader) header).setLastUpdateTime(date);
+        }
     }
 
     @Override
