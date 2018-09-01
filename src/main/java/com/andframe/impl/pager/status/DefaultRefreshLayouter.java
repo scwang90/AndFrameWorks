@@ -86,12 +86,18 @@ public class DefaultRefreshLayouter implements RefreshLayouter<SwipeRefreshLayou
         return mRefreshLayout.isRefreshing();
     }
 
-    public void setRefreshComplete() {
-        mRefreshLayout.setRefreshing(false);
-    }
+//    @Override
+//    public void setRefreshComplete() {
+//        mRefreshLayout.setRefreshing(false);
+//    }
+//
+//    @Override
+//    public void setRefreshFailed() {
+//        mRefreshLayout.setRefreshing(false);
+//    }
 
     @Override
-    public void setRefreshFailed() {
+    public void finishRefresh(boolean success) {
         mRefreshLayout.setRefreshing(false);
     }
 

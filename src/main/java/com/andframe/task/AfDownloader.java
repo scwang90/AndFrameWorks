@@ -618,7 +618,7 @@ public class AfDownloader {
                 mCount = count;
                 mTotal = length;
                 mHandler.sendMessage(mHandler.obtainMessage(DOWNLOAD_PROGRESS, this));
-                while ((read = input.read(buffer)) != -1 && mStatus != Status.canceld/*!mIsCanceled*/) {
+                while ((read = input.read(buffer)) != -1 && mStatus != Status.canceled/*!mIsCanceled*/) {
                     count += read;
                     output.write(buffer, 0, read);
                     percent = (int) (((double) count / length) * 100);
@@ -636,14 +636,14 @@ public class AfDownloader {
                 output.close();
                 input.close();
 
-                if (mStatus == Status.canceld/*mIsCanceled*/) {
+                if (mStatus == Status.canceled/*mIsCanceled*/) {
                     //noinspection ResultOfMethodCallIgnored
                     mTempFile.delete();
                 } else {
                     mPercent = 100;
                     mHandler.sendMessage(mHandler.obtainMessage(DOWNLOAD_FINISH, this));
                 }
-                mStatus = Status.canceld;
+                mStatus = Status.canceled;
                 //mIsCanceled = true;
             } else {
                 mPercent = 100;

@@ -17,8 +17,8 @@ public abstract class AfTask implements Task, OnCancelListener {
 
 	protected abstract void onWorking() throws Exception;
 
-	public boolean isFinish() {
-		return mStatus == Status.finished;
+	public boolean success() {
+		return mStatus == Status.success;
 	}
 
 	public boolean isFail() {
@@ -26,7 +26,7 @@ public abstract class AfTask implements Task, OnCancelListener {
 	}
 
 	public boolean isCanceled() {
-		return mStatus == Status.canceld;
+		return mStatus == Status.canceled;
 	}
 
 	@Override
@@ -43,9 +43,9 @@ public abstract class AfTask implements Task, OnCancelListener {
 	public void run() {
 		try {
 			if (mStatus == Status.prepared) {
-				mStatus = Status.runing;
+				mStatus = Status.running;
 				this.onWorking();
-				mStatus = Status.finished;
+				mStatus = Status.success;
 			}
 		} catch (Throwable e) {
 			mException = e;
@@ -53,7 +53,7 @@ public abstract class AfTask implements Task, OnCancelListener {
 			if (mErrors == null || mErrors.length() == 0) {
 				mErrors = e.toString();
 			}
-			if (mStatus == Status.runing) {
+			if (mStatus == Status.running) {
 				mStatus = Status.failed;
 				this.onException(e);
 			}
@@ -72,7 +72,7 @@ public abstract class AfTask implements Task, OnCancelListener {
 
 	/**
 	 * Task任务执行过程中捕捉到的异常，并对异常信息做处理
-	 * 	之后 isFinish() 将会返回 false
+	 * 	之后 success() 将会返回 false
 	 */
 	protected void onException(Throwable e) {
 		if (AfApp.get().isDebug() && !(e instanceof AfToastException)) {
@@ -85,15 +85,15 @@ public abstract class AfTask implements Task, OnCancelListener {
 	 * 	这个方法可能在异步线程中执行
 	 */
 	public void onCancel() {
-		mStatus = Status.canceld;
+		mStatus = Status.canceled;
 	}
 
 	public boolean prepare() {
 		if (mStatus == Status.none) {
 			try {
-				mStatus = onPrepare() ? Status.prepared : Status.canceld;
+				mStatus = onPrepare() ? Status.prepared : Status.canceled;
 			} catch (Throwable e) {
-				mStatus = Status.canceld;
+				mStatus = Status.canceled;
 				String remark = "AfTask("+getClass().getName()+").onPrepare";
 				AfExceptionHandler.handle(e, remark);
 				return false;

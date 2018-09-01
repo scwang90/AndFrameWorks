@@ -2272,6 +2272,7 @@ public class AfViewQuery<T extends AfViewQuery<T>> implements ViewQuery<T> {
         }).views();
     }
 
+    @Nullable
     @Override
     public View breakView() {
         return foreach(view -> {

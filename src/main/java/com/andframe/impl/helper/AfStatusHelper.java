@@ -65,7 +65,7 @@ public class AfStatusHelper<T> extends AfLoadHelper<T> implements StatusHelper<T
 
         if (mLoadOnViewCreated && mModel == null) {
             mLoadOnViewCreated = false;
-            if (mPager.postTask(new LoadTask()).status() != Task.Status.canceld) {
+            if (mPager.postTask(new LoadTask()).status() != Task.Status.canceled) {
                 mPager.showStatus(StatusLayouter.Status.progress);
             }
         } else if (mModel != null) {
@@ -245,14 +245,14 @@ public class AfStatusHelper<T> extends AfLoadHelper<T> implements StatusHelper<T
         return model == null;
     }
 
-    @Override
-    public void onTaskFinish(@NonNull Task task, T data) {
-        if (task.isFinish()) {
-            mPager.onTaskSucceed(data);
-        } else {
-            mPager.onTaskFailed(task);
-        }
-    }
+//    @Override
+//    public void onTaskFinish(@NonNull Task task, T data) {
+//        if (task.success()) {
+//            mPager.onTaskSucceed(data);
+//        } else {
+//            mPager.onTaskFailed(task);
+//        }
+//    }
 
     public void onTaskSucceed(T data) {
         if (mPager.isEmpty(data)) {
@@ -347,7 +347,7 @@ public class AfStatusHelper<T> extends AfLoadHelper<T> implements StatusHelper<T
         if (mStatusLayouter != null && !mStatusLayouter.isContent()) {
             mStatusLayouter.showContent();
         } else if (mRefreshLayouter != null && mRefreshLayouter.isRefreshing()) {
-            mRefreshLayouter.setRefreshComplete();
+            mRefreshLayouter.finishRefresh(true);
         } else {
             mPager.hideProgressDialog();
         }
@@ -381,7 +381,7 @@ public class AfStatusHelper<T> extends AfLoadHelper<T> implements StatusHelper<T
 
     public void showError(@NonNull String error) {
         if (mRefreshLayouter != null && mRefreshLayouter.isRefreshing()) {
-            mRefreshLayouter.setRefreshComplete();
+            mRefreshLayouter.finishRefresh(false);
         } else if (mStatusLayouter == null || !mStatusLayouter.isProgress()) {
             mPager.hideProgressDialog();
         }

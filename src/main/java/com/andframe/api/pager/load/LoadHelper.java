@@ -43,7 +43,7 @@ public interface LoadHelper<T> extends OnRefreshListener {
      * 在onViewCreated之前设置可以加载任务的执行
      * @param model 数据
      */
-    void setModel(@NonNull T model);
+    void setModel(@Nullable T model);
 
     /**
      * 查找内容视图

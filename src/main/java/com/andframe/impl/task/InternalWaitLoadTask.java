@@ -29,7 +29,7 @@ public class InternalWaitLoadTask<T> extends InternalWaitTask {
     @Override
     protected void onHandle() {
         super.onHandle();
-        if (isFinish()) {
+        if (success()) {
             if (isEmpty(data)) {
                 if (builder.emptyRunnable != null) {
                     builder.emptyRunnable.run();

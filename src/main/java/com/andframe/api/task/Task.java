@@ -13,20 +13,20 @@ public interface Task extends Runnable {
     enum Status {
         none,       //初始态
         prepared,   //已准备
-        canceld,    //已取消
-        runing,     //正在运行
-        finished,   //已完成
+        canceled,    //已取消
+        running,     //正在运行
+        success,   //已完成
         failed,     //已失败
     }
     /**
      * 准备任务
-     * @return true 状态变为 prepared 即将被执行 false 状态变为 canceld 将不会被执行
+     * @return true 状态变为 prepared 即将被执行 false 状态变为 canceled 将不会被执行
      */
     boolean prepare();
 
     /**
      * 取消任务
-     * 状态变为 canceld 将不会被执行
+     * 状态变为 canceled 将不会被执行
      */
     void cancel();
 
@@ -56,5 +56,5 @@ public interface Task extends Runnable {
     /**
      * 通过任务的状态判断任务是否成功执行完成
      */
-    boolean isFinish();
+    boolean success();
 }

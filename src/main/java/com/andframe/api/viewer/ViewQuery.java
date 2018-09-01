@@ -1098,6 +1098,7 @@ public interface ViewQuery<T extends ViewQuery<T>> {
     /**
      * 把当前选中 View 从其父容器中删除，并返回 （第一个选中的 View）
      */
+    @Nullable
     View breakView();
     /**
      * 把当前选中 View 从其父容器中删除，并返回 （所有选中的View）

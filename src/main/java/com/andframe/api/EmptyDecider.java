@@ -7,7 +7,7 @@ import android.support.annotation.Nullable;
  * Created by SCWANG on 2016/12/2.
  */
 
-public interface EmptyVerdicter<T> {
+public interface EmptyDecider<T> {
 
     boolean isEmpty(@Nullable T model);
 

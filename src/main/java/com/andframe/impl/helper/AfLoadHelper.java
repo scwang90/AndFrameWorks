@@ -3,6 +3,7 @@ package com.andframe.impl.helper;
 import android.app.Activity;
 import android.content.Context;
 import android.support.annotation.NonNull;
+import android.support.annotation.Nullable;
 import android.support.v4.view.ViewPager;
 import android.support.v4.widget.NestedScrollView;
 import android.support.v7.widget.RecyclerView;
@@ -60,7 +61,7 @@ public class AfLoadHelper<T> implements LoadHelper<T> {
     }
 
     @Override
-    public void setModel(@NonNull T model) {
+    public void setModel(@Nullable T model) {
         mModel = model;
     }
 
@@ -182,7 +183,7 @@ public class AfLoadHelper<T> implements LoadHelper<T> {
 
     @Override
     public boolean onRefresh() {
-        return mPager.postTask(new LoadTask()).status() != Task.Status.canceld;
+        return mPager.postTask(new LoadTask()).status() != Task.Status.canceled;
     }
 
     @Override
@@ -193,11 +194,15 @@ public class AfLoadHelper<T> implements LoadHelper<T> {
     @Override
     public void onTaskFinish(@NonNull Task task, T data) {
         if (mRefreshLayouter != null && mRefreshLayouter.isRefreshing()) {
-            mRefreshLayouter.setRefreshComplete();
+            mRefreshLayouter.finishRefresh(task.success());
         }
-        if (task.isFinish()) {
+        if (task.success()) {
             mPager.onTaskSucceed(data);
         } else {
+            if (data != null && mModel != data) {
+                mModel = data;
+                mPager.onTaskLoaded(data);
+            }
             mPager.onTaskFailed(task);
         }
     }
@@ -221,7 +226,7 @@ public class AfLoadHelper<T> implements LoadHelper<T> {
 
     public void showError(@NonNull String error) {
         if (mRefreshLayouter != null && mRefreshLayouter.isRefreshing()) {
-            mRefreshLayouter.setRefreshComplete();
+            mRefreshLayouter.finishRefresh(false);
         }
         mPager.makeToastShort(error);
     }

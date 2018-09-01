@@ -10,8 +10,9 @@ import java.util.Date;
  */
 
 public interface RefreshLayouter<T extends ViewGroup> extends Layouter<T> {
-    void setRefreshComplete();
-    void setRefreshFailed();
+//    void setRefreshComplete();
+//    void setRefreshFailed();
+    void finishRefresh(boolean success);
     void setOnRefreshListener(OnRefreshListener listener);
     void setLastRefreshTime(Date date);
 

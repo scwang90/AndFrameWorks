@@ -193,14 +193,20 @@ public abstract class AfItemsFragment<T> extends AfStatusFragment<List<T>> imple
     //</editor-fold>
 
     //<editor-fold desc="页面状态">
-    @Override
-    public void finishRefresh() {
-        mItemsHelper.finishRefresh();
-    }
+//    @Override
+//    public void finishRefresh() {
+//        mItemsHelper.finishRefresh();
+//    }
+//
+//    @Override
+//    public void finishRefreshFail() {
+//        mItemsHelper.finishRefreshFail();
+//    }
+
 
     @Override
-    public void finishRefreshFail() {
-        mItemsHelper.finishRefreshFail();
+    public void finishRefresh(boolean success) {
+        mItemsHelper.finishRefresh(success);
     }
 
     @Override

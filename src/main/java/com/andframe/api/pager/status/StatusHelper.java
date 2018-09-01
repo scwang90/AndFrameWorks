@@ -7,11 +7,9 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.view.ViewGroup.LayoutParams;
 
-import com.andframe.api.EmptyVerdicter;
+import com.andframe.api.EmptyDecider;
 import com.andframe.api.pager.load.LoadHelper;
 import com.andframe.api.task.Task;
-
-import java.util.Date;
 
 /**
  * 多状态页面帮助类接口（自动添加【下拉刷新控件】和【多页状态控件】）
@@ -22,7 +20,7 @@ import java.util.Date;
  * Created by SCWANG on 2016/10/22.
  */
 
-public interface StatusHelper<T> extends LoadHelper<T>, EmptyVerdicter<T> {
+public interface StatusHelper<T> extends LoadHelper<T>, EmptyDecider<T> {
 
     //<editor-fold desc="初始方法">
 
@@ -37,12 +35,6 @@ public interface StatusHelper<T> extends LoadHelper<T>, EmptyVerdicter<T> {
      * @param loadOrNot 执行加载任务或者不执行
      */
     void setLoadTaskOnViewCreated(boolean loadOrNot);
-
-    /**
-     * 在onViewCreated之前设置可以加载任务的执行
-     * @param model 数据
-     */
-    void setModel(@NonNull T model);
 
     /**
      * 查找内容视图
@@ -139,11 +131,5 @@ public interface StatusHelper<T> extends LoadHelper<T>, EmptyVerdicter<T> {
      */
     boolean isLoading();
     //</editor-fold>
-
-    /**
-     * 设置上次刷新时间 (下拉刷新控件可能会用到)
-     * @param time 时间
-     */
-    void setLastRefreshTime(@NonNull Date time);
 
 }
