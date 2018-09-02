@@ -2087,7 +2087,7 @@ public class ApCommonBarBinder {
 
         RadioGroupBinder(int idValue) {
             super(idValue);
-            $(idValue).clicked(null).foreach(RadioGroup.class, (ViewQuery.ViewEacher<RadioGroup>) view -> {
+            $(idValue).clicked(null).foreach(RadioGroup.class, (ViewQuery.ViewIterator<RadioGroup>) view -> {
                 view.setOnCheckedChangeListener(this);
             });
         }

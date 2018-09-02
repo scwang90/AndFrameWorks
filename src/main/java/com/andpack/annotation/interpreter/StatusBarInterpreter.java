@@ -10,7 +10,8 @@ import android.view.View;
 import com.andframe.$;
 import com.andframe.activity.AfFragmentActivity;
 import com.andframe.api.pager.Pager;
-import com.andframe.api.viewer.ViewQuery.ViewEacher;
+import com.andframe.api.viewer.ViewQuery;
+import com.andframe.api.viewer.ViewQuery.ViewIterator;
 import com.andpack.annotation.statusbar.StatusBarMargin;
 import com.andpack.annotation.statusbar.StatusBarMarginType;
 import com.andpack.annotation.statusbar.StatusBarPadding;
@@ -53,32 +54,32 @@ public class StatusBarInterpreter {
         if (statusBar.padding != null) {
             ret = true;
             defaultTranslucent(pager, statusBar.translucent, statusBar.translucentDark);
-            $.query(pager).query(null, statusBar.padding.value()).foreach((ViewEacher<View>) view -> setPaddingSmart(activity,view));
+            $.query(pager).query(null, statusBar.padding.value()).foreach((ViewQuery.ViewIterator<View>) view -> setPaddingSmart(activity,view));
         }
         if (statusBar.paddingS != null) {
             ret = true;
             defaultTranslucent(pager, statusBar.translucent, statusBar.translucentDark);
-            $.query(pager).query(null, statusBar.paddingS.value()).foreach((ViewEacher<View>)view -> setPaddingSmart(activity,view));
+            $.query(pager).query(null, statusBar.paddingS.value()).foreach((ViewQuery.ViewIterator<View>) view -> setPaddingSmart(activity,view));
         }
         if (statusBar.paddingType != null && statusBar.paddingType.value().length > 0) {
             ret = true;
             defaultTranslucent(pager, statusBar.translucent, statusBar.translucentDark);
-            $.query(pager).query(statusBar.paddingType.value()).foreach((ViewEacher<View>) view -> setPaddingSmart(activity,view));
+            $.query(pager).query(statusBar.paddingType.value()).foreach((ViewQuery.ViewIterator<View>) view -> setPaddingSmart(activity,view));
         }
         if (statusBar.margin != null && statusBar.margin.value().length > 0) {
             ret = true;
             defaultTranslucent(pager, statusBar.translucent, statusBar.translucentDark);
-            $.query(pager).query(null, statusBar.margin.value()).foreach((ViewEacher<View>) view -> setMargin(activity,view));
+            $.query(pager).query(null, statusBar.margin.value()).foreach((ViewQuery.ViewIterator<View>) view -> setMargin(activity,view));
         }
         if (statusBar.marginType != null && statusBar.marginType.value().length > 0) {
             ret = true;
             defaultTranslucent(pager, statusBar.translucent, statusBar.translucentDark);
-            $.query(pager).query(statusBar.marginType.value()).foreach((ViewEacher<View>) view -> setMargin(activity,view));
+            $.query(pager).query(statusBar.marginType.value()).foreach((ViewIterator<View>) view -> setMargin(activity,view));
         }
         if (statusBar.marginS != null && statusBar.marginS.value().length > 0) {
             ret = true;
             defaultTranslucent(pager, statusBar.translucent, statusBar.translucentDark);
-            $.query(pager).query(null, statusBar.marginS.value()).foreach((ViewEacher<View>)view -> setMargin(activity,view));
+            $.query(pager).query(null, statusBar.marginS.value()).foreach((ViewQuery.ViewIterator<View>) view -> setMargin(activity,view));
         }
         return ret;
     }

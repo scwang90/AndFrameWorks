@@ -133,9 +133,9 @@ public class ApPagerHelper {
             if (pager.getView() != null) {
                 $.query(pager.getView())
                         .query(Toolbar.class)
-                        .foreach(Toolbar.class, (ViewQuery.ViewEacher<Toolbar>)
+                        .foreach(Toolbar.class, (ViewQuery.ViewIterator<Toolbar>)
                                 view -> view.setNavigationOnClickListener(new SafeListener(
-                                        (View.OnClickListener) v -> pager.getActivity().finish())));
+                                        (View.OnClickListener) v -> pager.finish())));
             }
         } catch (Throwable e) {
             AfExceptionHandler.handle(e, ("ApPagerHelper.onViewCreated 失败"));
