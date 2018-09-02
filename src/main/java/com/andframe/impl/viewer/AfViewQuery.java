@@ -16,7 +16,6 @@ import android.os.Build;
 import android.support.annotation.ColorRes;
 import android.support.annotation.DimenRes;
 import android.support.annotation.DrawableRes;
-import android.support.annotation.LayoutRes;
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
 import android.support.annotation.StringRes;
@@ -26,7 +25,6 @@ import android.support.v4.view.ViewCompat;
 import android.support.v4.view.ViewPager;
 import android.support.v4.widget.DrawerLayout;
 import android.support.v7.widget.LinearLayoutCompat;
-import android.support.v7.widget.RecyclerView;
 import android.text.Editable;
 import android.text.Html;
 import android.text.TextUtils;
@@ -57,7 +55,6 @@ import android.widget.RelativeLayout;
 import android.widget.TextView;
 import android.widget.Toolbar;
 
-import com.andframe.adapter.AfLayoutItemViewerAdapter;
 import com.andframe.api.viewer.ViewQuery;
 import com.andframe.api.viewer.Viewer;
 import com.andframe.application.AfApp;
@@ -82,6 +79,7 @@ import static android.support.v4.content.ContextCompat.getDrawable;
  * 安卓版 JQuery 实现
  * Created by SCWANG on 2016/8/18.
  */
+@SuppressWarnings("WeakerAccess")
 public class AfViewQuery<T extends AfViewQuery<T>> implements ViewQuery<T> {
 
     protected Viewer mRootView = null;
@@ -419,7 +417,7 @@ public class AfViewQuery<T extends AfViewQuery<T>> implements ViewQuery<T> {
 
     //<editor-fold desc="选择遍历">
     @Override
-    public T foreach(ViewEacher<View> eacher) {
+    public T foreach(ViewIterator<View> eacher) {
         if (mTargetViews != null) {
             for (View view : mTargetViews) {
                 if (view != null) {
@@ -431,7 +429,7 @@ public class AfViewQuery<T extends AfViewQuery<T>> implements ViewQuery<T> {
     }
 
     @Override
-    public <TT> T foreach(Class<TT> clazz, ViewEacher<TT> eacher) {
+    public <TT> T foreach(Class<TT> clazz, ViewIterator<TT> eacher) {
         if (mTargetViews != null) {
             for (View view : mTargetViews) {
                 if (view != null && clazz.isInstance(view)) {
@@ -443,7 +441,7 @@ public class AfViewQuery<T extends AfViewQuery<T>> implements ViewQuery<T> {
     }
 
     @Override
-    public <TTT> TTT foreach(ViewReturnEacher<View, TTT> eacher) {
+    public <TTT> TTT foreach(ViewReturnIterator<View, TTT> eacher) {
         if (mTargetViews != null) {
             for (View view : mTargetViews) {
                 if (view != null) {
@@ -458,12 +456,12 @@ public class AfViewQuery<T extends AfViewQuery<T>> implements ViewQuery<T> {
     }
 
     @Override
-    public <TT, TTT> TTT foreach(Class<TT> clazz, ViewReturnEacher<TT, TTT> eacher) {
+    public <TT, TTT> TTT foreach(Class<TT> clazz, ViewReturnIterator<TT, TTT> eacher) {
         return foreach(clazz, eacher, null);
     }
 
     @Override
-    public <TT, TTT> TTT foreach(Class<TT> clazz, ViewReturnEacher<TT, TTT> eacher, TTT defValue) {
+    public <TT, TTT> TTT foreach(Class<TT> clazz, ViewReturnIterator<TT, TTT> eacher, TTT defValue) {
         if (mTargetViews != null) {
             for (View view : mTargetViews) {
                 if (view != null && clazz.isInstance(view)) {
@@ -534,6 +532,7 @@ public class AfViewQuery<T extends AfViewQuery<T>> implements ViewQuery<T> {
         return null;
     }
 
+    @Nullable
     public <TT extends View> TT  view(int... indexs) {
         //noinspection unchecked
         return (TT)getView(indexs);
@@ -575,29 +574,52 @@ public class AfViewQuery<T extends AfViewQuery<T>> implements ViewQuery<T> {
     //<editor-fold desc="基本设置">
 
     public T id(int id) {
-        return foreach((ViewEacher<View>) view -> view.setId(id));
+        return foreach((ViewIterator<View>) view -> view.setId(id));
     }
 
     public T tag(Object tag) {
-        return foreach((ViewEacher<View>) (view) -> view.setTag(tag));
+        return foreach((ViewIterator<View>) (view) -> view.setTag(tag));
     }
 
     public T tag(int key, Object tag) {
-        return foreach((ViewEacher<View>) (view) -> view.setTag(key, tag));
+        return foreach((ViewIterator<View>) (view) -> view.setTag(key, tag));
     }
 
     public T enabled(boolean enabled) {
-        return foreach((ViewEacher<View>) (view) -> view.setEnabled(enabled));
+        return foreach((ViewIterator<View>) (view) -> view.setEnabled(enabled));
+    }
+
+    @Override
+    public T focusable(boolean focusable) {
+        return foreach((ViewIterator<View>) (view) -> view.setFocusable(focusable));
+    }
+
+    @Override
+    public T focusable(int focusable) {
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
+            return foreach((ViewIterator<View>) (view) -> view.setFocusable(focusable));
+        }
+        return self();
+    }
+
+    @Override
+    public T requestFocus() {
+        return foreach(View.class, (ViewIterator<View>) View::requestFocus);
+    }
+
+    @Override
+    public T clearFocus() {
+        return foreach(View.class, View::clearFocus);
     }
 
     @Override
     public T clickable(boolean clickable) {
-        return foreach((ViewEacher<View>) (view) -> view.setClickable(clickable));
+        return foreach((ViewIterator<View>) (view) -> view.setClickable(clickable));
     }
 
     @Override
     public T visibility(int visibility) {
-        return foreach((ViewEacher<View>) (view) -> view.setVisibility(visibility));
+        return foreach((ViewIterator<View>) (view) -> view.setVisibility(visibility));
     }
 
     @Override
@@ -617,30 +639,30 @@ public class AfViewQuery<T extends AfViewQuery<T>> implements ViewQuery<T> {
     public T background(Drawable drawable) {
         if (Build.VERSION.SDK_INT < 16) {
             //noinspection deprecation
-            return foreach((ViewEacher<View>) view -> view.setBackgroundDrawable(drawable));
+            return foreach((ViewIterator<View>) view -> view.setBackgroundDrawable(drawable));
         } else {
-            return foreach((ViewEacher<View>) view -> view.setBackground(drawable));
+            return foreach((ViewIterator<View>) view -> view.setBackground(drawable));
         }
     }
 
     @Override
     public T backgroundColor(int color) {
-        return foreach((ViewEacher<View>) (view) -> view.setBackgroundColor(color));
+        return foreach((ViewIterator<View>) (view) -> view.setBackgroundColor(color));
     }
 
     @Override
     public T animation(Animation animation) {
-        return foreach((ViewEacher<View>) view -> view.setAnimation(animation));
+        return foreach((ViewIterator<View>) view -> view.setAnimation(animation));
     }
 
     @Override
     public T startAnimation(Animation animation) {
-        return foreach((ViewEacher<View>) view -> view.startAnimation(animation));
+        return foreach((ViewIterator<View>) view -> view.startAnimation(animation));
     }
 
     @Override
     public T layoutParams(LayoutParams params) {
-        return foreach((ViewEacher<View>) view -> view.setLayoutParams(params));
+        return foreach((ViewIterator<View>) view -> view.setLayoutParams(params));
     }
 
     @Override
@@ -677,12 +699,12 @@ public class AfViewQuery<T extends AfViewQuery<T>> implements ViewQuery<T> {
 
     @Override
     public Object tag() {
-        return foreach((ViewReturnEacher<View,Object>) View::getTag);
+        return foreach((ViewReturnIterator<View,Object>) View::getTag);
     }
 
     @Override
     public Object tag(int key) {
-        return foreach((ViewReturnEacher<View, Object>) view -> view.getTag(key));
+        return foreach((ViewReturnIterator<View, Object>) view -> view.getTag(key));
     }
 
     @Override
@@ -786,7 +808,7 @@ public class AfViewQuery<T extends AfViewQuery<T>> implements ViewQuery<T> {
 
     @Override
     public T minWidth(int px) {
-        return foreach((ViewEacher<View>) view -> view.setMinimumWidth(px));
+        return foreach((ViewIterator<View>) view -> view.setMinimumWidth(px));
     }
 
     @Override
@@ -811,7 +833,7 @@ public class AfViewQuery<T extends AfViewQuery<T>> implements ViewQuery<T> {
 
     @Override
     public T minHeight(int px) {
-        return foreach((ViewEacher<View>) view -> view.setMinimumHeight(px));
+        return foreach((ViewIterator<View>) view -> view.setMinimumHeight(px));
     }
 
     @Override
@@ -1149,7 +1171,7 @@ public class AfViewQuery<T extends AfViewQuery<T>> implements ViewQuery<T> {
 
     @Override
     public T padding(int left, int top, int right, int bottom) {
-        return foreach((ViewEacher<View>) view -> view.setPadding(left, top, right, bottom));
+        return foreach((ViewIterator<View>) view -> view.setPadding(left, top, right, bottom));
     }
 
     @Override
@@ -1165,22 +1187,22 @@ public class AfViewQuery<T extends AfViewQuery<T>> implements ViewQuery<T> {
 
     @Override
     public T paddingLeft(int px) {
-        return foreach((ViewEacher<View>) view -> view.setPadding(px, view.getPaddingTop(), view.getPaddingRight(), view.getPaddingBottom()));
+        return foreach((ViewIterator<View>) view -> view.setPadding(px, view.getPaddingTop(), view.getPaddingRight(), view.getPaddingBottom()));
     }
 
     @Override
     public T paddingRight(int px) {
-        return foreach((ViewEacher<View>) view -> view.setPadding(view.getPaddingLeft(), view.getPaddingTop(), px, view.getPaddingBottom()));
+        return foreach((ViewIterator<View>) view -> view.setPadding(view.getPaddingLeft(), view.getPaddingTop(), px, view.getPaddingBottom()));
     }
 
     @Override
     public T paddingTop(int px) {
-        return foreach((ViewEacher<View>) view -> view.setPadding(view.getPaddingLeft(), px, view.getPaddingRight(), view.getPaddingBottom()));
+        return foreach((ViewIterator<View>) view -> view.setPadding(view.getPaddingLeft(), px, view.getPaddingRight(), view.getPaddingBottom()));
     }
 
     @Override
     public T paddingBottom(int px) {
-        return foreach((ViewEacher<View>) view -> view.setPadding(view.getPaddingLeft(), view.getPaddingTop(), view.getPaddingRight(), px));
+        return foreach((ViewIterator<View>) view -> view.setPadding(view.getPaddingLeft(), view.getPaddingTop(), view.getPaddingRight(), px));
     }
 
     @Override
@@ -1256,147 +1278,147 @@ public class AfViewQuery<T extends AfViewQuery<T>> implements ViewQuery<T> {
     @Override
     public T scrollX(int x) {
         if (Build.VERSION.SDK_INT >= 14) {
-            return foreach((ViewEacher<View>) view -> view.setScrollX(x));
+            return foreach((ViewIterator<View>) view -> view.setScrollX(x));
         } else {
-            return foreach((ViewEacher<View>) view -> view.scrollTo(x, view.getScrollY()));
+            return foreach((ViewIterator<View>) view -> view.scrollTo(x, view.getScrollY()));
         }
     }
 
     @Override
     public T scrollY(int y) {
         if (Build.VERSION.SDK_INT >= 14) {
-            return foreach((ViewEacher<View>) view -> view.setScrollY(y));
+            return foreach((ViewIterator<View>) view -> view.setScrollY(y));
         } else {
-            return foreach((ViewEacher<View>) view -> view.scrollTo(view.getScrollX(), y));
+            return foreach((ViewIterator<View>) view -> view.scrollTo(view.getScrollX(), y));
         }
     }
 
     @Override
     public T scrollX(float x) {
         if (Build.VERSION.SDK_INT >= 14) {
-            return foreach((ViewEacher<View>) view -> view.setScrollX((int)(x * Resources.getSystem().getDisplayMetrics().density + 0.5f)));
+            return foreach((ViewIterator<View>) view -> view.setScrollX((int)(x * Resources.getSystem().getDisplayMetrics().density + 0.5f)));
         } else {
-            return foreach((ViewEacher<View>) view -> view.scrollTo((int)(x * Resources.getSystem().getDisplayMetrics().density + 0.5f), view.getScrollY()));
+            return foreach((ViewIterator<View>) view -> view.scrollTo((int)(x * Resources.getSystem().getDisplayMetrics().density + 0.5f), view.getScrollY()));
         }
     }
 
     @Override
     public T scrollY(float y) {
         if (Build.VERSION.SDK_INT >= 14) {
-            return foreach((ViewEacher<View>) view -> view.setScrollY((int)(y * Resources.getSystem().getDisplayMetrics().density + 0.5f)));
+            return foreach((ViewIterator<View>) view -> view.setScrollY((int)(y * Resources.getSystem().getDisplayMetrics().density + 0.5f)));
         } else {
-            return foreach((ViewEacher<View>) view -> view.scrollTo(view.getScrollX(), (int)(y * Resources.getSystem().getDisplayMetrics().density + 0.5f)));
+            return foreach((ViewIterator<View>) view -> view.scrollTo(view.getScrollX(), (int)(y * Resources.getSystem().getDisplayMetrics().density + 0.5f)));
         }
     }
 
     @Override
     public T scaleX(float x) {
-        return foreach((ViewEacher<View>) view -> ViewCompat.setScaleX(view, x));
+        return foreach((ViewIterator<View>) view -> view.setScaleX(x));
     }
 
     @Override
     public T scaleY(float y) {
-        return foreach((ViewEacher<View>) view -> ViewCompat.setScaleY(view, y));
+        return foreach((ViewIterator<View>) view -> view.setScaleY(y));
     }
 
     @Override
     public T translationX(int x) {
-        return foreach((ViewEacher<View>) view -> ViewCompat.setTranslationX(view, x));
+        return foreach((ViewIterator<View>) view -> view.setTranslationX(x));
     }
 
     @Override
     public T translationY(int y) {
-        return foreach((ViewEacher<View>) view -> ViewCompat.setTranslationY(view, y));
+        return foreach((ViewIterator<View>) view -> view.setTranslationY(y));
     }
 
     @Override
     public T translationX(float x) {
-        return foreach((ViewEacher<View>) view -> ViewCompat.setTranslationX(view, x * Resources.getSystem().getDisplayMetrics().density + 0.5f));
+        return foreach((ViewIterator<View>) view -> view.setTranslationX(x * Resources.getSystem().getDisplayMetrics().density + 0.5f));
     }
 
     @Override
     public T translationY(float y) {
-        return foreach((ViewEacher<View>) view -> ViewCompat.setTranslationY(view, y * Resources.getSystem().getDisplayMetrics().density + 0.5f));
+        return foreach((ViewIterator<View>) view -> view.setTranslationY(y * Resources.getSystem().getDisplayMetrics().density + 0.5f));
     }
 
     @Override
     public T translationZ(int y) {
-        return foreach((ViewEacher<View>) view -> ViewCompat.setTranslationZ(view, y));
+        return foreach((ViewIterator<View>) view -> ViewCompat.setTranslationZ(view, y));
     }
 
     @Override
     public T translationZ(float y) {
-        return foreach((ViewEacher<View>) view -> ViewCompat.setTranslationZ(view, y * Resources.getSystem().getDisplayMetrics().density + 0.5f));
+        return foreach((ViewIterator<View>) view -> ViewCompat.setTranslationZ(view, y * Resources.getSystem().getDisplayMetrics().density + 0.5f));
     }
 
     @Override
     public T x(int x) {
-        return foreach((ViewEacher<View>) view -> ViewCompat.setX(view, x));
+        return foreach((ViewIterator<View>) view -> view.setX(x));
     }
 
     @Override
     public T y(int y) {
-        return foreach((ViewEacher<View>) view -> ViewCompat.setY(view, y));
+        return foreach((ViewIterator<View>) view -> view.setY(y));
     }
 
     @Override
     public T z(int z) {
-        return foreach((ViewEacher<View>) view -> ViewCompat.setZ(view, z));
+        return foreach((ViewIterator<View>) view -> ViewCompat.setZ(view, z));
     }
 
     @Override
     public T x(float x) {
-        return foreach((ViewEacher<View>) view -> ViewCompat.setX(view, x * Resources.getSystem().getDisplayMetrics().density + 0.5f));
+        return foreach((ViewIterator<View>) view -> view.setX(x * Resources.getSystem().getDisplayMetrics().density + 0.5f));
     }
 
     @Override
     public T y(float y) {
-        return foreach((ViewEacher<View>) view -> ViewCompat.setY(view, y * Resources.getSystem().getDisplayMetrics().density + 0.5f));
+        return foreach((ViewIterator<View>) view -> view.setY(y * Resources.getSystem().getDisplayMetrics().density + 0.5f));
     }
 
     @Override
     public T z(float z) {
-        return foreach((ViewEacher<View>) view -> ViewCompat.setZ(view, z * Resources.getSystem().getDisplayMetrics().density + 0.5f));
+        return foreach((ViewIterator<View>) view -> ViewCompat.setZ(view, z * Resources.getSystem().getDisplayMetrics().density + 0.5f));
     }
 
     @Override
     public T pivotX(int x) {
-        return foreach((ViewEacher<View>) view -> ViewCompat.setPivotX(view, x));
+        return foreach((ViewIterator<View>) view -> view.setPivotX(x));
     }
 
     @Override
     public T pivotY(int y) {
-        return foreach((ViewEacher<View>) view -> ViewCompat.setPivotY(view, y));
+        return foreach((ViewIterator<View>) view -> view.setPivotY(y));
     }
 
     @Override
     public T pivotX(float x) {
-        return foreach((ViewEacher<View>) view -> ViewCompat.setPivotX(view, x * Resources.getSystem().getDisplayMetrics().density + 0.5f));
+        return foreach((ViewIterator<View>) view -> view.setPivotX(x * Resources.getSystem().getDisplayMetrics().density + 0.5f));
     }
 
     @Override
     public T pivotY(float y) {
-        return foreach((ViewEacher<View>) view -> ViewCompat.setPivotY(view, y * Resources.getSystem().getDisplayMetrics().density + 0.5f));
+        return foreach((ViewIterator<View>) view -> view.setPivotY(y * Resources.getSystem().getDisplayMetrics().density + 0.5f));
     }
 
     @Override
     public T rotationX(float x) {
-        return foreach((ViewEacher<View>) view -> ViewCompat.setRotationX(view, x));
+        return foreach((ViewIterator<View>) view -> view.setRotationX(x));
     }
 
     @Override
     public T rotationY(float y) {
-        return foreach((ViewEacher<View>) view -> ViewCompat.setRotationY(view, y));
+        return foreach((ViewIterator<View>) view -> view.setRotationY(y));
     }
 
     @Override
     public T rotation(float rotation) {
-        return foreach((ViewEacher<View>) view -> ViewCompat.setRotation(view, rotation));
+        return foreach((ViewIterator<View>) view -> view.setRotation(rotation));
     }
 
     @Override
     public T alpha(float x) {
-        return foreach((ViewEacher<View>) view -> ViewCompat.setAlpha(view, x));
+        return foreach((ViewIterator<View>) view -> view.setAlpha(x));
     }
     //</editor-fold>
 
@@ -1407,7 +1429,7 @@ public class AfViewQuery<T extends AfViewQuery<T>> implements ViewQuery<T> {
     //<editor-fold desc="基本设置">
     @Override
     public T text(@StringRes int resid) {
-        return foreach(TextView.class, (ViewEacher<TextView>) (view) -> view.setText(resid));
+        return foreach(TextView.class, (ViewIterator<TextView>) (view) -> view.setText(resid));
     }
 
     @Override
@@ -1422,31 +1444,31 @@ public class AfViewQuery<T extends AfViewQuery<T>> implements ViewQuery<T> {
 
     @Override
     public T text(CharSequence text) {
-        return foreach(TextView.class, (ViewEacher<TextView>) (view) -> view.setText(text));
+        return foreach(TextView.class, (ViewIterator<TextView>) (view) -> view.setText(text));
     }
 
     @Override
     public T hint(CharSequence hint) {
-        return foreach(TextView.class, (ViewEacher<TextView>) (view) -> view.setHint(hint));
+        return foreach(TextView.class, (ViewIterator<TextView>) (view) -> view.setHint(hint));
     }
 
     @Override
     public T hint(int hintId) {
-        return foreach(TextView.class, (ViewEacher<TextView>) (view) -> view.setHint(hintId));
+        return foreach(TextView.class, (ViewIterator<TextView>) (view) -> view.setHint(hintId));
     }
 
     @Override
     public T inputType(int type) {
-        return foreach(TextView.class, (ViewEacher<TextView>) (view) -> view.setInputType(type));
+        return foreach(TextView.class, (ViewIterator<TextView>) (view) -> view.setInputType(type));
     }
     @Override
     public T textSizeId(@DimenRes int id) {
-        return foreach(TextView.class, (ViewEacher<TextView>) (view) -> view.setTextSize(TypedValue.COMPLEX_UNIT_PX, view.getResources().getDimension(id)));
+        return foreach(TextView.class, (ViewIterator<TextView>) (view) -> view.setTextSize(TypedValue.COMPLEX_UNIT_PX, view.getResources().getDimension(id)));
     }
 
     @Override
     public T textColor(ColorStateList color) {
-        return foreach(TextView.class, (ViewEacher<TextView>) (view) -> view.setTextColor(color));
+        return foreach(TextView.class, (ViewIterator<TextView>) (view) -> view.setTextColor(color));
     }
     @Override
     public T textColorListId(@ColorRes int id) {
@@ -1455,7 +1477,7 @@ public class AfViewQuery<T extends AfViewQuery<T>> implements ViewQuery<T> {
 
     @Override
     public T textColor(int color) {
-        return foreach(TextView.class, (ViewEacher<TextView>) (view) -> view.setTextColor(color));
+        return foreach(TextView.class, (ViewIterator<TextView>) (view) -> view.setTextColor(color));
     }
 
     @Override
@@ -1465,28 +1487,28 @@ public class AfViewQuery<T extends AfViewQuery<T>> implements ViewQuery<T> {
 
     @Override
     public T textSize(float size) {
-        return foreach(TextView.class, (ViewEacher<TextView>) (view) -> view.setTextSize(size));
+        return foreach(TextView.class, (ViewIterator<TextView>) (view) -> view.setTextSize(size));
     }
 
     @Override
     public T textSize(int type, float size) {
-        return foreach(TextView.class, (ViewEacher<TextView>) (view) -> view.setTextSize(type,size));
+        return foreach(TextView.class, (ViewIterator<TextView>) (view) -> view.setTextSize(type,size));
     }
 
     @Override
     public T maxLines(int lines) {
-        return foreach(TextView.class, (ViewEacher<TextView>) (view) -> view.setMaxLines(lines));
+        return foreach(TextView.class, (ViewIterator<TextView>) (view) -> view.setMaxLines(lines));
     }
 
     @Override
     public T singleLine(boolean... value) {
-        return foreach(TextView.class, (ViewEacher<TextView>) (view) -> view.setSingleLine(value.length == 0 || value[0]));
+        return foreach(TextView.class, (ViewIterator<TextView>) (view) -> view.setSingleLine(value.length == 0 || value[0]));
     }
 
     @Override
     public T typeface(Typeface typeface) {
         try {
-            return foreach(TextView.class, (ViewEacher<TextView>) (view) -> view.setTypeface(typeface));
+            return foreach(TextView.class, (ViewIterator<TextView>) (view) -> view.setTypeface(typeface));
         } catch (Exception e) {
             e.printStackTrace();
             return self();
@@ -1513,7 +1535,7 @@ public class AfViewQuery<T extends AfViewQuery<T>> implements ViewQuery<T> {
 
     @Override
     public T shadowLayer(float radius, float dx, float dy, int color) {
-        return foreach(TextView.class, (ViewEacher<TextView>) (view) -> view.setShadowLayer(radius, dx, dy, color));
+        return foreach(TextView.class, (ViewIterator<TextView>) (view) -> view.setShadowLayer(radius, dx, dy, color));
     }
 
     //</editor-fold>
@@ -1521,11 +1543,11 @@ public class AfViewQuery<T extends AfViewQuery<T>> implements ViewQuery<T> {
     //<editor-fold desc="基本获取">
 
     public String text() {
-        return foreach(TextView.class, (ViewReturnEacher<TextView, String>) view -> view.getText().toString());
+        return foreach(TextView.class, (ViewReturnIterator<TextView, String>) view -> view.getText().toString());
     }
 
     public String hint() {
-        return foreach(TextView.class, (ViewReturnEacher<TextView, String>) view -> view.getHint().toString());
+        return foreach(TextView.class, (ViewReturnIterator<TextView, String>) view -> view.getHint().toString());
     }
 
     //</editor-fold>
@@ -1533,8 +1555,8 @@ public class AfViewQuery<T extends AfViewQuery<T>> implements ViewQuery<T> {
     //<editor-fold desc="扩展设置">
 
     @Override
-    public T text(TextTransverter transverter) {
-        return foreach(TextView.class, (ViewEacher<TextView>) (view) -> view.setText(transverter.convert(view.getText().toString())));
+    public T text(TextConverter transverter) {
+        return foreach(TextView.class, (ViewIterator<TextView>) (view) -> view.setText(transverter.convert(view.getText().toString())));
     }
 
     @Override
@@ -1551,25 +1573,25 @@ public class AfViewQuery<T extends AfViewQuery<T>> implements ViewQuery<T> {
 
     @Override
     public T text(CharSequence format, Object... args) {
-        return foreach(TextView.class, (ViewEacher<TextView>) (view) -> view.setText(String.format(format+"", args)));
+        return foreach(TextView.class, (ViewIterator<TextView>) (view) -> view.setText(String.format(format+"", args)));
     }
 
     @Override
     public T textElse(CharSequence text, CharSequence defValue) {
-        return foreach(TextView.class, (ViewEacher<TextView>) (view) -> view.setText(TextUtils.isEmpty(text) ? defValue : text));
+        return foreach(TextView.class, (ViewIterator<TextView>) (view) -> view.setText(TextUtils.isEmpty(text) ? defValue : text));
     }
 
     @Override
     public T hint(CharSequence format, Object... args) {
-        return foreach(TextView.class, (ViewEacher<TextView>) (view) -> view.setHint(String.format(format+"", args)));
+        return foreach(TextView.class, (ViewIterator<TextView>) (view) -> view.setHint(String.format(format+"", args)));
     }
 
     @Override
     public T html(String format, Object... args) {
         if (args.length == 0) {
             //noinspection deprecation
-            foreach(WebView.class, (ViewEacher<WebView>) (view) -> view.loadData(format,"text/html;charset=UTF-8",null));
-            return foreach(TextView.class, (ViewEacher<TextView>) (view) -> view.setText(Html.fromHtml(format)));
+            foreach(WebView.class, (ViewIterator<WebView>) (view) -> view.loadData(format,"text/html;charset=UTF-8",null));
+            return foreach(TextView.class, (ViewIterator<TextView>) (view) -> view.setText(Html.fromHtml(format)));
         }
         Context context = null;
         for (int i = 0, len = format.length(), index = 0; i < len; i++) {
@@ -1594,132 +1616,132 @@ public class AfViewQuery<T extends AfViewQuery<T>> implements ViewQuery<T> {
             }
         }
         //noinspection deprecation
-        foreach(WebView.class, (ViewEacher<WebView>) (view) -> view.loadData(String.format(format, args),"text/html;charset=UTF-8",null));
-        return foreach(TextView.class, (ViewEacher<TextView>) (view) -> view.setText(Html.fromHtml(String.format(format, args))));
+        foreach(WebView.class, (ViewIterator<WebView>) (view) -> view.loadData(String.format(format, args),"text/html;charset=UTF-8",null));
+        return foreach(TextView.class, (ViewIterator<TextView>) (view) -> view.setText(Html.fromHtml(String.format(format, args))));
     }
 
     @Override
     public T textFormat(String format) {
-        return foreach(TextView.class, (ViewEacher<TextView>) (view) -> view.setText(String.format(format, view.getText())));
+        return foreach(TextView.class, (ViewIterator<TextView>) (view) -> view.setText(String.format(format, view.getText())));
     }
     //</editor-fold>
 
     //<editor-fold desc="时间设置">
     @Override
     public T time(Date time) {
-        return foreach(TextView.class, (ViewEacher<TextView>) (view) -> view.setText(time == null ? "" : AfDateFormat.TIME.format(time)));
+        return foreach(TextView.class, (ViewIterator<TextView>) (view) -> view.setText(time == null ? "" : AfDateFormat.TIME.format(time)));
     }
 
     @Override
     public T time(@NonNull String format, Date time) {
-        return foreach(TextView.class, (ViewEacher<TextView>) (view) -> view.setText(time == null ? "" : AfDateFormat.format(format, time)));
+        return foreach(TextView.class, (ViewIterator<TextView>) (view) -> view.setText(time == null ? "" : AfDateFormat.format(format, time)));
     }
 
     @Override
     public T time(@NonNull DateFormat format, Date time) {
-        return foreach(TextView.class, (ViewEacher<TextView>) (view) -> view.setText(time == null ? "" : format.format(time)));
+        return foreach(TextView.class, (ViewIterator<TextView>) (view) -> view.setText(time == null ? "" : format.format(time)));
     }
 
     @Override
     public T timeDay(Date time) {
-        return foreach(TextView.class, (ViewEacher<TextView>) (view) -> view.setText(time == null ? "" : AfDateFormat.DAY.format(time)));
+        return foreach(TextView.class, (ViewIterator<TextView>) (view) -> view.setText(time == null ? "" : AfDateFormat.DAY.format(time)));
     }
 
     @Override
     public T timeDate(Date time) {
-        return foreach(TextView.class, (ViewEacher<TextView>) (view) -> view.setText(time == null ? "" : AfDateFormat.DATE.format(time)));
+        return foreach(TextView.class, (ViewIterator<TextView>) (view) -> view.setText(time == null ? "" : AfDateFormat.DATE.format(time)));
     }
 
     @Override
     public T timeFull(Date time) {
-        return foreach(TextView.class, (ViewEacher<TextView>) (view) -> view.setText(time == null ? "" : AfDateFormat.FULL.format(time)));
+        return foreach(TextView.class, (ViewIterator<TextView>) (view) -> view.setText(time == null ? "" : AfDateFormat.FULL.format(time)));
     }
 
     @Override
     public T timeSimple(Date time) {
-        return foreach(TextView.class, (ViewEacher<TextView>) (view) -> view.setText(time == null ? "" : AfDateFormat.SIMPLE.format(time)));
+        return foreach(TextView.class, (ViewIterator<TextView>) (view) -> view.setText(time == null ? "" : AfDateFormat.SIMPLE.format(time)));
     }
 
     @Override
     public T timeStandard(Date time) {
-        return foreach(TextView.class, (ViewEacher<TextView>) (view) -> view.setText(time == null ? "" : AfDateFormat.STANDARD.format(time)));
+        return foreach(TextView.class, (ViewIterator<TextView>) (view) -> view.setText(time == null ? "" : AfDateFormat.STANDARD.format(time)));
     }
 
     @Override
     public T timeDynamic(Date time) {
-        return foreach(TextView.class, (ViewEacher<TextView>) (view) -> view.setText(AfDateFormat.formatTime(time)));
+        return foreach(TextView.class, (ViewIterator<TextView>) (view) -> view.setText(AfDateFormat.formatTime(time)));
     }
 
     @Override
     public T timeDynamicDate(Date time) {
-        return foreach(TextView.class, (ViewEacher<TextView>) (view) -> view.setText(AfDateFormat.formatDate(time)));
+        return foreach(TextView.class, (ViewIterator<TextView>) (view) -> view.setText(AfDateFormat.formatDate(time)));
     }
 
     @Override
     public T timeDynamicDateTime(Date time) {
-        return foreach(TextView.class, (ViewEacher<TextView>) (view) -> view.setText(AfDateFormat.formatDateTime(time)));
+        return foreach(TextView.class, (ViewIterator<TextView>) (view) -> view.setText(AfDateFormat.formatDateTime(time)));
     }
 
     @Override
     public T timeSpan(Date start, Date close, @NonNull String split, String... formats) {
-        return foreach(TextView.class, (ViewEacher<TextView>) (view) -> view.setText(AfDateFormat.formatTimeSpan(start, close, split, formats)));
+        return foreach(TextView.class, (ViewIterator<TextView>) (view) -> view.setText(AfDateFormat.formatTimeSpan(start, close, split, formats)));
     }
     //</editor-fold>
 
     //<editor-fold desc="复合图片">
     @Override
     public T drawablePadding(int padding) {
-        return foreach(TextView.class, (ViewEacher<TextView>) view -> view.setCompoundDrawablePadding(padding));
+        return foreach(TextView.class, (ViewIterator<TextView>) view -> view.setCompoundDrawablePadding(padding));
     }
 
     @Override
     public T drawablePadding(float padding) {
-        return foreach(TextView.class, (ViewEacher<TextView>) view -> view.setCompoundDrawablePadding((int) (getContext().getResources().getDisplayMetrics().density * padding + 0.5f)));
+        return foreach(TextView.class, (ViewIterator<TextView>) view -> view.setCompoundDrawablePadding((int) (getContext().getResources().getDisplayMetrics().density * padding + 0.5f)));
     }
 
     @Override
     public T drawables(@Nullable Drawable left, @Nullable Drawable top, @Nullable Drawable right, @Nullable Drawable bottom) {
-        return foreach(TextView.class, (ViewEacher<TextView>) view -> view.setCompoundDrawables(left, top, right, bottom));
+        return foreach(TextView.class, (ViewIterator<TextView>) view -> view.setCompoundDrawables(left, top, right, bottom));
     }
 
     @Override
     public T drawableLeft(Drawable drawable) {
-        return foreach(TextView.class, (ViewEacher<TextView>) view -> view.setCompoundDrawables(drawable, null, null, null));
+        return foreach(TextView.class, (ViewIterator<TextView>) view -> view.setCompoundDrawables(drawable, null, null, null));
     }
 
     @Override
     public T drawableTop(Drawable drawable) {
-        return foreach(TextView.class, (ViewEacher<TextView>) view -> view.setCompoundDrawables(null, drawable, null, null));
+        return foreach(TextView.class, (ViewIterator<TextView>) view -> view.setCompoundDrawables(null, drawable, null, null));
     }
 
     @Override
     public T drawableRight(Drawable drawable) {
-        return foreach(TextView.class, (ViewEacher<TextView>) view -> view.setCompoundDrawables(null, null, drawable, null));
+        return foreach(TextView.class, (ViewIterator<TextView>) view -> view.setCompoundDrawables(null, null, drawable, null));
     }
 
     @Override
     public T drawableBottom(Drawable drawable) {
-        return foreach(TextView.class, (ViewEacher<TextView>) view -> view.setCompoundDrawables(null, null, null, drawable));
+        return foreach(TextView.class, (ViewIterator<TextView>) view -> view.setCompoundDrawables(null, null, null, drawable));
     }
 
     @Override
     public T drawableLeft(@DrawableRes int id) {
-        return foreach(TextView.class, (ViewEacher<TextView>) view -> view.setCompoundDrawablesWithIntrinsicBounds(getDrawable(getContext(),id), null, null, null));
+        return foreach(TextView.class, (ViewIterator<TextView>) view -> view.setCompoundDrawablesWithIntrinsicBounds(getDrawable(getContext(),id), null, null, null));
     }
 
     @Override
     public T drawableTop(@DrawableRes int id) {
-        return foreach(TextView.class, (ViewEacher<TextView>) view -> view.setCompoundDrawablesWithIntrinsicBounds(null, getDrawable(getContext(),id), null, null));
+        return foreach(TextView.class, (ViewIterator<TextView>) view -> view.setCompoundDrawablesWithIntrinsicBounds(null, getDrawable(getContext(),id), null, null));
     }
 
     @Override
     public T drawableRight(@DrawableRes int id) {
-        return foreach(TextView.class, (ViewEacher<TextView>) view -> view.setCompoundDrawablesWithIntrinsicBounds(null, null, getDrawable(getContext(),id), null));
+        return foreach(TextView.class, (ViewIterator<TextView>) view -> view.setCompoundDrawablesWithIntrinsicBounds(null, null, getDrawable(getContext(),id), null));
     }
 
     @Override
     public T drawableBottom(@DrawableRes int id) {
-        return foreach(TextView.class, (ViewEacher<TextView>) view -> view.setCompoundDrawablesWithIntrinsicBounds(null, null, null, getDrawable(getContext(),id)));
+        return foreach(TextView.class, (ViewIterator<TextView>) view -> view.setCompoundDrawablesWithIntrinsicBounds(null, null, null, getDrawable(getContext(),id)));
     }
 
     @Nullable
@@ -1755,15 +1777,15 @@ public class AfViewQuery<T extends AfViewQuery<T>> implements ViewQuery<T> {
     //<editor-fold desc="基本设置">
     @SuppressWarnings({"unchecked"})
     public T adapter(Adapter adapter) {
-        return foreach(AdapterView.class, (ViewEacher<AdapterView>) (view) -> view.setAdapter(adapter));
+        return foreach(AdapterView.class, (ViewIterator<AdapterView>) (view) -> view.setAdapter(adapter));
     }
 
     public T adapter(ExpandableListAdapter adapter) {
-        return foreach(ExpandableListView.class, (ViewEacher<ExpandableListView>) (view) -> view.setAdapter(adapter));
+        return foreach(ExpandableListView.class, (ViewIterator<ExpandableListView>) (view) -> view.setAdapter(adapter));
     }
 
     public T setSelection(int position) {
-        return foreach(AdapterView.class, (ViewEacher<AdapterView>) view -> view.setSelection(position));
+        return foreach(AdapterView.class, (ViewIterator<AdapterView>) view -> view.setSelection(position));
     }
 
     public T dataChanged() {
@@ -1775,25 +1797,6 @@ public class AfViewQuery<T extends AfViewQuery<T>> implements ViewQuery<T> {
         });
     }
 
-    //</editor-fold>
-
-    //<editor-fold desc="扩展设置">
-    @Override@SuppressWarnings("unchecked")
-    public <TT> T adapter(@LayoutRes int id, List<TT> list, AdapterItemer<TT> itemer) {
-        AfLayoutItemViewerAdapter<TT> adapter = new AfLayoutItemViewerAdapter<TT>(id, list) {
-            @Override
-            protected void onBinding(ViewQuery<? extends ViewQuery> viewQuery, TT model, int index) {
-                itemer.onBinding(viewQuery, model, index);
-            }
-        };
-        return foreach(ViewGroup.class, view -> {
-            if (view instanceof AdapterView) {
-                ((AdapterView) view).setAdapter(adapter);
-            } else if (view instanceof RecyclerView) {
-                ((RecyclerView) view).setAdapter(adapter);
-            }
-        });
-    }
     //</editor-fold>
 
     //<editor-fold desc="基本获取">
@@ -1827,16 +1830,16 @@ public class AfViewQuery<T extends AfViewQuery<T>> implements ViewQuery<T> {
     }
 
     public T image(Drawable drawable) {
-        return foreach(ImageView.class, (ViewEacher<ImageView>) (view) -> view.setImageDrawable(drawable));
+        return foreach(ImageView.class, (ViewIterator<ImageView>) (view) -> view.setImageDrawable(drawable));
     }
 
     public T image(Bitmap bm) {
-        return foreach(ImageView.class, (ViewEacher<ImageView>) (view) -> view.setImageBitmap(bm));
+        return foreach(ImageView.class, (ViewIterator<ImageView>) (view) -> view.setImageBitmap(bm));
     }
 
     public T image(String url) {
         if (url != null && url.length() > 0) {
-            return foreach(ImageView.class, (ViewEacher<ImageView>) (view) -> view.setImageURI(Uri.parse(url)));
+            return foreach(ImageView.class, (ViewIterator<ImageView>) (view) -> view.setImageURI(Uri.parse(url)));
         }
         return self();
     }
@@ -1844,7 +1847,7 @@ public class AfViewQuery<T extends AfViewQuery<T>> implements ViewQuery<T> {
     @Override
     public T image(String url, int widthpx, int heightpx) {
         if (url != null && url.length() > 0) {
-            return foreach(ImageView.class, (ViewEacher<ImageView>) (view) -> view.setImageURI(Uri.parse(url)));
+            return foreach(ImageView.class, (ViewIterator<ImageView>) (view) -> view.setImageURI(Uri.parse(url)));
         }
         return self();
     }
@@ -1861,13 +1864,13 @@ public class AfViewQuery<T extends AfViewQuery<T>> implements ViewQuery<T> {
 
     @Override
     public T scaleType(ImageView.ScaleType scaleType) {
-        return foreach(ImageView.class, (ViewEacher<ImageView>) (view) -> view.setScaleType(scaleType));
+        return foreach(ImageView.class, (ViewIterator<ImageView>) (view) -> view.setScaleType(scaleType));
     }
 
     @Override
     public T imageTintColor(int color) {
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
-            return foreach(ImageView.class, (ViewEacher<ImageView>) (view) -> view.setImageTintList(ColorStateList.valueOf(color)));
+            return foreach(ImageView.class, (ViewIterator<ImageView>) (view) -> view.setImageTintList(ColorStateList.valueOf(color)));
         }
         return self();
     }
@@ -1875,7 +1878,7 @@ public class AfViewQuery<T extends AfViewQuery<T>> implements ViewQuery<T> {
     @Override
     public T imageTintColorId(@ColorRes int colorId) {
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
-            return foreach(ImageView.class, (ViewEacher<ImageView>) (view) -> view.setImageTintList(ContextCompat.getColorStateList(getContext(),colorId)));
+            return foreach(ImageView.class, (ViewIterator<ImageView>) (view) -> view.setImageTintList(ContextCompat.getColorStateList(getContext(),colorId)));
         }
         return self();
     }
@@ -1890,12 +1893,12 @@ public class AfViewQuery<T extends AfViewQuery<T>> implements ViewQuery<T> {
 
     @Override
     public T selection(int start, int stop) {
-        return foreach(EditText.class, (ViewEacher<EditText>) view -> view.setSelection(start, stop));
+        return foreach(EditText.class, (ViewIterator<EditText>) view -> view.setSelection(start, stop));
     }
 
     @Override
     public T selection(int index) {
-        return foreach(EditText.class, (ViewEacher<EditText>) view -> view.setSelection(index));
+        return foreach(EditText.class, (ViewIterator<EditText>) view -> view.setSelection(index));
     }
 
     @Override
@@ -1905,8 +1908,26 @@ public class AfViewQuery<T extends AfViewQuery<T>> implements ViewQuery<T> {
 
     @Override
     public T extendSelection(int index) {
-        return foreach(EditText.class, (ViewEacher<EditText>) view -> view.extendSelection(index));
+        return foreach(EditText.class, (ViewIterator<EditText>) view -> view.extendSelection(index));
     }
+
+    @Override
+    public T selectionToEnd() {
+        return foreach(EditText.class, editText -> {
+            editText.setSelection(editText.getText().length());
+        });
+    }
+
+    @Override
+    public int selectionEnd() {
+        return foreach(EditText.class, EditText::getSelectionEnd);
+    }
+
+    @Override
+    public int selectionStart() {
+        return foreach(EditText.class, EditText::getSelectionStart);
+    }
+
     //</editor-fold>
 
     //<editor-fold desc="RatingBar">
@@ -1915,14 +1936,14 @@ public class AfViewQuery<T extends AfViewQuery<T>> implements ViewQuery<T> {
         return foreach(RatingBar.class, RatingBar::getRating);
     }
     public T rating(float rating) {
-        return foreach(RatingBar.class, (ViewEacher<RatingBar>) (view) -> view.setRating(rating));
+        return foreach(RatingBar.class, (ViewIterator<RatingBar>) (view) -> view.setRating(rating));
     }
     //</editor-fold>
 
     //<editor-fold desc="ProgressBar">
     @Override
     public T progress(int progress) {
-        return foreach(ProgressBar.class,(ViewEacher<ProgressBar>) (view) -> view.setProgress(progress));
+        return foreach(ProgressBar.class,(ViewIterator<ProgressBar>) (view) -> view.setProgress(progress));
     }
 
     @Override
@@ -1937,7 +1958,7 @@ public class AfViewQuery<T extends AfViewQuery<T>> implements ViewQuery<T> {
 
     @Override
     public T secondaryProgress(int secondaryProgress) {
-        return foreach(ProgressBar.class,(ViewEacher<ProgressBar>) (view) -> view.setSecondaryProgress(secondaryProgress));
+        return foreach(ProgressBar.class,(ViewIterator<ProgressBar>) (view) -> view.setSecondaryProgress(secondaryProgress));
     }
 
     @Override
@@ -1947,18 +1968,18 @@ public class AfViewQuery<T extends AfViewQuery<T>> implements ViewQuery<T> {
 
     @Override
     public T max(int max) {
-        return foreach(ProgressBar.class,(ViewEacher<ProgressBar>) (view) -> view.setMax(max));
+        return foreach(ProgressBar.class,(ViewIterator<ProgressBar>) (view) -> view.setMax(max));
     }
     //</editor-fold>
 
     //<editor-fold desc="CompoundButton">
     @Override
     public T toggle() {
-        return foreach(CompoundButton.class,(ViewEacher<CompoundButton>) (view) -> view.setChecked(!view.isChecked()));
+        return foreach(CompoundButton.class,(ViewIterator<CompoundButton>) (view) -> view.setChecked(!view.isChecked()));
     }
 
     public T checked(boolean checked) {
-        return foreach(CompoundButton.class, (ViewEacher<CompoundButton>) (view) -> view.setChecked(checked));
+        return foreach(CompoundButton.class, (ViewIterator<CompoundButton>) (view) -> view.setChecked(checked));
     }
 
     @Override
@@ -1976,7 +1997,7 @@ public class AfViewQuery<T extends AfViewQuery<T>> implements ViewQuery<T> {
 
     @Override
     public T orientation(@LinearLayoutCompat.OrientationMode int orientation) {
-        return foreach(LinearLayout.class, (ViewEacher<LinearLayout>) view -> view.setOrientation(orientation));
+        return foreach(LinearLayout.class, (ViewIterator<LinearLayout>) view -> view.setOrientation(orientation));
     }
     //</editor-fold>
 
@@ -1984,42 +2005,42 @@ public class AfViewQuery<T extends AfViewQuery<T>> implements ViewQuery<T> {
 
     @Override
     public T clicked(View.OnClickListener listener) {
-        return foreach((ViewEacher<View>) view -> view.setOnClickListener(listener==null?null:new SafeListener(listener)));
+        return foreach((ViewIterator<View>) view -> view.setOnClickListener(listener==null?null:new SafeListener(listener)));
     }
 
     @Override
     public T clicked(View.OnClickListener listener, int intervalTime) {
-        return foreach((ViewEacher<View>) view -> view.setOnClickListener(listener==null?null:new SafeListener(listener, intervalTime)));
+        return foreach((ViewIterator<View>) view -> view.setOnClickListener(listener==null?null:new SafeListener(listener, intervalTime)));
     }
 
     @Override
     public T longClicked(View.OnLongClickListener listener) {
-        return foreach((ViewEacher<View>) view -> view.setOnLongClickListener(listener==null?null:new SafeListener(listener)));
+        return foreach((ViewIterator<View>) view -> view.setOnLongClickListener(listener==null?null:new SafeListener(listener)));
     }
 
     @Override
     public T itemClicked(AdapterView.OnItemClickListener listener) {
-        return foreach(AdapterView.class, (ViewEacher<AdapterView>) view -> view.setOnItemClickListener(listener));
+        return foreach(AdapterView.class, (ViewIterator<AdapterView>) view -> view.setOnItemClickListener(listener));
     }
 
     @Override
     public T itemLongClicked(AdapterView.OnItemLongClickListener listener) {
-        return foreach(AdapterView.class, (ViewEacher<AdapterView>) view -> view.setOnItemLongClickListener(listener));
+        return foreach(AdapterView.class, (ViewIterator<AdapterView>) view -> view.setOnItemLongClickListener(listener));
     }
 
     @Override
     public T textChanged(TextWatcher method) {
-        return foreach(TextView.class, (ViewEacher<TextView>) view -> view.addTextChangedListener(method));
+        return foreach(TextView.class, (ViewIterator<TextView>) view -> view.addTextChangedListener(method));
     }
 
     @Override
     public T checkChanged(CompoundButton.OnCheckedChangeListener listener) {
-        return foreach(CompoundButton.class, (ViewEacher<CompoundButton>) view -> view.setOnCheckedChangeListener(listener));
+        return foreach(CompoundButton.class, (ViewIterator<CompoundButton>) view -> view.setOnCheckedChangeListener(listener));
     }
 
     @Override
     public T radioChanged(RadioGroup.OnCheckedChangeListener listener) {
-        return foreach(RadioGroup.class, (ViewEacher<RadioGroup>) view -> view.setOnCheckedChangeListener(listener));
+        return foreach(RadioGroup.class, (ViewIterator<RadioGroup>) view -> view.setOnCheckedChangeListener(listener));
     }
 
     //</editor-fold>
@@ -2056,22 +2077,22 @@ public class AfViewQuery<T extends AfViewQuery<T>> implements ViewQuery<T> {
     //<editor-fold desc="ViewPager">
     @Override
     public T adapter(PagerAdapter adapter) {
-        return foreach(ViewPager.class, (ViewEacher<ViewPager>) (view) -> view.setAdapter(adapter));
+        return foreach(ViewPager.class, (ViewIterator<ViewPager>) (view) -> view.setAdapter(adapter));
     }
 
     @Override
     public T currentItem(int item) {
-        return foreach(ViewPager.class, (ViewEacher<ViewPager>) (view) -> view.setCurrentItem(item));
+        return foreach(ViewPager.class, (ViewIterator<ViewPager>) (view) -> view.setCurrentItem(item));
     }
 
     @Override
     public T currentItem(int item, boolean smoothScroll) {
-        return foreach(ViewPager.class, (ViewEacher<ViewPager>) (view) -> view.setCurrentItem(item, smoothScroll));
+        return foreach(ViewPager.class, (ViewIterator<ViewPager>) (view) -> view.setCurrentItem(item, smoothScroll));
     }
 
     @Override
     public T pageChanged(ViewPager.OnPageChangeListener listener) {
-        return foreach(ViewPager.class, (ViewEacher<ViewPager>) (view) -> view.addOnPageChangeListener(listener));
+        return foreach(ViewPager.class, (ViewIterator<ViewPager>) (view) -> view.addOnPageChangeListener(listener));
     }
 
     @Override
@@ -2098,22 +2119,22 @@ public class AfViewQuery<T extends AfViewQuery<T>> implements ViewQuery<T> {
 
     @Override
     public T removeView(View view) {
-        return foreach(ViewGroup.class, (ViewEacher<ViewGroup>) group -> group.removeView(view));
+        return foreach(ViewGroup.class, (ViewIterator<ViewGroup>) group -> group.removeView(view));
     }
 
     @Override
     public T removeViewAt(int index) {
-        return foreach(ViewGroup.class, (ViewEacher<ViewGroup>) group -> group.removeViewAt(index));
+        return foreach(ViewGroup.class, (ViewIterator<ViewGroup>) group -> group.removeViewAt(index));
     }
 
     @Override
     public T removeViews(int start, int count) {
-        return foreach(ViewGroup.class, (ViewEacher<ViewGroup>) group -> group.removeViews(start, count));
+        return foreach(ViewGroup.class, (ViewIterator<ViewGroup>) group -> group.removeViews(start, count));
     }
 
     @Override
     public T removeViewInLayout(View view) {
-        return foreach(ViewGroup.class, (ViewEacher<ViewGroup>) group -> group.removeViewInLayout(view));
+        return foreach(ViewGroup.class, (ViewIterator<ViewGroup>) group -> group.removeViewInLayout(view));
     }
 
     @Override
@@ -2123,7 +2144,7 @@ public class AfViewQuery<T extends AfViewQuery<T>> implements ViewQuery<T> {
 
     @Override
     public T removeViewsInLayout(int start, int count) {
-        return foreach(ViewGroup.class, (ViewEacher<ViewGroup>) group -> group.removeViewsInLayout(start, count));
+        return foreach(ViewGroup.class, (ViewIterator<ViewGroup>) group -> group.removeViewsInLayout(start, count));
     }
 
     @Override
@@ -2133,12 +2154,12 @@ public class AfViewQuery<T extends AfViewQuery<T>> implements ViewQuery<T> {
 
     @Override
     public T clipToPadding(boolean clip) {
-        return foreach(ViewGroup.class, (ViewEacher<ViewGroup>) view -> view.setClipToPadding(clip));
+        return foreach(ViewGroup.class, (ViewIterator<ViewGroup>) view -> view.setClipToPadding(clip));
     }
 
     @Override
     public T clipChildren(boolean clip) {
-        return foreach(ViewGroup.class, (ViewEacher<ViewGroup>) view -> view.setClipChildren(clip));
+        return foreach(ViewGroup.class, (ViewIterator<ViewGroup>) view -> view.setClipChildren(clip));
     }
 
     //</editor-fold>
@@ -2224,7 +2245,7 @@ public class AfViewQuery<T extends AfViewQuery<T>> implements ViewQuery<T> {
 
     @Override
     public View childAt(int index) {
-        return foreach(ViewGroup.class, (ViewReturnEacher<ViewGroup, View>) view -> view.getChildAt(index));
+        return foreach(ViewGroup.class, (ViewReturnIterator<ViewGroup, View>) view -> view.getChildAt(index));
     }
 
     @Override

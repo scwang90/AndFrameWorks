@@ -6,6 +6,7 @@ import android.view.ViewGroup;
 import com.andframe.adapter.recycler.ViewHolderItem;
 import com.andframe.api.adapter.AnimatedAdapter;
 import com.andframe.api.adapter.ItemsViewerAdapter;
+import com.andframe.impl.wrapper.ListItemAdapterWrapper;
 
 /**
  * 带动画的适配器
@@ -13,7 +14,7 @@ import com.andframe.api.adapter.ItemsViewerAdapter;
  */
 
 @SuppressWarnings("WeakerAccess")
-public class AfAnimatedAdapter<T> extends AfItemsViewerAdapterWrapper<T> implements AnimatedAdapter<T> {
+public class AfAnimatedAdapter<T> extends ListItemAdapterWrapper<T> implements AnimatedAdapter<T> {
 
     private int mLastPosition = -1;
     private boolean mOpenAnimationEnable = true;

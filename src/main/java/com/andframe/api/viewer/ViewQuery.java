@@ -46,7 +46,7 @@ import java.util.Locale;
  * 安卓版 JQuery 接口
  * Created by SCWANG on 2016/8/18.
  */
-@SuppressWarnings("unused")
+@SuppressWarnings({"unused", "UnusedReturnValue"})
 public interface ViewQuery<T extends ViewQuery<T>> {
 
     //<editor-fold desc="选择器">
@@ -191,6 +191,7 @@ public interface ViewQuery<T extends ViewQuery<T>> {
      * 获取选择的 View （默认第一个） （模板返回）
      * @param indexs 可以指定选择的索引
      */
+    @Nullable
     <TT extends View> TT view(int... indexs);
     /**
      * 根据类型 获取选择的 View （默认第一个） （模板返回）
@@ -199,15 +200,16 @@ public interface ViewQuery<T extends ViewQuery<T>> {
     /**
      * 根据类型 获取选择的 View （默认第一个） （模板返回）
      */
+    @Nullable
     <TT extends View> TT view(Class<TT> clazz ,int... indexs);
     //</editor-fold>
 
     //<editor-fold desc="选择遍历">
-    T foreach(ViewEacher<View> eacher);
-    <TT> T foreach(Class<TT> clazz, ViewEacher<TT> eacher);
-    <TTT> TTT foreach(ViewReturnEacher<View,TTT> eacher);
-    <TT,TTT> TTT foreach(Class<TT> clazz, ViewReturnEacher<TT,TTT> eacher);
-    <TT,TTT> TTT foreach(Class<TT> clazz, ViewReturnEacher<TT,TTT> eacherm, TTT defValue);
+    T foreach(ViewIterator<View> eacher);
+    <TT> T foreach(Class<TT> clazz, ViewIterator<TT> eacher);
+    <TTT> TTT foreach(ViewReturnIterator<View,TTT> eacher);
+    <TT,TTT> TTT foreach(Class<TT> clazz, ViewReturnIterator<TT,TTT> eacher);
+    <TT,TTT> TTT foreach(Class<TT> clazz, ViewReturnIterator<TT,TTT> eacherm, TTT defValue);
     //</editor-fold>
 
     //<editor-fold desc="缓存设置">
@@ -247,11 +249,30 @@ public interface ViewQuery<T extends ViewQuery<T>> {
     T visibility(int visibility);
 
     /**
-     * 设置当前选中 View 的 enabled 状态.
      * @param enabled 状态
+     * 设置当前选中 View 的 enabled 状态.
      */
     T enabled(boolean enabled);
 
+    /**
+     * @param focusable 是否可获得焦点
+     * 设置当前选中 View 的 focusable 是否可获得焦点状态.
+     */
+    T focusable(boolean focusable);
+
+    /**
+     * @param focusable 是否可获得焦点
+     * 设置当前选中 View 的 focusable 是否可获得焦点状态.
+     */
+    T focusable(int focusable);
+    /**
+     * Convenience for {@link android.widget.EditText#requestFocus}.
+     */
+    T requestFocus();
+    /**
+     * Convenience for {@link android.widget.EditText#clearFocus}.
+     */
+    T clearFocus();
     /**
      * 设置当前选中 View 的 可点击（clickable） 状态.
      */
@@ -692,7 +713,7 @@ public interface ViewQuery<T extends ViewQuery<T>> {
      * 转换当前选中 TextView 的 文本（text）
      * @param transverter 文本转换器
      */
-    T text(TextTransverter transverter);
+    T text(TextConverter transverter);
 
     /**
      * 设置当前选中 TextView 的 文本（text） 如果内容为空将隐藏 View
@@ -880,10 +901,6 @@ public interface ViewQuery<T extends ViewQuery<T>> {
     
     //</editor-fold>
 
-    //<editor-fold desc="扩展控件">
-    <TT> T adapter(@LayoutRes int id, List<TT> list, AdapterItemer<TT> itemer);
-    //</editor-fold>
-
     //<editor-fold desc="基本获取">
     /**
      * 获取当前选择 AdapterView 的选择项.
@@ -992,6 +1009,11 @@ public interface ViewQuery<T extends ViewQuery<T>> {
      * Convenience for {@link android.widget.EditText#extendSelection}.
      */
     T extendSelection(int index);
+
+    /**
+     * 移动 EditText 光标到末尾
+     */
+    T selectionToEnd();
     //</editor-fold>
 
     //<editor-fold desc="基本获取">
@@ -1000,6 +1022,16 @@ public interface ViewQuery<T extends ViewQuery<T>> {
      * @see EditText#getEditableText()
      */
     Editable editable();
+    /**
+     * 获取当前选中 EditText 的 内容.
+     * @see EditText#getSelectionStart()
+     */
+    int selectionStart();
+    /**
+     * 获取当前选中 EditText 的 内容.
+     * @see EditText#getSelectionEnd()
+     */
+    int selectionEnd();
     //</editor-fold>
 
     //</editor-fold>
@@ -1168,23 +1200,19 @@ public interface ViewQuery<T extends ViewQuery<T>> {
     //</editor-fold>
 
     //<editor-fold desc="子接口定义">
-    interface ViewEacher<TT> {
+    interface ViewIterator<TT> {
         void each(TT view);
     }
 
-    interface ViewReturnEacher<TT, TTT> {
+    interface ViewReturnIterator<TT, TTT> {
         TTT each(TT view);
-    }
-
-    interface AdapterItemer<T> {
-        void onBinding(ViewQuery $, T model, int index);
     }
 
     interface Converter<F, T> {
         T convert(F f);
     }
 
-    interface TextTransverter extends Converter<String,String> {
+    interface TextConverter extends Converter<String,String> {
 
     }
 
