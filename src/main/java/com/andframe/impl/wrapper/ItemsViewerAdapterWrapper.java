@@ -66,7 +66,7 @@ public class ItemsViewerAdapterWrapper<T> extends RecyclerBaseAdapter<ViewHolder
     }
 
     @Override
-    public void unregisterAdapterDataObserver(RecyclerView.AdapterDataObserver observer) {
+    public void unregisterAdapterDataObserver(@NonNull RecyclerView.AdapterDataObserver observer) {
         wrapped.unregisterAdapterDataObserver(observer);
     }
 
