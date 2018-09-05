@@ -7,7 +7,7 @@ import android.view.ViewGroup;
 import android.view.ViewParent;
 
 import com.andframe.api.pager.status.OnRefreshListener;
-import com.andframe.api.pager.status.RefreshLayouter;
+import com.andframe.api.pager.status.RefreshManager;
 import com.scwang.smartrefresh.layout.SmartRefreshLayout;
 import com.scwang.smartrefresh.layout.api.RefreshHeader;
 import com.scwang.smartrefresh.layout.constant.RefreshState;
@@ -25,7 +25,7 @@ import static android.widget.ListPopupWindow.WRAP_CONTENT;
  */
 
 @SuppressWarnings("unused")
-public class ApRefreshLayouter implements RefreshLayouter<SmartRefreshLayout> {
+public class ApRefreshManager implements RefreshManager<SmartRefreshLayout> {
 
     protected final SmartRefreshLayout mRefreshLayout;
 
@@ -33,14 +33,14 @@ public class ApRefreshLayouter implements RefreshLayouter<SmartRefreshLayout> {
         SmartRefreshLayout.setDefaultRefreshHeaderCreator((context, layout) -> new BezierRadarHeader(context));
     }
 
-    public ApRefreshLayouter(Context context) {
+    public ApRefreshManager(Context context) {
         mRefreshLayout = new SmartRefreshLayout(context);
         mRefreshLayout.setRefreshHeader(newHeader(context));
         mRefreshLayout.setEnableLoadMore(false);
         mRefreshLayout.setEnableOverScrollBounce(false);
     }
 
-    public ApRefreshLayouter(Context context, int primaryId, int frontId) {
+    public ApRefreshManager(Context context, int primaryId, int frontId) {
         mRefreshLayout = new SmartRefreshLayout(context);
         mRefreshLayout.setRefreshHeader(newHeader(context));
         mRefreshLayout.setEnableLoadMore(false);
@@ -48,7 +48,7 @@ public class ApRefreshLayouter implements RefreshLayouter<SmartRefreshLayout> {
         mRefreshLayout.setEnableOverScrollBounce(false);
     }
 
-    public ApRefreshLayouter(SmartRefreshLayout refreshLayout) {
+    public ApRefreshManager(SmartRefreshLayout refreshLayout) {
         mRefreshLayout = refreshLayout;
         mRefreshLayout.setRefreshHeader(newHeader(refreshLayout.getContext()));
         mRefreshLayout.setEnableLoadMore(false);

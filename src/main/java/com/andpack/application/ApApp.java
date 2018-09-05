@@ -9,7 +9,7 @@ import com.andframe.$;
 import com.andframe.api.DialogBuilder;
 import com.andframe.api.event.EventManager;
 import com.andframe.api.pager.PagerManager;
-import com.andframe.api.pager.status.RefreshLayouter;
+import com.andframe.api.pager.status.RefreshManager;
 import com.andframe.api.viewer.ViewQuery;
 import com.andframe.api.viewer.Viewer;
 import com.andframe.application.AfApp;
@@ -19,7 +19,7 @@ import com.andpack.R;
 import com.andpack.annotation.statusbar.StatusBarTranslucent;
 import com.andpack.impl.ApDialogBuilder;
 import com.andpack.impl.ApExceptionHandler;
-import com.andpack.impl.ApRefreshLayouter;
+import com.andpack.impl.ApRefreshManager;
 import com.andpack.impl.ApViewQuery;
 import com.lzy.imagepicker.ImagePicker;
 import com.nostra13.universalimageloader.cache.disc.impl.ext.ApDiskCache;
@@ -174,8 +174,8 @@ public class ApApp extends AfApp {
 
     @NonNull
     @Override
-    public RefreshLayouter newRefreshLayouter(Context context) {
-        return new ApRefreshLayouter(context, R.color.colorPrimary, R.color.white);
+    public RefreshManager newRefreshManager(Context context) {
+        return new ApRefreshManager(context, R.color.colorPrimary, R.color.white);
     }
 
     @Override
