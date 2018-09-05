@@ -316,6 +316,11 @@ public interface ViewQuery<T extends ViewQuery<T>> {
      */
     T layoutGravity(int gravity);
 
+    /**
+     * 设置布局的 按键监听器
+     */
+    T onKey(View.OnKeyListener listener);
+
     //</editor-fold>
 
     //<editor-fold desc="基本获取">

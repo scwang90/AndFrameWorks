@@ -6,14 +6,14 @@ import android.support.annotation.Nullable;
 import android.view.View;
 
 import com.andframe.api.pager.status.OnRefreshListener;
-import com.andframe.api.pager.status.RefreshLayouter;
+import com.andframe.api.pager.status.RefreshManager;
 import com.andframe.api.task.Task;
 
 import java.util.Date;
 
 /**
  * 加载页面帮助类接口（自动添加【下拉刷新控件】）
- * 【下拉刷新控件@{@link RefreshLayouter}】
+ * 【下拉刷新控件@{@link RefreshManager}】
  *      可以实现下拉刷新内容视图的数据
  * Created by SCWANG on 2017/5/5.
  */
@@ -60,12 +60,12 @@ public interface LoadHelper<T> extends OnRefreshListener {
     View findContentView();
 
     /**
-     * 初始化【下拉刷新控件】，内部会调用 newRefreshLayouter
+     * 初始化【下拉刷新控件】，内部会调用 newRefreshManager
      * @param content findContentView 返回的内容视图
      * @return 如果返回null将会失去下拉刷新功能
      */
     @Nullable
-    RefreshLayouter initRefreshLayout(View content);
+    RefreshManager initRefreshLayout(View content);
 
     /**
      * 创建下拉刷新布局（如果要使用网上开源的下拉刷新控件可以重写这个方法）
@@ -73,7 +73,7 @@ public interface LoadHelper<T> extends OnRefreshListener {
      * @return 不能返回null，否则在initRefreshLayout中会出现空指针
      */
     @NonNull
-    RefreshLayouter newRefreshLayouter(Context context);
+    RefreshManager newRefreshManager(Context context);
 
     //</editor-fold>
 

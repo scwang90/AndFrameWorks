@@ -9,7 +9,7 @@ import android.view.ViewGroup;
  * Created by SCWANG on 2017/8/2.
  */
 
-public interface Layouter<T extends ViewGroup> {
+public interface LayoutManager<T extends ViewGroup> {
     @NonNull
     T getLayout();
     void setContentView(View content);

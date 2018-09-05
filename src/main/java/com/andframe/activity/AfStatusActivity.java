@@ -5,9 +5,9 @@ import android.support.annotation.NonNull;
 import android.view.View;
 import android.view.ViewGroup;
 
-import com.andframe.api.pager.status.Layouter;
+import com.andframe.api.pager.status.LayoutManager;
 import com.andframe.api.pager.status.StatusHelper;
-import com.andframe.api.pager.status.StatusLayouter;
+import com.andframe.api.pager.status.StatusManager;
 import com.andframe.api.pager.status.StatusPager;
 import com.andframe.impl.helper.AfStatusHelper;
 
@@ -20,7 +20,7 @@ public abstract class AfStatusActivity<T> extends AfLoadActivity<T> implements S
 
     protected StatusHelper<T> mStatusHelper = newStatusHelper();
 
-    protected StatusLayouter mStatusLayouter;
+    protected StatusManager mStatusManager;
 
     @NonNull
     @Override
@@ -39,22 +39,22 @@ public abstract class AfStatusActivity<T> extends AfLoadActivity<T> implements S
     //<editor-fold desc="初始化布局">
 
     @Override
-    public void initRefreshAndStatusLayouter(@NonNull View refreshContent, @NonNull View statusContent) {
-        mStatusHelper.initRefreshAndStatusLayouter(refreshContent, statusContent);
+    public void initRefreshAndStatusManager(@NonNull View refreshContent, @NonNull View statusContent) {
+        mStatusHelper.initRefreshAndStatusManager(refreshContent, statusContent);
     }
 
     @Override
-    public void initRefreshAndStatusLayouterOrder(Layouter refresh, Layouter status, View content, ViewGroup parent, int index, ViewGroup.LayoutParams lp) {
+    public void initRefreshAndStatusLayouterOrder(LayoutManager refresh, LayoutManager status, View content, ViewGroup parent, int index, ViewGroup.LayoutParams lp) {
         mStatusHelper.initRefreshAndStatusLayouterOrder(refresh, status, content, parent, index, lp);
     }
 
-    public StatusLayouter initStatusLayout(View content) {
-        return mStatusLayouter = mStatusHelper.initStatusLayout(content);
+    public StatusManager initStatusLayout(View content) {
+        return mStatusManager = mStatusHelper.initStatusLayout(content);
     }
 
     @NonNull
-    public StatusLayouter newStatusLayouter(Context context) {
-        return mStatusLayouter = mStatusHelper.newStatusLayouter(context);
+    public StatusManager newStatusManager(Context context) {
+        return mStatusManager = mStatusHelper.newStatusManager(context);
     }
 
     //</editor-fold>
@@ -72,7 +72,7 @@ public abstract class AfStatusActivity<T> extends AfLoadActivity<T> implements S
     //<editor-fold desc="页面状态">
 
     @Override
-    public void showStatus(StatusLayouter.Status status, String... msg) {
+    public void showStatus(StatusManager.Status status, String... msg) {
         mStatusHelper.showStatus(status, msg);
     }
 

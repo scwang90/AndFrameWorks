@@ -9,7 +9,7 @@ import java.util.Date;
  * Created by SCWANG on 2016/10/20.
  */
 
-public interface RefreshLayouter<T extends ViewGroup> extends Layouter<T> {
+public interface RefreshManager<T extends ViewGroup> extends LayoutManager<T> {
 //    void setRefreshComplete();
 //    void setRefreshFailed();
     void finishRefresh(boolean success);

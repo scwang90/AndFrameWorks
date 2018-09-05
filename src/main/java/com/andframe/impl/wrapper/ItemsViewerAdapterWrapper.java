@@ -28,15 +28,15 @@ import java.util.function.UnaryOperator;
 import java.util.stream.Stream;
 
 /**
- * ListItemAdapterWrapper
+ * ItemsViewerAdapterWrapper
  * Created by SCWANG on 2016/10/29.
  */
 @SuppressWarnings("WeakerAccess")
-public class ListItemAdapterWrapper<T> extends RecyclerBaseAdapter<ViewHolderItem<T>> implements ItemsViewerAdapter<T>, WrapperListAdapter {
+public class ItemsViewerAdapterWrapper<T> extends RecyclerBaseAdapter<ViewHolderItem<T>> implements ItemsViewerAdapter<T>, WrapperListAdapter {
 
     protected ItemsViewerAdapter<T> wrapped;
 
-    public ListItemAdapterWrapper(ItemsViewerAdapter<T> wrapped) {
+    public ItemsViewerAdapterWrapper(ItemsViewerAdapter<T> wrapped) {
         this.wrapped = wrapped;
         //为特殊 Warpper 做准备
         mDataSetObservable = new DataSetObservableWrapper(this);

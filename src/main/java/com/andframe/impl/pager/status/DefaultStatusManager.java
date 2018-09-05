@@ -11,7 +11,7 @@ import android.widget.TextView;
 
 import com.andframe.R;
 import com.andframe.api.pager.status.OnRefreshListener;
-import com.andframe.api.pager.status.StatusLayouter;
+import com.andframe.api.pager.status.StatusManager;
 import com.andframe.application.AfApp;
 import com.andframe.module.AfFrameSelector;
 
@@ -22,7 +22,7 @@ import static android.view.ViewGroup.LayoutParams.MATCH_PARENT;
  * Created by SCWANG on 2016/10/20.
  */
 
-public class DefaultStatusLayouter implements StatusLayouter {
+public class DefaultStatusManager implements StatusManager {
 
     protected final FrameLayout mFrameLayout;
     protected final AfFrameSelector mFrameSelector;
@@ -45,11 +45,11 @@ public class DefaultStatusLayouter implements StatusLayouter {
         }
     };
 
-    public DefaultStatusLayouter(Context content) {
+    public DefaultStatusManager(Context content) {
         this(new FrameLayout(content));
     }
 
-    public DefaultStatusLayouter(FrameLayout frameLayout) {
+    public DefaultStatusManager(FrameLayout frameLayout) {
         mFrameLayout = frameLayout;
         mFrameSelector = new AfFrameSelector(frameLayout);
         if (mFrameLayout.getChildCount() > 0) {

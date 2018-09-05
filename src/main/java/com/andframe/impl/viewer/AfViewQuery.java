@@ -688,6 +688,11 @@ public class AfViewQuery<T extends AfViewQuery<T>> implements ViewQuery<T> {
         });
     }
 
+    @Override
+    public T onKey(View.OnKeyListener listener) {
+        return foreach((ViewIterator<View>) view -> view.setOnKeyListener(listener));
+    }
+
     //</editor-fold>
 
     //<editor-fold desc="基本获取">

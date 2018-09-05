@@ -12,7 +12,7 @@ import com.andframe.api.adapter.ItemViewer;
 import com.andframe.api.adapter.ItemsViewerAdapter;
 import com.andframe.api.viewer.Viewer;
 import com.andframe.exception.AfExceptionHandler;
-import com.andframe.impl.wrapper.ListItemAdapterWrapper;
+import com.andframe.impl.wrapper.ItemsViewerAdapterWrapper;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -22,7 +22,7 @@ import java.util.List;
  * Created by SCWANG on 2016/8/5.
  */
 @SuppressWarnings("unused")
-public class AfHeaderFooterAdapter<T> extends ListItemAdapterWrapper<T> implements HeaderFooterAdapter<T> {
+public class AfHeaderFooterAdapter<T> extends ItemsViewerAdapterWrapper<T> implements HeaderFooterAdapter<T> {
 
     protected List<ItemViewer<T>> mHeaders = new ArrayList<>();
     protected List<ItemViewer<T>> mFooters = new ArrayList<>();
