@@ -44,8 +44,8 @@ public abstract class AfStatusActivity<T> extends AfLoadActivity<T> implements S
     }
 
     @Override
-    public void initRefreshAndStatusLayouterOrder(LayoutManager refresh, LayoutManager status, View content, ViewGroup parent, int index, ViewGroup.LayoutParams lp) {
-        mStatusHelper.initRefreshAndStatusLayouterOrder(refresh, status, content, parent, index, lp);
+    public void initRefreshAndStatusManagerOrder(LayoutManager refresh, LayoutManager status, View content, ViewGroup parent, int index, ViewGroup.LayoutParams lp) {
+        mStatusHelper.initRefreshAndStatusManagerOrder(refresh, status, content, parent, index, lp);
     }
 
     public StatusManager initStatusLayout(View content) {

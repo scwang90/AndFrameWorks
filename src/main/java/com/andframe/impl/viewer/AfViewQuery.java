@@ -82,8 +82,8 @@ import static android.support.v4.content.ContextCompat.getDrawable;
 @SuppressWarnings("WeakerAccess")
 public class AfViewQuery<T extends AfViewQuery<T>> implements ViewQuery<T> {
 
-    protected Viewer mRootView ;
-    protected View[] mTargetViews ;
+    protected Viewer mRootView = null;
+    protected View[] mTargetViews = null;
     protected SparseArray<View> mCacheArray = null;
 
     public AfViewQuery(Viewer view) {
@@ -693,11 +693,6 @@ public class AfViewQuery<T extends AfViewQuery<T>> implements ViewQuery<T> {
         return foreach((ViewIterator<View>) view -> view.setOnKeyListener(listener));
     }
 
-    @Override
-    public T elevation(float elevation) {
-        return foreach((ViewIterator<View>) view -> ViewCompat.setElevation(view, elevation));
-    }
-
     //</editor-fold>
 
     //<editor-fold desc="基本获取">
@@ -722,10 +717,6 @@ public class AfViewQuery<T extends AfViewQuery<T>> implements ViewQuery<T> {
         return foreach(View::getLayoutParams);
     }
 
-    @Override
-    public float elevation() {
-        return foreach(ViewCompat::getElevation);
-    }
     //</editor-fold>
 
     //<editor-fold desc="扩展设置">
@@ -1316,44 +1307,44 @@ public class AfViewQuery<T extends AfViewQuery<T>> implements ViewQuery<T> {
     }
 
     @Override
-    public int x() {
-        return foreach(View.class, (View view) -> (int) view.getX());
+    public float x() {
+        return foreach(View.class, View::getX);
     }
     @Override
-    public int y() {
-        return foreach(View.class, (View view) -> (int) view.getY());
+    public float y() {
+        return foreach(View.class, View::getY);
     }
     @Override
-    public int z() {
-        return foreach(View.class, (View view) -> (int) ViewCompat.getZ(view));
+    public float z() {
+        return foreach(View.class, ViewCompat::getZ);
     }
     @Override
-    public int scrollX() {
+    public float scrollX() {
         return foreach(View.class, View::getScrollX);
     }
     @Override
-    public int scrollY() {
+    public float scrollY() {
         return foreach(View.class, View::getScrollY);
     }
     @Override
-    public int translationX() {
-        return foreach(View.class, (View view) -> (int) view.getTranslationX());
+    public float translationX() {
+        return foreach(View.class, View::getTranslationX);
     }
     @Override
-    public int translationY() {
-        return foreach(View.class, (View view) -> (int) view.getTranslationY());
+    public float translationY() {
+        return foreach(View.class, View::getTranslationY);
     }
     @Override
-    public int translationZ() {
-        return foreach(View.class, (View view) -> (int) ViewCompat.getTranslationZ(view));
+    public float translationZ() {
+        return foreach(View.class, ViewCompat::getTranslationZ);
     }
     @Override
-    public int pivotX() {
-        return foreach(View.class, (View view) -> (int) view.getPivotX());
+    public float pivotX() {
+        return foreach(View.class, View::getPivotX);
     }
     @Override
-    public int pivotY() {
-        return foreach(View.class, (View view) -> (int) view.getPivotY());
+    public float pivotY() {
+        return foreach(View.class, View::getPivotY);
     }
 
 

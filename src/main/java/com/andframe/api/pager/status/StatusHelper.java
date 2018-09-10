@@ -91,7 +91,7 @@ public interface StatusHelper<T> extends LoadHelper<T>, EmptyDecider<T> {
     /**
      * 注入 【下拉刷新控件和多页状态控件】 并排序：默认【下拉刷新控件】在【多页状态控件】内部
      */
-    void initRefreshAndStatusLayouterOrder(LayoutManager refresh, LayoutManager status, View content, ViewGroup parent, int index, LayoutParams lp);
+    void initRefreshAndStatusManagerOrder(LayoutManager refresh, LayoutManager status, View content, ViewGroup parent, int index, LayoutParams lp);
 
     //</editor-fold>
 

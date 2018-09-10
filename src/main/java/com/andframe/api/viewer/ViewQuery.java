@@ -321,10 +321,6 @@ public interface ViewQuery<T extends ViewQuery<T>> {
      */
     T onKey(View.OnKeyListener listener);
 
-    /**
-     * 设置阴影
-     */
-    T elevation(float dp);
     //</editor-fold>
 
     //<editor-fold desc="基本获取">
@@ -349,11 +345,6 @@ public interface ViewQuery<T extends ViewQuery<T>> {
      * 获取当前选中 View 的 LayoutParams
      */
     LayoutParams layoutParams();
-
-    /**
-     * 获取阴影
-     */
-    float elevation();
 
     //</editor-fold>
 
@@ -580,16 +571,16 @@ public interface ViewQuery<T extends ViewQuery<T>> {
      */
     float rotation();
 
-    int x();
-    int y();
-    int z();
-    int scrollX();
-    int scrollY();
-    int translationX();
-    int translationY();
-    int translationZ();
-    int pivotX();
-    int pivotY();
+    float x();
+    float y();
+    float z();
+    float scrollX();
+    float scrollY();
+    float translationX();
+    float translationY();
+    float translationZ();
+    float pivotX();
+    float pivotY();
 
     //</editor-fold>
 

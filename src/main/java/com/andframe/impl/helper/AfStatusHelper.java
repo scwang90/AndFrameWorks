@@ -128,7 +128,7 @@ public class AfStatusHelper<T> extends AfLoadHelper<T> implements StatusHelper<T
                 int i = group.indexOfChild(refreshContent);
                 group.removeViewAt(i);
                 ViewGroup.LayoutParams params = refreshContent.getLayoutParams();
-                mPager.initRefreshAndStatusLayouterOrder(mRefreshManager, mStatusManager, refreshContent, group, i, params);
+                mPager.initRefreshAndStatusManagerOrder(mRefreshManager, mStatusManager, refreshContent, group, i, params);
             } else {
                 boolean isStatusOtter = true;
                 for (ViewParent status = statusContent.getParent() ; status != null; status = status.getParent()) {
@@ -166,7 +166,7 @@ public class AfStatusHelper<T> extends AfLoadHelper<T> implements StatusHelper<T
     }
 
     @Override
-    public void initRefreshAndStatusLayouterOrder(LayoutManager refresh, LayoutManager status, View content, ViewGroup parent, int index, ViewGroup.LayoutParams lp) {
+    public void initRefreshAndStatusManagerOrder(LayoutManager refresh, LayoutManager status, View content, ViewGroup parent, int index, ViewGroup.LayoutParams lp) {
         if (refresh != null && status != null) {
             refresh.setContentView(content);
             status.setContentView(refresh.getLayout());
