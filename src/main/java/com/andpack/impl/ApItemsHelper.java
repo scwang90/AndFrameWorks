@@ -38,7 +38,7 @@ public class ApItemsHelper<T> extends ApStatusHelper {
 //        if ($.exist()) {
 //            JazzyRecyclerViewScrollListener listener = new JazzyRecyclerViewScrollListener();
 //            listener.setTransitionEffect(new FadeEffect());
-//            $.foreach(RecyclerView.class, (ViewQuery.ViewEacher<RecyclerView>) view -> view.addOnScrollListener(listener));
+//            $.foreach(RecyclerView.class, (ViewQuery.ViewIterator<RecyclerView>) view -> view.addOnScrollListener(listener));
 //        }
 //    }
 

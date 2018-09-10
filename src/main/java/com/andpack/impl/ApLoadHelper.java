@@ -3,7 +3,7 @@ package com.andpack.impl;
 import android.content.Context;
 import android.view.View;
 
-import com.andframe.api.pager.status.RefreshLayouter;
+import com.andframe.api.pager.status.RefreshManager;
 import com.andpack.api.ApPager;
 
 /**
@@ -16,7 +16,7 @@ public class ApLoadHelper extends ApPagerHelper {
         super(pager);
     }
 
-    public RefreshLayouter newRefreshLayouter(Context context) {
+    public RefreshManager newRefreshManager(Context context) {
         return null;
     }
 

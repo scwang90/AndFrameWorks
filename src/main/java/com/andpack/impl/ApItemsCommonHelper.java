@@ -123,14 +123,14 @@ public class ApItemsCommonHelper<T> extends ApItemsHelper<T> {
         protected void showIds(Integer... ids) {
             ensureLayout = true;
             List<Integer> showIds = new ArrayList<>(Arrays.asList(ids));
-            $().toRoot().toChildrenTree().foreach((ViewQuery.ViewEacher<View>) v -> $(v).visible(showIds.contains(v.getId())));
+            $().toRoot().toChildrenTree().foreach((ViewQuery.ViewIterator<View>) v -> $(v).visible(showIds.contains(v.getId())));
             ensureLayout = ids.length > 0;
         }
 
         protected void hideIds(Integer... ids) {
             ensureLayout = true;
             List<Integer> showIds = new ArrayList<>(Arrays.asList(ids));
-            $().toRoot().toChildrenTree().foreach((ViewQuery.ViewEacher<View>) v -> $(v).visible(!showIds.contains(v.getId())));
+            $().toRoot().toChildrenTree().foreach((ViewQuery.ViewIterator<View>) v -> $(v).visible(!showIds.contains(v.getId())));
             ensureLayout = ids.length > 0;
         }
 

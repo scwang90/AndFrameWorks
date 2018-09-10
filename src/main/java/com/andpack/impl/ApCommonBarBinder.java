@@ -956,8 +956,9 @@ public class ApCommonBarBinder {
 
     public class TextBinder extends Binder<TextBinder, CommonBind<String>, String> implements DialogBuilder.InputTextListener {
 
-        private TextVerify verify;
+        protected TextVerify verify;
         protected String valueSuffix = "";
+        protected String valuePrefix = "";
         protected int type = InputType.TYPE_CLASS_TEXT;
 
         TextBinder(int idValue) {
@@ -975,7 +976,9 @@ public class ApCommonBarBinder {
                     action.run();
                 }
             };
-            $.dialog(viewer).inputText(hint, lastval == null ? $(idValue).text().replace(valueSuffix,"") : lastval, type, this);
+            $.dialog(viewer).inputText(hint, lastval == null ? $(idValue).text()
+                    .replaceAll("^" + valuePrefix,"")
+                    .replaceAll(valueSuffix + "$","") : lastval, type, this);
         }
 
         public TextBinder value(Object text) {
@@ -1004,7 +1007,7 @@ public class ApCommonBarBinder {
                 }
             }
             lastval = value;
-            $(idValue).text(value + valueSuffix);
+            $(idValue).text(valuePrefix + value + valueSuffix);
             if (key != null && input != null) {
                 cacher.put(key, value);
             }
@@ -1016,6 +1019,11 @@ public class ApCommonBarBinder {
 
         public TextBinder inputType(int type) {
             this.type = type;
+            return self();
+        }
+
+        public TextBinder prefix(String valuePrefix) {
+            this.valuePrefix = valuePrefix;
             return self();
         }
 
@@ -2087,7 +2095,7 @@ public class ApCommonBarBinder {
 
         RadioGroupBinder(int idValue) {
             super(idValue);
-            $(idValue).clicked(null).foreach(RadioGroup.class, (ViewQuery.ViewEacher<RadioGroup>) view -> {
+            $(idValue).clicked(null).foreach(RadioGroup.class, (ViewQuery.ViewIterator<RadioGroup>) view -> {
                 view.setOnCheckedChangeListener(this);
             });
         }
