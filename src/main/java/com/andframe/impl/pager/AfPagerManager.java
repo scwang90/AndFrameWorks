@@ -108,7 +108,7 @@ public class AfPagerManager implements PagerManager {
     }
 
     @Override
-    public boolean hasActivityRuning() {
+    public boolean hasActivityRunning() {
         return !mStackActivity.isEmpty();
     }
 

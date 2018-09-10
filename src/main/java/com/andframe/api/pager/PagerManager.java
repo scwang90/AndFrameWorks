@@ -2,6 +2,7 @@ package com.andframe.api.pager;
 
 import android.app.Activity;
 import android.content.Context;
+import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
 
 import com.andframe.activity.AfActivity;
@@ -31,11 +32,14 @@ public interface PagerManager {
     void onFragmentStart(AfFragment fragment);
     void onFragmentStop(AfFragment fragment);
 
-    boolean hasActivityRuning();
+    boolean hasActivityRunning();
     boolean hasActivity(Class<? extends AfActivity> clazz);
 
+    @Nullable
     AfActivity currentActivity();
+    @Nullable
     AfActivity getActivity(Class<? extends AfActivity> clazz);
+    @Nullable
     AfFragment getFragment(Class<? extends AfFragment> clazz);
 
     void finishCurrentActivity();

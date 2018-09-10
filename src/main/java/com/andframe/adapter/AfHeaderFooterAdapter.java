@@ -12,7 +12,7 @@ import com.andframe.api.adapter.ItemViewer;
 import com.andframe.api.adapter.ItemsViewerAdapter;
 import com.andframe.api.viewer.Viewer;
 import com.andframe.exception.AfExceptionHandler;
-import com.andframe.impl.wrapper.ListItemAdapterWrapper;
+import com.andframe.impl.wrapper.ItemsViewerAdapterWrapper;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -22,7 +22,7 @@ import java.util.List;
  * Created by SCWANG on 2016/8/5.
  */
 @SuppressWarnings("unused")
-public class AfHeaderFooterAdapter<T> extends ListItemAdapterWrapper<T> implements HeaderFooterAdapter<T> {
+public class AfHeaderFooterAdapter<T> extends ItemsViewerAdapterWrapper<T> implements HeaderFooterAdapter<T> {
 
     protected List<ItemViewer<T>> mHeaders = new ArrayList<>();
     protected List<ItemViewer<T>> mFooters = new ArrayList<>();
@@ -155,12 +155,12 @@ public class AfHeaderFooterAdapter<T> extends ListItemAdapterWrapper<T> implemen
 
     //<editor-fold desc="功能方法">
 
-    public boolean addHeader(ItemViewer<T> item) {
-        if (item != null && !mHeaders.contains(item)) {
+    public boolean addHeader(@NonNull ItemViewer<T> item) {
+        if (!mHeaders.contains(item)) {
             mHeaders.add(item);
             notifyDataSetChanged();
         }
-        return item != null;
+        return true;
     }
 
     public boolean addHeaderLayout(int layoutId) {
@@ -171,7 +171,7 @@ public class AfHeaderFooterAdapter<T> extends ListItemAdapterWrapper<T> implemen
         });
     }
 
-    public boolean addHeaderView(View view) {
+    public boolean addHeaderView(@NonNull View view) {
         return addHeader(new AfItemViewer<T>() {
             View mView = view;
             @Override
@@ -184,12 +184,12 @@ public class AfHeaderFooterAdapter<T> extends ListItemAdapterWrapper<T> implemen
         });
     }
 
-    public boolean addFooter(ItemViewer<T> item) {
-        if (item != null && !mFooters.contains(item)) {
+    public boolean addFooter(@NonNull ItemViewer<T> item) {
+        if (!mFooters.contains(item)) {
             mFooters.add(item);
             notifyDataSetChanged();
         }
-        return item != null;
+        return true;
     }
 
     public boolean addFooterLayout(int layoutId) {
@@ -200,7 +200,7 @@ public class AfHeaderFooterAdapter<T> extends ListItemAdapterWrapper<T> implemen
         });
     }
 
-    public boolean addFooterView(View view) {
+    public boolean addFooterView(@NonNull View view) {
         return addFooter(new AfItemViewer<T>() {
             {mLayout = view;}
             @Override
@@ -229,7 +229,7 @@ public class AfHeaderFooterAdapter<T> extends ListItemAdapterWrapper<T> implemen
         return false;
     }
 
-    public boolean removeHeaderView(View view) {
+    public boolean removeHeaderView(@NonNull View view) {
         for (int i = 0; i < mHeaders.size(); i++) {
             ItemViewer<T> item = mHeaders.get(i);
             if (item instanceof Viewer && ((Viewer) item).getView() == view) {
@@ -241,7 +241,7 @@ public class AfHeaderFooterAdapter<T> extends ListItemAdapterWrapper<T> implemen
         return false;
     }
 
-    public boolean removeFooterView(View view) {
+    public boolean removeFooterView(@NonNull View view) {
         for (int i = 0; i < mFooters.size(); i++) {
             ItemViewer<T> item = mFooters.get(i);
             if (item instanceof Viewer && ((Viewer) item).getView() == view) {

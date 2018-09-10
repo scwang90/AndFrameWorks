@@ -7,7 +7,7 @@ import com.andframe.api.pager.items.OnMoreListener;
 import com.andframe.api.viewer.ItemsViewer;
 
 /**
- * 通过 MoreFooter 实现的 加载更多 Layouter
+ * 通过 MoreFooter 实现的 加载更多 LayoutManager
  * Created by SCWANG on 2016/11/19.
  */
 

@@ -4,8 +4,8 @@ import android.content.Context;
 import android.view.View;
 import android.view.ViewGroup;
 
-import com.andframe.api.adapter.ItemViewer;
 import com.andframe.api.ModelConvertor;
+import com.andframe.api.adapter.ItemViewer;
 
 /**
  * 相似列表布局适配器

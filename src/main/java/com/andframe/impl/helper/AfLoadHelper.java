@@ -3,6 +3,7 @@ package com.andframe.impl.helper;
 import android.app.Activity;
 import android.content.Context;
 import android.support.annotation.NonNull;
+import android.support.annotation.Nullable;
 import android.support.v4.view.ViewPager;
 import android.support.v4.widget.NestedScrollView;
 import android.support.v7.widget.RecyclerView;
@@ -20,7 +21,7 @@ import com.andframe.annotation.pager.load.LoadContentViewType;
 import com.andframe.annotation.pager.load.idname.LoadContentViewId$;
 import com.andframe.api.pager.load.LoadHelper;
 import com.andframe.api.pager.load.LoadPager;
-import com.andframe.api.pager.status.RefreshLayouter;
+import com.andframe.api.pager.status.RefreshManager;
 import com.andframe.api.task.Task;
 import com.andframe.application.AfApp;
 import com.andframe.exception.AfExceptionHandler;
@@ -43,7 +44,7 @@ public class AfLoadHelper<T> implements LoadHelper<T> {
 
     protected LoadPager<T> mPager;
 
-    protected RefreshLayouter mRefreshLayouter;
+    protected RefreshManager mRefreshManager;
 
     protected T mModel;
     protected boolean mIsLoading = false;
@@ -60,14 +61,14 @@ public class AfLoadHelper<T> implements LoadHelper<T> {
     }
 
     @Override
-    public void setModel(@NonNull T model) {
+    public void setModel(@Nullable T model) {
         mModel = model;
     }
 
     public void onViewCreated()  {
         View content = mPager.findContentView();
         if (content != null) {
-            mRefreshLayouter = mPager.initRefreshLayout(content);
+            mRefreshManager = mPager.initRefreshLayout(content);
         }
 
         if (mLoadOnViewCreated && mModel == null) {
@@ -85,8 +86,8 @@ public class AfLoadHelper<T> implements LoadHelper<T> {
 
     @Override
     public void setLastRefreshTime(@NonNull Date time) {
-        if (mRefreshLayouter != null) {
-            mRefreshLayouter.setLastRefreshTime(time);
+        if (mRefreshManager != null) {
+            mRefreshManager.setLastRefreshTime(time);
         }
     }
 
@@ -138,11 +139,11 @@ public class AfLoadHelper<T> implements LoadHelper<T> {
     public boolean checkContentViewStruct(View content) {
         ViewParent parent = content.getParent();
         if (parent == null) {
-            AfExceptionHandler.handle("内容视图（ContentView）没有父视图，刷新布局（RefreshLayouter）初始化失败",
+            AfExceptionHandler.handle("内容视图（ContentView）没有父视图，刷新布局（RefreshManager）初始化失败",
                     TAG.TAG(mPager, "AfLoadHelper", "checkContentViewStruct"));
             return false;
         } else if (parent instanceof ViewPager) {
-            AfExceptionHandler.handle("内容视图（ContentView）父视图为ViewPager，刷新布局（RefreshLayouter）初始化失败，" +
+            AfExceptionHandler.handle("内容视图（ContentView）父视图为ViewPager，刷新布局（RefreshManager）初始化失败，" +
                             "请用其他布局（Layout）作为ContentView的直接父视图，ViewPager的子视图",
                     TAG.TAG(mPager, "AfLoadHelper", "checkContentViewStruct"));
             return false;
@@ -150,7 +151,7 @@ public class AfLoadHelper<T> implements LoadHelper<T> {
         return true;
     }
 
-    public RefreshLayouter initRefreshLayout(View content) {
+    public RefreshManager initRefreshLayout(View content) {
         if (checkContentViewStruct(content)) {
             ViewParent parent = content.getParent();
             if (parent instanceof ViewGroup){
@@ -160,21 +161,21 @@ public class AfLoadHelper<T> implements LoadHelper<T> {
                 group.removeViewAt(i);
 
                 ViewGroup.LayoutParams params = content.getLayoutParams();
-                RefreshLayouter layouter = mPager.newRefreshLayouter(content.getContext());
-                layouter.setContentView(content);
-                layouter.setOnRefreshListener(mPager);
+                RefreshManager layoutManager = mPager.newRefreshManager(content.getContext());
+                layoutManager.setContentView(content);
+                layoutManager.setOnRefreshListener(mPager);
 
-                group.addView(layouter.getLayout(), i, params);
+                group.addView(layoutManager.getLayout(), i, params);
 
-                return layouter;
+                return layoutManager;
             }
         }
         return null;
     }
 
     @NonNull
-    public RefreshLayouter newRefreshLayouter(Context context) {
-        return AfApp.get().newRefreshLayouter(context);
+    public RefreshManager newRefreshManager(Context context) {
+        return AfApp.get().newRefreshManager(context);
     }
     //</editor-fold>
 
@@ -182,7 +183,7 @@ public class AfLoadHelper<T> implements LoadHelper<T> {
 
     @Override
     public boolean onRefresh() {
-        return mPager.postTask(new LoadTask()).status() != Task.Status.canceld;
+        return mPager.postTask(new LoadTask()).status() != Task.Status.canceled;
     }
 
     @Override
@@ -192,12 +193,16 @@ public class AfLoadHelper<T> implements LoadHelper<T> {
 
     @Override
     public void onTaskFinish(@NonNull Task task, T data) {
-        if (mRefreshLayouter != null && mRefreshLayouter.isRefreshing()) {
-            mRefreshLayouter.setRefreshComplete();
+        if (mRefreshManager != null && mRefreshManager.isRefreshing()) {
+            mRefreshManager.finishRefresh(task.success());
         }
-        if (task.isFinish()) {
+        if (task.success()) {
             mPager.onTaskSucceed(data);
         } else {
+            if (data != null && mModel != data) {
+                mModel = data;
+                mPager.onTaskLoaded(data);
+            }
             mPager.onTaskFailed(task);
         }
     }
@@ -220,8 +225,8 @@ public class AfLoadHelper<T> implements LoadHelper<T> {
     //<editor-fold desc="页面状态">
 
     public void showError(@NonNull String error) {
-        if (mRefreshLayouter != null && mRefreshLayouter.isRefreshing()) {
-            mRefreshLayouter.setRefreshComplete();
+        if (mRefreshManager != null && mRefreshManager.isRefreshing()) {
+            mRefreshManager.finishRefresh(false);
         }
         mPager.makeToastShort(error);
     }

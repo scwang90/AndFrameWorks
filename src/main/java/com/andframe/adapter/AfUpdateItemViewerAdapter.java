@@ -7,6 +7,7 @@ import android.view.ViewGroup;
 import com.andframe.adapter.recycler.ViewHolderItem;
 import com.andframe.api.adapter.ItemViewer;
 import com.andframe.api.adapter.ItemsViewerAdapter;
+import com.andframe.impl.wrapper.ItemsViewerAdapterWrapper;
 
 import java.util.AbstractMap.SimpleEntry;
 import java.util.List;
@@ -17,7 +18,7 @@ import java.util.Map;
  * Created by SCWANG on 2016/8/5.
  */
 @SuppressWarnings("unused")
-public class AfUpdateItemViewerAdapter<T> extends AfItemsViewerAdapterWrapper<T> {
+public class AfUpdateItemViewerAdapter<T> extends ItemsViewerAdapterWrapper<T> {
 
     protected static final int KEY_VIEW_TAG = "RecyclerBaseAdapter".hashCode();
 

@@ -7,22 +7,20 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.view.ViewGroup.LayoutParams;
 
-import com.andframe.api.EmptyVerdicter;
+import com.andframe.api.EmptyDecider;
 import com.andframe.api.pager.load.LoadHelper;
 import com.andframe.api.task.Task;
 
-import java.util.Date;
-
 /**
  * 多状态页面帮助类接口（自动添加【下拉刷新控件】和【多页状态控件】）
- * 【下拉刷新控件@{@link RefreshLayouter}】
+ * 【下拉刷新控件@{@link RefreshManager}】
  *      可以实现下拉刷新内容视图的数据
- * 【多页状态控件@{@link StatusLayouter}】
+ * 【多页状态控件@{@link StatusManager}】
  *      可以在没有数据或者加载失败或加载时隐藏内容视图切换到对应的【空数据页面】【错误页面】【正在加载页面】
  * Created by SCWANG on 2016/10/22.
  */
 
-public interface StatusHelper<T> extends LoadHelper<T>, EmptyVerdicter<T> {
+public interface StatusHelper<T> extends LoadHelper<T>, EmptyDecider<T> {
 
     //<editor-fold desc="初始方法">
 
@@ -39,12 +37,6 @@ public interface StatusHelper<T> extends LoadHelper<T>, EmptyVerdicter<T> {
     void setLoadTaskOnViewCreated(boolean loadOrNot);
 
     /**
-     * 在onViewCreated之前设置可以加载任务的执行
-     * @param model 数据
-     */
-    void setModel(@NonNull T model);
-
-    /**
      * 查找内容视图
      * 默认会查找 以下控件
      * <br>1、 @{@link android.widget.AbsListView} 的所有子类
@@ -58,20 +50,20 @@ public interface StatusHelper<T> extends LoadHelper<T>, EmptyVerdicter<T> {
     @Nullable
     View findContentView();
     /**
-     * 初始化【下拉刷新控件】，内部会调用 newRefreshLayouter
+     * 初始化【下拉刷新控件】，内部会调用 newRefreshManager
      * @param content findContentView 返回的内容视图
      * @return 如果返回null将会失去下拉刷新功能
      */
     @Nullable
-    RefreshLayouter initRefreshLayout(View content);
+    RefreshManager initRefreshLayout(View content);
 
     /**
-     * 初始化【多页状态控件】，内部会调用 newStatusLayouter
+     * 初始化【多页状态控件】，内部会调用 newStatusManager
      * @param content findContentView 返回的内容视图
      * @return 如果返回null将会失去下拉刷新功能
      */
     @Nullable
-    StatusLayouter initStatusLayout(View content);
+    StatusManager initStatusLayout(View content);
 
     /**
      * 创建下拉刷新布局（如果要使用网上开源的下拉刷新控件可以重写这个方法）
@@ -79,7 +71,7 @@ public interface StatusHelper<T> extends LoadHelper<T>, EmptyVerdicter<T> {
      * @return 不能返回null，否则在initRefreshLayout中会出现空指针
      */
     @NonNull
-    RefreshLayouter newRefreshLayouter(Context context);
+    RefreshManager newRefreshManager(Context context);
 
     /**
      * 创建多页状态布局（如果要使用网上开源的下拉刷新控件可以重写这个方法）
@@ -87,19 +79,19 @@ public interface StatusHelper<T> extends LoadHelper<T>, EmptyVerdicter<T> {
      * @return 不能返回null，否则在initStatusLayout中会出现空指针
      */
     @NonNull
-    StatusLayouter newStatusLayouter(Context context);
+    StatusManager newStatusManager(Context context);
 
     /**
      * 初始化【下拉刷新控件和多页状态控件】，内部会调用 initRefreshLayout 和 initStatusLayout
      * @param refreshContent findContentView 返回的内容视图
      * @param statusContent findContentView 返回的内容视图
      */
-    void initRefreshAndStatusLayouter(@NonNull View refreshContent,@NonNull View statusContent);
+    void initRefreshAndStatusManager(@NonNull View refreshContent, @NonNull View statusContent);
 
     /**
      * 注入 【下拉刷新控件和多页状态控件】 并排序：默认【下拉刷新控件】在【多页状态控件】内部
      */
-    void initRefreshAndStatusLayouterOrder(Layouter refresh, Layouter status, View content, ViewGroup parent, int index, LayoutParams lp);
+    void initRefreshAndStatusLayouterOrder(LayoutManager refresh, LayoutManager status, View content, ViewGroup parent, int index, LayoutParams lp);
 
     //</editor-fold>
 
@@ -118,7 +110,7 @@ public interface StatusHelper<T> extends LoadHelper<T>, EmptyVerdicter<T> {
     void showContent(@NonNull T model);
     void showProgress(@NonNull String progress);
     void showError(@NonNull String error);
-    void showStatus(StatusLayouter.Status status, String... msg);
+    void showStatus(StatusManager.Status status, String... msg);
     //</editor-fold>
 
     //<editor-fold desc="任务加载">
@@ -139,11 +131,5 @@ public interface StatusHelper<T> extends LoadHelper<T>, EmptyVerdicter<T> {
      */
     boolean isLoading();
     //</editor-fold>
-
-    /**
-     * 设置上次刷新时间 (下拉刷新控件可能会用到)
-     * @param time 时间
-     */
-    void setLastRefreshTime(@NonNull Date time);
 
 }

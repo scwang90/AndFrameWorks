@@ -1,5 +1,7 @@
 package com.andframe.api.adapter;
 
+import android.support.annotation.LayoutRes;
+import android.support.annotation.NonNull;
 import android.view.View;
 
 /**
@@ -10,17 +12,17 @@ import android.view.View;
 @SuppressWarnings({"unused", "UnusedReturnValue"})
 public interface HeaderFooterAdapter<T> extends ItemsViewerAdapter<T> {
 
-    boolean addHeader(ItemViewer<T> item);
-    boolean addHeaderLayout(int layoutId);
-    boolean addHeaderView(View view);
-    boolean addFooter(ItemViewer<T> item);
-    boolean addFooterLayout(int layoutId);
-    boolean addFooterView(View view);
+    boolean addHeader(@NonNull ItemViewer<T> item);
+    boolean addHeaderLayout(@LayoutRes int layoutId);
+    boolean addHeaderView(@NonNull View view);
+    boolean addFooter(@NonNull ItemViewer<T> item);
+    boolean addFooterLayout(@LayoutRes int layoutId);
+    boolean addFooterView(@NonNull View view);
 
     boolean removeHeader(ItemViewer<T> item);
     boolean removeFooter(ItemViewer<T> item) ;
-    boolean removeHeaderView(View view);
-    boolean removeFooterView(View view) ;
+    boolean removeHeaderView(@NonNull View view);
+    boolean removeFooterView(@NonNull View view) ;
 
     void clearHeader();
     void clearFooter();

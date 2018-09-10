@@ -3,7 +3,6 @@ package com.andframe.api.pager.status;
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
 
-import com.andframe.api.pager.Pager;
 import com.andframe.api.pager.load.LoadPager;
 
 /**

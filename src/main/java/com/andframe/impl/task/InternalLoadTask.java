@@ -26,7 +26,7 @@ public class InternalLoadTask<T> extends InternalTask {
     @Override
     protected void onHandle() {
         super.onHandle();
-        if (isFinish()) {
+        if (success()) {
             if (isEmpty(data)) {
                 if (builder.emptyRunnable != null) {
                     builder.emptyRunnable.run();

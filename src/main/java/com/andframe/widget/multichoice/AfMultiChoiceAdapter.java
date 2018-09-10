@@ -9,6 +9,7 @@ import com.andframe.adapter.AfListAdapter;
 import com.andframe.api.adapter.ItemViewer;
 
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.Collection;
 import java.util.Collections;
 import java.util.List;
@@ -53,6 +54,7 @@ public abstract class AfMultiChoiceAdapter<T> extends AfListAdapter<T>{
 	protected int mChoiceNumber = 0;
 	protected int mMaxChoiceNumber = Integer.MAX_VALUE;
 	protected boolean mIsSingle = false;
+	protected boolean mAutoCancel = false;
 	protected boolean[] mIsSelectedArray = null;
 	protected List<MultiChoiceListener<T>> mListeners = new ArrayList<>();
 	protected List<GenericityListener> mGenericityListeners = new ArrayList<>();
@@ -251,6 +253,33 @@ public abstract class AfMultiChoiceAdapter<T> extends AfListAdapter<T>{
 		return list.get(0);
 	}
 
+	public boolean setSelectedItems(Collection<T> collection) {
+		if (collection != null) {
+			mChoiceNumber = 0;
+			mIsSelectedArray = new boolean[getCount()];
+			List<T> list = new ArrayList<>(collection);
+			for (int i = 0; i < mltArray.size(); i++) {
+				for (int j = 0; j < list.size(); j++) {
+					if (mltArray.get(i) == list.get(j)) {
+						mIsSelectedArray[i] = true;
+						list.remove(j);
+						break;
+					}
+				}
+			}
+			notifyDataSetChanged();
+			for (GenericityListener listener : mGenericityListeners) {
+				listener.onMultiChoiceChanged(this, mChoiceNumber, getCount());
+			}
+			for (MultiChoiceListener<T> listener : mListeners) {
+				listener.onMultiChoiceChanged(this, mChoiceNumber, getCount());
+			}
+		} else {
+			selectNone();
+		}
+		return true;
+	}
+
 	@NonNull
 	public List<T> getSelectedItems() {
 		List<T> list = new ArrayList<>();
@@ -350,10 +379,23 @@ public abstract class AfMultiChoiceAdapter<T> extends AfListAdapter<T>{
 		if(mIsSelectedArray != null && index >= 0 && index < mltArray.size()){
 			boolean checked = !mIsSelectedArray[index];
 			if(mIsSingle){
-				checked = true;
-				mIsSelectedArray = new boolean[getItemCount()];
-				mIsSelectedArray[index] = true;
-				mChoiceNumber = 1;
+				if (mAutoCancel) {
+					if (checked) {
+						for (int i = 0; i < mIsSelectedArray.length; i++) {
+							mIsSelectedArray[i] = false;
+						}
+						mIsSelectedArray[index] = true;
+						mChoiceNumber = 1;
+					} else {
+						mIsSelectedArray[index] = false;
+						mChoiceNumber = 0;
+					}
+				} else {
+					checked = true;
+					mIsSelectedArray = new boolean[getItemCount()];
+					mIsSelectedArray[index] = true;
+					mChoiceNumber = 1;
+				}
 			} else {
 				if (mChoiceNumber >= mMaxChoiceNumber && checked) {
 					for (MultiChoiceListener<T> listener : mListeners) {

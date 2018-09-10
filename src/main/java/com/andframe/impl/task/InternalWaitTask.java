@@ -27,7 +27,7 @@ public class InternalWaitTask extends InternalTask {
     @Override
     protected void onHandle() {
         hideProgressDialog();
-        if (isFinish()) {
+        if (success()) {
             makeToastSuccess();
         } else if (mException != null) {
             makeToastFail(mException);

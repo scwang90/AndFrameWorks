@@ -13,6 +13,7 @@ import com.andframe.api.Paging;
 import com.andframe.api.adapter.AnimatedAdapter;
 import com.andframe.api.adapter.HeaderFooterAdapter;
 import com.andframe.api.adapter.ItemsViewerAdapter;
+import com.andframe.api.pager.status.RefreshManager;
 import com.andframe.api.pager.status.StatusHelper;
 import com.andframe.api.task.TaskWithPaging;
 import com.andframe.api.viewer.ItemsViewer;
@@ -42,7 +43,7 @@ public interface ItemsHelper<T> extends StatusHelper<List<T>>, OnItemClickListen
     ItemsViewer findItemsViewer(View contentView);
 
     /**
-     * 如果@newRefreshLayouter中返回的下拉刷新控件】@{@link com.andframe.api.pager.status.RefreshLayouter}
+     * 如果@newRefreshLayouter中返回的下拉刷新控件】@{@link RefreshManager}
      * 没有实现【加载更多接口】 @{@link MoreLayouter} 则会使用滚动底部自动加载更多
      * @return 在列表底部显示正在加载更多的布局 @{@link MoreFooter}
      */
@@ -183,15 +184,21 @@ public interface ItemsHelper<T> extends StatusHelper<List<T>>, OnItemClickListen
 
     //<editor-fold desc="页面状态">
 
-    /**
-     * 刷新任务执行成功之后显示数据
-     */
-    void finishRefresh();
+//    /**
+//     * 刷新任务执行成功之后显示数据
+//     */
+//    void finishRefresh();
+//
+//    /**
+//     * 刷新任务加载失败后更新显示失败的状态
+//     */
+//    void finishRefreshFail();
 
     /**
-     * 刷新任务加载失败后更新显示失败的状态
+     * 刷新任务结束
+     * @param success 刷新是否成功
      */
-    void finishRefreshFail();
+    void finishRefresh(boolean success);
 
     /**
      * 数据加载完毕之后控制页面是否显示加载更多的状态 内部会调用 @setLoadMoreEnabled

@@ -31,7 +31,7 @@ public class InternalTask extends AfHandlerTask {
         if (builder.finallyRunnable != null) {
             builder.finallyRunnable.run();
         }
-        if (isFinish()) {
+        if (success()) {
             if (builder.successRunnable != null) {
                 builder.successRunnable.run();
             }

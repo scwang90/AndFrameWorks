@@ -21,7 +21,7 @@ public abstract class AfHandlerTask extends AfTask implements TaskWithHandler {
 	@Override
 	public void run() {
 		super.run();
-		if (mStatus != Status.canceld && mHandler != null) {
+		if (mStatus != Status.canceled && mHandler != null) {
 			mHandler.post(this::handleMessage);
 		}
 	}
