@@ -4,19 +4,19 @@
     <item android:state_pressed="true">
         <shape>
             <solid android:color="@color/gray_white"/>
-            <corners android:radius="5dp"/>
+            <corners android:radius="6dp"/>
         </shape>
     </item>
     <item android:state_enabled="false">
         <shape>
             <solid android:color="@color/gray_light"/>
-            <corners android:radius="5dp"/>
+            <corners android:radius="6dp"/>
         </shape>
     </item>
     <item>
         <shape>
             <solid android:color="@color/gray_light"/>
-            <corners android:radius="5dp"/>
+            <corners android:radius="6dp"/>
         </shape>
     </item>
 </selector>
