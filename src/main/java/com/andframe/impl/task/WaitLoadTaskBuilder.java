@@ -78,7 +78,7 @@ public class WaitLoadTaskBuilder<T> extends WaitTaskBuilder implements WaitLoadB
 
     @Override
     public WaitLoadTaskBuilder<T> exception(boolean feedback, ExceptionHandler handler) {
-        super.exception(handler);
+        super.exception(feedback, handler);
         feedbackOnException = feedback;
         return this;
     }

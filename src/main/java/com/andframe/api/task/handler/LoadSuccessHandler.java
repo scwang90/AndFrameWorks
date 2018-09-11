@@ -1,5 +1,7 @@
 package com.andframe.api.task.handler;
 
+import android.support.annotation.NonNull;
+
 /**
  * 任务
  * Created by SCWANG on 2016/10/13.
@@ -7,6 +9,6 @@ package com.andframe.api.task.handler;
 
 public interface LoadSuccessHandler<T> {
 
-    void onSuccess(T model);
+    void onSuccess(@NonNull T model);
 
 }
