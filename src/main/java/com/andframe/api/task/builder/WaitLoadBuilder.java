@@ -1,7 +1,7 @@
 package com.andframe.api.task.builder;
 
+import com.andframe.api.EmptyDecider;
 import com.andframe.api.pager.Pager;
-import com.andframe.api.task.handler.EmptyJudger;
 import com.andframe.api.task.handler.ExceptionHandler;
 import com.andframe.api.task.handler.LoadSuccessHandler;
 import com.andframe.api.task.handler.LoadingHandler;
@@ -27,12 +27,11 @@ public interface WaitLoadBuilder<T> extends WaitBuilder, LoadBuilder<T> {
     WaitLoadBuilder<T> loadEmpty(boolean feedback, Runnable runnable);
     WaitLoadBuilder<T> loadSuccess(boolean feedback, LoadSuccessHandler<T> handler);
 
-
     /**
      * 重写接口
      */
     @Override
-    WaitLoadBuilder<T> isEmpty(EmptyJudger<T> handler);
+    WaitLoadBuilder<T> isEmpty(EmptyDecider<T> handler);
     @Override
     WaitLoadBuilder<T> prepare(Runnable runnable);
     @Override
@@ -61,13 +60,15 @@ public interface WaitLoadBuilder<T> extends WaitBuilder, LoadBuilder<T> {
     @Deprecated
     WaitLoadBuilder<T> wait(Pager pager, String master);
     @Deprecated
+    <TT> WaitLoadBuilder<TT> load(LoadingHandler<TT> handler);
+    @Deprecated
     <TT> WaitLoadBuilder<TT> load(Class<TT> clazz);
     @Deprecated
-    <T> WaitLoadBuilder<Set<T>> loadSet(Class<T> clazz);
+    <TT> WaitLoadBuilder<Set<TT>> loadSet(Class<TT> clazz);
     @Deprecated
     <TT> WaitLoadBuilder<List<TT>> loadList(Class<TT> clazz);
     @Deprecated
-    <T> WaitLoadBuilder<Collection<T>> loadCollection(Class<T> clazz);
+    <TT> WaitLoadBuilder<Collection<TT>> loadCollection(Class<TT> clazz);
     @Deprecated
     <K,V> WaitLoadBuilder<Map<K,V>> loadMap(Class<K> key, Class<V> value);
 }

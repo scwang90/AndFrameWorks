@@ -14,7 +14,6 @@ import android.support.annotation.ColorRes;
 import android.support.annotation.DimenRes;
 import android.support.annotation.DrawableRes;
 import android.support.annotation.IdRes;
-import android.support.annotation.LayoutRes;
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
 import android.support.annotation.StringRes;
@@ -39,7 +38,6 @@ import java.io.File;
 import java.text.DateFormat;
 import java.util.Collection;
 import java.util.Date;
-import java.util.List;
 import java.util.Locale;
 
 /**
@@ -321,6 +319,10 @@ public interface ViewQuery<T extends ViewQuery<T>> {
      */
     T onKey(View.OnKeyListener listener);
 
+    /**
+     * 设置阴影
+     */
+    T elevation(float dp);
     //</editor-fold>
 
     //<editor-fold desc="基本获取">
@@ -345,6 +347,11 @@ public interface ViewQuery<T extends ViewQuery<T>> {
      * 获取当前选中 View 的 LayoutParams
      */
     LayoutParams layoutParams();
+
+    /**
+     * 获取阴影
+     */
+    float elevation();
 
     //</editor-fold>
 
@@ -571,16 +578,16 @@ public interface ViewQuery<T extends ViewQuery<T>> {
      */
     float rotation();
 
-    float x();
-    float y();
-    float z();
-    float scrollX();
-    float scrollY();
-    float translationX();
-    float translationY();
-    float translationZ();
-    float pivotX();
-    float pivotY();
+    int x();
+    int y();
+    int z();
+    int scrollX();
+    int scrollY();
+    int translationX();
+    int translationY();
+    int translationZ();
+    int pivotX();
+    int pivotY();
 
     //</editor-fold>
 

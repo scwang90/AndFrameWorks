@@ -5,6 +5,7 @@ import com.andframe.api.task.Task;
 import com.andframe.api.task.builder.WaitBuilder;
 import com.andframe.api.task.builder.WaitLoadBuilder;
 import com.andframe.api.task.handler.ExceptionHandler;
+import com.andframe.api.task.handler.LoadingHandler;
 import com.andframe.api.task.handler.PrepareHandler;
 import com.andframe.api.task.handler.WorkingHandler;
 
@@ -101,24 +102,29 @@ public class WaitTaskBuilder extends TaskBuilder implements WaitBuilder {
         return this;
     }
 
+    @Override
+    public <T> WaitLoadBuilder<T> load(LoadingHandler<T> handler) {
+        return new WaitLoadTaskBuilder<>(this, handler);
+    }
+
     public <T> WaitLoadBuilder<T> load(Class<T> clazz) {
-        return new WaitLoadTaskBuilder<>(this, clazz);
+        return new WaitLoadTaskBuilder<>(this);
     }
     @Override
     public <T> WaitLoadBuilder<Set<T>> loadSet(Class<T> clazz) {
-        return new WaitLoadTaskBuilder<>(this, null);
+        return new WaitLoadTaskBuilder<>(this);
     }
     @Override
     public <TT> WaitLoadBuilder<List<TT>> loadList(Class<TT> clazz) {
-        return new WaitLoadTaskBuilder<>(this, null);
+        return new WaitLoadTaskBuilder<>(this);
     }
     @Override
     public <T> WaitLoadBuilder<Collection<T>> loadCollection(Class<T> clazz) {
-        return new WaitLoadTaskBuilder<>(this, null);
+        return new WaitLoadTaskBuilder<>(this);
     }
     @Override
     public <K,V> WaitLoadBuilder<Map<K,V>> loadMap(Class<K> key, Class<V> value) {
-        return new WaitLoadTaskBuilder<>(this, null);
+        return new WaitLoadTaskBuilder<>(this);
     }
     //</editor-fold>
 }

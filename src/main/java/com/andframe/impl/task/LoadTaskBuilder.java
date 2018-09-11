@@ -1,10 +1,10 @@
 package com.andframe.impl.task;
 
+import com.andframe.api.EmptyDecider;
 import com.andframe.api.pager.Pager;
 import com.andframe.api.task.Task;
 import com.andframe.api.task.builder.LoadBuilder;
 import com.andframe.api.task.builder.WaitLoadBuilder;
-import com.andframe.api.task.handler.EmptyJudger;
 import com.andframe.api.task.handler.ExceptionHandler;
 import com.andframe.api.task.handler.LoadSuccessHandler;
 import com.andframe.api.task.handler.LoadingHandler;
@@ -17,14 +17,18 @@ import com.andframe.api.task.handler.PrepareHandler;
 @SuppressWarnings("WeakerAccess")
 public class LoadTaskBuilder<T> extends TaskBuilder implements LoadBuilder<T> {
 
-    public Class<T> clazz;
     public LoadingHandler<T> loadingHandler;
     public LoadSuccessHandler<T> loadSuccessHandler;
     public Runnable emptyRunnable;
-    public EmptyJudger<T> isEmptyHandler;
+    public EmptyDecider<T> isEmptyHandler;
 
-    public LoadTaskBuilder(TaskBuilder builder, Class<T> clazz) {
-        this.clazz = clazz;
+
+    public LoadTaskBuilder(TaskBuilder builder) {
+        this(builder, null);
+    }
+
+    public LoadTaskBuilder(TaskBuilder builder, LoadingHandler<T> loadingHandler) {
+        this.loadingHandler = loadingHandler;
         this.prepareRunnable = builder.prepareRunnable;
         this.prepareHandler = builder.prepareHandler;
         this.workingHandler = builder.workingHandler;
@@ -38,7 +42,7 @@ public class LoadTaskBuilder<T> extends TaskBuilder implements LoadBuilder<T> {
     //<editor-fold desc="设置参数">
 
     @Override
-    public LoadBuilder<T> isEmpty(EmptyJudger<T> isEmptyHandler) {
+    public LoadBuilder<T> isEmpty(EmptyDecider<T> isEmptyHandler) {
         this.isEmptyHandler = isEmptyHandler;
         return this;
     }

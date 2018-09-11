@@ -7,6 +7,7 @@ import com.andframe.api.task.builder.Builder;
 import com.andframe.api.task.builder.LoadBuilder;
 import com.andframe.api.task.builder.WaitBuilder;
 import com.andframe.api.task.handler.ExceptionHandler;
+import com.andframe.api.task.handler.LoadingHandler;
 import com.andframe.api.task.handler.PrepareHandler;
 import com.andframe.api.task.handler.WorkingHandler;
 
@@ -100,25 +101,30 @@ public class TaskBuilder implements Builder {
     }
 
     @Override
+    public <T> LoadBuilder<T> load(LoadingHandler<T> handler) {
+        return new LoadTaskBuilder<>(this, handler);
+    }
+
+    @Override
     public <T> LoadBuilder<T> load(Class<T> clazz) {
-        return new LoadTaskBuilder<>(this, clazz);
+        return new LoadTaskBuilder<>(this);
     }
 
     public <T> LoadBuilder<Set<T>> loadSet(Class<T> clazz) {
-        return new LoadTaskBuilder<>(this, null);
+        return new LoadTaskBuilder<>(this);
     }
 
     @Override
     public <T> LoadBuilder<List<T>> loadList(Class<T> clazz) {
-        return new LoadTaskBuilder<>(this, null);
+        return new LoadTaskBuilder<>(this);
     }
 
     public <T> LoadBuilder<Collection<T>> loadCollection(Class<T> clazz) {
-        return new LoadTaskBuilder<>(this, null);
+        return new LoadTaskBuilder<>(this);
     }
 
     public <K,V> LoadBuilder<Map<K,V>> loadMap(Class<K> key, Class<V> value) {
-        return new LoadTaskBuilder<>(this, null);
+        return new LoadTaskBuilder<>(this);
     }
 
     @Override

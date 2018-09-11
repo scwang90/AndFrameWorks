@@ -1,7 +1,7 @@
 package com.andframe.api.task.builder;
 
+import com.andframe.api.EmptyDecider;
 import com.andframe.api.pager.Pager;
-import com.andframe.api.task.handler.EmptyJudger;
 import com.andframe.api.task.handler.ExceptionHandler;
 import com.andframe.api.task.handler.LoadSuccessHandler;
 import com.andframe.api.task.handler.LoadingHandler;
@@ -23,7 +23,7 @@ public interface LoadBuilder<T> extends Builder {
     /**
      * 特有接口
      */
-    LoadBuilder<T> isEmpty(EmptyJudger<T> handler);
+    LoadBuilder<T> isEmpty(EmptyDecider<T> handler);
     LoadBuilder<T> loading(LoadingHandler<T> handler);
     LoadBuilder<T> loadSuccess(LoadSuccessHandler<T> handler);
     LoadBuilder<T> loadEmpty(Runnable runnable);
@@ -49,13 +49,15 @@ public interface LoadBuilder<T> extends Builder {
     @Deprecated
     Builder success(Runnable runnable);
     @Deprecated
+    <TT> LoadBuilder<TT> load(LoadingHandler<TT> handler);
+    @Deprecated
     <TT> LoadBuilder<TT> load(Class<TT> clazz);
     @Deprecated
-    <T> LoadBuilder<Set<T>> loadSet(Class<T> clazz);
+    <TT> LoadBuilder<Set<TT>> loadSet(Class<TT> clazz);
     @Deprecated
     <TT> LoadBuilder<List<TT>> loadList(Class<TT> clazz);
     @Deprecated
-    <T> LoadBuilder<Collection<T>> loadCollection(Class<T> clazz);
+    <TT> LoadBuilder<Collection<TT>> loadCollection(Class<TT> clazz);
     @Deprecated
     <K,V> LoadBuilder<Map<K,V>> loadMap(Class<K> key, Class<V> value);
 }

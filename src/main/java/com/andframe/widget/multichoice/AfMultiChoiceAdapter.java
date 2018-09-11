@@ -9,7 +9,6 @@ import com.andframe.adapter.AfListAdapter;
 import com.andframe.api.adapter.ItemViewer;
 
 import java.util.ArrayList;
-import java.util.Arrays;
 import java.util.Collection;
 import java.util.Collections;
 import java.util.List;

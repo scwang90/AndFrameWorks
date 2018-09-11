@@ -1,9 +1,9 @@
 package com.andframe.impl.task;
 
+import com.andframe.api.EmptyDecider;
 import com.andframe.api.pager.Pager;
 import com.andframe.api.task.Task;
 import com.andframe.api.task.builder.WaitLoadBuilder;
-import com.andframe.api.task.handler.EmptyJudger;
 import com.andframe.api.task.handler.ExceptionHandler;
 import com.andframe.api.task.handler.LoadSuccessHandler;
 import com.andframe.api.task.handler.LoadingHandler;
@@ -22,25 +22,27 @@ import java.util.Set;
 @SuppressWarnings("WeakerAccess")
 public class WaitLoadTaskBuilder<T> extends WaitTaskBuilder implements WaitLoadBuilder<T> {
 
-    public Class<T> clazz;
     public Runnable emptyRunnable;
     public LoadingHandler<T> loadingHandler;
     public LoadSuccessHandler<T> loadSuccessHandler;
-    public EmptyJudger<T> isEmptyHandler;
+    public EmptyDecider<T> isEmptyHandler;
     public boolean feedbackOnEmpty = true;
 
-    public WaitLoadTaskBuilder(WaitTaskBuilder builder, Class<T> clazz) {
+    public WaitLoadTaskBuilder(WaitTaskBuilder builder) {
+        this(builder, null);
+    }
+
+    public WaitLoadTaskBuilder(WaitTaskBuilder builder, LoadingHandler<T> loadingHandler) {
         super(builder, builder.pager.get(), builder.master);
-        this.clazz = clazz;
         this.pager = builder.pager;
         this.master = builder.master;
+        this.loadingHandler = loadingHandler;
         this.feedbackOnSuccess = builder.feedbackOnSuccess;
         this.feedbackOnException = builder.feedbackOnException;
     }
 
     public WaitLoadTaskBuilder(LoadTaskBuilder<T> builder, Pager pager, String master) {
         super(builder, pager, master);
-        this.clazz = builder.clazz;
         this.loadingHandler = builder.loadingHandler;
         this.loadSuccessHandler = builder.loadSuccessHandler;
         this.emptyRunnable = builder.emptyRunnable;
@@ -56,7 +58,7 @@ public class WaitLoadTaskBuilder<T> extends WaitTaskBuilder implements WaitLoadB
     //<editor-fold desc="设置参数">
 
     @Override
-    public WaitLoadBuilder<T> isEmpty(EmptyJudger<T> handler) {
+    public WaitLoadBuilder<T> isEmpty(EmptyDecider<T> handler) {
         isEmptyHandler = handler;
         return this;
     }
@@ -160,6 +162,12 @@ public class WaitLoadTaskBuilder<T> extends WaitTaskBuilder implements WaitLoadB
     //</editor-fold>
 
     //<editor-fold desc="禁用接口">
+
+    @Override
+    public <TT> WaitLoadBuilder<TT> load(LoadingHandler<TT> handler) {
+        return null;
+    }
+
     @Override
     public <TT> WaitLoadBuilder<TT> load(Class<TT> clazz) {
         return null;

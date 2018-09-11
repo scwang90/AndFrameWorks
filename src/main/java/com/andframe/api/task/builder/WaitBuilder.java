@@ -2,6 +2,7 @@ package com.andframe.api.task.builder;
 
 import com.andframe.api.pager.Pager;
 import com.andframe.api.task.handler.ExceptionHandler;
+import com.andframe.api.task.handler.LoadingHandler;
 import com.andframe.api.task.handler.PrepareHandler;
 import com.andframe.api.task.handler.WorkingHandler;
 
@@ -36,6 +37,7 @@ public interface WaitBuilder extends Builder {
     WaitBuilder success(Runnable success);
     WaitBuilder fina11y(Runnable fina11y);
     WaitBuilder exception(ExceptionHandler handler);
+    <T> WaitLoadBuilder<T> load(LoadingHandler<T> handler);
     <T> WaitLoadBuilder<T> load(Class<T> clazz);
     <T> WaitLoadBuilder<Set<T>> loadSet(Class<T> clazz);
     <T> WaitLoadBuilder<List<T>> loadList(Class<T> clazz);
