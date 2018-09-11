@@ -2,7 +2,7 @@ package com.andpack.impl;
 
 import android.content.Context;
 
-import com.andframe.api.pager.status.StatusManager;
+import com.andframe.api.pager.status.StatusLayoutManager;
 import com.andpack.api.ApPager;
 
 /**
@@ -15,7 +15,7 @@ public class ApStatusHelper extends ApLoadHelper {
         super(pager);
     }
 
-    public StatusManager newStatusManager(Context context) {
+    public StatusLayoutManager newStatusManager(Context context) {
         return null;
     }
 }

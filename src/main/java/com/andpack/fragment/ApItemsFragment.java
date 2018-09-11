@@ -7,8 +7,8 @@ import android.support.v4.app.Fragment;
 
 import com.andframe.api.adapter.ItemViewer;
 import com.andframe.api.adapter.ItemsViewerAdapter;
-import com.andframe.api.pager.status.RefreshManager;
-import com.andframe.api.pager.status.StatusManager;
+import com.andframe.api.pager.status.RefreshLayoutManager;
+import com.andframe.api.pager.status.StatusLayoutManager;
 import com.andframe.api.viewer.ViewQuery;
 import com.andframe.exception.AfException;
 import com.andframe.fragment.AfItemsFragment;
@@ -72,22 +72,22 @@ public abstract class ApItemsFragment<T> extends AfItemsFragment<T> implements A
 
     @NonNull
     @Override
-    public RefreshManager newRefreshManager(Context context) {
-        RefreshManager layoutManager = mApHelper.newRefreshManager(context);
+    public RefreshLayoutManager newRefreshLayoutManager(Context context) {
+        RefreshLayoutManager layoutManager = mApHelper.newRefreshManager(context);
         if (layoutManager != null) {
             return layoutManager;
         }
-        return super.newRefreshManager(context);
+        return super.newRefreshLayoutManager(context);
     }
 
     @NonNull
     @Override
-    public StatusManager newStatusManager(Context context) {
-        StatusManager layoutManager = mApHelper.newStatusManager(context);
+    public StatusLayoutManager newStatusLayoutManager(Context context) {
+        StatusLayoutManager layoutManager = mApHelper.newStatusManager(context);
         if (layoutManager != null) {
             return layoutManager;
         }
-        return super.newStatusManager(context);
+        return super.newStatusLayoutManager(context);
     }
 
     @NonNull

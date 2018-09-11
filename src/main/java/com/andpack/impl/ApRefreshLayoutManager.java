@@ -7,7 +7,7 @@ import android.view.ViewGroup;
 import android.view.ViewParent;
 
 import com.andframe.api.pager.status.OnRefreshListener;
-import com.andframe.api.pager.status.RefreshManager;
+import com.andframe.api.pager.status.RefreshLayoutManager;
 import com.scwang.smartrefresh.layout.SmartRefreshLayout;
 import com.scwang.smartrefresh.layout.api.RefreshHeader;
 import com.scwang.smartrefresh.layout.constant.RefreshState;
@@ -25,7 +25,7 @@ import static android.widget.ListPopupWindow.WRAP_CONTENT;
  */
 
 @SuppressWarnings("unused")
-public class ApRefreshManager implements RefreshManager<SmartRefreshLayout> {
+public class ApRefreshLayoutManager implements RefreshLayoutManager<SmartRefreshLayout> {
 
     protected final SmartRefreshLayout mRefreshLayout;
 
@@ -33,14 +33,14 @@ public class ApRefreshManager implements RefreshManager<SmartRefreshLayout> {
         SmartRefreshLayout.setDefaultRefreshHeaderCreator((context, layout) -> new BezierRadarHeader(context));
     }
 
-    public ApRefreshManager(Context context) {
+    public ApRefreshLayoutManager(Context context) {
         mRefreshLayout = new SmartRefreshLayout(context);
         mRefreshLayout.setRefreshHeader(newHeader(context));
         mRefreshLayout.setEnableLoadMore(false);
         mRefreshLayout.setEnableOverScrollBounce(false);
     }
 
-    public ApRefreshManager(Context context, int primaryId, int frontId) {
+    public ApRefreshLayoutManager(Context context, int primaryId, int frontId) {
         mRefreshLayout = new SmartRefreshLayout(context);
         mRefreshLayout.setRefreshHeader(newHeader(context));
         mRefreshLayout.setEnableLoadMore(false);
@@ -48,7 +48,7 @@ public class ApRefreshManager implements RefreshManager<SmartRefreshLayout> {
         mRefreshLayout.setEnableOverScrollBounce(false);
     }
 
-    public ApRefreshManager(SmartRefreshLayout refreshLayout) {
+    public ApRefreshLayoutManager(SmartRefreshLayout refreshLayout) {
         mRefreshLayout = refreshLayout;
         mRefreshLayout.setRefreshHeader(newHeader(refreshLayout.getContext()));
         mRefreshLayout.setEnableLoadMore(false);

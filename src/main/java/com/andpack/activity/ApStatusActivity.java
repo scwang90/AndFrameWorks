@@ -9,8 +9,8 @@ import android.support.v4.app.Fragment;
 import android.view.View;
 
 import com.andframe.activity.AfStatusActivity;
-import com.andframe.api.pager.status.RefreshManager;
-import com.andframe.api.pager.status.StatusManager;
+import com.andframe.api.pager.status.RefreshLayoutManager;
+import com.andframe.api.pager.status.StatusLayoutManager;
 import com.andpack.api.ApPager;
 import com.andpack.impl.ApStatusHelper;
 
@@ -81,22 +81,22 @@ public abstract class ApStatusActivity<T> extends AfStatusActivity<T> implements
 
     @NonNull
     @Override
-    public RefreshManager newRefreshManager(Context context) {
-        RefreshManager layoutManager = mApHelper.newRefreshManager(context);
+    public RefreshLayoutManager newRefreshLayoutManager(Context context) {
+        RefreshLayoutManager layoutManager = mApHelper.newRefreshManager(context);
         if (layoutManager != null) {
             return layoutManager;
         }
-        return super.newRefreshManager(context);
+        return super.newRefreshLayoutManager(context);
     }
 
     @NonNull
     @Override
-    public StatusManager newStatusManager(Context context) {
-        StatusManager layoutManager = mApHelper.newStatusManager(context);
+    public StatusLayoutManager newStatusLayoutManager(Context context) {
+        StatusLayoutManager layoutManager = mApHelper.newStatusManager(context);
         if (layoutManager != null) {
             return layoutManager;
         }
-        return super.newStatusManager(context);
+        return super.newStatusLayoutManager(context);
     }
 
     @Override

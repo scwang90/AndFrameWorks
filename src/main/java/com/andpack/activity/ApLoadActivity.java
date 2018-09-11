@@ -9,7 +9,7 @@ import android.support.v4.app.Fragment;
 import android.view.View;
 
 import com.andframe.activity.AfLoadActivity;
-import com.andframe.api.pager.status.RefreshManager;
+import com.andframe.api.pager.status.RefreshLayoutManager;
 import com.andpack.api.ApPager;
 import com.andpack.impl.ApLoadHelper;
 
@@ -80,12 +80,12 @@ public abstract class ApLoadActivity<T> extends AfLoadActivity<T> implements ApP
 
     @NonNull
     @Override
-    public RefreshManager newRefreshManager(Context context) {
-        RefreshManager layoutManager = mApHelper.newRefreshManager(context);
+    public RefreshLayoutManager newRefreshLayoutManager(Context context) {
+        RefreshLayoutManager layoutManager = mApHelper.newRefreshManager(context);
         if (layoutManager != null) {
             return layoutManager;
         }
-        return super.newRefreshManager(context);
+        return super.newRefreshLayoutManager(context);
     }
 
     @Override
