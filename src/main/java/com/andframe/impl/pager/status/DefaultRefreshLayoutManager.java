@@ -9,7 +9,7 @@ import android.view.ViewGroup;
 import android.view.ViewParent;
 
 import com.andframe.api.pager.status.OnRefreshListener;
-import com.andframe.api.pager.status.RefreshManager;
+import com.andframe.api.pager.status.RefreshLayoutManager;
 
 import java.util.Date;
 
@@ -20,17 +20,17 @@ import static android.view.ViewGroup.LayoutParams.MATCH_PARENT;
  * Created by SCWANG on 2016/10/20.
  */
 
-public class DefaultRefreshManager implements RefreshManager<SwipeRefreshLayout>, SwipeRefreshLayout.OnRefreshListener {
+public class DefaultRefreshLayoutManager implements RefreshLayoutManager<SwipeRefreshLayout>, SwipeRefreshLayout.OnRefreshListener {
 
     private final SwipeRefreshLayout mRefreshLayout;
     private OnRefreshListener mOnRefreshListener;
     private View mContentView;
 
-    public DefaultRefreshManager(Context context) {
+    public DefaultRefreshLayoutManager(Context context) {
         this(new SwipeRefreshLayout(context));
     }
 
-    public DefaultRefreshManager(SwipeRefreshLayout layout) {
+    public DefaultRefreshLayoutManager(SwipeRefreshLayout layout) {
         mRefreshLayout = layout;
         mRefreshLayout.setOnRefreshListener(this);
         mRefreshLayout.setColorSchemeResources(

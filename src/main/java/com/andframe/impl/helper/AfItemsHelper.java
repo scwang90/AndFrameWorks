@@ -38,15 +38,15 @@ import com.andframe.api.adapter.ItemsViewerAdapter;
 import com.andframe.api.pager.items.ItemsHelper;
 import com.andframe.api.pager.items.ItemsPager;
 import com.andframe.api.pager.items.MoreFooter;
-import com.andframe.api.pager.items.MoreLayouter;
-import com.andframe.api.pager.status.StatusManager;
+import com.andframe.api.pager.items.MoreLayoutManager;
+import com.andframe.api.pager.status.StatusLayoutManager;
 import com.andframe.api.task.Task;
 import com.andframe.api.task.TaskWithPaging;
 import com.andframe.api.viewer.ItemsViewer;
 import com.andframe.application.AfApp;
 import com.andframe.exception.AfExceptionHandler;
 import com.andframe.fragment.AfItemsFragment;
-import com.andframe.impl.pager.items.MoreFooterLayouter;
+import com.andframe.impl.pager.items.MoreFooterLayoutManager;
 import com.andframe.impl.viewer.ItemsViewerWrapper;
 import com.andframe.impl.viewer.ViewerWrapper;
 import com.andframe.model.Page;
@@ -70,7 +70,7 @@ public class AfItemsHelper<T> extends AfStatusHelper<List<T>> implements ItemsHe
     //<editor-fold desc="属性字段">
     protected ItemsPager<T> mItemsPager;
 
-    protected MoreLayouter mMoreLayouter;
+    protected MoreLayoutManager mMoreLayoutManager;
     protected MoreFooter mMoreFooter;
     protected com.andframe.api.viewer.ItemsViewer mItemsViewer;
     protected ItemsViewerAdapter<T> mAdapter;
@@ -142,11 +142,11 @@ public class AfItemsHelper<T> extends AfStatusHelper<List<T>> implements ItemsHe
         mItemsPager.bindAdapter(mItemsViewer, mAdapter);
 
         if (mAdapter != null && mAdapter.size() > 0) {
-            mItemsPager.showStatus(StatusManager.Status.content);
+            mItemsPager.showStatus(StatusLayoutManager.Status.content);
         } else if (mCacheClazz != null) {
             AfDispatcher.dispatch(() -> mItemsPager.postTask(new AbLoadListTask()));
         } else {
-            mItemsPager.showStatus(StatusManager.Status.progress);
+            mItemsPager.showStatus(StatusLayoutManager.Status.progress);
             AfDispatcher.dispatch(() -> mItemsPager.postTask(new AbRefreshListTask()));
         }
     }
@@ -250,9 +250,9 @@ public class AfItemsHelper<T> extends AfStatusHelper<List<T>> implements ItemsHe
     @Override
     public void onDataChanged() {
         if (mItemsPager.isEmpty(mAdapter.getList())) {
-            mItemsPager.showStatus(StatusManager.Status.empty);
+            mItemsPager.showStatus(StatusLayoutManager.Status.empty);
         } else {
-            mItemsPager.showStatus(StatusManager.Status.content);
+            mItemsPager.showStatus(StatusLayoutManager.Status.content);
         }
     }
 
@@ -277,24 +277,24 @@ public class AfItemsHelper<T> extends AfStatusHelper<List<T>> implements ItemsHe
 //            mItemsPager.finishRefresh();
             //noinspection StatementWithEmptyBody
             if (!mItemsPager.isEmpty(list)) {
-//                mItemsPager.showStatus(StatusManager.Status.content) mAdapter.set 会触发showContent
+//                mItemsPager.showStatus(StatusLayoutManager.Status.content) mAdapter.set 会触发showContent
                 mItemsPager.setMoreShow(task, list);
             } else {
-//                mItemsPager.showStatus(StatusManager.Status.empty);mAdapter.set 会触发showEmpty
+//                mItemsPager.showStatus(StatusLayoutManager.Status.empty);mAdapter.set 会触发showEmpty
             }
             mAdapter.set(list == null ? new ArrayList<>() : list);
         } else {
             //通知列表刷新失败
 //            mItemsPager.finishRefreshFail();
             if (mAdapter != null && mAdapter.size() > 0) {
-                mItemsPager.showStatus(StatusManager.Status.content);
+                mItemsPager.showStatus(StatusLayoutManager.Status.content);
                 mItemsPager.makeToastLong(task.makeErrorToast(getContext().getString(R.string.items_refresh_fail)));
             } else if (!mItemsPager.isEmpty(list)) {
-//                mItemsPager.showStatus(StatusManager.Status.content) mAdapter.set 会触发showContent
+//                mItemsPager.showStatus(StatusLayoutManager.Status.content) mAdapter.set 会触发showContent
                 mAdapter.set(list == null ? new ArrayList<>() : list);
                 mItemsPager.makeToastLong(task.makeErrorToast(getContext().getString(R.string.items_refresh_fail)));
             } else {
-                mItemsPager.showStatus(StatusManager.Status.error,task.makeErrorToast(getContext().getString(R.string.items_refresh_fail)));
+                mItemsPager.showStatus(StatusLayoutManager.Status.error,task.makeErrorToast(getContext().getString(R.string.items_refresh_fail)));
             }
         }
     }
@@ -310,7 +310,7 @@ public class AfItemsHelper<T> extends AfStatusHelper<List<T>> implements ItemsHe
     @Override
     public void onTaskLoadedMore(@NonNull TaskWithPaging task, List<T> list) {
         // 通知列表刷新完成
-        mMoreLayouter.finishLoadMore();
+        mMoreLayoutManager.finishLoadMore();
         if (task.success()) {
             if (list != null && list.size() > 0) {
                 // 更新列表
@@ -421,7 +421,7 @@ public class AfItemsHelper<T> extends AfStatusHelper<List<T>> implements ItemsHe
 
     @Override
     public void setLoadMoreEnabled(boolean enabled) {
-        mMoreLayouter.setLoadMoreEnabled(enabled);
+        mMoreLayoutManager.setLoadMoreEnabled(enabled);
     }
 
     @Override
@@ -438,31 +438,31 @@ public class AfItemsHelper<T> extends AfStatusHelper<List<T>> implements ItemsHe
 
     @Override
     public void finishRefresh(boolean success) {
-        if (mRefreshManager != null && mRefreshManager.isRefreshing()) {
-            mRefreshManager.finishRefresh(success);
+        if (mRefreshLayoutManager != null && mRefreshLayoutManager.isRefreshing()) {
+            mRefreshLayoutManager.finishRefresh(success);
             if (success) {
-                mRefreshManager.setLastRefreshTime(new Date());
+                mRefreshLayoutManager.setLastRefreshTime(new Date());
             }
-        } else if (mStatusManager == null || !mStatusManager.isProgress()) {
+        } else if (mStatusLayoutManager == null || !mStatusLayoutManager.isProgress()) {
             mItemsPager.hideProgressDialog();
         }
     }
 
 //    @Override
 //    public void finishRefresh() {
-//        if (mRefreshManager != null && mRefreshManager.isRefreshing()) {
-//            mRefreshManager.setRefreshComplete();
-//            mRefreshManager.setLastRefreshTime(new Date());
-//        } else if (mStatusManager == null || !mStatusManager.isProgress()) {
+//        if (mRefreshLayoutManager != null && mRefreshLayoutManager.isRefreshing()) {
+//            mRefreshLayoutManager.setRefreshComplete();
+//            mRefreshLayoutManager.setLastRefreshTime(new Date());
+//        } else if (mStatusLayoutManager == null || !mStatusLayoutManager.isProgress()) {
 //            mItemsPager.hideProgressDialog();
 //        }
 //    }
 //
 //    @Override
 //    public void finishRefreshFail() {
-//        if (mRefreshManager != null && mRefreshManager.isRefreshing()) {
-//            mRefreshManager.setRefreshFailed();
-//        } else if (mStatusManager == null || !mStatusManager.isProgress()) {
+//        if (mRefreshLayoutManager != null && mRefreshLayoutManager.isRefreshing()) {
+//            mRefreshLayoutManager.setRefreshFailed();
+//        } else if (mStatusLayoutManager == null || !mStatusLayoutManager.isProgress()) {
 //            mItemsPager.hideProgressDialog();
 //        }
 //    }
@@ -474,14 +474,14 @@ public class AfItemsHelper<T> extends AfStatusHelper<List<T>> implements ItemsHe
 
     @Override
     public void initHeaderAndFooter(@NonNull HeaderFooterAdapter<T> adapter) {
-        if (mRefreshManager instanceof MoreLayouter) {
-            mMoreLayouter = ((MoreLayouter) mRefreshManager);
+        if (mRefreshLayoutManager instanceof MoreLayoutManager) {
+            mMoreLayoutManager = ((MoreLayoutManager) mRefreshLayoutManager);
         } else {
             mMoreFooter = mItemsPager.newMoreFooter();
-            mMoreLayouter = new MoreFooterLayouter<>(mMoreFooter, adapter, mItemsViewer);
+            mMoreLayoutManager = new MoreFooterLayoutManager<>(mMoreFooter, adapter, mItemsViewer);
         }
-        mMoreLayouter.setOnMoreListener(mItemsPager);
-        mMoreLayouter.setLoadMoreEnabled(false);
+        mMoreLayoutManager.setOnMoreListener(mItemsPager);
+        mMoreLayoutManager.setLoadMoreEnabled(false);
 
         Class<?> stop = mPager instanceof Activity ? AfItemsActivity.class : AfItemsFragment.class;
         ItemsHeader headers = AfReflecter.getAnnotation(mPager.getClass(), stop, ItemsHeader.class);
@@ -686,7 +686,7 @@ public class AfItemsHelper<T> extends AfStatusHelper<List<T>> implements ItemsHe
 
         @Override
         protected boolean onPrepare() {
-            mItemsPager.showStatus(StatusManager.Status.progress);
+            mItemsPager.showStatus(StatusLayoutManager.Status.progress);
             return super.onPrepare();
         }
 

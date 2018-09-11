@@ -5,7 +5,7 @@ package com.andframe.api.pager.items;
  * Created by SCWANG on 2016/10/21.
  */
 
-public interface MoreLayouter {
+public interface MoreLayoutManager {
     void setOnMoreListener(OnMoreListener listener);
     void setLoadMoreEnabled(boolean enable);
     void finishLoadMore();

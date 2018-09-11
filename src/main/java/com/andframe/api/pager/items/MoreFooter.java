@@ -9,7 +9,7 @@ import android.view.ViewGroup;
  * Created by SCWANG on 2016/10/21.
  */
 
-public interface MoreFooter extends MoreLayouter {
+public interface MoreFooter extends MoreLayoutManager {
     void onUpdateStatus(View view, int index);
     View onCreateView(Context context, ViewGroup parent);
     View getView();

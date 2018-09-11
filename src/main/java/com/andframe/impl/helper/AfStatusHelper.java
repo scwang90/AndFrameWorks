@@ -23,9 +23,9 @@ import com.andframe.annotation.pager.status.StatusLayout;
 import com.andframe.annotation.pager.status.StatusProgress;
 import com.andframe.annotation.pager.status.idname.StatusContentViewId$;
 import com.andframe.api.pager.status.LayoutManager;
-import com.andframe.api.pager.status.RefreshManager;
+import com.andframe.api.pager.status.RefreshLayoutManager;
 import com.andframe.api.pager.status.StatusHelper;
-import com.andframe.api.pager.status.StatusManager;
+import com.andframe.api.pager.status.StatusLayoutManager;
 import com.andframe.api.pager.status.StatusPager;
 import com.andframe.api.task.Task;
 import com.andframe.application.AfApp;
@@ -49,7 +49,7 @@ public class AfStatusHelper<T> extends AfLoadHelper<T> implements StatusHelper<T
 
     protected StatusPager<T> mPager;
 
-    protected StatusManager mStatusManager;
+    protected StatusLayoutManager mStatusLayoutManager;
 
     public AfStatusHelper(StatusPager<T> pager) {
         super(pager);
@@ -66,12 +66,12 @@ public class AfStatusHelper<T> extends AfLoadHelper<T> implements StatusHelper<T
         if (mLoadOnViewCreated && mModel == null) {
             mLoadOnViewCreated = false;
             if (mPager.postTask(new LoadTask()).status() != Task.Status.canceled) {
-                mPager.showStatus(StatusManager.Status.progress);
+                mPager.showStatus(StatusLayoutManager.Status.progress);
             }
         } else if (mModel != null) {
             mPager.onTaskSucceed(mModel);
         } else {
-            mPager.showStatus(StatusManager.Status.empty);
+            mPager.showStatus(StatusLayoutManager.Status.empty);
         }
     }
 
@@ -105,11 +105,11 @@ public class AfStatusHelper<T> extends AfLoadHelper<T> implements StatusHelper<T
     public boolean checkContentViewStruct(View content) {
         ViewParent parent = content.getParent();
         if (parent == null) {
-            AfExceptionHandler.handle("内容视图（ContentView）没有父视图，刷新布局（RefreshManager/StatusManager）初始化失败",
+            AfExceptionHandler.handle("内容视图（ContentView）没有父视图，刷新布局（RefreshLayoutManager/StatusLayoutManager）初始化失败",
                     TAG.TAG(mPager, "AfStatusHelper", "checkContentViewStruct"));
             return false;
         } else if (parent instanceof ViewPager) {
-            AfExceptionHandler.handle("内容视图（ContentView）父视图为ViewPager，刷新布局（RefreshManager/StatusManager）初始化失败，" +
+            AfExceptionHandler.handle("内容视图（ContentView）父视图为ViewPager，刷新布局（RefreshLayoutManager/StatusLayoutManager）初始化失败，" +
                             "请用其他布局（Layout）作为ContentView的直接父视图，ViewPager的子视图",
                     TAG.TAG(mPager, "AfStatusHelper", "checkContentViewStruct"));
             return false;
@@ -119,16 +119,16 @@ public class AfStatusHelper<T> extends AfLoadHelper<T> implements StatusHelper<T
 
     @Override
     public void initRefreshAndStatusManager(@NonNull View refreshContent, @NonNull View statusContent) {
-        mRefreshManager = mPager.initRefreshLayout(refreshContent);
-        mStatusManager = mPager.initStatusLayout(statusContent);
+        mRefreshLayoutManager = mPager.initRefreshLayoutManager(refreshContent);
+        mStatusLayoutManager = mPager.initStatusLayoutManager(statusContent);
 
-        if (mStatusManager != null || mRefreshManager != null) {
+        if (mStatusLayoutManager != null || mRefreshLayoutManager != null) {
             if (refreshContent == statusContent) {
                 ViewGroup group = (ViewGroup) refreshContent.getParent();
                 int i = group.indexOfChild(refreshContent);
                 group.removeViewAt(i);
                 ViewGroup.LayoutParams params = refreshContent.getLayoutParams();
-                mPager.initRefreshAndStatusManagerOrder(mRefreshManager, mStatusManager, refreshContent, group, i, params);
+                mPager.initRefreshAndStatusManagerOrder(mRefreshLayoutManager, mStatusLayoutManager, refreshContent, group, i, params);
             } else {
                 boolean isStatusOtter = true;
                 for (ViewParent status = statusContent.getParent() ; status != null; status = status.getParent()) {
@@ -141,25 +141,25 @@ public class AfStatusHelper<T> extends AfLoadHelper<T> implements StatusHelper<T
                 ViewGroup refreshGroup = (ViewGroup) refreshContent.getParent();
                 int refreshIndex = refreshGroup.indexOfChild(refreshContent);
                 ViewGroup.LayoutParams refreshParams = refreshContent.getLayoutParams();
-                if (mRefreshManager != null) {
+                if (mRefreshLayoutManager != null) {
                     refreshGroup.removeViewAt(refreshIndex);
-                    mRefreshManager.setContentView(refreshContent);
-                    if (isStatusOtter || mStatusManager == null) {
-                        refreshGroup.addView(mRefreshManager.getLayout(),refreshIndex,refreshParams);
+                    mRefreshLayoutManager.setContentView(refreshContent);
+                    if (isStatusOtter || mStatusLayoutManager == null) {
+                        refreshGroup.addView(mRefreshLayoutManager.getLayout(),refreshIndex,refreshParams);
                     }
                 }
 
-                if (mStatusManager != null) {
+                if (mStatusLayoutManager != null) {
                     ViewGroup statusGroup = (ViewGroup) statusContent.getParent();
                     int statusIndex = statusGroup.indexOfChild(statusContent);
                     statusGroup.removeViewAt(statusIndex);
                     ViewGroup.LayoutParams statusParams = statusContent.getLayoutParams();
-                    mStatusManager.setContentView(statusContent);
-                    statusGroup.addView(mStatusManager.getLayout(),statusIndex,statusParams);
+                    mStatusLayoutManager.setContentView(statusContent);
+                    statusGroup.addView(mStatusLayoutManager.getLayout(),statusIndex,statusParams);
                 }
 
-                if (mRefreshManager != null && mStatusManager != null && !isStatusOtter) {
-                    refreshGroup.addView(mRefreshManager.getLayout(),refreshIndex,refreshParams);
+                if (mRefreshLayoutManager != null && mStatusLayoutManager != null && !isStatusOtter) {
+                    refreshGroup.addView(mRefreshLayoutManager.getLayout(),refreshIndex,refreshParams);
                 }
             }
         }
@@ -181,14 +181,14 @@ public class AfStatusHelper<T> extends AfLoadHelper<T> implements StatusHelper<T
     }
 
     @Override
-    public RefreshManager initRefreshLayout(View content) {
-        RefreshManager layoutManager = mPager.newRefreshManager(content.getContext());
+    public RefreshLayoutManager initRefreshLayoutManager(View content) {
+        RefreshLayoutManager layoutManager = mPager.newRefreshLayoutManager(content.getContext());
         layoutManager.setOnRefreshListener(mPager);
         return layoutManager;
     }
 
-    public StatusManager initStatusLayout(View content) {
-        StatusManager layoutManager = mPager.newStatusManager(content.getContext());
+    public StatusLayoutManager initStatusLayoutManager(View content) {
+        StatusLayoutManager layoutManager = mPager.newStatusLayoutManager(content.getContext());
         layoutManager.setOnRefreshListener(mPager);
 
         Class<?> stop = mPager instanceof Activity ? AfStatusActivity.class : AfStatusFragment.class;
@@ -230,7 +230,7 @@ public class AfStatusHelper<T> extends AfLoadHelper<T> implements StatusHelper<T
     }
 
     @NonNull
-    public StatusManager newStatusManager(Context context) {
+    public StatusLayoutManager newStatusLayoutManager(Context context) {
         return AfApp.get().newStatusManager(context);
     }
     //</editor-fold>
@@ -256,9 +256,9 @@ public class AfStatusHelper<T> extends AfLoadHelper<T> implements StatusHelper<T
 
     public void onTaskSucceed(T data) {
         if (mPager.isEmpty(data)) {
-            mPager.showStatus(StatusManager.Status.empty);
+            mPager.showStatus(StatusLayoutManager.Status.empty);
         } else {
-//            mPager.showStatus(StatusManager.Status.content);
+//            mPager.showStatus(StatusLayoutManager.Status.content);
 //            mPager.onTaskLoaded(data);
             mPager.showContent(data);
         }
@@ -266,13 +266,13 @@ public class AfStatusHelper<T> extends AfLoadHelper<T> implements StatusHelper<T
 
     public void onTaskFailed(@NonNull Task task) {
         if (mModel != null) {
-            mPager.showStatus(StatusManager.Status.content);
+            mPager.showStatus(StatusLayoutManager.Status.content);
             mPager.makeToastShort(task.makeErrorToast(AfApp.get().getString(R.string.status_load_fail)));
         } else {
             if (task.exception() instanceof java.net.BindException ||
                     task.exception() instanceof java.net.NoRouteToHostException ||
                     task.exception() instanceof java.net.SocketException) {
-                mPager.showStatus(StatusManager.Status.invalidNet);
+                mPager.showStatus(StatusLayoutManager.Status.invalidNet);
             } else {
                 try {
                     ConnectivityManager manager;
@@ -280,13 +280,13 @@ public class AfStatusHelper<T> extends AfLoadHelper<T> implements StatusHelper<T
                     if (manager != null) {
                         NetworkInfo network = manager.getActiveNetworkInfo();
                         if (network != null && network.getState() == NetworkInfo.State.CONNECTED) {
-                            mPager.showStatus(StatusManager.Status.error, task.makeErrorToast(AfApp.get().getString(R.string.status_load_fail)));
+                            mPager.showStatus(StatusLayoutManager.Status.error, task.makeErrorToast(AfApp.get().getString(R.string.status_load_fail)));
                             return;
                         }
                     }
-                    mPager.showStatus(StatusManager.Status.invalidNet);
+                    mPager.showStatus(StatusLayoutManager.Status.invalidNet);
                 } catch (Throwable e) {
-                    mPager.showStatus(StatusManager.Status.error, task.makeErrorToast(AfApp.get().getString(R.string.status_load_fail)));
+                    mPager.showStatus(StatusLayoutManager.Status.error, task.makeErrorToast(AfApp.get().getString(R.string.status_load_fail)));
                 }
             }
         }
@@ -296,7 +296,7 @@ public class AfStatusHelper<T> extends AfLoadHelper<T> implements StatusHelper<T
 
     //<editor-fold desc="页面状态">
     @Override
-    public void showStatus(StatusManager.Status status, String... msg) {
+    public void showStatus(StatusLayoutManager.Status status, String... msg) {
         switch (status) {
             case other:
                 break;
@@ -327,27 +327,27 @@ public class AfStatusHelper<T> extends AfLoadHelper<T> implements StatusHelper<T
     }
 
     public void showEmpty() {
-        if (mStatusManager != null && !mStatusManager.isEmpty()) {
-            mStatusManager.showEmpty();
-        } else if ((mRefreshManager == null || !mRefreshManager.isRefreshing())) {
+        if (mStatusLayoutManager != null && !mStatusLayoutManager.isEmpty()) {
+            mStatusLayoutManager.showEmpty();
+        } else if ((mRefreshLayoutManager == null || !mRefreshLayoutManager.isRefreshing())) {
             mPager.hideProgressDialog();
         }
     }
 
     @Override
     public void showEmpty(@NonNull String message) {
-        if (mStatusManager != null && !mStatusManager.isEmpty()) {
-            mStatusManager.showEmpty(message);
-        } else if ((mRefreshManager == null || !mRefreshManager.isRefreshing())) {
+        if (mStatusLayoutManager != null && !mStatusLayoutManager.isEmpty()) {
+            mStatusLayoutManager.showEmpty(message);
+        } else if ((mRefreshLayoutManager == null || !mRefreshLayoutManager.isRefreshing())) {
             mPager.hideProgressDialog();
         }
     }
 
     public void showContent() {
-        if (mStatusManager != null && !mStatusManager.isContent()) {
-            mStatusManager.showContent();
-        } else if (mRefreshManager != null && mRefreshManager.isRefreshing()) {
-            mRefreshManager.finishRefresh(true);
+        if (mStatusLayoutManager != null && !mStatusLayoutManager.isContent()) {
+            mStatusLayoutManager.showContent();
+        } else if (mRefreshLayoutManager != null && mRefreshLayoutManager.isRefreshing()) {
+            mRefreshLayoutManager.finishRefresh(true);
         } else {
             mPager.hideProgressDialog();
         }
@@ -355,15 +355,15 @@ public class AfStatusHelper<T> extends AfLoadHelper<T> implements StatusHelper<T
 
     @Override
     public void showContent(@NonNull T model) {
-        mPager.showStatus(StatusManager.Status.content);
+        mPager.showStatus(StatusLayoutManager.Status.content);
         mPager.onTaskLoaded(model);
     }
 
     public void showProgress() {
-        if ((mRefreshManager == null || !mRefreshManager.isRefreshing())) {
-            if (mStatusManager != null) {
-                if (!mStatusManager.isProgress())
-                    mStatusManager.showProgress();
+        if ((mRefreshLayoutManager == null || !mRefreshLayoutManager.isRefreshing())) {
+            if (mStatusLayoutManager != null) {
+                if (!mStatusLayoutManager.isProgress())
+                    mStatusLayoutManager.showProgress();
             } else {
                 mPager.showProgressDialog(AfApp.get().getString(R.string.status_loading));
             }
@@ -372,21 +372,21 @@ public class AfStatusHelper<T> extends AfLoadHelper<T> implements StatusHelper<T
 
     @Override
     public void showInvalidNet() {
-        if (mStatusManager != null) {
-            mStatusManager.showInvalidNet();
+        if (mStatusLayoutManager != null) {
+            mStatusLayoutManager.showInvalidNet();
         } else {
             mPager.makeToastShort(AfApp.get().getString(R.string.status_invalid_net));
         }
     }
 
     public void showError(@NonNull String error) {
-        if (mRefreshManager != null && mRefreshManager.isRefreshing()) {
-            mRefreshManager.finishRefresh(false);
-        } else if (mStatusManager == null || !mStatusManager.isProgress()) {
+        if (mRefreshLayoutManager != null && mRefreshLayoutManager.isRefreshing()) {
+            mRefreshLayoutManager.finishRefresh(false);
+        } else if (mStatusLayoutManager == null || !mStatusLayoutManager.isProgress()) {
             mPager.hideProgressDialog();
         }
-        if (mStatusManager != null) {
-            mStatusManager.showError(error);
+        if (mStatusLayoutManager != null) {
+            mStatusLayoutManager.showError(error);
         } else {
             mPager.makeToastShort(error);
         }
@@ -394,8 +394,8 @@ public class AfStatusHelper<T> extends AfLoadHelper<T> implements StatusHelper<T
 
     @Override
     public void showProgress(@NonNull String progress) {
-        if (mStatusManager != null) {
-            mStatusManager.showProgress(progress);
+        if (mStatusLayoutManager != null) {
+            mStatusLayoutManager.showProgress(progress);
         } else {
             if (!mPager.isProgressDialogShowing()) {
                 mPager.showProgressDialog(progress);

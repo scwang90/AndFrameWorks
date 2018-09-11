@@ -7,7 +7,7 @@ import android.view.View;
 
 import com.andframe.api.pager.load.LoadHelper;
 import com.andframe.api.pager.load.LoadPager;
-import com.andframe.api.pager.status.RefreshManager;
+import com.andframe.api.pager.status.RefreshLayoutManager;
 import com.andframe.api.task.Task;
 import com.andframe.impl.helper.AfLoadHelper;
 
@@ -22,7 +22,7 @@ public abstract class AfLoadActivity<T> extends AfActivity implements LoadPager<
 
     protected LoadHelper<T> mHelper = newHelper();
 
-    protected RefreshManager mRefreshManager;
+    protected RefreshLayoutManager mRefreshLayoutManager;
 
     @NonNull
     protected LoadHelper<T> newHelper() {
@@ -60,13 +60,13 @@ public abstract class AfLoadActivity<T> extends AfActivity implements LoadPager<
         return mHelper.findContentView();
     }
 
-    public RefreshManager initRefreshLayout(View content) {
-        return mRefreshManager = mHelper.initRefreshLayout(content);
+    public RefreshLayoutManager initRefreshLayoutManager(View content) {
+        return mRefreshLayoutManager = mHelper.initRefreshLayoutManager(content);
     }
 
     @NonNull
-    public RefreshManager newRefreshManager(Context context) {
-        return mRefreshManager = mHelper.newRefreshManager(context);
+    public RefreshLayoutManager newRefreshLayoutManager(Context context) {
+        return mRefreshLayoutManager = mHelper.newRefreshLayoutManager(context);
     }
     //</editor-fold>
 

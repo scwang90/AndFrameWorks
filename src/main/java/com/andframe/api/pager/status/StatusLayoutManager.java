@@ -7,7 +7,7 @@ import android.view.ViewGroup;
  * Created by SCWANG on 2016/10/20.
  */
 
-public interface StatusManager<T extends ViewGroup> extends LayoutManager<T> {
+public interface StatusLayoutManager<T extends ViewGroup> extends LayoutManager<T> {
 
     enum Status{
         other,progress,content,empty,error,invalidNet

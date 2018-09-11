@@ -23,8 +23,8 @@ import com.andframe.api.Toaster;
 import com.andframe.api.event.EventManager;
 import com.andframe.api.pager.PagerManager;
 import com.andframe.api.pager.items.MoreFooter;
-import com.andframe.api.pager.status.RefreshManager;
-import com.andframe.api.pager.status.StatusManager;
+import com.andframe.api.pager.status.RefreshLayoutManager;
+import com.andframe.api.pager.status.StatusLayoutManager;
 import com.andframe.api.query.ListQuery;
 import com.andframe.api.service.UpdateService;
 import com.andframe.api.task.TaskExecutor;
@@ -40,8 +40,8 @@ import com.andframe.feature.AfDialogBuilder;
 import com.andframe.impl.AfToaster;
 import com.andframe.impl.pager.AfPagerManager;
 import com.andframe.impl.pager.items.DefaultMoreFooter;
-import com.andframe.impl.pager.status.DefaultRefreshManager;
-import com.andframe.impl.pager.status.DefaultStatusManager;
+import com.andframe.impl.pager.status.DefaultRefreshLayoutManager;
+import com.andframe.impl.pager.status.DefaultStatusLayoutManager;
 import com.andframe.impl.query.AfListQuery;
 import com.andframe.impl.viewer.AfViewQuery;
 import com.andframe.model.ServiceVersion;
@@ -425,13 +425,13 @@ public abstract class AfApp extends Application {
 	}
 
 	@NonNull
-	public RefreshManager newRefreshManager(Context context) {
-		return new DefaultRefreshManager(context);
+	public RefreshLayoutManager newRefreshManager(Context context) {
+		return new DefaultRefreshLayoutManager(context);
 	}
 
 	@NonNull
-	public StatusManager newStatusManager(Context context) {
-		return new DefaultStatusManager(context);
+	public StatusLayoutManager newStatusManager(Context context) {
+		return new DefaultStatusLayoutManager(context);
 	}
 
 	public AfAppSettings newAppSetting() {

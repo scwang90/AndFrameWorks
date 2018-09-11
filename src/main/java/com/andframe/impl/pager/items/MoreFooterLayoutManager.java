@@ -2,7 +2,7 @@ package com.andframe.impl.pager.items;
 
 import com.andframe.api.adapter.HeaderFooterAdapter;
 import com.andframe.api.pager.items.MoreFooter;
-import com.andframe.api.pager.items.MoreLayouter;
+import com.andframe.api.pager.items.MoreLayoutManager;
 import com.andframe.api.pager.items.OnMoreListener;
 import com.andframe.api.viewer.ItemsViewer;
 
@@ -11,12 +11,12 @@ import com.andframe.api.viewer.ItemsViewer;
  * Created by SCWANG on 2016/11/19.
  */
 
-public class MoreFooterLayouter<T> implements MoreLayouter {
+public class MoreFooterLayoutManager<T> implements MoreLayoutManager {
 
     private MoreFooter mMoreFooter;
     private HeaderFooterAdapter<T> mAdapter;
 
-    public MoreFooterLayouter(MoreFooter footer, HeaderFooterAdapter<T> adapter, ItemsViewer itemsViewer) {
+    public MoreFooterLayoutManager(MoreFooter footer, HeaderFooterAdapter<T> adapter, ItemsViewer itemsViewer) {
         this.mMoreFooter = footer;
         this.mAdapter = adapter;
         this.mMoreFooter.onCreateView(itemsViewer.getItemsView().getContext(), null);

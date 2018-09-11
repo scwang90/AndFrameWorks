@@ -13,9 +13,9 @@ import com.andframe.api.task.Task;
 
 /**
  * 多状态页面帮助类接口（自动添加【下拉刷新控件】和【多页状态控件】）
- * 【下拉刷新控件@{@link RefreshManager}】
+ * 【下拉刷新控件@{@link RefreshLayoutManager}】
  *      可以实现下拉刷新内容视图的数据
- * 【多页状态控件@{@link StatusManager}】
+ * 【多页状态控件@{@link StatusLayoutManager}】
  *      可以在没有数据或者加载失败或加载时隐藏内容视图切换到对应的【空数据页面】【错误页面】【正在加载页面】
  * Created by SCWANG on 2016/10/22.
  */
@@ -25,7 +25,7 @@ public interface StatusHelper<T> extends LoadHelper<T>, EmptyDecider<T> {
     //<editor-fold desc="初始方法">
 
     /**
-     * 页面视图创建完成（内部会调用findContentView，initRefreshLayout，initStatusLayout）
+     * 页面视图创建完成（内部会调用findContentView，initRefreshLayoutManager，initStatusLayoutManager）
      */
     void onViewCreated() ;
 
@@ -50,20 +50,20 @@ public interface StatusHelper<T> extends LoadHelper<T>, EmptyDecider<T> {
     @Nullable
     View findContentView();
     /**
-     * 初始化【下拉刷新控件】，内部会调用 newRefreshManager
+     * 初始化【下拉刷新控件】，内部会调用 newRefreshLayoutManager
      * @param content findContentView 返回的内容视图
      * @return 如果返回null将会失去下拉刷新功能
      */
     @Nullable
-    RefreshManager initRefreshLayout(View content);
+    RefreshLayoutManager initRefreshLayoutManager(View content);
 
     /**
-     * 初始化【多页状态控件】，内部会调用 newStatusManager
+     * 初始化【多页状态控件】，内部会调用 newStatusLayoutManager
      * @param content findContentView 返回的内容视图
      * @return 如果返回null将会失去下拉刷新功能
      */
     @Nullable
-    StatusManager initStatusLayout(View content);
+    StatusLayoutManager initStatusLayoutManager(View content);
 
     /**
      * 创建下拉刷新布局（如果要使用网上开源的下拉刷新控件可以重写这个方法）
@@ -71,7 +71,7 @@ public interface StatusHelper<T> extends LoadHelper<T>, EmptyDecider<T> {
      * @return 不能返回null，否则在initRefreshLayout中会出现空指针
      */
     @NonNull
-    RefreshManager newRefreshManager(Context context);
+    RefreshLayoutManager newRefreshLayoutManager(Context context);
 
     /**
      * 创建多页状态布局（如果要使用网上开源的下拉刷新控件可以重写这个方法）
@@ -79,10 +79,10 @@ public interface StatusHelper<T> extends LoadHelper<T>, EmptyDecider<T> {
      * @return 不能返回null，否则在initStatusLayout中会出现空指针
      */
     @NonNull
-    StatusManager newStatusManager(Context context);
+    StatusLayoutManager newStatusLayoutManager(Context context);
 
     /**
-     * 初始化【下拉刷新控件和多页状态控件】，内部会调用 initRefreshLayout 和 initStatusLayout
+     * 初始化【下拉刷新控件和多页状态控件】，内部会调用 initRefreshLayoutManager 和 initStatusLayoutManager
      * @param refreshContent findContentView 返回的内容视图
      * @param statusContent findContentView 返回的内容视图
      */
@@ -110,7 +110,7 @@ public interface StatusHelper<T> extends LoadHelper<T>, EmptyDecider<T> {
     void showContent(@NonNull T model);
     void showProgress(@NonNull String progress);
     void showError(@NonNull String error);
-    void showStatus(StatusManager.Status status, String... msg);
+    void showStatus(StatusLayoutManager.Status status, String... msg);
     //</editor-fold>
 
     //<editor-fold desc="任务加载">

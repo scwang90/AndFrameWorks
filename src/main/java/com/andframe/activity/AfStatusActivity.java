@@ -7,7 +7,7 @@ import android.view.ViewGroup;
 
 import com.andframe.api.pager.status.LayoutManager;
 import com.andframe.api.pager.status.StatusHelper;
-import com.andframe.api.pager.status.StatusManager;
+import com.andframe.api.pager.status.StatusLayoutManager;
 import com.andframe.api.pager.status.StatusPager;
 import com.andframe.impl.helper.AfStatusHelper;
 
@@ -20,7 +20,7 @@ public abstract class AfStatusActivity<T> extends AfLoadActivity<T> implements S
 
     protected StatusHelper<T> mStatusHelper = newStatusHelper();
 
-    protected StatusManager mStatusManager;
+    protected StatusLayoutManager mStatusLayoutManager;
 
     @NonNull
     @Override
@@ -48,13 +48,13 @@ public abstract class AfStatusActivity<T> extends AfLoadActivity<T> implements S
         mStatusHelper.initRefreshAndStatusManagerOrder(refresh, status, content, parent, index, lp);
     }
 
-    public StatusManager initStatusLayout(View content) {
-        return mStatusManager = mStatusHelper.initStatusLayout(content);
+    public StatusLayoutManager initStatusLayoutManager(View content) {
+        return mStatusLayoutManager = mStatusHelper.initStatusLayoutManager(content);
     }
 
     @NonNull
-    public StatusManager newStatusManager(Context context) {
-        return mStatusManager = mStatusHelper.newStatusManager(context);
+    public StatusLayoutManager newStatusLayoutManager(Context context) {
+        return mStatusLayoutManager = mStatusHelper.newStatusLayoutManager(context);
     }
 
     //</editor-fold>
@@ -72,7 +72,7 @@ public abstract class AfStatusActivity<T> extends AfLoadActivity<T> implements S
     //<editor-fold desc="页面状态">
 
     @Override
-    public void showStatus(StatusManager.Status status, String... msg) {
+    public void showStatus(StatusLayoutManager.Status status, String... msg) {
         mStatusHelper.showStatus(status, msg);
     }
 
