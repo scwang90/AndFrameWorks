@@ -633,6 +633,8 @@ public interface ViewQuery<T extends ViewQuery<T>> {
     T pivotY(float dp);
     //</editor-fold>
 
+    T requestLayout();
+
     //</editor-fold>
 
     //</editor-fold>

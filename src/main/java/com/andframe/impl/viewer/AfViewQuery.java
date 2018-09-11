@@ -1493,6 +1493,12 @@ public class AfViewQuery<T extends AfViewQuery<T>> implements ViewQuery<T> {
     public T alpha(float x) {
         return foreach((ViewIterator<View>) view -> view.setAlpha(x));
     }
+
+    @Override
+    public T requestLayout() {
+        return foreach(View::requestLayout);
+    }
+
     //</editor-fold>
 
     //</editor-fold>
