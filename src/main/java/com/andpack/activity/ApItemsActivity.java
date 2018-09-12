@@ -98,6 +98,7 @@ public abstract class ApItemsActivity<T> extends AfItemsActivity<T> implements A
     public RefreshLayoutManager newRefreshLayoutManager(Context context) {
         RefreshLayoutManager layoutManager = mApHelper.newRefreshManager(context);
         if (layoutManager != null) {
+            mRefreshLayoutManager = layoutManager;
             return layoutManager;
         }
         return super.newRefreshLayoutManager(context);

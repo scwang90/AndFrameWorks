@@ -27,7 +27,7 @@ public class ApPagerManager extends AfPagerManager {
     @Override
     public void startFragment(Class<? extends Fragment> clazz, Object... args) {
         AfActivity activity = currentActivity();
-        if (activity != null && activity.isRecycled()) {
+        if (activity != null && !activity.isRecycled()) {
             activity.startFragment(clazz, args);
         } else {
             ApFragmentActivity.start(null, clazz, args);
