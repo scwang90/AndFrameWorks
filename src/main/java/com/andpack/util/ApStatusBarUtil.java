@@ -214,7 +214,7 @@ public class ApStatusBarUtil {
             Method extraFlagField = clazz.getMethod("setExtraFlags", int.class, int.class);
             extraFlagField.invoke(window, darkmode ? darkModeFlag : 0, darkModeFlag);
             return true;
-        } catch (Exception e) {
+        } catch (Throwable e) {
             e.printStackTrace();
             return false;
         }
@@ -236,7 +236,7 @@ public class ApStatusBarUtil {
             val = val.replaceAll("[vV]", "");
             int version = Integer.parseInt(val);
             return version >= 6;
-        } catch (Exception e) {
+        } catch (Throwable e) {
             return false;
         }
     }
