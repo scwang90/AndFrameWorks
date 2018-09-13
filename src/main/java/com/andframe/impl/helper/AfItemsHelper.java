@@ -288,13 +288,13 @@ public class AfItemsHelper<T> extends AfStatusHelper<List<T>> implements ItemsHe
 //            mItemsPager.finishRefreshFail();
             if (mAdapter != null && mAdapter.size() > 0) {
                 mItemsPager.showStatus(StatusLayoutManager.Status.content);
-                mItemsPager.makeToastLong(task.makeErrorToast(getContext().getString(R.string.items_refresh_fail)));
+                mItemsPager.makeToastLong(task.errorToast(getContext().getString(R.string.items_refresh_fail)));
             } else if (!mItemsPager.isEmpty(list)) {
 //                mItemsPager.showStatus(StatusLayoutManager.Status.content) mAdapter.set 会触发showContent
                 mAdapter.set(list == null ? new ArrayList<>() : list);
-                mItemsPager.makeToastLong(task.makeErrorToast(getContext().getString(R.string.items_refresh_fail)));
+                mItemsPager.makeToastLong(task.errorToast(getContext().getString(R.string.items_refresh_fail)));
             } else {
-                mItemsPager.showStatus(StatusLayoutManager.Status.error,task.makeErrorToast(getContext().getString(R.string.items_refresh_fail)));
+                mItemsPager.showStatus(StatusLayoutManager.Status.error,task.errorToast(getContext().getString(R.string.items_refresh_fail)));
             }
         }
     }
@@ -321,7 +321,7 @@ public class AfItemsHelper<T> extends AfStatusHelper<List<T>> implements ItemsHe
                 mItemsPager.makeToastShort(getContext().getString(R.string.items_loading_all));
             }
         } else {
-            mItemsPager.makeToastLong(task.makeErrorToast(getContext().getString(R.string.items_loading_fail)));
+            mItemsPager.makeToastLong(task.errorToast(getContext().getString(R.string.items_loading_fail)));
         }
     }
     //</editor-fold>

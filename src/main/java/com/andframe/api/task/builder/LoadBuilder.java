@@ -18,6 +18,7 @@ import java.util.Set;
  * Created by SCWANG on 2017/4/28.
  */
 
+@SuppressWarnings("unused")
 public interface LoadBuilder<T> extends Builder {
 
     /**

@@ -214,9 +214,9 @@ public class AfLoadHelper<T> implements LoadHelper<T> {
     public void onTaskFailed(@NonNull Task task) {
         if (mModel != null) {
             mPager.onTaskLoaded(mModel);
-            mPager.makeToastShort(task.makeErrorToast(AfApp.get().getString(R.string.status_load_fail)));
+            mPager.makeToastShort(task.errorToast(AfApp.get().getString(R.string.status_load_fail)));
         } else {
-            mPager.showError(task.makeErrorToast(AfApp.get().getString(R.string.status_load_fail)));
+            mPager.showError(task.errorToast(AfApp.get().getString(R.string.status_load_fail)));
         }
     }
 

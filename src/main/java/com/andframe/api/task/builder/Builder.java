@@ -17,6 +17,7 @@ import java.util.Set;
  * Created by SCWANG on 2017/4/28.
  */
 
+@SuppressWarnings("unused")
 public interface Builder {
 
     Builder prepare(Runnable runnable);
@@ -24,9 +25,11 @@ public interface Builder {
     Builder working(WorkingHandler handler);
     Builder success(Runnable runnable);
     Builder fina11y(Runnable runnable);
+    Builder canceled(Runnable runnable);
     Builder exception(ExceptionHandler handler);
 
     Runnable prepare();
+    Runnable canceled();
     PrepareHandler prepareHandler();
     WorkingHandler working();
     Runnable success();

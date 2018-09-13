@@ -132,7 +132,7 @@ public abstract class AfMultiChoiceItemViewer<T> extends AfItemViewer<T> impleme
 			} else {
 				mMultiChoiceLayout.addView(mMultiChoiceCheckBox, lpcheck);
 			}
-		} catch (Exception e) {
+		} catch (Throwable e) {
 			e.printStackTrace();
 		}
 		view.setBackgroundResource(0);

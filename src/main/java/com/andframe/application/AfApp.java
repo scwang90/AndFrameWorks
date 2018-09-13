@@ -92,7 +92,7 @@ public abstract class AfApp extends Application {
 		mApp.attachBaseContext(app.getBaseContext());
 		try {
 			mApp.initApp();
-		} catch (Exception e) {
+		} catch (Throwable e) {
 			e.printStackTrace();
 		}
 		return mApp;

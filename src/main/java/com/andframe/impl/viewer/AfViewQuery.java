@@ -1597,7 +1597,7 @@ public class AfViewQuery<T extends AfViewQuery<T>> implements ViewQuery<T> {
     public T typeface(Typeface typeface) {
         try {
             return foreach(TextView.class, (ViewIterator<TextView>) (view) -> view.setTypeface(typeface));
-        } catch (Exception e) {
+        } catch (Throwable e) {
             e.printStackTrace();
             return self();
         }
@@ -1609,7 +1609,7 @@ public class AfViewQuery<T extends AfViewQuery<T>> implements ViewQuery<T> {
             try {
                 Typeface typeface = Typeface.createFromFile(typefaceFile);
                 return typeface(typeface);
-            } catch (Exception e) {
+            } catch (Throwable e) {
                 e.printStackTrace();
             }
         }

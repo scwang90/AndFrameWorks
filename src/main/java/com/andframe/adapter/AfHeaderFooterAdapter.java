@@ -46,7 +46,7 @@ public class AfHeaderFooterAdapter<T> extends ItemsViewerAdapterWrapper<T> imple
             }
             bindViewHolder(holder, i);
             return holder.itemView;
-        } catch (Exception e) {
+        } catch (Throwable e) {
             AfExceptionHandler.handle(e, "AfHeaderFooterAdapter.getView");
             return new View(viewGroup.getContext());
         }
@@ -55,7 +55,7 @@ public class AfHeaderFooterAdapter<T> extends ItemsViewerAdapterWrapper<T> imple
     public void onBindViewHolder(ViewHolderItem<T> holder, int position, List<Object> payloads) {
         try {
             onBindViewHolder(holder, position);
-        } catch (Exception e) {
+        } catch (Throwable e) {
             AfExceptionHandler.handle(e, "AfHeaderFooterAdapter.onBindViewHolder");
         }
     }

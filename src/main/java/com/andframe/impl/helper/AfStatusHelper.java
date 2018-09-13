@@ -267,7 +267,7 @@ public class AfStatusHelper<T> extends AfLoadHelper<T> implements StatusHelper<T
     public void onTaskFailed(@NonNull Task task) {
         if (mModel != null) {
             mPager.showStatus(StatusLayoutManager.Status.content);
-            mPager.makeToastShort(task.makeErrorToast(AfApp.get().getString(R.string.status_load_fail)));
+            mPager.makeToastShort(task.errorToast(AfApp.get().getString(R.string.status_load_fail)));
         } else {
             if (task.exception() instanceof java.net.BindException ||
                     task.exception() instanceof java.net.NoRouteToHostException ||
@@ -280,13 +280,13 @@ public class AfStatusHelper<T> extends AfLoadHelper<T> implements StatusHelper<T
                     if (manager != null) {
                         NetworkInfo network = manager.getActiveNetworkInfo();
                         if (network != null && network.getState() == NetworkInfo.State.CONNECTED) {
-                            mPager.showStatus(StatusLayoutManager.Status.error, task.makeErrorToast(AfApp.get().getString(R.string.status_load_fail)));
+                            mPager.showStatus(StatusLayoutManager.Status.error, task.errorToast(AfApp.get().getString(R.string.status_load_fail)));
                             return;
                         }
                     }
                     mPager.showStatus(StatusLayoutManager.Status.invalidNet);
                 } catch (Throwable e) {
-                    mPager.showStatus(StatusLayoutManager.Status.error, task.makeErrorToast(AfApp.get().getString(R.string.status_load_fail)));
+                    mPager.showStatus(StatusLayoutManager.Status.error, task.errorToast(AfApp.get().getString(R.string.status_load_fail)));
                 }
             }
         }

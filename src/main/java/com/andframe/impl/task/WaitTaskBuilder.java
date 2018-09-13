@@ -30,6 +30,7 @@ public class WaitTaskBuilder extends TaskBuilder implements WaitBuilder {
     public WaitTaskBuilder(TaskBuilder builder, Pager pager, String master) {
         this.master = master;
         this.pager = new WeakReference<>(pager);
+        this.canceledRunnable = builder.canceledRunnable;
         this.prepareRunnable = builder.prepareRunnable;
         this.prepareHandler = builder.prepareHandler;
         this.workingHandler = builder.workingHandler;

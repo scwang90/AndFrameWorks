@@ -29,6 +29,7 @@ public class LoadTaskBuilder<T> extends TaskBuilder implements LoadBuilder<T> {
 
     public LoadTaskBuilder(TaskBuilder builder, LoadingHandler<T> loadingHandler) {
         this.loadingHandler = loadingHandler;
+        this.canceledRunnable = builder.canceledRunnable;
         this.prepareRunnable = builder.prepareRunnable;
         this.prepareHandler = builder.prepareHandler;
         this.workingHandler = builder.workingHandler;

@@ -90,7 +90,7 @@ public class ModelChecker {
         try {
             check(obj);
             return true;
-        } catch (Exception e) {
+        } catch (Throwable e) {
             if (pager != null) {
                 pager.makeToastShort("请先完善信息", e);
             }

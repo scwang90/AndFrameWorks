@@ -141,7 +141,7 @@ public class SafeListener implements
         if (multiChoiceClickListener != null) {
             try {
                 multiChoiceClickListener.onClick(dialog, which, isChecked);
-            } catch (Exception e) {
+            } catch (Throwable e) {
                 AfExceptionHandler.handle(e, "SafeListener.multiChoiceClickListener.onClick");
             }
         }

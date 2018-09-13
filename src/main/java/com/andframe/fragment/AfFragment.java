@@ -224,7 +224,7 @@ public abstract class AfFragment extends Fragment implements Pager, ViewQueryHel
         super.onViewCreated(view, savedInstanceState);
         try {
             ViewBinder.doBind(this);
-        } catch (Exception e) {
+        } catch (Throwable e) {
             makeToastShort("AfFragment#ViewBinder.doBind异常！", e);
             AfExceptionHandler.handle(e, TAG("onViewCreated"));
         }

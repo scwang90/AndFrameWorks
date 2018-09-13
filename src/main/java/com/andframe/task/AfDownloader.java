@@ -667,7 +667,7 @@ public class AfDownloader {
         @Override
         public boolean handleMessage(Message msg) {
             DownloadListener listener = mListener == null ? null : mListener.get();
-            if (!isFail()) {
+            if (!failed()) {
                 if (msg.what == DOWNLOAD_PROGRESS) {
                     // 更新状态栏上的下载进度信息
                     if (mNotifier != null) {

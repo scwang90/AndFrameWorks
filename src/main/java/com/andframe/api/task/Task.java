@@ -51,7 +51,7 @@ public interface Task extends Runnable {
      * 获取错误提示信息
      * @param string 默认提示信息
      */
-    String makeErrorToast(String string);
+    String errorToast(String string);
 
     /**
      * 通过任务的状态判断任务是否成功执行完成

@@ -26,12 +26,25 @@ public abstract class AfHandlerTask extends AfTask implements TaskWithHandler {
 		}
 	}
 
-	public final boolean handleMessage() {
+	@Override
+	public void cancel() {
+		mStatus = Status.canceled;
+		mHandler.post(() -> {
+			try {
+				onCancel();
+			} catch (Throwable e) {
+				String remark = "AfHandlerTask("+getClass().getName()+").cancel.onCancel";
+				AfExceptionHandler.handle(e, remark);
+			}
+		});
+	}
+
+	private boolean handleMessage() {
 		try {
 			if (mListener != null) {
                 mListener.onTaskFinish(this);
             }
-		} catch (Exception e) {
+		} catch (Throwable e) {
 			String remark = "AfHandlerTask("+mListener.getClass().getName()+").handleMessage.onTaskFinish";
 			AfExceptionHandler.handle(e, remark);
 		}

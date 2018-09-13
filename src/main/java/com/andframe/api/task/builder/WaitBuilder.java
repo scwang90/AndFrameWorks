@@ -16,6 +16,7 @@ import java.util.Set;
  * Created by SCWANG on 2017/5/3.
  */
 
+@SuppressWarnings("unused")
 public interface WaitBuilder extends Builder {
 
     /**

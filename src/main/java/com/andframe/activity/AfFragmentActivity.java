@@ -216,7 +216,7 @@ public class AfFragmentActivity extends AfActivity {
                 FragmentTransaction transaction = manager.beginTransaction();
                 transaction.replace(widget_frame, mFragment);
                 transaction.commit();
-            } catch (Exception e) {
+            } catch (Throwable e) {
                 AfExceptionHandler.handle(e, "AfFragmentActivity Fragment 类型错误：" + mFragmentClazz);
             }
         }

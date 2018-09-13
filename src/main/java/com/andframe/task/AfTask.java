@@ -8,7 +8,7 @@ import com.andframe.application.AfApp;
 import com.andframe.exception.AfExceptionHandler;
 import com.andframe.exception.AfToastException;
 
-@SuppressWarnings("unused")
+@SuppressWarnings({"unused", "WeakerAccess"})
 public abstract class AfTask implements Task, OnCancelListener {
 
 	public Status mStatus = Status.none;
@@ -21,11 +21,11 @@ public abstract class AfTask implements Task, OnCancelListener {
 		return mStatus == Status.success;
 	}
 
-	public boolean isFail() {
+	public boolean failed() {
 		return mStatus == Status.failed;
 	}
 
-	public boolean isCanceled() {
+	public boolean canceled() {
 		return mStatus == Status.canceled;
 	}
 
@@ -62,11 +62,12 @@ public abstract class AfTask implements Task, OnCancelListener {
 
 	@Override
 	public final void onCancel(DialogInterface dialog) {
-		this.onCancel();
+		this.cancel();
 	}
 
 	@Override
 	public void cancel() {
+		mStatus = Status.canceled;
 		this.onCancel();
 	}
 
@@ -84,14 +85,18 @@ public abstract class AfTask implements Task, OnCancelListener {
 	 * Task任务被取消 将不会被调用 mHandler
 	 * 	这个方法可能在异步线程中执行
 	 */
-	public void onCancel() {
-		mStatus = Status.canceled;
+	protected void onCancel() {
 	}
 
 	public boolean prepare() {
 		if (mStatus == Status.none) {
 			try {
-				mStatus = onPrepare() ? Status.prepared : Status.canceled;
+				if (onPrepare()) {
+					mStatus = Status.prepared;
+				} else {
+					mStatus = Status.canceled;
+					this.cancel();
+				}
 			} catch (Throwable e) {
 				mStatus = Status.canceled;
 				String remark = "AfTask("+getClass().getName()+").onPrepare";
@@ -109,7 +114,7 @@ public abstract class AfTask implements Task, OnCancelListener {
 		return mStatus == Status.none;
 	}
 
-	public String makeErrorToast(String tip) {
+	public String errorToast(String tip) {
 		return AfExceptionHandler.tip(mException, tip);
 	}
 

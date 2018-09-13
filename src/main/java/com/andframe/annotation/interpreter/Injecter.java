@@ -239,7 +239,7 @@ public class Injecter {
                     field.setAccessible(true);
                     field.set(handler, value);
                 }
-            } catch (Exception e) {
+            } catch (Throwable e) {
                 AfExceptionHandler.handle(e, TAG(handler, "doInject.injectRes") + field.getName());
             }
         }
@@ -277,7 +277,7 @@ public class Injecter {
                     field.setAccessible(true);
                     field.set(handler, value);
                 }
-            } catch (Exception e) {
+            } catch (Throwable e) {
                 AfExceptionHandler.handle(e, TAG(handler, "doInject.injectRes") + field.getName());
             }
         }
@@ -433,7 +433,7 @@ public class Injecter {
                         try {
                             mMethod.setAccessible(true);
                             mMethod.invoke(handler);
-                        } catch (Exception e) {
+                        } catch (Throwable e) {
                             e.printStackTrace();
                         }
                     }

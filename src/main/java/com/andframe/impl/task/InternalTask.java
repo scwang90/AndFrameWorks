@@ -27,6 +27,14 @@ public class InternalTask extends AfHandlerTask {
     }
 
     @Override
+    protected void onCancel() {
+        if (builder.canceledRunnable != null) {
+            builder.canceledRunnable.run();
+        }
+        super.onCancel();
+    }
+
+    @Override
     protected void onHandle() {
         if (builder.finallyRunnable != null) {
             builder.finallyRunnable.run();

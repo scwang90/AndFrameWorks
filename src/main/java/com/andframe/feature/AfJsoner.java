@@ -42,7 +42,7 @@ public class AfJsoner {
     public static <T> T fromJsonNoThrow(String json, Class<T> clazz) {
         try {
             return fromJson(json, clazz);
-        } catch (Exception e) {
+        } catch (Throwable e) {
             e.printStackTrace();
             return null;
         }

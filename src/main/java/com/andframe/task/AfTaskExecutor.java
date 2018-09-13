@@ -74,7 +74,7 @@ public class AfTaskExecutor implements TaskExecutor {
         sDefaultExecutor.execute(() -> {
             try {
                 runnable.onWorking();
-            } catch (Exception e) {
+            } catch (Throwable e) {
                 AfExceptionHandler.handle(e, TAG.TAG(runnable, "AfTaskExecutor.execute"));
             }
         });

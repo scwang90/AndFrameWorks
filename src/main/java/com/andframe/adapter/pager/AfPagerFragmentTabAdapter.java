@@ -34,7 +34,7 @@ public class AfPagerFragmentTabAdapter extends FragmentStatePagerAdapter {
                 fragments[position] = newFragment(position);
             }
             return fragments[position];
-        } catch (Exception e) {
+        } catch (Throwable e) {
             e.printStackTrace();
         }
         return null;

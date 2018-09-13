@@ -28,6 +28,7 @@ public class TaskBuilder implements Builder {
     public WorkingHandler workingHandler;
     public Runnable successRunnable;
     public Runnable finallyRunnable;
+    public Runnable canceledRunnable;
     public ExceptionHandler exceptionHandler;
 
     //<editor-fold desc="设置参数">
@@ -62,6 +63,12 @@ public class TaskBuilder implements Builder {
     }
 
     @Override
+    public Builder canceled(Runnable canceledRunnable) {
+        this.canceledRunnable = canceledRunnable;
+        return this;
+    }
+
+    @Override
     public Builder exception(ExceptionHandler exceptionHandler) {
         this.exceptionHandler = exceptionHandler;
         return this;
@@ -72,6 +79,11 @@ public class TaskBuilder implements Builder {
     @Override
     public Runnable prepare() {
         return prepareRunnable;
+    }
+
+    @Override
+    public Runnable canceled() {
+        return canceledRunnable;
     }
 
     @Override

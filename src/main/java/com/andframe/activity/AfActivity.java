@@ -253,7 +253,7 @@ public abstract class AfActivity extends AppCompatActivity implements Pager, Vie
         try {
             this.onCreated(bundle);
             LifeCycleInjecter.injectOnCreate(this, bundle);
-        } catch (Exception e) {
+        } catch (Throwable e) {
             AfExceptionHandler.getInstance().saveHandleException(e, TAG() + ".onCreated");
             AfDispatcher.dispatch(() -> {
                 final Activity activity = $.pager().currentActivity();
