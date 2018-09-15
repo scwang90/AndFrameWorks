@@ -8,12 +8,14 @@ import android.widget.ListAdapter;
 import com.andframe.api.pager.items.OnScrollToBottomListener;
 
 /**
- * 对 多项控件（listview gridview recyclerview 或其他）  的抽象接口
+ * 对 多项控件（ListView GridView RecyclerView 或其他）  的抽象接口
  * @param <T> 多项控件 的类
  * Created by SCWANG on 2016/9/14.
  */
 public interface ItemsViewer<T extends ViewGroup> {
 //    void smoothScrollToPosition(int index);
+
+    int getLastVisiblePosition();
 
     T getItemsView();
 
@@ -41,4 +43,8 @@ public interface ItemsViewer<T extends ViewGroup> {
      * 设置是否开启嵌套滚动
      */
     void setNestedScrollingEnabled(boolean enable);
+
+    int getFirstVisiblePosition();
+
+    void setSelection(int index);
 }

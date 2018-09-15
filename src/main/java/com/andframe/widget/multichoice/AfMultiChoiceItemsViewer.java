@@ -46,6 +46,16 @@ public class AfMultiChoiceItemsViewer<T extends ViewGroup> extends ItemsViewerWr
 
     }
 
+    @Override
+    public int getFirstVisiblePosition() {
+        return mItemsViewer.getFirstVisiblePosition();
+    }
+
+    @Override
+    public int getLastVisiblePosition() {
+        return mItemsViewer.getLastVisiblePosition();
+    }
+
     /**
      * Deprecated. Use {@link #setAdapter(AfMultiChoiceAdapter adapter)} from
      * now on.

@@ -18,10 +18,11 @@ import java.util.Queue;
 import java.util.concurrent.LinkedBlockingQueue;
 
 /**
- * 对 多项控件（listview gridview recyclerview 或其他）  的适配实现
+ * 对 多项控件（ListView GridView RecyclerView 或其他）  的适配实现
  * Created by SCWANG on 2016/12/23.
  */
 
+@SuppressWarnings("WeakerAccess")
 public class ItemsViewerWrapper<T extends ViewGroup> implements ItemsViewer<T> {
 
     protected ItemsViewer<T> mItemsViewer;
@@ -78,6 +79,22 @@ public class ItemsViewerWrapper<T extends ViewGroup> implements ItemsViewer<T> {
     }
 
     @Override
+    public int getLastVisiblePosition() {
+        return mItemsViewer.getLastVisiblePosition();
+    }
+
+    @Override
+    public int getFirstVisiblePosition() {
+        return mItemsViewer.getFirstVisiblePosition();
+    }
+
+    @Override
+    public void setSelection(int index) {
+        mItemsViewer.setSelection(index);
+    }
+
+
+    @Override
     public T getItemsView() {
         //noinspection unchecked
         return mItemsViewer.getItemsView();
@@ -107,7 +124,6 @@ public class ItemsViewerWrapper<T extends ViewGroup> implements ItemsViewer<T> {
     public void setNestedScrollingEnabled(boolean enable) {
         mItemsViewer.setNestedScrollingEnabled(enable);
     }
-
     @Override
     public void setDrawEndDivider(boolean draw) {
         mItemsViewer.setDrawEndDivider(draw);

@@ -96,6 +96,21 @@ public class ItemsAbsListViewWrapper<T extends AbsListView> implements ItemsView
     }
 
     @Override
+    public int getFirstVisiblePosition() {
+        return mItemsView.getFirstVisiblePosition();
+    }
+
+    @Override
+    public void setSelection(int index) {
+        mItemsView.setSelection(index);
+    }
+
+    @Override
+    public int getLastVisiblePosition() {
+        return mItemsView.getLastVisiblePosition();
+    }
+
+    @Override
     public T getItemsView() {
         return mItemsView;
     }

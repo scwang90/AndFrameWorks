@@ -145,6 +145,29 @@ public class ItemsRecyclerViewWrapper implements ItemsViewer<RecyclerView>, Adap
         return false;
     }
 
+    @Override
+    public int getFirstVisiblePosition() {
+        final RecyclerView.LayoutManager layoutManager = mItemsView.getLayoutManager();
+        if (layoutManager instanceof LinearLayoutManager) {
+            return ((LinearLayoutManager) layoutManager).findFirstVisibleItemPosition();
+        }
+        return 0;
+    }
+
+    @Override
+    public void setSelection(int index) {
+        mItemsView.scrollToPosition(index);
+    }
+
+    @Override
+    public int getLastVisiblePosition() {
+        final RecyclerView.LayoutManager layoutManager = mItemsView.getLayoutManager();
+        if (layoutManager instanceof LinearLayoutManager) {
+            return ((LinearLayoutManager) layoutManager).findLastVisibleItemPosition();
+        }
+        return 0;
+    }
+
     //<editor-fold desc="点击事件">
 //    private RecyclerView.OnItemTouchListener setUpItemListener(Context context) {
 //        GestureDetectorCompat gestureDetector = new GestureDetectorCompat(context,
