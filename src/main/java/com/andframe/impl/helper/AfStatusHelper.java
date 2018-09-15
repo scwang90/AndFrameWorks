@@ -203,10 +203,10 @@ public class AfStatusHelper<T> extends AfLoadHelper<T> implements StatusHelper<T
                 layoutManager.setInvalidNetLayout(status.invalidNet(), status.invalidNetTxtId());
             }
         } else {
-            StatusEmpty empty = combineStatusEmpty(mPager.getClass(), stop);
-            StatusError error = combineStatusError(mPager.getClass(), stop);
-            StatusProgress progress = combineStatusProgress(mPager.getClass(), stop);
-            StatusInvalidNet invalidNet = combineStatusInvalidNet(mPager.getClass(), stop);
+            StatusEmpty empty = combineStatusEmpty(layoutManager, mPager.getClass(), stop);
+            StatusError error = combineStatusError(layoutManager, mPager.getClass(), stop);
+            StatusProgress progress = combineStatusProgress(layoutManager, mPager.getClass(), stop);
+            StatusInvalidNet invalidNet = combineStatusInvalidNet(layoutManager, mPager.getClass(), stop);
 
             if (empty != null) {
                 String message = empty.message();
@@ -425,10 +425,12 @@ public class AfStatusHelper<T> extends AfLoadHelper<T> implements StatusHelper<T
         return list;
     }
 
-    public StatusEmpty combineStatusEmpty(Class<?> type, Class<?> stoptype) {
+    public StatusEmpty combineStatusEmpty(StatusLayoutManager layoutManager, Class<?> type, Class<?> stoptype) {
         StatusEmptyImpl impl = new StatusEmptyImpl();
-        impl.value = R.layout.af_module_nodata;
-        impl.txtId = R.id.module_nodata_description;
+        impl.value = layoutManager.defaultLayoutEmptyId();
+        impl.txtId = layoutManager.defaultLayoutEmptyTextId();
+        impl.btnId = layoutManager.defaultLayoutEmptyButtonId();
+        impl.messageId = layoutManager.defaultLayoutEmptyMessageId();
         List<StatusEmpty> empties = getAnnotations(type, stoptype, StatusEmpty.class);
         for (StatusEmpty tEmpty : empties) {
             impl.combine(tEmpty);
@@ -436,10 +438,11 @@ public class AfStatusHelper<T> extends AfLoadHelper<T> implements StatusHelper<T
         return impl;
     }
 
-    public StatusError combineStatusError(Class<?> type, Class<?> stoptype) {
+    public StatusError combineStatusError(StatusLayoutManager layoutManager, Class<?> type, Class<?> stoptype) {
         StatusErrorImpl impl = new StatusErrorImpl();
-        impl.value = R.layout.af_module_nodata;
-        impl.txtId = R.id.module_nodata_description;
+        impl.value = layoutManager.defaultLayoutErrorId();
+        impl.txtId = layoutManager.defaultLayoutErrorTextId();
+        impl.btnId = layoutManager.defaultLayoutErrorButtonId();
         List<StatusError> empties = getAnnotations(type, stoptype, StatusError.class);
         for (StatusError tEmpty : empties) {
             impl.combine(tEmpty);
@@ -447,11 +450,12 @@ public class AfStatusHelper<T> extends AfLoadHelper<T> implements StatusHelper<T
         return impl;
     }
 
-    public StatusInvalidNet combineStatusInvalidNet(Class<?> type, Class<?> stoptype) {
+    public StatusInvalidNet combineStatusInvalidNet(StatusLayoutManager layoutManager, Class<?> type, Class<?> stoptype) {
         StatusInvalidNetImpl impl = new StatusInvalidNetImpl();
-        impl.value = R.layout.af_module_nodata;
-        impl.txtId = R.id.module_nodata_description;
         impl.message = AfApp.get().getString(R.string.status_invalid_net);
+        impl.value = layoutManager.defaultLayoutInvalidNetId();
+        impl.txtId = layoutManager.defaultLayoutInvalidNetTextId();
+        impl.btnId = layoutManager.defaultLayoutInvalidNetButtonId();
         List<StatusInvalidNet> empties = getAnnotations(type, stoptype, StatusInvalidNet.class);
         for (StatusInvalidNet tEmpty : empties) {
             impl.combine(tEmpty);
@@ -459,10 +463,12 @@ public class AfStatusHelper<T> extends AfLoadHelper<T> implements StatusHelper<T
         return impl;
     }
 
-    public StatusProgress combineStatusProgress(Class<?> type, Class<?> stoptype) {
+    public StatusProgress combineStatusProgress(StatusLayoutManager layoutManager, Class<?> type, Class<?> stoptype) {
         StatusProgressImpl impl = new StatusProgressImpl();
-        impl.value = R.layout.af_module_progress;
-        impl.txtId = R.id.module_progress_loadinfo;
+        impl.value = R.layout.af_status_progress;
+        impl.txtId = R.id.status_progress_text;
+        impl.value = layoutManager.defaultLayoutProgressId();
+        impl.txtId = layoutManager.defaultLayoutProgressTextId();
         List<StatusProgress> empties = getAnnotations(type, stoptype, StatusProgress.class);
         for (StatusProgress tEmpty : empties) {
             impl.combine(tEmpty);

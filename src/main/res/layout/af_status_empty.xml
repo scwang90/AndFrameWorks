@@ -1,12 +1,17 @@
 <?xml version="1.0" encoding="utf-8"?>
 <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:tools="http://schemas.android.com/tools"
-    android:id="@+id/module_progress_layout"
+    android:id="@+id/module_empty_layout"
     android:layout_width="match_parent"
     android:layout_height="match_parent">
 
+    <View
+        android:id="@+id/module_empty_button"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:textColor="@color/transparent"/>
+
     <TextView
-        android:id="@+id/module_progress_logo"
+        android:id="@+id/module_empty_text"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_centerInParent="true"
@@ -14,23 +19,16 @@
         android:textSize="45dp"
         android:textIsSelectable="false"
         android:textStyle="italic"
-        android:textColor="#cccccc" />
-
-    <ProgressBar
-        style="?android:attr/progressBarStyleSmall"
-        android:layout_width="35dp"
-        android:layout_height="35dp"
-        android:layout_toLeftOf="@+id/module_progress_logo"
-        android:layout_toStartOf="@+id/module_progress_logo"
-        android:layout_centerVertical="true"/>
+        android:textColor="#cccccc"
+        />
 
     <TextView
-        android:id="@+id/module_progress_loadinfo"
+        android:id="@+id/module_empty_description"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_centerHorizontal="true"
-        android:layout_below="@+id/module_progress_logo"
-        android:text="正在努力加载中..."
+        android:layout_below="@+id/module_empty_text"
+        android:text="@string/status_empty_data"
         android:textColor="#d2d2d2"
         android:textSize="@dimen/dimenTextContent" />
 

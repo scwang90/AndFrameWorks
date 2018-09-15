@@ -1,7 +1,10 @@
 package com.andframe.impl.pager.status;
 
 import android.content.Context;
+import android.support.annotation.IdRes;
+import android.support.annotation.LayoutRes;
 import android.support.annotation.NonNull;
+import android.support.annotation.StringRes;
 import android.text.TextUtils;
 import android.view.View;
 import android.view.ViewGroup;
@@ -22,6 +25,7 @@ import static android.view.ViewGroup.LayoutParams.MATCH_PARENT;
  * Created by SCWANG on 2016/10/20.
  */
 
+@SuppressWarnings({"WeakerAccess", "RedundantCast"})
 public class DefaultStatusLayoutManager implements StatusLayoutManager {
 
     protected final FrameLayout mFrameLayout;
@@ -87,6 +91,78 @@ public class DefaultStatusLayoutManager implements StatusLayoutManager {
         }
     }
 
+    @LayoutRes
+    @Override
+    public int defaultLayoutEmptyId() {
+        return R.layout.af_status_empty;
+    }
+
+    @IdRes
+    @Override
+    public int defaultLayoutEmptyTextId() {
+        return R.id.module_empty_description;
+    }
+
+    @IdRes
+    @Override
+    public int defaultLayoutEmptyButtonId() {
+        return 0;//module_empty_layout 不指定将会使用整个布局作为按钮
+    }
+
+    @StringRes
+    @Override
+    public int defaultLayoutEmptyMessageId() {
+        return R.string.status_empty_data;
+    }
+
+    @LayoutRes
+    @Override
+    public int defaultLayoutErrorId() {
+        return R.layout.af_status_empty;
+    }
+
+    @IdRes
+    @Override
+    public int defaultLayoutErrorButtonId() {
+        return 0;//module_empty_layout 不指定将会使用整个布局作为按钮
+    }
+
+    @IdRes
+    @Override
+    public int defaultLayoutErrorTextId() {
+        return R.id.module_empty_description;
+    }
+
+    @LayoutRes
+    @Override
+    public int defaultLayoutInvalidNetId() {
+        return R.layout.af_status_empty;
+    }
+
+    @IdRes
+    @Override
+    public int defaultLayoutInvalidNetButtonId() {
+        return 0;//module_empty_layout 不指定将会使用整个布局作为按钮
+    }
+
+    @IdRes
+    @Override
+    public int defaultLayoutInvalidNetTextId() {
+        return R.id.module_empty_description;
+    }
+
+    @LayoutRes
+    @Override
+    public int defaultLayoutProgressId() {
+        return R.layout.af_status_progress;
+    }
+
+    @IdRes
+    @Override
+    public int defaultLayoutProgressTextId() {
+        return R.id.status_progress_text;
+    }
+
     @Override
     public void setOnRefreshListener(OnRefreshListener listener) {
         mOnRefreshListener = listener;
@@ -98,12 +174,12 @@ public class DefaultStatusLayoutManager implements StatusLayoutManager {
     }
 
     @Override
-    public void setProgressLayout(int layoutId,int msgId) {
+    public void setProgressLayout(int layoutId,int textId) {
         if (mProgressLayout != null) {
             mFrameLayout.removeView(mProgressLayout);
         }
         mProgressLayout = View.inflate(mFrameLayout.getContext(), layoutId, null);
-        mProgressTextView = (TextView) mProgressLayout.findViewById(msgId);
+        mProgressTextView = (TextView) mProgressLayout.findViewById(textId);
         mFrameLayout.addView(mProgressLayout);
     }
 
@@ -113,22 +189,22 @@ public class DefaultStatusLayoutManager implements StatusLayoutManager {
     }
 
     @Override
-    public void setEmptyLayout(int layoutId, int msgId) {
-        setEmptyLayout(layoutId, msgId, 0);
+    public void setEmptyLayout(int layoutId, int textId) {
+        setEmptyLayout(layoutId, textId, 0);
     }
 
     @Override
-    public void setEmptyLayout(int layoutId, int msgId, int btnId) {
-        setEmptyLayout(layoutId, msgId, btnId, "");
+    public void setEmptyLayout(int layoutId, int textId, int btnId) {
+        setEmptyLayout(layoutId, textId, btnId, "");
     }
 
     @Override
-    public void setEmptyLayout(int layoutId, int msgId, int btnId, String message) {
+    public void setEmptyLayout(int layoutId, int textId, int btnId, String message) {
         if (mEmptyLayout != null) {
             mFrameLayout.removeView(mEmptyLayout);
         }
         mEmptyLayout = View.inflate(mFrameLayout.getContext(), layoutId, null);
-        mEmptyTextView = (TextView) mEmptyLayout.findViewById(msgId);
+        mEmptyTextView = (TextView) mEmptyLayout.findViewById(textId);
         if (mEmptyTextView != null && !TextUtils.isEmpty(message)) {
             mEmptyTextView.setText(message);
         }
@@ -139,17 +215,17 @@ public class DefaultStatusLayoutManager implements StatusLayoutManager {
     }
 
     @Override
-    public void setErrorLayout(int layoutId, int msgId) {
-        setErrorLayout(layoutId, msgId, 0);
+    public void setErrorLayout(int layoutId, int textId) {
+        setErrorLayout(layoutId, textId, 0);
     }
 
     @Override
-    public void setErrorLayout(int layoutId, int msgId, int btnId) {
+    public void setErrorLayout(int layoutId, int textId, int btnId) {
         if (mErrorLayout != null) {
             mFrameLayout.removeView(mErrorLayout);
         }
         mErrorLayout = View.inflate(mFrameLayout.getContext(), layoutId, null);
-        mErrorTextView = (TextView) mErrorLayout.findViewById(msgId);
+        mErrorTextView = (TextView) mErrorLayout.findViewById(textId);
         View btn = mErrorLayout.findViewById(btnId);
         btn = btn == null ? mErrorLayout : btn;
         btn.setOnClickListener(mOnRefreshClickListener);
@@ -162,17 +238,17 @@ public class DefaultStatusLayoutManager implements StatusLayoutManager {
     }
 
     @Override
-    public void setInvalidNetLayout(int layoutId, int msgId) {
-        setInvalidNetLayout(layoutId, msgId, 0);
+    public void setInvalidNetLayout(int layoutId, int textId) {
+        setInvalidNetLayout(layoutId, textId, 0);
     }
 
     @Override
-    public void setInvalidNetLayout(int layoutId, int msgId, int btnId) {
+    public void setInvalidNetLayout(int layoutId, int textId, int btnId) {
         if (mInvalidNetLayout != null) {
             mFrameLayout.removeView(mInvalidNetLayout);
         }
         mInvalidNetLayout = View.inflate(mFrameLayout.getContext(), layoutId, null);
-        mInvalidNetTextView = (TextView) mInvalidNetLayout.findViewById(msgId);
+        mInvalidNetTextView = (TextView) mInvalidNetLayout.findViewById(textId);
         View btn = mInvalidNetLayout.findViewById(btnId);
         btn = btn == null ? mInvalidNetLayout : btn;
         btn.setOnClickListener(mOnRefreshClickListener);
@@ -182,16 +258,16 @@ public class DefaultStatusLayoutManager implements StatusLayoutManager {
     @Override
     public void autoCompletedLayout() {
         if (mEmptyLayout == null) {
-            setEmptyLayout(R.layout.af_module_nodata, R.id.module_nodata_description);
+            setEmptyLayout(defaultLayoutEmptyId(), defaultLayoutEmptyTextId(), defaultLayoutEmptyButtonId());
         }
         if (mErrorLayout == null) {
-            setErrorLayout(R.layout.af_module_nodata, R.id.module_nodata_description);
-        }
-        if (mProgressLayout == null) {
-            setProgressLayout(R.layout.af_module_progress, R.id.module_progress_loadinfo);
+            setErrorLayout(defaultLayoutErrorId(), defaultLayoutErrorTextId(), defaultLayoutErrorButtonId());
         }
         if (mInvalidNetLayout == null) {
-            setInvalidNetLayout(R.layout.af_module_nodata, R.id.module_nodata_description);
+            setInvalidNetLayout(defaultLayoutInvalidNetId(), defaultLayoutInvalidNetTextId(), defaultLayoutInvalidNetButtonId());
+        }
+        if (mProgressLayout == null) {
+            setProgressLayout(defaultLayoutProgressId(), defaultLayoutProgressTextId());
         }
     }
     //</editor-fold>

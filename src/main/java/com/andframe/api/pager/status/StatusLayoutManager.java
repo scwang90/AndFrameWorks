@@ -1,5 +1,8 @@
 package com.andframe.api.pager.status;
 
+import android.support.annotation.IdRes;
+import android.support.annotation.LayoutRes;
+import android.support.annotation.StringRes;
 import android.view.ViewGroup;
 
 /**
@@ -7,7 +10,36 @@ import android.view.ViewGroup;
  * Created by SCWANG on 2016/10/20.
  */
 
+@SuppressWarnings("unused")
 public interface StatusLayoutManager<T extends ViewGroup> extends LayoutManager<T> {
+
+    @LayoutRes
+    int defaultLayoutEmptyId();
+    @IdRes
+    int defaultLayoutEmptyTextId();
+    @IdRes
+    int defaultLayoutEmptyButtonId();
+    @StringRes
+    int defaultLayoutEmptyMessageId();
+
+    @LayoutRes
+    int defaultLayoutErrorId();
+    @IdRes
+    int defaultLayoutErrorButtonId();
+    @IdRes
+    int defaultLayoutErrorTextId();
+
+    @LayoutRes
+    int defaultLayoutInvalidNetId();
+    @IdRes
+    int defaultLayoutInvalidNetButtonId();
+    @IdRes
+    int defaultLayoutInvalidNetTextId();
+
+    @LayoutRes
+    int defaultLayoutProgressId();
+    @IdRes
+    int defaultLayoutProgressTextId();
 
     enum Status{
         other,progress,content,empty,error,invalidNet
