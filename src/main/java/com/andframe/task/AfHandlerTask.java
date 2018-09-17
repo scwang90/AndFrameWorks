@@ -9,7 +9,7 @@ import com.andframe.exception.AfExceptionHandler;
 public abstract class AfHandlerTask extends AfTask implements TaskWithHandler {
 
 	protected OnTaskFinishListener mListener;
-	protected static Handler mHandler = new Handler(Looper.getMainLooper());
+	protected final static Handler mHandler = new Handler(Looper.getMainLooper());
 
 	protected abstract void onHandle();
 
@@ -21,7 +21,7 @@ public abstract class AfHandlerTask extends AfTask implements TaskWithHandler {
 	@Override
 	public void run() {
 		super.run();
-		if (mStatus != Status.canceled && mHandler != null) {
+		if (mStatus != Status.canceled) {
 			mHandler.post(this::handleMessage);
 		}
 	}
@@ -39,7 +39,7 @@ public abstract class AfHandlerTask extends AfTask implements TaskWithHandler {
 		});
 	}
 
-	private boolean handleMessage() {
+	public boolean handleMessage() {
 		try {
 			if (mListener != null) {
                 mListener.onTaskFinish(this);
