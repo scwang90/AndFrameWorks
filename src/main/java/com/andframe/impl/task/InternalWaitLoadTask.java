@@ -4,6 +4,8 @@ package com.andframe.impl.task;
 import com.andframe.R;
 import com.andframe.api.pager.Pager;
 
+import java.util.Collection;
+
 /**
  * 集成等待对话框的数据加载任务
  * Created by SCWANG on 2017/5/3.
@@ -46,10 +48,13 @@ public class InternalWaitLoadTask<T> extends InternalWaitTask {
         if (builder.isEmptyHandler != null) {
             return builder.isEmptyHandler.isEmpty(data);
         }
-//        if (data instanceof Collection) {
-//            return ((Collection) data).isEmpty();
-//        }
-        return data == null;
+        if (builder.emptyRunnable != null) {
+            if (data instanceof Collection) {
+                return ((Collection) data).isEmpty();
+            }
+            return data == null;
+        }
+        return false;
     }
 
     @Override
