@@ -10,6 +10,7 @@ import android.widget.AdapterView;
 
 import com.andframe.R;
 import com.andframe.impl.wrapper.RecyclerAdapterWrapper;
+import com.andframe.listener.SafeListener;
 
 import java.lang.ref.WeakReference;
 
@@ -47,8 +48,8 @@ public class RecyclerInteractionAdapter extends RecyclerAdapterWrapper<RecyclerV
                 viewHolder.itemView.setPadding(left, top, right, bottom);
             }
             if (!viewHolder.itemView.isClickable()) {
-                viewHolder.itemView.setOnClickListener(RecyclerInteractionAdapter.this);
-                viewHolder.itemView.setOnLongClickListener(RecyclerInteractionAdapter.this);
+                viewHolder.itemView.setOnClickListener(new SafeListener((View.OnClickListener)RecyclerInteractionAdapter.this));
+                viewHolder.itemView.setOnLongClickListener(new SafeListener((View.OnLongClickListener) RecyclerInteractionAdapter.this));
             }
         }
         return viewHolder;
