@@ -52,7 +52,7 @@ public abstract class AfUpdateService implements UpdateService {
 
 	protected void start(String url, String version) {
 		if (mEntity != null && mEntity.Name.startsWith(version)) {
-			instanll(new File(mEntity.getFullPath()));
+			install(new File(mEntity.getFullPath()));
 		} else {
 			DownloadEntity entity = new DownloadEntity();
 			entity.Name = version + ".apk";
@@ -71,14 +71,14 @@ public abstract class AfUpdateService implements UpdateService {
 		public void notifyClick(DownloadEntity entity) {
 			mEntity = entity;
 			clearListenerMark();
-			instanll(new File(entity.getFullPath()));
+			install(new File(entity.getFullPath()));
 		}
 
 		@Override
 		public boolean onDownloadFinish(DownloadEntity entity) {
 			mEntity = entity;
 			clearListenerMark();
-			instanll(new File(entity.getFullPath()));
+			install(new File(entity.getFullPath()));
 			return true;
 		}
 
@@ -96,7 +96,7 @@ public abstract class AfUpdateService implements UpdateService {
 	};
 
 	@Override
-	public void instanll(File file) {
+	public void install(File file) {
 		try {
 			Intent intent = new Intent(Intent.ACTION_VIEW);
 			intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
@@ -182,11 +182,11 @@ public abstract class AfUpdateService implements UpdateService {
 
 	public static int transformVersion(String version) {
 		try {
-			String[] vers = version.split("\\.");
-			int ver1 = Integer.parseInt(vers[0]);
-			int ver2 = Integer.parseInt(vers.length > 1 ? vers[1] : "0");
-			int ver3 = Integer.parseInt(vers.length > 2 ? vers[2] : "0");
-			int ver4 = Integer.parseInt(vers.length > 3 ? vers[3] : "0");
+			String[] versions = version.split("\\.");
+			int ver1 = Integer.parseInt(versions[0]);
+			int ver2 = Integer.parseInt(versions.length > 1 ? versions[1] : "0");
+			int ver3 = Integer.parseInt(versions.length > 2 ? versions[2] : "0");
+			int ver4 = Integer.parseInt(versions.length > 3 ? versions[3] : "0");
 			ver3 += ver4 / 256;
 			ver4 %= 256;
 			ver2 += ver4 / 256;

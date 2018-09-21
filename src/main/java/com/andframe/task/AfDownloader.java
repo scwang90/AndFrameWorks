@@ -246,7 +246,7 @@ public class AfDownloader {
         private boolean isDownloaded = false;
 
         String Error = "";
-        Throwable Excption = null;
+        Throwable Exception = null;
 
         public boolean isDownloaded() {
             return isDownloaded;
@@ -260,7 +260,7 @@ public class AfDownloader {
          * 判断是否下载失败
          */
         public boolean isDownloadFail() {
-            return Excption != null;
+            return Exception != null;
         }
 
         /**
@@ -273,8 +273,8 @@ public class AfDownloader {
         /**
          * 获取异常信息
          */
-        public Throwable getExcption() {
-            return Excption;
+        public Throwable getException() {
+            return Exception;
         }
 
         /**
@@ -703,7 +703,7 @@ public class AfDownloader {
                 if (mNotifier != null) {
                     if (needNotify) {
                         mEntity.Error = mErrors;
-                        mEntity.Excption = mException;
+                        mEntity.Exception = mException;
                         mNotifier.notifyFail();
                         mNotifyMap.put(mEntityUrl, this);
                     } else {

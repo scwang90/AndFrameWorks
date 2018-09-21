@@ -11,6 +11,6 @@ public interface UpdateService {
     String getServiceVersion();
     void checkUpdate();
     void checkUpdate(boolean feedback);
-    void instanll(File file);
+    void install(File file);
     boolean isNeedUpdate();
 }

@@ -314,13 +314,13 @@ public class AfViewQuery<T extends AfViewQuery<T>> implements ViewQuery<T> {
     }
 
     @Override
-    public T toChild(int... indexs) {
+    public T toChild(int... index) {
         if (mTargetViews != null) {
-            for (int i = 0, index = indexs.length == 0 ? 0 : indexs[0]; i < mTargetViews.length; i++) {
+            for (int i = 0, position = index.length == 0 ? 0 : index[0]; i < mTargetViews.length; i++) {
                 if (mTargetViews[i] instanceof ViewGroup) {
                     ViewGroup view = (ViewGroup) mTargetViews[i];
-                    if (view.getChildCount() > index) {
-                        mTargetViews[i] = view.getChildAt(index);
+                    if (view.getChildCount() > position) {
+                        mTargetViews[i] = view.getChildAt(position);
                     } else {
                         mTargetViews[i] = null;
                     }
@@ -417,11 +417,11 @@ public class AfViewQuery<T extends AfViewQuery<T>> implements ViewQuery<T> {
 
     //<editor-fold desc="选择遍历">
     @Override
-    public T foreach(ViewIterator<View> eacher) {
+    public T foreach(ViewIterator<View> iterator) {
         if (mTargetViews != null) {
             for (View view : mTargetViews) {
                 if (view != null) {
-                    eacher.each(view);
+                    iterator.each(view);
                 }
             }
         }
@@ -429,11 +429,11 @@ public class AfViewQuery<T extends AfViewQuery<T>> implements ViewQuery<T> {
     }
 
     @Override
-    public <TT> T foreach(Class<TT> clazz, ViewIterator<TT> eacher) {
+    public <TT> T foreach(Class<TT> clazz, ViewIterator<TT> iterator) {
         if (mTargetViews != null) {
             for (View view : mTargetViews) {
                 if (view != null && clazz.isInstance(view)) {
-                    eacher.each(clazz.cast(view));
+                    iterator.each(clazz.cast(view));
                 }
             }
         }
@@ -441,11 +441,11 @@ public class AfViewQuery<T extends AfViewQuery<T>> implements ViewQuery<T> {
     }
 
     @Override
-    public <TTT> TTT foreach(ViewReturnIterator<View, TTT> eacher) {
+    public <TTT> TTT foreach(ViewReturnIterator<View, TTT> iterator) {
         if (mTargetViews != null) {
             for (View view : mTargetViews) {
                 if (view != null) {
-                    TTT ret = eacher.each(view);
+                    TTT ret = iterator.each(view);
                     if (ret != null) {
                         return ret;
                     }
@@ -456,16 +456,16 @@ public class AfViewQuery<T extends AfViewQuery<T>> implements ViewQuery<T> {
     }
 
     @Override
-    public <TT, TTT> TTT foreach(Class<TT> clazz, ViewReturnIterator<TT, TTT> eacher) {
-        return foreach(clazz, eacher, null);
+    public <TT, TTT> TTT foreach(Class<TT> clazz, ViewReturnIterator<TT, TTT> iterator) {
+        return foreach(clazz, iterator, null);
     }
 
     @Override
-    public <TT, TTT> TTT foreach(Class<TT> clazz, ViewReturnIterator<TT, TTT> eacher, TTT defValue) {
+    public <TT, TTT> TTT foreach(Class<TT> clazz, ViewReturnIterator<TT, TTT> iterator, TTT defValue) {
         if (mTargetViews != null) {
             for (View view : mTargetViews) {
                 if (view != null && clazz.isInstance(view)) {
-                    TTT ret = eacher.each(clazz.cast(view));
+                    TTT ret = iterator.each(clazz.cast(view));
                     if (ret != null) {
                         return ret;
                     }
@@ -521,10 +521,10 @@ public class AfViewQuery<T extends AfViewQuery<T>> implements ViewQuery<T> {
         return count;
     }
 
-    public View getView(int... indexs) {
+    public View getView(int... index) {
         if (mTargetViews != null && mTargetViews.length > 0) {
-            if (indexs != null && indexs.length > 0 && indexs[0] < mTargetViews.length) {
-                return mTargetViews[indexs[0]];
+            if (index != null && index.length > 0 && index[0] < mTargetViews.length) {
+                return mTargetViews[index[0]];
             } else {
                 return mTargetViews[0];
             }
@@ -533,9 +533,9 @@ public class AfViewQuery<T extends AfViewQuery<T>> implements ViewQuery<T> {
     }
 
     @Nullable
-    public <TT extends View> TT  view(int... indexs) {
+    public <TT extends View> TT  view(int... index) {
         //noinspection unchecked
-        return (TT)getView(indexs);
+        return (TT)getView(index);
     }
 
     @Override
@@ -558,8 +558,8 @@ public class AfViewQuery<T extends AfViewQuery<T>> implements ViewQuery<T> {
     }
 
     @Override
-    public <TT extends View> TT view(Class<TT> clazz, int... indexs) {
-        View view = getView(indexs);
+    public <TT extends View> TT view(Class<TT> clazz, int... index) {
+        View view = getView(index);
         if (view != null && clazz.isInstance(view)) {
             return clazz.cast(view);
         }
@@ -1643,16 +1643,16 @@ public class AfViewQuery<T extends AfViewQuery<T>> implements ViewQuery<T> {
     //<editor-fold desc="扩展设置">
 
     @Override
-    public T text(TextConverter transverter) {
-        return foreach(TextView.class, (ViewIterator<TextView>) (view) -> view.setText(transverter.convert(view.getText().toString())));
+    public T text(TextConverter converter) {
+        return foreach(TextView.class, (ViewIterator<TextView>) (view) -> view.setText(converter.convert(view.getText().toString())));
     }
 
     @Override
-    public T text(CharSequence text, boolean goneIfEmpty) {
-        if (goneIfEmpty && TextUtils.isEmpty(text)) {
+    public T textGoneIfEmpty(CharSequence text) {
+        if (TextUtils.isEmpty(text)) {
             return gone();
         } else {
-            if (goneIfEmpty && !isVisible()) {
+            if (!isVisible()) {
                 visible();
             }
             return text(text);
@@ -1678,8 +1678,8 @@ public class AfViewQuery<T extends AfViewQuery<T>> implements ViewQuery<T> {
     public T html(String format, Object... args) {
         if (args.length == 0) {
             //noinspection deprecation
-            foreach(WebView.class, (ViewIterator<WebView>) (view) -> view.loadData(format,"text/html;charset=UTF-8",null));
-            return foreach(TextView.class, (ViewIterator<TextView>) (view) -> view.setText(Html.fromHtml(format)));
+            foreach(WebView.class, (ViewIterator<WebView>) (view) -> view.loadData(format+"","text/html;charset=UTF-8",null));
+            return foreach(TextView.class, (ViewIterator<TextView>) (view) -> view.setText(Html.fromHtml(format+"")));
         }
         Context context = null;
         for (int i = 0, len = format.length(), index = 0; i < len; i++) {
@@ -1704,13 +1704,13 @@ public class AfViewQuery<T extends AfViewQuery<T>> implements ViewQuery<T> {
             }
         }
         //noinspection deprecation
-        foreach(WebView.class, (ViewIterator<WebView>) (view) -> view.loadData(String.format(format, args),"text/html;charset=UTF-8",null));
+        foreach(WebView.class, (ViewIterator<WebView>) (view) -> view.loadData(String.format(format+"", args),"text/html;charset=UTF-8",null));
         return foreach(TextView.class, (ViewIterator<TextView>) (view) -> view.setText(Html.fromHtml(String.format(format, args))));
     }
 
     @Override
     public T textFormat(String format) {
-        return foreach(TextView.class, (ViewIterator<TextView>) (view) -> view.setText(String.format(format, view.getText())));
+        return foreach(TextView.class, (ViewIterator<TextView>) (view) -> view.setText(String.format(format+"", view.getText())));
     }
     //</editor-fold>
 

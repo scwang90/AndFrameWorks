@@ -169,9 +169,9 @@ public interface ViewQuery<T extends ViewQuery<T>> {
     View[] views();
     /**
      * 获取选择的 View （默认第一个）
-     * @param indexs 可以指定选择的索引
+     * @param index 可以指定选择的索引
      */
-    View getView(int... indexs);
+    View getView(int... index);
 
     /**
      * 获取选择其的 root Viewer
@@ -187,10 +187,10 @@ public interface ViewQuery<T extends ViewQuery<T>> {
 
     /**
      * 获取选择的 View （默认第一个） （模板返回）
-     * @param indexs 可以指定选择的索引
+     * @param index 可以指定选择的索引
      */
     @Nullable
-    <TT extends View> TT view(int... indexs);
+    <TT extends View> TT view(int... index);
     /**
      * 根据类型 获取选择的 View （默认第一个） （模板返回）
      */
@@ -199,15 +199,15 @@ public interface ViewQuery<T extends ViewQuery<T>> {
      * 根据类型 获取选择的 View （默认第一个） （模板返回）
      */
     @Nullable
-    <TT extends View> TT view(Class<TT> clazz ,int... indexs);
+    <TT extends View> TT view(Class<TT> clazz ,int... index);
     //</editor-fold>
 
     //<editor-fold desc="选择遍历">
-    T foreach(ViewIterator<View> eacher);
-    <TT> T foreach(Class<TT> clazz, ViewIterator<TT> eacher);
-    <TTT> TTT foreach(ViewReturnIterator<View,TTT> eacher);
-    <TT,TTT> TTT foreach(Class<TT> clazz, ViewReturnIterator<TT,TTT> eacher);
-    <TT,TTT> TTT foreach(Class<TT> clazz, ViewReturnIterator<TT,TTT> eacherm, TTT defValue);
+    T foreach(ViewIterator<View> iterator);
+    <TT> T foreach(Class<TT> clazz, ViewIterator<TT> iterator);
+    <TTT> TTT foreach(ViewReturnIterator<View,TTT> iterator);
+    <TT,TTT> TTT foreach(Class<TT> clazz, ViewReturnIterator<TT,TTT> iterator);
+    <TT,TTT> TTT foreach(Class<TT> clazz, ViewReturnIterator<TT,TTT> iterator, TTT defValue);
     //</editor-fold>
 
     //<editor-fold desc="缓存设置">
@@ -768,17 +768,16 @@ public interface ViewQuery<T extends ViewQuery<T>> {
     //<editor-fold desc="扩展设置">
     /**
      * 转换当前选中 TextView 的 文本（text）
-     * @param transverter 文本转换器
+     * @param converter 文本转换器
      */
-    T text(TextConverter transverter);
+    T text(TextConverter converter);
 
     /**
      * 设置当前选中 TextView 的 文本（text） 如果内容为空将隐藏 View
      * @param text 文本内容
-     * @param goneIfEmpty 如果内容为空将隐藏 View
      */
 
-    T text(CharSequence text, boolean goneIfEmpty);
+    T textGoneIfEmpty(CharSequence text);
 
     /**
      * 设置当前选中 TextView 的 文本（text） 为 格式化的结果值.
@@ -789,7 +788,7 @@ public interface ViewQuery<T extends ViewQuery<T>> {
     T text(CharSequence format, Object... args);
 
     /**
-     * 设置当前选中 TextView 的 文本（text） 为 text 否则如果TextUtils.isEmpty(text)使用 默认值defValue.
+     * 设置当前选中 TextView 的 文本（text） 为 textGoneIfEmpty 否则如果TextUtils.isEmpty(textGoneIfEmpty)使用 默认值defValue.
      * @see android.text.TextUtils#isEmpty(CharSequence)
      * @param text 文本内容
      * @param defValue 默认值，如果 TextUtils.isEmpty(text)
@@ -1258,11 +1257,11 @@ public interface ViewQuery<T extends ViewQuery<T>> {
 
     //<editor-fold desc="子接口定义">
     interface ViewIterator<TT> {
-        void each(TT view);
+        void each(@NonNull TT view);
     }
 
     interface ViewReturnIterator<TT, TTT> {
-        TTT each(TT view);
+        TTT each(@NonNull TT view);
     }
 
     interface Converter<F, T> {
