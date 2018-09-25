@@ -38,6 +38,7 @@ import com.andframe.api.DialogBuilder.OnDateTimeSetVerifyListener;
 import com.andframe.api.DialogBuilder.OnTimeSetVerifyListener;
 import com.andframe.api.task.builder.Builder;
 import com.andframe.api.task.builder.WaitBuilder;
+import com.andframe.api.task.handler.LoadingHandler;
 import com.andframe.api.viewer.ViewQuery;
 import com.andframe.api.viewer.Viewer;
 import com.andframe.feature.AfIntent;
@@ -77,6 +78,10 @@ public class ApCommonBarBinder {
 
     public interface Bind<T> {
 
+    }
+
+    public interface BindData<T> {
+        T bind();
     }
 
     public interface CommonBind<T> extends Bind<T> {
@@ -201,6 +206,12 @@ public class ApCommonBarBinder {
         return binder;
     }
 
+    public SelectBinder select(@IdRes int idValue, BindData<CharSequence[]> items) {
+        SelectBinder binder = new SelectBinder(idValue, items);
+        binders.add(binder);
+        return binder;
+    }
+
     public CheckBinder check(@IdRes int idValue) {
         CheckBinder binder = new CheckBinder(idValue);
         binders.add(binder);
@@ -311,11 +322,7 @@ public class ApCommonBarBinder {
         }
 
         public T click(int idClick) {
-            if (!readOnly) {
-                $(idClick).clicked(this);
-                $(idValue).clicked(null).clickable(false);
-            }
-            return self();
+            return click($(idClick).view());
         }
 
         public T click(View view) {
@@ -344,8 +351,9 @@ public class ApCommonBarBinder {
                         this.name = $(prev).text();
                         hint(hintPrefix + name.toString());
                     }
-                    if ($(idValue).view().isClickable()) {
-                        $(idValue).clicked(null).clickable(false).toParent().clicked(this);
+                    if ($(idValue).clickable()) {
+                        click($(idValue).toParent().view());
+//                        $(idValue).clicked(null).clickable(false).toParent().clicked(this);
                     }
                 }
             }
@@ -455,11 +463,15 @@ public class ApCommonBarBinder {
 
     public class SelectBinder extends Binder<SelectBinder, SelectBind, Void> implements DialogInterface.OnClickListener {
 
-        private final CharSequence[] items;
+        private final BindData<CharSequence[]> itemsHandler;
 
         SelectBinder(int idValue, CharSequence... items) {
+            this(idValue, () -> items);
+        }
+
+        SelectBinder(int idValue, BindData<CharSequence[]> items) {
             super(idValue);
-            this.items = items;
+            this.itemsHandler = items;
             if (TextUtils.isEmpty(hintPrefix)) {
                 this.hintPrefix("请选择");
             }
@@ -467,7 +479,7 @@ public class ApCommonBarBinder {
 
         @Override
         public void start() {
-            $.dialog(viewer).selectItem(hint, items, this);
+            $.dialog(viewer).selectItem(hint, itemsHandler.bind(), this);
         }
 
         @Override
@@ -478,16 +490,18 @@ public class ApCommonBarBinder {
 
         @Override
         public void onClick(DialogInterface dialog, int which) {
+            CharSequence[] items = itemsHandler.bind();
             $(idValue).text(items[which]);
             if (key != null && dialog != null) {
                 cacher.put(key, which);
             }
-            if (bind != null) {
-                bind.text(this, items[which].toString(), which);
+            if (this.bind != null) {
+                this.bind.text(this, items[which].toString(), which);
             }
         }
 
         public SelectBinder value(Integer index) {
+            CharSequence[] items = itemsHandler.bind();
             if (index != null && index >= 0 && index < items.length) {
                 onClick(null, index);
             }
@@ -495,6 +509,7 @@ public class ApCommonBarBinder {
         }
 
         public SelectBinder value(CharSequence value) {
+            CharSequence[] items = itemsHandler.bind();
             for (int i = 0; i < items.length; i++) {
                 if (TextUtils.equals(items[i].toString(), value)) {
                     onClick(null, i);
@@ -1868,6 +1883,15 @@ public class ApCommonBarBinder {
             super(idValue);
             lastval = $(idValue).isChecked();
         }
+
+        public CheckBinder click(View view) {
+            if (!readOnly) {
+                $(view).clicked(this, 0);
+                $(idValue).clicked(null).clickable(false);
+            }
+            return self();
+        }
+
 
         @Override
         public void onRestoreCache(String key) {
