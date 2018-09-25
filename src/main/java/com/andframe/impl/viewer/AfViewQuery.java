@@ -726,6 +726,17 @@ public class AfViewQuery<T extends AfViewQuery<T>> implements ViewQuery<T> {
     public float elevation() {
         return foreach(ViewCompat::getElevation);
     }
+
+    @Override
+    public boolean clickable() {
+        return foreach(View::isClickable);
+    }
+
+    @Override
+    public Drawable background() {
+        return foreach(View::getBackground);
+    }
+
     //</editor-fold>
 
     //<editor-fold desc="扩展设置">

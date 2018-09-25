@@ -349,9 +349,19 @@ public interface ViewQuery<T extends ViewQuery<T>> {
     LayoutParams layoutParams();
 
     /**
-     * 获取阴影
+     * 获取当前选中 View 的 阴影
      */
     float elevation();
+
+    /**
+     * 获取当前选中 View 的 可点击（clickable） 状态.
+     */
+    boolean clickable();
+
+    /**
+     * 获取当前选中 View 的 背景
+     */
+    Drawable background();
 
     //</editor-fold>
 
