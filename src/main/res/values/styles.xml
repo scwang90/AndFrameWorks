@@ -188,6 +188,7 @@
         <item name="android:ellipsize">end</item>
         <item name="android:textSize">@dimen/dimenTextContent</item>
         <item name="android:singleLine">false</item>
+        <item name="android:inputType">textMultiLine</item>
     </style>
 
     <style name="AndFrame.Label.Assistant">
