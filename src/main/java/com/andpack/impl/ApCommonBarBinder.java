@@ -1553,7 +1553,7 @@ public class ApCommonBarBinder {
         }
 
         /**
-         * 指定为今天之后的时间
+         * 指定为今天之后的时间（今天23：59之后）
          */
         public T verifyAfterToday(String... names) {
             CharSequence name = getName("日期", names);
@@ -1566,7 +1566,7 @@ public class ApCommonBarBinder {
         }
 
         /**
-         * 指定为今天之后的时间
+         * 指定为今天之后的时间（今天00：00之后）
          */
         public T verifyAfterWithToday(String... names) {
             CharSequence name = getName("日期", names);
@@ -1578,6 +1578,46 @@ public class ApCommonBarBinder {
             });
         }
 
+        /**
+         * 指定为之后的时间
+         */
+        public T verifyBeforeNow(String... names) {
+            CharSequence name = getName("时间", names);
+            return this.verify(date -> {
+                if (date.getTime() > System.currentTimeMillis()) {
+                    throw new VerifyException(name + "只能是现在之前");
+                }
+            });
+        }
+
+        /**
+         * 指定为今天之后的时间（今天00：00以前）
+         */
+        public T verifyBeforeToday(String... names) {
+            CharSequence name = getName("日期", names);
+            return this.verify(date -> {
+                long today = AfDateFormat.roundDate(new Date()).getTime() + 1;
+                if (date.getTime() > today) {
+                    throw new VerifyException(name + "必须是今天之前");
+                }
+            });
+        }
+
+        /**
+         * 指定为今天之后的时间（今天23：56以前）
+         */
+        public T verifyBeforeWithToday(String... names) {
+            CharSequence name = getName("日期", names);
+            return this.verify(date -> {
+                long today = AfDateFormat.roundDate(new Date()).getTime() + 24L * 60 * 60 * 1000;
+                if (date.getTime() > today) {
+                    throw new VerifyException(name + "不能晚于今天");
+                }
+            });
+        }
+
+
+        @SuppressWarnings("UnusedReturnValue")
         public T verifyBefore(AbstractDateBinder<? extends AbstractDateBinder> binder, String... names) {
             CharSequence name = getName("时间", names);
             return this.verify(date -> {
@@ -1600,6 +1640,7 @@ public class ApCommonBarBinder {
             });
         }
 
+        @SuppressWarnings("UnusedReturnValue")
         public T verifyAfter(AbstractDateBinder<? extends AbstractDateBinder> binder, String... names) {
             CharSequence name = getName("时间", names);
             return this.verify(date -> {
