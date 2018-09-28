@@ -10,6 +10,7 @@ import com.andframe.api.query.hindler.MapIndex;
 import com.andframe.api.query.hindler.Where;
 
 import java.util.ArrayList;
+import java.util.Collection;
 import java.util.Comparator;
 import java.util.List;
 
@@ -24,7 +25,9 @@ public class AfListQuery<T> extends ArrayList<T> implements ListQuery<T> {
     }
 
     public AfListQuery(Iterable<T> iterable) {
-        for (T anIterable : iterable) add(anIterable);
+        if (iterable != null) {
+            for (T anIterable : iterable) add(anIterable);
+        }
     }
 
     public AfListQuery(int initialCapacity) {
@@ -73,6 +76,17 @@ public class AfListQuery<T> extends ArrayList<T> implements ListQuery<T> {
         query.addAll(this);
         query.add(t);
         return query;
+    }
+
+    @Override
+    public ListQuery<T> append(Collection<T> t) {
+        if (t != null) {
+            AfListQuery<T> query = new AfListQuery<>(size() + 1);
+            query.addAll(this);
+            query.addAll(t);
+            return query;
+        }
+        return this;
     }
 
     @Override

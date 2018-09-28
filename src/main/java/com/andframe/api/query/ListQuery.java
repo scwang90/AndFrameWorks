@@ -22,6 +22,7 @@ public interface ListQuery<T> extends Collection<T> {
     ListQuery<T> where(Where<? super T> where);
     ListQuery<T> foreach(Foreach<? super T> foreach);
     ListQuery<T> append(T t);
+    ListQuery<T> append(Collection<T> t);
     ListQuery<T> taken(int count);
     List<T> toList();
     T[] toArrays(T... a);
