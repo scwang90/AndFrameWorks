@@ -2146,11 +2146,11 @@ public class ViewWrapper extends View {
 	}
 
 	@Override
-	public void setBackgroundResource(int resid) {
+	public void setBackgroundResource(int resId) {
 		if (this.wrapped == null) {
 			return;
 		}
-		this.wrapped.setBackgroundResource(resid);
+		this.wrapped.setBackgroundResource(resId);
 	}
 
 	@Override

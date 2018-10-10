@@ -675,17 +675,17 @@ public interface ViewQuery<T extends ViewQuery<T>> {
     //<editor-fold desc="基本设置">
     /**
      * 设置当前选中 TextView 的 文本（text）.
-     * @param resid 字符串资源
+     * @param resId 字符串资源
      */
-    T text(@StringRes int resid);
+    T text(@StringRes int resId);
 
     /**
      * 设置当前选中 TextView 的 文本（text）（带有格式化符号）
-     * @param resid 字符串资源 （带有格式化符号）
+     * @param resId 字符串资源 （带有格式化符号）
      * @param formatArgs 格式化参数
      * @see Context#getString(int, Object...)
      */
-    T text(@StringRes int resid, Object... formatArgs);
+    T text(@StringRes int resId, Object... formatArgs);
 
     /**
      * 设置当前选中 TextView 的 文本（text）.
@@ -695,9 +695,9 @@ public interface ViewQuery<T extends ViewQuery<T>> {
 
     /**
      * 设置当前选中 TextView 的 提示（hint） .
-     * @param resid 字符串资源
+     * @param resId 字符串资源
      */
-    T hint(@StringRes int resid);
+    T hint(@StringRes int resId);
 
     /**
      * 设置当前选中 TextView 的 提示（hint）.
@@ -988,9 +988,9 @@ public interface ViewQuery<T extends ViewQuery<T>> {
 
     /**
      * 设置当前选中 ImageView 的图片.
-     * @param resid 图片资源Id
+     * @param resId 图片资源Id
      */
-    T image(int resid);
+    T image(int resId);
 
     /**
      * 设置当前选中 ImageView 的图片.

@@ -440,8 +440,8 @@ public abstract class AfFragment extends Fragment implements Pager, ViewQueryHel
     }
 
     @Override
-    public void makeToastLong(int resid) {
-        Toast.makeText(AfApp.get(), resid, Toast.LENGTH_LONG).show();
+    public void makeToastLong(int resId) {
+        Toast.makeText(AfApp.get(), resId, Toast.LENGTH_LONG).show();
     }
 
     @Override
@@ -451,8 +451,8 @@ public abstract class AfFragment extends Fragment implements Pager, ViewQueryHel
     }
 
     @Override
-    public void makeToastShort(int resid) {
-        Toast.makeText(AfApp.get(), resid, Toast.LENGTH_SHORT).show();
+    public void makeToastShort(int resId) {
+        Toast.makeText(AfApp.get(), resId, Toast.LENGTH_SHORT).show();
     }
 
     @Override

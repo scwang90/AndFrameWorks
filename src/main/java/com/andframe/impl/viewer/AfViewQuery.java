@@ -1527,15 +1527,15 @@ public class AfViewQuery<T extends AfViewQuery<T>> implements ViewQuery<T> {
 
     //<editor-fold desc="基本设置">
     @Override
-    public T text(@StringRes int resid) {
-        return foreach(TextView.class, (ViewIterator<TextView>) (view) -> view.setText(resid));
+    public T text(@StringRes int resId) {
+        return foreach(TextView.class, (ViewIterator<TextView>) (view) -> view.setText(resId));
     }
 
     @Override
-    public T text(@StringRes int resid, Object... formatArgs) {
+    public T text(@StringRes int resId, Object... formatArgs) {
         Context context = getContext();
         if (context != null) {
-            CharSequence text = context.getString(resid, formatArgs);
+            CharSequence text = context.getString(resId, formatArgs);
             text(text);
         }
         return self();
@@ -1918,12 +1918,12 @@ public class AfViewQuery<T extends AfViewQuery<T>> implements ViewQuery<T> {
 
     //<editor-fold desc="ImageView">
 
-    public T image(int resid) {
+    public T image(int resId) {
         return foreach(ImageView.class, (view) -> {
-            if (resid == 0) {
+            if (resId == 0) {
                 view.setImageBitmap(null);
             } else {
-                view.setImageResource(resid);
+                view.setImageResource(resId);
             }
         });
     }

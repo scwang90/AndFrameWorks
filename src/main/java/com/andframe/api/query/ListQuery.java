@@ -25,6 +25,8 @@ public interface ListQuery<T> extends Collection<T> {
     ListQuery<T> append(Collection<T> t);
     ListQuery<T> taken(int count);
     List<T> toList();
+    T firstOrNull(Where<? super T> where);
+    T firstOrNull();
     T[] toArrays(T... a);
     <TT> ListQuery<TT> map(Map<T,TT> map);
     <TT> ListQuery<TT> mapIndex(MapIndex<T,TT> map);

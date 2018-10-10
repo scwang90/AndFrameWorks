@@ -7,9 +7,9 @@ package com.andframe.api;
 public interface Toaster {
 
     //<editor-fold desc="气泡提示">
-    void makeToastLong(int resid);
+    void makeToastLong(int resId);
 
-    void makeToastShort(int resid);
+    void makeToastShort(int resId);
 
     void makeToastLong(CharSequence tip);
 

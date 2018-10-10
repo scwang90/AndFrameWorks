@@ -114,13 +114,13 @@ public class PagerWrapper implements Pager {
     }
 
     @Override
-    public void makeToastLong(int resid) {
-        pager.makeToastLong(resid);
+    public void makeToastLong(int resId) {
+        pager.makeToastLong(resId);
     }
 
     @Override
-    public void makeToastShort(int resid) {
-        pager.makeToastShort(resid);
+    public void makeToastShort(int resId) {
+        pager.makeToastShort(resId);
     }
 
     @Override

@@ -39,8 +39,8 @@ public class AfToaster implements Toaster {
     }
 
     @Override
-    public void makeToastLong(int resid) {
-        Toast.makeText(getContext(), resid, Toast.LENGTH_LONG).show();
+    public void makeToastLong(int resId) {
+        Toast.makeText(getContext(), resId, Toast.LENGTH_LONG).show();
     }
 
     @Override
@@ -50,8 +50,8 @@ public class AfToaster implements Toaster {
     }
 
     @Override
-    public void makeToastShort(int resid) {
-        Toast.makeText(getContext(), resid, Toast.LENGTH_SHORT).show();
+    public void makeToastShort(int resId) {
+        Toast.makeText(getContext(), resId, Toast.LENGTH_SHORT).show();
     }
 
     @Override

@@ -127,6 +127,19 @@ public class AfListQuery<T> extends ArrayList<T> implements ListQuery<T> {
     }
 
     @Override
+    public T firstOrNull() {
+        if (this.size() > 0) {
+            return this.get(0);
+        }
+        return null;
+    }
+
+    @Override
+    public T firstOrNull(Where<? super T> where) {
+        return where(where).firstOrNull();
+    }
+
+    @Override
     public T[] toArrays(T... a) {
         return toArray(a);
     }
