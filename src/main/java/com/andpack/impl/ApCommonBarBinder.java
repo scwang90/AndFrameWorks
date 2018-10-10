@@ -1795,7 +1795,7 @@ public class ApCommonBarBinder {
 
         TimeBinder(int idValue) {
             super(idValue);
-            format = new SimpleDateFormat("yyyy年MM月", Locale.CHINA);
+            format = new SimpleDateFormat("HH:mm", Locale.CHINA);
         }
 
         @Override
@@ -1804,10 +1804,12 @@ public class ApCommonBarBinder {
         }
 
         public TimeBinder value(Date date) {
-            lastval = date;
-            Calendar now = Calendar.getInstance();
-            now.setTime(date);
-            onTimeSet(null, now.get(Calendar.HOUR_OF_DAY), now.get(Calendar.MINUTE));
+            if (date != null) {
+                lastval = date;
+                Calendar now = Calendar.getInstance();
+                now.setTime(date);
+                onTimeSet(null, now.get(Calendar.HOUR_OF_DAY), now.get(Calendar.MINUTE));
+            }
             return self();
         }
 

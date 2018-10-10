@@ -24,9 +24,9 @@ public abstract class ApStatusActivity<T> extends AfStatusActivity<T> implements
     protected ApStatusHelper mApHelper = new ApStatusHelper(this);
 
     @Override
-    public void setTheme(@StyleRes int resid) {
-        mApHelper.setTheme(resid);
-        super.setTheme(resid);
+    public void setTheme(@StyleRes int resId) {
+        mApHelper.setTheme(resId);
+        super.setTheme(resId);
     }
 
     @Override
