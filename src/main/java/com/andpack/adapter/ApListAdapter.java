@@ -3,7 +3,7 @@ package com.andpack.adapter;
 import android.support.annotation.LayoutRes;
 
 import com.andframe.adapter.AfLayoutItemViewerAdapter;
-import com.andframe.api.viewer.ViewQuery;
+import com.andframe.api.query.ViewQuery;
 import com.andpack.api.ApItemBinder;
 
 import java.util.List;

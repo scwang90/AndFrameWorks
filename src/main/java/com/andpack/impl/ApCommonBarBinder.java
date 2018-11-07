@@ -38,8 +38,7 @@ import com.andframe.api.DialogBuilder.OnDateTimeSetVerifyListener;
 import com.andframe.api.DialogBuilder.OnTimeSetVerifyListener;
 import com.andframe.api.task.builder.Builder;
 import com.andframe.api.task.builder.WaitBuilder;
-import com.andframe.api.task.handler.LoadingHandler;
-import com.andframe.api.viewer.ViewQuery;
+import com.andframe.api.query.ViewQuery;
 import com.andframe.api.viewer.Viewer;
 import com.andframe.feature.AfIntent;
 import com.andframe.listener.SafeListener;
@@ -971,7 +970,7 @@ public class ApCommonBarBinder {
 
     public class TextBinder extends Binder<TextBinder, CommonBind<String>, String> implements DialogBuilder.InputTextListener {
 
-        protected TextVerify verify;
+        protected List<TextVerify> verify;
         protected String valueSuffix = "";
         protected String valuePrefix = "";
         protected int type = InputType.TYPE_CLASS_TEXT;
@@ -1015,7 +1014,9 @@ public class ApCommonBarBinder {
         public boolean onInputTextConfirm(EditText input, String value) {
             if (verify != null && input != null) {
                 try {
-                    value = verify.verify(value);
+                    for (TextVerify verify : this.verify) {
+                        value = verify.verify(value);
+                    }
                 } catch (VerifyException e) {
                     $.toast(viewer).makeToastShort(e.getMessage());
                     return false;
@@ -1052,7 +1053,10 @@ public class ApCommonBarBinder {
          * 自定义验证规则
          */
         public TextBinder verify(TextVerify verify) {
-            this.verify = verify;
+            if (this.verify == null) {
+                this.verify = new ArrayList<>();
+            }
+            this.verify.add(verify);
             return self();
         }
 

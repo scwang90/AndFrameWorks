@@ -15,7 +15,7 @@ import android.widget.FrameLayout;
 import com.andframe.$;
 import com.andframe.activity.AfActivity;
 import com.andframe.annotation.interpreter.ReflecterCacher;
-import com.andframe.api.viewer.ViewQuery;
+import com.andframe.api.query.ViewQuery;
 import com.andframe.exception.AfExceptionHandler;
 import com.andframe.fragment.AfFragment;
 import com.andframe.listener.SafeListener;

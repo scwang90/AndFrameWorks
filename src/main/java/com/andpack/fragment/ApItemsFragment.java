@@ -9,7 +9,7 @@ import com.andframe.api.adapter.ItemViewer;
 import com.andframe.api.adapter.ItemsViewerAdapter;
 import com.andframe.api.pager.status.RefreshLayoutManager;
 import com.andframe.api.pager.status.StatusLayoutManager;
-import com.andframe.api.viewer.ViewQuery;
+import com.andframe.api.query.ViewQuery;
 import com.andframe.exception.AfException;
 import com.andframe.fragment.AfItemsFragment;
 import com.andpack.activity.ApFragmentActivity;

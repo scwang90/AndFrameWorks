@@ -10,7 +10,7 @@ import android.widget.TextView;
 
 import com.andframe.$;
 import com.andframe.R;
-import com.andframe.api.viewer.ViewQuery;
+import com.andframe.api.query.ViewQuery;
 import com.andframe.util.java.AfReflecter;
 import com.andframe.widget.treeview.AfTreeEstablisher;
 import com.andframe.widget.treeview.AfTreeViewAdapter;

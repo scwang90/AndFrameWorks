@@ -2,7 +2,7 @@ package com.andpack.impl;
 
 import com.andframe.adapter.AfLayoutItemViewerAdapter;
 import com.andframe.api.adapter.ItemsViewerAdapter;
-import com.andframe.api.viewer.ViewQuery;
+import com.andframe.api.query.ViewQuery;
 import com.andframe.util.java.AfReflecter;
 import com.andpack.annotation.BindItemLayout;
 import com.andpack.api.ApItemsPager;

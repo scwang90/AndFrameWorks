@@ -1,6 +1,6 @@
 package com.andpack.api;
 
-import com.andframe.api.viewer.ViewQuery;
+import com.andframe.api.query.ViewQuery;
 
 /**
  * ListItem数据绑定器

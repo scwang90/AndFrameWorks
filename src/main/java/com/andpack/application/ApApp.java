@@ -10,7 +10,7 @@ import com.andframe.api.DialogBuilder;
 import com.andframe.api.event.EventManager;
 import com.andframe.api.pager.PagerManager;
 import com.andframe.api.pager.status.RefreshLayoutManager;
-import com.andframe.api.viewer.ViewQuery;
+import com.andframe.api.query.ViewQuery;
 import com.andframe.api.viewer.Viewer;
 import com.andframe.application.AfApp;
 import com.andframe.application.AfAppSettings;

@@ -12,7 +12,7 @@ import android.view.ViewGroup;
 import com.andframe.activity.AfActivity;
 import com.andframe.adapter.itemviewer.AfBindItemViewer;
 import com.andframe.annotation.interpreter.LayoutBinder;
-import com.andframe.api.viewer.ViewQuery;
+import com.andframe.api.query.ViewQuery;
 import com.andframe.util.java.AfReflecter;
 import com.andpack.R;
 import com.andpack.activity.ApItemsCommonActivity;
