@@ -1,4 +1,4 @@
-package com.andframe.api.query.hindler;
+package com.andframe.api.query.handler;
 
 /**
  * 条件选择器

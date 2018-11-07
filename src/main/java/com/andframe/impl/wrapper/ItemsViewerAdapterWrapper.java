@@ -14,7 +14,7 @@ import com.andframe.adapter.recycler.RecyclerBaseAdapter;
 import com.andframe.adapter.recycler.ViewHolderItem;
 import com.andframe.api.adapter.ItemViewer;
 import com.andframe.api.adapter.ItemsViewerAdapter;
-import com.andframe.api.query.hindler.Where;
+import com.andframe.api.query.handler.Where;
 
 import java.util.Collection;
 import java.util.Comparator;

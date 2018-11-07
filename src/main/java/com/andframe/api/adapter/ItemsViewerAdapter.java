@@ -7,7 +7,7 @@ import android.view.ViewGroup;
 import android.widget.ListAdapter;
 
 import com.andframe.adapter.recycler.ViewHolderItem;
-import com.andframe.api.query.hindler.Where;
+import com.andframe.api.query.handler.Where;
 
 import java.util.List;
 

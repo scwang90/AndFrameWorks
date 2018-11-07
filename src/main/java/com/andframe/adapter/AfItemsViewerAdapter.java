@@ -6,7 +6,7 @@ import android.view.View;
 import android.view.ViewGroup;
 
 import com.andframe.api.adapter.ItemViewer;
-import com.andframe.api.viewer.ViewQuery;
+import com.andframe.api.query.ViewQuery;
 import com.andframe.application.AfApp;
 import com.andframe.impl.viewer.ViewerWrapper;
 

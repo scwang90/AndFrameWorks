@@ -3,11 +3,13 @@ package com.andframe.impl.query;
 import android.text.TextUtils;
 
 import com.andframe.api.query.ListQuery;
-import com.andframe.api.query.hindler.FlatMap;
-import com.andframe.api.query.hindler.Foreach;
-import com.andframe.api.query.hindler.Map;
-import com.andframe.api.query.hindler.MapIndex;
-import com.andframe.api.query.hindler.Where;
+import com.andframe.api.query.handler.FlatMap;
+import com.andframe.api.query.handler.Foreach;
+import com.andframe.api.query.handler.ForeachIndexed;
+import com.andframe.api.query.handler.Map;
+import com.andframe.api.query.handler.MapIndexed;
+import com.andframe.api.query.handler.Where;
+import com.andframe.api.query.handler.WhereIndexed;
 
 import java.util.ArrayList;
 import java.util.Collection;
@@ -49,6 +51,15 @@ public class AfListQuery<T> extends ArrayList<T> implements ListQuery<T> {
         }
         return this;
     }
+    @Override
+    public ListQuery<T> removeIndexed(WhereIndexed<? super T> where) {
+        for (int i = 0; i < size(); i++) {
+            if (where.where(i, get(i))) {
+                remove(i--);
+            }
+        }
+        return this;
+    }
 
     @Override
     public ListQuery<T> where(Where<? super T> where) {
@@ -63,7 +74,28 @@ public class AfListQuery<T> extends ArrayList<T> implements ListQuery<T> {
     }
 
     @Override
+    public ListQuery<T> whereIndexed(WhereIndexed<? super T> where) {
+        AfListQuery<T> query = new AfListQuery<>();
+        for (int i = 0; i < size(); i++) {
+            T model = get(i);
+            if (where.where(i, model)) {
+                query.add(model);
+            }
+        }
+        return query;
+    }
+
+    @Override
     public ListQuery<T> foreach(Foreach<? super T> foreach) {
+        for (int i = 0; i < size(); i++) {
+            foreach.foreach(get(i));
+        }
+        return this;
+    }
+
+
+    @Override
+    public ListQuery<T> foreachIndexed(ForeachIndexed<? super T> foreach) {
         for (int i = 0; i < size(); i++) {
             foreach.foreach(i, get(i));
         }
@@ -104,7 +136,7 @@ public class AfListQuery<T> extends ArrayList<T> implements ListQuery<T> {
     }
 
     @Override
-    public <TT> ListQuery<TT> mapIndex(MapIndex<T, TT> map) {
+    public <TT> ListQuery<TT> mapIndexed(MapIndexed<T, TT> map) {
         AfListQuery<TT> query = new AfListQuery<>();
         for (int i = 0; i < size(); i++) {
             query.add(map.mapIndex(i, get(i)));

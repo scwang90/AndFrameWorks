@@ -55,7 +55,8 @@ import android.widget.RelativeLayout;
 import android.widget.TextView;
 import android.widget.Toolbar;
 
-import com.andframe.api.viewer.ViewQuery;
+import com.andframe.api.query.ViewQuery;
+import com.andframe.api.query.handler.Where;
 import com.andframe.api.viewer.Viewer;
 import com.andframe.application.AfApp;
 import com.andframe.listener.SafeListener;
@@ -64,6 +65,7 @@ import com.andframe.util.java.AfDateFormat;
 
 import java.io.File;
 import java.text.DateFormat;
+import java.text.DecimalFormat;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Collection;
@@ -218,7 +220,7 @@ public class AfViewQuery<T extends AfViewQuery<T>> implements ViewQuery<T> {
                 }
             }
         } while (!views.isEmpty());
-        mTargetViews = list.toArray(new View[list.size()]);
+        mTargetViews = list.toArray(new View[0]);
         return redirect();
     }
 
@@ -246,7 +248,7 @@ public class AfViewQuery<T extends AfViewQuery<T>> implements ViewQuery<T> {
                 }
             }
         }
-        mTargetViews = list.toArray(new View[list.size()]);
+        mTargetViews = list.toArray(new View[0]);
         return redirect();
     }
 
@@ -265,7 +267,7 @@ public class AfViewQuery<T extends AfViewQuery<T>> implements ViewQuery<T> {
         if (views.size() == 0) {
             mTargetViews = new View[]{getRootView()};
         } else {
-            mTargetViews = views.toArray(new View[views.size()]);
+            mTargetViews = views.toArray(new View[0]);
         }
         return redirect();
     }
@@ -275,13 +277,30 @@ public class AfViewQuery<T extends AfViewQuery<T>> implements ViewQuery<T> {
     //<editor-fold desc="选择变换">
     @Override
     public T toPrev() {
+        return toPrevWith(v -> true);
+    }
+
+    @Override
+    public T toNext() {
+        return toNextWith(v->true);
+    }
+
+    @Override
+    public T toNextWith(Where<View> where) {
         if (mTargetViews != null) {
             for (int i = 0; i < mTargetViews.length; i++) {
                 if (mTargetViews[i] != null && mTargetViews[i].getParent() instanceof ViewGroup) {
                     ViewGroup parent = (ViewGroup) mTargetViews[i].getParent();
                     int index = parent.indexOfChild(mTargetViews[i]);
-                    if (index > 0) {
-                        mTargetViews[i] = parent.getChildAt(index - 1);
+                    if (index + 1 < parent.getChildCount()) {
+                        for (int j = index + 1, len = parent.getChildCount(); j < len; j++) {
+                            mTargetViews[i] = parent.getChildAt(j);
+                            if (where.where(mTargetViews[i])) {
+                                break;
+                            } else {
+                                mTargetViews[i] = null;
+                            }
+                        }
                     } else {
                         mTargetViews[i] = null;
                     }
@@ -294,14 +313,21 @@ public class AfViewQuery<T extends AfViewQuery<T>> implements ViewQuery<T> {
     }
 
     @Override
-    public T toNext() {
+    public T toPrevWith(Where<View> where) {
         if (mTargetViews != null) {
             for (int i = 0; i < mTargetViews.length; i++) {
                 if (mTargetViews[i] != null && mTargetViews[i].getParent() instanceof ViewGroup) {
                     ViewGroup parent = (ViewGroup) mTargetViews[i].getParent();
                     int index = parent.indexOfChild(mTargetViews[i]);
-                    if (index < parent.getChildCount()) {
-                        mTargetViews[i] = parent.getChildAt(index + 1);
+                    if (index > 0) {
+                        for (int j = index - 1; j >= 0; j++) {
+                            mTargetViews[i] = parent.getChildAt(index - 1);
+                            if (where.where(mTargetViews[i])) {
+                                break;
+                            } else {
+                                mTargetViews[i] = null;
+                            }
+                        }
                     } else {
                         mTargetViews[i] = null;
                     }
@@ -391,6 +417,18 @@ public class AfViewQuery<T extends AfViewQuery<T>> implements ViewQuery<T> {
     }
 
     @Override
+    public T mixPrevWith(Where<View> where) {
+        View[] views = Arrays.copyOf(this.mTargetViews, this.mTargetViews.length);
+        return toPrevWith(where).mixView(views);
+    }
+
+    @Override
+    public T mixNextWith(Where<View> where) {
+        View[] views = Arrays.copyOf(this.mTargetViews, this.mTargetViews.length);
+        return toNextWith(where).mixView(views);
+    }
+
+    @Override
     public T mixChild(int... index) {
         View[] views = Arrays.copyOf(this.mTargetViews, this.mTargetViews.length);
         return toChild(index).mixView(views);
@@ -432,7 +470,7 @@ public class AfViewQuery<T extends AfViewQuery<T>> implements ViewQuery<T> {
     public <TT> T foreach(Class<TT> clazz, ViewIterator<TT> iterator) {
         if (mTargetViews != null) {
             for (View view : mTargetViews) {
-                if (view != null && clazz.isInstance(view)) {
+                if (clazz.isInstance(view)) {
                     iterator.each(clazz.cast(view));
                 }
             }
@@ -464,7 +502,7 @@ public class AfViewQuery<T extends AfViewQuery<T>> implements ViewQuery<T> {
     public <TT, TTT> TTT foreach(Class<TT> clazz, ViewReturnIterator<TT, TTT> iterator, TTT defValue) {
         if (mTargetViews != null) {
             for (View view : mTargetViews) {
-                if (view != null && clazz.isInstance(view)) {
+                if (clazz.isInstance(view)) {
                     TTT ret = iterator.each(clazz.cast(view));
                     if (ret != null) {
                         return ret;
@@ -521,6 +559,7 @@ public class AfViewQuery<T extends AfViewQuery<T>> implements ViewQuery<T> {
         return count;
     }
 
+    @Nullable
     public View getView(int... index) {
         if (mTargetViews != null && mTargetViews.length > 0) {
             if (index != null && index.length > 0 && index[0] < mTargetViews.length) {
@@ -548,7 +587,7 @@ public class AfViewQuery<T extends AfViewQuery<T>> implements ViewQuery<T> {
         List<TT> list = new ArrayList<>();
         if (mTargetViews != null) {
             for (View view : mTargetViews) {
-                if (view != null && clazz.isInstance(view)) {
+                if (clazz.isInstance(view)) {
                     list.add(clazz.cast(view));
                 }
             }
@@ -560,7 +599,7 @@ public class AfViewQuery<T extends AfViewQuery<T>> implements ViewQuery<T> {
     @Override
     public <TT extends View> TT view(Class<TT> clazz, int... index) {
         View view = getView(index);
-        if (view != null && clazz.isInstance(view)) {
+        if (clazz.isInstance(view)) {
             return clazz.cast(view);
         }
         return null;
@@ -777,7 +816,7 @@ public class AfViewQuery<T extends AfViewQuery<T>> implements ViewQuery<T> {
 
     @Override
     public boolean isVisible() {
-        return foreach(view -> view.getVisibility() == View.VISIBLE);
+        return Boolean.TRUE.equals(foreach(view -> view.getVisibility() == View.VISIBLE));
     }
 
     @Override
@@ -1672,6 +1711,21 @@ public class AfViewQuery<T extends AfViewQuery<T>> implements ViewQuery<T> {
 
     @Override
     public T text(CharSequence format, Object... args) {
+        DecimalFormat formatter = null;
+        for (int i = 0, len = format.length(), index = 0; i < len; i++) {
+            if (format.charAt(i) == '%' && i < len - 1) {
+                if (format.charAt(i + 1) == 's') {
+                    if (args[index] instanceof Float || args[index] instanceof Double) {
+                        if (formatter == null) {
+                            formatter = new DecimalFormat("#.##");
+                        }
+                        args[index] = formatter.format(args[index]);
+                    }
+                }
+                i++;
+                index++;
+            }
+        }
         return foreach(TextView.class, (ViewIterator<TextView>) (view) -> view.setText(String.format(format+"", args)));
     }
 
@@ -1682,32 +1736,55 @@ public class AfViewQuery<T extends AfViewQuery<T>> implements ViewQuery<T> {
 
     @Override
     public T hint(CharSequence format, Object... args) {
-        return foreach(TextView.class, (ViewIterator<TextView>) (view) -> view.setHint(String.format(format+"", args)));
+        DecimalFormat formatter = null;
+        for (int i = 0, len = format.length(), index = 0; i < len; i++) {
+            if (format.charAt(i) == '%' && i < len - 1) {
+                if (format.charAt(i + 1) == 's') {
+                    if (args[index] instanceof Float || args[index] instanceof Double) {
+                        if (formatter == null) {
+                            formatter = new DecimalFormat("#.##");
+                        }
+                        args[index] = formatter.format(args[index]);
+                    }
+                }
+                i++;
+                index++;
+            }
+        }
+        return foreach(TextView.class, (ViewIterator<TextView>) (view) -> view.setHint(String.format(format + "", args)));
     }
 
     @Override
     public T html(String format, Object... args) {
         if (args.length == 0) {
             //noinspection deprecation
-            foreach(WebView.class, (ViewIterator<WebView>) (view) -> view.loadData(format+"","text/html;charset=UTF-8",null));
+            foreach(WebView.class, (ViewIterator<WebView>) (view) -> view.loadData(format + "", "text/html;charset=UTF-8", null));
             return foreach(TextView.class, (ViewIterator<TextView>) (view) -> view.setText(Html.fromHtml(format+"")));
         }
         Context context = null;
+        DecimalFormat formatter = null;
         for (int i = 0, len = format.length(), index = 0; i < len; i++) {
             if (format.charAt(i) == '%' && i < len - 1) {
                 if (format.charAt(i + 1) == 's') {
-                    if (index < args.length && args[index] instanceof Integer) {
-                        int color = ((Integer) args[index]);
-                        try {
-                            if (context == null) {
-                                context = getContext();
+                    if (index < args.length) {
+                        if (args[index] instanceof Integer) {
+                            int color = ((Integer) args[index]);
+                            try {
+                                if (context == null) {
+                                    context = getContext();
+                                }
+                                if (context != null) {
+                                    color = ContextCompat.getColor(context, color);
+                                }
+                            } catch (Resources.NotFoundException ignored) {
                             }
-                            if (context != null) {
-                                color = ContextCompat.getColor(context, color);
+                            args[index] = Integer.toHexString(0x00FFFFFF & color);
+                        } else if (args[index] instanceof Float || args[index] instanceof Double) {
+                            if (formatter == null) {
+                                formatter = new DecimalFormat("#.##");
                             }
-                        } catch (Resources.NotFoundException ignored) {
+                            args[index] = formatter.format(args[index]);
                         }
-                        args[index] = Integer.toHexString(0x00FFFFFF & color);
                     }
                 }
                 i++;
@@ -1715,7 +1792,7 @@ public class AfViewQuery<T extends AfViewQuery<T>> implements ViewQuery<T> {
             }
         }
         //noinspection deprecation
-        foreach(WebView.class, (ViewIterator<WebView>) (view) -> view.loadData(String.format(format+"", args),"text/html;charset=UTF-8",null));
+        foreach(WebView.class, (ViewIterator<WebView>) (view) -> view.loadData(String.format(format + "", args), "text/html;charset=UTF-8", null));
         return foreach(TextView.class, (ViewIterator<TextView>) (view) -> view.setText(Html.fromHtml(String.format(format, args))));
     }
 
@@ -1805,42 +1882,66 @@ public class AfViewQuery<T extends AfViewQuery<T>> implements ViewQuery<T> {
 
     @Override
     public T drawableLeft(Drawable drawable) {
-        return foreach(TextView.class, (ViewIterator<TextView>) view -> view.setCompoundDrawables(drawable, null, null, null));
+        return foreach(TextView.class, view -> {
+            Drawable[] drawables = view.getCompoundDrawables();
+            view.setCompoundDrawables(drawable, drawables[1], drawables[2], drawables[3]);
+        });
     }
 
     @Override
     public T drawableTop(Drawable drawable) {
-        return foreach(TextView.class, (ViewIterator<TextView>) view -> view.setCompoundDrawables(null, drawable, null, null));
+        return foreach(TextView.class, view -> {
+            Drawable[] drawables = view.getCompoundDrawables();
+            view.setCompoundDrawables(drawables[0], drawable, drawables[2], drawables[3]);
+        });
     }
 
     @Override
     public T drawableRight(Drawable drawable) {
-        return foreach(TextView.class, (ViewIterator<TextView>) view -> view.setCompoundDrawables(null, null, drawable, null));
+        return foreach(TextView.class, view -> {
+            Drawable[] drawables = view.getCompoundDrawables();
+            view.setCompoundDrawables(drawables[0], drawables[1], drawable, drawables[3]);
+        });
     }
 
     @Override
     public T drawableBottom(Drawable drawable) {
-        return foreach(TextView.class, (ViewIterator<TextView>) view -> view.setCompoundDrawables(null, null, null, drawable));
+        return foreach(TextView.class, view -> {
+            Drawable[] drawables = view.getCompoundDrawables();
+            view.setCompoundDrawables(drawables[0], drawables[1], drawables[2], drawable);
+        });
     }
 
     @Override
     public T drawableLeft(@DrawableRes int id) {
-        return foreach(TextView.class, (ViewIterator<TextView>) view -> view.setCompoundDrawablesWithIntrinsicBounds(getDrawable(getContext(),id), null, null, null));
+        return foreach(TextView.class, view -> {
+            Drawable[] drawables = view.getCompoundDrawables();
+            view.setCompoundDrawablesWithIntrinsicBounds(getDrawable(getContext(), id), drawables[1], drawables[2], drawables[3]);
+        });
     }
 
     @Override
     public T drawableTop(@DrawableRes int id) {
-        return foreach(TextView.class, (ViewIterator<TextView>) view -> view.setCompoundDrawablesWithIntrinsicBounds(null, getDrawable(getContext(),id), null, null));
+        return foreach(TextView.class, view -> {
+            Drawable[] drawables = view.getCompoundDrawables();
+            view.setCompoundDrawablesWithIntrinsicBounds(drawables[0], getDrawable(getContext(), id), drawables[2], drawables[3]);
+        });
     }
 
     @Override
     public T drawableRight(@DrawableRes int id) {
-        return foreach(TextView.class, (ViewIterator<TextView>) view -> view.setCompoundDrawablesWithIntrinsicBounds(null, null, getDrawable(getContext(),id), null));
+        return foreach(TextView.class, view -> {
+            Drawable[] drawables = view.getCompoundDrawables();
+            view.setCompoundDrawablesWithIntrinsicBounds(drawables[0], drawables[1], getDrawable(getContext(), id), drawables[3]);
+        });
     }
 
     @Override
     public T drawableBottom(@DrawableRes int id) {
-        return foreach(TextView.class, (ViewIterator<TextView>) view -> view.setCompoundDrawablesWithIntrinsicBounds(null, null, null, getDrawable(getContext(),id)));
+        return foreach(TextView.class, view -> {
+            Drawable[] drawables = view.getCompoundDrawables();
+            view.setCompoundDrawablesWithIntrinsicBounds(drawables[0], drawables[1], drawables[2], getDrawable(getContext(), id));
+        });
     }
 
     @Nullable
@@ -2364,18 +2465,18 @@ public class AfViewQuery<T extends AfViewQuery<T>> implements ViewQuery<T> {
             List<View> children = new ArrayList<>();
             Queue<View> views = new LinkedBlockingQueue<>(Collections.singletonList(view));
             while (!views.isEmpty()) {
-                View cview = views.poll();
-                if (cview != view) {
-                    children.add(cview);
+                View child = views.poll();
+                if (child != view) {
+                    children.add(child);
                 }
-                if (cview instanceof ViewGroup) {
-                    ViewGroup group = (ViewGroup) cview;
+                if (child instanceof ViewGroup) {
+                    ViewGroup group = (ViewGroup) child;
                     for (int j = 0; j < group.getChildCount(); j++) {
                         views.add(group.getChildAt(j));
                     }
                 }
             }
-            return children.toArray(new View[children.size()]);
+            return children.toArray(new View[0]);
         }, new View[0]);
     }
 

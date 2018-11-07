@@ -5,7 +5,7 @@ import android.view.View;
 import android.view.ViewGroup;
 
 import com.andframe.api.adapter.ItemViewer;
-import com.andframe.api.query.hindler.Where;
+import com.andframe.api.query.handler.Where;
 
 import java.util.ArrayList;
 import java.util.Collection;

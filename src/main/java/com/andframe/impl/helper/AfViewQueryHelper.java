@@ -1,7 +1,7 @@
 package com.andframe.impl.helper;
 
-import com.andframe.api.viewer.ViewQuery;
-import com.andframe.api.viewer.ViewQueryHelper;
+import com.andframe.api.query.ViewQuery;
+import com.andframe.api.query.ViewQueryHelper;
 import com.andframe.api.viewer.Viewer;
 import com.andframe.application.AfApp;
 

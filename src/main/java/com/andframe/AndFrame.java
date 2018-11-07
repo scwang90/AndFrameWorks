@@ -19,7 +19,7 @@ import com.andframe.api.query.ListQuery;
 import com.andframe.api.service.UpdateService;
 import com.andframe.api.task.TaskExecutor;
 import com.andframe.api.viewer.ViewModuler;
-import com.andframe.api.viewer.ViewQuery;
+import com.andframe.api.query.ViewQuery;
 import com.andframe.api.viewer.Viewer;
 import com.andframe.application.AfApp;
 import com.andframe.application.AfAppSettings;

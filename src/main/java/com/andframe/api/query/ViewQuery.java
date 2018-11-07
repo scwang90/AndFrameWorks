@@ -1,4 +1,4 @@
-package com.andframe.api.viewer;
+package com.andframe.api.query;
 
 import android.annotation.TargetApi;
 import android.content.Context;
@@ -32,6 +32,8 @@ import android.widget.ExpandableListAdapter;
 import android.widget.ImageView;
 import android.widget.RadioGroup;
 
+import com.andframe.api.query.handler.Where;
+import com.andframe.api.viewer.Viewer;
 import com.andframe.impl.viewer.AfViewQuery;
 
 import java.io.File;
@@ -88,6 +90,17 @@ public interface ViewQuery<T extends ViewQuery<T>> {
      * 如果 View 已经是最后的 View， 将会丢失选择对象（没有选择对象）
      */
     T toNext();
+
+    /**
+     * 如果当前选中 View ，并且 View 存在于父容器中，toPrev() 将会把选择对象转移到前一个 【符合条件的】View
+     * 如果 View 已经是第一个 View， 将会丢失选择对象（没有选择对象）
+     */
+    T toPrevWith(Where<View> where);
+    /**
+     * 如果当前选中 View ，并且 View 存在于父容器中，toNext() 将会把选择对象转移到下一个 【符合条件的】View
+     * 如果 View 已经是最后的 View， 将会丢失选择对象（没有选择对象）
+     */
+    T toNextWith(Where<View> where);
     /**
      * 如果当前选中 View ，并且 View 存在子 View，toChild() 将会把选择对象按照指定 index 转向子View
      * 如果 View 没有子View 或者 index 越界，将会丢失选择对象（没有选择对象）
@@ -132,6 +145,16 @@ public interface ViewQuery<T extends ViewQuery<T>> {
      */
     T mixNext();
     /**
+     * 将当前选择 View 的前一个【符合条件】View 添加到选择对象中
+     * @see ViewQuery#toPrev()
+     */
+    T mixPrevWith(Where<View> where);
+    /**
+     * 将当前选择 View 的下一个 【符合条件】View 添加到选择对象中
+     * @see ViewQuery#toNext()
+     */
+    T mixNextWith(Where<View> where);
+    /**
      * 将当前选择 View 指定子View 添加到选择对象中
      * @see ViewQuery#toChild(int...)
      */
@@ -171,6 +194,7 @@ public interface ViewQuery<T extends ViewQuery<T>> {
      * 获取选择的 View （默认第一个）
      * @param index 可以指定选择的索引
      */
+    @Nullable
     View getView(int... index);
 
     /**

@@ -26,7 +26,7 @@ import com.andframe.api.task.Task;
 import com.andframe.application.AfApp;
 import com.andframe.exception.AfExceptionHandler;
 import com.andframe.fragment.AfLoadFragment;
-import com.andframe.task.AfHandlerDataTask;
+import com.andframe.task.AfHandlerTask;
 import com.andframe.util.internal.TAG;
 import com.andframe.util.java.AfReflecter;
 
@@ -234,7 +234,21 @@ public class AfLoadHelper<T> implements LoadHelper<T> {
 
     //<editor-fold desc="任务类">
 
-    protected abstract class AbLoadTask extends AfHandlerDataTask<T> {
+    protected abstract class AbLoadTask<TT> extends AfHandlerTask {
+
+        protected TT data;
+
+        @Override
+        protected void onWorking() throws Exception {
+            data = onLoadData();
+        }
+
+        protected abstract TT onLoadData() throws Exception;
+
+        @Override
+        protected void onHandle() {
+            onHandle(data);
+        }
 
         @Override
         protected boolean onPrepare() {
@@ -242,13 +256,12 @@ public class AfLoadHelper<T> implements LoadHelper<T> {
             return super.onPrepare();
         }
 
-        @Override
-        protected void onHandle(T data) {
+        protected void onHandle(TT data) {
             mIsLoading = false;
         }
     }
 
-    protected class LoadTask extends AbLoadTask {
+    protected class LoadTask extends AbLoadTask<T> {
 
         @Override
         protected void onHandle(T data) {
