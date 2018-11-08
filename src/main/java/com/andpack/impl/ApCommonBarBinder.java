@@ -108,7 +108,7 @@ public class ApCommonBarBinder {
     }
 
     public interface DateVerify {
-        void verify(Date date) throws VerifyException;
+        void verify(Date date, boolean verifyDateOnly) throws VerifyException;
     }
 
     public interface MultiChoiceVerify {
@@ -1535,7 +1535,7 @@ public class ApCommonBarBinder {
 
         List<DateVerify> verifies = new ArrayList<>();
         DateFormat format = AfDateFormat.DATE;
-        boolean isManual = false;
+        boolean isManual = false;//标记是否用户手动设置过
 
         AbstractDateBinder(int idValue) {
             super(idValue);
@@ -1549,7 +1549,7 @@ public class ApCommonBarBinder {
         }
 
         public T format(String format) {
-            return format(new SimpleDateFormat(format, Locale.CHINA));
+            return format(new SimpleDateFormat(format, Locale.ENGLISH));
         }
 
         public T initNow() {
@@ -1569,9 +1569,33 @@ public class ApCommonBarBinder {
          */
         public T verifyAfterNow(String... names) {
             CharSequence name = getName("时间", names);
-            return this.verify(date -> {
-                if (date.getTime() < System.currentTimeMillis()) {
+            return this.verify((date,verifyDateOnly) -> {
+                Date now = new Date(System.currentTimeMillis());
+                date = verifyDateOnly ? AfDateFormat.roundDate(date) : date;
+                now = verifyDateOnly ? AfDateFormat.roundDate(now) : now;
+                if (date.getTime() <= now.getTime()) {
+                    if (verifyDateOnly && date.getTime() == now.getTime()) {
+                        return;
+                    }
                     throw new VerifyException(name + "不能是现在之前");
+                }
+            });
+        }
+
+        /**
+         * 指定为之后的时间
+         */
+        public T verifyBeforeNow(String... names) {
+            CharSequence name = getName("时间", names);
+            return this.verify((date,verifyDateOnly) -> {
+                Date now = new Date(System.currentTimeMillis());
+                date = verifyDateOnly ? AfDateFormat.roundDate(date) : date;
+                now = verifyDateOnly ? AfDateFormat.roundDate(now) : now;
+                if (date.getTime() >= now.getTime()) {
+                    if (verifyDateOnly && date.getTime() == now.getTime()) {
+                        return;
+                    }
+                    throw new VerifyException(name + "只能是现在之前");
                 }
             });
         }
@@ -1581,8 +1605,9 @@ public class ApCommonBarBinder {
          */
         public T verifyAfterToday(String... names) {
             CharSequence name = getName("日期", names);
-            return this.verify(date -> {
-                long today = AfDateFormat.roundDate(new Date(new Date().getTime() + 24L * 60 * 60 * 1000)).getTime() - 1;
+            return this.verify((date,verifyDateOnly) -> {
+                //计算 明天00：00
+                long today = AfDateFormat.roundDate(new Date(new Date().getTime() + 24L * 60 * 60 * 1000)).getTime();
                 if (date.getTime() < today) {
                     throw new VerifyException(name + "必须是今天以后");
                 }
@@ -1594,22 +1619,11 @@ public class ApCommonBarBinder {
          */
         public T verifyAfterWithToday(String... names) {
             CharSequence name = getName("日期", names);
-            return this.verify(date -> {
-                long today = AfDateFormat.roundDate(new Date()).getTime() - 1;
+            return this.verify((date,verifyDateOnly) -> {
+                //计算 今天00：00
+                long today = AfDateFormat.roundDate(new Date()).getTime();
                 if (date.getTime() < today) {
                     throw new VerifyException(name + "不能早于今天");
-                }
-            });
-        }
-
-        /**
-         * 指定为之后的时间
-         */
-        public T verifyBeforeNow(String... names) {
-            CharSequence name = getName("时间", names);
-            return this.verify(date -> {
-                if (date.getTime() > System.currentTimeMillis()) {
-                    throw new VerifyException(name + "只能是现在之前");
                 }
             });
         }
@@ -1619,22 +1633,24 @@ public class ApCommonBarBinder {
          */
         public T verifyBeforeToday(String... names) {
             CharSequence name = getName("日期", names);
-            return this.verify(date -> {
-                long today = AfDateFormat.roundDate(new Date()).getTime() + 1;
-                if (date.getTime() > today) {
+            return this.verify((date,verifyDateOnly) -> {
+                //计算 今天00：00
+                long today = AfDateFormat.roundDate(new Date()).getTime();
+                if (date.getTime() >= today) {
                     throw new VerifyException(name + "必须是今天之前");
                 }
             });
         }
 
         /**
-         * 指定为今天之后的时间（今天23：56以前）
+         * 指定为今天之后的时间（今天23：59以前）
          */
         public T verifyBeforeWithToday(String... names) {
             CharSequence name = getName("日期", names);
-            return this.verify(date -> {
-                long today = AfDateFormat.roundDate(new Date()).getTime() + 24L * 60 * 60 * 1000;
-                if (date.getTime() > today) {
+            return this.verify((date,verifyDateOnly) -> {
+                //计算 明天00：00
+                long today = AfDateFormat.roundDate(new Date(new Date().getTime() + 24L * 60 * 60 * 1000)).getTime();
+                if (date.getTime() >= today) {
                     throw new VerifyException(name + "不能晚于今天");
                 }
             });
@@ -1644,21 +1660,32 @@ public class ApCommonBarBinder {
         @SuppressWarnings("UnusedReturnValue")
         public T verifyBefore(AbstractDateBinder<? extends AbstractDateBinder> binder, String... names) {
             CharSequence name = getName("时间", names);
-            return this.verify(date -> {
-                if (binder.lastval != null && date.getTime() >= binder.lastval.getTime()) {
-                    throw new VerifyException(name + "必须早于" + binder.getName("时间", names));
+            return this.verify((date,verifyDateOnly) -> {
+                if (binder.lastval != null) {
+                    date = verifyDateOnly ? AfDateFormat.roundDate(date) : date;
+                    Date value = verifyDateOnly ? AfDateFormat.roundDate(binder.lastval) : binder.lastval;
+                    if (date.getTime() >= value.getTime()) {
+                        if (verifyDateOnly && date.getTime() == value.getTime()) {
+                            return;
+                        }
+                        throw new VerifyException(name + "必须早于" + binder.getName("时间", names));
+                    }
                 }
             });
         }
 
         public T verifyBeforeWith(AbstractDateBinder<? extends AbstractDateBinder> binder, String... names) {
             CharSequence name = getName("时间", names);
-            return this.verify(date -> {
-                if (binder.lastval != null && date.getTime() > binder.lastval.getTime()) {
-                    if (binder.isManual) {
-                        throw new VerifyException(name + "不能晚于" + binder.getName("时间", names));
-                    } else {
-                        binder.value(date);
+            return this.verify((date,verifyDateOnly) -> {
+                if (binder.lastval != null) {
+                    date = verifyDateOnly ? AfDateFormat.roundDate(date) : date;
+                    Date value = verifyDateOnly ? AfDateFormat.roundDate(binder.lastval) : binder.lastval;
+                    if (date.getTime() > value.getTime()) {
+                        if (binder.isManual || verifyDateOnly) {
+                            throw new VerifyException(name + "不能晚于" + binder.getName("时间", names));
+                        } else {
+                            binder.value(date);
+                        }
                     }
                 }
             });
@@ -1667,21 +1694,32 @@ public class ApCommonBarBinder {
         @SuppressWarnings("UnusedReturnValue")
         public T verifyAfter(AbstractDateBinder<? extends AbstractDateBinder> binder, String... names) {
             CharSequence name = getName("时间", names);
-            return this.verify(date -> {
-                if (binder.lastval != null && date.getTime() <= binder.lastval.getTime()) {
-                    throw new VerifyException(name + "必须晚于" + binder.getName("时间", names));
+            return this.verify((date,verifyDateOnly) -> {
+                if (binder.lastval != null) {
+                    date = verifyDateOnly ? AfDateFormat.roundDate(date) : date;
+                    Date value = verifyDateOnly ? AfDateFormat.roundDate(binder.lastval) : binder.lastval;
+                    if (date.getTime() <= value.getTime()) {
+                        if (verifyDateOnly && date.getTime() == value.getTime()) {
+                            return;
+                        }
+                        throw new VerifyException(name + "必须晚于" + binder.getName("时间", names));
+                    }
                 }
             });
         }
 
         public T verifyAfterWith(AbstractDateBinder<? extends AbstractDateBinder> binder, String... names) {
             CharSequence name = getName("时间", names);
-            return this.verify(date -> {
-                if (binder.lastval != null && date.getTime() < binder.lastval.getTime()) {
-                    if (binder.isManual) {
-                        throw new VerifyException(name + "不能早于" + binder.getName("时间", names));
-                    } else {
-                        binder.value(date);
+            return this.verify((date,verifyDateOnly) -> {
+                if (binder.lastval != null) {
+                    date = verifyDateOnly ? AfDateFormat.roundDate(date) : date;
+                    Date value = verifyDateOnly ? AfDateFormat.roundDate(binder.lastval) : binder.lastval;
+                    if (date.getTime() < value.getTime()) {
+                        if (binder.isManual || verifyDateOnly) {
+                            throw new VerifyException(name + "不能早于" + binder.getName("时间", names));
+                        } else {
+                            binder.value(date);
+                        }
                     }
                 }
             });
@@ -1706,6 +1744,9 @@ public class ApCommonBarBinder {
                 Calendar now = Calendar.getInstance();
                 now.setTime(date);
                 onDateSet(null, now.get(Calendar.YEAR), now.get(Calendar.MONTH), now.get(Calendar.DAY_OF_MONTH));
+            } else {
+                lastval = null;
+                $(idValue).text("");
             }
             return self();
         }
@@ -1715,7 +1756,7 @@ public class ApCommonBarBinder {
             if (verifies != null && view != null) {
                 try {
                     for (DateVerify verify : verifies) {
-                        verify.verify(AfDateFormat.parser(year,month,dayOfMonth));
+                        verify.verify(AfDateFormat.parser(year,month,dayOfMonth), false);
                     }
                 } catch (VerifyException e) {
                     $.toast(viewer).makeToastShort(e.getMessage());
@@ -1782,10 +1823,15 @@ public class ApCommonBarBinder {
         }
 
         public MonthBinder value(Date date) {
-            lastval = AfDateFormat.roundDate(date);
-            Calendar now = Calendar.getInstance();
-            now.setTime(date);
-            onDateSet(null, now.get(Calendar.YEAR), now.get(Calendar.MONTH));
+            if (date != null) {
+                lastval = AfDateFormat.roundDate(date);
+                Calendar now = Calendar.getInstance();
+                now.setTime(date);
+                onDateSet(null, now.get(Calendar.YEAR), now.get(Calendar.MONTH));
+            } else {
+                lastval = null;
+                $(idValue).text("");
+            }
             return self();
         }
 
@@ -1793,7 +1839,7 @@ public class ApCommonBarBinder {
             if (verifies != null && view != null) {
                 try {
                     for (DateVerify verify : verifies) {
-                        verify.verify(AfDateFormat.parser(year, month, 1));
+                        verify.verify(AfDateFormat.parser(year, month, 1), false);
                     }
                 } catch (VerifyException e) {
                     $.toast(viewer).makeToastShort(e.getMessage());
@@ -1833,6 +1879,9 @@ public class ApCommonBarBinder {
                 Calendar now = Calendar.getInstance();
                 now.setTime(date);
                 onTimeSet(null, now.get(Calendar.HOUR_OF_DAY), now.get(Calendar.MINUTE));
+            } else {
+                lastval = null;
+                $(idValue).text("");
             }
             return self();
         }
@@ -1842,7 +1891,7 @@ public class ApCommonBarBinder {
             if (verifies != null && view != null) {
                 try {
                     for (DateVerify verify : verifies) {
-                        verify.verify(AfDateFormat.parser(hourOfDay,minute));
+                        verify.verify(AfDateFormat.parser(hourOfDay,minute), false);
                     }
                 } catch (VerifyException e) {
                     $.toast(viewer).makeToastShort(e.getMessage());
@@ -1884,6 +1933,10 @@ public class ApCommonBarBinder {
 
     public class DateTimeBinder extends AbstractDateBinder<DateTimeBinder> implements OnDateTimeSetVerifyListener {
 
+        private int tempYear = 0;
+        private int tempMonth = 0;
+        private int tempDay = 0;
+
         DateTimeBinder(int idValue) {
             super(idValue);
             format = AfDateFormat.STANDARD;
@@ -1895,12 +1948,15 @@ public class ApCommonBarBinder {
         }
 
         public DateTimeBinder value(Date date) {
-            lastval = date;
             if (date != null) {
+                lastval = date;
                 Calendar now = Calendar.getInstance();
                 now.setTime(date);
                 onDateTimeSet(now.get(Calendar.YEAR), now.get(Calendar.MONTH), now.get(Calendar.DAY_OF_MONTH),
                         now.get(Calendar.HOUR_OF_DAY), now.get(Calendar.MINUTE));
+            } else {
+                lastval = null;
+                $(idValue).text("");
             }
             return self();
         }
@@ -1910,8 +1966,11 @@ public class ApCommonBarBinder {
             if (verifies != null && view != null) {
                 try {
                     for (DateVerify verify : verifies) {
-                        verify.verify(AfDateFormat.parser(year,month,dayOfMonth));
+                        verify.verify(AfDateFormat.parser(year,month,dayOfMonth), true);
                     }
+                    tempYear = year;
+                    tempMonth = month;
+                    tempDay = dayOfMonth;
                 } catch (VerifyException e) {
                     $.toast(viewer).makeToastShort(e.getMessage());
                     return false;
@@ -1925,7 +1984,7 @@ public class ApCommonBarBinder {
             if (verifies != null && view != null) {
                 try {
                     for (DateVerify verify : verifies) {
-                        verify.verify(AfDateFormat.parser(hourOfDay, minute));
+                        verify.verify(AfDateFormat.parser(tempYear, tempMonth, tempDay, hourOfDay, minute), false);
                     }
                     isManual = true;
                 } catch (VerifyException e) {
@@ -1961,7 +2020,6 @@ public class ApCommonBarBinder {
             return self();
         }
 
-
         @Override
         public void onRestoreCache(String key) {
             Boolean bool = cacher.get(key, null, Boolean.class);
@@ -1970,11 +2028,16 @@ public class ApCommonBarBinder {
             }
         }
 
-        public CheckBinder value(boolean isChecked) {
-            lastval = isChecked;
-            $(idValue).checked(isChecked);
-            if (bind != null) {
-                bind.bind(this, isChecked);
+        public CheckBinder value(Boolean isChecked) {
+            if (isChecked != null) {
+                lastval = isChecked;
+                $(idValue).checked(isChecked);
+                if (bind != null) {
+                    bind.bind(this, isChecked);
+                }
+            } else {
+                lastval = null;
+                $(idValue).text("");
             }
             return self();
         }
