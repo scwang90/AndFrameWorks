@@ -1,6 +1,7 @@
 package com.andframe.util.java;
 
 import android.support.annotation.NonNull;
+import android.support.annotation.Nullable;
 
 import java.text.DateFormat;
 import java.text.ParseException;
@@ -32,10 +33,10 @@ public class AfDateFormat {
 			return "";
 		}
 		Calendar calender = Calendar.getInstance();
-		int thisyear = calender.get(Calendar.YEAR);
+		int thisYear = calender.get(Calendar.YEAR);
 		calender.setTime(date);
-		int dateyear = calender.get(Calendar.YEAR);
-		if (thisyear == dateyear) {
+		int dateYear = calender.get(Calendar.YEAR);
+		if (thisYear == dateYear) {
 			return format("M月d日", date);
 		}
 		return DATE.format(date);
@@ -46,15 +47,20 @@ public class AfDateFormat {
 			return "";
 		}
 		Calendar calender = Calendar.getInstance();
-		int thisyear = calender.get(Calendar.YEAR);
+		int thisYear = calender.get(Calendar.YEAR);
 		calender.setTime(date);
-		int dateyear = calender.get(Calendar.YEAR);
-		if (thisyear == dateyear) {
+		int dateYear = calender.get(Calendar.YEAR);
+		if (thisYear == dateYear) {
 			return format("M月d日 HH:mm", date);
 		}
 		return SIMPLE.format(date);
 	}
 
+	/**
+	 * 显示倒计时长 - 最小单位 - 天
+	 * @param date 截止时间
+	 * @return 格式化的倒计时
+	 */
 	public static String formatCountdownToDay(Date date) {
 		if (date == null) {
 			return "";
@@ -73,6 +79,11 @@ public class AfDateFormat {
 		}
 	}
 
+	/**
+	 * 显示倒计时长 - 最小单位 - 小时
+	 * @param date 截止时间
+	 * @return 格式化的倒计时
+	 */
 	public static String formatCountdownToHour(Date date) {
 		if (date == null) {
 			return "";
@@ -84,13 +95,13 @@ public class AfDateFormat {
 		} else {
 			String day = "";
 			long span = roundDate.getTime() - roundNow.getTime();
-			int dayspan = 24 * 3600 * 1000;
+			int daySpan = 24 * 3600 * 1000;
 			if (span < 0) {
 				day = "已过";
 				span = -span;
 			}
-			if (span > dayspan) {
-				long daytime = (span - (span % dayspan));
+			if (span > daySpan) {
+				long daytime = (span - (span % daySpan));
 				day = day + ((daytime) / 24 / 3600 / 1000) + "天";
 				span = span - daytime;
 			}
@@ -98,7 +109,12 @@ public class AfDateFormat {
 		}
 	}
 
-	public static String formatCountdownToMinute(Date date) {
+	/**
+	 * 显示倒计时长 - 最小单位 - 秒
+	 * @param date 截止时间
+	 * @return 格式化的倒计时
+	 */
+	public static String formatCountdownToSecond(Date date) {
 		if (date == null) {
 			return "";
 		}
@@ -109,29 +125,29 @@ public class AfDateFormat {
 		} else {
 			String day = "";
 			long span = roundDate.getTime() - roundNow.getTime();
-			int dayspan = 24 * 3600 * 1000;
+			int daySpan = 24 * 3600 * 1000;
 			if (span < 0) {
 				day = "已过";
 				span = -span;
 			}
-			if (span > dayspan) {
-				long daytime = (span - (span % dayspan));
-				day = day + (daytime / dayspan) + "天";
-				span = span - daytime;
+			if (span > daySpan) {
+				long dayTime = (span - (span % daySpan));
+				day = day + (dayTime / daySpan) + "天";
+				span = span - dayTime;
 			}
-			int hourspan = 3600 * 1000;
-			if (span > hourspan) {
-				long hourtime = (span - (span % hourspan));
-				day = day + (hourtime / hourspan) + "时";
-				span = span - hourtime;
+			int hourSpan = 3600 * 1000;
+			if (span > hourSpan) {
+				long hourTime = (span - (span % hourSpan));
+				day = day + (hourTime / hourSpan) + "时";
+				span = span - hourTime;
 			} else if (day.contains("天")) {
 				day = day + "0时";
 			}
-			int minutespan = 60 * 1000;
-			if (span > minutespan) {
-				long minutetime = (span - (span % minutespan));
-				day = day + (minutetime / minutespan) + "分";
-				span = span - minutetime;
+			int minuteSpan = 60 * 1000;
+			if (span > minuteSpan) {
+				long minuteTime = (span - (span % minuteSpan));
+				day = day + (minuteTime / minuteSpan) + "分";
+				span = span - minuteTime;
 			} else if (day.contains("时")) {
 				day = day + "0分";
 			}
@@ -140,45 +156,48 @@ public class AfDateFormat {
 		}
 	}
 
+	/**
+	 * 动态格式化时间 如 昨天，今天
+	 */
 	public static String formatTime(Date date) {
 		if (date == null) {
 			return "";
 		}
 		Calendar calender = Calendar.getInstance();
-		int thisday = calender.get(Calendar.DAY_OF_MONTH);
-		int thismonth = calender.get(Calendar.MONTH);
-		int thisyear = calender.get(Calendar.YEAR);
+		int thisDay = calender.get(Calendar.DAY_OF_MONTH);
+		int thisMonth = calender.get(Calendar.MONTH);
+		int thisYear = calender.get(Calendar.YEAR);
 
 		Date now = calender.getTime();
 		calender.setTime(date);
 
-		int dateday = calender.get(Calendar.DAY_OF_MONTH);
-		int datemonth = calender.get(Calendar.MONTH);
-		int dateyear = calender.get(Calendar.YEAR);
+		int dateDay = calender.get(Calendar.DAY_OF_MONTH);
+		int dateMonth = calender.get(Calendar.MONTH);
+		int dateYear = calender.get(Calendar.YEAR);
 		if (date.before(now)) {
-			if (dateyear < thisyear) {// 今年以前
+			if (dateYear < thisYear) {// 今年以前
 				return DATE.format(date);
-			} else if (datemonth < thismonth) {// 这个月以前
+			} else if (dateMonth < thisMonth) {// 这个月以前
 				return format("M月d日", date);
-			} else if (dateday < thisday - 2) {// 前天之前
+			} else if (dateDay < thisDay - 2) {// 前天之前
 				return format("d号 HH:mm", date);
-			} else if (dateday < thisday - 1) {// 昨天之前
+			} else if (dateDay < thisDay - 1) {// 昨天之前
 				return format("前天 HH:mm", date);
-			} else if (dateday < thisday) {// 今天之前
+			} else if (dateDay < thisDay) {// 今天之前
 				return format("昨天 HH:mm", date);
 			} else {
 				return format("今天 HH:mm", date);
 			}
 		} else {
-			if (dateyear > thisyear) { // 明年以后
+			if (dateYear > thisYear) { // 明年以后
 				return DATE.format(date);
-			} else if (datemonth > thismonth) {// 下个月以后
+			} else if (dateMonth > thisMonth) {// 下个月以后
 				return format("M月d日", date);
-			} else if (dateday > thisday + 2) {// 后天以后
+			} else if (dateDay > thisDay + 2) {// 后天以后
 				return format("d号 HH:mm", date);
-			} else if (dateday > thisday + 1) {// 明天以后
+			} else if (dateDay > thisDay + 1) {// 明天以后
 				return format("后天 HH:mm", date);
-			} else if (dateday > thisday) {// 今天以后
+			} else if (dateDay > thisDay) {// 今天以后
 				return format("明天 HH:mm", date);
 			} else {
 				return format("今天 HH:mm", date);
@@ -212,6 +231,12 @@ public class AfDateFormat {
 		return duration + "秒";
 	}
 
+	/**
+	 * 格式化一个 起始时间段 - 精确到 天
+	 * @param begDate 开始时间
+	 * @param endDate 结束时间
+	 * @return 返回格式化内容
+	 */
 	public static String formatDuration(Date begDate, Date endDate) {
 		if (begDate == null || endDate == null) {
 			return "";
@@ -220,6 +245,12 @@ public class AfDateFormat {
 				formatDate(endDate);
 	}
 
+	/**
+	 * 格式化一个 起始时间段 - 精确到 分钟
+	 * @param begDate 开始时间
+	 * @param endDate 结束时间
+	 * @return 返回格式化内容
+	 */
 	public static String formatDurationTime(Date begDate, Date endDate) {
 		if (begDate == null || endDate == null) {
 			return "";
@@ -242,6 +273,25 @@ public class AfDateFormat {
 		calender.set(Calendar.DAY_OF_MONTH, day);
 		return roundDate(calender.getTime());
 	}
+
+
+	public static Date parser(Date date, int hour, int minute) {
+		Calendar calender = Calendar.getInstance();
+		calender.setTime(date);
+		calender.set(Calendar.HOUR_OF_DAY, hour);
+		calender.set(Calendar.MINUTE, minute);
+		return calender.getTime();
+	}
+
+	public static Date parser(Date date, int year, int month, int day) {
+		Calendar calender = Calendar.getInstance();
+		calender.setTime(date);
+		calender.set(Calendar.YEAR, year);
+		calender.set(Calendar.MONTH, month);
+		calender.set(Calendar.DAY_OF_MONTH, day);
+		return roundDate(calender.getTime());
+	}
+
 	public static Date parser(int year, int month, int day, int hour, int minute) {
 		Calendar calender = Calendar.getInstance();
 		calender.set(Calendar.YEAR, year);
@@ -329,6 +379,13 @@ public class AfDateFormat {
 				&& day == calender.get(Calendar.DAY_OF_MONTH);
 	}
 
+	/**
+	 * 格式化一个时间段
+	 * @param start 开始时间
+	 * @param close 结束时间
+	 * @param split 中间分隔符
+	 * @param formats formats[0] 带年份的格式 formats[1] 不带年份的日期
+	 */
 	public static String formatTimeSpan(@NonNull Date start,@NonNull Date close,@NonNull String split, String... formats) {
 		String formatYear = formats.length > 0 ? formats[0] : "Y-M-d";
 		String formatDate = formats.length > 1 ? formats[1] : formatYear;
