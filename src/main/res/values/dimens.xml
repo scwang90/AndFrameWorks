@@ -27,4 +27,6 @@
 
     <dimen name="dimenHeightTitleBar">45dp</dimen>
 
+    <dimen name="dimenCornersRadius">5dp</dimen>
+
 </resources>
