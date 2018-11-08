@@ -1064,7 +1064,17 @@ public class ApCommonBarBinder {
             CharSequence name = getName("值", names);
             return this.verify(text -> {
                 if (text.getBytes(Charset.forName("gbk")).length > max) {
-                    throw new VerifyException(name + "不能超过" + max + "个字符");
+                    throw new VerifyException(name + "不能超过" + max + "个字符或" + (max / 2) + "个汉字");
+                }
+                return text;
+            });
+        }
+
+        public TextBinder verifyMinByte(int min, String... names) {
+            CharSequence name = getName("值", names);
+            return this.verify(text -> {
+                if (text.getBytes(Charset.forName("gbk")).length < min) {
+                    throw new VerifyException(name + "不能少于" + min + "个字符或" + (min / 2) + "个汉字");
                 }
                 return text;
             });
@@ -1075,6 +1085,16 @@ public class ApCommonBarBinder {
             return this.verify(text -> {
                 if (text.getBytes(Charset.forName("gbk")).length > max*2) {
                     throw new VerifyException(name + "不能超过" + max + "个汉字或" + (max * 2) + "个字符");
+                }
+                return text;
+            });
+        }
+
+        public TextBinder verifyMinChinese(int min, String... names) {
+            CharSequence name = getName("值", names);
+            return this.verify(text -> {
+                if (text.getBytes(Charset.forName("gbk")).length < min * 2) {
+                    throw new VerifyException(name + "不能少于" + min + "个汉字或" + (min * 2) + "个字符");
                 }
                 return text;
             });
@@ -1876,10 +1896,12 @@ public class ApCommonBarBinder {
 
         public DateTimeBinder value(Date date) {
             lastval = date;
-            Calendar now = Calendar.getInstance();
-            now.setTime(date);
-            onDateTimeSet(now.get(Calendar.YEAR), now.get(Calendar.MONTH), now.get(Calendar.DAY_OF_MONTH),
-                    now.get(Calendar.HOUR_OF_DAY), now.get(Calendar.MINUTE));
+            if (date != null) {
+                Calendar now = Calendar.getInstance();
+                now.setTime(date);
+                onDateTimeSet(now.get(Calendar.YEAR), now.get(Calendar.MONTH), now.get(Calendar.DAY_OF_MONTH),
+                        now.get(Calendar.HOUR_OF_DAY), now.get(Calendar.MINUTE));
+            }
             return self();
         }
 
