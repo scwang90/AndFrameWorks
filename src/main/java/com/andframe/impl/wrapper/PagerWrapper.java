@@ -9,8 +9,8 @@ import android.support.v4.app.Fragment;
 import android.view.View;
 
 import com.andframe.api.pager.Pager;
-import com.andframe.api.task.Task;
 import com.andframe.api.query.ViewQuery;
+import com.andframe.api.task.Task;
 import com.andframe.api.viewer.Viewer;
 
 /**

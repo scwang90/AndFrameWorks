@@ -8,8 +8,8 @@ import android.support.v4.app.Fragment;
 
 import com.andframe.api.Constanter;
 import com.andframe.api.Toaster;
-import com.andframe.api.task.Task;
 import com.andframe.api.query.ViewQuery;
+import com.andframe.api.task.Task;
 import com.andframe.api.viewer.Viewer;
 
 /**

@@ -19,13 +19,14 @@ import com.andframe.annotation.MustLogin;
 import com.andframe.annotation.interpreter.Injecter;
 import com.andframe.annotation.interpreter.LayoutBinder;
 import com.andframe.annotation.interpreter.LifeCycleInjecter;
+import com.andframe.annotation.interpreter.PageBinder;
 import com.andframe.annotation.interpreter.ViewBinder;
 import com.andframe.annotation.view.BindViewCreated;
 import com.andframe.api.DialogBuilder;
 import com.andframe.api.pager.Pager;
-import com.andframe.api.task.Task;
 import com.andframe.api.query.ViewQuery;
 import com.andframe.api.query.ViewQueryHelper;
+import com.andframe.api.task.Task;
 import com.andframe.application.AfApp;
 import com.andframe.exception.AfExceptionHandler;
 import com.andframe.feature.AfIntent;
@@ -197,6 +198,18 @@ public abstract class AfActivity extends AppCompatActivity implements Pager, Vie
     //</editor-fold>
 
     //<editor-fold desc="生命周期">
+
+
+    @Override
+    public void setTheme(int resId) {
+        PageBinder.doBind(this);
+        super.setTheme(resId);
+    }
+
+    @Override
+    public void setRequestedOrientation(int requestedOrientation) {
+        super.setRequestedOrientation(requestedOrientation);
+    }
 
     /**
      * final 原始 onCreated(Bundle bundle)

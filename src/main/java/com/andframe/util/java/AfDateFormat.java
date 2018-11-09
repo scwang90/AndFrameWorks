@@ -1,7 +1,6 @@
 package com.andframe.util.java;
 
 import android.support.annotation.NonNull;
-import android.support.annotation.Nullable;
 
 import java.text.DateFormat;
 import java.text.ParseException;
