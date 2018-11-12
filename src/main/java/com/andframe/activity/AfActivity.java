@@ -15,7 +15,7 @@ import android.view.ViewGroup;
 import android.widget.Toast;
 
 import com.andframe.$;
-import com.andframe.annotation.MustLogin;
+import com.andframe.annotation.BindMustLogin;
 import com.andframe.annotation.interpreter.Injecter;
 import com.andframe.annotation.interpreter.LayoutBinder;
 import com.andframe.annotation.interpreter.LifeCycleInjecter;
@@ -224,7 +224,7 @@ public abstract class AfActivity extends AppCompatActivity implements Pager, Vie
                 super.onCreate(bundle);
                 return;
             }
-            MustLogin must = AfReflecter.getAnnotation(getClass(), AfActivity.class, MustLogin.class);
+            BindMustLogin must = AfReflecter.getAnnotation(getClass(), AfActivity.class, BindMustLogin.class);
             if (must != null && !AfApp.get().isUserLoggedIn()) {
                 if (Activity.class.isAssignableFrom(must.value())) {
                     startActivity(new Intent(this,must.value()));

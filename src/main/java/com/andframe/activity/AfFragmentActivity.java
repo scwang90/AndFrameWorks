@@ -14,12 +14,14 @@ import android.widget.FrameLayout;
 import android.widget.TextView;
 
 import com.andframe.$;
-import com.andframe.annotation.MustLogin;
+import com.andframe.annotation.BindMustLogin;
 import com.andframe.annotation.inject.InjectExtra;
 import com.andframe.annotation.interpreter.LayoutBinder;
 import com.andframe.annotation.pager.BindLaunchMode;
+import com.andframe.annotation.pager.BindMainPager;
 import com.andframe.api.pager.Pager;
 import com.andframe.application.AfApp;
+import com.andframe.application.AfAppSettings;
 import com.andframe.exception.AfExceptionHandler;
 import com.andframe.feature.AfIntent;
 import com.andframe.fragment.AfFragment;
@@ -39,14 +41,11 @@ public class AfFragmentActivity extends AfActivity {
 
     public static final String EXTRA_FRAGMENT = "EXTRA_FRAGMENT";
 
-    private Fragment mFragment;
+    protected Fragment mFragment;
+    protected BindMainPager mBindMainPager;
 
     //<editor-fold desc="跳转封装">
     public static void start(Pager pager, Class<? extends Fragment> clazz, Object... params){
-//        List<Object> list = new ArrayList<>(Arrays.asList(params));
-//        list.add(0, clazz.getName());
-//        list.add(0, EXTRA_FRAGMENT);
-
         Context context = (pager instanceof Activity) ? (Activity) pager : (pager == null ? null : pager.getContext());
         if (context != null) {
             context.startActivity(newIntent(clazz, context, params));
@@ -54,23 +53,8 @@ public class AfFragmentActivity extends AfActivity {
             AfApp app = AfApp.get();
             app.startActivity(newIntent(clazz, app, params).newTask());
         }
-//        pager.getContext().startActivity(new AfIntent(pager.getContext()));
-//        AfActivity activity = $.pager().currentActivity();
-//        if (activity != null) {
-//            (activity).startActivity(getActivityClazz(clazz), list.toArray());
-//        } else {
-//            AfApp app = AfApp.get();
-//            app.startActivity(new AfIntent(app, getActivityClazz(clazz),list.toArray()).newTask());
-//        }
     }
     public static void startResult(Pager pager, Class<? extends Fragment> clazz,int request, Object... params){
-//        AfActivity activity = $.pager().currentActivity();
-//        if (activity != null) {
-//            List<Object> list = new ArrayList<>(Arrays.asList(params));
-//            list.add(0,clazz.getName());
-//            list.add(0,EXTRA_FRAGMENT);
-//            (activity).startActivityForResult(getActivityClazz(clazz), request, list.toArray());
-//        }
         if (pager instanceof Activity) {
             Activity activity = (Activity) pager;
             activity.startActivityForResult(newIntent(clazz, activity, params), request);
@@ -79,18 +63,9 @@ public class AfFragmentActivity extends AfActivity {
             fragment.startActivityForResult(newIntent(clazz, fragment.getContext(), params), request);
         }
     }
-//    public static void startResult(Fragment fragment, Class<? extends Fragment> clazz,int request, Object... params){
-//        Context context = fragment.getContext();
-//        if (context != null) {
-//            List<Object> list = new ArrayList<>(Arrays.asList(params));
-//            list.add(0,clazz.getName());
-//            list.add(0,EXTRA_FRAGMENT);
-//            fragment.startActivityForResult(new AfIntent(context, getActivityClazz(clazz), list.toArray()), request);
-//        }
-//    }
     private static AfIntent newIntent(Class<? extends Fragment> clazz, Context context, Object... params) {
         return new AfIntent(context,getActivityClazz(clazz))
-                .putKeyVaules(EXTRA_FRAGMENT,clazz.getName())
+                .put(EXTRA_FRAGMENT,clazz.getName())
                 .putKeyVaules(params);
     }
     //</editor-fold>
@@ -102,7 +77,8 @@ public class AfFragmentActivity extends AfActivity {
     @Override
     protected void onCreated(Bundle bundle) {
         super.onCreated(bundle);
-        checkMustLoginedOnCreate();
+        checkMainPager();
+        checkMustLoginOnCreate();
         FrameLayout frameLayout = new FrameLayout(this);
         frameLayout.setId(widget_frame);
         setContentView(frameLayout);
@@ -122,17 +98,54 @@ public class AfFragmentActivity extends AfActivity {
     }
     //</editor-fold>
 
+
+    //<editor-fold desc="主页相关信息">
+    protected long mExitTime;
+    protected long mExitInterval = 2000;
+    protected boolean mDoubleBackKeyPressed = true;
+
+    protected void checkMainPager() {
+        Class<?> fragment = getFragmentClazz();
+        mBindMainPager = AfReflecter.getAnnotation(fragment, Fragment.class, BindMainPager.class);
+        if (mBindMainPager != null) {
+            if (AfAppSettings.getInstance().isAutoUpdate()) {
+                $.update().checkUpdate();
+            }
+        }
+    }
+
+    @Override
+    protected boolean onBackKeyPressed() {
+        if (mBindMainPager != null) {
+            boolean isHandled = super.onBackKeyPressed();
+            if (!isHandled && mDoubleBackKeyPressed) {
+                isHandled = true;
+                if ((System.currentTimeMillis() - mExitTime) > mExitInterval) {
+                    makeToastShort("再按一次退出");
+                    mExitTime = System.currentTimeMillis();
+                } else {
+                    this.finish();
+                }
+            }
+            return isHandled;
+        }
+        return super.onBackKeyPressed();
+    }
+
+
+    //</editor-fold>
+
     //<editor-fold desc="登录检测">
 
-    protected static final int REQUSET_LOGIN = 0xFFFF;
+    protected static final int REQUEST_LOGIN = 0xFFFF;
 
     /**
      * 在创建页面的时候检测是否要求登录
      */
 
-    protected void checkMustLoginedOnCreate() {
+    protected void checkMustLoginOnCreate() {
         Class<?> fragment = getFragmentClazz();
-        MustLogin must = AfReflecter.getAnnotation(fragment, Fragment.class, MustLogin.class);
+        BindMustLogin must = AfReflecter.getAnnotation(fragment, Fragment.class, BindMustLogin.class);
         if (must != null && !AfApp.get().isUserLoggedIn()) {
             interruptReplaceFragment = true;
             startLoginPager(must);
@@ -183,12 +196,12 @@ public class AfFragmentActivity extends AfActivity {
     /**
      * 启动指定的登录页面
      */
-    protected void startLoginPager(MustLogin must) {
+    protected void startLoginPager(BindMustLogin must) {
         if (Activity.class.isAssignableFrom(must.value())) {
-            startActivityForResult(new Intent(this,must.value()), REQUSET_LOGIN);
+            startActivityForResult(new Intent(this,must.value()), REQUEST_LOGIN);
         } else if (Fragment.class.isAssignableFrom(must.value())) {
             //noinspection unchecked
-            startFragmentForResult((Class<? extends Fragment>)must.value(), REQUSET_LOGIN);
+            startFragmentForResult((Class<? extends Fragment>)must.value(), REQUEST_LOGIN);
         }
         makeToastShort(must.remark());
     }
@@ -196,7 +209,7 @@ public class AfFragmentActivity extends AfActivity {
     @Override
     protected void onActivityResult(AfIntent intent, int requestCode, int resultCode) throws Exception {
         super.onActivityResult(intent, requestCode, resultCode);
-        if (requestCode == REQUSET_LOGIN) {
+        if (requestCode == REQUEST_LOGIN) {
             if (AfApp.get().isUserLoggedIn()) {
                 interruptReplaceFragment = false;
                 replaceFragment();

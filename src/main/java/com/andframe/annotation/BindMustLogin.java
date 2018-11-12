@@ -12,7 +12,7 @@ import java.lang.annotation.Target;
 
 @Target(ElementType.TYPE)
 @Retention(RetentionPolicy.RUNTIME)
-public @interface MustLogin {
+public @interface BindMustLogin {
     Class<?> value();//需要启动登录页面的 Activity 或者 Fragment 类
     String remark() default "您还未登录，请先登录！";
 }
