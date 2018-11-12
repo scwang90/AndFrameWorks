@@ -38,8 +38,11 @@ public class ApFragmentActivity extends AfFragmentActivity implements ApPager {
 
     @Override
     protected void onCreated(Bundle bundle) {
-        mApHelper.onCreate();
         super.onCreated(bundle);
+        if (mBindMainPager != null) {
+            mApHelper.setTheme(0);
+        }
+        mApHelper.onCreate();
     }
 
     @Override
@@ -64,6 +67,7 @@ public class ApFragmentActivity extends AfFragmentActivity implements ApPager {
 
     @Override
     protected void onPostCreate(Bundle savedInstanceState) {
+
         mApHelper.onPostCreate(savedInstanceState);
         super.onPostCreate(savedInstanceState);
     }
