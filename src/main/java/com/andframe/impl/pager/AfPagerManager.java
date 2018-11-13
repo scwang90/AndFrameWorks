@@ -8,6 +8,7 @@ import android.support.v4.app.Fragment;
 
 import com.andframe.activity.AfActivity;
 import com.andframe.activity.AfFragmentActivity;
+import com.andframe.api.pager.Pager;
 import com.andframe.api.pager.PagerManager;
 import com.andframe.application.AfApp;
 import com.andframe.exception.AfException;
@@ -145,15 +146,29 @@ public class AfPagerManager implements PagerManager {
     public AfFragment getFragment(Class<? extends AfFragment> clazz) {
         for (AfActivity activity : mStackActivity) {
             if (activity instanceof AfFragmentActivity) {
-                if (((AfFragmentActivity) activity).getFragmentClazz().isAssignableFrom(activity.getClass())) {
-                    Fragment fragment = ((AfFragmentActivity) activity).getFragment();
-                    if (fragment instanceof AfFragment) {
-                        return (AfFragment) fragment;
-                    }
+                Fragment fragment = ((AfFragmentActivity) activity).getFragment();
+                if (fragment instanceof AfFragment) {
+                    return (AfFragment) fragment;
                 }
             }
         }
         return null;
+    }
+
+    @Override
+    public void finishBatchUntil(Pager pager) {
+        while (!mStackActivity.empty()) {
+            AfActivity activity = mStackActivity.peek();
+            if (activity == pager) {
+                return;
+            } else if (activity instanceof AfFragmentActivity) {
+                Fragment fragment = ((AfFragmentActivity) activity).getFragment();
+                if (pager == fragment) {
+                    return;
+                }
+            }
+            mStackActivity.pop().finish();
+        }
     }
 
     @Override

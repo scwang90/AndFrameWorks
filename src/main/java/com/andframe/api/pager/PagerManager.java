@@ -62,4 +62,5 @@ public interface PagerManager {
     void startFragmentForResult(Class<? extends Fragment> clazz, int request, Object... args);
 
 
+    void finishBatchUntil(Pager pager);
 }

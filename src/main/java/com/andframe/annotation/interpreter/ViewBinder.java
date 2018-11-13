@@ -489,7 +489,12 @@ public class ViewBinder {
                 value = new AfFrameSelector(root, id);
             } else if (type.equals(ItemsViewerWrapper.class) || type.equals(ItemsViewer.class)) {
                 if (id > 0) {
-                    value = new ItemsViewerWrapper((View)root.findViewById(id));
+                    View view = root.findViewById(id);
+                    if (view != null) {
+                        value = new ItemsViewerWrapper(view);
+                    } else {
+                        notFindView(handler, ids[0], TAG(handler, "bindViewModule.") + field.getName());
+                    }
                 } else {
                     value = new ItemsViewerWrapper(root);
                 }
