@@ -63,4 +63,5 @@ public interface PagerManager {
 
 
     void finishBatchUntil(Pager pager);
+    void finishBatchUntil(Class<? extends Pager> pager);
 }

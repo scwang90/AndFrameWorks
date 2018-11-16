@@ -172,6 +172,22 @@ public class AfPagerManager implements PagerManager {
     }
 
     @Override
+    public void finishBatchUntil(Class<? extends Pager> pager) {
+        while (!mStackActivity.empty()) {
+            AfActivity activity = mStackActivity.peek();
+            if (pager.isAssignableFrom(activity.getClass())) {
+                return;
+            } else if (activity instanceof AfFragmentActivity) {
+                if (pager.isAssignableFrom(((AfFragmentActivity) activity).getFragmentClazz())) {
+                    return;
+                }
+            }
+            mStackActivity.pop().finish();
+        }
+        startPager(pager);
+    }
+
+    @Override
     public void finishCurrentActivity() {
         AfActivity activity = currentActivity();
         if (activity != null) {
