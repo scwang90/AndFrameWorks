@@ -9,6 +9,7 @@ import android.os.Handler.Callback;
 import android.os.Looper;
 import android.os.Message;
 import android.support.annotation.NonNull;
+import android.text.TextUtils;
 import android.util.DisplayMetrics;
 
 import com.andframe.$;
@@ -25,6 +26,8 @@ import org.apache.http.conn.ConnectTimeoutException;
 import java.io.FileWriter;
 import java.io.IOException;
 import java.lang.Thread.UncaughtExceptionHandler;
+import java.lang.reflect.InvocationTargetException;
+import java.lang.reflect.UndeclaredThrowableException;
 import java.net.ConnectException;
 import java.net.SocketTimeoutException;
 import java.net.UnknownHostException;
@@ -61,38 +64,63 @@ public class AfExceptionHandler implements UncaughtExceptionHandler {
     }
 
     public String onHandleTip(Throwable e, String tip) {
-        int index = 0;
         Throwable ex = e;
-        while (!(ex instanceof AfToastException) && ex.getCause() != null && ++index < 5) {
-            ex = e.getCause();
-        }
-        if (ex instanceof AfToastException) {
-            return ex.getMessage();
-        }
-        String message = e.getMessage();
+        StringBuilder title = new StringBuilder(ex.getClass().getSimpleName());
+        StringBuilder message = new StringBuilder(ex.getMessage() + "");
         boolean debug = AfApp.get().isDebug();
+
+        for (int i = 0; i < 10; i++) {
+            if (ex instanceof InvocationTargetException) {
+                Throwable throwable = ((InvocationTargetException) ex).getTargetException();
+                if (throwable != null && ex != throwable) {
+                    ex = throwable;
+                    message.append("\n    ←").append(ex.getMessage());
+                    title.append("\n    ←").append(ex.getClass().getSimpleName());
+                    continue;
+                }
+            } else if (ex instanceof UndeclaredThrowableException) {
+                Throwable throwable = ((UndeclaredThrowableException) ex).getUndeclaredThrowable();
+                if (throwable != null && ex != throwable) {
+                    ex = throwable;
+                    message.append("\n    ←").append(ex.getMessage());
+                    title.append("\n    ←").append(ex.getClass().getSimpleName());
+                    continue;
+                }
+            } else if (ex instanceof AfToastException) {
+                return ex.getMessage();
+            } else if (!debug && (e instanceof ConnectException || e instanceof UnknownHostException)) {
+                return "连接服务器失败";
+            } else if (!debug && (e instanceof SocketTimeoutException || e instanceof ConnectTimeoutException)) {
+                return "网络请求超时";
+            } else if (!debug && e instanceof TimeoutException) {
+                return "请求超时";
+            }
+            Throwable throwable = ex.getCause();
+            if (throwable != null && ex != throwable) {
+                ex = throwable;
+                message.append("\n    ←").append(ex.getMessage());
+                title.append("\n    ←").append(ex.getClass().getSimpleName());
+            } else {
+                break;
+            }
+        }
+
         if (debug) {
-            message = "内容:" + message;
-            message = String.format("异常:%s\r\n%s", e.getClass().getName(), message);
+            message.insert(0, "内容:");
+            message = new StringBuilder(String.format("异常:%s\r\n%s", title.toString(), message.toString()));
             if (tip != null && !tip.equals("")) {
-                return String.format("消息:%s\r\n%s", tip, message);
+                return String.format("消息:%s\r\n%s", tip, message.toString());
             }
         } else {
-            if (message == null || message.trim().equals("")) {
-                message = e.getClass().getName();
-            }
-            if (e instanceof ConnectException || e instanceof UnknownHostException) {
-                message = "连接服务器失败";
-            } else if (e instanceof SocketTimeoutException || e instanceof ConnectTimeoutException) {
-                message = "网络请求超时";
-            } else if (e instanceof TimeoutException) {
-                message = "请求超时";
+            message = new StringBuilder("[" + e.getMessage() + "]");
+            if (TextUtils.isEmpty(message)) {
+                message = new StringBuilder("[" + e.getClass().getName() + "]");
             }
             if (tip != null && !tip.equals("")) {
                 return tip + ":" + message;
             }
         }
-        return message;
+        return message.toString();
     }
 
     @Override
