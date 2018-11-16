@@ -17,7 +17,7 @@ import java.io.File;
 
 public abstract class AfUpdateService implements UpdateService {
 
-	protected String mVersion;
+	protected String mVersion = AfApp.get().getVersion();
 	protected DownloadEntity mEntity;//已经下载完成的实体
 
 	protected ServiceVersion mVersionInfo;
@@ -44,10 +44,6 @@ public abstract class AfUpdateService implements UpdateService {
 	@Override
 	public void checkUpdate(boolean feedback) {
 		$.task().postTask(new CheckUpdateTask(feedback));
-	}
-
-	public AfUpdateService() {
-		mVersion = AfApp.get().getVersion();
 	}
 
 	protected void start(String url, String version) {
@@ -88,7 +84,7 @@ public abstract class AfUpdateService implements UpdateService {
 			return super.onDownloadFail(entity, error, e);
 		}
 
-		public void clearListenerMark() {
+		void clearListenerMark() {
 			if (managerListener == this) {
 				managerListener = null;
 			}
@@ -108,7 +104,15 @@ public abstract class AfUpdateService implements UpdateService {
 		}
 	}
 
-	/**
+    /**
+     * 是否正在下载更新
+     */
+    @Override
+    public boolean isDownloading() {
+        return managerListener != null;
+    }
+
+    /**
 	 * 获取App是否 需要更新
 	 */
 	@Override

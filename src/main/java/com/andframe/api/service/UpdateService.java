@@ -13,4 +13,5 @@ public interface UpdateService {
     void checkUpdate(boolean feedback);
     void install(File file);
     boolean isNeedUpdate();
+    boolean isDownloading();
 }
