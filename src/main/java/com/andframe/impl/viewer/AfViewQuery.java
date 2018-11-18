@@ -858,6 +858,19 @@ public class AfViewQuery<T extends AfViewQuery<T>> implements ViewQuery<T> {
     //<editor-fold desc="尺寸边距">
 
     //<editor-fold desc="尺寸">
+
+
+    @Override
+    public T weight(float weight) {
+        return foreach(view -> {
+            LayoutParams lp = view.getLayoutParams();
+            if (lp instanceof LinearLayout.LayoutParams) {
+                ((LinearLayout.LayoutParams) lp).weight = weight;
+                view.setLayoutParams(lp);
+            }
+        });
+    }
+
     @Override
     public T width(int width) {
         size(true, width, false);

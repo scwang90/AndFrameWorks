@@ -458,6 +458,12 @@ public interface ViewQuery<T extends ViewQuery<T>> {
     //<editor-fold desc="边距尺寸">
 
     //<editor-fold desc="尺寸设置">
+
+    /**
+     * 设置当前选中 View 的比重.
+     */
+    T weight(float weight);
+
     /**
      * 设置当前选中 View 的宽度.
      * 也可以使用 FILL_PARENT , WRAP_CONTENT , MATCH_PARENT.
