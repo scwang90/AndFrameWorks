@@ -75,7 +75,7 @@ public class ViewBinder {
         if (obj == null) {
             return "ViewBinder." + tag;
         }
-        return "LayoutBinder(" + obj.getClass().getName() + ")." + tag;
+        return "ViewBinder(" + obj.getClass().getName() + ")." + tag;
     }
 
     public static void doBind(Viewer root) {
