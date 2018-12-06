@@ -1,5 +1,7 @@
 package com.andframe.impl.task;
 
+import android.support.annotation.NonNull;
+
 import com.andframe.api.pager.Pager;
 import com.andframe.api.task.Task;
 import com.andframe.api.task.builder.WaitBuilder;
@@ -22,14 +24,15 @@ import java.util.Set;
 @SuppressWarnings("WeakerAccess")
 public class WaitTaskBuilder extends TaskBuilder implements WaitBuilder {
 
-    public String master;
+    public String intent;
     public WeakReference<Pager> pager;
     public boolean feedbackOnSuccess = true;
     public boolean feedbackOnException = true;
 
-    public WaitTaskBuilder(TaskBuilder builder, Pager pager, String master) {
-        this.master = master;
+    public WaitTaskBuilder(@NonNull TaskBuilder builder, @NonNull Pager pager, @NonNull String intent) {
+        this.intent = intent;
         this.pager = new WeakReference<>(pager);
+        this.mMasterName = builder.mMasterName;
         this.canceledRunnable = builder.canceledRunnable;
         this.prepareRunnable = builder.prepareRunnable;
         this.prepareHandler = builder.prepareHandler;
@@ -37,14 +40,12 @@ public class WaitTaskBuilder extends TaskBuilder implements WaitBuilder {
         this.finallyRunnable = builder.finallyRunnable;
         this.successRunnable = builder.successRunnable;
         this.exceptionHandler = builder.exceptionHandler;
+        if (mMasterName == null) {
+            mMasterName = pager.getClass().getName();
+        }
     }
 
     //<editor-fold desc="特有接口">
-
-    @Override
-    public String master() {
-        return master;
-    }
 
     @Override
     public WaitBuilder success(boolean feedback, Runnable success) {
@@ -108,24 +109,24 @@ public class WaitTaskBuilder extends TaskBuilder implements WaitBuilder {
         return new WaitLoadTaskBuilder<>(this, handler);
     }
 
-    public <T> WaitLoadBuilder<T> load(Class<T> clazz) {
-        return new WaitLoadTaskBuilder<>(this);
-    }
-    @Override
-    public <T> WaitLoadBuilder<Set<T>> loadSet(Class<T> clazz) {
-        return new WaitLoadTaskBuilder<>(this);
-    }
-    @Override
-    public <TT> WaitLoadBuilder<List<TT>> loadList(Class<TT> clazz) {
-        return new WaitLoadTaskBuilder<>(this);
-    }
-    @Override
-    public <T> WaitLoadBuilder<Collection<T>> loadCollection(Class<T> clazz) {
-        return new WaitLoadTaskBuilder<>(this);
-    }
-    @Override
-    public <K,V> WaitLoadBuilder<Map<K,V>> loadMap(Class<K> key, Class<V> value) {
-        return new WaitLoadTaskBuilder<>(this);
-    }
+//    public <T> WaitLoadBuilder<T> load(Class<T> clazz) {
+//        return new WaitLoadTaskBuilder<>(this);
+//    }
+//    @Override
+//    public <T> WaitLoadBuilder<Set<T>> loadSet(Class<T> clazz) {
+//        return new WaitLoadTaskBuilder<>(this);
+//    }
+//    @Override
+//    public <TT> WaitLoadBuilder<List<TT>> loadList(Class<TT> clazz) {
+//        return new WaitLoadTaskBuilder<>(this);
+//    }
+//    @Override
+//    public <T> WaitLoadBuilder<Collection<T>> loadCollection(Class<T> clazz) {
+//        return new WaitLoadTaskBuilder<>(this);
+//    }
+//    @Override
+//    public <K,V> WaitLoadBuilder<Map<K,V>> loadMap(Class<K> key, Class<V> value) {
+//        return new WaitLoadTaskBuilder<>(this);
+//    }
     //</editor-fold>
 }

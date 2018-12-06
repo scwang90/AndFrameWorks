@@ -1,5 +1,7 @@
 package com.andframe.impl.task;
 
+import android.support.annotation.NonNull;
+
 import com.andframe.$;
 import com.andframe.api.pager.Pager;
 import com.andframe.api.task.Task;
@@ -23,6 +25,7 @@ import java.util.Set;
 @SuppressWarnings("WeakerAccess")
 public class TaskBuilder implements Builder {
 
+    public String mMasterName;
     public Runnable prepareRunnable;
     public PrepareHandler prepareHandler;
     public WorkingHandler workingHandler;
@@ -30,6 +33,17 @@ public class TaskBuilder implements Builder {
     public Runnable finallyRunnable;
     public Runnable canceledRunnable;
     public ExceptionHandler exceptionHandler;
+
+    public TaskBuilder() {
+    }
+
+    public TaskBuilder(@NonNull Object master) {
+        if (master instanceof Class) {
+            this.mMasterName = ((Class) master).getName();
+        } else {
+            this.mMasterName = master.getClass().getName();
+        }
+    }
 
     //<editor-fold desc="设置参数">
     @Override
@@ -117,27 +131,27 @@ public class TaskBuilder implements Builder {
         return new LoadTaskBuilder<>(this, handler);
     }
 
-    @Override
-    public <T> LoadBuilder<T> load(Class<T> clazz) {
-        return new LoadTaskBuilder<>(this);
-    }
-
-    public <T> LoadBuilder<Set<T>> loadSet(Class<T> clazz) {
-        return new LoadTaskBuilder<>(this);
-    }
-
-    @Override
-    public <T> LoadBuilder<List<T>> loadList(Class<T> clazz) {
-        return new LoadTaskBuilder<>(this);
-    }
-
-    public <T> LoadBuilder<Collection<T>> loadCollection(Class<T> clazz) {
-        return new LoadTaskBuilder<>(this);
-    }
-
-    public <K,V> LoadBuilder<Map<K,V>> loadMap(Class<K> key, Class<V> value) {
-        return new LoadTaskBuilder<>(this);
-    }
+//    @Override
+//    public <T> LoadBuilder<T> load(Class<T> clazz) {
+//        return new LoadTaskBuilder<>(this);
+//    }
+//
+//    public <T> LoadBuilder<Set<T>> loadSet(Class<T> clazz) {
+//        return new LoadTaskBuilder<>(this);
+//    }
+//
+//    @Override
+//    public <T> LoadBuilder<List<T>> loadList(Class<T> clazz) {
+//        return new LoadTaskBuilder<>(this);
+//    }
+//
+//    public <T> LoadBuilder<Collection<T>> loadCollection(Class<T> clazz) {
+//        return new LoadTaskBuilder<>(this);
+//    }
+//
+//    public <K,V> LoadBuilder<Map<K,V>> loadMap(Class<K> key, Class<V> value) {
+//        return new LoadTaskBuilder<>(this);
+//    }
 
     @Override
     public Task build() {

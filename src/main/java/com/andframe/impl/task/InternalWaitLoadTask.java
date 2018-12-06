@@ -69,7 +69,7 @@ public class InternalWaitLoadTask<T> extends InternalWaitTask {
     private void makeToastEmpty() {
         Pager pager = builder.pager.get();
         if (pager != null && builder.feedbackOnEmpty) {
-            pager.makeToastShort(String.format(pager.getContext().getString(R.string.task_format_success),builder.master));
+            pager.makeToastShort(String.format(pager.getContext().getString(R.string.task_format_success),builder.intent));
         }
     }
 }

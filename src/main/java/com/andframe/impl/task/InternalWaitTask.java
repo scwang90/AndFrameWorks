@@ -39,21 +39,21 @@ public class InternalWaitTask extends InternalTask {
     protected void showProgressDialog() {
         Pager pager = builder.pager.get();
         if (pager != null) {
-            pager.showProgressDialog(String.format(pager.getContext().getString(R.string.task_format_loading),builder.master));
+            pager.showProgressDialog(String.format(pager.getContext().getString(R.string.task_format_loading),builder.intent));
         }
     }
 
     protected void makeToastSuccess() {
         Pager pager = builder.pager.get();
         if (pager != null && builder.feedbackOnSuccess) {
-            pager.makeToastShort(String.format(pager.getContext().getString(R.string.task_format_success),builder.master));
+            pager.makeToastShort(String.format(pager.getContext().getString(R.string.task_format_success),builder.intent));
         }
     }
 
     protected void makeToastFail(Throwable e) {
         Pager pager = builder.pager.get();
         if (pager != null && builder.feedbackOnException) {
-            pager.makeToastShort(AfExceptionHandler.tip(e, String.format(pager.getContext().getString(R.string.task_format_fail), builder.master)));
+            pager.makeToastShort(AfExceptionHandler.tip(e, String.format(pager.getContext().getString(R.string.task_format_fail), builder.intent)));
         }
     }
 

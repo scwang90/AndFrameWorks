@@ -37,11 +37,11 @@ public interface Builder {
 
     WaitBuilder wait(Pager pager, String master);
     <T> LoadBuilder<T> load(LoadingHandler<T> handler);
-    <T> LoadBuilder<T> load(Class<T> clazz);
-    <T> LoadBuilder<Set<T>> loadSet(Class<T> clazz);
-    <T> LoadBuilder<List<T>> loadList(Class<T> clazz);
-    <T> LoadBuilder<Collection<T>> loadCollection(Class<T> clazz);
-    <K,V> LoadBuilder<Map<K,V>> loadMap(Class<K> key, Class<V> value);
+//    <T> LoadBuilder<T> load(Class<T> clazz);
+//    <T> LoadBuilder<Set<T>> loadSet(Class<T> clazz);
+//    <T> LoadBuilder<List<T>> loadList(Class<T> clazz);
+//    <T> LoadBuilder<Collection<T>> loadCollection(Class<T> clazz);
+//    <K,V> LoadBuilder<Map<K,V>> loadMap(Class<K> key, Class<V> value);
 
     Task build();
     Task post();

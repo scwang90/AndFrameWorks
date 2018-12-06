@@ -1,6 +1,7 @@
 package com.andframe.api.task;
 
 import android.support.annotation.MainThread;
+import android.support.annotation.NonNull;
 
 import com.andframe.api.task.builder.Builder;
 import com.andframe.api.task.handler.WorkingHandler;
@@ -13,15 +14,16 @@ import com.andframe.api.task.handler.WorkingHandler;
 public interface TaskExecutor {
 
     Builder builder();
+    Builder builder(@NonNull Object master);
 
     @MainThread
-    void execute(WorkingHandler runnable);
+    void execute(@NonNull WorkingHandler runnable);
 
     @MainThread
-    void execute(Task task);
+    void execute(@NonNull Task task);
 
-    <T extends Task> T postTask(T task);
+    <T extends Task> T postTask(@NonNull T task);
 
-    <T extends Task> T postTask(T task, long delay);
+    <T extends Task> T postTask(@NonNull T task, long delay);
 
 }

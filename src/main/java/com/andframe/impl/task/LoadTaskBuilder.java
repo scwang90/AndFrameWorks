@@ -28,6 +28,7 @@ public class LoadTaskBuilder<T> extends TaskBuilder implements LoadBuilder<T> {
     }
 
     public LoadTaskBuilder(TaskBuilder builder, LoadingHandler<T> loadingHandler) {
+        this.mMasterName = builder.mMasterName;
         this.loadingHandler = loadingHandler;
         this.canceledRunnable = builder.canceledRunnable;
         this.prepareRunnable = builder.prepareRunnable;
@@ -114,8 +115,8 @@ public class LoadTaskBuilder<T> extends TaskBuilder implements LoadBuilder<T> {
         return this;
     }
 
-    public WaitLoadBuilder<T> wait(Pager pager, String master) {
-        return new WaitLoadTaskBuilder<>(this, pager, master);
+    public WaitLoadBuilder<T> wait(Pager pager, String intent) {
+        return new WaitLoadTaskBuilder<>(this, pager, intent);
     }
     //</editor-fold>T
 }

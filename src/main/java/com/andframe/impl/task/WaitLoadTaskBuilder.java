@@ -33,16 +33,16 @@ public class WaitLoadTaskBuilder<T> extends WaitTaskBuilder implements WaitLoadB
     }
 
     public WaitLoadTaskBuilder(WaitTaskBuilder builder, LoadingHandler<T> loadingHandler) {
-        super(builder, builder.pager.get(), builder.master);
+        super(builder, builder.pager.get(), builder.intent);
         this.pager = builder.pager;
-        this.master = builder.master;
+        this.intent = builder.intent;
         this.loadingHandler = loadingHandler;
         this.feedbackOnSuccess = builder.feedbackOnSuccess;
         this.feedbackOnException = builder.feedbackOnException;
     }
 
-    public WaitLoadTaskBuilder(LoadTaskBuilder<T> builder, Pager pager, String master) {
-        super(builder, pager, master);
+    public WaitLoadTaskBuilder(LoadTaskBuilder<T> builder, Pager pager, String intent) {
+        super(builder, pager, intent);
         this.loadingHandler = builder.loadingHandler;
         this.loadSuccessHandler = builder.loadSuccessHandler;
         this.emptyRunnable = builder.emptyRunnable;
@@ -168,26 +168,26 @@ public class WaitLoadTaskBuilder<T> extends WaitTaskBuilder implements WaitLoadB
         return null;
     }
 
-    @Override
-    public <TT> WaitLoadBuilder<TT> load(Class<TT> clazz) {
-        return null;
-    }
-    @Override
-    public <TT> WaitLoadBuilder<Set<TT>> loadSet(Class<TT> clazz) {
-        return null;
-    }
-    @Override
-    public <TT> WaitLoadBuilder<List<TT>> loadList(Class<TT> clazz) {
-        return null;
-    }
-    @Override
-    public <TT> WaitLoadBuilder<Collection<TT>> loadCollection(Class<TT> clazz) {
-        return null;
-    }
-    @Override
-    public <K,V> WaitLoadBuilder<Map<K,V>> loadMap(Class<K> key, Class<V> value) {
-        return null;
-    }
+//    @Override
+//    public <TT> WaitLoadBuilder<TT> load(Class<TT> clazz) {
+//        return null;
+//    }
+//    @Override
+//    public <TT> WaitLoadBuilder<Set<TT>> loadSet(Class<TT> clazz) {
+//        return null;
+//    }
+//    @Override
+//    public <TT> WaitLoadBuilder<List<TT>> loadList(Class<TT> clazz) {
+//        return null;
+//    }
+//    @Override
+//    public <TT> WaitLoadBuilder<Collection<TT>> loadCollection(Class<TT> clazz) {
+//        return null;
+//    }
+//    @Override
+//    public <K,V> WaitLoadBuilder<Map<K,V>> loadMap(Class<K> key, Class<V> value) {
+//        return null;
+//    }
     @Override
     public WaitLoadBuilder<T> wait(Pager pager, String master) {
         return null;

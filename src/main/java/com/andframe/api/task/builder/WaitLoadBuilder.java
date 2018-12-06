@@ -36,8 +36,8 @@ public interface WaitLoadBuilder<T> extends WaitBuilder, LoadBuilder<T> {
     WaitLoadBuilder<T> prepare(Runnable runnable);
     @Override
     WaitLoadBuilder<T> prepare(PrepareHandler handler);
-    @Override
-    WaitLoadBuilder<T> loading(LoadingHandler<T> handler);
+//    @Override
+//    WaitLoadBuilder<T> loading(LoadingHandler<T> handler);
     @Override
     WaitLoadBuilder<T> loadEmpty(Runnable runnable);
     @Override
@@ -61,14 +61,14 @@ public interface WaitLoadBuilder<T> extends WaitBuilder, LoadBuilder<T> {
     WaitLoadBuilder<T> wait(Pager pager, String master);
     @Deprecated
     <TT> WaitLoadBuilder<TT> load(LoadingHandler<TT> handler);
-    @Deprecated
-    <TT> WaitLoadBuilder<TT> load(Class<TT> clazz);
-    @Deprecated
-    <TT> WaitLoadBuilder<Set<TT>> loadSet(Class<TT> clazz);
-    @Deprecated
-    <TT> WaitLoadBuilder<List<TT>> loadList(Class<TT> clazz);
-    @Deprecated
-    <TT> WaitLoadBuilder<Collection<TT>> loadCollection(Class<TT> clazz);
-    @Deprecated
-    <K,V> WaitLoadBuilder<Map<K,V>> loadMap(Class<K> key, Class<V> value);
+//    @Deprecated
+//    <TT> WaitLoadBuilder<TT> load(Class<TT> clazz);
+//    @Deprecated
+//    <TT> WaitLoadBuilder<Set<TT>> loadSet(Class<TT> clazz);
+//    @Deprecated
+//    <TT> WaitLoadBuilder<List<TT>> loadList(Class<TT> clazz);
+//    @Deprecated
+//    <TT> WaitLoadBuilder<Collection<TT>> loadCollection(Class<TT> clazz);
+//    @Deprecated
+//    <K,V> WaitLoadBuilder<Map<K,V>> loadMap(Class<K> key, Class<V> value);
 }

@@ -4,6 +4,7 @@ import android.app.Activity;
 import android.content.Context;
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
+import android.support.v4.app.Fragment;
 import android.support.v4.view.ViewPager;
 import android.support.v4.widget.NestedScrollView;
 import android.support.v7.widget.RecyclerView;
@@ -247,11 +248,21 @@ public class AfLoadHelper<T> implements LoadHelper<T> {
 
         @Override
         protected void onHandle() {
+            if (mPager instanceof Fragment) {
+                if (((Fragment) mPager).getHost() == null) {
+                    return;
+                }
+            }
             onHandle(data);
         }
 
         @Override
         protected boolean onPrepare() {
+            if (mPager instanceof Fragment) {
+                if (((Fragment) mPager).getHost() == null) {
+                    return false;
+                }
+            }
             mIsLoading = true;
             return super.onPrepare();
         }

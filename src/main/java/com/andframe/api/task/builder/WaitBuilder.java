@@ -19,10 +19,6 @@ import java.util.Set;
 @SuppressWarnings("unused")
 public interface WaitBuilder extends Builder {
 
-    /**
-     * 特有接口
-     */
-    String master();
     WaitBuilder success(boolean feedback, Runnable success);
     WaitBuilder exception(boolean feedback, ExceptionHandler handler);
 
@@ -39,11 +35,11 @@ public interface WaitBuilder extends Builder {
     WaitBuilder fina11y(Runnable fina11y);
     WaitBuilder exception(ExceptionHandler handler);
     <T> WaitLoadBuilder<T> load(LoadingHandler<T> handler);
-    <T> WaitLoadBuilder<T> load(Class<T> clazz);
-    <T> WaitLoadBuilder<Set<T>> loadSet(Class<T> clazz);
-    <T> WaitLoadBuilder<List<T>> loadList(Class<T> clazz);
-    <T> WaitLoadBuilder<Collection<T>> loadCollection(Class<T> clazz);
-    <K,V> WaitLoadBuilder<Map<K,V>> loadMap(Class<K> key, Class<V> value);
+//    <T> WaitLoadBuilder<T> load(Class<T> clazz);
+//    <T> WaitLoadBuilder<Set<T>> loadSet(Class<T> clazz);
+//    <T> WaitLoadBuilder<List<T>> loadList(Class<T> clazz);
+//    <T> WaitLoadBuilder<Collection<T>> loadCollection(Class<T> clazz);
+//    <K,V> WaitLoadBuilder<Map<K,V>> loadMap(Class<K> key, Class<V> value);
 
     /**
      * 禁用接口

@@ -683,19 +683,23 @@ public abstract class AfActivity extends AppCompatActivity implements Pager, Vie
      * @param text   更新的文字
      */
     public void setProgressDialogText(CharSequence text) {
-        dialogBuilder.setProgressDialogText(text);
+        if (!isRecycled()) {
+            dialogBuilder.setProgressDialogText(text);
+        }
     }
     /**
      * 隐藏 进度对话框
      */
     public void hideProgressDialog() {
-        dialogBuilder.hideProgressDialog();
+        if (!isRecycled()) {
+            dialogBuilder.hideProgressDialog();
+        }
     }
     /**
      * 是否正在显示进度对话框
      */
     public boolean isProgressDialogShowing() {
-        return dialogBuilder != null && dialogBuilder.isProgressDialogShowing();
+        return !isRecycled() && dialogBuilder.isProgressDialogShowing();
     }
     //</editor-fold>
 

@@ -585,7 +585,7 @@ public abstract class AfFragment extends Fragment implements Pager, ViewQueryHel
      * @param message 消息
      */
     public Dialog showProgressDialog(CharSequence message) {
-        if (dialogBuilder == null) {
+        if (dialogBuilder == null || getHost() == null) {
             dialogBuilder = AfApp.get().newDialogBuilder(getContext());
         }
         return dialogBuilder.showProgressDialog(message);
@@ -596,7 +596,7 @@ public abstract class AfFragment extends Fragment implements Pager, ViewQueryHel
      * @param text   更新的文字
      */
     public void setProgressDialogText(CharSequence text) {
-        if (dialogBuilder == null) {
+        if (dialogBuilder == null || getHost() == null) {
             return;
         }
         dialogBuilder.setProgressDialogText(text);
@@ -605,7 +605,7 @@ public abstract class AfFragment extends Fragment implements Pager, ViewQueryHel
      * 隐藏 进度对话框
      */
     public void hideProgressDialog() {
-        if (dialogBuilder == null) {
+        if (dialogBuilder == null || getHost() == null) {
             return;
         }
         dialogBuilder.hideProgressDialog();
@@ -615,7 +615,7 @@ public abstract class AfFragment extends Fragment implements Pager, ViewQueryHel
      * 是否正在显示进度对话框
      */
     public boolean isProgressDialogShowing() {
-        return dialogBuilder != null && dialogBuilder.isProgressDialogShowing();
+        return getHost() != null && dialogBuilder != null && dialogBuilder.isProgressDialogShowing();
     }
 
     //</editor-fold>

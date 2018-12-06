@@ -13,7 +13,9 @@ public class InternalTask extends AfHandlerTask {
     protected TaskBuilder builder;
 
     public InternalTask(TaskBuilder builder) {
+        super();
         this.builder = builder;
+        this.mMasterName = builder.mMasterName;
     }
 
     @Override

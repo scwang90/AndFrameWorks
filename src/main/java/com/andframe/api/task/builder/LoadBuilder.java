@@ -51,14 +51,14 @@ public interface LoadBuilder<T> extends Builder {
     Builder success(Runnable runnable);
     @Deprecated
     <TT> LoadBuilder<TT> load(LoadingHandler<TT> handler);
-    @Deprecated
-    <TT> LoadBuilder<TT> load(Class<TT> clazz);
-    @Deprecated
-    <TT> LoadBuilder<Set<TT>> loadSet(Class<TT> clazz);
-    @Deprecated
-    <TT> LoadBuilder<List<TT>> loadList(Class<TT> clazz);
-    @Deprecated
-    <TT> LoadBuilder<Collection<TT>> loadCollection(Class<TT> clazz);
-    @Deprecated
-    <K,V> LoadBuilder<Map<K,V>> loadMap(Class<K> key, Class<V> value);
+//    @Deprecated
+//    <TT> LoadBuilder<TT> load(Class<TT> clazz);
+//    @Deprecated
+//    <TT> LoadBuilder<Set<TT>> loadSet(Class<TT> clazz);
+//    @Deprecated
+//    <TT> LoadBuilder<List<TT>> loadList(Class<TT> clazz);
+//    @Deprecated
+//    <TT> LoadBuilder<Collection<TT>> loadCollection(Class<TT> clazz);
+//    @Deprecated
+//    <K,V> LoadBuilder<Map<K,V>> loadMap(Class<K> key, Class<V> value);
 }

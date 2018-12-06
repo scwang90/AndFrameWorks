@@ -70,7 +70,7 @@ public class AfTaskExecutor implements TaskExecutor {
      * information on the order of execution.
      */
     @MainThread
-    public void execute(WorkingHandler runnable) {
+    public void execute(@NonNull WorkingHandler runnable) {
         sDefaultExecutor.execute(() -> {
             try {
                 runnable.onWorking();
@@ -81,13 +81,13 @@ public class AfTaskExecutor implements TaskExecutor {
     }
 
     @MainThread
-    public void execute(Task task) {
+    public void execute(@NonNull Task task) {
         if (task.status() != Task.Status.canceled && task.prepare()) {
             sDefaultExecutor.execute(task);
         }
     }
 
-    public <T extends Task> T postTask(T task) {
+    public <T extends Task> T postTask(@NonNull T task) {
         task.reset();
         if (Looper.getMainLooper().getThread() == Thread.currentThread()) {
             execute(task);
@@ -97,7 +97,7 @@ public class AfTaskExecutor implements TaskExecutor {
         return task;
     }
 
-    public <T extends Task> T postTask(T task, long delay) {
+    public <T extends Task> T postTask(@NonNull T task, long delay) {
         task.reset();
         AfDispatcher.dispatch(() -> execute(task), delay);
         return task;
@@ -106,6 +106,11 @@ public class AfTaskExecutor implements TaskExecutor {
     @Override
     public Builder builder() {
         return new TaskBuilder();
+    }
+
+    @Override
+    public Builder builder(@NonNull Object master) {
+        return new TaskBuilder(master);
     }
 
     //    /**
