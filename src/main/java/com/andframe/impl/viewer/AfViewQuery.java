@@ -1084,6 +1084,26 @@ public class AfViewQuery<T extends AfViewQuery<T>> implements ViewQuery<T> {
     }
 
     @Override
+    public int top() {
+        return foreach(View.class, View::getTop);
+    }
+
+    @Override
+    public int left() {
+        return foreach(View.class, View::getLeft);
+    }
+
+    @Override
+    public int right() {
+        return foreach(View.class, View::getRight);
+    }
+
+    @Override
+    public int bottom() {
+        return foreach(View.class, View::getBottom);
+    }
+
+    @Override
     public T marginLeft(int px) {
         return foreach(view -> {
             LayoutParams lp = view.getLayoutParams();

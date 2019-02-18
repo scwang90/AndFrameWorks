@@ -588,6 +588,13 @@ public interface ViewQuery<T extends ViewQuery<T>> {
 
     //</editor-fold>
 
+    //<editor-fold desc="坐标读取">
+    int top();
+    int left();
+    int right();
+    int bottom();
+    //</editor-fold>
+
     //</editor-fold>
 
     //<editor-fold desc="视图变换">

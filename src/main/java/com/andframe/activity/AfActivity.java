@@ -293,10 +293,10 @@ public abstract class AfActivity extends AppCompatActivity implements Pager, Vie
      */
     @CallSuper
     protected void onCreated(Bundle bundle) {
-        super.onCreate(bundle);
         if (bundle != null) {
             AfApp.get().onRestoreInstanceState();
         }
+        super.onCreate(bundle);
     }
 
     @Override
