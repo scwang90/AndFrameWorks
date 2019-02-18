@@ -12,11 +12,11 @@ public class ApServerException extends AfToastException {
     }
 
     public ApServerException(String message) {
-        super((AfApp.get().isDebug() ? "服务器返回：" : "") + message);
+        super((AfApp.get().isDebug() ? "服务器返回：" : "@") + message);
     }
 
     public ApServerException(String message, Throwable cause) {
-        super((AfApp.get().isDebug() ? "服务器返回：" : "") + message, cause);
+        super((AfApp.get().isDebug() ? "服务器返回：" : "@") + message, cause);
     }
 
     public ApServerException(Throwable cause) {

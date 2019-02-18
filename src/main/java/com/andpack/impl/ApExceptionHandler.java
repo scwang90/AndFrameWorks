@@ -23,13 +23,13 @@ public class ApExceptionHandler extends AfExceptionHandler {
                 e = new AfToastException("服务器返回：" + e.getMessage(), e);
             } else {
             }
-        } else */if (e instanceof ConnectException || e instanceof UnknownHostException) {
+        } else if (e instanceof ConnectException || e instanceof UnknownHostException) {
             e = new AfToastException("连接服务器失败", e);
         } else if (e instanceof SocketTimeoutException || e instanceof ConnectTimeoutException) {
             e = new AfToastException("网络请求超时", e);
         } else if (e instanceof TimeoutException) {
             e = new AfToastException("请求超时", e);
-        }
+        }*/
 
         return super.onHandleTip(e, tip);
     }
