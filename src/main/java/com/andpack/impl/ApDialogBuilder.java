@@ -9,8 +9,11 @@ import android.view.Gravity;
 import android.view.View;
 import android.widget.AdapterView;
 
+import com.andframe.api.dialog.DialogBuilder;
 import com.andframe.feature.AfDialogBuilder;
+import com.andframe.impl.dialog.DefaultDialogBuilder;
 import com.andframe.listener.SafeListener;
+import com.andpack.impl.dialog.PackBuilder;
 import com.flyco.dialog.listener.OnBtnClickL;
 import com.flyco.dialog.widget.ActionSheetDialog;
 import com.flyco.dialog.widget.NormalDialog;
@@ -29,6 +32,11 @@ public class ApDialogBuilder extends AfDialogBuilder {
     public ApDialogBuilder(Context context) {
         super(context);
         mBuildNative = true;
+    }
+
+    @Override
+    public DialogBuilder builder(boolean autoShow) {
+        return new DefaultDialogBuilder(mContext, new PackBuilder(), autoShow);
     }
 
     @Override

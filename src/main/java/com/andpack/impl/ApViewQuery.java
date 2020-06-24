@@ -3,7 +3,7 @@ package com.andpack.impl;
 import android.widget.ImageView;
 
 import com.andframe.api.viewer.Viewer;
-import com.andframe.impl.viewer.AfViewQuery;
+import com.andframe.impl.viewer.DefaultViewQuery;
 import com.nostra13.universalimageloader.core.ImageLoader;
 import com.nostra13.universalimageloader.core.assist.ImageSize;
 
@@ -11,7 +11,7 @@ import com.nostra13.universalimageloader.core.assist.ImageSize;
  *
  * Created by SCWANG on 2016/8/15.
  */
-public class ApViewQuery extends AfViewQuery<ApViewQuery> {
+public class ApViewQuery extends DefaultViewQuery<ApViewQuery> {
 
     public ApViewQuery(Viewer view) {
         super(view);
@@ -25,12 +25,7 @@ public class ApViewQuery extends AfViewQuery<ApViewQuery> {
             }
             String furl = url;
             return foreach(ImageView.class, (view)-> {
-//                ViewGroup.LayoutParams params = view.getLayoutParams();
-//                if (params != null && params.height > 0 && params.width > 0) {
-//                    ImageLoader.getInstance().displayImage(furl, view, new ImageSize(params.width, params.height));
-//                } else {
-                    ImageLoader.getInstance().displayImage(furl, view);
-//                }
+                ImageLoader.getInstance().displayImage(furl, view);
             });
         }
         return self();

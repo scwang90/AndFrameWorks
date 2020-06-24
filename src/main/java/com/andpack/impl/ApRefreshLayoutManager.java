@@ -6,11 +6,15 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.view.ViewParent;
 
+import com.andframe.api.pager.items.MoreLayoutManager;
+import com.andframe.api.pager.items.OnMoreListener;
 import com.andframe.api.pager.status.OnRefreshListener;
 import com.andframe.api.pager.status.RefreshLayoutManager;
 import com.scwang.smartrefresh.layout.SmartRefreshLayout;
+import com.scwang.smartrefresh.layout.api.RefreshFooter;
 import com.scwang.smartrefresh.layout.api.RefreshHeader;
 import com.scwang.smartrefresh.layout.constant.RefreshState;
+import com.scwang.smartrefresh.layout.footer.ClassicsFooter;
 import com.scwang.smartrefresh.layout.header.BezierRadarHeader;
 import com.scwang.smartrefresh.layout.header.ClassicsHeader;
 
@@ -25,7 +29,7 @@ import static android.widget.ListPopupWindow.WRAP_CONTENT;
  */
 
 @SuppressWarnings("unused")
-public class ApRefreshLayoutManager implements RefreshLayoutManager<SmartRefreshLayout> {
+public class ApRefreshLayoutManager implements RefreshLayoutManager<SmartRefreshLayout>, MoreLayoutManager {
 
     protected final SmartRefreshLayout mRefreshLayout;
 
@@ -35,28 +39,35 @@ public class ApRefreshLayoutManager implements RefreshLayoutManager<SmartRefresh
 
     public ApRefreshLayoutManager(Context context) {
         mRefreshLayout = new SmartRefreshLayout(context);
-        mRefreshLayout.setRefreshHeader(newHeader(context));
-        mRefreshLayout.setEnableLoadMore(false);
-        mRefreshLayout.setEnableOverScrollBounce(false);
+        initRefreshLayout(mRefreshLayout);
     }
 
     public ApRefreshLayoutManager(Context context, int primaryId, int frontId) {
         mRefreshLayout = new SmartRefreshLayout(context);
-        mRefreshLayout.setRefreshHeader(newHeader(context));
-        mRefreshLayout.setEnableLoadMore(false);
         mRefreshLayout.setPrimaryColorsId(primaryId, frontId);
-        mRefreshLayout.setEnableOverScrollBounce(false);
+        initRefreshLayout(mRefreshLayout);
     }
 
     public ApRefreshLayoutManager(SmartRefreshLayout refreshLayout) {
         mRefreshLayout = refreshLayout;
-        mRefreshLayout.setRefreshHeader(newHeader(refreshLayout.getContext()));
-        mRefreshLayout.setEnableLoadMore(false);
-        mRefreshLayout.setEnableOverScrollBounce(false);
+        initRefreshLayout(refreshLayout);
+    }
+
+    protected void initRefreshLayout(SmartRefreshLayout refreshLayout) {
+        refreshLayout.setEnableLoadMore(false);
+        refreshLayout.setEnableOverScrollBounce(false);
+        refreshLayout.setRefreshHeader(newHeader(refreshLayout.getContext()));
+        refreshLayout.setRefreshFooter(newFooter(refreshLayout.getContext()));
+        refreshLayout.setEnableLoadMoreWhenContentNotFull(false);
+        refreshLayout.setEnableFooterFollowWhenNoMoreData(true);
     }
 
     protected RefreshHeader newHeader(Context context) {
         return new BezierRadarHeader(context);
+    }
+
+    protected RefreshFooter newFooter(Context context) {
+        return new ClassicsFooter(context);
     }
 
     @NonNull
@@ -94,6 +105,11 @@ public class ApRefreshLayoutManager implements RefreshLayoutManager<SmartRefresh
         mRefreshLayout.finishRefresh(success);
     }
 
+    @Override
+    public void autoRefresh() {
+        mRefreshLayout.autoRefresh();
+    }
+
     //    @Override
 //    public void setRefreshComplete() {
 //        mRefreshLayout.finishRefresh();
@@ -108,7 +124,7 @@ public class ApRefreshLayoutManager implements RefreshLayoutManager<SmartRefresh
     public void setOnRefreshListener(OnRefreshListener listener) {
         mRefreshLayout.setOnRefreshListener(refreshLayout -> {
             if (!listener.onRefresh()) {
-                mRefreshLayout.finishRefresh(0, false);
+                mRefreshLayout.finishRefresh(0, false, null);
             }
         });
     }
@@ -124,5 +140,25 @@ public class ApRefreshLayoutManager implements RefreshLayoutManager<SmartRefresh
     @Override
     public boolean isRefreshing() {
         return mRefreshLayout.getState() == RefreshState.Refreshing;
+    }
+
+    @Override
+    public void setOnMoreListener(OnMoreListener listener) {
+        mRefreshLayout.setOnLoadMoreListener((refreshLayout)-> listener.onMore());
+    }
+
+    @Override
+    public void setLoadMoreEnabled(boolean enable) {
+        mRefreshLayout.setEnableLoadMore(enable);
+    }
+
+    @Override
+    public void setNoMoreData(boolean noMoreData) {
+        mRefreshLayout.setNoMoreData(noMoreData);
+    }
+
+    @Override
+    public void finishLoadMore() {
+        mRefreshLayout.finishLoadMore();
     }
 }

@@ -59,12 +59,12 @@ public class ApPickerCameraFragment extends ApFragment {
         Intent cameraIntent = new Intent(MediaStore.ACTION_IMAGE_CAPTURE);
         if(cameraIntent.resolveActivity(getActivity().getPackageManager()) != null){
             if(mTmpCameraFile != null && mTmpCameraFile.exists() && !mTmpCameraFile.delete() && ApApp.get().isDebug()) {
-                makeToastShort("图片错误");
+                toast("图片错误");
             }
             cameraIntent.putExtra(MediaStore.EXTRA_OUTPUT, Uri.fromFile(mTmpCameraFile));
             startActivityForResult(cameraIntent, REQUEST_CAMERA);
         }else{
-            makeToastShort("没有系统相机");
+            toast("没有系统相机");
         }
     }
     /**

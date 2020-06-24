@@ -26,7 +26,7 @@ import java.util.Map;
  * Created by SCWANG on 2016/9/1.
  */
 @SuppressWarnings("unused")
-public class ApFragmentActivity extends AfFragmentActivity implements ApPager {
+public class ApFragmentActivity extends AfFragmentActivity {
 
     protected ApPagerHelper mApHelper = new ApPagerHelper(this);
 
@@ -58,16 +58,7 @@ public class ApFragmentActivity extends AfFragmentActivity implements ApPager {
     }
 
     @Override
-    public View findViewById(int id) {
-        View v = super.findViewById(id);
-        if (v == null)
-            return mApHelper.findViewById(id);
-        return v;
-    }
-
-    @Override
     protected void onPostCreate(Bundle savedInstanceState) {
-
         mApHelper.onPostCreate(savedInstanceState);
         super.onPostCreate(savedInstanceState);
     }
@@ -90,10 +81,9 @@ public class ApFragmentActivity extends AfFragmentActivity implements ApPager {
         ApFragmentActivity.startResult(this, clazz, request, args);
     }
 
-    @Override
-    public void postEvent(Object event) {
-        mApHelper.postEvent(event);
-    }
+    //<editor-fold desc="权限获取">
+
+    //</editor-fold>
 
     //<editor-fold desc="跳转封装">
     public static void  start(Pager pager, Class<? extends Fragment> clazz, Object... params){

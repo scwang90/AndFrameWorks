@@ -1,22 +1,12 @@
 apply plugin: 'com.android.library'
-apply plugin: 'me.tatarka.retrolambda'
-
-repositories {
-//    maven {
-//        //ExpandableLayout
-//        url "https://jitpack.io"
-//    }
-//    maven {
-//        url 'https://oss.sonatype.org/content/repositories/snapshots'
-//    }
-}
+//apply plugin: 'me.tatarka.retrolambda'
 
 android {
     compileSdkVersion 28
     buildToolsVersion '28.0.3'
 
     defaultConfig {
-        minSdkVersion 14
+        minSdkVersion 16
         targetSdkVersion 28
         versionCode 1
         versionName "1.0"
@@ -38,20 +28,25 @@ dependencies {
     api fileTree(dir: 'libs', include: ['*.jar'])
     api project(':andframe-v14')
 
-    debugImplementation 'com.squareup.leakcanary:leakcanary-android:1.5.4'
-    releaseImplementation 'com.squareup.leakcanary:leakcanary-android-no-op:1.5.4'
-    testImplementation 'com.squareup.leakcanary:leakcanary-android-no-op:1.5.4'
+    debugImplementation 'com.squareup.leakcanary:leakcanary-android:1.6.3'
+    releaseImplementation 'com.squareup.leakcanary:leakcanary-android-no-op:1.6.3'
+    testImplementation 'com.squareup.leakcanary:leakcanary-android-no-op:1.6.3'
     testImplementation 'junit:junit:4.12'
 
     api 'com.android.support:appcompat-v7:28.0.0'
     api 'com.android.support:recyclerview-v7:28.0.0'
     api 'com.flyco.dialog:FlycoDialog_Lib:1.3.2@aar'
-    api('com.lzy.widget:imagepicker:0.3.2') {
-        exclude group: 'com.android.support'
-    }
+    api 'com.zhihu.android:matisse:0.5.2-beta4'
+    //noinspection GradleDependency
+    api 'com.theartofdev.edmodo:android-image-cropper:2.7.0'
     api 'com.nostra13.universalimageloader:universal-image-loader:1.9.5'
-    api 'com.scwang.smartrefresh:SmartRefreshLayout:1.1.0-alpha-14'
+    api 'com.scwang.smartrefresh:SmartRefreshLayout:1.1.3'
     api 'me.imid.swipebacklayout.lib:library:1.1.0'
     api 'org.greenrobot:eventbus:3.1.1'
 
+    api ("com.github.hotchemi:permissionsdispatcher:3.3.2")  {
+        // if you don't use android.app.Fragment you can exclude support for them
+        exclude module: "support-v13"
+    }
+    annotationProcessor "com.github.hotchemi:permissionsdispatcher-processor:3.3.2"
 }

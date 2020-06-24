@@ -1,5 +1,6 @@
 package com.andpack.application;
 
+import android.app.Activity;
 import android.support.v4.app.Fragment;
 
 import com.andframe.activity.AfActivity;
@@ -26,9 +27,9 @@ public class ApPagerManager extends AfPagerManager {
 
     @Override
     public void startFragment(Class<? extends Fragment> clazz, Object... args) {
-        AfActivity activity = currentActivity();
-        if (activity != null && !activity.isRecycled()) {
-            activity.startFragment(clazz, args);
+        Activity activity = currentActivity();
+        if (activity instanceof AfActivity) {
+            ((AfActivity) activity).startFragment(clazz, args);
         } else {
             ApFragmentActivity.start(null, clazz, args);
         }

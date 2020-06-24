@@ -1,6 +1,7 @@
 package com.andpack.annotation;
 
 import android.support.annotation.StringRes;
+import android.view.View;
 
 import java.lang.annotation.ElementType;
 import java.lang.annotation.Retention;
@@ -15,6 +16,6 @@ import java.lang.annotation.Target;
 @Retention(RetentionPolicy.RUNTIME)
 public @interface BindTitle {
     @StringRes
-    int value() default 0;
+    int value() default View.NO_ID;
     String title() default "";
 }

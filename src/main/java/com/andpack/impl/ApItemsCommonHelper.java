@@ -10,7 +10,7 @@ import android.view.View;
 import android.view.ViewGroup;
 
 import com.andframe.activity.AfActivity;
-import com.andframe.adapter.itemviewer.AfBindItemViewer;
+import com.andframe.adapter.item.BindListItemViewer;
 import com.andframe.annotation.interpreter.LayoutBinder;
 import com.andframe.api.query.ViewQuery;
 import com.andframe.util.java.AfReflecter;
@@ -98,7 +98,7 @@ public class ApItemsCommonHelper<T> extends ApItemsHelper<T> {
      * 通用Item实现
      * Created by SCWANG on 2017/3/27.
      */
-    public static abstract class ApCommonItemViewer<T> extends AfBindItemViewer<T> {
+    public static abstract class ApCommonItemViewer<T> extends BindListItemViewer<T> {
 
         protected Set<Integer> ensureSet = new HashSet<>();
         protected boolean ensureLayout = false;

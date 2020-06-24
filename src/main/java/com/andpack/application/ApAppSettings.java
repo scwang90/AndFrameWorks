@@ -3,14 +3,14 @@ package com.andpack.application;
 import android.content.Context;
 
 import com.andframe.application.AfApp;
-import com.andframe.application.AfAppSettings;
+import com.andframe.application.AppSettings;
 
 /**
  *
  * Created by SCWANG on 2016/12/28.
  */
 
-public class ApAppSettings extends AfAppSettings {
+public class ApAppSettings extends AppSettings {
 
     //是否开启自动更新
     public static final String KEY_BL_ISAUTOUPDATE = "KEY_BL_ISAUTOUPDATE";

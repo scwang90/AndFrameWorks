@@ -17,7 +17,7 @@ import java.util.concurrent.TimeoutException;
 public class ApExceptionHandler extends AfExceptionHandler {
 
     @Override
-    public String onHandleTip(Throwable e, String tip) {
+    public String onHandleTip(Throwable e, CharSequence tip) {
         /*if (e instanceof ApServerException) {
             if (AfApp.get().isDebug()) {
                 e = new AfToastException("服务器返回：" + e.getMessage(), e);

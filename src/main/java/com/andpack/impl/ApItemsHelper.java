@@ -1,6 +1,6 @@
 package com.andpack.impl;
 
-import com.andframe.adapter.AfLayoutItemViewerAdapter;
+import com.andframe.adapter.LayoutItemViewerAdapter;
 import com.andframe.api.adapter.ItemsViewerAdapter;
 import com.andframe.api.query.ViewQuery;
 import com.andframe.util.java.AfReflecter;
@@ -44,10 +44,10 @@ public class ApItemsHelper<T> extends ApStatusHelper {
 
     public ItemsViewerAdapter<T> newAdapter(List<T> list) {
         if (mItemLayout != null) {
-            return new AfLayoutItemViewerAdapter<T>(mItemLayout.value(), list) {
+            return new LayoutItemViewerAdapter<T>(mItemLayout.value(), list) {
                 @Override
-                protected void onBinding(ViewQuery<? extends ViewQuery> $, T model, int index) {
-                    mItemPager.onItemBinding($, model, index);
+                protected void onBinding(T model, int index) {
+                    mItemPager.onItemBinding($$, model, index);
                 }
             };
         }

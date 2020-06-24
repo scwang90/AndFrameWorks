@@ -12,9 +12,9 @@ import com.andframe.$;
 import com.andframe.R;
 import com.andframe.api.query.ViewQuery;
 import com.andframe.util.java.AfReflecter;
-import com.andframe.widget.treeview.AfTreeEstablisher;
-import com.andframe.widget.treeview.AfTreeViewAdapter;
-import com.andframe.widget.treeview.AfTreeViewItemViewer;
+import com.andframe.widget.tree.TreeBuilder;
+import com.andframe.widget.tree.TreeViewItemAdapter;
+import com.andframe.widget.tree.SelectTreeItemViewer;
 
 import java.util.ArrayList;
 import java.util.Arrays;
@@ -32,17 +32,17 @@ import static com.andframe.R.color.colorTextTitle;
  * View 控件 树形展开适配器
  * Created by SCWANG on 2016/9/12.
  */
-public class ApViewTreeAdapter extends AfTreeViewAdapter<View> {
+public class ApViewTreeItemAdapter extends TreeViewItemAdapter<View> {
 
-    public ApViewTreeAdapter(View root) {
+    public ApViewTreeItemAdapter(View root) {
         super(new ArrayList<>(Collections.singletonList(root)),
-              new AfTreeEstablisher<>(model -> Arrays.asList($.query(model).children())),
+              new TreeBuilder<>(model -> Arrays.asList($.query(model).children())),
                 true);
     }
 
     @Override
-    protected AfTreeViewItemViewer<View> newTreeViewItem(int viewType) {
-        return new AfTreeViewItemViewer<View>(android.R.layout.activity_list_item) {
+    protected SelectTreeItemViewer<View> newTreeViewItem(int viewType) {
+        return new SelectTreeItemViewer<View>(android.R.layout.activity_list_item) {
             @Override
             public View onCreateView(ViewGroup parent, Context context) {
                 LinearLayout root = new LinearLayout(context);

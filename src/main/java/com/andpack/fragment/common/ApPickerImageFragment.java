@@ -1,24 +1,24 @@
 package com.andpack.fragment.common;
 
 import android.app.Activity;
+import android.content.pm.ActivityInfo;
+import android.net.Uri;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.ImageView;
 
 import com.andframe.$;
-import com.andframe.annotation.lifecycle.OnDestroy;
 import com.andframe.annotation.view.BindViewCreated;
 import com.andframe.api.pager.Pager;
 import com.andframe.feature.AfIntent;
+import com.andpack.R;
 import com.andpack.fragment.ApFragment;
-import com.lzy.imagepicker.ImagePicker;
-import com.lzy.imagepicker.bean.ImageItem;
-import com.lzy.imagepicker.loader.ImageLoader;
-import com.lzy.imagepicker.ui.ImageGridActivity;
+import com.andpack.impl.ApCommonBarBinder;
+import com.scwang.smartrefresh.layout.util.SmartUtil;
+import com.zhihu.matisse.Matisse;
+import com.zhihu.matisse.MimeType;
 
 import java.io.File;
-import java.util.ArrayList;
 import java.util.Collection;
 import java.util.List;
 
@@ -58,8 +58,9 @@ public class ApPickerImageFragment extends ApFragment {
         return new View(inflater.getContext());
     }
 
-    @OnDestroy
-    public void onDestory() {
+    @Override
+    public void onDestroy() {
+        super.onDestroy();
         selectedListener = null;
     }
 
@@ -69,17 +70,23 @@ public class ApPickerImageFragment extends ApFragment {
             finish();
             return;
         }
-        ImagePicker imagePicker = ImagePicker.getInstance();
-        imagePicker.setMultiMode(selectedListener instanceof MultiSelectedListner);
-        if (imagePicker.getImageLoader() == null) {
-            imagePicker.setImageLoader(new ImageLoader() {
-                public void displayImage(Activity activity, String path, ImageView imageView, int width, int height) {
-                    $(imageView).image(path, width, height);
-                }
-                public void clearMemoryCache() {}
-            });
-        }
-        startActivityForResult(ImageGridActivity.class,REQUEST_IMAGE);
+
+        doCameraWithPermissionCheck(()-> Matisse.from(this)
+                .choose(MimeType.ofImage())
+                .countable(true)
+                .maxSelectable(9)
+                .theme(R.style.Matisse_Dracula)
+//                        .addFilter(new GifSizeFilter(320, 320, 5 * Filter.K * Filter.K))
+//                        .gridExpectedSize(getResources().getDimensionPixelSize(R.dimen.grid_expected_size))
+                .gridExpectedSize(SmartUtil.dp2px(120))
+                .restrictOrientation(ActivityInfo.SCREEN_ORIENTATION_PORTRAIT)
+                .thumbnailScale(0.85f)
+                .imageEngine(new ApCommonBarBinder.ImageLoaderEngine())
+                .forResult(REQUEST_IMAGE));
+//        ImagePicker imagePicker = ImagePicker.getInstance();
+//        imagePicker.setMultiMode(selectedListener instanceof MultiSelectedListner);
+//        startActivityForResult(ImageGridActivity.class,REQUEST_IMAGE);
+
     }
     /**
      * 页面跳转数据返回接受和处理
@@ -89,24 +96,21 @@ public class ApPickerImageFragment extends ApFragment {
      */
     @Override
     protected void onActivityResult(final AfIntent intent, int requestCode, int resultCode) {
-        if (requestCode == REQUEST_IMAGE) {
+        if (requestCode == REQUEST_IMAGE && resultCode == Activity.RESULT_OK) {
             if (intent != null) {
-                //noinspection unchecked
-                List<ImageItem> images = (ArrayList<ImageItem>) intent.getSerializableExtra(ImagePicker.EXTRA_RESULT_ITEMS);
+                List<String> images = Matisse.obtainPathResult(intent);
                 if (images != null && images.size() > 0) {
                     if (selectedListener instanceof MultiSelectedListner) {
-                        ((MultiSelectedListner) selectedListener).onSelected($.query(images).map(i -> new File(i.path)));
+                        ((MultiSelectedListner) selectedListener).onSelected($.query(images).map(i -> new File(i)));
                     } else if (selectedListener instanceof SingleSelectedListener){
-                        ((SingleSelectedListener) selectedListener).onSelected(new File(images.get(0).path));
+                        ((SingleSelectedListener) selectedListener).onSelected(new File(images.get(0)));
                     }
                 } else {
-                    makeToastShort("没有选择数据");
+                    toast("没有选择数据");
                 }
             } else {
-                makeToastShort("没有选择数据");
+                toast("没有选择数据");
             }
-            finish();
-            finish();
         }
     }
 

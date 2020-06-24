@@ -1,31 +1,34 @@
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
     package="com.andpack">
-    <!--xmlns:tools="http://schemas.android.com/tools"-->
 
-    <application
-        android:label="@string/app_name">
-        <!--tools:replace="android:theme"-->
-        <!--android:theme="@style/AppTheme.SwipeBack"-->
+    <application>
 
         <activity android:name=".activity.ApFragmentActivity"
-            android:screenOrientation="portrait"
-            android:theme="@style/AppTheme.SwipeBack"/>
+                android:screenOrientation="portrait"
+                android:configChanges="orientation|keyboardHidden|screenSize"
+                android:theme="@style/AppTheme.SwipeBack"/>
 
         <activity android:name=".activity.ApFragmentSingleTopActivity"
-            android:screenOrientation="portrait"
-            android:theme="@style/AppTheme.SwipeBack"
-            android:launchMode="singleTop"/>
+                android:screenOrientation="portrait"
+                android:configChanges="orientation|keyboardHidden|screenSize"
+                android:theme="@style/AppTheme.SwipeBack"
+                android:launchMode="singleTop"/>
 
         <activity android:name=".activity.ApFragmentSingleInstanceActivity"
-            android:screenOrientation="portrait"
-            android:theme="@style/AppTheme.SwipeBack"
-            android:launchMode="singleInstance"/>
+                android:screenOrientation="portrait"
+                android:configChanges="orientation|keyboardHidden|screenSize"
+                android:theme="@style/AppTheme.SwipeBack"
+                android:launchMode="singleInstance"/>
 
         <activity android:name=".activity.ApFragmentSingleTaskActivity"
-            android:screenOrientation="portrait"
-            android:theme="@style/AppTheme.SwipeBack"
-            android:launchMode="singleTask"/>
+                android:screenOrientation="portrait"
+                android:configChanges="orientation|keyboardHidden|screenSize"
+                android:theme="@style/AppTheme.SwipeBack"
+                android:launchMode="singleTask"/>
 
+        <activity android:name="com.theartofdev.edmodo.cropper.CropImageActivity"
+                android:theme="@style/Base.Theme.AppCompat"
+                android:screenOrientation="portrait"/>
     </application>
 
 </manifest>

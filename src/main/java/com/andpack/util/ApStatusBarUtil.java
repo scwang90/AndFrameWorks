@@ -204,7 +204,10 @@ public class ApStatusBarUtil {
      * 设置MIUI6+的状态栏是否为darkMode,darkMode时候字体颜色及icon变黑
      * http://dev.xiaomi.com/doc/p=4769/
      */
-    public static boolean darkModeForMIUI6(Window window, boolean darkmode) {
+    public static boolean darkModeForMIUI6(Window window, boolean dark) {
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M) {
+            darkModeForM(window, dark);
+        }
         Class<? extends Window> clazz = window.getClass();
         try {
             int darkModeFlag = 0;
@@ -212,7 +215,7 @@ public class ApStatusBarUtil {
             Field field = layoutParams.getField("EXTRA_FLAG_STATUS_BAR_DARK_MODE");
             darkModeFlag = field.getInt(layoutParams);
             Method extraFlagField = clazz.getMethod("setExtraFlags", int.class, int.class);
-            extraFlagField.invoke(window, darkmode ? darkModeFlag : 0, darkModeFlag);
+            extraFlagField.invoke(window, dark ? darkModeFlag : 0, darkModeFlag);
             return true;
         } catch (Throwable e) {
             e.printStackTrace();

@@ -4,8 +4,11 @@ import android.app.Activity;
 import android.app.AlertDialog;
 import android.app.Dialog;
 import android.app.TimePickerDialog;
+import android.content.Context;
 import android.content.DialogInterface;
-import android.content.res.Resources;
+import android.content.pm.ActivityInfo;
+import android.graphics.drawable.Drawable;
+import android.net.Uri;
 import android.support.annotation.IdRes;
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
@@ -15,7 +18,6 @@ import android.text.Editable;
 import android.text.InputType;
 import android.text.TextUtils;
 import android.text.TextWatcher;
-import android.util.DisplayMetrics;
 import android.view.Gravity;
 import android.view.View;
 import android.view.ViewGroup;
@@ -36,20 +38,27 @@ import com.andframe.api.DialogBuilder;
 import com.andframe.api.DialogBuilder.OnDateSetVerifyListener;
 import com.andframe.api.DialogBuilder.OnDateTimeSetVerifyListener;
 import com.andframe.api.DialogBuilder.OnTimeSetVerifyListener;
+import com.andframe.api.pager.Pager;
 import com.andframe.api.task.builder.Builder;
 import com.andframe.api.task.builder.WaitBuilder;
 import com.andframe.api.query.ViewQuery;
 import com.andframe.api.viewer.Viewer;
 import com.andframe.feature.AfIntent;
 import com.andframe.listener.SafeListener;
-import com.andframe.task.AfDispatcher;
+import com.andframe.task.Dispatcher;
 import com.andframe.util.java.AfDateFormat;
-import com.andpack.application.ApApp;
-import com.lzy.imagepicker.ImagePicker;
-import com.lzy.imagepicker.bean.ImageItem;
-import com.lzy.imagepicker.ui.ImageGridActivity;
-import com.lzy.imagepicker.view.CropImageView;
+import com.andpack.R;
+import com.andpack.api.ApPager;
+import com.nostra13.universalimageloader.core.ImageLoader;
+import com.nostra13.universalimageloader.core.assist.ImageSize;
+import com.scwang.smartrefresh.layout.util.SmartUtil;
+import com.theartofdev.edmodo.cropper.CropImage;
+import com.theartofdev.edmodo.cropper.CropImageView;
+import com.zhihu.matisse.Matisse;
+import com.zhihu.matisse.MimeType;
+import com.zhihu.matisse.engine.ImageEngine;
 
+import java.io.File;
 import java.nio.charset.Charset;
 import java.text.DateFormat;
 import java.text.SimpleDateFormat;
@@ -91,7 +100,7 @@ public class ApCommonBarBinder {
         void text(@NonNull Binder binder, String text, int which);
     }
 
-    public interface MultiChoiceBind extends Bind<Void>  {
+    public interface MultiSelectBind extends Bind<Void>  {
         void text(@NonNull Binder binder, String text, int count, boolean[] checkedItems);
     }
 
@@ -111,7 +120,7 @@ public class ApCommonBarBinder {
         void verify(Date date, boolean verifyDateOnly) throws VerifyException;
     }
 
-    public interface MultiChoiceVerify {
+    public interface MultiSelectVerify {
         void verify(int count, boolean[] checkedItems) throws VerifyException;
     }
 
@@ -145,6 +154,15 @@ public class ApCommonBarBinder {
         return this;
     }
 
+    /**
+     * 智能获取与绑定
+     * 如果，CommonBar 的界面定义符合标准定义如下：
+     * 1.左边是 TextView 并且文本为 name 如 姓名
+     * 2.右边是 箭头图标、表示可点击
+     * 智能操作：
+     * 1.自动从左边的 TextView 获取 name，并智能设置 hint
+     * 2.自动绑定 parentView 的点击事件为触发事件
+     */
     public ApCommonBarBinder setSmart(boolean smart) {
         this.smart = smart;
         return this;
@@ -253,8 +271,8 @@ public class ApCommonBarBinder {
         return binder;
     }
 
-    public MultiChoiceBinder multiChoice(@IdRes int idValue, CharSequence[] items) {
-        MultiChoiceBinder binder = new MultiChoiceBinder(idValue, items);
+    public MultiSelectBinder multiSelect(@IdRes int idValue, CharSequence[] items) {
+        MultiSelectBinder binder = new MultiSelectBinder(idValue, items);
         binders.add(binder);
         return binder;
     }
@@ -279,6 +297,7 @@ public class ApCommonBarBinder {
         return new RadioGroupBinder(id);
     }
 
+    @SuppressWarnings("WeakerAccess")
     public abstract class Binder<T extends Binder, BT extends Bind<VT>, VT> implements View.OnClickListener{
         protected int idValue;
         protected String key = null;
@@ -288,7 +307,7 @@ public class ApCommonBarBinder {
         protected CharSequence actionTitle = "";
 
         protected Binder next;
-        protected VT lastval;
+        protected VT lastValue;
         protected BT bind;
         protected Runnable start;
         protected Runnable action;
@@ -320,10 +339,16 @@ public class ApCommonBarBinder {
             return $(idValue);
         }
 
+        /**
+         * 添加点击事件绑定
+         */
         public T click(int idClick) {
             return click($(idClick).view());
         }
 
+        /**
+         * 添加点击事件绑定
+         */
         public T click(View view) {
             if (!readOnly) {
                 $(view).clicked(this);
@@ -536,8 +561,8 @@ public class ApCommonBarBinder {
             NumberPicker picker = new NumberPicker(viewer.getContext());
             picker.setMinValue(minValue);
             picker.setMaxValue(maxValue);
-            if (lastval != null) {
-                picker.setValue(lastval);
+            if (lastValue != null) {
+                picker.setValue(lastValue);
             }
             picker.setFormatter(formatter);
             textview.setText(TextUtils.isEmpty(unit) ? "" : unit);
@@ -571,19 +596,19 @@ public class ApCommonBarBinder {
         public SelectNumber range(int min, int max) {
             minValue = Math.min(min,max);
             maxValue = Math.max(min,max);
-            lastval = lastval == null ? minValue : lastval;
+            lastValue = lastValue == null ? minValue : lastValue;
             return self();
         }
 
         public SelectNumber rangeAge() {
             minValue = 14;
             maxValue = 100;
-            lastval = lastval == null ? minValue : lastval;
+            lastValue = lastValue == null ? minValue : lastValue;
             return self();
         }
 
         private void onNumberSelected(NumberPicker picker, int value) {
-            lastval = value;
+            lastValue = value;
             $(idValue).text(String.valueOf(value)+(TextUtils.isEmpty(unit) ? "" : unit));
             if (key != null && picker != null) {
                 cacher.put(key, value);
@@ -622,10 +647,10 @@ public class ApCommonBarBinder {
             pickerDecimal2.setMinValue(0);
             pickerDecimal1.setMaxValue(9);
             pickerDecimal2.setMaxValue(9);
-            if (lastval != null) {
-                pickerInteger.setValue(lastval.intValue());
-                pickerDecimal1.setValue(Float.valueOf(lastval * 10).intValue() % 10);
-                pickerDecimal2.setValue(Float.valueOf(lastval * 100).intValue() % 10);
+            if (lastValue != null) {
+                pickerInteger.setValue(lastValue.intValue());
+                pickerDecimal1.setValue(Float.valueOf(lastValue * 10).intValue() % 10);
+                pickerDecimal2.setValue(Float.valueOf(lastValue * 100).intValue() % 10);
             }
             textPoint.setText(".");
             textPoint.setTextSize(30);
@@ -699,8 +724,8 @@ public class ApCommonBarBinder {
             if (value != null && value >= minValue && value <= maxValue) {
                 onNumberSelected(null, null, null,
                         value.intValue(),
-                        Float.valueOf(lastval * 10).intValue() % 10,
-                        Float.valueOf(lastval * 100).intValue() % 10);
+                        Float.valueOf(lastValue * 10).intValue() % 10,
+                        Float.valueOf(lastValue * 100).intValue() % 10);
             }
             return self();
         }
@@ -718,18 +743,18 @@ public class ApCommonBarBinder {
         public SelectFloat range(float min, float max) {
             minValue = Math.min(min,max);
             maxValue = Math.max(min,max);
-            lastval = lastval == null ? minValue : lastval;
+            lastValue = lastValue == null ? minValue : lastValue;
             return self();
         }
 
         private void onNumberSelected(NumberPicker pickerInteger, NumberPicker pickerDecimal1, NumberPicker pickerDecimal2, int valueInteger, int valueDecimal1, int valueDecimal2) {
-            lastval = (valueInteger * 100 + valueDecimal1 * 10 + valueDecimal2) / 100f;
-            $(idValue).text(String.valueOf(lastval)+(TextUtils.isEmpty(unit) ? "" : unit));
+            lastValue = (valueInteger * 100 + valueDecimal1 * 10 + valueDecimal2) / 100f;
+            $(idValue).text(String.valueOf(lastValue)+(TextUtils.isEmpty(unit) ? "" : unit));
             if (key != null && pickerInteger != null) {
-                cacher.put(key, lastval);
+                cacher.put(key, lastValue);
             }
             if (bind != null) {
-                bind.bind(this, lastval);
+                bind.bind(this, lastValue);
             }
         }
     }
@@ -761,11 +786,11 @@ public class ApCommonBarBinder {
                 picker.setMinValue(0);
                 picker.setMaxValue(9);
                 pickers.add(picker);
-                if (lastval != null) {
+                if (lastValue != null) {
                     if (pickers.size() <= accuracyInteger) {
-                        picker.setValue(Double.valueOf(lastval / Math.pow(10, accuracyInteger - pickers.size())).intValue() % 10);
+                        picker.setValue(Double.valueOf(lastValue / Math.pow(10, accuracyInteger - pickers.size())).intValue() % 10);
                     } else {
-                        picker.setValue(Double.valueOf(lastval * Math.pow(10, pickers.size() - accuracyInteger)).intValue() % 10);
+                        picker.setValue(Double.valueOf(lastValue * Math.pow(10, pickers.size() - accuracyInteger)).intValue() % 10);
                     }
                 }
             }
@@ -821,31 +846,31 @@ public class ApCommonBarBinder {
         }
 
         private void onNumberSelected(float value, List<NumberPicker> pickers) {
-            lastval = value;
-            $(idValue).text(String.valueOf(lastval)+(TextUtils.isEmpty(unit) ? "" : unit));
+            lastValue = value;
+            $(idValue).text(String.valueOf(lastValue)+(TextUtils.isEmpty(unit) ? "" : unit));
             if (key != null && pickers != null) {
-                cacher.put(key, lastval);
+                cacher.put(key, lastValue);
             }
             if (bind != null) {
-                bind.bind(this, lastval);
+                bind.bind(this, lastValue);
             }
         }
     }
 
-    public class MultiChoiceBinder extends Binder<MultiChoiceBinder, MultiChoiceBind, Void> implements DialogInterface.OnClickListener {
+    public class MultiSelectBinder extends Binder<MultiSelectBinder, MultiSelectBind, Void> implements DialogInterface.OnClickListener {
 
         private boolean[] checkedItems;
         private CharSequence[] items;
-        private MultiChoiceVerify verify;
+        private MultiSelectVerify verify;
 
-        MultiChoiceBinder(int idValue, CharSequence[] items) {
+        MultiSelectBinder(int idValue, CharSequence[] items) {
             super(idValue);
             this.items = items;
             this.checkedItems = new boolean[items.length];
             this.hintPrefix("请选择");
         }
 
-        public MultiChoiceBinder verify(MultiChoiceVerify verify) {
+        public MultiSelectBinder verify(MultiSelectVerify verify) {
             this.verify = verify;
             return self();
         }
@@ -866,7 +891,7 @@ public class ApCommonBarBinder {
             }
         }
 
-        public MultiChoiceBinder value(String text) {
+        public MultiSelectBinder value(String text) {
             for (int i = 0; i < items.length && text != null; i++) {
                 checkedItems[i] = text.contains(items[i]);
                 onClick(null, 0);
@@ -874,7 +899,7 @@ public class ApCommonBarBinder {
             return self();
         }
 
-        public MultiChoiceBinder value(boolean... checkedItems) {
+        public MultiSelectBinder value(boolean... checkedItems) {
             if (checkedItems.length == this.checkedItems.length) {
                 this.checkedItems = checkedItems;
                 onClick(new Dialog(viewer.getContext()), 0);
@@ -899,7 +924,7 @@ public class ApCommonBarBinder {
                 try {
                     verify.verify(count, checkedItems);
                 } catch (VerifyException e) {
-                    $.toast(viewer).makeToastShort(e.getMessage());
+                    $.toaster(viewer).toast(e.getMessage());
                     return;
                 }
             }
@@ -950,7 +975,7 @@ public class ApCommonBarBinder {
         @Override
         public void afterTextChanged(Editable s) {
             cacher.put(key, s.toString());
-            AfDispatcher.dispatch(() -> {
+            Dispatcher.dispatch(() -> {
                 if (bind != null) {
                     bind.bind(this, s.toString());
                 }
@@ -990,9 +1015,9 @@ public class ApCommonBarBinder {
                     action.run();
                 }
             };
-            $.dialog(viewer).inputText(hint, lastval == null ? $(idValue).text()
+            $.dialog(viewer).inputText(hint, lastValue == null ? $(idValue).text()
                     .replaceAll("^" + valuePrefix,"")
-                    .replaceAll(valueSuffix + "$","") : lastval, type, this);
+                    .replaceAll(valueSuffix + "$","") : lastValue, type, this);
         }
 
         public TextBinder value(Object text) {
@@ -1018,11 +1043,11 @@ public class ApCommonBarBinder {
                         value = verify.verify(value);
                     }
                 } catch (VerifyException e) {
-                    $.toast(viewer).makeToastShort(e.getMessage());
+                    $.toaster(viewer).toast(e.getMessage());
                     return false;
                 }
             }
-            lastval = value;
+            lastValue = value;
             $(idValue).text(valuePrefix + value + valueSuffix);
             if (key != null && input != null) {
                 cacher.put(key, value);
@@ -1159,7 +1184,7 @@ public class ApCommonBarBinder {
                 if (TextUtils.isEmpty(text)) {
                     throw new VerifyException("请输入" + name);
                 }
-                if (!text.matches("1[345789]\\d{9}")) {
+                if (!text.matches("1\\d{10}")) {
                     throw new VerifyException("请输入正确的" + name);
                 }
                 return text;
@@ -1371,9 +1396,9 @@ public class ApCommonBarBinder {
                 if(!o.matches("^\\d+$")){//if (!/^\d+$/.test(o)) {
                     throw new VerifyException(name + "除最后一位外，必须为数字！");
                 }
-                int y = Integer.valueOf(o.substring(6, 10));
-                int m = Integer.valueOf(o.substring(10, 12)) - 1;
-                int d = Integer.valueOf(o.substring(12, 14));
+                int y = Integer.parseInt(o.substring(6, 10));
+                int m = Integer.parseInt(o.substring(10, 12)) - 1;
+                int d = Integer.parseInt(o.substring(12, 14));
                 Calendar birth = Calendar.getInstance();
                 birth.set(Calendar.YEAR, y);
                 birth.set(Calendar.MONTH,m);
@@ -1387,7 +1412,7 @@ public class ApCommonBarBinder {
                 }
                 int g = 0,h = 0;
                 for (; g < 17; g++) {
-                    h = h + Integer.valueOf(o.charAt(g)+"") * b[g];
+                    h = h + Integer.parseInt(o.charAt(g)+"") * b[g];
                 }
                 o += ""+n[h %= 11];
                 if (text.length() == 18 && !text.toLowerCase(Locale.ENGLISH).equals(o)) {
@@ -1427,9 +1452,9 @@ public class ApCommonBarBinder {
                 if(!o.matches("^\\d+$")){//if (!/^\d+$/.test(o)) {
                     throw new VerifyException(name + "除最后一位外，必须为数字！");
                 }
-                int y = Integer.valueOf(o.substring(6, 10));
-                int m = Integer.valueOf(o.substring(10, 12)) - 1;
-                int d = Integer.valueOf(o.substring(12, 14));
+                int y = Integer.parseInt(o.substring(6, 10));
+                int m = Integer.parseInt(o.substring(10, 12)) - 1;
+                int d = Integer.parseInt(o.substring(12, 14));
                 Calendar birth = Calendar.getInstance();
                 birth.set(Calendar.YEAR, y);
                 birth.set(Calendar.MONTH, m);
@@ -1443,7 +1468,7 @@ public class ApCommonBarBinder {
                 }
 //                int g = 0,h = 0;
 //                for (; g < 17; g++) {
-//                    h = h + Integer.valueOf(o.charAt(g)+"") * b[g];
+//                    h = h + Integer.parseInt(o.charAt(g)+"") * b[g];
 //                }
 //                o += ""+n[h %= 11];
 //                if (idText.length() == 18 && !idText.toLowerCase(Locale.ENGLISH).equals(o)) {
@@ -1527,7 +1552,7 @@ public class ApCommonBarBinder {
 
         @Override
         public void start() {
-            $.dialog(viewer).inputLines(hint, lastval == null ? $(idValue).text().replace(valueSuffix,"") : lastval, type, this);
+            $.dialog(viewer).inputLines(hint, lastValue == null ? $(idValue).text().replace(valueSuffix,"") : lastValue, type, this);
         }
     }
 
@@ -1661,9 +1686,9 @@ public class ApCommonBarBinder {
         public T verifyBefore(AbstractDateBinder<? extends AbstractDateBinder> binder, String... names) {
             CharSequence name = getName("时间", names);
             return this.verify((date,verifyDateOnly) -> {
-                if (binder.lastval != null) {
+                if (binder.lastValue != null) {
                     date = verifyDateOnly ? AfDateFormat.roundDate(date) : date;
-                    Date value = verifyDateOnly ? AfDateFormat.roundDate(binder.lastval) : binder.lastval;
+                    Date value = verifyDateOnly ? AfDateFormat.roundDate(binder.lastValue) : binder.lastValue;
                     if (date.getTime() >= value.getTime()) {
                         if (verifyDateOnly && date.getTime() == value.getTime()) {
                             return;
@@ -1677,9 +1702,9 @@ public class ApCommonBarBinder {
         public T verifyBeforeWith(AbstractDateBinder<? extends AbstractDateBinder> binder, String... names) {
             CharSequence name = getName("时间", names);
             return this.verify((date,verifyDateOnly) -> {
-                if (binder.lastval != null) {
+                if (binder.lastValue != null) {
                     date = verifyDateOnly ? AfDateFormat.roundDate(date) : date;
-                    Date value = verifyDateOnly ? AfDateFormat.roundDate(binder.lastval) : binder.lastval;
+                    Date value = verifyDateOnly ? AfDateFormat.roundDate(binder.lastValue) : binder.lastValue;
                     if (date.getTime() > value.getTime()) {
                         if (binder.isManual || verifyDateOnly) {
                             throw new VerifyException(name + "不能晚于" + binder.getName("时间", names));
@@ -1695,9 +1720,9 @@ public class ApCommonBarBinder {
         public T verifyAfter(AbstractDateBinder<? extends AbstractDateBinder> binder, String... names) {
             CharSequence name = getName("时间", names);
             return this.verify((date,verifyDateOnly) -> {
-                if (binder.lastval != null) {
+                if (binder.lastValue != null) {
                     date = verifyDateOnly ? AfDateFormat.roundDate(date) : date;
-                    Date value = verifyDateOnly ? AfDateFormat.roundDate(binder.lastval) : binder.lastval;
+                    Date value = verifyDateOnly ? AfDateFormat.roundDate(binder.lastValue) : binder.lastValue;
                     if (date.getTime() <= value.getTime()) {
                         if (verifyDateOnly && date.getTime() == value.getTime()) {
                             return;
@@ -1711,9 +1736,9 @@ public class ApCommonBarBinder {
         public T verifyAfterWith(AbstractDateBinder<? extends AbstractDateBinder> binder, String... names) {
             CharSequence name = getName("时间", names);
             return this.verify((date,verifyDateOnly) -> {
-                if (binder.lastval != null) {
+                if (binder.lastValue != null) {
                     date = verifyDateOnly ? AfDateFormat.roundDate(date) : date;
-                    Date value = verifyDateOnly ? AfDateFormat.roundDate(binder.lastval) : binder.lastval;
+                    Date value = verifyDateOnly ? AfDateFormat.roundDate(binder.lastValue) : binder.lastValue;
                     if (date.getTime() < value.getTime()) {
                         if (binder.isManual || verifyDateOnly) {
                             throw new VerifyException(name + "不能早于" + binder.getName("时间", names));
@@ -1735,17 +1760,17 @@ public class ApCommonBarBinder {
 
         @Override
         public void start() {
-            $.dialog(viewer).selectDate(hint, lastval == null ? new Date() : lastval, this);
+            $.dialog(viewer).selectDate(hint, lastValue == null ? new Date() : lastValue, this);
         }
 
         public DateBinder value(@Nullable Date date) {
             if (date != null) {
-                lastval = AfDateFormat.roundDate(date);
+                lastValue = AfDateFormat.roundDate(date);
                 Calendar now = Calendar.getInstance();
                 now.setTime(date);
                 onDateSet(null, now.get(Calendar.YEAR), now.get(Calendar.MONTH), now.get(Calendar.DAY_OF_MONTH));
             } else {
-                lastval = null;
+                lastValue = null;
                 $(idValue).text("");
             }
             return self();
@@ -1759,7 +1784,7 @@ public class ApCommonBarBinder {
                         verify.verify(AfDateFormat.parser(year,month,dayOfMonth), false);
                     }
                 } catch (VerifyException e) {
-                    $.toast(viewer).makeToastShort(e.getMessage());
+                    $.toaster(viewer).toast(e.getMessage());
                     return false;
                 }
             }
@@ -1770,10 +1795,10 @@ public class ApCommonBarBinder {
         @Override
         public void onDateSet(DatePicker view, int year, int month, int day) {
             isManual = view != null;
-            lastval = AfDateFormat.parser(year, month, day);
-            $(idValue).text(format.format(lastval));
+            lastValue = AfDateFormat.parser(year, month, day);
+            $(idValue).text(format.format(lastValue));
             if (bind != null) {
-                bind.bind(this, lastval);
+                bind.bind(this, lastValue);
             }
         }
 
@@ -1792,8 +1817,8 @@ public class ApCommonBarBinder {
         @Override
         public void start() {
             Calendar calendar = Calendar.getInstance();
-            if (lastval != null) {
-                calendar.setTime(lastval);
+            if (lastValue != null) {
+                calendar.setTime(lastValue);
             }
             TextView txtYear = new TextView(viewer.getContext());
             TextView txtMonth = new TextView(viewer.getContext());
@@ -1824,12 +1849,12 @@ public class ApCommonBarBinder {
 
         public MonthBinder value(Date date) {
             if (date != null) {
-                lastval = AfDateFormat.roundDate(date);
+                lastValue = AfDateFormat.roundDate(date);
                 Calendar now = Calendar.getInstance();
                 now.setTime(date);
                 onDateSet(null, now.get(Calendar.YEAR), now.get(Calendar.MONTH));
             } else {
-                lastval = null;
+                lastValue = null;
                 $(idValue).text("");
             }
             return self();
@@ -1842,7 +1867,7 @@ public class ApCommonBarBinder {
                         verify.verify(AfDateFormat.parser(year, month, 1), false);
                     }
                 } catch (VerifyException e) {
-                    $.toast(viewer).makeToastShort(e.getMessage());
+                    $.toaster(viewer).toast(e.getMessage());
                     return false;
                 }
             }
@@ -1852,10 +1877,10 @@ public class ApCommonBarBinder {
 
         public void onDateSet(View view, int year, int month) {
             isManual = view != null;
-            lastval = AfDateFormat.parser(year, month, 1);
-            $(idValue).text(format.format(lastval));
+            lastValue = AfDateFormat.parser(year, month, 1);
+            $(idValue).text(format.format(lastValue));
             if (bind != null) {
-                bind.bind(this, lastval);
+                bind.bind(this, lastValue);
             }
         }
 
@@ -1870,17 +1895,17 @@ public class ApCommonBarBinder {
 
         @Override
         public void start() {
-            $.dialog(viewer).selectTime(hint, lastval == null ? new Date() : lastval, this);
+            $.dialog(viewer).selectTime(hint, lastValue == null ? new Date() : lastValue, this);
         }
 
         public TimeBinder value(Date date) {
             if (date != null) {
-                lastval = date;
+                lastValue = date;
                 Calendar now = Calendar.getInstance();
                 now.setTime(date);
                 onTimeSet(null, now.get(Calendar.HOUR_OF_DAY), now.get(Calendar.MINUTE));
             } else {
-                lastval = null;
+                lastValue = null;
                 $(idValue).text("");
             }
             return self();
@@ -1894,7 +1919,7 @@ public class ApCommonBarBinder {
                         verify.verify(AfDateFormat.parser(hourOfDay,minute), false);
                     }
                 } catch (VerifyException e) {
-                    $.toast(viewer).makeToastShort(e.getMessage());
+                    $.toaster(viewer).toast(e.getMessage());
                     return false;
                 }
             }
@@ -1923,10 +1948,10 @@ public class ApCommonBarBinder {
         @Override
         public void onTimeSet(TimePicker view, int hourOfDay, int minute) {
             isManual = view != null;
-            lastval = AfDateFormat.parser(hourOfDay, minute);
-            $(idValue).text(format.format(lastval));
+            lastValue = AfDateFormat.parser(hourOfDay, minute);
+            $(idValue).text(format.format(lastValue));
             if (bind != null) {
-                bind.bind(this, lastval);
+                bind.bind(this, lastValue);
             }
         }
     }
@@ -1944,18 +1969,18 @@ public class ApCommonBarBinder {
 
         @Override
         public void start() {
-            $.dialog(viewer).selectDateTime(hint, lastval == null ? new Date() : lastval, this);
+            $.dialog(viewer).selectDateTime(hint, lastValue == null ? new Date() : lastValue, this);
         }
 
         public DateTimeBinder value(Date date) {
             if (date != null) {
-                lastval = date;
+                lastValue = date;
                 Calendar now = Calendar.getInstance();
                 now.setTime(date);
                 onDateTimeSet(now.get(Calendar.YEAR), now.get(Calendar.MONTH), now.get(Calendar.DAY_OF_MONTH),
                         now.get(Calendar.HOUR_OF_DAY), now.get(Calendar.MINUTE));
             } else {
-                lastval = null;
+                lastValue = null;
                 $(idValue).text("");
             }
             return self();
@@ -1972,7 +1997,7 @@ public class ApCommonBarBinder {
                     tempMonth = month;
                     tempDay = dayOfMonth;
                 } catch (VerifyException e) {
-                    $.toast(viewer).makeToastShort(e.getMessage());
+                    $.toaster(viewer).toast(e.getMessage());
                     return false;
                 }
             }
@@ -1988,7 +2013,7 @@ public class ApCommonBarBinder {
                     }
                     isManual = true;
                 } catch (VerifyException e) {
-                    $.toast(viewer).makeToastShort(e.getMessage());
+                    $.toaster(viewer).toast(e.getMessage());
                     return false;
                 }
             }
@@ -1997,10 +2022,10 @@ public class ApCommonBarBinder {
 
         @Override
         public void onDateTimeSet(int year, int month, int day, int hour, int minute) {
-            lastval = AfDateFormat.parser(year, month, day, hour, minute);
-            $(idValue).text(format.format(lastval));
+            lastValue = AfDateFormat.parser(year, month, day, hour, minute);
+            $(idValue).text(format.format(lastValue));
             if (bind != null) {
-                bind.bind(this, lastval);
+                bind.bind(this, lastValue);
             }
         }
     }
@@ -2009,7 +2034,7 @@ public class ApCommonBarBinder {
 
         CheckBinder(int idValue) {
             super(idValue);
-            lastval = $(idValue).isChecked();
+            lastValue = $(idValue).isChecked();
         }
 
         public CheckBinder click(View view) {
@@ -2030,13 +2055,13 @@ public class ApCommonBarBinder {
 
         public CheckBinder value(Boolean isChecked) {
             if (isChecked != null) {
-                lastval = isChecked;
+                lastValue = isChecked;
                 $(idValue).checked(isChecked);
                 if (bind != null) {
                     bind.bind(this, isChecked);
                 }
             } else {
-                lastval = null;
+                lastValue = null;
                 $(idValue).text("");
             }
             return self();
@@ -2048,7 +2073,7 @@ public class ApCommonBarBinder {
                 return;
             }
             if (v != null && v.getId() != idValue) {
-                lastval = $(idValue).toggle().isChecked();
+                lastValue = $(idValue).toggle().isChecked();
             }
             super.onClick(v);
         }
@@ -2066,12 +2091,12 @@ public class ApCommonBarBinder {
 
         @Override
         public void start() {
-            lastval = $(idValue).isChecked();
+            lastValue = $(idValue).isChecked();
             if (key != null) {
-                cacher.put(key, lastval);
+                cacher.put(key, lastValue);
             }
             if (bind != null) {
-                bind.bind(this, lastval);
+                bind.bind(this, lastValue);
             }
         }
 
@@ -2087,7 +2112,7 @@ public class ApCommonBarBinder {
 
         SeekBarBinder(int idValue) {
             super(idValue);
-            SeekBar view = $(idValue).view(SeekBar.class);
+            SeekBar view = $(idValue).view();
             if (view != null) {
                 view.setOnSeekBarChangeListener(new SafeListener((SeekBar.OnSeekBarChangeListener) this));
             }
@@ -2162,12 +2187,41 @@ public class ApCommonBarBinder {
 
     }
 
+    public static class ImageLoaderEngine implements ImageEngine {
+
+        @Override
+        public void loadThumbnail(Context context, int resize, Drawable placeholder, ImageView imageView, Uri uri) {
+            int px = SmartUtil.dp2px(150);
+            imageView.setScaleType(ImageView.ScaleType.CENTER_CROP);
+            ImageLoader.getInstance().displayImage(uri.toString(), imageView, new ImageSize(px, px));
+        }
+
+        @Override
+        public void loadGifThumbnail(Context context, int resize, Drawable placeholder, ImageView imageView, Uri uri) {
+
+        }
+
+        @Override
+        public void loadImage(Context context, int resizeX, int resizeY, ImageView imageView, Uri uri) {
+            ImageLoader.getInstance().displayImage(uri.toString(), imageView);
+        }
+
+        @Override
+        public void loadGifImage(Context context, int resizeX, int resizeY, ImageView imageView, Uri uri) {
+
+        }
+
+        @Override
+        public boolean supportAnimatedGif() {
+            return false;
+        }
+    }
+
     public class ImageBinder extends Binder<ImageBinder, CommonBind<String>, String> {
 
         protected int outPutX = 0;           //裁剪保存宽度
         protected int outPutY = 0;           //裁剪保存高度
         protected int request_image = 1000;
-        protected CropImageView.Style style = CropImageView.Style.RECTANGLE;
 
         protected ImageBinder(int idImage) {
             super(idImage);
@@ -2175,32 +2229,22 @@ public class ApCommonBarBinder {
 
         @Override
         protected void start() {
-            ImagePicker picker = ImagePicker.getInstance();
-            picker.setMultiMode(false);
-            picker.setShowCamera(true);
-            picker.setStyle(style);
-            if (outPutX > 0 && outPutY > 0) {
-                picker.setCrop(true);
-                picker.setOutPutX(outPutX);
-                picker.setOutPutY(outPutY);
-
-                DisplayMetrics metrics = Resources.getSystem().getDisplayMetrics();
-
-                int focusWidth = metrics.widthPixels * 3 / 4;
-                int focusHeight = focusWidth * outPutY / outPutX;
-
-                if (focusHeight > metrics.heightPixels * 3 / 4) {
-                    focusHeight = metrics.heightPixels * 3 / 4;
-                    focusWidth = focusHeight * outPutX / outPutY;
-                }
-
-                picker.setFocusWidth(focusWidth);
-                picker.setFocusHeight(focusHeight);
-            } else {
-                picker.setCrop(false);
+            Pager pager = $.pager().currentPager();
+            if (pager instanceof ApPager) {
+                ((ApPager) pager).doStorageWithPermissionCheck(()->{
+                    Viewer p = viewer;
+                    Matisse matisse = (p instanceof Fragment) ? Matisse.from((Fragment) p) : Matisse.from((Activity) p);
+                    matisse.choose(MimeType.ofImage())
+                            .countable(true)
+                            .maxSelectable(1)
+                            .theme(R.style.Matisse_Dracula)
+                            .gridExpectedSize(SmartUtil.dp2px(120))
+                            .restrictOrientation(ActivityInfo.SCREEN_ORIENTATION_PORTRAIT)
+                            .thumbnailScale(0.85f)
+                            .imageEngine(new ImageLoaderEngine())
+                            .forResult(request_image);
+                });
             }
-            $.pager().startActivityForResult(ImageGridActivity.class, request_image);
-            //viewer.startActivityForResult(ImageGridActivity.class,request_image);
         }
 
         public ImageBinder image(String url) {
@@ -2213,7 +2257,7 @@ public class ApCommonBarBinder {
         }
 
         public ImageBinder circle() {
-            style = CropImageView.Style.CIRCLE;
+//            style = CropImageView.Style.CIRCLE;
             return self();
         }
 
@@ -2232,15 +2276,35 @@ public class ApCommonBarBinder {
         }
 
         public void onActivityResult(AfIntent intent, int requestCode, int resultCode) {
-            if (requestCode == request_image /*&& resultCode == Activity.RESULT_OK*/) {
-                new CropImageView(ApApp.get()).setOnBitmapSaveCompleteListener(null);
-                //noinspection unchecked
-                List<ImageItem> images = (ArrayList<ImageItem>) intent.getSerializableExtra(ImagePicker.EXTRA_RESULT_ITEMS);
+            if (requestCode == request_image && resultCode == Activity.RESULT_OK) {
+                List<String> images = Matisse.obtainPathResult(intent);
                 if (images != null && images.size() > 0) {
-                    bind.bind(this, images.get(0).path);
-                    $.query(viewer).query(idValue).image(images.get(0).path);
-//                } else {
-//                    $.toast(viewer).makeToastShort("没有数据");
+                    Pager pager = $.pager().currentPager();
+                    if (images.size() == 1 && outPutX > 0 && outPutY > 0 && pager != null) {
+                        CropImage.ActivityBuilder builderCrop = CropImage.activity(Uri.fromFile(new File(images.get(0))))
+                                .setRequestedSize(outPutX, outPutY)
+                                .setGuidelines(CropImageView.Guidelines.ON);
+                        if (pager instanceof Fragment) {
+                            builderCrop.start(pager.getContext(), (Fragment) pager);
+                        } else {
+                            builderCrop.start(pager.getActivity());
+                        }
+                    } else {
+                        bind.bind(this, images.get(0));
+                        $.query(viewer).query(idValue).image(images.get(0));
+                    }
+                } else {
+                    $.toaster(viewer).toast("没有数据");
+                }
+            } else if (requestCode == CropImage.CROP_IMAGE_ACTIVITY_REQUEST_CODE) {
+                CropImage.ActivityResult result = CropImage.getActivityResult(intent);
+                if (resultCode == Activity.RESULT_OK) {
+                    Uri resultUri = result.getUri();
+                    bind.bind(this, resultUri.getPath() + "");
+                    $.query(viewer).query(idValue).image(resultUri.getPath() + "");
+                } else if (resultCode == CropImage.CROP_IMAGE_ACTIVITY_RESULT_ERROR_CODE) {
+                    Exception error = result.getError();
+                    $.toaster().toast(error.getMessage());
                 }
             }
         }

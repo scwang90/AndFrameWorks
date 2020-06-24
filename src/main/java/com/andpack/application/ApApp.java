@@ -3,7 +3,6 @@ package com.andpack.application;
 import android.app.Activity;
 import android.content.Context;
 import android.support.annotation.NonNull;
-import android.widget.ImageView;
 
 import com.andframe.$;
 import com.andframe.api.DialogBuilder;
@@ -13,7 +12,7 @@ import com.andframe.api.pager.status.RefreshLayoutManager;
 import com.andframe.api.query.ViewQuery;
 import com.andframe.api.viewer.Viewer;
 import com.andframe.application.AfApp;
-import com.andframe.application.AfAppSettings;
+import com.andframe.application.AppSettings;
 import com.andframe.exception.AfExceptionHandler;
 import com.andpack.R;
 import com.andpack.annotation.statusbar.StatusBarTranslucent;
@@ -21,7 +20,6 @@ import com.andpack.impl.ApDialogBuilder;
 import com.andpack.impl.ApExceptionHandler;
 import com.andpack.impl.ApRefreshLayoutManager;
 import com.andpack.impl.ApViewQuery;
-import com.lzy.imagepicker.ImagePicker;
 import com.nostra13.universalimageloader.cache.disc.impl.ext.ApDiskCache;
 import com.nostra13.universalimageloader.cache.disc.naming.Md5FileNameGenerator;
 import com.nostra13.universalimageloader.core.DisplayImageOptions;
@@ -62,9 +60,11 @@ public class ApApp extends AfApp {
     protected void initApp() throws Exception {
         super.initApp();
         initLeakCanary();
-        initImageLoader(this);
-        initImagePicker(this);
-        initRecovery(this);
+        if (isMainProcess()) {
+            initImageLoader(this);
+            initImagePicker(this);
+            initRecovery(this);
+        }
     }
 
     protected void initRecovery(Context context) {
@@ -113,22 +113,29 @@ public class ApApp extends AfApp {
                 mRefWatcher = RefWatcher.DISABLED;
             }
         } catch (Exception ex) {
-            AfExceptionHandler.handle(ex, "初始化内存泄漏检测");
+            $.error().handle(ex, "初始化内存泄漏检测");
         }
     }
 
-
+//    static class ImagePickerLoader implements com.lzy.imagepicker.loader.ImageLoader {
+//        @Override
+//        public void displayImage(Activity activity, String path, ImageView imageView, int width, int height) {
+//            $.query(imageView).image(path, width, height);
+//        }
+//
+//        @Override
+//        public void displayImagePreview(Activity activity, String path, ImageView imageView, int width, int height) {
+//            $.query(imageView).image(path, width, height);
+//        }
+//
+//        @Override
+//        public void clearMemoryCache() {
+//
+//        }
+//    }
     protected void initImagePicker(Context context) {
-        ImagePicker picker = ImagePicker.getInstance();
-        picker.setImageLoader(new com.lzy.imagepicker.loader.ImageLoader() {
-            @Override
-            public void displayImage(Activity activity, String path, ImageView imageView, int width, int height) {
-                $.query(imageView).image(path);
-            }
-            @Override
-            public void clearMemoryCache() {
-            }
-        });
+//        ImagePicker picker = ImagePicker.getInstance();
+//        picker.setImageLoader(new ImagePickerLoader());
     }
 
     protected void initImageLoader(Context context) {
@@ -143,14 +150,16 @@ public class ApApp extends AfApp {
         config.tasksProcessingOrder(QueueProcessingType.LIFO);
         config.defaultDisplayImageOptions(builder.build());
         config.memoryCacheSizePercentage(12);
-        /**
+        /*
          * 初始化图片 SD卡缓存
          */
         try {
             File imageDir = new File(getExternalCacheDir(),"uil-image");
-            config.diskCache(mImageDiskCache = new ApDiskCache(imageDir, new Md5FileNameGenerator(), 50 * 1024 * 1024));
+            mImageDiskCache = new ApDiskCache(imageDir, new Md5FileNameGenerator(), 50 * 1024 * 1024);
+            config.diskCache(mImageDiskCache);
         } catch (IOException e) {
             e.printStackTrace();
+            $.error().handle(e,"初始化图片缓存失败");
         }
         ImageLoader.getInstance().init(config.build());
     }
@@ -179,7 +188,7 @@ public class ApApp extends AfApp {
     }
 
     @Override
-    public AfAppSettings newAppSetting() {
+    public AppSettings newAppSetting() {
         return new ApAppSettings(this);
     }
 
