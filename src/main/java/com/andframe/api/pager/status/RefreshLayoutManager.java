@@ -12,6 +12,7 @@ import java.util.Date;
 public interface RefreshLayoutManager<T extends ViewGroup> extends LayoutManager<T> {
 //    void setRefreshComplete();
 //    void setRefreshFailed();
+    void autoRefresh();
     void finishRefresh(boolean success);
     void setOnRefreshListener(OnRefreshListener listener);
     void setLastRefreshTime(Date date);

@@ -67,6 +67,7 @@ import android.view.accessibility.CaptioningManager;
 import android.view.inputmethod.InputMethodManager;
 import android.view.textservice.TextServicesManager;
 
+import com.andframe.$;
 import com.andframe.activity.AfActivity;
 import com.andframe.annotation.inject.Inject;
 import com.andframe.annotation.inject.InjectDelayed;
@@ -80,18 +81,17 @@ import com.andframe.annotation.inject.idname.InjectRes$;
 import com.andframe.api.Cacher;
 import com.andframe.api.Extrater;
 import com.andframe.application.AfApp;
-import com.andframe.application.AfAppSettings;
+import com.andframe.application.AppSettings;
 import com.andframe.caches.AfDurableCacher;
 import com.andframe.caches.AfJsonCache;
 import com.andframe.caches.AfPrivateCacher;
 import com.andframe.caches.AfSharedPreference;
 import com.andframe.exception.AfException;
-import com.andframe.exception.AfExceptionHandler;
 import com.andframe.feature.AfBundle;
 import com.andframe.feature.AfDialogBuilder;
 import com.andframe.feature.AfIntent;
 import com.andframe.impl.wrapper.ViewWrapper;
-import com.andframe.task.AfDispatcher;
+import com.andframe.task.Dispatcher;
 import com.andframe.util.android.AfDensity;
 import com.andframe.util.java.AfReflecter;
 
@@ -192,7 +192,7 @@ public class Injecter {
 //                    value = AfImageCaches.getInstance();
                 } else if (AfApp.class.isAssignableFrom(clazz)) {
                     value = AfApp.get();
-                } else if (AfAppSettings.class.isAssignableFrom(clazz)) {
+                } else if (AppSettings.class.isAssignableFrom(clazz)) {
                     value = AfApp.get().newAppSetting();
 //                } else if (AfEntityDao.class.isAssignableFrom(clazz)) {
 //                    value = clazz.getConstructor(Context.class).newInstance(context);
@@ -202,7 +202,7 @@ public class Injecter {
                     field.set(handler, value);
                 }
             } catch (Throwable e) {
-                AfExceptionHandler.handle(e, TAG(handler, "doInject.Inject") + field.getName());
+                $.error().handle(e, TAG(handler, "doInject.Inject") + field.getName());
             }
         }
     }
@@ -240,7 +240,7 @@ public class Injecter {
                     field.set(handler, value);
                 }
             } catch (Throwable e) {
-                AfExceptionHandler.handle(e, TAG(handler, "doInject.injectRes") + field.getName());
+                $.error().handle(e, TAG(handler, "doInject.injectRes") + field.getName());
             }
         }
     }
@@ -278,7 +278,7 @@ public class Injecter {
                     field.set(handler, value);
                 }
             } catch (Throwable e) {
-                AfExceptionHandler.handle(e, TAG(handler, "doInject.injectRes") + field.getName());
+                $.error().handle(e, TAG(handler, "doInject.injectRes") + field.getName());
             }
         }
     }
@@ -414,7 +414,7 @@ public class Injecter {
                     field.set(handler, value);
                 }
             } catch (Throwable e) {
-                AfExceptionHandler.handle(e, TAG(handler, "doInject.injectSystem") + field.getName());
+                $.error().handle(e, TAG(handler, "doInject.injectSystem") + field.getName());
             }
         }
     }
@@ -423,7 +423,7 @@ public class Injecter {
         if (method.isAnnotationPresent(InjectDelayed.class)) {
             try {
                 InjectDelayed bind = method.getAnnotation(InjectDelayed.class);
-                AfDispatcher.dispatch(new Runnable() {
+                Dispatcher.dispatch(new Runnable() {
                     {
                         this.mMethod = method;
                     }
@@ -439,7 +439,7 @@ public class Injecter {
                     }
                 }, bind.value());
             } catch (Throwable e) {
-                AfExceptionHandler.handle(e, TAG(handler, "doInjectDelayed.") + method.getName());
+                $.error().handle(e, TAG(handler, "doInjectDelayed.") + method.getName());
             }
         }
     }
@@ -451,7 +451,7 @@ public class Injecter {
                 ((AfActivity) handler).setContentView(layout.value());
             } catch (Throwable e) {
                 e.printStackTrace();
-                AfExceptionHandler.handle(e, TAG(handler, "doInjectLayout.setContentView"));
+                $.error().handle(e, TAG(handler, "doInjectLayout.setContentView"));
             }
         }
     }
@@ -466,7 +466,7 @@ public class Injecter {
                 if (init.value()) {
                     throw new RuntimeException("调用初始化失败", e);
                 }
-                AfExceptionHandler.handle(e, TAG(handler, "doInjectInit.invokeMethod.") + method.getName());
+                $.error().handle(e, TAG(handler, "doInjectInit.invokeMethod.") + method.getName());
             }
         }
     }
@@ -561,7 +561,7 @@ public class Injecter {
                 if (inject.necessary()) {
                     throw new RuntimeException("缺少必须参数", e);
                 }
-                AfExceptionHandler.handle(e, TAG(handler, "doInject.InjectExtra.") + field.getName());
+                $.error().handle(e, TAG(handler, "doInject.InjectExtra.") + field.getName());
             }
         }
     }

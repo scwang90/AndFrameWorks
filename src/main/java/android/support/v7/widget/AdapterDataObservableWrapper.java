@@ -2,6 +2,7 @@ package android.support.v7.widget;
 
 import android.database.Observable;
 
+import com.andframe.$;
 import com.andframe.exception.AfExceptionHandler;
 
 import java.lang.reflect.Field;
@@ -12,7 +13,7 @@ import java.lang.reflect.Field;
  */
 public class AdapterDataObservableWrapper extends RecyclerView.AdapterDataObservable {
 
-    RecyclerView.AdapterDataObservable wrapped = new RecyclerView.AdapterDataObservable();
+    private RecyclerView.AdapterDataObservable wrapped = new RecyclerView.AdapterDataObservable();
 
     public AdapterDataObservableWrapper(RecyclerView.Adapter adapter) {
         bindAdapter(adapter);
@@ -29,7 +30,7 @@ public class AdapterDataObservableWrapper extends RecyclerView.AdapterDataObserv
                     return true;
                 }
             } catch (Throwable e) {
-                AfExceptionHandler.handle(e,"AdapterDataObservableWrapper.bindAdapter");
+                $.error().handle(e,"AdapterDataObservableWrapper.bindAdapter");
             }
         }
         return false;

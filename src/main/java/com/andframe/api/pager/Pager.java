@@ -2,6 +2,7 @@ package com.andframe.api.pager;
 
 import android.app.Activity;
 import android.app.Dialog;
+import android.app.Service;
 import android.content.Intent;
 import android.support.annotation.NonNull;
 import android.support.v4.app.Fragment;
@@ -17,7 +18,10 @@ import com.andframe.api.viewer.Viewer;
  * Created by SCWANG on 2016/9/1.
  */
 @SuppressWarnings("unused")
-public interface Pager extends Viewer, Toaster, Constanter {
+public interface Pager extends Viewer, Constanter {
+
+    void toast(CharSequence msg);
+    void toast(CharSequence tip, Throwable e);
 
     boolean isRecycled();
     boolean isFinishing();
@@ -36,6 +40,8 @@ public interface Pager extends Viewer, Toaster, Constanter {
     void startFragment(Class<? extends Fragment> clazz, Object... args);
 
     void startActivity(Class<? extends Activity> clazz, Object... args);
+
+    void startService(Class<? extends Service> clazz, Object... args);
 
     void startFragmentForResult(Class<? extends Fragment> clazz, int request, Object... args);
 

@@ -9,7 +9,8 @@ import com.andframe.api.pager.status.LayoutManager;
 import com.andframe.api.pager.status.StatusHelper;
 import com.andframe.api.pager.status.StatusLayoutManager;
 import com.andframe.api.pager.status.StatusPager;
-import com.andframe.impl.helper.AfStatusHelper;
+import com.andframe.application.AfApp;
+import com.andframe.impl.helper.StatusPagerHelper;
 
 /**
  * 多状态页面支持
@@ -23,7 +24,7 @@ public abstract class AfStatusFragment<T> extends AfLoadFragment<T> implements S
 
     public AfStatusFragment() {
         super(null);
-        this.mStatusHelper = new AfStatusHelper<>(this);
+        this.mStatusHelper = AfApp.get().newStatusPagerHelper(this);
         this.mHelper = mStatusHelper;
     }
 

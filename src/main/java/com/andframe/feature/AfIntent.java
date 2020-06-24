@@ -53,7 +53,7 @@ public class AfIntent extends Intent implements Extrater<AfIntent> {
         put(_key, value);
     }
 
-    public AfIntent(Context context, Class<? extends Activity> clazz, Object... args) {
+    public AfIntent(Context context, Class<?> clazz, Object... args) {
         this(context, clazz);
         putKeyVaules(args);
     }

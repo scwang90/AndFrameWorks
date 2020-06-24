@@ -32,25 +32,23 @@ public class RecyclerInteractionAdapter extends RecyclerAdapterWrapper<RecyclerV
             mRecyclerView = new WeakReference<>((RecyclerView) parent);
         }
         RecyclerView.ViewHolder viewHolder = super.onCreateViewHolder(parent, viewType);
-        if (viewHolder.itemView != null) {
-            if (viewHolder.itemView.getBackground() == null) {
-                TypedValue typedValue = new TypedValue();
-                Resources.Theme theme = viewHolder.itemView.getContext().getTheme();
-                int top = viewHolder.itemView.getPaddingTop();
-                int bottom = viewHolder.itemView.getPaddingBottom();
-                int left = viewHolder.itemView.getPaddingLeft();
-                int right = viewHolder.itemView.getPaddingRight();
-                if (theme.resolveAttribute(android.R.attr.selectableItemBackground, typedValue, true)) {
-                    viewHolder.itemView.setBackgroundResource(typedValue.resourceId);
-                } else {
-                    viewHolder.itemView.setBackgroundResource(R.drawable.af_selector_background);
-                }
-                viewHolder.itemView.setPadding(left, top, right, bottom);
+        if (viewHolder.itemView.getBackground() == null) {
+            TypedValue typedValue = new TypedValue();
+            Resources.Theme theme = viewHolder.itemView.getContext().getTheme();
+            int top = viewHolder.itemView.getPaddingTop();
+            int bottom = viewHolder.itemView.getPaddingBottom();
+            int left = viewHolder.itemView.getPaddingLeft();
+            int right = viewHolder.itemView.getPaddingRight();
+            if (theme.resolveAttribute(android.R.attr.selectableItemBackground, typedValue, true)) {
+                viewHolder.itemView.setBackgroundResource(typedValue.resourceId);
+            } else {
+                viewHolder.itemView.setBackgroundResource(R.drawable.af_selector_background);
             }
-            if (!viewHolder.itemView.isClickable()) {
-                viewHolder.itemView.setOnClickListener(new SafeListener((View.OnClickListener)RecyclerInteractionAdapter.this));
-                viewHolder.itemView.setOnLongClickListener(new SafeListener((View.OnLongClickListener) RecyclerInteractionAdapter.this));
-            }
+            viewHolder.itemView.setPadding(left, top, right, bottom);
+        }
+        if (!viewHolder.itemView.isClickable()) {
+            viewHolder.itemView.setOnClickListener(new SafeListener((View.OnClickListener)RecyclerInteractionAdapter.this));
+            viewHolder.itemView.setOnLongClickListener(new SafeListener((View.OnLongClickListener) RecyclerInteractionAdapter.this));
         }
         return viewHolder;
     }

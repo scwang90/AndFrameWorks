@@ -8,6 +8,7 @@ import android.widget.AdapterView.OnItemClickListener;
 import android.widget.AdapterView.OnItemLongClickListener;
 import android.widget.ListAdapter;
 
+import com.andframe.adapter.ListItemAdapter;
 import com.andframe.annotation.mark.MarkCache;
 import com.andframe.api.Paging;
 import com.andframe.api.adapter.AnimatedAdapter;
@@ -57,12 +58,12 @@ public interface ItemsHelper<T> extends StatusHelper<List<T>>, OnItemClickListen
     ItemsViewerAdapter<T> initAdapter();
 
     /**
-     * 创建适配器（子类在自定义适配器时最好继承@{@link com.andframe.adapter.AfListAdapter}）
+     * 创建适配器（子类在自定义适配器时最好继承@{@link ListItemAdapter}）
      * @param context 上下文
      * @param list 初始数据
      */
     @NonNull
-    ItemsViewerAdapter<T> newAdapter(@NonNull Context context, @NonNull List<T> list);
+    ItemsViewerAdapter<T> newAdapter(@NonNull Context context, @Nullable List<T> list);
 
     /**
      * 把适配绑定到列表控件
@@ -206,7 +207,7 @@ public interface ItemsHelper<T> extends StatusHelper<List<T>>, OnItemClickListen
      * @param list 任务加载返回的数据
      * @return 返回 false 并且【非第一次加载跟多】时候 会默认提示 所有数据加载完毕
      */
-    boolean setMoreShow(@NonNull TaskWithPaging task, @Nullable List<T> list);
+    boolean setNoMoreData(@NonNull TaskWithPaging task, @Nullable List<T> list);
 
     /**
      * 手动设置页面是否显示加载更多的状态
@@ -218,10 +219,11 @@ public interface ItemsHelper<T> extends StatusHelper<List<T>>, OnItemClickListen
      * 创建分页对象
      * @param size 分页大小
      * @param start 开始位置
+     * @param page 当前页数
      * @return null 表示不需要分頁
      */
     @Nullable
-    Paging newPaging(int size, int start);
+    Paging newPaging(int size, int start, int page);
 
 
 //    /**

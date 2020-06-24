@@ -101,6 +101,11 @@ public class TaskBuilder implements Builder {
     }
 
     @Override
+    public Runnable fina11y() {
+        return finallyRunnable;
+    }
+
+    @Override
     public PrepareHandler prepareHandler() {
         return prepareHandler;
     }

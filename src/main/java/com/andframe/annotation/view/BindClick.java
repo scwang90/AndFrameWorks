@@ -1,12 +1,12 @@
 package com.andframe.annotation.view;
 
 import android.support.annotation.IdRes;
+import android.support.annotation.Keep;
 
 import java.lang.annotation.ElementType;
 import java.lang.annotation.Retention;
 import java.lang.annotation.RetentionPolicy;
 import java.lang.annotation.Target;
-
 
 /**
  * 注解式绑定控件<br>
@@ -14,6 +14,7 @@ import java.lang.annotation.Target;
  *  public void onClick(View v) {
  *  }
  */
+@Keep
 @Target(ElementType.METHOD)
 @Retention(RetentionPolicy.RUNTIME)
 public @interface BindClick {

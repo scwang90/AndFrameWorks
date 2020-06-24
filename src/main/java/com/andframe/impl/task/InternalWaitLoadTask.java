@@ -3,6 +3,7 @@ package com.andframe.impl.task;
 
 import com.andframe.R;
 import com.andframe.api.pager.Pager;
+import com.andframe.application.AfApp;
 
 import java.util.Collection;
 
@@ -69,7 +70,7 @@ public class InternalWaitLoadTask<T> extends InternalWaitTask {
     private void makeToastEmpty() {
         Pager pager = builder.pager.get();
         if (pager != null && builder.feedbackOnEmpty) {
-            pager.makeToastShort(String.format(pager.getContext().getString(R.string.task_format_success),builder.intent));
+            pager.toast(String.format(AfApp.get().getString(R.string.task_format_success),builder.intent));
         }
     }
 }

@@ -27,6 +27,12 @@ public class MoreFooterLayoutManager<T> implements MoreLayoutManager {
     public void setOnMoreListener(OnMoreListener listener) {
         mMoreFooter.setOnMoreListener(listener);
     }
+
+    @Override
+    public void setNoMoreData(boolean noMoreData) {
+        mMoreFooter.setNoMoreData(noMoreData);
+    }
+
     @Override
     public void setLoadMoreEnabled(boolean enable) {
         mMoreFooter.setLoadMoreEnabled(enable);

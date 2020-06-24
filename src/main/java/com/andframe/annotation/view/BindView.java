@@ -1,6 +1,7 @@
 package com.andframe.annotation.view;
 
 import android.support.annotation.IdRes;
+import android.view.View;
 
 import java.lang.annotation.ElementType;
 import java.lang.annotation.Retention;
@@ -14,7 +15,7 @@ import java.lang.annotation.Target;
 @Target(ElementType.FIELD)
 @Retention(RetentionPolicy.RUNTIME)
 public @interface BindView {
-    @IdRes int[] value() default 0;
+    @IdRes int[] value() default View.NO_ID;
     boolean click() default false;
 }
 

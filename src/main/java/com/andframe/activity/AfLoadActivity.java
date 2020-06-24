@@ -3,13 +3,15 @@ package com.andframe.activity;
 import android.content.Context;
 import android.support.annotation.CallSuper;
 import android.support.annotation.NonNull;
+import android.support.annotation.Nullable;
 import android.view.View;
 
 import com.andframe.api.pager.load.LoadHelper;
 import com.andframe.api.pager.load.LoadPager;
 import com.andframe.api.pager.status.RefreshLayoutManager;
 import com.andframe.api.task.Task;
-import com.andframe.impl.helper.AfLoadHelper;
+import com.andframe.application.AfApp;
+import com.andframe.impl.helper.LoadPagerHelper;
 
 import java.util.Date;
 
@@ -26,7 +28,7 @@ public abstract class AfLoadActivity<T> extends AfActivity implements LoadPager<
 
     @NonNull
     protected LoadHelper<T> newHelper() {
-        return new AfLoadHelper<>(this);
+        return AfApp.get().newLoadPagerHelper(this);
     }
 
     @CallSuper
@@ -41,7 +43,7 @@ public abstract class AfLoadActivity<T> extends AfActivity implements LoadPager<
     }
 
     @Override
-    public void setModel(@NonNull T model) {
+    public void setModel(@Nullable T model) {
         mHelper.setModel(model);
     }
 

@@ -32,6 +32,12 @@
     <color name="colorTextAssistant">#777777</color>
     <color name="colorTextGray">#999999</color>
 
+    <color name="colorGrayBlack">#444444</color>
+    <color name="colorGrayDark">#666666</color>
+    <color name="colorGray">#7c7c7c</color>
+    <color name="colorGrayLight">#acacac</color>
+    <color name="colorGrayWhite">#ebebeb</color>
+
     <color name="colorToolbarText">#FFFFFF</color>
     <color name="colorToolbarTextDark">#444444</color>
     <color name="colorToolbarBackgroundLight">#FFFFFF</color>

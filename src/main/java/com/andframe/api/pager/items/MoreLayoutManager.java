@@ -8,5 +8,6 @@ package com.andframe.api.pager.items;
 public interface MoreLayoutManager {
     void setOnMoreListener(OnMoreListener listener);
     void setLoadMoreEnabled(boolean enable);
+    void setNoMoreData(boolean noMoreData);
     void finishLoadMore();
 }

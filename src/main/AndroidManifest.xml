@@ -10,10 +10,12 @@
     <uses-permission android:name="android.permission.INTERNET" />
     <!-- 设备编号权限 -->
     <uses-permission android:name="android.permission.READ_PHONE_STATE" />
+    <!-- 安装未知软件（自动更新） -->
+    <uses-permission android:name="android.permission.REQUEST_INSTALL_PACKAGES"/>
+    <!--全局对话框-异常捕捉-->
+    <uses-permission android:name="android.permission.SYSTEM_ALERT_WINDOW"/>
 
-    <application
-        android:label="@string/app_name">
-        <!--android:theme="@style/AppTheme"-->
+    <application>
 
         <activity android:name=".activity.AfFragmentActivity"
             android:screenOrientation="portrait"
@@ -33,6 +35,9 @@
             android:screenOrientation="portrait"
             android:windowSoftInputMode="stateHidden|adjustPan"
             android:launchMode="singleTask"/>
+
+        <service android:name=".application.DialogService"
+            android:process=":dialog"/>
 
     </application>
 

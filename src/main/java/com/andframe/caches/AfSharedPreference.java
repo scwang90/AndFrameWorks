@@ -5,6 +5,7 @@ import android.content.ContextWrapper;
 import android.content.SharedPreferences;
 import android.content.SharedPreferences.Editor;
 
+import com.andframe.$;
 import com.andframe.exception.AfExceptionHandler;
 import com.andframe.feature.AfJsoner;
 
@@ -26,7 +27,7 @@ import java.util.Set;
  *        getStringSet(String key, Set<String> value) public void
  *        putStringSet(String key, Set<String> value)
  */
-@SuppressWarnings("unused")
+@SuppressWarnings({"unused", "WeakerAccess"})
 public class AfSharedPreference {
 	private SharedPreferences mShared = null;
 
@@ -52,7 +53,7 @@ public class AfSharedPreference {
 			setPreferencesPath(context, file);
 		} catch (Throwable e) {
 			mShared = context.getSharedPreferences(name, Context.MODE_PRIVATE);
-			AfExceptionHandler.handle(e, "缓存转换路径出错 mShared=" + (mShared == null ? "null" : mShared.toString()));
+			$.error().handle(e, "缓存转换路径出错 mShared=" + (mShared == null ? "null" : mShared.toString()));
 		}
 	}
 
@@ -65,6 +66,7 @@ public class AfSharedPreference {
 		try {
 			Field field;
 			// 获取ContextWrapper对象中的mBase变量。该变量保存了ContextImpl对象
+			//noinspection JavaReflectionMemberAccess
 			field = ContextWrapper.class.getDeclaredField("mBase");
 			field.setAccessible(true);
 			// 获取mBase变量

@@ -47,7 +47,7 @@ public class AfBundle implements Extrater<AfBundle> {
         return this;
     }
 
-    public Object getOrgin(String _key, Object defaul, Class<?> clazz) {
+    public Object getOrigin(String _key, Object def, Class<?> clazz) {
         if (!mBundle.containsKey(_key)) {
             return null;
         } else if (clazz.equals(int[].class)) {
@@ -73,37 +73,37 @@ public class AfBundle implements Extrater<AfBundle> {
         } else if (clazz.equals(Parcelable[].class)) {
             return mBundle.getParcelableArray(_key);
         } else if (clazz.equals(int.class)) {
-            return mBundle.getInt(_key, defaul == null ? 0 : (int) (defaul));
+            return mBundle.getInt(_key, def == null ? 0 : (int) (def));
         } else if (clazz.equals(short.class)) {
-            return mBundle.getShort(_key, defaul == null ? 0 : (short) (defaul));
+            return mBundle.getShort(_key, def == null ? 0 : (short) (def));
         } else if (clazz.equals(long.class)) {
-            return mBundle.getLong(_key, defaul == null ? 0 : (long) (defaul));
+            return mBundle.getLong(_key, def == null ? 0 : (long) (def));
         } else if (clazz.equals(float.class)) {
-            return mBundle.getFloat(_key, defaul == null ? 0 : (float) (defaul));
+            return mBundle.getFloat(_key, def == null ? 0 : (float) (def));
         } else if (clazz.equals(double.class)) {
-            return mBundle.getDouble(_key, defaul == null ? 0 : (double) (defaul));
+            return mBundle.getDouble(_key, def == null ? 0 : (double) (def));
         } else if (clazz.equals(byte.class)) {
-            return mBundle.getByte(_key, defaul == null ? 0 : (byte) (defaul));
+            return mBundle.getByte(_key, def == null ? 0 : (byte) (def));
         } else if (clazz.equals(char.class)) {
-            return mBundle.getChar(_key, defaul == null ? 0 : (char) (defaul));
+            return mBundle.getChar(_key, def == null ? 0 : (char) (def));
         } else if (clazz.equals(boolean.class)) {
-            return mBundle.getBoolean(_key, defaul instanceof Boolean && (boolean) (defaul));
+            return mBundle.getBoolean(_key, def instanceof Boolean && (boolean) (def));
         } else if (clazz.equals(Integer.class)) {
-            return defaulOrNull(_key, mBundle.getInt(_key, defaul == null ? 0 : (int) (defaul)), defaul);
+            return defaulOrNull(_key, mBundle.getInt(_key, def == null ? 0 : (int) (def)), def);
         } else if (clazz.equals(Short.class)) {
-            return defaulOrNull(_key, mBundle.getShort(_key, defaul == null ? 0 : (short) (defaul)), defaul);
+            return defaulOrNull(_key, mBundle.getShort(_key, def == null ? 0 : (short) (def)), def);
         } else if (clazz.equals(Long.class)) {
-            return defaulOrNull(_key, mBundle.getLong(_key, defaul == null ? 0 : (long) (defaul)), defaul);
+            return defaulOrNull(_key, mBundle.getLong(_key, def == null ? 0 : (long) (def)), def);
         } else if (clazz.equals(Float.class)) {
-            return defaulOrNull(_key, mBundle.getFloat(_key, defaul == null ? 0 : (float) (defaul)), defaul);
+            return defaulOrNull(_key, mBundle.getFloat(_key, def == null ? 0 : (float) (def)), def);
         } else if (clazz.equals(Double.class)) {
-            return defaulOrNull(_key, mBundle.getDouble(_key, defaul == null ? 0 : (double) (defaul)), defaul);
+            return defaulOrNull(_key, mBundle.getDouble(_key, def == null ? 0 : (double) (def)), def);
         } else if (clazz.equals(Byte.class)) {
-            return defaulOrNull(_key, mBundle.getByte(_key, defaul == null ? 0 : (byte) (defaul)), defaul);
+            return defaulOrNull(_key, mBundle.getByte(_key, def == null ? 0 : (byte) (def)), def);
         } else if (clazz.equals(Character.class)) {
-            return defaulOrNull(_key, mBundle.getChar(_key, defaul == null ? 0 : (char) (defaul)), defaul);
+            return defaulOrNull(_key, mBundle.getChar(_key, def == null ? 0 : (char) (def)), def);
         } else if (clazz.equals(Boolean.class)) {
-            return defaulOrNull(_key, getBoolean(_key, defaul instanceof Boolean && (boolean) (defaul)), defaul);
+            return defaulOrNull(_key, getBoolean(_key, def instanceof Boolean && (boolean) (def)), def);
         } else if (clazz.equals(String.class)) {
             return mBundle.getString(_key);
         } else if (clazz.equals(CharSequence.class)) {
@@ -209,15 +209,15 @@ public class AfBundle implements Extrater<AfBundle> {
     public <T> T get(String _key, T defaul, Class<T> clazz) {
         T value = null;
         try {
-            value = (T) getOrgin(_key, defaul, clazz);
+            value = (T) getOrigin(_key, defaul, clazz);
             if (value != null) {
                 return value;
             }
             String name = mBundle.getString(_key + "[o]");
             if (!clazz.getName().equals(name) && !clazz.isPrimitive()) {
-                Class<?> orgin = Class.forName(name);
-                if (clazz.isAssignableFrom(orgin) && !orgin.isAnonymousClass()) {
-                    clazz = (Class<T>) orgin;
+                Class<?> origin = Class.forName(name);
+                if (clazz.isAssignableFrom(origin) && !origin.isAnonymousClass()) {
+                    clazz = (Class<T>) origin;
                 }
             }
             value = AfJsoner.fromJson(mBundle.getString(_key + "[0]"), clazz);
@@ -258,7 +258,7 @@ public class AfBundle implements Extrater<AfBundle> {
         } catch (Throwable e) {
             Class<?>[] clazzs = {Serializable.class, Parcelable.class};
             for (Class<?> classz : clazzs){
-                Object obj = getOrgin(_key, defaul, classz);
+                Object obj = getOrigin(_key, defaul, classz);
                 if (obj instanceof List) {
                     List objs = (List) obj;
                     for (Object objt : objs) {

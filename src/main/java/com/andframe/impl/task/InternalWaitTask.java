@@ -2,6 +2,7 @@ package com.andframe.impl.task;
 
 import com.andframe.R;
 import com.andframe.api.pager.Pager;
+import com.andframe.application.AfApp;
 import com.andframe.exception.AfExceptionHandler;
 
 /**
@@ -39,21 +40,21 @@ public class InternalWaitTask extends InternalTask {
     protected void showProgressDialog() {
         Pager pager = builder.pager.get();
         if (pager != null) {
-            pager.showProgressDialog(String.format(pager.getContext().getString(R.string.task_format_loading),builder.intent));
+            pager.showProgressDialog(String.format(AfApp.get().getString(R.string.task_format_loading),builder.intent));
         }
     }
 
     protected void makeToastSuccess() {
         Pager pager = builder.pager.get();
         if (pager != null && builder.feedbackOnSuccess) {
-            pager.makeToastShort(String.format(pager.getContext().getString(R.string.task_format_success),builder.intent));
+            pager.toast(String.format(AfApp.get().getString(R.string.task_format_success),builder.intent));
         }
     }
 
     protected void makeToastFail(Throwable e) {
         Pager pager = builder.pager.get();
         if (pager != null && builder.feedbackOnException) {
-            pager.makeToastShort(AfExceptionHandler.tip(e, String.format(pager.getContext().getString(R.string.task_format_fail), builder.intent)));
+            pager.toast(AfExceptionHandler.tip(e, String.format(AfApp.get().getString(R.string.task_format_fail), builder.intent)));
         }
     }
 

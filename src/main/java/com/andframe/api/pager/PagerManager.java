@@ -1,11 +1,11 @@
 package com.andframe.api.pager;
 
 import android.app.Activity;
+import android.app.Service;
 import android.content.Context;
 import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
 
-import com.andframe.activity.AfActivity;
 import com.andframe.fragment.AfFragment;
 
 /**
@@ -16,13 +16,13 @@ import com.andframe.fragment.AfFragment;
 @SuppressWarnings("unused")
 public interface PagerManager {
 
-    void onActivityCreated(AfActivity activity);
-    void onActivityDestroy(AfActivity activity);
-    void onActivityResume(AfActivity activity);
-    void onActivityPause(AfActivity activity);
-    void onActivityStop(AfActivity activity);
-    void onActivityRestart(AfActivity activity);
-    void onActivityStart(AfActivity activity);
+    void onActivityCreated(Activity activity);
+    void onActivityDestroy(Activity activity);
+    void onActivityResume(Activity activity);
+    void onActivityPause(Activity activity);
+    void onActivityStop(Activity activity);
+    void onActivityRestart(Activity activity);
+    void onActivityStart(Activity activity);
 
     void onFragmentCreate(AfFragment fragment);
     void onFragmentAttach(AfFragment fragment, Context context);
@@ -33,17 +33,22 @@ public interface PagerManager {
     void onFragmentStop(AfFragment fragment);
 
     boolean hasActivityRunning();
-    boolean hasActivity(Class<? extends AfActivity> clazz);
+    boolean hasActivity(Class<? extends Activity> clazz);
+    boolean hasPager(Class<? extends Pager> clazz);
 
     @Nullable
-    AfActivity currentActivity();
+    Pager currentPager();
     @Nullable
-    AfActivity getActivity(Class<? extends AfActivity> clazz);
+    Activity currentActivity();
     @Nullable
-    AfFragment getFragment(Class<? extends AfFragment> clazz);
+    <T extends Pager> T getPager(Class<T> clazz);
+    @Nullable
+    <T extends Activity> T getActivity(Class<T> clazz);
+    @Nullable
+    <T extends Fragment> T getFragment(Class<T> clazz);
 
     void finishCurrentActivity();
-    void finishActivity(AfActivity activity);
+    void finishActivity(Activity activity);
     void finishAllActivity();
 
     /**
@@ -54,8 +59,10 @@ public interface PagerManager {
     /**
      * 显示打开主页
      */
-    void startForeground(Class<? extends AfActivity> clazz);
+    void startForeground(Class<? extends Activity> clazz);
 
+    boolean startPager(Class clazz, Object... args);
+    void startService(Class<? extends Service> clazz, Object... args);
     void startActivity(Class<? extends Activity> clazz, Object... args);
     void startFragment(Class<? extends Fragment> clazz, Object... args);
     void startActivityForResult(Class<? extends Activity> clazz, int request, Object... args);
@@ -64,4 +71,5 @@ public interface PagerManager {
 
     void finishBatchUntil(Pager pager);
     void finishBatchUntil(Class<? extends Pager> pager);
+
 }

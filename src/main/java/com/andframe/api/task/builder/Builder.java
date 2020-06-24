@@ -30,6 +30,7 @@ public interface Builder {
 
     Runnable prepare();
     Runnable canceled();
+    Runnable fina11y();
     PrepareHandler prepareHandler();
     WorkingHandler working();
     Runnable success();

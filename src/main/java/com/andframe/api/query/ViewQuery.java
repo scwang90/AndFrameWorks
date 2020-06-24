@@ -9,14 +9,7 @@ import android.graphics.Rect;
 import android.graphics.RectF;
 import android.graphics.Typeface;
 import android.graphics.drawable.Drawable;
-import android.support.annotation.ColorInt;
-import android.support.annotation.ColorRes;
-import android.support.annotation.DimenRes;
-import android.support.annotation.DrawableRes;
-import android.support.annotation.IdRes;
-import android.support.annotation.NonNull;
-import android.support.annotation.Nullable;
-import android.support.annotation.StringRes;
+import android.support.annotation.*;
 import android.support.v4.view.PagerAdapter;
 import android.support.v4.view.ViewPager;
 import android.text.Editable;
@@ -32,15 +25,19 @@ import android.widget.ExpandableListAdapter;
 import android.widget.ImageView;
 import android.widget.RadioGroup;
 
-import com.andframe.api.query.handler.Where;
+import com.andframe.api.query.handler.Filter;
 import com.andframe.api.viewer.Viewer;
-import com.andframe.impl.viewer.AfViewQuery;
+import com.andframe.impl.viewer.DefaultViewQuery;
 
 import java.io.File;
+import java.lang.annotation.Retention;
+import java.lang.annotation.RetentionPolicy;
 import java.text.DateFormat;
 import java.util.Collection;
 import java.util.Date;
 import java.util.Locale;
+
+import static android.graphics.Typeface.*;
 
 /**
  * 安卓版 JQuery 接口
@@ -95,12 +92,12 @@ public interface ViewQuery<T extends ViewQuery<T>> {
      * 如果当前选中 View ，并且 View 存在于父容器中，toPrev() 将会把选择对象转移到前一个 【符合条件的】View
      * 如果 View 已经是第一个 View， 将会丢失选择对象（没有选择对象）
      */
-    T toPrevWith(Where<View> where);
+    T toPrevWith(Filter<View> filter);
     /**
      * 如果当前选中 View ，并且 View 存在于父容器中，toNext() 将会把选择对象转移到下一个 【符合条件的】View
      * 如果 View 已经是最后的 View， 将会丢失选择对象（没有选择对象）
      */
-    T toNextWith(Where<View> where);
+    T toNextWith(Filter<View> filter);
     /**
      * 如果当前选中 View ，并且 View 存在子 View，toChild() 将会把选择对象按照指定 index 转向子View
      * 如果 View 没有子View 或者 index 越界，将会丢失选择对象（没有选择对象）
@@ -148,12 +145,12 @@ public interface ViewQuery<T extends ViewQuery<T>> {
      * 将当前选择 View 的前一个【符合条件】View 添加到选择对象中
      * @see ViewQuery#toPrev()
      */
-    T mixPrevWith(Where<View> where);
+    T mixPrevWith(Filter<View> filter);
     /**
      * 将当前选择 View 的下一个 【符合条件】View 添加到选择对象中
      * @see ViewQuery#toNext()
      */
-    T mixNextWith(Where<View> where);
+    T mixNextWith(Filter<View> filter);
     /**
      * 将当前选择 View 指定子View 添加到选择对象中
      * @see ViewQuery#toChild(int...)
@@ -187,10 +184,6 @@ public interface ViewQuery<T extends ViewQuery<T>> {
      */
     int queryCount();
     /**
-     * 获取所有选择的 View
-     */
-    View[] views();
-    /**
      * 获取选择的 View （默认第一个）
      * @param index 可以指定选择的索引
      */
@@ -210,6 +203,10 @@ public interface ViewQuery<T extends ViewQuery<T>> {
     Viewer rootViewer(@NonNull Viewer viewer);
 
     /**
+     * 获取所有选择的 View
+     */
+    View[] views();
+    /**
      * 获取选择的 View （默认第一个） （模板返回）
      * @param index 可以指定选择的索引
      */
@@ -218,12 +215,8 @@ public interface ViewQuery<T extends ViewQuery<T>> {
     /**
      * 根据类型 获取选择的 View （默认第一个） （模板返回）
      */
-    <TT extends View> TT[] views(Class<TT> clazz, TT[] tt);
-    /**
-     * 根据类型 获取选择的 View （默认第一个） （模板返回）
-     */
-    @Nullable
-    <TT extends View> TT view(Class<TT> clazz ,int... index);
+    <TT extends View> TT[] views(Class<TT> clazz, TT... tts);
+
     //</editor-fold>
 
     //<editor-fold desc="选择遍历">
@@ -645,6 +638,11 @@ public interface ViewQuery<T extends ViewQuery<T>> {
     T alpha(float a);
     /**
      * @see View#setScaleX(float)
+     * @see View#setScaleY(float)
+     */
+    T scale(float scale);
+    /**
+     * @see View#setScaleX(float)
      */
     T scaleX(float scale);
     /**
@@ -780,6 +778,14 @@ public interface ViewQuery<T extends ViewQuery<T>> {
      * @param type @see {@link android.util.TypedValue}
      */
     T textSize(int type, float size);
+
+    @IntDef(value = {NORMAL, BOLD, ITALIC, BOLD_ITALIC})
+    @Retention(RetentionPolicy.SOURCE)
+    @interface Style {}
+    /**
+     * 设置当前选中 TextView 的字体样式（TextStyle）.
+     */
+    T textStyle(@Style int style);
 
     /**
      * 设置当前选中 TextView 的最大行数（MaxLines）.
@@ -1044,7 +1050,7 @@ public interface ViewQuery<T extends ViewQuery<T>> {
     /**
      * 设置当前选中 ImageView 的图片.
      * 要自行重写本方法实现网络获取并缓存
-     * 继承 {@link AfViewQuery} 重写本方法
+     * 继承 {@link DefaultViewQuery} 重写本方法
      * 并在 {@link com.andframe.application.AfApp#newViewQuery(Viewer)} 中返回新的子类
      * @param url 图片Url（不限于本地url，也可以是网络url，但是需要重写实现）.
      */
@@ -1053,7 +1059,7 @@ public interface ViewQuery<T extends ViewQuery<T>> {
     /**
      * 设置当前选中 ImageView 的图片. 并制定下载图片的尺寸（需要自行重写方法实现，仅作为扩展接口使用）
      * 要自行重写本方法实现网络获取并缓存
-     * 继承 {@link AfViewQuery} 重写本方法
+     * 继承 {@link DefaultViewQuery} 重写本方法
      * 并在 {@link com.andframe.application.AfApp#newViewQuery(Viewer)} 中返回新的子类
      * @param url 图片Url（不限于本地url，也可以是网络yrl，但是要自行重写本方法实现网络获取并缓存）.
      */
@@ -1065,6 +1071,15 @@ public interface ViewQuery<T extends ViewQuery<T>> {
      * @param resId 默认资源图片
      */
     T image(String url, int resId);
+
+    /**
+     * 设置当前选中 ImageView 的图片. 并制定下载图片的尺寸（需要自行重写方法实现，仅作为扩展接口使用）
+     * 要自行重写本方法实现网络获取并缓存
+     * 继承 {@link DefaultViewQuery} 重写本方法
+     * 并在 {@link com.andframe.application.AfApp#newViewQuery(Viewer)} 中返回新的子类
+     * @param url 图片Url（不限于本地url，也可以是网络yrl，但是要自行重写本方法实现网络获取并缓存）.
+     */
+    T image(String url, int resId, int widthPx, int heightPx);
 
     /**
      * 设置当前选中 ImageView 的图片 为头像
@@ -1207,6 +1222,8 @@ public interface ViewQuery<T extends ViewQuery<T>> {
     T removeViews(int start, int count);
     T removeAllViews();
     T removeAllViewsInLayout();
+
+    T bringToFront();
 
     T clipToPadding(boolean clip);
     T clipChildren(boolean clip);

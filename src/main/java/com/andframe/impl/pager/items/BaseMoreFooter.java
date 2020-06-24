@@ -3,7 +3,7 @@ package com.andframe.impl.pager.items;
 import android.content.DialogInterface.OnCancelListener;
 import android.view.View;
 
-import com.andframe.adapter.itemviewer.AfItemViewer;
+import com.andframe.adapter.item.ListItemViewer;
 import com.andframe.api.pager.items.MoreFooter;
 import com.andframe.api.pager.items.OnMoreListener;
 import com.andframe.listener.SafeListener;
@@ -14,11 +14,12 @@ import com.andframe.listener.SafeListener;
  * Created by SCWANG on 2016/10/21.
  */
 
-public abstract class BaseMoreFooter extends AfItemViewer<Object> implements MoreFooter {
+public abstract class BaseMoreFooter extends ListItemViewer<Object> implements MoreFooter {
 
     protected OnMoreListener listener;
     protected boolean mEnabled = false;
     protected boolean mIsLoading = false;
+    protected boolean mNoMoreData = false;
 
     @SuppressWarnings("unused")
     public BaseMoreFooter() {
@@ -35,16 +36,21 @@ public abstract class BaseMoreFooter extends AfItemViewer<Object> implements Mor
 
     @Override
     public void finishLoadMore() {
-        onUpdateStatus(mIsLoading = false, mEnabled);
+        onUpdateStatus(mIsLoading = false, mEnabled, mNoMoreData);
     }
 
     @Override
     public void setLoadMoreEnabled(boolean enabled) {
-        onUpdateStatus(mIsLoading = false, mEnabled = enabled);
+        onUpdateStatus(mIsLoading = false, mEnabled = enabled, mNoMoreData);
+    }
+
+    @Override
+    public void setNoMoreData(boolean noMoreData) {
+        onUpdateStatus(mIsLoading = false, mEnabled, mNoMoreData = noMoreData);
     }
 
     protected void setLoading() {
-        onUpdateStatus(mIsLoading = true, mEnabled = true);
+        onUpdateStatus(mIsLoading = true, mEnabled = true, false);
     }
 
     @Override
@@ -63,7 +69,7 @@ public abstract class BaseMoreFooter extends AfItemViewer<Object> implements Mor
     //<editor-fold desc="终止接口">
     @Override
     public final void onUpdateStatus(View view, int index) {
-        onUpdateStatus(mIsLoading, mEnabled);
+        onUpdateStatus(mIsLoading, mEnabled, mNoMoreData);
     }
 
     @Override
@@ -80,9 +86,9 @@ public abstract class BaseMoreFooter extends AfItemViewer<Object> implements Mor
     /**
      * 更新控件状态
      * @param isLoading     是否正在加载
-     * @param allLoadFinish 是否所有数据都加载完
+     * @param enable        是否所有数据都加载完
      */
-    protected abstract void onUpdateStatus(boolean isLoading, boolean allLoadFinish);
+    protected abstract void onUpdateStatus(boolean isLoading, boolean enable, boolean noMoreData);
 
 
 }

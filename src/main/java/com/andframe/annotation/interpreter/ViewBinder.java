@@ -12,6 +12,7 @@ import android.widget.AdapterView;
 import android.widget.CompoundButton;
 import android.widget.RadioGroup;
 
+import com.andframe.$;
 import com.andframe.annotation.view.BindCheckedChange;
 import com.andframe.annotation.view.BindCheckedChangeGroup;
 import com.andframe.annotation.view.BindClick;
@@ -37,14 +38,9 @@ import com.andframe.annotation.view.idname.BindViewModule$;
 import com.andframe.api.viewer.ItemsViewer;
 import com.andframe.api.viewer.Viewer;
 import com.andframe.application.AfApp;
-import com.andframe.exception.AfExceptionHandler;
 import com.andframe.impl.viewer.ItemsViewerWrapper;
-import com.andframe.module.AfFrameSelector;
-import com.andframe.module.AfSelectorBottomBar;
-import com.andframe.module.AfSelectorBottomBarImpl;
-import com.andframe.module.AfSelectorTitleBar;
-import com.andframe.module.AfSelectorTitleBarImpl;
-import com.andframe.module.AfViewModuler;
+import com.andframe.module.*;
+import com.andframe.module.AbstractViewModule;
 
 import java.lang.reflect.Array;
 import java.lang.reflect.Field;
@@ -396,7 +392,7 @@ public class ViewBinder {
                 BindView bind = field.getAnnotation(BindView.class);
                 bindView(field, handler, root, bind.value());
             } catch (Throwable e) {
-                AfExceptionHandler.handle(e, TAG(handler, "doBindView.") + field.getName());
+                $.error().handle(e, TAG(handler, "doBindView.") + field.getName());
             }
         }
     }
@@ -405,7 +401,7 @@ public class ViewBinder {
         List<View> list = new ArrayList<>();
         for (int id : ids) {
             View view = null;
-            if (id > 0) {
+            if (id != View.NO_ID) {
                 view = root.findViewById(id);
             } else if (ids.length > 1 || (!field.getType().isArray() && !Iterable.class.isAssignableFrom(field.getType()))) {
                 View[] receiveViews = findViewByType(root.getView(), field.getType(), 1);
@@ -438,7 +434,7 @@ public class ViewBinder {
                 if (List.class.isAssignableFrom(field.getType())) {
                     field.set(handler, list);
                 } else {
-                    AfExceptionHandler.handle("BindView多个View只支持List和Array", TAG(handler, "doBindView.") + field.getName());
+                    $.error().handle("BindView多个View只支持List和Array", TAG(handler, "doBindView.") + field.getName());
                 }
             } else if (field.getType().isInstance(list.get(0))) {
                 field.set(handler, list.get(0));
@@ -454,7 +450,7 @@ public class ViewBinder {
                 BindView$ bind = field.getAnnotation(BindView$.class);
                 bindView(field, handler, root, ids(root, bind.value()));
             } catch (Throwable e) {
-                AfExceptionHandler.handle(e, TAG(handler, "doBindView.") + field.getName());
+                $.error().handle(e, TAG(handler, "doBindView.") + field.getName());
             }
         }
     }
@@ -465,7 +461,7 @@ public class ViewBinder {
                 BindViewModule bind = field.getAnnotation(BindViewModule.class);
                 bindViewModule(field, handler, root, bind.value());
             } catch (Throwable e) {
-                AfExceptionHandler.handle(e, TAG(handler, "doBindViewModule.") + field.getName());
+                $.error().handle(e, TAG(handler, "doBindViewModule.") + field.getName());
             }
         }
     }
@@ -481,14 +477,14 @@ public class ViewBinder {
                 } else if (handler instanceof FragmentActivity) {
                     value = ((FragmentActivity) handler).getSupportFragmentManager().findFragmentById(id);
                 }
-            } else if (type.equals(AfSelectorTitleBar.class)) {
-                value = new AfSelectorTitleBarImpl(root);
-            } else if (type.equals(AfSelectorBottomBar.class)) {
-                value = new AfSelectorBottomBarImpl(root);
-            } else if (type.equals(AfFrameSelector.class)) {
-                value = new AfFrameSelector(root, id);
+            } else if (type.equals(SelectorTitleBarModule.class)) {
+                value = new DefaultSelectorTitleBarModule(root);
+            } else if (type.equals(SelectorBottomBarModule.class)) {
+                value = new DefaultSelectorBottomBarModule(root);
+            } else if (type.equals(FrameSelectorModule.class)) {
+                value = new FrameSelectorModule(root, id);
             } else if (type.equals(ItemsViewerWrapper.class) || type.equals(ItemsViewer.class)) {
-                if (id > 0) {
+                if (id != View.NO_ID) {
                     View view = root.findViewById(id);
                     if (view != null) {
                         value = new ItemsViewerWrapper(view);
@@ -498,7 +494,28 @@ public class ViewBinder {
                 } else {
                     value = new ItemsViewerWrapper(root);
                 }
-            } else /*if ((field.getType().isAnnotationPresent(BindLayout.class) || id > 0))*/ {
+            } else if (ItemsViewer.class.isAssignableFrom(type)) {
+                if (id != View.NO_ID) {
+                    View view = root.findViewById(id);
+                    if (view != null) {
+                        ItemsViewer<? extends ViewGroup> viewer = ItemsViewerWrapper.defaultItemsViewer(view);
+                        if (viewer != null && type.isAssignableFrom(viewer.getClass())) {
+                            value = viewer;
+                        } else {
+                            notFindView(handler, ids[0], TAG(handler, "bindViewModule.") + field.getName());
+                        }
+                    } else {
+                        notFindView(handler, ids[0], TAG(handler, "bindViewModule.") + field.getName());
+                    }
+                } else {
+                    ItemsViewer<? extends ViewGroup> viewer = ItemsViewerWrapper.defaultItemsViewer(ItemsViewerWrapper.searchItemsView(root));
+                    if (viewer != null && type.isAssignableFrom(viewer.getClass())) {
+                        value = viewer;
+                    } else {
+                        notFindView(handler, ids[0], TAG(handler, "bindViewModule.") + field.getName());
+                    }
+                }
+            } else /*if ((field.getType().isAnnotationPresent(BindLayout.class) || id != View.NO_ID))*/ {
                 if (type.isArray()) {
                     type = field.getType().getComponentType();
                 } else if (List.class.isAssignableFrom(type)) {
@@ -510,12 +527,12 @@ public class ViewBinder {
                     id = LayoutBinder.getBindLayoutId(field.getType(), root.getContext());
                 }
                 if (id <= 0) {
-                    AfExceptionHandler.handle("ViewModuler("+type.getSimpleName()+") 必须指定BindLayout",TAG(handler, "doBindViewModule.") + field.getName());
-                } else if (AfViewModuler.class.isAssignableFrom(type)) {
+                    $.error().handle("ViewModuler("+type.getSimpleName()+") 必须指定BindLayout",TAG(handler, "doBindViewModule.") + field.getName());
+                } else if (AbstractViewModule.class.isAssignableFrom(type)) {
                     //noinspection unchecked
-                    value = AfViewModuler.init(handler, (Class<? extends AfViewModuler>) type, root, id);
+                    value = AbstractViewModule.init(handler, (Class<? extends AbstractViewModule>) type, root, id);
                 } else {
-                    AfExceptionHandler.handle("BindViewModule的类型必须继承AfViewModuler",TAG(handler, "doBindViewModule.") + field.getName());
+                    $.error().handle("BindViewModule的类型必须继承AbstractViewModule",TAG(handler, "doBindViewModule.") + field.getName());
                 }
             }
             if (value != null) {
@@ -543,7 +560,7 @@ public class ViewBinder {
                 BindViewModule$ bind = field.getAnnotation(BindViewModule$.class);
                 bindViewModule(field, handler, root, ids(root, bind.value()));
             } catch (Throwable e) {
-                AfExceptionHandler.handle(e, TAG(handler, "doBindViewModule.") + field.getName());
+                $.error().handle(e, TAG(handler, "doBindViewModule.") + field.getName());
             }
         }
     }
@@ -564,7 +581,7 @@ public class ViewBinder {
                 if (!entry.getValue().exception()) {
                     throw new RuntimeException("调用视图初始化失败", e);
                 }
-                AfExceptionHandler.handle(e, TAG(handler, "bindViewCreated.") + entry.getKey().getName());
+                $.error().handle(e, TAG(handler, "bindViewCreated.") + entry.getKey().getName());
             }
         }
     }
@@ -602,6 +619,7 @@ public class ViewBinder {
     }
 
 
+    @SuppressWarnings("WeakerAccess")
     public static class EventListener implements OnClickListener,
             View.OnLongClickListener,
             AdapterView.OnItemClickListener,
@@ -721,7 +739,7 @@ public class ViewBinder {
                     return method.invoke(handler, paramAllot(method, params));
                 } catch (Throwable e) {
                     e.printStackTrace();
-                    AfExceptionHandler.handle(e, "EventListener.invokeMethod");
+                    $.error().handle(e, "EventListener.invokeMethod");
                 }
             }
             return null;
@@ -740,25 +758,25 @@ public class ViewBinder {
         return ids;
     }
 
-    private static View[] findViewByType(View rootview, Class<?> type) {
-        return findViewByType(rootview, type, 0);
+    private static View[] findViewByType(View rootView, Class<?> type) {
+        return findViewByType(rootView, type, 0);
     }
 
-    private static View[] findViewByType(View rootview, Class<?> type, int count) {
-        if (type.isArray()) {
+    private static View[] findViewByType(View rootView, Class<?> type, int count) {
+        if (type.isArray() && type.getComponentType() != null) {
             type = type.getComponentType();
         }
         count = count <= 0 ? Integer.MAX_VALUE : count;
 
-        Queue<View> views = new LinkedBlockingQueue<>(Collections.singletonList(rootview));
+        Queue<View> views = new LinkedBlockingQueue<>(Collections.singletonList(rootView));
         List<View> list = new ArrayList<>(count == Integer.MAX_VALUE ? 0 : count);
         do {
-            View cview = views.poll();
-            if (cview != null && type.isInstance(cview)) {
-                list.add(cview);
+            View view = views.poll();
+            if (view != null && type.isInstance(view)) {
+                list.add(view);
             } else {
-                if (cview instanceof ViewGroup) {
-                    ViewGroup group = (ViewGroup) cview;
+                if (view instanceof ViewGroup) {
+                    ViewGroup group = (ViewGroup) view;
                     for (int j = 0; j < group.getChildCount(); j++) {
                         views.add(group.getChildAt(j));
                     }
@@ -766,7 +784,7 @@ public class ViewBinder {
             }
         } while (!views.isEmpty() && list.size() < count);
 
-        return list.toArray(new View[list.size()]);
+        return list.toArray(new View[0]);
     }
 
     //</editor-fold>
@@ -783,9 +801,9 @@ public class ViewBinder {
 
     private static void notFindView(Object handler, String name, String tag) {
         if (name == null) {
-            AfExceptionHandler.handle("无效ID，无法绑定", tag);
+            $.error().handle("无效ID，无法绑定", tag);
         } else {
-            AfExceptionHandler.handle("为["+handler.getClass().getSimpleName()+"]匹配View的时候找不到" + name + "，无法绑定", tag);
+            $.error().handle("为["+handler.getClass().getSimpleName()+"]匹配View的时候找不到" + name + "，无法绑定", tag);
         }
     }
     //</editor-fold>

@@ -1,9 +1,11 @@
 package com.andframe.impl.pager;
 
 import android.app.Activity;
+import android.app.Service;
 import android.content.Context;
 import android.content.Intent;
 import android.support.annotation.CallSuper;
+import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
 
 import com.andframe.activity.AfActivity;
@@ -14,6 +16,7 @@ import com.andframe.application.AfApp;
 import com.andframe.exception.AfException;
 import com.andframe.feature.AfIntent;
 import com.andframe.fragment.AfFragment;
+import com.andframe.impl.wrapper.PagerWrapper;
 
 import java.util.Stack;
 
@@ -26,32 +29,32 @@ public class AfPagerManager implements PagerManager {
 
     //<editor-fold desc="功能实现">
     // 当前主页面
-    private Stack<AfActivity> mStackActivity = new Stack<>();
+    private Stack<Activity> mStackActivity = new Stack<>();
 
     public AfPagerManager() {
     }
 
     @Override@CallSuper
-    public void onActivityCreated(AfActivity activity) {
+    public void onActivityCreated(Activity activity) {
         if (!mStackActivity.contains(activity)) {
             mStackActivity.push(activity);
         }
     }
 
     @Override@CallSuper
-    public void onActivityDestroy(AfActivity activity) {
+    public void onActivityDestroy(Activity activity) {
         if (mStackActivity.contains(activity)) {
             mStackActivity.remove(activity);
         }
     }
 
     @Override
-    public void onActivityResume(AfActivity activity) {
+    public void onActivityResume(Activity activity) {
 
     }
 
     @Override@CallSuper
-    public void onActivityPause(AfActivity activity) {
+    public void onActivityPause(Activity activity) {
         if (activity.isFinishing()) {
             if (mStackActivity.contains(activity)) {
                 mStackActivity.remove(activity);
@@ -60,17 +63,17 @@ public class AfPagerManager implements PagerManager {
     }
 
     @Override
-    public void onActivityStart(AfActivity activity) {
+    public void onActivityStart(Activity activity) {
 
     }
 
     @Override
-    public void onActivityRestart(AfActivity activity) {
+    public void onActivityRestart(Activity activity) {
 
     }
 
     @Override
-    public void onActivityStop(AfActivity activity) {
+    public void onActivityStop(Activity activity) {
     }
 
     @Override
@@ -114,7 +117,7 @@ public class AfPagerManager implements PagerManager {
     }
 
     @Override
-    public boolean hasActivity(Class<? extends AfActivity> clazz) {
+    public boolean hasActivity(Class<? extends Activity> clazz) {
         for (Activity activity : mStackActivity) {
             if (activity.getClass().equals(clazz)) {
                 return true;
@@ -124,7 +127,21 @@ public class AfPagerManager implements PagerManager {
     }
 
     @Override
-    public AfActivity currentActivity() {
+    public boolean hasPager(Class<? extends Pager> pager) {
+        for (Activity activity : mStackActivity) {
+            if (pager.isAssignableFrom(activity.getClass())) {
+                return true;
+            } else if (activity instanceof AfFragmentActivity) {
+                if (pager.isAssignableFrom(((AfFragmentActivity) activity).getFragmentClazz())) {
+                    return true;
+                }
+            }
+        }
+        return false;
+    }
+
+    @Override
+    public Activity currentActivity() {
         System.out.println(this + " currentActivity - size = " + mStackActivity.size());
         if (mStackActivity.isEmpty()) {
             return null;
@@ -132,23 +149,66 @@ public class AfPagerManager implements PagerManager {
         return mStackActivity.peek();
     }
 
+    @Nullable
     @Override
-    public AfActivity getActivity(Class<? extends AfActivity> clazz) {
-        for (AfActivity activity : mStackActivity) {
+    public Pager currentPager() {
+        System.out.println(this + " currentPager - size = " + mStackActivity.size());
+        if (mStackActivity.isEmpty()) {
+            return null;
+        }
+        Activity activity = mStackActivity.peek();
+        if (activity instanceof AfFragmentActivity) {
+            Fragment fragment = ((AfFragmentActivity) activity).getFragment();
+            if (fragment instanceof Pager) {
+                return (Pager) fragment;
+            }
+        }
+
+        if (activity instanceof AfActivity) {
+            return (AfActivity)activity;
+        } else if (activity != null) {
+            return new PagerWrapper(activity);
+        }
+        return null;
+    }
+
+    @Nullable
+    @Override
+    public <T extends Pager> T getPager(Class<T> clazz) {
+        for (int i = mStackActivity.size() ; i > 0; i--) {
+            Activity activity = mStackActivity.get(i - 1);
             if (clazz.isAssignableFrom(activity.getClass())) {
-                return activity;
+                return clazz.cast(activity);
+            } else if (activity instanceof AfFragmentActivity) {
+                Fragment fragment = ((AfFragmentActivity) activity).getFragment();
+                if (clazz.isAssignableFrom(fragment.getClass())) {
+                    return clazz.cast(fragment);
+                }
             }
         }
         return null;
     }
 
+    @Nullable
     @Override
-    public AfFragment getFragment(Class<? extends AfFragment> clazz) {
-        for (AfActivity activity : mStackActivity) {
+    public <T extends Activity> T getActivity(Class<T> clazz) {
+        for (Activity activity : mStackActivity) {
+            if (clazz.isAssignableFrom(activity.getClass())) {
+                return clazz.cast(activity);
+            }
+        }
+        return null;
+    }
+
+
+    @Nullable
+    @Override
+    public <T extends Fragment> T getFragment(Class<T> clazz) {
+        for (Activity activity : mStackActivity) {
             if (activity instanceof AfFragmentActivity) {
                 Fragment fragment = ((AfFragmentActivity) activity).getFragment();
-                if (fragment instanceof AfFragment) {
-                    return (AfFragment) fragment;
+                if (clazz.isAssignableFrom(fragment.getClass())) {
+                    return clazz.cast(fragment);
                 }
             }
         }
@@ -158,7 +218,7 @@ public class AfPagerManager implements PagerManager {
     @Override
     public void finishBatchUntil(Pager pager) {
         while (!mStackActivity.empty()) {
-            AfActivity activity = mStackActivity.peek();
+            Activity activity = mStackActivity.peek();
             if (activity == pager) {
                 return;
             } else if (activity instanceof AfFragmentActivity) {
@@ -174,7 +234,7 @@ public class AfPagerManager implements PagerManager {
     @Override
     public void finishBatchUntil(Class<? extends Pager> pager) {
         while (!mStackActivity.empty()) {
-            AfActivity activity = mStackActivity.peek();
+            Activity activity = mStackActivity.peek();
             if (pager.isAssignableFrom(activity.getClass())) {
                 return;
             } else if (activity instanceof AfFragmentActivity) {
@@ -189,14 +249,14 @@ public class AfPagerManager implements PagerManager {
 
     @Override
     public void finishCurrentActivity() {
-        AfActivity activity = currentActivity();
+        Activity activity = currentActivity();
         if (activity != null) {
             activity.finish();
         }
     }
 
     @Override
-    public void finishActivity(AfActivity activity) {
+    public void finishActivity(Activity activity) {
         if (activity != null && mStackActivity.contains(activity)) {
             activity.finish();
         }
@@ -213,12 +273,12 @@ public class AfPagerManager implements PagerManager {
 
     @Override
     public void startForeground() {
-        throw new AfException("如要使用startForeground功能，请自行继承AfPagerManager并实现startForeground");
+        throw new AfException("如要使用startForeground功能，请自行继承" + getClass().getSimpleName() + "并实现startForeground");
     }
 
     @Override
-    public void startForeground(Class<? extends AfActivity> clazz) {
-        AfActivity lastActivity = null;
+    public void startForeground(Class<? extends Activity> clazz) {
+        Activity lastActivity = null;
         while (mStackActivity.size() > 0) {
             lastActivity = mStackActivity.peek();
             if (clazz.isAssignableFrom(lastActivity.getClass())) {
@@ -226,18 +286,24 @@ public class AfPagerManager implements PagerManager {
             }
             mStackActivity.pop().finish();
         }
+        if (lastActivity instanceof AfActivity) {
+            ((AfActivity) lastActivity).startActivity(clazz);
+        }
         if (lastActivity != null) {
-            lastActivity.startActivity(clazz);
+            lastActivity.startActivity(new Intent(lastActivity, clazz));
         } else {
             startActivity(clazz);
         }
     }
 
+
     @Override
     public void startActivity(Class<? extends Activity> clazz, Object... args) {
-        AfActivity activity = currentActivity();
-        if (activity != null && activity.isRecycled()) {
-            activity.startActivity(clazz, args);
+        Activity activity = currentActivity();
+        if (activity instanceof AfActivity) {
+            ((AfActivity) activity).startActivity(clazz, args);
+        } else if (activity != null) {
+            activity.startActivity(new AfIntent(activity, clazz, args));
         } else {
             AfApp app = AfApp.get();
             AfIntent intent = new AfIntent(app, clazz);
@@ -253,6 +319,8 @@ public class AfPagerManager implements PagerManager {
             startFragment(clazz,args);
         } else if (Activity.class.isAssignableFrom(clazz)) {
             startActivity(clazz, args);
+        } else if (Service.class.isAssignableFrom(clazz)) {
+            startService(clazz, args);
         } else {
             return false;
         }
@@ -260,10 +328,25 @@ public class AfPagerManager implements PagerManager {
     }
 
     @Override
+    public void startService(Class<? extends Service> clazz, Object... args) {
+        Activity activity = currentActivity();
+        if (activity instanceof AfActivity) {
+            ((AfActivity) activity).startService(clazz, args);
+        } else if (activity != null) {
+            activity.startService(new AfIntent(activity, clazz, args));
+        } else {
+            AfApp app = AfApp.get();
+            app.startService(new AfIntent(app, clazz, args));
+        }
+    }
+
+    @Override
     public void startFragment(Class<? extends Fragment> clazz, Object... args) {
-        AfActivity activity = currentActivity();
-        if (activity != null && activity.isRecycled()) {
-            activity.startFragment(clazz, args);
+        Activity activity = currentActivity();
+        if (activity instanceof AfActivity) {
+            ((AfActivity) activity).startFragment(clazz, args);
+        } else if (activity != null) {
+            AfFragmentActivity.start(null, clazz, args);
         } else {
             AfFragmentActivity.start(null, clazz, args);
         }
@@ -271,19 +354,21 @@ public class AfPagerManager implements PagerManager {
 
     @Override
     public void startActivityForResult(Class<? extends Activity> clazz, int request, Object... args) {
-        AfActivity activity = currentActivity();
+        Activity activity = currentActivity();
         if (activity instanceof AfFragmentActivity) {
             ((AfFragmentActivity) activity).getFragment().startActivityForResult(new AfIntent(activity,clazz).putKeyVaules(args), request);
-        } else if (activity != null && activity.isRecycled()) {
-            activity.startActivityForResult(clazz, request, args);
+        } else if (activity instanceof AfActivity) {
+            ((AfActivity) activity).startActivityForResult(clazz, request, args);
+        } else if (activity != null) {
+            activity.startActivityForResult(new AfIntent(activity, clazz, args), request);
         }
     }
 
     @Override
     public void startFragmentForResult(Class<? extends Fragment> clazz, int request, Object... args) {
-        AfActivity activity = currentActivity();
-        if (activity != null && activity.isRecycled()) {
-            activity.startFragment(clazz, request, args);
+        Activity activity = currentActivity();
+        if (activity instanceof AfActivity) {
+            ((AfActivity) activity).startFragmentForResult(clazz, request, args);
         }
     }
 

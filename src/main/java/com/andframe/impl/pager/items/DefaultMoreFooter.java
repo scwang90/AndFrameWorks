@@ -25,13 +25,21 @@ public class DefaultMoreFooter extends BaseMoreFooter implements MoreFooter {
     }
 
     @Override
-    protected void onUpdateStatus(boolean isLoading, boolean allLoadFinish) {
-        if (mIsLoading) {
-            $(mProgressBar).visible().with(mTextView).visible().text("正在加载...");
-        } else if (mEnabled) {
-            $(mProgressBar).gone().with(mTextView).visible().text("点击查看更多");
-        } else {
+    public void onViewCreated() {
+        super.onViewCreated();
+        $().clicked(v -> listener.onMore());
+    }
+
+    @Override
+    protected void onUpdateStatus(boolean isLoading, boolean enable, boolean noMoreData) {
+        if (!enable) {
             $(mProgressBar, mTextView).gone();
+        } else if (isLoading) {
+            $(mProgressBar).visible().with(mTextView).visible().text(R.string.refresh_footer_loading);
+        } else if (noMoreData) {
+            $(mProgressBar).gone().with(mTextView).visible().text(R.string.items_loading_all);
+        } else {
+            $(mProgressBar).gone().with(mTextView).visible().text(R.string.refresh_footer_more);
         }
     }
 }

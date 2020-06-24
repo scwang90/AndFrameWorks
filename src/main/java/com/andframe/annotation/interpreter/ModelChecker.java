@@ -2,6 +2,7 @@ package com.andframe.annotation.interpreter;
 
 import android.text.TextUtils;
 
+import com.andframe.$;
 import com.andframe.annotation.model.IntRange;
 import com.andframe.annotation.model.MinFloat;
 import com.andframe.annotation.model.MinInt;
@@ -92,7 +93,7 @@ public class ModelChecker {
             return true;
         } catch (Throwable e) {
             if (pager != null) {
-                pager.makeToastShort("请先完善信息", e);
+                $.toaster(pager).error("请先完善信息", e);
             }
             return false;
         }

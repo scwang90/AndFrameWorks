@@ -1,23 +1,17 @@
 package com.andframe.api;
 
+import android.support.annotation.StringRes;
+
 /**
  * Toast 气泡提示
  * Created by SCWANG on 2016/9/1.
  */
-public interface Toaster {
+public interface Toaster extends ToastBuilder {
 
-    //<editor-fold desc="气泡提示">
-    void makeToastLong(int resId);
+    void toast(@StringRes int resId);
 
-    void makeToastShort(int resId);
+    void toast(CharSequence msg);
 
-    void makeToastLong(CharSequence tip);
-
-    void makeToastLong(CharSequence tip, Throwable e);
-
-    void makeToastShort(CharSequence tip);
-
-    void makeToastShort(CharSequence tip, Throwable e);
-    //</editor-fold>
+    void error(CharSequence remark, Throwable throwable);
 
 }

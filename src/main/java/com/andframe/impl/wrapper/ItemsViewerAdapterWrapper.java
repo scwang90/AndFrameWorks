@@ -14,7 +14,7 @@ import com.andframe.adapter.recycler.RecyclerBaseAdapter;
 import com.andframe.adapter.recycler.ViewHolderItem;
 import com.andframe.api.adapter.ItemViewer;
 import com.andframe.api.adapter.ItemsViewerAdapter;
-import com.andframe.api.query.handler.Where;
+import com.andframe.api.query.handler.Filter;
 
 import java.util.Collection;
 import java.util.Comparator;
@@ -180,6 +180,16 @@ public class ItemsViewerAdapterWrapper<T> extends RecyclerBaseAdapter<ViewHolder
     @Override
     public void set(@NonNull List<T> list) {
         wrapped.set(list);
+    }
+
+    @Override
+    public void refresh(@NonNull List<T> list) {
+        wrapped.refresh(list);
+    }
+
+    @Override
+    public void loadMore(@NonNull List<T> list) {
+        wrapped.loadMore(list);
     }
 
     @Override
@@ -403,8 +413,8 @@ public class ItemsViewerAdapterWrapper<T> extends RecyclerBaseAdapter<ViewHolder
 
     //<editor-fold desc="Wrapper ListQuery">
     @Override
-    public void remove(Where<T> where) {
-        wrapped.remove(where);
+    public void remove(Filter<T> filter) {
+        wrapped.remove(filter);
     }
     //</editor-fold>
 }

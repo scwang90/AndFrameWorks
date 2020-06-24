@@ -11,6 +11,7 @@ import android.view.View;
 import com.andframe.activity.AfActivity;
 import com.andframe.api.Cacher;
 import com.andframe.api.DialogBuilder;
+import com.andframe.api.ErrorManager;
 import com.andframe.api.ModelConvertor;
 import com.andframe.api.Toaster;
 import com.andframe.api.event.EventManager;
@@ -18,19 +19,19 @@ import com.andframe.api.pager.PagerManager;
 import com.andframe.api.query.ListQuery;
 import com.andframe.api.query.ViewQuery;
 import com.andframe.api.service.UpdateService;
+import com.andframe.api.storage.StorageManager;
 import com.andframe.api.task.TaskExecutor;
-import com.andframe.api.viewer.ViewModuler;
+import com.andframe.api.viewer.ViewModule;
 import com.andframe.api.viewer.Viewer;
 import com.andframe.application.AfApp;
-import com.andframe.application.AfAppSettings;
+import com.andframe.application.AppSettings;
 import com.andframe.impl.viewer.ViewerWrapper;
-import com.andframe.task.AfDispatcher;
+import com.andframe.task.Dispatcher;
 
 import java.lang.reflect.Array;
 import java.lang.reflect.InvocationHandler;
 import java.lang.reflect.Method;
 import java.lang.reflect.ParameterizedType;
-import java.lang.reflect.Proxy;
 import java.lang.reflect.Type;
 import java.util.ArrayList;
 import java.util.Arrays;
@@ -44,7 +45,7 @@ import java.util.List;
 public class AndFrame {
 
     private static InvocationHandler handler = new $$$();
-    private static Api api = (Api) Proxy.newProxyInstance($$$.class.getClassLoader(), new Class[]{Api.class}, handler );
+//    private static Api api = (Api) Proxy.newProxyInstance($$$.class.getClassLoader(), new Class[]{Api.class}, handler );
     private static Object[] lastWiths;
 
     interface $$ {
@@ -52,20 +53,20 @@ public class AndFrame {
         <From,To> List<To> convertList(@NonNull Iterable<From> froms, @NonNull ModelConvertor<From, To> convertor);
     }
 
-    public interface Api extends $$,TaskExecutor, DialogBuilder, ViewQuery, Cacher, EventManager {
-    }
+//    public interface Api extends $$,TaskExecutor, DialogBuilder, ViewQuery, Cacher, EventManager {
+//    }
 
-    @SuppressWarnings("MethodNameSameAsClassName")
-    @MainThread
-    public static Api $(Object... withs) {
-        return with(withs);
-    }
-
-    @MainThread
-    public static Api with(Object... withs) {
-        lastWiths = withs;
-        return api;
-    }
+//    @SuppressWarnings("MethodNameSameAsClassName")
+//    @MainThread
+//    public static Api $(Object... withs) {
+//        return with(withs);
+//    }
+//
+//    @MainThread
+//    public static Api with(Object... withs) {
+//        lastWiths = withs;
+//        return api;
+//    }
 
     //<editor-fold desc="获取实例">
     private static Toaster instanceToaster = null;
@@ -140,13 +141,30 @@ public class AndFrame {
         }
         return instanceUpdateService;
     }
+
+    private static ErrorManager instanceErrorManager;
+    private static ErrorManager getInstanceErrorManager() {
+        if (instanceErrorManager == null) {
+            instanceErrorManager = AfApp.get().newErrorManager();
+        }
+        return instanceErrorManager;
+    }
+
+    private static StorageManager instanceStorageManager;
+    private static StorageManager getInstanceStorageManager() {
+        if (instanceStorageManager == null) {
+            instanceStorageManager = AfApp.get().newStorageManager();
+        }
+        return instanceStorageManager;
+    }
+
     //</editor-fold>
 
     //<editor-fold desc="快速分类">
-    public static Toaster toast() {
+    public static Toaster toaster() {
         return getInstanceToast();
     }
-    public static Toaster toast(Viewer viewer) {
+    public static Toaster toaster(Viewer viewer) {
         return getInstanceToast(viewer);
     }
 
@@ -182,8 +200,16 @@ public class AndFrame {
         return getInstancePagerManager();
     }
 
-    public static AfAppSettings settings() {
-        return AfAppSettings.getInstance();
+    public static AppSettings settings() {
+        return AppSettings.getInstance();
+    }
+
+    public static ErrorManager error() {
+        return getInstanceErrorManager();
+    }
+
+    public static StorageManager storage() {
+        return getInstanceStorageManager();
     }
 
     @MainThread
@@ -227,25 +253,25 @@ public class AndFrame {
     //</editor-fold>
 
     public static void dispatch(Runnable runnable){
-        AfDispatcher.dispatch(runnable);
+        Dispatcher.dispatch(runnable);
     }
 
     public static void dispatch(Runnable runnable, long delay){
-        AfDispatcher.dispatch(runnable, delay);
+        Dispatcher.dispatch(runnable, delay);
     }
 
     public static void dispatch(long delay, Runnable runnable){
-        AfDispatcher.dispatch(runnable, delay);
+        Dispatcher.dispatch(runnable, delay);
     }
 
-    public static Api get() {
-        return api;
-    }
+//    public static Api get() {
+//        return api;
+//    }
 
     private static Viewer getLastViewer() {
         if (lastWiths != null && lastWiths.length > 0) {
-            if (lastWiths[0] instanceof ViewModuler) {
-                return new ViewerWrapper(((ViewModuler) lastWiths[0]).getView());
+            if (lastWiths[0] instanceof ViewModule) {
+                return new ViewerWrapper(((ViewModule) lastWiths[0]).getView());
             } else if (lastWiths[0] instanceof View) {
                 return new ViewerWrapper(((View) lastWiths[0]));
             } else if (lastWiths[0] instanceof Viewer) {

@@ -4,6 +4,7 @@ import android.app.Activity;
 import android.app.Dialog;
 import android.content.Context;
 
+import com.andframe.$;
 import com.andframe.annotation.pager.BindLayout;
 import com.andframe.annotation.pager.idname.BindLayout$;
 import com.andframe.exception.AfExceptionHandler;
@@ -32,7 +33,7 @@ public class LayoutBinder {
                 activity.setContentView(layoutId);
             }
         } catch (Throwable ex) {
-            AfExceptionHandler.handle(ex, TAG(activity, "doBind(activity)"));
+            $.error().handle(ex, TAG(activity, "doBind(activity)"));
         }
     }
 
@@ -43,7 +44,7 @@ public class LayoutBinder {
                 dialog.setContentView(layoutId);
             }
         } catch (Throwable ex) {
-            AfExceptionHandler.handle(ex, TAG(dialog, "doBind(dialog)"));
+            $.error().handle(ex, TAG(dialog, "doBind(dialog)"));
         }
     }
 

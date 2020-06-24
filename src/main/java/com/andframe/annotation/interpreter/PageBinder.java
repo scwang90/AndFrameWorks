@@ -3,6 +3,7 @@ package com.andframe.annotation.interpreter;
 import android.app.Activity;
 import android.support.annotation.NonNull;
 
+import com.andframe.$;
 import com.andframe.activity.AfActivity;
 import com.andframe.annotation.pager.BindSoftInputMode;
 import com.andframe.exception.AfExceptionHandler;
@@ -43,7 +44,7 @@ public class PageBinder {
                 }
             }
         } catch (Throwable ex) {
-            AfExceptionHandler.handle(ex, TAG(activity, "doBind(activity)"));
+            $.error().handle(ex, TAG(activity, "doBind(activity)"));
         }
     }
 

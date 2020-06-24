@@ -1,5 +1,6 @@
 package com.andframe.listener;
 
+import android.annotation.SuppressLint;
 import android.app.DatePickerDialog;
 import android.app.TimePickerDialog;
 import android.content.DialogInterface;
@@ -9,6 +10,7 @@ import android.widget.DatePicker;
 import android.widget.SeekBar;
 import android.widget.TimePicker;
 
+import com.andframe.$;
 import com.andframe.api.DialogBuilder;
 import com.andframe.exception.AfExceptionHandler;
 
@@ -32,7 +34,7 @@ public class SafeListener implements
 
     private View.OnClickListener clickListener;
     private View.OnLongClickListener longClockListener;
-    private View.OnTouchListener touthListener;
+    private View.OnTouchListener touchListener;
     private SeekBar.OnSeekBarChangeListener seekBarChangeListener;
     private DialogInterface.OnClickListener dialogClickListener;
     private DialogInterface.OnCancelListener cancelListener;
@@ -56,8 +58,8 @@ public class SafeListener implements
         this.longClockListener = longClockListener;
     }
 
-    public SafeListener(View.OnTouchListener touthListener) {
-        this.touthListener = touthListener;
+    public SafeListener(View.OnTouchListener touchListener) {
+        this.touchListener = touchListener;
     }
 
     public SafeListener(SeekBar.OnSeekBarChangeListener seekBarChangeListener) {
@@ -98,7 +100,7 @@ public class SafeListener implements
             try {
                 dateSetListener.onDateSet(view, year, month, dayOfMonth);
             } catch (Throwable e) {
-                AfExceptionHandler.handle(e, "SafeListener.dateSetListener.onDateSet");
+                $.error().handle(e, "SafeListener.dateSetListener.onDateSet");
             }
         }
     }
@@ -109,7 +111,7 @@ public class SafeListener implements
             try {
                 timeSetListener.onTimeSet(view, hourOfDay, minute);
             } catch (Throwable e) {
-                AfExceptionHandler.handle(e, "SafeListener.timeSetListener.onTimeSet");
+                $.error().handle(e, "SafeListener.timeSetListener.onTimeSet");
             }
         }
     }
@@ -120,7 +122,7 @@ public class SafeListener implements
             try {
                 cancelListener.onCancel(dialog);
             } catch (Throwable e) {
-                AfExceptionHandler.handle(e, "SafeListener.cancelListener.onCancel");
+                $.error().handle(e, "SafeListener.cancelListener.onCancel");
             }
         }
     }
@@ -131,7 +133,7 @@ public class SafeListener implements
             try {
                 dialogClickListener.onClick(dialog, which);
             } catch (Throwable e) {
-                AfExceptionHandler.handle(e, "SafeListener.dialogClickListener.onClick");
+                $.error().handle(e, "SafeListener.dialogClickListener.onClick");
             }
         }
     }
@@ -142,7 +144,7 @@ public class SafeListener implements
             try {
                 multiChoiceClickListener.onClick(dialog, which, isChecked);
             } catch (Throwable e) {
-                AfExceptionHandler.handle(e, "SafeListener.multiChoiceClickListener.onClick");
+                $.error().handle(e, "SafeListener.multiChoiceClickListener.onClick");
             }
         }
     }
@@ -155,7 +157,7 @@ public class SafeListener implements
                 lastTime = thisTime;
                 clickListener.onClick(v);
             } catch (Throwable e) {
-                AfExceptionHandler.handle(e, "SafeListener.clickListener.onClick");
+                $.error().handle(e, "SafeListener.clickListener.onClick");
             }
         }
     }
@@ -166,19 +168,20 @@ public class SafeListener implements
             try {
                 return longClockListener.onLongClick(v);
             } catch (Throwable e) {
-                AfExceptionHandler.handle(e, "SafeListener.longClockListener.onLongClick");
+                $.error().handle(e, "SafeListener.longClockListener.onLongClick");
             }
         }
         return false;
     }
 
     @Override
+    @SuppressLint("ClickableViewAccessibility")
     public boolean onTouch(View v, MotionEvent event) {
-        if (touthListener != null) {
+        if (touchListener != null) {
             try {
-                return touthListener.onTouch(v, event);
+                return touchListener.onTouch(v, event);
             } catch (Throwable e) {
-                AfExceptionHandler.handle(e, "SafeListener.touthListener.onTouch");
+                $.error().handle(e, "SafeListener.touchListener.onTouch");
             }
         }
         return false;
@@ -190,7 +193,7 @@ public class SafeListener implements
             try {
                 dateTimeSetListener.onDateTimeSet(year, month, day, hour, minute);
             } catch (Throwable e) {
-                AfExceptionHandler.handle(e, "SafeListener.dateTimeSetListener.onDateTimeSet");
+                $.error().handle(e, "SafeListener.dateTimeSetListener.onDateTimeSet");
             }
         }
     }
@@ -201,7 +204,7 @@ public class SafeListener implements
             try {
                 seekBarChangeListener.onProgressChanged(seekBar, progress, fromUser);
             } catch (Throwable e) {
-                AfExceptionHandler.handle(e, "SafeListener.seekBarChangeListener.onProgressChanged");
+                $.error().handle(e, "SafeListener.seekBarChangeListener.onProgressChanged");
             }
         }
     }
@@ -212,7 +215,7 @@ public class SafeListener implements
             try {
                 seekBarChangeListener.onStartTrackingTouch(seekBar);
             } catch (Throwable e) {
-                AfExceptionHandler.handle(e, "SafeListener.seekBarChangeListener.onStartTrackingTouch");
+                $.error().handle(e, "SafeListener.seekBarChangeListener.onStartTrackingTouch");
             }
         }
     }
@@ -223,7 +226,7 @@ public class SafeListener implements
             try {
                 seekBarChangeListener.onStopTrackingTouch(seekBar);
             } catch (Throwable e) {
-                AfExceptionHandler.handle(e, "SafeListener.seekBarChangeListener.onStopTrackingTouch");
+                $.error().handle(e, "SafeListener.seekBarChangeListener.onStopTrackingTouch");
             }
         }
     }

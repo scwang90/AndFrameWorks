@@ -4,7 +4,7 @@ package com.andframe.activity;
 import android.support.annotation.CallSuper;
 
 import com.andframe.$;
-import com.andframe.application.AfAppSettings;
+import com.andframe.application.AppSettings;
 
 /**
  * 通用页面基类
@@ -19,7 +19,7 @@ public class AfMainActivity extends AfActivity {
     @CallSuper
     public void onViewCreated()  {
         super.onViewCreated();
-        if (AfAppSettings.getInstance().isAutoUpdate()) {
+        if (AppSettings.getInstance().isAutoUpdate()) {
             $.update().checkUpdate();
         }
     }
@@ -30,7 +30,7 @@ public class AfMainActivity extends AfActivity {
         if (!isHandled && mDoubleBackKeyPressed) {
             isHandled = true;
             if ((System.currentTimeMillis() - mExitTime) > mExitInterval) {
-                makeToastShort("再按一次退出");
+                toast("再按一次退出");
                 mExitTime = System.currentTimeMillis();
             } else {
                 this.finish();

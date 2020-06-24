@@ -3,6 +3,7 @@ package com.andframe.activity;
 import android.annotation.SuppressLint;
 import android.app.Activity;
 import android.app.Dialog;
+import android.app.Service;
 import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
@@ -12,27 +13,25 @@ import android.support.v7.app.AppCompatActivity;
 import android.view.KeyEvent;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.Toast;
 
 import com.andframe.$;
 import com.andframe.annotation.BindMustLogin;
 import com.andframe.annotation.interpreter.Injecter;
 import com.andframe.annotation.interpreter.LayoutBinder;
-import com.andframe.annotation.interpreter.LifeCycleInjecter;
+import com.andframe.annotation.interpreter.LifeCycleInjector;
 import com.andframe.annotation.interpreter.PageBinder;
 import com.andframe.annotation.interpreter.ViewBinder;
 import com.andframe.annotation.view.BindViewCreated;
 import com.andframe.api.DialogBuilder;
 import com.andframe.api.pager.Pager;
 import com.andframe.api.query.ViewQuery;
-import com.andframe.api.query.ViewQueryHelper;
 import com.andframe.api.task.Task;
 import com.andframe.application.AfApp;
 import com.andframe.exception.AfExceptionHandler;
 import com.andframe.feature.AfIntent;
 import com.andframe.fragment.AfFragment;
-import com.andframe.impl.helper.AfViewQueryHelper;
-import com.andframe.task.AfDispatcher;
+import com.andframe.impl.helper.ViewQueryHelper;
+import com.andframe.task.Dispatcher;
 import com.andframe.util.java.AfDateGuid;
 import com.andframe.util.java.AfReflecter;
 import com.andframe.util.java.AfStackTrace;
@@ -46,12 +45,14 @@ import java.util.List;
  * Created by SCWANG on 2016/9/1.
  */
 @SuppressWarnings("RestrictedApi")
-public abstract class AfActivity extends AppCompatActivity implements Pager, ViewQueryHelper {
+public abstract class AfActivity extends AppCompatActivity implements Pager, com.andframe.api.query.ViewQueryHelper {
 
     protected View mRootView = null;
 
+    protected boolean mIsPaused = false;
     protected boolean mIsRecycled = false;
     protected boolean mIsResume = true;
+    protected boolean mIsFirstResume = true;
 
     /**
      * 获取LOG日志 TAG 是 AfActivity 的方法
@@ -67,7 +68,7 @@ public abstract class AfActivity extends AppCompatActivity implements Pager, Vie
     }
 
     //<editor-fold desc="ViewQuery 集成">
-    protected ViewQuery<? extends ViewQuery> $$ = AfViewQueryHelper.newHelper(this);
+    protected ViewQuery<? extends ViewQuery> $$ = ViewQueryHelper.newHelper(this);
 
     @Override
     public void setViewQuery(ViewQuery<? extends ViewQuery> viewQuery) {
@@ -152,7 +153,7 @@ public abstract class AfActivity extends AppCompatActivity implements Pager, Vie
 
     @Override
     public boolean isShowing() {
-        return !isRecycled() && !isFinishing();
+        return !isRecycled() && !isFinishing() && !mIsPaused;
     }
 
     //<editor-fold desc="重写布局">
@@ -218,6 +219,7 @@ public abstract class AfActivity extends AppCompatActivity implements Pager, Vie
     @Override
     protected void onCreate(Bundle bundle) {
         try {
+            mIsFirstResume = true;
             $.pager().onActivityCreated(this);
             if (AfStackTrace.isLoopCall()) {
                 //System.out.println("递归检测");
@@ -232,7 +234,7 @@ public abstract class AfActivity extends AppCompatActivity implements Pager, Vie
                     //noinspection unchecked
                     startFragment((Class<? extends Fragment>)must.value());
                 }
-                makeToastShort(must.remark());
+                toast(must.remark());
                 super.onCreate(bundle);
                 finish();
                 return;
@@ -245,30 +247,30 @@ public abstract class AfActivity extends AppCompatActivity implements Pager, Vie
             //当前 Activity 即将关闭，提示窗口也会关闭
             //用定时器 等到原始 Activity 再提示弹窗
             AfExceptionHandler.getInstance().saveHandleException(e, TAG() + ".onCreated");
-            AfDispatcher.dispatch(() -> {
+            Dispatcher.dispatch(() -> {
                 final Activity activity = $.pager().currentActivity();
                 final String msg = AfExceptionHandler.getInstance().formatException(e, TAG() + ".onCreated");
-                String handlerid;
+                String handlerId;
                 StackTraceElement[] stacks = e.getStackTrace();
                 if (stacks != null && stacks.length > 0) {
-                    handlerid = stacks[0].toString();
+                    handlerId = stacks[0].toString();
                 } else {
-                    handlerid = AfDateGuid.NewID();
+                    handlerId = AfDateGuid.NewID();
                 }
-                AfExceptionHandler.doShowDialog(activity, "异常捕捉", msg, handlerid);
+                AfExceptionHandler.doShowDialog(activity, "异常捕捉", msg, handlerId);
             },500);
-//            AfDispatcher.dispatch(() -> AfExceptionHandler.handle(e, TAG() + ".onCreated"), 500);
+//            AfDispatcher.dispatch(() -> $.error().handle(e, TAG() + ".onCreated"), 500);
             super.onCreate(bundle);
-            makeToastShort("页面启动失败", e);
+            toast("页面启动失败", e);
             this.finish();
         }
 
         try {
             this.onCreated(bundle);
-            LifeCycleInjecter.injectOnCreate(this, bundle);
+            LifeCycleInjector.injectOnCreate(this, bundle);
         } catch (Throwable e) {
             AfExceptionHandler.getInstance().saveHandleException(e, TAG() + ".onCreated");
-            AfDispatcher.dispatch(() -> {
+            Dispatcher.dispatch(() -> {
                 final Activity activity = $.pager().currentActivity();
                 final String msg = AfExceptionHandler.getInstance().formatException(e, TAG() + ".onCreated");
                 String handlerid;
@@ -280,8 +282,8 @@ public abstract class AfActivity extends AppCompatActivity implements Pager, Vie
                 }
                 AfExceptionHandler.doShowDialog(activity, "异常捕捉", msg, handlerid);
             },500);
-//            AfDispatcher.dispatch(() -> AfExceptionHandler.handle(e, TAG() + ".onCreated"), 500);
-            makeToastShort("页面启动失败", e);
+//            AfDispatcher.dispatch(() -> $.error().handle(e, TAG() + ".onCreated"), 500);
+            toast("页面启动失败", e);
             this.finish();
         }
     }
@@ -304,13 +306,11 @@ public abstract class AfActivity extends AppCompatActivity implements Pager, Vie
         super.onNewIntent(intent);
         setIntent(intent);
         Injecter.doInjectExtra(this);
-        LifeCycleInjecter.injectonNewIntent(this, intent);
+        LifeCycleInjector.injectOnNewIntent(this, intent);
         List<Fragment> fragments = getSupportFragmentManager().getFragments();
-        fragments = fragments == null ? new ArrayList<>() : fragments;
         for (Fragment fragment : fragments) {
-            if (fragment != null && fragment instanceof AfFragment) {
-                AfFragment afment = (AfFragment) fragment;
-                afment.onNewIntent(intent) ;
+            if (fragment instanceof AfFragment) {
+                ((AfFragment) fragment).onNewIntent(intent);
             }
         }
     }
@@ -318,30 +318,36 @@ public abstract class AfActivity extends AppCompatActivity implements Pager, Vie
     @Override
     protected void onResume() {
         super.onResume();
-        this.mIsResume = true;
+        mIsPaused = false;
+        mIsResume = true;
         $.pager().onActivityResume(this);
-        LifeCycleInjecter.injectOnResume(this);
+        if (mIsFirstResume) {
+            mIsFirstResume = false;
+            $.dispatch(()-> LifeCycleInjector.injectOnDispatchFirstResume(this));
+        }
+        LifeCycleInjector.injectOnResume(this);
     }
 
     @Override
     protected void onPause() {
+        mIsPaused = true;
         super.onPause();
         $.pager().onActivityPause(this);
-        LifeCycleInjecter.injectOnPause(this);
+        LifeCycleInjector.injectOnPause(this);
     }
 
     @Override
     protected void onStart() {
         super.onStart();
         $.pager().onActivityStart(this);
-        LifeCycleInjecter.injectOnStart(this);
+        LifeCycleInjector.injectOnStart(this);
     }
 
     @Override
     protected void onRestart() {
         super.onRestart();
         $.pager().onActivityRestart(this);
-        LifeCycleInjecter.injectOnRestart(this);
+        LifeCycleInjector.injectOnRestart(this);
     }
 
     @Override
@@ -349,7 +355,7 @@ public abstract class AfActivity extends AppCompatActivity implements Pager, Vie
         super.onStop();
         this.mIsResume = false;
         $.pager().onActivityStop(this);
-        LifeCycleInjecter.injectOnStop(this);
+        LifeCycleInjector.injectOnStop(this);
     }
 
     @Override
@@ -358,10 +364,10 @@ public abstract class AfActivity extends AppCompatActivity implements Pager, Vie
         try {
             mIsResume = false;
             mIsRecycled = true;
-            LifeCycleInjecter.injectOnDestroy(this);
+            LifeCycleInjector.injectOnDestroy(this);
             $.pager().onActivityDestroy(this);
         } catch (Throwable ex) {
-            AfExceptionHandler.handle(ex, "AfActivity.onDestroy");
+            $.error().handle(ex, "AfActivity.onDestroy");
         }
     }
 
@@ -374,7 +380,7 @@ public abstract class AfActivity extends AppCompatActivity implements Pager, Vie
             super.onRestoreInstanceState(savedInstanceState);
         } catch (Throwable e) {
             if (AfApp.get().isDebug()) {
-                AfExceptionHandler.handle(e, "AfActivity.onRestoreInstanceState");
+                $.error().handle(e, "AfActivity.onRestoreInstanceState");
             }
         }
     }
@@ -386,7 +392,7 @@ public abstract class AfActivity extends AppCompatActivity implements Pager, Vie
             AfApp.get().onSaveInstanceState();
             super.onSaveInstanceState(outState);
         } catch (Throwable e) {
-            AfExceptionHandler.handle(e, "AfActivity.onSaveInstanceState");
+            $.error().handle(e, "AfActivity.onSaveInstanceState");
         }
     }
 
@@ -408,8 +414,8 @@ public abstract class AfActivity extends AppCompatActivity implements Pager, Vie
             }
             onActivityResult(new AfIntent(data), requestCode, resultCode);
         } catch (Throwable e) {
-            AfExceptionHandler.handle(e, TAG() + ".onActivityResult");
-            makeToastShort("反馈信息读取错误！", e);
+            $.error().handle(e, TAG() + ".onActivityResult");
+            toast("反馈信息读取错误！", e);
         }
     }
 
@@ -469,6 +475,8 @@ public abstract class AfActivity extends AppCompatActivity implements Pager, Vie
             startFragment(clazz,args);
         } else if (Activity.class.isAssignableFrom(clazz)) {
             startActivity(clazz, args);
+        } else if (Service.class.isAssignableFrom(clazz)) {
+            startService(clazz, args);
         } else {
             return false;
         }
@@ -478,6 +486,11 @@ public abstract class AfActivity extends AppCompatActivity implements Pager, Vie
     @Override
     public void startActivity(Class<? extends Activity> clazz, Object... args) {
         startActivity(new AfIntent(this, clazz, args));
+    }
+
+    @Override
+    public void startService(Class<? extends Service> clazz, Object... args) {
+        startService(new AfIntent(this, clazz, args));
     }
 
     @Override
@@ -502,36 +515,12 @@ public abstract class AfActivity extends AppCompatActivity implements Pager, Vie
     //</editor-fold>
 
     //<editor-fold desc="气泡提示">
-    @Override
-    public void makeToastLong(int resId) {
-        Toast.makeText(this, resId, Toast.LENGTH_LONG).show();
+    public void toast(CharSequence tip) {
+        $.toaster(this).shorter().msg(tip).show();
     }
 
-    @Override
-    public void makeToastShort(int resId) {
-        Toast.makeText(this, resId, Toast.LENGTH_SHORT).show();
-    }
-
-    @Override
-    public void makeToastLong(CharSequence tip) {
-        Toast.makeText(this, tip, Toast.LENGTH_LONG).show();
-    }
-
-    @Override
-    public void makeToastLong(CharSequence tip, Throwable e) {
-        tip = AfExceptionHandler.tip(e, tip.toString());
-        Toast.makeText(this, tip, Toast.LENGTH_LONG).show();
-    }
-
-    @Override
-    public void makeToastShort(CharSequence tip) {
-        Toast.makeText(this, tip, Toast.LENGTH_SHORT).show();
-    }
-
-    @Override
-    public void makeToastShort(CharSequence tip, Throwable e) {
-        tip = AfExceptionHandler.tip(e, tip.toString());
-        Toast.makeText(this, tip, Toast.LENGTH_SHORT).show();
+    public void toast(CharSequence tip, Throwable e) {
+        $.toaster(this).error(tip, e);
     }
     //</editor-fold>
 

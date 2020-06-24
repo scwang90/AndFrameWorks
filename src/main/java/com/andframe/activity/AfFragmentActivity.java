@@ -21,8 +21,7 @@ import com.andframe.annotation.pager.BindLaunchMode;
 import com.andframe.annotation.pager.BindMainPager;
 import com.andframe.api.pager.Pager;
 import com.andframe.application.AfApp;
-import com.andframe.application.AfAppSettings;
-import com.andframe.exception.AfExceptionHandler;
+import com.andframe.application.AppSettings;
 import com.andframe.feature.AfIntent;
 import com.andframe.fragment.AfFragment;
 import com.andframe.util.java.AfReflecter;
@@ -82,7 +81,9 @@ public class AfFragmentActivity extends AfActivity {
         FrameLayout frameLayout = new FrameLayout(this);
         frameLayout.setId(widget_frame);
         setContentView(frameLayout);
-        replaceFragment();
+        if (bundle == null) {
+            replaceFragment();
+        }
     }
 
     //</editor-fold>
@@ -108,7 +109,7 @@ public class AfFragmentActivity extends AfActivity {
         Class<?> fragment = getFragmentClazz();
         mBindMainPager = AfReflecter.getAnnotation(fragment, Fragment.class, BindMainPager.class);
         if (mBindMainPager != null) {
-            if (AfAppSettings.getInstance().isAutoUpdate()) {
+            if (AppSettings.getInstance().isAutoUpdate()) {
                 $.update().checkUpdate();
             }
         }
@@ -121,7 +122,7 @@ public class AfFragmentActivity extends AfActivity {
             if (!isHandled && mDoubleBackKeyPressed) {
                 isHandled = true;
                 if ((System.currentTimeMillis() - mExitTime) > mExitInterval) {
-                    makeToastShort("再按一次退出");
+                    toast("再按一次退出");
                     mExitTime = System.currentTimeMillis();
                 } else {
                     this.finish();
@@ -203,7 +204,7 @@ public class AfFragmentActivity extends AfActivity {
             //noinspection unchecked
             startFragmentForResult((Class<? extends Fragment>)must.value(), REQUEST_LOGIN);
         }
-        makeToastShort(must.remark());
+        toast(must.remark());
     }
 
     @Override
@@ -230,7 +231,7 @@ public class AfFragmentActivity extends AfActivity {
                 transaction.replace(widget_frame, mFragment);
                 transaction.commit();
             } catch (Throwable e) {
-                AfExceptionHandler.handle(e, "AfFragmentActivity Fragment 类型错误：" + mFragmentClazz);
+                $.error().handle(e, "AfFragmentActivity Fragment 类型错误：" + mFragmentClazz);
             }
         }
     }

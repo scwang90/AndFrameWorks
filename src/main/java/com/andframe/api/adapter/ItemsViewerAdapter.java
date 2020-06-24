@@ -7,7 +7,7 @@ import android.view.ViewGroup;
 import android.widget.ListAdapter;
 
 import com.andframe.adapter.recycler.ViewHolderItem;
-import com.andframe.api.query.handler.Where;
+import com.andframe.api.query.handler.Filter;
 
 import java.util.List;
 
@@ -34,7 +34,16 @@ public interface ItemsViewerAdapter<T> extends List<T>, ListAdapter, RecyclerAda
      * @param list 新的数据
      */
     void set(@NonNull List<T> list);
-
+    /**
+     * 设置新的数据
+     * @param list 新的数据
+     */
+    void refresh(@NonNull List<T> list);
+    /**
+     * 设置新的数据
+     * @param list 新的数据
+     */
+    void loadMore(@NonNull List<T> list);
     /**
      * 添加新的数据（和 {@link List#add(Object)} 相对应）
      */
@@ -42,9 +51,9 @@ public interface ItemsViewerAdapter<T> extends List<T>, ListAdapter, RecyclerAda
 
     /**
      * 条件删除
-     * @param where 条件表达式
+     * @param filter 条件表达式
      */
-    void remove(Where<T> where);
+    void remove(Filter<T> filter);
     //</editor-fold>
 
     /**

@@ -15,7 +15,7 @@ import java.util.Date;
  * 对话框构建器
  * Created by SCWANG on 2016/9/2.
  */
-@SuppressWarnings("unused")
+@SuppressWarnings({"unused", "UnusedReturnValue"})
 public interface DialogBuilder {
 
     //<editor-fold desc="接口定义">
@@ -92,6 +92,9 @@ public interface DialogBuilder {
     }
 
     //</editor-fold>
+
+    com.andframe.api.dialog.DialogBuilder builder();
+    com.andframe.api.dialog.DialogBuilder builder(boolean autoShow);
 
     //<editor-fold desc="普通按钮对话框">
     /**

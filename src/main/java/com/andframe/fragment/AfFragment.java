@@ -2,6 +2,7 @@ package com.andframe.fragment;
 
 import android.app.Activity;
 import android.app.Dialog;
+import android.app.Service;
 import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
@@ -14,25 +15,23 @@ import android.view.KeyEvent;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.Toast;
 
 import com.andframe.$;
 import com.andframe.activity.AfFragmentActivity;
 import com.andframe.annotation.interpreter.Injecter;
 import com.andframe.annotation.interpreter.LayoutBinder;
-import com.andframe.annotation.interpreter.LifeCycleInjecter;
+import com.andframe.annotation.interpreter.LifeCycleInjector;
 import com.andframe.annotation.interpreter.ViewBinder;
 import com.andframe.annotation.view.BindViewCreated;
 import com.andframe.api.DialogBuilder;
 import com.andframe.api.pager.Pager;
 import com.andframe.api.query.ViewQuery;
-import com.andframe.api.query.ViewQueryHelper;
 import com.andframe.api.task.Task;
 import com.andframe.application.AfApp;
 import com.andframe.exception.AfExceptionHandler;
 import com.andframe.exception.AfToastException;
 import com.andframe.feature.AfIntent;
-import com.andframe.impl.helper.AfViewQueryHelper;
+import com.andframe.impl.helper.ViewQueryHelper;
 
 import java.util.ArrayList;
 import java.util.Collection;
@@ -45,16 +44,17 @@ import static android.app.Activity.RESULT_OK;
  * @author 树朾
  */
 @SuppressWarnings("UnusedReturnValue")
-public abstract class AfFragment extends Fragment implements Pager, ViewQueryHelper {
+public abstract class AfFragment extends Fragment implements Pager, com.andframe.api.query.ViewQueryHelper {
 
     //<editor-fold desc="属性字段">
     // 根视图
     protected View mRootView = null;
+    protected boolean mIsPaused = false;
     protected boolean mIsRecycled = false;
     //</editor-fold>
 
     //<editor-fold desc="ViewQuery 集成">
-    protected ViewQuery<? extends ViewQuery> $$ = AfViewQueryHelper.newHelper(this);
+    protected ViewQuery<? extends ViewQuery> $$ = ViewQueryHelper.newHelper(this);
 
     @Override
     public void setViewQuery(@NonNull ViewQuery<? extends ViewQuery> viewQuery) {
@@ -155,9 +155,11 @@ public abstract class AfFragment extends Fragment implements Pager, ViewQueryHel
     @SuppressWarnings("unchecked")
     public boolean startPager(Class clazz, Object... args) {
         if (Fragment.class.isAssignableFrom(clazz)) {
-            startFragment(clazz,args);
+            startFragment(clazz, args);
         } else if (Activity.class.isAssignableFrom(clazz)) {
             startActivity(clazz, args);
+        } else if (Service.class.isAssignableFrom(clazz)) {
+            startService(clazz, args);
         } else {
             return false;
         }
@@ -167,6 +169,14 @@ public abstract class AfFragment extends Fragment implements Pager, ViewQueryHel
     @Override
     public void startActivity(Class<? extends Activity> clazz,Object... args) {
         startActivity(new AfIntent(getActivity(), clazz, args));
+    }
+
+    @Override
+    public void startService(Class<? extends Service> clazz, Object... args) {
+        Activity activity = getActivity();
+        if (activity != null) {
+            activity.startService(new AfIntent(activity, clazz, args));
+        }
     }
 
     @Override
@@ -202,7 +212,7 @@ public abstract class AfFragment extends Fragment implements Pager, ViewQueryHel
     public final View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle bundle) {
         try {
             mIsRecycled = false;
-            View view = LifeCycleInjecter.injectCreateView(this, inflater, container, bundle);
+            View view = LifeCycleInjector.injectCreateView(this, inflater, container, bundle);
             if (view != null) {
                 mRootView = view;
             } else {
@@ -212,8 +222,8 @@ public abstract class AfFragment extends Fragment implements Pager, ViewQueryHel
                 }
             }
         } catch (Throwable e) {
-            makeToastShort("页面初始化异常！", e);
-            AfExceptionHandler.handle(e, TAG("onCreateView"));
+            toast("页面初始化异常！", e);
+            $.error().handle(e, TAG("onCreateView"));
             return new View(inflater.getContext());
         }
         return mRootView;
@@ -225,8 +235,8 @@ public abstract class AfFragment extends Fragment implements Pager, ViewQueryHel
         try {
             ViewBinder.doBind(this);
         } catch (Throwable e) {
-            makeToastShort("AfFragment#ViewBinder.doBind异常！", e);
-            AfExceptionHandler.handle(e, TAG("onViewCreated"));
+            toast("AfFragment#ViewBinder.doBind异常！", e);
+            $.error().handle(e, TAG("onViewCreated"));
         }
     }
 
@@ -253,11 +263,11 @@ public abstract class AfFragment extends Fragment implements Pager, ViewQueryHel
             $.pager().onFragmentCreate(this);
             super.onCreate(bundle);
             Injecter.doInject(this, getContext());
-            LifeCycleInjecter.injectOnCreate(this, bundle);
+            LifeCycleInjector.injectOnCreate(this, bundle);
             onCreated();
         } catch (Throwable e) {
-            AfExceptionHandler.handle(e, TAG("onCreate.doInject"));
-            makeToastShort("AfFragment#onCreate异常！", e);
+            $.error().handle(e, TAG("onCreate.doInject"));
+            toast("AfFragment#onCreate异常！", e);
         }
     }
 
@@ -269,22 +279,24 @@ public abstract class AfFragment extends Fragment implements Pager, ViewQueryHel
     @Override
     public void onResume() {
         try {
+            mIsPaused = false;
             $.pager().onFragmentResume(this);
             super.onResume();
-            LifeCycleInjecter.injectOnResume(this);
+            LifeCycleInjector.injectOnResume(this);
         } catch (Throwable ex) {
-            AfExceptionHandler.handle(ex, "AfFragment.onResume");
+            $.error().handle(ex, "AfFragment.onResume");
         }
     }
 
     @Override
     public void onPause() {
         try {
+            mIsPaused = true;
             super.onPause();
             $.pager().onFragmentPause(this);
-            LifeCycleInjecter.injectOnPause(this);
+            LifeCycleInjector.injectOnPause(this);
         } catch (Throwable ex) {
-            AfExceptionHandler.handle(ex, "AfFragment.onPause");
+            $.error().handle(ex, "AfFragment.onPause");
         }
     }
 
@@ -293,9 +305,9 @@ public abstract class AfFragment extends Fragment implements Pager, ViewQueryHel
         try {
             super.onStart();
             $.pager().onFragmentStart(this);
-            LifeCycleInjecter.injectOnStart(this);
+            LifeCycleInjector.injectOnStart(this);
         } catch (Throwable ex) {
-            AfExceptionHandler.handle(ex, "AfFragment.onStart");
+            $.error().handle(ex, "AfFragment.onStart");
         }
     }
 
@@ -304,9 +316,9 @@ public abstract class AfFragment extends Fragment implements Pager, ViewQueryHel
         try {
             super.onStop();
             $.pager().onFragmentStop(this);
-            LifeCycleInjecter.injectOnStop(this);
+            LifeCycleInjector.injectOnStop(this);
         } catch (Throwable ex) {
-            AfExceptionHandler.handle(ex, "AfFragment.onStop");
+            $.error().handle(ex, "AfFragment.onStop");
         }
     }
 
@@ -315,9 +327,9 @@ public abstract class AfFragment extends Fragment implements Pager, ViewQueryHel
         try {
             $.pager().onFragmentAttach(this, context);
             super.onAttach(context);
-            LifeCycleInjecter.injectOnAttach(this, context);
+            LifeCycleInjector.injectOnAttach(this, context);
         } catch (Throwable ex) {
-            AfExceptionHandler.handle(ex, "AfFragment.onAttach");
+            $.error().handle(ex, "AfFragment.onAttach");
         }
     }
     /**
@@ -335,9 +347,9 @@ public abstract class AfFragment extends Fragment implements Pager, ViewQueryHel
             onActivityResult(new AfIntent(data), requestCode, resultCode);
         } catch (Throwable e) {
             if (!(e instanceof AfToastException)) {
-                AfExceptionHandler.handle(e, TAG("onActivityResult"));
+                $.error().handle(e, TAG("onActivityResult"));
             }
-            makeToastShort("反馈信息读取错误！", e);
+            toast("反馈信息读取错误！", e);
         }
     }
 
@@ -368,9 +380,9 @@ public abstract class AfFragment extends Fragment implements Pager, ViewQueryHel
             super.onDestroyView();
             $$.clearIdCache();
 		    mRootView = null;
-            LifeCycleInjecter.injectOnDestroyView(this);
+            LifeCycleInjector.injectOnDestroyView(this);
         } catch (Throwable ex) {
-            AfExceptionHandler.handle(ex, "AfFragment.onDestroyView");
+            $.error().handle(ex, "AfFragment.onDestroyView");
         }
     }
 
@@ -379,9 +391,9 @@ public abstract class AfFragment extends Fragment implements Pager, ViewQueryHel
         try {
             super.onDestroy();
             mIsRecycled = true;
-            LifeCycleInjecter.injectOnDestroy(this);
+            LifeCycleInjector.injectOnDestroy(this);
         } catch (Throwable ex) {
-            AfExceptionHandler.handle(ex, "AfFragment.onDestroy");
+            $.error().handle(ex, "AfFragment.onDestroy");
         }
     }
 
@@ -390,10 +402,10 @@ public abstract class AfFragment extends Fragment implements Pager, ViewQueryHel
         try {
             super.onDetach();
             mIsRecycled = true;
-            LifeCycleInjecter.injectonDetach(this);
+            LifeCycleInjector.injectOnDetach(this);
             $.pager().onFragmentDetach(this);
         } catch (Throwable ex) {
-            AfExceptionHandler.handle(ex, "AfFragment.onDestroy");
+            $.error().handle(ex, "AfFragment.onDestroy");
         }
     }
 
@@ -429,37 +441,15 @@ public abstract class AfFragment extends Fragment implements Pager, ViewQueryHel
     //</editor-fold>
 
     //<editor-fold desc="气泡封装">
-    @Override
-    public void makeToastLong(CharSequence tip) {
-        Toast.makeText(AfApp.get(), tip, Toast.LENGTH_LONG).show();
+
+    public void toast(CharSequence tip) {
+        $.toaster(this).shorter().msg(tip).show();
     }
 
-    @Override
-    public void makeToastShort(CharSequence tip) {
-        Toast.makeText(AfApp.get(), tip, Toast.LENGTH_SHORT).show();
+    public void toast(CharSequence tip, Throwable e) {
+        $.toaster(this).error(tip, e);
     }
 
-    @Override
-    public void makeToastLong(int resId) {
-        Toast.makeText(AfApp.get(), resId, Toast.LENGTH_LONG).show();
-    }
-
-    @Override
-    public void makeToastLong(CharSequence tip, Throwable e) {
-        tip = AfExceptionHandler.tip(e, tip.toString());
-        Toast.makeText(AfApp.get(), tip, Toast.LENGTH_LONG).show();
-    }
-
-    @Override
-    public void makeToastShort(int resId) {
-        Toast.makeText(AfApp.get(), resId, Toast.LENGTH_SHORT).show();
-    }
-
-    @Override
-    public void makeToastShort(CharSequence tip, Throwable e) {
-        tip = AfExceptionHandler.tip(e, tip.toString());
-        Toast.makeText(AfApp.get(), tip, Toast.LENGTH_SHORT).show();
-    }
     //</editor-fold>
 
     //<editor-fold desc="接口实现">
@@ -486,7 +476,7 @@ public abstract class AfFragment extends Fragment implements Pager, ViewQueryHel
 
     @Override
     public boolean isShowing() {
-        return !isRecycled() && !isFinishing();
+        return !isRecycled() && !isFinishing() && !mIsPaused;
     }
 
     @Override
@@ -515,7 +505,7 @@ public abstract class AfFragment extends Fragment implements Pager, ViewQueryHel
     @SuppressWarnings("UnusedParameters")
     public void onNewIntent(Intent intent) {
         Injecter.doInjectExtra(this);
-        LifeCycleInjecter.injectonNewIntent(this, intent);
+        LifeCycleInjector.injectOnNewIntent(this, intent);
     }
     /**
      * 按下返回按键

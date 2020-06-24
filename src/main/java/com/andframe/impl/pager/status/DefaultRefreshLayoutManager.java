@@ -96,6 +96,12 @@ public class DefaultRefreshLayoutManager implements RefreshLayoutManager<SwipeRe
 //        mRefreshLayout.setRefreshing(false);
 //    }
 
+
+    @Override
+    public void autoRefresh() {
+        mRefreshLayout.setRefreshing(true);
+    }
+
     @Override
     public void finishRefresh(boolean success) {
         mRefreshLayout.setRefreshing(false);

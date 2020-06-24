@@ -9,7 +9,8 @@ import com.andframe.api.pager.load.LoadHelper;
 import com.andframe.api.pager.load.LoadPager;
 import com.andframe.api.pager.status.RefreshLayoutManager;
 import com.andframe.api.task.Task;
-import com.andframe.impl.helper.AfLoadHelper;
+import com.andframe.application.AfApp;
+import com.andframe.impl.helper.LoadPagerHelper;
 
 import java.util.Date;
 
@@ -24,7 +25,7 @@ public abstract class AfLoadFragment<T> extends AfTabFragment implements LoadPag
     protected RefreshLayoutManager mRefreshLayoutManager;
 
     public AfLoadFragment() {
-        this.mHelper = new AfLoadHelper<>(this);
+        this.mHelper = AfApp.get().newLoadPagerHelper(this);
     }
 
     public AfLoadFragment(LoadHelper<T> mHelper) {

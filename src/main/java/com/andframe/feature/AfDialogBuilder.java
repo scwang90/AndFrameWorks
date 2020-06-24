@@ -38,7 +38,8 @@ import android.widget.TimePicker;
 import com.andframe.$;
 import com.andframe.activity.AfActivity;
 import com.andframe.api.DialogBuilder;
-import com.andframe.exception.AfExceptionHandler;
+import com.andframe.impl.dialog.DefaultDialogBuilder;
+import com.andframe.impl.dialog.SystemDialogFactory;
 import com.andframe.listener.SafeListener;
 import com.andframe.util.android.AfDensity;
 import com.andframe.util.java.AfReflecter;
@@ -47,11 +48,11 @@ import java.util.Calendar;
 import java.util.Date;
 import java.util.Stack;
 
-@SuppressWarnings("unused")
+@SuppressWarnings({"unused", "WeakerAccess"})
 public class AfDialogBuilder implements DialogBuilder {
 
     //<editor-fold desc="字段定义">
-    public CharSequence TXT_NOMORESHOW = "不再提示";
+    public CharSequence TXT_NO_MORE_SHOW = "不再提示";
 
     protected Context mContext;
     protected Dialog mProgress = null;
@@ -64,6 +65,16 @@ public class AfDialogBuilder implements DialogBuilder {
         mContext = context;
     }
     //</editor-fold>
+
+    @Override
+    public com.andframe.api.dialog.DialogBuilder builder() {
+        return builder(true);
+    }
+
+    @Override
+    public com.andframe.api.dialog.DialogBuilder builder(boolean autoShow) {
+        return new DefaultDialogBuilder(mContext, new SystemDialogFactory(), autoShow);
+    }
 
     //<editor-fold desc="普通按钮对话框">
     /**
@@ -852,7 +863,7 @@ public class AfDialogBuilder implements DialogBuilder {
                     textView.setPadding(0,0,0,0);
                     ll.addView(textView, lp);
                     cbTip = new CheckBox(mContext);
-                    cbTip.setText(TXT_NOMORESHOW);
+                    cbTip.setText(TXT_NO_MORE_SHOW);
                     if (olp instanceof ViewGroup.MarginLayoutParams) {
                         lp = new LinearLayout.LayoutParams((ViewGroup.MarginLayoutParams)olp);
                         Integer leftMargin = AfReflecter.getMemberNoException(lp, "leftMargin", int.class);
@@ -1207,7 +1218,7 @@ public class AfDialogBuilder implements DialogBuilder {
             mProgress = progress;
         } catch (Throwable e) {
             //进过日志验证，这个异常会发送，但是概率非常小，注释掉异常通知
-//			AfExceptionHandler.handle(e, "AfDialogBuilder.showProgressDialog");
+//			$.error().handle(e, "AfDialogBuilder.showProgressDialog");
         }
         return mProgress;
     }
@@ -1225,7 +1236,7 @@ public class AfDialogBuilder implements DialogBuilder {
                 mProgress = null;
             }
         } catch (Throwable e) {
-            AfExceptionHandler.handle(e, "AfDialogBuilder.hideProgressDialog");
+            $.error().handle(e, "AfDialogBuilder.hideProgressDialog");
         }
     }
 

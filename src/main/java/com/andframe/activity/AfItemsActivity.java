@@ -21,7 +21,7 @@ import com.andframe.api.pager.status.StatusHelper;
 import com.andframe.api.task.Task;
 import com.andframe.api.task.TaskWithPaging;
 import com.andframe.api.viewer.ItemsViewer;
-import com.andframe.impl.helper.AfItemsHelper;
+import com.andframe.application.AfApp;
 
 import java.util.Date;
 import java.util.List;
@@ -48,7 +48,7 @@ public abstract class AfItemsActivity<T> extends AfStatusActivity<List<T>> imple
         if (mHelper instanceof ItemsHelper) {
             return ((ItemsHelper<T>) mHelper);
         }
-        return new AfItemsHelper<>(this);
+        return AfApp.get().newItemsPagerHelper(this);
     }
 
     //<editor-fold desc="查询转发">
@@ -254,8 +254,8 @@ public abstract class AfItemsActivity<T> extends AfStatusActivity<List<T>> imple
      * @return false 数据加载完毕，关闭加载更多功能 true 数据还未加载完，开启加载功能功能
      */
     @Override
-    public boolean setMoreShow(@NonNull TaskWithPaging task, @Nullable List<T> list) {
-        return mItemsHelper.setMoreShow(task, list);
+    public boolean setNoMoreData(@NonNull TaskWithPaging task, @Nullable List<T> list) {
+        return mItemsHelper.setNoMoreData(task, list);
     }
 
     /**
@@ -274,8 +274,8 @@ public abstract class AfItemsActivity<T> extends AfStatusActivity<List<T>> imple
      */
     @Nullable
     @Override
-    public Paging newPaging(int size, int start) {
-        return mItemsHelper.newPaging(size, start);
+    public Paging newPaging(int size, int start, int page) {
+        return mItemsHelper.newPaging(size, start, page);
     }
 
     /**
@@ -319,7 +319,7 @@ public abstract class AfItemsActivity<T> extends AfStatusActivity<List<T>> imple
      */
     @NonNull
     @Override
-    public ItemsViewerAdapter<T> newAdapter(@NonNull Context context, @NonNull List<T> list) {
+    public ItemsViewerAdapter<T> newAdapter(@NonNull Context context, @Nullable List<T> list) {
         return mAdapter = mItemsHelper.newAdapter(context, list);
     }
 
@@ -372,7 +372,7 @@ public abstract class AfItemsActivity<T> extends AfStatusActivity<List<T>> imple
     }
 
 //    @Override
-//    public List<T> onTaskLoadList(Paging paging) throws Exception {
+//    public List<T> onTaskLoadList(@Nullable Paging paging) throws Exception {
 //        return mItemsHelper.onTaskLoadList(page);
 //    }
     //</editor-fold>
@@ -397,7 +397,7 @@ public abstract class AfItemsActivity<T> extends AfStatusActivity<List<T>> imple
     //<editor-fold desc="父类任务">
 
     @Override@Deprecated
-    public final void onTaskFinish(@NonNull Task task, List<T> model) {
+    public void onTaskFinish(@NonNull Task task, List<T> model) {
         super.onTaskFinish(task, model);
     }
 
@@ -423,6 +423,15 @@ public abstract class AfItemsActivity<T> extends AfStatusActivity<List<T>> imple
     //</editor-fold>
 
     //</editor-fold>
+
+    /**
+     * @deprecated 直接继承 AfLoadActivity 才有效
+     * @param loadOrNot 执行加载任务或者不执行
+     */
+    @Override
+    @Deprecated
+    public void setLoadTaskOnViewCreated(boolean loadOrNot) {
+    }
 
     //</editor-fold>
 

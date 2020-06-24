@@ -8,26 +8,35 @@ import android.content.Context;
 import android.content.pm.ApplicationInfo;
 import android.content.pm.PackageInfo;
 import android.content.pm.PackageManager;
-import android.content.res.Resources;
+import android.os.Build;
 import android.os.Bundle;
 import android.os.Environment;
 import android.support.annotation.CallSuper;
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
+import android.text.TextUtils;
 import android.util.Log;
 
-import com.andframe.BuildConfig;
+import com.andframe.$;
 import com.andframe.api.Cacher;
 import com.andframe.api.DialogBuilder;
+import com.andframe.api.ErrorManager;
 import com.andframe.api.Toaster;
 import com.andframe.api.event.EventManager;
 import com.andframe.api.pager.PagerManager;
+import com.andframe.api.pager.items.ItemsHelper;
+import com.andframe.api.pager.items.ItemsPager;
 import com.andframe.api.pager.items.MoreFooter;
+import com.andframe.api.pager.load.LoadHelper;
+import com.andframe.api.pager.load.LoadPager;
 import com.andframe.api.pager.status.RefreshLayoutManager;
+import com.andframe.api.pager.status.StatusHelper;
 import com.andframe.api.pager.status.StatusLayoutManager;
+import com.andframe.api.pager.status.StatusPager;
 import com.andframe.api.query.ListQuery;
 import com.andframe.api.query.ViewQuery;
 import com.andframe.api.service.UpdateService;
+import com.andframe.api.storage.StorageManager;
 import com.andframe.api.task.TaskExecutor;
 import com.andframe.api.viewer.Viewer;
 import com.andframe.caches.AfDurableCacher;
@@ -37,15 +46,21 @@ import com.andframe.exception.AfException;
 import com.andframe.exception.AfExceptionHandler;
 import com.andframe.exception.AfToastException;
 import com.andframe.feature.AfDialogBuilder;
-import com.andframe.impl.AfToaster;
+import com.andframe.impl.DefaultErrorManager;
+import com.andframe.impl.DefaultToaster;
+import com.andframe.impl.helper.ItemsPagerHelper;
+import com.andframe.impl.helper.LoadPagerHelper;
+import com.andframe.impl.helper.StatusPagerHelper;
 import com.andframe.impl.pager.AfPagerManager;
 import com.andframe.impl.pager.items.DefaultMoreFooter;
 import com.andframe.impl.pager.status.DefaultRefreshLayoutManager;
 import com.andframe.impl.pager.status.DefaultStatusLayoutManager;
 import com.andframe.impl.query.AfListQuery;
-import com.andframe.impl.viewer.AfViewQuery;
+import com.andframe.impl.storage.DefaultStorageManager;
+import com.andframe.impl.viewer.DefaultViewQuery;
 import com.andframe.model.ServiceVersion;
-import com.andframe.task.AfTaskExecutor;
+import com.andframe.task.DefaultTaskExecutor;
+import com.andframe.util.android.PackageUtility;
 import com.andframe.util.java.AfReflecter;
 
 import java.io.File;
@@ -80,6 +95,7 @@ public abstract class AfApp extends Application {
 	//</editor-fold>
 
 	protected static AfApp mApp = null;
+	protected Boolean mInMainProcess;
 
 	//</editor-fold>
 
@@ -133,7 +149,7 @@ public abstract class AfApp extends Application {
 		try {
 			initApp();
 		} catch (Throwable e) {
-			AfExceptionHandler.handle(e, "AfApp.onCreate");
+			$.error().handle(e, "AfApp.onCreate");
 		}
 	}
 
@@ -142,16 +158,50 @@ public abstract class AfApp extends Application {
 		AfExceptionHandler.register();
 		mRunningState = new AfJsonCache(this, STATE_RUNNING);
 		getPackageVersion();
+
+		if (isDebug() && isMainProcess()) {
+			DialogService.run(this);
+		}
 	}
 
 	private void getPackageVersion() throws Exception {
 		int get = PackageManager.GET_CONFIGURATIONS;
 		String tPackageName = getPackageName();
-		PackageManager magager = getPackageManager();
-		mPackageInfo = magager.getPackageInfo(tPackageName, get);
+		PackageManager manager = getPackageManager();
+		mPackageInfo = manager.getPackageInfo(tPackageName, get);
 		mVersion = mPackageInfo.versionName;
 	}
 
+	/**
+	 * 是否在主进程
+	 */
+	public boolean isMainProcess() {
+		if (mInMainProcess == null) {
+			mInMainProcess = TextUtils.equals(getAppProcessName(), getPackageName());
+		}
+		return mInMainProcess;
+	}
+
+	/**
+	 * 获取进程名称
+	 */
+	public String getAppProcessName() {
+		if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.P) {
+			return getProcessName();
+		}
+		int pid = android.os.Process.myPid();
+		ActivityManager am = (ActivityManager)getSystemService(Context.ACTIVITY_SERVICE);
+		List<ActivityManager.RunningAppProcessInfo> runningApps = am.getRunningAppProcesses();
+		if (runningApps == null) {
+			return null;
+		}
+		for (ActivityManager.RunningAppProcessInfo info : runningApps) {
+			if (info.pid == pid) {
+				return info.processName;
+			}
+		}
+		return null;
+	}
 	/**
 	 * 获取在Application 中定义的 meta-data
 	 * @return meta-data or null
@@ -193,9 +243,12 @@ public abstract class AfApp extends Application {
 				throw new Exception("getMetaData null");
 			}
 			key = String.valueOf(data);
+			if (key.endsWith("\\0")) {
+				key = key.substring(0, key.length() - 2);
+			}
 			return key;
 		} catch (Throwable e) {
-			//AfExceptionHandler.handle(e, "AfApplication.getMetaData");
+			//$.error().handle(e, "AfApplication.getMetaData");
 		}
 		return defValue;
 	}
@@ -203,24 +256,14 @@ public abstract class AfApp extends Application {
 
 	//<editor-fold desc="通用方法">
 	public boolean isDebug() {
-		try {
-			Class<?> clazz = Class.forName(getPackageName() + ".BuildConfig");
-			return Boolean.valueOf(true).equals(AfReflecter.getMember(clazz,"DEBUG"));
-		} catch (Throwable ignored) {
-		}
-		return BuildConfig.DEBUG;
+		return PackageUtility.isDebug(this);
 	}
 	/**
 	 * 获取APP名称,子类可以继承返回getString(R.string.app_name);
 	 * @return APP名称
 	 */
 	public String getAppName() {
-		Resources resources = getResources();
-		int id = resources.getIdentifier(getPackageName() + ":string/app_name", null, null);
-		if(id > 0){
-			return resources.getString(id);
-		}
-		return "AndFrame";
+		return PackageUtility.getAppName(this);
 	}
 
 	public PackageInfo getPackageInfo() {
@@ -413,11 +456,11 @@ public abstract class AfApp extends Application {
 	}
 
 	public ViewQuery<? extends ViewQuery> newViewQuery(Viewer view) {
-		return new AfViewQuery<>(view);
+		return new DefaultViewQuery<>(view);
 	}
 
 	public TaskExecutor newTaskExecutor() {
-		return new AfTaskExecutor();
+		return new DefaultTaskExecutor();
 	}
 
 	public DialogBuilder newDialogBuilder(Context context) {
@@ -434,8 +477,8 @@ public abstract class AfApp extends Application {
 		return new DefaultStatusLayoutManager(context);
 	}
 
-	public AfAppSettings newAppSetting() {
-		return new AfAppSettings(this);
+	public AppSettings newAppSetting() {
+		return new AppSettings(this);
 	}
 
 	public MoreFooter newMoreFooter() {
@@ -451,7 +494,7 @@ public abstract class AfApp extends Application {
 	}
 
 	public UpdateService newUpdateService() {
-		return new AfUpdateService() {
+		return new DefaultUpdateService() {
 			@Override
 			protected ServiceVersion infoFromService(String version) throws Exception {
 				return new ServiceVersion();
@@ -476,11 +519,32 @@ public abstract class AfApp extends Application {
 	}
 
 	public Toaster newToaster(Viewer viewer) {
-		return new AfToaster(viewer);
+		return new DefaultToaster(viewer);
 	}
 	public Toaster newToaster() {
-		return new AfToaster();
+		return new DefaultToaster();
 	}
+
+	public ErrorManager newErrorManager() {
+		return new DefaultErrorManager();
+	}
+
+	public StorageManager newStorageManager() {
+		return new DefaultStorageManager(this);
+	}
+
+	public <T> LoadHelper<T> newLoadPagerHelper(LoadPager<T> pager) {
+		return new LoadPagerHelper<>(pager);
+	}
+
+	public <T> StatusHelper<T> newStatusPagerHelper(StatusPager<T> pager) {
+		return new StatusPagerHelper<>(pager);
+	}
+
+	public <T> ItemsHelper<T> newItemsPagerHelper(ItemsPager<T> pager) {
+		return new ItemsPagerHelper<>(pager);
+	}
+
     //</editor-fold>
 
 }

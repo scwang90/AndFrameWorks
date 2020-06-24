@@ -1,6 +1,6 @@
 package com.andframe.impl.task;
 
-import com.andframe.task.AfHandlerTask;
+import com.andframe.task.HandlerTask;
 
 /**
  * 内部任务实现
@@ -8,7 +8,7 @@ import com.andframe.task.AfHandlerTask;
  */
 
 @SuppressWarnings("WeakerAccess")
-public class InternalTask extends AfHandlerTask {
+public class InternalTask extends HandlerTask {
 
     protected TaskBuilder builder;
 

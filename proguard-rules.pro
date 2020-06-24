@@ -36,7 +36,7 @@
 -keep enum com.andframe.model.** {*;}
 -keep class com.andframe.model.** {<fields>;}
 
--keepclassmembers class * implements com.andframe.api.viewer.ViewModuler {
+-keepclassmembers class * implements com.andframe.api.viewer.ViewModule {
    <init>();
 }
 -keepclassmembers class * {

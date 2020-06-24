@@ -9,7 +9,8 @@ import com.andframe.api.pager.status.LayoutManager;
 import com.andframe.api.pager.status.StatusHelper;
 import com.andframe.api.pager.status.StatusLayoutManager;
 import com.andframe.api.pager.status.StatusPager;
-import com.andframe.impl.helper.AfStatusHelper;
+import com.andframe.application.AfApp;
+import com.andframe.impl.helper.StatusPagerHelper;
 
 /**
  * 多状态页面支持
@@ -33,7 +34,7 @@ public abstract class AfStatusActivity<T> extends AfLoadActivity<T> implements S
         if (mHelper instanceof StatusHelper) {
             return ((StatusHelper<T>) mHelper);
         }
-        return new AfStatusHelper<>(this);
+        return AfApp.get().newStatusPagerHelper(this);
     }
 
     //<editor-fold desc="初始化布局">
