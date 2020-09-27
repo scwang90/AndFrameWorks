@@ -1,9 +1,8 @@
 package com.andpack.adapter;
 
-import android.support.annotation.LayoutRes;
+import androidx.annotation.LayoutRes;
 
 import com.andframe.adapter.LayoutItemViewerAdapter;
-import com.andframe.api.query.ViewQuery;
 import com.andpack.api.ApItemBinder;
 
 import java.util.List;

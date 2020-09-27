@@ -3,16 +3,15 @@ package com.andpack.activity;
 import android.Manifest;
 import android.os.Build;
 import android.os.Bundle;
-import android.support.annotation.CallSuper;
-import android.support.annotation.NonNull;
-import android.support.annotation.RequiresApi;
-import android.support.annotation.StyleRes;
-import android.support.v4.app.Fragment;
+import androidx.annotation.CallSuper;
+import androidx.annotation.NonNull;
+import androidx.annotation.RequiresApi;
+import androidx.annotation.StyleRes;
+import androidx.fragment.app.Fragment;
 import android.view.View;
 
 import com.andframe.activity.AfActivity;
 import com.andframe.feature.AfIntent;
-import com.andpack.$;
 import com.andpack.api.ApPager;
 import com.andpack.impl.ApPagerHelper;
 

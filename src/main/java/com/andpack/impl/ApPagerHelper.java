@@ -4,15 +4,14 @@ import android.annotation.SuppressLint;
 import android.app.Activity;
 import android.content.Intent;
 import android.net.Uri;
-import android.os.Build;
 import android.os.Bundle;
 import android.provider.Settings;
-import android.support.annotation.NonNull;
-import android.support.annotation.RequiresApi;
-import android.support.annotation.StyleRes;
-import android.support.v4.app.Fragment;
-import android.support.v4.content.ContextCompat;
-import android.support.v7.widget.Toolbar;
+import androidx.annotation.NonNull;
+import androidx.annotation.RequiresApi;
+import androidx.annotation.StyleRes;
+import androidx.fragment.app.Fragment;
+import androidx.core.content.ContextCompat;
+import androidx.appcompat.widget.Toolbar;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.FrameLayout;
@@ -22,7 +21,6 @@ import com.andframe.activity.AfActivity;
 import com.andframe.annotation.interpreter.ReflecterCacher;
 import com.andframe.api.pager.Pager;
 import com.andframe.api.query.ViewQuery;
-import com.andframe.exception.AfExceptionHandler;
 import com.andframe.feature.AfIntent;
 import com.andframe.fragment.AfFragment;
 import com.andframe.listener.SafeListener;
@@ -30,7 +28,6 @@ import com.andframe.util.java.AfReflecter;
 import com.andpack.R;
 import com.andpack.activity.ApActivity;
 import com.andpack.activity.ApFragmentActivity;
-import com.andpack.activity.ApItemsCommonActivity;
 import com.andpack.annotation.BackgroundTranslucent;
 import com.andpack.annotation.BindTitle;
 import com.andpack.annotation.RegisterEventBus;
@@ -38,7 +35,6 @@ import com.andpack.annotation.interpreter.StatusBarInterpreter;
 import com.andpack.api.ApPager;
 import com.andpack.application.ApApp;
 import com.andpack.fragment.ApFragment;
-import com.andpack.fragment.common.ApItemsCommonFragment;
 import com.squareup.leakcanary.RefWatcher;
 
 import org.greenrobot.eventbus.EventBus;
@@ -55,7 +51,7 @@ import me.imid.swipebacklayout.lib.app.SwipeBackActivityHelper;
 import permissions.dispatcher.PermissionRequest;
 
 import static android.app.Activity.RESULT_OK;
-import static android.support.v4.graphics.ColorUtils.setAlphaComponent;
+import static androidx.core.graphics.ColorUtils.setAlphaComponent;
 import static com.andframe.util.java.AfReflecter.getAnnotation;
 
 /**
@@ -121,6 +117,20 @@ public class ApPagerHelper {
 
     public void setTheme(@StyleRes int resId) {
         mIsUsingSwipeBack = resId == R.style.AppTheme_SwipeBack;
+    }
+
+    public void setUsingSwipeBack(boolean using) {
+        mIsUsingSwipeBack = using;
+        if (mSwipeBackHelper != null) {
+            SwipeBackLayout layout = mSwipeBackHelper.getSwipeBackLayout();
+            if (layout != null) {
+                layout.setEnableGesture(using);
+            }
+        }
+        Activity activity = pager.getActivity();
+        if (pager instanceof Fragment && activity instanceof ApFragmentActivity) {
+            ((ApFragmentActivity) activity).mApHelper.setUsingSwipeBack(using);
+        }
     }
 
     public void onCreate() {

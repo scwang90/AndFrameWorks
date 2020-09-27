@@ -9,11 +9,11 @@ import android.content.DialogInterface;
 import android.content.pm.ActivityInfo;
 import android.graphics.drawable.Drawable;
 import android.net.Uri;
-import android.support.annotation.IdRes;
-import android.support.annotation.NonNull;
-import android.support.annotation.Nullable;
-import android.support.annotation.StringRes;
-import android.support.v4.app.Fragment;
+import androidx.annotation.IdRes;
+import androidx.annotation.NonNull;
+import androidx.annotation.Nullable;
+import androidx.annotation.StringRes;
+import androidx.fragment.app.Fragment;
 import android.text.Editable;
 import android.text.InputType;
 import android.text.TextUtils;
@@ -35,9 +35,9 @@ import android.widget.TimePicker;
 import com.andframe.$;
 import com.andframe.api.Cacher;
 import com.andframe.api.DialogBuilder;
-import com.andframe.api.DialogBuilder.OnDateSetVerifyListener;
-import com.andframe.api.DialogBuilder.OnDateTimeSetVerifyListener;
-import com.andframe.api.DialogBuilder.OnTimeSetVerifyListener;
+import com.andframe.api.dialog.DialogBuilder.OnDateSetVerifyListener;
+import com.andframe.api.dialog.DialogBuilder.OnDateTimeSetVerifyListener;
+import com.andframe.api.dialog.DialogBuilder.OnTimeSetVerifyListener;
 import com.andframe.api.pager.Pager;
 import com.andframe.api.task.builder.Builder;
 import com.andframe.api.task.builder.WaitBuilder;
@@ -468,7 +468,7 @@ public class ApCommonBarBinder {
             return self();
         }
 
-        public void action(@NonNull String title,@NonNull Runnable action) {
+        public void action(@NonNull String title, @NonNull Runnable action) {
             this.action = action;
             this.actionTitle = title;
         }
@@ -567,13 +567,17 @@ public class ApCommonBarBinder {
             picker.setFormatter(formatter);
             textview.setText(TextUtils.isEmpty(unit) ? "" : unit);
             View view = $(new LinearLayout(viewer.getContext()))
-                    .addView(picker).addView(textview).gravity(Gravity.CENTER_VERTICAL).view();
+                    .addView(picker).addView(textview).gravity(Gravity.CENTER).view();
             DialogInterface.OnClickListener click = TextUtils.isEmpty(actionTitle) ? null : (dialog, which) -> {
                 if (action != null) {
                     action.run();
                 }
             };
-            $.dialog(viewer).showViewDialog(hint, view, "取消", null, "确定", (d, i) -> onNumberSelected(picker, picker.getValue()), actionTitle, click);
+            //$.dialog(viewer).showViewDialog(hint, view, "取消", null, "确定", (d, i) -> onNumberSelected(picker, picker.getValue()), actionTitle, click);
+            $.dialog(viewer).builder().title(hint).view(view)
+                    .button("取消").button(actionTitle, click)
+                    .button("确定", (d, i) -> onNumberSelected(picker, picker.getValue()))
+                    .show();
         }
 
         public SelectNumber formatter(NumberPicker.Formatter formatter) {
@@ -717,7 +721,8 @@ public class ApCommonBarBinder {
                     action.run();
                 }
             };
-            $.dialog(viewer).showViewDialog(hint, view, "取消", null, actionTitle, click, "确定", (d, i) -> onNumberSelected(pickerInteger, pickerDecimal1, pickerDecimal2, pickerInteger.getValue(), pickerDecimal1.getValue(), pickerDecimal2.getValue()));
+            //$.dialog(viewer).showViewDialog(hint, view, "取消", actionTitle, click, "确定", (d, i) -> onNumberSelected(pickerInteger, pickerDecimal1, pickerDecimal2, pickerInteger.getValue(), pickerDecimal1.getValue(), pickerDecimal2.getValue()));
+            $.dialog(viewer).builder().title(hint).button("取消").button(actionTitle, click).button("确定", (d, i) -> onNumberSelected(pickerInteger, pickerDecimal1, pickerDecimal2, pickerInteger.getValue(), pickerDecimal1.getValue(), pickerDecimal2.getValue())).show();
         }
 
         public SelectFloat value(Float value) {
@@ -815,7 +820,8 @@ public class ApCommonBarBinder {
                     action.run();
                 }
             };
-            $.dialog(viewer).showViewDialog(hint, query.view(), "取消", null, actionTitle, click, "确定", (d, n) -> {
+            //$.dialog(viewer).showViewDialog(hint, query.view(), "取消", actionTitle, click, "确定", (d, n) -> {
+            $.dialog(viewer).builder().title(hint).view(query.view()).button("取消").button(actionTitle, click).button("确定", (d, n) -> {
                 float value = 0f;
                 for (int i = 0 ; i < accuracyInteger + accuracyDecimal ; i++) {
                     value += pickers.get(i).getValue() * Math.pow(10, accuracyInteger + accuracyDecimal - i - 1);
@@ -830,7 +836,7 @@ public class ApCommonBarBinder {
 //                    }
                 }
                 onNumberSelected(value, pickers);
-            });
+            }).show();
         }
 
         public SelectNumberPicker value(Float value) {
@@ -1344,7 +1350,7 @@ public class ApCommonBarBinder {
                     throw new VerifyException("请输入" + name);
                 }
                 try {
-                    Double v = Double.parseDouble(text);
+                    double v = Double.parseDouble(text);
                     if (v < 0) {
                         throw new VerifyException(name + "不能是负数");
                     }
@@ -1366,7 +1372,7 @@ public class ApCommonBarBinder {
                     throw new VerifyException("请输入" + name);
                 }
                 try {
-                    Double v = Double.parseDouble(text);
+                    double v = Double.parseDouble(text);
                     if (v <= 0) {
                         throw new VerifyException(name + "必须大于0");
                     }
@@ -1804,47 +1810,49 @@ public class ApCommonBarBinder {
 
     }
 
-    public class MonthBinder extends AbstractDateBinder<MonthBinder> {
+    public class MonthBinder extends AbstractDateBinder<MonthBinder> implements OnDateSetVerifyListener{
 
         private static final int YEAR_MIN = 2000;
         private static final int YEAR_MAX = 3000;
 
         MonthBinder(int idValue) {
             super(idValue);
-            format = AfDateFormat.DATE;
+            format = new SimpleDateFormat("yyyy-MM", Locale.CHINA);
         }
 
         @Override
         public void start() {
-            Calendar calendar = Calendar.getInstance();
-            if (lastValue != null) {
-                calendar.setTime(lastValue);
-            }
-            TextView txtYear = new TextView(viewer.getContext());
-            TextView txtMonth = new TextView(viewer.getContext());
-            NumberPicker year = new NumberPicker(viewer.getContext());
-            NumberPicker month = new NumberPicker(viewer.getContext());
-            year.setMinValue(YEAR_MIN);
-            year.setMaxValue(YEAR_MAX);
-            month.setMinValue(1);
-            month.setMaxValue(12);
-            year.setValue(calendar.get(Calendar.YEAR));
-            month.setValue(calendar.get(Calendar.MONTH) + 1);
-            txtYear.setText("年");
-            txtMonth.setText("月");
-            View view = $(new LinearLayout(viewer.getContext()))
-                    .addView(year).addView(txtYear)
-                    .addView(month).addView(txtMonth)
-                    .gravity(Gravity.CENTER_VERTICAL).view();
-            Dialog dialog = $.dialog(viewer).showViewDialog(hint, view, "取消", null, "选择", null);
-            if (dialog instanceof AlertDialog) {
-                ((AlertDialog) dialog).getButton(AlertDialog.BUTTON_POSITIVE)
-                        .setOnClickListener(new SafeListener((View.OnClickListener) v -> {
-                            if (onPreDateSet(view, year.getValue(), month.getValue() - 1)) {
-                                dialog.dismiss();
-                            }
-                        }));
-            }
+            //Calendar calendar = Calendar.getInstance();
+            //if (lastValue != null) {
+            //    calendar.setTime(lastValue);
+            //}
+            //TextView txtYear = new TextView(viewer.getContext());
+            //TextView txtMonth = new TextView(viewer.getContext());
+            //NumberPicker year = new NumberPicker(viewer.getContext());
+            //NumberPicker month = new NumberPicker(viewer.getContext());
+            //year.setMinValue(YEAR_MIN);
+            //year.setMaxValue(YEAR_MAX);
+            //month.setMinValue(1);
+            //month.setMaxValue(12);
+            //year.setValue(calendar.get(Calendar.YEAR));
+            //month.setValue(calendar.get(Calendar.MONTH) + 1);
+            //txtYear.setText("年");
+            //txtMonth.setText("月");
+            //View view = $(new LinearLayout(viewer.getContext()))
+            //        .addView(year).addView(txtYear)
+            //        .addView(month).addView(txtMonth)
+            //        .gravity(Gravity.CENTER).view();
+            //Dialog dialog = $.dialog(viewer).showViewDialog(hint, view, "取消", "选择", null);
+            //if (dialog instanceof AlertDialog) {
+            //    ((AlertDialog) dialog).getButton(AlertDialog.BUTTON_POSITIVE)
+            //            .setOnClickListener(new SafeListener((View.OnClickListener) v -> {
+            //                if (onPreDateSet(view, year.getValue(), month.getValue() - 1)) {
+            //                    dialog.dismiss();
+            //                }
+            //            }));
+            //}
+
+            $.dialog(viewer).builder().title(hint).month(lastValue, this);
         }
 
         public MonthBinder value(Date date) {
@@ -1852,7 +1860,7 @@ public class ApCommonBarBinder {
                 lastValue = AfDateFormat.roundDate(date);
                 Calendar now = Calendar.getInstance();
                 now.setTime(date);
-                onDateSet(null, now.get(Calendar.YEAR), now.get(Calendar.MONTH));
+                onDateSet(null, now.get(Calendar.YEAR), now.get(Calendar.MONTH), 1);
             } else {
                 lastValue = null;
                 $(idValue).text("");
@@ -1860,7 +1868,8 @@ public class ApCommonBarBinder {
             return self();
         }
 
-        public boolean onPreDateSet(View view, int year, int month) {
+        @Override
+        public boolean onPreDateSet(DatePicker view, int year, int month, int dayOfMonth) {
             if (verifies != null && view != null) {
                 try {
                     for (DateVerify verify : verifies) {
@@ -1871,11 +1880,35 @@ public class ApCommonBarBinder {
                     return false;
                 }
             }
-            onDateSet(view, year, month);
             return true;
         }
 
-        public void onDateSet(View view, int year, int month) {
+        //public boolean onPreDateSet(View view, int year, int month) {
+        //    if (verifies != null && view != null) {
+        //        try {
+        //            for (DateVerify verify : verifies) {
+        //                verify.verify(AfDateFormat.parser(year, month, 1), false);
+        //            }
+        //        } catch (VerifyException e) {
+        //            $.toaster(viewer).toast(e.getMessage());
+        //            return false;
+        //        }
+        //    }
+        //    onDateSet(view, year, month);
+        //    return true;
+        //}
+
+        //public void onDateSet(View view, int year, int month) {
+        //    isManual = view != null;
+        //    lastValue = AfDateFormat.parser(year, month, 1);
+        //    $(idValue).text(format.format(lastValue));
+        //    if (bind != null) {
+        //        bind.bind(this, lastValue);
+        //    }
+        //}
+
+        @Override
+        public void onDateSet(DatePicker view, int year, int month, int dayOfMonth) {
             isManual = view != null;
             lastValue = AfDateFormat.parser(year, month, 1);
             $(idValue).text(format.format(lastValue));
@@ -1883,10 +1916,11 @@ public class ApCommonBarBinder {
                 bind.bind(this, lastValue);
             }
         }
-
     }
 
     public class TimeBinder extends AbstractDateBinder<TimeBinder> implements OnTimeSetVerifyListener {
+
+        private Dialog dialog = null;
 
         TimeBinder(int idValue) {
             super(idValue);
@@ -1895,7 +1929,7 @@ public class ApCommonBarBinder {
 
         @Override
         public void start() {
-            $.dialog(viewer).selectTime(hint, lastValue == null ? new Date() : lastValue, this);
+            dialog = $.dialog(viewer).selectTime(hint, lastValue == null ? new Date() : lastValue, this);
         }
 
         public TimeBinder value(Date date) {
@@ -1912,7 +1946,7 @@ public class ApCommonBarBinder {
         }
 
         @Override
-        public boolean onPreTimeSet(TimePickerDialog dialog, TimePicker view, int hourOfDay, int minute) {
+        public boolean onPreTimeSet(TimePicker view, int hourOfDay, int minute) {
             if (verifies != null && view != null) {
                 try {
                     for (DateVerify verify : verifies) {
@@ -1933,7 +1967,7 @@ public class ApCommonBarBinder {
                             success.run();
                         }
                         onTimeSet(view, hourOfDay, minute);
-                        dialog.dismiss();
+                        if (dialog != null) dialog.dismiss();
                     });
                     taskBuilder.post();
                     return false;
@@ -2315,9 +2349,7 @@ public class ApCommonBarBinder {
 
         RadioGroupBinder(int idValue) {
             super(idValue);
-            $(idValue).clicked(null).foreach(RadioGroup.class, (ViewQuery.ViewIterator<RadioGroup>) view -> {
-                view.setOnCheckedChangeListener(this);
-            });
+            $(idValue).clicked(null).foreach(RadioGroup.class, (ViewQuery.ViewIterator<RadioGroup>) view -> view.setOnCheckedChangeListener(this));
         }
 
         @Override

@@ -6,7 +6,7 @@
     android:orientation="vertical"
     tools:context="com.andpack.fragment.common.ApItemsCommonFragment">
 
-    <android.support.v7.widget.Toolbar style="@style/AndFrame.Toolbar"
+    <androidx.appcompat.widget.Toolbar style="@style/AndFrame.Toolbar"
         app:navigationIcon="?attr/homeAsUpIndicator">
         <TextView style="@style/AndFrame.Toolbar.Title"
                   android:id="@+id/toolbar_title"
@@ -16,9 +16,9 @@
         <ImageView style="@style/AndFrame.Toolbar.Action"
                    android:contentDescription="@string/app_name"
                    android:id="@+id/toolbar_right_img"/>
-    </android.support.v7.widget.Toolbar>
+    </androidx.appcompat.widget.Toolbar>
 
-    <android.support.v7.widget.RecyclerView
+    <androidx.recyclerview.widget.RecyclerView
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:overScrollMode="never"

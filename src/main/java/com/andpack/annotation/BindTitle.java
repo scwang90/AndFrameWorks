@@ -1,6 +1,6 @@
 package com.andpack.annotation;
 
-import android.support.annotation.StringRes;
+import androidx.annotation.StringRes;
 import android.view.View;
 
 import java.lang.annotation.ElementType;

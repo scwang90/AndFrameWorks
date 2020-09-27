@@ -1,6 +1,6 @@
 package com.andpack.activity;
 
-import android.support.annotation.CallSuper;
+import androidx.annotation.CallSuper;
 
 import com.andframe.$;
 import com.andpack.application.ApAppSettings;

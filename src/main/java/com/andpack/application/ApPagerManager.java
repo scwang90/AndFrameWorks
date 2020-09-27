@@ -1,7 +1,7 @@
 package com.andpack.application;
 
 import android.app.Activity;
-import android.support.v4.app.Fragment;
+import androidx.fragment.app.Fragment;
 
 import com.andframe.activity.AfActivity;
 import com.andframe.impl.pager.AfPagerManager;

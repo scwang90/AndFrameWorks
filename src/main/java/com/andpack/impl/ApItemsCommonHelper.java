@@ -1,10 +1,10 @@
 package com.andpack.impl;
 
 import android.app.Activity;
-import android.support.annotation.CallSuper;
-import android.support.annotation.IdRes;
-import android.support.annotation.Nullable;
-import android.support.annotation.StringRes;
+import androidx.annotation.CallSuper;
+import androidx.annotation.IdRes;
+import androidx.annotation.Nullable;
+import androidx.annotation.StringRes;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -62,7 +62,7 @@ public class ApItemsCommonHelper<T> extends ApItemsHelper<T> {
         Class<?> stop = mItemPager instanceof Activity ? ApItemsCommonActivity.class : ApItemsCommonFragment.class;
         BindTitle title = AfReflecter.getAnnotation(mItemPager.getClass(), stop, BindTitle.class);
         if (title != null) {
-            if (title.value() != 0) {
+            if (title.value() != View.NO_ID) {
                 mItemPager.getViewQuery().query(R.id.toolbar_title).text(title.value());
             } else {
                 mItemPager.getViewQuery().query(R.id.toolbar_title).text(title.title());

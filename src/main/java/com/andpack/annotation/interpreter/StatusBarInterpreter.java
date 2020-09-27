@@ -2,9 +2,9 @@ package com.andpack.annotation.interpreter;
 
 import android.app.Activity;
 import android.content.res.Resources;
-import android.support.v4.app.Fragment;
-import android.support.v4.content.ContextCompat;
-import android.support.v4.util.ArrayMap;
+import androidx.fragment.app.Fragment;
+import androidx.core.content.ContextCompat;
+import androidx.collection.ArrayMap;
 import android.view.View;
 
 import com.andframe.$;

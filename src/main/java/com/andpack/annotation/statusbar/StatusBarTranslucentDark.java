@@ -1,7 +1,7 @@
 package com.andpack.annotation.statusbar;
 
-import android.support.annotation.ColorRes;
-import android.support.annotation.FloatRange;
+import androidx.annotation.ColorRes;
+import androidx.annotation.FloatRange;
 
 import java.lang.annotation.ElementType;
 import java.lang.annotation.Retention;

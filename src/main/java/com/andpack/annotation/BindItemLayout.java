@@ -1,6 +1,6 @@
 package com.andpack.annotation;
 
-import android.support.annotation.LayoutRes;
+import androidx.annotation.LayoutRes;
 
 import java.lang.annotation.ElementType;
 import java.lang.annotation.Retention;

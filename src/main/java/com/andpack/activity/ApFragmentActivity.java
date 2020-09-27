@@ -3,10 +3,9 @@ package com.andpack.activity;
 import android.app.Activity;
 import android.content.Context;
 import android.os.Bundle;
-import android.support.annotation.CallSuper;
-import android.support.annotation.StyleRes;
-import android.support.v4.app.Fragment;
-import android.view.View;
+import androidx.annotation.CallSuper;
+import androidx.annotation.StyleRes;
+import androidx.fragment.app.Fragment;
 
 import com.andframe.activity.AfFragmentActivity;
 import com.andframe.annotation.pager.BindLaunchMode;
@@ -15,7 +14,6 @@ import com.andframe.application.AfApp;
 import com.andframe.feature.AfIntent;
 import com.andframe.fragment.AfFragment;
 import com.andframe.util.java.AfReflecter;
-import com.andpack.api.ApPager;
 import com.andpack.impl.ApPagerHelper;
 
 import java.util.HashMap;
@@ -28,7 +26,7 @@ import java.util.Map;
 @SuppressWarnings("unused")
 public class ApFragmentActivity extends AfFragmentActivity {
 
-    protected ApPagerHelper mApHelper = new ApPagerHelper(this);
+    public ApPagerHelper mApHelper = new ApPagerHelper(this);
 
     @Override
     public void setTheme(@StyleRes int resId) {
