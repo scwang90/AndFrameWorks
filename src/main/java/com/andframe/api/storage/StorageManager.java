@@ -1,10 +1,8 @@
 package com.andframe.api.storage;
 
-import android.content.Context;
 import android.os.Build;
 import android.os.Environment;
-import android.support.annotation.RequiresApi;
-import com.andframe.application.AfApp;
+import androidx.annotation.RequiresApi;
 
 import java.io.File;
 

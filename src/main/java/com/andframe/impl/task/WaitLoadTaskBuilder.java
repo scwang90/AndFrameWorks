@@ -50,6 +50,7 @@ public class WaitLoadTaskBuilder<T> extends WaitTaskBuilder implements WaitLoadB
 
     @Override
     public Task build() {
+        built = true;
         return new InternalWaitLoadTask<>(this);
     }
 

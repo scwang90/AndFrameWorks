@@ -13,18 +13,19 @@ import android.graphics.Typeface;
 import android.graphics.drawable.Drawable;
 import android.net.Uri;
 import android.os.Build;
-import android.support.annotation.ColorRes;
-import android.support.annotation.DimenRes;
-import android.support.annotation.DrawableRes;
-import android.support.annotation.NonNull;
-import android.support.annotation.Nullable;
-import android.support.annotation.StringRes;
-import android.support.v4.content.ContextCompat;
-import android.support.v4.view.PagerAdapter;
-import android.support.v4.view.ViewCompat;
-import android.support.v4.view.ViewPager;
-import android.support.v4.widget.DrawerLayout;
-import android.support.v7.widget.LinearLayoutCompat;
+import android.text.method.MovementMethod;
+import androidx.annotation.ColorRes;
+import androidx.annotation.DimenRes;
+import androidx.annotation.DrawableRes;
+import androidx.annotation.NonNull;
+import androidx.annotation.Nullable;
+import androidx.annotation.StringRes;
+import androidx.core.content.ContextCompat;
+import androidx.viewpager.widget.PagerAdapter;
+import androidx.core.view.ViewCompat;
+import androidx.viewpager.widget.ViewPager;
+import androidx.drawerlayout.widget.DrawerLayout;
+import androidx.appcompat.widget.LinearLayoutCompat;
 import android.text.Editable;
 import android.text.Html;
 import android.text.TextUtils;
@@ -75,7 +76,7 @@ import java.util.List;
 import java.util.Queue;
 import java.util.concurrent.LinkedBlockingQueue;
 
-import static android.support.v4.content.ContextCompat.getDrawable;
+import static androidx.core.content.ContextCompat.getDrawable;
 
 /**
  * 安卓版 JQuery 实现
@@ -708,8 +709,8 @@ public class DefaultViewQuery<T extends DefaultViewQuery<T>> implements ViewQuer
                 ((LinearLayout.LayoutParams) lp).gravity = gravity;
             } else if (lp instanceof LinearLayoutCompat.LayoutParams) {
                 ((LinearLayoutCompat.LayoutParams) lp).gravity = gravity;
-            } else if (lp instanceof android.support.v7.widget.Toolbar.LayoutParams) {
-                ((android.support.v7.widget.Toolbar.LayoutParams) lp).gravity = gravity;
+            } else if (lp instanceof androidx.appcompat.widget.Toolbar.LayoutParams) {
+                ((androidx.appcompat.widget.Toolbar.LayoutParams) lp).gravity = gravity;
             } else if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
                 if (lp instanceof Toolbar.LayoutParams) {
                     ((Toolbar.LayoutParams) lp).gravity = gravity;
@@ -1672,6 +1673,11 @@ public class DefaultViewQuery<T extends DefaultViewQuery<T>> implements ViewQuer
     }
 
     @Override
+    public T movementMethod(MovementMethod movement) {
+        return foreach(TextView.class, (ViewIterator<TextView>) (view) -> view.setMovementMethod(movement));
+    }
+
+    @Override
     public T maxLines(int lines) {
         return foreach(TextView.class, (ViewIterator<TextView>) (view) -> view.setMaxLines(lines));
     }
@@ -1824,8 +1830,10 @@ public class DefaultViewQuery<T extends DefaultViewQuery<T>> implements ViewQuer
                         }
                     }
                 }
+                if (format.charAt(i + 1) != '%') {
+                    index++;
+                }
                 i++;
-                index++;
             }
         }
         foreach(WebView.class, (ViewIterator<WebView>) (view) -> view.loadData(String.format(format + "", args), "text/html;charset=UTF-8", null));

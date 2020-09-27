@@ -1,8 +1,8 @@
 package com.andframe.api.pager.status;
 
-import android.support.annotation.IdRes;
-import android.support.annotation.LayoutRes;
-import android.support.annotation.StringRes;
+import androidx.annotation.IdRes;
+import androidx.annotation.LayoutRes;
+import androidx.annotation.StringRes;
 import android.view.ViewGroup;
 
 /**

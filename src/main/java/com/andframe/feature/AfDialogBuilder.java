@@ -2,13 +2,9 @@ package com.andframe.feature;
 
 import android.annotation.SuppressLint;
 import android.annotation.TargetApi;
-import android.app.AlertDialog;
+import android.app.*;
 import android.app.AlertDialog.Builder;
-import android.app.DatePickerDialog;
 import android.app.DatePickerDialog.OnDateSetListener;
-import android.app.Dialog;
-import android.app.ProgressDialog;
-import android.app.TimePickerDialog;
 import android.app.TimePickerDialog.OnTimeSetListener;
 import android.content.Context;
 import android.content.DialogInterface;
@@ -27,14 +23,7 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.view.ViewGroup.LayoutParams;
 import android.view.Window;
-import android.widget.CheckBox;
-import android.widget.DatePicker;
-import android.widget.EditText;
-import android.widget.LinearLayout;
-import android.widget.RelativeLayout;
-import android.widget.TextView;
-import android.widget.TimePicker;
-
+import android.widget.*;
 import com.andframe.$;
 import com.andframe.activity.AfActivity;
 import com.andframe.api.DialogBuilder;
@@ -110,7 +99,8 @@ public class AfDialogBuilder implements DialogBuilder {
      */
     @Override
     public Dialog showDialog(CharSequence title, CharSequence message, CharSequence positive, OnClickListener lpositive) {
-        return showDialog(title, message, "", null, positive, lpositive);
+        return builder().title(title).message(message).button(positive, lpositive).show();
+        //return showDialog(title, message, "", null, positive, lpositive);
     }
 
     /**
@@ -118,117 +108,131 @@ public class AfDialogBuilder implements DialogBuilder {
      *
      * @param title     显示标题
      * @param message   显示内容
+     * @param defaultButton  取消 默认无操作按钮
      * @param positive  确认 按钮显示信息
      * @param lpositive 点击  确认 按钮 响应事件
-     * @param negative  按钮显示信息
-     * @param lnegative 点击  拒绝 按钮 响应事件
      */
     @Override
-    public Dialog showDialog(CharSequence title, CharSequence message, CharSequence negative, OnClickListener lnegative, CharSequence positive, OnClickListener lpositive) {
-        return showDialog(title, message, negative, lnegative, "", null, positive, lpositive);
+    public Dialog showDialog(CharSequence title, CharSequence message, CharSequence defaultButton, CharSequence positive, OnClickListener lpositive) {
+        return builder().title(title).message(message).button(defaultButton).button(positive, lpositive).show();
     }
 
-    /**
-     * 显示对话框
-     *
-     * @param title     显示标题
-     * @param message   显示内容
-     * @param positive  确认 按钮显示信息
-     * @param lpositive 点击  确认 按钮 响应事件
-     * @param neutral   详细 按钮显示信息
-     * @param lneutral  点击  详细 按钮 响应事件
-     * @param negative  按钮显示信息
-     * @param lnegative 点击  拒绝 按钮 响应事件
-     */
-    @Override
-    public Dialog showDialog(CharSequence title, CharSequence message, CharSequence negative, OnClickListener lnegative, CharSequence neutral, OnClickListener lneutral, CharSequence positive, OnClickListener lpositive) {
-        return showDialog(0, title, message, negative, lnegative, neutral, lneutral, positive, lpositive);
-    }
+    ///**
+    // * 显示对话框
+    // *
+    // * @param title     显示标题
+    // * @param message   显示内容
+    // * @param positive  确认 按钮显示信息
+    // * @param lpositive 点击  确认 按钮 响应事件
+    // * @param negative  按钮显示信息
+    // * @param lnegative 点击  拒绝 按钮 响应事件
+    // */
+    //@Override
+    //public Dialog showDialog(CharSequence title, CharSequence message, CharSequence negative, OnClickListener lnegative, CharSequence positive, OnClickListener lpositive) {
+    //    return showDialog(title, message, negative, lnegative, "", null, positive, lpositive);
+    //}
 
-    /**
-     * 显示对话框
-     *
-     * @param iconres   对话框图标
-     * @param title     显示标题
-     * @param message   显示内容
-     * @param positive  确认 按钮显示信息
-     * @param lpositive 点击  确认 按钮 响应事件
-     * @param negative  按钮显示信息
-     * @param lnegative 点击  拒绝 按钮 响应事件
-     */
-    @Override
-    public Dialog showDialog(int iconres, CharSequence title, CharSequence message, CharSequence negative, OnClickListener lnegative, CharSequence positive, OnClickListener lpositive) {
-        return showDialog(iconres, title, message, negative, lnegative, "", null, positive, lpositive);
-    }
+    ///**
+    // * 显示对话框
+    // *
+    // * @param title     显示标题
+    // * @param message   显示内容
+    // * @param positive  确认 按钮显示信息
+    // * @param lpositive 点击  确认 按钮 响应事件
+    // * @param neutral   详细 按钮显示信息
+    // * @param lneutral  点击  详细 按钮 响应事件
+    // * @param negative  按钮显示信息
+    // * @param lnegative 点击  拒绝 按钮 响应事件
+    // */
+    //@Override
+    //public Dialog showDialog(CharSequence title, CharSequence message, CharSequence negative, OnClickListener lnegative, CharSequence neutral, OnClickListener lneutral, CharSequence positive, OnClickListener lpositive) {
+    //    return showDialog(0, title, message, negative, lnegative, neutral, lneutral, positive, lpositive);
+    //}
 
-    /**
-     * 显示对话框
-     *
-     * @param iconres   对话框图标
-     * @param title     显示标题
-     * @param message   显示内容
-     * @param positive  确认 按钮显示信息
-     * @param lpositive 点击  确认 按钮 响应事件
-     * @param neutral   详细 按钮显示信息
-     * @param lneutral  点击  详细 按钮 响应事件
-     * @param negative  按钮显示信息
-     * @param lnegative 点击  拒绝 按钮 响应事件
-     */
-    @Override
-    public Dialog showDialog(int iconres, CharSequence title, CharSequence message, CharSequence negative, OnClickListener lnegative, CharSequence neutral, OnClickListener lneutral, CharSequence positive, OnClickListener lpositive) {
-        return showDialog(-1, iconres, title, message, negative, lnegative, neutral, lneutral, positive, lpositive);
-    }
+    ///**
+    // * 显示对话框
+    // *
+    // * @param iconres   对话框图标
+    // * @param title     显示标题
+    // * @param message   显示内容
+    // * @param positive  确认 按钮显示信息
+    // * @param lpositive 点击  确认 按钮 响应事件
+    // * @param negative  按钮显示信息
+    // * @param lnegative 点击  拒绝 按钮 响应事件
+    // */
+    //@Override
+    //public Dialog showDialog(int iconres, CharSequence title, CharSequence message, CharSequence negative, OnClickListener lnegative, CharSequence positive, OnClickListener lpositive) {
+    //    return showDialog(iconres, title, message, negative, lnegative, "", null, positive, lpositive);
+    //}
 
-    /**
-     * 显示视图对话框
-     *
-     * @param theme     主题
-     * @param iconres   对话框图标
-     * @param title     显示标题
-     * @param message   显示内容
-     * @param positive  确认 按钮显示信息
-     * @param lpositive 点击  确认 按钮 响应事件
-     * @param neutral   详细 按钮显示信息
-     * @param lneutral  点击  详细 按钮 响应事件
-     * @param negative  按钮显示信息
-     * @param lnegative 点击  拒绝 按钮 响应事件
-     */
-    @Override
-    @TargetApi(Build.VERSION_CODES.HONEYCOMB)
-    public Dialog showDialog(int theme, int iconres,
-                             CharSequence title, CharSequence message, CharSequence negative, OnClickListener lnegative, CharSequence neutral, OnClickListener lneutral, CharSequence positive, OnClickListener lpositive) {
-        Builder builder = null;
-        if (theme > 0) {
-            try {
-                builder = new Builder(mContext, theme);
-            } catch (Throwable ignored) {
-            }
-        }
-        if (builder == null) {
-            try {
-                builder = new Builder(mContext);
-            } catch (Throwable ex) {
-                return null;
-            }
-        }
-        builder.setTitle(title);
-        builder.setMessage(message);
-        if (iconres > 0) {
-            builder.setIcon(iconres);
-        }
-        if (positive != null && positive.length() > 0) {
-            builder.setPositiveButton(positive, new SafeListener(lpositive));
-        }
-        if (negative != null && negative.length() > 0) {
-            builder.setNegativeButton(negative, new SafeListener(lnegative));
-        }
-        if (neutral != null && neutral.length() > 0) {
-            builder.setNeutralButton(neutral, new SafeListener(lneutral));
-        }
-        builder.setCancelable(false);
-        builder.create();
-        return builder.show();
-    }
+    ///**
+    // * 显示对话框
+    // *
+    // * @param iconres   对话框图标
+    // * @param title     显示标题
+    // * @param message   显示内容
+    // * @param positive  确认 按钮显示信息
+    // * @param lpositive 点击  确认 按钮 响应事件
+    // * @param neutral   详细 按钮显示信息
+    // * @param lneutral  点击  详细 按钮 响应事件
+    // * @param negative  按钮显示信息
+    // * @param lnegative 点击  拒绝 按钮 响应事件
+    // */
+    //@Override
+    //public Dialog showDialog(int iconres, CharSequence title, CharSequence message, CharSequence negative, OnClickListener lnegative, CharSequence neutral, OnClickListener lneutral, CharSequence positive, OnClickListener lpositive) {
+    //    return showDialog(-1, iconres, title, message, negative, lnegative, neutral, lneutral, positive, lpositive);
+    //}
+
+    ///**
+    // * 显示视图对话框
+    // *
+    // * @param theme     主题
+    // * @param iconres   对话框图标
+    // * @param title     显示标题
+    // * @param message   显示内容
+    // * @param positive  确认 按钮显示信息
+    // * @param lpositive 点击  确认 按钮 响应事件
+    // * @param neutral   详细 按钮显示信息
+    // * @param lneutral  点击  详细 按钮 响应事件
+    // * @param negative  按钮显示信息
+    // * @param lnegative 点击  拒绝 按钮 响应事件
+    // */
+    //@Override
+    //@TargetApi(Build.VERSION_CODES.HONEYCOMB)
+    //public Dialog showDialog(int theme, int iconres,
+    //                         CharSequence title, CharSequence message, CharSequence negative, OnClickListener lnegative, CharSequence neutral, OnClickListener lneutral, CharSequence positive, OnClickListener lpositive) {
+    //    Builder builder = null;
+    //    if (theme > 0) {
+    //        try {
+    //            builder = new Builder(mContext, theme);
+    //        } catch (Throwable ignored) {
+    //        }
+    //    }
+    //    if (builder == null) {
+    //        try {
+    //            builder = new Builder(mContext);
+    //        } catch (Throwable ex) {
+    //            return null;
+    //        }
+    //    }
+    //    builder.setTitle(title);
+    //    builder.setMessage(message);
+    //    if (iconres > 0) {
+    //        builder.setIcon(iconres);
+    //    }
+    //    if (positive != null && positive.length() > 0) {
+    //        builder.setPositiveButton(positive, new SafeListener(lpositive));
+    //    }
+    //    if (negative != null && negative.length() > 0) {
+    //        builder.setNegativeButton(negative, new SafeListener(lnegative));
+    //    }
+    //    if (neutral != null && neutral.length() > 0) {
+    //        builder.setNeutralButton(neutral, new SafeListener(lneutral));
+    //    }
+    //    builder.setCancelable(false);
+    //    builder.create();
+    //    return builder.show();
+    //}
     //</editor-fold>
 
     //<editor-fold desc="自定义视图对话框">
@@ -242,7 +246,8 @@ public class AfDialogBuilder implements DialogBuilder {
      */
     @Override
     public Dialog showViewDialog(CharSequence title, View view, CharSequence positive, OnClickListener lpositive) {
-        return showViewDialog(title, view, "", null, positive, lpositive);
+        return builder().title(title).view(view).button(positive, lpositive).show();
+        //return showViewDialog(title, view, "", null, positive, lpositive);
     }
 
     /**
@@ -250,122 +255,136 @@ public class AfDialogBuilder implements DialogBuilder {
      *
      * @param title     显示标题
      * @param view      显示内容
+     * @param defaultButton 取消 默认无操作按钮
      * @param positive  确认 按钮显示信息
      * @param lpositive 点击  确认 按钮 响应事件
-     * @param negative  按钮显示信息
-     * @param lnegative 点击  拒绝 按钮 响应事件
      */
     @Override
-    public Dialog showViewDialog(CharSequence title, View view, CharSequence negative, OnClickListener lnegative, CharSequence positive, OnClickListener lpositive) {
-        return showViewDialog(title, view, negative, lnegative, "", null, positive, lpositive);
+    public Dialog showViewDialog(CharSequence title, View view, CharSequence defaultButton, CharSequence positive, OnClickListener lpositive) {
+        return builder().title(title).view(view).button(defaultButton).button(positive, lpositive).show();
     }
 
-    /**
-     * 显示视图对话框
-     *
-     * @param title     显示标题
-     * @param view      显示内容
-     * @param positive  确认 按钮显示信息
-     * @param lpositive 点击  确认 按钮 响应事件
-     * @param neutral   详细 按钮显示信息
-     * @param lneutral  点击  详细 按钮 响应事件
-     * @param negative  按钮显示信息
-     * @param lnegative 点击  拒绝 按钮 响应事件
-     */
-    @Override
-    public Dialog showViewDialog(CharSequence title, View view, CharSequence negative, OnClickListener lnegative, CharSequence neutral, OnClickListener lneutral, CharSequence positive, OnClickListener lpositive) {
-        return showViewDialog(0, title, view, negative, lnegative, neutral, lneutral, positive, lpositive);
-    }
+    ///**
+    // * 显示视图对话框
+    // *
+    // * @param title     显示标题
+    // * @param view      显示内容
+    // * @param positive  确认 按钮显示信息
+    // * @param lpositive 点击  确认 按钮 响应事件
+    // * @param negative  按钮显示信息
+    // * @param lnegative 点击  拒绝 按钮 响应事件
+    // */
+    //@Override
+    //public Dialog showViewDialog(CharSequence title, View view, CharSequence negative, OnClickListener lnegative, CharSequence positive, OnClickListener lpositive) {
+    //    return showViewDialog(title, view, negative, lnegative, "", null, positive, lpositive);
+    //}
 
-    /**
-     * 显示视图对话框
-     *
-     * @param iconres   对话框图标
-     * @param title     显示标题
-     * @param view      显示内容
-     * @param positive  确认 按钮显示信息
-     * @param lpositive 点击  确认 按钮 响应事件
-     * @param negative  按钮显示信息
-     * @param lnegative 点击  拒绝 按钮 响应事件
-     */
-    @Override
-    public Dialog showViewDialog(int iconres, CharSequence title, View view, CharSequence negative, OnClickListener lnegative, CharSequence positive, OnClickListener lpositive) {
-        return showViewDialog(iconres, title, view, negative, lnegative, "", null, positive, lpositive);
-    }
+    ///**
+    // * 显示视图对话框
+    // *
+    // * @param title     显示标题
+    // * @param view      显示内容
+    // * @param positive  确认 按钮显示信息
+    // * @param lpositive 点击  确认 按钮 响应事件
+    // * @param neutral   详细 按钮显示信息
+    // * @param lneutral  点击  详细 按钮 响应事件
+    // * @param negative  按钮显示信息
+    // * @param lnegative 点击  拒绝 按钮 响应事件
+    // */
+    //@Override
+    //public Dialog showViewDialog(CharSequence title, View view, CharSequence negative, OnClickListener lnegative, CharSequence neutral, OnClickListener lneutral, CharSequence positive, OnClickListener lpositive) {
+    //    return showViewDialog(0, title, view, negative, lnegative, neutral, lneutral, positive, lpositive);
+    //}
 
-    /**
-     * 显示视图对话框
-     *
-     * @param iconres   对话框图标
-     * @param title     显示标题
-     * @param view      显示内容
-     * @param positive  确认 按钮显示信息
-     * @param lpositive 点击  确认 按钮 响应事件
-     * @param neutral   详细 按钮显示信息
-     * @param lneutral  点击  详细 按钮 响应事件
-     * @param negative  按钮显示信息
-     * @param lnegative 点击  拒绝 按钮 响应事件
-     */
-    @Override
-    public Dialog showViewDialog(int iconres, CharSequence title, View view, CharSequence negative, OnClickListener lnegative, CharSequence neutral, OnClickListener lneutral, CharSequence positive, OnClickListener lpositive) {
-        return showViewDialog(-1, iconres, title, view, negative, lnegative, neutral, lneutral, positive, lpositive);
-    }
+    ///**
+    // * 显示视图对话框
+    // *
+    // * @param iconres   对话框图标
+    // * @param title     显示标题
+    // * @param view      显示内容
+    // * @param positive  确认 按钮显示信息
+    // * @param lpositive 点击  确认 按钮 响应事件
+    // * @param negative  按钮显示信息
+    // * @param lnegative 点击  拒绝 按钮 响应事件
+    // */
+    //@Override
+    //public Dialog showViewDialog(int iconres, CharSequence title, View view, CharSequence negative, OnClickListener lnegative, CharSequence positive, OnClickListener lpositive) {
+    //    return showViewDialog(iconres, title, view, negative, lnegative, "", null, positive, lpositive);
+    //}
 
-    /**
-     * 显示视图对话框
-     *
-     * @param theme     主题
-     * @param iconres   对话框图标
-     * @param title     显示标题
-     * @param view      显示内容
-     * @param positive  确认 按钮显示信息
-     * @param lpositive 点击  确认 按钮 响应事件
-     * @param neutral   详细 按钮显示信息
-     * @param lneutral  点击  详细 按钮 响应事件
-     * @param negative  按钮显示信息
-     * @param lnegative 点击  拒绝 按钮 响应事件
-     */
-    @Override
-    @SuppressLint("NewApi")
-    public Dialog showViewDialog(int theme,
-                                 int iconres, CharSequence title, View view, CharSequence negative, OnClickListener lnegative, CharSequence neutral, OnClickListener lneutral, CharSequence positive, OnClickListener lpositive) {
-        Builder builder = null;
-        if (theme > 0) {
-            try {
-                builder = new Builder(mContext, theme);
-            } catch (Throwable ignored) {
-            }
-        }
-        if (builder == null) {
-            try {
-                builder = new Builder(mContext);
-            } catch (Throwable ex) {
-                return null;
-            }
-        }
-        builder.setTitle(title);
-        RelativeLayout.LayoutParams lp;
-        lp = new RelativeLayout.LayoutParams(AfActivity.LP_WC, AfActivity.LP_WC);
-        lp.addRule(RelativeLayout.CENTER_IN_PARENT, RelativeLayout.TRUE);
-        RelativeLayout layout = new RelativeLayout(mContext);
-        layout.addView(view, lp);
-        builder.setView(layout);
-        if (iconres > 0) {
-            builder.setIcon(iconres);
-        }
-        if (positive != null && positive.length() > 0) {
-            builder.setPositiveButton(positive, new SafeListener(lpositive));
-        }
-        if (negative != null && negative.length() > 0) {
-            builder.setNegativeButton(negative, new SafeListener(lnegative));
-        }
-        if (neutral != null && neutral.length() > 0) {
-            builder.setNeutralButton(neutral, new SafeListener(lneutral));
-        }
-        builder.setCancelable(false);
-        builder.create();
-        return builder.show();
-    }
+    ///**
+    // * 显示视图对话框
+    // *
+    // * @param iconres   对话框图标
+    // * @param title     显示标题
+    // * @param view      显示内容
+    // * @param positive  确认 按钮显示信息
+    // * @param lpositive 点击  确认 按钮 响应事件
+    // * @param neutral   详细 按钮显示信息
+    // * @param lneutral  点击  详细 按钮 响应事件
+    // * @param negative  按钮显示信息
+    // * @param lnegative 点击  拒绝 按钮 响应事件
+    // */
+    //@Override
+    //public Dialog showViewDialog(int iconres, CharSequence title, View view, CharSequence negative, OnClickListener lnegative, CharSequence neutral, OnClickListener lneutral, CharSequence positive, OnClickListener lpositive) {
+    //    return showViewDialog(-1, iconres, title, view, negative, lnegative, neutral, lneutral, positive, lpositive);
+    //}
+
+    ///**
+    // * 显示视图对话框
+    // *
+    // * @param theme     主题
+    // * @param iconres   对话框图标
+    // * @param title     显示标题
+    // * @param view      显示内容
+    // * @param positive  确认 按钮显示信息
+    // * @param lpositive 点击  确认 按钮 响应事件
+    // * @param neutral   详细 按钮显示信息
+    // * @param lneutral  点击  详细 按钮 响应事件
+    // * @param negative  按钮显示信息
+    // * @param lnegative 点击  拒绝 按钮 响应事件
+    // */
+    //@Override
+    //@SuppressLint("NewApi")
+    //public Dialog showViewDialog(int theme,
+    //                             int iconres, CharSequence title, View view, CharSequence negative, OnClickListener lnegative, CharSequence neutral, OnClickListener lneutral, CharSequence positive, OnClickListener lpositive) {
+    //    Builder builder = null;
+    //    if (theme > 0) {
+    //        try {
+    //            builder = new Builder(mContext, theme);
+    //        } catch (Throwable ignored) {
+    //        }
+    //    }
+    //    if (builder == null) {
+    //        try {
+    //            builder = new Builder(mContext);
+    //        } catch (Throwable ex) {
+    //            return null;
+    //        }
+    //    }
+    //    builder.setTitle(title);
+    //    RelativeLayout.LayoutParams lp;
+    //    lp = new RelativeLayout.LayoutParams(AfActivity.LP_WC, AfActivity.LP_WC);
+    //    lp.addRule(RelativeLayout.CENTER_IN_PARENT, RelativeLayout.TRUE);
+    //    RelativeLayout layout = new RelativeLayout(mContext);
+    //    layout.addView(view, lp);
+    //    builder.setView(layout);
+    //    if (iconres > 0) {
+    //        builder.setIcon(iconres);
+    //    }
+    //    if (positive != null && positive.length() > 0) {
+    //        builder.setPositiveButton(positive, new SafeListener(lpositive));
+    //    }
+    //    if (negative != null && negative.length() > 0) {
+    //        builder.setNegativeButton(negative, new SafeListener(lnegative));
+    //    }
+    //    if (neutral != null && neutral.length() > 0) {
+    //        builder.setNeutralButton(neutral, new SafeListener(lneutral));
+    //    }
+    //    builder.setCancelable(false);
+    //    builder.create();
+    //    return builder.show();
+    //}
     //</editor-fold>
 
     //<editor-fold desc="单选对话框">
@@ -392,26 +411,27 @@ public class AfDialogBuilder implements DialogBuilder {
      */
     @Override
     public Dialog selectItem(CharSequence title, CharSequence[] items, OnClickListener listener, final OnCancelListener oncancel) {
-        Builder dialog = new Builder(mContext);
-        if (title != null) {
-            dialog.setTitle(title);
-            if (oncancel != null) {
-                dialog.setNegativeButton("取消", new SafeListener() {
-                    @Override
-                    public void onClick(DialogInterface dialog, int which) {
-                        oncancel.onCancel(dialog);
-                    }
-                });
-            }
-        }
-        if (oncancel != null) {
-            dialog.setCancelable(true);
-            dialog.setOnCancelListener(new SafeListener(oncancel));
-        } else {
-            dialog.setCancelable(false);
-        }
-        dialog.setItems(items, new SafeListener(listener));
-        return dialog.show();
+        return builder().title(title).items(items, listener).button("取消", listener).cancelable(oncancel!=null).cancelListener(oncancel).show();
+        //Builder dialog = new Builder(mContext);
+        //if (title != null) {
+        //    dialog.setTitle(title);
+        //    if (oncancel != null) {
+        //        dialog.setNegativeButton("取消", new SafeListener() {
+        //            @Override
+        //            public void onClick(DialogInterface dialog, int which) {
+        //                oncancel.onCancel(dialog);
+        //            }
+        //        });
+        //    }
+        //}
+        //if (oncancel != null) {
+        //    dialog.setCancelable(true);
+        //    dialog.setOnCancelListener(new SafeListener(oncancel));
+        //} else {
+        //    dialog.setCancelable(false);
+        //}
+        //dialog.setItems(items, new SafeListener(listener));
+        //return dialog.show();
     }
 
     /**
@@ -493,7 +513,7 @@ public class AfDialogBuilder implements DialogBuilder {
      */
     @Override
     public Dialog inputText(CharSequence title, int type, InputTextListener listener) {
-        return inputText(title, "", type, listener);
+        return inputText(title,"", type, listener);
     }
 
     /**
@@ -566,7 +586,7 @@ public class AfDialogBuilder implements DialogBuilder {
             dialog.getButton(AlertDialog.BUTTON_POSITIVE).setOnClickListener(v -> new SafeListener(okListener).onClick(dialog, 0));
             return dialog;
         } else {
-            final Dialog dialog = showDialog(title, msgKey, oKey, okListener, "取消", cancelListener);
+            final Dialog dialog = builder().title(title).message(msgKey).button(oKey, okListener).button("取消", cancelListener).show();//showDialog(title, msgKey, oKey, okListener, "取消", cancelListener);
             new Handler(Looper.getMainLooper()).postDelayed(() -> {
                 FindTextViewWithText builderHelper = FindTextViewWithText.invoke((ViewGroup) dialog.getWindow().getDecorView(), msgKey);
                 if (builderHelper != null) {
@@ -682,7 +702,7 @@ public class AfDialogBuilder implements DialogBuilder {
             dialog.getButton(AlertDialog.BUTTON_POSITIVE).setOnClickListener(v -> new SafeListener(okListener).onClick(dialog, 0));
             return dialog;
         } else {
-            final Dialog dialog = showDialog(title, msgKey, oKey, okListener, "取消", cancleListener);
+            final Dialog dialog = builder().title(title).message(msgKey).button(oKey, okListener).button("取消", cancleListener).show();//showDialog(title, msgKey, oKey, okListener, "取消", cancleListener);
             new Handler(Looper.getMainLooper()).postDelayed(() -> {
                 FindTextViewWithText builderHelper = FindTextViewWithText.invoke((ViewGroup) dialog.getWindow().getDecorView(), msgKey);
                 if (builderHelper != null) {
@@ -724,176 +744,177 @@ public class AfDialogBuilder implements DialogBuilder {
      */
     @Override
     public Dialog showKeyDialog(String key, CharSequence title, CharSequence message, CharSequence positive, OnClickListener lpositive) {
-        return showKeyDialog(key, 0, title, message, "", null, positive, lpositive);
+        return builder().doNotAskKey(key).title(title).message(message).button(positive, lpositive).show();
+        //return showKeyDialog(key, 0, title, message, "", null, positive, lpositive);
     }
 
-    /**
-     * 显示对话框(不再提示)
-     *
-     * @param key       不再显示KEY
-     * @param defclick  不再显示之后默认执行index
-     * @param title     显示标题
-     * @param message   显示内容
-     * @param positive  确认 按钮显示信息
-     * @param lpositive 点击  确认 按钮 响应事件
-     * @param negative  按钮显示信息
-     * @param lnegative 点击  拒绝 按钮 响应事件
-     */
-    @Override
-    public Dialog showKeyDialog(String key, int defclick,
-                                CharSequence title, CharSequence message, CharSequence negative, OnClickListener lnegative, CharSequence positive, OnClickListener lpositive) {
-        return showKeyDialog(key, defclick, title, message, negative, lnegative, "", null, positive, lpositive);
-    }
-
-    /**
-     * 显示对话框(不再提示)
-     *
-     * @param key       不再显示KEY
-     * @param defclick  不再显示之后默认执行index
-     * @param title     显示标题
-     * @param message   显示内容
-     * @param positive  确认 按钮显示信息
-     * @param lpositive 点击  确认 按钮 响应事件
-     * @param neutral   详细 按钮显示信息
-     * @param lneutral  点击  详细 按钮 响应事件
-     * @param negative  按钮显示信息
-     * @param lnegative 点击  拒绝 按钮 响应事件
-     */
-    @Override
-    public Dialog showKeyDialog(String key, int defclick,
-                                CharSequence title, CharSequence message, CharSequence negative, OnClickListener lnegative, CharSequence neutral, OnClickListener lneutral, CharSequence positive, OnClickListener lpositive) {
-        return showKeyDialog(key, defclick, 0, title, message, negative, lnegative, neutral, lneutral, positive, lpositive);
-    }
-
-    /**
-     * 显示对话框(不再提示)
-     *
-     * @param key       不再显示KEY
-     * @param defclick  不再显示之后默认执行index
-     * @param iconres   对话框图标
-     * @param title     显示标题
-     * @param message   显示内容
-     * @param positive  确认 按钮显示信息
-     * @param lpositive 点击  确认 按钮 响应事件
-     * @param negative  按钮显示信息
-     * @param lnegative 点击  拒绝 按钮 响应事件
-     */
-    @Override
-    public Dialog showKeyDialog(String key, int defclick,
-                                int iconres, CharSequence title, CharSequence message, CharSequence negative, OnClickListener lnegative, CharSequence positive, OnClickListener lpositive) {
-        return showKeyDialog(key, defclick, iconres, title, message, negative, lnegative, "", null, positive, lpositive);
-    }
-
-    /**
-     * 显示对话框(不再提示)
-     *
-     * @param key       不再显示KEY
-     * @param defclick  不再显示之后默认执行index
-     * @param iconres   对话框图标
-     * @param title     显示标题
-     * @param message   显示内容
-     * @param positive  确认 按钮显示信息
-     * @param lpositive 点击  确认 按钮 响应事件
-     * @param neutral   详细 按钮显示信息
-     * @param lneutral  点击  详细 按钮 响应事件
-     * @param negative  按钮显示信息
-     * @param lnegative 点击  拒绝 按钮 响应事件
-     */
-    @Override
-    public Dialog showKeyDialog(String key, int defclick,
-                                int iconres, CharSequence title, CharSequence message, CharSequence negative, OnClickListener lnegative, CharSequence neutral, OnClickListener lneutral, CharSequence positive, OnClickListener lpositive) {
-        return showKeyDialog(key, defclick, -1, iconres, title, message, negative, lnegative, neutral, lneutral, positive, lpositive);
-    }
-
-
-    /**
-     * 显示视图对话框(不再提示)
-     *
-     * @param key       不再显示KEY
-     * @param defclick  不再显示之后默认执行index
-     * @param theme     主题
-     * @param iconres   对话框图标
-     * @param title     显示标题
-     * @param message   显示内容
-     * @param positive  确认 按钮显示信息
-     * @param lpositive 点击  确认 按钮 响应事件
-     * @param neutral   详细 按钮显示信息
-     * @param lneutral  点击  详细 按钮 响应事件
-     * @param negative  按钮显示信息
-     * @param lnegative 点击  拒绝 按钮 响应事件
-     */
-    @Override
-    @TargetApi(Build.VERSION_CODES.HONEYCOMB)
-    public Dialog showKeyDialog(final String key, final int defclick,
-                                int theme, int iconres,
-                                CharSequence title, final CharSequence message, CharSequence negative, OnClickListener lnegative, CharSequence neutral, OnClickListener lneutral, CharSequence positive, OnClickListener lpositive) {
-        if (!TextUtils.isEmpty(key) && defclick > -1) {
-            int click = $.cache(key).getInt(key, -1);
-            if (click == defclick) {
-                OnClickListener[] clicks = {new SafeListener(lnegative), new SafeListener(lneutral), new SafeListener(lpositive)};
-                for (int i = 0; i < clicks.length; i++) {
-                    if (i == defclick && clicks[i] != null) {
-                        clicks[i].onClick(null, i);
-                    }
-                }
-                return null;
-            }
-        }
-        final Dialog dialog = showDialog(theme, iconres, title, message, negative, lnegative, neutral, lneutral, positive, lpositive);
-        if (dialog != null && !TextUtils.isEmpty(key)) {
-            final View decor = dialog.getWindow().getDecorView();
-            decor.postDelayed(() -> {
-                CheckBox cbTip = null;
-                FindTextViewWithText builderHelper = FindTextViewWithText.invoke((ViewGroup) decor, message);
-                if (builderHelper != null) {
-                    int index = builderHelper.index;
-                    ViewGroup parent = builderHelper.parent;
-                    TextView textView = builderHelper.textView;
-                    parent.removeView(textView);
-                    LinearLayout ll = new LinearLayout(mContext);
-                    ll.setOrientation(LinearLayout.VERTICAL);
-                    LinearLayout.LayoutParams lp;
-                    LayoutParams olp = textView.getLayoutParams();
-                    if (olp instanceof ViewGroup.MarginLayoutParams) {
-                        lp = new LinearLayout.LayoutParams((ViewGroup.MarginLayoutParams)olp);
-                    } else {
-                        lp = new LinearLayout.LayoutParams(olp);
-                    }
-                    ll.setPadding(textView.getPaddingLeft(),textView.getPaddingTop(),textView.getPaddingRight(),textView.getPaddingBottom());
-                    textView.setPadding(0,0,0,0);
-                    ll.addView(textView, lp);
-                    cbTip = new CheckBox(mContext);
-                    cbTip.setText(TXT_NO_MORE_SHOW);
-                    if (olp instanceof ViewGroup.MarginLayoutParams) {
-                        lp = new LinearLayout.LayoutParams((ViewGroup.MarginLayoutParams)olp);
-                        Integer leftMargin = AfReflecter.getMemberNoException(lp, "leftMargin", int.class);
-                        Integer topMargin = AfReflecter.getMemberNoException(lp, "topMargin", int.class);
-                        Integer rightMargin = AfReflecter.getMemberNoException(lp, "rightMargin", int.class);
-                        Integer bottomMargin = AfReflecter.getMemberNoException(lp, "bottomMargin", int.class);
-                        if (leftMargin != null && topMargin != null && rightMargin != null && bottomMargin != null) {
-                            lp.setMargins(leftMargin, topMargin + textView.getPaddingTop(), rightMargin, bottomMargin);
-                        } else {
-                            lp.setMargins(0, textView.getPaddingTop(), 0, 0);
-                        }
-                    } else {
-                        lp = new LinearLayout.LayoutParams(olp);
-                        lp.setMargins(0, textView.getPaddingTop(), 0, 0);
-                    }
-                    ll.addView(cbTip, lp);
-                    parent.addView(ll, index, olp);
-                }
-                if (cbTip != null) {
-                    final CheckBox finalCbTip = cbTip;
-                    dialog.setOnDismissListener(dialog1 -> {
-                        if (finalCbTip.isChecked()) {
-                            $.cache(key).put(key, defclick);
-                        }
-                    });
-                }
-            }, mBuildDelayed);
-        }
-        return dialog;
-    }
+    ///**
+    // * 显示对话框(不再提示)
+    // *
+    // * @param key       不再显示KEY
+    // * @param defclick  不再显示之后默认执行index
+    // * @param title     显示标题
+    // * @param message   显示内容
+    // * @param positive  确认 按钮显示信息
+    // * @param lpositive 点击  确认 按钮 响应事件
+    // * @param negative  按钮显示信息
+    // * @param lnegative 点击  拒绝 按钮 响应事件
+    // */
+    //@Override
+    //public Dialog showKeyDialog(String key, int defclick,
+    //                            CharSequence title, CharSequence message, CharSequence negative, OnClickListener lnegative, CharSequence positive, OnClickListener lpositive) {
+    //    return showKeyDialog(key, defclick, title, message, negative, lnegative, "", null, positive, lpositive);
+    //}
+//
+    ///**
+    // * 显示对话框(不再提示)
+    // *
+    // * @param key       不再显示KEY
+    // * @param defclick  不再显示之后默认执行index
+    // * @param title     显示标题
+    // * @param message   显示内容
+    // * @param positive  确认 按钮显示信息
+    // * @param lpositive 点击  确认 按钮 响应事件
+    // * @param neutral   详细 按钮显示信息
+    // * @param lneutral  点击  详细 按钮 响应事件
+    // * @param negative  按钮显示信息
+    // * @param lnegative 点击  拒绝 按钮 响应事件
+    // */
+    //@Override
+    //public Dialog showKeyDialog(String key, int defclick,
+    //                            CharSequence title, CharSequence message, CharSequence negative, OnClickListener lnegative, CharSequence neutral, OnClickListener lneutral, CharSequence positive, OnClickListener lpositive) {
+    //    return showKeyDialog(key, defclick, 0, title, message, negative, lnegative, neutral, lneutral, positive, lpositive);
+    //}
+//
+    ///**
+    // * 显示对话框(不再提示)
+    // *
+    // * @param key       不再显示KEY
+    // * @param defclick  不再显示之后默认执行index
+    // * @param iconres   对话框图标
+    // * @param title     显示标题
+    // * @param message   显示内容
+    // * @param positive  确认 按钮显示信息
+    // * @param lpositive 点击  确认 按钮 响应事件
+    // * @param negative  按钮显示信息
+    // * @param lnegative 点击  拒绝 按钮 响应事件
+    // */
+    //@Override
+    //public Dialog showKeyDialog(String key, int defclick,
+    //                            int iconres, CharSequence title, CharSequence message, CharSequence negative, OnClickListener lnegative, CharSequence positive, OnClickListener lpositive) {
+    //    return showKeyDialog(key, defclick, iconres, title, message, negative, lnegative, "", null, positive, lpositive);
+    //}
+//
+    ///**
+    // * 显示对话框(不再提示)
+    // *
+    // * @param key       不再显示KEY
+    // * @param defclick  不再显示之后默认执行index
+    // * @param iconres   对话框图标
+    // * @param title     显示标题
+    // * @param message   显示内容
+    // * @param positive  确认 按钮显示信息
+    // * @param lpositive 点击  确认 按钮 响应事件
+    // * @param neutral   详细 按钮显示信息
+    // * @param lneutral  点击  详细 按钮 响应事件
+    // * @param negative  按钮显示信息
+    // * @param lnegative 点击  拒绝 按钮 响应事件
+    // */
+    //@Override
+    //public Dialog showKeyDialog(String key, int defclick,
+    //                            int iconres, CharSequence title, CharSequence message, CharSequence negative, OnClickListener lnegative, CharSequence neutral, OnClickListener lneutral, CharSequence positive, OnClickListener lpositive) {
+    //    return showKeyDialog(key, defclick, -1, iconres, title, message, negative, lnegative, neutral, lneutral, positive, lpositive);
+    //}
+//
+//
+    ///**
+    // * 显示视图对话框(不再提示)
+    // *
+    // * @param key       不再显示KEY
+    // * @param defclick  不再显示之后默认执行index
+    // * @param theme     主题
+    // * @param iconres   对话框图标
+    // * @param title     显示标题
+    // * @param message   显示内容
+    // * @param positive  确认 按钮显示信息
+    // * @param lpositive 点击  确认 按钮 响应事件
+    // * @param neutral   详细 按钮显示信息
+    // * @param lneutral  点击  详细 按钮 响应事件
+    // * @param negative  按钮显示信息
+    // * @param lnegative 点击  拒绝 按钮 响应事件
+    // */
+    //@Override
+    //@TargetApi(Build.VERSION_CODES.HONEYCOMB)
+    //public Dialog showKeyDialog(final String key, final int defclick,
+    //                            int theme, int iconres,
+    //                            CharSequence title, final CharSequence message, CharSequence negative, OnClickListener lnegative, CharSequence neutral, OnClickListener lneutral, CharSequence positive, OnClickListener lpositive) {
+    //    if (!TextUtils.isEmpty(key) && defclick > -1) {
+    //        int click = $.cache(key).getInt(key, -1);
+    //        if (click == defclick) {
+    //            OnClickListener[] clicks = {new SafeListener(lnegative), new SafeListener(lneutral), new SafeListener(lpositive)};
+    //            for (int i = 0; i < clicks.length; i++) {
+    //                if (i == defclick && clicks[i] != null) {
+    //                    clicks[i].onClick(null, i);
+    //                }
+    //            }
+    //            return null;
+    //        }
+    //    }
+    //    final Dialog dialog = showDialog(theme, iconres, title, message, negative, lnegative, neutral, lneutral, positive, lpositive);
+    //    if (dialog != null && !TextUtils.isEmpty(key)) {
+    //        final View decor = dialog.getWindow().getDecorView();
+    //        decor.postDelayed(() -> {
+    //            CheckBox cbTip = null;
+    //            FindTextViewWithText builderHelper = FindTextViewWithText.invoke((ViewGroup) decor, message);
+    //            if (builderHelper != null) {
+    //                int index = builderHelper.index;
+    //                ViewGroup parent = builderHelper.parent;
+    //                TextView textView = builderHelper.textView;
+    //                parent.removeView(textView);
+    //                LinearLayout ll = new LinearLayout(mContext);
+    //                ll.setOrientation(LinearLayout.VERTICAL);
+    //                LinearLayout.LayoutParams lp;
+    //                LayoutParams olp = textView.getLayoutParams();
+    //                if (olp instanceof ViewGroup.MarginLayoutParams) {
+    //                    lp = new LinearLayout.LayoutParams((ViewGroup.MarginLayoutParams)olp);
+    //                } else {
+    //                    lp = new LinearLayout.LayoutParams(olp);
+    //                }
+    //                ll.setPadding(textView.getPaddingLeft(),textView.getPaddingTop(),textView.getPaddingRight(),textView.getPaddingBottom());
+    //                textView.setPadding(0,0,0,0);
+    //                ll.addView(textView, lp);
+    //                cbTip = new CheckBox(mContext);
+    //                cbTip.setText(TXT_NO_MORE_SHOW);
+    //                if (olp instanceof ViewGroup.MarginLayoutParams) {
+    //                    lp = new LinearLayout.LayoutParams((ViewGroup.MarginLayoutParams)olp);
+    //                    Integer leftMargin = AfReflecter.getMemberNoException(lp, "leftMargin", int.class);
+    //                    Integer topMargin = AfReflecter.getMemberNoException(lp, "topMargin", int.class);
+    //                    Integer rightMargin = AfReflecter.getMemberNoException(lp, "rightMargin", int.class);
+    //                    Integer bottomMargin = AfReflecter.getMemberNoException(lp, "bottomMargin", int.class);
+    //                    if (leftMargin != null && topMargin != null && rightMargin != null && bottomMargin != null) {
+    //                        lp.setMargins(leftMargin, topMargin + textView.getPaddingTop(), rightMargin, bottomMargin);
+    //                    } else {
+    //                        lp.setMargins(0, textView.getPaddingTop(), 0, 0);
+    //                    }
+    //                } else {
+    //                    lp = new LinearLayout.LayoutParams(olp);
+    //                    lp.setMargins(0, textView.getPaddingTop(), 0, 0);
+    //                }
+    //                ll.addView(cbTip, lp);
+    //                parent.addView(ll, index, olp);
+    //            }
+    //            if (cbTip != null) {
+    //                final CheckBox finalCbTip = cbTip;
+    //                dialog.setOnDismissListener(dialog1 -> {
+    //                    if (finalCbTip.isChecked()) {
+    //                        $.cache(key).put(key, defclick);
+    //                    }
+    //                });
+    //            }
+    //        }, mBuildDelayed);
+    //    }
+    //    return dialog;
+    //}
     //</editor-fold>
 
     //<editor-fold desc="日期时间选择对话框">
@@ -902,7 +923,7 @@ public class AfDialogBuilder implements DialogBuilder {
      * @param listener 监听器
      */
     @Override
-    public Dialog selectDateTime(OnDateTimeSetListener listener) {
+    public Dialog selectDateTime(com.andframe.api.dialog.DialogBuilder.OnDateTimeSetListener listener) {
         return selectDateTime("", new Date(), listener);
     }
 
@@ -912,7 +933,7 @@ public class AfDialogBuilder implements DialogBuilder {
      * @param listener 监听器
      */
     @Override
-    public Dialog selectDateTime(CharSequence title, OnDateTimeSetListener listener) {
+    public Dialog selectDateTime(CharSequence title, com.andframe.api.dialog.DialogBuilder.OnDateTimeSetListener listener) {
         return selectDateTime(title, new Date(), listener);
     }
 
@@ -922,7 +943,7 @@ public class AfDialogBuilder implements DialogBuilder {
      * @param listener 监听器
      */
     @Override
-    public Dialog selectDateTime(Date value, OnDateTimeSetListener listener) {
+    public Dialog selectDateTime(Date value, com.andframe.api.dialog.DialogBuilder.OnDateTimeSetListener listener) {
         return selectDateTime("", value, listener);
     }
 
@@ -933,7 +954,7 @@ public class AfDialogBuilder implements DialogBuilder {
      * @param listener 监听器
      */
     @Override
-    public Dialog selectDateTime(final CharSequence title, final Date value, final OnDateTimeSetListener listener) {
+    public Dialog selectDateTime(final CharSequence title, final Date value, final com.andframe.api.dialog.DialogBuilder.OnDateTimeSetListener listener) {
         final Calendar calender = Calendar.getInstance();
         calender.setTime(value);
         int year = calender.get(Calendar.YEAR);
@@ -946,14 +967,14 @@ public class AfDialogBuilder implements DialogBuilder {
                 @Override
                 public void show() {
                     super.show();
-                    if (listener instanceof OnDateTimeSetVerifyListener) {
+                    if (listener instanceof com.andframe.api.dialog.DialogBuilder.OnDateTimeSetVerifyListener) {
                         getButton(BUTTON_POSITIVE).setOnClickListener(v -> {
                             try {
                                 TimePicker picker = AfReflecter.getMemberByType(this, TimePicker.class);
                                 if (picker == null) {
                                     this.dismiss();
                                     super.onClick(this, BUTTON_POSITIVE);
-                                } else if (((OnDateTimeSetVerifyListener) listener).onPreTimeSet(picker, picker.getCurrentHour(), picker.getCurrentMinute())) {
+                                } else if (((com.andframe.api.dialog.DialogBuilder.OnDateTimeSetVerifyListener) listener).onPreTimeSet(picker, picker.getCurrentHour(), picker.getCurrentMinute())) {
                                     this.dismiss();
                                     super.onClick(this, BUTTON_POSITIVE);
                                 }
@@ -973,14 +994,14 @@ public class AfDialogBuilder implements DialogBuilder {
             @Override
             public void show() {
                 super.show();
-                if (listener instanceof OnDateTimeSetVerifyListener) {
+                if (listener instanceof com.andframe.api.dialog.DialogBuilder.OnDateTimeSetVerifyListener) {
                     getButton(BUTTON_POSITIVE).setOnClickListener(v -> {
                         try {
                             DatePicker picker = AfReflecter.getMemberByType(this, DatePicker.class);
                             if (picker == null) {
                                 this.dismiss();
                                 super.onClick(this, BUTTON_POSITIVE);
-                            } else if (((OnDateTimeSetVerifyListener) listener).onPreDateSet(picker, picker.getYear(), picker.getMonth(), picker.getDayOfMonth())) {
+                            } else if (((com.andframe.api.dialog.DialogBuilder.OnDateTimeSetVerifyListener) listener).onPreDateSet(picker, picker.getYear(), picker.getMonth(), picker.getDayOfMonth())) {
                                 this.dismiss();
                                 super.onClick(this, BUTTON_POSITIVE);
                             }
@@ -1038,38 +1059,39 @@ public class AfDialogBuilder implements DialogBuilder {
      */
     @Override
     public Dialog selectTime(CharSequence title, Date value, final OnTimeSetListener listener) {
-        Calendar calender = Calendar.getInstance();
-        calender.setTime(value);
-        int hour = calender.get(Calendar.HOUR_OF_DAY);
-        int minute = calender.get(Calendar.MINUTE);
-        AlertDialog tDialog = new TimePickerDialog(mContext, new SafeListener(listener) , hour, minute, true) {
-            @Override
-            public void show() {
-                super.show();
-                if (listener instanceof OnTimeSetVerifyListener) {
-                    getButton(BUTTON_POSITIVE).setOnClickListener(v -> {
-                        try {
-                            TimePicker picker = AfReflecter.getMemberByType(this, TimePicker.class);
-                            if (picker == null) {
-                                this.dismiss();
-                                super.onClick(this, BUTTON_POSITIVE);
-                            } else if (((OnTimeSetVerifyListener) listener).onPreTimeSet(this, picker, picker.getCurrentHour(), picker.getCurrentMinute())) {
-                                this.dismiss();
-                                super.onClick(this, BUTTON_POSITIVE);
-                            }
-                        } catch (IllegalAccessException e) {
-                            e.printStackTrace();
-                        }
-                    });
-                }
-            }
-        };
-        if (title != null && title.length() > 0) {
-            tDialog.setTitle(title);
-        }
-        tDialog.show();
-        tDialog.setCancelable(true);
-        return tDialog;
+        return builder().title(title).time(value, listener).show();
+        //Calendar calender = Calendar.getInstance();
+        //calender.setTime(value);
+        //int hour = calender.get(Calendar.HOUR_OF_DAY);
+        //int minute = calender.get(Calendar.MINUTE);
+        //AlertDialog tDialog = new TimePickerDialog(mContext, new SafeListener(listener) , hour, minute, true) {
+        //    @Override
+        //    public void show() {
+        //        super.show();
+        //        if (listener instanceof com.andframe.api.dialog.DialogBuilder.OnTimeSetVerifyListener) {
+        //            getButton(BUTTON_POSITIVE).setOnClickListener(v -> {
+        //                try {
+        //                    TimePicker picker = AfReflecter.getMemberByType(this, TimePicker.class);
+        //                    if (picker == null) {
+        //                        this.dismiss();
+        //                        super.onClick(this, BUTTON_POSITIVE);
+        //                    } else if (((com.andframe.api.dialog.DialogBuilder.OnTimeSetVerifyListener) listener).onPreTimeSet(picker, picker.getCurrentHour(), picker.getCurrentMinute())) {
+        //                        this.dismiss();
+        //                        super.onClick(this, BUTTON_POSITIVE);
+        //                    }
+        //                } catch (IllegalAccessException e) {
+        //                    e.printStackTrace();
+        //                }
+        //            });
+        //        }
+        //    }
+        //};
+        //if (title != null && title.length() > 0) {
+        //    tDialog.setTitle(title);
+        //}
+        //tDialog.show();
+        //tDialog.setCancelable(true);
+        //return tDialog;
     }
     //</editor-fold>
 
@@ -1111,39 +1133,40 @@ public class AfDialogBuilder implements DialogBuilder {
      */
     @Override
     public Dialog selectDate(CharSequence title, Date value, final OnDateSetListener listener) {
-        Calendar calender = Calendar.getInstance();
-        calender.setTime(value);
-        int year = calender.get(Calendar.YEAR);
-        int month = calender.get(Calendar.MONTH);
-        int day = calender.get(Calendar.DAY_OF_MONTH);
-        AlertDialog tDialog = new DatePickerDialog(mContext, new SafeListener(listener) , year, month, day) {
-            @Override
-            public void show() {
-                super.show();
-                if (listener instanceof OnDateSetVerifyListener) {
-                    getButton(BUTTON_POSITIVE).setOnClickListener(v -> {
-                        try {
-                            DatePicker picker = AfReflecter.getMemberByType(this, DatePicker.class);
-                            if (picker == null) {
-                                this.dismiss();
-                                super.onClick(this, BUTTON_POSITIVE);
-                            } else if (((OnDateSetVerifyListener) listener).onPreDateSet(picker, picker.getYear(), picker.getMonth(), picker.getDayOfMonth())) {
-                                this.dismiss();
-                                super.onClick(this, BUTTON_POSITIVE);
-                            }
-                        } catch (IllegalAccessException e) {
-                            e.printStackTrace();
-                        }
-                    });
-                }
-            }
-        };
-        if (title != null && title.length() > 0) {
-            tDialog.setTitle(title);
-        }
-        tDialog.show();
-        tDialog.setCancelable(true);
-        return tDialog;
+        return builder().title(title).date(value, listener).show();
+        //Calendar calender = Calendar.getInstance();
+        //calender.setTime(value);
+        //int year = calender.get(Calendar.YEAR);
+        //int month = calender.get(Calendar.MONTH);
+        //int day = calender.get(Calendar.DAY_OF_MONTH);
+        //AlertDialog tDialog = new DatePickerDialog(mContext, new SafeListener(listener) , year, month, day) {
+        //    @Override
+        //    public void show() {
+        //        super.show();
+        //        if (listener instanceof com.andframe.api.dialog.DialogBuilder.OnDateSetVerifyListener) {
+        //            getButton(BUTTON_POSITIVE).setOnClickListener(v -> {
+        //                try {
+        //                    DatePicker picker = AfReflecter.getMemberByType(this, DatePicker.class);
+        //                    if (picker == null) {
+        //                        this.dismiss();
+        //                        super.onClick(this, BUTTON_POSITIVE);
+        //                    } else if (((com.andframe.api.dialog.DialogBuilder.OnDateSetVerifyListener) listener).onPreDateSet(picker, picker.getYear(), picker.getMonth(), picker.getDayOfMonth())) {
+        //                        this.dismiss();
+        //                        super.onClick(this, BUTTON_POSITIVE);
+        //                    }
+        //                } catch (IllegalAccessException e) {
+        //                    e.printStackTrace();
+        //                }
+        //            });
+        //        }
+        //    }
+        //};
+        //if (title != null && title.length() > 0) {
+        //    tDialog.setTitle(title);
+        //}
+        //tDialog.show();
+        //tDialog.setCancelable(true);
+        //return tDialog;
     }
     //</editor-fold>
 

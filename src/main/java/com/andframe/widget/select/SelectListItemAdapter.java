@@ -1,7 +1,7 @@
 package com.andframe.widget.select;
 
-import android.support.annotation.NonNull;
-import android.support.annotation.Nullable;
+import androidx.annotation.NonNull;
+import androidx.annotation.Nullable;
 import android.view.View;
 import android.view.ViewGroup;
 
@@ -14,28 +14,28 @@ import java.util.*;
 public abstract class SelectListItemAdapter<T> extends ListItemAdapter<T> {
 
 	public interface SelectListener<T> {
-		void onSelectMax(SelectListItemAdapter<T> adapter, int max);
-		void onSelectChanged(SelectListItemAdapter<T> adapter, T tag, boolean selected, int number);
-		void onSelectChanged(SelectListItemAdapter<T> adapter, int number, int total);
-		void onSelectStarted(SelectListItemAdapter<T> adapter, int number);
-		void onSelectClosed(SelectListItemAdapter<T> adapter, List<T> list);
+		void onSelectMax(@NonNull SelectListItemAdapter<T> adapter, int max);
+		void onSelectChanged(@NonNull SelectListItemAdapter<T> adapter, T tag, boolean selected, int number);
+		void onSelectChanged(@NonNull SelectListItemAdapter<T> adapter, int number, int total);
+		void onSelectStarted(@NonNull SelectListItemAdapter<T> adapter, int number);
+		void onSelectClosed(@NonNull SelectListItemAdapter<T> adapter, List<T> list);
 	}
 
 	public static class SampleSelectListener<T> implements SelectListener<T> {
 		@Override
-		public void onSelectMax(SelectListItemAdapter<T> adapter, int max) {
+		public void onSelectMax(@NonNull SelectListItemAdapter<T> adapter, int max) {
 		}
 		@Override
-		public void onSelectChanged(SelectListItemAdapter<T> adapter, T tag, boolean selected, int number) {
+		public void onSelectChanged(@NonNull SelectListItemAdapter<T> adapter, T tag, boolean selected, int number) {
 		}
 		@Override
-		public void onSelectChanged(SelectListItemAdapter<T> adapter, int number, int total) {
+		public void onSelectChanged(@NonNull SelectListItemAdapter<T> adapter, int number, int total) {
 		}
 		@Override
-		public void onSelectStarted(SelectListItemAdapter<T> adapter, int number) {
+		public void onSelectStarted(@NonNull SelectListItemAdapter<T> adapter, int number) {
 		}
 		@Override
-		public void onSelectClosed(SelectListItemAdapter<T> adapter, List<T> list) {
+		public void onSelectClosed(@NonNull SelectListItemAdapter<T> adapter, List<T> list) {
 		}
 	}
 

@@ -1,8 +1,8 @@
 package com.andframe.module;
 
 import android.os.Build;
-import android.support.v7.widget.PopupMenu;
-import android.support.v7.widget.PopupMenu.OnMenuItemClickListener;
+import androidx.appcompat.widget.PopupMenu;
+import androidx.appcompat.widget.PopupMenu.OnMenuItemClickListener;
 import android.view.MenuItem;
 import android.view.View;
 import android.view.View.OnClickListener;

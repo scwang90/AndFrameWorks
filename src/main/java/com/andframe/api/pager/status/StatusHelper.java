@@ -1,12 +1,13 @@
 package com.andframe.api.pager.status;
 
 import android.content.Context;
-import android.support.annotation.NonNull;
-import android.support.annotation.Nullable;
+import androidx.annotation.NonNull;
+import androidx.annotation.Nullable;
 import android.view.View;
 import android.view.ViewGroup;
 import android.view.ViewGroup.LayoutParams;
 
+import androidx.recyclerview.widget.RecyclerView;
 import com.andframe.api.EmptyDecider;
 import com.andframe.api.pager.load.LoadHelper;
 import com.andframe.api.task.Task;
@@ -41,7 +42,7 @@ public interface StatusHelper<T> extends LoadHelper<T>, EmptyDecider<T> {
      * 默认会查找 以下控件
      * <br>1、 @{@link android.widget.AbsListView} 的所有子类
      * <br>    包括 @{@link android.widget.ListView} @{@link android.widget.GridView} 等等
-     * <br>2、 @{@link android.support.v7.widget.RecyclerView} 以及其子类（自定义的子类）
+     * <br>2、 @{@link RecyclerView} 以及其子类（自定义的子类）
      * <br>3、 @{@link android.widget.ScrollView} 以及其子类（自定义的子类）
      * <br>4、 或者整个布局作为内容视图
      * 内容视图将会被包裹一层【下拉刷新控件】和【多页状态控件】

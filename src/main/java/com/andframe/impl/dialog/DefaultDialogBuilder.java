@@ -1,15 +1,22 @@
 package com.andframe.impl.dialog;
 
+import android.app.DatePickerDialog;
 import android.app.Dialog;
+import android.app.TimePickerDialog;
 import android.content.Context;
 import android.content.DialogInterface;
 import android.graphics.drawable.Drawable;
-import android.support.v4.content.ContextCompat;
+import android.text.TextUtils;
+import androidx.annotation.StringRes;
+import androidx.core.content.ContextCompat;
 import android.view.View;
 
 import com.andframe.$;
 import com.andframe.api.dialog.DialogBuilder;
 import com.andframe.api.dialog.DialogFactory;
+
+import java.sql.Time;
+import java.util.Date;
 
 public class DefaultDialogBuilder implements DialogBuilder {
 
@@ -103,20 +110,36 @@ public class DefaultDialogBuilder implements DialogBuilder {
     }
 
     @Override
-    public DialogBuilder button(int textId, DialogInterface.OnClickListener listener) {
-        ButtonEntity button = new ButtonEntity();
-        button.listener = listener;
-        button.text = context.getString(textId);
-        entity.buttons.add(button);
+    public DialogBuilder button(@StringRes int textId, DialogInterface.OnClickListener listener) {
+        if (textId != View.NO_ID || listener != null) {
+            ButtonEntity button = new ButtonEntity();
+            button.listener = listener;
+            button.text = context.getString(textId);
+            entity.buttons.add(button);
+        }
         return this;
     }
 
     @Override
     public DialogBuilder button(CharSequence text, DialogInterface.OnClickListener listener) {
-        ButtonEntity button = new ButtonEntity();
-        button.text = text;
-        button.listener = listener;
-        entity.buttons.add(button);
+        if (!TextUtils.isEmpty(text) || listener != null) {
+            ButtonEntity button = new ButtonEntity();
+            button.text = text;
+            button.listener = listener;
+            entity.buttons.add(button);
+        }
+        return this;
+    }
+
+    @Override
+    public DialogBuilder button(CharSequence text, int color, DialogInterface.OnClickListener listener) {
+        if (!TextUtils.isEmpty(text) || listener != null) {
+            ButtonEntity button = new ButtonEntity();
+            button.text = text;
+            button.color = color;
+            button.listener = listener;
+            entity.buttons.add(button);
+        }
         return this;
     }
 
@@ -154,22 +177,78 @@ public class DefaultDialogBuilder implements DialogBuilder {
     }
 
     @Override
-    public DialogBuilder multiChoice(int itemsId, boolean[] checkedItems, DialogInterface.OnMultiChoiceClickListener listener) {
+    public DialogBuilder choice(int itemsId, DialogInterface.OnMultiChoiceClickListener itemsListener, DialogInterface.OnClickListener listener) {
+        entity.items = context.getResources().getTextArray(itemsId);
+        entity.itemsListener = listener;
+        entity.itemsMultiListener = itemsListener;
         return this;
     }
 
     @Override
-    public DialogBuilder multiChoice(CharSequence[] items, boolean[] checkedItems, DialogInterface.OnMultiChoiceClickListener listener) {
+    public DialogBuilder choice(CharSequence[] items, DialogInterface.OnMultiChoiceClickListener itemsListener, DialogInterface.OnClickListener listener) {
+        entity.items = items;
+        entity.itemsListener = listener;
+        entity.itemsMultiListener = itemsListener;
         return this;
     }
 
     @Override
-    public DialogBuilder singleChoice(int itemsId, int checkedItem, DialogInterface.OnClickListener listener) {
+    public DialogBuilder choice(int itemsId, boolean[] checkedItems, DialogInterface.OnMultiChoiceClickListener itemsListener, DialogInterface.OnClickListener listener) {
+        entity.items = context.getResources().getTextArray(itemsId);
+        entity.itemsChecked = checkedItems;
+        entity.itemsListener = listener;
+        entity.itemsMultiListener = itemsListener;
         return this;
     }
 
     @Override
-    public DialogBuilder singleChoice(CharSequence[] items, int checkedItem, DialogInterface.OnClickListener listener) {
+    public DialogBuilder choice(CharSequence[] items, boolean[] checkedItems, DialogInterface.OnMultiChoiceClickListener itemsListener, DialogInterface.OnClickListener listener) {
+        entity.items = items;
+        entity.itemsChecked = checkedItems;
+        entity.itemsListener = listener;
+        entity.itemsMultiListener = itemsListener;
+        return this;
+    }
+
+    @Override
+    public DialogBuilder month(DatePickerDialog.OnDateSetListener listener) {
+        entity.month = null;
+        entity.monthListener = listener;
+        return this;
+    }
+
+    @Override
+    public DialogBuilder month(Date value, DatePickerDialog.OnDateSetListener listener) {
+        entity.month = value;
+        entity.monthListener = listener;
+        return this;
+    }
+
+    @Override
+    public DialogBuilder date(DatePickerDialog.OnDateSetListener listener) {
+        entity.date = null;
+        entity.dateListener = listener;
+        return this;
+    }
+
+    @Override
+    public DialogBuilder date(Date value, DatePickerDialog.OnDateSetListener listener) {
+        entity.date = value;
+        entity.dateListener = listener;
+        return this;
+    }
+
+    @Override
+    public DialogBuilder time(TimePickerDialog.OnTimeSetListener listener) {
+        entity.time = null;
+        entity.timeListener = listener;
+        return this;
+    }
+
+    @Override
+    public DialogBuilder time(Date value, TimePickerDialog.OnTimeSetListener listener) {
+        entity.time = value;
+        entity.timeListener = listener;
         return this;
     }
 

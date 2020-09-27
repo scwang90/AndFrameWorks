@@ -38,59 +38,6 @@ public interface DialogBuilder {
         }
     }
 
-    /**
-     * 日期时间监听器
-     */
-    interface OnDateTimeSetListener{
-        void onDateTimeSet(int year, int month, int day, int hour, int minute);
-    }
-
-    /**
-     * 日期验证
-     */
-    interface OnDateSetVerifyListener extends DatePickerDialog.OnDateSetListener {
-        /**
-         * 验证时间是否符合条件
-         * @param view 时间控件
-         * @return true 符合条件 false 不符合条件（将不会关闭对话框）
-         */
-        boolean onPreDateSet(DatePicker view, int year, int month, int dayOfMonth);
-    }
-    /**
-     * 时间验证
-     */
-    interface OnTimeSetVerifyListener extends TimePickerDialog.OnTimeSetListener {
-        /**
-         * 验证时间是否符合条件
-         *
-         * @param view 时间控件
-         * @param hourOfDay 小时
-         * @param minute 分钟
-         * @return true 符合条件 false 不符合条件（将不会关闭对话框）
-         */
-        boolean onPreTimeSet(TimePickerDialog dialog, TimePicker view, int hourOfDay, int minute);
-    }
-
-    /**
-     * 日期时间验证
-     */
-    interface OnDateTimeSetVerifyListener extends OnDateTimeSetListener {
-        /**
-         * 验证时间是否符合条件
-         * @param view 时间控件
-         * @return true 符合条件 false 不符合条件（将不会关闭对话框）
-         */
-        boolean onPreDateSet(DatePicker view, int year, int month, int dayOfMonth);
-        /**
-         * 验证时间是否符合条件
-         * @param view 时间控件
-         * @param hourOfDay 小时
-         * @param minute 分钟
-         * @return true 符合条件 false 不符合条件（将不会关闭对话框）
-         */
-        boolean onPreTimeSet(TimePicker view, int hourOfDay, int minute);
-    }
-
     //</editor-fold>
 
     com.andframe.api.dialog.DialogBuilder builder();
@@ -129,71 +76,81 @@ public interface DialogBuilder {
      *
      * @param title     显示标题
      * @param message   显示内容
+     * @param defaultButton  取消 默认无操作按钮
      * @param positive  确认 按钮显示信息
      * @param lpositive 点击  确认 按钮 响应事件
-     * @param negative  按钮显示信息
-     * @param lnegative 点击  拒绝 按钮 响应事件
      */
-    Dialog showDialog(CharSequence title, CharSequence message, CharSequence negative, DialogInterface.OnClickListener lnegative, CharSequence positive, DialogInterface.OnClickListener lpositive);
+    Dialog showDialog(CharSequence title, CharSequence message, CharSequence defaultButton, CharSequence positive, DialogInterface.OnClickListener lpositive);
 
-    /**
-     * 显示对话框
-     *
-     * @param title     显示标题
-     * @param message   显示内容
-     * @param positive  确认 按钮显示信息
-     * @param lpositive 点击  确认 按钮 响应事件
-     * @param neutral   详细 按钮显示信息
-     * @param lneutral  点击  详细 按钮 响应事件
-     * @param negative  按钮显示信息
-     * @param lnegative 点击  拒绝 按钮 响应事件
-     */
-    Dialog showDialog(CharSequence title, CharSequence message, CharSequence negative, DialogInterface.OnClickListener lnegative, CharSequence neutral, DialogInterface.OnClickListener lneutral, CharSequence positive, DialogInterface.OnClickListener lpositive);
-
-    /**
-     * 显示对话框
-     *
-     * @param iconres   对话框图标
-     * @param title     显示标题
-     * @param message   显示内容
-     * @param positive  确认 按钮显示信息
-     * @param lpositive 点击  确认 按钮 响应事件
-     * @param negative  按钮显示信息
-     * @param lnegative 点击  拒绝 按钮 响应事件
-     */
-    Dialog showDialog(int iconres, CharSequence title, CharSequence message, CharSequence negative, DialogInterface.OnClickListener lnegative, CharSequence positive, DialogInterface.OnClickListener lpositive);
-
-    /**
-     * 显示对话框
-     *
-     * @param iconres   对话框图标
-     * @param title     显示标题
-     * @param message   显示内容
-     * @param positive  确认 按钮显示信息
-     * @param lpositive 点击  确认 按钮 响应事件
-     * @param neutral   详细 按钮显示信息
-     * @param lneutral  点击  详细 按钮 响应事件
-     * @param negative  按钮显示信息
-     * @param lnegative 点击  拒绝 按钮 响应事件
-     */
-    Dialog showDialog(int iconres, CharSequence title, CharSequence message, CharSequence negative, DialogInterface.OnClickListener lnegative, CharSequence neutral, DialogInterface.OnClickListener lneutral, CharSequence positive, DialogInterface.OnClickListener lpositive);
-
-    /**
-     * 显示视图对话框
-     *
-     * @param theme     主题
-     * @param iconres   对话框图标
-     * @param title     显示标题
-     * @param message   显示内容
-     * @param positive  确认 按钮显示信息
-     * @param lpositive 点击  确认 按钮 响应事件
-     * @param neutral   详细 按钮显示信息
-     * @param lneutral  点击  详细 按钮 响应事件
-     * @param negative  按钮显示信息
-     * @param lnegative 点击  拒绝 按钮 响应事件
-     */
-    Dialog showDialog(int theme, int iconres,
-                             CharSequence title, CharSequence message, CharSequence negative, DialogInterface.OnClickListener lnegative, CharSequence neutral, DialogInterface.OnClickListener lneutral, CharSequence positive, DialogInterface.OnClickListener lpositive);
+    ///**
+    // * 显示对话框
+    // *
+    // * @param title     显示标题
+    // * @param message   显示内容
+    // * @param positive  确认 按钮显示信息
+    // * @param lpositive 点击  确认 按钮 响应事件
+    // * @param negative  按钮显示信息
+    // * @param lnegative 点击  拒绝 按钮 响应事件
+    // */
+    //Dialog showDialog(CharSequence title, CharSequence message, CharSequence negative, DialogInterface.OnClickListener lnegative, CharSequence positive, DialogInterface.OnClickListener lpositive);
+//
+    ///**
+    // * 显示对话框
+    // *
+    // * @param title     显示标题
+    // * @param message   显示内容
+    // * @param positive  确认 按钮显示信息
+    // * @param lpositive 点击  确认 按钮 响应事件
+    // * @param neutral   详细 按钮显示信息
+    // * @param lneutral  点击  详细 按钮 响应事件
+    // * @param negative  按钮显示信息
+    // * @param lnegative 点击  拒绝 按钮 响应事件
+    // */
+    //Dialog showDialog(CharSequence title, CharSequence message, CharSequence negative, DialogInterface.OnClickListener lnegative, CharSequence neutral, DialogInterface.OnClickListener lneutral, CharSequence positive, DialogInterface.OnClickListener lpositive);
+//
+    ///**
+    // * 显示对话框
+    // *
+    // * @param iconres   对话框图标
+    // * @param title     显示标题
+    // * @param message   显示内容
+    // * @param positive  确认 按钮显示信息
+    // * @param lpositive 点击  确认 按钮 响应事件
+    // * @param negative  按钮显示信息
+    // * @param lnegative 点击  拒绝 按钮 响应事件
+    // */
+    //Dialog showDialog(int iconres, CharSequence title, CharSequence message, CharSequence negative, DialogInterface.OnClickListener lnegative, CharSequence positive, DialogInterface.OnClickListener lpositive);
+//
+    ///**
+    // * 显示对话框
+    // *
+    // * @param iconres   对话框图标
+    // * @param title     显示标题
+    // * @param message   显示内容
+    // * @param positive  确认 按钮显示信息
+    // * @param lpositive 点击  确认 按钮 响应事件
+    // * @param neutral   详细 按钮显示信息
+    // * @param lneutral  点击  详细 按钮 响应事件
+    // * @param negative  按钮显示信息
+    // * @param lnegative 点击  拒绝 按钮 响应事件
+    // */
+    //Dialog showDialog(int iconres, CharSequence title, CharSequence message, CharSequence negative, DialogInterface.OnClickListener lnegative, CharSequence neutral, DialogInterface.OnClickListener lneutral, CharSequence positive, DialogInterface.OnClickListener lpositive);
+//
+    ///**
+    // * 显示视图对话框
+    // *
+    // * @param theme     主题
+    // * @param iconres   对话框图标
+    // * @param title     显示标题
+    // * @param message   显示内容
+    // * @param positive  确认 按钮显示信息
+    // * @param lpositive 点击  确认 按钮 响应事件
+    // * @param neutral   详细 按钮显示信息
+    // * @param lneutral  点击  详细 按钮 响应事件
+    // * @param negative  按钮显示信息
+    // * @param lnegative 点击  拒绝 按钮 响应事件
+    // */
+    //Dialog showDialog(int theme, int iconres, CharSequence title, CharSequence message, CharSequence negative, DialogInterface.OnClickListener lnegative, CharSequence neutral, DialogInterface.OnClickListener lneutral, CharSequence positive, DialogInterface.OnClickListener lpositive);
     //</editor-fold>
 
     //<editor-fold desc="自定义视图对话框">
@@ -212,71 +169,81 @@ public interface DialogBuilder {
      *
      * @param title     显示标题
      * @param view      显示内容
+     * @param defaultButton 取消 默认无操作按钮
      * @param positive  确认 按钮显示信息
      * @param lpositive 点击  确认 按钮 响应事件
-     * @param negative  按钮显示信息
-     * @param lnegative 点击  拒绝 按钮 响应事件
      */
-    Dialog showViewDialog(CharSequence title, View view, CharSequence negative, DialogInterface.OnClickListener lnegative, CharSequence positive, DialogInterface.OnClickListener lpositive);
+    Dialog showViewDialog(CharSequence title, View view, CharSequence defaultButton, CharSequence positive, DialogInterface.OnClickListener lpositive);
 
-    /**
-     * 显示视图对话框
-     *
-     * @param title     显示标题
-     * @param view      显示内容
-     * @param positive  确认 按钮显示信息
-     * @param lpositive 点击  确认 按钮 响应事件
-     * @param neutral   详细 按钮显示信息
-     * @param lneutral  点击  详细 按钮 响应事件
-     * @param negative  按钮显示信息
-     * @param lnegative 点击  拒绝 按钮 响应事件
-     */
-    Dialog showViewDialog(CharSequence title, View view, CharSequence negative, DialogInterface.OnClickListener lnegative, CharSequence neutral, DialogInterface.OnClickListener lneutral, CharSequence positive, DialogInterface.OnClickListener lpositive);
-
-    /**
-     * 显示视图对话框
-     *
-     * @param iconres   对话框图标
-     * @param title     显示标题
-     * @param view      显示内容
-     * @param positive  确认 按钮显示信息
-     * @param lpositive 点击  确认 按钮 响应事件
-     * @param negative  按钮显示信息
-     * @param lnegative 点击  拒绝 按钮 响应事件
-     */
-    Dialog showViewDialog(int iconres, CharSequence title, View view, CharSequence negative, DialogInterface.OnClickListener lnegative, CharSequence positive, DialogInterface.OnClickListener lpositive);
-
-    /**
-     * 显示视图对话框
-     *
-     * @param iconres   对话框图标
-     * @param title     显示标题
-     * @param view      显示内容
-     * @param positive  确认 按钮显示信息
-     * @param lpositive 点击  确认 按钮 响应事件
-     * @param neutral   详细 按钮显示信息
-     * @param lneutral  点击  详细 按钮 响应事件
-     * @param negative  按钮显示信息
-     * @param lnegative 点击  拒绝 按钮 响应事件
-     */
-    Dialog showViewDialog(int iconres, CharSequence title, View view, CharSequence negative, DialogInterface.OnClickListener lnegative, CharSequence neutral, DialogInterface.OnClickListener lneutral, CharSequence positive, DialogInterface.OnClickListener lpositive);
-
-    /**
-     * 显示视图对话框
-     *
-     * @param theme     主题
-     * @param iconres   对话框图标
-     * @param title     显示标题
-     * @param view      显示内容
-     * @param positive  确认 按钮显示信息
-     * @param lpositive 点击  确认 按钮 响应事件
-     * @param neutral   详细 按钮显示信息
-     * @param lneutral  点击  详细 按钮 响应事件
-     * @param negative  按钮显示信息
-     * @param lnegative 点击  拒绝 按钮 响应事件
-     */
-    Dialog showViewDialog(int theme,
-                                 int iconres, CharSequence title, View view, CharSequence negative, DialogInterface.OnClickListener lnegative, CharSequence neutral, DialogInterface.OnClickListener lneutral, CharSequence positive, DialogInterface.OnClickListener lpositive);
+    ///**
+    // * 显示视图对话框
+    // *
+    // * @param title     显示标题
+    // * @param view      显示内容
+    // * @param positive  确认 按钮显示信息
+    // * @param lpositive 点击  确认 按钮 响应事件
+    // * @param negative  按钮显示信息
+    // * @param lnegative 点击  拒绝 按钮 响应事件
+    // */
+    //Dialog showViewDialog(CharSequence title, View view, CharSequence negative, DialogInterface.OnClickListener lnegative, CharSequence positive, DialogInterface.OnClickListener lpositive);
+//
+    ///**
+    // * 显示视图对话框
+    // *
+    // * @param title     显示标题
+    // * @param view      显示内容
+    // * @param positive  确认 按钮显示信息
+    // * @param lpositive 点击  确认 按钮 响应事件
+    // * @param neutral   详细 按钮显示信息
+    // * @param lneutral  点击  详细 按钮 响应事件
+    // * @param negative  按钮显示信息
+    // * @param lnegative 点击  拒绝 按钮 响应事件
+    // */
+    //Dialog showViewDialog(CharSequence title, View view, CharSequence negative, DialogInterface.OnClickListener lnegative, CharSequence neutral, DialogInterface.OnClickListener lneutral, CharSequence positive, DialogInterface.OnClickListener lpositive);
+//
+    ///**
+    // * 显示视图对话框
+    // *
+    // * @param iconres   对话框图标
+    // * @param title     显示标题
+    // * @param view      显示内容
+    // * @param positive  确认 按钮显示信息
+    // * @param lpositive 点击  确认 按钮 响应事件
+    // * @param negative  按钮显示信息
+    // * @param lnegative 点击  拒绝 按钮 响应事件
+    // */
+    //Dialog showViewDialog(int iconres, CharSequence title, View view, CharSequence negative, DialogInterface.OnClickListener lnegative, CharSequence positive, DialogInterface.OnClickListener lpositive);
+//
+    ///**
+    // * 显示视图对话框
+    // *
+    // * @param iconres   对话框图标
+    // * @param title     显示标题
+    // * @param view      显示内容
+    // * @param positive  确认 按钮显示信息
+    // * @param lpositive 点击  确认 按钮 响应事件
+    // * @param neutral   详细 按钮显示信息
+    // * @param lneutral  点击  详细 按钮 响应事件
+    // * @param negative  按钮显示信息
+    // * @param lnegative 点击  拒绝 按钮 响应事件
+    // */
+    //Dialog showViewDialog(int iconres, CharSequence title, View view, CharSequence negative, DialogInterface.OnClickListener lnegative, CharSequence neutral, DialogInterface.OnClickListener lneutral, CharSequence positive, DialogInterface.OnClickListener lpositive);
+//
+    ///**
+    // * 显示视图对话框
+    // *
+    // * @param theme     主题
+    // * @param iconres   对话框图标
+    // * @param title     显示标题
+    // * @param view      显示内容
+    // * @param positive  确认 按钮显示信息
+    // * @param lpositive 点击  确认 按钮 响应事件
+    // * @param neutral   详细 按钮显示信息
+    // * @param lneutral  点击  详细 按钮 响应事件
+    // * @param negative  按钮显示信息
+    // * @param lnegative 点击  拒绝 按钮 响应事件
+    // */
+    //Dialog showViewDialog(int theme, int iconres, CharSequence title, View view, CharSequence negative, DialogInterface.OnClickListener lnegative, CharSequence neutral, DialogInterface.OnClickListener lneutral, CharSequence positive, DialogInterface.OnClickListener lpositive);
     //</editor-fold>
 
     //<editor-fold desc="单选对话框">
@@ -440,92 +407,92 @@ public interface DialogBuilder {
      */
     Dialog showKeyDialog(String key, CharSequence title, CharSequence message, CharSequence positive, DialogInterface.OnClickListener lpositive);
 
-    /**
-     * 显示对话框(不再提示)
-     *
-     * @param key       不再显示KEY
-     * @param defclick  不再显示之后默认执行index
-     * @param title     显示标题
-     * @param message   显示内容
-     * @param positive  确认 按钮显示信息
-     * @param lpositive 点击  确认 按钮 响应事件
-     * @param negative  按钮显示信息
-     * @param lnegative 点击  拒绝 按钮 响应事件
-     */
-    Dialog showKeyDialog(String key, int defclick,
-                                CharSequence title, CharSequence message, CharSequence negative, DialogInterface.OnClickListener lnegative, CharSequence positive, DialogInterface.OnClickListener lpositive);
-
-    /**
-     * 显示对话框(不再提示)
-     *
-     * @param key       不再显示KEY
-     * @param defclick  不再显示之后默认执行index
-     * @param title     显示标题
-     * @param message   显示内容
-     * @param positive  确认 按钮显示信息
-     * @param lpositive 点击  确认 按钮 响应事件
-     * @param neutral   详细 按钮显示信息
-     * @param lneutral  点击  详细 按钮 响应事件
-     * @param negative  按钮显示信息
-     * @param lnegative 点击  拒绝 按钮 响应事件
-     */
-    Dialog showKeyDialog(String key, int defclick,
-                                CharSequence title, CharSequence message, CharSequence negative, DialogInterface.OnClickListener lnegative, CharSequence neutral, DialogInterface.OnClickListener lneutral, CharSequence positive, DialogInterface.OnClickListener lpositive);
-
-    /**
-     * 显示对话框(不再提示)
-     *
-     * @param key       不再显示KEY
-     * @param defclick  不再显示之后默认执行index
-     * @param iconres   对话框图标
-     * @param title     显示标题
-     * @param message   显示内容
-     * @param positive  确认 按钮显示信息
-     * @param lpositive 点击  确认 按钮 响应事件
-     * @param negative  按钮显示信息
-     * @param lnegative 点击  拒绝 按钮 响应事件
-     */
-    Dialog showKeyDialog(String key, int defclick,
-                                int iconres, CharSequence title, CharSequence message, CharSequence negative, DialogInterface.OnClickListener lnegative, CharSequence positive, DialogInterface.OnClickListener lpositive);
-
-    /**
-     * 显示对话框(不再提示)
-     *
-     * @param key       不再显示KEY
-     * @param defclick  不再显示之后默认执行index
-     * @param iconres   对话框图标
-     * @param title     显示标题
-     * @param message   显示内容
-     * @param positive  确认 按钮显示信息
-     * @param lpositive 点击  确认 按钮 响应事件
-     * @param neutral   详细 按钮显示信息
-     * @param lneutral  点击  详细 按钮 响应事件
-     * @param negative  按钮显示信息
-     * @param lnegative 点击  拒绝 按钮 响应事件
-     */
-    Dialog showKeyDialog(String key, int defclick,
-                                int iconres, CharSequence title, CharSequence message, CharSequence negative, DialogInterface.OnClickListener lnegative, CharSequence neutral, DialogInterface.OnClickListener lneutral, CharSequence positive, DialogInterface.OnClickListener lpositive);
-
-
-    /**
-     * 显示视图对话框(不再提示)
-     *
-     * @param key       不再显示KEY
-     * @param defclick  不再显示之后默认执行index
-     * @param theme     主题
-     * @param iconres   对话框图标
-     * @param title     显示标题
-     * @param message   显示内容
-     * @param positive  确认 按钮显示信息
-     * @param lpositive 点击  确认 按钮 响应事件
-     * @param neutral   详细 按钮显示信息
-     * @param lneutral  点击  详细 按钮 响应事件
-     * @param negative  按钮显示信息
-     * @param lnegative 点击  拒绝 按钮 响应事件
-     */
-    Dialog showKeyDialog(final String key, final int defclick,
-                                int theme, int iconres,
-                                CharSequence title, final CharSequence message, CharSequence negative, DialogInterface.OnClickListener lnegative, CharSequence neutral, DialogInterface.OnClickListener lneutral, CharSequence positive, DialogInterface.OnClickListener lpositive);
+    ///**
+    // * 显示对话框(不再提示)
+    // *
+    // * @param key       不再显示KEY
+    // * @param defclick  不再显示之后默认执行index
+    // * @param title     显示标题
+    // * @param message   显示内容
+    // * @param positive  确认 按钮显示信息
+    // * @param lpositive 点击  确认 按钮 响应事件
+    // * @param negative  按钮显示信息
+    // * @param lnegative 点击  拒绝 按钮 响应事件
+    // */
+    //Dialog showKeyDialog(String key, int defclick,
+    //                            CharSequence title, CharSequence message, CharSequence negative, DialogInterface.OnClickListener lnegative, CharSequence positive, DialogInterface.OnClickListener lpositive);
+//
+    ///**
+    // * 显示对话框(不再提示)
+    // *
+    // * @param key       不再显示KEY
+    // * @param defclick  不再显示之后默认执行index
+    // * @param title     显示标题
+    // * @param message   显示内容
+    // * @param positive  确认 按钮显示信息
+    // * @param lpositive 点击  确认 按钮 响应事件
+    // * @param neutral   详细 按钮显示信息
+    // * @param lneutral  点击  详细 按钮 响应事件
+    // * @param negative  按钮显示信息
+    // * @param lnegative 点击  拒绝 按钮 响应事件
+    // */
+    //Dialog showKeyDialog(String key, int defclick,
+    //                            CharSequence title, CharSequence message, CharSequence negative, DialogInterface.OnClickListener lnegative, CharSequence neutral, DialogInterface.OnClickListener lneutral, CharSequence positive, DialogInterface.OnClickListener lpositive);
+//
+    ///**
+    // * 显示对话框(不再提示)
+    // *
+    // * @param key       不再显示KEY
+    // * @param defclick  不再显示之后默认执行index
+    // * @param iconres   对话框图标
+    // * @param title     显示标题
+    // * @param message   显示内容
+    // * @param positive  确认 按钮显示信息
+    // * @param lpositive 点击  确认 按钮 响应事件
+    // * @param negative  按钮显示信息
+    // * @param lnegative 点击  拒绝 按钮 响应事件
+    // */
+    //Dialog showKeyDialog(String key, int defclick,
+    //                            int iconres, CharSequence title, CharSequence message, CharSequence negative, DialogInterface.OnClickListener lnegative, CharSequence positive, DialogInterface.OnClickListener lpositive);
+//
+    ///**
+    // * 显示对话框(不再提示)
+    // *
+    // * @param key       不再显示KEY
+    // * @param defclick  不再显示之后默认执行index
+    // * @param iconres   对话框图标
+    // * @param title     显示标题
+    // * @param message   显示内容
+    // * @param positive  确认 按钮显示信息
+    // * @param lpositive 点击  确认 按钮 响应事件
+    // * @param neutral   详细 按钮显示信息
+    // * @param lneutral  点击  详细 按钮 响应事件
+    // * @param negative  按钮显示信息
+    // * @param lnegative 点击  拒绝 按钮 响应事件
+    // */
+    //Dialog showKeyDialog(String key, int defclick,
+    //                            int iconres, CharSequence title, CharSequence message, CharSequence negative, DialogInterface.OnClickListener lnegative, CharSequence neutral, DialogInterface.OnClickListener lneutral, CharSequence positive, DialogInterface.OnClickListener lpositive);
+//
+//
+    ///**
+    // * 显示视图对话框(不再提示)
+    // *
+    // * @param key       不再显示KEY
+    // * @param defclick  不再显示之后默认执行index
+    // * @param theme     主题
+    // * @param iconres   对话框图标
+    // * @param title     显示标题
+    // * @param message   显示内容
+    // * @param positive  确认 按钮显示信息
+    // * @param lpositive 点击  确认 按钮 响应事件
+    // * @param neutral   详细 按钮显示信息
+    // * @param lneutral  点击  详细 按钮 响应事件
+    // * @param negative  按钮显示信息
+    // * @param lnegative 点击  拒绝 按钮 响应事件
+    // */
+    //Dialog showKeyDialog(final String key, final int defclick,
+    //                            int theme, int iconres,
+    //                            CharSequence title, final CharSequence message, CharSequence negative, DialogInterface.OnClickListener lnegative, CharSequence neutral, DialogInterface.OnClickListener lneutral, CharSequence positive, DialogInterface.OnClickListener lpositive);
     //</editor-fold>
 
     //<editor-fold desc="日期时间选择对话框">
@@ -533,21 +500,21 @@ public interface DialogBuilder {
      * 选择日期时间
      * @param listener 监听器
      */
-    Dialog selectDateTime(OnDateTimeSetListener listener);
+    Dialog selectDateTime(com.andframe.api.dialog.DialogBuilder.OnDateTimeSetListener listener);
 
     /**
      * 选择日期时间
      * @param title 标题
      * @param listener 监听器
      */
-    Dialog selectDateTime(CharSequence title, OnDateTimeSetListener listener);
+    Dialog selectDateTime(CharSequence title, com.andframe.api.dialog.DialogBuilder.OnDateTimeSetListener listener);
 
     /**
      * 选择日期时间
      * @param value 默认时间
      * @param listener 监听器
      */
-    Dialog selectDateTime(Date value, OnDateTimeSetListener listener);
+    Dialog selectDateTime(Date value, com.andframe.api.dialog.DialogBuilder.OnDateTimeSetListener listener);
 
     /**
      * 选择日期时间
@@ -555,7 +522,7 @@ public interface DialogBuilder {
      * @param value 默认时间
      * @param listener 监听器
      */
-    Dialog selectDateTime(final CharSequence title, final Date value, final OnDateTimeSetListener listener);
+    Dialog selectDateTime(final CharSequence title, final Date value, final com.andframe.api.dialog.DialogBuilder.OnDateTimeSetListener listener);
     //</editor-fold>
 
     //<editor-fold desc="时间选择对话框">

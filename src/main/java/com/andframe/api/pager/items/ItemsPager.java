@@ -1,7 +1,7 @@
 package com.andframe.api.pager.items;
 
-import android.support.annotation.NonNull;
-import android.support.annotation.Nullable;
+import androidx.annotation.NonNull;
+import androidx.annotation.Nullable;
 
 import com.andframe.api.Paging;
 import com.andframe.api.adapter.ItemViewer;

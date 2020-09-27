@@ -1,26 +1,29 @@
 package com.andframe.impl.dialog;
 
 import android.app.AlertDialog;
+import android.app.DatePickerDialog;
 import android.app.Dialog;
+import android.app.TimePickerDialog;
 import android.content.Context;
 import android.content.DialogInterface;
 import android.text.TextUtils;
+import android.view.Gravity;
 import android.view.View;
 import android.view.ViewGroup;
 import android.view.Window;
-import android.widget.CheckBox;
-import android.widget.EditText;
-import android.widget.LinearLayout;
-import android.widget.TextView;
+import android.widget.*;
 
 import com.andframe.$;
 import com.andframe.api.DialogBuilder;
+import com.andframe.api.dialog.DialogBuilder.OnDateSetVerifyListener;
+import com.andframe.api.dialog.DialogBuilder.OnTimeSetVerifyListener;
 import com.andframe.api.dialog.DialogFactory;
 import com.andframe.feature.AfSoftInput;
 import com.andframe.listener.SafeListener;
 import com.andframe.util.java.AfReflecter;
 
 import java.util.ArrayList;
+import java.util.Calendar;
 import java.util.Stack;
 
 @SuppressWarnings("WeakerAccess")
@@ -34,19 +37,149 @@ public class SystemDialogFactory implements DialogFactory {
         if (entity.view != null) {
             return buildView(context, entity);
         }
-        if (entity.itemsListener != null && entity.items != null) {
-            return buildSelectItems(context, entity);
-        }
         if (entity.inputListener != null) {
             return buildInputText(context, entity);
+        }
+        if (entity.timeListener != null) {
+            return buildTime(context, entity);
+        }
+        if (entity.dateListener != null) {
+            return buildDate(context, entity);
+        }
+        if (entity.monthListener != null) {
+            return buildMonth(context, entity);
+        }
+        if (entity.items != null && (entity.itemsChecked != null || entity.itemsMultiListener != null)) {
+            return buildChoice(context, entity);
+        }
+        if (entity.items != null && entity.itemsListener != null ) {
+            return buildItems(context, entity);
         }
         return buildAlert(context, entity);
     }
 
-    public Dialog buildSelectItems(Context context, DialogBluePrint entity) {
+    public Dialog buildTime(Context context, DialogBluePrint entity) {
+        Calendar calendar = Calendar.getInstance();
+        if (entity.time != null) {
+            calendar.setTime(entity.time);
+        }
+        int hour = calendar.get(Calendar.HOUR_OF_DAY);
+        int minute = calendar.get(Calendar.MINUTE);
+        TimePickerDialog.OnTimeSetListener timeListener = new SafeListener(entity.timeListener);
+        TimePickerDialog timerDialog = new TimePickerDialog(context, timeListener, hour, minute, true);
+        if (entity.timeListener instanceof OnTimeSetVerifyListener) {
+            OnTimeSetVerifyListener verifyListener = (OnTimeSetVerifyListener) entity.timeListener;
+            timerDialog.setButton(DialogInterface.BUTTON_POSITIVE, context.getString(android.R.string.ok), new SafeListener((dialog, which) -> {
+                TimePicker picker = AfReflecter.getMemberByTypeNoException(dialog, TimePicker.class);
+                if (picker == null) {
+                    timerDialog.onClick(dialog, which);
+                } else if (verifyListener.onPreTimeSet(picker, picker.getCurrentHour(), picker.getCurrentMinute())) {
+                    timerDialog.onClick(dialog, which);
+                }
+            }));
+        }
+        return initDialogCommon(timerDialog, entity);
+    }
+
+    public Dialog buildDate(Context context, DialogBluePrint entity) {
+        Calendar calendar = Calendar.getInstance();
+        if (entity.date != null) {
+            calendar.setTime(entity.date);
+        }
+        int year = calendar.get(Calendar.YEAR);
+        int month = calendar.get(Calendar.MONTH);
+        int day = calendar.get(Calendar.DAY_OF_MONTH);
+        DatePickerDialog.OnDateSetListener dateListener = new SafeListener(entity.dateListener);
+        DatePickerDialog dateDialog = new DatePickerDialog(context, dateListener, year, month, day);
+        if (entity.dateListener instanceof OnTimeSetVerifyListener) {
+            OnDateSetVerifyListener verifyListener = (OnDateSetVerifyListener) entity.dateListener;
+            dateDialog.setButton(DialogInterface.BUTTON_POSITIVE, context.getString(android.R.string.ok), new SafeListener((dialog, which) -> {
+                DatePicker picker = AfReflecter.getMemberByTypeNoException(dialog, DatePicker.class);
+                if (picker == null) {
+                    dateDialog.onClick(dialog, which);
+                } else if (verifyListener.onPreDateSet(picker, picker.getYear(), picker.getMonth(), picker.getDayOfMonth())) {
+                    dateDialog.onClick(dialog, which);
+                }
+            }));
+        }
+        return initDialogCommon(dateDialog, entity);
+    }
+
+    public Dialog buildMonth(Context context, DialogBluePrint entity) {
+        Calendar calendar = Calendar.getInstance();
+        if (entity.month != null) {
+            calendar.setTime(entity.month);
+        }
+
+        TextView txtYear = new TextView(context);
+        TextView txtMonth = new TextView(context);
+        NumberPicker yearPicker = new NumberPicker(context);
+        NumberPicker monthPicker = new NumberPicker(context);
+        
+        yearPicker.setMinValue(1000);
+        yearPicker.setMaxValue(9999);
+        monthPicker.setMinValue(1);
+        monthPicker.setMaxValue(12);
+        yearPicker.setValue(calendar.get(Calendar.YEAR));
+        monthPicker.setValue(calendar.get(Calendar.MONTH) + 1);
+        txtYear.setText("年");
+        txtMonth.setText("月");
+
+        entity.view =$.query(new LinearLayout(context))
+                .addView(yearPicker).addView(txtYear)
+                .addView(monthPicker).addView(txtMonth)
+                .gravity(Gravity.CENTER).view();
+
+        Dialog dialogView = buildView(context, entity);
+
+        AlertDialog monthDialog;
+        if ((dialogView instanceof AlertDialog)) {
+            monthDialog = (AlertDialog) dialogView;
+        } else {
+            AlertDialog.Builder builder = buildSystemBase(context, entity);
+            builder.setView(entity.view);
+            initDialogCommon(monthDialog = builder.create(), entity);
+        }
+
+        if (entity.cancelable) {
+            monthDialog.setButton(DialogInterface.BUTTON_NEGATIVE, context.getString(android.R.string.cancel), (DialogInterface.OnClickListener) null);
+        }
+        monthDialog.setButton(DialogInterface.BUTTON_POSITIVE, context.getString(android.R.string.ok), new SafeListener((dialog, which) -> {
+            int year = yearPicker.getValue();
+            int month = monthPicker.getValue() - 1;
+            DatePicker picker = new DatePicker(context);
+            picker.init(year, month, 1, null);
+            if (entity.monthListener instanceof OnDateSetVerifyListener) {
+                OnDateSetVerifyListener verifyListener = (OnDateSetVerifyListener) entity.monthListener;
+                if (verifyListener.onPreDateSet(picker, picker.getYear(), picker.getMonth(), picker.getDayOfMonth())) {
+                    verifyListener.onDateSet(picker, picker.getYear(), picker.getMonth(), picker.getDayOfMonth());
+                    dialog.dismiss();
+                }
+            } else {
+                entity.monthListener.onDateSet(picker, picker.getYear(), picker.getMonth(), picker.getDayOfMonth());
+                dialog.dismiss();
+            }
+
+        }));
+
+        return monthDialog;
+    }
+
+    public Dialog buildChoice(Context context, DialogBluePrint entity) {
+        boolean[] checkeds = entity.itemsChecked;
+        if (checkeds == null) {
+            checkeds = new boolean[entity.items.length];
+        }
+        AlertDialog.Builder builder = buildSystemBase(context, entity);
+        builder.setMultiChoiceItems(entity.items, checkeds, new SafeListener(entity.itemsMultiListener));
+        builder.setNegativeButton("确定", new SafeListener(entity.itemsListener));
+        return initDialogCommon(builder.create(), entity);
+    }
+
+    public Dialog buildItems(Context context, DialogBluePrint entity) {
         AlertDialog.Builder builder = buildSystemBase(context, entity);
         builder.setItems(entity.items, new SafeListener(entity.itemsListener));
-        return builder.create();
+        return initDialogCommon(builder.create(), entity);
     }
 
     public Dialog buildAlert(Context context, DialogBluePrint entity) {
@@ -93,7 +226,7 @@ public class SystemDialogFactory implements DialogFactory {
         AlertDialog.Builder builder = buildSystemBase(context, entity);
         builder.setView(entity.view);
         buildSystemButtons(builder, context, entity);
-        return builder.create();
+        return initDialogCommon(builder.create(), entity);
     }
 
     public boolean buildKayDialogCache(Context context, DialogBluePrint entity) {
@@ -170,14 +303,14 @@ public class SystemDialogFactory implements DialogFactory {
                 }
             }, 0);
         }
-        return dialog;
+        return initDialogCommon(dialog, entity);
     }
 
     //<editor-fold desc="build system">
 
     private void buildSystemButtons(AlertDialog.Builder builder, Context context, DialogBluePrint entity) {
         if (entity.buttons == null || entity.buttons.size() == 0) {
-            builder.setPositiveButton("确定", null);
+            builder.setPositiveButton(context.getString(android.R.string.ok), null);
         } else {
             ButtonEntity button = entity.buttons.get(0);
             builder.setPositiveButton(button.text, new SafeListener(button.listener) {
@@ -224,6 +357,17 @@ public class SystemDialogFactory implements DialogFactory {
         builder.setCancelable(entity.cancelable);
         builder.setOnCancelListener(new SafeListener(entity.cancelListener));
         return builder;
+    }
+
+    private Dialog initDialogCommon(Dialog dialog, DialogBluePrint entity) {
+        if (!TextUtils.isEmpty(entity.title)) {
+            dialog.setTitle(entity.title);
+        }
+        dialog.setCancelable(entity.cancelable);
+        dialog.setCanceledOnTouchOutside(entity.cancelable);
+        dialog.setOnCancelListener(new SafeListener(entity.cancelListener));
+        dialog.setOnDismissListener(new SafeListener(entity.dismissListener));
+        return dialog;
     }
 
     //</editor-fold>
@@ -282,8 +426,8 @@ public class SystemDialogFactory implements DialogFactory {
             return dialog;
         } else {
             entity.buttons = entity.buttons == null ? new ArrayList<>(2) : entity.buttons;
-            ButtonEntity positive = new ButtonEntity(oKey, new SafeListener());
-            ButtonEntity negative = new ButtonEntity("取消", cancelListener);
+            ButtonEntity positive = new ButtonEntity(oKey,0, new SafeListener());
+            ButtonEntity negative = new ButtonEntity("取消",0, cancelListener);
             entity.buttons.add(positive);
             entity.buttons.add(negative);
             entity.message = msgKey;

@@ -1,6 +1,6 @@
 package com.andframe.impl.task;
 
-import android.support.annotation.NonNull;
+import androidx.annotation.NonNull;
 
 import com.andframe.api.pager.Pager;
 import com.andframe.api.task.Task;
@@ -12,10 +12,6 @@ import com.andframe.api.task.handler.PrepareHandler;
 import com.andframe.api.task.handler.WorkingHandler;
 
 import java.lang.ref.WeakReference;
-import java.util.Collection;
-import java.util.List;
-import java.util.Map;
-import java.util.Set;
 
 /**
  * 集成等待对话框的任务 Builder
@@ -30,6 +26,8 @@ public class WaitTaskBuilder extends TaskBuilder implements WaitBuilder {
     public boolean feedbackOnException = true;
 
     public WaitTaskBuilder(@NonNull TaskBuilder builder, @NonNull Pager pager, @NonNull String intent) {
+        super(builder.autoPost);
+        builder.autoPost = false;
         this.intent = intent;
         this.pager = new WeakReference<>(pager);
         this.mMasterName = builder.mMasterName;
@@ -75,6 +73,7 @@ public class WaitTaskBuilder extends TaskBuilder implements WaitBuilder {
 
     @Override
     public Task build() {
+        built = true;
         return new InternalWaitTask(this);
     }
 

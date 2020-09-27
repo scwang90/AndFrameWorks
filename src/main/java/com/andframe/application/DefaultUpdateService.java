@@ -4,7 +4,7 @@ import android.app.Activity;
 import android.content.Intent;
 import android.net.Uri;
 import android.os.Build;
-import android.support.v4.content.FileProvider;
+import androidx.core.content.FileProvider;
 
 import com.andframe.$;
 import com.andframe.api.service.UpdateService;
@@ -192,8 +192,8 @@ public abstract class DefaultUpdateService implements UpdateService {
 			String message = String.format("系统检查到可用更新\r\n" +
 							"    更新版本：%s\r\n" +
 							"    当前版本：%s\r\n\r\n%s",
-					mVersionInfo.serviceVersion, mVersion, mVersionInfo.updateDscribe);
-			$.dialog(activity).showDialog("可用更新", message,"暂不更新",null,
+					mVersionInfo.serviceVersion, mVersion, mVersionInfo.updateDescribe);
+			$.dialog(activity).showDialog("可用更新", message,"暂不更新",
 					"下载更新", (d, w) -> start(mVersionInfo.downloadUrl, mVersionInfo.serviceVersion));
 		}
 	}

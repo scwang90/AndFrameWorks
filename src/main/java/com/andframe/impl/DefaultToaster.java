@@ -2,6 +2,8 @@ package com.andframe.impl;
 
 import android.content.Context;
 import android.content.res.Resources;
+import android.text.TextUtils;
+import android.view.View;
 import android.widget.Toast;
 
 import com.andframe.$;
@@ -16,47 +18,71 @@ import com.andframe.exception.AfExceptionHandler;
  * Created by SCWANG on 2017/3/21.
  */
 
-public class DefaultToaster implements Toaster {
+public class DefaultToaster implements Toaster, ToastBuilder {
 
     private Viewer viewer;
     private CharSequence msg;
     private int duration = Toast.LENGTH_SHORT;
-    private int msgId;
+    private int msgId = View.NO_ID;
+    private boolean shown = false;
 
     public DefaultToaster() {
+        $.dispatch(()->{
+            if (!shown && (!TextUtils.isEmpty(msg)||msgId!=View.NO_ID)) {
+                show();
+            } else {
+                shown = false;
+            }
+        });
     }
 
     public DefaultToaster(Viewer viewer) {
         this.viewer = viewer;
+        $.dispatch(()->{
+            if (!shown && (!TextUtils.isEmpty(msg)||msgId!=View.NO_ID)) {
+                show();
+            } else {
+                shown = false;
+            }
+        });
     }
 
     protected Context getContext() {
         return this.viewer == null ? AfApp.get() : (viewer.getContext() == null ? AfApp.get() : viewer.getContext());
     }
 
+    @Override
+    public ToastBuilder builder() {
+        if (shown) {
+            return new DefaultToaster(this.viewer);
+        }
+        return this;
+    }
+
     //<editor-fold desc="气泡封装">
 
     @Override
     public void toast(int resId) {
-        shorter().msg(resId).show();
+        builder().shorter().msg(resId).show();
     }
 
     @Override
     public void toast(CharSequence msg) {
-        shorter().msg(msg).show();
+        builder().shorter().msg(msg).show();
     }
 
     @Override
     public void error(CharSequence remark, Throwable e) {
-        shorter().msg(AfExceptionHandler.tip(e, remark.toString())).show();
+        builder().shorter().msg(AfExceptionHandler.tip(e, remark.toString())).show();
     }
 
     @Override
     public void show() {
         try {
+            this.shown = true;
             if (msg != null) {
                 Toast.makeText(getContext(), msg, duration).show();
-            } else if (msgId != 0){
+            } else if (msgId != View.NO_ID){
                 Toast.makeText(getContext(), msgId, duration).show();
             }
         } catch (Throwable e) {

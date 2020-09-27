@@ -1,6 +1,6 @@
 package com.andframe.feature;
 
-import android.support.annotation.Nullable;
+import androidx.annotation.Nullable;
 
 import com.andframe.util.java.AfReflecter;
 

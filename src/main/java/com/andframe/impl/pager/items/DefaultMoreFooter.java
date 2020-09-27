@@ -27,7 +27,7 @@ public class DefaultMoreFooter extends BaseMoreFooter implements MoreFooter {
     @Override
     public void onViewCreated() {
         super.onViewCreated();
-        $().clicked(v -> listener.onMore());
+        $().clicked(v -> triggerLoadMore());
     }
 
     @Override

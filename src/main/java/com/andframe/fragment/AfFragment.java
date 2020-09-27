@@ -6,11 +6,11 @@ import android.app.Service;
 import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
-import android.support.annotation.CallSuper;
-import android.support.annotation.NonNull;
-import android.support.annotation.Nullable;
-import android.support.v4.app.Fragment;
-import android.support.v4.app.FragmentActivity;
+import androidx.annotation.CallSuper;
+import androidx.annotation.NonNull;
+import androidx.annotation.Nullable;
+import androidx.fragment.app.Fragment;
+import androidx.fragment.app.FragmentActivity;
 import android.view.KeyEvent;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -28,7 +28,6 @@ import com.andframe.api.pager.Pager;
 import com.andframe.api.query.ViewQuery;
 import com.andframe.api.task.Task;
 import com.andframe.application.AfApp;
-import com.andframe.exception.AfExceptionHandler;
 import com.andframe.exception.AfToastException;
 import com.andframe.feature.AfIntent;
 import com.andframe.impl.helper.ViewQueryHelper;
@@ -335,7 +334,7 @@ public abstract class AfFragment extends Fragment implements Pager, com.andframe
     /**
      * (non-Javadoc)
      *
-     * @see android.support.v4.app.FragmentActivity#onActivityResult(int, int, android.content.Intent)
+     * @see FragmentActivity#onActivityResult(int, int, android.content.Intent)
      * final 重写 onActivityResult 使用 try-catch 调用
      * onActivityResult(AfIntent intent, int requestCode,int resultCode)
      * @see AfFragment#onActivityResult(AfIntent intent, int requestCode, int resultCode)
@@ -443,7 +442,7 @@ public abstract class AfFragment extends Fragment implements Pager, com.andframe
     //<editor-fold desc="气泡封装">
 
     public void toast(CharSequence tip) {
-        $.toaster(this).shorter().msg(tip).show();
+        $.toaster(this).toast(tip);
     }
 
     public void toast(CharSequence tip, Throwable e) {

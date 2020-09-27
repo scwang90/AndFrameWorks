@@ -53,7 +53,7 @@ import android.os.Vibrator;
 import android.os.storage.StorageManager;
 import android.print.PrintManager;
 import android.service.wallpaper.WallpaperService;
-import android.support.v4.app.Fragment;
+import androidx.fragment.app.Fragment;
 import android.telecom.TelecomManager;
 import android.telephony.CarrierConfigManager;
 import android.telephony.SubscriptionManager;

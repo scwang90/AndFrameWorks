@@ -1,7 +1,7 @@
 package com.andframe.api.task;
 
-import android.support.annotation.MainThread;
-import android.support.annotation.NonNull;
+import androidx.annotation.MainThread;
+import androidx.annotation.NonNull;
 
 import com.andframe.api.task.builder.Builder;
 import com.andframe.api.task.handler.WorkingHandler;
@@ -14,6 +14,7 @@ import com.andframe.api.task.handler.WorkingHandler;
 public interface TaskExecutor {
 
     Builder builder();
+    Builder builder(boolean autoPost);
     Builder builder(@NonNull Object master);
 
     @MainThread

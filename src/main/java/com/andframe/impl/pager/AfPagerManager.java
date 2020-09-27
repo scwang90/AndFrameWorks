@@ -4,9 +4,9 @@ import android.app.Activity;
 import android.app.Service;
 import android.content.Context;
 import android.content.Intent;
-import android.support.annotation.CallSuper;
-import android.support.annotation.Nullable;
-import android.support.v4.app.Fragment;
+import androidx.annotation.CallSuper;
+import androidx.annotation.Nullable;
+import androidx.fragment.app.Fragment;
 
 import com.andframe.activity.AfActivity;
 import com.andframe.activity.AfFragmentActivity;
@@ -216,35 +216,37 @@ public class AfPagerManager implements PagerManager {
     }
 
     @Override
-    public void finishBatchUntil(Pager pager) {
+    public boolean finishBatchUntil(Pager pager) {
         while (!mStackActivity.empty()) {
             Activity activity = mStackActivity.peek();
             if (activity == pager) {
-                return;
+                return true;
             } else if (activity instanceof AfFragmentActivity) {
                 Fragment fragment = ((AfFragmentActivity) activity).getFragment();
                 if (pager == fragment) {
-                    return;
+                    return true;
                 }
             }
             mStackActivity.pop().finish();
         }
+        return false;
     }
 
     @Override
-    public void finishBatchUntil(Class<? extends Pager> pager) {
+    public boolean finishBatchUntil(Class<? extends Pager> pager) {
         while (!mStackActivity.empty()) {
             Activity activity = mStackActivity.peek();
             if (pager.isAssignableFrom(activity.getClass())) {
-                return;
+                return true;
             } else if (activity instanceof AfFragmentActivity) {
                 if (pager.isAssignableFrom(((AfFragmentActivity) activity).getFragmentClazz())) {
-                    return;
+                    return true;
                 }
             }
             mStackActivity.pop().finish();
         }
         startPager(pager);
+        return false;
     }
 
     @Override

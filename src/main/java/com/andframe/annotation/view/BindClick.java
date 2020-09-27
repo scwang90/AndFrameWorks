@@ -1,7 +1,7 @@
 package com.andframe.annotation.view;
 
-import android.support.annotation.IdRes;
-import android.support.annotation.Keep;
+import androidx.annotation.IdRes;
+import androidx.annotation.Keep;
 
 import java.lang.annotation.ElementType;
 import java.lang.annotation.Retention;
@@ -19,6 +19,6 @@ import java.lang.annotation.Target;
 @Retention(RetentionPolicy.RUNTIME)
 public @interface BindClick {
     @IdRes int[] value();
-    int intervalTime() default 1000;
+    int intervalTime() default 500;
 }
 

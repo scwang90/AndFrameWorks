@@ -2,7 +2,7 @@ package com.andframe.task;
 
 import android.os.Handler;
 import android.os.Looper;
-import android.support.annotation.NonNull;
+import androidx.annotation.NonNull;
 
 import com.andframe.$;
 import com.andframe.api.task.TaskWithHandler;

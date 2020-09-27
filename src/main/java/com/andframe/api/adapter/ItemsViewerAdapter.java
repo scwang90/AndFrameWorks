@@ -1,7 +1,7 @@
 package com.andframe.api.adapter;
 
 import android.database.DataSetObserver;
-import android.support.annotation.NonNull;
+import androidx.annotation.NonNull;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ListAdapter;

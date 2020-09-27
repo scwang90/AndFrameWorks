@@ -1,8 +1,8 @@
 package com.andframe.task;
 
 import android.os.Looper;
-import android.support.annotation.MainThread;
-import android.support.annotation.NonNull;
+import androidx.annotation.MainThread;
+import androidx.annotation.NonNull;
 
 import com.andframe.$;
 import com.andframe.api.task.Task;
@@ -105,7 +105,12 @@ public class DefaultTaskExecutor implements TaskExecutor {
 
     @Override
     public Builder builder() {
-        return new TaskBuilder();
+        return new TaskBuilder(true);
+    }
+
+    @Override
+    public Builder builder(boolean autoPost) {
+        return new TaskBuilder(autoPost);
     }
 
     @Override

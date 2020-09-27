@@ -1,7 +1,7 @@
 package com.andframe.adapter;
 
 import android.content.Context;
-import android.support.annotation.NonNull;
+import androidx.annotation.NonNull;
 import android.view.View;
 import android.view.ViewGroup;
 
@@ -12,7 +12,6 @@ import com.andframe.api.adapter.HeaderFooterAdapter;
 import com.andframe.api.adapter.ItemViewer;
 import com.andframe.api.adapter.ItemsViewerAdapter;
 import com.andframe.api.viewer.Viewer;
-import com.andframe.exception.AfExceptionHandler;
 import com.andframe.impl.wrapper.ItemsViewerAdapterWrapper;
 
 import java.util.ArrayList;

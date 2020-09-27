@@ -28,6 +28,8 @@ public class LoadTaskBuilder<T> extends TaskBuilder implements LoadBuilder<T> {
     }
 
     public LoadTaskBuilder(TaskBuilder builder, LoadingHandler<T> loadingHandler) {
+        super(builder.autoPost);
+        builder.autoPost = false;
         this.mMasterName = builder.mMasterName;
         this.loadingHandler = loadingHandler;
         this.canceledRunnable = builder.canceledRunnable;
@@ -90,6 +92,7 @@ public class LoadTaskBuilder<T> extends TaskBuilder implements LoadBuilder<T> {
 
     @Override
     public Task build() {
+        built = true;
         return new InternalLoadTask<>(this);
     }
 

@@ -3,8 +3,8 @@ package com.andframe.impl.helper;
 import android.app.Activity;
 import android.content.Context;
 import android.database.DataSetObserver;
-import android.support.annotation.NonNull;
-import android.support.annotation.Nullable;
+import androidx.annotation.NonNull;
+import androidx.annotation.Nullable;
 import android.text.TextUtils;
 import android.view.View;
 import android.widget.AdapterView;
@@ -208,7 +208,7 @@ public class ItemsPagerHelper<T> extends StatusPagerHelper<List<T>> implements I
 
     //<editor-fold desc="适配器">
     @Override
-    public void bindAdapter(@NonNull com.andframe.api.viewer.ItemsViewer itemsViewer, @NonNull ListAdapter adapter) {
+    public void bindAdapter(@NonNull ItemsViewer itemsViewer, @NonNull ListAdapter adapter) {
         itemsViewer.setAdapter(adapter);
     }
 
@@ -301,11 +301,11 @@ public class ItemsPagerHelper<T> extends StatusPagerHelper<List<T>> implements I
 //            mItemsPager.finishRefreshFail();
             if (mAdapter != null && mAdapter.size() > 0) {
                 mItemsPager.showStatus(StatusLayoutManager.Status.content);
-                $.toaster(mItemsPager).longer().msg(task.errorToast(getContext().getString(R.string.items_refresh_fail))).show();
+                $.toaster(mItemsPager).builder().longer().msg(task.errorToast(getContext().getString(R.string.items_refresh_fail))).show();
             } else if (!mItemsPager.isEmpty(list)) {
 //                mItemsPager.showStatus(StatusLayoutManager.Status.content) mAdapter.set 会触发showContent
                 mAdapter.set(list == null ? new ArrayList<>() : list);
-                $.toaster(mItemsPager).longer().msg(task.errorToast(getContext().getString(R.string.items_refresh_fail))).show();
+                $.toaster(mItemsPager).builder().longer().msg(task.errorToast(getContext().getString(R.string.items_refresh_fail))).show();
             } else {
                 mItemsPager.showStatus(StatusLayoutManager.Status.error,task.errorToast(getContext().getString(R.string.items_refresh_fail)));
             }
@@ -329,7 +329,7 @@ public class ItemsPagerHelper<T> extends StatusPagerHelper<List<T>> implements I
         } else {
             // 通知列表刷新完成
             mMoreLayoutManager.finishLoadMore();
-            $.toaster(mItemsPager).longer().msg(task.errorToast(getContext().getString(R.string.items_loading_fail))).show();
+            $.toaster(mItemsPager).builder().longer().msg(task.errorToast(getContext().getString(R.string.items_loading_fail))).show();
         }
     }
     //</editor-fold>

@@ -7,13 +7,14 @@ import android.app.Service;
 import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
-import android.support.annotation.CallSuper;
-import android.support.v4.app.Fragment;
-import android.support.v7.app.AppCompatActivity;
+import androidx.annotation.CallSuper;
+import androidx.fragment.app.Fragment;
+import androidx.appcompat.app.AppCompatActivity;
 import android.view.KeyEvent;
 import android.view.View;
 import android.view.ViewGroup;
 
+import androidx.fragment.app.FragmentActivity;
 import com.andframe.$;
 import com.andframe.annotation.BindMustLogin;
 import com.andframe.annotation.interpreter.Injecter;
@@ -399,7 +400,7 @@ public abstract class AfActivity extends AppCompatActivity implements Pager, com
     /**
      * (non-Javadoc)
      *
-     * @see android.support.v4.app.FragmentActivity#onActivityResult(int, int, android.content.Intent)
+     * @see FragmentActivity#onActivityResult(int, int, android.content.Intent)
      * final 重写 onActivityResult 使用 try-catch 调用
      * onActivityResult(AfIntent intent, int requestCode,int resultCode)
      * @see AfActivity#onActivityResult(AfIntent intent, int requestCode, int resultCode)
@@ -516,7 +517,7 @@ public abstract class AfActivity extends AppCompatActivity implements Pager, com
 
     //<editor-fold desc="气泡提示">
     public void toast(CharSequence tip) {
-        $.toaster(this).shorter().msg(tip).show();
+        $.toaster(this).toast(tip);
     }
 
     public void toast(CharSequence tip, Throwable e) {

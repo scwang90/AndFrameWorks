@@ -9,9 +9,10 @@ import android.graphics.Rect;
 import android.graphics.RectF;
 import android.graphics.Typeface;
 import android.graphics.drawable.Drawable;
-import android.support.annotation.*;
-import android.support.v4.view.PagerAdapter;
-import android.support.v4.view.ViewPager;
+import android.text.method.MovementMethod;
+import androidx.annotation.*;
+import androidx.viewpager.widget.PagerAdapter;
+import androidx.viewpager.widget.ViewPager;
 import android.text.Editable;
 import android.text.TextWatcher;
 import android.view.View;
@@ -309,7 +310,7 @@ public interface ViewQuery<T extends ViewQuery<T>> {
      * 设置当前选中 View 的背景颜色（backgroundColor）.
      * @param color ARGB格式的颜色值
      */
-    T backgroundColor(int color);
+    T backgroundColor(@ColorInt int color);
 
     /**
      * 设置当前选中 View 动画
@@ -786,6 +787,11 @@ public interface ViewQuery<T extends ViewQuery<T>> {
      * 设置当前选中 TextView 的字体样式（TextStyle）.
      */
     T textStyle(@Style int style);
+
+    /**
+     * @see android.widget.TextView#setMovementMethod(MovementMethod)
+     */
+    T movementMethod(MovementMethod movement);
 
     /**
      * 设置当前选中 TextView 的最大行数（MaxLines）.

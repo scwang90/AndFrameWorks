@@ -1,13 +1,14 @@
 package com.andframe.api.pager.items;
 
 import android.content.Context;
-import android.support.annotation.NonNull;
-import android.support.annotation.Nullable;
+import androidx.annotation.NonNull;
+import androidx.annotation.Nullable;
 import android.view.View;
 import android.widget.AdapterView.OnItemClickListener;
 import android.widget.AdapterView.OnItemLongClickListener;
 import android.widget.ListAdapter;
 
+import androidx.recyclerview.widget.RecyclerView;
 import com.andframe.adapter.ListItemAdapter;
 import com.andframe.annotation.mark.MarkCache;
 import com.andframe.api.Paging;
@@ -36,7 +37,7 @@ public interface ItemsHelper<T> extends StatusHelper<List<T>>, OnItemClickListen
      * 默认会查找 以下控件
      * <br>1、 @{@link android.widget.AbsListView} 的所有子类
      * <br>    包括 @{@link android.widget.ListView} @{@link android.widget.GridView} 等等
-     * <br>2、 @{@link android.support.v7.widget.RecyclerView} 以及其子类（自定义的子类）
+     * <br>2、 @{@link RecyclerView} 以及其子类（自定义的子类）
      * @param contentView @{@link com.andframe.api.pager.status.StatusPager} 中的内容视图
      * @return 被抽象的 @{@link ItemsViewer} 对象
      */

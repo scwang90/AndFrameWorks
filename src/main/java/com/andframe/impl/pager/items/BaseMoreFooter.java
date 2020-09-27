@@ -61,7 +61,7 @@ public abstract class BaseMoreFooter extends ListItemViewer<Object> implements M
 
     @Override
     public void triggerLoadMore() {
-        if (mEnabled && !mIsLoading && listener != null && listener.onMore()) {
+        if (mEnabled && !mIsLoading && listener != null && !mNoMoreData && listener.onMore()) {
             setLoading();
         }
     }

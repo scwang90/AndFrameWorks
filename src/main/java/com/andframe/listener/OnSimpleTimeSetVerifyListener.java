@@ -1,9 +1,7 @@
 package com.andframe.listener;
 
-import android.app.TimePickerDialog;
 import android.widget.TimePicker;
-
-import com.andframe.api.DialogBuilder;
+import com.andframe.api.dialog.DialogBuilder;
 
 import java.util.Calendar;
 import java.util.Date;
@@ -18,7 +16,7 @@ public abstract class OnSimpleTimeSetVerifyListener implements DialogBuilder.OnT
     }
 
     @Override
-    public boolean onPreTimeSet(TimePickerDialog dialog, TimePicker view, int hour, int minute) {
+    public boolean onPreTimeSet(TimePicker view, int hour, int minute) {
         Calendar calender = Calendar.getInstance();
         calender.setTime(new Date(0));
         calender.set(Calendar.HOUR_OF_DAY, hour);

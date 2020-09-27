@@ -1,8 +1,8 @@
 package com.andframe.adapter.recycler;
 
 import android.database.DataSetObserver;
-import android.support.v7.widget.AdapterDataObservableWrapper;
-import android.support.v7.widget.RecyclerView;
+import androidx.recyclerview.widget.AdapterDataObservableWrapper;
+import androidx.recyclerview.widget.RecyclerView;
 
 import java.util.ArrayList;
 

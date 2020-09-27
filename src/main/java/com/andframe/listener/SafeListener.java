@@ -11,8 +11,7 @@ import android.widget.SeekBar;
 import android.widget.TimePicker;
 
 import com.andframe.$;
-import com.andframe.api.DialogBuilder;
-import com.andframe.exception.AfExceptionHandler;
+import com.andframe.api.dialog.DialogBuilder;
 
 /**
  * 安全取听器
@@ -27,6 +26,7 @@ public class SafeListener implements
         SeekBar.OnSeekBarChangeListener,
         DialogInterface.OnClickListener,
         DialogInterface.OnCancelListener,
+        DialogInterface.OnDismissListener,
         DialogInterface.OnMultiChoiceClickListener,
         DatePickerDialog.OnDateSetListener,
         TimePickerDialog.OnTimeSetListener,
@@ -38,6 +38,7 @@ public class SafeListener implements
     private SeekBar.OnSeekBarChangeListener seekBarChangeListener;
     private DialogInterface.OnClickListener dialogClickListener;
     private DialogInterface.OnCancelListener cancelListener;
+    private DialogInterface.OnDismissListener dismissListener;
     private DialogInterface.OnMultiChoiceClickListener multiChoiceClickListener;
     private DatePickerDialog.OnDateSetListener dateSetListener;
     private TimePickerDialog.OnTimeSetListener timeSetListener;
@@ -46,7 +47,7 @@ public class SafeListener implements
     private int intervalTime = 0;
 
     public SafeListener(View.OnClickListener clickListener) {
-        this(clickListener, 1000);
+        this(clickListener, 500);
     }
 
     public SafeListener(View.OnClickListener listener, int intervalTime) {
@@ -90,6 +91,10 @@ public class SafeListener implements
         this.cancelListener = cancelListener;
     }
 
+    public SafeListener(DialogInterface.OnDismissListener dismissListener) {
+        this.dismissListener = dismissListener;
+    }
+
     public SafeListener() {
 
     }
@@ -123,6 +128,17 @@ public class SafeListener implements
                 cancelListener.onCancel(dialog);
             } catch (Throwable e) {
                 $.error().handle(e, "SafeListener.cancelListener.onCancel");
+            }
+        }
+    }
+
+    @Override
+    public void onDismiss(DialogInterface dialog) {
+        if (dismissListener != null) {
+            try {
+                dismissListener.onDismiss(dialog);
+            } catch (Throwable e) {
+                $.error().handle(e, "SafeListener.dismissListener.onDismiss");
             }
         }
     }

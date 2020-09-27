@@ -1,6 +1,6 @@
 package com.andframe.api;
 
-import android.support.annotation.Nullable;
+import androidx.annotation.Nullable;
 
 /**
  * 判断是否为空

@@ -1,6 +1,6 @@
 package com.andframe.api;
 
-import android.support.annotation.StringRes;
+import androidx.annotation.StringRes;
 
 /**
  * Toast 气泡提示

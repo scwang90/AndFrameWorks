@@ -1,17 +1,20 @@
 package com.andframe.api.dialog;
 
+import android.app.DatePickerDialog;
 import android.app.Dialog;
+import android.app.TimePickerDialog;
 import android.content.DialogInterface.OnCancelListener;
 import android.content.DialogInterface.OnClickListener;
 import android.content.DialogInterface.OnDismissListener;
 import android.content.DialogInterface.OnMultiChoiceClickListener;
 import android.graphics.drawable.Drawable;
-import android.support.annotation.ArrayRes;
-import android.support.annotation.DrawableRes;
-import android.support.annotation.LayoutRes;
-import android.support.annotation.StringRes;
+import android.widget.DatePicker;
+import android.widget.TimePicker;
+import androidx.annotation.*;
 import android.view.View;
 import android.widget.EditText;
+
+import java.util.Date;
 
 /**
  * 对话框 构建器
@@ -34,15 +37,16 @@ public interface DialogBuilder {
     DialogBuilder button(CharSequence text);
     DialogBuilder button(@StringRes int textId, OnClickListener listener);
     DialogBuilder button(CharSequence text, OnClickListener listener);
+    DialogBuilder button(CharSequence text, @ColorInt int color, OnClickListener listener);
     DialogBuilder cancelable(boolean cancelable);
     DialogBuilder cancelListener(OnCancelListener onCancelListener);
     DialogBuilder dismissListener(OnDismissListener onDismissListener);
     DialogBuilder items(@ArrayRes int itemsId, OnClickListener listener);
     DialogBuilder items(CharSequence[] items, OnClickListener listener);
-    DialogBuilder multiChoice(@ArrayRes int itemsId, boolean[] checkedItems, OnMultiChoiceClickListener listener);
-    DialogBuilder multiChoice(CharSequence[] items, boolean[] checkedItems, OnMultiChoiceClickListener listener);
-    DialogBuilder singleChoice(@ArrayRes int itemsId, int checkedItem, OnClickListener listener);
-    DialogBuilder singleChoice(CharSequence[] items, int checkedItem, OnClickListener listener);
+    DialogBuilder choice(@ArrayRes int itemsId, OnMultiChoiceClickListener itemsListener, OnClickListener listener);
+    DialogBuilder choice(CharSequence[] items, OnMultiChoiceClickListener itemsListener, OnClickListener listener);
+    DialogBuilder choice(@ArrayRes int itemsId, boolean[] checkedItems, OnMultiChoiceClickListener itemsListener, OnClickListener listener);
+    DialogBuilder choice(CharSequence[] items, boolean[] checkedItems, OnMultiChoiceClickListener itemsListener, OnClickListener listener);
 
     DialogBuilder view(View view);
     DialogBuilder view(@LayoutRes int layoutResId);
@@ -50,6 +54,71 @@ public interface DialogBuilder {
     Dialog create();
     Dialog show();
 
+
+    //<editor-fold desc="input date time">
+
+    /**
+     * 日期时间监听器
+     */
+    interface OnDateTimeSetListener{
+        void onDateTimeSet(int year, int month, int day, int hour, int minute);
+    }
+
+    /**
+     * 日期验证
+     */
+    interface OnDateSetVerifyListener extends DatePickerDialog.OnDateSetListener {
+        /**
+         * 验证时间是否符合条件
+         * @param view 时间控件
+         * @return true 符合条件 false 不符合条件（将不会关闭对话框）
+         */
+        boolean onPreDateSet(DatePicker view, int year, int month, int dayOfMonth);
+    }
+    /**
+     * 时间验证
+     */
+    interface OnTimeSetVerifyListener extends TimePickerDialog.OnTimeSetListener {
+        /**
+         * 验证时间是否符合条件
+         *
+         * @param view 时间控件
+         * @param hourOfDay 小时
+         * @param minute 分钟
+         * @return true 符合条件 false 不符合条件（将不会关闭对话框）
+         */
+        boolean onPreTimeSet(TimePicker view, int hourOfDay, int minute);
+    }
+
+    /**
+     * 日期时间验证
+     */
+    interface OnDateTimeSetVerifyListener extends OnDateTimeSetListener {
+        /**
+         * 验证时间是否符合条件
+         * @param view 时间控件
+         * @return true 符合条件 false 不符合条件（将不会关闭对话框）
+         */
+        boolean onPreDateSet(DatePicker view, int year, int month, int dayOfMonth);
+        /**
+         * 验证时间是否符合条件
+         * @param view 时间控件
+         * @param hourOfDay 小时
+         * @param minute 分钟
+         * @return true 符合条件 false 不符合条件（将不会关闭对话框）
+         */
+        boolean onPreTimeSet(TimePicker view, int hourOfDay, int minute);
+    }
+
+    DialogBuilder month(DatePickerDialog.OnDateSetListener listener);
+    DialogBuilder month(Date value, DatePickerDialog.OnDateSetListener listener);
+
+    DialogBuilder date(DatePickerDialog.OnDateSetListener listener);
+    DialogBuilder date(Date value, DatePickerDialog.OnDateSetListener listener);
+
+    DialogBuilder time(TimePickerDialog.OnTimeSetListener listener);
+    DialogBuilder time(Date value, TimePickerDialog.OnTimeSetListener listener);
+    //</editor-fold>
 
 
     //<editor-fold desc="input text">

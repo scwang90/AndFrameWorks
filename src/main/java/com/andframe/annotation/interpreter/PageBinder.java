@@ -1,12 +1,11 @@
 package com.andframe.annotation.interpreter;
 
 import android.app.Activity;
-import android.support.annotation.NonNull;
+import androidx.annotation.NonNull;
 
 import com.andframe.$;
 import com.andframe.activity.AfActivity;
 import com.andframe.annotation.pager.BindSoftInputMode;
-import com.andframe.exception.AfExceptionHandler;
 import com.andframe.model.constants.SoftInputAdjust;
 import com.andframe.model.constants.SoftInputMode;
 import com.andframe.model.constants.SoftInputState;

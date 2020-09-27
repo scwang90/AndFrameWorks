@@ -475,6 +475,24 @@ public class AfReflecter {
         return null;
     }
 
+    /**
+     * 通过 类型clazz匹配 设置obj 的对应 Field 的值
+     * @param obj 对象 或者 Clazz（可以匹配 statis Field）
+     * @param clazz 匹配的clazz （支持子类匹配 如 clazz = List 可以匹配 ArrayList 的 Filed）
+     * @return 如果有多个返回第一个 否则null
+     */
+    public static <T> T getMemberByTypeNoException(Object obj, Class<T> clazz) {
+        try{
+            Field field = getFieldByType(obj, clazz);
+            if (field != null) {
+                field.setAccessible(true);
+                return clazz.cast(field.get(obj));
+            }
+        } catch (IllegalAccessException ignored) {
+        }
+        return null;
+    }
+
 
     /**
      * 通过 类型clazz匹配 设置obj 的对应 Field

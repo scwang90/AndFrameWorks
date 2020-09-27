@@ -1,6 +1,6 @@
 package com.andframe.exception;
 
-import android.support.annotation.NonNull;
+import androidx.annotation.NonNull;
 
 public class AfExceptionWrapper extends AfException {
 

@@ -1,6 +1,6 @@
 package com.andframe.impl.task;
 
-import android.support.annotation.NonNull;
+import androidx.annotation.NonNull;
 
 import com.andframe.$;
 import com.andframe.api.pager.Pager;
@@ -13,11 +13,6 @@ import com.andframe.api.task.handler.LoadingHandler;
 import com.andframe.api.task.handler.PrepareHandler;
 import com.andframe.api.task.handler.WorkingHandler;
 
-import java.util.Collection;
-import java.util.List;
-import java.util.Map;
-import java.util.Set;
-
 /**
  * 任务构建器
  * Created by SCWANG on 2017/4/28.
@@ -25,6 +20,8 @@ import java.util.Set;
 @SuppressWarnings("WeakerAccess")
 public class TaskBuilder implements Builder {
 
+    public boolean autoPost;
+    public boolean built;
     public String mMasterName;
     public Runnable prepareRunnable;
     public PrepareHandler prepareHandler;
@@ -34,7 +31,15 @@ public class TaskBuilder implements Builder {
     public Runnable canceledRunnable;
     public ExceptionHandler exceptionHandler;
 
-    public TaskBuilder() {
+    public TaskBuilder(boolean autoPost) {
+        this.autoPost = autoPost;
+        if (autoPost) {
+            $.dispatch(()->{
+                if (this.autoPost&&!built) {
+                    post();
+                }
+            });
+        }
     }
 
     public TaskBuilder(@NonNull Object master) {
@@ -160,6 +165,7 @@ public class TaskBuilder implements Builder {
 
     @Override
     public Task build() {
+        built = true;
         return new InternalTask(this);
     }
 

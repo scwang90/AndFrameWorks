@@ -1,6 +1,6 @@
 package com.andframe.api.task;
 
-import android.support.annotation.Nullable;
+import androidx.annotation.Nullable;
 
 import com.andframe.api.Paging;
 

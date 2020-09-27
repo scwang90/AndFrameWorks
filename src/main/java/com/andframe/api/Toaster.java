@@ -1,12 +1,12 @@
 package com.andframe.api;
 
-import android.support.annotation.StringRes;
+import androidx.annotation.StringRes;
 
 /**
  * Toast 气泡提示
  * Created by SCWANG on 2016/9/1.
  */
-public interface Toaster extends ToastBuilder {
+public interface Toaster {
 
     void toast(@StringRes int resId);
 
@@ -14,4 +14,5 @@ public interface Toaster extends ToastBuilder {
 
     void error(CharSequence remark, Throwable throwable);
 
+    ToastBuilder builder();
 }

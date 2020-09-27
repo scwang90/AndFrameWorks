@@ -11,10 +11,10 @@ public interface Constanter {
 
     //<editor-fold desc="页面传值">
     String EXTRA_DATA = "EXTRA_DATA";//通用数据传递标识
-    String EXTRA_INDEX = "EXTRA_INDEX";//通用下标栓地标识
+    String EXTRA_INDEX = "EXTRA_INDEX";//通用下标传递标识
     String EXTRA_RESULT = "EXTRA_RESULT";//通用返回传递标识
     String EXTRA_MAIN = "EXTRA_MAIN";//主要数据传递标识
-    String EXTRA_DEPUTY = "EXTRA_DEPUTY";//主要数据传递标识
+    String EXTRA_DEPUTY = "EXTRA_DEPUTY";//次要数据传递标识
     //</editor-fold>
 
     //<editor-fold desc="视图常用">

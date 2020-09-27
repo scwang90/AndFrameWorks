@@ -1,9 +1,9 @@
 package com.andframe.activity;
 
 import android.content.Context;
-import android.support.annotation.CallSuper;
-import android.support.annotation.NonNull;
-import android.support.annotation.Nullable;
+import androidx.annotation.CallSuper;
+import androidx.annotation.NonNull;
+import androidx.annotation.Nullable;
 import android.view.View;
 
 import com.andframe.api.pager.load.LoadHelper;
@@ -11,7 +11,6 @@ import com.andframe.api.pager.load.LoadPager;
 import com.andframe.api.pager.status.RefreshLayoutManager;
 import com.andframe.api.task.Task;
 import com.andframe.application.AfApp;
-import com.andframe.impl.helper.LoadPagerHelper;
 
 import java.util.Date;
 
