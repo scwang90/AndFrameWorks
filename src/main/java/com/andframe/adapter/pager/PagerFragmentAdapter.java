@@ -40,7 +40,7 @@ public class PagerFragmentAdapter extends FragmentPagerAdapter {
             return fragments[position];
         } catch (Throwable e) {
             e.printStackTrace();
-            $.error().handle(e, "AfPagerFragmentAdapter.getItem");
+            $.error().handle(e, "PagerFragmentAdapter.getItem");
         }
         return new EmptyFragment();
     }
@@ -51,7 +51,7 @@ public class PagerFragmentAdapter extends FragmentPagerAdapter {
         try {
             return super.instantiateItem(container, position);
         } catch (Exception e) {
-            $.error().handle(e, "AfPagerFragmentAdapter.instantiateItem");
+            $.error().handle(e, "PagerFragmentAdapter.instantiateItem");
         }
         return new EmptyFragment();
     }
