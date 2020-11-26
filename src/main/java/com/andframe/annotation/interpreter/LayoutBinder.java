@@ -4,6 +4,7 @@ import android.app.Activity;
 import android.app.Dialog;
 import android.content.Context;
 
+import android.view.View;
 import com.andframe.$;
 import com.andframe.annotation.pager.BindLayout;
 import com.andframe.annotation.pager.idname.BindLayout$;
@@ -79,7 +80,7 @@ public class LayoutBinder {
                 return id;
             }
         }
-        return 0;
+        return View.NO_ID;
     }
 
     //<editor-fold desc="反射缓存">

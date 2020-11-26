@@ -523,10 +523,10 @@ public class ViewBinder {
                     ParameterizedType parameterized = (ParameterizedType) generic;
                     type = (Class<?>) parameterized.getActualTypeArguments()[0];
                 }
-                if (id <= 0) {
+                if (id == View.NO_ID) {
                     id = LayoutBinder.getBindLayoutId(field.getType(), root.getContext());
                 }
-                if (id <= 0) {
+                if (id == View.NO_ID) {
                     $.error().handle("ViewModuler("+type.getSimpleName()+") 必须指定BindLayout",TAG(handler, "doBindViewModule.") + field.getName());
                 } else if (AbstractViewModule.class.isAssignableFrom(type)) {
                     //noinspection unchecked

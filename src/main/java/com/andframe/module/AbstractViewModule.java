@@ -80,7 +80,7 @@ public abstract class AbstractViewModule extends ViewerWrapper implements Viewer
 			view = viewer.findViewById(layoutId);
 			setTarget(viewer, view);
 		} else {
-			$.error().handle(getClass().getSimpleName() + "ViewModuler 必须指定BindLayout","ViewModuler.initializeComponent.");
+			$.error().handle(getClass().getSimpleName() + "AbstractViewModule 必须指定BindLayout","AbstractViewModule.initializeComponent.");
 		}
 	}
 
@@ -112,6 +112,8 @@ public abstract class AbstractViewModule extends ViewerWrapper implements Viewer
 		if (target != null) {
 			this.view = target;
 			this.onCreated(viewer, target);
+		} else {
+			$.error().handle(getClass().getSimpleName() + "AbstractViewModule setTarget view 参数不能为null","AbstractViewModule.setTarget.");
 		}
 	}
 
