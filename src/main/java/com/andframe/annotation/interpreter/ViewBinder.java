@@ -201,6 +201,12 @@ public class ViewBinder {
             BindCheckedChange bind = method.getAnnotation(BindCheckedChange.class);
             for (int id : bind.value()) {
                 View view = root.findViewById(id);
+                if (view == null && id == View.NO_ID) {
+                    View[] views = findViewByType(root.getView(), CompoundButton.class, 1);
+                    if (views.length > 0) {
+                        view = views[0];
+                    }
+                }
                 if (view instanceof CompoundButton) {
                     ((CompoundButton) view).setOnCheckedChangeListener(new EventListener(handler).checkedChange(method));
                 } else {
@@ -215,6 +221,12 @@ public class ViewBinder {
             BindCheckedChangeGroup bind = method.getAnnotation(BindCheckedChangeGroup.class);
             for (int id : bind.value()) {
                 View view = root.findViewById(id);
+                if (view == null && id == View.NO_ID) {
+                    View[] views = findViewByType(root.getView(), RadioGroup.class, 1);
+                    if (views.length > 0) {
+                        view = views[0];
+                    }
+                }
                 if (view instanceof RadioGroup) {
                     ((RadioGroup) view).setOnCheckedChangeListener(new EventListener(handler).checkedChangeGroup(method));
                 } else {
