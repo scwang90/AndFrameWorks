@@ -157,7 +157,7 @@ public class AfFragmentActivity extends AfActivity {
     private static Map<String, Class> typeCache = new HashMap<>();
     private static Map<String, String> nameCache = new HashMap<>();
     private Class<?> getFragmentClass() throws ClassNotFoundException {
-        Class type = typeCache.get(mFragmentClazz);
+        Class<?> type = typeCache.get(mFragmentClazz);
         if (type == null) {
             typeCache.put(mFragmentClazz, type = Class.forName(mFragmentClazz));
         }
@@ -275,7 +275,7 @@ public class AfFragmentActivity extends AfActivity {
                 }
             }
         }
-        Class type = typeCache.get(mFragmentClazz);
+        Class<?> type = typeCache.get(mFragmentClazz);
         if (type == null) {
             try {
                 typeCache.put(mFragmentClazz, type = Class.forName(mFragmentClazz));

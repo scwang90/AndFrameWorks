@@ -26,7 +26,7 @@ import static android.view.ViewGroup.LayoutParams.MATCH_PARENT;
  */
 
 @SuppressWarnings({"WeakerAccess", "RedundantCast"})
-public class DefaultStatusLayoutManager implements StatusLayoutManager {
+public class DefaultStatusLayoutManager implements StatusLayoutManager<FrameLayout> {
 
     protected final FrameLayout mFrameLayout;
     protected final FrameSelectorModule mFrameSelector;
@@ -63,7 +63,7 @@ public class DefaultStatusLayoutManager implements StatusLayoutManager {
 
     @NonNull
     @Override
-    public ViewGroup getLayout() {
+    public FrameLayout getLayout() {
         return mFrameLayout;
     }
 

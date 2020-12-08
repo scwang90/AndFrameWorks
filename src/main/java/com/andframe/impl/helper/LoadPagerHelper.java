@@ -48,7 +48,7 @@ public class LoadPagerHelper<T> implements LoadHelper<T> {
 
     protected LoadPager<T> mPager;
 
-    protected RefreshLayoutManager mRefreshLayoutManager;
+    protected RefreshLayoutManager<?> mRefreshLayoutManager;
 
     protected T mModel;
     protected boolean mIsLoading = false;
@@ -155,7 +155,7 @@ public class LoadPagerHelper<T> implements LoadHelper<T> {
         return true;
     }
 
-    public RefreshLayoutManager initRefreshLayoutManager(View content) {
+    public RefreshLayoutManager<?> initRefreshLayoutManager(View content) {
         if (checkContentViewStruct(content)) {
             ViewParent parent = content.getParent();
             if (parent instanceof ViewGroup){
@@ -165,7 +165,7 @@ public class LoadPagerHelper<T> implements LoadHelper<T> {
                 group.removeViewAt(i);
 
                 ViewGroup.LayoutParams params = content.getLayoutParams();
-                RefreshLayoutManager layoutManager = mPager.newRefreshLayoutManager(content.getContext());
+                RefreshLayoutManager<?> layoutManager = mPager.newRefreshLayoutManager(content.getContext());
                 layoutManager.setContentView(content);
                 layoutManager.setOnRefreshListener(mPager);
 
@@ -178,7 +178,7 @@ public class LoadPagerHelper<T> implements LoadHelper<T> {
     }
 
     @NonNull
-    public RefreshLayoutManager newRefreshLayoutManager(Context context) {
+    public RefreshLayoutManager<?> newRefreshLayoutManager(Context context) {
         return AfApp.get().newRefreshManager(context);
     }
     //</editor-fold>

@@ -56,7 +56,7 @@ public interface StatusHelper<T> extends LoadHelper<T>, EmptyDecider<T> {
      * @return 如果返回null将会失去下拉刷新功能
      */
     @Nullable
-    RefreshLayoutManager initRefreshLayoutManager(View content);
+    RefreshLayoutManager<?> initRefreshLayoutManager(View content);
 
     /**
      * 初始化【多页状态控件】，内部会调用 newStatusLayoutManager
@@ -64,7 +64,7 @@ public interface StatusHelper<T> extends LoadHelper<T>, EmptyDecider<T> {
      * @return 如果返回null将会失去下拉刷新功能
      */
     @Nullable
-    StatusLayoutManager initStatusLayoutManager(View content);
+    StatusLayoutManager<?> initStatusLayoutManager(View content);
 
     /**
      * 创建下拉刷新布局（如果要使用网上开源的下拉刷新控件可以重写这个方法）
@@ -72,7 +72,7 @@ public interface StatusHelper<T> extends LoadHelper<T>, EmptyDecider<T> {
      * @return 不能返回null，否则在initRefreshLayout中会出现空指针
      */
     @NonNull
-    RefreshLayoutManager newRefreshLayoutManager(Context context);
+    RefreshLayoutManager<?> newRefreshLayoutManager(Context context);
 
     /**
      * 创建多页状态布局（如果要使用网上开源的下拉刷新控件可以重写这个方法）
@@ -80,7 +80,7 @@ public interface StatusHelper<T> extends LoadHelper<T>, EmptyDecider<T> {
      * @return 不能返回null，否则在initStatusLayout中会出现空指针
      */
     @NonNull
-    StatusLayoutManager newStatusLayoutManager(Context context);
+    StatusLayoutManager<?> newStatusLayoutManager(Context context);
 
     /**
      * 初始化【下拉刷新控件和多页状态控件】，内部会调用 initRefreshLayoutManager 和 initStatusLayoutManager

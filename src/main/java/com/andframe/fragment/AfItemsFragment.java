@@ -32,7 +32,7 @@ import java.util.List;
 
 public abstract class AfItemsFragment<T> extends AfStatusFragment<List<T>> implements ItemsPager<T> {
 
-    protected ItemsViewer mItemsViewer;
+    protected ItemsViewer<?> mItemsViewer;
     protected ItemsViewerAdapter<T> mAdapter;
     protected ItemsHelper<T> mItemsHelper;// = newItemsHelper();
 
@@ -64,32 +64,32 @@ public abstract class AfItemsFragment<T> extends AfStatusFragment<List<T>> imple
 
     //<editor-fold desc="查询转发">
 //    @Override
-//    public ViewQuery<? extends ViewQuery> $(Integer id, int... ids) {
+//    public ViewQuery<? extends ViewQuery<?>> $(Integer id, int... ids) {
 //        return mItemsHelper.$(id, ids);
 //    }
 //
 //    @Override
-//    public ViewQuery<? extends ViewQuery> $(View... views) {
+//    public ViewQuery<? extends ViewQuery<?>> $(View... views) {
 //        return mItemsHelper.$(views);
 //    }
 //
 //    @Override
-//    public ViewQuery<? extends ViewQuery> $(Collection<View> views) {
+//    public ViewQuery<? extends ViewQuery<?>> $(Collection<View> views) {
 //        return mItemsHelper.$(views);
 //    }
 //
 //    @Override
-//    public ViewQuery<? extends ViewQuery> $(String idValue, String... idValues) {
+//    public ViewQuery<? extends ViewQuery<?>> $(String idValue, String... idValues) {
 //        return mItemsHelper.$(idValue, idValues);
 //    }
 //
 //    @Override
-//    public ViewQuery<? extends ViewQuery> $(Class<? extends View> type) {
+//    public ViewQuery<? extends ViewQuery<?>> $(Class<? extends View> type) {
 //        return mItemsHelper.$(type);
 //    }
 //
 //    @Override
-//    public ViewQuery<? extends ViewQuery> $(Class<? extends View>[] types) {
+//    public ViewQuery<? extends ViewQuery<?>> $(Class<? extends View>[] types) {
 //        return mItemsHelper.$(types);
 //    }
 //
@@ -115,7 +115,7 @@ public abstract class AfItemsFragment<T> extends AfStatusFragment<List<T>> imple
      */
     @NonNull
     @Override
-    public ItemsViewer findItemsViewer(View contentView) {
+    public ItemsViewer<?> findItemsViewer(View contentView) {
         return mItemsViewer = mItemsHelper.findItemsViewer(contentView);
     }
 
@@ -354,11 +354,11 @@ public abstract class AfItemsFragment<T> extends AfStatusFragment<List<T>> imple
 
     /**
      * 绑定适配器
-     * @param itemsViewer 列表
+     * @param ItemsViewer<?> 列表
      * @param adapter 适配器
      */
     @Override
-    public void bindAdapter(@NonNull ItemsViewer itemsViewer, @NonNull ListAdapter adapter) {
+    public void bindAdapter(@NonNull ItemsViewer<?> itemsViewer, @NonNull ListAdapter adapter) {
         mItemsHelper.bindAdapter(itemsViewer, adapter);
     }
 

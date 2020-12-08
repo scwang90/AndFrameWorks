@@ -74,10 +74,10 @@ public class ItemsPagerHelper<T> extends StatusPagerHelper<List<T>> implements I
 
     protected MoreLayoutManager mMoreLayoutManager;
     protected MoreFooter mMoreFooter;
-    protected ItemsViewer mItemsViewer;
+    protected ItemsViewer<?> mItemsViewer;
     protected ItemsViewerAdapter<T> mAdapter;
 
-//    protected ViewQuery<? extends ViewQuery> $$ ;
+//    protected ViewQuery<? extends ViewQuery<?>> $$ ;
     protected ItemsViewerOnly mItemsViewerOnly;
 
     protected List<View> mHeaderFooterViews = new ArrayList<>();
@@ -208,7 +208,7 @@ public class ItemsPagerHelper<T> extends StatusPagerHelper<List<T>> implements I
 
     //<editor-fold desc="适配器">
     @Override
-    public void bindAdapter(@NonNull ItemsViewer itemsViewer, @NonNull ListAdapter adapter) {
+    public void bindAdapter(@NonNull ItemsViewer<?> itemsViewer, @NonNull ListAdapter adapter) {
         itemsViewer.setAdapter(adapter);
     }
 
@@ -539,7 +539,7 @@ public class ItemsPagerHelper<T> extends StatusPagerHelper<List<T>> implements I
     //<editor-fold desc="组件加载">
     @NonNull
     @Override
-    public ItemsViewer findItemsViewer(View contentView) {
+    public ItemsViewer<?> findItemsViewer(View contentView) {
         View itemView = null;
         Class<?> stop = mPager instanceof Activity ? AfItemsActivity.class : AfItemsFragment.class;
         ItemsViewerId viewer = AfReflecter.getAnnotation(mPager.getClass(), stop, ItemsViewerId.class);
@@ -564,7 +564,7 @@ public class ItemsPagerHelper<T> extends StatusPagerHelper<List<T>> implements I
         }
 
         ItemsViewerWrapper wrapper = new ItemsViewerWrapper(itemView);
-        if (!wrapper.isWrapped()) throw new RuntimeException("请重写 findItemsViewer 获取列表控件");
+        if (!wrapper.isWrapped()) throw new RuntimeException("请重写 findItemsViewer<?> 获取列表控件");
         return wrapper;
     }
 

@@ -19,23 +19,23 @@ public class ViewQueryHelper implements /*ViewQueryHelper, */InvocationHandler {
 
 
     protected Viewer viewer;
-    protected ViewQuery<? extends ViewQuery> mViewQuery;
+    protected ViewQuery<? extends ViewQuery<?>> mViewQuery;
 
     protected ViewQueryHelper(Viewer viewer) {
         this.viewer = viewer;
     }
 
-    public static ViewQuery<? extends ViewQuery> newHelper(View view) {
+    public static ViewQuery<? extends ViewQuery<?>> newHelper(View view) {
         return newHelper(new ViewerWrapper(view));
     }
 
-    public static ViewQuery<? extends ViewQuery> newHelper(Viewer viewer) {
+    public static ViewQuery<? extends ViewQuery<?>> newHelper(Viewer viewer) {
         ViewQueryHelper helper = new ViewQueryHelper(viewer);
         ClassLoader loader = com.andframe.api.query.ViewQueryHelper.class.getClassLoader();
-        return (ViewQuery<? extends ViewQuery>) Proxy.newProxyInstance(loader, new Class[]{ViewQuery.class}, helper);
+        return (ViewQuery<? extends ViewQuery<?>>) Proxy.newProxyInstance(loader, new Class[]{ViewQuery.class}, helper);
     }
 
-//    protected ViewQuery<? extends ViewQuery> getQuery() {
+//    protected ViewQuery<? extends ViewQuery<?>> getQuery() {
 //        if (mViewQuery == null || mViewQuery.rootViewer() != viewer) {
 //            mViewQuery = AfApp.get().newViewQuery(viewer);
 //        }
@@ -47,32 +47,32 @@ public class ViewQueryHelper implements /*ViewQueryHelper, */InvocationHandler {
 //     * @param views 可选的多个 View
 //     */
 //    @SuppressWarnings("unused")
-//    public ViewQuery<? extends ViewQuery> $(View... views) {
+//    public ViewQuery<? extends ViewQuery<?>> $(View... views) {
 //        return getQuery().$(views);
 //    }
 //
 //    @Override
-//    public ViewQuery<? extends ViewQuery> $(Collection<View> views) {
+//    public ViewQuery<? extends ViewQuery<?>> $(Collection<View> views) {
 //        return getQuery().$(views);
 //    }
 //
 //    @Override
-//    public ViewQuery<? extends ViewQuery> $(Class<? extends View>[] types) {
+//    public ViewQuery<? extends ViewQuery<?>> $(Class<? extends View>[] types) {
 //        return getQuery().$(types);
 //    }
 //
 //    @Override
-//    public ViewQuery<? extends ViewQuery> $(Integer id, int... ids) {
+//    public ViewQuery<? extends ViewQuery<?>> $(Integer id, int... ids) {
 //        return getQuery().$(id, ids);
 //    }
 //
 //    @Override
-//    public ViewQuery<? extends ViewQuery> $(String idValue, String... idValues) {
+//    public ViewQuery<? extends ViewQuery<?>> $(String idValue, String... idValues) {
 //        return getQuery().$(idValue, idValues);
 //    }
 //
 //    @Override
-//    public ViewQuery<? extends ViewQuery> $(Class<? extends View> type) {
+//    public ViewQuery<? extends ViewQuery<?>> $(Class<? extends View> type) {
 //        return getQuery().$(type);
 //    }
 

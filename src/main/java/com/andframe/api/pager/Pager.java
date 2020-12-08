@@ -46,7 +46,7 @@ public interface Pager extends Viewer, Constanter {
 
     void startActivityForResult(Class<? extends Activity> clazz, int request, Object... args);
 
-    boolean startPager(Class clazz, Object... args);
+    boolean startPager(Class<?> clazz, Object... args);
 
     //</editor-fold>
 
@@ -83,13 +83,13 @@ public interface Pager extends Viewer, Constanter {
      * 设置 viewQuery
      * @param viewQuery new viewQuery
      */
-    void setViewQuery(@NonNull ViewQuery<? extends ViewQuery> viewQuery);
+    void setViewQuery(@NonNull ViewQuery<? extends ViewQuery<?>> viewQuery);
 
     /**
      * 获取 ViewQuery
      * @return ViewQuery
      */
-    ViewQuery<? extends ViewQuery> getViewQuery();
+    ViewQuery<? extends ViewQuery<?>> getViewQuery();
     //</editor-fold>
 
 }

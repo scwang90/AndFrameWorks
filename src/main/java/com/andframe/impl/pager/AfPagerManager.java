@@ -29,7 +29,7 @@ public class AfPagerManager implements PagerManager {
 
     //<editor-fold desc="功能实现">
     // 当前主页面
-    private Stack<Activity> mStackActivity = new Stack<>();
+    private final Stack<Activity> mStackActivity = new Stack<>();
 
     public AfPagerManager() {
     }
@@ -43,9 +43,9 @@ public class AfPagerManager implements PagerManager {
 
     @Override@CallSuper
     public void onActivityDestroy(Activity activity) {
-        if (mStackActivity.contains(activity)) {
+        //if (mStackActivity.contains(activity)) {
             mStackActivity.remove(activity);
-        }
+        //}
     }
 
     @Override
@@ -316,13 +316,13 @@ public class AfPagerManager implements PagerManager {
     }
 
     @SuppressWarnings("unchecked")
-    public boolean startPager(Class clazz, Object... args) {
+    public boolean startPager(Class<?> clazz, Object... args) {
         if (Fragment.class.isAssignableFrom(clazz)) {
-            startFragment(clazz,args);
+            startFragment((Class<? extends Fragment>) clazz,args);
         } else if (Activity.class.isAssignableFrom(clazz)) {
-            startActivity(clazz, args);
+            startActivity((Class<? extends Activity>) clazz, args);
         } else if (Service.class.isAssignableFrom(clazz)) {
-            startService(clazz, args);
+            startService((Class<? extends Service>) clazz, args);
         } else {
             return false;
         }

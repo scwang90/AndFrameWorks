@@ -109,7 +109,7 @@ public class AfStackTrace {
 		try {
 			StackTraceElement stack = new Throwable().getStackTrace()[1 + level];
 			String methodName = stack.getMethodName();
-			Class clazz = null;
+			Class<?> clazz = null;
 			try {
 				clazz = Class.forName(stack.getClassName());
 			} catch (ClassNotFoundException e) {

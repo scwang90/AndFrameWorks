@@ -61,7 +61,7 @@ public interface PagerManager {
      */
     void startForeground(Class<? extends Activity> clazz);
 
-    boolean startPager(Class clazz, Object... args);
+    boolean startPager(Class<?> clazz, Object... args);
     void startService(Class<? extends Service> clazz, Object... args);
     void startActivity(Class<? extends Activity> clazz, Object... args);
     void startFragment(Class<? extends Fragment> clazz, Object... args);

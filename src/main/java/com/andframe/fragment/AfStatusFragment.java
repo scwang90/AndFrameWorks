@@ -19,7 +19,7 @@ public abstract class AfStatusFragment<T> extends AfLoadFragment<T> implements S
 
     protected StatusHelper<T> mStatusHelper;// = newStatusHelper();
 
-    protected StatusLayoutManager mStatusLayoutManager;
+    protected StatusLayoutManager<?> mStatusLayoutManager;
 
     public AfStatusFragment() {
         super(null);
@@ -59,12 +59,12 @@ public abstract class AfStatusFragment<T> extends AfLoadFragment<T> implements S
         mStatusHelper.initRefreshAndStatusManagerOrder(refresh, status, content, parent, index, lp);
     }
 
-    public StatusLayoutManager initStatusLayoutManager(View content) {
+    public StatusLayoutManager<?> initStatusLayoutManager(View content) {
         return mStatusLayoutManager = mStatusHelper.initStatusLayoutManager(content);
     }
 
     @NonNull
-    public StatusLayoutManager newStatusLayoutManager(Context context) {
+    public StatusLayoutManager<?> newStatusLayoutManager(Context context) {
         return mStatusLayoutManager = mStatusHelper.newStatusLayoutManager(context);
     }
 

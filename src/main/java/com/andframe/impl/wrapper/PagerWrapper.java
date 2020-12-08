@@ -196,7 +196,7 @@ public class PagerWrapper implements Pager {
     }
 
     @Override
-    public boolean startPager(Class clazz, Object... args) {
+    public boolean startPager(Class<?> clazz, Object... args) {
         if (pager != null) {
             return pager.startPager(clazz, args);
         } else {
@@ -274,14 +274,14 @@ public class PagerWrapper implements Pager {
     }
 
     @Override
-    public void setViewQuery(ViewQuery<? extends ViewQuery> viewQuery) {
+    public void setViewQuery(ViewQuery<? extends ViewQuery<?>> viewQuery) {
         if (pager != null) {
             pager.setViewQuery(viewQuery);
         }
     }
 
     @Override
-    public ViewQuery<? extends ViewQuery> getViewQuery() {
+    public ViewQuery<? extends ViewQuery<?>> getViewQuery() {
         if (pager != null) {
             return pager.getViewQuery();
         }

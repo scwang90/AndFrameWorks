@@ -50,7 +50,7 @@ public class StatusPagerHelper<T> extends LoadPagerHelper<T> implements StatusHe
 
     protected StatusPager<T> mPager;
 
-    protected StatusLayoutManager mStatusLayoutManager;
+    protected StatusLayoutManager<?> mStatusLayoutManager;
 
     public StatusPagerHelper(StatusPager<T> pager) {
         super(pager);
@@ -182,14 +182,14 @@ public class StatusPagerHelper<T> extends LoadPagerHelper<T> implements StatusHe
     }
 
     @Override
-    public RefreshLayoutManager initRefreshLayoutManager(View content) {
-        RefreshLayoutManager layoutManager = mPager.newRefreshLayoutManager(content.getContext());
+    public RefreshLayoutManager<?> initRefreshLayoutManager(View content) {
+        RefreshLayoutManager<?> layoutManager = mPager.newRefreshLayoutManager(content.getContext());
         layoutManager.setOnRefreshListener(mPager);
         return layoutManager;
     }
 
-    public StatusLayoutManager initStatusLayoutManager(View content) {
-        StatusLayoutManager layoutManager = mPager.newStatusLayoutManager(content.getContext());
+    public StatusLayoutManager<?> initStatusLayoutManager(View content) {
+        StatusLayoutManager<?> layoutManager = mPager.newStatusLayoutManager(content.getContext());
         layoutManager.setOnRefreshListener(mPager);
 
         Class<?> stop = mPager instanceof Activity ? AfStatusActivity.class : AfStatusFragment.class;
@@ -231,7 +231,7 @@ public class StatusPagerHelper<T> extends LoadPagerHelper<T> implements StatusHe
     }
 
     @NonNull
-    public StatusLayoutManager newStatusLayoutManager(Context context) {
+    public StatusLayoutManager<?> newStatusLayoutManager(Context context) {
         return AfApp.get().newStatusManager(context);
     }
     //</editor-fold>

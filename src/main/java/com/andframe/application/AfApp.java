@@ -455,7 +455,7 @@ public abstract class AfApp extends Application {
 		return new AfListQuery<>(iterable);
 	}
 
-	public ViewQuery<? extends ViewQuery> newViewQuery(Viewer view) {
+	public ViewQuery<? extends ViewQuery<?>> newViewQuery(Viewer view) {
 		return new DefaultViewQuery<>(view);
 	}
 
@@ -468,12 +468,12 @@ public abstract class AfApp extends Application {
 	}
 
 	@NonNull
-	public RefreshLayoutManager newRefreshManager(Context context) {
+	public RefreshLayoutManager<?> newRefreshManager(Context context) {
 		return new DefaultRefreshLayoutManager(context);
 	}
 
 	@NonNull
-	public StatusLayoutManager newStatusManager(Context context) {
+	public StatusLayoutManager<?> newStatusManager(Context context) {
 		return new DefaultStatusLayoutManager(context);
 	}
 

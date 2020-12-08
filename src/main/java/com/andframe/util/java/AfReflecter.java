@@ -456,7 +456,7 @@ public class AfReflecter {
     }
 
     private static Class<?> getType(Object obj) {
-        return obj instanceof Class ? (Class<?>) obj: obj.getClass();
+        return obj instanceof Class<?> ? (Class<?>) obj: obj.getClass();
     }
 
     //<editor-fold desc="通过类型设置获取">

@@ -16,7 +16,7 @@ public class MoreFooterLayoutManager<T> implements MoreLayoutManager {
     private MoreFooter mMoreFooter;
     private HeaderFooterAdapter<T> mAdapter;
 
-    public MoreFooterLayoutManager(MoreFooter footer, HeaderFooterAdapter<T> adapter, ItemsViewer itemsViewer) {
+    public MoreFooterLayoutManager(MoreFooter footer, HeaderFooterAdapter<T> adapter, ItemsViewer<?> itemsViewer) {
         this.mMoreFooter = footer;
         this.mAdapter = adapter;
         this.mMoreFooter.onCreateView(itemsViewer.getItemsView().getContext(), null);

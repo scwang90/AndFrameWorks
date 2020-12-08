@@ -53,75 +53,75 @@ public abstract class AfFragment extends Fragment implements Pager, com.andframe
     //</editor-fold>
 
     //<editor-fold desc="ViewQuery 集成">
-    protected ViewQuery<? extends ViewQuery> $$ = ViewQueryHelper.newHelper(this);
+    protected ViewQuery<? extends ViewQuery<?>> $$ = ViewQueryHelper.newHelper(this);
 
     @Override
-    public void setViewQuery(@NonNull ViewQuery<? extends ViewQuery> viewQuery) {
+    public void setViewQuery(@NonNull ViewQuery<? extends ViewQuery<?>> viewQuery) {
         this.$$ = viewQuery;
     }
 
     @Override
-    public ViewQuery<? extends ViewQuery> getViewQuery() {
+    public ViewQuery<? extends ViewQuery<?>> getViewQuery() {
         return $$;
     }
 
     @Override
-    public ViewQuery<? extends ViewQuery> $(View... views) {
+    public ViewQuery<? extends ViewQuery<?>> $(View... views) {
         return $$.with(views);
     }
 
     @Override
-    public ViewQuery<? extends ViewQuery> $(Collection<View> views) {
+    public ViewQuery<? extends ViewQuery<?>> $(Collection<View> views) {
         return $$.with(views);
     }
 
     @Override
-    public ViewQuery<? extends ViewQuery> $(Integer id, int... ids) {
+    public ViewQuery<? extends ViewQuery<?>> $(Integer id, int... ids) {
         return $$.query(id, ids);
     }
 
     @Override
-    public ViewQuery<? extends ViewQuery> $(String idValue, String... idValues) {
+    public ViewQuery<? extends ViewQuery<?>> $(String idValue, String... idValues) {
         return $$.query(idValue);
     }
 
     @Override
-    public ViewQuery<? extends ViewQuery> $(Class<? extends View> type) {
+    public ViewQuery<? extends ViewQuery<?>> $(Class<? extends View> type) {
         return $$.query(type);
     }
 
     @Override
-    public ViewQuery<? extends ViewQuery> $(Class<? extends View>[] types) {
+    public ViewQuery<? extends ViewQuery<?>> $(Class<? extends View>[] types) {
         return $$.query(types);
     }
 
     @Override
-    public ViewQuery<? extends ViewQuery> with(View... views) {
+    public ViewQuery<? extends ViewQuery<?>> with(View... views) {
         return $$.with(views);
     }
 
     @Override
-    public ViewQuery<? extends ViewQuery> with(Collection<View> views) {
+    public ViewQuery<? extends ViewQuery<?>> with(Collection<View> views) {
         return $$.with(views);
     }
 
     @Override
-    public ViewQuery<? extends ViewQuery> query(Integer id, int... ids) {
+    public ViewQuery<? extends ViewQuery<?>> query(Integer id, int... ids) {
         return $$.query(id, ids);
     }
 
     @Override
-    public ViewQuery<? extends ViewQuery> query(String idValue, String... idValues) {
+    public ViewQuery<? extends ViewQuery<?>> query(String idValue, String... idValues) {
         return $$.query(idValue);
     }
 
     @Override
-    public ViewQuery<? extends ViewQuery> query(Class<? extends View> type) {
+    public ViewQuery<? extends ViewQuery<?>> query(Class<? extends View> type) {
         return $$.query(type);
     }
 
     @Override
-    public ViewQuery<? extends ViewQuery> query(Class<? extends View>[] types) {
+    public ViewQuery<? extends ViewQuery<?>> query(Class<? extends View>[] types) {
         return $$.query(types);
     }
     //</editor-fold>
@@ -152,13 +152,13 @@ public abstract class AfFragment extends Fragment implements Pager, com.andframe
     //<editor-fold desc="页面切换">
 
     @SuppressWarnings("unchecked")
-    public boolean startPager(Class clazz, Object... args) {
+    public boolean startPager(Class<?> clazz, Object... args) {
         if (Fragment.class.isAssignableFrom(clazz)) {
-            startFragment(clazz, args);
+            startFragment((Class<? extends Fragment>) clazz, args);
         } else if (Activity.class.isAssignableFrom(clazz)) {
-            startActivity(clazz, args);
+            startActivity((Class<? extends Activity>) clazz, args);
         } else if (Service.class.isAssignableFrom(clazz)) {
-            startService(clazz, args);
+            startService((Class<? extends Service>) clazz, args);
         } else {
             return false;
         }

@@ -237,17 +237,17 @@ public class AndFrame {
     }
 
     @MainThread
-    public static ViewQuery<? extends ViewQuery> query(Viewer viewer) {
+    public static ViewQuery<? extends ViewQuery<?>> query(Viewer viewer) {
         return AfApp.get().newViewQuery(viewer);
     }
 
     @MainThread
-    public static ViewQuery<? extends ViewQuery> query(View view) {
+    public static ViewQuery<? extends ViewQuery<?>> query(View view) {
         return AfApp.get().newViewQuery(new ViewerWrapper(view));
     }
 
     @MainThread
-    public static ViewQuery<? extends ViewQuery> query(AfActivity activity) {
+    public static ViewQuery<? extends ViewQuery<?>> query(AfActivity activity) {
         return AfApp.get().newViewQuery(new ViewerWrapper(activity.getView()));
     }
     //</editor-fold>

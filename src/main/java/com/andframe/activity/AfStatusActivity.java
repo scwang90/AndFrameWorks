@@ -20,7 +20,7 @@ public abstract class AfStatusActivity<T> extends AfLoadActivity<T> implements S
 
     protected StatusHelper<T> mStatusHelper = newStatusHelper();
 
-    protected StatusLayoutManager mStatusLayoutManager;
+    protected StatusLayoutManager<?> mStatusLayoutManager;
 
     @NonNull
     @Override
@@ -48,12 +48,12 @@ public abstract class AfStatusActivity<T> extends AfLoadActivity<T> implements S
         mStatusHelper.initRefreshAndStatusManagerOrder(refresh, status, content, parent, index, lp);
     }
 
-    public StatusLayoutManager initStatusLayoutManager(View content) {
+    public StatusLayoutManager<?> initStatusLayoutManager(View content) {
         return mStatusLayoutManager = mStatusHelper.initStatusLayoutManager(content);
     }
 
     @NonNull
-    public StatusLayoutManager newStatusLayoutManager(Context context) {
+    public StatusLayoutManager<?> newStatusLayoutManager(Context context) {
         return mStatusLayoutManager = mStatusHelper.newStatusLayoutManager(context);
     }
 

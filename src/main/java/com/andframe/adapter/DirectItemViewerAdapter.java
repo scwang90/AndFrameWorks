@@ -44,10 +44,10 @@ public abstract class DirectItemViewerAdapter<T> extends ListItemAdapter<T> impl
 
     @Override
     public void onBinding(View view, T model, int index) {
-        ViewQuery<? extends ViewQuery> query;
+        ViewQuery<? extends ViewQuery<?>> query;
         Object tagObject = view.getTag(TAG_VIEW_QUERY);
         if (tagObject instanceof ViewQuery) {
-            query = (ViewQuery<? extends ViewQuery>) tagObject;
+            query = (ViewQuery<? extends ViewQuery<?>>) tagObject;
         } else {
             query = ViewQueryHelper.newHelper(new ViewerWrapper(view));
             view.setTag(TAG_VIEW_QUERY, query);
@@ -72,65 +72,65 @@ public abstract class DirectItemViewerAdapter<T> extends ListItemAdapter<T> impl
 
     //<editor-fold desc="ViewQuery 集成">
 
-    protected ViewQuery<? extends ViewQuery> $$ = ViewQueryHelper.newHelper(new ViewerWrapper(new View(AfApp.get())));
+    protected ViewQuery<? extends ViewQuery<?>> $$ = ViewQueryHelper.newHelper(new ViewerWrapper(new View(AfApp.get())));
 
     @Override
-    public ViewQuery<? extends ViewQuery> $(View... views) {
+    public ViewQuery<? extends ViewQuery<?>> $(View... views) {
         return $$.with(views);
     }
 
     @Override
-    public ViewQuery<? extends ViewQuery> $(Collection<View> views) {
+    public ViewQuery<? extends ViewQuery<?>> $(Collection<View> views) {
         return $$.with(views);
     }
 
     @Override
-    public ViewQuery<? extends ViewQuery> $(Integer id, int... ids) {
+    public ViewQuery<? extends ViewQuery<?>> $(Integer id, int... ids) {
         return $$.query(id, ids);
     }
 
     @Override
-    public ViewQuery<? extends ViewQuery> $(String idValue, String... idValues) {
+    public ViewQuery<? extends ViewQuery<?>> $(String idValue, String... idValues) {
         return $$.query(idValue);
     }
 
     @Override
-    public ViewQuery<? extends ViewQuery> $(Class<? extends View> type) {
+    public ViewQuery<? extends ViewQuery<?>> $(Class<? extends View> type) {
         return $$.query(type);
     }
 
     @Override
-    public ViewQuery<? extends ViewQuery> $(Class<? extends View>[] types) {
+    public ViewQuery<? extends ViewQuery<?>> $(Class<? extends View>[] types) {
         return $$.query(types);
     }
 
     @Override
-    public ViewQuery<? extends ViewQuery> with(View... views) {
+    public ViewQuery<? extends ViewQuery<?>> with(View... views) {
         return $$.with(views);
     }
 
     @Override
-    public ViewQuery<? extends ViewQuery> with(Collection<View> views) {
+    public ViewQuery<? extends ViewQuery<?>> with(Collection<View> views) {
         return $$.with(views);
     }
 
     @Override
-    public ViewQuery<? extends ViewQuery> query(Integer id, int... ids) {
+    public ViewQuery<? extends ViewQuery<?>> query(Integer id, int... ids) {
         return $$.query(id, ids);
     }
 
     @Override
-    public ViewQuery<? extends ViewQuery> query(String idValue, String... idValues) {
+    public ViewQuery<? extends ViewQuery<?>> query(String idValue, String... idValues) {
         return $$.query(idValue);
     }
 
     @Override
-    public ViewQuery<? extends ViewQuery> query(Class<? extends View> type) {
+    public ViewQuery<? extends ViewQuery<?>> query(Class<? extends View> type) {
         return $$.query(type);
     }
 
     @Override
-    public ViewQuery<? extends ViewQuery> query(Class<? extends View>[] types) {
+    public ViewQuery<? extends ViewQuery<?>> query(Class<? extends View>[] types) {
         return $$.query(types);
     }
     //</editor-fold>

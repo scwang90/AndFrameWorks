@@ -21,7 +21,7 @@ public abstract class AfLoadFragment<T> extends AfTabFragment implements LoadPag
 
     protected LoadHelper<T> mHelper;// = newHelper();
 
-    protected RefreshLayoutManager mRefreshLayoutManager;
+    protected RefreshLayoutManager<?> mRefreshLayoutManager;
 
     public AfLoadFragment() {
         this.mHelper = AfApp.get().newLoadPagerHelper(this);
@@ -68,12 +68,12 @@ public abstract class AfLoadFragment<T> extends AfTabFragment implements LoadPag
         return mHelper.findContentView();
     }
 
-    public RefreshLayoutManager initRefreshLayoutManager(View content) {
+    public RefreshLayoutManager<?> initRefreshLayoutManager(View content) {
         return mRefreshLayoutManager = mHelper.initRefreshLayoutManager(content);
     }
 
     @NonNull
-    public RefreshLayoutManager newRefreshLayoutManager(Context context) {
+    public RefreshLayoutManager<?> newRefreshLayoutManager(Context context) {
         return mRefreshLayoutManager = mHelper.newRefreshLayoutManager(context);
     }
     //</editor-fold>

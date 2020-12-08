@@ -37,7 +37,7 @@ public class ReflecterCacher {
     }
 
     @NonNull
-    public static Field[] getFields(Class clazz) {
+    public static Field[] getFields(Class<?> clazz) {
         Field[] fields = fieldCache.get(clazz);
         if (fields == null) {
             fields = AfReflecter.getField(clazz, getStopType(clazz));
@@ -52,7 +52,7 @@ public class ReflecterCacher {
     }
 
     @NonNull
-    public static Method[] getMethods(Class clazz) {
+    public static Method[] getMethods(Class<?> clazz) {
         Method[] methods = methodCache.get(clazz);
         if (methods == null) {
             methods = AfReflecter.getMethod(clazz, getStopType(clazz));
@@ -65,7 +65,7 @@ public class ReflecterCacher {
         return getMethodAnnotation(handler.getClass(), annotation);
     }
 
-    public static Method[] getMethodAnnotation(Class clazz, Class<? extends Annotation> annotation) {
+    public static Method[] getMethodAnnotation(Class<?> clazz, Class<? extends Annotation> annotation) {
         List<Method> methodList = new ArrayList<>();
         Method[] methods = getMethods(clazz);
         for (Method method : methods) {
@@ -76,7 +76,7 @@ public class ReflecterCacher {
         return methodList.toArray(new Method[methodList.size()]);
     }
 
-    public static Class<?> getStopType(Class clazz) {
+    public static Class<?> getStopType(Class<?> clazz) {
         if (ViewWrapper.class.isAssignableFrom(clazz)) {
             return ViewWrapper.class;
         } else if (Dialog.class.isAssignableFrom(clazz)) {

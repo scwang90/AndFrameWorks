@@ -34,7 +34,7 @@ import java.util.concurrent.TimeoutException;
 /**
  * 异常处理
  */
-@SuppressWarnings({"unused", "WeakerAccess"})
+@SuppressWarnings({"unused", "WeakerAccess", "RedundantSuppression"})
 public class AfExceptionHandler implements UncaughtExceptionHandler {
 
     protected static final String DURABLE_HANDLER = "63214261915190904102";
@@ -208,10 +208,14 @@ public class AfExceptionHandler implements UncaughtExceptionHandler {
 
     @NonNull
     protected String saveExceptionFile(String msg, String prefix) throws IOException {
-        String path = AfDurableCacher.getPath();
-        FileWriter writer = new FileWriter(path + "/" + prefix + AfDateFormat.format("y-M-d$HH-mm-ss", new Date()) + ".txt");
-        writer.write(msg);
-        writer.close();
+        try {
+            String path = AfDurableCacher.getPath();
+            FileWriter writer = new FileWriter(path + "/" + prefix + AfDateFormat.format("y-M-d$HH-mm-ss", new Date()) + ".txt");
+            writer.write(msg);
+            writer.close();
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
         return msg;
     }
 

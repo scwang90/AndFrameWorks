@@ -23,7 +23,7 @@ public abstract class AfLoadActivity<T> extends AfActivity implements LoadPager<
 
     protected LoadHelper<T> mHelper = newHelper();
 
-    protected RefreshLayoutManager mRefreshLayoutManager;
+    protected RefreshLayoutManager<?> mRefreshLayoutManager;
 
     @NonNull
     protected LoadHelper<T> newHelper() {
@@ -61,12 +61,12 @@ public abstract class AfLoadActivity<T> extends AfActivity implements LoadPager<
         return mHelper.findContentView();
     }
 
-    public RefreshLayoutManager initRefreshLayoutManager(View content) {
+    public RefreshLayoutManager<?> initRefreshLayoutManager(View content) {
         return mRefreshLayoutManager = mHelper.initRefreshLayoutManager(content);
     }
 
     @NonNull
-    public RefreshLayoutManager newRefreshLayoutManager(Context context) {
+    public RefreshLayoutManager<?> newRefreshLayoutManager(Context context) {
         return mRefreshLayoutManager = mHelper.newRefreshLayoutManager(context);
     }
     //</editor-fold>

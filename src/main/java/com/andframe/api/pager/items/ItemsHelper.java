@@ -42,7 +42,7 @@ public interface ItemsHelper<T> extends StatusHelper<List<T>>, OnItemClickListen
      * @return 被抽象的 @{@link ItemsViewer} 对象
      */
     @NonNull
-    ItemsViewer findItemsViewer(View contentView);
+    ItemsViewer<?> findItemsViewer(View contentView);
 
     /**
      * 如果@newRefreshLayouter中返回的下拉刷新控件】@{@link RefreshLayoutManager}
@@ -68,10 +68,10 @@ public interface ItemsHelper<T> extends StatusHelper<List<T>>, OnItemClickListen
 
     /**
      * 把适配绑定到列表控件
-     * @param itemsViewer 被抽象成@{@link ItemsViewer}的列表控件
+     * @param ItemsViewer<?> 被抽象成@{@link ItemsViewer}的列表控件
      * @param adapter 适配器@initAdapter中返回的适配器
      */
-    void bindAdapter(@NonNull ItemsViewer itemsViewer, @NonNull ListAdapter adapter);
+    void bindAdapter(@NonNull ItemsViewer<?> itemsViewer, @NonNull ListAdapter adapter);
 
     /**
      * 如果页面列表需要改变列表动画属性可以重写本方法添加
@@ -232,7 +232,7 @@ public interface ItemsHelper<T> extends StatusHelper<List<T>>, OnItemClickListen
 //     * @param $$ 源
 //     * @return 包装之后的 ViewQuery
 //     */
-//    ViewQuery<? extends ViewQuery> wrap(ViewQuery<? extends ViewQuery> $$);
+//    ViewQuery<? extends ViewQuery<?>> wrap(ViewQuery<? extends ViewQuery<?>> $$);
 
     //</editor-fold>
 

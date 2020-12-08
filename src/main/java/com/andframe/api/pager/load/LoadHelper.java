@@ -66,7 +66,7 @@ public interface LoadHelper<T> extends OnRefreshListener {
      * @return 如果返回null将会失去下拉刷新功能
      */
     @Nullable
-    RefreshLayoutManager initRefreshLayoutManager(View content);
+    RefreshLayoutManager<?> initRefreshLayoutManager(View content);
 
     /**
      * 创建下拉刷新布局（如果要使用网上开源的下拉刷新控件可以重写这个方法）
@@ -74,7 +74,7 @@ public interface LoadHelper<T> extends OnRefreshListener {
      * @return 不能返回null，否则在initRefreshLayout中会出现空指针
      */
     @NonNull
-    RefreshLayoutManager newRefreshLayoutManager(Context context);
+    RefreshLayoutManager<?> newRefreshLayoutManager(Context context);
 
     //</editor-fold>
 
