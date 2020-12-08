@@ -85,9 +85,9 @@ public class ApActivity extends AfActivity implements ApPager {
 
     @Override
     @SuppressWarnings("unchecked")
-    public boolean startPager(Class clazz, Object... args) {
+    public boolean startPager(Class<?> clazz, Object... args) {
         if (Fragment.class.isAssignableFrom(clazz)) {
-            ApFragmentActivity.start(this, clazz, args);
+            ApFragmentActivity.start(this, (Class<? extends Fragment>) clazz, args);
         } else {
             return super.startPager(clazz, args);
         }

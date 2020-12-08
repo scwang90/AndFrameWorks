@@ -167,7 +167,7 @@ public class ApApp extends AfApp {
 
     //<editor-fold desc="重写组件">
     @Override
-    public ViewQuery<? extends ViewQuery> newViewQuery(Viewer view) {
+    public ViewQuery<? extends ViewQuery<?>> newViewQuery(Viewer view) {
         return new ApViewQuery(view);
     }
 
@@ -183,7 +183,7 @@ public class ApApp extends AfApp {
 
     @NonNull
     @Override
-    public RefreshLayoutManager newRefreshManager(Context context) {
+    public RefreshLayoutManager<?> newRefreshManager(Context context) {
         return new ApRefreshLayoutManager(context, R.color.colorPrimary, R.color.white);
     }
 

@@ -46,7 +46,7 @@ public class ApViewTreeItemAdapter extends TreeViewItemAdapter<View> {
             @Override
             public View onCreateView(ViewGroup parent, Context context) {
                 LinearLayout root = new LinearLayout(context);
-                ViewQuery<? extends ViewQuery> $$ = $.query(root);
+                ViewQuery<? extends ViewQuery<?>> $$ = $.query(root);
                 TextView title = new TextView(context);
                 TextView content = new TextView(context);
                 ImageView image = new ImageView(context);

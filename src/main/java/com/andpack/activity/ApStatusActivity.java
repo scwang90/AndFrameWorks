@@ -98,8 +98,8 @@ public abstract class ApStatusActivity<T> extends AfStatusActivity<T> implements
 
     @NonNull
     @Override
-    public RefreshLayoutManager newRefreshLayoutManager(Context context) {
-        RefreshLayoutManager layoutManager = mApHelper.newRefreshManager(context);
+    public RefreshLayoutManager<?> newRefreshLayoutManager(Context context) {
+        RefreshLayoutManager<?> layoutManager = mApHelper.newRefreshManager(context);
         if (layoutManager != null) {
             return layoutManager;
         }
@@ -108,8 +108,8 @@ public abstract class ApStatusActivity<T> extends AfStatusActivity<T> implements
 
     @NonNull
     @Override
-    public StatusLayoutManager newStatusLayoutManager(Context context) {
-        StatusLayoutManager layoutManager = mApHelper.newStatusManager(context);
+    public StatusLayoutManager<?> newStatusLayoutManager(Context context) {
+        StatusLayoutManager<?> layoutManager = mApHelper.newStatusManager(context);
         if (layoutManager != null) {
             return layoutManager;
         }
@@ -118,9 +118,9 @@ public abstract class ApStatusActivity<T> extends AfStatusActivity<T> implements
 
     @Override
     @SuppressWarnings("unchecked")
-    public boolean startPager(Class clazz, Object... args) {
+    public boolean startPager(Class<?> clazz, Object... args) {
         if (Fragment.class.isAssignableFrom(clazz)) {
-            ApFragmentActivity.start(this, clazz, args);
+            ApFragmentActivity.start(this, (Class<? extends Fragment>) clazz, args);
         } else {
             return super.startPager(clazz, args);
         }

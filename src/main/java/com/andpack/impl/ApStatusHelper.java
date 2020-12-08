@@ -15,7 +15,7 @@ public class ApStatusHelper extends ApLoadHelper {
         super(pager);
     }
 
-    public StatusLayoutManager newStatusManager(Context context) {
+    public StatusLayoutManager<?> newStatusManager(Context context) {
         return null;
     }
 }

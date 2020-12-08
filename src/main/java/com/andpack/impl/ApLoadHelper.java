@@ -16,7 +16,7 @@ public class ApLoadHelper extends ApPagerHelper {
         super(pager);
     }
 
-    public RefreshLayoutManager newRefreshManager(Context context) {
+    public RefreshLayoutManager<?> newRefreshManager(Context context) {
         return null;
     }
 

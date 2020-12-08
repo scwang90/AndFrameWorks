@@ -1,14 +1,13 @@
 package com.andpack.impl;
 
 import android.app.Activity;
-import android.app.AlertDialog;
 import android.app.Dialog;
-import android.app.TimePickerDialog;
 import android.content.Context;
 import android.content.DialogInterface;
 import android.content.pm.ActivityInfo;
 import android.graphics.drawable.Drawable;
 import android.net.Uri;
+import android.util.Log;
 import androidx.annotation.IdRes;
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
@@ -62,14 +61,10 @@ import java.io.File;
 import java.nio.charset.Charset;
 import java.text.DateFormat;
 import java.text.SimpleDateFormat;
-import java.util.ArrayList;
-import java.util.Calendar;
-import java.util.Date;
-import java.util.List;
-import java.util.Locale;
+import java.util.*;
 import java.util.regex.Pattern;
 
-@SuppressWarnings("unused")
+@SuppressWarnings("ALL")
 public class ApCommonBarBinder {
 
     //<editor-fold desc="接口定义">
@@ -77,7 +72,7 @@ public class ApCommonBarBinder {
         /**
          * @return true 将会拦截点击事件 false 不会拦截
          */
-        boolean onBinderClick(Binder binder);
+        boolean onBinderClick(Binder<?,?,?> binder);
     }
 
     public interface TaskBuilder<T> {
@@ -93,23 +88,23 @@ public class ApCommonBarBinder {
     }
 
     public interface CommonBind<T> extends Bind<T> {
-        void bind(@NonNull Binder binder, @NonNull T value);
+        void bind(@NonNull Binder<?,?,?> binder, @NonNull T value);
     }
 
     public interface SelectBind extends Bind<Void>  {
-        void text(@NonNull Binder binder, String text, int which);
+        void text(@NonNull Binder<?,?,?> binder, String text, int which);
     }
 
     public interface MultiSelectBind extends Bind<Void>  {
-        void text(@NonNull Binder binder, String text, int count, boolean[] checkedItems);
+        void text(@NonNull Binder<?,?,?> binder, String text, int count, boolean[] checkedItems);
     }
 
     public interface SeekBind extends Bind<Integer>  {
-        void seek(@NonNull Binder binder, @NonNull Integer value, boolean fromUser);
+        void seek(@NonNull Binder<?,?,?> binder, @NonNull Integer value, boolean fromUser);
     }
 
     public interface RadioGroupBind extends Bind<Integer> {
-        void onBind(@NonNull Binder binder, RadioGroup group, @IdRes int checkedId, @NonNull Integer index);
+        void onBind(@NonNull Binder<?,?,?> binder, RadioGroup group, @IdRes int checkedId, @NonNull Integer index);
     }
 
     public interface TextVerify {
@@ -131,15 +126,15 @@ public class ApCommonBarBinder {
     }
     //</editor-fold>
 
-    private Viewer viewer;
+    private final Viewer viewer;
     private String hintPrefix = "";
-    private Cacher cacher;
-    private ViewQuery<? extends ViewQuery> $$;
+    private final Cacher cacher;
+    private final ViewQuery<? extends ViewQuery<?>> $$;
     private boolean smart = false;
     private boolean readOnly = false;
-    private List<Binder> binders = new ArrayList<>();
+    private final List<Binder<?,?,?>> binders = new ArrayList<>();
 
-    public List<Binder> binders() {
+    public List<Binder<?,?,?>> binders() {
         return new ArrayList<>(binders);
     }
 
@@ -174,10 +169,10 @@ public class ApCommonBarBinder {
     }
 
 
-    public ViewQuery<? extends ViewQuery> $(Integer id, int... ids) {
+    public ViewQuery<? extends ViewQuery<?>> $(Integer id, int... ids) {
         return $$.query(id, ids);
     }
-    public ViewQuery<? extends ViewQuery> $(View... views) {
+    public ViewQuery<? extends ViewQuery<?>> $(View... views) {
         return $$.with(views);
     }
 
@@ -297,8 +292,19 @@ public class ApCommonBarBinder {
         return new RadioGroupBinder(id);
     }
 
+    /**
+     * 开始验证
+     * @throws VerifyException
+     */
+    public void verify() throws VerifyException {
+        for (Binder<?, ?, ?> binder : binders) {
+            binder.verify();
+        }
+    }
+
     @SuppressWarnings("WeakerAccess")
-    public abstract class Binder<T extends Binder, BT extends Bind<VT>, VT> implements View.OnClickListener{
+    public abstract class Binder<T extends Binder<?,?,?>, BT extends Bind<VT>, VT> implements View.OnClickListener{
+
         protected int idValue;
         protected String key = null;
         protected CharSequence hintPrefix = ApCommonBarBinder.this.hintPrefix;
@@ -306,7 +312,7 @@ public class ApCommonBarBinder {
         protected CharSequence name = "";
         protected CharSequence actionTitle = "";
 
-        protected Binder next;
+        protected Binder<?,?,?> next;
         protected VT lastValue;
         protected BT bind;
         protected Runnable start;
@@ -314,6 +320,7 @@ public class ApCommonBarBinder {
         protected ClickHook clickHook;
         protected TaskBuilder<VT> taskBuilder;
         protected boolean readOnly = ApCommonBarBinder.this.readOnly;
+        protected TextVerify verifyNotEmpty;
 
         Binder(int idValue) {
             this.idValue = idValue;
@@ -335,7 +342,7 @@ public class ApCommonBarBinder {
             return self();
         }
 
-        public ViewQuery<? extends ViewQuery> query() {
+        public ViewQuery<? extends ViewQuery<?>> query() {
             return $(idValue);
         }
 
@@ -431,13 +438,11 @@ public class ApCommonBarBinder {
             return self();
         }
 
-        @SuppressWarnings("unused")
         public void onRestoreCache(String key) {
 
         }
 
-        @SuppressWarnings("unused")
-        public <Next extends Binder> Next next(Next next) {
+        public <Next extends Binder<?,?,?>> Next next(Next next) {
             this.next = next;
             return next;
         }
@@ -482,6 +487,31 @@ public class ApCommonBarBinder {
         T self() {
             //noinspection unchecked
             return (T)this;
+        }
+
+        /**
+         * 开始验证
+         */
+        public void verify() throws VerifyException {
+            if (verifyNotEmpty != null) {
+                verifyNotEmpty.verify($(idValue).text());
+            }
+        }
+
+        /**
+         * 验证本条目不能为空
+         * @param names 别名
+         * @return Binder
+         */
+        public T verifyNotEmpty(String... names) {
+            CharSequence name = getName("值", names);
+            this.verifyNotEmpty = text -> {
+                if (TextUtils.isEmpty(text)) {
+                    throw new VerifyException(name + "不能为空");
+                }
+                return text;
+            };
+            return self();
         }
     }
 
@@ -534,11 +564,18 @@ public class ApCommonBarBinder {
 
         public SelectBinder value(CharSequence value) {
             CharSequence[] items = itemsHandler.bind();
+            if (items == null || items.length == 0) {
+                Log.w("ApCommonBarBinder.SelectBinder.value", "没有匹配值的选项");
+                $(idValue).text(value);
+                return self();
+            }
             for (int i = 0; i < items.length; i++) {
                 if (TextUtils.equals(items[i].toString(), value)) {
                     onClick(null, i);
+                    return self();
                 }
             }
+            Log.w("ApCommonBarBinder.SelectBinder.value", "值【"+value+"】匹配失败【"+ Arrays.toString(items)+"】");
             return self();
         }
     }
@@ -613,7 +650,7 @@ public class ApCommonBarBinder {
 
         private void onNumberSelected(NumberPicker picker, int value) {
             lastValue = value;
-            $(idValue).text(String.valueOf(value)+(TextUtils.isEmpty(unit) ? "" : unit));
+            $(idValue).text(value +(TextUtils.isEmpty(unit) ? "" : unit));
             if (key != null && picker != null) {
                 cacher.put(key, value);
             }
@@ -627,9 +664,6 @@ public class ApCommonBarBinder {
 
         private float minValue = 0f;
         private float maxValue = 1000f;
-        private int partInteger = 0;
-        private int partDecimal1 = 0;
-        private int partDecimal2 = 0;
         private boolean doublePrecision = false;
         private String unit;
 
@@ -754,7 +788,7 @@ public class ApCommonBarBinder {
 
         private void onNumberSelected(NumberPicker pickerInteger, NumberPicker pickerDecimal1, NumberPicker pickerDecimal2, int valueInteger, int valueDecimal1, int valueDecimal2) {
             lastValue = (valueInteger * 100 + valueDecimal1 * 10 + valueDecimal2) / 100f;
-            $(idValue).text(String.valueOf(lastValue)+(TextUtils.isEmpty(unit) ? "" : unit));
+            $(idValue).text(lastValue + (TextUtils.isEmpty(unit) ? "" : unit));
             if (key != null && pickerInteger != null) {
                 cacher.put(key, lastValue);
             }
@@ -802,7 +836,7 @@ public class ApCommonBarBinder {
             textPoint.setText(".");
             textPoint.setTextSize(30);
             textview.setText(TextUtils.isEmpty(unit) ? "" : unit);
-            ViewQuery<? extends ViewQuery> query = $(new LinearLayout(viewer.getContext())).gravity(Gravity.CENTER_VERTICAL);
+            ViewQuery<? extends ViewQuery<?>> query = $(new LinearLayout(viewer.getContext())).gravity(Gravity.CENTER_VERTICAL);
             for (int i = 0 ; i < accuracyInteger ; i++) {
                 query.addView(pickers.get(i), Math.min(200f / pickers.size(), 60f), ViewGroup.LayoutParams.WRAP_CONTENT * 1f);
             }
@@ -853,7 +887,7 @@ public class ApCommonBarBinder {
 
         private void onNumberSelected(float value, List<NumberPicker> pickers) {
             lastValue = value;
-            $(idValue).text(String.valueOf(lastValue)+(TextUtils.isEmpty(unit) ? "" : unit));
+            $(idValue).text(lastValue + (TextUtils.isEmpty(unit) ? "" : unit));
             if (key != null && pickers != null) {
                 cacher.put(key, lastValue);
             }
@@ -866,7 +900,7 @@ public class ApCommonBarBinder {
     public class MultiSelectBinder extends Binder<MultiSelectBinder, MultiSelectBind, Void> implements DialogInterface.OnClickListener {
 
         private boolean[] checkedItems;
-        private CharSequence[] items;
+        private final CharSequence[] items;
         private MultiSelectVerify verify;
 
         MultiSelectBinder(int idValue, CharSequence[] items) {
@@ -1001,7 +1035,7 @@ public class ApCommonBarBinder {
 
     public class TextBinder extends Binder<TextBinder, CommonBind<String>, String> implements DialogBuilder.InputTextListener {
 
-        protected List<TextVerify> verify;
+        protected List<TextVerify> verifys;
         protected String valueSuffix = "";
         protected String valuePrefix = "";
         protected int type = InputType.TYPE_CLASS_TEXT;
@@ -1043,9 +1077,9 @@ public class ApCommonBarBinder {
 
         @Override
         public boolean onInputTextConfirm(EditText input, String value) {
-            if (verify != null && input != null) {
+            if (verifys != null && input != null) {
                 try {
-                    for (TextVerify verify : this.verify) {
+                    for (TextVerify verify : this.verifys) {
                         value = verify.verify(value);
                     }
                 } catch (VerifyException e) {
@@ -1080,14 +1114,23 @@ public class ApCommonBarBinder {
         }
 
         //<editor-fold desc="输入验证">
+        @Override
+        public void verify() throws VerifyException {
+            super.verify();
+            String value = $(idValue).text();
+            for (TextVerify verify : this.verifys) {
+                verify.verify(value);
+            }
+        }
+
         /**
          * 自定义验证规则
          */
         public TextBinder verify(TextVerify verify) {
-            if (this.verify == null) {
-                this.verify = new ArrayList<>();
+            if (this.verifys == null) {
+                this.verifys = new ArrayList<>();
             }
-            this.verify.add(verify);
+            this.verifys.add(verify);
             return self();
         }
 
@@ -1269,7 +1312,7 @@ public class ApCommonBarBinder {
                     throw new VerifyException("请输入" + name);
                 }
                 try {
-                    text = String.valueOf(Float.parseFloat(text)).replace(".0", "");;
+                    text = String.valueOf(Float.parseFloat(text)).replace(".0", "");
                 } catch (NumberFormatException e) {
                     throw new VerifyException("请输入正确的" + name);
                 }
@@ -1313,7 +1356,7 @@ public class ApCommonBarBinder {
                     if (v <= 0) {
                         throw new VerifyException(name + "必须大于0");
                     }
-                    text = String.valueOf(v).replace(".0", "");;
+                    text = String.valueOf(v).replace(".0", "");
                 } catch (NumberFormatException e) {
                     throw new VerifyException("请输入正确的" + name);
                 }
@@ -1332,7 +1375,7 @@ public class ApCommonBarBinder {
                     throw new VerifyException("请输入" + name);
                 }
                 try {
-                    text = String.valueOf(Double.parseDouble(text)).replace(".0", "");;
+                    text = String.valueOf(Double.parseDouble(text)).replace(".0", "");
                 } catch (NumberFormatException e) {
                     throw new VerifyException("请输入正确的" + name);
                 }
@@ -1354,7 +1397,7 @@ public class ApCommonBarBinder {
                     if (v < 0) {
                         throw new VerifyException(name + "不能是负数");
                     }
-                    text = String.valueOf(v).replace(".0", "");;
+                    text = String.valueOf(v).replace(".0", "");
                 } catch (NumberFormatException e) {
                     throw new VerifyException("请输入正确的" + name);
                 }
@@ -1376,7 +1419,7 @@ public class ApCommonBarBinder {
                     if (v <= 0) {
                         throw new VerifyException(name + "必须大于0");
                     }
-                    text = String.valueOf(v).replace(".0", "");;
+                    text = String.valueOf(v).replace(".0", "");
                 } catch (NumberFormatException e) {
                     throw new VerifyException("请输入正确的" + name);
                 }
@@ -1503,11 +1546,11 @@ public class ApCommonBarBinder {
                     }
                 }
                 try {
-                    Float v = Float.parseFloat(text);
+                    float v = Float.parseFloat(text);
                     if (v <= 0) {
                         throw new VerifyException(name + "必须大于0");
                     }
-                    text = String.valueOf(v).replace(".0", "");;
+                    text = String.valueOf(v).replace(".0", "");
                 } catch (NumberFormatException e) {
                     throw new VerifyException("请输入正确的" + name);
                 }
@@ -1535,11 +1578,11 @@ public class ApCommonBarBinder {
                     }
                 }
                 try {
-                    Double v = Double.parseDouble(text);
+                    double v = Double.parseDouble(text);
                     if (v <= 0) {
                         throw new VerifyException(name + "必须大于0");
                     }
-                    text = String.valueOf(v).replace(".0", "");;
+                    text = String.valueOf(v).replace(".0", "");
                 } catch (NumberFormatException e) {
                     throw new VerifyException("请输入正确的" + name);
                 }
@@ -1562,7 +1605,7 @@ public class ApCommonBarBinder {
         }
     }
 
-    public abstract class AbstractDateBinder<T extends Binder> extends Binder<T, CommonBind<Date>, Date> {
+    public abstract class AbstractDateBinder<T extends Binder<?,?,?>> extends Binder<T, CommonBind<Date>, Date> {
 
         List<DateVerify> verifies = new ArrayList<>();
         DateFormat format = AfDateFormat.DATE;
@@ -1689,7 +1732,7 @@ public class ApCommonBarBinder {
 
 
         @SuppressWarnings("UnusedReturnValue")
-        public T verifyBefore(AbstractDateBinder<? extends AbstractDateBinder> binder, String... names) {
+        public T verifyBefore(AbstractDateBinder<? extends AbstractDateBinder<?>> binder, String... names) {
             CharSequence name = getName("时间", names);
             return this.verify((date,verifyDateOnly) -> {
                 if (binder.lastValue != null) {
@@ -1705,7 +1748,7 @@ public class ApCommonBarBinder {
             });
         }
 
-        public T verifyBeforeWith(AbstractDateBinder<? extends AbstractDateBinder> binder, String... names) {
+        public T verifyBeforeWith(AbstractDateBinder<? extends AbstractDateBinder<?>> binder, String... names) {
             CharSequence name = getName("时间", names);
             return this.verify((date,verifyDateOnly) -> {
                 if (binder.lastValue != null) {
@@ -1723,7 +1766,7 @@ public class ApCommonBarBinder {
         }
 
         @SuppressWarnings("UnusedReturnValue")
-        public T verifyAfter(AbstractDateBinder<? extends AbstractDateBinder> binder, String... names) {
+        public T verifyAfter(AbstractDateBinder<? extends AbstractDateBinder<?>> binder, String... names) {
             CharSequence name = getName("时间", names);
             return this.verify((date,verifyDateOnly) -> {
                 if (binder.lastValue != null) {
@@ -1739,7 +1782,7 @@ public class ApCommonBarBinder {
             });
         }
 
-        public T verifyAfterWith(AbstractDateBinder<? extends AbstractDateBinder> binder, String... names) {
+        public T verifyAfterWith(AbstractDateBinder<? extends AbstractDateBinder<?>> binder, String... names) {
             CharSequence name = getName("时间", names);
             return this.verify((date,verifyDateOnly) -> {
                 if (binder.lastValue != null) {
@@ -2187,7 +2230,7 @@ public class ApCommonBarBinder {
     public class ActivityBinder extends Binder<ActivityBinder, CommonBind<Void>, Void> {
 
         private final Object[] args;
-        private Class<? extends Activity> activity;
+        private final Class<? extends Activity> activity;
 
         ActivityBinder(int idValue, Class<? extends Activity> activity, Object... args) {
             super(idValue);
@@ -2206,7 +2249,7 @@ public class ApCommonBarBinder {
     public class FragmentBinder extends Binder<FragmentBinder, CommonBind<Void>, Void> {
 
         private final Object[] args;
-        private Class<? extends Fragment> fragment;
+        private final Class<? extends Fragment> fragment;
 
         FragmentBinder(int idValue, Class<? extends Fragment> fragment, Object... args) {
             super(idValue);

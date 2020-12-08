@@ -140,66 +140,66 @@ public class ApItemsCommonHelper<T> extends ApItemsHelper<T> {
         }
 //
 //        @Override
-//        public ViewQuery<? extends ViewQuery> $(Integer id, int... ids) {
+//        public ViewQuery<? extends ViewQuery<?>> $(Integer id, int... ids) {
 //            return ensureViews(super.$(id, ids));
 //        }
 //
 //        @Override
-//        public ViewQuery<? extends ViewQuery> $(String idValue, String... idValues) {
+//        public ViewQuery<? extends ViewQuery<?>> $(String idValue, String... idValues) {
 //            return ensureViews(super.$(idValue, idValues));
 //        }
 //
 //        @Override
-//        public ViewQuery<? extends ViewQuery> $(Class<? extends View> type) {
+//        public ViewQuery<? extends ViewQuery<?>> $(Class<? extends View> type) {
 //            return ensureViews(super.$(type));
 //        }
 //
 //        @Override
-//        public ViewQuery<? extends ViewQuery> $(Class<? extends View>[] types) {
+//        public ViewQuery<? extends ViewQuery<?>> $(Class<? extends View>[] types) {
 //            return ensureViews(super.$(types));
 //        }
 //
 //        @Override
-//        public ViewQuery<? extends ViewQuery> $(View... views) {
+//        public ViewQuery<? extends ViewQuery<?>> $(View... views) {
 //            return ensureViews(super.$(views));
 //        }
 //
 //        @Override
-//        public ViewQuery<? extends ViewQuery> $(Collection<View> views) {
+//        public ViewQuery<? extends ViewQuery<?>> $(Collection<View> views) {
 //            return ensureViews(super.$(views));
 //        }
 //
 //        @Override
-//        public ViewQuery<? extends ViewQuery> query(Integer id, int... ids) {
+//        public ViewQuery<? extends ViewQuery<?>> query(Integer id, int... ids) {
 //            return ensureViews(super.query(id, ids));
 //        }
 //
 //        @Override
-//        public ViewQuery<? extends ViewQuery> query(String idValue, String... idValues) {
+//        public ViewQuery<? extends ViewQuery<?>> query(String idValue, String... idValues) {
 //            return ensureViews(super.query(idValue, idValues));
 //        }
 //
 //        @Override
-//        public ViewQuery<? extends ViewQuery> query(Class<? extends View> type) {
+//        public ViewQuery<? extends ViewQuery<?>> query(Class<? extends View> type) {
 //            return ensureViews(super.query(type));
 //        }
 //
 //        @Override
-//        public ViewQuery<? extends ViewQuery> query(Class<? extends View>[] types) {
+//        public ViewQuery<? extends ViewQuery<?>> query(Class<? extends View>[] types) {
 //            return ensureViews(super.query(types));
 //        }
 //
 //        @Override
-//        public ViewQuery<? extends ViewQuery> with(View... views) {
+//        public ViewQuery<? extends ViewQuery<?>> with(View... views) {
 //            return ensureViews(super.with(views));
 //        }
 //
 //        @Override
-//        public ViewQuery<? extends ViewQuery> with(Collection<View> views) {
+//        public ViewQuery<? extends ViewQuery<?>> with(Collection<View> views) {
 //            return ensureViews(super.with(views));
 //        }
 //
-//        protected ViewQuery<? extends ViewQuery> ensureViews(ViewQuery<? extends ViewQuery> $) {
+//        protected ViewQuery<? extends ViewQuery<?>> ensureViews(ViewQuery<? extends ViewQuery<?>> $) {
 //            if (!ensureLayout) {
 //                for (View view : $.views()) {
 //                    ensureView(view);

@@ -14,5 +14,5 @@ public interface ApItemBinder<T> {
      * @param model 数据
      * @param index 索引
      */
-    void onItemBinding(ViewQuery<? extends ViewQuery> $, T model, int index);
+    void onItemBinding(ViewQuery<? extends ViewQuery<?>> $, T model, int index);
 }

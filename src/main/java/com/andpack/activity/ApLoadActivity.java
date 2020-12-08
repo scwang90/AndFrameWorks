@@ -97,8 +97,8 @@ public abstract class ApLoadActivity<T> extends AfLoadActivity<T> implements ApP
 
     @NonNull
     @Override
-    public RefreshLayoutManager newRefreshLayoutManager(Context context) {
-        RefreshLayoutManager layoutManager = mApHelper.newRefreshManager(context);
+    public RefreshLayoutManager<?> newRefreshLayoutManager(Context context) {
+        RefreshLayoutManager<?> layoutManager = mApHelper.newRefreshManager(context);
         if (layoutManager != null) {
             return layoutManager;
         }
@@ -107,9 +107,9 @@ public abstract class ApLoadActivity<T> extends AfLoadActivity<T> implements ApP
 
     @Override
     @SuppressWarnings("unchecked")
-    public boolean startPager(Class clazz, Object... args) {
+    public boolean startPager(Class<?> clazz, Object... args) {
         if (Fragment.class.isAssignableFrom(clazz)) {
-            ApFragmentActivity.start(this, clazz, args);
+            ApFragmentActivity.start(this, (Class<? extends Fragment>) clazz, args);
         } else {
             return super.startPager(clazz, args);
         }

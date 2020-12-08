@@ -16,9 +16,9 @@ public class ApPagerManager extends AfPagerManager {
 
     @Override
     @SuppressWarnings("unchecked")
-    public boolean startPager(Class clazz, Object... args) {
+    public boolean startPager(Class<?> clazz, Object... args) {
         if (Fragment.class.isAssignableFrom(clazz)) {
-            startFragment(clazz, args);
+            startFragment((Class<? extends Fragment>) clazz, args);
         } else {
             return super.startPager(clazz, args);
         }
