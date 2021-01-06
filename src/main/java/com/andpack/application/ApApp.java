@@ -145,8 +145,8 @@ public class ApApp extends AfApp {
         ImageLoaderConfiguration.Builder config = new ImageLoaderConfiguration.Builder(context);
         //config.threadPriority(Thread.NORM_PRIORITY - 2);
         //config.denyCacheImageMultipleSizesInMemory();
-        config.diskCacheFileNameGenerator(new Md5FileNameGenerator());
-        config.diskCacheSize(50 * 1024 * 1024); // 50 MiB
+        //config.diskCacheFileNameGenerator(new Md5FileNameGenerator()); // 和下方的 diskCache 重叠
+        //config.diskCacheSize(50 * 1024 * 1024); // 50 MiB 和下方的 diskCache 重叠
         config.tasksProcessingOrder(QueueProcessingType.LIFO);
         config.defaultDisplayImageOptions(builder.build());
         config.memoryCacheSizePercentage(12);
