@@ -2,7 +2,6 @@ package com.andpack.fragment.common;
 
 import android.app.Activity;
 import android.content.pm.ActivityInfo;
-import android.net.Uri;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -14,7 +13,7 @@ import com.andframe.feature.AfIntent;
 import com.andpack.R;
 import com.andpack.fragment.ApFragment;
 import com.andpack.impl.ApCommonBarBinder;
-import com.scwang.smartrefresh.layout.util.SmartUtil;
+import com.scwang.smart.refresh.layout.util.SmartUtil;
 import com.zhihu.matisse.Matisse;
 import com.zhihu.matisse.MimeType;
 
