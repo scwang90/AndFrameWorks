@@ -14,7 +14,7 @@ import com.andframe.feature.AfIntent;
 import com.andpack.R;
 import com.andpack.fragment.ApFragment;
 import com.andpack.impl.ApCommonBarBinder;
-import com.scwang.smartrefresh.layout.util.SmartUtil;
+import com.scwang.smart.refresh.layout.util.SmartUtil;
 import com.zhihu.matisse.Matisse;
 import com.zhihu.matisse.MimeType;
 
